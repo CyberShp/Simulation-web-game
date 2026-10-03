@@ -1,0 +1,114 @@
+{
+  "generationMode": "built-in image_gen, one request per asset, no retries",
+  "assets": [
+    {
+      "name": "map",
+      "filename": "immortal-estate-map.png",
+      "width": 1536,
+      "height": 1024,
+      "mode": "RGB"
+    },
+    {
+      "name": "buildings",
+      "filename": "buildings-atlas.png",
+      "width": 1536,
+      "height": 1024,
+      "mode": "RGBA",
+      "fullyTransparentFraction": 0.482,
+      "cropsXYXY": {
+        "hall": [
+          10,
+          10,
+          542,
+          492
+        ],
+        "herbs": [
+          542,
+          85,
+          1038,
+          490
+        ],
+        "lumber": [
+          1044,
+          80,
+          1525,
+          490
+        ],
+        "quarry": [
+          16,
+          510,
+          530,
+          990
+        ],
+        "residence": [
+          532,
+          530,
+          1048,
+          985
+        ],
+        "meditation": [
+          1045,
+          490,
+          1526,
+          995
+        ]
+      }
+    },
+    {
+      "name": "disciples",
+      "filename": "disciples-atlas.png",
+      "width": 2172,
+      "height": 724,
+      "mode": "RGBA",
+      "fullyTransparentFraction": 0.553,
+      "cropsXYXY": {
+        "maleTeal": [
+          80,
+          10,
+          590,
+          719
+        ],
+        "femaleBlue": [
+          646,
+          30,
+          1124,
+          719
+        ],
+        "maleBrown": [
+          1164,
+          12,
+          1574,
+          719
+        ],
+        "femalePlum": [
+          1682,
+          26,
+          2136,
+          719
+        ]
+      }
+    }
+  ],
+  "prompts": [
+    {
+      "name": "map",
+      "transparent_background": false,
+      "prompt": "Use case: stylized-concept\nAsset type: playable environment map for a Chinese-language xianxia immortal-estate web game, wide landscape 3:2 canvas.\nPrimary request: polished richly detailed hand-painted cel-shaded Chinese qinglu shanshui game environment: a pale-gray stone and moss mountain terrace floating above a luminous mist sea, with jade and emerald pine trees, a turquoise pond on the right, and layered blue mountain silhouettes beyond.\nComposition/framing: CAMERA HIGH TOP-DOWN ISOMETRIC, looking steeply down onto the land surface. A large central flat OPEN GRASS PLATEAU occupies roughly 60% of the total image and supports dynamic building placement. Keep it broad, contiguous and mostly empty. Decorations cluster along the outer edges: rocks, pines, red maple, and a subtle stone path. The cliff edge is visible around the plateau, mist sea beyond. The pond stays near the right edge.\nLighting/mood: soft warm morning light, serene premium cozy game art.\nStyle: concrete usable game world with clean readable silhouettes, rich painterly texture and cel-shaded definition, NOT abstract painting.\nConstraints: NO buildings, NO text, NO UI, NO people, NO watermark. Whole island environment shown with usable center."
+    },
+    {
+      "name": "buildings",
+      "transparent_background": true,
+      "prompt": "Use case: stylized-concept\nAsset type: TRANSPARENT PNG building sprite atlas for a Chinese xianxia immortal-estate game.\nPrimary request: EXACTLY SIX separate complete building/environment sprites in an EXACT 3-column by 2-row equal-cell grid on a fully transparent background. Generous transparent empty gaps between all sprites. No overlap, no clipped objects; every object fully fits its own cell. Landscape 3:2 canvas; equal sized cells.\nTop row left to right: 1 ornate jade-roof Chinese main cultivation hall with broad stairs and gold accents; 2 cultivated small golden and green herb farm plots with tidy furrows and low wooden border; 3 timber lumber camp with modest roof and stacked logs.\nBottom row left to right: 4 stone quarry with small shelter and rocks; 5 elegant small residential jade-roof courtyard hut; 6 circular glowing blue meditation pavilion with delicate roof and subtle blue energy.\nStyle/medium: polished hand-painted cel-shaded Chinese qinglu shanshui game art. Jade, emerald, turquoise, warm wood and pale gray stone. Crisp clean silhouettes and details readable at small size. Consistent 2.5D high isometric camera looking steeply down, game-building asset perspective. Soft warm morning light.\nConstraints: background fully transparent with actual alpha; NO scenery connecting cells, NO labels, NO letters, NO text, NO UI, NO people, NO watermark. Small ground footprints only, each entirely contained in its own cell."
+    },
+    {
+      "name": "disciples",
+      "transparent_background": true,
+      "prompt": "Use case: stylized-concept\nAsset type: TRANSPARENT PNG character sprite atlas for a Chinese xianxia immortal-estate web game.\nPrimary request: EXACTLY FOUR distinct tiny full-body chibi Chinese xianxia disciple sprites in an EXACT 4-column by 1-row grid, with equal cell widths and generous transparent gaps. Each character is fully contained in a separate cell, full bodies including feet visible, no overlaps. Wide landscape canvas.\nFrom left to right: 1 male disciple with white and teal robes and tied dark hair; 2 female disciple with pale blue robes and long dark hair; 3 male disciple in brown work robes with tied dark hair; 4 female disciple in plum-colored robes with long dark hair.\nStyle/medium: polished hand-painted cel-shaded cute game art matching Chinese qinglu shanshui buildings, distinct readable silhouettes, fine soft outlines. All share the SAME elevated high isometric angle looking steeply down at them, all facing southwest (toward lower left of the image). Calm standing idle poses. Soft warm morning lighting. Feet visible.\nConstraints: actual fully transparent background, NO environment, NO scenery, NO ground tiles, NO labels, NO letters, NO text, NO UI, NO watermark. Four separate full-body characters only."
+    }
+  ],
+  "notes": [
+    "Building atlas has fully transparent background despite hidden RGB gradient in alpha=0 areas. Render as RGBA without discarding alpha.",
+    "Generated sprites are not rigidly contained by equal-grid boundaries; use provided generous crop rectangles. Coordinates are x1,y1,x2,y2 with exclusive x2/y2.",
+    "Original generated images have been preserved."
+  ]
+}

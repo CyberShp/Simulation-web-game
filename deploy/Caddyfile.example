@@ -1,0 +1,11 @@
+# Replace :80 with your verified domain to enable Caddy-managed HTTPS.
+:80 {
+    root * /var/www/simulation-web-game/current
+    encode zstd gzip
+    @modules path *.mjs
+    header @modules Content-Type application/javascript
+    @code path / /index.html *.mjs *.css
+    header @code Cache-Control no-cache
+    header X-Content-Type-Options nosniff
+    file_server
+}
