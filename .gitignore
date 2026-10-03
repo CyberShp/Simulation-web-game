@@ -1,8 +1,0 @@
-node_modules/
-.env
-.env.*
-*.pem
-*.key
-*.tar.gz
-.openai/
-.sites-runtime/
