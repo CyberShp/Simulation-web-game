@@ -1,10 +1,10 @@
-import{attachMapInput}from'./map-input.mjs?v=ea-110-e';
-import{TYPES,RESOURCE,CELLS,initial,canPay,capacity,upgradeCost,build,assign,upgrade,recruit,breakthrough,tick,rates,QUESTS,claim,validateSave,addLog,buildingLock,isAway,demolish}from'./sect-sim.mjs?v=0.4.1';
-import{createExpansion}from'./expansion.mjs?v=0.4.1';
-import{createPersistence}from'./persistence.mjs?v=ea-110-e';
-import{renderCommunity}from'./community.mjs?v=ea-110-e';
-import{createSectUI}from'./sect-ui.mjs?v=0.4.1';
-import{moveMaster}from'./sect-sim.mjs?v=0.4.1';
+import{attachMapInput}from'./map-input.mjs?v=ea-110-handoff2';
+import{TYPES,RESOURCE,CELLS,initial,canPay,capacity,upgradeCost,build,assign,upgrade,recruit,breakthrough,tick,rates,QUESTS,claim,validateSave,addLog,buildingLock,isAway,demolish}from'./sect-sim.mjs?v=ea-110-handoff2';
+import{createExpansion}from'./expansion.mjs?v=ea-110-handoff2';
+import{createPersistence}from'./persistence.mjs?v=ea-110-handoff2';
+import{renderCommunity}from'./community.mjs?v=ea-110-handoff2';
+import{createSectUI}from'./sect-ui.mjs?v=ea-110-handoff2';
+import{moveMaster}from'./sect-sim.mjs?v=ea-110-handoff2';
 const persistence=createPersistence(()=>localStorage,validateSave);
 const restored=persistence.load();
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];

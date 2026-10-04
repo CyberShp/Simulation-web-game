@@ -1,6 +1,6 @@
-import {REGION_ART} from './ea-region-art.mjs?v=ea-110-handoff1';
-import {appearance} from './ea-scenic.mjs?v=ea-110-handoff1';
-import * as SIM from './ea-sim.mjs?v=ea-110-handoff1';
+import {REGION_ART} from './ea-region-art.mjs?v=ea-110-handoff2';
+import {appearance} from './ea-scenic.mjs?v=ea-110-handoff2';
+import * as SIM from './ea-sim.mjs?v=ea-110-handoff2';
 
 const E = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
 const n = value => Number.isFinite(Number(value)) ? Number(value) : 0;
@@ -202,7 +202,7 @@ export function createEAUI(api) {
       const p=combat.player||{},active=combat.status==='active',options=list(call('combatOptions',s));
       const title=active?'审势而动':({won:'此战告捷',lost:'负伤退回山院',retreated:'已脱离战场'})[combat.status]||'战斗结束';
       const controls=options.map(o=>btn(`${o.label}${o.cooldown>0?` ${Math.ceil(o.cooldown)}s`:''}`,'combatAction',[o.id],{className:o.id==='retreat'?'secondary':'primary',lock:o.disabled?o.reason||'当前不可用':''})).join('');
-      const content=active?`<div class="combat-meters">${meter('气血',p.hp,p.maxHp,'danger')}${meter('真气',p.qi,p.maxQi)}</div><div class="combat-actions">${controls}</div><p class="ui-note">点击空地移动 · 避开赤色预警 · 随时暂停规划</p>`:`<p>${E(typeof combat.result==='string'?combat.result:combat.result?.text||'经历与收获已记录在山中纪事。')}</p>${btn('收起战报','acknowledgeCombat',[],{className:'primary',full:true})}`;
+      const content=active?`<div class="combat-meters">${meter('气血',p.hp,p.maxHp,'danger')}${meter('真气',p.qi,p.maxQi)}</div><div class="combat-actions">${controls}</div><p class="ui-note combat-feedback" role="status">${E(combat.message||'审视敌势，再作行动。')}</p><p class="ui-note">${s.speed===0?'战斗已暂停 · 点击继续推进移动与调息':'点击空地移动 · 避开赤色预警 · 随时暂停规划'}</p>`:`<p>${E(typeof combat.result==='string'?combat.result:combat.result?.text||'经历与收获已记录在山中纪事。')}</p>${btn('收起战报','acknowledgeCombat',[],{className:'primary',full:true})}`;
       morph(combatHUD,`<div class="combat-heading"><span class="eyebrow">${active?'遭遇战 · 掌门亲自应对':'战斗结算'}</span><h3>${E(title)}</h3></div>${content}`);
     }
   }

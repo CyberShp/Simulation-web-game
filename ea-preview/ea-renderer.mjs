@@ -1,7 +1,7 @@
-import {REGION_ART,regionPoint,regionInverse,drawAtlas,finalArenaPoint,finalArenaInverse} from './ea-region-art.mjs?v=ea-110-handoff1';
-import {appearance,arenaPoint,arenaInverse} from './ea-scenic.mjs?v=ea-110-handoff1';
-import characterMeta from './ea-character-frames.mjs?v=ea-110-handoff1';
-import {BUILDINGS,CELLS} from './ea-data.mjs?v=ea-110-handoff1';
+import {REGION_ART,regionPoint,regionInverse,drawAtlas,finalArenaPoint,finalArenaInverse,campaignCamera} from './ea-region-art.mjs?v=ea-110-handoff2';
+import {appearance,arenaPoint,arenaInverse} from './ea-scenic.mjs?v=ea-110-handoff2';
+import characterMeta from './ea-character-frames.mjs?v=ea-110-handoff2';
+import {BUILDINGS,CELLS} from './ea-data.mjs?v=ea-110-handoff2';
 
 const PALETTE={ink:'#183d33',gold:'#d6ba79',paper:'#f4edd7',mint:'#a8c9ab',red:'#b26954'};
 const logicalPoint=(x,y)=>({x:750+(x-y)*61,y:290+(x+y)*31});
@@ -11,7 +11,7 @@ export function createWorldRenderer(canvas,{getState,getMode,getSelection,getCam
  const point=(x,y,arena=false)=>{const scene=getCampaignScene(getState());return arena?(scene?.type==='region'?regionPoint(x,y,scene.regionId):scene?.regionId==='qixia'?finalArenaPoint(x,y):arenaPoint(x,y)):logicalPoint(x,y);};
  const ctx=canvas.getContext('2d'),images={},pan={x:0,y:0};let zoom=1,grid=false,hover=null,ready=false,activeScene='map',width=0,height=0,frameAt=0;
  const settled=Promise.allSettled(Object.entries({map:'map.webp',valley:'valley.webp',lake:'lake.webp',buildings:'buildings.png',newbuildings:'newbuildings.png',disciples:'characters.webp',arena:'ea-open-court.jpg',regions07:'ea-regions-07.jpg',regions08:'ea-regions-08.jpg',qixia:'ea-qixia.jpg'}).map(([key,file])=>new Promise((resolve,reject)=>{const im=new Image();im.onload=()=>{images[key]=im;resolve(key);};im.onerror=()=>reject(key);im.src=new URL(key==='disciples'?'../yunxiu-courtyard/assets/'+file:'../assets/'+file,import.meta.url).href;}))).then(results=>{ready=true;onLoad(results.filter(r=>r.status==='rejected').map(r=>r.reason));});
- function camera(){if(getCampaignScene(getState())){const scale=Math.min(width/1672,height/941)*zoom;return{scale,ox:(width-1672*scale)/2+pan.x,oy:(height-941*scale)/2+pan.y};}const small=width<760;const base=Math.max(width/(small?1300:1536),height/(small?1250:1100));const scale=base*zoom;return{scale,ox:width*(small?.51:.47)+pan.x-750*scale,oy:height*(small?.37:.37)+pan.y-445*scale};}
+ function camera(){const campaign=getCampaignScene(getState());if(campaign){return campaignCamera(width,height,point(campaign.player.x,campaign.player.y,true),pan,zoom);}const small=width<760;const base=Math.max(width/(small?1300:1536),height/(small?1250:1100));const scale=base*zoom;return{scale,ox:width*(small?.51:.47)+pan.x-750*scale,oy:height*(small?.37:.37)+pan.y-445*scale};}
  function resize(){width=canvas.clientWidth;height=canvas.clientHeight;const dpr=Math.min(devicePixelRatio||1,1.75);canvas.width=Math.round(width*dpr);canvas.height=Math.round(height*dpr);render(performance.now(),true);}
  const observer=new ResizeObserver(resize);observer.observe(canvas);
  function screenPoint(event){const r=canvas.getBoundingClientRect(),c=camera();return{x:(event.clientX-r.left-c.ox)/c.scale,y:(event.clientY-r.top-c.oy)/c.scale};}

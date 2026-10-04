@@ -1,9 +1,9 @@
-import {stage} from './ea-data.mjs?v=ea-110-handoff1';
-import {drawAtlas} from './ea-region-art.mjs?v=ea-110-handoff1';
-import {createWorldRenderer as createPlanRenderer} from './ea-renderer.mjs?v=ea-110-handoff1';
-import {WIDTH,HEIGHT,point,nearest,EDGES,LANDMARKS,inPolygon,findPath,canStand} from '../yunxiu-courtyard/navigation.mjs?v=ea-110-handoff1';
-import {foreground} from './ea-foreground.mjs?v=ea-110-handoff1';
-import {appearance,FACILITY_AREAS,areaPoint,scenicPosition,advanceScenic} from './ea-scenic.mjs?v=ea-110-handoff1';
+import {stage} from './ea-data.mjs?v=ea-110-handoff2';
+import {drawAtlas} from './ea-region-art.mjs?v=ea-110-handoff2';
+import {createWorldRenderer as createPlanRenderer} from './ea-renderer.mjs?v=ea-110-handoff2';
+import {WIDTH,HEIGHT,point,nearest,EDGES,LANDMARKS,inPolygon,findPath,canStand} from '../yunxiu-courtyard/navigation.mjs?v=ea-110-handoff2';
+import {foreground} from './ea-foreground.mjs?v=ea-110-handoff2';
+import {appearance,FACILITY_AREAS,areaPoint,scenicPosition,advanceScenic} from './ea-scenic.mjs?v=ea-110-handoff2';
 
 export function createWorldRenderer(canvas,options){
  const {getState,getMode,getSelection,getCampaignScene,getPrefs=()=>({}),onLoad=()=>{}}=options;
@@ -25,5 +25,5 @@ export function createWorldRenderer(canvas,options){
  if(getMode()==='walk'&&m.path?.length){ctx.setLineDash([5,6]);ctx.strokeStyle='#f6d494a0';ctx.lineWidth=1.4;ctx.beginPath();ctx.moveTo(m.x,m.y);m.path.forEach(p=>ctx.lineTo(p.x,p.y));ctx.stroke();ctx.setLineDash([]);}ctx.restore();}
  function overviewMarkers(s,cell){const centre=[{x:595,y:483},{x:780,y:482},{x:825,y:458},{x:820,y:770}][cell],markers=[{...centre,kind:'building',id:s.buildings.find(b=>b.type==='hall').id,name:s.sect.founded?s.sect.name:'云岫旧居'}];if(cell===3)s.society.peaks.slice(0,2).forEach((peak,i)=>markers.push({x:i?1390:465,y:i?422:440,kind:'peak',id:peak.id,name:peak.name+' · '+(s.disciples.find(d=>d.id===peak.hostId)?.name||'待议主持')}));markers.push({x:1160,y:851,kind:'area',id:'gate',name:'山门 · '+s.disciples.length+' 名门人'});return markers;}
  function pick(e){if(delegate())return plan.pick(e);const p=screenPoint(e),s=getState();if(overview){const phase=stage(s),marker=overviewMarkers(s,phase>=4?3:phase>=3?2:phase>=2?1:0).find(m=>Math.hypot(m.x-p.x,m.y-p.y)<100);return marker?{...p,...marker}:{...p,kind:'overview'};}const person=[...actors.values()].sort((a,b)=>b.y-a.y).find(a=>Math.abs(p.x-a.x)<19&&p.y>a.y-59&&p.y<a.y+6);if(person)return{kind:'person',id:person.id,...p};const l=LANDMARKS.find(l=>inPolygon(p,l.hit)),building=l&&s.buildings.find(b=>FACILITY_AREAS[b.type]===l.id);return{...p,kind:building?'building':l?'area':'ground',id:building?.id||l?.id,area:l?.id,scenic:true};}
- return {pan,ready:readyPromise,render,resize:plan.resize,pick,screenPoint,mapPoint:e=>delegate()?plan.mapPoint(e):screenPoint(e),setHover:e=>{hover=e?screenPoint(e):null;plan.setHover(e);},getHover:()=>delegate()?plan.getHover():hover,setGrid:v=>{planning=v??!planning;plan.setGrid(planning);pan.x=pan.y=0;return planning;},setZoom:d=>{if(delegate())return plan.setZoom(d);zoom=Math.max(.8,Math.min(2.3,zoom+d));return zoom;},recenter:()=>{pan.x=pan.y=0;zoom=1;plan.recenter();},focus:(x,y,arena=false)=>{if(delegate())plan.focus(x,y,arena);else{pan.x=pan.y=0;}},setOverview:v=>{overview=v??!overview;planning=false;pan.x=pan.y=0;zoom=1;return overview;},setScene:id=>{overview=false;scene=id;plan.setScene(id);},getScene:()=>scene,isPlanning:isPlan,destroy:plan.destroy,point:plan.point};
+ return {pan,ready:readyPromise,render,resize:plan.resize,pick,screenPoint,mapPoint:e=>delegate()?plan.mapPoint(e):screenPoint(e),setHover:e=>{hover=e?screenPoint(e):null;plan.setHover(e);},getHover:()=>delegate()?plan.getHover():hover,setGrid:v=>{planning=v??!planning;plan.setGrid(planning);pan.x=pan.y=0;return planning;},setZoom:d=>{if(delegate())return plan.setZoom(d);zoom=Math.max(.8,Math.min(2.3,zoom+d));return zoom;},recenter:()=>{pan.x=pan.y=0;zoom=1;plan.recenter();},focus:(x,y,arena=false)=>{if(delegate())plan.focus(x,y,arena);else{pan.x=pan.y=0;}},setOverview:v=>{overview=v??!overview;if(overview)planning=false;pan.x=pan.y=0;zoom=1;return overview;},setScene:id=>{overview=false;scene=id;plan.setScene(id);},getScene:()=>scene,isPlanning:isPlan,destroy:plan.destroy,point:plan.point};
 }

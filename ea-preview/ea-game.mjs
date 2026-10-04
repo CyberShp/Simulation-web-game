@@ -1,8 +1,8 @@
-import * as SIM from './ea-sim.mjs?v=ea-110-handoff1';
-import {EA_SHELL,createEAUI} from './ea-ui.mjs?v=ea-110-handoff1';
-import {createEAPersistence,MAX_IMPORT_BYTES} from './ea-persistence.mjs?v=ea-110-handoff1';
-import {createWorldRenderer} from './ea-courtyard-renderer.mjs?v=ea-110-handoff1';
-import {attachMapInput} from './map-input.mjs?v=ea-110-handoff1';
+import * as SIM from './ea-sim.mjs?v=ea-110-handoff2';
+import {EA_SHELL,createEAUI} from './ea-ui.mjs?v=ea-110-handoff2';
+import {createEAPersistence,MAX_IMPORT_BYTES} from './ea-persistence.mjs?v=ea-110-handoff2';
+import {createWorldRenderer} from './ea-courtyard-renderer.mjs?v=ea-110-handoff2';
+import {attachMapInput} from './map-input.mjs?v=ea-110-handoff2';
 
 const VERSION=SIM.GAME_VERSION;
 const $=id=>document.getElementById(id);

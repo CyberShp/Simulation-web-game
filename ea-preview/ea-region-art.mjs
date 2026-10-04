@@ -9,3 +9,13 @@ export function regionInverse(p,id){const road=segments(id);let best=null;for(le
 export function drawAtlas(ctx,image,cell,{columns=2,rows=2}={}){const w=image.width/columns,h=image.height/rows;ctx.drawImage(image,cell%columns*w,Math.floor(cell/columns)*h,w,h,0,0,1672,941);}
 export const finalArenaPoint=(x,y)=>({x:670+50*x-15*y,y:375+8*x+28*y});
 export const finalArenaInverse=p=>{const a=p.x-670,b=p.y-375;return{x:(28*a+15*b)/1520,y:(50*b-8*a)/1520};};
+
+// Portrait play follows the party instead of shrinking a landscape plate into a strip.
+export function campaignCamera(width,height,focus,pan={x:0,y:0},zoom=1){
+ if(width<760&&height>width){
+  const scale=Math.max(width/1672,height/941)*(height<650?1.75:1.4)*zoom;
+  return {scale,ox:Math.min(0,Math.max(width-1672*scale,width*.5-focus.x*scale+pan.x)),oy:Math.min(0,Math.max(height-941*scale,height*.36-focus.y*scale+pan.y))};
+ }
+ const scale=Math.min(width/1672,height/941)*zoom;
+ return {scale,ox:(width-1672*scale)/2+pan.x,oy:(height-941*scale)/2+pan.y};
+}
