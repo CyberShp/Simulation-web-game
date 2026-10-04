@@ -1,7 +1,7 @@
-import {REGION_ART,regionPoint,regionInverse,drawAtlas,finalArenaPoint,finalArenaInverse,campaignCamera} from './ea-region-art.mjs?v=ea-110-release-20261004';
-import {appearance,arenaPoint,arenaInverse} from './ea-scenic.mjs?v=ea-110-release-20261004';
-import characterMeta from './ea-character-frames.mjs?v=ea-110-release-20261004';
-import {BUILDINGS,CELLS} from './ea-data.mjs?v=ea-110-release-20261004';
+import {REGION_ART,regionPoint,regionInverse,drawAtlas,finalArenaPoint,finalArenaInverse,campaignCamera} from './ea-region-art.mjs?v=ea-110-release-20261004-r2';
+import {appearance,arenaPoint,arenaInverse} from './ea-scenic.mjs?v=ea-110-release-20261004-r2';
+import characterMeta from './ea-character-frames.mjs?v=ea-110-release-20261004-r2';
+import {BUILDINGS,CELLS} from './ea-data.mjs?v=ea-110-release-20261004-r2';
 
 const PALETTE={ink:'#183d33',gold:'#d6ba79',paper:'#f4edd7',mint:'#a8c9ab',red:'#b26954'};
 const logicalPoint=(x,y)=>({x:750+(x-y)*61,y:290+(x+y)*31});

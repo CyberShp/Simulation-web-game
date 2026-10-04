@@ -1,10 +1,10 @@
-import{attachMapInput}from'./map-input.mjs?v=ea-110-release-20261004';
-import{TYPES,RESOURCE,CELLS,initial,canPay,capacity,upgradeCost,build,assign,upgrade,recruit,breakthrough,tick,rates,QUESTS,claim,validateSave,addLog,buildingLock,isAway,demolish}from'./sect-sim.mjs?v=ea-110-release-20261004';
-import{createExpansion}from'./expansion.mjs?v=ea-110-release-20261004';
-import{createPersistence}from'./persistence.mjs?v=ea-110-release-20261004';
-import{renderCommunity}from'./community.mjs?v=ea-110-release-20261004';
-import{createSectUI}from'./sect-ui.mjs?v=ea-110-release-20261004';
-import{moveMaster}from'./sect-sim.mjs?v=ea-110-release-20261004';
+import{attachMapInput}from'./map-input.mjs?v=ea-110-release-20261004-r2';
+import{TYPES,RESOURCE,CELLS,initial,canPay,capacity,upgradeCost,build,assign,upgrade,recruit,breakthrough,tick,rates,QUESTS,claim,validateSave,addLog,buildingLock,isAway,demolish}from'./sect-sim.mjs?v=ea-110-release-20261004-r2';
+import{createExpansion}from'./expansion.mjs?v=ea-110-release-20261004-r2';
+import{createPersistence}from'./persistence.mjs?v=ea-110-release-20261004-r2';
+import{renderCommunity}from'./community.mjs?v=ea-110-release-20261004-r2';
+import{createSectUI}from'./sect-ui.mjs?v=ea-110-release-20261004-r2';
+import{moveMaster}from'./sect-sim.mjs?v=ea-110-release-20261004-r2';
 const persistence=createPersistence(()=>localStorage,validateSave);
 const restored=persistence.load();
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
