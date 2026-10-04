@@ -1,3 +1,4 @@
+import {startScenicWalk,advanceScenic,validateScenic} from './ea-scenic.mjs';
 import * as legacy from './sect-sim.mjs';
 import * as data from './ea-data.mjs';
 import * as society from './ea-society.mjs';
@@ -176,12 +177,13 @@ export function masterAction(s,action){
  if(action==='heal'){if(m.wound<=0)throw Error('伤势已经痊愈。');if(m.action==='heal')return;pay(s,{herb:6});}
  if(['cultivate','teach'].includes(action)&&m.wound>0)throw Error('先养好伤势。');
  if(action==='teach'&&!Object.entries(m.knowledge).some(([id,n])=>n>=TECHNIQUES[id].teacherMastery))throw Error('需有一部典籍达到60熟练度，方可可靠授业。');
- m.action=action;m.path=[];m.work=0;m.learning=null;if(action!=='teach')m.teaching=null;
+ m.action=action;m.path=[];if(m.scenic)m.scenic.path=[];m.work=0;m.learning=null;if(action!=='teach')m.teaching=null;
 }
 export function masterTeach(s,id){if(!TECHNIQUES[id]||knowledge(s.master,id)<TECHNIQUES[id].teacherMastery)throw Error('对此书理解不足，无法授业。');masterAction(s,'teach');s.master.teaching=id;log(s,`掌门开始讲授《${TECHNIQUES[id].name}》。`);}
+export function moveScenicMaster(s,x,y){if(trip(s)||s.world?.exploration)throw Error('掌门尚在山外。');return startScenicWalk(s.master,{x,y});}
 export function moveMaster(s,x,y){
  const m=s.master;if(trip(s))throw Error('掌门尚在山外。');if(!validCell(x,y)||at(s,x,y))return false;const queue=[{...m.position,path:[]}],seen=new Set([key(m.position.x,m.position.y)]);
- while(queue.length){const p=queue.shift();if(p.x===x&&p.y===y){m.path=p.path;m.action=m.path.length?'walk':'rest';m.learning=null;m.teaching=null;return true;}for(const[dx,dy]of[[1,0],[-1,0],[0,1],[0,-1]]){const a=p.x+dx,b=p.y+dy,k=key(a,b);if(validCell(a,b)&&!at(s,a,b)&&!seen.has(k)){seen.add(k);queue.push({x:a,y:b,path:[...p.path,{x:a,y:b}]});}}}return false;
+ while(queue.length){const p=queue.shift();if(p.x===x&&p.y===y){if(m.scenic)m.scenic.path=[];m.path=p.path;m.action=m.path.length?'walk':'rest';m.learning=null;m.teaching=null;return true;}for(const[dx,dy]of[[1,0],[-1,0],[0,1],[0,-1]]){const a=p.x+dx,b=p.y+dy,k=key(a,b);if(validCell(a,b)&&!at(s,a,b)&&!seen.has(k)){seen.add(k);queue.push({x:a,y:b,path:[...p.path,{x:a,y:b}]});}}}return false;
 }
 export function craftLock(s,id){const r=RECIPES[id],f=s.buildings.find(b=>b.type==='alchemy'&&active(b));if(!r)return '丹方不存在';if(!f)return '需运行中的丹霞炉';if(s.crafting)return '丹炉正在炼制';if(s.master.realm<r.realm&&!s.disciples.some(d=>d.realm>=r.realm))return `需有${realmName(r.realm)}修士`;if(r.knowledge&&![s.master,...s.disciples].some(p=>knowledge(p,r.knowledge)>=r.mastery))return `需《${TECHNIQUES[r.knowledge].name}》熟练度${r.mastery}`;if(id==='foundation'&&!s.doctrine.books.includes('foundation'))return '先取得可靠筑基传承与丹方';if(!canPay(s,r.cost))return '炼丹材料不足';return '';}
 export function craft(s,id){const lock=craftLock(s,id);if(lock)throw Error(lock);const f=s.buildings.find(b=>b.type==='alchemy');pay(s,RECIPES[id].cost);const total=Math.ceil(RECIPES[id].duration/(1+.25*(f.level-1))/layoutBonus(s,f).factor);s.crafting={recipeId:id,remaining:total,total,yield:RECIPES[id].yield};log(s,`${RECIPES[id].name}入炉，材料已经投入。`);}
@@ -230,6 +232,7 @@ function supplyStep(s){
 function masterStep(s){
  const m=s.master;if(trip(s))return;
  const clinic=s.buildings.find(b=>b.type==='clinic'&&active(b));
+ if(m.action==='walk'&&m.scenic?.path.length){advanceScenic(m.scenic,46);if(!m.scenic.path.length)m.action='rest';return;}
  if(m.action==='walk'){const next=m.path.shift();if(next&&!at(s,next.x,next.y))m.position=next;else m.path=[];if(!m.path.length)m.action='rest';return;}
  if(m.action==='heal'){m.wound=Math.max(0,m.wound-(clinic?3:2));m.energy=Math.min(100,m.energy+.5);if(!m.wound){m.action='rest';log(s,'伤势已愈，逃亡并未永久损伤天资。');}return;}
  if(m.action==='rest'){m.energy=Math.min(100,m.energy+restRecovery(s,m));if(m.wound>0)m.wound=Math.max(0,m.wound-.035);return;}
@@ -281,10 +284,10 @@ export function validateSave(input){
   if(!integer(d?.id,1,1000000)||ids.has(d.id)||!str(d.root,1,40)||!str(d.trait,0,80)||!integer(d.portrait,0,3)||!d.mind||d.job!==null&&!bIds.has(d.job))fail('门人身份或工作位置异常');ids.add(d.id);personBase(d);
   const p=d.mind;if(!arr(p.traits,5)||p.traits.length!==5||!p.traits.every(n=>finite(n,0,100))||!str(p.goal,0,100)||!str(p.reason,0,1000)||!str(p.activity,1,40)||!integer(p.lastPillDay,-1)||!finite(p.caution,0,100)||!arr(p.memories,10000)||!p.memories.every(m=>m&&finite(m.time,0,s.time)&&str(m.text,0,1000)))fail('门人意愿或经历异常');
  }
- const m=s.master;personBase(m,true);
+ const m=s.master;personBase(m,true);if(!validateScenic(m.scenic))fail('山院行走位置或路径异常');
  if(!finite(m.wound,0,100)||!finite(m.work,0,10)||m.work>=10||!['rest','heal','cultivate','wood','stone','herb','food','teach','study','walk','travel','combat'].includes(m.action)||!validCell(m.position?.x,m.position?.y)||!arr(m.path,CELLS.length)||!m.path.every(p=>p&&validCell(p.x,p.y))||!arr(m.memories,10000)||!m.memories.every(x=>finite(x.time,0,s.time)&&str(x.text,0,1000))||m.teaching!==null&&!own(TECHNIQUES,m.teaching))fail('掌门行动、位置或经历异常');
  if(m.breakthroughHistory!==undefined&&(!arr(m.breakthroughHistory,10000)||!m.breakthroughHistory.every(h=>h&&finite(h.time,0,s.time)&&typeof h.success==='boolean'&&finite(h.chance,.55,.85)&&finite(h.roll,0,1)&&h.roll<1&&h.success===(h.roll<h.chance)&&integer(h.fromRealm,1,11)&&h.toRealm===h.fromRealm+(h.success?1:0)&&finite(h.lostXp)&&h.injury===(h.success?0:12)&&h.cooldownUntil===h.time+(h.success?15:60)&&h.energyCost===25&&h.cost&&Object.entries(h.cost).every(([k,v])=>own(RESOURCES,k)&&finite(v))&&h.pillCost&&Object.keys(h.pillCost).every(k=>k==='foundation'&&h.pillCost[k]===1))))fail('提前冲关历史异常');
- if(m.action==='study'&&!m.learning)fail('学习行动缺少计划');if(m.action==='walk'&&!m.path.length)fail('行走行动缺少路线');
+ if(m.action==='study'&&!m.learning)fail('学习行动缺少计划');if(m.action==='walk'&&!m.path.length&&!m.scenic?.path.length)fail('行走行动缺少路线');
  let prev=m.position;for(const p of m.path){if(Math.abs(p.x-prev.x)+Math.abs(p.y-prev.y)!==1)fail('掌门路线不连通');prev=p;}
  if(!s.pills||!Object.keys(RECIPES).every(id=>integer(s.pills[id]))||Object.keys(s.pills).some(id=>!own(RECIPES,id)))fail('丹药库存异常');
  if(s.crafting!==null){const c=s.crafting,r=RECIPES[c?.recipeId];if(!r||!s.buildings.some(b=>b.type==='alchemy')||!finite(c.total,1,Math.max(r.duration,legacy.RECIPES[c.recipeId]?.duration||0))||!finite(c.remaining,0,c.total)||!integer(c.yield,1,r.yield))fail('炼丹队列异常');}

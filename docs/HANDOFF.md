@@ -1,3 +1,9 @@
+## 最新开发检查点：EA 1.1 原型全集接入（尚在验收）
+
+最新用户要求：EA全部玩法开发及验收，并且生成的原型图全部接入。完整清单为10组35画面，见 EA-PROTOTYPE-MANIFEST.json 与 EA-PROTOTYPE-INTEGRATION.md。
+正式EA根入口暂未替换。浏览器验收目录ea-preview使用acceptance=1隔离存档；现有庭院1.3继续可玩。不要覆盖用户正式世界档。
+新ea-courtyard-renderer接正式SIM与8页UI，7地标走路纳入存档，9地域/最终决战使用原型派生背景，山门显示四阶段。正在修复浏览器检查发现的布局问题并继续验收。禁止将纯逻辑或模板测试标注为已完成实际浏览器验收。
+
 # 模拟仙府开发接管状态
 
 当前交付：EA 1.0.1《余烬立山》，完整实现与测试已进入 main，静态发布在 gh-pages 根目录。正式试玩地址：https://cybershp.github.io/Simulation-web-game/ 。EA测试入口保留 ea-preview/。这是 GitHub Pages 项目；早期 Sites 副本不作为本轮发布目标。

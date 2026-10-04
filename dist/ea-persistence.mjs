@@ -21,10 +21,10 @@ const BACKUP_FORMAT = 'xianfu-ea-backups';
 const PRESERVED_FORMAT = 'xianfu-ea-preserved';
 const UNREAD = Symbol('unread');
 
-export function slotKeys(slot) {
+export function slotKeys(slot,namespace=EA_SAVE_PREFIX) {
   const id = Number(slot);
   if (!SLOT_IDS.includes(id)) throw new Error('请选择 1、2 或 3 号世界档。');
-  const primary = EA_SAVE_PREFIX + 'slot:' + id;
+  const primary = namespace + 'slot:' + id;
   return {primary, backups: primary + ':backups', preserved: primary + ':preserved', lock: primary + ':writer'};
 }
 
@@ -80,6 +80,8 @@ export function createEAPersistence(options = {}) {
     channelFactory = typeof window !== 'undefined' && typeof BroadcastChannel !== 'undefined'
       ? name => new BroadcastChannel(name) : null,
   } = options;
+  const namespace=options.namespace||EA_SAVE_PREFIX;
+  const scopedKeys=slot=>slotKeys(slot,namespace);
   if (typeof validate !== 'function') throw new TypeError('存档模块需要传入模拟器的 validate 函数。');
   const listeners = new Set(typeof onChange === 'function' ? [onChange] : []);
   let activeSlot = null, mode = 'readonly', blocked = true, known = UNREAD;
@@ -191,6 +193,7 @@ export function createEAPersistence(options = {}) {
       migrated: decoded.migrated || false, reason: entry.reason || null, createdAt: entry.createdAt ?? null};
   }
   function readLegacy(store) {
+    if(namespace!==EA_SAVE_PREFIX)return {entries:[],candidates:[]};
     const entries = [
       {id: 'legacy-primary', raw: store.getItem(LEGACY_SAVE_KEY)},
       {id: 'legacy-backup', raw: store.getItem(LEGACY_BACKUP_KEY)},
@@ -198,7 +201,7 @@ export function createEAPersistence(options = {}) {
     return {entries, candidates: entries.map(entry => sourceItem(entry, false))};
   }
   function inspect(slot) {
-    slot = Number(slot); const keys = slotKeys(slot);
+    slot = Number(slot); const keys = scopedKeys(slot);
     const view = {slot, status: 'empty', state: null, meta: null, backups: [], preserved: [], migration: null, error: null, warning: null};
     try {
       const store = storage(), raw = store.getItem(keys.primary);
@@ -241,7 +244,7 @@ export function createEAPersistence(options = {}) {
   // (including a full disk) stops replacement/migration before primary changes.
   function preserve(store, slot, raw, reason, source) {
     if (raw === null) return;
-    const key = slotKeys(slot).preserved;
+    const key = scopedKeys(slot).preserved;
     const current = store.getItem(key), index = readIndex(current, PRESERVED_FORMAT);
     if (index.corrupt) throw failure('archive-corrupt', '原始资料保留区损坏，无法安全替换；请先导出恢复资料包。');
     if (index.entries.some(entry => entry.raw === raw)) return;
@@ -271,7 +274,7 @@ export function createEAPersistence(options = {}) {
       throw failure('recovery-required', '档案需要先迁移或选择恢复来源，尚未允许覆盖。');
     }
     const store = storage();
-    if (store.getItem(slotKeys(slot).primary) !== known) {
+    if (store.getItem(scopedKeys(slot).primary) !== known) {
       conflict(); throw failure('conflict', '检测到外部更新，已停止写入，请重新打开最新档案。');
     }
     return store;
@@ -287,7 +290,7 @@ export function createEAPersistence(options = {}) {
   }
   function commit(input, {allowBlocked = false, reason = null, checkpoint = null, expectedSlot = activeSlot} = {}) {
     try {
-      const store = checkWriter(expectedSlot, allowBlocked), keys = slotKeys(activeSlot), state = validState(input);
+      const store = checkWriter(expectedSlot, allowBlocked), keys = scopedKeys(activeSlot), state = validState(input);
       const current = known === null ? null : tryDecode(known, {nativeOnly: true});
       const backupsRaw = store.getItem(keys.backups), backupIndex = readIndex(backupsRaw, BACKUP_FORMAT);
       const validBackups = [], invalidBackups = [];
@@ -338,7 +341,7 @@ export function createEAPersistence(options = {}) {
     let announce;
     const acquired = new Promise(resolve => { announce = resolve; });
     try {
-      const request = locks.request(slotKeys(slot).lock, {mode: 'exclusive', ifAvailable: true}, lock => {
+      const request = locks.request(scopedKeys(slot).lock, {mode: 'exclusive', ifAvailable: true}, lock => {
         if (!lock || closed || ticket !== generation) {
           announce({ok: false, code: ticket !== generation ? 'superseded' : 'not-writer'});
           return;
@@ -371,7 +374,7 @@ export function createEAPersistence(options = {}) {
     return released;
   }
   async function open(slot, {takeover = false} = {}) {
-    slot = Number(slot); slotKeys(slot);
+    slot = Number(slot); scopedKeys(slot);
     if (closed) return result(false, 'closed', '存档服务已经关闭。', {mode, ...inspect(slot)});
     const ticket = ++generation;
     deactivate('正在读取世界档案');
@@ -396,7 +399,7 @@ export function createEAPersistence(options = {}) {
         '另一窗口正在游玩；请请求接管，或关闭原窗口后重试。', {mode, ...inspect(slot)});
     }
     const view = inspect(slot);
-    try { known = storage().getItem(slotKeys(slot).primary); }
+    try { known = storage().getItem(scopedKeys(slot).primary); }
     catch (error) {
       deactivate(); const detail = readableError(error);
       return result(false, detail.code, detail.message, {mode, ...view});
@@ -408,7 +411,7 @@ export function createEAPersistence(options = {}) {
     return result(!blocked, blocked ? view.status : 'opened', message, {mode, ...view});
   }
   async function ensureWriter(slot) {
-    slot = Number(slot); slotKeys(slot);
+    slot = Number(slot); scopedKeys(slot);
     if (activeSlot !== slot || !held || mode !== 'writer') await open(slot);
     return checkWriter(slot, true);
   }
@@ -439,7 +442,7 @@ export function createEAPersistence(options = {}) {
   }
   async function recover(slot, sourceId) {
     try {
-      const store = await ensureWriter(slot), keys = slotKeys(slot);
+      const store = await ensureWriter(slot), keys = scopedKeys(slot);
       checkWriter(slot, true);
       const backups = readIndex(store.getItem(keys.backups), BACKUP_FORMAT);
       const preserved = readIndex(store.getItem(keys.preserved), PRESERVED_FORMAT);
@@ -453,7 +456,7 @@ export function createEAPersistence(options = {}) {
   }
   async function migrateLegacy(slot, {source = 'legacy-primary', confirmed = false} = {}) {
     try {
-      const store = await ensureWriter(slot), keys = slotKeys(slot);
+      const store = await ensureWriter(slot), keys = scopedKeys(slot);
       checkWriter(slot, true);
       const own = store.getItem(keys.primary);
       let sourceRaw;
@@ -475,11 +478,11 @@ export function createEAPersistence(options = {}) {
     } catch (error) { const detail = readableError(error); return result(false, detail.code, detail.message); }
   }
   function exportState(state, {slot = activeSlot || 1} = {}) {
-    slot = Number(slot); slotKeys(slot);
+    slot = Number(slot); scopedKeys(slot);
     return stringify(envelope(validState(state), slot, 0));
   }
   function exportSlot(slot, {source = 'primary'} = {}) {
-    const store = storage(), keys = slotKeys(slot);
+    const store = storage(), keys = scopedKeys(slot);
     let raw;
     if (source === 'primary' || source === 'raw') raw = store.getItem(keys.primary);
     else if (source === 'legacy-primary') raw = store.getItem(LEGACY_SAVE_KEY);
@@ -493,7 +496,7 @@ export function createEAPersistence(options = {}) {
     return raw;
   }
   function exportBundle(slot) {
-    const store = storage(), keys = slotKeys(slot);
+    const store = storage(), keys = scopedKeys(slot);
     return JSON.stringify({format: 'xianfu-ea-recovery', formatVersion: FORMAT_VERSION, exportedAt: now(), slot: Number(slot),
       raw: {primary: store.getItem(keys.primary), backups: store.getItem(keys.backups), preserved: store.getItem(keys.preserved)},
       legacy: {primary: store.getItem(LEGACY_SAVE_KEY), backup: store.getItem(LEGACY_BACKUP_KEY)}}, null, 2);
@@ -529,13 +532,13 @@ export function createEAPersistence(options = {}) {
     post({type: 'released', requestId: message.requestId, recipient: message.requester, requester: writerId, slot: activeSlot});
   }
   function storageChanged(event) {
-    if (!held || activeSlot === null || (event.key !== null && event.key !== slotKeys(activeSlot).primary)) return;
+    if (!held || activeSlot === null || (event.key !== null && event.key !== scopedKeys(activeSlot).primary)) return;
     try {
-      if (storage().getItem(slotKeys(activeSlot).primary) !== known) conflict();
+      if (storage().getItem(scopedKeys(activeSlot).primary) !== known) conflict();
     } catch { deactivate('本机存储读取失败，已暂停写入；请导出当前进度。'); }
   }
   try {
-    channel = typeof channelFactory === 'function' ? channelFactory(EA_SAVE_PREFIX + 'coordination') : null;
+    channel = typeof channelFactory === 'function' ? channelFactory(namespace + 'coordination') : null;
     if (channel?.addEventListener) channel.addEventListener('message', channelMessage);
     else if (channel) channel.onmessage = channelMessage;
   } catch { channel = null; }

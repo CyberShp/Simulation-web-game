@@ -1,0 +1,218 @@
+{
+  "version": "1.1.0-ea",
+  "approvedGroups": 10,
+  "approvedScreens": 35,
+  "note": "03与05采用修订版；原型中的示例数值、技能和小字不能覆盖正式EA规则。场景素材由原型去除UI与人物后派生。",
+  "screens": [
+    {
+      "id": "01",
+      "name": "主界面与图标导航",
+      "source": "exec-c568754f-ff4f-4a38-8564-e6748c16111f.png",
+      "status": "implemented-awaiting-browser-acceptance"
+    },
+    {
+      "id": "02A",
+      "name": "掌门",
+      "source": "exec-f977ed7d-ded3-4689-baa7-6425c82cb8cc.png",
+      "status": "implemented-awaiting-browser-acceptance"
+    },
+    {
+      "id": "02B",
+      "name": "营造",
+      "source": "exec-f977ed7d-ded3-4689-baa7-6425c82cb8cc.png",
+      "status": "implemented-awaiting-browser-acceptance"
+    },
+    {
+      "id": "02C",
+      "name": "门人",
+      "source": "exec-f977ed7d-ded3-4689-baa7-6425c82cb8cc.png",
+      "status": "implemented-awaiting-browser-acceptance"
+    },
+    {
+      "id": "02D",
+      "name": "传承",
+      "source": "exec-f977ed7d-ded3-4689-baa7-6425c82cb8cc.png",
+      "status": "implemented-awaiting-browser-acceptance"
+    },
+    {
+      "id": "03A",
+      "name": "府库与生产",
+      "source": "exec-ff1368c7-0622-4d7c-ba98-caba018284e0.png",
+      "status": "implemented-awaiting-browser-acceptance"
+    },
+    {
+      "id": "03B",
+      "name": "炼丹",
+      "source": "exec-ff1368c7-0622-4d7c-ba98-caba018284e0.png",
+      "status": "implemented-awaiting-browser-acceptance"
+    },
+    {
+      "id": "03C",
+      "name": "坊市与委托",
+      "source": "exec-ff1368c7-0622-4d7c-ba98-caba018284e0.png",
+      "status": "implemented-awaiting-browser-acceptance"
+    },
+    {
+      "id": "03D",
+      "name": "山门治理",
+      "source": "exec-ff1368c7-0622-4d7c-ba98-caba018284e0.png",
+      "status": "implemented-awaiting-browser-acceptance"
+    },
+    {
+      "id": "04A",
+      "name": "分峰",
+      "source": "exec-691f2bdd-376c-4e39-afdf-e268266e45f3.png",
+      "status": "implemented-awaiting-browser-acceptance"
+    },
+    {
+      "id": "04B",
+      "name": "山外舆图与同行",
+      "source": "exec-691f2bdd-376c-4e39-afdf-e268266e45f3.png",
+      "status": "implemented-awaiting-browser-acceptance"
+    },
+    {
+      "id": "04C",
+      "name": "纪事与线索",
+      "source": "exec-691f2bdd-376c-4e39-afdf-e268266e45f3.png",
+      "status": "implemented-awaiting-browser-acceptance"
+    },
+    {
+      "id": "04D",
+      "name": "访客与事务",
+      "source": "exec-691f2bdd-376c-4e39-afdf-e268266e45f3.png",
+      "status": "implemented-awaiting-browser-acceptance"
+    },
+    {
+      "id": "05A",
+      "name": "门人档案与关系",
+      "source": "exec-431b8fc4-8b05-40c6-be8d-89d21dc822c5.png",
+      "status": "implemented-awaiting-browser-acceptance"
+    },
+    {
+      "id": "05B",
+      "name": "实时战斗",
+      "source": "exec-431b8fc4-8b05-40c6-be8d-89d21dc822c5.png",
+      "status": "implemented-awaiting-browser-acceptance"
+    },
+    {
+      "id": "05C",
+      "name": "存档与恢复",
+      "source": "exec-431b8fc4-8b05-40c6-be8d-89d21dc822c5.png",
+      "status": "implemented-awaiting-browser-acceptance"
+    },
+    {
+      "id": "05D",
+      "name": "设置与操作",
+      "source": "exec-431b8fc4-8b05-40c6-be8d-89d21dc822c5.png",
+      "status": "implemented-awaiting-browser-acceptance"
+    },
+    {
+      "id": "06A",
+      "name": "结庐立足",
+      "source": "exec-872a4dbc-fa99-4411-a868-290ba3a398dd.png",
+      "status": "implemented-awaiting-browser-acceptance"
+    },
+    {
+      "id": "06B",
+      "name": "山院初成",
+      "source": "exec-872a4dbc-fa99-4411-a868-290ba3a398dd.png",
+      "status": "implemented-awaiting-browser-acceptance"
+    },
+    {
+      "id": "06C",
+      "name": "正式立派",
+      "source": "exec-872a4dbc-fa99-4411-a868-290ba3a398dd.png",
+      "status": "implemented-awaiting-browser-acceptance"
+    },
+    {
+      "id": "06D",
+      "name": "双峰承道",
+      "source": "exec-872a4dbc-fa99-4411-a868-290ba3a398dd.png",
+      "status": "implemented-awaiting-browser-acceptance"
+    },
+    {
+      "id": "07A",
+      "name": "云岫山谷",
+      "source": "exec-d773ef1a-2041-4d56-b685-91dba380fe13.png",
+      "status": "implemented-awaiting-browser-acceptance"
+    },
+    {
+      "id": "07B",
+      "name": "青溪坊市",
+      "source": "exec-d773ef1a-2041-4d56-b685-91dba380fe13.png",
+      "status": "implemented-awaiting-browser-acceptance"
+    },
+    {
+      "id": "07C",
+      "name": "石桥驿",
+      "source": "exec-d773ef1a-2041-4d56-b685-91dba380fe13.png",
+      "status": "implemented-awaiting-browser-acceptance"
+    },
+    {
+      "id": "07D",
+      "name": "听雨遗址",
+      "source": "exec-d773ef1a-2041-4d56-b685-91dba380fe13.png",
+      "status": "implemented-awaiting-browser-acceptance"
+    },
+    {
+      "id": "08A",
+      "name": "赤嶂偏牢",
+      "source": "exec-72db0d6f-aae9-40a3-8ae2-515e1781c32a.png",
+      "status": "implemented-awaiting-browser-acceptance"
+    },
+    {
+      "id": "08B",
+      "name": "赤嶂粮道",
+      "source": "exec-72db0d6f-aae9-40a3-8ae2-515e1781c32a.png",
+      "status": "implemented-awaiting-browser-acceptance"
+    },
+    {
+      "id": "08C",
+      "name": "栖霞外阵",
+      "source": "exec-72db0d6f-aae9-40a3-8ae2-515e1781c32a.png",
+      "status": "implemented-awaiting-browser-acceptance"
+    },
+    {
+      "id": "08D",
+      "name": "南渡公议",
+      "source": "exec-72db0d6f-aae9-40a3-8ae2-515e1781c32a.png",
+      "status": "implemented-awaiting-browser-acceptance"
+    },
+    {
+      "id": "09A",
+      "name": "栖霞旧山门",
+      "source": "exec-e1f37274-a757-4416-901a-a5ab9c852367.png",
+      "status": "implemented-awaiting-browser-acceptance"
+    },
+    {
+      "id": "09B",
+      "name": "灵脉决战",
+      "source": "exec-e1f37274-a757-4416-901a-a5ab9c852367.png",
+      "status": "implemented-awaiting-browser-acceptance"
+    },
+    {
+      "id": "10A",
+      "name": "手机主场景",
+      "source": "exec-c37be5c9-f52c-4783-a7cc-bd0a6ffe2033.png",
+      "status": "implemented-awaiting-browser-acceptance"
+    },
+    {
+      "id": "10B",
+      "name": "手机系统抽屉",
+      "source": "exec-c37be5c9-f52c-4783-a7cc-bd0a6ffe2033.png",
+      "status": "implemented-awaiting-browser-acceptance"
+    },
+    {
+      "id": "10C",
+      "name": "手机门人详情",
+      "source": "exec-c37be5c9-f52c-4783-a7cc-bd0a6ffe2033.png",
+      "status": "implemented-awaiting-browser-acceptance"
+    },
+    {
+      "id": "10D",
+      "name": "手机战斗",
+      "source": "exec-c37be5c9-f52c-4783-a7cc-bd0a6ffe2033.png",
+      "status": "implemented-awaiting-browser-acceptance"
+    }
+  ]
+}

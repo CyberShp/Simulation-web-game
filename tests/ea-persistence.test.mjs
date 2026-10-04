@@ -416,3 +416,16 @@ test('newly exported files contain an explicitly validated EA envelope', () => {
   assert.throws(() => p.exportState({...world(), resources: {jade: NaN}}));
   p.close();
 });
+
+test('acceptance worlds have independent slots, locks and recovery from production', async () => {
+  const storage=memoryStorage(),locks=memoryLocks();
+  const prod=createEAPersistence({getStorage:()=>storage,validate,locks,channelFactory:null,eventTarget:null});
+  const preview=createEAPersistence({getStorage:()=>storage,validate,locks,namespace:'xianfu:test-acceptance:',channelFactory:null,eventTarget:null});
+  await prod.open(1);await preview.open(1);
+  assert.equal((await prod.replace(1,world(777),{confirmed:true})).ok,true);
+  assert.equal((await preview.replace(1,world(123),{confirmed:true})).ok,true);
+  assert.equal(prod.inspect(1).state.resources.jade,777);
+  assert.equal(preview.inspect(1).state.resources.jade,123);
+  assert.notEqual(locks.calls[0].name,locks.calls[1].name);
+  prod.close();preview.close();
+});
