@@ -1,7 +1,7 @@
 import {stage} from './ea-data.mjs?v=ea-110-release-20261004';
 import {drawAtlas} from './ea-region-art.mjs?v=ea-110-release-20261004';
 import {createWorldRenderer as createPlanRenderer} from './ea-renderer.mjs?v=ea-110-release-20261004';
-import {WIDTH,HEIGHT,point,nearest,EDGES,LANDMARKS,inPolygon,findPath,canStand} from '../yunxiu-courtyard/navigation.mjs?v=ea-110-release-20261004';
+import {WIDTH,HEIGHT,point,nearest,EDGES,LANDMARKS,inPolygon,findPath,canStand} from './yunxiu-courtyard/navigation.mjs?v=ea-110-release-20261004';
 import {foreground} from './ea-foreground.mjs?v=ea-110-release-20261004';
 import {appearance,FACILITY_AREAS,areaPoint,scenicPosition,advanceScenic} from './ea-scenic.mjs?v=ea-110-release-20261004';
 
@@ -9,7 +9,7 @@ export function createWorldRenderer(canvas,options){
  const {getState,getMode,getSelection,getCampaignScene,getPrefs=()=>({}),onLoad=()=>{}}=options;
  let planFailed=[];const ctx=canvas.getContext('2d'),plan=createPlanRenderer(canvas,{...options,onLoad:failed=>{planFailed=failed;}}),pan={x:0,y:0};let bg,atlas,meta,estate,overview=false,zoom=1,planning=false,scene='map',hover=null,lastTime=null,session=null,ready=false;
  const actors=new Map(),load=src=>new Promise((resolve,reject)=>{const im=new Image();im.onload=()=>resolve(im);im.onerror=()=>reject(src);im.src=new URL(src,import.meta.url).href;});
- const readyPromise=Promise.all([load('../assets/ea-estate-stages.jpg'),load('../yunxiu-courtyard/assets/courtyard-background.jpg'),load('../yunxiu-courtyard/assets/characters.webp'),fetch(new URL('../yunxiu-courtyard/assets/character-frames.json',import.meta.url)).then(r=>{if(!r.ok)throw Error('人物素材');return r.json();}),plan.ready]).then(([e,b,a,m])=>{estate=e;bg=b;atlas=a;meta=m;ready=true;onLoad(planFailed);}).catch(error=>onLoad([String(error)]));
+ const readyPromise=Promise.all([load('./assets/ea-estate-stages.jpg'),load('./yunxiu-courtyard/assets/courtyard-background.jpg'),load('./yunxiu-courtyard/assets/characters.webp'),fetch(new URL('./yunxiu-courtyard/assets/character-frames.json',import.meta.url)).then(r=>{if(!r.ok)throw Error('人物素材');return r.json();}),plan.ready]).then(([e,b,a,m])=>{estate=e;bg=b;atlas=a;meta=m;ready=true;onLoad(planFailed);}).catch(error=>onLoad([String(error)]));
  const isPlan=()=>planning||['build','move'].includes(getMode());
  const delegate=()=>!!getCampaignScene(getState())||scene!=='map'||isPlan();
  function camera(){const w=canvas.clientWidth,h=canvas.clientHeight,mobile=!overview&&w<760&&h>w,s=(mobile?Math.max(w/WIDTH,h/HEIGHT)*1.05:Math.min(w/WIDTH,h/HEIGHT))*zoom,master=scenicPosition(getState().master);return{w,h,scale:s,ox:mobile?Math.min(0,Math.max(w-WIDTH*s,w*.52-master.x*s+pan.x)):(w-WIDTH*s)/2+pan.x,oy:mobile?Math.min(0,Math.max(h-HEIGHT*s,h*.5-master.y*s+pan.y)):(h-HEIGHT*s)/2+pan.y};}

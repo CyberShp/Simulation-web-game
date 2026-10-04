@@ -1,8 +1,8 @@
-import * as SIM from './ea-sim.mjs?v=ea-110-handoff5';
-import {EA_SHELL,createEAUI} from './ea-ui.mjs?v=ea-110-handoff5';
-import {createEAPersistence,MAX_IMPORT_BYTES} from './ea-persistence.mjs?v=ea-110-handoff5';
-import {createWorldRenderer} from './ea-courtyard-renderer.mjs?v=ea-110-handoff5';
-import {attachMapInput} from './map-input.mjs?v=ea-110-handoff5';
+import * as SIM from './ea-sim.mjs?v=ea-110-release-20261004';
+import {EA_SHELL,createEAUI} from './ea-ui.mjs?v=ea-110-release-20261004';
+import {createEAPersistence,MAX_IMPORT_BYTES} from './ea-persistence.mjs?v=ea-110-release-20261004';
+import {createWorldRenderer} from './ea-courtyard-renderer.mjs?v=ea-110-release-20261004';
+import {attachMapInput} from './map-input.mjs?v=ea-110-release-20261004';
 
 const VERSION=SIM.GAME_VERSION;
 const $=id=>document.getElementById(id);
@@ -30,7 +30,7 @@ const persistence=createEAPersistence({namespace:previewNamespace,validate:SIM.v
 }});
 
 function toast(message,error=false){if(modal.open){let notice=$('modal-notice');if(!notice){notice=document.createElement('p');notice.id='modal-notice';notice.setAttribute('role','alert');$('modal-body').prepend(notice);}notice.textContent=message;notice.className=error?'warning-callout':'ui-note success';}const el=$('toast');if(!el)return;el.textContent=message;el.className='toast visible'+(error?' error':'');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('visible'),5200);}
-function openModal(title,html){$('close-modal').hidden=!haveSession;$('modal-title').textContent=title;$('modal-body').innerHTML=html;$('modal-body').scrollTop=0;if(!modal.open)modal.showModal();audio.suspend();}
+function openModal(title,html){$('close-modal').hidden=!haveSession;$('modal-title').textContent=title;$('modal-body').innerHTML=html;if(!modal.open)modal.showModal();$('modal-body').scrollTop=0;audio.suspend();}
 function closeModal(){if(!haveSession)return;modal.close();lastFrame=performance.now();audio.sync();}
 function updateSaveStatus(){const el=$('save-status');if(!el)return;const text=volatile?'仅内存试玩 · 请导出':haveSession?(persistence.canWrite?(saveError?saveMessage:dirty?'有新进度 · 即将保存':saveMessage):'只读 · '+persistence.status):saveMessage;el.textContent=text;el.title=haveSession&&!volatile?`世界 ${activeSlot} · ${timeText(persistence.savedAt)}。浏览器关闭后，从本机存档继续。`:text;el.classList.toggle('save-warning',volatile||haveSession&&!persistence.canWrite||saveMessage.includes('失败'));}
 function persistPreferences(){document.documentElement.style.setProperty('--text-scale',preferences.textScale);document.documentElement.classList.toggle('reduced-motion',preferences.reducedMotion);try{localStorage.setItem(preferenceKey,JSON.stringify(preferences));}catch{}audio.sync();}

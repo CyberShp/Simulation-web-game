@@ -1,5 +1,5 @@
-import { rng, day, log, pay, canPay, grant, capacity } from './ea-data.mjs?v=1.0.1-ea-final';
-import { EXPEDITIONS as LEGACY_ROUTES } from './world.mjs?v=1.0.1-ea-final';
+import { rng, day, log, pay, canPay, grant, capacity } from './ea-data.mjs?v=ea-110-release-20261004';
+import { EXPEDITIONS as LEGACY_ROUTES } from './world.mjs?v=ea-110-release-20261004';
 
 // Campaign state is deliberately plain data. Every choice, weather roll and reward
 // is committed to the save before the next tick; loading never repeats a roll.
@@ -548,7 +548,7 @@ export function getCampaignScene(s) {
   const c=s.combat,e=s.world.exploration;
   if(c?.status==='active') return {type:'combat',name:ENCOUNTERS[c.encounterId].name,regionId:c.regionId,background:c.regionId==='qixia'?'map':'valley',width:12,height:8,player:c.player,enemies:c.enemies,allies:c.allies,obstacles:[],landmarks:[{id:'exit',name:'撤离出口',x:.7,y:4,radius:.7}],weather:e?.weather||s.world.weather.id};
   if(!e || e.status==='traveling') return null;
-  return {type:'region',name:REGIONS[e.regionId].name,regionId:e.regionId,background:e.regionId==='ruins'?'lake':e.regionId==='qixia'?'map':'valley',width:12,height:8,player:{...e.position,target:e.target},enemies:[],allies:[],obstacles:[],landmarks:[{id:'objective',name:REGIONS[e.regionId].landmark,x:8,y:4,radius:2.2},{id:'exit',name:'归山路',x:.7,y:4,radius:.7}],weather:e.weather};
+  return {type:'region',name:REGIONS[e.regionId].name,regionId:e.regionId,background:e.regionId==='ruins'?'lake':e.regionId==='qixia'?'map':'valley',width:12,height:8,player:{...e.position,target:e.target},enemies:[],allies:e.companionIds.map((id,i)=>({id,name:s.disciples.find(d=>d.id===id)?.name||'同行者',x:Math.max(.2,e.position.x-.45*(i+1)),y:e.position.y})),obstacles:[],landmarks:[{id:'objective',name:REGIONS[e.regionId].landmark,x:8,y:4,radius:2.2},{id:'exit',name:'归山路',x:.7,y:4,radius:.7}],weather:e.weather};
 }
 
 export function validateCampaign(s) {
