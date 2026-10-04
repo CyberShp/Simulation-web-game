@@ -1,6 +1,6 @@
-import {BUILDINGS,ROUTES,RESOURCES,stage} from './ea-data.mjs?v=ea-130-preview-20261005-r3';
-import {scenicPoint,buildingAccess,buildingSize,buildingFootprint} from './ea-scene-geometry.mjs?v=ea-130-preview-20261005-r3';
-import {lifeFacility} from './ea-life.mjs?v=ea-130-preview-20261005-r3';
+import {BUILDINGS,ROUTES,RESOURCES,stage} from './ea-data.mjs?v=ea-130-preview-20261005-r4';
+import {scenicPoint,buildingAccess,buildingSize,buildingFootprint} from './ea-scene-geometry.mjs?v=ea-130-preview-20261005-r4';
+import {lifeFacility} from './ea-life.mjs?v=ea-130-preview-20261005-r4';
 
 export const facilityActive=b=>!!b&&b.enabled!==false&&b.condition>0;
 export function facilityRecords(s){

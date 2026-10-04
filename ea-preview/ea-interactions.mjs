@@ -1,8 +1,8 @@
-import {BUILDINGS,TECHNIQUES,RECIPES,canPay} from './ea-data.mjs?v=ea-130-preview-20261005-r3';
-import {facilityRecords,courtyardDestination,scenicHomeActors} from './ea-scene-state.mjs?v=ea-130-preview-20261005-r3';
-import {startScenicWalk,scenicPosition} from './ea-scenic.mjs?v=ea-130-preview-20261005-r3';
-import {homeInteractions} from './ea-narrative.mjs?v=ea-130-preview-20261005-r3';
-import {scenicSweep} from './ea-scene-geometry.mjs?v=ea-130-preview-20261005-r3';
+import {BUILDINGS,TECHNIQUES,RECIPES,canPay} from './ea-data.mjs?v=ea-130-preview-20261005-r4';
+import {facilityRecords,courtyardDestination,scenicHomeActors} from './ea-scene-state.mjs?v=ea-130-preview-20261005-r4';
+import {startScenicWalk,scenicPosition} from './ea-scenic.mjs?v=ea-130-preview-20261005-r4';
+import {homeInteractions} from './ea-narrative.mjs?v=ea-130-preview-20261005-r4';
+import {scenicSweep} from './ea-scene-geometry.mjs?v=ea-130-preview-20261005-r4';
 
 const distance=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
 const arrived=(s,a,b)=>distance(a,b)<=28&&!scenicSweep(s,a,b).blocked;

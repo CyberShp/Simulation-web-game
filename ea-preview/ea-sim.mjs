@@ -1,20 +1,20 @@
-import {startScenicWalk,advanceScenic,validateScenic,repairScenicState,syncScenicPosition,buildingAccess,scenicDistance,scenicCanStand,scenicFindPath} from './ea-scenic.mjs?v=ea-130-preview-20261005-r3';
-import {lifeActivityLock,lifeFacility,personLifeSummary,actorScenePosition} from './ea-life.mjs?v=ea-130-preview-20261005-r3';
-import {validateSceneIntent,cancelSceneInteraction} from './ea-interactions.mjs?v=ea-130-preview-20261005-r3';
-import {initNarrative,validateNarrative} from './ea-narrative.mjs?v=ea-130-preview-20261005-r3';
-import {routeDiscovered} from './ea-scene-state.mjs?v=ea-130-preview-20261005-r3';
-import * as legacy from './sect-sim.mjs?v=ea-130-preview-20261005-r3';
-import * as data from './ea-data.mjs?v=ea-130-preview-20261005-r3';
-import * as society from './ea-society.mjs?v=ea-130-preview-20261005-r3';
-import * as campaign from './ea-campaign.mjs?v=ea-130-preview-20261005-r3';
-export * from './ea-data.mjs?v=ea-130-preview-20261005-r3';
-export * from './ea-society.mjs?v=ea-130-preview-20261005-r3';
-export * from './ea-campaign.mjs?v=ea-130-preview-20261005-r3';
-export * from './ea-life.mjs?v=ea-130-preview-20261005-r3';
-export * from './ea-narrative.mjs?v=ea-130-preview-20261005-r3';
-export {requestSceneInteraction,cancelSceneInteraction} from './ea-interactions.mjs?v=ea-130-preview-20261005-r3';
-export {resolveVisitor,resolveVisitor as resolveWorldVisitor} from './ea-campaign.mjs?v=ea-130-preview-20261005-r3';
-export {resolveVisitor as resolveSocietyVisitor} from './ea-society.mjs?v=ea-130-preview-20261005-r3';
+import {startScenicWalk,advanceScenic,validateScenic,repairScenicState,syncScenicPosition,buildingAccess,scenicDistance,scenicCanStand,scenicFindPath} from './ea-scenic.mjs?v=ea-130-preview-20261005-r4';
+import {lifeActivityLock,lifeFacility,personLifeSummary,actorScenePosition,localLifeFacility} from './ea-life.mjs?v=ea-130-preview-20261005-r4';
+import {validateSceneIntent,cancelSceneInteraction} from './ea-interactions.mjs?v=ea-130-preview-20261005-r4';
+import {initNarrative,validateNarrative} from './ea-narrative.mjs?v=ea-130-preview-20261005-r4';
+import {routeDiscovered} from './ea-scene-state.mjs?v=ea-130-preview-20261005-r4';
+import * as legacy from './sect-sim.mjs?v=ea-130-preview-20261005-r4';
+import * as data from './ea-data.mjs?v=ea-130-preview-20261005-r4';
+import * as society from './ea-society.mjs?v=ea-130-preview-20261005-r4';
+import * as campaign from './ea-campaign.mjs?v=ea-130-preview-20261005-r4';
+export * from './ea-data.mjs?v=ea-130-preview-20261005-r4';
+export * from './ea-society.mjs?v=ea-130-preview-20261005-r4';
+export * from './ea-campaign.mjs?v=ea-130-preview-20261005-r4';
+export * from './ea-life.mjs?v=ea-130-preview-20261005-r4';
+export * from './ea-narrative.mjs?v=ea-130-preview-20261005-r4';
+export {requestSceneInteraction,cancelSceneInteraction} from './ea-interactions.mjs?v=ea-130-preview-20261005-r4';
+export {resolveVisitor,resolveVisitor as resolveWorldVisitor} from './ea-campaign.mjs?v=ea-130-preview-20261005-r4';
+export {resolveVisitor as resolveSocietyVisitor} from './ea-society.mjs?v=ea-130-preview-20261005-r4';
 const {RESOURCES,BUILDINGS,TECHNIQUES,RECIPES,ROUTES,GOODS,CELLS,NAMES,TRAIT_NAMES,day,xpNeed,realmName,rng,log,canPay,pay,grant,clamp,capacity,stage,finite,integer}=data;
 const resourceZero=()=>Object.fromEntries(Object.keys(RESOURCES).map(k=>[k,0]));
 const own=(o,k)=>Object.hasOwn(o,k);
@@ -148,7 +148,7 @@ export function sealBook(s,id){if(id==='qingyuan'||!s.doctrine.books.includes(id
 export function masterStudy(s,id){const m=s.master;if(trip(s)||m.wound>0)throw Error('归院疗伤后方可研习。');if(m.energy<15)throw Error('精力不足，先休息。');if(m.learning?.id===id){const lock=studyLock(s,m,id,true);if(lock)throw Error(lock);cancelSceneInteraction(s);m.action='study';m.path=[];return;}const lock=studyLock(s,m,id,true);if(lock)throw Error(lock);cancelSceneInteraction(s);const conversion=TECHNIQUES[id].kind==='main'&&m.main!==id;const total=Math.ceil(TECHNIQUES[id].duration*(conversion?1.6:1));m.learning={id,progress:0,total,mode:conversion?'convert':learned(m,id)?'deepen':'learn'};m.action='study';m.path=[];m.teaching=null;log(s,`掌门开始${conversion?'转修':'研习'}《${TECHNIQUES[id].name}》，需投入约${Math.ceil(total/m.talent)}秒。`);}
 export function forgetSupport(s,id){const m=s.master;if(trip(s)||m.learning)throw Error('先结束行程或学习。');if(!m.support.includes(id))throw Error('此法不在当前辅修中。');pay(s,{herb:8,insight:3});m.support=m.support.filter(x=>x!==id);m.energy=Math.max(0,m.energy-10);m.action='rest';log(s,`掌门暂停《${TECHNIQUES[id].name}》辅修，已理解的知识仍然保留。`);}
 export function returnToBasics(s){const m=s.master;if(trip(s)||m.wound>0)throw Error('先归院疗伤。');if(m.main==='qingyuan')throw Error('当前已是青岚养元诀。');if(m.energy<30)throw Error('需至少30精力。');pay(s,{jade:80,herb:20});m.main='qingyuan';m.energy-=20;m.xp=Math.max(0,m.xp*.8);m.learning=null;m.action='rest';log(s,'掌门散去旧功体，重归青岚基础；保留知识，损失两成当前修为。');}
-export function cultivationRate(s,person,b=null){const p=stateMind(person);if(!p.main)return 0;let factor=TECHNIQUES[p.main]?.cultivation||1;for(const id of p.support)factor*=TECHNIQUES[id]?.cultivation||1;if(p.support.includes('wood')&&TECHNIQUES[p.main]?.element==='water')factor*=1.08;const base=person===s.master?2.2:b?.type==='meditation'?2.1*b.level:.9;return base*person.talent*factor*(b?layoutBonus(s,b).factor:1)*(s.economy.starvation?.65:1);}
+export function cultivationRate(s,person,b=null){const p=stateMind(person);if(!p.main)return 0;if(person===s.master&&b===null)b=localLifeFacility(s,person,['meditation','hall']);let factor=TECHNIQUES[p.main]?.cultivation||1;for(const id of p.support)factor*=TECHNIQUES[id]?.cultivation||1;if(p.support.includes('wood')&&TECHNIQUES[p.main]?.element==='water')factor*=1.08;const base=person===s.master?2.2*(b?.type==='meditation'&&active(b)?b.level:1):b?.type==='meditation'?2.1*b.level:.9;return base*person.talent*factor*(b&&active(b)?layoutBonus(s,b).factor:1)*(s.economy.starvation?.65:1);}
 export function breakthroughCost(person){if(person.realm===9)return{jade:240,herb:50,crystal:10,insight:20};if(person.realm>=10)return{jade:200+(person.realm-10)*120,herb:60,crystal:12+(person.realm-10)*6,insight:20};return{jade:person.realm*24,herb:person.realm*8};}
 export function breakthroughLock(s,person,isMaster=false){
  if(person.realm>=12)return '已达本篇筑基后期';if(person.xp<xpNeed(person.realm))return '修为未满';if(person.energy<35)return '需至少35精力';if(person.wound>0)return '先养好伤势';if(isMaster&&trip(s))return '先归院';if(person.breakthroughCooldown>s.time)return '突破后需继续调息';
@@ -236,14 +236,14 @@ function supplyStep(s){
 }
 function masterStep(s){
  const m=s.master;if(trip(s))return;
- const clinic=s.buildings.find(b=>b.type==='clinic'&&active(b));
+ const clinic=localLifeFacility(s,m,['clinic']);
  if(m.action==='walk'&&m.scenic?.path.length){advanceScenic(m.scenic,46,s);syncScenicPosition(s,m);if(!m.scenic.path.length)m.action='rest';return;}
  if(m.action==='walk'){const next=m.path.shift();if(next&&!at(s,next.x,next.y))m.position=next;else m.path=[];if(!m.path.length)m.action='rest';return;}
  if(m.action==='heal'){m.wound=Math.max(0,m.wound-(clinic?3:2));m.energy=Math.min(100,m.energy+.5);if(!m.wound){m.action='rest';log(s,'伤势已愈，逃亡并未永久损伤天资。');}return;}
  if(m.action==='rest'){m.energy=Math.min(100,m.energy+restRecovery(s,m));if(m.wound>0)m.wound=Math.max(0,m.wound-.035);return;}
  const lock=lifeActivityLock(s,m);if(lock){m.action='rest';m.path=[];log(s,`掌门${lock}`);return;}
  if(m.energy<=1){m.action='rest';log(s,'掌门精力不足，先暂歇调息，未完学习仍保留。');return;}
- if(m.action==='cultivate'){m.energy=Math.max(0,m.energy-(TECHNIQUES[m.main]?.fatigue||.25));m.xp=Math.min(xpNeed(m.realm),m.xp+cultivationRate(s,m));m.knowledge[m.main]=Math.min(100,(m.knowledge[m.main]||0)+.12);for(const id of m.support)m.knowledge[id]=Math.min(100,(m.knowledge[id]||0)+.025);return;}
+ if(m.action==='cultivate'){const facility=localLifeFacility(s,m,['meditation','hall']);m.energy=Math.max(0,m.energy-(TECHNIQUES[m.main]?.fatigue||.25));m.xp=Math.min(xpNeed(m.realm),m.xp+cultivationRate(s,m,facility));m.knowledge[m.main]=Math.min(100,(m.knowledge[m.main]||0)+.12);for(const id of m.support)m.knowledge[id]=Math.min(100,(m.knowledge[id]||0)+.025);return;}
  if(m.action==='study'&&m.learning){m.energy=Math.max(0,m.energy-.25);const l=m.learning;l.progress+=m.talent;if(l.progress>=l.total){learnTechnique(s,m,l.id,true);m.action='rest';}return;}
  if(m.action==='teach'){m.energy=Math.max(0,m.energy-.16);const id=m.teaching||m.main;if(m.knowledge[id]>=60)m.knowledge[id]=Math.min(100,m.knowledge[id]+.02);return;}
  if(['wood','stone','herb','food'].includes(m.action)){m.energy=Math.max(0,m.energy-.15);m.work++;if(m.work>=10){m.work=0;const effects=weather(s).production||{};grant(s,{[m.action]:({wood:12,stone:10,herb:10,food:16}[m.action])*(effects[m.action]??1)});}}

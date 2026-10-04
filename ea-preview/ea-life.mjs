@@ -1,5 +1,5 @@
-import {BUILDINGS, TECHNIQUES, RESOURCES, CELLS, canPay, xpNeed} from './ea-data.mjs?v=ea-130-preview-20261005-r3';
-import {buildingAccess,scenicFindPath,scenicDistance,geometryRevision} from './ea-scene-geometry.mjs?v=ea-130-preview-20261005-r3';
+import {BUILDINGS, TECHNIQUES, RESOURCES, CELLS, canPay, xpNeed} from './ea-data.mjs?v=ea-130-preview-20261005-r4';
+import {buildingAccess,scenicFindPath,scenicDistance,scenicSweep,geometryRevision} from './ea-scene-geometry.mjs?v=ea-130-preview-20261005-r4';
 
 // Read-only projections. These never schedule an NPC, spend resources or reveal a private manual.
 export const lifeBuildingActive = b => !!b && !b.disabled && b.enabled!==false && (b.condition??100)>0;
@@ -8,6 +8,9 @@ const away = (s,p) => !!p.mind?.away || !!p.mind?.journey || p.mind?.activity===
 const action = p => p.mind?.activity || p.action || 'rest';
 const cellKey = p => `${p.x},${p.y}`;
 export const actorScenePosition=(s,person)=>person===s.master?person.scenic||buildingAccess(s,s.buildings.find(b=>b.type==='hall')):mind(person).scenic||buildingAccess(s,s.buildings.find(b=>b.type==='hall'));
+export function localLifeFacility(s,person,types,{radius=28}={}){
+ const position=actorScenePosition(s,person);return s.buildings.filter(b=>types.includes(b.type)&&lifeBuildingActive(b)&&scenicDistance(position,buildingAccess(s,b))<=radius&&!scenicSweep(s,position,buildingAccess(s,b)).blocked).sort((a,b)=>types.indexOf(a.type)-types.indexOf(b.type)||scenicDistance(position,buildingAccess(s,a))-scenicDistance(position,buildingAccess(s,b))||a.id-b.id)[0]||null;
+}
 const pathCache=new WeakMap();
 export function lifeScenePath(s,person,building){
  if(!building)return null;const from=actorScenePosition(s,person),revision=geometryRevision(s),key=`${revision}:${from.x}:${from.y}`;let cache=pathCache.get(person);
@@ -32,6 +35,8 @@ export function lifePath(s,person,building) {
 }
 export function lifeFacility(s,person,activity=action(person),learningId=mind(person).learning?.id) {
   if(away(s,person))return null;
+  if(person===s.master&&activity==='cultivate')return localLifeFacility(s,person,['meditation','hall']);
+  if(person===s.master&&activity==='heal')return localLifeFacility(s,person,['clinic','hall']);
   const assigned=s.buildings.find(b=>b.id===person.job);
   if(['work','cultivate'].includes(activity)&&lifeBuildingActive(assigned)&&(activity==='work'?!!BUILDINGS[assigned.type].work:['hall','meditation'].includes(assigned.type))&&(alreadyNavigating(s,person,assigned)||lifeScenePath(s,person,assigned)!==null))return assigned;
   const p=mind(person),practice=!!p.learning?.practice;
