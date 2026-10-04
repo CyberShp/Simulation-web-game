@@ -1,6 +1,6 @@
-import {REGION_ART} from './ea-region-art.mjs?v=ea-110-e';
-import {appearance} from './ea-scenic.mjs?v=ea-110-e';
-import * as SIM from './ea-sim.mjs?v=ea-110-e';
+import {REGION_ART} from './ea-region-art.mjs?v=ea-110-handoff1';
+import {appearance} from './ea-scenic.mjs?v=ea-110-handoff1';
+import * as SIM from './ea-sim.mjs?v=ea-110-handoff1';
 
 const E = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
 const n = value => Number.isFinite(Number(value)) ? Number(value) : 0;

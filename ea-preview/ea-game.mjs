@@ -1,8 +1,8 @@
-import * as SIM from './ea-sim.mjs?v=ea-110-e';
-import {EA_SHELL,createEAUI} from './ea-ui.mjs?v=ea-110-e';
-import {createEAPersistence,MAX_IMPORT_BYTES} from './ea-persistence.mjs?v=ea-110-e';
-import {createWorldRenderer} from './ea-courtyard-renderer.mjs?v=ea-110-e';
-import {attachMapInput} from './map-input.mjs?v=ea-110-e';
+import * as SIM from './ea-sim.mjs?v=ea-110-handoff1';
+import {EA_SHELL,createEAUI} from './ea-ui.mjs?v=ea-110-handoff1';
+import {createEAPersistence,MAX_IMPORT_BYTES} from './ea-persistence.mjs?v=ea-110-handoff1';
+import {createWorldRenderer} from './ea-courtyard-renderer.mjs?v=ea-110-handoff1';
+import {attachMapInput} from './map-input.mjs?v=ea-110-handoff1';
 
 const VERSION=SIM.GAME_VERSION;
 const $=id=>document.getElementById(id);
@@ -13,15 +13,17 @@ document.querySelector('#game').innerHTML=EA_SHELL;
 let state=SIM.initial(),haveSession=false,volatile=false,activeSlot=null,dirty=false,lastGood=clone(state),ui,world;
 let mode='inspect',buildType=null,relocateId=null,selection=null,scene='map',tab='self',toastTimer,lastAuto=0,lastUI=0,lastFrame=performance.now(),busy=false,hiddenPause=false;
 let saveMessage='请选择世界档案',resumeAfterPagehide=false,parked=null,saveError=false;
-const previewScope=new URLSearchParams(location.search).get('acceptance')==='1';
-const preferenceKey=previewScope?'xianfu:ea:acceptance-preferences':'xianfu:ea:preferences';
+const acceptanceId=new URLSearchParams(location.search).get('acceptance');
+const previewScope=acceptanceId==='1'||/^qa-[a-z0-9-]{1,48}$/.test(acceptanceId||'');
+const previewNamespace=previewScope?(acceptanceId==='1'?'xianfu:simulation-web-game:ea-acceptance:':`xianfu:simulation-web-game:ea-acceptance-${acceptanceId}:`):undefined;
+const preferenceKey=previewScope?`${previewNamespace}preferences`:'xianfu:ea:preferences';
 const preferences={music:false,sfx:false,musicVolume:.6,sfxVolume:.6,reducedMotion:matchMedia('(prefers-reduced-motion: reduce)').matches,textScale:1};
 try{const p=JSON.parse(localStorage.getItem(preferenceKey)||'{}');for(const key of Object.keys(preferences))if(typeof p[key]===typeof preferences[key])preferences[key]=p[key];}catch{}
 for(const key of ['musicVolume','sfxVolume'])preferences[key]=Number.isFinite(preferences[key])?Math.max(0,Math.min(1,preferences[key])):.6;
 preferences.textScale=Math.max(.9,Math.min(1.2,preferences.textScale));
 const modal=$('modal');
 if(previewScope)document.body.classList.add('acceptance-preview');
-const persistence=createEAPersistence({namespace:previewScope?'xianfu:simulation-web-game:ea-acceptance:':undefined,validate:SIM.validateSave,gameVersion:VERSION,dataVersion:5,getState:()=>haveSession&&!volatile?state:undefined,onChange(event){
+const persistence=createEAPersistence({namespace:previewNamespace,validate:SIM.validateSave,gameVersion:VERSION,dataVersion:5,getState:()=>haveSession&&!volatile?state:undefined,onChange(event){
  if(haveSession&&event.mode==='writer'&&event.result?.code==='saved'){dirty=false;saveError=false;saveMessage=event.result.message;}
  if(haveSession&&!volatile&&persistence.mode!=='writer'){state.speed=0;saveMessage=persistence.status;}
  updateSaveStatus();

@@ -1,4 +1,4 @@
-import {point,findPath,sweep,canStand,distance,LANDMARKS} from '../yunxiu-courtyard/navigation.mjs';
+import {point,findPath,sweep,canStand,distance,LANDMARKS} from '../yunxiu-courtyard/navigation.mjs?v=ea-110-handoff1';
 
 export const FACILITY_AREAS={hall:'main',house:'main',library:'main',watchtower:'gate',farm:'herbs',granary:'herbs',well:'herbs',lumber:'workshop',workshop:'workshop',quarry:'works',meditation:'meditation',alchemy:'kitchen',clinic:'kitchen',kitchen:'kitchen'};
 export const areaPoint=id=>point(LANDMARKS.find(l=>l.id===id)?.node||'centre');
