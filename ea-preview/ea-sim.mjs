@@ -1,20 +1,20 @@
-import {startScenicWalk,advanceScenic,validateScenic,repairScenicState,syncScenicPosition,buildingAccess,scenicDistance} from './ea-scenic.mjs?v=ea-130-preview-20261005-r1';
-import {lifeActivityLock,lifeFacility,personLifeSummary} from './ea-life.mjs?v=ea-130-preview-20261005-r1';
-import {validateSceneIntent,cancelSceneInteraction} from './ea-interactions.mjs?v=ea-130-preview-20261005-r1';
-import {initNarrative,validateNarrative} from './ea-narrative.mjs?v=ea-130-preview-20261005-r1';
-import {routeDiscovered} from './ea-scene-state.mjs?v=ea-130-preview-20261005-r1';
-import * as legacy from './sect-sim.mjs?v=ea-130-preview-20261005-r1';
-import * as data from './ea-data.mjs?v=ea-130-preview-20261005-r1';
-import * as society from './ea-society.mjs?v=ea-130-preview-20261005-r1';
-import * as campaign from './ea-campaign.mjs?v=ea-130-preview-20261005-r1';
-export * from './ea-data.mjs?v=ea-130-preview-20261005-r1';
-export * from './ea-society.mjs?v=ea-130-preview-20261005-r1';
-export * from './ea-campaign.mjs?v=ea-130-preview-20261005-r1';
-export * from './ea-life.mjs?v=ea-130-preview-20261005-r1';
-export * from './ea-narrative.mjs?v=ea-130-preview-20261005-r1';
-export {requestSceneInteraction,cancelSceneInteraction} from './ea-interactions.mjs?v=ea-130-preview-20261005-r1';
-export {resolveVisitor,resolveVisitor as resolveWorldVisitor} from './ea-campaign.mjs?v=ea-130-preview-20261005-r1';
-export {resolveVisitor as resolveSocietyVisitor} from './ea-society.mjs?v=ea-130-preview-20261005-r1';
+import {startScenicWalk,advanceScenic,validateScenic,repairScenicState,syncScenicPosition,buildingAccess,scenicDistance,scenicCanStand,scenicFindPath} from './ea-scenic.mjs?v=ea-130-preview-20261005-r2';
+import {lifeActivityLock,lifeFacility,personLifeSummary,actorScenePosition} from './ea-life.mjs?v=ea-130-preview-20261005-r2';
+import {validateSceneIntent,cancelSceneInteraction} from './ea-interactions.mjs?v=ea-130-preview-20261005-r2';
+import {initNarrative,validateNarrative} from './ea-narrative.mjs?v=ea-130-preview-20261005-r2';
+import {routeDiscovered} from './ea-scene-state.mjs?v=ea-130-preview-20261005-r2';
+import * as legacy from './sect-sim.mjs?v=ea-130-preview-20261005-r2';
+import * as data from './ea-data.mjs?v=ea-130-preview-20261005-r2';
+import * as society from './ea-society.mjs?v=ea-130-preview-20261005-r2';
+import * as campaign from './ea-campaign.mjs?v=ea-130-preview-20261005-r2';
+export * from './ea-data.mjs?v=ea-130-preview-20261005-r2';
+export * from './ea-society.mjs?v=ea-130-preview-20261005-r2';
+export * from './ea-campaign.mjs?v=ea-130-preview-20261005-r2';
+export * from './ea-life.mjs?v=ea-130-preview-20261005-r2';
+export * from './ea-narrative.mjs?v=ea-130-preview-20261005-r2';
+export {requestSceneInteraction,cancelSceneInteraction} from './ea-interactions.mjs?v=ea-130-preview-20261005-r2';
+export {resolveVisitor,resolveVisitor as resolveWorldVisitor} from './ea-campaign.mjs?v=ea-130-preview-20261005-r2';
+export {resolveVisitor as resolveSocietyVisitor} from './ea-society.mjs?v=ea-130-preview-20261005-r2';
 const {RESOURCES,BUILDINGS,TECHNIQUES,RECIPES,ROUTES,GOODS,CELLS,NAMES,TRAIT_NAMES,day,xpNeed,realmName,rng,log,canPay,pay,grant,clamp,capacity,stage,finite,integer}=data;
 const resourceZero=()=>Object.fromEntries(Object.keys(RESOURCES).map(k=>[k,0]));
 const own=(o,k)=>Object.hasOwn(o,k);
@@ -85,19 +85,16 @@ export function buildingLock(s,type){
  if(type==='watchtower'&&![s.master,...s.disciples].some(p=>knowledge(p,'array')>=40))return '需有人护脉阵诀熟练度40';
  return '';
 }
-function reachable(s,extra=null,ignoreId=null){
- const occupied=new Set(s.buildings.filter(b=>b.id!==ignoreId).map(b=>key(b.x,b.y)));if(extra)occupied.add(key(extra.x,extra.y));
- const start=s.master.position,seen=new Set([key(start.x,start.y)]),queue=[start];
- while(queue.length){const p=queue.shift();for(const[dx,dy]of[[1,0],[-1,0],[0,1],[0,-1]]){const x=p.x+dx,y=p.y+dy,k=key(x,y);if(validCell(x,y)&&!occupied.has(k)&&!seen.has(k)){seen.add(k);queue.push({x,y});}}}
- return{seen,occupied};
-}
+const placementCache=new WeakMap();
 export function placementLock(s,type,x,y,ignoreId=null){
  if(!BUILDINGS[type])return '建筑不存在';if(!validCell(x,y))return '请选山坪内的可营造地块';if((x>=8||y>=7)&&stage(s)<3)return '外围台地需正式立派后营造';
  if(at(s,x,y)&&at(s,x,y).id!==ignoreId)return '地块已有建筑';
- if(s.master.position.x===x&&s.master.position.y===y)return '掌门正在此处，请先移开';
- const {seen}=reachable(s,{x,y},ignoreId);
- if(seen.size<3)return '此处会封住掌门的通路';
- for(const b of [...s.buildings.filter(b=>b.id!==ignoreId),{x,y}])if(![[1,0],[-1,0],[0,1],[0,-1]].some(([dx,dy])=>seen.has(key(b.x+dx,b.y+dy))))return '此处会切断建筑入口，请保留连通走道';
+ const candidate={id:ignoreId||s.nextId,type,x,y,level:1,progress:0,condition:100,enabled:true},prospective={...s,buildings:[...s.buildings.filter(b=>b.id!==ignoreId),candidate]},position=actorScenePosition(s,s.master);
+ if(!scenicCanStand(prospective,position))return '掌门正在营造范围内，或此处会封住通路，请先移开';
+ const revision=s.buildings.map(b=>`${b.id}/${b.type}/${b.x}/${b.y}`).join('|');let cached=placementCache.get(s);if(!cached||cached.revision!==revision){cached={revision,locks:new Map()};placementCache.set(s,cached);}const cacheKey=`${type}:${x}/${y}:${ignoreId}`,known=cached.locks.get(cacheKey);if(known!==undefined)return known;
+ const hall=prospective.buildings.find(b=>b.type==='hall'),start=buildingAccess(prospective,hall);
+ const blocked=prospective.buildings.some(b=>!scenicCanStand(prospective,buildingAccess(prospective,b))||scenicFindPath(prospective,start,buildingAccess(prospective,b))===null);
+ const lock=blocked?'此处会切断实际建筑入口，请保留连通走道':'';cached.locks.set(cacheKey,lock);if(lock)return lock;
  return '';
 }
 export function buildInfo(s,type,x,y){const t=BUILDINGS[type];if(!t)return{lock:'建筑不存在'};return{...t,cost:{...t.cost},lock:buildingLock(s,type)||(x!==undefined?placementLock(s,type,x,y):''),affordable:canPay(s,t.cost),layout:x!==undefined?layoutBonus(s,{type,x,y,level:1,condition:100,enabled:true}):null};}
@@ -109,7 +106,7 @@ export function repairBuilding(s,id){const b=s.buildings.find(b=>b.id===id);if(!
 export function relocate(s,id,x,y){const b=s.buildings.find(b=>b.id===id);if(!b||b.type==='hall')throw Error('主屋根基不可搬迁。');if(b.type==='alchemy'&&s.crafting)throw Error('丹炉炼制中，待成丹后搬迁。');const lock=placementLock(s,b.type,x,y,id);if(lock)throw Error(lock);pay(s,{jade:10*b.level,wood:8*b.level});b.x=x;b.y=y;b.progress=0;repairScenicState(s);for(const d of s.disciples)if(d.job===id&&d.mind.scenic){d.mind.scenic.path=[];d.mind.scenic.goal=null;}s.stats.relocated++;log(s,`${BUILDINGS[b.type].name}迁至新的地块。`);return b;}
 export function demolish(s,id){const b=s.buildings.find(b=>b.id===id);if(!b||b.type==='hall')throw Error('主屋不可拆除。');if(b.type==='alchemy'&&s.crafting)throw Error('丹炉炼制中。');if(capacity(s)-(BUILDINGS[b.type].capacity||0)*b.level<s.disciples.length)throw Error('拆除后居所不足。');const refund={};for(const[k,v]of Object.entries(BUILDINGS[b.type].cost))refund[k]=Math.floor(v*.65);for(let n=1;n<b.level;n++)for(const[k,v]of Object.entries(upgradeCost({level:n})))refund[k]=(refund[k]||0)+Math.floor(v*.65);grant(s,refund);for(const d of s.disciples)if(d.job===id){d.job=null;d.mind.activity='rest';d.mind.reason='原设施已拆除，重新安排生活。';d.mind.commitUntil=0;d.mind.path=[];if(d.mind.scenic){d.mind.scenic.path=[];d.mind.scenic.goal=null;}}s.buildings=s.buildings.filter(x=>x.id!==id);repairScenicState(s);if(s.master.sceneIntent?.kind==='building'&&s.master.sceneIntent.id===id)cancelSceneInteraction(s);log(s,`拆除${BUILDINGS[b.type].name}，回收六成半材料。`);return refund;}
 export function layoutBonus(s,b){
- let factor=1;const reasons=[],near=s.buildings.filter(x=>x.id!==b.id&&active(x)&&Math.abs(x.x-b.x)+Math.abs(x.y-b.y)<=2),has=t=>near.some(x=>x.type===t);
+ let factor=1;const reasons=[],origin=buildingAccess(s,b),near=s.buildings.filter(x=>x.id!==b.id&&active(x)&&origin&&scenicDistance(origin,buildingAccess(s,x))<=150),has=t=>near.some(x=>x.type===t);
  if(['farm','granary'].includes(b.type)&&has('well')){factor+=.25;reasons.push('灵泉滋养 +25%');}
  if(['library','meditation'].includes(b.type)&&has(b.type==='library'?'meditation':'library')){factor+=.15;reasons.push('研读与修行相邻 +15%');}
  if(b.type==='meditation'&&has('well')){factor+=.2;reasons.push('灵泉聚气 +20%');}
@@ -127,7 +124,7 @@ export function buildingYield(s,b,d=null){
  const effects=weather(s).production||{};const out={};for(const[k,v]of Object.entries(t.out))out[k]=v*factor*(effects[k]??1);return out;
 }
 export function foodDemand(s){const kitchen=s.buildings.find(b=>b.type==='kitchen'&&active(b));const saving=kitchen?Math.min(.4,.1*kitchen.level*layoutBonus(s,kitchen).factor):0;return Math.ceil((s.disciples.length+1)*2*(1-saving));}
-export function restRecovery(s,person){const p=stateMind(person),position=person.position||s.master.position;const home=s.buildings.filter(b=>['hall','house'].includes(b.type)&&active(b)).sort((a,b)=>(Math.abs(a.x-position.x)+Math.abs(a.y-position.y))-(Math.abs(b.x-position.x)+Math.abs(b.y-position.y)))[0];return((person===s.master?1.3:1.05)+(p.support.includes('spring')?.4:0))*(home?layoutBonus(s,home).factor:1);}
+export function restRecovery(s,person){const p=stateMind(person),position=actorScenePosition(s,person),home=s.buildings.filter(b=>['hall','house'].includes(b.type)&&active(b)).sort((a,b)=>scenicDistance(position,buildingAccess(s,a))-scenicDistance(position,buildingAccess(s,b)))[0];return((person===s.master?1.3:1.05)+(p.support.includes('spring')?.4:0))*(home&&scenicDistance(position,buildingAccess(s,home))<=150?layoutBonus(s,home).factor:1);}
 export function maintenanceCost(s){const total={};for(const b of s.buildings.filter(active))for(const[k,v]of Object.entries(BUILDINGS[b.type].upkeep))total[k]=(total[k]||0)+v*b.level;return total;}
 export function economySummary(s){const e=s.economy,windowIncome=e.previous.income,windowExpense=e.previous.expense;return{day:day(s),income:{...e.income},expense:{...e.expense},net:Object.fromEntries(Object.keys(RESOURCES).map(k=>[k,(e.income[k]||0)-(e.expense[k]||0)])),previous:{income:{...windowIncome},expense:{...windowExpense}},foodDemand:foodDemand(s),foodDays:Math.floor(s.resources.food/Math.max(1,foodDemand(s))),maintenance:maintenanceCost(s),shortages:e.shortages.slice()};}
 export function rates(s){const out=resourceZero();for(const b of s.buildings){const d=s.disciples.find(d=>d.job===b.id&&d.mind.activity==='work'&&!d.mind.away&&!d.mind.scenic?.path?.length&&(!d.mind.scenic||scenicDistance(d.mind.scenic,buildingAccess(s,b))<=18));if(BUILDINGS[b.type].work&&!d)continue;const yieldMap=buildingYield(s,b,d);for(const[k,v]of Object.entries(yieldMap))out[k]+=v;for(const[k,v]of Object.entries(BUILDINGS[b.type].input||{}))if(d&&Object.values(yieldMap).some(n=>n>0))out[k]-=v;}for(const[k,v]of Object.entries(maintenanceCost(s)))out[k]-=v/6;out.food-=foodDemand(s)/6;return out;}

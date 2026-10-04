@@ -1,9 +1,11 @@
-import {BUILDINGS,TECHNIQUES,RECIPES,canPay} from './ea-data.mjs?v=ea-130-preview-20261005-r1';
-import {facilityRecords,courtyardDestination,scenicHomeActors} from './ea-scene-state.mjs?v=ea-130-preview-20261005-r1';
-import {startScenicWalk,scenicPosition} from './ea-scenic.mjs?v=ea-130-preview-20261005-r1';
-import {homeInteractions} from './ea-narrative.mjs?v=ea-130-preview-20261005-r1';
+import {BUILDINGS,TECHNIQUES,RECIPES,canPay} from './ea-data.mjs?v=ea-130-preview-20261005-r2';
+import {facilityRecords,courtyardDestination,scenicHomeActors} from './ea-scene-state.mjs?v=ea-130-preview-20261005-r2';
+import {startScenicWalk,scenicPosition} from './ea-scenic.mjs?v=ea-130-preview-20261005-r2';
+import {homeInteractions} from './ea-narrative.mjs?v=ea-130-preview-20261005-r2';
+import {scenicSweep} from './ea-scene-geometry.mjs?v=ea-130-preview-20261005-r2';
 
 const distance=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
+const arrived=(s,a,b)=>distance(a,b)<=28&&!scenicSweep(s,a,b).blocked;
 const home=s=>!s.world?.exploration&&!s.master.journey&&s.combat?.status!=='active';
 export function sceneInteractionTarget(s,kind,id){
  if(!home(s))return null;
@@ -41,9 +43,9 @@ export function requestSceneInteraction(s,kind,id,action,position=null){
  if(option.lock)throw Error(option.lock);
  const goal=position&&Number.isFinite(position.x)&&Number.isFinite(position.y)?position:target.position;
  const prior=structuredClone(s.master),intent={kind,id,action,target:{x:goal.x,y:goal.y}};
- if(distance(scenicPosition(s.master),goal)>28&&!startScenicWalk(s.master,goal,s)){Object.assign(s.master,prior);throw Error('此处暂时无法抵达，请检查道路。');}
+ if(!arrived(s,scenicPosition(s.master),goal)&&!startScenicWalk(s.master,goal,s)){Object.assign(s.master,prior);throw Error('此处暂时无法抵达，请检查道路。');}
  s.master.sceneIntent=intent;
- return {ready:distance(scenicPosition(s.master),goal)<=28,name:target.name,label:option.label};
+ return {ready:arrived(s,scenicPosition(s.master),goal),name:target.name,label:option.label};
 }
 export function cancelSceneInteraction(s){s.master.sceneIntent=null;return true;}
 export function sceneInteractionReady(s,position=null){
@@ -51,7 +53,7 @@ export function sceneInteractionReady(s,position=null){
  const target=sceneInteractionTarget(s,intent.kind,intent.id),option=sceneInteractionOptions(s,intent.kind,intent.id).find(o=>o.id===intent.action);
  if(!target||!option||option.lock)return {intent,cancelled:true,reason:option?.lock||'对象的状态已经变化，请重新选择互动。'};
  const goal=intent.kind==='building'?target.position:position||target.position;
- return distance(scenicPosition(s.master),goal)<=28?{intent,option,target}:null;
+ return arrived(s,scenicPosition(s.master),goal)?{intent,option,target}:null;
 }
 export function validateSceneIntent(intent){
  if(intent===undefined||intent===null)return true;
