@@ -1,5 +1,5 @@
 import {BUILDINGS, TECHNIQUES, RECIPES, ROUTES, CELLS, RESOURCES, TRAIT_NAMES,
-  rng, day, log, pay, canPay, grant, capacity, xpNeed, clamp} from './ea-data.mjs?v=ea-100-qa1';
+  rng, day, log, pay, canPay, grant, capacity, xpNeed, clamp} from './ea-data.mjs?v=ea-100-qa2';
 
 /** Society owns every NPC action. The main loop owns time, meals, upkeep and the master's actions. */
 export const SOCIETY_ROLES = {
@@ -539,7 +539,7 @@ export function foundPeak(s,direction,hostId,name) {
   const status=peakStatus(s,direction);if(!status.ready)throw Error(status.reasons.join('；'));
   const host=npc(s,hostId),will=peakHostWillingness(s,host,direction);if(!will.willing)throw Error(will.reason);
   const spec=PEAK_DIRECTIONS[direction];name=String(name||spec.name).trim();if(!name||name.length>20)throw Error('峰名需为1至20字。');
-  pay(s,spec.cost);const peak={id:s.society.nextPeakId++,name,direction,hostId,budget:1,active:false,reason:'等待供给',members:[],foundedAt:clock(s),fundedDay:-1};
+  pay(s,spec.cost);const peak={id:s.society.nextPeakId++,name,direction,hostId,budget:1,active:false,reason:'等待供给',members:[],foundedAt:clock(s),fundedDay:-1,fundedBudget:0};
   s.society.peaks.push(peak);host.mind.peakId=peak.id;refreshPeak(s,peak);choosePeaks(s);
   if(s.society.peaks.length>=2)s.sect.level=Math.max(3,s.sect.level);
   remember(s,host,`我自愿主持「${name}」，以自己的理解传授后学。`,{important:true,key:`peak:${peak.id}`});
@@ -552,9 +552,10 @@ function refreshPeak(s,p) {
   if(!p.budget){p.active=false;p.reason='预算暂停，能力与归属仍保留';return;}
   if(!hasBuilding(s,spec.building)){p.active=false;p.reason=`缺少可运行的${BUILDINGS[spec.building].name}`;return;}
   if(host.mind.away||host.wound>40){p.active=false;p.reason='主持者暂时无法照看传承';return;}
-  if(p.fundedDay!==day(s)) {
-    const cost=peakDailyCost(p);if(!canPay(s,cost)){p.active=false;p.reason='本日预算不足，补足后可恢复';return;}
-    pay(s,cost);p.fundedDay=day(s);
+  if(p.fundedDay!==day(s)||p.budget>(p.fundedBudget||0)) {
+    const paid=p.fundedDay===day(s)?(p.fundedBudget||0):0;
+    const cost=peakDailyCost({...p,budget:Math.max(0,p.budget-paid)});if(!canPay(s,cost)){p.active=false;p.reason='本日预算不足，补足后可恢复';return;}
+    pay(s,cost);p.fundedDay=day(s);p.fundedBudget=p.budget;
   }
   p.active=true;p.reason='预算、主持与设施齐备，正在授业并协助生产';
 }
@@ -620,10 +621,11 @@ const QUESTS = {
 };
 function createPersonalQuest(s,d) {
   const p=d.mind;if(day(s)<1||clock(s)-p.joinedAt<120)return;
-  const kind=relation(d).trust<38?'belonging':p.traits[0]>=70?'family':'mastery';
+  const grievance=Object.entries(p.relationships).filter(([id])=>id!=='master').sort((a,b)=>b[1].conflict-a[1].conflict)[0];
+  const kind=relation(d).trust<38||(grievance?.[1].conflict||0)>=20?'belonging':p.traits[0]>=70?'family':'mastery';
   if(p.questKinds.includes(kind)||s.society.quests.some(q=>q.discipleId===d.id&&['offered','active'].includes(q.status)))return;
   p.questKinds.push(kind);
-  const q={id:s.society.nextQuestId++,discipleId:d.id,kind,status:'offered',progress:0,createdAt:clock(s),deadline:clock(s)+600,outcome:null,target:null,startedAt:null};
+  const q={id:s.society.nextQuestId++,discipleId:d.id,kind,status:'offered',progress:0,createdAt:clock(s),deadline:clock(s)+600,outcome:null,target:null,startedAt:null,otherId:kind==='belonging'&&grievance?Number(grievance[0].slice(2)):null};
   s.society.quests.push(q);log(s,`${d.name}提出一桩心事：「${QUESTS[kind].title}」。可在门人事务中听取。`);
 }
 export function resolvePersonalQuest(s,questId,choice) {
@@ -661,6 +663,8 @@ function tickQuests(s) {
     if(q.kind==='belonging') {
       const reconciled=s.society.fairness>=45&&relation(d).trust>=25;
       changeRelation(s,d,'master',reconciled?{trust:10,conflict:-12}:{trust:-8,conflict:5},null);
+      const other=npc(s,q.otherId);
+      if(other){changeRelation(s,d,`d:${other.id}`,reconciled?{trust:5,conflict:-15}:{conflict:4},null);changeRelation(s,other,`d:${d.id}`,reconciled?{trust:5,conflict:-15}:{conflict:4},null);remember(s,other,`与${d.name}的分歧经过沟通，${reconciled?'愿意重新尝试相处':'仍有未能解开的心结'}。`,{important:true,key:`mediation:${q.id}`});}
       q.outcome=reconciled?'双方听取解释，隔阂有所缓解，愿意继续相处':'沟通未能弥合旧怨，仍需通过后续公平行动重建信任';
     }
     remember(s,d,`「${QUESTS[q.kind].title}」：${q.outcome}。`,{important:true,key:`quest:${q.id}`});log(s,`${d.name}的「${QUESTS[q.kind].title}」有了结果：${q.outcome}。`);
@@ -719,7 +723,7 @@ function daily(s) {
     if(!supplied){p.mood=clamp(p.mood-7,0,100);r.trust=clamp(r.trust-2,0,100);}
     else {p.mood=clamp(p.mood+3,0,100);if(r.trust<45)r.trust=clamp(r.trust+.8,0,100);}
     if(p.satiety<15&&r.trust<15)p.neglectDays++;else p.neglectDays=Math.max(0,p.neglectDays-1);
-    if(p.neglectDays>=4&&s.disciples.length>1){depart(s,d,'长期缺乏供给且信任耗尽，决定另寻安身之地。');continue;}
+    if(p.neglectDays>=4&&s.disciples.length>1&&!p.away){depart(s,d,'长期缺乏供给且信任耗尽，决定另寻安身之地。');continue;}
     createPersonalQuest(s,d);
   }
   for(const p of s.society.peaks)refreshPeak(s,p);choosePeaks(s);
@@ -825,7 +829,7 @@ export function getSocietyView(s) {
     peakOptions:Object.entries(PEAK_DIRECTIONS).map(([id,p])=>({id,name:p.name,description:p.description,...peakStatus(s,id)})),disciples,
     incidents:sc.secrets.filter(e=>e.discovered).map(e=>({id:e.id,discipleId:e.discipleId,name:npc(s,e.discipleId)?.name||sc.departed.find(d=>d.id===e.discipleId)?.name||'旧日门人',kind:e.kind,
       title:{pill:'未经登记取丹',book:'私阅封存典籍',outing:'违反外出约定'}[e.kind],evidence:e.kind==='book'?`封签与借阅痕迹：《${TECHNIQUES[e.subject]?.name||'旧卷'}》`:e.kind==='pill'?`取用记录与${RECIPES[e.subject]?.name||'丹药'}库存相互印证`:'山口见证与出行留讯相互印证',motive:e.motive,discoveredAt:e.discoveredAt,handled:e.handled,outcome:e.outcome,
-      choices:e.handled?[]:INCIDENT_CHOICES.map(c=>({...c,disabledReason:c.id==='dismiss'&&!npc(s,e.discipleId)?.mind.office?'此人没有执事职责':''}))})),
+      choices:e.handled||!living(s,e.discipleId)?[]:INCIDENT_CHOICES.map(c=>({...c,disabledReason:c.id==='dismiss'&&!npc(s,e.discipleId)?.mind.office?'此人没有执事职责':''}))})),
     quests:sc.quests.map(q=>({id:q.id,discipleId:q.discipleId,kind:q.kind,status:q.status,progress:q.progress,createdAt:q.createdAt,deadline:q.deadline,outcome:q.outcome,name:npc(s,q.discipleId)?.name||'旧日门人',title:QUESTS[q.kind].title,text:QUESTS[q.kind].text,cost:{...QUESTS[q.kind].cost},choices:q.status==='offered'?QUESTS[q.kind].choices.map(c=>optionState(s,{...c,cost:c.id==='decline'?{}:QUESTS[q.kind].cost})):[]})),
     visitors:sc.visitors.filter(v=>v.status==='present').map(v=>({...v,...VISITOR_SPECS[v.kind],choices:VISITOR_SPECS[v.kind].choices.map(c=>optionState(s,c))})),
     departed:sc.departed.map(d=>({...d,memories:d.memories.map(m=>({...m}))})),stats:{...sc.stats},guestLesson:sc.guestLesson?{...sc.guestLesson}:null};
@@ -837,20 +841,22 @@ export function validateSociety(s) {
   const num=(n,min=0,max=1e12)=>typeof n==='number'&&Number.isFinite(n)&&n>=min&&n<=max;
   const int=(n,min=0,max=1e12)=>Number.isSafeInteger(n)&&num(n,min,max);
   const str=(v,max=500)=>typeof v==='string'&&v.length<=max;
-  const sc=s.society;if(!sc||sc.revision!==1||!num(sc.clock)||!int(sc.lastDay)||typeof sc.formal!=='boolean'||!str(sc.name,20)||!num(sc.fairness,0,100))bad('组织基础字段');
+  const sc=s.society;if(!sc||sc.revision!==1||!num(sc.clock)||sc.clock!==s.time||!int(sc.lastDay)||sc.lastDay!==day(s)||typeof sc.formal!=='boolean'||!str(sc.name,20)||!num(sc.fairness,0,100)||sc.foundedAt!==null&&!num(sc.foundedAt))bad('组织基础字段');
   for(const key of ['nextIncidentId','nextPeakId','nextQuestId','nextVisitorId','nextPersonId'])if(!int(sc[key],1))bad('流水号');
   if(!num(sc.nextVisitorAt)||!num(sc.lastShortageNotice,-120)||!sc.officers||!sc.stats||!['workCycles','lessons','relationships','questsCompleted','visitorsResolved','discovered'].every(k=>int(sc.stats[k])))bad('组织进度');
   for(const key of ['peaks','secrets','quests','visitors','visitorHistory','invitations','departed'])if(!Array.isArray(sc[key])||sc[key].length>10000)bad(key);
   for(const d of sc.departed)if(!d||!int(d.id,1)||!str(d.name,40)||!num(d.time)||!str(d.reason)||!Array.isArray(d.memories)||d.memories.some(m=>!m||!num(m.time)||!str(m.text)||typeof m.important!=='boolean'||typeof m.public!=='boolean'))bad('离院经历');
   const ids=new Set(s.disciples.map(d=>d.id)),historic=new Set([...ids,...sc.departed.map(d=>d.id)]);
   if(ids.size!==s.disciples.length)bad('门人编号重复');
+  if(sc.nextPersonId<=Math.max(0,...historic))bad('下一个门人编号');
   for(const[k,list]of Object.entries(SOCIETY_RULE_OPTIONS))if(!list.some(x=>x.id===s.doctrine[k]))bad('规则');
   const unique=(arr,key)=>{const all=arr.map(x=>x[key]);return new Set(all).size===all.length;};
   if(!unique(sc.secrets,'id')||!unique(sc.peaks,'id')||!unique(sc.quests,'id')||!unique(sc.visitors,'id'))bad('事件编号重复');
-  for(const e of sc.secrets)if(!int(e.id,1,sc.nextIncidentId-1)||!historic.has(e.discipleId)||!['pill','book','outing'].includes(e.kind)||!num(e.time)||!num(e.evidenceProgress,0,100)||typeof e.discovered!=='boolean'||typeof e.handled!=='boolean'||e.handled&&!e.discovered||!str(e.motive)||!num(e.restitution)||e.kind==='book'&&!TECHNIQUES[e.subject]||e.kind==='pill'&&!RECIPES[e.subject]||e.kind==='outing'&&!ROUTES[e.subject])bad('秘密或证据');
+  for(const e of sc.secrets)if(!int(e.id,1,sc.nextIncidentId-1)||!historic.has(e.discipleId)||!['pill','book','outing'].includes(e.kind)||!num(e.time)||!num(e.evidenceProgress,0,100)||typeof e.discovered!=='boolean'||typeof e.handled!=='boolean'||e.handled&&!e.discovered||!str(e.motive)||!num(e.restitution)||e.outcome!==null&&!str(e.outcome)||e.discovered?!num(e.discoveredAt):e.discoveredAt!==null)bad('秘密或证据');
+  for(const e of sc.secrets)if(e.kind==='book'&&!TECHNIQUES[e.subject]||e.kind==='pill'&&!RECIPES[e.subject]||e.kind==='outing'&&!ROUTES[e.subject])bad('秘密对象');
   for(const role of Object.keys(SOCIETY_ROLES))if(sc.officers[role]!==null&&!ids.has(sc.officers[role]))bad('执事不存在');
   const peakIds=new Set(sc.peaks.map(p=>p.id));
-  for(const p of sc.peaks)if(!int(p.id,1,sc.nextPeakId-1)||!PEAK_DIRECTIONS[p.direction]||!historic.has(p.hostId)||!str(p.name,20)||!int(p.budget,0,3)||typeof p.active!=='boolean'||!str(p.reason)||!Array.isArray(p.members)||p.members.some(id=>!historic.has(id))||!int(p.fundedDay,-1)||!num(p.foundedAt))bad('分峰');
+  for(const p of sc.peaks)if(!int(p.id,1,sc.nextPeakId-1)||!PEAK_DIRECTIONS[p.direction]||!historic.has(p.hostId)||!str(p.name,20)||!int(p.budget,0,3)||!int(p.fundedBudget,0,3)||typeof p.active!=='boolean'||!str(p.reason)||!Array.isArray(p.members)||p.members.some(id=>!historic.has(id))||!int(p.fundedDay,-1)||!num(p.foundedAt))bad('分峰');
   const jobIds=new Set();
   for(const d of s.disciples) {
     const p=d.mind;if(!p||!Array.isArray(p.traits)||p.traits.length!==5||p.traits.some(n=>!num(n,0,100))||!ACTIVITIES.has(p.activity)||!str(p.reason)||!str(p.goal,40)||!num(d.wound,0,100)||!num(p.satiety,0,100)||!num(p.mood,0,100))bad('人物状态');
@@ -861,14 +867,17 @@ export function validateSociety(s) {
     if(!Array.isArray(p.path)||p.path.length>CELLS.length||p.path.some(q=>!CELLS.some(c=>c.x===q.x&&c.y===q.y))||!CELLS.some(c=>c.x===d.position?.x&&c.y===d.position?.y))bad('门人位置');
     if(!p.hiddenKnowledge||Object.entries(p.hiddenKnowledge).some(([id,secret])=>!TECHNIQUES[id]||!sc.secrets.some(e=>e.id===secret&&e.discipleId===d.id&&e.kind==='book'&&e.subject===id)))bad('私下研习');
     if(p.supportIntent!==null&&TECHNIQUES[p.supportIntent]?.kind!=='support')bad('辅修志向');
+    if(!num(p.workProgress,0,12)||p.publicMain!==null&&TECHNIQUES[p.publicMain]?.kind!=='main')bad('人物工作或公开修行');
     if(!['support','cautious','oppose'].includes(p.revengeAttitude)||!Array.isArray(p.questKinds)||p.questKinds.some(k=>!QUESTS[k]))bad('人物志向');
     if(p.away!==null&&(!['errand','campaign'].includes(p.away.kind)||!str(p.away.id,100)))bad('外出状态');
     if(p.away?.kind==='errand'&&!p.journey)bad('自主外出缺少行程');
+    if(p.away?.kind==='campaign'&&(!s.world?.exploration?.companionIds?.includes(d.id)||s.world.exploration.regionId!==p.away.id))bad('同行记录缺少实际行程');
     if(p.journey!==null){const j=p.journey;if(!ROUTES[j.routeId]||!num(j.remaining,0,j.total)||!num(j.total,1,1000)||!j.legacy&&j.total!==ROUTES[j.routeId].duration||typeof j.encounterResolved!=='boolean'||!num(j.risk,0,1)||p.away?.kind!=='errand')bad('自主行程');if(j.legacy&&(!j.snapshotReward||Object.entries(j.snapshotReward).some(([k,v])=>!RESOURCES[k]||!num(v))||!num(j.snapshotReputation)||!num(j.snapshotXp)||![1,1.5].includes(j.multiplier)))bad('旧日游历快照');}
     if(d.job!==null) {const b=s.buildings.find(b=>b.id===d.job);if(!b)bad('工作位置');if(!['hall','meditation'].includes(b.type)){if(jobIds.has(d.job))bad('重复生产岗位');jobIds.add(d.job);}}
     if(p.activity==='work'&&d.job===null)bad('无设施的生产');
   }
-  for(const q of sc.quests)if(!int(q.id,1,sc.nextQuestId-1)||!historic.has(q.discipleId)||!QUESTS[q.kind]||!['offered','active','completed','declined','expired','failed'].includes(q.status)||!num(q.progress,0,1)||!num(q.createdAt)||!num(q.deadline))bad('个人心事');
+  for(const q of sc.quests){if(!int(q.id,1,sc.nextQuestId-1)||!historic.has(q.discipleId)||!QUESTS[q.kind]||!['offered','active','completed','declined','expired','failed'].includes(q.status)||!num(q.progress,0,1)||!num(q.createdAt)||!num(q.deadline)||q.outcome!==null&&!str(q.outcome))bad('个人心事');if(q.kind==='mastery'&&['active','completed','failed'].includes(q.status)&&(!TECHNIQUES[q.target]||!num(q.startMastery,0,100)||!num(q.targetMastery,q.startMastery,100)||!int(q.researchTicks)))bad('研考进度');}
   for(const v of sc.visitors)if(!int(v.id,1,sc.nextVisitorId-1)||!VISITOR_SPECS[v.kind]||!['present','resolved','departed'].includes(v.status)||!num(v.arrivedAt)||!num(v.expiresAt))bad('访客');
+  if(sc.guestLesson&&(!TECHNIQUES[sc.guestLesson.topic]||!num(sc.guestLesson.until)))bad('客座授业');
   return true;
 }
