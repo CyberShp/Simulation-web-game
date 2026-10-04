@@ -1,9 +1,9 @@
-import * as SIM from './ea-sim.mjs?v=ea-120-preview-20261005-r3';
-import {EA_SHELL,createEAUI} from './ea-ui.mjs?v=ea-120-preview-20261005-r3';
-import {createEAPersistence,MAX_IMPORT_BYTES} from './ea-persistence.mjs?v=ea-120-preview-20261005-r3';
-import {createWorldRenderer} from './ea-courtyard-renderer.mjs?v=ea-120-preview-20261005-r3';
-import {attachMapInput} from './map-input.mjs?v=ea-120-preview-20261005-r3';
-import {scenicPosition} from './ea-scenic.mjs?v=ea-120-preview-20261005-r3';
+import * as SIM from './ea-sim.mjs?v=ea-120-release-20261005-r4';
+import {EA_SHELL,createEAUI} from './ea-ui.mjs?v=ea-120-release-20261005-r4';
+import {createEAPersistence,MAX_IMPORT_BYTES} from './ea-persistence.mjs?v=ea-120-release-20261005-r4';
+import {createWorldRenderer} from './ea-courtyard-renderer.mjs?v=ea-120-release-20261005-r4';
+import {attachMapInput} from './map-input.mjs?v=ea-120-release-20261005-r4';
+import {scenicPosition} from './ea-scenic.mjs?v=ea-120-release-20261005-r4';
 
 const VERSION=SIM.GAME_VERSION;
 const $=id=>document.getElementById(id);

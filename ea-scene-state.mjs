@@ -1,5 +1,5 @@
 import {BUILDINGS,ROUTES,RESOURCES,stage} from './ea-data.mjs?v=ea-120-release-20261005-r4';
-import {nearest,point} from '../yunxiu-courtyard/navigation.mjs?v=ea-120-release-20261005-r4';
+import {nearest,point} from './yunxiu-courtyard/navigation.mjs?v=ea-120-release-20261005-r4';
 
 // The scenic courtyard groups facilities by use. The construction grid remains
 // the authoritative placement/adjacency plan; neither view invents facilities.

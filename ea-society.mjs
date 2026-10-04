@@ -1,5 +1,7 @@
 import {BUILDINGS, TECHNIQUES, RECIPES, ROUTES, CELLS, RESOURCES, TRAIT_NAMES,
-  rng, day, log, pay, canPay, grant, capacity, xpNeed, clamp} from './ea-data.mjs?v=ea-110-release-20261004-r2';
+  rng, day, log, pay, canPay, grant, capacity, xpNeed, clamp} from './ea-data.mjs?v=ea-120-release-20261005-r4';
+
+import {routeDiscovered} from './ea-scene-state.mjs?v=ea-120-release-20261005-r4';
 
 /** Society owns every NPC action. The main loop owns time, meals, upkeep and the master's actions. */
 export const SOCIETY_ROLES = {
@@ -348,7 +350,7 @@ function decide(s,d,hooks) {
     if(pupils.length||publicClass)choices.push({activity:'teach',job:null,score:36+kindness*.3+discipline*.2,reason:'愿意分出修行时间，为同门讲解自己熟悉的传承。'});
     if(clock(s)-p.lastSocial>=120&&p.mood<55&&s.disciples.length>1)choices.push({activity:'social',job:null,score:58,reason:'想与熟悉的同门谈谈近况，缓解心事。'});
     if(p.main&&d.energy>=75&&clock(s)>p.commitUntil&&clock(s)-p.lastSocial>40)for(const id of s.doctrine.routes||[]) {
-      const r=ROUTES[id];if(!r||d.realm<r.minRealm||!canPay(s,r.cost))continue;
+      const r=ROUTES[id];if(!r||!routeDiscovered(s,id)||d.realm<r.minRealm||!canPay(s,r.cost))continue;
       const defiant=ambition+curiosity-p.traits[2]-p.caution*12>105;
       if(s.doctrine.outingRule==='restricted'&&!defiant)continue;
       choices.push({activity:'travel',job:null,route:id,score:13+ambition*.24+curiosity*.22,reason:'有意接下山外差事，拓宽见闻。'});

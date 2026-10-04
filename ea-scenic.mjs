@@ -1,9 +1,9 @@
-import {point,findPath,sweep,canStand,distance,LANDMARKS} from './yunxiu-courtyard/navigation.mjs?v=ea-110-release-20261004-r2';
+import {point,findPath,sweep,canStand,distance,LANDMARKS} from './yunxiu-courtyard/navigation.mjs?v=ea-120-release-20261005-r4';
 
 export const FACILITY_AREAS={hall:'main',house:'main',library:'main',watchtower:'gate',farm:'herbs',granary:'herbs',well:'herbs',lumber:'workshop',workshop:'workshop',quarry:'works',meditation:'meditation',alchemy:'kitchen',clinic:'kitchen',kitchen:'kitchen'};
 export const areaPoint=id=>point(LANDMARKS.find(l=>l.id===id)?.node||'centre');
 export const appearance=id=>id==='master'?0:1+((Number(id)-1)%5);
-export function scenicPosition(master){return master.scenic||{...point('centre'),path:[],steps:0,facing:1,back:false};}
+export function scenicPosition(master){return master.scenic||{...point('mainDoor'),path:[],steps:0,facing:1,back:false};}
 export function startScenicWalk(master,goal){
  const a=scenicPosition(master),path=findPath(a,goal);if(!path)return false;
  master.scenic={...a,path};master.path=[];master.action=path.length?'walk':'rest';master.learning=null;master.teaching=null;return true;

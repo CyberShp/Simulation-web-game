@@ -1,13 +1,14 @@
-import {startScenicWalk,advanceScenic,validateScenic} from './ea-scenic.mjs?v=ea-110-release-20261004-r2';
-import * as legacy from './sect-sim.mjs?v=ea-110-release-20261004-r2';
-import * as data from './ea-data.mjs?v=ea-110-release-20261004-r2';
-import * as society from './ea-society.mjs?v=ea-110-release-20261004-r2';
-import * as campaign from './ea-campaign.mjs?v=ea-110-release-20261004-r2';
-export * from './ea-data.mjs?v=ea-110-release-20261004-r2';
-export * from './ea-society.mjs?v=ea-110-release-20261004-r2';
-export * from './ea-campaign.mjs?v=ea-110-release-20261004-r2';
-export {resolveVisitor,resolveVisitor as resolveWorldVisitor} from './ea-campaign.mjs?v=ea-110-release-20261004-r2';
-export {resolveVisitor as resolveSocietyVisitor} from './ea-society.mjs?v=ea-110-release-20261004-r2';
+import {startScenicWalk,advanceScenic,validateScenic} from './ea-scenic.mjs?v=ea-120-release-20261005-r4';
+import {routeDiscovered} from './ea-scene-state.mjs?v=ea-120-release-20261005-r4';
+import * as legacy from './sect-sim.mjs?v=ea-120-release-20261005-r4';
+import * as data from './ea-data.mjs?v=ea-120-release-20261005-r4';
+import * as society from './ea-society.mjs?v=ea-120-release-20261005-r4';
+import * as campaign from './ea-campaign.mjs?v=ea-120-release-20261005-r4';
+export * from './ea-data.mjs?v=ea-120-release-20261005-r4';
+export * from './ea-society.mjs?v=ea-120-release-20261005-r4';
+export * from './ea-campaign.mjs?v=ea-120-release-20261005-r4';
+export {resolveVisitor,resolveVisitor as resolveWorldVisitor} from './ea-campaign.mjs?v=ea-120-release-20261005-r4';
+export {resolveVisitor as resolveSocietyVisitor} from './ea-society.mjs?v=ea-120-release-20261005-r4';
 const {RESOURCES,BUILDINGS,TECHNIQUES,RECIPES,ROUTES,GOODS,CELLS,NAMES,TRAIT_NAMES,day,xpNeed,realmName,rng,log,canPay,pay,grant,clamp,capacity,stage,finite,integer}=data;
 const resourceZero=()=>Object.fromEntries(Object.keys(RESOURCES).map(k=>[k,0]));
 const own=(o,k)=>Object.hasOwn(o,k);
@@ -301,5 +302,6 @@ export function validateSave(input){
 }
 
 export function setPolicy(s,key,value){return society.setSocietyPolicy(s,key,value);}
-export function offerRoute(s,id){if(!ROUTES[id])throw Error('路线不存在。');const i=s.doctrine.routes.indexOf(id);if(i<0)s.doctrine.routes.push(id);else s.doctrine.routes.splice(i,1);log(s,`${ROUTES[id].name}${i<0?'列为可接差事':'撤下差事'}，门人自行决定是否前往。`);}
+export function expeditionLock(s,id){if(!ROUTES[id])return '路线不存在。';if(!routeDiscovered(s,id))return ROUTES[id].scene==='lake'?'整理遗卷、查明山外旧路后开放':'先赠药结缘，熟悉山外道路';return '';}
+export function offerRoute(s,id){if(!ROUTES[id])throw Error('路线不存在。');const i=s.doctrine.routes.indexOf(id);if(i<0){const lock=expeditionLock(s,id);if(lock)throw Error(lock);s.doctrine.routes.push(id);}else s.doctrine.routes.splice(i,1);log(s,`${ROUTES[id].name}${i<0?'列为可接差事':'撤下差事'}，门人自行决定是否前往。`);}
 export function upgradeSect(s,name){return society.foundSect(s,name);}

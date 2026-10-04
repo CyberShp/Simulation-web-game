@@ -1,7 +1,7 @@
-import {REGION_ART} from './ea-region-art.mjs?v=ea-120-preview-20261005-r3';
-import {appearance} from './ea-scenic.mjs?v=ea-120-preview-20261005-r3';
-import {facilityRecords,nextObjective,routeDiscovered} from './ea-scene-state.mjs?v=ea-120-preview-20261005-r3';
-import * as SIM from './ea-sim.mjs?v=ea-120-preview-20261005-r3';
+import {REGION_ART} from './ea-region-art.mjs?v=ea-120-release-20261005-r4';
+import {appearance} from './ea-scenic.mjs?v=ea-120-release-20261005-r4';
+import {facilityRecords,nextObjective,routeDiscovered} from './ea-scene-state.mjs?v=ea-120-release-20261005-r4';
+import * as SIM from './ea-sim.mjs?v=ea-120-release-20261005-r4';
 
 const E = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
 const n = value => Number.isFinite(Number(value)) ? Number(value) : 0;

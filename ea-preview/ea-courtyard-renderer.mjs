@@ -1,8 +1,8 @@
-import {createWorldRenderer as createPlanRenderer} from './ea-renderer.mjs?v=ea-120-preview-20261005-r3';
-import {WIDTH,HEIGHT,point,nearest,LANDMARKS,inPolygon,findPath} from '../yunxiu-courtyard/navigation.mjs?v=ea-120-preview-20261005-r3';
-import {foreground} from './ea-foreground.mjs?v=ea-120-preview-20261005-r3';
-import {appearance,scenicPosition,advanceScenic} from './ea-scenic.mjs?v=ea-120-preview-20261005-r3';
-import {facilityRecords,courtyardDestination,scenicHomeActors} from './ea-scene-state.mjs?v=ea-120-preview-20261005-r3';
+import {createWorldRenderer as createPlanRenderer} from './ea-renderer.mjs?v=ea-120-release-20261005-r4';
+import {WIDTH,HEIGHT,point,nearest,LANDMARKS,inPolygon,findPath} from '../yunxiu-courtyard/navigation.mjs?v=ea-120-release-20261005-r4';
+import {foreground} from './ea-foreground.mjs?v=ea-120-release-20261005-r4';
+import {appearance,scenicPosition,advanceScenic} from './ea-scenic.mjs?v=ea-120-release-20261005-r4';
+import {facilityRecords,courtyardDestination,scenicHomeActors} from './ea-scene-state.mjs?v=ea-120-release-20261005-r4';
 
 export function createWorldRenderer(canvas,options){
  const {getState,getMode,getSelection,getCampaignScene,getPrefs=()=>({}),onLoad=()=>{}}=options;
