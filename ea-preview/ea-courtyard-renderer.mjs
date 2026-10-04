@@ -1,7 +1,7 @@
-import {createWorldRenderer as createPlanRenderer} from './ea-renderer.mjs?v=ea-110-a';
+import {createWorldRenderer as createPlanRenderer} from './ea-renderer.mjs?v=ea-110-b';
 import {WIDTH,HEIGHT,point,nearest,EDGES,LANDMARKS,inPolygon,findPath,canStand} from '../yunxiu-courtyard/navigation.mjs';
-import {foreground} from './ea-foreground.mjs?v=ea-110-a';
-import {appearance,FACILITY_AREAS,areaPoint,scenicPosition,advanceScenic} from './ea-scenic.mjs?v=ea-110-a';
+import {foreground} from './ea-foreground.mjs?v=ea-110-b';
+import {appearance,FACILITY_AREAS,areaPoint,scenicPosition,advanceScenic} from './ea-scenic.mjs?v=ea-110-b';
 
 export function createWorldRenderer(canvas,options){
  const {getState,getMode,getSelection,getCampaignScene,getPrefs=()=>({}),onLoad=()=>{}}=options;

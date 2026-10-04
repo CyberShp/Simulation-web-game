@@ -1,8 +1,8 @@
-import * as SIM from './ea-sim.mjs?v=ea-110-a';
-import {EA_SHELL,createEAUI} from './ea-ui.mjs?v=ea-110-a';
-import {createEAPersistence,MAX_IMPORT_BYTES} from './ea-persistence.mjs?v=ea-110-a';
-import {createWorldRenderer} from './ea-courtyard-renderer.mjs?v=ea-110-a';
-import {attachMapInput} from './map-input.mjs?v=ea-110-a';
+import * as SIM from './ea-sim.mjs?v=ea-110-b';
+import {EA_SHELL,createEAUI} from './ea-ui.mjs?v=ea-110-b';
+import {createEAPersistence,MAX_IMPORT_BYTES} from './ea-persistence.mjs?v=ea-110-b';
+import {createWorldRenderer} from './ea-courtyard-renderer.mjs?v=ea-110-b';
+import {attachMapInput} from './map-input.mjs?v=ea-110-b';
 
 const VERSION=SIM.GAME_VERSION;
 const $=id=>document.getElementById(id);
