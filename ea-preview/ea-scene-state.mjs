@@ -1,5 +1,5 @@
-import {BUILDINGS,ROUTES,stage} from './ea-data.mjs?v=ea-120-preview-20261005-r1';
-import {nearest,point,findPath} from '../yunxiu-courtyard/navigation.mjs?v=ea-120-preview-20261005-r1';
+import {BUILDINGS,ROUTES,stage} from './ea-data.mjs?v=ea-120-preview-20261005-r2';
+import {nearest,point} from '../yunxiu-courtyard/navigation.mjs?v=ea-120-preview-20261005-r2';
 
 // The scenic courtyard groups facilities by use. The construction grid remains
 // the authoritative placement/adjacency plan; neither view invents facilities.
@@ -19,7 +19,7 @@ export function facilityRecords(s){
    const x=base[0]+(i%columns-(columns-1)/2)*gap+(b.x-5)*2,
     y=base[1]+Math.floor(i/columns)*gap*.45+(b.y-4)*2;
    const position=type==='hall'?{x:840,y:217}:{x,y},access=nearest(position);
-   records.push({id:b.id,type,name:BUILDINGS[type].name,building:b,position,access:{x:access.x,y:access.y},size,
+   records.push({id:b.id,type,name:type==='hall'&&stage(s)>=3?'宗门正殿':BUILDINGS[type].name,building:b,position,access:{x:access.x,y:access.y},size,
     active:facilityActive(b),workers:s.disciples.filter(d=>d.job===b.id&&!d.mind?.away),
     status:!facilityActive(b)?'已停用':b.condition<50?'待修缮':type==='alchemy'&&s.crafting?'正在炼丹':'已建成',
     peakId:s.society?.peaks.find(p=>p.buildingIds?.includes(b.id))?.id??null});

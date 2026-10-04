@@ -1,8 +1,8 @@
-import {createWorldRenderer as createPlanRenderer} from './ea-renderer.mjs?v=ea-120-preview-20261005-r1';
-import {WIDTH,HEIGHT,point,nearest,LANDMARKS,inPolygon,findPath} from '../yunxiu-courtyard/navigation.mjs?v=ea-120-preview-20261005-r1';
-import {foreground} from './ea-foreground.mjs?v=ea-120-preview-20261005-r1';
-import {appearance,scenicPosition,advanceScenic} from './ea-scenic.mjs?v=ea-120-preview-20261005-r1';
-import {facilityRecords,courtyardDestination,scenicHomeActors} from './ea-scene-state.mjs?v=ea-120-preview-20261005-r1';
+import {createWorldRenderer as createPlanRenderer} from './ea-renderer.mjs?v=ea-120-preview-20261005-r2';
+import {WIDTH,HEIGHT,point,nearest,LANDMARKS,inPolygon,findPath} from '../yunxiu-courtyard/navigation.mjs?v=ea-120-preview-20261005-r2';
+import {foreground} from './ea-foreground.mjs?v=ea-120-preview-20261005-r2';
+import {appearance,scenicPosition,advanceScenic} from './ea-scenic.mjs?v=ea-120-preview-20261005-r2';
+import {facilityRecords,courtyardDestination,scenicHomeActors} from './ea-scene-state.mjs?v=ea-120-preview-20261005-r2';
 
 export function createWorldRenderer(canvas,options){
  const {getState,getMode,getSelection,getCampaignScene,getPrefs=()=>({}),onLoad=()=>{}}=options;
@@ -42,8 +42,8 @@ export function createWorldRenderer(canvas,options){
    if(r.active&&r.workers.length){ctx.strokeStyle='#f1d590';ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(p.x,p.y+7,r.size*.3,6,0,0,Math.PI*2);ctx.stroke();}
    if(r.type==='alchemy'&&s.crafting&&r.active){ctx.fillStyle='#f0d498bb';ctx.beginPath();ctx.arc(p.x,p.y-r.size*.75,4,0,Math.PI*2);ctx.fill();}
   }
-  if(overview||selected||!r.active||r.workers.length||r.type==='hall')tag(`${r.name} · ${b.level}级${r.active?'':' · 停用'}${r.workers.length?' · '+r.workers.length+'人':''}`,p,{small:r.type!=='hall',color:r.active?'#173e35ec':'#6c6055ed'});
-  if((selected||overview)&&r.type==='alchemy'&&s.crafting)tag(r.active?`炉火 · ${Math.ceil(s.crafting.remaining)}秒`:'炉火已暂停',{x:p.x,y:p.y+26},{small:true});
+  if(!overview&&(selected||!r.active||r.workers.length||r.type==='hall'))tag(`${r.name} · ${b.level}级${r.active?'':' · 停用'}${r.workers.length?' · '+r.workers.length+'人':''}`,p,{small:r.type!=='hall',color:r.active?'#173e35ec':'#6c6055ed'});
+  if(!overview&&selected&&r.type==='alchemy'&&s.crafting)tag(r.active?`炉火 · ${Math.ceil(s.crafting.remaining)}秒`:'炉火已暂停',{x:p.x,y:p.y+26},{small:true});
  }
  function render(now=performance.now(),force=false){
   document.getElementById('viewport')?.classList.toggle('planning-view',isPlan()&&scene==='map');
@@ -54,7 +54,7 @@ export function createWorldRenderer(canvas,options){
   items.sort((a,b)=>a.y-b.y).forEach(item=>item.facility?facility(item.facility,s):sprite(item.actor,item.actor.id==='master'));
   const selection=getSelection();if(selection?.kind==='person'){const a=actors.get(selection.id);if(a)tag(a.d.name,a);}
   if(getMode()==='walk'&&m.path?.length){ctx.setLineDash([5,6]);ctx.strokeStyle='#f6d494a0';ctx.lineWidth=1.4;ctx.beginPath();ctx.moveTo(m.x,m.y);m.path.forEach(p=>ctx.lineTo(p.x,p.y));ctx.stroke();ctx.setLineDash([]);}
-  if(overview){tag(`山院实况 · ${records.length}处设施 · ${s.disciples.length}名门人`,{x:840,y:25});s.society.peaks.forEach((peak,i)=>tag(peak.name+' · 查看峰域供给',{x:500+i*550,y:880}));}
+  if(overview){for(const type of new Set(records.map(r=>r.type))){const group=records.filter(r=>r.type===type),off=group.filter(r=>!r.active).length,p={x:group.reduce((v,r)=>v+r.position.x,0)/group.length,y:Math.max(...group.map(r=>r.position.y))};tag(`${group[0].name} ×${group.length}${off?' · 停用'+off:''}`,p,{small:type!=='hall'});}tag(`山院实况 · ${records.length}处设施 · ${s.disciples.length}名门人`,{x:840,y:25});s.society.peaks.forEach((peak,i)=>tag(peak.name+' · 查看峰域供给',{x:500+i*550,y:880}));}
   ctx.restore();if(!getPrefs().reducedMotion&&s.world.weather.id==='rain'){ctx.strokeStyle='#ecf3e355';for(let i=0;i<38;i++){const x=(i*167+now*.027)%c.w,y=(i*91+now*.19)%c.h;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x-5,y+16);ctx.stroke();}}if(s.time%120>82){ctx.fillStyle='#102c4525';ctx.fillRect(0,0,c.w,c.h);}
  }
  function pick(e){

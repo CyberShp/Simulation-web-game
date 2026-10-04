@@ -1,7 +1,7 @@
 import {BUILDINGS, TECHNIQUES, RECIPES, ROUTES, CELLS, RESOURCES, TRAIT_NAMES,
-  rng, day, log, pay, canPay, grant, capacity, xpNeed, clamp} from './ea-data.mjs?v=ea-120-preview-20261005-r1';
+  rng, day, log, pay, canPay, grant, capacity, xpNeed, clamp} from './ea-data.mjs?v=ea-120-preview-20261005-r2';
 
-import {routeDiscovered} from './ea-scene-state.mjs?v=ea-120-preview-20261005-r1';
+import {routeDiscovered} from './ea-scene-state.mjs?v=ea-120-preview-20261005-r2';
 
 /** Society owns every NPC action. The main loop owns time, meals, upkeep and the master's actions. */
 export const SOCIETY_ROLES = {
