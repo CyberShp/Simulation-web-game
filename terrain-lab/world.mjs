@@ -1,4 +1,4 @@
-import { blockedCells, canStand, findPath, heightAt, moveBuilding, nearestWalkable, sweep } from '../ea-navigation.mjs?v=terrain-lab-1.0.2';
+import { blockedCells, canStand, findPath, heightAt, moveBuilding, nearestWalkable, sweep } from '../ea-navigation.mjs?v=terrain-lab-1.0.3';
 export const VERSION = 'terrain-lab-1.0';
 export const POIS = [
   { id: 'home', name: '主屋', x: 7.5, y: 7.5 },
@@ -120,13 +120,32 @@ export function step(s, dt) {
     const a = s.actors[i]; a.moving = false; a.actionTime = Math.max(0, a.actionTime - dt); a.dodgeTime = Math.max(0, a.dodgeTime - dt); a.qi = Math.min(100, a.qi + dt * 4);
     if (s.combat && i > 0 && s.party.includes(a.id) && Math.hypot(a.x - 25.5, a.y - 20.5) < 6 && (s.elapsed + i * .55) % 2.2 < dt) { a.actionTime = .5; a.facing = { x: 25.5 - a.x, y: 20.5 - a.y }; s.stats.allyAttacks++; }
     if (a.goal && a.moveRevision !== s.map.revision) { setGoal(s, a, a.goal); s.stats.replans++; }
-    if (i > 0 && s.party.includes(a.id)) {
+    // Give the directly controlled walker room before companions try to reform around them.
+    // This prevents a party cluster repeatedly stepping into the master's next waypoint.
+    let yielding = i > 0 && (a.yieldUntil || 0) > s.elapsed;
+    if (i > 0 && m.path.length) {
+      const n = m.path[0], vx = n.x - m.x, vy = n.y - m.y, length = Math.hypot(vx, vy);
+      if (length > .001) {
+        const ux = vx / length, uy = vy / length, dx = a.x - m.x, dy = a.y - m.y;
+        const forward = dx * ux + dy * uy, lateral = dx * -uy + dy * ux;
+        if (forward > -.15 && forward < 1.35 && Math.abs(lateral) < .68) {
+          const sign = lateral < 0 ? -1 : 1;
+          for (const side of [sign, -sign]) {
+            const p = { x: a.x - uy * side * .85, y: a.y + ux * side * .85 };
+            if (!sweep(s.map, a, p, a.radius, occupied).blocked && s.actors.every(b => b === a || Math.hypot(b.x - p.x, b.y - p.y) >= a.radius + b.radius + .05)) {
+              a.path = [p]; a.goal = p; a.moveRevision = s.map.revision; a.yieldUntil = s.elapsed + .8; yielding = true; break;
+            }
+          }
+        }
+      }
+    }
+    if (!yielding && i > 0 && s.party.includes(a.id)) {
       const index = s.party.indexOf(a.id), distance = Math.hypot(m.x - a.x, m.y - a.y);
       if (distance > 1.8 && (!a.path.length || s.elapsed % 1 < dt)) {
         const alternatives = [{ x: m.x - 1 + index * 2, y: m.y + 1.1 }, { x: m.x, y: m.y + 1.8 }, { x: m.x - 1.8, y: m.y }];
         const p = alternatives.find(p => canStand(s.map, p, a.radius, occupied)); if (p) setGoal(s, a, p);
       }
-    } else if (i > 0 && !a.path.length && Math.floor(s.elapsed + i * 3) % 13 === 0 && s.elapsed % 1 < dt) {
+    } else if (!yielding && i > 0 && !a.path.length && Math.floor(s.elapsed + i * 3) % 13 === 0 && s.elapsed % 1 < dt) {
       const p = POIS[(Math.floor(s.elapsed / 13) + i) % POIS.length]; setGoal(s, a, p);
     }
     if (!a.path.length) {

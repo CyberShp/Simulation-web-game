@@ -1,6 +1,6 @@
-import { appearance, audit, command, createState, master, POIS, step, VERSION } from './world.mjs?v=terrain-lab-1.0.2';
-import { createRenderer, portraitURL } from './renderer.mjs?v=terrain-lab-1.0.2';
-import { attachMapInput } from '../map-input.mjs?v=terrain-lab-1.0.2';
+import { appearance, audit, command, createState, master, POIS, step, VERSION } from './world.mjs?v=terrain-lab-1.0.3';
+import { createRenderer, portraitURL } from './renderer.mjs?v=terrain-lab-1.0.3';
+import { attachMapInput } from '../map-input.mjs?v=terrain-lab-1.0.3';
 const $ = id => document.getElementById(id), esc = v => String(v).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const storageKey = 'xianfu-terrain-lab-v1'; let state = createState(), freePlace = false, tour = null, lastFrame = performance.now(), lastUI = 0, lastSave = 0, fpsSamples = [], hidden = false;
 const options = { paths: true, collision: false, silhouette: false, relocate: false };
