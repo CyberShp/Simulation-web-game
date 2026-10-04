@@ -1,5 +1,5 @@
-import * as base from './model.mjs?v=ea-100-qa2';
-export * from './model.mjs?v=ea-100-qa2';
+import * as base from './model.mjs?v=ea-100-qa3';
+export * from './model.mjs?v=ea-100-qa3';
 const {TYPES,RESOURCE,addLog,pay,canPay}=base;
 Object.assign(RESOURCE,{crystal:'灵晶',insight:'道韵'});
 Object.assign(TYPES,{

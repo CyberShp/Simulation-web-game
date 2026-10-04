@@ -1,5 +1,5 @@
 import {BUILDINGS, TECHNIQUES, RECIPES, ROUTES, CELLS, RESOURCES, TRAIT_NAMES,
-  rng, day, log, pay, canPay, grant, capacity, xpNeed, clamp} from './ea-data.mjs?v=ea-100-qa2';
+  rng, day, log, pay, canPay, grant, capacity, xpNeed, clamp} from './ea-data.mjs?v=ea-100-qa3';
 
 /** Society owns every NPC action. The main loop owns time, meals, upkeep and the master's actions. */
 export const SOCIETY_ROLES = {
@@ -28,8 +28,9 @@ const buildingActive = b => b && !b.disabled && b.enabled!==false && (b.conditio
 const hasBuilding = (s,type) => s.buildings.some(b=>b.type===type && buildingActive(b));
 const living = (s,id) => s.disciples.some(d=>d.id===id);
 const sign = n => n>0?1:n<0?-1:0;
-const bestMastery = d => Math.max(0,...Object.values(mindOf(d).knowledge||{}));
 const known = (d,id) => (mindOf(d).knowledge?.[id]||0);
+const publicKnowledge = (s,d,id) => d.mind&&hiddenBook(s,d,id)?0:known(d,id);
+const bestMastery = (s,d) => Math.max(0,...Object.keys(mindOf(d).knowledge||{}).map(id=>publicKnowledge(s,d,id)));
 const relation = (d,key='master') => {
   const p=d.mind;
   return p.relationships[key] ||= {trust:55,respect:55,affection:45,conflict:0,lastEvent:-1000};
@@ -64,7 +65,7 @@ export function initDisciple(s,d,{legacy=false}={}) {
   p.goal ||= goals[(d.id-1)%goals.length];
   p.main ??= null; p.support ||= []; p.knowledge ||= {}; p.learning ??= null;
   p.activity ||= 'rest'; p.reason ||= '初到山院，先了解生活与传承。';
-  p.memories=(p.memories||[]).map(m=>({important:false,public:true,key:null,...m}));
+  p.memories=(p.memories||[]).map(m=>({important:/赠药|救治|亲人|加入|拜入|离开|掌握|突破|处置|劝诫|不予追究/.test(m.text),public:true,key:null,...m}));
   p.lastPillDay ??= -1; p.caution ??= 0;
   p.satiety ??= 85; p.mood ??= 60; p.commitUntil ??= 0; p.lastDecision ??= -100;
   p.lastSocial ??= -120; p.lastTalk ??= -120; p.lastBreakthrough ??= -120;
@@ -412,7 +413,8 @@ function execute(s,d,hooks) {
     d.position=p.path.shift();d.energy=clamp(d.energy-.04,0,100);return;
   }
   if(p.activity==='rest') {
-    d.energy=clamp(d.energy+1.05+(hasBuilding(s,'kitchen')?.2:0)+(p.support.includes('spring')?.4:0),0,100);
+    const recovery=hooks.restRecovery?hooks.restRecovery(s,d):1.05+(hasBuilding(s,'kitchen')?.2:0)+(p.support.includes('spring')?.4:0);
+    d.energy=clamp(d.energy+recovery,0,100);
     d.wound=Math.max(0,d.wound-.075);p.mood=clamp(p.mood+.04,0,100);
   } else if(p.activity==='heal') {
     p.workProgress++;
@@ -464,14 +466,14 @@ function execute(s,d,hooks) {
   if(d.energy<18||p.satiety<18||d.wound>35)p.commitUntil=0;
 }
 
-function expert(d) {return d.realm>=4&&bestMastery(d)>=60;}
+function expert(s,d) {return d.realm>=4&&bestMastery(s,d)>=60;}
 export function foundingStatus(s) {
   const reasons=[];
   if(s.society.formal)reasons.push('已经正式立派');
   if(s.master.realm<10)reasons.push('掌门需完成筑基');
   if(known(s.master,s.master.main)<60)reasons.push('掌门需将主修理解至60');
   if(!hasBuilding(s,'library'))reasons.push('需建成藏经阁');
-  const count=s.disciples.length, experts=s.disciples.filter(expert).length;
+  const count=s.disciples.length, experts=s.disciples.filter(d=>expert(s,d)).length;
   if(count<12&&!(count>=6&&experts>=2))reasons.push('需12位门人，或6位门人且其中2位炼气四层、传承理解60');
   if(s.resources.food<count*2)reasons.push('至少备足门人一日口粮');
   if(!canPay(s,FOUNDING_COST))reasons.push('立派物资尚未备齐');
@@ -489,7 +491,7 @@ export function officeWillingness(s,dOrId,role) {
   const d=npc(s,dOrId),r=SOCIETY_ROLES[role];if(!d||!r)return {willing:false,capable:false,reason:'人选或职位不存在'};
   if(!s.society.formal)return {willing:false,capable:false,reason:'正式立派后方可邀请执事'};
   const p=d.mind;
-  const capable=role==='steward'?(p.traits[3]>=60||Math.max(...Object.values(p.skills))>=20)&&d.realm>=2:role==='teacher'?bestMastery(d)>=50:d.realm>=4&&p.traits[2]>=40;
+  const capable=role==='steward'?(p.traits[3]>=60||Math.max(...Object.values(p.skills))>=20)&&d.realm>=2:role==='teacher'?bestMastery(s,d)>=50:d.realm>=4&&p.traits[2]>=40;
   if(!capable)return {willing:false,capable:false,reason:role==='steward'?'需炼气二层且自律60或生产技艺20':role==='teacher'?'需至少一部功法理解50':'需炼气四层且守信40'};
   if(p.away||d.wound>20)return {willing:false,capable:true,reason:'正在外出或养伤，暂不考虑任职'};
   if(p.office&&p.office!==role)return {willing:false,capable:true,reason:'已有职责，不愿同时承担另一职位'};
@@ -513,7 +515,7 @@ function dismissOffice(s,role) {
 }
 export function peakHostWillingness(s,dOrId,direction) {
   const d=npc(s,dOrId),spec=PEAK_DIRECTIONS[direction];if(!d||!spec)return {willing:false,capable:false,reason:'人选或峰传承不存在'};
-  const mastery=Math.max(0,...spec.techniques.map(id=>known(d,id)));
+  const mastery=Math.max(0,...spec.techniques.map(id=>publicKnowledge(s,d,id)));
   if(mastery<60||d.realm<4)return {willing:false,capable:false,reason:'需炼气四层、该方向传承理解60'};
   if(s.society.peaks.some(p=>p.hostId===d.id))return {willing:false,capable:true,reason:'已有一峰需要主持，不愿兼任'};
   if(d.mind.away||d.wound>20)return {willing:false,capable:true,reason:'正在山外或养伤'};
@@ -525,9 +527,9 @@ export function peakStatus(s,direction) {
   if(!spec)return {ready:false,reasons:['传承方向不存在'],cost:{},hosts:[]};
   if(!s.society.formal)reasons.push('先正式立派');
   if(s.society.peaks.some(p=>p.direction===direction))reasons.push('此方向已经设峰');
-  const experts=s.disciples.filter(expert);
+  const experts=s.disciples.filter(d=>expert(s,d));
   if(s.disciples.length<24&&!(s.disciples.length>=10&&experts.length>=2))reasons.push('需24位门人，或10位门人且其中2位传承成熟');
-  const traditions=new Set();for(const d of [s.master,...s.disciples])for(const[id,n]of Object.entries(mindOf(d).knowledge||{}))if(n>=60)traditions.add(id);
+  const traditions=new Set();for(const d of [s.master,...s.disciples])for(const id of Object.keys(mindOf(d).knowledge||{}))if(publicKnowledge(s,d,id)>=60)traditions.add(id);
   if(traditions.size<2)reasons.push('至少两部传承理解达到60');
   if(!hasBuilding(s,spec.building))reasons.push(`需可运行的${BUILDINGS[spec.building].name}`);
   if(!canPay(s,spec.cost))reasons.push('设峰物资尚未备齐');
@@ -578,7 +580,7 @@ function choosePeaks(s) {
 export function mentorWillingness(s,discipleId,mentorId) {
   const d=npc(s,discipleId),mentor=mentorId==='master'?s.master:npc(s,mentorId);
   if(!d||!mentor||d===mentor)return {willing:false,reason:'需选择另一位能够授业的人'};
-  const available=Object.keys(mindOf(mentor).knowledge||{}).some(id=>known(mentor,id)>=45&&known(d,id)<known(mentor,id)-10&&!s.doctrine.sealed.includes(id)&&!(mentor.mind&&hiddenBook(s,mentor,id)));
+  const available=Object.keys(mindOf(mentor).knowledge||{}).some(id=>publicKnowledge(s,mentor,id)>=45&&publicKnowledge(s,d,id)<publicKnowledge(s,mentor,id)-10&&!s.doctrine.sealed.includes(id));
   if(!available)return {willing:false,reason:'双方暂时没有适合授受的传承差距'};
   if(mentor.mind?.away||d.mind.away)return {willing:false,reason:'有人尚在山外，待归院再议'};
   const r=readRelation(d,mentorId==='master'?'master':`d:${mentorId}`);
@@ -852,7 +854,7 @@ export function validateSociety(s) {
   for(const[k,list]of Object.entries(SOCIETY_RULE_OPTIONS))if(!list.some(x=>x.id===s.doctrine[k]))bad('规则');
   const unique=(arr,key)=>{const all=arr.map(x=>x[key]);return new Set(all).size===all.length;};
   if(!unique(sc.secrets,'id')||!unique(sc.peaks,'id')||!unique(sc.quests,'id')||!unique(sc.visitors,'id'))bad('事件编号重复');
-  for(const e of sc.secrets)if(!int(e.id,1,sc.nextIncidentId-1)||!historic.has(e.discipleId)||!['pill','book','outing'].includes(e.kind)||!num(e.time)||!num(e.evidenceProgress,0,100)||typeof e.discovered!=='boolean'||typeof e.handled!=='boolean'||e.handled&&!e.discovered||!str(e.motive)||!num(e.restitution)||e.outcome!==null&&!str(e.outcome)||e.discovered?!num(e.discoveredAt):e.discoveredAt!==null)bad('秘密或证据');
+  for(const e of sc.secrets)if(!int(e.id,1,sc.nextIncidentId-1)||!historic.has(e.discipleId)||!['pill','book','outing'].includes(e.kind)||!num(e.time)||!num(e.evidenceProgress,0,100)||typeof e.discovered!=='boolean'||typeof e.handled!=='boolean'||e.handled&&!e.discovered||!str(e.motive)||!num(e.restitution)||e.outcome!==null&&!str(e.outcome)||(e.discovered?!num(e.discoveredAt):e.discoveredAt!==null))bad('秘密或证据');
   for(const e of sc.secrets)if(e.kind==='book'&&!TECHNIQUES[e.subject]||e.kind==='pill'&&!RECIPES[e.subject]||e.kind==='outing'&&!ROUTES[e.subject])bad('秘密对象');
   for(const role of Object.keys(SOCIETY_ROLES))if(sc.officers[role]!==null&&!ids.has(sc.officers[role]))bad('执事不存在');
   const peakIds=new Set(sc.peaks.map(p=>p.id));

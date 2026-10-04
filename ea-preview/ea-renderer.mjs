@@ -1,4 +1,4 @@
-import {BUILDINGS,CELLS} from './ea-data.mjs?v=ea-100-qa2';
+import {BUILDINGS,CELLS} from './ea-data.mjs?v=ea-100-qa3';
 
 const PALETTE={ink:'#183d33',gold:'#d6ba79',paper:'#f4edd7',mint:'#a8c9ab',red:'#b26954'};
 const point=(x,y,arena=false)=>({x:750+(x-y)*(arena?50:61),y:(arena?175:290)+(x+y)*(arena?25:31)});

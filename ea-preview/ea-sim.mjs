@@ -1,12 +1,12 @@
-import * as legacy from './sect-sim.mjs?v=ea-100-qa2';
-import * as data from './ea-data.mjs?v=ea-100-qa2';
-import * as society from './ea-society.mjs?v=ea-100-qa2';
-import * as campaign from './ea-campaign.mjs?v=ea-100-qa2';
-export * from './ea-data.mjs?v=ea-100-qa2';
-export * from './ea-society.mjs?v=ea-100-qa2';
-export * from './ea-campaign.mjs?v=ea-100-qa2';
-export {resolveVisitor,resolveVisitor as resolveWorldVisitor} from './ea-campaign.mjs?v=ea-100-qa2';
-export {resolveVisitor as resolveSocietyVisitor} from './ea-society.mjs?v=ea-100-qa2';
+import * as legacy from './sect-sim.mjs?v=ea-100-qa3';
+import * as data from './ea-data.mjs?v=ea-100-qa3';
+import * as society from './ea-society.mjs?v=ea-100-qa3';
+import * as campaign from './ea-campaign.mjs?v=ea-100-qa3';
+export * from './ea-data.mjs?v=ea-100-qa3';
+export * from './ea-society.mjs?v=ea-100-qa3';
+export * from './ea-campaign.mjs?v=ea-100-qa3';
+export {resolveVisitor,resolveVisitor as resolveWorldVisitor} from './ea-campaign.mjs?v=ea-100-qa3';
+export {resolveVisitor as resolveSocietyVisitor} from './ea-society.mjs?v=ea-100-qa3';
 const {RESOURCES,BUILDINGS,TECHNIQUES,RECIPES,ROUTES,GOODS,CELLS,NAMES,TRAIT_NAMES,day,xpNeed,realmName,rng,log,canPay,pay,grant,clamp,capacity,stage,finite,integer}=data;
 const resourceZero=()=>Object.fromEntries(Object.keys(RESOURCES).map(k=>[k,0]));
 const own=(o,k)=>Object.hasOwn(o,k);
@@ -107,7 +107,8 @@ export function layoutBonus(s,b){
  if(b.type==='meditation'&&has('well')){factor+=.2;reasons.push('灵泉聚气 +20%');}
  if(['farm','alchemy'].includes(b.type)&&has(b.type==='farm'?'alchemy':'farm')){factor+=.15;reasons.push('药圃丹房互助 +15%');}
  if(['lumber','quarry'].includes(b.type)&&has('workshop')){factor+=.2;reasons.push('百工运输便利 +20%');}
- if(['house','kitchen'].includes(b.type)&&has('quarry')){factor-=.1;reasons.push('采石声扰 -10%');}
+ if(['hall','house'].includes(b.type)){const k=near.find(x=>x.type==='kitchen');if(k){factor+=.12*k.level;reasons.push(`临近膳房，休憩 +${12*k.level}%`);}if(has('clinic')){factor+=.1;reasons.push('医庐调养，休憩 +10%');}if(has('quarry')){factor-=.1;reasons.push('采石声扰，休憩 -10%');}}
+ if(b.type==='kitchen'){if(has('house')||has('hall')){factor+=.1;reasons.push('近居集中供膳，节粮效益 +10%');}if(has('quarry')){factor-=.1;reasons.push('采石运输干扰，节粮效益 -10%');}}
  return{factor,reasons};
 }
 export function buildingYield(s,b,d=null){
@@ -117,7 +118,8 @@ export function buildingYield(s,b,d=null){
  if(s.economy.starvation)factor*=.6;
  const effects=weather(s).production||{};const out={};for(const[k,v]of Object.entries(t.out))out[k]=v*factor*(effects[k]??1);return out;
 }
-export function foodDemand(s){const kitchen=s.buildings.find(b=>b.type==='kitchen'&&active(b));return Math.ceil((s.disciples.length+1)*2*(1-.1*(kitchen?.level||0)));}
+export function foodDemand(s){const kitchen=s.buildings.find(b=>b.type==='kitchen'&&active(b));const saving=kitchen?Math.min(.4,.1*kitchen.level*layoutBonus(s,kitchen).factor):0;return Math.ceil((s.disciples.length+1)*2*(1-saving));}
+export function restRecovery(s,person){const p=stateMind(person),position=person.position||s.master.position;const home=s.buildings.filter(b=>['hall','house'].includes(b.type)&&active(b)).sort((a,b)=>(Math.abs(a.x-position.x)+Math.abs(a.y-position.y))-(Math.abs(b.x-position.x)+Math.abs(b.y-position.y)))[0];return((person===s.master?1.3:1.05)+(p.support.includes('spring')?.4:0))*(home?layoutBonus(s,home).factor:1);}
 export function maintenanceCost(s){const total={};for(const b of s.buildings.filter(active))for(const[k,v]of Object.entries(BUILDINGS[b.type].upkeep))total[k]=(total[k]||0)+v*b.level;return total;}
 export function economySummary(s){const e=s.economy,windowIncome=e.previous.income,windowExpense=e.previous.expense;return{day:day(s),income:{...e.income},expense:{...e.expense},net:Object.fromEntries(Object.keys(RESOURCES).map(k=>[k,(e.income[k]||0)-(e.expense[k]||0)])),previous:{income:{...windowIncome},expense:{...windowExpense}},foodDemand:foodDemand(s),foodDays:Math.floor(s.resources.food/Math.max(1,foodDemand(s))),maintenance:maintenanceCost(s),shortages:e.shortages.slice()};}
 export function rates(s){const out=resourceZero();for(const b of s.buildings){const d=s.disciples.find(d=>d.job===b.id&&d.mind.activity==='work');if(BUILDINGS[b.type].work&&!d)continue;const yieldMap=buildingYield(s,b,d);for(const[k,v]of Object.entries(yieldMap))out[k]+=v;for(const[k,v]of Object.entries(BUILDINGS[b.type].input||{}))if(d)out[k]-=v;}for(const[k,v]of Object.entries(maintenanceCost(s)))out[k]-=v/6;out.food-=foodDemand(s)/6;return out;}
@@ -147,8 +149,26 @@ export function breakthroughLock(s,person,isMaster=false){
  if(person.realm>=12)return '已达本篇筑基后期';if(person.xp<xpNeed(person.realm))return '修为未满';if(person.energy<35)return '需至少35精力';if(person.wound>0)return '先养好伤势';if(isMaster&&trip(s))return '先归院';if(person.breakthroughCooldown>s.time)return '突破后需继续调息';
  if(person.realm>=9&&knowledge(person,'foundation')<35)return '需理解青岚筑基篇，熟练度35';if(person.realm===9&&s.pills.foundation<1)return '需一枚筑基丹';if(!canPay(s,breakthroughCost(person)))return '突破材料不足';return '';
 }
-export function breakthroughPerson(s,person,isMaster=false,{autonomous=false}={}){if(!isMaster&&!autonomous)throw Error('门人必须自主决定突破。');const lock=breakthroughLock(s,person,isMaster);if(lock)throw Error(lock);pay(s,breakthroughCost(person));if(person.realm===9)s.pills.foundation--;person.xp=0;person.realm++;person.energy-=25;person.breakthroughCooldown=s.time+15;s.stats.breakthroughs++;if(isMaster){person.action='rest';person.learning=null;s.master.memories.unshift({time:s.time,text:`在云岫山突破至${realmName(person.realm)}。`});s.master.memories=s.master.memories.slice(0,40);}log(s,`${person.name}突破至${realmName(person.realm)}，根基已稳。`);}
+export function breakthroughPerson(s,person,isMaster=false,{autonomous=false}={}){if(!isMaster&&!autonomous)throw Error('门人必须自主决定突破。');const lock=breakthroughLock(s,person,isMaster);if(lock)throw Error(lock);pay(s,breakthroughCost(person));if(person.realm===9)s.pills.foundation--;person.xp=0;person.realm++;person.energy-=25;person.breakthroughCooldown=s.time+15;s.stats.breakthroughs++;if(isMaster){person.action='rest';person.learning=null;s.master.memories.unshift({time:s.time,text:`在云岫山突破至${realmName(person.realm)}。`});}log(s,`${person.name}突破至${realmName(person.realm)}，根基已稳。`);}
 export function masterBreakthrough(s){return breakthroughPerson(s,s.master,true);}
+export function riskBreakthroughInfo(s){
+ const m=s.master,need=xpNeed(m.realm),xpRatio=m.xp/need;
+ const chance=Math.round(clamp(.55+clamp((xpRatio-.85)/.15,0,1)*.15+clamp((m.energy-35)/65,0,1)*.06+clamp((m.talent-.5)/2.5,0,1)*.09,.55,.85)*1000)/1000;
+ const lock=m.realm>=12?'已达本篇筑基后期':xpRatio>=1?'修为已满，可选择稳妥突破':xpRatio<.85?'提前冲关至少需要当前境界85%修为':breakthroughLock(s,{...m,xp:need},true);
+ return{chance,lock,cost:{...breakthroughCost(m)},pillCost:m.realm===9?{foundation:1}:{},energyCost:25,currentXp:m.xp,requiredXp:need*.85,xpRatio,fromRealm:m.realm,toRealm:Math.min(12,m.realm+1),failure:{xpLossFraction:.15,wound:12,cooldown:60},successCooldown:15,consumeOnFailure:true};
+}
+export function masterRiskBreakthrough(s){
+ const info=riskBreakthroughInfo(s);if(info.lock)throw Error(info.lock);const m=s.master,before=m.xp;
+ pay(s,info.cost);if(info.pillCost.foundation)s.pills.foundation--;m.energy-=info.energyCost;
+ const roll=rng(s),success=roll<info.chance;
+ m.action='rest';m.learning=null;m.path=[];m.teaching=null;
+ if(success){m.realm++;m.xp=0;m.breakthroughCooldown=s.time+info.successCooldown;s.stats.breakthroughs++;}
+ else {m.xp=before*(1-info.failure.xpLossFraction);m.wound=clamp(m.wound+info.failure.wound,0,100);m.breakthroughCooldown=s.time+info.failure.cooldown;}
+ const result={time:s.time,success,chance:info.chance,roll,fromRealm:info.fromRealm,toRealm:m.realm,lostXp:success?0:before-m.xp,injury:success?0:info.failure.wound,cooldownUntil:m.breakthroughCooldown,cost:{...info.cost},pillCost:{...info.pillCost},energyCost:info.energyCost};
+ (m.breakthroughHistory??=[]).push(result);
+ const text=success?`掌门提前冲关成功，突破至${realmName(m.realm)}；此次公示成功率${Math.round(info.chance*100)}%。`:`掌门提前冲关未成，仍是${realmName(m.realm)}；损失当前修为15%、受轻伤12，需调息60秒，投入物资已消耗。`;
+ m.memories.unshift({time:s.time,text});log(s,text);return result;
+}
 export function consumePill(s,id,person,{silent=false}={}){const r=RECIPES[id];if(!r||id==='foundation'||s.pills[id]<1)throw Error('丹药不可直接服用，或库存不足。');const xp=r.effect.xp*(person.realm>=10?.5:1);if(person.xp>=xpNeed(person.realm)&&(!r.effect.energy||person.energy>=100)&&(!r.effect.wound||!person.wound))throw Error('此时服丹没有收益。');s.pills[id]--;person.xp=Math.min(xpNeed(person.realm),person.xp+xp);person.energy=Math.min(100,person.energy+r.effect.energy);if(person.wound!==undefined)person.wound=Math.max(0,person.wound-r.effect.wound);s.stats.consumed++;if(!silent)log(s,`${person.name}服用${r.name}，调息养脉。`);}
 export function masterPill(s,id){if(trip(s))throw Error('归院后再服用府库丹药。');return consumePill(s,id,s.master);}
 export function masterAction(s,action){
@@ -196,17 +216,17 @@ function supplyStep(s){
 }
 function masterStep(s){
  const m=s.master;if(trip(s))return;
- const kitchen=s.buildings.find(b=>b.type==='kitchen'&&active(b)),clinic=s.buildings.find(b=>b.type==='clinic'&&active(b));
+ const clinic=s.buildings.find(b=>b.type==='clinic'&&active(b));
  if(m.action==='walk'){const next=m.path.shift();if(next&&!at(s,next.x,next.y))m.position=next;else m.path=[];if(!m.path.length)m.action='rest';return;}
  if(m.action==='heal'){m.wound=Math.max(0,m.wound-(clinic?3:2));m.energy=Math.min(100,m.energy+.5);if(!m.wound){m.action='rest';log(s,'伤势已愈，逃亡并未永久损伤天资。');}return;}
- if(m.action==='rest'){m.energy=Math.min(100,m.energy+1.3+(m.support.includes('spring')?.4:0)+(kitchen?.level||0)*.12);if(m.wound>0)m.wound=Math.max(0,m.wound-.035);return;}
+ if(m.action==='rest'){m.energy=Math.min(100,m.energy+restRecovery(s,m));if(m.wound>0)m.wound=Math.max(0,m.wound-.035);return;}
  if(m.energy<=1){m.action='rest';log(s,'掌门精力不足，先暂歇调息，未完学习仍保留。');return;}
  if(m.action==='cultivate'){m.energy=Math.max(0,m.energy-(TECHNIQUES[m.main]?.fatigue||.25));m.xp=Math.min(xpNeed(m.realm),m.xp+cultivationRate(s,m));m.knowledge[m.main]=Math.min(100,(m.knowledge[m.main]||0)+.12);for(const id of m.support)m.knowledge[id]=Math.min(100,(m.knowledge[id]||0)+.025);return;}
  if(m.action==='study'&&m.learning){m.energy=Math.max(0,m.energy-.25);const l=m.learning;l.progress+=m.talent;if(l.progress>=l.total){learnTechnique(s,m,l.id,true);m.action='rest';}return;}
  if(m.action==='teach'){m.energy=Math.max(0,m.energy-.16);const id=m.teaching||m.main;if(m.knowledge[id]>=60)m.knowledge[id]=Math.min(100,m.knowledge[id]+.02);return;}
  if(['wood','stone','herb','food'].includes(m.action)){m.energy=Math.max(0,m.energy-.15);m.work++;if(m.work>=10){m.work=0;const effects=weather(s).production||{};grant(s,{[m.action]:({wood:12,stone:10,herb:10,food:16}[m.action])*(effects[m.action]??1)});}}
 }
-const hooks={studyLock,compatible,learnTechnique,xpNeed,cultivationRate,buildingYield,breakthroughLock,breakthroughPerson,consumePill,capacity,stage,teachers,supportLimit,addDisciple,grant,pay,canPay,rng,day,log};
+const hooks={studyLock,compatible,learnTechnique,xpNeed,cultivationRate,buildingYield,breakthroughLock,breakthroughPerson,consumePill,capacity,stage,teachers,supportLimit,restRecovery,addDisciple,grant,pay,canPay,rng,day,log};
 if(campaign.configureCampaign)campaign.configureCampaign({...hooks,canAccompany:society.canAccompany,campaignOutcome:society.campaignOutcome});
 function step(s){
  s.time++;renewMarket(s);supplyStep(s);
@@ -249,7 +269,8 @@ export function validateSave(input){
   const p=d.mind;if(!arr(p.traits,5)||p.traits.length!==5||!p.traits.every(n=>finite(n,0,100))||!str(p.goal,0,100)||!str(p.reason,0,1000)||!str(p.activity,1,40)||!integer(p.lastPillDay,-1)||!finite(p.caution,0,100)||!arr(p.memories,10000)||!p.memories.every(m=>m&&finite(m.time,0,s.time)&&str(m.text,0,1000)))fail('门人意愿或经历异常');
  }
  const m=s.master;personBase(m,true);
- if(!finite(m.wound,0,100)||!finite(m.work,0,10)||m.work>=10||!['rest','heal','cultivate','wood','stone','herb','food','teach','study','walk','travel','combat'].includes(m.action)||!validCell(m.position?.x,m.position?.y)||!arr(m.path,CELLS.length)||!m.path.every(p=>p&&validCell(p.x,p.y))||!arr(m.memories,100)||!m.memories.every(x=>finite(x.time,0,s.time)&&str(x.text,0,1000))||m.teaching!==null&&!own(TECHNIQUES,m.teaching))fail('掌门行动、位置或经历异常');
+ if(!finite(m.wound,0,100)||!finite(m.work,0,10)||m.work>=10||!['rest','heal','cultivate','wood','stone','herb','food','teach','study','walk','travel','combat'].includes(m.action)||!validCell(m.position?.x,m.position?.y)||!arr(m.path,CELLS.length)||!m.path.every(p=>p&&validCell(p.x,p.y))||!arr(m.memories,10000)||!m.memories.every(x=>finite(x.time,0,s.time)&&str(x.text,0,1000))||m.teaching!==null&&!own(TECHNIQUES,m.teaching))fail('掌门行动、位置或经历异常');
+ if(m.breakthroughHistory!==undefined&&(!arr(m.breakthroughHistory,10000)||!m.breakthroughHistory.every(h=>h&&finite(h.time,0,s.time)&&typeof h.success==='boolean'&&finite(h.chance,.55,.85)&&finite(h.roll,0,1)&&h.roll<1&&h.success===(h.roll<h.chance)&&integer(h.fromRealm,1,11)&&h.toRealm===h.fromRealm+(h.success?1:0)&&finite(h.lostXp)&&h.injury===(h.success?0:12)&&h.cooldownUntil===h.time+(h.success?15:60)&&h.energyCost===25&&h.cost&&Object.entries(h.cost).every(([k,v])=>own(RESOURCES,k)&&finite(v))&&h.pillCost&&Object.keys(h.pillCost).every(k=>k==='foundation'&&h.pillCost[k]===1))))fail('提前冲关历史异常');
  if(m.action==='study'&&!m.learning)fail('学习行动缺少计划');if(m.action==='walk'&&!m.path.length)fail('行走行动缺少路线');
  let prev=m.position;for(const p of m.path){if(Math.abs(p.x-prev.x)+Math.abs(p.y-prev.y)!==1)fail('掌门路线不连通');prev=p;}
  if(!s.pills||!Object.keys(RECIPES).every(id=>integer(s.pills[id]))||Object.keys(s.pills).some(id=>!own(RECIPES,id)))fail('丹药库存异常');

@@ -16,7 +16,7 @@ export const BUILDINGS={
  library:building('藏经阁','藏经',7,'提供典籍接触与研读空间，整理典籍产出道韵。藏书不等于有人能授业。',{jade:65,wood:45,stone:20},{insight:6},true,{stage:1,upkeep:{jade:1},tags:['learning']}),
  well:building('灵泉','灵泉',8,'筑基修士以护脉知识接引灵脉，稳定凝聚灵晶并滋养周边灵植。',{jade:130,stone:65,insight:15},{crystal:4},true,{stage:2,realm:10,upkeep:{jade:3},tags:['water']}),
  granary:building('灵稻田','稻田',1,'门人自主种植口粮。每人每日需两份，膳房可减少消耗。',{jade:25,wood:20,stone:5},{food:22},true,{upkeep:{jade:1},tags:['plant','food']}),
- kitchen:building('山院膳房','膳房',4,'炊食减少口粮消耗，改善门人休息。每级节省一成口粮，最多三成。',{jade:45,wood:35,stone:20},{},false,{stage:1,unique:true,upkeep:{wood:2},tags:['home','food']}),
+ kitchen:building('山院膳房','膳房',4,'炊食减少口粮消耗，改善门人休息。每级基础节省一成口粮；近居供膳更省粮，采石干扰则降低效益。',{jade:45,wood:35,stone:20},{},false,{stage:1,unique:true,upkeep:{wood:2},tags:['home','food']}),
  clinic:building('济生医庐','医庐',6,'减少掌门疗伤所需时间；门人伤势也可自主在此休養。需有人掌握养脉或药理。',{jade:90,wood:45,stone:30,herb:15},{},false,{stage:2,upkeep:{herb:2},tags:['home','medicine']}),
  workshop:building('百工坊','匠坊',2,'以木石制作山中常用器物换取灵石，有实际原料开销。',{jade:100,wood:65,stone:45},{jade:24},true,{stage:2,input:{wood:3,stone:2},upkeep:{jade:2},tags:['industry','craft']}),
  watchtower:building('护山亭','护山',8,'以护脉阵术监护院中活动，提高发现隐患的机会，减轻风雨损耗。',{jade:120,wood:55,stone:60,insight:10},{},false,{stage:3,unique:true,upkeep:{jade:3,crystal:1},tags:['array','safety']})
