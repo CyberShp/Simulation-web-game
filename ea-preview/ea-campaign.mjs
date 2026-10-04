@@ -1,5 +1,5 @@
-import { rng, day, log, pay, canPay, grant, capacity } from './ea-data.mjs?v=ea-110-release-20261004-r2';
-import { EXPEDITIONS as LEGACY_ROUTES } from './world.mjs?v=ea-110-release-20261004-r2';
+import { rng, day, log, pay, canPay, grant, capacity } from './ea-data.mjs?v=ea-120-preview-20261005-r1';
+import { EXPEDITIONS as LEGACY_ROUTES } from './world.mjs?v=ea-120-preview-20261005-r1';
 
 // Campaign state is deliberately plain data. Every choice, weather roll and reward
 // is committed to the save before the next tick; loading never repeats a roll.
@@ -112,11 +112,13 @@ export function campaignSummary(s) {
   return { step:n, ...STORY[n], ready:n < 10 && requirements.every(r => r.met), requirements, clues:s.story.clues.map(id => ({ id, name:CLUES[id] })), preparations:Object.entries(PREPARATIONS).map(([id, name]) => ({ id, name, done:s.story.preparations[id] })), completed:s.story.completed, ending:s.story.ending };
 }
 export function storyReady(s) { return campaignSummary(s).ready; }
+export function acknowledgeIntro(s){s.story.intro=true;return true;}
 function roomForFollower(s) {
   return s.disciples.length < (hooks.capacity || capacity)(s);
 }
 export function advanceStory(s, choice) {
   const n = s.story.step;
+  if(n<4&&(s.world.exploration||s.master.journey))throw Error('先返回山院，再与来客交谈或整理院中遗卷。');
   if (!storyReady(s)) throw Error(campaignSummary(s).requirements.filter(r => !r.met).map(r => r.label).join('；') || '篇章已经完成。');
   if (s.world.exploration?.status === 'combat' || s.combat?.status === 'active') throw Error('先结束当前战斗。');
   if (n === 9 && !['rebuild', 'return'].includes(choice)) throw Error('请选择重建栖霞，或将传承带回云岫。');
@@ -191,7 +193,9 @@ export function moveExploration(s, x, y) {
   const e = s.world.exploration;
   if (!e || e.status !== 'exploring') throw Error('抵达地区后才能行走。');
   if (!Number.isFinite(x) || !Number.isFinite(y)) throw Error('行走目的地无效。');
-  e.target = { x:clamp(x, .6, 11.4), y:clamp(y, .6, 7.4) };
+  // Exploration is registered to one road spine. Combat has its own 2D plane.
+  // Keeping the logical coordinate on that spine avoids invisible lateral moves.
+  e.target = { x:clamp(x, .6, 11.4), y:4 };
   return true;
 }
 function choice(s, id, label, description, cost = {}, reason = '') {
@@ -234,7 +238,8 @@ export function explorationOptions(s) {
     const [eventTitle, eventText] = EVENT_TEXT[e.eventId];
     active = { ...e, regionName:r.name, eventTitle, eventText, choices:e.status === 'exploring' ? regionChoices(s, e) : [], canInteract:e.status === 'exploring' && distance(e.position, landmark) <= landmark.radius, landmark, weather:WEATHER[e.weather].name };
   }
-  return { regions:Object.entries(REGIONS).map(([id, r]) => { const reason = explorationLock(s, id); return { id, ...r, locked:!!reason, reason }; }), active };
+  const all=Object.entries(REGIONS),known=all.filter(([id,r])=>s.story.step>=r.step||s.world.visits[id]>0||e?.regionId===id);
+  return { regions:known.map(([id, r]) => { const reason = explorationLock(s, id); return { id, ...r, discovered:true, locked:!!reason, reason }; }), undiscovered:all.length-known.length, active };
 }
 
 function finishVisit(s, e, text) {
@@ -516,7 +521,8 @@ export function cancelMasterTravel(s) {
   s.world.legacyJourney=null;s.master.journey=null;s.master.action='rest';log(s,'掌门提前结束旧行程，本次未完成的出行不结算奖励。');
 }
 export function startMasterTravel(s,id,options) {
-  const region=REGIONS[id]?id:({valley_path:'valley',valley_ruins:'ruins',lake_shore:'valley',lake_depths:'ruins'}[id]);
+  if(['lake_shore','lake_depths'].includes(id))throw Error('寒潭差事由门人自主接取；掌门请从山外舆图选择已发现的调查地点。');
+  const region=REGIONS[id]?id:({valley_path:'valley',valley_ruins:'ruins'}[id]);
   if(!region)throw Error('游历地点不存在。');
   return startExploration(s,region,options);
 }

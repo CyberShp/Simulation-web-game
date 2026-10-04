@@ -75,3 +75,14 @@ footer{position:absolute;bottom:0;right:14px;left:85px;z-index:15;min-height:0;h
 /* Apply the same brush face to every system and dossier heading. */
 .panel-copy :is(h1,h2,h3,h4,h5),.modal #modal-body :is(h1,h2,h3,h4,h5){font-family:var(--font-display)!important;font-weight:400}
 @media(max-width:760px){.combat-actions button{padding:4px 2px;line-height:1.2;min-height:44px;font-size:12px;letter-spacing:0}}
+/* Actual facilities and the currently known story, rather than completed-state illustrations. */
+.live-estate.stage-illustration{height:300px;background-image:url('../assets/ea-courtyard-empty.jpg');background-size:cover;background-position:center;overflow:hidden}
+.estate-facility{position:absolute;transform:translate(-50%,-50%);padding:4px 7px;font-size:10px;min-height:30px;color:#f6e2b6;background:#183c32e8;border:1px solid #c3a46a;z-index:1;max-width:155px}
+.estate-caption{position:absolute;bottom:7px;left:8px;background:#173c35ec;color:#f4dfb0;padding:6px 10px;border-radius:4px;font-size:12px}
+.alchemy-section.no-furnace:before{display:none}
+.world-map{background-image:linear-gradient(#263f3670,#243d3570),url('../assets/ea-world-map.jpg');overflow:hidden}
+.map-fog{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 20% 65%,#b9c8b080,transparent 35%),radial-gradient(ellipse at 78% 25%,#cee0c9db,transparent 72%);filter:blur(8px)}
+.map-pin{z-index:1;min-height:44px}
+.next-objective{border-top:1px solid #c1ab76;padding-top:8px;margin-top:10px}.next-objective p{font-size:12px;line-height:1.6}.next-objective button{border-color:#bb974f;color:#203f31;background:#ecdcaf;min-height:44px}
+.prologue-scene{min-height:215px;padding:25px 24px;border:1px solid #b49961;border-radius:8px;background:linear-gradient(90deg,#143d36ed,#143d36b0),url('../assets/ea-courtyard-empty.jpg') center/cover;color:#f7e5bb}.prologue-scene h2{font-size:30px;color:#f6df9f;line-height:1.5}.prologue-scene p{font-size:16px;line-height:1.95}.prologue-scene .eyebrow{color:#d8c799}
+@media(max-width:760px){.prologue-scene{padding:18px 16px;min-height:230px}.prologue-scene h2{font-size:24px}.prologue-scene p{font-size:14px}.next-objective p{display:none}.next-objective{margin-top:6px;padding-top:5px}.next-objective button{font-size:10px!important;min-height:44px}.live-estate.stage-illustration{height:230px}.estate-facility{font-size:9px;min-height:30px;max-width:80px}.estate-caption{font-size:10px}.map-pin{min-height:44px}}
