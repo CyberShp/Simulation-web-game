@@ -41,6 +41,7 @@ globalThis.document = {
     return { set innerHTML(html) { fragments.push(html); }, content: { childNodes: [] } };
   },
   querySelector(selector) { if (!nodes.has(selector)) nodes.set(selector, fakeNode()); return nodes.get(selector); },
+  getElementById(id) { return this.querySelector('#' + id); },
   querySelectorAll() { return []; },
   addEventListener(name, handler) { listeners.set(name, handler); },
 };
@@ -53,19 +54,38 @@ const ui = createEAUI({
   closeModal() {}, toast() {}, getSelection: () => null, chooseBuild() {}, getScene: () => 'map',
 });
 const tabs = ['self', 'build', 'disciples', 'manuals', 'production', 'sect', 'explore', 'journal'];
+const pageMarkers = {
+  self: '一身风雨，再立山门', build: '因山就势，营造一方天地', disciples: '山中门人 ·',
+  manuals: '一卷有来处，一道有传人', production: '府库与炉火', sect: '从同院到同道',
+  explore: '山外有旧路，也有新缘', journal: '山中纪事',
+};
 const rows = [];
 function renderScenario(label, candidate) {
   state = candidate;
   const before = structuredClone(state);
+  // The UI begins folded. Rendering only the shell/HUD is not evidence that
+  // any of its eight management-page functions evaluated successfully.
+  ui.unfold();
+  const scenarioPages = new Set();
   for (const current of tabs) {
     tab = current;
     const start = fragments.length;
-    ui.render();
+    ui.renderTab();
     const html = fragments.slice(start).join('');
+    assert.equal(fragments.length - start, 1, `${label}/${tab} records one actual management page`);
     assert.ok(html.length > 100, `${label}/${tab} must actually evaluate a page template`);
+    assert.ok(html.includes('class="panel-copy"'), `${label}/${tab} must render the management container`);
+    assert.ok(html.includes(pageMarkers[tab]), `${label}/${tab} must contain its own heading, not only HUD fragments`);
     assert.doesNotMatch(html, /\bNaN\b|\[object Object\]/, `${label}/${tab} invalid visible values`);
-    rows.push({ scenario: label, tab, htmlCharacters: html.length });
+    if (tab === 'self') assert.ok(html.includes(state.master.name), 'Hero page shows the actual master');
+    if (tab === 'disciples') assert.ok(html.includes(`山中门人 · ${state.disciples.length} /`), 'People page shows the actual count');
+    if (tab === 'manuals') assert.ok(html.includes(sim.TECHNIQUES.qingyuan.name), 'Manuals page evaluates actual techniques');
+    if (tab === 'journal') assert.ok(html.includes(sim.campaignSummary(state).title), 'Journal page shows the current campaign');
+    if (tab === 'sect' && state.sect.founded) assert.ok(html.includes(state.sect.name), 'Sect page shows the founded name');
+    scenarioPages.add(html);
+    rows.push({ scenario: label, tab, heading: pageMarkers[tab], htmlCharacters: html.length, managementPageVerified: true });
   }
+  assert.equal(scenarioPages.size, tabs.length, `${label} must generate eight different management pages`);
   for (const disciple of state.disciples.slice(0, 3)) ui.openPerson(disciple.id);
   for (const building of state.buildings.slice(0, 3)) ui.renderDetail({ kind: 'building', id: building.id });
   ui.openGuide();
@@ -82,9 +102,13 @@ journey.action('resolveExploration', 'challenge');
 renderScenario('active final combat', journey.state);
 journey.tick(100);
 renderScenario('battle defeat and recovery', journey.state);
-await writeFile(new URL('./ea-ui-template-report.json', import.meta.url), JSON.stringify({
+const report = {
+  generatedAt: new Date().toISOString(), version: sim.GAME_VERSION,
   limitation: 'Real template evaluation with a minimal recording document. No browser layout, focus, pointer, mobile or FPS claims.',
   dispatchCommandsChecked: [...exposedCommands].sort(),
+  verification: 'Each scenario explicitly unfolds the UI and records one renderTab management page per tab; checks distinct content, tab-specific heading and actual state facts.',
   rendered: rows,
-}, null, 2) + '\n');
+};
+await writeFile(new URL('./ea-ui-template-report.json', import.meta.url), JSON.stringify(report, null, 2) + '\n');
+await writeFile(new URL('./acceptance-1.3/ui-templates.json', import.meta.url), JSON.stringify(report, null, 2) + '\n');
 console.log(JSON.stringify({ checked: rows.length, scenarios: new Set(rows.map(x => x.scenario)).size, result: 'templates executed without exceptions or visible nonfinite values; state unchanged' }, null, 2));

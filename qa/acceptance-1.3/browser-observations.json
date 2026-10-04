@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "version": "1.3.0-ea",
+  "browser": "Cloud Chrome",
+  "desktopViewport": [1363, 936],
+  "mobileViewport": [390, 844],
+  "isolation": "acceptance=qa-* and public paste/validate/in-memory read; formal slots not written by these checks",
+  "previewFinalCommit": "1d29c2b2094be85fe61d32ab2fde5b0e9ac30260",
+  "observed": [
+    {"case": "Three-page opening and healing", "result": "Herbs 16 to 10; injury falls and next objective visible"},
+    {"case": "Actual building selection, relocation and demolition", "result": "Same selected lumber facility moves; relocation costs 10 jade and 8 wood; demolition removes object and detail with public refund"},
+    {"case": "Approach interaction and facility gating", "result": "Pending approach and cancellation visible; no charge at departure; disabled study on stopped facility"},
+    {"case": "Person interaction", "result": "Actual clicked follower identity and approach intent match; full moving-target arrival covered by logic tests rather than continuous browser observation"},
+    {"case": "Progressive world map", "result": "Story step 4 shows only then-discovered areas"},
+    {"case": "Four battle scenes", "result": "Quarry/stone bridge, prison, supply road and qixia actors stand on registered visible ground after correction"},
+    {"case": "Battle feedback and victory acknowledgement", "result": "Spell qi 84 to 68, -37 hit, cooldown; guard/dodge state visible; won scene retained until report acknowledgement without repeat reward"},
+    {"case": "Local dialogue and chapter progression", "result": "Current clue opens local dialogue at entry; ledger costs 35 jade once; two-page acknowledgement; return and collation opens chapter 5"},
+    {"case": "Legacy full world and person dossier", "result": "30 followers, 40 facilities, two peaks; old chapters do not auto replay; actual work opportunities shown"},
+    {"case": "390px mobile layout", "result": "No horizontal overflow; principal scene navigation, map tools, time controls and settings measured 44px; rows separated"},
+    {"case": "Official deployment", "result": "Original root startup displays EA 1.3.0-ea and release-tagged bootstrap/CSS; isolated public old-save read renders full world"}
+  ],
+  "fixedFromBrowserFindings": ["Preview shared dependency 404", "Battle ground projection on cliff/water", "Skin overriding mobile hit sizes", "Locate clue did not open dialogue", "Person dossier omitted life summary"],
+  "screenshots": ["screenshots/official-full-world.jpg", "screenshots/mobile-390-r5.jpg", "screenshots/quarry-r5.jpg", "screenshots/quarry-spell-r5.jpg", "screenshots/prison-r5.jpg", "screenshots/supply-r5.jpg", "screenshots/qixia-r5.jpg", "screenshots/won-r5.jpg", "screenshots/region-dialogue-r6.jpg"],
+  "performance": {"status": "unverified", "reason": "Cloud visible page supplied sparse rAF callbacks; eight-second observation does not establish sustained device FPS"},
+  "notPerformed": ["Real phone lock/force-close/rotation", "Native file export/import disk round trip", "Friend unassisted playtest", "Hours-long real session and balance", "Long-running device memory measurement"]
+}

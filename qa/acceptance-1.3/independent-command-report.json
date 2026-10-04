@@ -1,0 +1,780 @@
+{
+  "schema": 1,
+  "generatedAt": "2026-10-04T19:19:07.052Z",
+  "version": "1.3.0-ea",
+  "scope": "Independent public-command simulation acceptance; no resource, realm, story flag or willingness injection",
+  "cases": [
+    {
+      "name": "New-save recovery, voluntary guest and chapter progression through public commands",
+      "status": "passed",
+      "milliseconds": 70.331748,
+      "evidence": {
+        "time": 120,
+        "day": 2,
+        "masterRealm": 6,
+        "masterKnowledge": {
+          "qingyuan": 40
+        },
+        "storyStep": 4,
+        "followers": 2,
+        "buildings": 5,
+        "resources": {
+          "jade": 22,
+          "wood": 21.480000000000004,
+          "stone": 2,
+          "herb": 13.799999999999999,
+          "crystal": 0,
+          "insight": 8,
+          "food": 44
+        },
+        "founded": false,
+        "peaks": [],
+        "stats": {
+          "built": 4,
+          "breakthroughs": 0,
+          "expeditions": 0,
+          "crafted": 0,
+          "relocated": 0,
+          "trades": 0,
+          "consumed": 0
+        }
+      }
+    },
+    {
+      "name": "Paused facilities cannot silently satisfy current chapter; restoring uses the same building",
+      "status": "passed",
+      "milliseconds": 12.32595599999999,
+      "evidence": {
+        "id": 2,
+        "operations": 11
+      }
+    },
+    {
+      "name": "Travel and companion location resume exactly without duplicated home actors",
+      "status": "passed",
+      "milliseconds": 3.2417780000000107,
+      "evidence": {
+        "companionId": 1,
+        "journeyId": 1
+      }
+    },
+    {
+      "name": "Craft pause and repeated reload preserve remaining work and produce exactly one batch",
+      "status": "passed",
+      "milliseconds": 442.580873,
+      "evidence": {
+        "furnaceId": 8,
+        "remaining": 22,
+        "crafted": 2
+      }
+    },
+    {
+      "name": "Actual combat defeat preserves clues and prepares a normal healing/retry path",
+      "status": "passed",
+      "milliseconds": 113.54683599999998,
+      "evidence": {
+        "storyStep": 8,
+        "retryResult": "won",
+        "operations": 57
+      }
+    },
+    {
+      "name": "Complete normal campaign, formal sect, two peaks and 30 people / 40 actual facilities",
+      "status": "passed",
+      "milliseconds": 5140.149459,
+      "evidence": {
+        "final": {
+          "time": 6587,
+          "day": 55,
+          "masterRealm": 10,
+          "masterKnowledge": {
+            "qingyuan": 100,
+            "spring": 37.24999999999902,
+            "alchemy": 57.24999999999902,
+            "foundation": 85.20000000000014
+          },
+          "storyStep": 10,
+          "followers": 30,
+          "buildings": 40,
+          "resources": {
+            "jade": 1155.2739848089598,
+            "wood": 794.3040156106241,
+            "stone": 752.2639686203391,
+            "herb": 1195.021690275213,
+            "crystal": 104.7302619136,
+            "insight": 468.7431818474719,
+            "food": 1708.7122698668366
+          },
+          "founded": true,
+          "peaks": [
+            {
+              "id": 1,
+              "name": "青木药峰",
+              "direction": "herb",
+              "hostId": 2
+            },
+            {
+              "id": 2,
+              "name": "厚土阵峰",
+              "direction": "array",
+              "hostId": 8
+            }
+          ],
+          "stats": {
+            "built": 39,
+            "breakthroughs": 73,
+            "expeditions": 8,
+            "crafted": 1,
+            "relocated": 0,
+            "trades": 661,
+            "consumed": 0
+          }
+        },
+        "operationCount": 1125,
+        "validationCount": 31,
+        "milestones": [
+          {
+            "label": "first chapter complete",
+            "time": 120,
+            "day": 2,
+            "masterRealm": 6,
+            "masterKnowledge": {
+              "qingyuan": 40
+            },
+            "storyStep": 4,
+            "followers": 2,
+            "buildings": 5,
+            "resources": {
+              "jade": 22,
+              "wood": 21.480000000000004,
+              "stone": 2,
+              "herb": 13.799999999999999,
+              "crystal": 0,
+              "insight": 8,
+              "food": 44
+            },
+            "founded": false,
+            "peaks": [],
+            "stats": {
+              "built": 4,
+              "breakthroughs": 0,
+              "expeditions": 0,
+              "crafted": 0,
+              "relocated": 0,
+              "trades": 0,
+              "consumed": 0
+            }
+          },
+          {
+            "label": "reliable foundation manual obtained",
+            "time": 208,
+            "day": 2,
+            "masterRealm": 6,
+            "masterKnowledge": {
+              "qingyuan": 40
+            },
+            "storyStep": 5,
+            "followers": 2,
+            "buildings": 5,
+            "resources": {
+              "jade": 107,
+              "wood": 57.37837056000001,
+              "stone": 2,
+              "herb": 25.499359999999996,
+              "crystal": 3,
+              "insight": 33,
+              "food": 44
+            },
+            "founded": false,
+            "peaks": [],
+            "stats": {
+              "built": 4,
+              "breakthroughs": 0,
+              "expeditions": 2,
+              "crafted": 0,
+              "relocated": 0,
+              "trades": 0,
+              "consumed": 0
+            }
+          },
+          {
+            "label": "master spring mastery 20",
+            "time": 398,
+            "day": 4,
+            "masterRealm": 6,
+            "masterKnowledge": {
+              "qingyuan": 40,
+              "spring": 20
+            },
+            "storyStep": 5,
+            "followers": 2,
+            "buildings": 8,
+            "resources": {
+              "jade": 21.919999999999987,
+              "wood": 44.939412112,
+              "stone": 4.068799999999996,
+              "herb": 15.499359999999996,
+              "crystal": 3,
+              "insight": 23,
+              "food": 32
+            },
+            "founded": false,
+            "peaks": [],
+            "stats": {
+              "built": 7,
+              "breakthroughs": 0,
+              "expeditions": 2,
+              "crafted": 0,
+              "relocated": 0,
+              "trades": 0,
+              "consumed": 0
+            }
+          },
+          {
+            "label": "master alchemy mastery 40",
+            "time": 558,
+            "day": 5,
+            "masterRealm": 6,
+            "masterKnowledge": {
+              "qingyuan": 40,
+              "spring": 20,
+              "alchemy": 40
+            },
+            "storyStep": 5,
+            "followers": 2,
+            "buildings": 8,
+            "resources": {
+              "jade": 92.19999999999999,
+              "wood": 43.939412112,
+              "stone": 21.674655999999995,
+              "herb": 31.483623999999995,
+              "crystal": 3,
+              "insight": 23,
+              "food": 26
+            },
+            "founded": false,
+            "peaks": [],
+            "stats": {
+              "built": 7,
+              "breakthroughs": 0,
+              "expeditions": 2,
+              "crafted": 0,
+              "relocated": 0,
+              "trades": 0,
+              "consumed": 0
+            }
+          },
+          {
+            "label": "master realm 7",
+            "time": 748,
+            "day": 7,
+            "masterRealm": 7,
+            "masterKnowledge": {
+              "qingyuan": 56.79999999999964,
+              "spring": 23.4999999999998,
+              "alchemy": 43.4999999999998
+            },
+            "storyStep": 5,
+            "followers": 2,
+            "buildings": 8,
+            "resources": {
+              "jade": 148.39999999999992,
+              "wood": 101.939412112,
+              "stone": 61.674656,
+              "herb": 5.283623999999989,
+              "crystal": 3,
+              "insight": 23,
+              "food": 14
+            },
+            "founded": false,
+            "peaks": [],
+            "stats": {
+              "built": 7,
+              "breakthroughs": 1,
+              "expeditions": 2,
+              "crafted": 0,
+              "relocated": 0,
+              "trades": 0,
+              "consumed": 0
+            }
+          },
+          {
+            "label": "master realm 8",
+            "time": 998,
+            "day": 9,
+            "masterRealm": 8,
+            "masterKnowledge": {
+              "qingyuan": 77.19999999999999,
+              "spring": 27.74999999999956,
+              "alchemy": 47.74999999999956
+            },
+            "storyStep": 5,
+            "followers": 2,
+            "buildings": 8,
+            "resources": {
+              "jade": 81.31999999999988,
+              "wood": 99.939412112,
+              "stone": 61.674656,
+              "herb": 0.7059759999999784,
+              "crystal": 3,
+              "insight": 23,
+              "food": 39.44324
+            },
+            "founded": false,
+            "peaks": [],
+            "stats": {
+              "built": 7,
+              "breakthroughs": 2,
+              "expeditions": 2,
+              "crafted": 0,
+              "relocated": 0,
+              "trades": 0,
+              "consumed": 0
+            }
+          },
+          {
+            "label": "master realm 9",
+            "time": 1308,
+            "day": 11,
+            "masterRealm": 9,
+            "masterKnowledge": {
+              "qingyuan": 100,
+              "spring": 32.49999999999929,
+              "alchemy": 52.49999999999929
+            },
+            "storyStep": 5,
+            "followers": 2,
+            "buildings": 8,
+            "resources": {
+              "jade": 30.599999999999852,
+              "wood": 97.939412112,
+              "stone": 61.674656,
+              "herb": 6.829135999999977,
+              "crystal": 3,
+              "insight": 23,
+              "food": 27.443240000000003
+            },
+            "founded": false,
+            "peaks": [],
+            "stats": {
+              "built": 7,
+              "breakthroughs": 3,
+              "expeditions": 2,
+              "crafted": 0,
+              "relocated": 0,
+              "trades": 0,
+              "consumed": 0
+            }
+          },
+          {
+            "label": "master foundation mastery 60",
+            "time": 1748,
+            "day": 15,
+            "masterRealm": 9,
+            "masterKnowledge": {
+              "qingyuan": 100,
+              "spring": 32.49999999999929,
+              "alchemy": 52.49999999999929,
+              "foundation": 60
+            },
+            "storyStep": 5,
+            "followers": 2,
+            "buildings": 8,
+            "resources": {
+              "jade": 142.59999999999985,
+              "wood": 93.939412112,
+              "stone": 61.674656,
+              "herb": 30.044455999999975,
+              "crystal": 3,
+              "insight": 23,
+              "food": 27.260264000000006
+            },
+            "founded": false,
+            "peaks": [],
+            "stats": {
+              "built": 7,
+              "breakthroughs": 5,
+              "expeditions": 2,
+              "crafted": 0,
+              "relocated": 0,
+              "trades": 0,
+              "consumed": 0
+            }
+          },
+          {
+            "label": "master realm 10",
+            "time": 2969,
+            "day": 25,
+            "masterRealm": 10,
+            "masterKnowledge": {
+              "qingyuan": 100,
+              "spring": 37.24999999999902,
+              "alchemy": 57.24999999999902,
+              "foundation": 82.80000000000062
+            },
+            "storyStep": 5,
+            "followers": 2,
+            "buildings": 8,
+            "resources": {
+              "jade": 405.5399999999998,
+              "wood": 83.939412112,
+              "stone": 99.62768520192003,
+              "herb": 177.30394372255995,
+              "crystal": 13,
+              "insight": 33.393356983808,
+              "food": 76.12547424799996
+            },
+            "founded": false,
+            "peaks": [],
+            "stats": {
+              "built": 7,
+              "breakthroughs": 8,
+              "expeditions": 2,
+              "crafted": 1,
+              "relocated": 0,
+              "trades": 27,
+              "consumed": 0
+            }
+          },
+          {
+            "label": "foundation breakthrough",
+            "time": 2969,
+            "day": 25,
+            "masterRealm": 10,
+            "masterKnowledge": {
+              "qingyuan": 100,
+              "spring": 37.24999999999902,
+              "alchemy": 57.24999999999902,
+              "foundation": 82.80000000000062
+            },
+            "storyStep": 6,
+            "followers": 2,
+            "buildings": 8,
+            "resources": {
+              "jade": 405.5399999999998,
+              "wood": 83.939412112,
+              "stone": 99.62768520192003,
+              "herb": 177.30394372255995,
+              "crystal": 13,
+              "insight": 33.393356983808,
+              "food": 76.12547424799996
+            },
+            "founded": false,
+            "peaks": [],
+            "stats": {
+              "built": 7,
+              "breakthroughs": 8,
+              "expeditions": 2,
+              "crafted": 1,
+              "relocated": 0,
+              "trades": 27,
+              "consumed": 0
+            }
+          },
+          {
+            "label": "qixia gate opened with four preparations",
+            "time": 3151,
+            "day": 27,
+            "masterRealm": 10,
+            "masterKnowledge": {
+              "qingyuan": 100,
+              "spring": 37.24999999999902,
+              "alchemy": 57.24999999999902,
+              "foundation": 82.80000000000062
+            },
+            "storyStep": 8,
+            "followers": 2,
+            "buildings": 8,
+            "resources": {
+              "jade": 367.3599999999998,
+              "wood": 73.786532112,
+              "stone": 54.62768520192003,
+              "herb": 167.30394372255995,
+              "crystal": 13,
+              "insight": 23.328356983807996,
+              "food": 96.99395024799995
+            },
+            "founded": false,
+            "peaks": [],
+            "stats": {
+              "built": 7,
+              "breakthroughs": 8,
+              "expeditions": 7,
+              "crafted": 1,
+              "relocated": 0,
+              "trades": 27,
+              "consumed": 0
+            }
+          },
+          {
+            "label": "first major chapter completed",
+            "time": 3167,
+            "day": 27,
+            "masterRealm": 10,
+            "masterKnowledge": {
+              "qingyuan": 100,
+              "spring": 37.24999999999902,
+              "alchemy": 57.24999999999902,
+              "foundation": 82.80000000000062
+            },
+            "storyStep": 10,
+            "followers": 2,
+            "buildings": 8,
+            "resources": {
+              "jade": 597.3599999999998,
+              "wood": 133.786532112,
+              "stone": 114.62768520192003,
+              "herb": 207.30394372255995,
+              "crystal": 21,
+              "insight": 58.32835698380799,
+              "food": 96.99395024799995
+            },
+            "founded": false,
+            "peaks": [],
+            "stats": {
+              "built": 7,
+              "breakthroughs": 8,
+              "expeditions": 8,
+              "crafted": 1,
+              "relocated": 0,
+              "trades": 27,
+              "consumed": 0
+            }
+          },
+          {
+            "label": "12 followers",
+            "time": 3637,
+            "day": 31,
+            "masterRealm": 10,
+            "masterKnowledge": {
+              "qingyuan": 100,
+              "spring": 37.24999999999902,
+              "alchemy": 57.24999999999902,
+              "foundation": 82.80000000000062
+            },
+            "storyStep": 10,
+            "followers": 12,
+            "buildings": 10,
+            "resources": {
+              "jade": 17.279999999999774,
+              "wood": 105.090618512,
+              "stone": 74.62768520192003,
+              "herb": 99.92605401055994,
+              "crystal": 21,
+              "insight": 58.32835698380799,
+              "food": 97.64233216799994
+            },
+            "founded": false,
+            "peaks": [],
+            "stats": {
+              "built": 9,
+              "breakthroughs": 9,
+              "expeditions": 8,
+              "crafted": 1,
+              "relocated": 0,
+              "trades": 39,
+              "consumed": 0
+            }
+          },
+          {
+            "label": "formal sect founded",
+            "time": 3917,
+            "day": 33,
+            "masterRealm": 10,
+            "masterKnowledge": {
+              "qingyuan": 100,
+              "spring": 37.24999999999902,
+              "alchemy": 57.24999999999902,
+              "foundation": 82.80000000000062
+            },
+            "storyStep": 10,
+            "followers": 12,
+            "buildings": 12,
+            "resources": {
+              "jade": 2.2799999999997453,
+              "wood": 3.5207433120000076,
+              "stone": 43.76446344192004,
+              "herb": 92.27425401055994,
+              "crystal": 21,
+              "insight": 51.54017778380799,
+              "food": 103.22470016799991
+            },
+            "founded": true,
+            "peaks": [],
+            "stats": {
+              "built": 11,
+              "breakthroughs": 9,
+              "expeditions": 8,
+              "crafted": 1,
+              "relocated": 0,
+              "trades": 87,
+              "consumed": 0
+            }
+          },
+          {
+            "label": "two independently hosted active peaks",
+            "time": 5097,
+            "day": 43,
+            "masterRealm": 10,
+            "masterKnowledge": {
+              "qingyuan": 100,
+              "spring": 37.24999999999902,
+              "alchemy": 57.24999999999902,
+              "foundation": 82.80000000000062
+            },
+            "storyStep": 10,
+            "followers": 12,
+            "buildings": 12,
+            "resources": {
+              "jade": 25.397977855999756,
+              "wood": 288.10973572800003,
+              "stone": 250.9708476518399,
+              "herb": 519.140560392179,
+              "crystal": 21,
+              "insight": 322.63444751500793,
+              "food": 826.8161040924799
+            },
+            "founded": true,
+            "peaks": [
+              {
+                "id": 1,
+                "name": "青木药峰",
+                "direction": "herb",
+                "hostId": 2
+              },
+              {
+                "id": 2,
+                "name": "厚土阵峰",
+                "direction": "array",
+                "hostId": 8
+              }
+            ],
+            "stats": {
+              "built": 11,
+              "breakthroughs": 29,
+              "expeditions": 8,
+              "crafted": 1,
+              "relocated": 0,
+              "trades": 149,
+              "consumed": 0
+            }
+          },
+          {
+            "label": "30 followers",
+            "time": 5457,
+            "day": 46,
+            "masterRealm": 10,
+            "masterKnowledge": {
+              "qingyuan": 100,
+              "spring": 37.24999999999902,
+              "alchemy": 57.24999999999902,
+              "foundation": 82.80000000000062
+            },
+            "storyStep": 10,
+            "followers": 30,
+            "buildings": 17,
+            "resources": {
+              "jade": 22.460047528959763,
+              "wood": 130.33795673062403,
+              "stone": 164.89178873937908,
+              "herb": 174.6459674832152,
+              "crystal": 21,
+              "insight": 375.85657385971194,
+              "food": 190.44764411118854
+            },
+            "founded": true,
+            "peaks": [
+              {
+                "id": 1,
+                "name": "青木药峰",
+                "direction": "herb",
+                "hostId": 2
+              },
+              {
+                "id": 2,
+                "name": "厚土阵峰",
+                "direction": "array",
+                "hostId": 8
+              }
+            ],
+            "stats": {
+              "built": 16,
+              "breakthroughs": 32,
+              "expeditions": 8,
+              "crafted": 1,
+              "relocated": 0,
+              "trades": 297,
+              "consumed": 0
+            }
+          },
+          {
+            "label": "30 followers and 40 connected buildings",
+            "time": 6587,
+            "day": 55,
+            "masterRealm": 10,
+            "masterKnowledge": {
+              "qingyuan": 100,
+              "spring": 37.24999999999902,
+              "alchemy": 57.24999999999902,
+              "foundation": 85.20000000000014
+            },
+            "storyStep": 10,
+            "followers": 30,
+            "buildings": 40,
+            "resources": {
+              "jade": 1155.2739848089598,
+              "wood": 794.3040156106241,
+              "stone": 752.2639686203391,
+              "herb": 1195.021690275213,
+              "crystal": 104.7302619136,
+              "insight": 468.7431818474719,
+              "food": 1708.7122698668366
+            },
+            "founded": true,
+            "peaks": [
+              {
+                "id": 1,
+                "name": "青木药峰",
+                "direction": "herb",
+                "hostId": 2
+              },
+              {
+                "id": 2,
+                "name": "厚土阵峰",
+                "direction": "array",
+                "hostId": 8
+              }
+            ],
+            "stats": {
+              "built": 39,
+              "breakthroughs": 73,
+              "expeditions": 8,
+              "crafted": 1,
+              "relocated": 0,
+              "trades": 661,
+              "consumed": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Full-scale restored logical session and scene projection stay valid",
+      "status": "passed",
+      "milliseconds": 361.90426000000025,
+      "evidence": {
+        "logicalPairedTickAndProjectionP50Ms": 4.221134000000347,
+        "logicalPairedTickAndProjectionP95Ms": 13.118687000000136,
+        "browserFpsClaim": false
+      }
+    }
+  ],
+  "passed": 7,
+  "failed": 0,
+  "milliseconds": 6144.533828,
+  "pending": [
+    "Browser exact picking, occlusion, visible feedback, touch/drag and FPS verification by root agent",
+    "Friend unassisted playtest",
+    "iOS/Android real-device background, lock, force-close and rotation verification"
+  ]
+}

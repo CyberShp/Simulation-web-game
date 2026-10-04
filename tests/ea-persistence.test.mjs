@@ -349,6 +349,61 @@ test('without a cooperation channel takeover never steals an active writer lock'
   a.close(); b.close();
 });
 
+test('a takeover refuses to release the only current snapshot when its final durable save fails', async () => {
+  const {make, storage, locks} = setup(), channelFactory = broadcasts();
+  const a = make({channelFactory, getState: () => world(63)});
+  const b = make({channelFactory, takeoverTimeoutMs: 50});
+  await a.open(1); a.save(world(60));
+  storage.fail = key => { if (key === slotKeys(1).primary) throw quota(); };
+  const takeover = await b.open(1, {takeover: true});
+  assert.equal(takeover.ok, false); assert.equal(takeover.code, 'takeover-denied');
+  assert.equal(a.mode, 'writer'); assert.equal(a.canWrite, true);
+  assert.equal(a.lastResult.code, 'storage-full'); assert.equal(locks.held.size, 1);
+  assert.equal(a.inspect(1).state.resources.jade, 60);
+  assert.equal(b.save(world(900)).ok, false);
+  storage.fail = null;
+  const retried = await b.open(1, {takeover: true});
+  assert.equal(retried.ok, true); assert.equal(retried.state.resources.jade, 63);
+  a.close(); b.close();
+});
+
+test('an owner snapshot callback error never silently hands off an outdated primary', async () => {
+  const {make} = setup(), channelFactory = broadcasts();
+  const a = make({channelFactory, getState: () => { throw new Error('当前状态不可读取'); }});
+  const b = make({channelFactory, takeoverTimeoutMs: 50});
+  await a.open(1); a.save(world(60));
+  assert.equal((await b.open(1, {takeover: true})).code, 'takeover-denied');
+  assert.equal(a.canWrite, true); assert.equal(a.inspect(1).state.resources.jade, 60);
+  a.close(); b.close();
+});
+
+test('BFCache head tokens detect a newer writer after a failed departure save', async () => {
+  const {p: a, make, storage} = setup(); await a.open(1); a.save(world(60));
+  const parked = a.captureHead();
+  storage.fail = key => { if (key === slotKeys(1).primary) throw quota(); };
+  assert.equal(a.release({state: world(63)}).ok, false);
+  await flush(); storage.fail = null;
+  const b = make(); await b.open(1); b.save(world(70)); b.release(); await flush();
+  const reopened = await a.open(1);
+  assert.equal(reopened.state.resources.jade, 70);
+  assert.equal(a.matchesHead(parked), false);
+  assert.equal(a.parseImport(a.exportState(world(63))).state.resources.jade, 63);
+  assert.equal(a.inspect(1).state.resources.jade, 70);
+  a.close(); b.close();
+});
+
+test('a failed departure with unchanged head permits retry without replaying activity or claims', async () => {
+  const {p, storage} = setup(); await p.open(1); p.save(world(60));
+  const parked = p.captureHead();
+  storage.fail = key => { if (key === slotKeys(1).primary) throw quota(); };
+  assert.equal(p.release({state: world(63)}).ok, false); await flush(); storage.fail = null;
+  await p.open(1); assert.equal(p.matchesHead(parked), true);
+  assert.equal(p.save(world(63)).ok, true); assert.equal(p.matchesHead(parked), false);
+  const restored = p.inspect(1).state;
+  assert.deepEqual(restored.claimed, ['intro']); assert.deepEqual(restored.activity, world().activity);
+  p.close();
+});
+
 test('closing during asynchronous open cancels the late grant without an orphan lock', async () => {
   const {p, locks} = setup();
   const pending = p.open(1); p.close();
@@ -364,6 +419,24 @@ test('noncooperating external writes are detected and never overwritten by a sta
   assert.equal(saved.ok, false); assert.equal(saved.code, 'conflict');
   assert.equal(p.mode, 'readonly'); assert.equal(storage.getItem(slotKeys(1).primary), foreign);
   p.close();
+});
+
+test('a noncooperating write during open never pairs old state with a newer writable head', async () => {
+  const {p, storage, make} = setup(); await p.open(1); p.save(world(20)); p.close(); await flush();
+  const foreign = p.exportState(world(900)), originalGet = storage.getItem;
+  let changed = false;
+  storage.getItem = function(key) {
+    const raw = originalGet.call(this, key);
+    if (!changed && key === slotKeys(1).primary) { changed = true; this.data.set(key, foreign); }
+    return raw;
+  };
+  const next = make(), opened = await next.open(1);
+  assert.equal(opened.ok, false); assert.equal(opened.code, 'conflict');
+  assert.equal(next.canWrite, false); assert.equal(next.save(world(21)).ok, false);
+  assert.equal(storage.getItem(slotKeys(1).primary), foreign);
+  storage.getItem = originalGet;
+  assert.equal((await next.open(1)).state.resources.jade, 900);
+  next.close();
 });
 
 test('storage events stop the active simulation owner on an unexpected primary change', async () => {

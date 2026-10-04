@@ -1,0 +1,14 @@
+{
+  "version": "1.3.0-ea",
+  "verifiedAt": "2026-10-04T19:28:00Z",
+  "url": "https://cybershp.github.io/Simulation-web-game/",
+  "branch": "gh-pages",
+  "commit": "bf743959ff0ae0c2f00aedd60de665053799a582",
+  "cacheTag": "ea-130-release-20261005",
+  "deploymentRun": 37228022086,
+  "deploymentConclusion": "success",
+  "textEntries": 77,
+  "automatic": {"tests": 264, "failed": 0, "skipped": 0, "actualManagementTemplates": 48, "publicCommandScenarios": 7},
+  "officialBrowser": {"startupVersion": "1.3.0-ea", "existingFormalWorldsVisible": 3, "formalWorldsOpenedOrWrittenDuringFinalCheck": false, "isolatedOldSaveRead": "day 55, 30 followers, two peaks", "screenshot": "screenshots/official-full-world.jpg"},
+  "limitations": ["Real iOS/Android lifecycle untested", "Sustained device FPS and memory unverified", "Native file disk round trip untested", "Friend blind playtest and long balance session untested"]
+}

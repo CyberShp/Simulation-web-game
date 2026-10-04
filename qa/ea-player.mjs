@@ -263,20 +263,23 @@ export class Player {
     while (this.state.combat?.status === 'active') {
       assert.ok(this.state.time - started < 200, 'The battle must end within 200 seconds of player actions');
       const c = this.state.combat, player = c.player;
-      const enemy = c.enemies.filter(e => e.hp > 0).sort((a, b) =>
+      const nearest = () => c.enemies.filter(e => e.hp > 0).sort((a, b) =>
         Math.hypot(a.x - player.x, a.y - player.y) - Math.hypot(b.x - player.x, b.y - player.y))[0];
+      let enemy = nearest();
       if (!enemy) break;
-      const danger = c.enemies.find(e => e.telegraph && Math.hypot(e.telegraph.x - player.x, e.telegraph.y - player.y) <= e.telegraph.radius + .2);
+      const danger = c.enemies.find(e => e.hp > 0 && e.telegraph && Math.hypot(e.telegraph.x - player.x, e.telegraph.y - player.y) <= e.telegraph.radius + .2);
       const choices = sim.combatOptions(this.state);
       if (danger && !choices.find(c => c.id === 'dodge').disabled) {
         this.action('combatAction', 'dodge', { x: player.x, y: player.y <= 4 ? 7.2 : .8 });
       }
       for (const id of ['spell', 'attack']) {
+        enemy = nearest();
         const option = sim.combatOptions(this.state).find(c => c.id === id);
-        if (this.state.combat?.status === 'active' && option && !option.disabled) this.action('combatAction', id, enemy.id);
+        if (this.state.combat?.status === 'active' && enemy && option && !option.disabled) this.action('combatAction', id, enemy.id);
       }
       if (this.state.combat?.status !== 'active') break;
-      if (Math.hypot(enemy.x - player.x, enemy.y - player.y) > 1.85 && !danger) {
+      enemy = nearest();
+      if (enemy && (Math.hypot(enemy.x - player.x, enemy.y - player.y) > 1.85 || /遮挡/.test(sim.combatOptions(this.state).find(c => c.id === 'attack')?.reason || '')) && !danger) {
         this.action('combatAction', 'move', { x: enemy.x, y: enemy.y });
       }
       this.tick(1);

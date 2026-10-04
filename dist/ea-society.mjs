@@ -2,6 +2,8 @@ import {BUILDINGS, TECHNIQUES, RECIPES, ROUTES, CELLS, RESOURCES, TRAIT_NAMES,
   rng, day, log, pay, canPay, grant, capacity, xpNeed, clamp} from './ea-data.mjs';
 
 import {routeDiscovered} from './ea-scene-state.mjs';
+import {lifeFacility,lifeActivityLock,lifePath,lifeScenePath,actorScenePosition,personLifeSummary,workOpportunity,teachingPresent} from './ea-life.mjs';
+import {advanceScenic,repairScenicActor,validateScenic,SCENE_GEOMETRY,buildingAccess,scenicDistance,geometryRevision,syncScenicPosition} from './ea-scenic.mjs';
 
 /** Society owns every NPC action. The main loop owns time, meals, upkeep and the master's actions. */
 export const SOCIETY_ROLES = {
@@ -84,9 +86,16 @@ export function initDisciple(s,d,{legacy=false}={}) {
   p.reorientUntil ??= 0;
   p.lastConversion ??= -600;
   p.supportIntent ??= null;
+  initLifeScenic(s,d);
   if(s.society)s.society.nextPersonId=Math.max(s.society.nextPersonId||1,d.id+1);
   if(legacy&&!p.memories.some(m=>m.key==='legacy'))remember(s,d,'旧日修行与既有传承得以保留，如今自行权衡生活与求道。',{important:true,key:'legacy'});
   return d;
+}
+export function initLifeScenic(s,d){
+ const p=d.mind;if(p.scenic!==undefined)return;
+ const facility=lifeFacility(s,d),start=facility?buildingAccess(s,facility):buildingAccess(s,s.buildings.find(b=>b.type==='hall'));
+ p.scenic={...start,path:[],steps:0,facing:1,back:false,geometry:SCENE_GEOMETRY,revision:geometryRevision(s),goal:null};
+ if(p.path?.length){const destination=lifeFacility(s,d);p.scenic.path=destination?lifeScenePath(s,d,destination)||[]:[];p.scenic.goal=p.scenic.path.at(-1)||null;p.path=[];}
 }
 export function initSociety(s,{legacy=false,legacyRoutes=null}={}) {
   s.doctrine ||= {books:['qingyuan'],sealed:[],workFocus:'balanced',pillRule:'shared',routes:[]};
@@ -201,10 +210,10 @@ function peakFor(s,d) {return s.society.peaks.find(p=>p.id===d.mind.peakId&&p.ac
 function lessonBonus(s,d,id) {
   let value=1;
   const mentor=d.mind.mentorId==='master'?s.master:npc(s,d.mind.mentorId);
-  if(mentor&&known(mentor,id)>=45&&(mentor===s.master?mentor.action==='teach':mentor.mind.activity==='teach'))value+=.35;
-  if(s.master.action==='teach'&&known(s.master,id)>=45)value+=.2;
+  if(mentor&&known(mentor,id)>=45&&teachingPresent(s,mentor,d,id))value+=.35;
+  if(known(s.master,id)>=45&&teachingPresent(s,s.master,d,id))value+=.2;
   const teacher=npc(s,s.society.officers.teacher);
-  if(teacher&&teacher.id!==d.id&&teacher.mind.activity==='teach'&&known(teacher,id)>=50)value+=.25;
+  if(teacher&&teacher.id!==d.id&&known(teacher,id)>=50&&teachingPresent(s,teacher,d,id))value+=.25;
   if(s.society.guestLesson?.until>clock(s)&&s.society.guestLesson.topic===id)value+=.35;
   const peak=peakFor(s,d);
   if(peak&&PEAK_DIRECTIONS[peak.direction].techniques.includes(id))value+=.15+.08*peak.budget;
@@ -250,7 +259,7 @@ function candidateStudy(s,d,hooks) {
   const p=d.mind, choices=[];
   if(p.learning) {
     const id=p.learning.id, sealed=s.doctrine.sealed.includes(id)||p.restrictedUntil>clock(s), defiant=p.traits[4]-p.traits[2]-p.caution*12>28;
-    if((!sealed&&p.restrictedUntil<=clock(s))||defiant)choices.push({activity:'study',job:null,learning:p.learning,score:93,reason:hiddenBook(s,d,id)||sealed?'独处参悟，暂不愿详谈。':`继续研习《${TECHNIQUES[id].name}》，专心完成既定功课。`});
+    if(lifeFacility(s,d,'study',id)&&((!sealed&&p.restrictedUntil<=clock(s))||defiant))choices.push({activity:'study',job:null,learning:p.learning,score:93,reason:hiddenBook(s,d,id)||sealed?'独处参悟，暂不愿详谈。':`继续研习《${TECHNIQUES[id].name}》，专心完成既定功课。`});
     return choices;
   }
   for(const id of s.doctrine.books) {
@@ -307,16 +316,21 @@ function considerSupportChange(s,d,hooks) {
 function decide(s,d,hooks) {
   const p=d.mind;if(p.away)return;
   considerPill(s,d,hooks);
+  if(d.breakthroughCooldown>s.time){p.activity='rest';d.job=null;p.path=[];p.scenic.path=[];p.reason='突破后守住心神，先在原地调息，暂缓差事与授业。';p.commitUntil=d.breakthroughCooldown;return;}
   if(d.xp>=xpNeed(d.realm)&&d.realm<12&&d.energy>=45&&d.wound<=5&&clock(s)-p.lastBreakthrough>=120&&hooks.breakthroughLock&&!hooks.breakthroughLock(s,d,false)) {
-    p.lastBreakthrough=clock(s);hooks.breakthroughPerson(s,d,false,{autonomous:true});
-    remember(s,d,'自己衡量准备后尝试突破。境界高低不会代替对同门的判断。',{important:true,key:`breakthrough:${d.realm}:${p.lastBreakthrough}`});
+    const quiet=lifeFacility(s,d,'cultivate');
+    if(quiet&&scenicDistance(p.scenic,buildingAccess(s,quiet))<=18&&!p.scenic.path.length){
+      p.lastBreakthrough=clock(s);hooks.breakthroughPerson(s,d,false,{autonomous:true});p.activity='rest';d.job=null;p.path=[];p.scenic.path=[];p.reason='自己衡量准备后完成突破，先在安静处调息。';p.commitUntil=d.breakthroughCooldown;
+      remember(s,d,'自己衡量准备后尝试突破。境界高低不会代替对同门的判断。',{important:true,key:`breakthrough:${d.realm}:${p.lastBreakthrough}`});return;
+    }
+    if(quiet){p.activity='cultivate';d.job=quiet.id;p.reason='修为与材料已备妥，先自行前往安静处，准备突破。';p.path=[];p.scenic.path=lifeScenePath(s,d,quiet)||[];p.scenic.goal=buildingAccess(s,quiet);p.scenic.revision=geometryRevision(s);p.commitUntil=clock(s)+6;p.lastDecision=clock(s);return;}
   }
   const urgent=d.energy<22||d.wound>45||p.satiety<22;
   if(!urgent&&p.reorientUntil>clock(s))return;
   if(!urgent&&clock(s)>=p.commitUntil&&considerSupportChange(s,d,hooks))return;
   if(!urgent&&clock(s)<p.commitUntil&&p.activity!=='rest'&&p.activity!=='social') {
     const b=s.buildings.find(b=>b.id===d.job);
-    if(d.job===null||b&&pathTo(s,d,b)!==null)return;
+    if(!lifeActivityLock(s,d)&&(d.job===null||b))return;
   }
   let chosen;
   if(p.satiety<22)chosen={activity:'forage',job:null,score:200,reason:'口粮紧缺，先到院旁采寻野食，保障自己和同伴的生活。'};
@@ -331,23 +345,22 @@ function decide(s,d,hooks) {
       const t=BUILDINGS[b.type];if(!t||occupied(s,d,b)||!buildingActive(b))continue;
       const cultivation=['hall','meditation'].includes(b.type);
       if(!t.work&&!cultivation)continue;
-      const path=pathTo(s,d,b);if(path===null){unreachable++;continue;}
       if(cultivation) {
         if(!p.main||d.xp>=xpNeed(d.realm))continue;
-        choices.push({activity:'cultivate',job:b.id,path,score:22+ambition*.45+(d.job===b.id?9:0),reason:'希望精进境界，选择静心修炼。'});
+        choices.push({activity:'cultivate',job:b.id,score:22+ambition*.45+(d.job===b.id?9:0),reason:'希望精进境界，选择静心修炼。'});
       } else {
-        if(clock(s)<p.refusalUntil||trust<15&&discipline<60||t.input&&!canPay(s,t.input))continue;
+        if(!workOpportunity(s,d,b,{checkPath:false}).available)continue;
         const output=Object.keys(t.out)[0];if(!output)continue;
         const target={food:Math.max(35,s.disciples.length*7),jade:100,wood:90,stone:75,herb:Math.max(45,s.disciples.length*8),crystal:15,insight:30}[output]||50;
         const scarcity=clamp((target-(s.resources[output]||0))/target,0,1)*40;
         const focus=output===s.doctrine.workFocus?20:0;
         const steward=living(s,s.society.officers.steward)?5:0;
-        choices.push({activity:'work',job:b.id,path,score:11+discipline*.3+kindness*.1+scarcity+focus+steward+(d.job===b.id?10:0)+(p.restitutionBalance>0&&trust>25?12:0)+(p.goal.includes('草木')&&(t.tags||[]).includes('plant')?10:0),reason:`${focus?'响应公开差事，':scarcity>20?'看到供给紧缺，':'权衡生活与修行后，'}愿意到${t.name}做事。`});
+        choices.push({activity:'work',job:b.id,score:11+discipline*.3+kindness*.1+scarcity+focus+steward+(d.job===b.id?10:0)+(p.restitutionBalance>0&&trust>25?12:0)+(p.goal.includes('草木')&&(t.tags||[]).includes('plant')?10:0),reason:`${focus?'响应公开差事，':scarcity>20?'看到供给紧缺，':'权衡生活与修行后，'}愿意到${t.name}做事。`});
       }
     }
     const pupils=s.disciples.filter(x=>x.id!==d.id&&x.mind.mentorId===d.id&&x.mind.activity==='study');
     const publicClass=p.office==='teacher'&&s.disciples.some(x=>x.mind.activity==='study'&&known(d,x.mind.learning?.id)>=45);
-    if(pupils.length||publicClass)choices.push({activity:'teach',job:null,score:36+kindness*.3+discipline*.2,reason:'愿意分出修行时间，为同门讲解自己熟悉的传承。'});
+    if((pupils.length||publicClass)&&lifeFacility(s,d,'teach'))choices.push({activity:'teach',job:null,score:36+kindness*.3+discipline*.2,reason:'愿意分出修行时间，为同门讲解自己熟悉的传承。'});
     if(clock(s)-p.lastSocial>=120&&p.mood<55&&s.disciples.length>1)choices.push({activity:'social',job:null,score:58,reason:'想与熟悉的同门谈谈近况，缓解心事。'});
     if(p.main&&d.energy>=75&&clock(s)>p.commitUntil&&clock(s)-p.lastSocial>40)for(const id of s.doctrine.routes||[]) {
       const r=ROUTES[id];if(!r||!routeDiscovered(s,id)||d.realm<r.minRealm||!canPay(s,r.cost))continue;
@@ -356,14 +369,15 @@ function decide(s,d,hooks) {
       choices.push({activity:'travel',job:null,route:id,score:13+ambition*.24+curiosity*.22,reason:'有意接下山外差事，拓宽见闻。'});
     }
     for(const c of choices)c.score+=(p.activity===c.activity?5:0)+rng(s)*5;
-    choices.sort((a,b)=>b.score-a.score);chosen=choices[0];
+    choices.sort((a,b)=>b.score-a.score);chosen=choices.find(c=>{if(c.job===null)return true;const b=s.buildings.find(b=>b.id===c.job);c.path=lifeScenePath(s,d,b);if(c.path===null){unreachable++;return false;}return true;})||choices.find(c=>c.activity==='rest');
     if(chosen.activity==='rest'&&unreachable&&!choices.some(c=>c.activity==='work'))chosen.reason='现有差事的道路或条件不合适，暂歇并等待改善。';
   }
   const changed=p.activity!==chosen.activity||d.job!==chosen.job||p.learning?.id!==chosen.learning?.id;
   d.job=chosen.job??null;p.activity=chosen.activity;p.reason=chosen.reason;p.lastDecision=clock(s);
   p.commitUntil=clock(s)+(chosen.activity==='rest'?8:18+Math.floor(p.traits[3]/10));
-  p.path=chosen.path||[];
   if(chosen.learning)p.learning=chosen.learning;
+  const destination=lifeFacility(s,d,chosen.activity,chosen.learning?.id);
+  p.path=[];p.scenic.path=chosen.path||(destination?lifeScenePath(s,d,destination)||[]:[]);p.scenic.goal=destination?buildingAccess(s,destination):null;p.scenic.revision=geometryRevision(s);
   if(chosen.activity==='travel')startNpcJourney(s,d,chosen.route);
   if(changed)remember(s,d,p.reason);
 }
@@ -409,10 +423,14 @@ function finishLearning(s,d,id,hooks) {
 function execute(s,d,hooks) {
   const p=d.mind;
   if(p.away){if(p.away.kind==='errand')tickJourney(s,d);return;}
-  if(p.path.length) {
-    const next=p.path[0];
-    if(s.buildings.some(b=>b.x===next.x&&b.y===next.y)){p.path=[];p.commitUntil=0;d.job=null;p.activity='rest';p.reason='原来的道路被建筑阻挡，正在重新考虑去处。';return;}
-    d.position=p.path.shift();d.energy=clamp(d.energy-.04,0,100);return;
+  const lock=lifeActivityLock(s,d);
+  if(lock){p.commitUntil=0;p.activity='rest';d.job=null;p.path=[];p.reason=lock;return;}
+  if(p.scenic.revision!==geometryRevision(s))repairScenicActor(p.scenic,s);
+  if(d.breakthroughCooldown>s.time){d.energy=clamp(d.energy+(hooks.restRecovery?hooks.restRecovery(s,d):1.05),0,100);return;}
+  const destination=lifeFacility(s,d);
+  if(destination){const goal=buildingAccess(s,destination);if(!p.scenic.goal||scenicDistance(goal,p.scenic.goal)>.01){p.scenic.path=lifeScenePath(s,d,destination)||[];p.scenic.goal=goal;}}
+  if(p.scenic.path.length) {
+    advanceScenic(p.scenic,46,s);syncScenicPosition(s,d);d.energy=clamp(d.energy-.04,0,100);return;
   }
   if(p.activity==='rest') {
     const recovery=hooks.restRecovery?hooks.restRecovery(s,d):1.05+(hasBuilding(s,'kitchen')?.2:0)+(p.support.includes('spring')?.4:0);
@@ -449,7 +467,7 @@ function execute(s,d,hooks) {
     } else {l.progress+=gain;if(l.progress>=(l.total||t.duration))finishLearning(s,d,l.id,hooks);}
   } else if(p.activity==='teach') {
     d.energy=clamp(d.energy-.32,0,100);
-    const students=s.disciples.filter(x=>x.id!==d.id&&x.mind.activity==='study'&&x.mind.learning&&known(d,x.mind.learning.id)>=45);
+    const students=s.disciples.filter(x=>x.id!==d.id&&x.mind.learning&&known(d,x.mind.learning.id)>=45&&teachingPresent(s,d,x,x.mind.learning.id));
     s.society.stats.lessons+=students.length;
     for(const student of students)if(clock(s)-relation(student,`d:${d.id}`).lastEvent>=120) {
       changeRelation(s,student,`d:${d.id}`,{respect:3,trust:2},null);
@@ -818,7 +836,7 @@ export function getSocietyView(s) {
     const privateStudy=p.activity==='study'&&p.learning&&!learning;
     const reason=privateStudy?'独处参悟，暂不愿详谈。':p.reason;
     return {id:d.id,name:d.name,root:d.root,talent:d.talent,portrait:d.portrait,realm:d.realm,xp:d.xp,energy:d.energy,wound:d.wound,job:d.job,position:{...d.position},
-      satiety:p.satiety,mood:p.mood,activity:p.activity,reason,goal:p.goal,traits:[...p.traits],traitText:traitText(d),trust:relation(d).trust,revengeAttitude:p.revengeAttitude,
+      satiety:p.satiety,mood:p.mood,activity:p.activity,reason,life:personLifeSummary(s,d),goal:p.goal,traits:[...p.traits],traitText:traitText(d),trust:relation(d).trust,revengeAttitude:p.revengeAttitude,
       main:hidden.includes(p.main)?p.publicMain:p.main,support:p.support.filter(id=>!hidden.includes(id)),knowledge:Object.fromEntries(Object.entries(p.knowledge).filter(([id])=>!hidden.includes(id))),learning,
       memories:p.memories.filter(m=>m.public!==false&&!hidden.some(id=>m.text.includes(TECHNIQUES[id].name))).map(m=>({...m})),
       relationships:Object.entries(p.relationships).map(([id,r])=>({id,name:id==='master'?s.master.name:npc(s,Number(id.slice(2)))?.name||'旧日同门',...r})),
@@ -864,6 +882,7 @@ export function validateSociety(s) {
   const jobIds=new Set();
   for(const d of s.disciples) {
     const p=d.mind;if(!p||!Array.isArray(p.traits)||p.traits.length!==5||p.traits.some(n=>!num(n,0,100))||!ACTIVITIES.has(p.activity)||!str(p.reason)||!str(p.goal,40)||!num(d.wound,0,100)||!num(p.satiety,0,100)||!num(p.mood,0,100))bad('人物状态');
+    if(!p.scenic||p.scenic.geometry!==SCENE_GEOMETRY||!validateScenic(p.scenic,s))bad('门人实际行走位置或路径');
     if(!num(p.commitUntil)||!num(p.lastDecision,-100)||!num(p.lastSocial,-120)||!num(p.lastTalk,-120)||!num(p.lastBreakthrough,-120)||!num(p.caution,0,5)||!num(p.purse,0,10000)||!num(p.restitutionBalance)||!num(p.restrictedUntil)||!int(p.lastPillDay,-1)||!int(p.pillPermitDay,-1)||!int(p.neglectDays)||!num(p.joinedAt)||!num(p.refusalUntil)||!num(p.lastPeakChange,-120)||!num(p.reorientUntil)||!num(p.lastConversion,-600))bad('人物计时');
     if(!p.skills||!['plant','industry','learning','array','medicine'].every(k=>num(p.skills[k],0,100))||!p.relationships||!p.relationships.master||Object.values(p.relationships).some(r=>!r||!['trust','respect','affection','conflict'].every(k=>num(r[k],0,100))||!num(r.lastEvent,-1000)))bad('关系与技艺');
     if(!Array.isArray(p.memories)||p.memories.length>10000||p.memories.some(m=>!num(m.time)||!str(m.text)||typeof m.important!=='boolean'||typeof m.public!=='boolean'||m.key!==null&&!str(m.key)))bad('记忆');

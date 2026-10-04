@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import * as S from '../dist/ea-sim.mjs';
 import {facilityRecords,courtyardDestination,scenicHomeActors,nextObjective,sceneSnapshot} from '../dist/ea-scene-state.mjs';
-import {canStand} from '../dist/yunxiu-courtyard/navigation.mjs';
+import {scenicCanStand} from '../dist/ea-scene-geometry.mjs';
 import {Player} from '../qa/ea-player.mjs';
 
 test('new courtyard shows exactly the surviving house and an actionable recovery objective',()=>{
@@ -67,7 +67,7 @@ test('home story prerequisites require working facilities and give a repair or r
 test('all facilities in the full campaign have named access points on registered paths',()=>{
  const s=new Player().foundation().prepareRevenge().finishRevenge().establishTwoPeaks().referenceWorld().state,records=facilityRecords(s);
  assert.equal(records.length,s.buildings.length);assert.equal(new Set(records.map(r=>r.id)).size,records.length);
- for(const r of records)assert.equal(canStand(r.access),true,`${r.name} must have a path access point`);
+ for(const r of records)assert.equal(scenicCanStand(s,r.access),true,`${r.name} must have a path access point`);
  for(const d of scenicHomeActors(s))assert.ok(records.some(r=>r.id===courtyardDestination(s,d,records).id&&r.active));
  assert.deepEqual(sceneSnapshot(S.validateSave(s)),sceneSnapshot(s));
 });

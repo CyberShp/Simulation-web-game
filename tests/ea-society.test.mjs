@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import * as society from '../dist/ea-society.mjs';
 import * as sim from '../dist/ea-sim.mjs';
 import {BUILDINGS,TECHNIQUES,RESOURCES,xpNeed,day} from '../dist/ea-data.mjs';
+import {buildingAccess,geometryRevision} from '../dist/ea-scenic.mjs';
 
 // These are isolated state-machine fixtures, not claims that a player walkthrough was completed.
 // Full ordinary-player progression is exercised independently by ea-integration.test.mjs.
@@ -33,6 +34,7 @@ function publicPerson(s,id) {return society.getSocietyView(s).disciples.find(d=>
 function productive(s,d,b) {
   known(d);d.position={x:b.x,y:b.y+1};d.mind.activity='work';d.mind.reason='已有承诺的差事';d.job=b.id;
   d.mind.commitUntil=s.time+1000;d.mind.lastDecision=s.time;d.mind.path=[];
+  Object.assign(d.mind.scenic,buildingAccess(s,b),{path:[],goal:buildingAccess(s,b),revision:geometryRevision(s)});
 }
 function secretPill(s,d) {
   s.doctrine.pillRule='permission';s.pills.qi=6;d.mind.traits=[20,100,0,60,85];d.xp=0;
@@ -56,7 +58,7 @@ test('NPC keeps a chosen task through its commitment rather than rerolling every
 test('urgent fatigue and injury interrupt a commitment and recover without permanent damage',()=>{
   const s=state(),b=building(s,'lumber',1,3),d=add(s);productive(s,d,b);d.energy=5;d.mind.commitUntil=0;
   step(s);assert.equal(d.mind.activity,'rest');assert.equal(d.job,null);
-  d.wound=48;d.mind.commitUntil=0;step(s,48);assert.ok(d.wound<20);assert.equal(d.talent,1.5);
+  d.wound=48;d.mind.commitUntil=0;step(s,80);assert.ok(d.wound<20);assert.equal(d.talent,1.5);
   assert.ok(d.energy>5);
 });
 
@@ -68,12 +70,15 @@ test('NPC production executes exactly one cycle, spends its own time and worksho
   assert.equal(b.progress,0);
 });
 
-test('a disabled or sealed-in facility is unavailable to autonomous jobs and founding',()=>{
+test('a disabled or destroyed facility is unavailable to autonomous jobs and founding',()=>{
   const s=state(),b=building(s,'lumber',1,3),d=add(s);productive(s,d,b);b.enabled=false;step(s);
   assert.equal(d.job,null);assert.equal(s.society.stats.workCycles,0);
   const library=building(s,'library',2,4);library.enabled=false;
   assert.ok(society.foundingStatus(s).reasons.includes('需建成藏经阁'));
   const blocked=building(s,'quarry',6,3);for(const [x,y]of [[5,3],[7,3],[6,2],[6,4]])building(s,'house',x,y);
+  // Plot addresses no longer imply physical adjacency on the registered painting.
+  // Actual impassable routes are exercised by ea-scene-geometry.test.mjs.
+  blocked.condition=0;
   s.doctrine.workFocus='stone';d.mind.commitUntil=0;step(s,50);assert.notEqual(d.job,blocked.id);
 });
 
@@ -244,6 +249,7 @@ test('two different peaks have paid budgets, autonomous membership and real reso
 test('peak instruction speeds actual learning and lost funding can be restored',()=>{
   const {s,herb}=peakFixture();const peak=society.foundPeak(s,'herb',herb.id);s.doctrine.books.push('spring');
   const student=s.disciples[3];student.mind.peakId=peak.id;student.mind.activity='study';student.mind.learning={id:'spring',progress:0};student.mind.commitUntil=1000;student.mind.lastDecision=0;
+  const library=s.buildings.find(b=>b.type==='library');Object.assign(student.mind.scenic,buildingAccess(s,library),{path:[],goal:buildingAccess(s,library),revision:geometryRevision(s)});
   const plain=structuredClone(s);plain.society.peaks[0].active=false;plain.society.peaks[0].budget=0;
   step(s,5);step(plain,5);assert.ok(student.mind.learning.progress>plain.disciples[3].mind.learning.progress);
   s.resources.jade=0;s.resources.herb=0;s.time=119;s.society.clock=119;step(s);assert.equal(peak.active,false);
