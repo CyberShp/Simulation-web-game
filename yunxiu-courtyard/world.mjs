@@ -1,4 +1,4 @@
-import {point,findPath,sweep,distance,canStand} from './navigation.mjs?v=courtyard-1.2';
+import {point,findPath,sweep,distance,canStand} from './navigation.mjs?v=courtyard-1.3';
 export const SAVE_KEY='xianfu-yunxiu-courtyard-v1';
 export const BUILDINGS={main:{level:1,wood:30,stone:20},meditation:{level:1,wood:20,stone:15},workshop:{level:1,wood:24,stone:18},works:{level:1,wood:20,stone:30},herbs:{level:1,wood:18,stone:12},kitchen:{level:1,wood:22,stone:16},gate:{level:1,wood:35,stone:30}};
 const identities=[['master','沈砚',0,'掌门','centre'],['luzhiwei','陆知微',1,'药圃照料','herbsMiddle'],['songyan','宋砚',2,'守院弟子','mainCourt'],['linbo','林伯',3,'百工匠人','workshop'],['wenling','温苓',4,'静修弟子','meditation'],['qinghe','青禾',5,'膳房照料','kitchen']];

@@ -1,4 +1,4 @@
-import{WIDTH,HEIGHT,EDGES,point,LANDMARKS}from'./navigation.mjs?v=courtyard-1.2';
+import{WIDTH,HEIGHT,EDGES,point,LANDMARKS}from'./navigation.mjs?v=courtyard-1.3';
 // Foreground silhouettes use the same registered world coordinates as navigation.
 // A sprite is clipped by an object only when its feet are behind that object.
 const foreground=[
@@ -8,7 +8,7 @@ const foreground=[
  {poly:[[793,560],[858,513],[974,536],[1056,586],[1010,709],[915,740],[813,725]],zone:p=>p.x>773&&p.x<940&&p.y>530&&p.y<742},
  {poly:[[24,573],[57,560],[106,575],[118,636],[79,655],[35,627]],zone:p=>p.x<110&&p.y<629}
 ];
-export async function createRenderer(canvas,state){const ctx=canvas.getContext('2d',{alpha:false});const [bg,atlas,meta]=await Promise.all([load('assets/courtyard-background.jpg?v=courtyard-1.2'),load('assets/characters.webp?v=courtyard-1.2'),fetch('assets/character-frames.json?v=courtyard-1.2').then(r=>r.json())]);let camera={scale:1,x:0,y:0},debug=false,pulse=null;const pan={x:0,y:0};
+export async function createRenderer(canvas,state){const ctx=canvas.getContext('2d',{alpha:false});const [bg,atlas,meta]=await Promise.all([load('assets/courtyard-background.jpg?v=courtyard-1.3'),load('assets/characters.webp?v=courtyard-1.3'),fetch('assets/character-frames.json?v=courtyard-1.3').then(r=>r.json())]);let camera={scale:1,x:0,y:0},debug=false,pulse=null;const pan={x:0,y:0};
 function resize(){const r=canvas.getBoundingClientRect(),dpr=Math.min(devicePixelRatio||1,2);canvas.width=Math.round(r.width*dpr);canvas.height=Math.round(r.height*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);const mobile=r.width<600&&r.height>r.width;camera.scale=mobile?Math.max(r.width/WIDTH,r.height/HEIGHT)*1.12:r.width/WIDTH;camera.mobile=mobile;camera.w=r.width;camera.h=r.height;}
 function view(){if(camera.mobile){const master=state.actors[0];camera.x=Math.max(camera.w-WIDTH*camera.scale,Math.min(0,camera.w*.5-master.x*camera.scale+pan.x));camera.y=Math.max(camera.h-HEIGHT*camera.scale,Math.min(0,camera.h*.47-master.y*camera.scale+pan.y));}else{camera.x=0;camera.y=0;pan.x=pan.y=0;}}
 function sprite(a,time){const row=a.moving?(a.back?3:1+Math.floor(a.steps/11)%2):0,f=meta.frames[row][a.variant],height=53+(a.y/HEIGHT)*8,scale=height/f.h,x=a.x-f.footX*scale,y=a.y-f.footY*scale;ctx.save();ctx.fillStyle='#10291b55';ctx.beginPath();ctx.ellipse(a.x,a.y,9,3,0,0,Math.PI*2);ctx.fill();if(a.id==='master'){ctx.strokeStyle='#f8dda085';ctx.lineWidth=1.3;ctx.beginPath();ctx.ellipse(a.x,a.y,13,4,0,0,Math.PI*2);ctx.stroke();}for(const fg of foreground)if(fg.zone(a)){ctx.beginPath();ctx.rect(0,0,WIDTH,HEIGHT);fg.poly.forEach(([px,py],i)=>i?ctx.lineTo(px,py):ctx.moveTo(px,py));ctx.closePath();ctx.clip('evenodd');}ctx.translate(a.x,a.y);ctx.scale(a.facing,1);const foot=a.facing===1?f.footX:f.footX;ctx.drawImage(atlas,f.x,f.y,f.w,f.h,-foot*scale,-f.footY*scale,f.w*scale,f.h*scale);ctx.restore();}
