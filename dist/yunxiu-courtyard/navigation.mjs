@@ -6,7 +6,7 @@ export const NODES = {
   workshop:[420,561], workshopGate:[499,577], stoneWorks:[265,709], worksLane:[383,656],
   bridgeWest:[554,568], bridgeA:[598,542], bridgeCrown:[650,526], bridgeEast:[714,528], centre:[758,478],
   stairsLower:[849,423], stairsMid:[891,368], stairsUpper:[920,326], mainCourt:[948,296], mainSteps:[878,269], mainDoor:[840,217],
-  eastCourt:[1050,286], gardenEntry:[1127,308], herbs:[1260,322], gardenTurn:[1457,315], middleTurn:[1515,366], herbsMiddle:[1300,377],
+  eastCourt:[1050,286], gardenEntry:[1127,308], herbs:[1260,322], gardenTurn:[1457,315], middleTurn:[1515,366], herbsMiddle:[1300,397],
   lowerTurn:[1570,420], herbsLower:[1380,469], waterwheel:[1545,485], streamPath:[741,575], streamBend:[777,658], kitchenSide:[805,750], kitchen:[1189,763], kitchenCourt:[958,772], gate:[861,889]
 };
 const E = (a,b,w=36)=>({a,b,w});

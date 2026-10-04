@@ -1,8 +1,8 @@
-# 云岫别院场景验收 · courtyard-1.2
+# 云岫别院场景验收 · courtyard-1.3
 
 用户指出早期 terrain-lab 与原型画面差距过大，并提供了云岫别院参考图。本轮改为以该图的建筑、竹林、药田、石桥、溪流和山崖构图制作可交互场景。早期技术样机不作为本轮视觉交付。
 
-入口：`dist/yunxiu-courtyard/index.html`。发布：`https://cybershp.github.io/Simulation-web-game/yunxiu-courtyard/?v=courtyard-1.2`。正式 EA 根目录与三个世界档位没有替换；此场景使用独立的 `xianfu-yunxiu-courtyard-v1` 存档。
+入口：`dist/yunxiu-courtyard/index.html`。发布：`https://cybershp.github.io/Simulation-web-game/yunxiu-courtyard/?v=courtyard-1.3`。正式 EA 根目录与三个世界档位没有替换；此场景使用独立的 `xianfu-yunxiu-courtyard-v1` 存档。
 
 ## 已实现
 
@@ -28,6 +28,7 @@
 - 陆知微、宋砚勾选同行；角色面板使用相同服饰图集。
 - 札记奖励灵玉 +15、研习扣除 20：286 → 281。
 - 暂停后药田升级，木材 98 → 80、石料 59 → 47，产出 +3 → +6，等级 1 → 2。
+- 从主屋行至厨房，掌门实际到达 1189,763；再行至药田，路线均保持有效。
 - 页面刷新后资源 281/80/47/57/86、主角位置 840,217、两名同行者、二级药田和暂停状态一致。
 - 390 × 844 iframe 检查布局、抽屉和拖动；拖动后门人按钮仍可点击。不是 iOS/Android 真机生命周期验收。
 

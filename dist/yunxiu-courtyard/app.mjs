@@ -1,8 +1,8 @@
-import{LANDMARKS,point,inPolygon,nearest,distance}from'./navigation.mjs?v=courtyard-1.2';
-import{createState,saveData,update,walk,upgrade,SAVE_KEY}from'./world.mjs?v=courtyard-1.2';
-import{createRenderer}from'./renderer.mjs?v=courtyard-1.2';
+import{LANDMARKS,point,inPolygon,nearest,distance}from'./navigation.mjs?v=courtyard-1.3';
+import{createState,saveData,update,walk,upgrade,SAVE_KEY}from'./world.mjs?v=courtyard-1.3';
+import{createRenderer}from'./renderer.mjs?v=courtyard-1.3';
 import{attachMapInput}from'../map-input.mjs';
-import{icon,plantArt}from'./icons.mjs?v=courtyard-1.2';
+import{icon,plantArt}from'./icons.mjs?v=courtyard-1.3';
 const $=id=>document.getElementById(id);let saved=null;try{saved=JSON.parse(localStorage.getItem(SAVE_KEY));}catch{}const state=createState(saved);let renderer,panelType=null,lastSave=0,lastHud=0,noticeTimer,arrival=null,debug=false;
 const systems=[['master','掌门','master'],['build','营造','build'],['people','门人','people'],['heritage','传承','scroll'],['production','生产','produce'],['gate','山门','gate'],['outside','山外','outside'],['journal','纪事','scroll']];
 $('systems').innerHTML=systems.map(([id,label,i])=>`<button data-system="${id}" title="${label}" aria-label="${label}">${icon(i)}<span>${label}</span></button>`).join('');$('settings').innerHTML=icon('gear');$('journal').innerHTML=icon('check');$('quest-icon').innerHTML=icon('book');
@@ -25,7 +25,7 @@ if(type==='outside')body.innerHTML=`<h3>备一份干粮</h3><p>门外诸境尚�
 if(type==='journal')body.innerHTML=state.logs.length?state.logs.slice().reverse().map(l=>`<div class="log"><time>第${l.day}日</time>${l.text}</div>`).join(''):'<p>竹影初动，院中尚无新事。去看看药圃吧。</p>';
 if(type==='quest')body.innerHTML=`<h3>母亲的药理札记</h3><p>案上旧卷散落，纸页间还夹着晒干的白花。整理好札记，或许就能读懂药田里的草木。</p><p>完成后获得灵玉 15，并开放青囊药理研习。</p>${action(state.quest?'札记已整理':'整理札记','quest',state.quest?'disabled':'')} ${action('前往主屋','go','data-id="main"')}`;
 if(type==='details'){const l=LANDMARKS.find(l=>l.id===state.selected),b=state.buildings[l.id];body.innerHTML=`<h3>${l.name} · ${b.level} 级</h3><p>${l.desc}</p><p>修缮需木材 ${b.wood*b.level}、石料 ${b.stone*b.level}。</p>${action('修缮升级','upgrade')} ${action('沿路前往','go',`data-id="${l.id}"`)}<p class="muted">${l.id==='herbs'?'药田分布在三层石台上，门人沿田埂行走。':'建筑位置依照原图固定，人物行走区域与建筑分开。'}</p>`;}
-if(type==='settings')body.innerHTML=`<h3>行走显示</h3><label><input type="checkbox" id="debug-toggle" ${debug?'checked':''}> 显示道路与掌门路径</label><p id="qa-stats" class="muted"></p><h3>画面与保存</h3><p>场景完整呈现于横屏；竖屏可拖动画面。存档与正式游戏分开保存。</p>${action('立即保存','save')} ${action('操作帮助','help')}<p class="muted">场景版本 courtyard-1.2 · 绘景与角色素材为预渲染图像，行走、寻路、生产和 UI 为实时逻辑。</p>`;
+if(type==='settings')body.innerHTML=`<h3>行走显示</h3><label><input type="checkbox" id="debug-toggle" ${debug?'checked':''}> 显示道路与掌门路径</label><p id="qa-stats" class="muted"></p><h3>画面与保存</h3><p>场景完整呈现于横屏；竖屏可拖动画面。存档与正式游戏分开保存。</p>${action('立即保存','save')} ${action('操作帮助','help')}<p class="muted">场景版本 courtyard-1.3 · 绘景与角色素材为预渲染图像，行走、寻路、生产和 UI 为实时逻辑。</p>`;
 if(type==='help')body.innerHTML=`<p class="help-note">点击石路：掌门前往。点击建筑或药田：查看详情，再选择「前往」。</p><div class="keys"><span>Esc 关闭面板</span><span>空格 暂停</span><span>1 / 2 / 4 调速</span></div><p>「门人」可选择同行者；「生产」查看产出；「升级」扣除木石并提升等级。</p><p>竖屏时可拖动画面。桥、台阶和田埂均有固定通路，点击溪流或山崖不会让人物直接穿过去。</p>`;
 hud();}
 function dispatch(act,id){if(act==='go')go(id||state.selected);if(act==='select'){state.selected=id;selected();openPanel('details');renderer.mark(point(LANDMARKS.find(l=>l.id===id).node));save();}if(act==='upgrade'){const result=upgrade(state,state.selected);notify(result.text);selected();hud();if(panelType==='details')openPanel('details');}if(act==='quest'&&!state.quest){state.quest=true;state.resources.jade+=15;notify('札记已整理，灵玉 +15。');openPanel('quest');hud();}if(act==='learn'&&!state.learned){if(!state.quest)notify('先整理母亲的药理札记。',false);else if(state.resources.jade<20)notify('研习需灵玉 20。',false);else{state.resources.jade-=20;state.learned=true;notify('研习青囊药理，草木之性初明。');openPanel('heritage');hud();}}if(act==='pack'){if(state.resources.grain<5)notify('干粮不足，需粮食 5。',false);else{state.resources.grain-=5;notify('备好干粮，可前往山门。');hud();}}if(act==='save'){save();notify('山院进度已保存。',false);}if(act==='help')openPanel('help');}

@@ -1,6 +1,6 @@
 {
-  "version": "courtyard-1.2",
-  "generatedAt": "2026-10-04T09:22:56.873Z",
+  "version": "courtyard-1.3",
+  "generatedAt": "2026-10-04T09:31:12.256Z",
   "routes": 1296,
   "segments": 12292,
   "fastMovementBoundarySweeps": 2592,

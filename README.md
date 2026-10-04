@@ -19,7 +19,7 @@
 
 ## 新版场景：云岫别院
 
-[打开可交互山院](https://cybershp.github.io/Simulation-web-game/yunxiu-courtyard/?v=courtyard-1.2)。按用户提供的场景参考制作绘景和图标 UI，支持固定院路行走、门人同行、资源生产、修缮与独立续玩。当前是一个场景的交互原型，尚未接入完整 EA 的全部玩法。验收与未实现范围见 [YUNXIU-COURTYARD-ACCEPTANCE.md](docs/YUNXIU-COURTYARD-ACCEPTANCE.md)。
+[打开可交互山院](https://cybershp.github.io/Simulation-web-game/yunxiu-courtyard/?v=courtyard-1.3)。按用户提供的场景参考制作绘景和图标 UI，支持固定院路行走、门人同行、资源生产、修缮与独立续玩。当前是一个场景的交互原型，尚未接入完整 EA 的全部玩法。验收与未实现范围见 [YUNXIU-COURTYARD-ACCEPTANCE.md](docs/YUNXIU-COURTYARD-ACCEPTANCE.md)。
 
 ## 早期地形技术样机（非本轮视觉交付）
 
