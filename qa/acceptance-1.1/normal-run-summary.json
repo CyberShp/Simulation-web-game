@@ -1,0 +1,56 @@
+{
+  "final": {
+    "time": 6580,
+    "day": 55,
+    "masterRealm": 10,
+    "masterKnowledge": {
+      "qingyuan": 100,
+      "spring": 37.24999999999902,
+      "alchemy": 57.24999999999902,
+      "foundation": 85.20000000000014
+    },
+    "storyStep": 10,
+    "followers": 30,
+    "buildings": 40,
+    "resources": {
+      "jade": 848.5494678205438,
+      "wood": 941.7940813775821,
+      "stone": 827.0789820050678,
+      "herb": 895.9237789482241,
+      "crystal": 123.74943700992002,
+      "insight": 436.72735331168,
+      "food": 1878.1269975068458
+    },
+    "founded": true,
+    "peaks": [
+      {
+        "id": 1,
+        "name": "青木药峰",
+        "direction": "herb",
+        "hostId": 2
+      },
+      {
+        "id": 2,
+        "name": "厚土阵峰",
+        "direction": "array",
+        "hostId": 3
+      }
+    ],
+    "stats": {
+      "built": 39,
+      "breakthroughs": 102,
+      "expeditions": 8,
+      "crafted": 1,
+      "relocated": 0,
+      "trades": 878,
+      "consumed": 0
+    }
+  },
+  "operations": 1358,
+  "validationCount": 22,
+  "performance": {
+    "logicalMillisecondsPerGameSecondP50": 0.03358249999999998,
+    "logicalMillisecondsPerGameSecondP95": 0.7222595000000013,
+    "tickCalls": 622
+  }
+}

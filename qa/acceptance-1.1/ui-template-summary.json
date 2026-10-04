@@ -1,0 +1,5 @@
+{
+  "checked": 48,
+  "scenarios": 6,
+  "result": "templates executed without exceptions or visible nonfinite values; state unchanged"
+}

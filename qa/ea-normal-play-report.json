@@ -1,6 +1,6 @@
 {
   "scenario": "Normal initial state; public player commands only; accelerated deterministic simulation",
-  "generatedAt": "2026-10-04T10:46:29.468Z",
+  "generatedAt": "2026-10-04T12:27:34.212Z",
   "final": {
     "time": 6580,
     "day": 55,
@@ -793,8 +793,8 @@
     "23:work": 160
   },
   "performance": {
-    "logicalMillisecondsPerGameSecondP50": 0.03401020000000017,
-    "logicalMillisecondsPerGameSecondP95": 0.7407038999999997,
+    "logicalMillisecondsPerGameSecondP50": 0.03358249999999998,
+    "logicalMillisecondsPerGameSecondP95": 0.7222595000000013,
     "tickCalls": 622
   },
   "operations": [

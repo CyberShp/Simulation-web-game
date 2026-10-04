@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import * as SIM from '../dist/ea-sim.mjs';
 import {appearance,arenaPoint,arenaInverse,validateScenic} from '../dist/ea-scenic.mjs';
-import {REGION_ART,regionPoint,regionInverse,finalArenaPoint,finalArenaInverse} from '../dist/ea-region-art.mjs';
+import {REGION_ART,regionPoint,regionInverse,finalArenaPoint,finalArenaInverse,campaignCamera} from '../dist/ea-region-art.mjs';
 import {LANDMARKS,point,canStand} from '../dist/yunxiu-courtyard/navigation.mjs';
 
 test('formal EA walks every approved courtyard destination, saves in transit and resumes',()=>{
@@ -22,4 +22,15 @@ test('all nine prototype road plates have finite invertible continuous coordinat
 test('combat plane inversion and party art identity survive arbitrary lineups',()=>{
  for(const [forward,inverse] of [[arenaPoint,arenaInverse],[finalArenaPoint,finalArenaInverse]])for(let x=0;x<=12;x+=.3)for(let y=0;y<=8;y+=.3){const q=inverse(forward(x,y));assert.ok(Math.hypot(q.x-x,q.y-y)<1e-9);}
  assert.equal(appearance('master'),0);for(let id=1;id<=100;id++)assert.ok(appearance(id)>=1&&appearance(id)<=5);
+});
+
+test('portrait battle keeps the player above controls with readable sprites and no empty plate margins',()=>{
+ for(const [width,height] of [[320,568],[390,844],[430,932]]){
+  const focus=finalArenaPoint(8,4),camera=campaignCamera(width,height,focus);
+  assert.ok(55*camera.scale>=40,'party sprite must remain readable');
+  const x=focus.x*camera.scale+camera.ox,y=focus.y*camera.scale+camera.oy;
+  assert.ok(x>60&&x<width-60);assert.ok(y>120&&y<height-260,'player is outside HUD');
+  assert.ok(camera.ox<=0&&camera.oy<=0);
+  assert.ok(camera.ox+1672*camera.scale>=width&&camera.oy+941*camera.scale>=height);
+ }
 });

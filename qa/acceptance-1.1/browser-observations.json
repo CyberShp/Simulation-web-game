@@ -1,0 +1,450 @@
+[
+  {
+    "name": "05D-settings",
+    "url": "https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=1",
+    "observedAt": "2026-10-04T11:45:22.667Z",
+    "dom": "- banner:\n  - generic \"府库资源\":\n    - button \"灵石 153，查看府库\":\n      - generic: \"153\"\n    - button \"灵木 40，查看府库\":\n      - generic: \"40\"\n    - button \"青石 15，查看府库\":\n      - generic: \"15\"\n    - button \"灵草 10，查看府库\":\n      - generic: \"10\"\n    - button \"灵晶 0，查看府库\":\n      - generic: \"0\"\n    - button \"道韵 3，查看府库\":\n      - generic: \"3\"\n    - button \"口粮 48，查看府库\":\n      - generic: \"48\"\n  - button \"游玩指引\": \"?\"\n  - button \"存档与设置\":\n- main \"仙府经营地图\":\n  - generic \"仙府地图。拖动平移，滚轮缩放，行走模式点击目的地。可用方向键或 W A S D 移动掌门。\"\n  - text: 云岫山 · 隐姓山居\n  - heading \"云岫别院\" [level=1]\n  - paragraph:\n    - generic: 第 2 日 · 丑时\n    - generic: ·\n    - generic: 山雾\n  - text: 验收世界 · 与正式存档独立\n  - button \"查看掌门状态\":\n    - strong: 沈砚\n    - generic: 炼气6层\n    - generic: 调息休憩\n  - navigation \"场景\":\n    - button \"山院\":\n      - generic: 山院\n    - button \"山势总览\":\n      - generic: 山势\n    - button \"山外\":\n      - generic: 山外\n  - region \"当前主线\":\n    - heading \"孤客来投\" [level=2]\n    - button \"查看准备方向\"\n  - button \"切换掌门行走模式\":\n  - button \"放大地图\": ＋\n  - button \"缩小地图\": −\n  - button \"定位掌门\":\n  - button \"显示营造网格\":\n  - generic \"时序控制\":\n    - button \"继续游戏\": ▶\n    - button \"一倍速度\": 1×\n    - button \"二倍速度\": 2×\n    - button \"四倍速度\": 4×\n  - generic: 观景 · 点选 / 拖动\n  - region \"仙府管理\":\n    - navigation \"管理面板\":\n      - button \"掌门\":\n        - generic: 掌门\n      - button \"营造\":\n        - generic: 营造\n      - button \"门人 1\":\n        - generic: 门人\n        - generic: \"1\"\n      - button \"传承\":\n        - generic: 传承\n      - button \"生产\" [pressed]:\n        - generic: 生产\n      - button \"山门\":\n        - generic: 山门\n      - button \"山外\":\n        - generic: 山外\n      - button \"纪事\":\n        - generic: 纪事\n      - button \"收起管理面板\" [expanded]:\n    - navigation \"生产分类\":\n      - button \"府库\"\n      - button \"炼丹\"\n      - button \"坊市与委托\" [pressed]\n    - text: 云岫山院\n    - heading \"府库与炉火\" [level=2]\n    - paragraph: 观察进出，补足生活，再留余力修行。\n    - button \"查看坊市与委托\":\n      - text: 查看坊市与委托\n    - heading \"云游货郎与山门委托\" [level=3]\n    - generic: 每日补货 · 当前第 2 日\n    - strong: 口粮\n    - generic: 每组10份 · 今日余货 80份\n    - text: 数量\n    - combobox \"口粮交易数量\":\n      - option \"10份\" [selected]\n      - option \"20份\"\n      - option \"30份\"\n      - option \"50份\"\n      - option \"80份\"\n      - option \"100份\"\n      - option \"500份\"\n      - option \"1000份\"\n    - button \"卖出 +4\"\n    - button \"买入 10\"\n    - strong: 灵木\n    - generic: 每组10份 · 今日余货 80份\n    - text: 数量\n    - combobox \"灵木交易数量\":\n      - option \"10份\" [selected]\n      - option \"20份\"\n      - option \"30份\"\n      - option \"50份\"\n      - option \"80份\"\n      - option \"100份\"\n      - option \"500份\"\n      - option \"1000份\"\n    - button \"卖出 +7\"\n    - button \"买入 18\"\n    - strong: 青石\n    - generic: 每组10份 · 今日余货 80份\n    - text: 数量\n    - combobox \"青石交易数量\":\n      - option \"10份\" [selected]\n      - option \"20份\"\n      - option \"30份\"\n      - option \"50份\"\n      - option \"80份\"\n      - option \"100份\"\n      - option \"500份\"\n      - option \"1000份\"\n    - button \"卖出 +9\"\n    - button \"买入 22\"\n    - strong: 灵草\n    - generic: 每组10份 · 今日余货 70份\n    - text: 数量\n    - combobox \"灵草交易数量\":\n      - option \"10份\" [selected]\n      - option \"20份\"\n      - option \"30份\"\n      - option \"50份\"\n      - option \"80份\"\n      - option \"100份\"\n      - option \"500份\"\n      - option \"1000份\"\n    - button \"卖出 +10\"\n    - button \"买入 25\"\n    - strong: 灵晶\n    - generic: 每组10份 · 今日余货 80份\n    - text: 数量\n    - combobox \"灵晶交易数量\":\n      - option \"10份\" [selected]\n      - option \"20份\"\n      - option \"30份\"\n      - option \"50份\"\n      - option \"80份\"\n      - option \"100份\"\n      - option \"500份\"\n      - option \"1000份\"\n    - button \"卖出 +45\" [disabled]\n    - button \"买入 100\"\n    - strong: 道韵\n    - generic: 每组10份 · 今日余货 80份\n    - text: 数量\n    - combobox \"道韵交易数量\":\n      - option \"10份\" [selected]\n      - option \"20份\"\n      - option \"30份\"\n      - option \"50份\"\n      - option \"80份\"\n      - option \"100份\"\n      - option \"500份\"\n      - option \"1000份\"\n    - button \"卖出 +55\" [disabled]\n    - button \"买入 140\"\n    - paragraph: 价格单位为灵石。卖出余材可暂解维护与营造之急。\n    - article:\n      - text: 已结善缘\n      - heading \"重立界碑\" [level=3]\n      - paragraph: 交付青石修葺古道界碑。\n      - paragraph:\n        - text: 交付\n        - generic: 青石 20\n      - paragraph: 酬谢 灵石 38 · 道韵 3 · 声望 5\n      - button \"今日已完成\" [disabled]\n    - article:\n      - text: 山门委托\n      - heading \"远行补给\" [level=3]\n      - paragraph: 送去商队需要的木草物资。\n      - paragraph:\n        - text: 交付\n        - generic: 灵木 15\n        - generic: 灵草 10\n      - paragraph: 酬谢 灵石 45 · 口粮 15 · 声望 6\n      - button \"交付委托\"\n    - article:\n      - text: 山门委托\n      - heading \"护送丹药\" [level=3]\n      - paragraph: 给邻山散修送药。\n      - paragraph: 交付 聚气丹\n      - paragraph: 酬谢 灵石 40 · 灵晶 3 · 声望 8\n      - button \"交付委托\" [disabled]\n      - paragraph: 缺少聚气丹\n- contentinfo:\n  - status \"世界 1 · 2026/10/4 19:28:57。浏览器关闭后，从本机存档继续。\": 已恢复本机存档\n- dialog \"山居设置\":\n  - heading \"山居设置\" [level=2]\n  - button \"关闭弹窗\" [active]: ×\n  - article:\n    - heading \"当前世界 1\" [level=3]\n    - paragraph: 已恢复本机存档\n    - text: 2026/10/4 19:28:57\n    - button \"立即保存\"\n    - button \"导出当前进度\"\n    - button \"导入文件\"\n    - button \"粘贴存档\"\n    - button \"切换世界\"\n    - button \"备份与恢复\"\n  - article:\n    - heading \"视听与阅读\" [level=3]\n    - checkbox \"山间清音\"\n    - text: 山间清音\n    - text: 音乐音量\n    - slider \"音乐音量\": \"0.6\"\n    - checkbox \"操作音效\"\n    - text: 操作音效\n    - text: 音效音量\n    - slider \"音效音量\": \"0.6\"\n    - checkbox \"减少动态效果\" [checked]\n    - text: 减少动态效果\n    - text: 文字大小\n    - combobox \"文字大小\":\n      - option \"标准\"\n      - option \"较大\"\n      - option \"大字\" [selected]\n  - article:\n    - heading \"续玩方式\" [level=3]\n    - paragraph: 每 5 秒、重要操作和切到后台时尝试保存。关页后下次可从「继续修行」续玩；关闭期间不结算离线收益。换设备请导出并导入文件。\n    - paragraph: 存档仅属于本浏览器与此网址。无痕模式、清理网站数据或浏览器存储限制可能影响保留。\n  - button \"回到山中\"",
+    "screenshot": "screenshots/05D-settings.jpg"
+  },
+  {
+    "name": "10B-mobile-drawer",
+    "url": "https://cybershp.github.io/Simulation-web-game/ea-preview/mobile.html?width=390&height=844&acceptance=qa-mobile-handoff",
+    "observedAt": "2026-10-04T12:02:54.316Z",
+    "accessibility": "Browser tab: 23, Title: \"仙府 · 窄屏布局验收\", URL: \"https://cybershp.github.io/Simulation-web-game/ea-preview/mobile.html?width=390&height=844&acceptance=qa-mobile-handoff\".\nThe following is a diff from the previous accessibility tree with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.\nRemoved element IDs: 68-71, 118\n+\t\t\t\t\t\t\t118 text 云岫别院\n+\t\t\t\t\t\t119 text 第 6 日 · 巳时\n+\t\t\t\t\t\t120 text 长风\n+\t\t\t\t\t\t121 text 验收世界 · 与正式存档独立\n+\t\t\t\t\t122 text 已保存于 20:02:02\nThe focused UI element is 59 checkbox 掌门, Value: 1",
+    "screenshot": "screenshots/10B-mobile-drawer.jpg"
+  },
+  {
+    "name": "10C-mobile-person",
+    "url": "https://cybershp.github.io/Simulation-web-game/ea-preview/mobile.html?width=390&height=844&acceptance=qa-mobile-handoff",
+    "observedAt": "2026-10-04T12:03:30.042Z",
+    "accessibility": "Browser tab: 23, Title: \"仙府 · 窄屏布局验收\", URL: \"https://cybershp.github.io/Simulation-web-game/ea-preview/mobile.html?width=390&height=844&acceptance=qa-mobile-handoff\".\nThere has been no change in the accessibility tree.\nThe focused UI element is 7 button Description: 关闭弹窗, ID: close-modal",
+    "screenshot": "screenshots/10C-mobile-person.jpg"
+  },
+  {
+    "name": "10D-mobile-battle",
+    "url": "https://cybershp.github.io/Simulation-web-game/ea-preview/mobile.html?width=390&height=844&acceptance=qa-mobile-handoff",
+    "observedAt": "2026-10-04T12:03:44.749Z",
+    "accessibility": "Browser tab: 23, Title: \"仙府 · 窄屏布局验收\", URL: \"https://cybershp.github.io/Simulation-web-game/ea-preview/mobile.html?width=390&height=844&acceptance=qa-mobile-handoff\".\nThe following is a diff from the previous accessibility tree with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.\nRemoved element IDs: 26-27, 29-30, 65, 78\n+\t\t\t\t\t\t\t78 text 栖霞故地\n+\t\t\t\t\t\t79 text 第 22 日 · 巳时\n+\t\t\t\t\t\t80 text 灵露\n+\t\t\t\t\t\t81 text 验收世界 · 与正式存档独立\n+\t\t\t\t\t82 text 已保存于 20:03:36\nThe focused UI element is 21 button Description: 存档与设置, ID: settings",
+    "screenshot": "screenshots/10D-mobile-battle.jpg"
+  },
+  {
+    "name": "10D-mobile-320-fixed",
+    "url": "https://cybershp.github.io/Simulation-web-game/ea-preview/mobile.html?width=320&height=568&acceptance=qa-mobile-handoff",
+    "observedAt": "2026-10-04T12:10:56.344Z",
+    "accessibility": "Browser tab: 23, Title: \"仙府 · 窄屏布局验收\", URL: \"https://cybershp.github.io/Simulation-web-game/ea-preview/mobile.html?width=320&height=568&acceptance=qa-mobile-handoff\".\nThe following is a diff from the previous accessibility tree with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.\nRemoved element IDs: 25, 28-29, 31-32, 68, 81\n+\t\t\t\t\t\t\t81 text 栖霞故地\n+\t\t\t\t\t\t82 text 第 22 日 · 巳时\n+\t\t\t\t\t\t83 text 灵露\n+\t\t\t\t\t\t84 text 验收世界 · 与正式存档独立\n+\t\t\t\t\t85 text 已恢复本机存档\nThe focused UI element is 4 AXWebArea 模拟仙府 · 余烬立山, URL: cybershp.github.io/Simulation-web-game/ea-preview/index.html?v=ea-110-handoff2&acceptance=qa-mobile-handoff",
+    "screenshot": "screenshots/10D-mobile-320-fixed.jpg"
+  },
+  {
+    "name": "save-v4-import",
+    "url": "https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff",
+    "observedAt": "2026-10-04T12:12:31.942Z",
+    "accessibility": "Browser tab: 22, Title: \"模拟仙府 · 余烬立山\", URL: \"https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff\".\nThe following is a diff from the previous accessibility tree with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.\nRemoved element IDs: 24, 26-27, 29, 57, 65, 119\n+\t\t\t\t119 text 云岫山 · 结庐立足\n+\t\t\t\t\t120 text 云岫别院\n+\t\t\t\t121 text 第 1 日 · 子时\n+\t\t\t\t122 text 晴岚\n+\t\t\t\t\t\t\t123 text 0\n+\t\t\t124 text 已保存于 20:12:20\nThe focused UI element is 20 button Description: 存档与设置, ID: settings",
+    "screenshot": "screenshots/save-v4-import.jpg"
+  },
+  {
+    "name": "save-invalid-rejected",
+    "url": "https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff",
+    "observedAt": "2026-10-04T12:12:57.077Z",
+    "accessibility": "Browser tab: 22, Title: \"模拟仙府 · 余烬立山\", URL: \"https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff\".\n1 AXWebArea 模拟仙府 · 余烬立山, URL: cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff\n\t2 container 粘贴存档, ID: modal\n\t\t3 heading 粘贴存档, Value: 2, ID: modal-title\n\t\t\t7 text 粘贴存档\n\t\t5 button Description: 关闭弹窗, ID: close-modal\n\t\t6 container modal-body\n\t\t\t12 text 存档校验失败：时间、速度或资源异常\n\t\t\t8 text 粘贴导出的完整 JSON 存档。校验后选择档位，替换前会再次确认。\n\t\t\t9 text 存档内容\n\t\t\t10 text entry area (settable) 存档内容, Value: {\"version\":5,\"resources\":{\"jade\":-1}}, ID: paste-save\n\t\t\t11 button 校验并预览\n\nThe focused UI element is 11 button 校验并预览",
+    "screenshot": "screenshots/save-invalid-rejected.jpg"
+  },
+  {
+    "name": "05C-backups",
+    "url": "https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff",
+    "observedAt": "2026-10-04T12:14:06.362Z",
+    "accessibility": "Browser tab: 22, Title: \"模拟仙府 · 余烬立山\", URL: \"https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff\".\nThere has been no change in the accessibility tree.\nThe focused UI element is 1 AXWebArea 模拟仙府 · 余烬立山, URL: cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff",
+    "screenshot": "screenshots/05C-backups.jpg"
+  },
+  {
+    "name": "save-lock-blocked",
+    "url": "https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff",
+    "observedAt": "2026-10-04T12:14:53.824Z",
+    "accessibility": "Browser tab: 24, Title: \"模拟仙府 · 余烬立山\", URL: \"https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff\".\n0 AXWebArea 模拟仙府 · 余烬立山, URL: cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff\n\t1 container 世界正在另一处展开, ID: modal\n\t\t2 heading 世界正在另一处展开, Value: 2, ID: modal-title\n\t\t\t6 text 世界正在另一处展开\n\t\t4 button Description: 关闭弹窗, ID: close-modal\n\t\t5 container modal-body\n\t\t\t7 text 另一窗口正在游玩；请请求接管，或关闭原窗口后重试。\n\t\t\t8 text 沈砚 · 炼气6层\n\t\t\t9 text 云岫山院 · 第 1 日 · 门人 0\n\t\t\t10 text 本机保存：2026/10/4 20:14:43\n\t\t\t11 button 请求接管此世界\n\t\t\t12 button 只读查看\n\t\t\t13 button 返回世界列表\n\t\t\t14 text 接管后原窗口会保存并暂停。同一档案只允许一个窗口推进。\n\nThe focused UI element is 0 AXWebArea 模拟仙府 · 余烬立山, URL: cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff",
+    "screenshot": "screenshots/save-lock-blocked.jpg"
+  },
+  {
+    "name": "save-takeover-pauses-owner",
+    "url": "https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff",
+    "observedAt": "2026-10-04T12:15:35.636Z",
+    "accessibility": "Browser tab: 22, Title: \"模拟仙府 · 余烬立山\", URL: \"https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff\".\nThe following is a diff from the previous accessibility tree with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.\n~\t\t\t\t\t52 button Description: 继续游戏, ID: pause\n~\t\t\t\t\t53 checkbox Description: 一倍速度, Value: 0\nThe focused UI element is 20 button Description: 存档与设置, ID: settings",
+    "screenshot": "screenshots/save-takeover-pauses-owner.jpg"
+  },
+  {
+    "name": "settings-before-redesign",
+    "url": "https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff",
+    "observedAt": "2026-10-04T12:25:05.115Z",
+    "accessibility": "Browser tab: 22, Title: \"模拟仙府 · 余烬立山\", URL: \"https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff\".\nThere has been no change in the accessibility tree.\nThe focused UI element is 5 button Description: 关闭弹窗, ID: close-modal",
+    "screenshot": "screenshots/settings-before-redesign.jpg"
+  },
+  {
+    "name": "05D-settings-redesign",
+    "url": "https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff",
+    "observedAt": "2026-10-04T12:26:48.557Z",
+    "accessibility": "Browser tab: 22, Title: \"模拟仙府 · 余烬立山\", URL: \"https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff\".\nThere has been no change in the accessibility tree.\nThe focused UI element is 7 button Description: 关闭弹窗, ID: close-modal",
+    "screenshot": "screenshots/05D-settings-redesign.jpg"
+  },
+  {
+    "name": "save-text-recovery",
+    "url": "https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff",
+    "observedAt": "2026-10-04T12:27:03.885Z",
+    "accessibility": "Browser tab: 22, Title: \"模拟仙府 · 余烬立山\", URL: \"https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff\".\nThere has been no change in the accessibility tree.\nThe focused UI element is 1 AXWebArea 模拟仙府 · 余烬立山, URL: cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff",
+    "screenshot": "screenshots/save-text-recovery.jpg"
+  },
+  {
+    "name": "05C-backups-redesign",
+    "url": "https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff",
+    "observedAt": "2026-10-04T12:27:05.515Z",
+    "accessibility": "Browser tab: 22, Title: \"模拟仙府 · 余烬立山\", URL: \"https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff\".\nThere has been no change in the accessibility tree.\nThe focused UI element is 1 AXWebArea 模拟仙府 · 余烬立山, URL: cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff",
+    "screenshot": "screenshots/05C-backups-redesign.jpg"
+  },
+  {
+    "name": "archive-mobile-320",
+    "url": "https://cybershp.github.io/Simulation-web-game/ea-preview/mobile.html?width=320&height=568&acceptance=qa-mobile-handoff",
+    "observedAt": "2026-10-04T12:27:47.513Z",
+    "accessibility": "Browser tab: 23, Title: \"仙府 · 窄屏布局验收\", URL: \"https://cybershp.github.io/Simulation-web-game/ea-preview/mobile.html?width=320&height=568&acceptance=qa-mobile-handoff\".\nThere has been no change in the accessibility tree.\nThe focused UI element is 10 button Description: 关闭弹窗, ID: close-modal",
+    "screenshot": "screenshots/archive-mobile-320.jpg"
+  },
+  {
+    "name": "10D-mobile-320-final",
+    "url": "https://cybershp.github.io/Simulation-web-game/ea-preview/mobile.html?width=320&height=568&acceptance=qa-mobile-handoff",
+    "observedAt": "2026-10-04T12:29:00.287Z",
+    "accessibility": "Browser tab: 23, Title: \"仙府 · 窄屏布局验收\", URL: \"https://cybershp.github.io/Simulation-web-game/ea-preview/mobile.html?width=320&height=568&acceptance=qa-mobile-handoff\".\n1 AXWebArea 仙府 · 窄屏布局验收, URL: cybershp.github.io/Simulation-web-game/ea-preview/mobile.html?width=320&height=568&acceptance=qa-mobile-handoff\n\t2 text 320 × 568 · 独立存档响应式验收\n\t3 container 仙府窄屏试玩\n\t\t4 AXWebArea 模拟仙府 · 余烬立山, URL: cybershp.github.io/Simulation-web-game/ea-preview/index.html?v=ea-110-handoff3&acceptance=qa-mobile-handoff\n\t\t\t5 container game\n\t\t\t\t6 container\n\t\t\t\t\t7 container Description: 府库资源, ID: resources\n\t\t\t\t\t\t8 button 灵石 248，查看府库\n\t\t\t\t\t\t\t9 text 248\n\t\t\t\t\t\t10 button 灵木 77，查看府库\n\t\t\t\t\t\t\t11 text 77\n\t\t\t\t\t\t12 button 青石 52，查看府库\n\t\t\t\t\t\t\t13 text 52\n\t\t\t\t\t\t14 button 灵草 200，查看府库\n\t\t\t\t\t\t\t15 text 200\n\t\t\t\t\t\t16 button 灵晶 13，查看府库\n\t\t\t\t\t\t\t17 text 13\n\t\t\t\t\t\t18 button 道韵 29，查看府库\n\t\t\t\t\t\t\t19 text 29\n\t\t\t\t\t\t20 button 口粮 143，查看府库\n\t\t\t\t\t\t\t21 text 143\n\t\t\t\t\t22 button Description: 存档与设置, ID: settings\n\t\t\t\t23 container Description: 仙府经营地图, ID: viewport\n\t\t\t\t\t24 image Description: 仙府地图。拖动平移，滚轮缩放，行走模式点击目的地。可用方向键或 W A S D 移动掌门。, ID: world\n\t\t\t\t\t25 container\n\t\t\t\t\t\t26 heading 栖霞故地, Value: 1, ID: scene-title\n\t\t\t\t\t\t\t27 text 栖霞故地\n\t\t\t\t\t\t28 text 第 22 日 · 巳时\n\t\t\t\t\t\t29 text ·\n\t\t\t\t\t\t30 text 灵露\n\t\t\t\t\t\t31 text 验收世界 · 与正式存档独立\n\t\t\t\t\t32 container\n\t\t\t\t\t\t33 checkbox Description: 切换掌门行走模式, Help: 掌门行走, Value: 0, ID: master-mode\n\t\t\t\t\t\t34 button Description: 放大地图, Help: 放大, ID: zoom-in\n\t\t\t\t\t\t35 button Description: 缩小地图, Help: 缩小, ID: zoom-out\n\t\t\t\t\t\t36 button Description: 定位掌门, ID: recenter\n\t\t\t\t\t\t37 button Description: 显示营造网格, Help: 地块网格, ID: grid-toggle\n\t\t\t\t\t38 container 时序控制\n\t\t\t\t\t\t39 button Description: 继续游戏, ID: pause\n\t\t\t\t\t\t40 checkbox Description: 一倍速度, Value: 0\n\t\t\t\t\t\t41 checkbox Description: 二倍速度, Value: 0\n\t\t\t\t\t\t42 checkbox Description: 四倍速度, Value: 0\n\t\t\t\t\t43 container Description: 战斗控制, ID: combat-hud\n\t\t\t\t\t\t44 text 遭遇战 · 掌门亲自应对\n\t\t\t\t\t\t45 heading 审势而动, Value: 3\n\t\t\t\t\t\t\t46 text 审势而动\n\t\t\t\t\t\t47 text 气血\n\t\t\t\t\t\t48 container\n\t\t\t\t\t\t\t49 text 168  / 175\n\t\t\t\t\t\t50 progress indicator 168\n\t\t\t\t\t\t51 text 真气\n\t\t\t\t\t\t52 container\n\t\t\t\t\t\t\t53 text 84  / 100\n\t\t\t\t\t\t54 progress indicator 84\n\t\t\t\t\t\t55 button (disabled) 攻击, Help: 需目标在 1.9 步内\n\t\t\t\t\t\t56 button (disabled) 青岚术 5s, Help: 调息 4.5 秒\n\t\t\t\t\t\t57 button 闪避\n\t\t\t\t\t\t58 button 守御\n\t\t\t\t\t\t59 button 沿退路撤离\n\t\t\t\t\t\t60 text 青岚术命中韩厉川 · 筑基后期。\n\t\t\t\t\t\t61 text 战斗已暂停 · 点击继续推进移动与调息\n\t\t\t\t\t62 container Description: 仙府管理, ID: bottom-panel\n\t\t\t\t\t\t63 container Description: 管理面板, ID: bottom-nav\n\t\t\t\t\t\t\t64 container\n\t\t\t\t\t\t\t\t65 checkbox 掌门, Value: 1\n\t\t\t\t\t\t\t\t66 checkbox 营造, Value: 0\n\t\t\t\t\t\t\t\t67 checkbox 门人, Value: 0\n\t\t\t\t\t\t\t\t68 checkbox 传承, Value: 0\n\t\t\t\t\t\t\t\t69 checkbox 生产, Value: 0\n\t\t\t\t\t\t\t\t70 checkbox 山门, Value: 0\n\t\t\t\t\t\t\t\t71 checkbox 山外, Value: 0\n\t\t\t\t\t\t\t\t72 checkbox 纪事, Value: 0\n\t\t\t\t73 container Description: 世界 3 · 2026/10/4 20:27:23。浏览器关闭后，从本机存档继续。, ID: save-status\n\t\t\t\t\t74 text 已恢复本机存档\n\nThe focused UI element is 4 AXWebArea 模拟仙府 · 余烬立山, URL: cybershp.github.io/Simulation-web-game/ea-preview/index.html?v=ea-110-handoff3&acceptance=qa-mobile-handoff",
+    "screenshot": "screenshots/10D-mobile-320-final.jpg"
+  },
+  {
+    "name": "archive-mobile-390",
+    "url": "https://cybershp.github.io/Simulation-web-game/ea-preview/mobile.html?width=390&height=844&acceptance=qa-mobile-handoff",
+    "observedAt": "2026-10-04T12:30:35.001Z",
+    "accessibility": "Browser tab: 23, Title: \"仙府 · 窄屏布局验收\", URL: \"https://cybershp.github.io/Simulation-web-game/ea-preview/mobile.html?width=390&height=844&acceptance=qa-mobile-handoff\".\nThere has been no change in the accessibility tree.\nThe focused UI element is 10 button Description: 关闭弹窗, ID: close-modal",
+    "screenshot": "screenshots/archive-mobile-390.jpg"
+  },
+  {
+    "name": "save-memory-confirmation",
+    "url": "https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff",
+    "observedAt": "2026-10-04T12:34:45.955Z",
+    "accessibility": "Browser tab: 22, Title: \"模拟仙府 · 余烬立山\", URL: \"https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff\".\n1 AXWebArea 模拟仙府 · 余烬立山, URL: cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff\n\t2 container 暂续此卷, ID: modal\n\t\t3 container\n\t\t\t4 text 云岫仙府 · 山居手札\n\t\t\t5 heading 暂续此卷, Value: 2, ID: modal-title\n\t\t\t\t9 text 暂续此卷\n\t\t\t7 button Description: 关闭弹窗, ID: close-modal\n\t\t8 container modal-body\n\t\t\t10 text 当前进度将只保留在此窗口中，本机旧档和备份保持原样。关闭网页前，请导出文件或复制存档文本；准备好后可手动继续时间。\n\t\t\t11 button 先导出当前进度\n\t\t\t12 button 查看存档文本\n\t\t\t13 button 确认转为内存继续\n\t\t\t14 button 返回设置\n\nThe focused UI element is 1 AXWebArea 模拟仙府 · 余烬立山, URL: cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff",
+    "screenshot": "screenshots/save-memory-confirmation.jpg"
+  },
+  {
+    "name": "save-memory-continued",
+    "url": "https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff",
+    "observedAt": "2026-10-04T12:36:58.050Z",
+    "accessibility": "Browser tab: 22, Title: \"模拟仙府 · 余烬立山\", URL: \"https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff\".\nThere has been no change in the accessibility tree.\nThe focused UI element is 52 button Description: 继续游戏, ID: pause",
+    "screenshot": "screenshots/save-memory-continued.jpg"
+  },
+  {
+    "name": "07A-valley",
+    "url": "https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff",
+    "observedAt": "2026-10-04T12:37:32.878Z",
+    "accessibility": "Browser tab: 22, Title: \"模拟仙府 · 余烬立山\", URL: \"https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff\".\nThe following is a diff from the previous accessibility tree with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.\nRemoved element IDs: 24, 26-27, 29, 65, 71\n+\t\t\t\t71 text 云岫山 · 双峰承道\n+\t\t\t\t\t72 text 云岫山谷\n+\t\t\t\t73 text 第 56 日 · 子时\n+\t\t\t\t74 text 晴岚\n+\t\t\t\t\t\t\t75 text 30\n+\t\t76 text 仅内存试玩 · 请导出\nThe focused UI element is 1 AXWebArea 模拟仙府 · 余烬立山, URL: cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff",
+    "screenshot": "screenshots/07A-valley.jpg"
+  },
+  {
+    "name": "07B-market",
+    "url": "https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff",
+    "observedAt": "2026-10-04T12:37:45.062Z",
+    "accessibility": "Browser tab: 22, Title: \"模拟仙府 · 余烬立山\", URL: \"https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff\".\nThe following is a diff from the previous accessibility tree with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.\nRemoved element IDs: 24, 26-27, 29, 65, 71\n+\t\t\t\t71 text 云岫山 · 双峰承道\n+\t\t\t\t\t72 text 青溪坊市\n+\t\t\t\t73 text 第 56 日 · 丑时\n+\t\t\t\t74 text 晴岚\n+\t\t\t\t\t\t\t75 text 30\n+\t\t76 text 仅内存试玩 · 请导出\nThe focused UI element is 20 button Description: 存档与设置, ID: settings",
+    "screenshot": "screenshots/07B-market.jpg"
+  },
+  {
+    "name": "07C-quarry",
+    "url": "https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff",
+    "observedAt": "2026-10-04T12:37:56.769Z",
+    "accessibility": "Browser tab: 22, Title: \"模拟仙府 · 余烬立山\", URL: \"https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff\".\nThe following is a diff from the previous accessibility tree with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.\nRemoved element IDs: 24, 26-27, 29, 65, 71\n+\t\t\t\t71 text 云岫山 · 双峰承道\n+\t\t\t\t\t72 text 石桥驿\n+\t\t\t\t73 text 第 56 日 · 丑时\n+\t\t\t\t74 text 晴岚\n+\t\t\t\t\t\t\t75 text 30\n+\t\t76 text 仅内存试玩 · 请导出\nThe focused UI element is 20 button Description: 存档与设置, ID: settings",
+    "screenshot": "screenshots/07C-quarry.jpg"
+  },
+  {
+    "name": "07D-ruins",
+    "url": "https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff",
+    "observedAt": "2026-10-04T12:38:07.454Z",
+    "accessibility": "Browser tab: 22, Title: \"模拟仙府 · 余烬立山\", URL: \"https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff\".\nThe following is a diff from the previous accessibility tree with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.\nRemoved element IDs: 24, 26-27, 29, 65, 71\n+\t\t\t\t71 text 云岫山 · 双峰承道\n+\t\t\t\t\t72 text 听雨遗址\n+\t\t\t\t73 text 第 56 日 · 丑时\n+\t\t\t\t74 text 晴岚\n+\t\t\t\t\t\t\t75 text 30\n+\t\t76 text 仅内存试玩 · 请导出\nThe focused UI element is 20 button Description: 存档与设置, ID: settings",
+    "screenshot": "screenshots/07D-ruins.jpg"
+  },
+  {
+    "name": "08A-prison",
+    "url": "https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff",
+    "observedAt": "2026-10-04T12:38:17.107Z",
+    "accessibility": "Browser tab: 22, Title: \"模拟仙府 · 余烬立山\", URL: \"https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff\".\nThe following is a diff from the previous accessibility tree with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.\nRemoved element IDs: 24, 26-27, 29, 65, 71\n+\t\t\t\t71 text 云岫山 · 双峰承道\n+\t\t\t\t\t72 text 赤嶂偏牢\n+\t\t\t\t73 text 第 56 日 · 丑时\n+\t\t\t\t74 text 晴岚\n+\t\t\t\t\t\t\t75 text 30\n+\t\t76 text 仅内存试玩 · 请导出\nThe focused UI element is 20 button Description: 存档与设置, ID: settings",
+    "screenshot": "screenshots/08A-prison.jpg"
+  },
+  {
+    "name": "08B-supply",
+    "url": "https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff",
+    "observedAt": "2026-10-04T12:38:27.878Z",
+    "accessibility": "Browser tab: 22, Title: \"模拟仙府 · 余烬立山\", URL: \"https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff\".\nThe following is a diff from the previous accessibility tree with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.\nRemoved element IDs: 24, 26-27, 29, 65, 71\n+\t\t\t\t71 text 云岫山 · 双峰承道\n+\t\t\t\t\t72 text 赤嶂粮道\n+\t\t\t\t73 text 第 56 日 · 丑时\n+\t\t\t\t74 text 晴岚\n+\t\t\t\t\t\t\t75 text 30\n+\t\t76 text 仅内存试玩 · 请导出\nThe focused UI element is 20 button Description: 存档与设置, ID: settings",
+    "screenshot": "screenshots/08B-supply.jpg"
+  },
+  {
+    "name": "08C-ward",
+    "url": "https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff",
+    "observedAt": "2026-10-04T12:38:37.940Z",
+    "accessibility": "Browser tab: 22, Title: \"模拟仙府 · 余烬立山\", URL: \"https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff\".\nThe following is a diff from the previous accessibility tree with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.\nRemoved element IDs: 24, 26-27, 29, 65, 71\n+\t\t\t\t71 text 云岫山 · 双峰承道\n+\t\t\t\t\t72 text 栖霞外阵\n+\t\t\t\t73 text 第 56 日 · 丑时\n+\t\t\t\t74 text 晴岚\n+\t\t\t\t\t\t\t75 text 30\n+\t\t76 text 仅内存试玩 · 请导出\nThe focused UI element is 20 button Description: 存档与设置, ID: settings",
+    "screenshot": "screenshots/08C-ward.jpg"
+  },
+  {
+    "name": "08D-council",
+    "url": "https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff",
+    "observedAt": "2026-10-04T12:38:54.271Z",
+    "accessibility": "Browser tab: 22, Title: \"模拟仙府 · 余烬立山\", URL: \"https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff\".\nThe following is a diff from the previous accessibility tree with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.\nRemoved element IDs: 24, 26-27, 29, 65, 71\n+\t\t\t\t71 text 云岫山 · 双峰承道\n+\t\t\t\t\t72 text 南渡公议\n+\t\t\t\t73 text 第 56 日 · 丑时\n+\t\t\t\t74 text 晴岚\n+\t\t\t\t\t\t\t75 text 30\n+\t\t76 text 仅内存试玩 · 请导出\nThe focused UI element is 20 button Description: 存档与设置, ID: settings",
+    "screenshot": "screenshots/08D-council.jpg"
+  },
+  {
+    "name": "09A-qixia",
+    "url": "https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff",
+    "observedAt": "2026-10-04T12:39:04.653Z",
+    "accessibility": "Browser tab: 22, Title: \"模拟仙府 · 余烬立山\", URL: \"https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff\".\nThe following is a diff from the previous accessibility tree with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.\nRemoved element IDs: 24, 26-27, 29, 65, 71\n+\t\t\t\t71 text 云岫山 · 双峰承道\n+\t\t\t\t\t72 text 栖霞故地\n+\t\t\t\t73 text 第 56 日 · 寅时\n+\t\t\t\t74 text 晴岚\n+\t\t\t\t\t\t\t75 text 30\n+\t\t76 text 仅内存试玩 · 请导出\nThe focused UI element is 20 button Description: 存档与设置, ID: settings",
+    "screenshot": "screenshots/09A-qixia.jpg"
+  },
+  {
+    "name": "09B-battle-party",
+    "url": "https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff",
+    "observedAt": "2026-10-04T12:39:37.530Z",
+    "accessibility": "Browser tab: 22, Title: \"模拟仙府 · 余烬立山\", URL: \"https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff\".\nThe following is a diff from the previous accessibility tree with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.\nRemoved element IDs: 24, 26-27, 29, 76, 84, 90\n+\t\t\t\t90 text 云岫山 · 隐姓山居\n+\t\t\t\t\t91 text 栖霞故地\n+\t\t\t\t92 text 第 22 日 · 巳时\n+\t\t\t\t93 text 灵露\n+\t\t\t\t\t\t\t94 text 2\n+\t\t95 text 仅内存试玩 · 请导出\nThe focused UI element is 20 button Description: 存档与设置, ID: settings",
+    "screenshot": "screenshots/09B-battle-party.jpg"
+  },
+  {
+    "name": "04D-visitors",
+    "url": "https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff",
+    "observedAt": "2026-10-04T12:39:56.230Z",
+    "accessibility": "Browser tab: 22, Title: \"模拟仙府 · 余烬立山\", URL: \"https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff\".\nThe following is a diff from the previous accessibility tree with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.\nRemoved element IDs: 70-73, 76, 194\n+\t\t\t\t194 text 云岫山 · 双峰承道\n+\t\t\t\t\t195 text 云岫承道仙府\n+\t\t\t\t196 text 第 56 日 · 午时\n+\t\t\t\t197 text 晴岚\n+\t\t\t\t\t\t\t198 text 30\n+\t\t199 text 仅内存试玩 · 请导出\nThe focused UI element is 78 container ID: bottom-content, Description: 云岫山院 从同院到同道 制度影响机会与公平，掌门的邀请需要被接受。 双峰承道 · 40 处设施 · 30 名门人 当前阶段 双峰承道 结庐立足 隐姓山居 山院初成 正式立派 双峰承道 门派已经立名。以制度维系共同生活，也为不同志向留下一席。 已经正式立派 云岫承道仙府 · 山门已立 院规与差事 丹药取用 按需共用 外出规则 出行留讯 差事侧重 均衡差事 执规原则 重解释与补偿 差事提供侧重，门人保留选择。取用与外出规则适用于全院，处置会留下公平与信任的记忆。 山门职位 庶务执事 协调供给，使愿意响应的门人更重视紧缺物资。 邀请任职 传功执事 有时间且愿意时授课，实际占用自己的工作和修行时间。 邀请任职 护院执事 巡查现有证据，提高查知违规的机会。 邀请任职 能力、志向与信任会影响意愿；任职不会强制改写个人行为。 待议事务 以已经发现的证据为准 院中暂时无事 只列出已经核实或已发现的事情；隐秘行为不会预先展示。 分峰与传承归属 主持者须愿意 · 门人自主选择归属",
+    "screenshot": "screenshots/04D-visitors.jpg"
+  },
+  {
+    "name": "visitor-resolved",
+    "url": "https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff",
+    "observedAt": "2026-10-04T12:40:35.902Z",
+    "accessibility": "Browser tab: 22, Title: \"模拟仙府 · 余烬立山\", URL: \"https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff\".\nThe following is a diff from the previous accessibility tree with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.\nRemoved element IDs: 183-186, 189, 193\n+\t\t\t\t193 text 云岫山 · 双峰承道\n+\t\t\t\t\t194 text 云岫承道仙府\n+\t\t\t\t195 text 第 56 日 · 午时\n+\t\t\t\t196 text 晴岚\n+\t\t\t\t\t\t\t197 text 30\n+\t\t198 text 仅内存试玩 · 请导出\nThe focused UI element is 1 AXWebArea 模拟仙府 · 余烬立山, URL: cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff",
+    "screenshot": "screenshots/visitor-resolved.jpg"
+  },
+  {
+    "name": "10A-mobile-main",
+    "url": "https://cybershp.github.io/Simulation-web-game/ea-preview/mobile.html?width=390&height=844&acceptance=qa-mobile-handoff",
+    "observedAt": "2026-10-04T12:40:35.984Z",
+    "accessibility": "Browser tab: 23, Title: \"仙府 · 窄屏布局验收\", URL: \"https://cybershp.github.io/Simulation-web-game/ea-preview/mobile.html?width=390&height=844&acceptance=qa-mobile-handoff\".\nThe following is a diff from the previous accessibility tree with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.\nRemoved element IDs: 27-28, 30-31, 67\n+\t\t\t\t\t\t\t67 text 云岫别院\n+\t\t\t\t\t\t68 text 第 6 日 · 巳时\n+\t\t\t\t\t\t69 text 长风\n+\t\t\t\t\t\t70 text 验收世界 · 与正式存档独立\n+\t\t\t\t71 text 仅内存试玩 · 请导出\nThe focused UI element is 4 AXWebArea 模拟仙府 · 余烬立山, URL: cybershp.github.io/Simulation-web-game/ea-preview/index.html?v=ea-110-handoff5&acceptance=qa-mobile-handoff",
+    "screenshot": "screenshots/10A-mobile-main.jpg"
+  },
+  {
+    "name": "02A-master",
+    "url": "https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff",
+    "observedAt": "2026-10-04T12:40:47.656Z",
+    "accessibility": "Browser tab: 22, Title: \"模拟仙府 · 余烬立山\", URL: \"https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff\".\nThe following is a diff from the previous accessibility tree with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.\nRemoved element IDs: 188-191, 193, 235\n+\t\t\t\t235 text 云岫山 · 双峰承道\n+\t\t\t\t\t236 text 云岫承道仙府\n+\t\t\t\t237 text 第 56 日 · 午时\n+\t\t\t\t238 text 晴岚\n+\t\t\t\t\t\t\t239 text 30\n+\t\t240 text 仅内存试玩 · 请导出\nThe focused UI element is 60 checkbox 掌门, Value: 1",
+    "screenshot": "screenshots/02A-master.jpg"
+  },
+  {
+    "name": "10B-mobile-drawer-final",
+    "url": "https://cybershp.github.io/Simulation-web-game/ea-preview/mobile.html?width=390&height=844&acceptance=qa-mobile-handoff",
+    "observedAt": "2026-10-04T12:40:47.762Z",
+    "accessibility": "Browser tab: 23, Title: \"仙府 · 窄屏布局验收\", URL: \"https://cybershp.github.io/Simulation-web-game/ea-preview/mobile.html?width=390&height=844&acceptance=qa-mobile-handoff\".\nThe following is a diff from the previous accessibility tree with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.\nRemoved element IDs: 67-70, 124\n+\t\t\t\t\t\t\t124 text 云岫别院\n+\t\t\t\t\t\t125 text 第 6 日 · 巳时\n+\t\t\t\t\t\t126 text 长风\n+\t\t\t\t\t\t127 text 验收世界 · 与正式存档独立\n+\t\t\t\t128 text 仅内存试玩 · 请导出\nThe focused UI element is 61 checkbox 门人, Value: 1",
+    "screenshot": "screenshots/10B-mobile-drawer-final.jpg"
+  },
+  {
+    "name": "02B-build",
+    "url": "https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff",
+    "observedAt": "2026-10-04T12:40:59.883Z",
+    "accessibility": "Browser tab: 22, Title: \"模拟仙府 · 余烬立山\", URL: \"https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff\".\nThe following is a diff from the previous accessibility tree with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.\nRemoved element IDs: 188-191, 193, 278\n+\t\t\t\t278 text 云岫山 · 双峰承道\n+\t\t\t\t\t279 text 云岫承道仙府\n+\t\t\t\t280 text 第 56 日 · 午时\n+\t\t\t\t281 text 晴岚\n+\t\t\t\t\t\t\t282 text 30\n+\t\t283 text 仅内存试玩 · 请导出\nThe focused UI element is 61 checkbox 营造, Value: 1",
+    "screenshot": "screenshots/02B-build.jpg"
+  },
+  {
+    "name": "10C-mobile-person-final",
+    "url": "https://cybershp.github.io/Simulation-web-game/ea-preview/mobile.html?width=390&height=844&acceptance=qa-mobile-handoff",
+    "observedAt": "2026-10-04T12:40:59.986Z",
+    "accessibility": "Browser tab: 23, Title: \"仙府 · 窄屏布局验收\", URL: \"https://cybershp.github.io/Simulation-web-game/ea-preview/mobile.html?width=390&height=844&acceptance=qa-mobile-handoff\".\nThere has been no change in the accessibility tree.\nThe focused UI element is 10 button Description: 关闭弹窗, ID: close-modal",
+    "screenshot": "screenshots/10C-mobile-person-final.jpg"
+  },
+  {
+    "name": "05A-person",
+    "url": "https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff",
+    "observedAt": "2026-10-04T12:42:19.158Z",
+    "accessibility": "Browser tab: 22, Title: \"模拟仙府 · 余烬立山\", URL: \"https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff\".\nThere has been no change in the accessibility tree.\nThe focused UI element is 7 button Description: 关闭弹窗, ID: close-modal",
+    "screenshot": "screenshots/05A-person.jpg"
+  },
+  {
+    "name": "settings-mobile-390",
+    "url": "https://cybershp.github.io/Simulation-web-game/ea-preview/mobile.html?width=390&height=844&acceptance=qa-mobile-handoff",
+    "observedAt": "2026-10-04T12:42:19.250Z",
+    "accessibility": "Browser tab: 23, Title: \"仙府 · 窄屏布局验收\", URL: \"https://cybershp.github.io/Simulation-web-game/ea-preview/mobile.html?width=390&height=844&acceptance=qa-mobile-handoff\".\nThere has been no change in the accessibility tree.\nThe focused UI element is 10 button Description: 关闭弹窗, ID: close-modal",
+    "screenshot": "screenshots/settings-mobile-390.jpg"
+  },
+  {
+    "name": "02D-manuals",
+    "url": "https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff",
+    "observedAt": "2026-10-04T12:42:35.059Z",
+    "accessibility": "Browser tab: 22, Title: \"模拟仙府 · 余烬立山\", URL: \"https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff\".\nThe following is a diff from the previous accessibility tree with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.\nRemoved element IDs: 76-79, 81, 342\n+\t\t\t\t342 text 云岫山 · 双峰承道\n+\t\t\t\t\t343 text 云岫承道仙府\n+\t\t\t\t344 text 第 56 日 · 午时\n+\t\t\t\t345 text 晴岚\n+\t\t\t\t\t\t\t346 text 30\n+\t\t347 text 仅内存试玩 · 请导出\nThe focused UI element is 65 checkbox 传承, Value: 1",
+    "screenshot": "screenshots/02D-manuals.jpg"
+  },
+  {
+    "name": "paste-mobile-redesign",
+    "url": "https://cybershp.github.io/Simulation-web-game/ea-preview/mobile.html?width=390&height=844&acceptance=qa-mobile-handoff",
+    "observedAt": "2026-10-04T12:42:35.138Z",
+    "accessibility": "Browser tab: 23, Title: \"仙府 · 窄屏布局验收\", URL: \"https://cybershp.github.io/Simulation-web-game/ea-preview/mobile.html?width=390&height=844&acceptance=qa-mobile-handoff\".\n1 AXWebArea 仙府 · 窄屏布局验收, URL: cybershp.github.io/Simulation-web-game/ea-preview/mobile.html?width=390&height=844&acceptance=qa-mobile-handoff\n\t2 text 390 × 844 · 独立存档响应式验收\n\t3 container 仙府窄屏试玩\n\t\t4 AXWebArea 模拟仙府 · 余烬立山, URL: cybershp.github.io/Simulation-web-game/ea-preview/index.html?v=ea-110-handoff5&acceptance=qa-mobile-handoff\n\t\t\t5 container 粘贴存档, ID: modal\n\t\t\t\t6 container\n\t\t\t\t\t7 text 云岫仙府 · 山居手札\n\t\t\t\t\t8 heading 粘贴存档, Value: 2, ID: modal-title\n\t\t\t\t\t\t12 text 粘贴存档\n\t\t\t\t\t10 button Description: 关闭弹窗, ID: close-modal\n\t\t\t\t11 container modal-body\n\t\t\t\t\t13 text 粘贴导出的完整 JSON 存档。校验后选择档位，替换前会再次确认。\n\t\t\t\t\t14 text 存档内容\n\t\t\t\t\t15 text entry area (settable) 存档内容, ID: paste-save\n\t\t\t\t\t16 button 校验并预览\n\nThe focused UI element is 4 AXWebArea 模拟仙府 · 余烬立山, URL: cybershp.github.io/Simulation-web-game/ea-preview/index.html?v=ea-110-handoff5&acceptance=qa-mobile-handoff",
+    "screenshot": "screenshots/paste-mobile-redesign.jpg"
+  },
+  {
+    "name": "03A-inventory",
+    "url": "https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff",
+    "observedAt": "2026-10-04T12:42:46.391Z",
+    "accessibility": "Browser tab: 22, Title: \"模拟仙府 · 余烬立山\", URL: \"https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff\".\nThe following is a diff from the previous accessibility tree with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.\nRemoved element IDs: 72-75, 77, 192\n+\t\t\t\t192 text 云岫山 · 双峰承道\n+\t\t\t\t\t193 text 云岫承道仙府\n+\t\t\t\t194 text 第 56 日 · 午时\n+\t\t\t\t195 text 晴岚\n+\t\t\t\t\t\t\t196 text 30\n+\t\t197 text 仅内存试玩 · 请导出\nThe focused UI element is 66 checkbox 生产, Value: 1",
+    "screenshot": "screenshots/03A-inventory.jpg"
+  },
+  {
+    "name": "import-preview-mobile",
+    "url": "https://cybershp.github.io/Simulation-web-game/ea-preview/mobile.html?width=390&height=844&acceptance=qa-mobile-handoff",
+    "observedAt": "2026-10-04T12:42:46.508Z",
+    "accessibility": "Browser tab: 23, Title: \"仙府 · 窄屏布局验收\", URL: \"https://cybershp.github.io/Simulation-web-game/ea-preview/mobile.html?width=390&height=844&acceptance=qa-mobile-handoff\".\nThere has been no change in the accessibility tree.\nThe focused UI element is 4 AXWebArea 模拟仙府 · 余烬立山, URL: cybershp.github.io/Simulation-web-game/ea-preview/index.html?v=ea-110-handoff5&acceptance=qa-mobile-handoff",
+    "screenshot": "screenshots/import-preview-mobile.jpg"
+  },
+  {
+    "name": "03B-alchemy",
+    "url": "https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff",
+    "observedAt": "2026-10-04T12:42:57.879Z",
+    "accessibility": "Browser tab: 22, Title: \"模拟仙府 · 余烬立山\", URL: \"https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff\".\nThe following is a diff from the previous accessibility tree with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.\nRemoved element IDs: 87-91, 120\n+\t\t\t\t120 text 云岫山 · 双峰承道\n+\t\t\t\t\t121 text 云岫承道仙府\n+\t\t\t\t122 text 第 56 日 · 午时\n+\t\t\t\t123 text 晴岚\n+\t\t\t\t\t\t\t124 text 30\n+\t\t125 text 仅内存试玩 · 请导出\nThe focused UI element is 80 checkbox 炼丹, Value: 1",
+    "screenshot": "screenshots/03B-alchemy.jpg"
+  },
+  {
+    "name": "import-confirm-mobile",
+    "url": "https://cybershp.github.io/Simulation-web-game/ea-preview/mobile.html?width=390&height=844&acceptance=qa-mobile-handoff",
+    "observedAt": "2026-10-04T12:42:57.968Z",
+    "accessibility": "Browser tab: 23, Title: \"仙府 · 窄屏布局验收\", URL: \"https://cybershp.github.io/Simulation-web-game/ea-preview/mobile.html?width=390&height=844&acceptance=qa-mobile-handoff\".\n1 AXWebArea 仙府 · 窄屏布局验收, URL: cybershp.github.io/Simulation-web-game/ea-preview/mobile.html?width=390&height=844&acceptance=qa-mobile-handoff\n\t2 text 390 × 844 · 独立存档响应式验收\n\t3 container 仙府窄屏试玩\n\t\t4 AXWebArea 模拟仙府 · 余烬立山, URL: cybershp.github.io/Simulation-web-game/ea-preview/index.html?v=ea-110-handoff5&acceptance=qa-mobile-handoff\n\t\t\t5 container 确认导入, ID: modal\n\t\t\t\t6 container\n\t\t\t\t\t7 text 云岫仙府 · 山居手札\n\t\t\t\t\t8 heading 确认导入, Value: 2, ID: modal-title\n\t\t\t\t\t\t12 text 确认导入\n\t\t\t\t\t10 button Description: 关闭弹窗, ID: close-modal\n\t\t\t\t11 container modal-body\n\t\t\t\t\t13 text 将导入世界 1，现有主档会保留备份。\n\t\t\t\t\t14 button 确认导入\n\t\t\t\t\t15 button 取消\n\nThe focused UI element is 4 AXWebArea 模拟仙府 · 余烬立山, URL: cybershp.github.io/Simulation-web-game/ea-preview/index.html?v=ea-110-handoff5&acceptance=qa-mobile-handoff",
+    "screenshot": "screenshots/import-confirm-mobile.jpg"
+  },
+  {
+    "name": "03C-market",
+    "url": "https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff",
+    "observedAt": "2026-10-04T12:43:07.811Z",
+    "accessibility": "Browser tab: 22, Title: \"模拟仙府 · 余烬立山\", URL: \"https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff\".\nThe following is a diff from the previous accessibility tree with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.\nRemoved element IDs: 87-91, 212\n+\t\t\t\t212 text 云岫山 · 双峰承道\n+\t\t\t\t\t213 text 云岫承道仙府\n+\t\t\t\t214 text 第 56 日 · 午时\n+\t\t\t\t215 text 晴岚\n+\t\t\t\t\t\t\t216 text 30\n+\t\t217 text 仅内存试玩 · 请导出\nThe focused UI element is 81 checkbox 坊市与委托, Value: 1",
+    "screenshot": "screenshots/03C-market.jpg"
+  },
+  {
+    "name": "04B-worldmap",
+    "url": "https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff",
+    "observedAt": "2026-10-04T12:43:17.648Z",
+    "accessibility": "Browser tab: 22, Title: \"模拟仙府 · 余烬立山\", URL: \"https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff\".\nThe following is a diff from the previous accessibility tree with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.\nRemoved element IDs: 72-75, 77, 208\n+\t\t\t\t208 text 云岫山 · 双峰承道\n+\t\t\t\t\t209 text 云岫承道仙府\n+\t\t\t\t210 text 第 56 日 · 午时\n+\t\t\t\t211 text 晴岚\n+\t\t\t\t\t\t\t212 text 30\n+\t\t213 text 仅内存试玩 · 请导出\nThe focused UI element is 68 checkbox 山外, Value: 1",
+    "screenshot": "screenshots/04B-worldmap.jpg"
+  },
+  {
+    "name": "04C-journal",
+    "url": "https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff",
+    "observedAt": "2026-10-04T12:43:33.753Z",
+    "accessibility": "Browser tab: 22, Title: \"模拟仙府 · 余烬立山\", URL: \"https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff\".\nThe following is a diff from the previous accessibility tree with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.\nRemoved element IDs: 82-85, 87, 529\n+\t\t\t\t529 text 云岫山 · 双峰承道\n+\t\t\t\t\t530 text 云岫承道仙府\n+\t\t\t\t531 text 第 56 日 · 午时\n+\t\t\t\t532 text 晴岚\n+\t\t\t\t\t\t\t533 text 30\n+\t\t534 text 仅内存试玩 · 请导出\nThe focused UI element is 69 checkbox 纪事, Value: 1",
+    "screenshot": "screenshots/04C-journal.jpg"
+  },
+  {
+    "name": "02C-disciples",
+    "url": "https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff",
+    "observedAt": "2026-10-04T12:43:44.915Z",
+    "accessibility": "Browser tab: 22, Title: \"模拟仙府 · 余烬立山\", URL: \"https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff\".\nThe following is a diff from the previous accessibility tree with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.\nRemoved element IDs: 82-85, 87, 334\n+\t\t\t\t334 text 云岫山 · 双峰承道\n+\t\t\t\t\t335 text 云岫承道仙府\n+\t\t\t\t336 text 第 56 日 · 午时\n+\t\t\t\t337 text 晴岚\n+\t\t\t\t\t\t\t338 text 30\n+\t\t339 text 仅内存试玩 · 请导出\nThe focused UI element is 62 checkbox 门人 30, Value: 1",
+    "screenshot": "screenshots/02C-disciples.jpg"
+  },
+  {
+    "name": "03D-governance",
+    "url": "https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff",
+    "observedAt": "2026-10-04T12:44:03.941Z",
+    "accessibility": "Browser tab: 22, Title: \"模拟仙府 · 余烬立山\", URL: \"https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff\".\nThe following is a diff from the previous accessibility tree with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.\nRemoved element IDs: 82-85, 87, 191\n+\t\t\t\t191 text 云岫山 · 双峰承道\n+\t\t\t\t\t192 text 云岫承道仙府\n+\t\t\t\t193 text 第 56 日 · 午时\n+\t\t\t\t194 text 晴岚\n+\t\t\t\t\t\t\t195 text 30\n+\t\t196 text 仅内存试玩 · 请导出\nThe focused UI element is 71 container ID: bottom-content, Description: 云岫山院 从同院到同道 制度影响机会与公平，掌门的邀请需要被接受。 双峰承道 · 40 处设施 · 30 名门人 当前阶段 双峰承道 结庐立足 隐姓山居 山院初成 正式立派 双峰承道 门派已经立名。以制度维系共同生活，也为不同志向留下一席。 已经正式立派 云岫承道仙府 · 山门已立 院规与差事 丹药取用 按需共用 外出规则 出行留讯 差事侧重 均衡差事 执规原则 重解释与补偿 差事提供侧重，门人保留选择。取用与外出规则适用于全院，处置会留下公平与信任的记忆。 山门职位 庶务执事 协调供给，使愿意响应的门人更重视紧缺物资。 邀请任职 传功执事 有时间且愿意时授课，实际占用自己的工作和修行时间。 邀请任职 护院执事 巡查现有证据，提高查知违规的机会。 邀请任职 能力、志向与信任会影响意愿；任职不会强制改写个人行为。 待议事务 以已经发现的证据为准 院中暂时无事 只列出已经核实或已发现的事情；隐秘行为不会预先展示。 分峰与传承归属 主持者须愿意 · 门人自主选择归属",
+    "screenshot": "screenshots/03D-governance.jpg"
+  },
+  {
+    "name": "04A-peaks",
+    "url": "https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff",
+    "observedAt": "2026-10-04T12:44:04.120Z",
+    "accessibility": "Browser tab: 22, Title: \"模拟仙府 · 余烬立山\", URL: \"https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff\".\nThere has been no change in the accessibility tree.\nThe focused UI element is 71 container ID: bottom-content, Description: 云岫山院 从同院到同道 制度影响机会与公平，掌门的邀请需要被接受。 双峰承道 · 40 处设施 · 30 名门人 当前阶段 双峰承道 结庐立足 隐姓山居 山院初成 正式立派 双峰承道 门派已经立名。以制度维系共同生活，也为不同志向留下一席。 已经正式立派 云岫承道仙府 · 山门已立 院规与差事 丹药取用 按需共用 外出规则 出行留讯 差事侧重 均衡差事 执规原则 重解释与补偿 差事提供侧重，门人保留选择。取用与外出规则适用于全院，处置会留下公平与信任的记忆。 山门职位 庶务执事 协调供给，使愿意响应的门人更重视紧缺物资。 邀请任职 传功执事 有时间且愿意时授课，实际占用自己的工作和修行时间。 邀请任职 护院执事 巡查现有证据，提高查知违规的机会。 邀请任职 能力、志向与信任会影响意愿；任职不会强制改写个人行为。 待议事务 以已经发现的证据为准 院中暂时无事 只列出已经核实或已发现的事情；隐秘行为不会预先展示。 分峰与传承归属 主持者须愿意 · 门人自主选择归属",
+    "screenshot": "screenshots/04A-peaks.jpg"
+  },
+  {
+    "name": "06D-estate-peaks",
+    "url": "https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff",
+    "observedAt": "2026-10-04T12:44:23.374Z",
+    "accessibility": "Browser tab: 22, Title: \"模拟仙府 · 余烬立山\", URL: \"https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff\".\nThe following is a diff from the previous accessibility tree with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.\nRemoved element IDs: 92-95, 97-98\n+\t\t\t\t97 text 云岫山 · 双峰承道\n+\t\t\t\t\t98 text 云岫承道仙府\n+\t\t\t\t99 text 第 56 日 · 午时\n+\t\t\t\t100 text 晴岚\n+\t\t\t\t\t\t\t101 text 30\n+\t\t102 text 仅内存试玩 · 请导出\nThe focused UI element is 37 button Description: 山势总览, ID: estate-overview",
+    "screenshot": "screenshots/06D-estate-peaks.jpg"
+  },
+  {
+    "name": "06A-estate-initial",
+    "url": "https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff",
+    "observedAt": "2026-10-04T12:44:51.201Z",
+    "accessibility": "Browser tab: 22, Title: \"模拟仙府 · 余烬立山\", URL: \"https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff\".\nThe following is a diff from the previous accessibility tree with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.\nRemoved element IDs: 70-73, 75-76\n+\t\t\t\t75 text 云岫山 · 结庐立足\n+\t\t\t\t\t76 text 云岫别院\n+\t\t\t\t77 text 第 1 日 · 子时\n+\t\t\t\t78 text 晴岚\n+\t\t\t\t\t\t\t79 text 0\n+\t\t80 text 仅内存试玩 · 请导出\nThe focused UI element is 37 button Description: 山势总览, ID: estate-overview",
+    "screenshot": "screenshots/06A-estate-initial.jpg"
+  },
+  {
+    "name": "06B-estate-grown",
+    "url": "https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff",
+    "observedAt": "2026-10-04T12:45:04.698Z",
+    "accessibility": "Browser tab: 22, Title: \"模拟仙府 · 余烬立山\", URL: \"https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff\".\nThe following is a diff from the previous accessibility tree with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.\nRemoved element IDs: 70-73, 75-76\n+\t\t\t\t75 text 云岫山 · 山院初成\n+\t\t\t\t\t76 text 云岫别院\n+\t\t\t\t77 text 第 6 日 · 巳时\n+\t\t\t\t78 text 长风\n+\t\t\t\t\t\t\t79 text 5\n+\t\t80 text 仅内存试玩 · 请导出\nThe focused UI element is 37 button Description: 山势总览, ID: estate-overview",
+    "screenshot": "screenshots/06B-estate-grown.jpg"
+  },
+  {
+    "name": "06C-estate-founded",
+    "url": "https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff",
+    "observedAt": "2026-10-04T12:45:17.213Z",
+    "accessibility": "Browser tab: 22, Title: \"模拟仙府 · 余烬立山\", URL: \"https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff\".\nThe following is a diff from the previous accessibility tree with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.\nRemoved element IDs: 70-73, 75-76\n+\t\t\t\t75 text 云岫山 · 正式立派\n+\t\t\t\t\t76 text 云岫承道仙府\n+\t\t\t\t77 text 第 30 日 · 亥时\n+\t\t\t\t78 text 灵露\n+\t\t\t\t\t\t\t79 text 12\n+\t\t80 text 仅内存试玩 · 请导出\nThe focused UI element is 37 button Description: 山势总览, ID: estate-overview",
+    "screenshot": "screenshots/06C-estate-founded.jpg"
+  },
+  {
+    "name": "01-main",
+    "url": "https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff",
+    "observedAt": "2026-10-04T12:46:57.494Z",
+    "accessibility": "Browser tab: 22, Title: \"模拟仙府 · 余烬立山\", URL: \"https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff\".\nThe following is a diff from the previous accessibility tree with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.\nRemoved element IDs: 70-73, 75-76\n+\t\t\t\t75 text 云岫山 · 正式立派\n+\t\t\t\t\t76 text 云岫承道仙府\n+\t\t\t\t77 text 第 30 日 · 亥时\n+\t\t\t\t78 text 灵露\n+\t\t\t\t\t\t\t79 text 12\n+\t\t80 text 仅内存试玩 · 请导出\nThe focused UI element is 36 button 山院",
+    "screenshot": "screenshots/01-main.jpg"
+  },
+  {
+    "name": "archive-worlds-redesign",
+    "url": "https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff",
+    "observedAt": "2026-10-04T12:47:38.371Z",
+    "accessibility": "Browser tab: 22, Title: \"模拟仙府 · 余烬立山\", URL: \"https://cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff\".\nThere has been no change in the accessibility tree.\nThe focused UI element is 1 AXWebArea 模拟仙府 · 余烬立山, URL: cybershp.github.io/Simulation-web-game/ea-preview/?acceptance=qa-handoff",
+    "screenshot": "screenshots/archive-worlds-redesign.jpg"
+  },
+  {
+    "name": "release-archive-brush",
+    "url": "https://cybershp.github.io/Simulation-web-game/?acceptance=qa-release-font",
+    "observedAt": "2026-10-04T12:57:10.002Z",
+    "accessibility": "Browser tab: 26, Title: \"模拟仙府 · 余烬立山\", URL: \"https://cybershp.github.io/Simulation-web-game/?acceptance=qa-release-font\".\nThere has been no change in the accessibility tree.\nThe focused UI element is 16 button 新建世界",
+    "screenshot": "screenshots/release-archive-brush.jpg"
+  },
+  {
+    "name": "release-mobile-person-brush",
+    "url": "https://cybershp.github.io/Simulation-web-game/ea-preview/mobile.html?width=390&height=844&acceptance=qa-mobile-handoff",
+    "observedAt": "2026-10-04T12:58:26.238Z",
+    "accessibility": "Browser tab: 23, Title: \"仙府 · 窄屏布局验收\", URL: \"https://cybershp.github.io/Simulation-web-game/ea-preview/mobile.html?width=390&height=844&acceptance=qa-mobile-handoff\".\nThere has been no change in the accessibility tree.\nThe focused UI element is 10 button Description: 关闭弹窗, ID: close-modal",
+    "screenshot": "screenshots/release-mobile-person-brush.jpg"
+  },
+  {
+    "name": "release-person-brush",
+    "url": "https://cybershp.github.io/Simulation-web-game/?acceptance=qa-release-font",
+    "observedAt": "2026-10-04T12:58:26.509Z",
+    "accessibility": "Browser tab: 26, Title: \"模拟仙府 · 余烬立山\", URL: \"https://cybershp.github.io/Simulation-web-game/?acceptance=qa-release-font\".\nThere has been no change in the accessibility tree.\nThe focused UI element is 6 button Description: 关闭弹窗, ID: close-modal",
+    "screenshot": "screenshots/release-person-brush.jpg"
+  },
+  {
+    "name": "release-settings-brush",
+    "url": "https://cybershp.github.io/Simulation-web-game/?acceptance=qa-release-font",
+    "observedAt": "2026-10-04T12:59:08.374Z",
+    "accessibility": "Browser tab: 26, Title: \"模拟仙府 · 余烬立山\", URL: \"https://cybershp.github.io/Simulation-web-game/?acceptance=qa-release-font\".\nThe following is a diff from the previous accessibility tree with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.\nRemoved element IDs: 10, 21, 38\n+\t\t\t\t\t42 text 01\n+\t\t\t\t\t43 text 02\n+\t\t\t\t\t44 text 03\nThe focused UI element is 6 button Description: 关闭弹窗, ID: close-modal",
+    "screenshot": "screenshots/release-settings-brush.jpg"
+  },
+  {
+    "name": "release-mobile-settings-brush",
+    "url": "https://cybershp.github.io/Simulation-web-game/ea-preview/mobile.html?width=390&height=844&acceptance=qa-mobile-handoff",
+    "observedAt": "2026-10-04T12:59:08.450Z",
+    "accessibility": "Browser tab: 23, Title: \"仙府 · 窄屏布局验收\", URL: \"https://cybershp.github.io/Simulation-web-game/ea-preview/mobile.html?width=390&height=844&acceptance=qa-mobile-handoff\".\nThere has been no change in the accessibility tree.\nThe focused UI element is 10 button Description: 关闭弹窗, ID: close-modal",
+    "screenshot": "screenshots/release-mobile-settings-brush.jpg"
+  },
+  {
+    "name": "release-mobile-archive-320",
+    "url": "https://cybershp.github.io/Simulation-web-game/ea-preview/mobile.html?width=320&height=568&acceptance=qa-mobile-handoff",
+    "observedAt": "2026-10-04T13:00:25.819Z",
+    "accessibility": "Browser tab: 23, Title: \"仙府 · 窄屏布局验收\", URL: \"https://cybershp.github.io/Simulation-web-game/ea-preview/mobile.html?width=320&height=568&acceptance=qa-mobile-handoff\".\nThere has been no change in the accessibility tree.\nThe focused UI element is 10 container ID: modal-body, Description: 单人 · 仙侠经营 · EA 1.1.0-ea 灯火未熄，山门待归。 你是沈氏遗孤沈砚。父母以性命换你逃出栖霞，残卷与旧药庐，是重新立足的起点。 导入存档文件 粘贴存档 每 5 秒及重要操作自动保存。请使用同一设备、浏览器与网址续玩；清理网站数据会移除本机档案。可导出文件，在另一设备导入。关闭网页期间不推进时间。",
+    "screenshot": "screenshots/release-mobile-archive-320.jpg"
+  },
+  {
+    "name": "release-main-brush",
+    "url": "https://cybershp.github.io/Simulation-web-game/?acceptance=qa-release-font",
+    "observedAt": "2026-10-04T13:06:42.416Z",
+    "accessibility": "Browser tab: 26, Title: \"模拟仙府 · 余烬立山\", URL: \"https://cybershp.github.io/Simulation-web-game/?acceptance=qa-release-font\".\nThe following is a diff from the previous accessibility tree with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.\nRemoved element IDs: 70-73, 76, 123\n+\t\t\t\t123 text 云岫山 · 山院初成\n+\t\t\t\t\t124 text 云岫别院\n+\t\t\t\t125 text 第 6 日 · 巳时\n+\t\t\t\t126 text 长风\n+\t\t\t\t\t\t\t127 text 5\n+\t\t128 text 仅内存试玩 · 请导出\nThe focused UI element is 60 checkbox 掌门, Value: 1",
+    "screenshot": "screenshots/release-main-brush.jpg"
+  },
+  {
+    "name": "release-mobile-combat-320",
+    "url": "https://cybershp.github.io/Simulation-web-game/ea-preview/mobile.html?width=320&height=568&acceptance=qa-mobile-handoff",
+    "observedAt": "2026-10-04T13:06:42.501Z",
+    "accessibility": "Browser tab: 23, Title: \"仙府 · 窄屏布局验收\", URL: \"https://cybershp.github.io/Simulation-web-game/ea-preview/mobile.html?width=320&height=568&acceptance=qa-mobile-handoff\".\nThe following is a diff from the previous accessibility tree with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.\nRemoved element IDs: 27-28, 30-31, 62, 75\n+\t\t\t\t\t\t\t75 text 栖霞故地\n+\t\t\t\t\t\t76 text 第 22 日 · 巳时\n+\t\t\t\t\t\t77 text 灵露\n+\t\t\t\t\t\t78 text 验收世界 · 与正式存档独立\n+\t\t\t\t\t79 text 已恢复本机存档\nThe focused UI element is 4 AXWebArea 模拟仙府 · 余烬立山, URL: cybershp.github.io/Simulation-web-game/ea-preview/index.html?v=ea-110-release-20261004-r2&acceptance=qa-mobile-handoff",
+    "screenshot": "screenshots/release-mobile-combat-320.jpg"
+  }
+]

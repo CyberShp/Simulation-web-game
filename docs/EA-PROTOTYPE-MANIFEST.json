@@ -8,211 +8,249 @@
       "id": "01",
       "name": "主界面与图标导航",
       "source": "exec-c568754f-ff4f-4a38-8564-e6748c16111f.png",
-      "status": "implemented-awaiting-browser-acceptance"
+      "status": "browser-accepted",
+      "evidence": "qa/acceptance-1.1/screenshots/01-main.jpg"
     },
     {
       "id": "02A",
       "name": "掌门",
       "source": "exec-f977ed7d-ded3-4689-baa7-6425c82cb8cc.png",
-      "status": "implemented-awaiting-browser-acceptance"
+      "status": "browser-accepted",
+      "evidence": "qa/acceptance-1.1/screenshots/02A-master.jpg"
     },
     {
       "id": "02B",
       "name": "营造",
       "source": "exec-f977ed7d-ded3-4689-baa7-6425c82cb8cc.png",
-      "status": "implemented-awaiting-browser-acceptance"
+      "status": "browser-accepted",
+      "evidence": "qa/acceptance-1.1/screenshots/02B-build.jpg"
     },
     {
       "id": "02C",
       "name": "门人",
       "source": "exec-f977ed7d-ded3-4689-baa7-6425c82cb8cc.png",
-      "status": "implemented-awaiting-browser-acceptance"
+      "status": "browser-accepted",
+      "evidence": "qa/acceptance-1.1/screenshots/02C-disciples.jpg"
     },
     {
       "id": "02D",
       "name": "传承",
       "source": "exec-f977ed7d-ded3-4689-baa7-6425c82cb8cc.png",
-      "status": "implemented-awaiting-browser-acceptance"
+      "status": "browser-accepted",
+      "evidence": "qa/acceptance-1.1/screenshots/02D-manuals.jpg"
     },
     {
       "id": "03A",
       "name": "府库与生产",
       "source": "exec-ff1368c7-0622-4d7c-ba98-caba018284e0.png",
-      "status": "implemented-awaiting-browser-acceptance"
+      "status": "browser-accepted",
+      "evidence": "qa/acceptance-1.1/screenshots/03A-inventory.jpg"
     },
     {
       "id": "03B",
       "name": "炼丹",
       "source": "exec-ff1368c7-0622-4d7c-ba98-caba018284e0.png",
-      "status": "implemented-awaiting-browser-acceptance"
+      "status": "browser-accepted",
+      "evidence": "qa/acceptance-1.1/screenshots/03B-alchemy.jpg"
     },
     {
       "id": "03C",
       "name": "坊市与委托",
       "source": "exec-ff1368c7-0622-4d7c-ba98-caba018284e0.png",
-      "status": "implemented-awaiting-browser-acceptance"
+      "status": "browser-accepted",
+      "evidence": "qa/acceptance-1.1/screenshots/03C-market.jpg"
     },
     {
       "id": "03D",
       "name": "山门治理",
       "source": "exec-ff1368c7-0622-4d7c-ba98-caba018284e0.png",
-      "status": "implemented-awaiting-browser-acceptance"
+      "status": "browser-accepted",
+      "evidence": "qa/acceptance-1.1/screenshots/03D-governance.jpg"
     },
     {
       "id": "04A",
       "name": "分峰",
       "source": "exec-691f2bdd-376c-4e39-afdf-e268266e45f3.png",
-      "status": "implemented-awaiting-browser-acceptance"
+      "status": "browser-accepted",
+      "evidence": "qa/acceptance-1.1/screenshots/04A-peaks.jpg"
     },
     {
       "id": "04B",
       "name": "山外舆图与同行",
       "source": "exec-691f2bdd-376c-4e39-afdf-e268266e45f3.png",
-      "status": "implemented-awaiting-browser-acceptance"
+      "status": "browser-accepted",
+      "evidence": "qa/acceptance-1.1/screenshots/04B-worldmap.jpg"
     },
     {
       "id": "04C",
       "name": "纪事与线索",
       "source": "exec-691f2bdd-376c-4e39-afdf-e268266e45f3.png",
-      "status": "implemented-awaiting-browser-acceptance"
+      "status": "browser-accepted",
+      "evidence": "qa/acceptance-1.1/screenshots/04C-journal.jpg"
     },
     {
       "id": "04D",
       "name": "访客与事务",
       "source": "exec-691f2bdd-376c-4e39-afdf-e268266e45f3.png",
-      "status": "implemented-awaiting-browser-acceptance"
+      "status": "browser-accepted",
+      "evidence": "qa/acceptance-1.1/screenshots/04D-visitors.jpg"
     },
     {
       "id": "05A",
       "name": "门人档案与关系",
       "source": "exec-431b8fc4-8b05-40c6-be8d-89d21dc822c5.png",
-      "status": "implemented-awaiting-browser-acceptance"
+      "status": "browser-accepted",
+      "evidence": "qa/acceptance-1.1/screenshots/05A-person.jpg"
     },
     {
       "id": "05B",
       "name": "实时战斗",
       "source": "exec-431b8fc4-8b05-40c6-be8d-89d21dc822c5.png",
-      "status": "implemented-awaiting-browser-acceptance"
+      "status": "browser-accepted",
+      "evidence": "qa/acceptance-1.1/screenshots/09B-battle-party.jpg"
     },
     {
       "id": "05C",
       "name": "存档与恢复",
       "source": "exec-431b8fc4-8b05-40c6-be8d-89d21dc822c5.png",
-      "status": "implemented-awaiting-browser-acceptance"
+      "status": "browser-accepted",
+      "evidence": "qa/acceptance-1.1/screenshots/05C-backups-redesign.jpg"
     },
     {
       "id": "05D",
       "name": "设置与操作",
       "source": "exec-431b8fc4-8b05-40c6-be8d-89d21dc822c5.png",
-      "status": "implemented-awaiting-browser-acceptance"
+      "status": "browser-accepted",
+      "evidence": "qa/acceptance-1.1/screenshots/05D-settings-redesign.jpg"
     },
     {
       "id": "06A",
       "name": "结庐立足",
       "source": "exec-872a4dbc-fa99-4411-a868-290ba3a398dd.png",
-      "status": "implemented-awaiting-browser-acceptance"
+      "status": "browser-accepted",
+      "evidence": "qa/acceptance-1.1/screenshots/06A-estate-initial.jpg"
     },
     {
       "id": "06B",
       "name": "山院初成",
       "source": "exec-872a4dbc-fa99-4411-a868-290ba3a398dd.png",
-      "status": "implemented-awaiting-browser-acceptance"
+      "status": "browser-accepted",
+      "evidence": "qa/acceptance-1.1/screenshots/06B-estate-grown.jpg"
     },
     {
       "id": "06C",
       "name": "正式立派",
       "source": "exec-872a4dbc-fa99-4411-a868-290ba3a398dd.png",
-      "status": "implemented-awaiting-browser-acceptance"
+      "status": "browser-accepted",
+      "evidence": "qa/acceptance-1.1/screenshots/06C-estate-founded.jpg"
     },
     {
       "id": "06D",
       "name": "双峰承道",
       "source": "exec-872a4dbc-fa99-4411-a868-290ba3a398dd.png",
-      "status": "implemented-awaiting-browser-acceptance"
+      "status": "browser-accepted",
+      "evidence": "qa/acceptance-1.1/screenshots/06D-estate-peaks.jpg"
     },
     {
       "id": "07A",
       "name": "云岫山谷",
       "source": "exec-d773ef1a-2041-4d56-b685-91dba380fe13.png",
-      "status": "implemented-awaiting-browser-acceptance"
+      "status": "browser-accepted",
+      "evidence": "qa/acceptance-1.1/screenshots/07A-valley.jpg"
     },
     {
       "id": "07B",
       "name": "青溪坊市",
       "source": "exec-d773ef1a-2041-4d56-b685-91dba380fe13.png",
-      "status": "implemented-awaiting-browser-acceptance"
+      "status": "browser-accepted",
+      "evidence": "qa/acceptance-1.1/screenshots/07B-market.jpg"
     },
     {
       "id": "07C",
       "name": "石桥驿",
       "source": "exec-d773ef1a-2041-4d56-b685-91dba380fe13.png",
-      "status": "implemented-awaiting-browser-acceptance"
+      "status": "browser-accepted",
+      "evidence": "qa/acceptance-1.1/screenshots/07C-quarry.jpg"
     },
     {
       "id": "07D",
       "name": "听雨遗址",
       "source": "exec-d773ef1a-2041-4d56-b685-91dba380fe13.png",
-      "status": "implemented-awaiting-browser-acceptance"
+      "status": "browser-accepted",
+      "evidence": "qa/acceptance-1.1/screenshots/07D-ruins.jpg"
     },
     {
       "id": "08A",
       "name": "赤嶂偏牢",
       "source": "exec-72db0d6f-aae9-40a3-8ae2-515e1781c32a.png",
-      "status": "implemented-awaiting-browser-acceptance"
+      "status": "browser-accepted",
+      "evidence": "qa/acceptance-1.1/screenshots/08A-prison.jpg"
     },
     {
       "id": "08B",
       "name": "赤嶂粮道",
       "source": "exec-72db0d6f-aae9-40a3-8ae2-515e1781c32a.png",
-      "status": "implemented-awaiting-browser-acceptance"
+      "status": "browser-accepted",
+      "evidence": "qa/acceptance-1.1/screenshots/08B-supply.jpg"
     },
     {
       "id": "08C",
       "name": "栖霞外阵",
       "source": "exec-72db0d6f-aae9-40a3-8ae2-515e1781c32a.png",
-      "status": "implemented-awaiting-browser-acceptance"
+      "status": "browser-accepted",
+      "evidence": "qa/acceptance-1.1/screenshots/08C-ward.jpg"
     },
     {
       "id": "08D",
       "name": "南渡公议",
       "source": "exec-72db0d6f-aae9-40a3-8ae2-515e1781c32a.png",
-      "status": "implemented-awaiting-browser-acceptance"
+      "status": "browser-accepted",
+      "evidence": "qa/acceptance-1.1/screenshots/08D-council.jpg"
     },
     {
       "id": "09A",
       "name": "栖霞旧山门",
       "source": "exec-e1f37274-a757-4416-901a-a5ab9c852367.png",
-      "status": "implemented-awaiting-browser-acceptance"
+      "status": "browser-accepted",
+      "evidence": "qa/acceptance-1.1/screenshots/09A-qixia.jpg"
     },
     {
       "id": "09B",
       "name": "灵脉决战",
       "source": "exec-e1f37274-a757-4416-901a-a5ab9c852367.png",
-      "status": "implemented-awaiting-browser-acceptance"
+      "status": "browser-accepted",
+      "evidence": "qa/acceptance-1.1/screenshots/09B-battle-party.jpg"
     },
     {
       "id": "10A",
       "name": "手机主场景",
       "source": "exec-c37be5c9-f52c-4783-a7cc-bd0a6ffe2033.png",
-      "status": "implemented-awaiting-browser-acceptance"
+      "status": "browser-accepted-responsive-emulation",
+      "evidence": "qa/acceptance-1.1/screenshots/10A-mobile-main.jpg"
     },
     {
       "id": "10B",
       "name": "手机系统抽屉",
       "source": "exec-c37be5c9-f52c-4783-a7cc-bd0a6ffe2033.png",
-      "status": "implemented-awaiting-browser-acceptance"
+      "status": "browser-accepted-responsive-emulation",
+      "evidence": "qa/acceptance-1.1/screenshots/10B-mobile-drawer-final.jpg"
     },
     {
       "id": "10C",
       "name": "手机门人详情",
       "source": "exec-c37be5c9-f52c-4783-a7cc-bd0a6ffe2033.png",
-      "status": "implemented-awaiting-browser-acceptance"
+      "status": "browser-accepted-responsive-emulation",
+      "evidence": "qa/acceptance-1.1/screenshots/10C-mobile-person-final.jpg"
     },
     {
       "id": "10D",
       "name": "手机战斗",
       "source": "exec-c37be5c9-f52c-4783-a7cc-bd0a6ffe2033.png",
-      "status": "implemented-awaiting-browser-acceptance"
+      "status": "browser-accepted-responsive-emulation",
+      "evidence": "qa/acceptance-1.1/screenshots/10D-mobile-320-final.jpg"
     }
-  ]
+  ],
+  "acceptedDate": "2026-10-04",
+  "hardwareMobile": "not-tested",
+  "acceptanceReport": "docs/EA-1.1-ACCEPTANCE.md"
 }

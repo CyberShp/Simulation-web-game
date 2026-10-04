@@ -1,0 +1,25 @@
+{
+  "checkedAt": "2026-10-04T13:06:42.588Z",
+  "url": "https://cybershp.github.io/Simulation-web-game/",
+  "version": "1.1.0-ea",
+  "cacheTag": "ea-110-release-20261004-r2",
+  "formalMenuOnly": true,
+  "gameplayScope": "qa-release-font / qa-mobile-handoff",
+  "font": "XianfuBrush (Ma Shan Zheng local WOFF2)",
+  "headingFontVerified": true,
+  "portraitModalScrollTop": 0,
+  "largeTextNoHorizontalOverflow": true,
+  "mobile320Combat": {
+    "clientWidth": 302,
+    "scrollWidth": 302,
+    "buttonHeights": [
+      44,
+      44,
+      44,
+      44,
+      44
+    ]
+  },
+  "realMobileHardware": "not-tested",
+  "downloadFilesystemRoundTrip": "not-verified"
+}
