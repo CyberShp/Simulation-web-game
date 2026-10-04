@@ -1,4 +1,4 @@
-import{TECHNIQUES,STORY,STAGE_NAMES,stage,traitText,storyReady,advanceStory,masterAction,masterStudy,masterBreakthrough,masterPill,studyLock,obtainBook,sealBook,setPolicy,settleIncident,recruit,capacity,TYPES}from'./sect-sim.mjs?v=ea-120-release-20261005-r4';
+import{TECHNIQUES,STORY,STAGE_NAMES,stage,traitText,storyReady,advanceStory,masterAction,masterStudy,masterBreakthrough,masterPill,studyLock,obtainBook,sealBook,setPolicy,settleIncident,recruit,capacity,TYPES}from'./sect-sim.mjs?v=ea-130-preview-20261005-r1';
 const $=s=>document.querySelector(s);
 const actions={rest:'调息休憩',heal:'疗伤',cultivate:'静心修炼',wood:'采集灵木',stone:'采集青石',herb:'采集灵草',teach:'公开讲法',study:'研习功法',walk:'行走',travel:'山外游历'};
 export function createSectUI(api){const {getState,getTab,setTab,mutate,toast,openModal,closeModal,esc,chooseBuild}=api;let walking=false;

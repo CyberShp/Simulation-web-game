@@ -37,5 +37,7 @@ export function attachMapInput(canvas, {pan, onHover, onActivate, onDragChange=(
   listen(windowTarget,'blur',finish);
   listen(windowTarget,'pagehide',finish);
   listen(documentTarget,'visibilitychange',()=>{if(documentTarget.hidden)finish();});
-  return()=>{finish();subscriptions.forEach(stop=>stop());};
+  const dispose=()=>{finish();subscriptions.forEach(stop=>stop());};
+  dispose.cancel=finish;
+  return dispose;
 }

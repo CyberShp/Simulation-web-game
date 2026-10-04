@@ -1,5 +1,7 @@
-import { rng, day, log, pay, canPay, grant, capacity } from './ea-data.mjs?v=ea-120-release-20261005-r4';
-import { EXPEDITIONS as LEGACY_ROUTES } from './world.mjs?v=ea-120-release-20261005-r4';
+import { rng, day, log, pay, canPay, grant, capacity } from './ea-data.mjs?v=ea-130-preview-20261005-r1';
+import { EXPEDITIONS as LEGACY_ROUTES } from './world.mjs?v=ea-130-preview-20261005-r1';
+import { combatField, combatGeometryId, combatCanStand, combatClearLine, combatPath, moveCombatActor, dodgeEndpoint } from './ea-combat-geometry.mjs?v=ea-130-preview-20261005-r1';
+import { appearance } from './ea-scenic.mjs?v=ea-130-preview-20261005-r1';
 
 // Campaign state is deliberately plain data. Every choice, weather roll and reward
 // is committed to the save before the next tick; loading never repeats a roll.
@@ -323,10 +325,10 @@ function startCombat(s, encounterId) {
   for (let i = 0; i < count; i++) {
     const isBoss = !!def.final && i === 0;
     const hp = Math.round((i === 0 ? def.hp : def.hp * .62) * (def.final && p.supply ? .76 : 1));
-    enemies.push({ id:`enemy-${i + 1}`, name:isBoss ? '韩厉川 · 筑基后期' : def.final ? '赤嶂护卫' : `${def.name}${count > 1 ? i + 1 : ''}`, x:8.5 + i, y:3 + i * 2, hp, maxHp:hp, damage:Math.round((i === 0 ? def.damage : def.damage * .7) * (def.final && p.array ? .7 : 1) * (1 + WEATHER[e.weather].risk * .5)), speed:isBoss ? 1.1 : 1.3, cooldown:1.6 + i, windup:0, telegraph:null, strikes:0, boss:isBoss });
+    enemies.push({ id:`enemy-${i + 1}`, name:isBoss ? '韩厉川 · 筑基后期' : def.final ? '赤嶂护卫' : `${def.name}${count > 1 ? i + 1 : ''}`, x:8.5 + i, y:3 + i * 2, facing:{x:-1,y:0},hp, maxHp:hp, damage:Math.round((i === 0 ? def.damage : def.damage * .7) * (def.final && p.array ? .7 : 1) * (1 + WEATHER[e.weather].risk * .5)), speed:isBoss ? 1.1 : 1.3, cooldown:1.6 + i, windup:0, telegraph:null, strikes:0, boss:isBoss });
   }
-  const allies = e.companionIds.map((id, i) => { const d = s.disciples.find(d => d.id === id), hp = 55 + d.realm * 5; return { id:d.id, name:d.name, x:2, y:2 + i * 3, hp, maxHp:hp, damage:8 + d.realm, cooldown:.8 + i, knockedOut:false }; });
-  s.combat = { status:'active', encounterId, regionId:e.regionId, journeyId:e.id, arena:{width:12,height:8}, player:{ x:e.position.x, y:e.position.y, target:null, hp:maxHp * (.72 + m.energy / 360), maxHp, qi:maxQi, maxQi, cooldowns:{attack:0,spell:0,dodge:0,guard:0}, guard:0, evade:0, facing:{x:1,y:0} }, enemies, allies, elapsed:0, retreatRequested:false, result:null, rewardApplied:false, message:`移动躲开红色落点；近身攻击或施展远程术法。左侧可撤离。${WEATHER[e.weather].risk ? '风雨视线不利，敌方命中伤害略增。' : ''}`, prepared:{...p} };
+  const allies = e.companionIds.map((id, i) => { const d = s.disciples.find(d => d.id === id), hp = 55 + d.realm * 5; return { id:d.id, name:d.name, x:2, y:2 + i * 3, facing:{x:1,y:0},hp, maxHp:hp, damage:8 + d.realm, cooldown:.8 + i, knockedOut:false }; });
+  s.combat = { status:'active', geometryVersion:1, encounterId, regionId:e.regionId, journeyId:e.id, arena:{width:12,height:8}, player:{ x:e.position.x, y:e.position.y, target:null, hp:maxHp * (.72 + m.energy / 360), maxHp, qi:maxQi, maxQi, cooldowns:{attack:0,spell:0,dodge:0,guard:0}, guard:0, evade:0, facing:{x:1,y:0} }, enemies, allies, effects:[],nextEffectId:1,elapsed:0, retreatRequested:false, result:null, rewardApplied:false, message:`移动躲开红色落点；近身攻击或施展远程术法。货箱和碎石阻挡通行与直线攻击，可绕行；左侧可撤离。${WEATHER[e.weather].risk ? '风雨视线不利，敌方命中伤害略增。' : ''}`, prepared:{...p} };
   s.combat.player.hp = Math.min(maxHp, Math.round(s.combat.player.hp));
   e.status = 'combat'; e.target = null;
   s.master.journey.status = 'combat';
@@ -338,6 +340,16 @@ function nearestEnemy(c, target) {
   if (typeof target === 'string') return alive.find(e => e.id === target);
   return alive.sort((a,b) => distance(a, c.player) - distance(b, c.player))[0];
 }
+function effect(c,kind,source,target,amount=0){
+  c.effects??=[];c.nextEffectId??=1;
+  c.effects.push({id:c.nextEffectId++,kind,sourceId:source?.id??'master',targetId:target?.id??'master',from:{x:source.x,y:source.y},to:{x:target.x,y:target.y},amount,remaining:kind==='down'?1.2:.75,total:kind==='down'?1.2:.75});
+  c.effects=c.effects.slice(-24);
+}
+function damageActor(c,source,target,amount,kind){
+  const applied=Math.min(target.hp,amount);target.hp=Math.max(0,target.hp-amount);
+  effect(c,kind,source,target,applied);effect(c,'hit',source,target,applied);
+  if(target.hp===0){if(Object.hasOwn(target,'knockedOut'))target.knockedOut=true;effect(c,'down',source,target,0);}
+}
 export function combatOptions(s) {
   const c = s.combat;
   if (!c || c.status !== 'active') return [];
@@ -347,7 +359,7 @@ export function combatOptions(s) {
     {id:'dodge',label:'闪避',cost:8}, {id:'guard',label:'守御',cost:4}, {id:'retreat',label:'沿退路撤离',cost:0}
   ].map(a => {
     const cooldown = p.cooldowns[a.id] || 0;
-    const reason = cooldown > .001 ? `调息 ${cooldown.toFixed(1)} 秒` : p.qi < a.cost ? `需灵力 ${a.cost}` : a.range && (!enemy || distance(p, enemy) > a.range) ? `需目标在 ${a.range} 步内` : '';
+    const reason = cooldown > .001 ? `调息 ${cooldown.toFixed(1)} 秒` : p.qi < a.cost ? `需灵力 ${a.cost}` : a.range && (!enemy || distance(p, enemy) > a.range) ? `需目标在 ${a.range} 步内` : a.range&&!combatClearLine(p,enemy,combatGeometryId(c))?'目标被货箱或碎石遮挡，请绕行':'';
     return {...a, cooldown, disabled:!!reason, reason};
   });
 }
@@ -357,7 +369,9 @@ export function combatAction(s, kind, target) {
   const p = c.player;
   if (kind === 'move') {
     if (!target || !Number.isFinite(target.x) || !Number.isFinite(target.y)) throw Error('移动目的地无效。');
-    p.target = {x:clamp(target.x,.6,11.4),y:clamp(target.y,.6,7.4)};
+    const destination={x:clamp(target.x,.6,11.4),y:clamp(target.y,.6,7.4)};
+    if(!combatPath(p,destination,combatGeometryId(c)))throw Error('此处有货箱或碎石，选择旁边的可通行地面。');
+    p.target = destination;
     c.retreatRequested = false;
     return true;
   }
@@ -367,21 +381,24 @@ export function combatAction(s, kind, target) {
   if (kind === 'attack' || kind === 'spell') {
     if (!enemy) throw Error('目标已经倒下或不存在。');
     if (distance(p, enemy) > option.range) throw Error(`目标超出${kind === 'attack' ? '攻击' : '术法'}范围，请先靠近。`);
+    if(!combatClearLine(p,enemy,combatGeometryId(c)))throw Error('目标被货箱或碎石遮挡，请绕行。');
   }
   // An explicitly selected enemy may be in range even if the default nearest
   // target changed during a render, but cooldown and qi are always authoritative.
   if ((p.cooldowns[kind] || 0) > .001) throw Error(option.reason || '尚未调息完毕。');
   if (p.qi < option.cost) throw Error(`灵力不足，需要 ${option.cost}。`);
   p.qi -= option.cost;
-  if (kind === 'attack') { enemy.hp = Math.max(0, enemy.hp - (13 + s.master.realm * 2)); p.cooldowns.attack = 1.15; c.message = `攻击命中${enemy.name}。`; }
-  if (kind === 'spell') { enemy.hp = Math.max(0, enemy.hp - (25 + s.master.realm * 2 + (s.master.knowledge.sword || 0) * .1)); p.cooldowns.spell = 4.5; c.message = `青岚术命中${enemy.name}。`; }
-  if (kind === 'guard') { p.guard = 2.2; p.cooldowns.guard = 5; c.message = '守御两秒，伤害减少七成。'; }
+  if(['attack','spell'].includes(kind)){const length=distance(p,enemy);if(length>.001)p.facing={x:(enemy.x-p.x)/length,y:(enemy.y-p.y)/length};}
+  if (kind === 'attack') { damageActor(c,p,enemy,13 + s.master.realm * 2,'attack'); p.cooldowns.attack = 1.15; c.message = `攻击命中${enemy.name}。`; }
+  if (kind === 'spell') { damageActor(c,p,enemy,25 + s.master.realm * 2 + (s.master.knowledge.sword || 0) * .1,'spell'); p.cooldowns.spell = 4.5; c.message = `青岚术命中${enemy.name}。`; }
+  if (kind === 'guard') { p.guard = 2.2; p.cooldowns.guard = 5; effect(c,'guard',p,p);c.message = '守御两秒，伤害减少七成。'; }
   if (kind === 'dodge') {
     let dx = target && Number.isFinite(target.x) ? target.x - p.x : -p.facing.x;
     let dy = target && Number.isFinite(target.y) ? target.y - p.y : -p.facing.y;
     if (Math.hypot(dx,dy) < .01) { dx = -1; dy = 0; }
     const length = Math.hypot(dx,dy), step = Math.min(2.8,length < 1 ? 2.8 : length);
-    p.x = clamp(p.x + dx / length * step,.6,11.4); p.y = clamp(p.y + dy / length * step,.6,7.4);
+    const from={...p},end=dodgeEndpoint(p,{x:clamp(p.x + dx / length * step,.6,11.4),y:clamp(p.y + dy / length * step,.6,7.4)},combatGeometryId(c));
+    p.x=end.x;p.y=end.y;effect(c,'dodge',from,p);
     p.target = null; p.evade = .65; p.cooldowns.dodge = 3.2; c.message = '闪避展开，短暂避开伤害。';
   }
   if (kind === 'retreat') { c.retreatRequested = true; p.target = {x:.7,y:4}; c.message = '正沿左侧退路撤离，抵达出口后回山。'; }
@@ -413,7 +430,7 @@ function finishCombat(s, status) {
     c.rewardApplied = true;
     const text = def.final ? '韩厉川倒下，夺脉仇怨至此清算。取回遗物后，选择传承的归处。' : `${def.name}已被击败，行动结果已记录。`;
     c.result = {title:'胜利',text,injury:0};
-    e.status = 'exploring'; e.position = {x:c.player.x,y:c.player.y}; s.master.journey.status = 'exploring';
+    e.status = 'exploring'; e.position = {x:c.player.x,y:4}; s.master.journey.status = 'exploring';
     finishVisit(s,e,text);
     s.master.energy = Math.max(0,s.master.energy-8);
   } else {
@@ -436,9 +453,11 @@ function tickCombat(s, dt) {
   if (!c || c.status !== 'active') return;
   const p = c.player;
   c.elapsed += dt;
+  if(c.effects)c.effects=c.effects.map(v=>({...v,remaining:Math.max(0,v.remaining-dt)})).filter(v=>v.remaining>0);
   for (const id of Object.keys(p.cooldowns)) p.cooldowns[id] = Math.max(0,p.cooldowns[id]-dt);
   p.guard = Math.max(0,p.guard-dt); p.evade = Math.max(0,p.evade-dt); p.qi = Math.min(p.maxQi,p.qi + dt * 3.2);
-  if (p.target && moveToward(p,p.target,3.3,dt)) p.target = null;
+  const geometryId=combatGeometryId(c);
+  if (p.target && moveCombatActor(p,p.target,3.3,dt,geometryId)) p.target = null;
   if (c.retreatRequested && p.x <= 1 && Math.abs(p.y-4) < .5) return finishCombat(s,'retreated');
   for (const enemy of c.enemies.filter(e => e.hp > 0)) {
     enemy.cooldown = Math.max(0,enemy.cooldown-dt);
@@ -446,14 +465,15 @@ function tickCombat(s, dt) {
       enemy.telegraph.remaining = Math.max(0,enemy.telegraph.remaining-dt); enemy.windup = enemy.telegraph.remaining;
       if (enemy.windup <= .001) {
         const t = enemy.telegraph;
-        if (distance(p,t) <= t.radius && p.evade <= 0) {
+        effect(c,'impact',enemy,t,t.damage);
+        if (distance(p,t) <= t.radius && p.evade <= 0 && combatClearLine(t,p,geometryId)) {
           const damage = Math.round(t.damage * (p.guard > 0 ? .3 : 1));
-          p.hp = Math.max(0,p.hp-damage); c.message = `受到 ${damage} 伤害。${p.guard > 0 ? '守御抵消了大部分冲击。' : '移动或闪避可离开预警圈。'}`;
+          damageActor(c,enemy,p,damage,'strike'); c.message = `受到 ${damage} 伤害。${p.guard > 0 ? '守御抵消了大部分冲击。' : '移动或闪避可离开预警圈。'}`;
         }
-        for (const ally of c.allies) if (ally.hp > 0 && distance(ally,t) <= t.radius) { ally.hp = Math.max(0,ally.hp-t.damage*.55); ally.knockedOut = ally.hp === 0; }
+        for (const ally of c.allies) if (ally.hp > 0 && distance(ally,t) <= t.radius&&combatClearLine(t,ally,geometryId)) damageActor(c,enemy,ally,t.damage*.55,'strike');
         enemy.telegraph = null; enemy.cooldown = enemy.boss ? 1.9 : 2.1;
       }
-    } else if (distance(enemy,p) > (enemy.boss ? 3.3 : 1.7)) moveToward(enemy,p,enemy.speed,dt);
+    } else if (distance(enemy,p) > (enemy.boss ? 3.3 : 1.7)||!combatClearLine(enemy,p,geometryId)) moveCombatActor(enemy,p,enemy.speed,dt,geometryId);
     else if (enemy.cooldown <= .001) {
       enemy.strikes++;
       const heavy = enemy.boss && enemy.strikes % 3 === 0, duration = (heavy ? 1.8 : 1.25) + (c.prepared.witness ? .5 : 0);
@@ -466,9 +486,9 @@ function tickCombat(s, dt) {
     const target = c.enemies.filter(e=>e.hp>0).sort((a,b)=>distance(a,ally)-distance(b,ally))[0];
     if (!target) break;
     const danger = c.enemies.find(e=>e.telegraph && distance(ally,e.telegraph)<e.telegraph.radius+.3);
-    if (danger) moveToward(ally,{x:clamp(ally.x-1.5,.6,11.4),y:clamp(ally.y+(ally.y<4?-1:1),.6,7.4)},2.5,dt);
-    else if (distance(ally,target)>2) moveToward(ally,target,2,dt);
-    else if (ally.cooldown<=.001) { target.hp = Math.max(0,target.hp-ally.damage); ally.cooldown = 2.1; }
+    if (danger){const direction={x:ally.x-danger.telegraph.x,y:ally.y-danger.telegraph.y},length=Math.hypot(direction.x,direction.y)||1,destination={x:clamp(ally.x+(length===1&&direction.x===0?-1.5:direction.x/length*1.5),.6,11.4),y:clamp(ally.y+(length===1&&direction.y===0?(ally.y<4?-1:1):direction.y/length),.6,7.4)};moveCombatActor(ally,dodgeEndpoint(ally,destination,geometryId),2.5,dt,geometryId);}
+    else if (distance(ally,target)>2||!combatClearLine(ally,target,geometryId)) moveCombatActor(ally,target,2,dt,geometryId);
+    else if (ally.cooldown<=.001) { damageActor(c,ally,target,ally.damage,'attack'); ally.cooldown = 2.1; }
   }
   if (p.hp <= 0) finishCombat(s,'lost');
   else if (c.enemies.every(e=>e.hp<=0)) finishCombat(s,'won');
@@ -552,9 +572,9 @@ export function tickCampaign(s, dt = 1, runtimeHooks = {}) {
 }
 export function getCampaignScene(s) {
   const c=s.combat,e=s.world.exploration;
-  if(c?.status==='active') return {type:'combat',name:ENCOUNTERS[c.encounterId].name,regionId:c.regionId,background:c.regionId==='qixia'?'map':'valley',width:12,height:8,player:c.player,enemies:c.enemies,allies:c.allies,obstacles:[],landmarks:[{id:'exit',name:'撤离出口',x:.7,y:4,radius:.7}],weather:e?.weather||s.world.weather.id};
+  if(c?.status==='active'||c?.status==='won'&&e) {const geometryId=combatGeometryId(c),arena=combatField(geometryId);return {type:'combat',status:c.status,interactive:c.status==='active',name:ENCOUNTERS[c.encounterId].name,regionId:c.regionId,geometryId,background:c.geometryVersion===1?'region':'arena',width:12,height:8,arena,player:{...c.player,id:'master',appearance:appearance('master')},enemies:c.enemies.map(v=>({...v,appearance:4})),allies:c.allies.map(a=>({...a,appearance:appearance(a.id)})),effects:c.effects||[],actionRanges:combatOptions(s).filter(a=>a.range).map(a=>({id:a.id,range:a.range,available:!a.disabled})),obstacles:arena.obstacles,landmarks:[{id:'exit',name:'撤离出口',x:.7,y:4,radius:.7}],weather:e?.weather||s.world.weather.id};}
   if(!e || e.status==='traveling') return null;
-  return {type:'region',name:REGIONS[e.regionId].name,regionId:e.regionId,background:e.regionId==='ruins'?'lake':e.regionId==='qixia'?'map':'valley',width:12,height:8,player:{...e.position,target:e.target},enemies:[],allies:e.companionIds.map((id,i)=>({id,name:s.disciples.find(d=>d.id===id)?.name||'同行者',x:Math.max(.2,e.position.x-.45*(i+1)),y:e.position.y})),obstacles:[],landmarks:[{id:'objective',name:REGIONS[e.regionId].landmark,x:8,y:4,radius:2.2},{id:'exit',name:'归山路',x:.7,y:4,radius:.7}],weather:e.weather};
+  return {type:'region',name:REGIONS[e.regionId].name,regionId:e.regionId,background:e.regionId==='ruins'?'lake':e.regionId==='qixia'?'map':'valley',width:12,height:8,player:{...e.position,id:'master',appearance:appearance('master'),target:e.target},enemies:[],allies:e.companionIds.map((id,i)=>({id,appearance:appearance(id),name:s.disciples.find(d=>d.id===id)?.name||'同行者',x:Math.max(.2,e.position.x-.45*(i+1)),y:e.position.y})),obstacles:[],landmarks:[{id:'objective',name:REGIONS[e.regionId].landmark,x:8,y:4,radius:2.2},{id:'exit',name:'归山路',x:.7,y:4,radius:.7}],weather:e.weather};
 }
 
 export function validateCampaign(s) {
@@ -579,12 +599,16 @@ export function validateCampaign(s) {
   }
   if(c!==null) {
     if(!c||!ENCOUNTERS[c.encounterId]||!REGIONS[c.regionId]||!['active','won','lost','retreated'].includes(c.status)||!int(c.journeyId,1)||c.arena?.width!==12||c.arena?.height!==8||!num(c.elapsed)||typeof c.retreatRequested!=='boolean'||typeof c.rewardApplied!=='boolean'||!str(c.message)||!c.prepared||!Object.keys(PREPARATIONS).every(k=>typeof c.prepared[k]==='boolean'))bad('战斗结构');
+    if(c.geometryVersion!==undefined&&c.geometryVersion!==1)bad('战场版本');
     const p=c.player;
     if(!point(p)||(p.target!==null&&!point(p.target))||!num(p.maxHp,1,1000)||!num(p.hp,0,p.maxHp)||!num(p.maxQi,1,1000)||!num(p.qi,0,p.maxQi)||!num(p.guard,0,3)||!num(p.evade,0,1)||!p.cooldowns||!['attack','spell','dodge','guard'].every(k=>num(p.cooldowns[k],0,6))||!num(p.facing?.x,-1,1)||!num(p.facing?.y,-1,1))bad('掌门战斗状态');
     if(!Array.isArray(c.enemies)||c.enemies.length<1||c.enemies.length>3||!unique(c.enemies.map(e=>e.id)))bad('敌方人数');
     for(const foe of c.enemies) {if(!point(foe)||!str(foe.id,40)||!str(foe.name,60)||!num(foe.maxHp,1,1000)||!num(foe.hp,0,foe.maxHp)||!num(foe.damage,1,100)||!num(foe.speed,.1,5)||!num(foe.cooldown,0,5)||!num(foe.windup,0,3)||!int(foe.strikes)||typeof foe.boss!=='boolean')bad('敌方状态');const t=foe.telegraph;if(t!==null&&(!point(t)||!num(t.radius,.1,4)||!num(t.total,.1,3)||!num(t.remaining,0,t.total)||!num(t.damage,1,150)||!str(t.kind,30)))bad('攻击预警');}
     if(!Array.isArray(c.allies)||c.allies.length>2||!unique(c.allies.map(a=>a.id))||!c.allies.every(a=>(c.status!=='active'||s.disciples.some(d=>d.id===a.id))&&point(a)&&str(a.name,30)&&num(a.maxHp,1,1000)&&num(a.hp,0,a.maxHp)&&num(a.damage,1,100)&&num(a.cooldown,0,4)&&typeof a.knockedOut==='boolean'))bad('同行战斗状态');
-    if(c.status==='active'&&(!e||e.status!=='combat'||e.id!==c.journeyId||c.rewardApplied||c.result!==null||p.hp<=0))bad('战斗与探索关联');
+    if([...c.allies,...c.enemies].some(a=>a.facing!==undefined&&(!num(a.facing?.x,-1,1)||!num(a.facing?.y,-1,1))))bad('人物战斗朝向');
+    if(c.geometryVersion===1&&[p,...c.allies,...c.enemies].some(actor=>!combatCanStand(actor,c.regionId)))bad('人物越过战场通行边界');
+    if(c.effects!==undefined&&(!Array.isArray(c.effects)||c.effects.length>24||!int(c.nextEffectId,1)||!unique(c.effects.map(v=>v.id))||!c.effects.every(v=>int(v.id,1,c.nextEffectId-1)&&['attack','spell','guard','dodge','impact','strike','hit','down'].includes(v.kind)&&['master',...c.enemies.map(v=>v.id),...c.allies.map(v=>v.id)].includes(v.sourceId)&&['master',...c.enemies.map(v=>v.id),...c.allies.map(v=>v.id)].includes(v.targetId)&&point(v.from)&&point(v.to)&&num(v.amount,0,150)&&num(v.total,.1,1.2)&&num(v.remaining,0,v.total))))bad('战斗表现事件');
+    if(c.status==='active'&&(!e||e.status!=='combat'||e.id!==c.journeyId||e.regionId!==c.regionId||c.rewardApplied||c.result!==null||p.hp<=0||c.allies.length!==e.companionIds.length||c.allies.some((a,i)=>a.id!==e.companionIds[i])))bad('战斗与探索关联');
     if(c.status!=='active'&&(!c.result||!str(c.result.title,40)||!str(c.result.text)||!num(c.result.injury,0,100)))bad('战斗结果');
     if(c.status==='won'&&(!c.rewardApplied||c.enemies.some(e=>e.hp>0)))bad('战斗奖励');
   }

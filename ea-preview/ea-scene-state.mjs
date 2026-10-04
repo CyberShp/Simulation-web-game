@@ -1,33 +1,19 @@
-import {BUILDINGS,ROUTES,RESOURCES,stage} from './ea-data.mjs?v=ea-120-release-20261005-r4';
-import {nearest,point} from '../yunxiu-courtyard/navigation.mjs?v=ea-120-release-20261005-r4';
+import {BUILDINGS,ROUTES,RESOURCES,stage} from './ea-data.mjs?v=ea-130-preview-20261005-r1';
+import {scenicPoint,buildingAccess,buildingSize,buildingFootprint} from './ea-scene-geometry.mjs?v=ea-130-preview-20261005-r1';
+import {lifeFacility} from './ea-life.mjs?v=ea-130-preview-20261005-r1';
 
-// The scenic courtyard groups facilities by use. The construction grid remains
-// the authoritative placement/adjacency plan; neither view invents facilities.
-const SITES={
- hall:[840,217],meditation:[240,192],library:[377,242],watchtower:[811,843],
- lumber:[179,472],workshop:[341,515],quarry:[226,680],
- farm:[1220,348],granary:[1370,401],well:[1490,461],
- house:[1260,746],kitchen:[1080,744],alchemy:[943,666],clinic:[1430,714]
-};
 export const facilityActive=b=>!!b&&b.enabled!==false&&b.condition>0;
 export function facilityRecords(s){
- const records=[];
- for(const [type,base] of Object.entries(SITES)){
-  const rows=s.buildings.filter(b=>b.type===type).sort((a,b)=>a.id-b.id),columns=Math.max(1,Math.ceil(Math.sqrt(rows.length)));
-  const size=type==='hall'?0:Math.max(48,Math.min(155,180/Math.sqrt(Math.max(1,rows.length)))),gap=size*.76;
-  rows.forEach((b,i)=>{
-   const x=base[0]+(i%columns-(columns-1)/2)*gap+(b.x-5)*2,
-    y=base[1]+Math.floor(i/columns)*gap*.45+(b.y-4)*2;
-   const position=type==='hall'?{x:840,y:217}:{x,y},access=nearest(position);
-   records.push({id:b.id,type,name:type==='hall'&&stage(s)>=3?'宗门正殿':BUILDINGS[type].name,building:b,position,access:{x:access.x,y:access.y},size,
+ return [...s.buildings].sort((a,b)=>a.id-b.id).map(b=>{
+   const type=b.type,position=scenicPoint(b.x,b.y),access=buildingAccess(s,b),size=buildingSize(b);
+   return {id:b.id,type,name:type==='hall'&&stage(s)>=3?'宗门正殿':BUILDINGS[type].name,building:b,position,access,size,footprint:buildingFootprint(b),
     active:facilityActive(b),workers:s.disciples.filter(d=>d.job===b.id&&!d.mind?.away),
     status:!facilityActive(b)?'已停用':b.condition<50?'待修缮':type==='alchemy'&&s.crafting?'正在炼丹':'已建成',
-    peakId:s.society?.peaks.find(p=>p.buildingIds?.includes(b.id))?.id??null});
-  });
- }
- return records;
+    peakId:s.society?.peaks.find(p=>p.buildingIds?.includes(b.id))?.id??null};
+ });
 }
 export function courtyardDestination(s,d,records=facilityRecords(s)){
+ const actual=lifeFacility(s,d);if(actual)return records.find(r=>r.id===actual.id);
  const usable=records.filter(r=>r.active),job=usable.find(r=>r.id===d.job),activity=d.mind?.activity;
  if(job)return job;
  const preferred={eat:['kitchen','hall'],heal:['clinic','hall'],rest:['house','hall'],
