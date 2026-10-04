@@ -2,6 +2,7 @@
   "limitation": "Real template evaluation with a minimal recording document. No browser layout, focus, pointer, mobile or FPS claims.",
   "dispatchCommandsChecked": [
     "acknowledgeCombat",
+    "acknowledgeIntro",
     "advanceStory",
     "build",
     "cancelMasterTravel",
@@ -38,242 +39,242 @@
     {
       "scenario": "new game",
       "tab": "self",
-      "htmlCharacters": 3895
+      "htmlCharacters": 4065
     },
     {
       "scenario": "new game",
       "tab": "build",
-      "htmlCharacters": 3895
+      "htmlCharacters": 4065
     },
     {
       "scenario": "new game",
       "tab": "disciples",
-      "htmlCharacters": 3895
+      "htmlCharacters": 4065
     },
     {
       "scenario": "new game",
       "tab": "manuals",
-      "htmlCharacters": 3895
+      "htmlCharacters": 4065
     },
     {
       "scenario": "new game",
       "tab": "production",
-      "htmlCharacters": 3895
+      "htmlCharacters": 4065
     },
     {
       "scenario": "new game",
       "tab": "sect",
-      "htmlCharacters": 3895
+      "htmlCharacters": 4065
     },
     {
       "scenario": "new game",
       "tab": "explore",
-      "htmlCharacters": 3895
+      "htmlCharacters": 4065
     },
     {
       "scenario": "new game",
       "tab": "journal",
-      "htmlCharacters": 3895
+      "htmlCharacters": 4065
     },
     {
       "scenario": "first chapter",
       "tab": "self",
-      "htmlCharacters": 3932
+      "htmlCharacters": 4108
     },
     {
       "scenario": "first chapter",
       "tab": "build",
-      "htmlCharacters": 3932
+      "htmlCharacters": 4108
     },
     {
       "scenario": "first chapter",
       "tab": "disciples",
-      "htmlCharacters": 3932
+      "htmlCharacters": 4108
     },
     {
       "scenario": "first chapter",
       "tab": "manuals",
-      "htmlCharacters": 3932
+      "htmlCharacters": 4108
     },
     {
       "scenario": "first chapter",
       "tab": "production",
-      "htmlCharacters": 3932
+      "htmlCharacters": 4108
     },
     {
       "scenario": "first chapter",
       "tab": "sect",
-      "htmlCharacters": 3932
+      "htmlCharacters": 4108
     },
     {
       "scenario": "first chapter",
       "tab": "explore",
-      "htmlCharacters": 3932
+      "htmlCharacters": 4108
     },
     {
       "scenario": "first chapter",
       "tab": "journal",
-      "htmlCharacters": 3932
+      "htmlCharacters": 4108
     },
     {
       "scenario": "30 people, 40 buildings, two peaks, completed story",
       "tab": "self",
-      "htmlCharacters": 3870
+      "htmlCharacters": 4032
     },
     {
       "scenario": "30 people, 40 buildings, two peaks, completed story",
       "tab": "build",
-      "htmlCharacters": 3870
+      "htmlCharacters": 4032
     },
     {
       "scenario": "30 people, 40 buildings, two peaks, completed story",
       "tab": "disciples",
-      "htmlCharacters": 3870
+      "htmlCharacters": 4032
     },
     {
       "scenario": "30 people, 40 buildings, two peaks, completed story",
       "tab": "manuals",
-      "htmlCharacters": 3870
+      "htmlCharacters": 4032
     },
     {
       "scenario": "30 people, 40 buildings, two peaks, completed story",
       "tab": "production",
-      "htmlCharacters": 3870
+      "htmlCharacters": 4032
     },
     {
       "scenario": "30 people, 40 buildings, two peaks, completed story",
       "tab": "sect",
-      "htmlCharacters": 3870
+      "htmlCharacters": 4032
     },
     {
       "scenario": "30 people, 40 buildings, two peaks, completed story",
       "tab": "explore",
-      "htmlCharacters": 3870
+      "htmlCharacters": 4032
     },
     {
       "scenario": "30 people, 40 buildings, two peaks, completed story",
       "tab": "journal",
-      "htmlCharacters": 3870
+      "htmlCharacters": 4032
     },
     {
       "scenario": "qixia interaction",
       "tab": "self",
-      "htmlCharacters": 3906
+      "htmlCharacters": 4068
     },
     {
       "scenario": "qixia interaction",
       "tab": "build",
-      "htmlCharacters": 3906
+      "htmlCharacters": 4068
     },
     {
       "scenario": "qixia interaction",
       "tab": "disciples",
-      "htmlCharacters": 3906
+      "htmlCharacters": 4068
     },
     {
       "scenario": "qixia interaction",
       "tab": "manuals",
-      "htmlCharacters": 3906
+      "htmlCharacters": 4068
     },
     {
       "scenario": "qixia interaction",
       "tab": "production",
-      "htmlCharacters": 3906
+      "htmlCharacters": 4068
     },
     {
       "scenario": "qixia interaction",
       "tab": "sect",
-      "htmlCharacters": 3906
+      "htmlCharacters": 4068
     },
     {
       "scenario": "qixia interaction",
       "tab": "explore",
-      "htmlCharacters": 3906
+      "htmlCharacters": 4068
     },
     {
       "scenario": "qixia interaction",
       "tab": "journal",
-      "htmlCharacters": 3906
+      "htmlCharacters": 4068
     },
     {
       "scenario": "active final combat",
       "tab": "self",
-      "htmlCharacters": 5233
+      "htmlCharacters": 5399
     },
     {
       "scenario": "active final combat",
       "tab": "build",
-      "htmlCharacters": 5233
+      "htmlCharacters": 5399
     },
     {
       "scenario": "active final combat",
       "tab": "disciples",
-      "htmlCharacters": 5233
+      "htmlCharacters": 5399
     },
     {
       "scenario": "active final combat",
       "tab": "manuals",
-      "htmlCharacters": 5233
+      "htmlCharacters": 5399
     },
     {
       "scenario": "active final combat",
       "tab": "production",
-      "htmlCharacters": 5233
+      "htmlCharacters": 5399
     },
     {
       "scenario": "active final combat",
       "tab": "sect",
-      "htmlCharacters": 5233
+      "htmlCharacters": 5399
     },
     {
       "scenario": "active final combat",
       "tab": "explore",
-      "htmlCharacters": 5233
+      "htmlCharacters": 5399
     },
     {
       "scenario": "active final combat",
       "tab": "journal",
-      "htmlCharacters": 5233
+      "htmlCharacters": 5399
     },
     {
       "scenario": "battle defeat and recovery",
       "tab": "self",
-      "htmlCharacters": 4149
+      "htmlCharacters": 4325
     },
     {
       "scenario": "battle defeat and recovery",
       "tab": "build",
-      "htmlCharacters": 4149
+      "htmlCharacters": 4325
     },
     {
       "scenario": "battle defeat and recovery",
       "tab": "disciples",
-      "htmlCharacters": 4149
+      "htmlCharacters": 4325
     },
     {
       "scenario": "battle defeat and recovery",
       "tab": "manuals",
-      "htmlCharacters": 4149
+      "htmlCharacters": 4325
     },
     {
       "scenario": "battle defeat and recovery",
       "tab": "production",
-      "htmlCharacters": 4149
+      "htmlCharacters": 4325
     },
     {
       "scenario": "battle defeat and recovery",
       "tab": "sect",
-      "htmlCharacters": 4149
+      "htmlCharacters": 4325
     },
     {
       "scenario": "battle defeat and recovery",
       "tab": "explore",
-      "htmlCharacters": 4149
+      "htmlCharacters": 4325
     },
     {
       "scenario": "battle defeat and recovery",
       "tab": "journal",
-      "htmlCharacters": 4149
+      "htmlCharacters": 4325
     }
   ]
 }

@@ -1,0 +1,55 @@
+{
+  "date": "2026-10-05",
+  "timezone": "Asia/Shanghai",
+  "gameVersion": "1.2.0-ea",
+  "cacheTag": "ea-120-release-20261005-r4",
+  "pagesCommit": "eb7f6ead81465811a1ea48ea44e4fe0e7b44d45f",
+  "deploymentRun": 37220062180,
+  "deploymentConclusion": "success",
+  "formalUrl": "https://cybershp.github.io/Simulation-web-game/",
+  "formalSlots": "selection page observed; no formal save writes",
+  "unitTests": {
+    "pass": 198,
+    "fail": 0
+  },
+  "templates": {
+    "pages": 48,
+    "states": 6
+  },
+  "normalPlay": {
+    "operations": 1358,
+    "validationCount": 22,
+    "days": 55,
+    "people": 30,
+    "facilities": 40,
+    "peaks": 2
+  },
+  "browser": [
+    "three-page intro and healing action",
+    "chapter 0 map has no destinations",
+    "chapter 2 discovers valley only",
+    "farm and lumber actually built with costs",
+    "midgame map discovers 4 places",
+    "same-type facility detail matches selected plot 8/2",
+    "facility pause action changes to resume",
+    "full reference import retains 30 people, 40 facilities, two peaks",
+    "home hides combat controls; return preserves paused battle",
+    "v4 import and DOM text export validate as v5 with resources preserved",
+    "formal shortage guide displays wood 20 and opens production inventory",
+    "formal disabled furnace displays pending qi batch 25 seconds paused",
+    "mobile reload resumes save without intro replay"
+  ],
+  "mobile": {
+    "viewport": [
+      390,
+      844
+    ],
+    "scrollWidth": 390,
+    "nextButton": [
+      154,
+      44
+    ],
+    "realDevice": false
+  },
+  "applicationErrors": []
+}

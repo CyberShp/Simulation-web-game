@@ -1,8 +1,8 @@
-> 最新交付：EA 1.1.0-ea，沿用云岫别院绘景接入完整玩法，并统一仙府藏卷弹窗。验收结果与范围见 [EA 1.1 验收](docs/EA-1.1-ACCEPTANCE.md)。
+> 最新交付：EA 1.2.0-ea，院内与总览按实际设施同步，地图随主线开放，新世界有剧情和下一步引导。跨系统排查与验收见 [EA 1.2 验收](docs/EA-1.2-ACCEPTANCE.md)。
 
 # 模拟仙府 · 余烬立山
 
-单人 2.5D 仙侠经营 Web 游戏，EA 1.0.1。直接在浏览器游玩，无需账号或后端。
+单人 2.5D 仙侠经营 Web 游戏，EA 1.2.0。直接在浏览器游玩，无需账号或后端。
 
 **在线游玩：[cybershp.github.io/Simulation-web-game](https://cybershp.github.io/Simulation-web-game/)**
 
@@ -20,6 +20,8 @@
 - **界面**：青绿山水、宣纸和篆印风格，地图、管理抽屉、人物档案、任务指引、禁用原因、视听开关、大字与减少动态设置；音乐和音效各自可调音量。
 
 ## 新版场景：云岫别院
+
+正式入口已接入完整 EA。新档只有主屋，外围设施随营造出现；总览、治理图与院内共用实际设施状态。逐座定位、等级、停用、修缮和人物去向与存档对应。营造地块图用于精确布局与相邻效果，院内绘景按用途展开设施。已发现地区按章节开放，阅读序章时暂停游戏。
 
 [打开可交互山院](https://cybershp.github.io/Simulation-web-game/yunxiu-courtyard/?v=courtyard-1.3)。按用户提供的场景参考制作绘景和图标 UI，支持固定院路行走、门人同行、资源生产、修缮与独立续玩。当前是一个场景的交互原型，尚未接入完整 EA 的全部玩法。验收与未实现范围见 [YUNXIU-COURTYARD-ACCEPTANCE.md](docs/YUNXIU-COURTYARD-ACCEPTANCE.md)。
 

@@ -22,3 +22,8 @@
 2026-10-04 新增独立 terrain-lab/ 可玩山院，入口 dist/terrain-lab/app.mjs，共享导航 dist/ea-navigation.mjs。正式根目录 EA 与三档存档不变；样机单独使用 xianfu-terrain-lab-v1。全仓 182 / 182 测试通过，新增 20 项；自动报告 qa/terrain-lab-acceptance-report.json；验收及边界 docs/TERRAIN-LAB-ACCEPTANCE.md。角色是模块化二维绘制，不能称为随机 3D 模型已完成。单层桥面可以通行，桥下水面不可走；后续素材须按相同导航/遮挡规范复验。
 
 2026-10-04 courtyard-1.3：用户否定 terrain-lab 视觉后，按其参考图新增 dist/yunxiu-courtyard/。六名预渲染角色、SVG 图标、绘景坐标寻路、局部前景遮挡、生产升级及独立存档已实现。验收见 YUNXIU-COURTYARD-ACCEPTANCE.md 和 qa/yunxiu-acceptance-report.json。新的视觉交付是 yunxiu-courtyard/，不要把 terrain-lab 当成用户接受的画面。该场景与完整 EA 分离；下一步应维持参考画面并逐步接入原 EA 状态和系统，而不是重新降级美术。
+# 当前版本：EA 1.2.0-ea（2026-10-05 北京时间）
+
+本轮完整排查场景与八系统联动，新增 `dist/ea-scene-state.mjs` 为只读投影。正式院落加载 `dist/assets/ea-courtyard-empty.jpg`，原 courtyard 样机资产保留。实际设施、NPC 去向、总览和治理图不再由预建阶段图决定。新档三幕序章和动态下一步、主线分阶段地图开放、差事命令与 NPC 出行门槛、停用/损坏设施的主线门槛、探索道路移动、院内战斗 HUD 隔离已接入。
+
+数据格式仍 v5，198 项测试通过，48 模板通过，正常命令通关仍为 1358 操作 / 22 整档校验 / 30 人 / 40 设施 / 双峰。详见 `docs/EA-1.2-ACCEPTANCE.md`。营造图是精确位置和邻接依据；院内按用途排布，不能宣称任意 3D 建筑体积碰撞。正式档位与 `acceptance=qa-*` 验收档位隔离。

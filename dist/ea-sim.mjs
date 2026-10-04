@@ -1,4 +1,5 @@
 import {startScenicWalk,advanceScenic,validateScenic} from './ea-scenic.mjs';
+import {routeDiscovered} from './ea-scene-state.mjs';
 import * as legacy from './sect-sim.mjs';
 import * as data from './ea-data.mjs';
 import * as society from './ea-society.mjs';
@@ -301,5 +302,6 @@ export function validateSave(input){
 }
 
 export function setPolicy(s,key,value){return society.setSocietyPolicy(s,key,value);}
-export function offerRoute(s,id){if(!ROUTES[id])throw Error('路线不存在。');const i=s.doctrine.routes.indexOf(id);if(i<0)s.doctrine.routes.push(id);else s.doctrine.routes.splice(i,1);log(s,`${ROUTES[id].name}${i<0?'列为可接差事':'撤下差事'}，门人自行决定是否前往。`);}
+export function expeditionLock(s,id){if(!ROUTES[id])return '路线不存在。';if(!routeDiscovered(s,id))return ROUTES[id].scene==='lake'?'整理遗卷、查明山外旧路后开放':'先赠药结缘，熟悉山外道路';return '';}
+export function offerRoute(s,id){if(!ROUTES[id])throw Error('路线不存在。');const i=s.doctrine.routes.indexOf(id);if(i<0){const lock=expeditionLock(s,id);if(lock)throw Error(lock);s.doctrine.routes.push(id);}else s.doctrine.routes.splice(i,1);log(s,`${ROUTES[id].name}${i<0?'列为可接差事':'撤下差事'}，门人自行决定是否前往。`);}
 export function upgradeSect(s,name){return society.foundSect(s,name);}
