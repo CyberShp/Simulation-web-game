@@ -1,5 +1,5 @@
-import { rng, day, log, pay, canPay, grant, capacity } from './ea-data.mjs?v=ea-120-preview-20261005-r2';
-import { EXPEDITIONS as LEGACY_ROUTES } from './world.mjs?v=ea-120-preview-20261005-r2';
+import { rng, day, log, pay, canPay, grant, capacity } from './ea-data.mjs?v=ea-120-preview-20261005-r3';
+import { EXPEDITIONS as LEGACY_ROUTES } from './world.mjs?v=ea-120-preview-20261005-r3';
 
 // Campaign state is deliberately plain data. Every choice, weather roll and reward
 // is committed to the save before the next tick; loading never repeats a roll.
@@ -95,12 +95,12 @@ export function initCampaign(s, options = {}) {
 }
 
 export function campaignSummary(s) {
-  const n = s.story.step, m = s.master, has = type => s.buildings.some(b => b.type === type);
+  const n = s.story.step, m = s.master, has = type => s.buildings.some(b => b.type === type&&b.enabled!==false&&b.condition>0);
   const requirements = [
     [{ label:'治愈逃亡伤势', met:m.wound === 0 }],
     [{ label:'灵草 10 份', met:s.resources.herb >= 10 }, { label:'有可用居所', met:roomForFollower(s) }],
-    [{ label:'建成灵草田', met:has('farm') }, { label:'建成伐木场', met:has('lumber') }, { label:'有可用居所', met:roomForFollower(s) }],
-    [{ label:'建成藏经阁', met:has('library') }],
+    [{ label:'灵草田可运行', met:has('farm') }, { label:'伐木场可运行', met:has('lumber') }, { label:'有可用居所', met:roomForFollower(s) }],
+    [{ label:'藏经阁可运行', met:has('library') }],
     [{ label:`可靠证据 ${s.story.clues.length}/2（坊市、驿站、遗址三选二）`, met:s.story.clues.length >= 2 }],
     [{ label:'掌门突破筑基', met:m.realm >= 10 }],
     [{ label:`削弱敌方 ${prepCount(s)}/2`, met:prepCount(s) >= 2 }, { label:'掌门筑基', met:m.realm >= 10 }],
