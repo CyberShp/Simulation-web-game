@@ -1,14 +1,20 @@
-import {startScenicWalk,advanceScenic,validateScenic} from './ea-scenic.mjs?v=ea-120-release-20261005-r4';
-import {routeDiscovered} from './ea-scene-state.mjs?v=ea-120-release-20261005-r4';
-import * as legacy from './sect-sim.mjs?v=ea-120-release-20261005-r4';
-import * as data from './ea-data.mjs?v=ea-120-release-20261005-r4';
-import * as society from './ea-society.mjs?v=ea-120-release-20261005-r4';
-import * as campaign from './ea-campaign.mjs?v=ea-120-release-20261005-r4';
-export * from './ea-data.mjs?v=ea-120-release-20261005-r4';
-export * from './ea-society.mjs?v=ea-120-release-20261005-r4';
-export * from './ea-campaign.mjs?v=ea-120-release-20261005-r4';
-export {resolveVisitor,resolveVisitor as resolveWorldVisitor} from './ea-campaign.mjs?v=ea-120-release-20261005-r4';
-export {resolveVisitor as resolveSocietyVisitor} from './ea-society.mjs?v=ea-120-release-20261005-r4';
+import {startScenicWalk,advanceScenic,validateScenic,repairScenicState,syncScenicPosition,buildingAccess,scenicDistance,scenicCanStand,scenicFindPath} from './ea-scenic.mjs?v=ea-130-release-20261005';
+import {lifeActivityLock,lifeFacility,personLifeSummary,actorScenePosition,localLifeFacility} from './ea-life.mjs?v=ea-130-release-20261005';
+import {validateSceneIntent,cancelSceneInteraction} from './ea-interactions.mjs?v=ea-130-release-20261005';
+import {initNarrative,validateNarrative} from './ea-narrative.mjs?v=ea-130-release-20261005';
+import {routeDiscovered} from './ea-scene-state.mjs?v=ea-130-release-20261005';
+import * as legacy from './sect-sim.mjs?v=ea-130-release-20261005';
+import * as data from './ea-data.mjs?v=ea-130-release-20261005';
+import * as society from './ea-society.mjs?v=ea-130-release-20261005';
+import * as campaign from './ea-campaign.mjs?v=ea-130-release-20261005';
+export * from './ea-data.mjs?v=ea-130-release-20261005';
+export * from './ea-society.mjs?v=ea-130-release-20261005';
+export * from './ea-campaign.mjs?v=ea-130-release-20261005';
+export * from './ea-life.mjs?v=ea-130-release-20261005';
+export * from './ea-narrative.mjs?v=ea-130-release-20261005';
+export {requestSceneInteraction,cancelSceneInteraction} from './ea-interactions.mjs?v=ea-130-release-20261005';
+export {resolveVisitor,resolveVisitor as resolveWorldVisitor} from './ea-campaign.mjs?v=ea-130-release-20261005';
+export {resolveVisitor as resolveSocietyVisitor} from './ea-society.mjs?v=ea-130-release-20261005';
 const {RESOURCES,BUILDINGS,TECHNIQUES,RECIPES,ROUTES,GOODS,CELLS,NAMES,TRAIT_NAMES,day,xpNeed,realmName,rng,log,canPay,pay,grant,clamp,capacity,stage,finite,integer}=data;
 const resourceZero=()=>Object.fromEntries(Object.keys(RESOURCES).map(k=>[k,0]));
 const own=(o,k)=>Object.hasOwn(o,k);
@@ -19,7 +25,7 @@ const stateMind=person=>person.mind||person;
 const learned=(p,id)=>p.main===id||p.support.includes(id);
 const knowledge=(person,id)=>stateMind(person).knowledge[id]||0;
 const weather=s=>campaign.weatherEffects?.(s)||{production:{}};
-const active=b=>b.enabled!==false&&b.condition>0;
+const active=b=>!b.disabled&&b.enabled!==false&&b.condition>0;
 const trip=s=>s.master.journey||s.master.action==='travel'||s.combat?.status==='active';
 function newEconomy(s){return{day:day(s),income:resourceZero(),expense:resourceZero(),previous:{income:resourceZero(),expense:resourceZero()},shortages:[],starvation:0,lastSupplyDay:day(s)};}
 function freshMind(id){return{traits:[[82,44,78,68,62],[45,88,36,57,80],[65,60,70,85,48],[38,91,30,70,90]][(id-1)%4].slice(),goal:['精研草木','求取长生','守成护道','求索奇法'][(id-1)%4],main:null,support:[],knowledge:{},learning:null,activity:'rest',reason:'初到山院，先熟悉生活与传承。',memories:[],lastPillDay:-1,caution:0};}
@@ -31,7 +37,7 @@ function normaliseBase(s,{legacyVersion=0}={}){
  s.sim.seed??=618033;s.sim.carry??=0;s.sim.decision??=0;
  s.stats.relocated??=0;s.stats.trades??=0;s.stats.consumed??=0;
  s.sect.name??='云岫山院';s.sect.founded??=legacyVersion>0&&s.sect.level>=2;
- s.master.teaching??=null;s.master.breakthroughCooldown??=0;
+ s.master.teaching??=null;s.master.breakthroughCooldown??=0;s.master.sceneIntent??=null;
  s.master.memories??=[];
  if(s.master.learning&&!s.master.learning.total){const t=TECHNIQUES[s.master.learning.id];s.master.learning.total=legacyVersion?60:t.duration;s.master.learning.progress=Math.min(s.master.learning.total-Number.EPSILON,s.master.learning.progress);s.master.learning.mode='learn';}
  for(const d of s.disciples){d.mind??=freshMind(d.id);d.energy??=100;if(legacyVersion&&d.mind.learning){d.mind.learning.total=60;d.mind.learning.mode='learn';}}
@@ -46,7 +52,7 @@ export function initial(options={}){
  if(options.seed!==undefined){if(!integer(options.seed,1,4294967295))throw Error('随机种子应为1至4294967295的整数。');s.sim.seed=options.seed;}
  if(options.name!==undefined){if(typeof options.name!=='string'||!options.name.trim()||options.name.trim().length>20)throw Error('姓名应为1至20字。');s.master.name=options.name.trim();}
  s.resources.food=50;s.master.hp=100;s.master.maxHp=100;
- society.initSociety(s,{legacy:false});campaign.initCampaign(s,{legacy:false,migrate:false});
+ society.initSociety(s,{legacy:false});campaign.initCampaign(s,{legacy:false,migrate:false});initNarrative(s,{legacy:false});
  return s;
 }
 export function addDisciple(s,options={}){
@@ -79,31 +85,28 @@ export function buildingLock(s,type){
  if(type==='watchtower'&&![s.master,...s.disciples].some(p=>knowledge(p,'array')>=40))return '需有人护脉阵诀熟练度40';
  return '';
 }
-function reachable(s,extra=null,ignoreId=null){
- const occupied=new Set(s.buildings.filter(b=>b.id!==ignoreId).map(b=>key(b.x,b.y)));if(extra)occupied.add(key(extra.x,extra.y));
- const start=s.master.position,seen=new Set([key(start.x,start.y)]),queue=[start];
- while(queue.length){const p=queue.shift();for(const[dx,dy]of[[1,0],[-1,0],[0,1],[0,-1]]){const x=p.x+dx,y=p.y+dy,k=key(x,y);if(validCell(x,y)&&!occupied.has(k)&&!seen.has(k)){seen.add(k);queue.push({x,y});}}}
- return{seen,occupied};
-}
+const placementCache=new WeakMap();
 export function placementLock(s,type,x,y,ignoreId=null){
  if(!BUILDINGS[type])return '建筑不存在';if(!validCell(x,y))return '请选山坪内的可营造地块';if((x>=8||y>=7)&&stage(s)<3)return '外围台地需正式立派后营造';
  if(at(s,x,y)&&at(s,x,y).id!==ignoreId)return '地块已有建筑';
- if(s.master.position.x===x&&s.master.position.y===y)return '掌门正在此处，请先移开';
- const {seen}=reachable(s,{x,y},ignoreId);
- if(seen.size<3)return '此处会封住掌门的通路';
- for(const b of [...s.buildings.filter(b=>b.id!==ignoreId),{x,y}])if(![[1,0],[-1,0],[0,1],[0,-1]].some(([dx,dy])=>seen.has(key(b.x+dx,b.y+dy))))return '此处会切断建筑入口，请保留连通走道';
+ const candidate={id:ignoreId||s.nextId,type,x,y,level:1,progress:0,condition:100,enabled:true},prospective={...s,buildings:[...s.buildings.filter(b=>b.id!==ignoreId),candidate]},position=actorScenePosition(s,s.master);
+ if(!scenicCanStand(prospective,position))return '掌门正在营造范围内，或此处会封住通路，请先移开';
+ const revision=s.buildings.map(b=>`${b.id}/${b.type}/${b.x}/${b.y}`).join('|');let cached=placementCache.get(s);if(!cached||cached.revision!==revision){cached={revision,locks:new Map()};placementCache.set(s,cached);}const cacheKey=`${type}:${x}/${y}:${ignoreId}`,known=cached.locks.get(cacheKey);if(known!==undefined)return known;
+ const hall=prospective.buildings.find(b=>b.type==='hall'),start=buildingAccess(prospective,hall);
+ const blocked=prospective.buildings.some(b=>!scenicCanStand(prospective,buildingAccess(prospective,b))||scenicFindPath(prospective,start,buildingAccess(prospective,b))===null);
+ const lock=blocked?'此处会切断实际建筑入口，请保留连通走道':'';cached.locks.set(cacheKey,lock);if(lock)return lock;
  return '';
 }
 export function buildInfo(s,type,x,y){const t=BUILDINGS[type];if(!t)return{lock:'建筑不存在'};return{...t,cost:{...t.cost},lock:buildingLock(s,type)||(x!==undefined?placementLock(s,type,x,y):''),affordable:canPay(s,t.cost),layout:x!==undefined?layoutBonus(s,{type,x,y,level:1,condition:100,enabled:true}):null};}
-export function build(s,type,x,y){const lock=buildingLock(s,type)||placementLock(s,type,x,y);if(lock)throw Error(lock);pay(s,BUILDINGS[type].cost);const b={id:s.nextId++,type,x,y,level:1,progress:0,condition:100,enabled:true};s.buildings.push(b);s.stats.built++;log(s,`${BUILDINGS[type].name}落成，门人会自行权衡是否使用。`);return b;}
+export function build(s,type,x,y){const lock=buildingLock(s,type)||placementLock(s,type,x,y);if(lock)throw Error(lock);pay(s,BUILDINGS[type].cost);const b={id:s.nextId++,type,x,y,level:1,progress:0,condition:100,enabled:true};s.buildings.push(b);repairScenicState(s);s.stats.built++;log(s,`${BUILDINGS[type].name}落成，门人会自行权衡是否使用。`);return b;}
 export function upgradeCost(b){return{jade:45*b.level,wood:30*b.level,stone:20*b.level};}
 export function upgrade(s,id){const b=s.buildings.find(b=>b.id===id);if(!b)throw Error('建筑不存在。');if(b.level>=BUILDINGS[b.type].max)throw Error('建筑已满级。');pay(s,upgradeCost(b));b.level++;b.condition=100;log(s,`${BUILDINGS[b.type].name}升至${b.level}级。`);return b;}
-export function toggleBuilding(s,id){const b=s.buildings.find(b=>b.id===id);if(!b||b.type==='hall')throw Error('主屋不可停用。');b.enabled=!b.enabled;if(!b.enabled)for(const d of s.disciples)if(d.job===id){d.job=null;d.mind.activity='rest';d.mind.reason='设施暂停运行，重新安排生活。';}log(s,`${BUILDINGS[b.type].name}${b.enabled?'恢复运行':'暂停运行，暂停维护开销'}。`);return b.enabled;}
+export function toggleBuilding(s,id){const b=s.buildings.find(b=>b.id===id);if(!b||b.type==='hall')throw Error('主屋不可停用。');b.enabled=!b.enabled;if(!b.enabled)for(const d of s.disciples)if(d.job===id){d.job=null;d.mind.activity='rest';d.mind.reason='设施暂停运行，重新安排生活。';d.mind.commitUntil=0;d.mind.path=[];if(d.mind.scenic){d.mind.scenic.path=[];d.mind.scenic.goal=null;}}log(s,`${BUILDINGS[b.type].name}${b.enabled?'恢复运行':'暂停运行，暂停维护开销'}。`);return b.enabled;}
 export function repairBuilding(s,id){const b=s.buildings.find(b=>b.id===id);if(!b||b.condition>=100)throw Error('建筑无需修缮。');pay(s,{wood:Math.ceil((100-b.condition)/5),stone:Math.ceil((100-b.condition)/8)});b.condition=100;log(s,`${BUILDINGS[b.type].name}已修缮。`);}
-export function relocate(s,id,x,y){const b=s.buildings.find(b=>b.id===id);if(!b||b.type==='hall')throw Error('主屋根基不可搬迁。');if(b.type==='alchemy'&&s.crafting)throw Error('丹炉炼制中，待成丹后搬迁。');const lock=placementLock(s,b.type,x,y,id);if(lock)throw Error(lock);pay(s,{jade:10*b.level,wood:8*b.level});b.x=x;b.y=y;b.progress=0;s.stats.relocated++;log(s,`${BUILDINGS[b.type].name}迁至新的地块。`);return b;}
-export function demolish(s,id){const b=s.buildings.find(b=>b.id===id);if(!b||b.type==='hall')throw Error('主屋不可拆除。');if(b.type==='alchemy'&&s.crafting)throw Error('丹炉炼制中。');if(capacity(s)-(BUILDINGS[b.type].capacity||0)*b.level<s.disciples.length)throw Error('拆除后居所不足。');const refund={};for(const[k,v]of Object.entries(BUILDINGS[b.type].cost))refund[k]=Math.floor(v*.65);for(let n=1;n<b.level;n++)for(const[k,v]of Object.entries(upgradeCost({level:n})))refund[k]=(refund[k]||0)+Math.floor(v*.65);grant(s,refund);for(const d of s.disciples)if(d.job===id){d.job=null;d.mind.activity='rest';}s.buildings=s.buildings.filter(x=>x.id!==id);log(s,`拆除${BUILDINGS[b.type].name}，回收六成半材料。`);return refund;}
+export function relocate(s,id,x,y){const b=s.buildings.find(b=>b.id===id);if(!b||b.type==='hall')throw Error('主屋根基不可搬迁。');if(b.type==='alchemy'&&s.crafting)throw Error('丹炉炼制中，待成丹后搬迁。');const lock=placementLock(s,b.type,x,y,id);if(lock)throw Error(lock);pay(s,{jade:10*b.level,wood:8*b.level});b.x=x;b.y=y;b.progress=0;repairScenicState(s);for(const d of s.disciples)if(d.job===id&&d.mind.scenic){d.mind.scenic.path=[];d.mind.scenic.goal=null;}s.stats.relocated++;log(s,`${BUILDINGS[b.type].name}迁至新的地块。`);return b;}
+export function demolish(s,id){const b=s.buildings.find(b=>b.id===id);if(!b||b.type==='hall')throw Error('主屋不可拆除。');if(b.type==='alchemy'&&s.crafting)throw Error('丹炉炼制中。');if(capacity(s)-(BUILDINGS[b.type].capacity||0)*b.level<s.disciples.length)throw Error('拆除后居所不足。');const refund={};for(const[k,v]of Object.entries(BUILDINGS[b.type].cost))refund[k]=Math.floor(v*.65);for(let n=1;n<b.level;n++)for(const[k,v]of Object.entries(upgradeCost({level:n})))refund[k]=(refund[k]||0)+Math.floor(v*.65);grant(s,refund);for(const d of s.disciples)if(d.job===id){d.job=null;d.mind.activity='rest';d.mind.reason='原设施已拆除，重新安排生活。';d.mind.commitUntil=0;d.mind.path=[];if(d.mind.scenic){d.mind.scenic.path=[];d.mind.scenic.goal=null;}}s.buildings=s.buildings.filter(x=>x.id!==id);repairScenicState(s);if(s.master.sceneIntent?.kind==='building'&&s.master.sceneIntent.id===id)cancelSceneInteraction(s);log(s,`拆除${BUILDINGS[b.type].name}，回收六成半材料。`);return refund;}
 export function layoutBonus(s,b){
- let factor=1;const reasons=[],near=s.buildings.filter(x=>x.id!==b.id&&active(x)&&Math.abs(x.x-b.x)+Math.abs(x.y-b.y)<=2),has=t=>near.some(x=>x.type===t);
+ let factor=1;const reasons=[],origin=buildingAccess(s,b),near=s.buildings.filter(x=>x.id!==b.id&&active(x)&&origin&&scenicDistance(origin,buildingAccess(s,x))<=150),has=t=>near.some(x=>x.type===t);
  if(['farm','granary'].includes(b.type)&&has('well')){factor+=.25;reasons.push('灵泉滋养 +25%');}
  if(['library','meditation'].includes(b.type)&&has(b.type==='library'?'meditation':'library')){factor+=.15;reasons.push('研读与修行相邻 +15%');}
  if(b.type==='meditation'&&has('well')){factor+=.2;reasons.push('灵泉聚气 +20%');}
@@ -121,10 +124,10 @@ export function buildingYield(s,b,d=null){
  const effects=weather(s).production||{};const out={};for(const[k,v]of Object.entries(t.out))out[k]=v*factor*(effects[k]??1);return out;
 }
 export function foodDemand(s){const kitchen=s.buildings.find(b=>b.type==='kitchen'&&active(b));const saving=kitchen?Math.min(.4,.1*kitchen.level*layoutBonus(s,kitchen).factor):0;return Math.ceil((s.disciples.length+1)*2*(1-saving));}
-export function restRecovery(s,person){const p=stateMind(person),position=person.position||s.master.position;const home=s.buildings.filter(b=>['hall','house'].includes(b.type)&&active(b)).sort((a,b)=>(Math.abs(a.x-position.x)+Math.abs(a.y-position.y))-(Math.abs(b.x-position.x)+Math.abs(b.y-position.y)))[0];return((person===s.master?1.3:1.05)+(p.support.includes('spring')?.4:0))*(home?layoutBonus(s,home).factor:1);}
+export function restRecovery(s,person){const p=stateMind(person),position=actorScenePosition(s,person),home=s.buildings.filter(b=>['hall','house'].includes(b.type)&&active(b)).sort((a,b)=>scenicDistance(position,buildingAccess(s,a))-scenicDistance(position,buildingAccess(s,b)))[0];return((person===s.master?1.3:1.05)+(p.support.includes('spring')?.4:0))*(home&&scenicDistance(position,buildingAccess(s,home))<=150?layoutBonus(s,home).factor:1);}
 export function maintenanceCost(s){const total={};for(const b of s.buildings.filter(active))for(const[k,v]of Object.entries(BUILDINGS[b.type].upkeep))total[k]=(total[k]||0)+v*b.level;return total;}
 export function economySummary(s){const e=s.economy,windowIncome=e.previous.income,windowExpense=e.previous.expense;return{day:day(s),income:{...e.income},expense:{...e.expense},net:Object.fromEntries(Object.keys(RESOURCES).map(k=>[k,(e.income[k]||0)-(e.expense[k]||0)])),previous:{income:{...windowIncome},expense:{...windowExpense}},foodDemand:foodDemand(s),foodDays:Math.floor(s.resources.food/Math.max(1,foodDemand(s))),maintenance:maintenanceCost(s),shortages:e.shortages.slice()};}
-export function rates(s){const out=resourceZero();for(const b of s.buildings){const d=s.disciples.find(d=>d.job===b.id&&d.mind.activity==='work');if(BUILDINGS[b.type].work&&!d)continue;const yieldMap=buildingYield(s,b,d);for(const[k,v]of Object.entries(yieldMap))out[k]+=v;for(const[k,v]of Object.entries(BUILDINGS[b.type].input||{}))if(d)out[k]-=v;}for(const[k,v]of Object.entries(maintenanceCost(s)))out[k]-=v/6;out.food-=foodDemand(s)/6;return out;}
+export function rates(s){const out=resourceZero();for(const b of s.buildings){const d=s.disciples.find(d=>d.job===b.id&&d.mind.activity==='work'&&!d.mind.away&&!d.mind.scenic?.path?.length&&(!d.mind.scenic||scenicDistance(d.mind.scenic,buildingAccess(s,b))<=18));if(BUILDINGS[b.type].work&&!d)continue;const yieldMap=buildingYield(s,b,d);for(const[k,v]of Object.entries(yieldMap))out[k]+=v;for(const[k,v]of Object.entries(BUILDINGS[b.type].input||{}))if(d&&Object.values(yieldMap).some(n=>n>0))out[k]-=v;}for(const[k,v]of Object.entries(maintenanceCost(s)))out[k]-=v/6;out.food-=foodDemand(s)/6;return out;}
 export function compatible(person,id){const p=stateMind(person),t=TECHNIQUES[id];if(!t)return false;const ids=[p.main,...p.support].filter(x=>x&&x!==id);return !ids.some(x=>TECHNIQUES[x]?.conflicts.includes(id)||t.conflicts.includes(x));}
 export function supportLimit(person){return person.realm>=10?3:person.realm>=4&&person.talent>=1.4?2:1;}
 export function teachers(s,id){const t=TECHNIQUES[id];if(!t)return[];return[s.master,...s.disciples].filter(p=>p.realm>=t.realm&&knowledge(p,id)>=t.teacherMastery&&!(p.mind?.hiddenKnowledge?.[id]&&s.society.secrets.some(e=>e.id===p.mind.hiddenKnowledge[id]&&!e.discovered))).map(p=>({id:p===s.master?0:p.id,name:p.name,knowledge:knowledge(p,id),active:p===s.master?s.master.action==='teach':!!p.mind.mentor||p.mind.activity==='teach'||!!p.role}));}
@@ -142,10 +145,10 @@ export function studyLock(s,person,id,isMaster=false){
 export function learnTechnique(s,person,id,isMaster=false,{silent=false}={}){const p=isMaster?person:stateMind(person),t=TECHNIQUES[id];if(!t)throw Error('功法不存在。');const was=knowledge(person,id)>0;if(t.kind==='main')p.main=id;else if(!p.support.includes(id))p.support.push(id);p.knowledge[id]=Math.min(100,(p.knowledge[id]||0)+20);p.learning=null;if(!silent)log(s,`${person.name}${was?'加深了':'初步掌握'}《${t.name}》的理解（${Math.floor(p.knowledge[id])}）。`);}
 export function obtainBook(s,id){const t=TECHNIQUES[id];if(!t?.cost||t.sourceType==='story'||s.doctrine.books.includes(id))throw Error('此书须按来源取得，或已收藏。');if(stage(s)<1)throw Error('先与山下建立往来。');pay(s,t.cost);s.doctrine.books.push(id);log(s,`从${t.source}取得《${t.name}》。`);}
 export function sealBook(s,id){if(id==='qingyuan'||!s.doctrine.books.includes(id))throw Error('基础传承不可封存。');const i=s.doctrine.sealed.indexOf(id);if(i<0)s.doctrine.sealed.push(id);else s.doctrine.sealed.splice(i,1);log(s,`《${TECHNIQUES[id].name}》${i<0?'封存，院中不再公开借阅':'重新开放借阅'}。`);}
-export function masterStudy(s,id){const m=s.master;if(trip(s)||m.wound>0)throw Error('归院疗伤后方可研习。');if(m.energy<15)throw Error('精力不足，先休息。');if(m.learning?.id===id){m.action='study';m.path=[];return;}const lock=studyLock(s,m,id,true);if(lock)throw Error(lock);const conversion=TECHNIQUES[id].kind==='main'&&m.main!==id;const total=Math.ceil(TECHNIQUES[id].duration*(conversion?1.6:1));m.learning={id,progress:0,total,mode:conversion?'convert':learned(m,id)?'deepen':'learn'};m.action='study';m.path=[];m.teaching=null;log(s,`掌门开始${conversion?'转修':'研习'}《${TECHNIQUES[id].name}》，需投入约${Math.ceil(total/m.talent)}秒。`);}
+export function masterStudy(s,id){const m=s.master;if(trip(s)||m.wound>0)throw Error('归院疗伤后方可研习。');if(m.energy<15)throw Error('精力不足，先休息。');if(m.learning?.id===id){const lock=studyLock(s,m,id,true);if(lock)throw Error(lock);cancelSceneInteraction(s);m.action='study';m.path=[];return;}const lock=studyLock(s,m,id,true);if(lock)throw Error(lock);cancelSceneInteraction(s);const conversion=TECHNIQUES[id].kind==='main'&&m.main!==id;const total=Math.ceil(TECHNIQUES[id].duration*(conversion?1.6:1));m.learning={id,progress:0,total,mode:conversion?'convert':learned(m,id)?'deepen':'learn'};m.action='study';m.path=[];m.teaching=null;log(s,`掌门开始${conversion?'转修':'研习'}《${TECHNIQUES[id].name}》，需投入约${Math.ceil(total/m.talent)}秒。`);}
 export function forgetSupport(s,id){const m=s.master;if(trip(s)||m.learning)throw Error('先结束行程或学习。');if(!m.support.includes(id))throw Error('此法不在当前辅修中。');pay(s,{herb:8,insight:3});m.support=m.support.filter(x=>x!==id);m.energy=Math.max(0,m.energy-10);m.action='rest';log(s,`掌门暂停《${TECHNIQUES[id].name}》辅修，已理解的知识仍然保留。`);}
 export function returnToBasics(s){const m=s.master;if(trip(s)||m.wound>0)throw Error('先归院疗伤。');if(m.main==='qingyuan')throw Error('当前已是青岚养元诀。');if(m.energy<30)throw Error('需至少30精力。');pay(s,{jade:80,herb:20});m.main='qingyuan';m.energy-=20;m.xp=Math.max(0,m.xp*.8);m.learning=null;m.action='rest';log(s,'掌门散去旧功体，重归青岚基础；保留知识，损失两成当前修为。');}
-export function cultivationRate(s,person,b=null){const p=stateMind(person);if(!p.main)return 0;let factor=TECHNIQUES[p.main]?.cultivation||1;for(const id of p.support)factor*=TECHNIQUES[id]?.cultivation||1;if(p.support.includes('wood')&&TECHNIQUES[p.main]?.element==='water')factor*=1.08;const base=person===s.master?2.2:b?.type==='meditation'?2.1*b.level:.9;return base*person.talent*factor*(b?layoutBonus(s,b).factor:1)*(s.economy.starvation?.65:1);}
+export function cultivationRate(s,person,b=null){const p=stateMind(person);if(!p.main)return 0;if(person===s.master&&b===null)b=localLifeFacility(s,person,['meditation','hall']);let factor=TECHNIQUES[p.main]?.cultivation||1;for(const id of p.support)factor*=TECHNIQUES[id]?.cultivation||1;if(p.support.includes('wood')&&TECHNIQUES[p.main]?.element==='water')factor*=1.08;const base=person===s.master?2.2*(b?.type==='meditation'&&active(b)?b.level:1):b?.type==='meditation'?2.1*b.level:.9;return base*person.talent*factor*(b&&active(b)?layoutBonus(s,b).factor:1)*(s.economy.starvation?.65:1);}
 export function breakthroughCost(person){if(person.realm===9)return{jade:240,herb:50,crystal:10,insight:20};if(person.realm>=10)return{jade:200+(person.realm-10)*120,herb:60,crystal:12+(person.realm-10)*6,insight:20};return{jade:person.realm*24,herb:person.realm*8};}
 export function breakthroughLock(s,person,isMaster=false){
  if(person.realm>=12)return '已达本篇筑基后期';if(person.xp<xpNeed(person.realm))return '修为未满';if(person.energy<35)return '需至少35精力';if(person.wound>0)return '先养好伤势';if(isMaster&&trip(s))return '先归院';if(person.breakthroughCooldown>s.time)return '突破后需继续调息';
@@ -178,12 +181,13 @@ export function masterAction(s,action){
  if(action==='heal'){if(m.wound<=0)throw Error('伤势已经痊愈。');if(m.action==='heal')return;pay(s,{herb:6});}
  if(['cultivate','teach'].includes(action)&&m.wound>0)throw Error('先养好伤势。');
  if(action==='teach'&&!Object.entries(m.knowledge).some(([id,n])=>n>=TECHNIQUES[id].teacherMastery))throw Error('需有一部典籍达到60熟练度，方可可靠授业。');
+ cancelSceneInteraction(s);
  m.action=action;m.path=[];if(m.scenic)m.scenic.path=[];m.work=0;m.learning=null;if(action!=='teach')m.teaching=null;
 }
 export function masterTeach(s,id){if(!TECHNIQUES[id]||knowledge(s.master,id)<TECHNIQUES[id].teacherMastery)throw Error('对此书理解不足，无法授业。');masterAction(s,'teach');s.master.teaching=id;log(s,`掌门开始讲授《${TECHNIQUES[id].name}》。`);}
-export function moveScenicMaster(s,x,y){if(trip(s)||s.world?.exploration)throw Error('掌门尚在山外。');return startScenicWalk(s.master,{x,y});}
+export function moveScenicMaster(s,x,y){if(trip(s)||s.world?.exploration)throw Error('掌门尚在山外。');cancelSceneInteraction(s);return startScenicWalk(s.master,{x,y},s);}
 export function moveMaster(s,x,y){
- const m=s.master;if(trip(s))throw Error('掌门尚在山外。');if(!validCell(x,y)||at(s,x,y))return false;const queue=[{...m.position,path:[]}],seen=new Set([key(m.position.x,m.position.y)]);
+ const m=s.master;if(trip(s))throw Error('掌门尚在山外。');if(!validCell(x,y)||at(s,x,y))return false;cancelSceneInteraction(s);const queue=[{...m.position,path:[]}],seen=new Set([key(m.position.x,m.position.y)]);
  while(queue.length){const p=queue.shift();if(p.x===x&&p.y===y){if(m.scenic)m.scenic.path=[];m.path=p.path;m.action=m.path.length?'walk':'rest';m.learning=null;m.teaching=null;return true;}for(const[dx,dy]of[[1,0],[-1,0],[0,1],[0,-1]]){const a=p.x+dx,b=p.y+dy,k=key(a,b);if(validCell(a,b)&&!at(s,a,b)&&!seen.has(k)){seen.add(k);queue.push({x:a,y:b,path:[...p.path,{x:a,y:b}]});}}}return false;
 }
 export function craftLock(s,id){const r=RECIPES[id],f=s.buildings.find(b=>b.type==='alchemy'&&active(b));if(!r)return '丹方不存在';if(!f)return '需运行中的丹霞炉';if(s.crafting)return '丹炉正在炼制';if(s.master.realm<r.realm&&!s.disciples.some(d=>d.realm>=r.realm))return `需有${realmName(r.realm)}修士`;if(r.knowledge&&![s.master,...s.disciples].some(p=>knowledge(p,r.knowledge)>=r.mastery))return `需《${TECHNIQUES[r.knowledge].name}》熟练度${r.mastery}`;if(id==='foundation'&&!s.doctrine.books.includes('foundation'))return '先取得可靠筑基传承与丹方';if(!canPay(s,r.cost))return '炼丹材料不足';return '';}
@@ -232,13 +236,14 @@ function supplyStep(s){
 }
 function masterStep(s){
  const m=s.master;if(trip(s))return;
- const clinic=s.buildings.find(b=>b.type==='clinic'&&active(b));
- if(m.action==='walk'&&m.scenic?.path.length){advanceScenic(m.scenic,46);if(!m.scenic.path.length)m.action='rest';return;}
+ const clinic=localLifeFacility(s,m,['clinic']);
+ if(m.action==='walk'&&m.scenic?.path.length){advanceScenic(m.scenic,46,s);syncScenicPosition(s,m);if(!m.scenic.path.length)m.action='rest';return;}
  if(m.action==='walk'){const next=m.path.shift();if(next&&!at(s,next.x,next.y))m.position=next;else m.path=[];if(!m.path.length)m.action='rest';return;}
  if(m.action==='heal'){m.wound=Math.max(0,m.wound-(clinic?3:2));m.energy=Math.min(100,m.energy+.5);if(!m.wound){m.action='rest';log(s,'伤势已愈，逃亡并未永久损伤天资。');}return;}
  if(m.action==='rest'){m.energy=Math.min(100,m.energy+restRecovery(s,m));if(m.wound>0)m.wound=Math.max(0,m.wound-.035);return;}
+ const lock=lifeActivityLock(s,m);if(lock){m.action='rest';m.path=[];log(s,`掌门${lock}`);return;}
  if(m.energy<=1){m.action='rest';log(s,'掌门精力不足，先暂歇调息，未完学习仍保留。');return;}
- if(m.action==='cultivate'){m.energy=Math.max(0,m.energy-(TECHNIQUES[m.main]?.fatigue||.25));m.xp=Math.min(xpNeed(m.realm),m.xp+cultivationRate(s,m));m.knowledge[m.main]=Math.min(100,(m.knowledge[m.main]||0)+.12);for(const id of m.support)m.knowledge[id]=Math.min(100,(m.knowledge[id]||0)+.025);return;}
+ if(m.action==='cultivate'){const facility=localLifeFacility(s,m,['meditation','hall']);m.energy=Math.max(0,m.energy-(TECHNIQUES[m.main]?.fatigue||.25));m.xp=Math.min(xpNeed(m.realm),m.xp+cultivationRate(s,m,facility));m.knowledge[m.main]=Math.min(100,(m.knowledge[m.main]||0)+.12);for(const id of m.support)m.knowledge[id]=Math.min(100,(m.knowledge[id]||0)+.025);return;}
  if(m.action==='study'&&m.learning){m.energy=Math.max(0,m.energy-.25);const l=m.learning;l.progress+=m.talent;if(l.progress>=l.total){learnTechnique(s,m,l.id,true);m.action='rest';}return;}
  if(m.action==='teach'){m.energy=Math.max(0,m.energy-.16);const id=m.teaching||m.main;if(m.knowledge[id]>=60)m.knowledge[id]=Math.min(100,m.knowledge[id]+.02);return;}
  if(['wood','stone','herb','food'].includes(m.action)){m.energy=Math.max(0,m.energy-.15);m.work++;if(m.work>=10){m.work=0;const effects=weather(s).production||{};grant(s,{[m.action]:({wood:12,stone:10,herb:10,food:16}[m.action])*(effects[m.action]??1)});}}
@@ -284,8 +289,9 @@ export function validateSave(input){
  for(const d of s.disciples){
   if(!integer(d?.id,1,1000000)||ids.has(d.id)||!str(d.root,1,40)||!str(d.trait,0,80)||!integer(d.portrait,0,3)||!d.mind||d.job!==null&&!bIds.has(d.job))fail('门人身份或工作位置异常');ids.add(d.id);personBase(d);
   const p=d.mind;if(!arr(p.traits,5)||p.traits.length!==5||!p.traits.every(n=>finite(n,0,100))||!str(p.goal,0,100)||!str(p.reason,0,1000)||!str(p.activity,1,40)||!integer(p.lastPillDay,-1)||!finite(p.caution,0,100)||!arr(p.memories,10000)||!p.memories.every(m=>m&&finite(m.time,0,s.time)&&str(m.text,0,1000)))fail('门人意愿或经历异常');
+  if(p.scenic===undefined)society.initLifeScenic(s,d);
  }
- const m=s.master;personBase(m,true);if(!validateScenic(m.scenic))fail('山院行走位置或路径异常');
+ const m=s.master;personBase(m,true);m.sceneIntent??=null;if(!validateSceneIntent(m.sceneIntent))fail('场景互动意图异常');if(m.scenic&&m.scenic.geometry!=='plots-v1')repairScenicState(s);if(!validateScenic(m.scenic,s))fail('山院行走位置或路径异常');
  if(!finite(m.wound,0,100)||!finite(m.work,0,10)||m.work>=10||!['rest','heal','cultivate','wood','stone','herb','food','teach','study','walk','travel','combat'].includes(m.action)||!validCell(m.position?.x,m.position?.y)||!arr(m.path,CELLS.length)||!m.path.every(p=>p&&validCell(p.x,p.y))||!arr(m.memories,10000)||!m.memories.every(x=>finite(x.time,0,s.time)&&str(x.text,0,1000))||m.teaching!==null&&!own(TECHNIQUES,m.teaching))fail('掌门行动、位置或经历异常');
  if(m.breakthroughHistory!==undefined&&(!arr(m.breakthroughHistory,10000)||!m.breakthroughHistory.every(h=>h&&finite(h.time,0,s.time)&&typeof h.success==='boolean'&&finite(h.chance,.55,.85)&&finite(h.roll,0,1)&&h.roll<1&&h.success===(h.roll<h.chance)&&integer(h.fromRealm,1,11)&&h.toRealm===h.fromRealm+(h.success?1:0)&&finite(h.lostXp)&&h.injury===(h.success?0:12)&&h.cooldownUntil===h.time+(h.success?15:60)&&h.energyCost===25&&h.cost&&Object.entries(h.cost).every(([k,v])=>own(RESOURCES,k)&&finite(v))&&h.pillCost&&Object.keys(h.pillCost).every(k=>k==='foundation'&&h.pillCost[k]===1))))fail('提前冲关历史异常');
  if(m.action==='study'&&!m.learning)fail('学习行动缺少计划');if(m.action==='walk'&&!m.path.length&&!m.scenic?.path.length)fail('行走行动缺少路线');
@@ -297,7 +303,7 @@ export function validateSave(input){
  const c=s.community;if(!c||c.day!==day(s)||!integer(c.completed)||!arr(c.fulfilled,3)||!unique(c.fulfilled)||!c.fulfilled.every(id=>commissions(s).some(q=>q.id===id))||c.completed<c.fulfilled.length||!c.trades||!Object.keys(GOODS).every(k=>integer(c.trades[k],0,8)))fail('市集日期、委托或额度异常');
  const e=s.economy;if(!e||e.day!==day(s)||e.lastSupplyDay!==day(s)||!mapResource(e.income)||!mapResource(e.expense)||!e.previous||!mapResource(e.previous.income)||!mapResource(e.previous.expense)||!integer(e.starvation)||!arr(e.shortages,CELLS.length+1)||!e.shortages.every(x=>str(x,0,200)))fail('供给与收支记录异常');
  if(s.migration!==undefined&&(!integer(s.migration.from,1,4)||!finite(s.migration.time,0,s.time)||!arr(s.migration.preserved,20)||!s.migration.preserved.every(x=>str(x,0,30))))fail('迁移记录异常');
- try{if(society.validateSociety(s)===false)fail('社会状态异常');if(campaign.validateCampaign(s)===false)fail('剧情或世界状态异常');}catch(error){if(error.message.startsWith('存档校验失败：'))throw error;fail(error.message);}
+ try{if(society.validateSociety(s)===false)fail('社会状态异常');if(campaign.validateCampaign(s)===false)fail('剧情或世界状态异常');if(!s.story.narrative)initNarrative(s,{legacy:true});if(validateNarrative(s)===false)fail('剧情阅读状态异常');}catch(error){if(error.message.startsWith('存档校验失败：'))throw error;fail(error.message);}
  return s;
 }
 

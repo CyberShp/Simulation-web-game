@@ -200,11 +200,11 @@ export function createEAPersistence(options = {}) {
     ].filter(item => item.raw !== null);
     return {entries, candidates: entries.map(entry => sourceItem(entry, false))};
   }
-  function inspect(slot) {
+  function inspect(slot, {primaryRaw = UNREAD} = {}) {
     slot = Number(slot); const keys = scopedKeys(slot);
     const view = {slot, status: 'empty', state: null, meta: null, backups: [], preserved: [], migration: null, error: null, warning: null};
     try {
-      const store = storage(), raw = store.getItem(keys.primary);
+      const store = storage(), raw = primaryRaw === UNREAD ? store.getItem(keys.primary) : primaryRaw;
       const backupsRaw = store.getItem(keys.backups), preservedRaw = store.getItem(keys.preserved);
       const backups = readIndex(backupsRaw, BACKUP_FORMAT), preserved = readIndex(preservedRaw, PRESERVED_FORMAT);
       view.backups = backups.entries.map(entry => sourceItem(entry));
@@ -388,7 +388,11 @@ export function createEAPersistence(options = {}) {
     }
     let lock = await acquire(slot, ticket);
     if (!lock.ok && takeover && lock.code === 'not-writer') {
-      await requestTakeover(slot, ticket);
+      const takeoverResult = await requestTakeover(slot, ticket);
+      if (takeoverResult?.code && ticket === generation && !closed) {
+        mode = 'readonly'; blocked = true;
+        return result(false, takeoverResult.code, takeoverResult.message, {mode, ...inspect(slot)});
+      }
       if (ticket === generation && !closed) lock = await acquire(slot, ticket);
     }
     if (ticket !== generation || closed) return {ok: false, code: 'superseded', mode: 'readonly'};
@@ -398,9 +402,20 @@ export function createEAPersistence(options = {}) {
       return result(false, lock.code, mode === 'unsafe' ? '浏览器无法取得安全写入锁，当前只读；可导出存档。' :
         '另一窗口正在游玩；请请求接管，或关闭原窗口后重试。', {mode, ...inspect(slot)});
     }
-    const view = inspect(slot);
     try { known = storage().getItem(scopedKeys(slot).primary); }
     catch (error) {
+      deactivate(); const detail = readableError(error);
+      return result(false, detail.code, detail.message, {mode, ...inspect(slot)});
+    }
+    // Decode the exact head used by subsequent optimistic writes. Another,
+    // noncooperating window must not change the head between decode and record.
+    const view = inspect(slot, {primaryRaw: known});
+    try {
+      if (!held || storage().getItem(scopedKeys(slot).primary) !== known) {
+        deactivate();
+        return result(false, 'conflict', '读取期间档案已被另一窗口更新，请重新打开最新世界。', {mode, ...inspect(slot)});
+      }
+    } catch (error) {
       deactivate(); const detail = readableError(error);
       return result(false, detail.code, detail.message, {mode, ...view});
     }
@@ -524,10 +539,27 @@ export function createEAPersistence(options = {}) {
     if (message.type === 'released' && message.recipient === writerId) {
       takeoverWaiters.get(message.requestId)?.(true); return;
     }
+    if (message.type === 'takeover-denied' && message.recipient === writerId) {
+      takeoverWaiters.get(message.requestId)?.({code: 'takeover-denied', message:
+        '原窗口的最新进度未能安全保存，接管已停止。请在原窗口重试保存或导出当前进度。'}); return;
+    }
     if (message.type !== 'takeover' || Number(message.slot) !== activeSlot || !held || mode !== 'writer') return;
-    let finalState;
-    try { if (typeof getState === 'function') finalState = getState(); } catch { /* release safely even if UI state is unavailable */ }
-    release(finalState === undefined ? {reason: 'takeover'} : {state: finalState, reason: 'takeover'});
+    let finalState, outcome;
+    try {
+      if (typeof getState === 'function') finalState = getState();
+      if (finalState !== undefined) outcome = save(finalState);
+    } catch (error) {
+      const detail = readableError(error);
+      outcome = result(false, detail.code, detail.message);
+    }
+    // A cooperative takeover must not discard the owner's only current copy.
+    // Keep the lock and memory intact when serialization or durable save fails.
+    if (outcome && !outcome.ok) {
+      post({type: 'takeover-denied', requestId: message.requestId, recipient: message.requester,
+        requester: writerId, slot: activeSlot});
+      return;
+    }
+    release({reason: 'takeover'});
     await heldPromise;
     post({type: 'released', requestId: message.requestId, recipient: message.requester, requester: writerId, slot: activeSlot});
   }
@@ -555,5 +587,9 @@ export function createEAPersistence(options = {}) {
     get savedAt() { return savedAt; },
     get status() { return status; },
     get lastResult() { return lastResult; },
+    // Opaque equality token for restoring a parked BFCache snapshot. Callers
+    // must never auto-save old memory over a different head after reopening.
+    captureHead() { return known === UNREAD ? null : {slot: activeSlot, raw: known}; },
+    matchesHead(token) { return Boolean(token && known !== UNREAD && token.slot === activeSlot && token.raw === known); },
   };
 }

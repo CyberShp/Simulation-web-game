@@ -1,11 +1,11 @@
-import * as SIM from './ea-sim.mjs?v=ea-130-preview-20261005-r6';
-import {EA_SHELL,createEAUI} from './ea-ui.mjs?v=ea-130-preview-20261005-r6';
-import {createEAPersistence,MAX_IMPORT_BYTES} from './ea-persistence.mjs?v=ea-130-preview-20261005-r6';
-import {createWorldRenderer} from './ea-courtyard-renderer.mjs?v=ea-130-preview-20261005-r6';
-import {attachMapInput} from './map-input.mjs?v=ea-130-preview-20261005-r6';
-import {scenicPosition} from './ea-scenic.mjs?v=ea-130-preview-20261005-r6';
-import {sceneInteractionReady,sceneInteractionTarget} from './ea-interactions.mjs?v=ea-130-preview-20261005-r6';
-import {createRuntimeClock,createFrameDiagnostics} from './ea-runtime.mjs?v=ea-130-preview-20261005-r6';
+import * as SIM from './ea-sim.mjs?v=ea-130-release-20261005';
+import {EA_SHELL,createEAUI} from './ea-ui.mjs?v=ea-130-release-20261005';
+import {createEAPersistence,MAX_IMPORT_BYTES} from './ea-persistence.mjs?v=ea-130-release-20261005';
+import {createWorldRenderer} from './ea-courtyard-renderer.mjs?v=ea-130-release-20261005';
+import {attachMapInput} from './map-input.mjs?v=ea-130-release-20261005';
+import {scenicPosition} from './ea-scenic.mjs?v=ea-130-release-20261005';
+import {sceneInteractionReady,sceneInteractionTarget} from './ea-interactions.mjs?v=ea-130-release-20261005';
+import {createRuntimeClock,createFrameDiagnostics} from './ea-runtime.mjs?v=ea-130-release-20261005';
 
 const VERSION=SIM.GAME_VERSION;
 const runtimeClock=createRuntimeClock(),diagnostics=createFrameDiagnostics();
