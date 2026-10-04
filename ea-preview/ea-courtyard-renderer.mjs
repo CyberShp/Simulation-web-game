@@ -1,9 +1,9 @@
-import {stage} from './ea-data.mjs?v=ea-110-handoff3';
-import {drawAtlas} from './ea-region-art.mjs?v=ea-110-handoff3';
-import {createWorldRenderer as createPlanRenderer} from './ea-renderer.mjs?v=ea-110-handoff3';
-import {WIDTH,HEIGHT,point,nearest,EDGES,LANDMARKS,inPolygon,findPath,canStand} from '../yunxiu-courtyard/navigation.mjs?v=ea-110-handoff3';
-import {foreground} from './ea-foreground.mjs?v=ea-110-handoff3';
-import {appearance,FACILITY_AREAS,areaPoint,scenicPosition,advanceScenic} from './ea-scenic.mjs?v=ea-110-handoff3';
+import {stage} from './ea-data.mjs?v=ea-110-handoff4';
+import {drawAtlas} from './ea-region-art.mjs?v=ea-110-handoff4';
+import {createWorldRenderer as createPlanRenderer} from './ea-renderer.mjs?v=ea-110-handoff4';
+import {WIDTH,HEIGHT,point,nearest,EDGES,LANDMARKS,inPolygon,findPath,canStand} from '../yunxiu-courtyard/navigation.mjs?v=ea-110-handoff4';
+import {foreground} from './ea-foreground.mjs?v=ea-110-handoff4';
+import {appearance,FACILITY_AREAS,areaPoint,scenicPosition,advanceScenic} from './ea-scenic.mjs?v=ea-110-handoff4';
 
 export function createWorldRenderer(canvas,options){
  const {getState,getMode,getSelection,getCampaignScene,getPrefs=()=>({}),onLoad=()=>{}}=options;
