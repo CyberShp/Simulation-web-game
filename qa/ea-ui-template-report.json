@@ -1,0 +1,279 @@
+{
+  "limitation": "Real template evaluation with a minimal recording document. No browser layout, focus, pointer, mobile or FPS claims.",
+  "dispatchCommandsChecked": [
+    "acknowledgeCombat",
+    "advanceStory",
+    "build",
+    "cancelMasterTravel",
+    "combatAction",
+    "craft",
+    "demolish",
+    "forgetSupport",
+    "fulfill",
+    "leaveRegion",
+    "masterAction",
+    "masterBreakthrough",
+    "masterPill",
+    "masterRiskBreakthrough",
+    "masterStudy",
+    "masterTeach",
+    "moveExploration",
+    "obtainBook",
+    "offerRoute",
+    "recruit",
+    "relocate",
+    "repairBuilding",
+    "resolveExploration",
+    "resolveMasterEncounter",
+    "resolveWorldVisitor",
+    "returnToBasics",
+    "sealBook",
+    "societyCommand",
+    "startExploration",
+    "toggleBuilding",
+    "trade",
+    "upgrade"
+  ],
+  "rendered": [
+    {
+      "scenario": "new game",
+      "tab": "self",
+      "htmlCharacters": 6989
+    },
+    {
+      "scenario": "new game",
+      "tab": "build",
+      "htmlCharacters": 14899
+    },
+    {
+      "scenario": "new game",
+      "tab": "disciples",
+      "htmlCharacters": 3650
+    },
+    {
+      "scenario": "new game",
+      "tab": "manuals",
+      "htmlCharacters": 15926
+    },
+    {
+      "scenario": "new game",
+      "tab": "production",
+      "htmlCharacters": 12885
+    },
+    {
+      "scenario": "new game",
+      "tab": "sect",
+      "htmlCharacters": 7619
+    },
+    {
+      "scenario": "new game",
+      "tab": "explore",
+      "htmlCharacters": 8939
+    },
+    {
+      "scenario": "new game",
+      "tab": "journal",
+      "htmlCharacters": 5293
+    },
+    {
+      "scenario": "first chapter",
+      "tab": "self",
+      "htmlCharacters": 6867
+    },
+    {
+      "scenario": "first chapter",
+      "tab": "build",
+      "htmlCharacters": 15757
+    },
+    {
+      "scenario": "first chapter",
+      "tab": "disciples",
+      "htmlCharacters": 5925
+    },
+    {
+      "scenario": "first chapter",
+      "tab": "manuals",
+      "htmlCharacters": 16567
+    },
+    {
+      "scenario": "first chapter",
+      "tab": "production",
+      "htmlCharacters": 13153
+    },
+    {
+      "scenario": "first chapter",
+      "tab": "sect",
+      "htmlCharacters": 7580
+    },
+    {
+      "scenario": "first chapter",
+      "tab": "explore",
+      "htmlCharacters": 8676
+    },
+    {
+      "scenario": "first chapter",
+      "tab": "journal",
+      "htmlCharacters": 7304
+    },
+    {
+      "scenario": "30 people, 40 buildings, two peaks, completed story",
+      "tab": "self",
+      "htmlCharacters": 7019
+    },
+    {
+      "scenario": "30 people, 40 buildings, two peaks, completed story",
+      "tab": "build",
+      "htmlCharacters": 14523
+    },
+    {
+      "scenario": "30 people, 40 buildings, two peaks, completed story",
+      "tab": "disciples",
+      "htmlCharacters": 38376
+    },
+    {
+      "scenario": "30 people, 40 buildings, two peaks, completed story",
+      "tab": "manuals",
+      "htmlCharacters": 17399
+    },
+    {
+      "scenario": "30 people, 40 buildings, two peaks, completed story",
+      "tab": "production",
+      "htmlCharacters": 12491
+    },
+    {
+      "scenario": "30 people, 40 buildings, two peaks, completed story",
+      "tab": "sect",
+      "htmlCharacters": 7634
+    },
+    {
+      "scenario": "30 people, 40 buildings, two peaks, completed story",
+      "tab": "explore",
+      "htmlCharacters": 10617
+    },
+    {
+      "scenario": "30 people, 40 buildings, two peaks, completed story",
+      "tab": "journal",
+      "htmlCharacters": 27558
+    },
+    {
+      "scenario": "qixia interaction",
+      "tab": "self",
+      "htmlCharacters": 7263
+    },
+    {
+      "scenario": "qixia interaction",
+      "tab": "build",
+      "htmlCharacters": 14701
+    },
+    {
+      "scenario": "qixia interaction",
+      "tab": "disciples",
+      "htmlCharacters": 5834
+    },
+    {
+      "scenario": "qixia interaction",
+      "tab": "manuals",
+      "htmlCharacters": 17248
+    },
+    {
+      "scenario": "qixia interaction",
+      "tab": "production",
+      "htmlCharacters": 12508
+    },
+    {
+      "scenario": "qixia interaction",
+      "tab": "sect",
+      "htmlCharacters": 8467
+    },
+    {
+      "scenario": "qixia interaction",
+      "tab": "explore",
+      "htmlCharacters": 12404
+    },
+    {
+      "scenario": "qixia interaction",
+      "tab": "journal",
+      "htmlCharacters": 17916
+    },
+    {
+      "scenario": "active final combat",
+      "tab": "self",
+      "htmlCharacters": 8510
+    },
+    {
+      "scenario": "active final combat",
+      "tab": "build",
+      "htmlCharacters": 15948
+    },
+    {
+      "scenario": "active final combat",
+      "tab": "disciples",
+      "htmlCharacters": 7081
+    },
+    {
+      "scenario": "active final combat",
+      "tab": "manuals",
+      "htmlCharacters": 18495
+    },
+    {
+      "scenario": "active final combat",
+      "tab": "production",
+      "htmlCharacters": 13755
+    },
+    {
+      "scenario": "active final combat",
+      "tab": "sect",
+      "htmlCharacters": 9714
+    },
+    {
+      "scenario": "active final combat",
+      "tab": "explore",
+      "htmlCharacters": 13447
+    },
+    {
+      "scenario": "active final combat",
+      "tab": "journal",
+      "htmlCharacters": 19179
+    },
+    {
+      "scenario": "battle defeat and recovery",
+      "tab": "self",
+      "htmlCharacters": 7534
+    },
+    {
+      "scenario": "battle defeat and recovery",
+      "tab": "build",
+      "htmlCharacters": 14928
+    },
+    {
+      "scenario": "battle defeat and recovery",
+      "tab": "disciples",
+      "htmlCharacters": 6079
+    },
+    {
+      "scenario": "battle defeat and recovery",
+      "tab": "manuals",
+      "htmlCharacters": 17702
+    },
+    {
+      "scenario": "battle defeat and recovery",
+      "tab": "production",
+      "htmlCharacters": 12805
+    },
+    {
+      "scenario": "battle defeat and recovery",
+      "tab": "sect",
+      "htmlCharacters": 8694
+    },
+    {
+      "scenario": "battle defeat and recovery",
+      "tab": "explore",
+      "htmlCharacters": 11492
+    },
+    {
+      "scenario": "battle defeat and recovery",
+      "tab": "journal",
+      "htmlCharacters": 18221
+    }
+  ]
+}

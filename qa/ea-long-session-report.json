@@ -1,0 +1,120 @@
+{
+  "runtime": "v24.19.0",
+  "limitation": "Node deterministic simulation and in-memory Web Locks/storage. This is not a six-hour human session or rendered browser performance.",
+  "normalSetup": {
+    "initial": {
+      "time": 6580,
+      "day": 55,
+      "masterRealm": 10,
+      "masterKnowledge": {
+        "qingyuan": 100,
+        "spring": 37.24999999999902,
+        "alchemy": 57.24999999999902,
+        "foundation": 85.20000000000014
+      },
+      "storyStep": 10,
+      "followers": 30,
+      "buildings": 40,
+      "resources": {
+        "jade": 848.5494678205438,
+        "wood": 941.7940813775821,
+        "stone": 827.0789820050678,
+        "herb": 895.9237789482241,
+        "crystal": 123.74943700992002,
+        "insight": 436.72735331168,
+        "food": 1878.1269975068458
+      },
+      "founded": true,
+      "peaks": [
+        {
+          "id": 1,
+          "name": "青木药峰",
+          "direction": "herb",
+          "hostId": 2
+        },
+        {
+          "id": 2,
+          "name": "厚土阵峰",
+          "direction": "array",
+          "hostId": 3
+        }
+      ],
+      "stats": {
+        "built": 39,
+        "breakthroughs": 102,
+        "expeditions": 8,
+        "crafted": 1,
+        "relocated": 0,
+        "trades": 878,
+        "consumed": 0
+      }
+    },
+    "playerCommands": 1358
+  },
+  "simulatedSeconds": 21600,
+  "simulatedHours": 6,
+  "final": {
+    "time": 28180,
+    "day": 235,
+    "masterRealm": 10,
+    "masterKnowledge": {
+      "qingyuan": 100,
+      "spring": 37.24999999999902,
+      "alchemy": 57.24999999999902,
+      "foundation": 95.17999999999816
+    },
+    "storyStep": 10,
+    "followers": 30,
+    "buildings": 40,
+    "resources": {
+      "jade": 230801.73838583764,
+      "wood": 181218.41141635494,
+      "stone": 173021.4965766624,
+      "herb": 175892.28844303652,
+      "crystal": 7954.838063185924,
+      "insight": 13238.426373364482,
+      "food": 231154.1742904935
+    },
+    "founded": true,
+    "peaks": [
+      {
+        "id": 1,
+        "name": "青木药峰",
+        "direction": "herb",
+        "hostId": 2
+      },
+      {
+        "id": 2,
+        "name": "厚土阵峰",
+        "direction": "array",
+        "hostId": 3
+      }
+    ],
+    "stats": {
+      "built": 39,
+      "breakthroughs": 244,
+      "expeditions": 8,
+      "crafted": 1,
+      "relocated": 0,
+      "trades": 878,
+      "consumed": 0
+    }
+  },
+  "startBytes": 140804,
+  "finalBytes": 182698,
+  "tickMilliseconds": {
+    "p50": 0.5250950000008743,
+    "p95": 1.2789259999999558,
+    "p99": 1.970647000000099,
+    "max": 11.156151999999565
+  },
+  "saveMilliseconds": {
+    "p50": 40.864496999999574,
+    "p95": 49.555239000001166,
+    "max": 63.14177900000141
+  },
+  "maxImportantMemories": 18,
+  "peakActiveDaySamples": 180,
+  "daysSampled": 180,
+  "logEntries": 100
+}

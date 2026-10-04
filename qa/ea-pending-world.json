@@ -1,0 +1,611 @@
+{
+  "version": 5,
+  "time": 139,
+  "speed": 1,
+  "resources": {
+    "jade": 21,
+    "wood": 49.459967999999996,
+    "stone": 2,
+    "herb": 43.995283199999996,
+    "crystal": 0,
+    "insight": 8,
+    "food": 44
+  },
+  "buildings": [
+    {
+      "id": 1,
+      "type": "hall",
+      "x": 3,
+      "y": 2,
+      "level": 1,
+      "progress": 19,
+      "condition": 100,
+      "enabled": true
+    },
+    {
+      "id": 2,
+      "type": "farm",
+      "x": 4,
+      "y": 4,
+      "level": 1,
+      "progress": 8,
+      "condition": 100,
+      "enabled": true
+    },
+    {
+      "id": 3,
+      "type": "lumber",
+      "x": 1,
+      "y": 3,
+      "level": 1,
+      "progress": 7,
+      "condition": 100,
+      "enabled": true
+    },
+    {
+      "id": 4,
+      "type": "granary",
+      "x": 5,
+      "y": 3,
+      "level": 1,
+      "progress": 0,
+      "condition": 100,
+      "enabled": true
+    },
+    {
+      "id": 5,
+      "type": "library",
+      "x": 2,
+      "y": 4,
+      "level": 1,
+      "progress": 0,
+      "condition": 100,
+      "enabled": true
+    }
+  ],
+  "disciples": [
+    {
+      "id": 1,
+      "name": "陆知微",
+      "root": "木灵根",
+      "realm": 1,
+      "xp": 0,
+      "talent": 1.15,
+      "energy": 64.20000000000014,
+      "portrait": 1,
+      "trait": "自寻前路",
+      "job": 2,
+      "mind": {
+        "traits": [
+          82,
+          44,
+          78,
+          68,
+          62
+        ],
+        "goal": "精研草木",
+        "main": "qingyuan",
+        "support": [],
+        "knowledge": {
+          "qingyuan": 20
+        },
+        "learning": null,
+        "activity": "work",
+        "reason": "权衡生活与修行后，愿意到灵草田做事。",
+        "memories": [
+          {
+            "time": 69,
+            "text": "看到供给紧缺，愿意到灵草田做事。",
+            "important": false,
+            "public": true,
+            "key": null
+          },
+          {
+            "time": 68,
+            "text": "经过持续研习，初步掌握《青岚养元诀》。",
+            "important": true,
+            "public": true,
+            "key": "learn:qingyuan"
+          },
+          {
+            "time": 21,
+            "text": "愿意花时间研习《青岚养元诀》。",
+            "important": false,
+            "public": true,
+            "key": null
+          },
+          {
+            "time": 20,
+            "text": "掌门赠药救下我的亲人，我愿留下照看药圃；归乡复仇仍须由我自己决定。",
+            "important": true,
+            "public": true,
+            "key": "joining:1"
+          },
+          {
+            "important": true,
+            "public": true,
+            "key": null,
+            "time": 20,
+            "text": "掌门赠药救下我的亲人，我愿留下照看药圃；归乡复仇仍须由我自己决定。"
+          }
+        ],
+        "lastPillDay": -1,
+        "caution": 0,
+        "satiety": 100,
+        "mood": 63,
+        "commitUntil": 141,
+        "lastDecision": 117,
+        "lastSocial": -120,
+        "lastTalk": -120,
+        "lastBreakthrough": -120,
+        "relationships": {
+          "master": {
+            "trust": 55,
+            "respect": 55,
+            "affection": 45,
+            "conflict": 0,
+            "lastEvent": -1000
+          }
+        },
+        "skills": {
+          "plant": 1.7999999999999998,
+          "industry": 0,
+          "learning": 0,
+          "array": 0,
+          "medicine": 0
+        },
+        "mentorId": null,
+        "peakId": null,
+        "office": null,
+        "path": [],
+        "away": null,
+        "journey": null,
+        "workProgress": 0,
+        "publicMain": "qingyuan",
+        "hiddenKnowledge": {},
+        "restrictedUntil": 0,
+        "purse": 10.400000000000002,
+        "restitutionBalance": 0,
+        "pillPermitDay": -1,
+        "neglectDays": 0,
+        "joinedAt": 20,
+        "questKinds": [],
+        "revengeAttitude": "cautious",
+        "lastPeakChange": -120,
+        "refusalUntil": 0,
+        "reorientUntil": 0,
+        "lastConversion": -600,
+        "supportIntent": null
+      },
+      "wound": 0,
+      "position": {
+        "x": 4,
+        "y": 3
+      }
+    },
+    {
+      "id": 2,
+      "name": "林长风",
+      "root": "土灵根",
+      "realm": 1,
+      "xp": 0,
+      "talent": 1.08,
+      "energy": 63.730000000000125,
+      "portrait": 2,
+      "trait": "自寻前路",
+      "job": 3,
+      "mind": {
+        "traits": [
+          45,
+          88,
+          36,
+          57,
+          80
+        ],
+        "goal": "求取长生",
+        "main": "qingyuan",
+        "support": [],
+        "knowledge": {
+          "qingyuan": 20
+        },
+        "learning": null,
+        "activity": "work",
+        "reason": "看到供给紧缺，愿意到伐木场做事。",
+        "memories": [
+          {
+            "time": 72,
+            "text": "看到供给紧缺，愿意到伐木场做事。",
+            "important": false,
+            "public": true,
+            "key": null
+          },
+          {
+            "time": 71,
+            "text": "经过持续研习，初步掌握《青岚养元诀》。",
+            "important": true,
+            "public": true,
+            "key": "learn:qingyuan"
+          },
+          {
+            "time": 21,
+            "text": "愿意花时间研习《青岚养元诀》。",
+            "important": false,
+            "public": true,
+            "key": null
+          },
+          {
+            "time": 20,
+            "text": "山院给了我安身与传承的机会，我愿靠自己的选择求道。",
+            "important": true,
+            "public": true,
+            "key": "joining:2"
+          },
+          {
+            "important": false,
+            "public": true,
+            "key": null,
+            "time": 20,
+            "text": "山院给了我安身与传承的机会，我愿靠自己的选择求道。"
+          }
+        ],
+        "lastPillDay": -1,
+        "caution": 0,
+        "satiety": 100,
+        "mood": 63,
+        "commitUntil": 141,
+        "lastDecision": 118,
+        "lastSocial": -120,
+        "lastTalk": -120,
+        "lastBreakthrough": -120,
+        "relationships": {
+          "master": {
+            "trust": 55,
+            "respect": 55,
+            "affection": 45,
+            "conflict": 0,
+            "lastEvent": -1000
+          }
+        },
+        "skills": {
+          "plant": 0,
+          "industry": 1.7999999999999998,
+          "learning": 0,
+          "array": 0,
+          "medicine": 0
+        },
+        "mentorId": null,
+        "peakId": null,
+        "office": null,
+        "path": [],
+        "away": null,
+        "journey": null,
+        "workProgress": 0,
+        "publicMain": "qingyuan",
+        "hiddenKnowledge": {},
+        "restrictedUntil": 0,
+        "purse": 10.400000000000002,
+        "restitutionBalance": 0,
+        "pillPermitDay": -1,
+        "neglectDays": 0,
+        "joinedAt": 20,
+        "questKinds": [],
+        "revengeAttitude": "support",
+        "lastPeakChange": -120,
+        "refusalUntil": 0,
+        "reorientUntil": 0,
+        "lastConversion": -600,
+        "supportIntent": null
+      },
+      "wound": 0,
+      "position": {
+        "x": 1,
+        "y": 2
+      }
+    }
+  ],
+  "nextId": 6,
+  "claimed": [],
+  "stats": {
+    "built": 4,
+    "breakthroughs": 0,
+    "expeditions": 0,
+    "crafted": 0,
+    "relocated": 0,
+    "trades": 0,
+    "consumed": 0
+  },
+  "logs": [
+    {
+      "time": 136,
+      "text": "抵达青溪坊市。在地图中走近旧商号，再选择查访行动。"
+    },
+    {
+      "time": 120,
+      "text": "掌门亲往「青溪坊市」。"
+    },
+    {
+      "time": 120,
+      "text": "山中转为灵露：灵气凝露，药圃与悟道均受滋养。"
+    },
+    {
+      "time": 110,
+      "text": "整理出《春雨养脉法》与旧商路信笺。青溪坊市、石桥驿与听雨遗址均有可追查之处。"
+    },
+    {
+      "time": 110,
+      "text": "藏经阁落成，门人会自行权衡是否使用。"
+    },
+    {
+      "time": 71,
+      "text": "林长风初步掌握《青岚养元诀》，还需继续熟悉才能授业。"
+    },
+    {
+      "time": 68,
+      "text": "陆知微初步掌握《青岚养元诀》，还需继续熟悉才能授业。"
+    },
+    {
+      "time": 20,
+      "text": "林长风来到山院，希望在这里得到安身与求道的机会。"
+    },
+    {
+      "time": 20,
+      "text": "林长风愿意留下，共同生活与求道。"
+    },
+    {
+      "time": 20,
+      "text": "灵稻田落成，门人会自行权衡是否使用。"
+    },
+    {
+      "time": 20,
+      "text": "伐木场落成，门人会自行权衡是否使用。"
+    },
+    {
+      "time": 20,
+      "text": "灵草田落成，门人会自行权衡是否使用。"
+    },
+    {
+      "time": 20,
+      "text": "陆知微因赠药之恩留下。她愿经营药圃，并不因此承诺参与复仇。"
+    },
+    {
+      "time": 20,
+      "text": "陆知微愿意留下，共同生活与求道。"
+    },
+    {
+      "time": 20,
+      "text": "伤势渐平，根基未损。母亲留下的药理仍能救人。"
+    },
+    {
+      "time": 15,
+      "text": "伤势已愈，逃亡并未永久损伤天资。"
+    },
+    {
+      "time": 0,
+      "text": "栖霞一夜成灰。你携残存传承来到云岫别院，父母留下的最后一句话是：活下去。"
+    }
+  ],
+  "sect": {
+    "level": 1,
+    "reputation": 0,
+    "name": "云岫山院",
+    "founded": false
+  },
+  "pills": {
+    "qi": 0,
+    "spirit": 0,
+    "foundation": 0,
+    "heal": 0
+  },
+  "crafting": null,
+  "expedition": null,
+  "community": {
+    "day": 1,
+    "fulfilled": [],
+    "trades": {
+      "food": 0,
+      "wood": 0,
+      "stone": 0,
+      "herb": 0,
+      "crystal": 0,
+      "insight": 0
+    },
+    "completed": 0
+  },
+  "master": {
+    "name": "沈砚",
+    "realm": 6,
+    "xp": 0,
+    "talent": 1.75,
+    "energy": 92,
+    "wound": 0,
+    "action": "travel",
+    "work": 0,
+    "position": {
+      "x": 3,
+      "y": 3
+    },
+    "path": [],
+    "main": "qingyuan",
+    "support": [],
+    "knowledge": {
+      "qingyuan": 40
+    },
+    "learning": null,
+    "journey": {
+      "kind": "campaign",
+      "routeId": "market",
+      "total": 16,
+      "remaining": 0,
+      "status": "exploring"
+    },
+    "teaching": null,
+    "breakthroughCooldown": 0,
+    "memories": [],
+    "hp": 100,
+    "maxHp": 100
+  },
+  "story": {
+    "step": 4,
+    "intro": false,
+    "clues": [],
+    "preparations": {
+      "witness": false,
+      "supply": false,
+      "array": false,
+      "public": false
+    },
+    "claimed": [
+      "story:0",
+      "story:1",
+      "story:2",
+      "story:3"
+    ],
+    "milestones": [],
+    "gateCleared": false,
+    "revengeDone": false,
+    "completed": false,
+    "ending": null
+  },
+  "doctrine": {
+    "books": [
+      "qingyuan",
+      "spring"
+    ],
+    "sealed": [],
+    "workFocus": "balanced",
+    "pillRule": "shared",
+    "routes": [],
+    "outingRule": "notice",
+    "enforcement": "restorative"
+  },
+  "sim": {
+    "seed": 3965404896,
+    "carry": 0,
+    "decision": 0
+  },
+  "incidents": [],
+  "incidentId": 1,
+  "economy": {
+    "day": 1,
+    "income": {
+      "jade": 10,
+      "wood": 19.533312,
+      "stone": 0,
+      "herb": 16.362163199999998,
+      "crystal": 0,
+      "insight": 0,
+      "food": 0
+    },
+    "expense": {
+      "jade": 4,
+      "wood": 0,
+      "stone": 0,
+      "herb": 0,
+      "crystal": 0,
+      "insight": 0,
+      "food": 6
+    },
+    "previous": {
+      "income": {
+        "jade": 50,
+        "wood": 74.926656,
+        "stone": 0,
+        "herb": 27.633119999999998,
+        "crystal": 0,
+        "insight": 8,
+        "food": 0
+      },
+      "expense": {
+        "jade": 145,
+        "wood": 110,
+        "stone": 43,
+        "herb": 16,
+        "crystal": 0,
+        "insight": 0,
+        "food": 0
+      }
+    },
+    "shortages": [],
+    "starvation": 0,
+    "lastSupplyDay": 1
+  },
+  "society": {
+    "revision": 1,
+    "clock": 139,
+    "lastDay": 1,
+    "formal": false,
+    "foundedAt": null,
+    "name": "云岫山院",
+    "fairness": 65,
+    "officers": {
+      "steward": null,
+      "teacher": null,
+      "warden": null
+    },
+    "peaks": [],
+    "secrets": [],
+    "quests": [],
+    "visitors": [],
+    "visitorHistory": [],
+    "invitations": [],
+    "departed": [],
+    "nextIncidentId": 1,
+    "nextPeakId": 1,
+    "nextQuestId": 1,
+    "nextVisitorId": 1,
+    "nextPersonId": 3,
+    "nextVisitorAt": 180,
+    "stats": {
+      "workCycles": 6,
+      "lessons": 0,
+      "relationships": 0,
+      "questsCompleted": 0,
+      "visitorsResolved": 0,
+      "discovered": 0
+    },
+    "lastShortageNotice": -120
+  },
+  "world": {
+    "weather": {
+      "id": "dew",
+      "remaining": 101,
+      "cycle": 1
+    },
+    "hostility": 0,
+    "exploration": {
+      "id": 1,
+      "regionId": "market",
+      "status": "exploring",
+      "total": 16,
+      "remaining": 0,
+      "position": {
+        "x": 8,
+        "y": 4
+      },
+      "target": null,
+      "eventId": "mission",
+      "visit": 0,
+      "resolved": false,
+      "companionIds": [],
+      "companionInjuries": {},
+      "weather": "dew",
+      "outcome": null
+    },
+    "nextJourneyId": 2,
+    "visits": {
+      "market": 1
+    },
+    "visitors": [],
+    "nextVisitorDay": 2,
+    "visitorSequence": 0,
+    "reactions": [
+      {
+        "time": 120,
+        "text": "山中转为灵露：灵气凝露，药圃与悟道均受滋养。",
+        "kind": "weather"
+      }
+    ],
+    "legacyJourney": null
+  },
+  "combat": null
+}

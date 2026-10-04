@@ -1,0 +1,1516 @@
+{
+  "version": 5,
+  "time": 2514,
+  "speed": 1,
+  "resources": {
+    "jade": 227.5999999999999,
+    "wood": 57.697272,
+    "stone": 52.69876352,
+    "herb": 162.94316320000001,
+    "crystal": 13,
+    "insight": 29.865439999999992,
+    "food": 149.686024832
+  },
+  "buildings": [
+    {
+      "id": 1,
+      "type": "hall",
+      "x": 3,
+      "y": 2,
+      "level": 1,
+      "progress": 14,
+      "condition": 100,
+      "enabled": true
+    },
+    {
+      "id": 2,
+      "type": "farm",
+      "x": 4,
+      "y": 4,
+      "level": 1,
+      "progress": 11,
+      "condition": 100,
+      "enabled": true
+    },
+    {
+      "id": 3,
+      "type": "lumber",
+      "x": 1,
+      "y": 3,
+      "level": 1,
+      "progress": 13,
+      "condition": 100,
+      "enabled": true
+    },
+    {
+      "id": 4,
+      "type": "granary",
+      "x": 5,
+      "y": 3,
+      "level": 1,
+      "progress": 1,
+      "condition": 100,
+      "enabled": true
+    },
+    {
+      "id": 5,
+      "type": "library",
+      "x": 2,
+      "y": 4,
+      "level": 1,
+      "progress": 4,
+      "condition": 100,
+      "enabled": true
+    },
+    {
+      "id": 6,
+      "type": "quarry",
+      "x": 0,
+      "y": 2,
+      "level": 1,
+      "progress": 4,
+      "condition": 100,
+      "enabled": true
+    },
+    {
+      "id": 7,
+      "type": "meditation",
+      "x": 0,
+      "y": 3,
+      "level": 1,
+      "progress": 0,
+      "condition": 100,
+      "enabled": true
+    },
+    {
+      "id": 8,
+      "type": "alchemy",
+      "x": 0,
+      "y": 5,
+      "level": 1,
+      "progress": 0,
+      "condition": 100,
+      "enabled": true
+    }
+  ],
+  "disciples": [
+    {
+      "id": 1,
+      "name": "陆知微",
+      "root": "木灵根",
+      "realm": 1,
+      "xp": 0,
+      "talent": 1.15,
+      "energy": 35.65000000000018,
+      "portrait": 1,
+      "trait": "自寻前路",
+      "job": 2,
+      "mind": {
+        "traits": [
+          82,
+          44,
+          78,
+          68,
+          62
+        ],
+        "goal": "精研草木",
+        "main": "qingyuan",
+        "support": [
+          "spring"
+        ],
+        "knowledge": {
+          "qingyuan": 100,
+          "spring": 100
+        },
+        "learning": null,
+        "activity": "work",
+        "reason": "权衡生活与修行后，愿意到灵草田做事。",
+        "memories": [
+          {
+            "time": 2505,
+            "text": "权衡生活与修行后，愿意到灵草田做事。",
+            "important": false,
+            "public": true,
+            "key": null
+          },
+          {
+            "time": 2493,
+            "text": "精力不足，先休息恢复，暂不接差事。",
+            "important": false,
+            "public": true,
+            "key": null
+          },
+          {
+            "time": 2463,
+            "text": "权衡生活与修行后，愿意到伐木场做事。",
+            "important": false,
+            "public": true,
+            "key": null
+          },
+          {
+            "time": 2439,
+            "text": "权衡生活与修行后，愿意到藏经阁做事。",
+            "important": false,
+            "public": true,
+            "key": null
+          },
+          {
+            "time": 2427,
+            "text": "精力不足，先休息恢复，暂不接差事。",
+            "important": false,
+            "public": true,
+            "key": null
+          },
+          {
+            "time": 2397,
+            "text": "看到供给紧缺，愿意到藏经阁做事。",
+            "important": false,
+            "public": true,
+            "key": null
+          },
+          {
+            "time": 2391,
+            "text": "精力不足，先休息恢复，暂不接差事。",
+            "important": false,
+            "public": true,
+            "key": null
+          },
+          {
+            "time": 2385,
+            "text": "看到供给紧缺，愿意到藏经阁做事。",
+            "important": false,
+            "public": true,
+            "key": null
+          },
+          {
+            "time": 2337,
+            "text": "权衡生活与修行后，愿意到灵稻田做事。",
+            "important": false,
+            "public": true,
+            "key": null
+          },
+          {
+            "time": 2325,
+            "text": "精力不足，先休息恢复，暂不接差事。",
+            "important": false,
+            "public": true,
+            "key": null
+          },
+          {
+            "time": 245,
+            "text": "经过持续研习，初步掌握《春雨养脉法》。",
+            "important": true,
+            "public": true,
+            "key": "learn:spring"
+          },
+          {
+            "time": 68,
+            "text": "经过持续研习，初步掌握《青岚养元诀》。",
+            "important": true,
+            "public": true,
+            "key": "learn:qingyuan"
+          },
+          {
+            "time": 20,
+            "text": "掌门赠药救下我的亲人，我愿留下照看药圃；归乡复仇仍须由我自己决定。",
+            "important": true,
+            "public": true,
+            "key": "joining:1"
+          },
+          {
+            "important": true,
+            "public": true,
+            "key": null,
+            "time": 20,
+            "text": "掌门赠药救下我的亲人，我愿留下照看药圃；归乡复仇仍须由我自己决定。"
+          }
+        ],
+        "lastPillDay": -1,
+        "caution": 0,
+        "satiety": 100,
+        "mood": 100,
+        "commitUntil": 2529,
+        "lastDecision": 2505,
+        "lastSocial": -120,
+        "lastTalk": -120,
+        "lastBreakthrough": -120,
+        "relationships": {
+          "master": {
+            "trust": 51,
+            "respect": 55,
+            "affection": 45,
+            "conflict": 0,
+            "lastEvent": 841
+          }
+        },
+        "skills": {
+          "plant": 40.20000000000005,
+          "industry": 3.6,
+          "learning": 3,
+          "array": 0,
+          "medicine": 0
+        },
+        "mentorId": null,
+        "peakId": null,
+        "office": null,
+        "path": [],
+        "away": null,
+        "journey": null,
+        "workProgress": 0,
+        "publicMain": "qingyuan",
+        "hiddenKnowledge": {},
+        "restrictedUntil": 0,
+        "purse": 70.39999999999989,
+        "restitutionBalance": 0,
+        "pillPermitDay": -1,
+        "neglectDays": 0,
+        "joinedAt": 20,
+        "questKinds": [
+          "family"
+        ],
+        "revengeAttitude": "cautious",
+        "lastPeakChange": -120,
+        "refusalUntil": 0,
+        "reorientUntil": 0,
+        "lastConversion": -600,
+        "supportIntent": null
+      },
+      "wound": 0,
+      "position": {
+        "x": 4,
+        "y": 3
+      }
+    },
+    {
+      "id": 2,
+      "name": "林长风",
+      "root": "土灵根",
+      "realm": 6,
+      "xp": 555.9321600000017,
+      "talent": 1.08,
+      "energy": 24.81999999999919,
+      "portrait": 2,
+      "trait": "自寻前路",
+      "job": 7,
+      "mind": {
+        "traits": [
+          45,
+          88,
+          36,
+          57,
+          80
+        ],
+        "goal": "求取长生",
+        "main": "qingyuan",
+        "support": [
+          "spring"
+        ],
+        "knowledge": {
+          "qingyuan": 100,
+          "spring": 100
+        },
+        "learning": null,
+        "activity": "cultivate",
+        "reason": "希望精进境界，选择静心修炼。",
+        "memories": [
+          {
+            "time": 2489,
+            "text": "希望精进境界，选择静心修炼。",
+            "important": false,
+            "public": true,
+            "key": null
+          },
+          {
+            "time": 2483,
+            "text": "精力不足，先休息恢复，暂不接差事。",
+            "important": false,
+            "public": true,
+            "key": null
+          },
+          {
+            "time": 2447,
+            "text": "希望精进境界，选择静心修炼。",
+            "important": false,
+            "public": true,
+            "key": null
+          },
+          {
+            "time": 2441,
+            "text": "精力不足，先休息恢复，暂不接差事。",
+            "important": false,
+            "public": true,
+            "key": null
+          },
+          {
+            "time": 2405,
+            "text": "希望精进境界，选择静心修炼。",
+            "important": false,
+            "public": true,
+            "key": null
+          },
+          {
+            "time": 2399,
+            "text": "精力不足，先休息恢复，暂不接差事。",
+            "important": false,
+            "public": true,
+            "key": null
+          },
+          {
+            "time": 2368,
+            "text": "希望精进境界，选择静心修炼。",
+            "important": false,
+            "public": true,
+            "key": null
+          },
+          {
+            "time": 2362,
+            "text": "精力不足，先休息恢复，暂不接差事。",
+            "important": false,
+            "public": true,
+            "key": null
+          },
+          {
+            "time": 2326,
+            "text": "希望精进境界，选择静心修炼。",
+            "important": false,
+            "public": true,
+            "key": null
+          },
+          {
+            "time": 2320,
+            "text": "精力不足，先休息恢复，暂不接差事。",
+            "important": false,
+            "public": true,
+            "key": null
+          },
+          {
+            "time": 2125,
+            "text": "自己衡量准备后尝试突破。境界高低不会代替对同门的判断。",
+            "important": true,
+            "public": true,
+            "key": "breakthrough:6:2125"
+          },
+          {
+            "time": 1727,
+            "text": "自己衡量准备后尝试突破。境界高低不会代替对同门的判断。",
+            "important": true,
+            "public": true,
+            "key": "breakthrough:5:1727"
+          },
+          {
+            "time": 1361,
+            "text": "自己衡量准备后尝试突破。境界高低不会代替对同门的判断。",
+            "important": true,
+            "public": true,
+            "key": "breakthrough:4:1361"
+          },
+          {
+            "time": 1165,
+            "text": "自己衡量准备后尝试突破。境界高低不会代替对同门的判断。",
+            "important": true,
+            "public": true,
+            "key": "breakthrough:3:1165"
+          },
+          {
+            "time": 1023,
+            "text": "自己衡量准备后尝试突破。境界高低不会代替对同门的判断。",
+            "important": true,
+            "public": true,
+            "key": "breakthrough:2:1023"
+          },
+          {
+            "time": 275,
+            "text": "经过持续研习，初步掌握《春雨养脉法》。",
+            "important": true,
+            "public": true,
+            "key": "learn:spring"
+          },
+          {
+            "time": 71,
+            "text": "经过持续研习，初步掌握《青岚养元诀》。",
+            "important": true,
+            "public": true,
+            "key": "learn:qingyuan"
+          },
+          {
+            "time": 20,
+            "text": "山院给了我安身与传承的机会，我愿靠自己的选择求道。",
+            "important": true,
+            "public": true,
+            "key": "joining:2"
+          }
+        ],
+        "lastPillDay": -1,
+        "caution": 0,
+        "satiety": 100,
+        "mood": 100,
+        "commitUntil": 2535,
+        "lastDecision": 2512,
+        "lastSocial": -120,
+        "lastTalk": -120,
+        "lastBreakthrough": 2125,
+        "relationships": {
+          "master": {
+            "trust": 51,
+            "respect": 55,
+            "affection": 45,
+            "conflict": 0,
+            "lastEvent": 841
+          }
+        },
+        "skills": {
+          "plant": 1.2,
+          "industry": 4.2,
+          "learning": 0,
+          "array": 0,
+          "medicine": 0
+        },
+        "mentorId": null,
+        "peakId": null,
+        "office": null,
+        "path": [],
+        "away": null,
+        "journey": null,
+        "workProgress": 0,
+        "publicMain": "qingyuan",
+        "hiddenKnowledge": {},
+        "restrictedUntil": 0,
+        "purse": 15.200000000000006,
+        "restitutionBalance": 0,
+        "pillPermitDay": -1,
+        "neglectDays": 0,
+        "joinedAt": 20,
+        "questKinds": [
+          "mastery"
+        ],
+        "revengeAttitude": "support",
+        "lastPeakChange": -120,
+        "refusalUntil": 0,
+        "reorientUntil": 0,
+        "lastConversion": -600,
+        "supportIntent": null
+      },
+      "wound": 0,
+      "position": {
+        "x": 0,
+        "y": 4
+      },
+      "breakthroughCooldown": 2140
+    }
+  ],
+  "nextId": 9,
+  "claimed": [
+    "expedition",
+    "quarry",
+    "meditation",
+    "breakthrough",
+    "realm3",
+    "alchemy",
+    "foundation"
+  ],
+  "stats": {
+    "built": 7,
+    "breakthroughs": 9,
+    "expeditions": 7,
+    "crafted": 1,
+    "relocated": 0,
+    "trades": 72,
+    "consumed": 0
+  },
+  "logs": [
+    {
+      "time": 2514,
+      "text": "韩厉川迎面而来。掌门亲自应战，同行者将自主行动。"
+    },
+    {
+      "time": 2514,
+      "text": "旧山门重开。沿灵脉向前，韩厉川无法再以外阵避战。"
+    },
+    {
+      "time": 2514,
+      "text": "依父亲手札重开山门，昔日护家之阵终于不再为仇敌所用。"
+    },
+    {
+      "time": 2512,
+      "text": "抵达栖霞故地。在地图中走近栖霞旧山门，再选择查访行动。"
+    },
+    {
+      "time": 2489,
+      "text": "掌门亲往「栖霞故地」。"
+    },
+    {
+      "time": 2486,
+      "text": "游方讲师来访：「一席论道」。"
+    },
+    {
+      "time": 2479,
+      "text": "敌方支援已被削弱，重返栖霞的时机已至。剩余准备仍可继续完成。"
+    },
+    {
+      "time": 2479,
+      "text": "掌门从赤嶂偏牢归来。已取得的证据与收获均保留。"
+    },
+    {
+      "time": 2479,
+      "text": "知情者获救，交代韩厉川蓄势施法的习惯；最终战预警时间延长。"
+    },
+    {
+      "time": 2479,
+      "text": "「救出知情者」已成。韩厉川察觉你的行动，但无法越过山路直接攻入别院。"
+    },
+    {
+      "time": 2477,
+      "text": "抵达赤嶂偏牢。在地图中走近偏牢门楼，再选择查访行动。"
+    },
+    {
+      "time": 2457,
+      "text": "掌门亲往「赤嶂偏牢」。"
+    },
+    {
+      "time": 2447,
+      "text": "掌门从赤嶂粮道归来。已取得的证据与收获均保留。"
+    },
+    {
+      "time": 2447,
+      "text": "运粮人得到退路，赤嶂门补给线中断。"
+    },
+    {
+      "time": 2447,
+      "text": "「截断敌方补给」已成。韩厉川察觉你的行动，但无法越过山路直接攻入别院。"
+    },
+    {
+      "time": 2445,
+      "text": "抵达赤嶂粮道。在地图中走近运粮渡口，再选择查访行动。"
+    },
+    {
+      "time": 2425,
+      "text": "掌门亲往「赤嶂粮道」。"
+    },
+    {
+      "time": 2415,
+      "text": "掌门从南渡公议归来。已取得的证据与收获均保留。"
+    },
+    {
+      "time": 2415,
+      "text": "同道见证夺脉罪证，赤嶂门的援手决定退去。"
+    },
+    {
+      "time": 2415,
+      "text": "「公开夺脉罪证」已成。韩厉川察觉你的行动，但无法越过山路直接攻入别院。"
+    },
+    {
+      "time": 2413,
+      "text": "抵达南渡公议。在地图中走近公议石台，再选择查访行动。"
+    },
+    {
+      "time": 2411,
+      "text": "山中阵匠辞别下山。"
+    },
+    {
+      "time": 2400,
+      "text": "山中转为灵露：灵气凝露，药圃与悟道均受滋养。"
+    },
+    {
+      "time": 2393,
+      "text": "掌门亲往「南渡公议」。"
+    },
+    {
+      "time": 2383,
+      "text": "掌门从栖霞外阵归来。已取得的证据与收获均保留。"
+    },
+    {
+      "time": 2383,
+      "text": "外阵灵流被逐一疏解，韩厉川无法再借阵势强催术法。"
+    },
+    {
+      "time": 2383,
+      "text": "「拆解护脉阵」已成。韩厉川察觉你的行动，但无法越过山路直接攻入别院。"
+    },
+    {
+      "time": 2381,
+      "text": "抵达栖霞外阵。在地图中走近护脉阵眼，再选择查访行动。"
+    },
+    {
+      "time": 2358,
+      "text": "掌门亲往「栖霞外阵」。"
+    },
+    {
+      "time": 2338,
+      "text": "筑基消息传出，周边同道开始认真对待山院。复仇将有准备、有退路，也尊重门人的选择。"
+    },
+    {
+      "time": 2338,
+      "text": "完成「道基初成」，所得已入府库。"
+    },
+    {
+      "time": 2338,
+      "text": "完成「丹火初燃」，所得已入府库。"
+    },
+    {
+      "time": 2338,
+      "text": "沈砚突破至筑基初期，根基已稳。"
+    },
+    {
+      "time": 2338,
+      "text": "售出灵草10份，获得灵石10。"
+    },
+    {
+      "time": 2338,
+      "text": "售出灵草10份，获得灵石10。"
+    },
+    {
+      "time": 2318,
+      "text": "售出灵草10份，获得灵石10。"
+    },
+    {
+      "time": 2318,
+      "text": "售出灵草10份，获得灵石10。"
+    },
+    {
+      "time": 2280,
+      "text": "山中转为春霖：灵草与田粮得雨，林道泥泞。"
+    },
+    {
+      "time": 2278,
+      "text": "售出口粮10份，获得灵石4。"
+    },
+    {
+      "time": 2278,
+      "text": "售出口粮10份，获得灵石4。"
+    },
+    {
+      "time": 2278,
+      "text": "售出口粮10份，获得灵石4。"
+    },
+    {
+      "time": 2278,
+      "text": "售出口粮10份，获得灵石4。"
+    },
+    {
+      "time": 2258,
+      "text": "售出口粮10份，获得灵石4。"
+    },
+    {
+      "time": 2258,
+      "text": "售出口粮10份，获得灵石4。"
+    },
+    {
+      "time": 2258,
+      "text": "售出口粮10份，获得灵石4。"
+    },
+    {
+      "time": 2238,
+      "text": "售出口粮10份，获得灵石4。"
+    },
+    {
+      "time": 2238,
+      "text": "售出口粮10份，获得灵石4。"
+    },
+    {
+      "time": 2238,
+      "text": "售出口粮10份，获得灵石4。"
+    },
+    {
+      "time": 2230,
+      "text": "山中阵匠来访：「旧阵与新约」。"
+    },
+    {
+      "time": 2218,
+      "text": "售出灵草10份，获得灵石10。"
+    },
+    {
+      "time": 2218,
+      "text": "售出灵草10份，获得灵石10。"
+    },
+    {
+      "time": 2198,
+      "text": "售出灵草10份，获得灵石10。"
+    },
+    {
+      "time": 2198,
+      "text": "售出灵草10份，获得灵石10。"
+    },
+    {
+      "time": 2160,
+      "text": "山中转为春霖：灵草与田粮得雨，林道泥泞。"
+    },
+    {
+      "time": 2155,
+      "text": "行脚医师辞别下山。"
+    },
+    {
+      "time": 2125,
+      "text": "林长风突破至炼气6层，根基已稳。"
+    },
+    {
+      "time": 2118,
+      "text": "售出灵草10份，获得灵石10。"
+    },
+    {
+      "time": 2118,
+      "text": "购入灵晶10份，花费灵石100。"
+    },
+    {
+      "time": 2078,
+      "text": "售出口粮10份，获得灵石4。"
+    },
+    {
+      "time": 2078,
+      "text": "售出口粮10份，获得灵石4。"
+    },
+    {
+      "time": 2078,
+      "text": "售出口粮10份，获得灵石4。"
+    },
+    {
+      "time": 2058,
+      "text": "售出口粮10份，获得灵石4。"
+    },
+    {
+      "time": 2058,
+      "text": "售出口粮10份，获得灵石4。"
+    },
+    {
+      "time": 2058,
+      "text": "售出口粮10份，获得灵石4。"
+    },
+    {
+      "time": 2058,
+      "text": "售出口粮10份，获得灵石4。"
+    },
+    {
+      "time": 2058,
+      "text": "售出口粮10份，获得灵石4。"
+    },
+    {
+      "time": 2058,
+      "text": "售出口粮10份，获得灵石4。"
+    },
+    {
+      "time": 2058,
+      "text": "售出口粮10份，获得灵石4。"
+    },
+    {
+      "time": 2058,
+      "text": "售出口粮10份，获得灵石4。"
+    },
+    {
+      "time": 2058,
+      "text": "售出口粮10份，获得灵石4。"
+    },
+    {
+      "time": 2058,
+      "text": "售出口粮10份，获得灵石4。"
+    },
+    {
+      "time": 2058,
+      "text": "售出口粮10份，获得灵石4。"
+    },
+    {
+      "time": 2058,
+      "text": "售出口粮10份，获得灵石4。"
+    },
+    {
+      "time": 2058,
+      "text": "售出口粮10份，获得灵石4。"
+    },
+    {
+      "time": 2058,
+      "text": "售出灵草10份，获得灵石10。"
+    },
+    {
+      "time": 2058,
+      "text": "售出灵草10份，获得灵石10。"
+    },
+    {
+      "time": 2058,
+      "text": "售出灵草10份，获得灵石10。"
+    },
+    {
+      "time": 2058,
+      "text": "售出灵草10份，获得灵石10。"
+    },
+    {
+      "time": 2040,
+      "text": "山中转为晴岚：道路明朗，行旅平稳。"
+    },
+    {
+      "time": 1974,
+      "text": "行脚医师来访：「换药与问诊」。"
+    },
+    {
+      "time": 1920,
+      "text": "山中转为长风：风干土壤，采石与伐木需要更多照应。"
+    },
+    {
+      "time": 1879,
+      "text": "游方讲师辞别下山。"
+    },
+    {
+      "time": 1868,
+      "text": "筑基丹炼成1份，已收入府库。"
+    },
+    {
+      "time": 1800,
+      "text": "山中转为晴岚：道路明朗，行旅平稳。"
+    },
+    {
+      "time": 1798,
+      "text": "筑基丹入炉，材料已经投入。"
+    },
+    {
+      "time": 1778,
+      "text": "售出口粮10份，获得灵石4。"
+    },
+    {
+      "time": 1778,
+      "text": "售出口粮10份，获得灵石4。"
+    },
+    {
+      "time": 1778,
+      "text": "售出口粮10份，获得灵石4。"
+    },
+    {
+      "time": 1758,
+      "text": "售出口粮10份，获得灵石4。"
+    },
+    {
+      "time": 1758,
+      "text": "售出口粮10份，获得灵石4。"
+    },
+    {
+      "time": 1758,
+      "text": "售出口粮10份，获得灵石4。"
+    },
+    {
+      "time": 1758,
+      "text": "售出口粮10份，获得灵石4。"
+    },
+    {
+      "time": 1758,
+      "text": "售出口粮10份，获得灵石4。"
+    },
+    {
+      "time": 1758,
+      "text": "售出口粮10份，获得灵石4。"
+    },
+    {
+      "time": 1758,
+      "text": "售出口粮10份，获得灵石4。"
+    },
+    {
+      "time": 1758,
+      "text": "售出口粮10份，获得灵石4。"
+    },
+    {
+      "time": 1758,
+      "text": "售出口粮10份，获得灵石4。"
+    },
+    {
+      "time": 1758,
+      "text": "售出口粮10份，获得灵石4。"
+    },
+    {
+      "time": 1758,
+      "text": "售出口粮10份，获得灵石4。"
+    },
+    {
+      "time": 1758,
+      "text": "售出口粮10份，获得灵石4。"
+    }
+  ],
+  "sect": {
+    "level": 1,
+    "reputation": 102,
+    "name": "云岫山院",
+    "founded": false
+  },
+  "pills": {
+    "qi": 0,
+    "spirit": 0,
+    "foundation": 0,
+    "heal": 0
+  },
+  "crafting": null,
+  "expedition": null,
+  "community": {
+    "day": 20,
+    "fulfilled": [],
+    "trades": {
+      "food": 0,
+      "wood": 0,
+      "stone": 0,
+      "herb": 0,
+      "crystal": 0,
+      "insight": 0
+    },
+    "completed": 0
+  },
+  "master": {
+    "name": "沈砚",
+    "realm": 10,
+    "xp": 90,
+    "talent": 1.75,
+    "energy": 86,
+    "wound": 0,
+    "action": "travel",
+    "work": 0,
+    "position": {
+      "x": 3,
+      "y": 3
+    },
+    "path": [],
+    "main": "foundation",
+    "support": [
+      "spring",
+      "alchemy"
+    ],
+    "knowledge": {
+      "qingyuan": 100,
+      "spring": 37.24999999999902,
+      "alchemy": 57.24999999999902,
+      "foundation": 82.80000000000062
+    },
+    "learning": null,
+    "journey": {
+      "kind": "campaign",
+      "routeId": "qixia",
+      "total": 23,
+      "remaining": 0,
+      "status": "combat"
+    },
+    "teaching": null,
+    "breakthroughCooldown": 2353,
+    "memories": [
+      {
+        "time": 2338,
+        "text": "在云岫山突破至筑基初期。"
+      },
+      {
+        "time": 1318,
+        "text": "在云岫山突破至炼气9层。"
+      },
+      {
+        "time": 948,
+        "text": "在云岫山突破至炼气8层。"
+      },
+      {
+        "time": 728,
+        "text": "在云岫山突破至炼气7层。"
+      }
+    ],
+    "hp": 100,
+    "maxHp": 100
+  },
+  "story": {
+    "step": 8,
+    "intro": false,
+    "clues": [
+      "ledger",
+      "testimony"
+    ],
+    "preparations": {
+      "witness": true,
+      "supply": true,
+      "array": true,
+      "public": true
+    },
+    "claimed": [
+      "story:0",
+      "story:1",
+      "story:2",
+      "story:3",
+      "story:4",
+      "story:5",
+      "story:6",
+      "story:7"
+    ],
+    "milestones": [
+      {
+        "id": "foundation",
+        "time": 218,
+        "text": "证据相互印证，家传筑基篇得到补全。"
+      },
+      {
+        "id": "return-vow",
+        "time": 2338,
+        "text": "道基初成，开始筹备重返栖霞。"
+      },
+      {
+        "id": "prepare:array",
+        "time": 2383,
+        "text": "拆解护脉阵"
+      },
+      {
+        "id": "prepare:public",
+        "time": 2415,
+        "text": "公开夺脉罪证"
+      },
+      {
+        "id": "prepare:supply",
+        "time": 2447,
+        "text": "截断敌方补给"
+      },
+      {
+        "id": "prepare:witness",
+        "time": 2479,
+        "text": "救出知情者"
+      },
+      {
+        "id": "prepared",
+        "time": 2479,
+        "text": "经营与人情化作重返故地的筹码。"
+      },
+      {
+        "id": "gate",
+        "time": 2514,
+        "text": "以家传阵图重开栖霞山门。"
+      }
+    ],
+    "gateCleared": true,
+    "revengeDone": false,
+    "completed": false,
+    "ending": null
+  },
+  "doctrine": {
+    "books": [
+      "qingyuan",
+      "spring",
+      "foundation",
+      "array",
+      "alchemy"
+    ],
+    "sealed": [],
+    "workFocus": "balanced",
+    "pillRule": "shared",
+    "routes": [],
+    "outingRule": "notice",
+    "enforcement": "restorative"
+  },
+  "sim": {
+    "seed": 2604662120,
+    "carry": 0,
+    "decision": 0
+  },
+  "incidents": [],
+  "incidentId": 1,
+  "economy": {
+    "day": 20,
+    "income": {
+      "jade": 60,
+      "wood": 20.9484,
+      "stone": 0,
+      "herb": 0,
+      "crystal": 0,
+      "insight": 23.976395999999998,
+      "food": 0
+    },
+    "expense": {
+      "jade": 119,
+      "wood": 51,
+      "stone": 20,
+      "herb": 10,
+      "crystal": 0,
+      "insight": 0,
+      "food": 36
+    },
+    "previous": {
+      "income": {
+        "jade": 350,
+        "wood": 0,
+        "stone": 0,
+        "herb": 119.67500000000001,
+        "crystal": 12,
+        "insight": 0,
+        "food": 100.90146
+      },
+      "expense": {
+        "jade": 249,
+        "wood": 1,
+        "stone": 25,
+        "herb": 90,
+        "crystal": 10,
+        "insight": 38,
+        "food": 6
+      }
+    },
+    "shortages": [],
+    "starvation": 0,
+    "lastSupplyDay": 20
+  },
+  "society": {
+    "revision": 1,
+    "clock": 2514,
+    "lastDay": 20,
+    "formal": false,
+    "foundedAt": null,
+    "name": "云岫山院",
+    "fairness": 65,
+    "officers": {
+      "steward": null,
+      "teacher": null,
+      "warden": null
+    },
+    "peaks": [],
+    "secrets": [],
+    "quests": [
+      {
+        "id": 1,
+        "discipleId": 1,
+        "kind": "family",
+        "status": "expired",
+        "progress": 0,
+        "createdAt": 240,
+        "deadline": 840,
+        "outcome": "未获回应，门人自行处理",
+        "target": null,
+        "startedAt": null,
+        "otherId": null
+      },
+      {
+        "id": 2,
+        "discipleId": 2,
+        "kind": "mastery",
+        "status": "expired",
+        "progress": 0,
+        "createdAt": 240,
+        "deadline": 840,
+        "outcome": "未获回应，门人自行处理",
+        "target": null,
+        "startedAt": null,
+        "otherId": null
+      }
+    ],
+    "visitors": [
+      {
+        "id": 5,
+        "kind": "artisan",
+        "status": "departed",
+        "arrivedAt": 1377,
+        "expiresAt": 1557,
+        "outcome": "未接待"
+      },
+      {
+        "id": 6,
+        "kind": "scholar",
+        "status": "departed",
+        "arrivedAt": 1698,
+        "expiresAt": 1878,
+        "outcome": "未接待"
+      },
+      {
+        "id": 7,
+        "kind": "healer",
+        "status": "departed",
+        "arrivedAt": 1974,
+        "expiresAt": 2154,
+        "outcome": "未接待"
+      },
+      {
+        "id": 8,
+        "kind": "artisan",
+        "status": "departed",
+        "arrivedAt": 2230,
+        "expiresAt": 2410,
+        "outcome": "未接待"
+      },
+      {
+        "id": 9,
+        "kind": "scholar",
+        "status": "present",
+        "arrivedAt": 2486,
+        "expiresAt": 2666,
+        "outcome": null
+      }
+    ],
+    "visitorHistory": [
+      {
+        "id": 1,
+        "kind": "healer",
+        "time": 361,
+        "outcome": "未接待"
+      },
+      {
+        "id": 2,
+        "kind": "artisan",
+        "time": 680,
+        "outcome": "未接待"
+      },
+      {
+        "id": 3,
+        "kind": "scholar",
+        "time": 924,
+        "outcome": "未接待"
+      },
+      {
+        "id": 4,
+        "kind": "healer",
+        "time": 1228,
+        "outcome": "未接待"
+      },
+      {
+        "id": 5,
+        "kind": "artisan",
+        "time": 1558,
+        "outcome": "未接待"
+      },
+      {
+        "id": 6,
+        "kind": "scholar",
+        "time": 1879,
+        "outcome": "未接待"
+      },
+      {
+        "id": 7,
+        "kind": "healer",
+        "time": 2155,
+        "outcome": "未接待"
+      },
+      {
+        "id": 8,
+        "kind": "artisan",
+        "time": 2411,
+        "outcome": "未接待"
+      }
+    ],
+    "invitations": [],
+    "departed": [],
+    "nextIncidentId": 1,
+    "nextPeakId": 1,
+    "nextQuestId": 3,
+    "nextVisitorId": 10,
+    "nextPersonId": 3,
+    "nextVisitorAt": 2811,
+    "stats": {
+      "workCycles": 87,
+      "lessons": 0,
+      "relationships": 0,
+      "questsCompleted": 0,
+      "visitorsResolved": 0,
+      "discovered": 0
+    },
+    "lastShortageNotice": -120
+  },
+  "world": {
+    "weather": {
+      "id": "dew",
+      "remaining": 6,
+      "cycle": 20
+    },
+    "hostility": 48,
+    "exploration": {
+      "id": 7,
+      "regionId": "qixia",
+      "status": "combat",
+      "total": 23,
+      "remaining": 0,
+      "position": {
+        "x": 6.7,
+        "y": 4
+      },
+      "target": null,
+      "eventId": "mission",
+      "visit": 0,
+      "resolved": true,
+      "companionIds": [],
+      "companionInjuries": {},
+      "weather": "dew",
+      "outcome": "依父亲手札重开山门，昔日护家之阵终于不再为仇敌所用。"
+    },
+    "nextJourneyId": 8,
+    "visits": {
+      "market": 1,
+      "quarry": 1,
+      "ward": 1,
+      "council": 1,
+      "supply": 1,
+      "prison": 1,
+      "qixia": 1
+    },
+    "visitors": [
+      {
+        "id": 1,
+        "kind": "herbalist",
+        "arrived": 240,
+        "resolved": false
+      },
+      {
+        "id": 2,
+        "kind": "caravan",
+        "arrived": 480,
+        "resolved": false
+      },
+      {
+        "id": 3,
+        "kind": "neighbor",
+        "arrived": 720,
+        "resolved": false
+      }
+    ],
+    "nextVisitorDay": 22,
+    "visitorSequence": 3,
+    "reactions": [
+      {
+        "time": 2479,
+        "text": "「救出知情者」已成。韩厉川察觉你的行动，但无法越过山路直接攻入别院。",
+        "kind": "enemy"
+      },
+      {
+        "time": 2447,
+        "text": "「截断敌方补给」已成。韩厉川察觉你的行动，但无法越过山路直接攻入别院。",
+        "kind": "enemy"
+      },
+      {
+        "time": 2415,
+        "text": "「公开夺脉罪证」已成。韩厉川察觉你的行动，但无法越过山路直接攻入别院。",
+        "kind": "enemy"
+      },
+      {
+        "time": 2400,
+        "text": "山中转为灵露：灵气凝露，药圃与悟道均受滋养。",
+        "kind": "weather"
+      },
+      {
+        "time": 2383,
+        "text": "「拆解护脉阵」已成。韩厉川察觉你的行动，但无法越过山路直接攻入别院。",
+        "kind": "enemy"
+      },
+      {
+        "time": 2338,
+        "text": "筑基消息传出，周边同道开始认真对待山院。复仇将有准备、有退路，也尊重门人的选择。",
+        "kind": "world"
+      },
+      {
+        "time": 2280,
+        "text": "山中转为春霖：灵草与田粮得雨，林道泥泞。",
+        "kind": "weather"
+      },
+      {
+        "time": 2160,
+        "text": "山中转为春霖：灵草与田粮得雨，林道泥泞。",
+        "kind": "weather"
+      },
+      {
+        "time": 2040,
+        "text": "山中转为晴岚：道路明朗，行旅平稳。",
+        "kind": "weather"
+      },
+      {
+        "time": 1920,
+        "text": "山中转为长风：风干土壤，采石与伐木需要更多照应。",
+        "kind": "weather"
+      },
+      {
+        "time": 1800,
+        "text": "山中转为晴岚：道路明朗，行旅平稳。",
+        "kind": "weather"
+      },
+      {
+        "time": 1680,
+        "text": "山中转为长风：风干土壤，采石与伐木需要更多照应。",
+        "kind": "weather"
+      },
+      {
+        "time": 1560,
+        "text": "山中转为山雾：林路视野有限，阵纹灵息更易感知。",
+        "kind": "weather"
+      },
+      {
+        "time": 1440,
+        "text": "山中转为春霖：灵草与田粮得雨，林道泥泞。",
+        "kind": "weather"
+      },
+      {
+        "time": 1320,
+        "text": "山中转为灵露：灵气凝露，药圃与悟道均受滋养。",
+        "kind": "weather"
+      },
+      {
+        "time": 1200,
+        "text": "山中转为山雾：林路视野有限，阵纹灵息更易感知。",
+        "kind": "weather"
+      },
+      {
+        "time": 1080,
+        "text": "山中转为长风：风干土壤，采石与伐木需要更多照应。",
+        "kind": "weather"
+      },
+      {
+        "time": 960,
+        "text": "山中转为长风：风干土壤，采石与伐木需要更多照应。",
+        "kind": "weather"
+      },
+      {
+        "time": 840,
+        "text": "山中转为山雾：林路视野有限，阵纹灵息更易感知。",
+        "kind": "weather"
+      },
+      {
+        "time": 720,
+        "text": "栖霞旧邻来到山门，等待你的回应。",
+        "kind": "visitor"
+      }
+    ],
+    "legacyJourney": null
+  },
+  "combat": {
+    "status": "active",
+    "encounterId": "challenge",
+    "regionId": "qixia",
+    "journeyId": 7,
+    "arena": {
+      "width": 12,
+      "height": 8
+    },
+    "player": {
+      "x": 6.7,
+      "y": 4,
+      "target": null,
+      "hp": 168,
+      "maxHp": 175,
+      "qi": 100,
+      "maxQi": 100,
+      "cooldowns": {
+        "attack": 0,
+        "spell": 0,
+        "dodge": 0,
+        "guard": 0
+      },
+      "guard": 0,
+      "evade": 0,
+      "facing": {
+        "x": 1,
+        "y": 0
+      }
+    },
+    "enemies": [
+      {
+        "id": "enemy-1",
+        "name": "韩厉川 · 筑基后期",
+        "x": 8.5,
+        "y": 3,
+        "hp": 319,
+        "maxHp": 319,
+        "damage": 21,
+        "speed": 1.1,
+        "cooldown": 1.6,
+        "windup": 0,
+        "telegraph": null,
+        "strikes": 0,
+        "boss": true
+      }
+    ],
+    "allies": [],
+    "elapsed": 0,
+    "retreatRequested": false,
+    "result": null,
+    "rewardApplied": false,
+    "message": "移动躲开红色落点；近身攻击或施展远程术法。左侧可撤离。",
+    "prepared": {
+      "witness": true,
+      "supply": true,
+      "array": true,
+      "public": true
+    }
+  }
+}
