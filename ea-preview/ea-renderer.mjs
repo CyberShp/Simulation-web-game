@@ -1,4 +1,4 @@
-import {BUILDINGS,CELLS} from './ea-data.mjs?v=ea-100-qa3';
+import {BUILDINGS,CELLS} from './ea-data.mjs?v=1.0.1-ea-qa4';
 
 const PALETTE={ink:'#183d33',gold:'#d6ba79',paper:'#f4edd7',mint:'#a8c9ab',red:'#b26954'};
 const point=(x,y,arena=false)=>({x:750+(x-y)*(arena?50:61),y:(arena?175:290)+(x+y)*(arena?25:31)});
@@ -66,5 +66,5 @@ export function createWorldRenderer(canvas,{getState,getMode,getSelection,getCam
   if(!reduced){const sun=(s.time%120)/120;if(sun>.68){ctx.fillStyle='#102c452a';ctx.fillRect(0,0,width,height);}ctx.fillStyle='#fff7cb';for(let i=0;i<8;i++){const x=(i*173+now*.005)%width,y=height*.2+(i*43)%Math.max(1,height*.55);ctx.globalAlpha=.16+.12*Math.sin(now*.002+i);ctx.beginPath();ctx.arc(x,y+Math.sin(now*.001+i)*7,1.5,0,Math.PI*2);ctx.fill();}ctx.globalAlpha=1;}
  }
  function pick(event){const p=mapPoint(event),s=getState(),scene=getCampaignScene(s);if(scene){const enemy=(scene.enemies||[]).find(e=>e.hp>0&&Math.hypot((e.position?.x??e.x)-p.x,(e.position?.y??e.y)-p.y)<.8);const landmark=(scene.landmarks||[]).find(l=>Math.hypot(l.x-p.x,l.y-p.y)<.9);return{...p,kind:enemy?'enemy':landmark?'landmark':'ground',id:enemy?.id||landmark?.id};}const sp=screenPoint(event),selection=getSelection();let person=null;for(const d of s.disciples){if(d.mind?.activity==='travel')continue;const pos=d.position||d.mind?.position;if(pos){const q=point(pos.x,pos.y);if(Math.hypot(sp.x-q.x,sp.y-q.y+20)<21)person=d;}}if(person)return{kind:'person',id:person.id,...p};const x=Math.round(p.x),y=Math.round(p.y),b=s.buildings.find(b=>b.x===x&&b.y===y);return{kind:b?'building':'ground',id:b?.id,x,y};}
- return{pan,ready:settled,render,resize,pick,mapPoint,screenPoint,setHover:e=>{hover=e?mapPoint(e):null;},getHover:()=>hover,setGrid:v=>{grid=v??!grid;return grid;},setZoom:delta=>{zoom=Math.max(.6,Math.min(2.2,zoom+delta));return zoom;},recenter:()=>{pan.x=0;pan.y=0;zoom=1;},setScene:id=>{activeScene=id;},getScene:()=>activeScene,destroy:()=>observer.disconnect(),point};
+ return{pan,ready:settled,render,resize,pick,mapPoint,screenPoint,setHover:e=>{hover=e?mapPoint(e):null;},getHover:()=>hover,setGrid:v=>{grid=v??!grid;return grid;},setZoom:delta=>{zoom=Math.max(.6,Math.min(2.2,zoom+delta));return zoom;},recenter:()=>{pan.x=0;pan.y=0;zoom=1;},focus:(x,y,arena=false)=>{const c=camera(),p=point(x,y,arena);pan.x+=width*.5-(p.x*c.scale+c.ox);pan.y+=height*.38-(p.y*c.scale+c.oy);},setScene:id=>{activeScene=id;},getScene:()=>activeScene,destroy:()=>observer.disconnect(),point};
 }

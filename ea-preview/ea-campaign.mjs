@@ -1,5 +1,5 @@
-import { rng, day, log, pay, canPay, grant, capacity } from './ea-data.mjs?v=ea-100-qa3';
-import { EXPEDITIONS as LEGACY_ROUTES } from './world.mjs?v=ea-100-qa3';
+import { rng, day, log, pay, canPay, grant, capacity } from './ea-data.mjs?v=1.0.1-ea-qa4';
+import { EXPEDITIONS as LEGACY_ROUTES } from './world.mjs?v=1.0.1-ea-qa4';
 
 // Campaign state is deliberately plain data. Every choice, weather roll and reward
 // is committed to the save before the next tick; loading never repeats a roll.

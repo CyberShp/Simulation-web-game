@@ -1,12 +1,12 @@
-import * as legacy from './sect-sim.mjs?v=ea-100-qa3';
-import * as data from './ea-data.mjs?v=ea-100-qa3';
-import * as society from './ea-society.mjs?v=ea-100-qa3';
-import * as campaign from './ea-campaign.mjs?v=ea-100-qa3';
-export * from './ea-data.mjs?v=ea-100-qa3';
-export * from './ea-society.mjs?v=ea-100-qa3';
-export * from './ea-campaign.mjs?v=ea-100-qa3';
-export {resolveVisitor,resolveVisitor as resolveWorldVisitor} from './ea-campaign.mjs?v=ea-100-qa3';
-export {resolveVisitor as resolveSocietyVisitor} from './ea-society.mjs?v=ea-100-qa3';
+import * as legacy from './sect-sim.mjs?v=1.0.1-ea-qa4';
+import * as data from './ea-data.mjs?v=1.0.1-ea-qa4';
+import * as society from './ea-society.mjs?v=1.0.1-ea-qa4';
+import * as campaign from './ea-campaign.mjs?v=1.0.1-ea-qa4';
+export * from './ea-data.mjs?v=1.0.1-ea-qa4';
+export * from './ea-society.mjs?v=1.0.1-ea-qa4';
+export * from './ea-campaign.mjs?v=1.0.1-ea-qa4';
+export {resolveVisitor,resolveVisitor as resolveWorldVisitor} from './ea-campaign.mjs?v=1.0.1-ea-qa4';
+export {resolveVisitor as resolveSocietyVisitor} from './ea-society.mjs?v=1.0.1-ea-qa4';
 const {RESOURCES,BUILDINGS,TECHNIQUES,RECIPES,ROUTES,GOODS,CELLS,NAMES,TRAIT_NAMES,day,xpNeed,realmName,rng,log,canPay,pay,grant,clamp,capacity,stage,finite,integer}=data;
 const resourceZero=()=>Object.fromEntries(Object.keys(RESOURCES).map(k=>[k,0]));
 const own=(o,k)=>Object.hasOwn(o,k);
@@ -192,7 +192,20 @@ const ORDERS=[
 ];
 function renewMarket(s){if(s.community.day!==day(s)){s.community.day=day(s);s.community.fulfilled=[];s.community.trades=Object.fromEntries(Object.keys(GOODS).map(k=>[k,0]));}}
 export function commissions(s){return ORDERS[day(s)%ORDERS.length];}
-export function trade(s,id,side,expectedDay=day(s)){if(expectedDay!==day(s))throw Error('市集已经换日，请重新查看。');const g=GOODS[id];if(!g||!['buy','sell'].includes(side))throw Error('交易不存在。');renewMarket(s);if(side==='buy'){if(s.community.trades[id]>=8)throw Error('今日已售罄，次日补货。');pay(s,{jade:g.buy});grant(s,{[id]:10});s.community.trades[id]++;}else{pay(s,{[id]:10});grant(s,{jade:g.sell});}s.stats.trades++;log(s,`${side==='buy'?'购入':'售出'}${g.name}10份，${side==='buy'?'花费':'获得'}灵石${g[side]}。`);}
+export const MARKET_DAILY_BATCHES=8;
+export function trade(s,id,side,expectedDay=day(s),batches=1){
+ if(expectedDay!==day(s))throw Error('市集已经换日，请重新查看。');
+ const g=GOODS[id];if(!g||!['buy','sell'].includes(side))throw Error('交易不存在。');
+ if(!Number.isSafeInteger(batches)||batches<1||batches>999)throw Error('交易数量需为1至999组，每组10份。');
+ const used=s.community.day===day(s)?s.community.trades[id]||0:0;
+ if(side==='buy'&&used+batches>MARKET_DAILY_BATCHES)throw Error(used>=MARKET_DAILY_BATCHES?'今日已售罄，余货不足，次日补货。':'今日余货不足，请减少数量或次日再来。');
+ pay(s,side==='buy'?{jade:g.buy*batches}:{[id]:10*batches});
+ renewMarket(s);
+ grant(s,side==='buy'?{[id]:10*batches}:{jade:g.sell*batches});
+ if(side==='buy')s.community.trades[id]+=batches;
+ s.stats.trades+=batches;
+ log(s,`${side==='buy'?'购入':'售出'}${g.name}${10*batches}份，${side==='buy'?'花费':'获得'}灵石${g[side]*batches}。`);
+}
 export function fulfill(s,id,expectedDay=day(s)){if(expectedDay!==day(s))throw Error('委托已轮换，请重新查看。');renewMarket(s);const q=commissions(s).find(o=>o.id===id);if(!q||s.community.fulfilled.includes(id))throw Error('委托已完成或不存在。');if(q.pill&&s.pills[q.pill]<1)throw Error('所需丹药不足。');pay(s,q.cost||{});if(q.pill)s.pills[q.pill]--;grant(s,q.reward);s.sect.reputation+=q.rep;s.community.completed++;s.community.fulfilled.push(id);log(s,`完成「${q.name}」，得声望${q.rep}。`);}
 export const QUESTS=[
  {id:'quarry',title:'开山取石',text:'建一座采石场。',check:s=>s.buildings.some(b=>b.type==='quarry'),reward:{jade:60,wood:30}},
