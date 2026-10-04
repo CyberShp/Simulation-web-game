@@ -1,6 +1,6 @@
-import { appearance, audit, command, createState, master, POIS, step, VERSION } from './world.mjs?v=terrain-lab-1.0.3';
-import { createRenderer, portraitURL } from './renderer.mjs?v=terrain-lab-1.0.3';
-import { attachMapInput } from '../map-input.mjs?v=terrain-lab-1.0.3';
+import { appearance, audit, command, createState, master, POIS, step, VERSION } from './world.mjs?v=terrain-lab-1.0.4';
+import { createRenderer, portraitURL } from './renderer.mjs?v=terrain-lab-1.0.4';
+import { attachMapInput } from '../map-input.mjs?v=terrain-lab-1.0.4';
 const $ = id => document.getElementById(id), esc = v => String(v).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const storageKey = 'xianfu-terrain-lab-v1'; let state = createState(), freePlace = false, tour = null, lastFrame = performance.now(), lastUI = 0, lastSave = 0, fpsSamples = [], hidden = false;
 const options = { paths: true, collision: false, silhouette: false, relocate: false };
@@ -79,7 +79,7 @@ $('tour').onclick = () => {
 };
 function tourStep() {
   if (!tour || master(state).path.length || state.elapsed - tour.started < .5) return;
-  const steps = [() => { act('walk', 'garden'); act('relocate', positions.road); }, () => { act('walk', 'arena'); }, () => { act('trial'); act('attack'); }, () => { act('party', ['gu', 'su']); act('dodge', { x: 0, y: -1 }); }, () => { state.combat = false; act('walk', 'home'); }, () => { act('relocate', positions.reset); state.notice = `演示完成：重新寻路 ${state.stats.replans} 次，通行异常 ${state.stats.violations} 次。`; tour = null; refresh(); }];
+  const steps = [() => { act('walk', 'garden'); act('relocate', positions.road); }, () => { act('walk', 'arena'); }, () => { act('trial'); act('attack'); }, () => { act('party', ['gu', 'su']); act('dodge', { x: 0, y: -1 }); }, () => { state.combat = false; state.strike = null; act('walk', 'home'); }, () => { act('relocate', positions.reset); state.notice = `演示完成：重新寻路 ${state.stats.replans} 次，通行异常 ${state.stats.violations} 次。`; tour = null; refresh(); }];
   const fn = steps[tour.phase++]; if (fn) { tour.started = state.elapsed; fn(); } else tour = null;
 }
 function frame(now) {

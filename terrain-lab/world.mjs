@@ -1,4 +1,4 @@
-import { blockedCells, canStand, findPath, heightAt, moveBuilding, nearestWalkable, sweep } from '../ea-navigation.mjs?v=terrain-lab-1.0.3';
+import { blockedCells, canStand, findPath, heightAt, moveBuilding, nearestWalkable, sweep } from '../ea-navigation.mjs?v=terrain-lab-1.0.4';
 export const VERSION = 'terrain-lab-1.0';
 export const POIS = [
   { id: 'home', name: '主屋', x: 7.5, y: 7.5 },
@@ -70,7 +70,7 @@ export function command(s, type, value) {
   if (type === 'relocate') {
     const result = moveBuilding(s.map, 'workshop', value.x, value.y, s.actors, POIS);
     if (!result.ok) { log(s, result.reason); return false; }
-    for (const a of s.actors) if (a.goal) { setGoal(s, a, a.goal); s.stats.replans++; }
+    for (const a of s.actors) { if (a.goal && a.path.length) { setGoal(s, a, a.goal); s.stats.replans++; } else a.moveRevision = s.map.revision; }
     log(s, '百工坊已搬迁，行走中的人物已重新计算道路。'); return true;
   }
   if (type === 'recruit') {
