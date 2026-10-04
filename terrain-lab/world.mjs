@@ -1,4 +1,4 @@
-import { blockedCells, canStand, findPath, heightAt, moveBuilding, nearestWalkable, sweep } from '../ea-navigation.mjs?v=terrain-lab-1.0';
+import { blockedCells, canStand, findPath, heightAt, moveBuilding, nearestWalkable, sweep } from '../ea-navigation.mjs?v=terrain-lab-1.0.1';
 export const VERSION = 'terrain-lab-1.0';
 export const POIS = [
   { id: 'home', name: '主屋', x: 7.5, y: 7.5 },

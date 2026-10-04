@@ -1,5 +1,5 @@
-import { depthOrder, heightAt, master, POIS, project, unproject } from './world.mjs?v=terrain-lab-1.0';
-import { blockedCells } from '../ea-navigation.mjs?v=terrain-lab-1.0';
+import { depthOrder, heightAt, master, POIS, project, unproject } from './world.mjs?v=terrain-lab-1.0.1';
+import { blockedCells } from '../ea-navigation.mjs?v=terrain-lab-1.0.1';
 const ink = '#213f36', gold = '#d8be79';
 const rand = n => { const v = Math.sin(n * 132.73 + 78.3) * 43875.15; return v - Math.floor(v); };
 function polygon(ctx, points, fill, stroke) { ctx.beginPath(); points.forEach((p, i) => i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y)); ctx.closePath(); if (fill) { ctx.fillStyle = fill; ctx.fill(); } if (stroke) { ctx.strokeStyle = stroke; ctx.lineWidth = .8; ctx.stroke(); } }
@@ -43,13 +43,14 @@ export function portraitURL(a) {
   const gradient = ctx.createLinearGradient(0, 0, 84, 100); gradient.addColorStop(0, '#e6e3c9'); gradient.addColorStop(1, '#b9cabc'); ctx.fillStyle = gradient; ctx.fillRect(0, 0, 84, 100); ctx.translate(42, 91); drawCharacter(ctx, { ...a, moving: false, actionTime: 0, facing: { x: 1, y: 1 } }, { miniature: true }); return canvas.toDataURL();
 }
 export function createRenderer(canvas, getState, getOptions) {
-  const ctx = canvas.getContext('2d'), camera = { scale: 1, x: 0, y: 0, zoom: 1, panX: 0, panY: 0 }, metrics = { draws: 0, visibleActors: 0, occluded: 0, order: [] }; let width = 0, height = 0;
+  let ctx = canvas.getContext('2d'); const camera = { scale: 1, x: 0, y: 0, zoom: 1, panX: 0, panY: 0 }, metrics = { draws: 0, visibleActors: 0, occluded: 0, order: [] }; let width = 0, height = 0;
   function resize() {
     width = canvas.clientWidth; height = canvas.clientHeight; const dpr = Math.min(devicePixelRatio || 1, 2); canvas.width = Math.round(width * dpr); canvas.height = Math.round(height * dpr);
     camera.scale = Math.min(width / (width < 760 ? 880 : 1450), height / (width < 760 ? 650 : 820)) * camera.zoom;
     camera.x = width / 2 - 80 * camera.scale + camera.panX; camera.y = height / 2 - 350 * camera.scale + camera.panY;
   }
-  function terrain(s, now, options) {
+  const ground = document.createElement('canvas'); ground.width = 1900; ground.height = 1250; let groundKey = '';
+  function terrainBase(s, options) {
     const occupied = options.collision ? blockedCells(s.map) : null;
     for (let diagonal = 0; diagonal < s.map.width + s.map.height; diagonal++) for (let y = 0; y < s.map.height; y++) {
       const x = diagonal - y, t = s.map.tiles[y]?.[x]; if (!t) continue;
@@ -58,7 +59,7 @@ export function createRenderer(canvas, getState, getOptions) {
       let color = t.kind === 'water' ? `hsl(169 27% ${40 + noise * 6}%)` : t.kind === 'bridge' ? '#b9b69b' : ['road', 'stairs'].includes(t.kind) ? `hsl(43 20% ${66 + noise * 5}%)` : `hsl(84 26% ${49 + noise * 6}%)`;
       polygon(ctx, corners, color);
       const p = project(x + .5, y + .5, t.height);
-      if (t.kind === 'water') { line(ctx, { x: p.x - 12, y: p.y + Math.sin(now * .001 + x + y) * 2 }, { x: p.x + 9, y: p.y }, '#aad4c28c', 1); }
+      if (t.kind === 'water') { line(ctx, { x: p.x - 12, y: p.y + Math.sin(x + y) * 2 }, { x: p.x + 9, y: p.y }, '#aad4c28c', 1); }
       if (['bridge', 'road', 'stairs'].includes(t.kind)) { line(ctx, corners[0], corners[1], '#8a897450'); line(ctx, corners[0], corners[3], '#eee3c455'); }
       if (t.kind === 'grass' && noise > .4) { for (let i = 0; i < 3; i++) { const xx = p.x + (rand(x * 82 + y * 3 + i) - .5) * 30; line(ctx, { x: xx, y: p.y + 3 }, { x: xx + 2, y: p.y - 2 }, '#547b4770'); } }
       if (occupied && (!t.walkable || occupied.has(`${x},${y}`))) polygon(ctx, corners, '#b460534b', '#ce9380');
@@ -72,6 +73,13 @@ export function createRenderer(canvas, getState, getOptions) {
     }
     polygon(ctx, rectPoints(19, 18, 8, 5, .8), '#a5aa8a', '#c7c5a1');
     const arena = project(23, 20.4, .8); ctx.strokeStyle = '#c4b482'; ctx.lineWidth = 2; ctx.beginPath(); ctx.ellipse(arena.x, arena.y, 58, 28, 0, 0, Math.PI * 2); ctx.stroke();
+  }
+  function terrain(s, options) {
+    const key = `${s.map.revision}:${options.collision}`;
+    if (groundKey !== key) {
+      const live = ctx; ctx = ground.getContext('2d'); ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, ground.width, ground.height); ctx.translate(850, 210); terrainBase(s, options); ctx = live; groundKey = key;
+    }
+    ctx.drawImage(ground, -850, -210);
     if (options.paths) for (const a of s.actors) {
       if (!a.path.length) continue; ctx.beginPath(); const p = project(a.x, a.y, heightAt(s.map, a.x, a.y)); ctx.moveTo(p.x, p.y);
       for (const n of a.path) { const q = project(n.x, n.y, heightAt(s.map, n.x, n.y)); ctx.lineTo(q.x, q.y); }
@@ -115,8 +123,8 @@ export function createRenderer(canvas, getState, getOptions) {
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, width, height);
     const sky = ctx.createLinearGradient(0, 0, 0, height); sky.addColorStop(0, '#b8c9bc'); sky.addColorStop(1, '#e6dfc4'); ctx.fillStyle = sky; ctx.fillRect(0, 0, width, height);
     for (let layer = 0; layer < 3; layer++) { ctx.beginPath(); ctx.moveTo(0, height); for (let i = 0; i <= 18; i++) ctx.lineTo(i * width / 18, height * (.2 + layer * .18) + Math.sin(i * 1.1 + layer) * height * .08); ctx.lineTo(width, height); ctx.closePath(); ctx.fillStyle = ['#77998937', '#6c958344', '#76917728'][layer]; ctx.fill(); }
-    if (width < 760 && master(s).moving) { const a = master(s), p = project(a.x, a.y, heightAt(s.map, a.x, a.y)); camera.x += (width * .48 - (p.x * camera.scale + camera.x)) * .08; camera.y += (height * .47 - (p.y * camera.scale + camera.y)) * .08; }
-    ctx.save(); ctx.translate(camera.x, camera.y); ctx.scale(camera.scale, camera.scale); terrain(s, now, options);
+    if (width < 760 && master(s).moving) { const a = master(s), p = project(a.x, a.y, heightAt(s.map, a.x, a.y)); camera.x += (width * .48 - (p.x * camera.scale + camera.x)) * .08; camera.y += (height * .47 - (p.y * camera.scale + camera.y)) * .08; camera.panX = camera.x - width / 2 + 80 * camera.scale; camera.panY = camera.y - height / 2 + 350 * camera.scale; }
+    ctx.save(); ctx.translate(camera.x, camera.y); ctx.scale(camera.scale, camera.scale); terrain(s, options);
     if (s.strike) { const p = project(s.strike.x, s.strike.y, heightAt(s.map, s.strike.x, s.strike.y)); ctx.fillStyle = '#bc59454f'; ctx.strokeStyle = '#cf654e'; ctx.lineWidth = 2; ctx.beginPath(); ctx.ellipse(p.x, p.y, 47, 24, 0, 0, Math.PI * 2); ctx.fill(); ctx.stroke(); label(ctx, `落点 ${Math.max(0, s.strike.remaining).toFixed(1)}秒`, p.x, p.y - 25, true); }
     const ordered = depthOrder(s); metrics.order = ordered.map(e => e.item.id); metrics.visibleActors = 0; metrics.occluded = 0;
     for (const e of ordered) {
