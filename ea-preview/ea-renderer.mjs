@@ -1,10 +1,10 @@
-import {scenicHomeActors} from './ea-scene-state.mjs?v=ea-130-preview-20261005-r2';
-import {campaignArt,regionPoint,regionInverse,drawAtlas,campaignCamera} from './ea-region-art.mjs?v=ea-130-preview-20261005-r2';
-import {appearance} from './ea-scenic.mjs?v=ea-130-preview-20261005-r2';
-import {battlePoint,battleInverse,combatPath} from './ea-combat-geometry.mjs?v=ea-130-preview-20261005-r2';
-import {createAssetLoader} from './ea-runtime.mjs?v=ea-130-preview-20261005-r2';
-import characterMeta from './ea-character-frames.mjs?v=ea-130-preview-20261005-r2';
-import {BUILDINGS,CELLS} from './ea-data.mjs?v=ea-130-preview-20261005-r2';
+import {scenicHomeActors} from './ea-scene-state.mjs?v=ea-130-preview-20261005-r3';
+import {campaignArt,regionPoint,regionInverse,drawAtlas,campaignCamera} from './ea-region-art.mjs?v=ea-130-preview-20261005-r3';
+import {appearance} from './ea-scenic.mjs?v=ea-130-preview-20261005-r3';
+import {battlePoint,battleInverse,combatPath} from './ea-combat-geometry.mjs?v=ea-130-preview-20261005-r3';
+import {createAssetLoader} from './ea-runtime.mjs?v=ea-130-preview-20261005-r3';
+import characterMeta from './ea-character-frames.mjs?v=ea-130-preview-20261005-r3';
+import {BUILDINGS,CELLS} from './ea-data.mjs?v=ea-130-preview-20261005-r3';
 
 const PALETTE={ink:'#183d33',gold:'#d6ba79',paper:'#f4edd7',mint:'#a8c9ab',red:'#b26954'};
 const logicalPoint=(x,y)=>({x:750+(x-y)*61,y:290+(x+y)*31});
@@ -23,7 +23,7 @@ export function createWorldRenderer(canvas,{getState,getMode,getSelection,getCam
   return (scene.effects||[]).map(e=>{const prior=visualEffects.get(e.id),remaining=prior===undefined?e.remaining:Math.max(0,Math.min(e.remaining,prior-dt));visualEffects.set(e.id,remaining);return {...e,remaining};}).filter(e=>e.remaining>0);
  }
  const files={map:'map.webp',valley:'valley.webp',lake:'lake.webp',buildings:'buildings.png',newbuildings:'newbuildings.png',disciples:'characters.webp',arena:'ea-open-court.jpg',regions07:'ea-regions-07.jpg',regions08:'ea-regions-08.jpg',qixia:'ea-qixia.jpg'};
- const assetLoader=createAssetLoader({loaders:Object.fromEntries(Object.entries(files).map(([key,file])=>[key,({signal})=>new Promise((resolve,reject)=>{const im=new Image(),cleanup=()=>{im.onload=null;im.onerror=null;};im.onload=()=>{cleanup();resolve(im);};im.onerror=()=>{cleanup();reject(new Error(`${key} 素材加载失败`));};signal.addEventListener('abort',()=>{cleanup();im.src='';reject(new Error(`${key} 素材加载超时`));},{once:true});im.src=new URL(key==='disciples'?'./yunxiu-courtyard/assets/'+file:'./assets/'+file,import.meta.url).href;})])),onChange:status=>{for(const key of Object.keys(files))if(assetLoader.get(key))images[key]=assetLoader.get(key);if(!status.loading){ready=true;onLoad(status.failed.map(r=>r.id));render(performance.now(),true);}}});
+ const assetLoader=createAssetLoader({loaders:Object.fromEntries(Object.entries(files).map(([key,file])=>[key,({signal})=>new Promise((resolve,reject)=>{const im=new Image(),cleanup=()=>{im.onload=null;im.onerror=null;};im.onload=()=>{cleanup();resolve(im);};im.onerror=()=>{cleanup();reject(new Error(`${key} 素材加载失败`));};signal.addEventListener('abort',()=>{cleanup();im.src='';reject(new Error(`${key} 素材加载超时`));},{once:true});im.src=new URL(key==='disciples'?'../yunxiu-courtyard/assets/'+file:'../assets/'+file,import.meta.url).href;})])),onChange:status=>{for(const key of Object.keys(files))if(assetLoader.get(key))images[key]=assetLoader.get(key);if(!status.loading){ready=true;onLoad(status.failed.map(r=>r.id));render(performance.now(),true);}}});
  const settled=assetLoader.load();
  function camera(){const campaign=getCampaignScene(getState());if(campaign){return campaignCamera(width,height,point(campaign.player.x,campaign.player.y,true),pan,zoom);}const small=width<760;const base=Math.max(width/(small?1300:1536),height/(small?1250:1100));const scale=base*zoom;return{scale,ox:width*(small?.51:.47)+pan.x-750*scale,oy:height*(small?.37:.37)+pan.y-445*scale};}
  function resize(){width=canvas.clientWidth;height=canvas.clientHeight;const dpr=Math.min(devicePixelRatio||1,1.75);canvas.width=Math.round(width*dpr);canvas.height=Math.round(height*dpr);render(performance.now(),true);}

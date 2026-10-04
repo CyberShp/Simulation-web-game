@@ -1,10 +1,10 @@
-import{attachMapInput}from'./map-input.mjs?v=ea-130-preview-20261005-r2';
-import{TYPES,RESOURCE,CELLS,initial,canPay,capacity,upgradeCost,build,assign,upgrade,recruit,breakthrough,tick,rates,QUESTS,claim,validateSave,addLog,buildingLock,isAway,demolish}from'./sect-sim.mjs?v=ea-130-preview-20261005-r2';
-import{createExpansion}from'./expansion.mjs?v=ea-130-preview-20261005-r2';
-import{createPersistence}from'./persistence.mjs?v=ea-130-preview-20261005-r2';
-import{renderCommunity}from'./community.mjs?v=ea-130-preview-20261005-r2';
-import{createSectUI}from'./sect-ui.mjs?v=ea-130-preview-20261005-r2';
-import{moveMaster}from'./sect-sim.mjs?v=ea-130-preview-20261005-r2';
+import{attachMapInput}from'./map-input.mjs?v=ea-130-preview-20261005-r3';
+import{TYPES,RESOURCE,CELLS,initial,canPay,capacity,upgradeCost,build,assign,upgrade,recruit,breakthrough,tick,rates,QUESTS,claim,validateSave,addLog,buildingLock,isAway,demolish}from'./sect-sim.mjs?v=ea-130-preview-20261005-r3';
+import{createExpansion}from'./expansion.mjs?v=ea-130-preview-20261005-r3';
+import{createPersistence}from'./persistence.mjs?v=ea-130-preview-20261005-r3';
+import{renderCommunity}from'./community.mjs?v=ea-130-preview-20261005-r3';
+import{createSectUI}from'./sect-ui.mjs?v=ea-130-preview-20261005-r3';
+import{moveMaster}from'./sect-sim.mjs?v=ea-130-preview-20261005-r3';
 const persistence=createPersistence(()=>localStorage,validateSave);
 const restored=persistence.load();
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
@@ -17,7 +17,7 @@ const esc=v=>String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'
 const num=n=>Math.floor(n).toLocaleString('zh-CN');
 const cost=c=>Object.entries(c).map(([k,v])=>`${icons[k]} ${v}`).join('　');
 const reward=c=>Object.entries(c).map(([k,v])=>`${RESOURCE[k]} +${v}`).join(' · ');
-const spriteStyle=i=>i<6?`background-position:${(i%3)*50}% ${Math.floor(i/3)*100}%`:`background-image:url('./assets/newbuildings.png');background-size:300% 100%;background-position:${(i-6)*50}% 0`;
+const spriteStyle=i=>i<6?`background-position:${(i%3)*50}% ${Math.floor(i/3)*100}%`:`background-image:url('../assets/newbuildings.png');background-size:300% 100%;background-position:${(i-6)*50}% 0`;
 const day=t=>`第 ${Math.floor(t/120)+1} 日`;
 function toast(s){if(modalOpen){let note=$('#modal-feedback');if(!note){note=document.createElement('p');note.id='modal-feedback';note.setAttribute('role','status');$('#modal-body').append(note);}note.textContent=s;}$('#toast').textContent=s;$('#toast').classList.remove('hidden');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('#toast').classList.add('hidden'),3500);}
 function mutate(fn){try{const r=fn();render(true);return r;}catch(e){toast(e.message);return null;}}
@@ -75,7 +75,7 @@ function registerTools(){const context=document.modelContext;if(!context?.regist
  register('set_estate_speed','设置游戏速度：0 暂停，1 正常，2 或 4 加速。',{type:'object',properties:{speed:{type:'integer',enum:[0,1,2,4]}},required:['speed'],additionalProperties:false},input=>{if(!input||![0,1,2,4].includes(input.speed))throw new Error('Invalid speed');state.speed=input.speed;render();return{speed:state.speed};});window.addEventListener('pagehide',()=>lifecycle.abort(),{once:true});}
 expansion=createExpansion({getState:()=>state,getTab:()=>tab,setTab,chooseBuild,openModal,closeModal,mutate,toast,esc,cancelBuild,refresh:()=>render(true),resetCamera:()=>{pan.x=0;pan.y=0;zoom=1;}});
 sectUI=createSectUI({getState:()=>state,getTab:()=>tab,setTab,mutate,toast,openModal,closeModal,esc,chooseBuild,refresh:()=>render(true),getScene:()=>expansion.scene(),selectScene:next=>expansion.selectScene(next)});
-render(true);sectUI.intro();resize();Promise.all(Object.entries({map:'map.webp',buildings:'buildings.png',disciples:'disciples.png',valley:'valley.webp',lake:'lake.webp',newbuildings:'newbuildings.png'}).map(([k,file])=>new Promise((resolve,reject)=>{const img=new Image();img.onload=()=>{imgs[k]=img;resolve();};img.onerror=()=>reject(new Error(file));img.src='./assets/'+file;}))).then(()=>{assetsReady=true;$('#asset-status').classList.add('hidden');draw(performance.now());}).catch(()=>{$('#asset-status').textContent='画卷加载失败，请刷新重试';});registerTools();
+render(true);sectUI.intro();resize();Promise.all(Object.entries({map:'map.webp',buildings:'buildings.png',disciples:'disciples.png',valley:'valley.webp',lake:'lake.webp',newbuildings:'newbuildings.png'}).map(([k,file])=>new Promise((resolve,reject)=>{const img=new Image();img.onload=()=>{imgs[k]=img;resolve();};img.onerror=()=>reject(new Error(file));img.src='../assets/'+file;}))).then(()=>{assetsReady=true;$('#asset-status').classList.add('hidden');draw(performance.now());}).catch(()=>{$('#asset-status').textContent='画卷加载失败，请刷新重试';});registerTools();
 let lastDraw=0;
 setInterval(()=>saveProgress(),5000);
 window.addEventListener('pagehide',()=>saveProgress());

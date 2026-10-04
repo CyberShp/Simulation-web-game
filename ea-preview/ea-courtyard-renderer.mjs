@@ -1,11 +1,11 @@
-import {createWorldRenderer as createPlanRenderer} from './ea-renderer.mjs?v=ea-130-preview-20261005-r2';
-import {WIDTH,HEIGHT,point,LANDMARKS,inPolygon} from './yunxiu-courtyard/navigation.mjs?v=ea-130-preview-20261005-r2';
-import {foreground} from './ea-foreground.mjs?v=ea-130-preview-20261005-r2';
-import {appearance,scenicPosition,advanceScenic,repairScenicActor} from './ea-scenic.mjs?v=ea-130-preview-20261005-r2';
-import {facilityRecords,courtyardDestination,scenicHomeActors} from './ea-scene-state.mjs?v=ea-130-preview-20261005-r2';
-import {SCENIC_PLOTS,SCENE_ROADS,scenicPoint,scenicInverse,scenicNearest,scenicFindPath,scenicDistance,scenicCanStand,geometryRevision,facilityHit,plotPolygon} from './ea-scene-geometry.mjs?v=ea-130-preview-20261005-r2';
-import {createAssetLoader} from './ea-runtime.mjs?v=ea-130-preview-20261005-r2';
-import fallbackMeta from './ea-character-frames.mjs?v=ea-130-preview-20261005-r2';
+import {createWorldRenderer as createPlanRenderer} from './ea-renderer.mjs?v=ea-130-preview-20261005-r3';
+import {WIDTH,HEIGHT,point,LANDMARKS,inPolygon} from '../yunxiu-courtyard/navigation.mjs?v=ea-130-preview-20261005-r3';
+import {foreground} from './ea-foreground.mjs?v=ea-130-preview-20261005-r3';
+import {appearance,scenicPosition,advanceScenic,repairScenicActor} from './ea-scenic.mjs?v=ea-130-preview-20261005-r3';
+import {facilityRecords,courtyardDestination,scenicHomeActors} from './ea-scene-state.mjs?v=ea-130-preview-20261005-r3';
+import {SCENIC_PLOTS,SCENE_ROADS,scenicPoint,scenicInverse,scenicNearest,scenicFindPath,scenicDistance,scenicCanStand,geometryRevision,facilityHit,plotPolygon} from './ea-scene-geometry.mjs?v=ea-130-preview-20261005-r3';
+import {createAssetLoader} from './ea-runtime.mjs?v=ea-130-preview-20261005-r3';
+import fallbackMeta from './ea-character-frames.mjs?v=ea-130-preview-20261005-r3';
 
 export function createWorldRenderer(canvas,options){
  const {getState,getMode,getSelection,getCampaignScene,getPrefs=()=>({}),getPreview=()=>null,getHomeInteractions=()=>[],onLoad=()=>{}}=options;
@@ -13,7 +13,7 @@ export function createWorldRenderer(canvas,options){
  let planFailed=[],bg,atlas,meta=fallbackMeta,overview=false,zoom=1,planning=false,scene='map',hover=null,lastTime=null,session=null,frameAt=0;
  const plan=createPlanRenderer(canvas,{...options,onLoad:failed=>{planFailed=failed;}});
  const load=src=>({signal}={})=>new Promise((resolve,reject)=>{const im=new Image();im.onload=()=>resolve(im);im.onerror=()=>reject(new Error(src));signal?.addEventListener('abort',()=>{im.onload=null;im.onerror=null;reject(new Error('画卷加载超时'));},{once:true});im.src=new URL(src,import.meta.url).href;});
- const assets=createAssetLoader({loaders:{courtyard:load('./assets/ea-courtyard-empty.jpg'),people:load('./yunxiu-courtyard/assets/characters.webp'),frames:async({signal})=>{const r=await fetch(new URL('./yunxiu-courtyard/assets/character-frames.json',import.meta.url),{signal});if(!r.ok)throw Error('人物素材');const value=await r.json();if(!Array.isArray(value.frames)||value.frames.length<4)throw Error('人物帧资料不完整');return value;}},onChange:status=>{bg=assets.get('courtyard');atlas=assets.get('people');meta=assets.get('frames')||fallbackMeta;onLoad([...planFailed,...status.failed.map(v=>v.id)]);}});
+ const assets=createAssetLoader({loaders:{courtyard:load('../assets/ea-courtyard-empty.jpg'),people:load('../yunxiu-courtyard/assets/characters.webp'),frames:async({signal})=>{const r=await fetch(new URL('../yunxiu-courtyard/assets/character-frames.json',import.meta.url),{signal});if(!r.ok)throw Error('人物素材');const value=await r.json();if(!Array.isArray(value.frames)||value.frames.length<4)throw Error('人物帧资料不完整');return value;}},onChange:status=>{bg=assets.get('courtyard');atlas=assets.get('people');meta=assets.get('frames')||fallbackMeta;onLoad([...planFailed,...status.failed.map(v=>v.id)]);}});
  const readyPromise=Promise.allSettled([assets.load(),plan.ready]);
  const isPlan=()=>planning||['build','move'].includes(getMode());
  const delegate=()=>!!getCampaignScene(getState())||scene!=='map';

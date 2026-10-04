@@ -1,9 +1,9 @@
-import {REGION_ART} from './ea-region-art.mjs?v=ea-130-preview-20261005-r2';
-import {appearance} from './ea-scenic.mjs?v=ea-130-preview-20261005-r2';
-import {facilityRecords,nextObjective,routeDiscovered} from './ea-scene-state.mjs?v=ea-130-preview-20261005-r2';
-import {sceneInteractionOptions,sceneInteractionTarget} from './ea-interactions.mjs?v=ea-130-preview-20261005-r2';
-import {narrativeForState,sceneDialogue,regionInteractions,homeInteractions} from './ea-narrative.mjs?v=ea-130-preview-20261005-r2';
-import * as SIM from './ea-sim.mjs?v=ea-130-preview-20261005-r2';
+import {REGION_ART} from './ea-region-art.mjs?v=ea-130-preview-20261005-r3';
+import {appearance} from './ea-scenic.mjs?v=ea-130-preview-20261005-r3';
+import {facilityRecords,nextObjective,routeDiscovered} from './ea-scene-state.mjs?v=ea-130-preview-20261005-r3';
+import {sceneInteractionOptions,sceneInteractionTarget} from './ea-interactions.mjs?v=ea-130-preview-20261005-r3';
+import {narrativeForState,sceneDialogue,regionInteractions,homeInteractions} from './ea-narrative.mjs?v=ea-130-preview-20261005-r3';
+import * as SIM from './ea-sim.mjs?v=ea-130-preview-20261005-r3';
 
 const E = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
 const n = value => Number.isFinite(Number(value)) ? Number(value) : 0;
@@ -160,7 +160,7 @@ export function createEAUI(api) {
   function questCard(q){const complete=['completed','failed','resolved','declined','expired'].includes(q.status);return `<article class="personal-quest ui-card" data-key="personal-quest-${q.id}"><span class="eyebrow">${E(q.name||'门人牵挂')} · ${complete?'已有结局':'个人心愿'}</span><h3>${E(q.title)}</h3><p>${E(q.text)}</p>${q.progress!==undefined?note(typeof q.progress==='string'?q.progress:`进展 ${Math.round(n(q.progress)*100)}%`):''}${q.deadline?note(`期限至第 ${Math.floor(q.deadline/120)+1} 日`):''}${q.outcome?note(q.outcome,'success'):''}${!complete?list(q.choices).map(c=>`<div class="choice-item">${btn(c.label,'society',[{type:'quest',questId:q.id,choice:c.id}],{className:'secondary',lock:c.disabledReason||'',full:true})}${note(c.description)}${c.cost?`<div class="cost-line">${costs(c.cost)}</div>`:''}</div>`).join(''):''}</article>`;}
   function visitorCard(g){return `<article class="visitor-card ui-card" data-key="visitor-${g.id}"><span class="eyebrow">山门来客 · ${E(g.name)}</span><h3>${E(g.title)}</h3><p>${E(g.text)}</p>${g.expiresAt?note(`将在第 ${Math.floor(g.expiresAt/120)+1} 日离开`):''}<div class="choice-list">${list(g.choices).map(c=>`<div class="choice-item">${btn(c.label,'society',[{type:'visitor',visitorId:g.id,choice:c.id}],{className:'secondary',lock:c.disabledReason||'',full:true})}${note(c.description)}${c.cost?`<div class="cost-line">${costs(c.cost)}</div>`:''}</div>`).join('')}</div></article>`;}
 
-  function regionIllustration(id){const art=REGION_ART[id];if(!art)return '';const file={regions07:'ea-regions-07.jpg',regions08:'ea-regions-08.jpg',qixia:'ea-qixia.jpg'}[art.atlas];return `<div class="region-illustration" style="background-image:url('./assets/${file}');background-size:${(art.columns||2)*100}% ${(art.rows||2)*100}%;--region-position:${art.cell%2*100}% ${Math.floor(art.cell/2)*100}%" aria-hidden="true"></div>`;}
+  function regionIllustration(id){const art=REGION_ART[id];if(!art)return '';const file={regions07:'ea-regions-07.jpg',regions08:'ea-regions-08.jpg',qixia:'ea-qixia.jpg'}[art.atlas];return `<div class="region-illustration" style="background-image:url('../assets/${file}');background-size:${(art.columns||2)*100}% ${(art.rows||2)*100}%;--region-position:${art.cell%2*100}% ${Math.floor(art.cell/2)*100}%" aria-hidden="true"></div>`;}
   function worldMap(view){const pins={valley:[23,29],market:[28,65],quarry:[45,78],ruins:[64,63],prison:[76,20],supply:[65,38],ward:[92,18],council:[84,82],qixia:[92,51]};return `<div class="world-map" aria-label="已发现的山外道路"><div class="map-fog" aria-hidden="true"></div>${view.regions.map(r=>{const p=pins[r.id]||[50,50];return `<button type="button" class="map-pin ${r.locked?'locked':''}" data-ui-action="prepareExploration" data-ui-args="${dataArgs([r.id])}" style="left:${p[0]}%;top:${p[1]}%" ${r.locked?`disabled title="${E(r.reason)}"`:''}>${icon('pin')}<span>${E(r.name)}</span></button>`;}).join('')}</div>`;}
   function explore(s){
     const view=call('explorationOptions',s)||{regions:[],active:null},active=view.active;
