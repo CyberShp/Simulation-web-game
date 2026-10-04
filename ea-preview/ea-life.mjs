@@ -1,5 +1,5 @@
-import {BUILDINGS, TECHNIQUES, RESOURCES, CELLS, canPay, xpNeed} from './ea-data.mjs?v=ea-130-preview-20261005-r5';
-import {buildingAccess,scenicFindPath,scenicDistance,scenicSweep,geometryRevision} from './ea-scene-geometry.mjs?v=ea-130-preview-20261005-r5';
+import {BUILDINGS, TECHNIQUES, RESOURCES, CELLS, canPay, xpNeed} from './ea-data.mjs?v=ea-130-preview-20261005-r6';
+import {buildingAccess,scenicFindPath,scenicDistance,scenicSweep,geometryRevision} from './ea-scene-geometry.mjs?v=ea-130-preview-20261005-r6';
 
 // Read-only projections. These never schedule an NPC, spend resources or reveal a private manual.
 export const lifeBuildingActive = b => !!b && !b.disabled && b.enabled!==false && (b.condition??100)>0;

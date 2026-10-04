@@ -1,9 +1,9 @@
 import {BUILDINGS, TECHNIQUES, RECIPES, ROUTES, CELLS, RESOURCES, TRAIT_NAMES,
-  rng, day, log, pay, canPay, grant, capacity, xpNeed, clamp} from './ea-data.mjs?v=ea-130-preview-20261005-r5';
+  rng, day, log, pay, canPay, grant, capacity, xpNeed, clamp} from './ea-data.mjs?v=ea-130-preview-20261005-r6';
 
-import {routeDiscovered} from './ea-scene-state.mjs?v=ea-130-preview-20261005-r5';
-import {lifeFacility,lifeActivityLock,lifePath,lifeScenePath,actorScenePosition,personLifeSummary,workOpportunity,teachingPresent} from './ea-life.mjs?v=ea-130-preview-20261005-r5';
-import {advanceScenic,repairScenicActor,validateScenic,SCENE_GEOMETRY,buildingAccess,scenicDistance,geometryRevision,syncScenicPosition} from './ea-scenic.mjs?v=ea-130-preview-20261005-r5';
+import {routeDiscovered} from './ea-scene-state.mjs?v=ea-130-preview-20261005-r6';
+import {lifeFacility,lifeActivityLock,lifePath,lifeScenePath,actorScenePosition,personLifeSummary,workOpportunity,teachingPresent} from './ea-life.mjs?v=ea-130-preview-20261005-r6';
+import {advanceScenic,repairScenicActor,validateScenic,SCENE_GEOMETRY,buildingAccess,scenicDistance,geometryRevision,syncScenicPosition} from './ea-scenic.mjs?v=ea-130-preview-20261005-r6';
 
 /** Society owns every NPC action. The main loop owns time, meals, upkeep and the master's actions. */
 export const SOCIETY_ROLES = {

@@ -1,11 +1,11 @@
-import * as SIM from './ea-sim.mjs?v=ea-130-preview-20261005-r5';
-import {EA_SHELL,createEAUI} from './ea-ui.mjs?v=ea-130-preview-20261005-r5';
-import {createEAPersistence,MAX_IMPORT_BYTES} from './ea-persistence.mjs?v=ea-130-preview-20261005-r5';
-import {createWorldRenderer} from './ea-courtyard-renderer.mjs?v=ea-130-preview-20261005-r5';
-import {attachMapInput} from './map-input.mjs?v=ea-130-preview-20261005-r5';
-import {scenicPosition} from './ea-scenic.mjs?v=ea-130-preview-20261005-r5';
-import {sceneInteractionReady,sceneInteractionTarget} from './ea-interactions.mjs?v=ea-130-preview-20261005-r5';
-import {createRuntimeClock,createFrameDiagnostics} from './ea-runtime.mjs?v=ea-130-preview-20261005-r5';
+import * as SIM from './ea-sim.mjs?v=ea-130-preview-20261005-r6';
+import {EA_SHELL,createEAUI} from './ea-ui.mjs?v=ea-130-preview-20261005-r6';
+import {createEAPersistence,MAX_IMPORT_BYTES} from './ea-persistence.mjs?v=ea-130-preview-20261005-r6';
+import {createWorldRenderer} from './ea-courtyard-renderer.mjs?v=ea-130-preview-20261005-r6';
+import {attachMapInput} from './map-input.mjs?v=ea-130-preview-20261005-r6';
+import {scenicPosition} from './ea-scenic.mjs?v=ea-130-preview-20261005-r6';
+import {sceneInteractionReady,sceneInteractionTarget} from './ea-interactions.mjs?v=ea-130-preview-20261005-r6';
+import {createRuntimeClock,createFrameDiagnostics} from './ea-runtime.mjs?v=ea-130-preview-20261005-r6';
 
 const VERSION=SIM.GAME_VERSION;
 const runtimeClock=createRuntimeClock(),diagnostics=createFrameDiagnostics();
@@ -89,7 +89,7 @@ ui=createEAUI({getState:()=>state,act,setTab,getTab:()=>tab,openModal,closeModal
 const canvas=$('world');
 function interact(kind,id,choice){if(scene!=='map')selectScene('map');world.setOverview(false);setMode('inspect');return act('requestSceneInteraction',kind,id,choice,kind==='person'?world.getPersonPosition?.(id):null);}
 function cancelInteraction(){const result=act('cancelSceneInteraction');if(result!==null&&state.master.action==='walk')act('masterAction','rest');return result;}
-function approachRegion(){const active=SIM.explorationOptions(state)?.active;if(!active?.landmark)return;selectScene('journey');ui.fold();pendingRegionDialogue=active.id;if(act('moveExploration',active.landmark.x,active.landmark.y)!==null&&state.speed===0){state.speed=1;dirty=true;}refresh(true);}
+function approachRegion(){const active=SIM.explorationOptions(state)?.active;if(!active?.landmark)return;selectScene('journey');ui.fold();if(active.canInteract){pendingRegionDialogue=null;ui.openRegionInteraction();return;}pendingRegionDialogue=active.id;if(act('moveExploration',active.landmark.x,active.landmark.y)!==null&&state.speed===0){state.speed=1;dirty=true;}refresh(true);}
 function checkRegionDialogue(){if(!pendingRegionDialogue||modal.open||hiddenPause||document.hidden)return;const active=SIM.explorationOptions(state)?.active;if(active?.id!==pendingRegionDialogue||state.combat){pendingRegionDialogue=null;return;}if(active.canInteract){pendingRegionDialogue=null;ui.openRegionInteraction();}}
 function checkSceneInteraction(now){
  if(!haveSession||modal.open||hiddenPause||document.hidden||!volatile&&!persistence.canWrite||!state.master.sceneIntent||now-lastIntentCheck<180)return;lastIntentCheck=now;

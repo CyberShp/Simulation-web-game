@@ -1,7 +1,7 @@
-import { rng, day, log, pay, canPay, grant, capacity } from './ea-data.mjs?v=ea-130-preview-20261005-r5';
-import { EXPEDITIONS as LEGACY_ROUTES } from './world.mjs?v=ea-130-preview-20261005-r5';
-import { combatField, combatGeometryId, combatCanStand, combatClearLine, combatPath, moveCombatActor, dodgeEndpoint } from './ea-combat-geometry.mjs?v=ea-130-preview-20261005-r5';
-import { appearance } from './ea-scenic.mjs?v=ea-130-preview-20261005-r5';
+import { rng, day, log, pay, canPay, grant, capacity } from './ea-data.mjs?v=ea-130-preview-20261005-r6';
+import { EXPEDITIONS as LEGACY_ROUTES } from './world.mjs?v=ea-130-preview-20261005-r6';
+import { combatField, combatGeometryId, combatCanStand, combatClearLine, combatPath, moveCombatActor, dodgeEndpoint } from './ea-combat-geometry.mjs?v=ea-130-preview-20261005-r6';
+import { appearance } from './ea-scenic.mjs?v=ea-130-preview-20261005-r6';
 
 // Campaign state is deliberately plain data. Every choice, weather roll and reward
 // is committed to the save before the next tick; loading never repeats a roll.

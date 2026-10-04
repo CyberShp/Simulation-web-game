@@ -1,9 +1,9 @@
-import {REGION_ART} from './ea-region-art.mjs?v=ea-130-preview-20261005-r5';
-import {appearance} from './ea-scenic.mjs?v=ea-130-preview-20261005-r5';
-import {facilityRecords,nextObjective,routeDiscovered} from './ea-scene-state.mjs?v=ea-130-preview-20261005-r5';
-import {sceneInteractionOptions,sceneInteractionTarget} from './ea-interactions.mjs?v=ea-130-preview-20261005-r5';
-import {narrativeForState,sceneDialogue,regionInteractions,homeInteractions} from './ea-narrative.mjs?v=ea-130-preview-20261005-r5';
-import * as SIM from './ea-sim.mjs?v=ea-130-preview-20261005-r5';
+import {REGION_ART} from './ea-region-art.mjs?v=ea-130-preview-20261005-r6';
+import {appearance} from './ea-scenic.mjs?v=ea-130-preview-20261005-r6';
+import {facilityRecords,nextObjective,routeDiscovered} from './ea-scene-state.mjs?v=ea-130-preview-20261005-r6';
+import {sceneInteractionOptions,sceneInteractionTarget} from './ea-interactions.mjs?v=ea-130-preview-20261005-r6';
+import {narrativeForState,sceneDialogue,regionInteractions,homeInteractions} from './ea-narrative.mjs?v=ea-130-preview-20261005-r6';
+import * as SIM from './ea-sim.mjs?v=ea-130-preview-20261005-r6';
 
 const E = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
 const n = value => Number.isFinite(Number(value)) ? Number(value) : 0;
@@ -308,7 +308,7 @@ export function createEAUI(api) {
     prologue:openPrologue,beginChapter,guideNext,locateBuilding:id=>{api.locate?.('building',id);ui.folded=true;render();},
     riskBreakthrough:riskBreakthroughDialog,confirmRiskBreakthrough,returnFromRisk:()=>{close();setTab('self');},tab:setTab,scene:id=>api.selectScene?.(id),prepareExploration,peakSuccessor,resetCultivation:()=>open('重归基础 · 调整功体',`<p>重归青岚养元诀后，可以另择相容主修。已经理解的知识会保留。</p><div class="warning-callout">需灵石 80、灵草 20，消耗精力 20，并损失当前修为的两成。</div>${btn('确认重归基础','confirmBasics',[],{className:'primary',full:true})}`),confirmBasics:()=>{if(act('returnToBasics')!==null)close();},filter:(group,value)=>{ui.filters[group]=value;renderTab();},person:openPerson,guide:openGuide,biography,closeModal:close,storyFromModal:()=>{close();setTab('journal');},
     build:id=>{api.chooseBuild?.(id);ui.folded=true;render();},walk:()=>{api.setMode?.('walk');if(api.getScene?.()!=='map')api.selectScene?.('map');ui.folded=true;render();safeToast('行走模式：点击石路、桥面或台阶，或使用 WASD / 方向键。');},
-    locatePerson:id=>{api.locate?.('person',id);ui.folded=true;render();},locateLandmark:()=>{const landmark=call('explorationOptions',getState())?.active?.landmark;if(landmark){api.selectScene?.('journey');act('moveExploration',landmark.x,landmark.y);ui.folded=true;render();}},
+    locatePerson:id=>{api.locate?.('person',id);ui.folded=true;render();},locateLandmark:()=>{if(api.approachRegion){api.approachRegion();return;}const landmark=call('explorationOptions',getState())?.active?.landmark;if(landmark){api.selectScene?.('journey');act('moveExploration',landmark.x,landmark.y);ui.folded=true;render();}},
     society:command,confirmSociety:payload=>{if(command(payload)!==null)close();},office:officeDialog,peak:peakDialog,incidentConfirm,
     closeDetail:()=>{ui.selection=null;api.clearSelection?.();$('#detail').classList.add('hidden');},
     relocate:id=>{api.startRelocate?.(id);ui.folded=true;render();},

@@ -1,5 +1,5 @@
-import {CELLS} from './ea-data.mjs?v=ea-130-preview-20261005-r5';
-import {WIDTH,HEIGHT,NODES,EDGES,LANDMARKS,distance,inPolygon,nearest} from '../yunxiu-courtyard/navigation.mjs?v=ea-130-preview-20261005-r5';
+import {CELLS} from './ea-data.mjs?v=ea-130-preview-20261005-r6';
+import {WIDTH,HEIGHT,NODES,EDGES,LANDMARKS,distance,inPolygon,nearest} from '../yunxiu-courtyard/navigation.mjs?v=ea-130-preview-20261005-r6';
 
 export const SCENE_GEOMETRY='plots-v1';
 export {WIDTH,HEIGHT,distance as scenicDistance};

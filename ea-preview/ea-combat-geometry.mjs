@@ -14,6 +14,15 @@ const fields = {
   qixia:{origin:{x:670,y:375},u:{x:50,y:8},v:{x:-15,y:28},spriteScale:1,obstacles:[{id:'court-rubble',name:'残阵碎石',kind:'rubble',x:5.1,y:5.9,w:1.25,h:.95},{id:'court-stone',name:'断柱基座',kind:'rubble',x:9.6,y:1.1,w:.8,h:1}]}
 };
 export const COMBAT_FIELDS=Object.freeze(fields);
+// Independently surveyed visible floor outlines (1672×941 coordinates).
+// These guard art registration, not just numerical projection round-tripping.
+export const COMBAT_GROUND=Object.freeze({
+  quarry:[[595,386],[1191,535],[1117,595],[558,456]],
+  prison:[[590,633],[821,609],[940,689],[701,784],[551,733]],
+  supply:[[620,744],[819,859],[804,910],[605,784]],
+  qixia:[[520,355],[1200,360],[1360,650],[1090,730],[530,625]]
+});
+export function combatOnPaintedGround(p,id){const polygon=COMBAT_GROUND[id];if(!polygon)return true;let inside=false;for(let i=0,j=polygon.length-1;i<polygon.length;j=i++){const [xi,yi]=polygon[i],[xj,yj]=polygon[j];if((yi>p.y)!==(yj>p.y)&&p.x<(xj-xi)*(p.y-yi)/(yj-yi)+xi)inside=!inside;}return inside;}
 export const combatGeometryId=c=>c.geometryVersion===1?c.regionId:c.regionId==='qixia'?'legacy-qixia':'legacy';
 export const COMBAT_BOUNDS=Object.freeze({left:.6,right:11.4,top:.6,bottom:7.4});
 const margin=.2;
