@@ -1,4 +1,4 @@
-import { blockedCells, canStand, findPath, heightAt, moveBuilding, nearestWalkable, sweep } from '../ea-navigation.mjs?v=terrain-lab-1.0.1';
+import { blockedCells, canStand, findPath, heightAt, moveBuilding, nearestWalkable, sweep } from '../ea-navigation.mjs?v=terrain-lab-1.0.2';
 export const VERSION = 'terrain-lab-1.0';
 export const POIS = [
   { id: 'home', name: '主屋', x: 7.5, y: 7.5 },
@@ -41,7 +41,7 @@ export function createMap() {
   return { width, height, tiles, obstacles, buildings, decorations, revision: 0 };
 }
 function actor(id, name, seed, x, y) {
-  return { id, name, seed, appearance: appearance(seed), x, y, radius: .26, facing: { x: 1, y: 0 }, goal: null, path: [], moving: false, phase: 0, wait: 0, actionTime: 0, hp: 100, qi: 100, moveRevision: -1, arrived: true };
+  return { id, name, seed, appearance: appearance(seed), x, y, radius: .26, facing: { x: 1, y: 0 }, goal: null, path: [], moving: false, phase: 0, wait: 0, actionTime: 0, dodgeTime: 0, hp: 100, qi: 100, moveRevision: -1, arrived: true };
 }
 export function createState() {
   const actors = [actor('master', '沈砚', 1, 7.5, 7.5), actor('lu', '陆知微', 590, 20.5, 9.5), actor('lin', '林长风', 918, 8.5, 10.5), actor('gu', '顾听澜', 1483, 22.5, 21.5), actor('ye', '叶松声', 2348, 9.5, 18.5), actor('su', '苏归岚', 2861, 25.5, 10.5)];
@@ -75,7 +75,7 @@ export function command(s, type, value) {
   }
   if (type === 'recruit') {
     if (s.actors.length >= 10) { log(s, '这座验证山院最多容纳十人。'); return false; }
-    const spot = [{ x: 6.5, y: 9.5 }, { x: 9.5, y: 9.5 }, { x: 5.5, y: 8.5 }, { x: 11.5, y: 9.5 }].find(p => s.actors.every(a => Math.hypot(a.x - p.x, a.y - p.y) > .6));
+    const spot = [{ x: 6.5, y: 9.5 }, { x: 9.5, y: 9.5 }, { x: 5.5, y: 8.5 }, { x: 11.5, y: 9.5 }, { x: 6.5, y: 8.5 }, { x: 8.5, y: 8.5 }, { x: 7.5, y: 9.5 }].find(p => canStand(s.map, p) && s.actors.every(a => Math.hypot(a.x - p.x, a.y - p.y) > .6));
     if (!spot) return false;
     const id = `guest-${s.nextId++}`, seed = 3203 + s.nextId * 359;
     s.actors.push(actor(id, ['许望舒', '温南星', '陶静初', '徐闻溪'][(s.nextId - 2) % 4], seed, spot.x, spot.y));
@@ -98,7 +98,7 @@ export function command(s, type, value) {
       const p = { x: m.x + (moved.x - m.x) * i / n, y: m.y + (moved.y - m.y) * i / n };
       if (s.actors.slice(1).some(a => Math.hypot(a.x - p.x, a.y - p.y) < a.radius + m.radius)) break; end = p;
     }
-    m.x = end.x; m.y = end.y; m.path = []; m.goal = null; m.qi -= 15; m.actionTime = .45; s.stats.dodges++;
+    m.x = end.x; m.y = end.y; m.path = []; m.goal = null; m.qi -= 15; m.actionTime = .45; m.dodgeTime = .45; s.stats.dodges++;
     if (moved.blocked) { s.stats.blockedMoves++; log(s, '闪避在障碍前停住，消耗灵力15。'); } else log(s, '闪避完成，消耗灵力15。');
     return true;
   }
@@ -117,7 +117,7 @@ export function step(s, dt) {
   if (s.paused) return; dt = Math.min(.05, Math.max(0, dt)); s.elapsed += dt;
   const m = master(s), occupied = blockedCells(s.map);
   for (let i = 0; i < s.actors.length; i++) {
-    const a = s.actors[i]; a.moving = false; a.actionTime = Math.max(0, a.actionTime - dt); a.qi = Math.min(100, a.qi + dt * 4);
+    const a = s.actors[i]; a.moving = false; a.actionTime = Math.max(0, a.actionTime - dt); a.dodgeTime = Math.max(0, a.dodgeTime - dt); a.qi = Math.min(100, a.qi + dt * 4);
     if (s.combat && i > 0 && s.party.includes(a.id) && Math.hypot(a.x - 25.5, a.y - 20.5) < 6 && (s.elapsed + i * .55) % 2.2 < dt) { a.actionTime = .5; a.facing = { x: 25.5 - a.x, y: 20.5 - a.y }; s.stats.allyAttacks++; }
     if (a.goal && a.moveRevision !== s.map.revision) { setGoal(s, a, a.goal); s.stats.replans++; }
     if (i > 0 && s.party.includes(a.id)) {
@@ -167,7 +167,7 @@ export function step(s, dt) {
   }
   if (s.combat && Math.hypot(m.x - 22.5, m.y - 19) < 6) {
     if (!s.strike && s.elapsed % 4 < dt) s.strike = { x: m.x, y: m.y, remaining: 1.2, total: 1.2 };
-    if (s.strike) { s.strike.remaining -= dt; if (s.strike.remaining <= 0) { if (Math.hypot(m.x - s.strike.x, m.y - s.strike.y) < 1.2 && m.actionTime <= 0) { m.hp = Math.max(0, m.hp - 8); log(s, '试炼落点命中，气血减少8。'); } s.strike = null; } }
+    if (s.strike) { s.strike.remaining -= dt; if (s.strike.remaining <= 0) { if (Math.hypot(m.x - s.strike.x, m.y - s.strike.y) < 1.2 && m.dodgeTime <= 0) { m.hp = Math.max(0, m.hp - 8); log(s, '试炼落点命中，气血减少8。'); } s.strike = null; } }
   }
   const faults = audit(s); if (faults.length) { s.stats.violations++; s.paused = true; log(s, '地图出现通行异常，已暂停并保留现场。'); }
 }

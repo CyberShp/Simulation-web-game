@@ -1,6 +1,6 @@
-import { appearance, audit, command, createState, master, POIS, step, VERSION } from './world.mjs?v=terrain-lab-1.0.1';
-import { createRenderer, portraitURL } from './renderer.mjs?v=terrain-lab-1.0.1';
-import { attachMapInput } from '../map-input.mjs?v=terrain-lab-1.0.1';
+import { appearance, audit, command, createState, master, POIS, step, VERSION } from './world.mjs?v=terrain-lab-1.0.2';
+import { createRenderer, portraitURL } from './renderer.mjs?v=terrain-lab-1.0.2';
+import { attachMapInput } from '../map-input.mjs?v=terrain-lab-1.0.2';
 const $ = id => document.getElementById(id), esc = v => String(v).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const storageKey = 'xianfu-terrain-lab-v1'; let state = createState(), freePlace = false, tour = null, lastFrame = performance.now(), lastUI = 0, lastSave = 0, fpsSamples = [], hidden = false;
 const options = { paths: true, collision: false, silhouette: false, relocate: false };
@@ -37,7 +37,7 @@ function refresh() {
   $('logs').innerHTML = state.logs.map(l => `<li>${esc(l)}</li>`).join('');
   $('pause').textContent = state.paused ? '▶' : 'Ⅱ'; $('pause').setAttribute('aria-label', state.paused ? '继续游戏' : '暂停游戏');
   $('trial').textContent = state.combat ? '结束试炼' : '开启试炼'; $('tour').textContent = tour ? '停止演示' : '演示一圈';
-  const b = state.map.buildings.find(b => b.id === 'workshop'); $('build-status').textContent = `百工坊 · ${b.x === 9 && b.y === 4 ? '原位' : b.y === 11 ? '西路' : '新址'}`;
+  const b = state.map.buildings.find(b => b.id === 'workshop'); $('build-status').textContent = `百工坊 · ${b.x === 9 && b.y === 4 ? '原位' : b.y === 11 ? '西路' : b.x === 9 && b.y === 9 ? '庭前' : '新址'}`;
   const samples = [...fpsSamples].sort((a, b) => a - b), frame = samples[Math.floor(samples.length * .95)] || 0;
   $('metrics').innerHTML = `<dl><dt>已抵达次数</dt><dd>${state.stats.arrivals}</dd><dt>重新寻路</dt><dd>${state.stats.replans}</dd><dt>受阻闪避 / 行走</dt><dd>${state.stats.blockedMoves}</dd><dt>同行自主出手</dt><dd>${state.stats.allyAttacks}</dd><dt>通行异常</dt><dd>${state.stats.violations}</dd><dt>被遮挡人物</dt><dd>${renderer.metrics.occluded}</dd><dt>本机帧间隔 P95</dt><dd>${frame.toFixed(1)} ms</dd><dt>掌门落脚点</dt><dd>${master(state).x.toFixed(2)}, ${master(state).y.toFixed(2)}</dd></dl>`;
 }
@@ -49,7 +49,7 @@ $('roster').addEventListener('change', e => {
   act('party', selected);
 });
 $('recruit').onclick = () => act('recruit');
-const positions = { road: { x: 9, y: 11 }, court: { x: 9, y: 8 }, reset: { x: 9, y: 4 } };
+const positions = { road: { x: 9, y: 11 }, court: { x: 9, y: 9 }, reset: { x: 9, y: 4 } };
 document.querySelectorAll('[data-place]').forEach(b => b.onclick = () => { tour = null; freePlace = false; options.relocate = false; act('relocate', positions[b.dataset.place]); });
 $('free-place').onclick = () => { freePlace = !freePlace; options.relocate = freePlace; refresh(); };
 $('pause').onclick = () => { state.paused = !state.paused; refresh(); };
