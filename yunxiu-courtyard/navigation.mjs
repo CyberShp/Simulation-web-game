@@ -2,12 +2,12 @@
 // Pixel coordinates are world coordinates on the 1672 × 941 background plate.
 export const WIDTH = 1672, HEIGHT = 941;
 export const NODES = {
-  meditation:[248,181], bambooSteps:[349,245], bambooLane:[401,296], shade:[440,337], upperLane:[508,381], lane:[615,436],
+  meditation:[248,181], bambooSteps:[349,245], bambooLane:[401,296], shade:[440,337], upperLane:[508,381], lane:[663,424],
   workshop:[420,561], workshopGate:[499,577], stoneWorks:[265,709], worksLane:[383,656],
   bridgeWest:[554,568], bridgeA:[598,542], bridgeCrown:[650,526], bridgeEast:[714,528], centre:[758,478],
-  stairsLower:[828,423], stairsMid:[881,368], stairsUpper:[920,326], mainCourt:[948,296], mainSteps:[858,258], mainDoor:[816,214],
+  stairsLower:[849,423], stairsMid:[891,368], stairsUpper:[920,326], mainCourt:[948,296], mainSteps:[878,269], mainDoor:[840,217],
   eastCourt:[1050,286], gardenEntry:[1127,308], herbs:[1260,322], gardenTurn:[1457,315], middleTurn:[1515,366], herbsMiddle:[1300,377],
-  lowerTurn:[1570,420], herbsLower:[1380,469], waterwheel:[1545,485], streamPath:[733,583], streamBend:[742,642], kitchenSide:[780,715], kitchen:[1189,763], kitchenCourt:[958,772], gate:[861,889]
+  lowerTurn:[1570,420], herbsLower:[1380,469], waterwheel:[1545,485], streamPath:[741,575], streamBend:[777,658], kitchenSide:[805,750], kitchen:[1189,763], kitchenCourt:[958,772], gate:[861,889]
 };
 const E = (a,b,w=36)=>({a,b,w});
 export const EDGES = [E('meditation','bambooSteps',32),E('bambooSteps','bambooLane',27),E('bambooLane','shade',32),E('shade','upperLane',32),E('upperLane','lane',35),E('lane','centre',38),
