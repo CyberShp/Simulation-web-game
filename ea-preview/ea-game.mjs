@@ -1,8 +1,8 @@
-import * as SIM from './ea-sim.mjs?v=ea-110-b';
-import {EA_SHELL,createEAUI} from './ea-ui.mjs?v=ea-110-b';
-import {createEAPersistence,MAX_IMPORT_BYTES} from './ea-persistence.mjs?v=ea-110-b';
-import {createWorldRenderer} from './ea-courtyard-renderer.mjs?v=ea-110-b';
-import {attachMapInput} from './map-input.mjs?v=ea-110-b';
+import * as SIM from './ea-sim.mjs?v=ea-110-c';
+import {EA_SHELL,createEAUI} from './ea-ui.mjs?v=ea-110-c';
+import {createEAPersistence,MAX_IMPORT_BYTES} from './ea-persistence.mjs?v=ea-110-c';
+import {createWorldRenderer} from './ea-courtyard-renderer.mjs?v=ea-110-c';
+import {attachMapInput} from './map-input.mjs?v=ea-110-c';
 
 const VERSION=SIM.GAME_VERSION;
 const $=id=>document.getElementById(id);
@@ -13,12 +13,13 @@ document.querySelector('#game').innerHTML=EA_SHELL;
 let state=SIM.initial(),haveSession=false,volatile=false,activeSlot=null,dirty=false,lastGood=clone(state),ui,world;
 let mode='inspect',buildType=null,relocateId=null,selection=null,scene='map',tab='self',toastTimer,lastAuto=0,lastUI=0,lastFrame=performance.now(),busy=false,hiddenPause=false;
 let saveMessage='请选择世界档案',resumeAfterPagehide=false,parked=null,saveError=false;
+const previewScope=new URLSearchParams(location.search).get('acceptance')==='1';
+const preferenceKey=previewScope?'xianfu:ea:acceptance-preferences':'xianfu:ea:preferences';
 const preferences={music:false,sfx:false,musicVolume:.6,sfxVolume:.6,reducedMotion:matchMedia('(prefers-reduced-motion: reduce)').matches,textScale:1};
-try{const p=JSON.parse(localStorage.getItem('xianfu:ea:preferences')||'{}');for(const key of Object.keys(preferences))if(typeof p[key]===typeof preferences[key])preferences[key]=p[key];}catch{}
+try{const p=JSON.parse(localStorage.getItem(preferenceKey)||'{}');for(const key of Object.keys(preferences))if(typeof p[key]===typeof preferences[key])preferences[key]=p[key];}catch{}
 for(const key of ['musicVolume','sfxVolume'])preferences[key]=Number.isFinite(preferences[key])?Math.max(0,Math.min(1,preferences[key])):.6;
 preferences.textScale=Math.max(.9,Math.min(1.2,preferences.textScale));
 const modal=$('modal');
-const previewScope=new URLSearchParams(location.search).get('acceptance')==='1';
 if(previewScope)document.body.classList.add('acceptance-preview');
 const persistence=createEAPersistence({namespace:previewScope?'xianfu:simulation-web-game:ea-acceptance:':undefined,validate:SIM.validateSave,gameVersion:VERSION,dataVersion:5,getState:()=>haveSession&&!volatile?state:undefined,onChange(event){
  if(haveSession&&event.mode==='writer'&&event.result?.code==='saved'){dirty=false;saveError=false;saveMessage=event.result.message;}
@@ -30,7 +31,7 @@ function toast(message,error=false){if(modal.open){let notice=$('modal-notice');
 function openModal(title,html){$('modal-title').textContent=title;$('modal-body').innerHTML=html;if(!modal.open)modal.showModal();audio.suspend();}
 function closeModal(){if(!haveSession)return;modal.close();lastFrame=performance.now();audio.sync();}
 function updateSaveStatus(){const el=$('save-status');if(!el)return;const text=volatile?'仅内存试玩 · 请导出':haveSession?(persistence.canWrite?(saveError?saveMessage:dirty?'有新进度 · 即将保存':saveMessage):'只读 · '+persistence.status):saveMessage;el.textContent=text;el.title=haveSession&&!volatile?`世界 ${activeSlot} · ${timeText(persistence.savedAt)}。浏览器关闭后，从本机存档继续。`:text;el.classList.toggle('save-warning',volatile||haveSession&&!persistence.canWrite||saveMessage.includes('失败'));}
-function persistPreferences(){document.documentElement.style.setProperty('--text-scale',preferences.textScale);document.documentElement.classList.toggle('reduced-motion',preferences.reducedMotion);try{localStorage.setItem('xianfu:ea:preferences',JSON.stringify(preferences));}catch{}audio.sync();}
+function persistPreferences(){document.documentElement.style.setProperty('--text-scale',preferences.textScale);document.documentElement.classList.toggle('reduced-motion',preferences.reducedMotion);try{localStorage.setItem(preferenceKey,JSON.stringify(preferences));}catch{}audio.sync();}
 function checkpoint(){return `第${Math.floor(state.time/120)+1}日 · ${SIM.realmName(state.master.realm)} · 篇章${state.story.step}`;}
 function saveNow({silent=false,important=false}={}){if(!haveSession)return {ok:false};if(volatile){if(!silent)toast('本次是内存试玩，请用「导出当前进度」保存文件。');return {ok:false};}const r=persistence.saveNow(state,important?{checkpoint:checkpoint()}:{});saveMessage=r.message;saveError=!r.ok;if(r.ok){dirty=false;lastGood=clone(state);}else{state.speed=0;if(!silent)toast(r.message,true);}updateSaveStatus();if(!silent&&r.ok)toast('当前进度已保存到本机。');return r;}
 function mayAct(){if(!haveSession){showSlots();return false;}if(!volatile&&!persistence.canWrite){toast('当前窗口只读，请在存档设置中请求接管。',true);return false;}return true;}
@@ -81,8 +82,8 @@ attachMapInput(canvas,{pan:world.pan,enabled:()=>haveSession&&!modal.open,onHove
  const picked=world.pick(e);if(picked.distance>75){toast('请点击山路或交互点附近。');return;}if(scene==='valley'||scene==='lake'){setTab('explore');toast('此处为舆图预览，在「山外」选择目的地出行。');return;}
  if(scene==='journey'){if(state.combat?.status==='active'){act('combatAction',picked.kind==='enemy'?'attack':'move',picked.kind==='enemy'?picked.id:{x:picked.x,y:picked.y});}else if(state.world.exploration?.status==='exploring'){act('moveExploration',picked.x,picked.y);if(picked.kind==='landmark')setTab('explore');}else toast('正在途中，请稍候。');return;}
  if(mode==='build'||mode==='move'){const r=mode==='move'?act('relocate',relocateId,picked.x,picked.y):act('build',buildType,picked.x,picked.y);if(r!==null){mode='inspect';buildType=null;relocateId=null;refresh(true);}return;}
- if(mode==='walk'){act('moveMaster','moveScenicMaster',picked.x,picked.y);return;}
- if(picked.kind==='person'){selection={kind:'person',id:picked.id};ui.openPerson(picked.id);}else if(picked.kind==='building'){selection={kind:'building',id:picked.id};ui.renderDetail(selection);}else if(picked.kind==='area'){setTab(picked.id==='gate'?'explore':picked.id==='meditation'?'self':'build');toast('此处尚无已建成设施，可在营造中筹建。');}else{selection=null;ui.renderDetail(null);}refresh(true);
+ if(mode==='walk'){act(picked.scenic?'moveScenicMaster':'moveMaster',picked.x,picked.y);return;}
+ if(picked.kind==='peak'||picked.kind==='overview'){setTab('sect');return;}if(picked.kind==='person'){selection={kind:'person',id:picked.id};ui.openPerson(picked.id);}else if(picked.kind==='building'){selection={kind:'building',id:picked.id};ui.renderDetail(selection);}else if(picked.kind==='area'){setTab(picked.id==='gate'?'explore':picked.id==='meditation'?'self':'build');toast('此处尚无已建成设施，可在营造中筹建。');}else{selection=null;ui.renderDetail(null);}refresh(true);
 }});
 canvas.addEventListener('wheel',e=>{if(modal.open)return;e.preventDefault();world.setZoom(e.deltaY>0?-.07:.07);world.render(performance.now(),true);},{passive:false});
 canvas.addEventListener('pointerleave',()=>{world.setHover(null);updatePlacement();});
@@ -96,12 +97,12 @@ document.addEventListener('click',async e=>{const b=e.target.closest('button');i
  else if('relocate'in d)startRelocate(d.relocate);
  else if('speed'in d){if(mayAct()){state.speed=Number(d.speed);dirty=true;refresh(true);}}
  else if(b.id==='pause'){if(mayAct()){state.speed=state.speed?0:1;dirty=true;refresh(true);}}
- else if(b.id==='settings')settings();else if(b.id==='zoom-in')world.setZoom(.14);else if(b.id==='zoom-out')world.setZoom(-.14);else if(b.id==='recenter'){const p=scene==='journey'?SIM.getCampaignScene(state)?.player:state.master.position;if(p)world.focus(p.x,p.y,scene==='journey');else world.recenter();}else if(b.id==='grid-toggle'){const g=world.setGrid();b.setAttribute('aria-pressed',String(g));}else if(b.id==='master-mode'){selectScene('map');setMode(mode==='walk'?'inspect':'walk');}else if(b.id==='cancel-build'){mode='inspect';buildType=null;relocateId=null;refresh(true);}
+ else if(b.id==='estate-overview'){selectScene('map');setMode('inspect');world.setOverview();ui.fold();world.render(performance.now(),true);}else if(b.id==='settings')settings();else if(b.id==='zoom-in')world.setZoom(.14);else if(b.id==='zoom-out')world.setZoom(-.14);else if(b.id==='recenter'){const p=scene==='journey'?SIM.getCampaignScene(state)?.player:state.master.position;if(p)world.focus(p.x,p.y,scene==='journey');else world.recenter();}else if(b.id==='grid-toggle'){const g=world.setGrid();b.setAttribute('aria-pressed',String(g));}else if(b.id==='master-mode'){selectScene('map');setMode(mode==='walk'?'inspect':'walk');}else if(b.id==='cancel-build'){mode='inspect';buildType=null;relocateId=null;refresh(true);}
  }catch(error){toast(error.message,true);}});
 document.addEventListener('input',e=>{const key=e.target.dataset.pref;if(['musicVolume','sfxVolume'].includes(key)){preferences[key]=Number(e.target.value);persistPreferences();}});
 document.addEventListener('change',e=>{const key=e.target.dataset.pref;if(key&&Object.hasOwn(preferences,key)){preferences[key]=e.target.type==='checkbox'?e.target.checked:Number(e.target.value);persistPreferences();}});
 let lastKeyMove=0;
-document.addEventListener('keydown',e=>{if(modal.open||e.target.closest('input,select,textarea,[contenteditable="true"]')||!haveSession)return;if(e.key==='Escape'){mode='inspect';buildType=null;relocateId=null;refresh(true);return;}if(e.code==='Space'&&!e.target.closest('button')){e.preventDefault();$('pause').click();return;}const delta={w:[0,-1],a:[-1,0],s:[0,1],d:[1,0],ArrowUp:[0,-1],ArrowLeft:[-1,0],ArrowDown:[0,1],ArrowRight:[1,0]}[e.key];if(delta&&performance.now()-lastKeyMove>150){e.preventDefault();lastKeyMove=performance.now();if(scene==='journey'){const p=SIM.getCampaignScene(state)?.player;if(p)act(state.combat?.status==='active'?'combatAction':'moveExploration',...(state.combat?.status==='active'?['move',{x:p.x+delta[0]*1.5,y:p.y+delta[1]*1.5}]:[p.x+delta[0]*1.5,p.y+delta[1]*1.5]));}else if(scene==='map'){setMode('walk');const p=state.master.path?.at(-1)||state.master.position;act('moveMaster','moveScenicMaster',Math.round(p.x)+delta[0],Math.round(p.y)+delta[1]);}}if(scene==='journey'&&state.combat?.status==='active'){const action={j:'attack',k:'spell',l:'dodge',h:'guard',r:'retreat'}[e.key.toLowerCase()];if(action){e.preventDefault();act('combatAction',action);}}});
+document.addEventListener('keydown',e=>{if(modal.open||e.target.closest('input,select,textarea,[contenteditable="true"]')||!haveSession)return;if(e.key==='Escape'){mode='inspect';buildType=null;relocateId=null;refresh(true);return;}if(e.code==='Space'&&!e.target.closest('button')){e.preventDefault();$('pause').click();return;}const delta={w:[0,-1],a:[-1,0],s:[0,1],d:[1,0],ArrowUp:[0,-1],ArrowLeft:[-1,0],ArrowDown:[0,1],ArrowRight:[1,0]}[e.key];if(delta&&performance.now()-lastKeyMove>150){e.preventDefault();lastKeyMove=performance.now();if(scene==='journey'){const p=SIM.getCampaignScene(state)?.player;if(p)act(state.combat?.status==='active'?'combatAction':'moveExploration',...(state.combat?.status==='active'?['move',{x:p.x+delta[0]*1.5,y:p.y+delta[1]*1.5}]:[p.x+delta[0]*1.5,p.y+delta[1]*1.5]));}else if(scene==='map'){world.setOverview(false);setMode('walk');if(world.isPlanning()){const p=state.master.path?.at(-1)||state.master.position;act('moveMaster',Math.round(p.x)+delta[0],Math.round(p.y)+delta[1]);}else{const p=state.master.scenic?.path?.at(-1)||state.master.scenic||{x:758,y:478};act('moveScenicMaster',p.x+delta[0]*45,p.y+delta[1]*45);}}}if(scene==='journey'&&state.combat?.status==='active'){const action={j:'attack',k:'spell',l:'dodge',h:'guard',r:'retreat'}[e.key.toLowerCase()];if(action){e.preventDefault();act('combatAction',action);}}});
 
 document.addEventListener('visibilitychange',()=>{hiddenPause=document.hidden;if(document.hidden){if(haveSession&&!volatile&&persistence.canWrite)saveNow({silent:true});audio.suspend();}else{lastFrame=performance.now();audio.sync();}});
 window.addEventListener('pagehide',()=>{resumeAfterPagehide=haveSession&&!volatile;audio.suspend();parked=resumeAfterPagehide?{state:clone(state),saved:false}:null;const r=persistence.release(resumeAfterPagehide?{state}:{});if(parked)parked.saved=!!r.ok;});

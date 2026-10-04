@@ -1,7 +1,7 @@
-import {REGION_ART,regionPoint,regionInverse,drawAtlas,finalArenaPoint,finalArenaInverse} from './ea-region-art.mjs?v=ea-110-b';
-import {appearance,arenaPoint,arenaInverse} from './ea-scenic.mjs?v=ea-110-b';
-import characterMeta from './ea-character-frames.mjs?v=ea-110-b';
-import {BUILDINGS,CELLS} from './ea-data.mjs?v=ea-110-b';
+import {REGION_ART,regionPoint,regionInverse,drawAtlas,finalArenaPoint,finalArenaInverse} from './ea-region-art.mjs?v=ea-110-c';
+import {appearance,arenaPoint,arenaInverse} from './ea-scenic.mjs?v=ea-110-c';
+import characterMeta from './ea-character-frames.mjs?v=ea-110-c';
+import {BUILDINGS,CELLS} from './ea-data.mjs?v=ea-110-c';
 
 const PALETTE={ink:'#183d33',gold:'#d6ba79',paper:'#f4edd7',mint:'#a8c9ab',red:'#b26954'};
 const logicalPoint=(x,y)=>({x:750+(x-y)*61,y:290+(x+y)*31});
@@ -58,7 +58,7 @@ export function createWorldRenderer(canvas,{getState,getMode,getSelection,getCam
  function drawArena(s,scene,now){const arena=true;if(scene.type!=='region')for(let x=0;x<scene.width;x++)for(let y=0;y<scene.height;y++)diamond(x,y,{fill:(x+y)%2?'#bcd3a416':'#d7d1a117',stroke:grid?'#e7e3b93b':null,arena});
   for(const l of scene.landmarks||[]){const p=point(l.x,l.y,true);ellipse(p.x,p.y,25,12,'#ebd18c88');ctx.strokeStyle='#f6dda2';ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(p.x,p.y,27,14,0,0,Math.PI*2);ctx.stroke();ctx.fillStyle='#315941';ctx.font='22px serif';ctx.textAlign='center';ctx.fillText(l.icon||'迹',p.x,p.y-10);label(l.name,p.x,p.y+30,{bg:'#183d35ee',fg:'#f4dfae',size:12});}
   for(const o of scene.obstacles||[]){if(Number.isFinite(o.x)){const p=point(o.x,o.y,true);ellipse(p.x,p.y,18,10,'#667560');}}
-  const enemies=scene.enemies||s.combat?.enemies||[];for(const e of enemies){const tel=e.telegraph||e.warning;if(tel){const t=tel.target||tel.position||tel,p=point(Number.isFinite(t.x)?t.x:e.x,Number.isFinite(t.y)?t.y:e.y,true);ctx.fillStyle='#b9554145';ctx.strokeStyle='#e69b79';ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(p.x,p.y,(tel.radius||1.3)*52,(tel.radius||1.3)*30,0,0,Math.PI*2);ctx.fill();ctx.stroke();}}
+  const enemies=scene.enemies||s.combat?.enemies||[];for(const e of enemies){const tel=e.telegraph||e.warning;if(tel){const t=tel.target||tel.position||tel,p=point(Number.isFinite(t.x)?t.x:e.x,Number.isFinite(t.y)?t.y:e.y,true);ctx.fillStyle='#b9554145';ctx.strokeStyle='#e69b79';ctx.lineWidth=2;ctx.beginPath();const tx=Number.isFinite(t.x)?t.x:e.x,ty=Number.isFinite(t.y)?t.y:e.y,r=tel.radius||1.3;for(let i=0;i<=64;i++){const a=i*Math.PI*2/64,q=point(tx+Math.cos(a)*r,ty+Math.sin(a)*r,true);if(i)ctx.lineTo(q.x,q.y);else ctx.moveTo(q.x,q.y);}ctx.closePath();ctx.fill();ctx.stroke();}}
   const actors=[...(scene.allies||[]).map(a=>({...a,kind:'ally'})),...enemies.filter(e=>e.hp>0).map(e=>({...e,kind:'enemy'})),{...scene.player,kind:'master',name:s.master.name}].sort((a,b)=>(a.x+a.y)-(b.x+b.y));
   for(const a of actors){const pos=a.position||a,p=point(pos.x,pos.y,true);if(a.kind==='enemy'){portrait(p.x,p.y,4,{name:a.name||'赤嶂门人',color:'#d98568'});}else portrait(p.x,p.y,a.kind==='master'?0:appearance(a.id),{selected:a.kind==='master',name:a.kind==='master'?'掌门':a.name,phase:now*.004,activity:s.combat?'combat':'walk',color:a.kind==='master'?PALETTE.gold:'#9cccd4'});if(Number.isFinite(a.hp))hpBar(p,a.hp,a.maxHp||a.hpMax||100,{enemy:a.kind==='enemy'});}
   const target=scene.player?.target||s.combat?.player?.target||s.world?.exploration?.target;if(target){diamond(target.x,target.y,{stroke:'#efdd9e',size:.25,arena});const p=point(scene.player.x,scene.player.y,true),t=point(target.x,target.y,true);ctx.setLineDash([5,5]);line([p,t],'#e9d29b99',1.6);ctx.setLineDash([]);}

@@ -1,8 +1,8 @@
-import{attachMapInput}from'./map-input.mjs?v=ea-110-b';
+import{attachMapInput}from'./map-input.mjs?v=ea-110-c';
 import{TYPES,RESOURCE,CELLS,initial,canPay,capacity,upgradeCost,build,assign,upgrade,recruit,breakthrough,tick,rates,QUESTS,claim,validateSave,addLog,buildingLock,isAway,demolish}from'./sect-sim.mjs?v=0.4.1';
 import{createExpansion}from'./expansion.mjs?v=0.4.1';
-import{createPersistence}from'./persistence.mjs?v=ea-110-b';
-import{renderCommunity}from'./community.mjs?v=ea-110-b';
+import{createPersistence}from'./persistence.mjs?v=ea-110-c';
+import{renderCommunity}from'./community.mjs?v=ea-110-c';
 import{createSectUI}from'./sect-ui.mjs?v=0.4.1';
 import{moveMaster}from'./sect-sim.mjs?v=0.4.1';
 const persistence=createPersistence(()=>localStorage,validateSave);

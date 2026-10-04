@@ -1,6 +1,6 @@
-import {REGION_ART} from './ea-region-art.mjs?v=ea-110-b';
-import {appearance} from './ea-scenic.mjs?v=ea-110-b';
-import * as SIM from './ea-sim.mjs?v=ea-110-b';
+import {REGION_ART} from './ea-region-art.mjs?v=ea-110-c';
+import {appearance} from './ea-scenic.mjs?v=ea-110-c';
+import * as SIM from './ea-sim.mjs?v=ea-110-c';
 
 const E = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
 const n = value => Number.isFinite(Number(value)) ? Number(value) : 0;
@@ -28,7 +28,7 @@ export const EA_SHELL = `
   <div id="asset-status" class="asset-status" role="status">正在铺开山河画卷…</div>
   <div class="location"><span class="eyebrow" id="stage-label">云岫山 · 结庐避祸</span><h1 id="scene-title">云岫别院</h1><p><span id="game-date">第 1 日 · 辰时</span><span class="location-dot">·</span><span id="scene-weather">晴</span></p></div>
   <button type="button" class="master-status paper" id="master-status" data-ui-action="tab" data-ui-args='["self"]' aria-label="查看掌门状态"></button>
-  <nav id="scene-nav" class="scene-nav" aria-label="场景"><button type="button" data-scene="map" class="active">${icon('mountain')}<span>山院</span></button><button type="button" data-ui-action="tab" data-ui-args='["explore"]'>${icon('compass')}<span>山外</span></button></nav>
+  <nav id="scene-nav" class="scene-nav" aria-label="场景"><button type="button" data-scene="map" class="active">${icon('mountain')}<span>山院</span></button><button id="estate-overview" type="button" aria-label="山势总览">${icon('mountain')}<span>山势</span></button><button type="button" data-ui-action="tab" data-ui-args='["explore"]'>${icon('compass')}<span>山外</span></button></nav>
   <div class="right-stack"><section class="quest-panel paper" aria-label="当前主线"><div class="section-head"><span class="eyebrow">余烬立山</span><button type="button" class="text-button" data-ui-action="tab" data-ui-args='["journal"]'><span id="quest-count">主线</span> ${icon('arrow')}</button></div><div id="quest"></div></section><aside id="detail" class="detail-panel paper hidden" aria-label="选中对象详情"></aside></div>
   <div class="map-tools"><button id="master-mode" type="button" aria-label="切换掌门行走模式" title="掌门行走">${icon('person')}</button><button id="zoom-in" type="button" aria-label="放大地图" title="放大">＋</button><button id="zoom-out" type="button" aria-label="缩小地图" title="缩小">−</button><button id="recenter" type="button" aria-label="定位掌门" title="定位掌门">${icon('pin')}</button><button id="grid-toggle" type="button" aria-label="显示营造网格" title="地块网格">${icon('grid')}</button></div>
   <div class="map-bottom"><div class="time-controls paper" aria-label="时序控制"><button id="pause" type="button" aria-label="暂停游戏">Ⅱ</button><button type="button" data-speed="1" class="active" aria-label="一倍速度">1×</button><button type="button" data-speed="2" aria-label="二倍速度">2×</button><button type="button" data-speed="4" aria-label="四倍速度">4×</button></div><div class="mode-chip" id="mode-label">观山 · 拖动画卷平移</div></div>
