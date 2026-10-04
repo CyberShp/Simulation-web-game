@@ -1,0 +1,22 @@
+{
+  "version": "terrain-lab-1.0",
+  "generatedAt": "2026-10-04T08:47:35.811Z",
+  "publicDestinationPairs": 25,
+  "validatedRouteSegments": 201,
+  "sweptDirections": 1800,
+  "residents": 10,
+  "simulatedSeconds": 300,
+  "commandedJourneys": 10,
+  "crowdMetrics": {
+    "orders": 10,
+    "replans": 0,
+    "blockedMoves": 1,
+    "dodges": 0,
+    "violations": 0,
+    "arrivals": 188,
+    "crowdWaits": 793,
+    "allyAttacks": 0
+  },
+  "assertionResult": "passed",
+  "browserAcceptance": "Recorded separately; this script does not test rendering or real devices."
+}

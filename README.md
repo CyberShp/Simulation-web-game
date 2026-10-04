@@ -17,6 +17,16 @@
 - **山外**：9 个地区，可靠调查路径、天气影响、经营准备、主动移动和范围战斗、预警、守御、闪避、撤离、伤势恢复与两种篇章结局。
 - **界面**：青绿山水、宣纸和篆印风格，地图、管理抽屉、人物档案、任务指引、禁用原因、视听开关、大字与减少动态设置；音乐和音效各自可调音量。
 
+## 新版场景：云岫别院
+
+[打开可交互山院](https://cybershp.github.io/Simulation-web-game/yunxiu-courtyard/?v=courtyard-1.2)。按用户提供的场景参考制作绘景和图标 UI，支持固定院路行走、门人同行、资源生产、修缮与独立续玩。当前是一个场景的交互原型，尚未接入完整 EA 的全部玩法。验收与未实现范围见 [YUNXIU-COURTYARD-ACCEPTANCE.md](docs/YUNXIU-COURTYARD-ACCEPTANCE.md)。
+
+## 早期地形技术样机（非本轮视觉交付）
+
+[云岫山院](https://cybershp.github.io/Simulation-web-game/terrain-lab/?v=terrain-lab-1.0.4) 提供独立的寻路、过桥、动态搬迁、多人避让、快速闪避与分层遮挡体验。六名初始人物可换人同行，并接纳至十人；外观在面板、地图和试炼中保持一致。采用模块化二维角色，尚未替换正式 EA 场景或完成随机 3D 模型。
+
+验收范围与未测项见 [TERRAIN-LAB-ACCEPTANCE.md](docs/TERRAIN-LAB-ACCEPTANCE.md)。本机体验数据独立于正式三个世界档位。运行 `node qa/terrain-lab-acceptance.mjs` 可复验 25 组目的地连通、1,800 段扫掠和 10 人行走压力。
+
 ## 存档与续玩
 
 开启网页后选择三个世界档位之一。每 5 秒、重要操作和切到后台时尝试保存；下次选择「继续修行」即可恢复最后成功保存的进度。关闭期间不推进游戏。

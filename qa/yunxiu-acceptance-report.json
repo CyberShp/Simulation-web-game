@@ -1,0 +1,14 @@
+{
+  "version": "courtyard-1.2",
+  "generatedAt": "2026-10-04T09:22:56.873Z",
+  "routes": 1296,
+  "segments": 12292,
+  "fastMovementBoundarySweeps": 2592,
+  "visitedLandmarks": 7,
+  "followResidents": 3,
+  "invalidPositions": 0,
+  "pausedAndSaveRestore": "passed",
+  "upgradeResourceAccounting": "passed",
+  "assertions": "passed",
+  "scope": "Logical checks only. Rendering and painted-path registration require separate browser inspection."
+}
