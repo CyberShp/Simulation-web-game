@@ -1,11 +1,11 @@
-import * as SIM from './ea-sim.mjs?v=ea-130-preview-20261005-r4';
-import {EA_SHELL,createEAUI} from './ea-ui.mjs?v=ea-130-preview-20261005-r4';
-import {createEAPersistence,MAX_IMPORT_BYTES} from './ea-persistence.mjs?v=ea-130-preview-20261005-r4';
-import {createWorldRenderer} from './ea-courtyard-renderer.mjs?v=ea-130-preview-20261005-r4';
-import {attachMapInput} from './map-input.mjs?v=ea-130-preview-20261005-r4';
-import {scenicPosition} from './ea-scenic.mjs?v=ea-130-preview-20261005-r4';
-import {sceneInteractionReady,sceneInteractionTarget} from './ea-interactions.mjs?v=ea-130-preview-20261005-r4';
-import {createRuntimeClock,createFrameDiagnostics} from './ea-runtime.mjs?v=ea-130-preview-20261005-r4';
+import * as SIM from './ea-sim.mjs?v=ea-130-preview-20261005-r5';
+import {EA_SHELL,createEAUI} from './ea-ui.mjs?v=ea-130-preview-20261005-r5';
+import {createEAPersistence,MAX_IMPORT_BYTES} from './ea-persistence.mjs?v=ea-130-preview-20261005-r5';
+import {createWorldRenderer} from './ea-courtyard-renderer.mjs?v=ea-130-preview-20261005-r5';
+import {attachMapInput} from './map-input.mjs?v=ea-130-preview-20261005-r5';
+import {scenicPosition} from './ea-scenic.mjs?v=ea-130-preview-20261005-r5';
+import {sceneInteractionReady,sceneInteractionTarget} from './ea-interactions.mjs?v=ea-130-preview-20261005-r5';
+import {createRuntimeClock,createFrameDiagnostics} from './ea-runtime.mjs?v=ea-130-preview-20261005-r5';
 
 const VERSION=SIM.GAME_VERSION;
 const runtimeClock=createRuntimeClock(),diagnostics=createFrameDiagnostics();
@@ -96,7 +96,7 @@ function checkSceneInteraction(now){
  const intent=state.master.sceneIntent,personPosition=intent.kind==='person'?world.getPersonPosition?.(intent.id):null;
  if(intent.kind==='person'&&!personPosition){cancelInteraction();toast('此人已离开山院，归院后再交谈。');return;}
  const ready=sceneInteractionReady(state,personPosition);
- if(ready?.cancelled){act('cancelSceneInteraction');toast(ready.reason,true);return;}
+ if(ready?.cancelled){cancelInteraction();toast(ready.reason,true);return;}
  if(ready){act('cancelSceneInteraction');if(ready.option.command&&act(ready.option.command,...ready.option.args)===null)return;ui.finishSceneInteraction(ready.option,ready.target,ready.intent);return;}
  if(!state.master.scenic?.path?.length&&state.master.action!=='walk'){const target=sceneInteractionTarget(state,intent.kind,intent.id);if(target)act('requestSceneInteraction',intent.kind,intent.id,intent.action,personPosition);}
 }

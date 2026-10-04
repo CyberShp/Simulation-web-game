@@ -4,9 +4,13 @@
 const fields = {
   legacy:{origin:{x:500,y:365},u:{x:55,y:9},v:{x:-25,y:29},spriteScale:1,obstacles:[]},
   'legacy-qixia':{origin:{x:670,y:375},u:{x:50,y:8},v:{x:-15,y:28},spriteScale:1,obstacles:[]},
-  quarry:{origin:{x:500,y:420},u:{x:45,y:17},v:{x:-12,y:9},spriteScale:.84,obstacles:[{id:'bridge-crates',name:'桥边货箱',kind:'crates',x:4.1,y:1.2,w:1,h:1.3}]},
-  prison:{origin:{x:600,y:680},u:{x:20,y:-6},v:{x:12,y:8},spriteScale:.66,obstacles:[{id:'prison-stone',name:'牢前石堆',kind:'rubble',x:5,y:5.4,w:1.1,h:1.1}]},
-  supply:{origin:{x:600,y:570},u:{x:35,y:-17},v:{x:10,y:9},spriteScale:.8,obstacles:[{id:'supply-crates',name:'粮道货箱',kind:'crates',x:5,y:2,w:1.2,h:1.3}]},
+  // Quarry is the narrow TOP of the foreground stone bridge. Its masonry face
+  // is 60–100px lower and is never a floor. The previous broad rectangle covered
+  // that facade; these anchors are taken from the enlarged atlas cell.
+  quarry:{origin:{x:650,y:402},u:{x:36,y:9.3},v:{x:-5,y:5.5},spriteScale:.84,obstacles:[{id:'bridge-crates',name:'桥边货箱',kind:'crates',x:4.1,y:1.2,w:1,h:1.3}]},
+  prison:{origin:{x:610,y:680},u:{x:18,y:-5},v:{x:9,y:7},spriteScale:.66,obstacles:[{id:'prison-stone',name:'牢前石堆',kind:'rubble',x:5,y:5.4,w:1.1,h:1.1}]},
+  // Ambush on the empty dry approach, not on the painted wagons or water quay.
+  supply:{origin:{x:637,y:752},u:{x:14,y:9.5},v:{x:-2,y:2},spriteScale:.66,obstacles:[{id:'supply-crates',name:'粮道货箱',kind:'crates',x:5,y:2,w:1.2,h:1.3}]},
   qixia:{origin:{x:670,y:375},u:{x:50,y:8},v:{x:-15,y:28},spriteScale:1,obstacles:[{id:'court-rubble',name:'残阵碎石',kind:'rubble',x:5.1,y:5.9,w:1.25,h:.95},{id:'court-stone',name:'断柱基座',kind:'rubble',x:9.6,y:1.1,w:.8,h:1}]}
 };
 export const COMBAT_FIELDS=Object.freeze(fields);
