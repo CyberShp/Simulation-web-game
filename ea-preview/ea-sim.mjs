@@ -1,20 +1,22 @@
-import {startScenicWalk,advanceScenic,validateScenic,repairScenicState,syncScenicPosition,buildingAccess,scenicDistance,scenicCanStand,scenicFindPath} from './ea-scenic.mjs?v=ea-130-release-20261005';
-import {lifeActivityLock,lifeFacility,personLifeSummary,actorScenePosition,localLifeFacility} from './ea-life.mjs?v=ea-130-release-20261005';
-import {validateSceneIntent,cancelSceneInteraction} from './ea-interactions.mjs?v=ea-130-release-20261005';
-import {initNarrative,validateNarrative} from './ea-narrative.mjs?v=ea-130-release-20261005';
-import {routeDiscovered} from './ea-scene-state.mjs?v=ea-130-release-20261005';
-import * as legacy from './sect-sim.mjs?v=ea-130-release-20261005';
-import * as data from './ea-data.mjs?v=ea-130-release-20261005';
-import * as society from './ea-society.mjs?v=ea-130-release-20261005';
-import * as campaign from './ea-campaign.mjs?v=ea-130-release-20261005';
-export * from './ea-data.mjs?v=ea-130-release-20261005';
-export * from './ea-society.mjs?v=ea-130-release-20261005';
-export * from './ea-campaign.mjs?v=ea-130-release-20261005';
-export * from './ea-life.mjs?v=ea-130-release-20261005';
-export * from './ea-narrative.mjs?v=ea-130-release-20261005';
-export {requestSceneInteraction,cancelSceneInteraction} from './ea-interactions.mjs?v=ea-130-release-20261005';
-export {resolveVisitor,resolveVisitor as resolveWorldVisitor} from './ea-campaign.mjs?v=ea-130-release-20261005';
-export {resolveVisitor as resolveSocietyVisitor} from './ea-society.mjs?v=ea-130-release-20261005';
+import {startScenicWalk,advanceScenic,validateScenic,repairScenicState,syncScenicPosition,buildingAccess,scenicDistance,scenicCanStand,scenicFindPath} from './ea-scenic.mjs?v=ea-140-preview-20261005';
+import {lifeActivityLock,lifeFacility,personLifeSummary,actorScenePosition,localLifeFacility} from './ea-life.mjs?v=ea-140-preview-20261005';
+import {validateSceneIntent,cancelSceneInteraction} from './ea-interactions.mjs?v=ea-140-preview-20261005';
+import {initNarrative,validateNarrative} from './ea-narrative.mjs?v=ea-140-preview-20261005';
+import {routeDiscovered} from './ea-scene-state.mjs?v=ea-140-preview-20261005';
+import {initOnboarding,validateOnboarding,recordFirstProduction} from './ea-onboarding.mjs?v=ea-140-preview-20261005';
+export {setIntroPage,acknowledgeOnboarding} from './ea-onboarding.mjs?v=ea-140-preview-20261005';
+import * as legacy from './sect-sim.mjs?v=ea-140-preview-20261005';
+import * as data from './ea-data.mjs?v=ea-140-preview-20261005';
+import * as society from './ea-society.mjs?v=ea-140-preview-20261005';
+import * as campaign from './ea-campaign.mjs?v=ea-140-preview-20261005';
+export * from './ea-data.mjs?v=ea-140-preview-20261005';
+export * from './ea-society.mjs?v=ea-140-preview-20261005';
+export * from './ea-campaign.mjs?v=ea-140-preview-20261005';
+export * from './ea-life.mjs?v=ea-140-preview-20261005';
+export * from './ea-narrative.mjs?v=ea-140-preview-20261005';
+export {requestSceneInteraction,cancelSceneInteraction} from './ea-interactions.mjs?v=ea-140-preview-20261005';
+export {resolveVisitor,resolveVisitor as resolveWorldVisitor} from './ea-campaign.mjs?v=ea-140-preview-20261005';
+export {resolveVisitor as resolveSocietyVisitor} from './ea-society.mjs?v=ea-140-preview-20261005';
 const {RESOURCES,BUILDINGS,TECHNIQUES,RECIPES,ROUTES,GOODS,CELLS,NAMES,TRAIT_NAMES,day,xpNeed,realmName,rng,log,canPay,pay,grant,clamp,capacity,stage,finite,integer}=data;
 const resourceZero=()=>Object.fromEntries(Object.keys(RESOURCES).map(k=>[k,0]));
 const own=(o,k)=>Object.hasOwn(o,k);
@@ -51,8 +53,8 @@ export function initial(options={}){
  const s=normaliseBase(legacy.initial());
  if(options.seed!==undefined){if(!integer(options.seed,1,4294967295))throw Error('随机种子应为1至4294967295的整数。');s.sim.seed=options.seed;}
  if(options.name!==undefined){if(typeof options.name!=='string'||!options.name.trim()||options.name.trim().length>20)throw Error('姓名应为1至20字。');s.master.name=options.name.trim();}
- s.resources.food=50;s.master.hp=100;s.master.maxHp=100;
- society.initSociety(s,{legacy:false});campaign.initCampaign(s,{legacy:false,migrate:false});initNarrative(s,{legacy:false});
+ s.resources.food=50;s.resources.herb=22;s.master.hp=100;s.master.maxHp=100;
+ society.initSociety(s,{legacy:false});campaign.initCampaign(s,{legacy:false,migrate:false});initNarrative(s,{legacy:false});initOnboarding(s);
  return s;
 }
 export function addDisciple(s,options={}){
@@ -248,7 +250,7 @@ function masterStep(s){
  if(m.action==='teach'){m.energy=Math.max(0,m.energy-.16);const id=m.teaching||m.main;if(m.knowledge[id]>=60)m.knowledge[id]=Math.min(100,m.knowledge[id]+.02);return;}
  if(['wood','stone','herb','food'].includes(m.action)){m.energy=Math.max(0,m.energy-.15);m.work++;if(m.work>=10){m.work=0;const effects=weather(s).production||{};grant(s,{[m.action]:({wood:12,stone:10,herb:10,food:16}[m.action])*(effects[m.action]??1)});}}
 }
-const hooks={studyLock,compatible,learnTechnique,xpNeed,cultivationRate,buildingYield,breakthroughLock,breakthroughPerson,consumePill,capacity,stage,teachers,supportLimit,restRecovery,addDisciple,grant,pay,canPay,rng,day,log};
+const hooks={studyLock,compatible,learnTechnique,xpNeed,cultivationRate,buildingYield,onProduction:recordFirstProduction,breakthroughLock,breakthroughPerson,consumePill,capacity,stage,teachers,supportLimit,restRecovery,addDisciple,grant,pay,canPay,rng,day,log};
 if(campaign.configureCampaign)campaign.configureCampaign({...hooks,canAccompany:society.canAccompany,campaignOutcome:society.campaignOutcome});
 function step(s){
  s.time++;renewMarket(s);supplyStep(s);
@@ -275,6 +277,7 @@ export function validateSave(input){
  if(s.buildings.filter(b=>b.type==='hall').length!==1||s.nextId<=Math.max(...bIds)||s.disciples.length>capacity(s))fail('主屋、容量或建筑编号异常');
  for(const[type,t]of Object.entries(BUILDINGS))if(t.unique&&s.buildings.filter(b=>b.type===type).length>1)fail(`唯一建筑重复：${t.name}`);
  if(!s.stats||!['built','breakthroughs','crafted','expeditions','relocated','trades','consumed'].every(k=>integer(s.stats[k])))fail('统计字段异常');
+ if(!validateOnboarding(s))fail('开局指引记录异常');
  if(!arr(s.claimed,QUESTS.length)||!unique(s.claimed)||!s.claimed.every(id=>QUESTS.some(q=>q.id===id)))fail('里程碑领取记录异常');
  if(!s.sect||!integer(s.sect.level,1,3)||!finite(s.sect.reputation)||!str(s.sect.name,1,30)||typeof s.sect.founded!=='boolean')fail('山门字段异常');
  if(!s.sim||!integer(s.sim.seed,1,4294967295)||!finite(s.sim.carry,0,1)||s.sim.carry>=1||!finite(s.sim.decision,0,100000))fail('模拟时钟或随机种子异常');

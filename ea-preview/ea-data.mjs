@@ -1,5 +1,5 @@
 /** EA data is independent of legacy shared objects. All randomness is state-owned. */
-export const GAME_VERSION='1.3.0-ea';
+export const GAME_VERSION='1.4.0-ea';
 export const DAY_LENGTH=120;
 export const RESOURCES={jade:'灵石',wood:'灵木',stone:'青石',herb:'灵草',crystal:'灵晶',insight:'道韵',food:'口粮'};
 export const RESOURCE=RESOURCES;

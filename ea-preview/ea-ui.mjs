@@ -1,9 +1,10 @@
-import {REGION_ART} from './ea-region-art.mjs?v=ea-130-release-20261005';
-import {appearance} from './ea-scenic.mjs?v=ea-130-release-20261005';
-import {facilityRecords,nextObjective,routeDiscovered} from './ea-scene-state.mjs?v=ea-130-release-20261005';
-import {sceneInteractionOptions,sceneInteractionTarget} from './ea-interactions.mjs?v=ea-130-release-20261005';
-import {narrativeForState,sceneDialogue,regionInteractions,homeInteractions} from './ea-narrative.mjs?v=ea-130-release-20261005';
-import * as SIM from './ea-sim.mjs?v=ea-130-release-20261005';
+import {REGION_ART} from './ea-region-art.mjs?v=ea-140-preview-20261005';
+import {appearance} from './ea-scenic.mjs?v=ea-140-preview-20261005';
+import {facilityRecords,nextObjective,routeDiscovered} from './ea-scene-state.mjs?v=ea-140-preview-20261005';
+import {sceneInteractionOptions,sceneInteractionTarget} from './ea-interactions.mjs?v=ea-140-preview-20261005';
+import {narrativeForState,sceneDialogue,regionInteractions,homeInteractions} from './ea-narrative.mjs?v=ea-140-preview-20261005';
+import * as SIM from './ea-sim.mjs?v=ea-140-preview-20261005';
+import {onboardingView,availableSystems,resourceReserve,resumeSummary} from './ea-onboarding.mjs?v=ea-140-preview-20261005';
 
 const E = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
 const n = value => Number.isFinite(Number(value)) ? Number(value) : 0;
@@ -37,11 +38,11 @@ export const EA_SHELL = `
   <div class="map-bottom"><div class="time-controls paper" aria-label="时序控制"><button id="pause" type="button" aria-label="暂停游戏">Ⅱ</button><button type="button" data-speed="1" class="active" aria-label="一倍速度">1×</button><button type="button" data-speed="2" aria-label="二倍速度">2×</button><button type="button" data-speed="4" aria-label="四倍速度">4×</button></div><div class="mode-chip" id="mode-label">观山 · 拖动画卷平移</div></div>
   <button type="button" id="expedition-banner" class="expedition-banner hidden" data-ui-action="tab" data-ui-args='["explore"]'></button>
   <section id="combat-hud" class="combat-hud hidden" aria-label="战斗控制"></section>
-  <div id="placement-bar" class="placement-bar" hidden role="status"><span id="placement-text"></span><button type="button" id="cancel-build" class="secondary">取消 <kbd>Esc</kbd></button></div>
+  <div id="placement-bar" class="placement-bar" hidden role="status"><span id="placement-text"></span><button type="button" id="placement-confirm" class="primary" hidden>建在推荐位置</button><button type="button" id="cancel-build" class="secondary">取消 <kbd>Esc</kbd></button></div>
   <div id="scene-intent" class="scene-intent paper hidden" role="status"></div>
   <div id="toast" role="status" aria-live="polite" class="toast hidden"></div>
   <section id="bottom-panel" class="bottom-panel paper" aria-label="仙府管理">
-    <nav id="bottom-nav" class="bottom-nav" aria-label="管理面板"><div class="nav-tabs">${TABS.map(([id,label,glyph])=>`<button type="button" data-tab="${id}" class="${id==='self'?'active':''}${['manuals','production','explore','journal'].includes(id)?' secondary-tab':''}" aria-pressed="${id==='self'}">${icon(glyph)}<span>${label}</span>${id==='disciples'?'<b id="disciple-count">0</b>':''}</button>`).join('')}<button type="button" id="more-tabs" class="more-tabs" aria-haspopup="true" aria-expanded="false">${icon('more')}<span>更多</span></button></div><span id="bottom-summary" class="bottom-summary"></span><button type="button" id="fold-panel" class="fold-panel" aria-label="收起管理面板" aria-expanded="true">${icon('chevron')}</button></nav>
+    <nav id="bottom-nav" class="bottom-nav" aria-label="管理面板"><div class="nav-tabs">${TABS.map(([id,label,glyph])=>`<button type="button" data-tab="${id}" class="${id==='self'?'active':''}${['manuals','production','explore','journal'].includes(id)?' secondary-tab':''}" aria-pressed="${id==='self'}">${icon(glyph)}<span>${label}</span>${id==='disciples'?'<b id="disciple-count">0</b>':''}</button>`).join('')}<button type="button" id="more-tabs" class="more-tabs" aria-haspopup="true" aria-expanded="false">${icon('more')}<span>更多</span></button></div><button type="button" id="system-overview" class="system-overview" data-ui-action="allSystems" aria-expanded="false">系统一览</button><span id="bottom-summary" class="bottom-summary"></span><button type="button" id="fold-panel" class="fold-panel" aria-label="收起管理面板" aria-expanded="true">${icon('chevron')}</button></nav>
     <div id="more-menu" class="more-menu hidden">${TABS.filter(([id])=>['manuals','production','explore','journal'].includes(id)).map(([id,label,glyph])=>`<button type="button" data-tab="${id}">${icon(glyph)}${label}</button>`).join('')}</div>
     <div id="bottom-content" tabindex="-1"></div>
   </section>
@@ -79,7 +80,7 @@ function morph(parent, html) {
 
 export function createEAUI(api) {
   const $ = selector => document.querySelector(selector);
-  const ui = {tab:'self',sections:{production:'inventory'},filters:{build:'all',manuals:'all',disciples:'all',journal:'all'},search:'',tradeBatches:{},folded:true,selection:null,modal:null,modalTitle:'',more:false,scroll:{},lastTab:null};
+  const ui = {tab:'self',sections:{production:'inventory'},filters:{build:'all',manuals:'all',disciples:'all',journal:'all'},search:'',tradeBatches:{},folded:true,selection:null,modal:null,modalTitle:'',more:false,scroll:{},lastTab:null,allSystems:false};
   const getState=()=>api.getState();
   const getTab=()=>({alchemy:'production',market:'production'}[api.getTab?.()]||api.getTab?.()||ui.tab);
   const resources=()=>SIM.RESOURCE||SIM.RESOURCES||{};
@@ -105,6 +106,7 @@ export function createEAUI(api) {
   const command=payload=>act('societyCommand',payload);
 
   function hero(s){
+    if(s.story.onboarding&&!ui.allSystems&&s.story.step<2)return panelHead('先安身，再寻归路','你直接控制这位沈氏遗孤，山院仍只是落脚之地。')+`<div class="opening-hero ui-card"><div class="hero-identity"><div class="portrait hero-portrait" aria-hidden="true"></div><div><h3>${E(s.master.name)}</h3><p>${E(realm(s.master))} · 天资卓绝</p><p>${E(ACTIONS[s.master.action])}</p></div></div>${meter('精力',s.master.energy)}${s.master.wound?meter('伤势',s.master.wound,100,'danger'):note('经脉已稳，院外有人求药。','success')}<div class="button-row">${btn('用灵草调息（6份）','masterAction',['heal'],{className:'primary',lock:s.master.wound<=0?'伤势已愈':costLock(s,{herb:6})})}${btn('采集灵草','masterAction',['herb'])}${btn('调息休息','masterAction',['rest'])}</div><p>母亲另包了一剂备用药。疗伤需 6 份，赠药需 10 份；不足时可采集补足。疗伤与采集随时序推进，暂停时不会完成。</p>${btn('回到眼前的目标','guideNext',[],{full:true})}</div>`;
     const m=s.master,lock=call('breakthroughLock',s,m,true)||'',risk=call('riskBreakthroughInfo',s),away=!!(s.world?.exploration||s.combat?.status==='active'||m.journey);
     const actions=[['rest','调息休憩'],['heal','疗养伤势'],['cultivate','静心修炼'],['teach','公开讲法'],['wood','采集灵木'],['stone','开采青石'],['herb','采集灵草'],['food','采集山蔬']];
     return panelHead('一身风雨，再立山门','掌门的修行与亲往同享一段时光。',btn('旧事与身世','biography',[],{icon:'scroll'}))+`<div class="hero-layout"><section class="hero-profile ui-card"><div class="hero-identity"><div class="portrait hero-portrait" aria-hidden="true"></div><div><span class="eyebrow">玩家角色 · 掌门</span><h3>${E(m.name)}</h3><p>${E(realm(m))} <span class="tag gold">天资卓绝</span></p><span class="activity-dot">${E(ACTIONS[m.action]||'院中调息')}</span></div></div>${meter('修为',m.xp,xpNeed(m),'gold')}${meter('精力',m.energy)}${m.wound>0?meter('伤势',m.wound,100,'danger'):note('经脉安稳 · 无伤势','success')}<div class="button-row">${btn(m.realm===9?'稳妥筑基':'稳妥突破','masterBreakthrough',[],{className:'primary',lock})}${risk?btn('提前冲关','riskBreakthrough',[],{lock:risk.lock}):''}${btn('点击地图行走','walk',[],{icon:'pin',lock:away?'山外时请使用场景行动':''})}</div>${note(lock,'lock-reason')}${risk?note(`提前冲关：${risk.lock||`当前成功率 ${Math.round(risk.chance*100)}%，确认前可查看全部代价。`}`,'lock-reason'):''}<div class="cost-line">突破所需 ${costs(call('breakthroughCost',m)||{})}${m.realm===9?'<span>筑基丹 × 1</span>':''}</div></section><section class="hero-actions ui-card"><div class="card-title"><h3>此刻做什么</h3><span class="tag">${E(ACTIONS[m.action]||m.action)}</span></div><div class="action-grid">${actions.map(([id,label])=>{const reason=away?'正在山外行动':id==='heal'?(m.wound<=0?'伤势已愈':costLock(s,{herb:6})):['cultivate','teach'].includes(id)&&m.wound>0?'先疗愈伤势':id==='teach'&&!Object.entries(m.knowledge).some(([tid,k])=>k>=techniques()[tid]?.teacherMastery)?'需一部传承熟练度60':'';return btn(label,'masterAction',[id],{className:m.action===id?'primary':'secondary',lock:reason,pressed:m.action===id});}).join('')}</div><p class="ui-note">疗伤需灵草 6；采集可缓解短缺。讲法提供学习机会，门人会自行决定是否参与。</p><div class="compact-pills">${Object.entries(SIM.RECIPES||{}).filter(([id])=>id!=='foundation').map(([id,r])=>btn(`服${r.name} · ${s.pills?.[id]||0}`,'masterPill',[id],{lock:away?'归院后服丹':n(s.pills?.[id])<1?'府库暂无此丹':''})).join('')}</div></section><section class="hero-method ui-card"><span class="eyebrow">所学成其身</span><h3>${E(techniques()[m.main]?.name||'尚未立主修')}</h3><p>${E(techniques()[m.main]?.description||'在传承中查阅适合自己的法门。')}</p>${meter('主修熟练',m.knowledge?.[m.main]||0)}<div class="tag-row">${list(m.support).map(id=>`<span class="tag">${E(techniques()[id]?.name||id)}</span>`).join('')||'<span class="muted">尚无辅修</span>'}</div>${m.learning?`<div class="learning-note"><strong>正在研习 ${E(techniques()[m.learning.id]?.name)}</strong>${bar(m.learning.progress,m.learning.total||techniques()[m.learning.id]?.duration||60)}<small>完成后提升传承掌握。</small></div>`:''}${btn('查看传承与前置','tab',['manuals'],{full:true})}${m.main!=='qingyuan'?btn('重归基础，另择主修','resetCultivation',[],{full:true,lock:away?'归院后调整功体':m.wound>0?'先疗愈伤势':m.energy<30?'需至少30精力':costLock(s,{jade:80,herb:20})}):''}${note('WASD / 方向键行走 · 空格暂停 · Esc 取消当前操作')}</section></div>`;
@@ -191,9 +193,14 @@ export function createEAUI(api) {
   function storyButton(q){if(q.completed)return '<div class="chapter-complete">旧事已收束，山院仍有长日。</div>';return q.step===9&&q.ready?`<div class="button-row">${btn('重建栖霞故地','ending',['rebuild'],{className:'primary'})}${btn('带传承回云岫','ending',['return'])}</div>`:btn(q.ready?q.action||'推进主线':'查看准备方向',q.ready?'advanceStory':'questGuide',[],{className:q.ready?'primary':'secondary',full:true});}
 
   function renderHUD(s,v){
+    const systems=ui.allSystems?TABS.map(t=>t[0]):availableSystems(s);
+    document.querySelectorAll('[data-tab]').forEach(b=>{b.hidden=!systems.includes(b.dataset.tab);});
+    const outside=$('#scene-nav [data-ui-action="tab"]');if(outside)outside.hidden=!systems.includes('explore');
+    $('#viewport').dataset.opening=s.story.onboarding&&s.story.step<2?'true':'false';
+    const toggle=$('#system-overview');if(toggle){toggle.textContent=ui.allSystems?'按进度显示系统':'系统一览';toggle.setAttribute('aria-expanded',String(ui.allSystems));}
     const names=resources();
     const symbols={jade:'◆',wood:'木',stone:'石',herb:'草',food:'粮',crystal:'晶',insight:'悟'};
-    morph($('#resources'),Object.entries(s.resources).map(([key,value])=>`<button type="button" class="resource resource-${key}" data-key="hud-${key}" data-ui-action="tab" data-ui-args='["production"]' aria-label="${E(names[key]||resName(key))} ${fmt(value)}，查看府库"><span class="resource-symbol" aria-hidden="true">${icon(({jade:'jade',wood:'wood',stone:'stone',herb:'leaf',food:'food',crystal:'crystal',insight:'sun'})[key])}</span><span><small>${E(resName(key))}</small><b>${fmt(value)}</b></span></button>`).join(''));
+    morph($('#resources'),Object.entries(s.resources).filter(([key,value])=>!s.story.onboarding||ui.allSystems||s.story.step>=3||value>0||!['crystal','insight'].includes(key)).map(([key,value])=>`<button type="button" class="resource resource-${key}" data-key="hud-${key}" data-ui-action="tab" data-ui-args='["${systems.includes('production')?'production':'self'}"]' aria-label="${E(names[key]||resName(key))} ${fmt(value)}，查看府库"><span class="resource-symbol" aria-hidden="true">${icon(({jade:'jade',wood:'wood',stone:'stone',herb:'leaf',food:'food',crystal:'crystal',insight:'sun'})[key])}</span><span><small>${E(resName(key))}</small><b>${fmt(value)}</b></span></button>`).join(''));
     const m=s.master;
     morph($('#master-status'),`<span class="portrait mini" aria-hidden="true"></span><span class="master-chip-copy"><span><strong>${E(m.name)}</strong><small>${E(realm(m))}</small></span><span class="tiny-meter"><i style="width:${n(m.energy)}%"></i></span><small>${E(ACTIONS[m.action]||'院中调息')}${m.wound>0?` · 伤势 ${fmt(m.wound)}`:''}</small></span>`);
     const stage=call('stage',s)||0;$('#stage-label').textContent=api.getScene?.()==='journey'?`${s.combat?.status==='active'?'临敌战场':s.world.exploration?.status==='traveling'?'山路途中':'亲往调查'} · ${SIM.WEATHER?.[s.world.exploration?.weather]?.name||'按当前行程'}`:`云岫山 · ${SIM.STAGE_NAMES?.[stage]||'山院初成'}`;
@@ -202,7 +209,7 @@ export function createEAUI(api) {
     $('#disciple-count').textContent=String(v.disciples.length);
     const q=campaign(s);$('#quest-count').textContent=q.completed?'已收束':`${q.step+1} / ${SIM.STORY?.length||10}`;
     const next=nextObjective(s);
-    morph($('#quest'),`<h2>${E(q.title)}</h2><p>${E(q.text)}</p><ul class="requirement-list compact">${list(q.requirements).slice(0,3).map(r=>stateCheck(r.label,r.met)).join('')}</ul>${storyButton(q)}<div class="next-objective"><p>${E(next.text)}</p>${btn(next.label,'guideNext',[],{full:true})}</div>`);
+    morph($('#quest'),`<h2>${E(q.title)}</h2><p>${E(q.text)}</p><ul class="requirement-list compact">${list(q.requirements).slice(0,3).map(r=>stateCheck(r.label,r.met)).join('')}</ul>${s.story.onboarding&&q.step<4?'':storyButton(q)}<div class="next-objective"><p>${E(next.text)}</p>${btn(next.label,'guideNext',[],{full:true})}</div>${openingFeedback(s)}`);
     $('#pause').textContent=s.speed?'Ⅱ':'▶';$('#pause').setAttribute('aria-label',s.speed?'暂停游戏':'继续游戏');document.querySelectorAll('[data-speed]').forEach(button=>{button.classList.toggle('active',Number(button.dataset.speed)===s.speed);button.setAttribute('aria-pressed',String(Number(button.dataset.speed)===s.speed));});
     const ex=call('explorationOptions',s)?.active,banner=$('#expedition-banner');banner.classList.toggle('hidden',!ex);if(ex)banner.textContent=`${ex.regionName} · ${ex.status==='traveling'?`途中 ${Math.ceil(ex.remaining)} 秒`:s.combat?.status==='active'?'战斗进行中，点击返回战场':ex.resolved?'调查已结束，返回山院':ex.canInteract?'已抵线索，点击处理':'沿图前往交互点'} →`;$('#scene-title').textContent=api.getScene?.()==='journey'&&ex?ex.regionName:api.getScene?.()==='valley'?'青萝山谷':api.getScene?.()==='lake'?'寒潭遗境':v.formal?v.name||s.sect.name:'云岫别院';
     const combat=s.combat,combatHUD=$('#combat-hud');
@@ -238,6 +245,13 @@ export function createEAUI(api) {
   }
 
   let prologuePage=0;const dismissedNarrative=new Set();
+  function openingFeedback(s){
+    const v=onboardingView(s),f=v.feedback,w=v.work;
+    if(f)return `<section class="first-harvest" role="status"><span class="eyebrow">经营有了回响</span><h3>${E(f.title)}</h3><p>${E(f.text)}</p>${btn('看看她的药圃与生活','observeWork',[f.buildingId,f.personId],{full:true})}${btn('记下这次收获','acknowledgeOnboarding',[f.id],{className:'text-button',full:true})}</section>`;
+    if(v.enabled&&w)return `<section class="first-work"><h3>${E(w.title)}</h3><p>${E(w.text)}</p>${btn('观察门人的行动','observeWork',[w.buildingId,w.personId],{full:true})}</section>`;
+    return v.enabled&&v.reserve?`<p class="opening-reserve">灵草用途：疗伤 6 · 赠药 10。当前阶段建议留够 ${v.reserve} 份；不足可采集恢复。</p>`:'';
+  }
+  function showResume(){const v=resumeSummary(getState(),nextObjective(getState()));open(v.title,`<div class="resume-summary"><span class="eyebrow">${E(v.detail)}</span><h3>${E(v.text)}</h3><p>${E(v.next.text)}</p>${btn('继续眼前的目标','resumeObjective',[],{className:'primary',full:true})}${btn('先看看山院','closeModal',[],{full:true})}</div>`,{kind:'resume'});}
   function maybeNarrative(){const s=getState(),view=narrativeForState(s);if(!view.pending||$('#modal').open)return;const item=!dismissedNarrative.has(view.pending.id)?view.pending:view.archive.find(o=>!o.acknowledged&&!dismissedNarrative.has(o.id)&&!o.id.startsWith('recovery:'));if(item){const pending=sceneDialogue(s,item.id);openNarrative(pending.id,pending.cursor);}}
   function openNarrative(id,index=0,review=false){
     const s=getState(),dialogue=sceneDialogue(s,id);if(!dialogue)return;const page=Math.max(0,Math.min(dialogue.pages.length-1,index)),entry=dialogue.pages[page],last=page===dialogue.pages.length-1;
@@ -269,15 +283,26 @@ export function createEAUI(api) {
     if(intent.action==='manuals')setTab('manuals');else if(intent.action==='alchemy'){ui.sections.production='alchemy';setTab('production');}else if(intent.action==='production'){ui.sections.production='inventory';setTab('production');}else{api.locate?.('building',intent.id);ui.folded=true;render();}
   }
   function openPrologue(page=0){
+    if(getState().story.onboarding&&!getState().story.intro&&getState().story.onboarding.introPage!==page)act('setIntroPage',page);
     prologuePage=page;const name=E(getState().master.name),pages=[
       {title:'序章 · 栖霞雨夜',heading:'那一夜，山门失守。',text:`你是${name}，栖霞沈氏的年轻修士。天资卓绝，炼气六层，却还无力挡住赤嶂门的夺脉之祸。父亲逆转护山残阵，把追兵拦在山门之外。`},
       {title:'序章 · 最后的托付',heading:'「活下去，传承便还在。」',text:'母亲耗尽修为发动遁符，把炼气篇、残缺筑基篇、药理札记和一封旧信交给你。双亲留在雨夜里，你带着重伤逃入云岫。'},
       {title:'序章 · 云岫旧居',heading:'先点起灯，再寻归路。',text:'这里是母亲早年的采药别院。主屋还在，其余地块久无人照看，尚无门人，也没有现成的药田、工坊或丹炉。先用随身灵草治伤，再与山民结缘、恢复供给，沿旧信调查仇家。'}
     ],p=pages[page];
-    open(p.title,`<div class="prologue-scene"><span class="eyebrow">余烬立山 · ${page+1} / 3</span><h2>${p.heading}</h2><p>${p.text}</p></div><div class="settings-note">${page===2?'当前目标：灵草调息 → 伤势痊愈 → 赠药结缘。你直接控制掌门，未来的门人会自主安排生活。':'阅读剧情时世界暂停；关闭网页后，可以从本机存档续玩。'}</div><div class="button-row">${page>0?btn('上一幕','prologue',[page-1]):''}${page<2?btn('继续','prologue',[page+1],{className:'primary'}):btn('用灵草调息（6份）','beginChapter',['heal'],{className:'primary'})}${btn('进入山院，稍后回顾','beginChapter',['skip'],{className:'text-button'})}</div>`,{kind:'prologue'});
+    open(p.title,`<div class="prologue-stage prologue-stage-${page}" aria-hidden="true"><div class="prologue-rain"></div><div class="prologue-glow"></div><div class="prologue-relics"><span>药匣</span><span>残卷</span><span>旧信</span></div><span class="prologue-caption">${['栖霞 · 山门雨夜','母亲留下的最后一盏灯','云岫 · 旧院重燃灯火'][page]}</span></div><div class="prologue-scene"><span class="eyebrow">余烬立山 · ${page+1} / 3</span><h2>${p.heading}</h2><p>${p.text}</p></div><div class="settings-note">${page===2?'当前目标：灵草调息 → 伤势痊愈 → 赠药结缘。你直接控制掌门，未来的门人会自主安排生活。':'阅读剧情时世界暂停；关闭网页后，可以从本机存档续玩。'}</div><div class="button-row">${page>0?btn('上一幕','prologue',[page-1]):''}${page<2?btn('继续','prologue',[page+1],{className:'primary'}):btn('用灵草调息（6份）','beginChapter',['heal'],{className:'primary'})}${btn('进入山院，稍后回顾','beginChapter',['skip'],{className:'text-button'})}<button type="button" class="text-button" data-intro-sound>雨声与音效开关</button></div>`,{kind:'prologue'});api.presentPrologue?.(page);
   }
-  function beginChapter(choice){if(act('acknowledgeIntro')===null)return;close();setTab('self');if(choice==='heal'&&getState().master.wound>0)act('masterAction','heal');ui.folded=true;render();safeToast('目标留在右侧；随时点击「下一步」继续。');}
-  function guideNext(){const next=nextObjective(getState());if(next.kind==='heal'){setTab('self');act('masterAction','heal');ui.folded=true;render();}else if(next.kind==='build'){api.chooseBuild?.(next.id);ui.folded=true;render();}else if(next.kind==='facility'){handlers.locateBuilding(next.id);}else if(next.kind==='battle'){api.selectScene?.('journey');ui.folded=true;render();}else if(next.kind==='return'){act('leaveRegion');}else if(next.kind==='journey'){if(getState().world.exploration?.status==='traveling'){api.selectScene?.('journey');setTab('explore');}else handlers.locateLandmark();}else setTab(next.kind);}
+  function beginChapter(choice){if(act('acknowledgeIntro')===null)return;close();setTab('self');if(choice==='heal'&&getState().master.wound>0){if(act('masterAction','heal')!==null)api.ensureRunning?.();}ui.folded=true;render();safeToast('目标留在右侧；随时点击「下一步」继续。');}
+  function guideNext(){const next=nextObjective(getState());
+    if(next.kind==='home'){close();if(api.interact){api.interact('building',next.id,'story');ui.folded=true;render();}else openHomeInteraction();}
+    else if(next.kind==='gather'){setTab('self');if(act('masterAction',next.id)!==null){api.ensureRunning?.();ui.folded=true;render();safeToast('正在采集'+resName(next.id)+'，补足后再继续；暂停时不产出。');}}
+    else if(next.kind==='heal'){setTab('self');act('masterAction','heal');api.ensureRunning?.();ui.folded=true;render();}
+    else if(next.kind==='build'){api.chooseBuild?.(next.id);ui.folded=true;render();}
+    else if(next.kind==='facility')handlers.locateBuilding(next.id);
+    else if(next.kind==='battle'){api.selectScene?.('journey');ui.folded=true;render();}
+    else if(next.kind==='return')act('leaveRegion');
+    else if(next.kind==='journey'){if(getState().world.exploration?.status==='traveling'){api.selectScene?.('journey');setTab('explore');}else handlers.locateLandmark();}
+    else setTab(next.kind);
+  }
   function openGuide(){open('初到云岫 · 游玩指引',`<div class="guide-intro"><span class="empty-seal">山</span><h3>先安身，再与人同修。</h3><p>你只直接控制掌门。门人各有志向，会根据精力、制度、关系与机会决定去处。</p></div><div class="guide-grid"><section><h4>① 治伤与结缘</h4><p>掌门面板选择疗养伤势。按主线赠药救人，再营造灵田与伐木场。</p></section><section><h4>② 经营与传承</h4><p>营造生活、生产与学习设施。留意口粮、维护和门人的理由，向他们提供合适机会。</p></section><section><h4>③ 亲往与调查</h4><p>山外页面选择路线。移动掌门走近交互点，调查线索、削弱敌方，准备筑基与复仇。</p></section><section><h4>④ 建立共同事业</h4><p>有了人数、修为与成熟传承即可立派。邀请执事、设立分峰，归属与任职仍需要意愿。</p></section></div><div class="settings-note"><strong>地图操作</strong><p>拖动平移 · 滚轮或 + / − 缩放<br>行走模式点击目的地 · WASD / 方向键移动<br>空格暂停 · Esc 取消放置 / 关闭弹窗<br>点击左侧系统图标打开管理页，右上角箭头可收起。地块按钮切换营造视图。</p></div><p class="ui-note">存档与设置可手动保存、管理 3 个世界档及导入导出。离开网页期间，山院不会推进时间。</p>${btn('回到山院','closeModal',[],{className:'primary',full:true})}`);}
   function biography(){open('余烬立山 · 掌门身世',`<div class="biography-lead">雨夜之后，尚有一盏灯。</div><p>你出身栖霞沈氏，天资卓绝，年纪轻轻已至炼气六层。赤嶂门门主韩厉川觊觎沈家灵脉与护脉阵术，收买阵匠，于迁族前夜破开山门。</p><p>父亲逆转残阵挡住追兵，母亲耗尽修为发动遁符。你带着幸存的传承，来到她早年在云岫山使用的采药别院。</p><div class="settings-note">家传炼气篇、残缺筑基篇、药理札记、护脉手札与一封旧信，是最后的托付。先养伤、立足，再查清栖霞旧事。</div><p>愿意留下的人，各有自己的志向。你可以争取理解与同行，也要容得下对复仇的不同想法。</p>${btn('查看当前主线','storyFromModal',[],{className:'primary',full:true})}`);}
 
@@ -302,6 +327,9 @@ export function createEAUI(api) {
   function incidentConfirm(id,choice){const e=list(society(getState()).incidents).find(e=>e.id===id),c=list(e?.choices).find(c=>c.id===choice);if(!e||!c)return;if(!['expel','dismiss','restrict'].includes(choice)){command({type:'settleIncident',incidentId:id,choice});return;}open(`处置确认 · ${c.label}`,`<p>${E(e.name)} · ${E(e.title)}</p><div class="warning-callout">${E(c.description||'这项决定会对人物关系与后续意愿留下持续影响。')}</div><div class="button-row">${btn('再听一听','closeModal')}${btn(`确认${c.label}`,'confirmSociety',[{type:'settleIncident',incidentId:id,choice}],{className:'primary'})}</div>`);}
 
   const handlers={
+    trade:(id,side,expectedDay,batches=1)=>{const reserve=resourceReserve(getState());if(id==='herb'&&side==='sell'&&reserve&&getState().resources.herb-10*batches<reserve){open('灵草尚有眼前用途',`<p>卖出后将不足当前阶段建议保留的 ${reserve} 份灵草。疗伤需 6 份，赠药需 10 份。</p><p>仍可出售；之后请采药补足，主线不会丢失。</p>${btn('保留药材','closeModal',[],{full:true})}${btn('仍然出售，之后采药','confirmReservedTrade',[id,side,expectedDay,batches],{className:'primary',full:true})}`);}else act('trade',id,side,expectedDay,batches);},confirmReservedTrade:(...args)=>{if(act('trade',...args)!==null)close();},
+    allSystems:()=>{ui.allSystems=!ui.allSystems;render();safeToast(ui.allSystems?'已展开全部管理入口；暂未满足的条件仍会注明。':'系统入口随当前进度展示。');},
+    observeWork:(buildingId,personId)=>{api.observeWork?.(buildingId,personId);ui.folded=true;render();},resumeObjective:()=>{close();if(getState().combat?.status==='active'){api.selectScene?.('journey');ui.folded=true;render();safeToast('战斗保持暂停，准备好后点击继续。');}else guideNext();},
     narrativePage:openNarrative,narrativeFinish:(id,review)=>{if(review||act('acknowledgeNarrative',id)!==null)close();},narrativeReview:id=>openNarrative(id,0,true),
     regionApproach:()=>{close();api.approachRegion?.();},regionChoice:id=>{if(act('resolveExploration',id)!==null){close();ui.folded=true;render();}},regionReturn:()=>{if(act('leaveRegion')!==null)close();},homeChoice:args=>{if(act('advanceStory',...args)!==null)close();},
     openSceneInteraction,sceneInteraction:(kind,id,choice)=>{if(api.interact?.(kind,id,choice)!==null){close();ui.folded=true;render();}},cancelInteraction:()=>api.cancelInteraction?.(),
@@ -314,7 +342,7 @@ export function createEAUI(api) {
     relocate:id=>{api.startRelocate?.(id);ui.folded=true;render();},
     demolishConfirm:id=>{const b=getState().buildings.find(b=>b.id===id);if(!b)return;open('拆除设施',`<p>拆除${E(types()[b.type]?.name)}后，该处生产、生活或学习机会将消失。</p><div class="warning-callout">请确认你已安排好新的供给与去处。拆除结算以当前设施状态为准。</div><div class="button-row">${btn('保留设施','closeModal')}${btn('确认拆除','demolishNow',[id],{className:'danger-button'})}</div>`);},demolishNow:id=>{if(act('demolish',id)!==null){close();handlers.closeDetail();}},
     ending:choice=>open('旧事落定 · 此后往何处',`<p>${choice==='rebuild'?'重建栖霞故地，为失落的故土续起新的灯火。':'带传承回到云岫，将共同建立的山院作为新的家。'}</p><p class="ui-note">这将记录第一大篇章的结局。门人的共同经历与山院经营会继续保留。</p>${btn('确认此志','confirmEnding',[choice],{className:'primary',full:true})}`),confirmEnding:choice=>{if(act('advanceStory',choice)!==null)close();},
-    questGuide:()=>{const q=campaign(getState());const target=q.step<2?'self':q.step===2||q.step===3?'build':q.step===5?'self':'explore';setTab(target);safeToast(list(q.requirements).filter(r=>!r.met).map(r=>r.label).join('；')||'查看主线目标，补足当前准备。');},
+    questGuide:()=>{if(getState().story.onboarding&&getState().story.step<4){guideNext();return;}const q=campaign(getState());const target=q.step<2?'self':q.step===2||q.step===3?'build':q.step===5?'self':'explore';setTab(target);safeToast(list(q.requirements).filter(r=>!r.met).map(r=>r.label).join('；')||'查看主线目标，补足当前准备。');},
     productionSection:id=>{ui.sections.production=id;renderTab();},productionMarket:()=>{ui.sections.production='market';renderTab();const el=$('#market-section');el?.scrollIntoView({block:'start',behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});}
   };
   function onClick(event){
@@ -330,5 +358,5 @@ export function createEAUI(api) {
   document.addEventListener('change',event=>{const el=event.target;if(el.dataset.uiTradeCount){ui.tradeBatches[el.dataset.uiTradeCount]=Number(el.value);renderTab();}if(el.dataset.uiPolicy)command({type:'policy',key:el.dataset.uiPolicy,value:el.value});if(el.dataset.uiPeakBudget)command({type:'setPeakBudget',peakId:Number(el.dataset.uiPeakBudget),budget:Number(el.value)});});
   document.addEventListener('submit',event=>{const form=event.target;if(!form.dataset.uiForm)return;event.preventDefault();const data=new FormData(form);if(form.dataset.uiForm==='exploration'){const ids=data.getAll('companion').map(Number);if(ids.length>2){safeToast('一次至多邀请两位门人同行。');return;}if(act('startExploration',form.dataset.region,{companionIds:ids})!==null){close();ui.folded=true;render();}}if(form.dataset.uiForm==='foundSect')command({type:'foundSect',name:String(data.get('name')).trim()});if(form.dataset.uiForm==='foundPeak'){if(command({type:'foundPeak',direction:form.dataset.direction,hostId:Number(data.get('hostId')),name:String(data.get('name')).trim()})!==null)close();}});
   $('#modal')?.addEventListener('close',()=>{if(ui.modal?.kind==='narrative')dismissedNarrative.add(ui.modal.id);if(ui.modal?.kind==='prologue'&&!getState().story.intro)act('acknowledgeIntro');ui.modal=null;});
-  return {render,renderTab,openPerson,renderDetail,openGuide,openPrologue,openSceneInteraction,finishSceneInteraction,openRegionInteraction,openHomeInteraction,maybeNarrative,resetNarrative:()=>dismissedNarrative.clear(),fold:()=>{ui.folded=true;render();},unfold:()=>{ui.folded=false;render();}};
+  return {render,renderTab,showResume,openPerson,renderDetail,openGuide,openPrologue,openSceneInteraction,finishSceneInteraction,openRegionInteraction,openHomeInteraction,maybeNarrative,resetNarrative:()=>{dismissedNarrative.clear();ui.allSystems=false;},fold:()=>{ui.folded=true;render();},unfold:()=>{ui.folded=false;render();}};
 }

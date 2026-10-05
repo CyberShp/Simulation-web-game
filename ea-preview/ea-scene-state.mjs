@@ -1,6 +1,7 @@
-import {BUILDINGS,ROUTES,RESOURCES,stage} from './ea-data.mjs?v=ea-130-release-20261005';
-import {scenicPoint,buildingAccess,buildingSize,buildingFootprint} from './ea-scene-geometry.mjs?v=ea-130-release-20261005';
-import {lifeFacility} from './ea-life.mjs?v=ea-130-release-20261005';
+import {BUILDINGS,ROUTES,RESOURCES,stage} from './ea-data.mjs?v=ea-140-preview-20261005';
+import {scenicPoint,buildingAccess,buildingSize,buildingFootprint} from './ea-scene-geometry.mjs?v=ea-140-preview-20261005';
+import {lifeFacility} from './ea-life.mjs?v=ea-140-preview-20261005';
+import {recoveryObjective} from './ea-onboarding.mjs?v=ea-140-preview-20261005';
 
 export const facilityActive=b=>!!b&&b.enabled!==false&&b.condition>0;
 export function facilityRecords(s){
@@ -30,14 +31,16 @@ export function nextObjective(s){
  const q=s.story.step,m=s.master,e=s.world.exploration;
  if(s.combat?.status==='active')return {label:'返回战场',text:'移动避开预警，留意气血；需要时可暂停或撤退。',kind:'battle'};
  if(e)return {label:e.status==='traveling'?'查看行程':e.resolved?'返回山院':'前往当前线索',text:e.status==='traveling'?'行程随游戏时间推进。':e.resolved?'此地的行动已有结果，归院后继续主线。':'沿道路走近标记，再作调查或战斗选择。',kind:e.resolved?'return':'journey'};
- if(q===0&&m.wound>0)return {label:m.action==='heal'?'查看疗伤进度':'用灵草调息（6份）',text:m.action==='heal'?`正在疗伤，剩余伤势 ${Math.ceil(m.wound)}。保持时间运行，伤愈后确认主线。`:'母亲留下的灵草能温养经脉。先治好逃亡伤势。',kind:m.action==='heal'?'self':'heal'};
+ if(q===0&&m.wound>0){if(m.action!=='heal'){const recovery=recoveryObjective(s,{herb:6});if(recovery)return recovery;}return {label:m.action==='heal'?'查看疗伤进度':'用灵草调息（6份）',text:m.action==='heal'?`正在疗伤，剩余约 ${Math.ceil(m.wound/2)} 秒。保持时间运行，伤愈后去主屋听听院外的动静。`:'母亲留下的灵草能温养经脉。先治好逃亡伤势。',kind:m.action==='heal'?'self':'heal'};}
+ if(q===0||q===1){if(q===1){const recovery=recoveryObjective(s,{herb:10});if(recovery)return recovery;}const hall=s.buildings.find(b=>b.type==='hall');return {label:q===0?'到主屋听听来意':'走近陆知微，赠药结缘',text:q===0?'伤势已愈，院外有人循着母亲的旧药方前来求助。':'陆知微在主屋前等候。走近交谈，亲手赠药，再商议留下。',kind:'home',id:hall.id};}
  for(const type of q===2?['farm','lumber']:q===3?['library']:[]){
   const built=s.buildings.filter(b=>b.type===type);if(built.some(facilityActive))continue;
   if(built.length)return {label:'恢复'+BUILDINGS[type].name,text:'设施已建成，但停用或损坏。先查看并恢复运行，再推进主线。',kind:'facility',id:built[0].id};
   const lacks=Object.entries(BUILDINGS[type].cost).filter(([key,value])=>s.resources[key]<value).map(([key,value])=>RESOURCES[key]+' '+Math.ceil(value-s.resources[key]));
-  if(lacks.length)return {label:'补足'+BUILDINGS[type].name+'材料',text:'还缺'+lacks.join('、')+'。掌门可采集物资，门人可照料现有设施，也可在府库交易补足。',kind:'production'};
+  if(lacks.length)return {...recoveryObjective(s,BUILDINGS[type].cost),text:'还缺'+lacks.join('、')+'。先采集补足'+BUILDINGS[type].name+'材料，再继续营造。'};
   return {label:'筹建'+BUILDINGS[type].name,text:type==='library'?'整理遗卷需要真实建成并可运行的藏经阁。':'建好供给设施，让愿意留下的人有安身与生活的机会。',kind:'build',id:type};
  }
+ if(q===2||q===3){const b=s.buildings.find(b=>b.type===(q===3?'library':'hall'));return {label:q===2?'走近林长风，商议留下':'到藏经阁整理遗卷',text:q===2?'药田与伐木场已备好，来客想听听山院能提供怎样的生活。':'沿院路来到藏经阁，展开母亲留下的旧信。',kind:'home',id:b.id};}
  if(q===5)return {label:'准备筑基',text:'研习筑基篇，备好丹炉、筑基丹与灵晶；在掌门页面检查缺项。',kind:'self'};
  if([4,6,7,8].includes(q))return {label:'查看已发现的路线',text:'舆图只显示目前已知的去处；修为、精力和准备决定能否亲往。',kind:'explore'};
  return {label:q>=10?'继续经营山院':'查看当前主线',text:q>=10?'旧仇已结，继续经营、授业与分峰。':'完成当前准备后，确认主线以推进故事。',kind:q>=10?'sect':'journal'};

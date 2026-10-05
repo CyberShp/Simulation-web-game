@@ -1,9 +1,9 @@
 import {BUILDINGS, TECHNIQUES, RECIPES, ROUTES, CELLS, RESOURCES, TRAIT_NAMES,
-  rng, day, log, pay, canPay, grant, capacity, xpNeed, clamp} from './ea-data.mjs?v=ea-130-release-20261005';
+  rng, day, log, pay, canPay, grant, capacity, xpNeed, clamp} from './ea-data.mjs?v=ea-140-preview-20261005';
 
-import {routeDiscovered} from './ea-scene-state.mjs?v=ea-130-release-20261005';
-import {lifeFacility,lifeActivityLock,lifePath,lifeScenePath,actorScenePosition,personLifeSummary,workOpportunity,teachingPresent} from './ea-life.mjs?v=ea-130-release-20261005';
-import {advanceScenic,repairScenicActor,validateScenic,SCENE_GEOMETRY,buildingAccess,scenicDistance,geometryRevision,syncScenicPosition} from './ea-scenic.mjs?v=ea-130-release-20261005';
+import {routeDiscovered} from './ea-scene-state.mjs?v=ea-140-preview-20261005';
+import {lifeFacility,lifeActivityLock,lifePath,lifeScenePath,actorScenePosition,personLifeSummary,workOpportunity,teachingPresent} from './ea-life.mjs?v=ea-140-preview-20261005';
+import {advanceScenic,repairScenicActor,validateScenic,SCENE_GEOMETRY,buildingAccess,scenicDistance,geometryRevision,syncScenicPosition} from './ea-scenic.mjs?v=ea-140-preview-20261005';
 
 /** Society owns every NPC action. The main loop owns time, meals, upkeep and the master's actions. */
 export const SOCIETY_ROLES = {
@@ -227,7 +227,7 @@ function production(s,d,b,hooks) {
   if(t.input)pay(s,t.input);
   const peak=peakFor(s,d), tags=t.tags||[], skill=tags.includes('plant')?'plant':tags.includes('learning')?'learning':tags.includes('water')?'array':'industry';
   out=Object.fromEntries(Object.entries(out).map(([k,v])=>[k,v*(1+d.mind.skills[skill]/250)*(peak&&PEAK_DIRECTIONS[peak.direction].outputs.includes(k)?1+.12*peak.budget:1)]));
-  grant(s,out); s.society.stats.workCycles++;
+  grant(s,out); s.society.stats.workCycles++;hooks.onProduction?.(s,d,b,out);
   d.mind.skills[skill]=clamp(d.mind.skills[skill]+.6,0,100);
   d.mind.purse=clamp(d.mind.purse+.8,0,10000);
   d.mind.restitutionBalance=Math.max(0,d.mind.restitutionBalance-Object.values(out).reduce((a,b)=>a+b,0)*.2);

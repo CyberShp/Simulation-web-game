@@ -96,3 +96,36 @@ footer{position:absolute;bottom:0;right:14px;left:85px;z-index:15;min-height:0;h
  #settings,#close-modal{min-width:44px;min-height:44px}
  #viewport .quest-panel button,#viewport .detail-panel button{min-height:44px}
 }
+
+/* EA 1.4: a quiet first screen and a scene-led opening. */
+[hidden]{display:none!important}
+.system-overview{position:absolute;left:14px;bottom:35px;z-index:27;background:#183e35e8;color:#f3e4bd;border:1px solid #bda876;border-radius:6px;padding:8px 10px;min-height:44px;font:12px system-ui;max-width:86px}
+#viewport[data-opening="true"] .resources{gap:8px}
+#viewport[data-opening="true"] .map-tools #grid-toggle,#viewport[data-opening="true"] #estate-overview{display:none}
+.opening-hero{max-width:640px}.opening-hero>p{line-height:1.8}.opening-hero .button-row{flex-wrap:wrap}
+.opening-reserve,.first-work,.first-harvest{border-top:1px solid #c8b98c;margin-top:12px;padding-top:10px;font-size:12px;line-height:1.7}
+.first-work h3,.first-harvest h3{font-size:17px;margin:2px 0 6px;color:#3c5640}.first-harvest{background:#e8ecd655;padding:10px;border:1px solid #8b9f72;border-radius:5px}
+.first-work p,.first-harvest p{margin:6px 0}.opening-reserve{color:#6b674f}
+.modal p,.modal label,.ui-note,.requirement-list,.next-objective p,.opening-reserve,.first-work p,.first-harvest p,.opening-hero p,.cost-line{font-family:system-ui,-apple-system,"PingFang SC","Microsoft YaHei",sans-serif}
+.modal.cinematic{width:min(940px,calc(100vw - 36px));max-height:92dvh;background:#122d2bef;color:#f3e6c5;border-color:#b6a175;padding:20px;overflow:auto}
+.cinematic .modal-top{border-color:#9f865752}.cinematic .modal-heading h2,.cinematic .modal-heading p,.cinematic .modal-kicker{color:#f4d99d}.cinematic #close-modal{color:#f2dfb8;border-color:#b6a175}
+.cinematic #modal-body{display:grid;grid-template-columns:1.05fr 1fr;gap:18px;align-items:start}.cinematic .prologue-stage{grid-column:1;grid-row:1/4;min-height:400px;position:relative;overflow:hidden;border:1px solid #bfa57977;border-radius:8px;background:#152b2b}
+.prologue-stage:before{content:'';position:absolute;inset:0;background:center/cover url('../assets/ea-courtyard-empty.jpg');filter:brightness(.6);animation:opening-camera 12s ease-out both}
+.prologue-stage-0:before{background-image:url('../assets/ea-qixia.jpg');background-size:auto 200%;background-position:center top;filter:brightness(.35) saturate(.65)}
+.prologue-stage-1:before{filter:brightness(.22);background-position:52% 20%}.prologue-stage-2:before{filter:brightness(.62) saturate(.8);background-position:50% 30%}
+.prologue-stage:after{content:'';position:absolute;inset:0;background:linear-gradient(0deg,#091b21cc,transparent 65%);pointer-events:none}
+.prologue-rain{position:absolute;inset:-70px;z-index:1;background:repeating-linear-gradient(112deg,transparent 0 28px,#dfeef126 29px,transparent 30px 64px);animation:opening-rain 1.3s linear infinite;opacity:.55}.prologue-stage-2 .prologue-rain{opacity:0}
+.prologue-glow{position:absolute;z-index:2;left:44%;top:30%;width:80px;height:110px;background:radial-gradient(ellipse,#ffe9ae90,transparent 67%);filter:blur(10px);animation:opening-lamp 3s ease-in-out infinite}.prologue-stage-0 .prologue-glow{background:radial-gradient(ellipse,#e26d3a9e,transparent 67%);width:150px;height:170px}
+.prologue-relics{display:none;position:absolute;left:8%;right:8%;bottom:75px;z-index:3;gap:12px;transform:rotate(-5deg)}.prologue-stage-1 .prologue-relics{display:flex}.prologue-relics span{flex:1;text-align:center;writing-mode:vertical-rl;min-height:95px;padding:15px;background:linear-gradient(100deg,#b9945e,#d2b07b,#9e784a);border:2px solid #ddc28b;box-shadow:0 6px 12px #030e13a0;color:#443a2a;font:25px XianfuBrush,serif;letter-spacing:6px}.prologue-relics span:first-child{background:#514637;color:#e9d0a0;border-color:#b19264}
+.prologue-caption{position:absolute;left:18px;right:18px;bottom:22px;z-index:4;color:#efdab0;font:22px XianfuBrush,serif;line-height:1.5;letter-spacing:3px}.cinematic .prologue-scene{grid-column:2}.cinematic .prologue-scene h2{font:30px XianfuBrush,serif;color:#f4dfaa;line-height:1.6;margin:10px 0}.cinematic .prologue-scene p{color:#e6e2cf;font-size:15px;line-height:2;animation:opening-copy .7s ease-out both}.cinematic .eyebrow{color:#d3b77a}
+.cinematic .settings-note{grid-column:2;background:#243c34;color:#d6d8c3;border:1px solid #7e815b66;line-height:1.8}.cinematic .button-row{grid-column:2;display:flex;flex-wrap:wrap;gap:8px}.cinematic .button-row button{min-height:44px;white-space:normal}.cinematic .text-button{color:#dac49c}.cinematic .primary{background:#536852;color:#fff0c7;border-color:#bba777}.resume-summary h3{font-size:21px;line-height:1.7}.build-recommendation p{line-height:1.85}
+@keyframes opening-camera{from{transform:scale(1.08)}to{transform:scale(1.01)}}@keyframes opening-rain{from{transform:translate(0,-35px)}to{transform:translate(-14px,35px)}}@keyframes opening-lamp{50%{opacity:.65;transform:scale(.92)}}@keyframes opening-copy{from{opacity:.25;transform:translateY(5px)}to{opacity:1;transform:none}}
+.reduced-motion .prologue-stage:before,.reduced-motion .prologue-rain,.reduced-motion .prologue-glow,.reduced-motion .cinematic .prologue-scene p{animation:none}
+@media(prefers-reduced-motion:reduce){.prologue-stage:before,.prologue-rain,.prologue-glow,.cinematic .prologue-scene p{animation:none}}
+@media(max-width:760px){
+ .system-overview{left:auto;right:8px;bottom:90px;max-width:108px;min-height:44px;background:#274b3b}.nav-tabs{display:flex;justify-content:space-around;overflow-x:auto;padding-right:3px}.nav-tabs button,.nav-tabs button.secondary-tab{flex:1;min-width:44px;width:auto}.nav-tabs .more-tabs{display:none}
+ .first-work,.first-harvest{font-size:11px;line-height:1.7}.first-work h3,.first-harvest h3{font-size:15px}.first-work p,.first-harvest p{display:block!important}.opening-reserve{font-size:10px}.first-harvest button,.first-work button{min-height:44px}
+ .modal.cinematic{width:calc(100vw - 18px);max-height:94dvh;padding:14px}.cinematic #modal-body{display:block}.cinematic .prologue-stage{min-height:175px;height:24dvh;margin-bottom:15px}.prologue-caption{font-size:19px;bottom:13px}.prologue-relics{bottom:45px;left:18%;right:18%}.prologue-relics span{min-height:55px;font-size:20px;padding:7px;letter-spacing:2px}.cinematic .prologue-scene h2{font-size:25px;margin:6px 0}.cinematic .prologue-scene p{font-size:14px;line-height:1.8}.cinematic .settings-note{font-size:12px;margin:12px 0}.cinematic .button-row{gap:8px}.cinematic .button-row button{flex:1 1 120px}.cinematic .modal-top{margin-bottom:12px}.cinematic .modal-heading h2{font-size:23px}
+ .opening-hero .hero-identity{align-items:center}.opening-hero .portrait{height:100px}.opening-hero .button-row button{min-height:44px}
+ #placement-confirm{min-height:44px;white-space:normal}.placement-bar{flex-wrap:wrap}.placement-bar>span{flex-basis:100%}
+}
