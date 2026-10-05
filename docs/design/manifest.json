@@ -31,7 +31,8 @@
     "docs/design/README.md",
     "docs/design/00-BASELINE.md",
     "docs/design/DECISIONS.md",
-    "docs/design/STATUS.md"
+    "docs/design/STATUS.md",
+    "docs/design/13-WORLDVIEW-DISCUSSION.md"
   ],
   "files": [
     {
@@ -87,6 +88,10 @@
       "role": "truth-cards-clues-time-budget-content-gates"
     },
     {
+      "path": "docs/design/13-WORLDVIEW-DISCUSSION.md",
+      "role": "in-progress-worldview-confirmed-decisions-and-open-questions"
+    },
+    {
       "path": "docs/design/DECISIONS.md",
       "role": "decision-ledger"
     },
@@ -107,7 +112,8 @@
       "06-OPENING-ACCEPTANCE.md",
       "08-LIVING-WORLD.md",
       "09-INTRIGUE-OPPORTUNITIES.md",
-      "10-CRISES-RESCUE-DEATH.md"
+      "10-CRISES-RESCUE-DEATH.md",
+      "13-WORLDVIEW-DISCUSSION.md"
     ],
     "equipment_arts_combat": [
       "01-CHARACTERS.md",
@@ -118,7 +124,8 @@
       "06-OPENING-ACCEPTANCE.md",
       "09-INTRIGUE-OPPORTUNITIES.md",
       "10-CRISES-RESCUE-DEATH.md",
-      "12-CONTENT-AUTHORING.md"
+      "12-CONTENT-AUTHORING.md",
+      "13-WORLDVIEW-DISCUSSION.md"
     ],
     "space_art_input": [
       "01-CHARACTERS.md",
@@ -126,7 +133,8 @@
       "05-RUNTIME-CONTRACTS.md",
       "06-OPENING-ACCEPTANCE.md",
       "08-LIVING-WORLD.md",
-      "10-CRISES-RESCUE-DEATH.md"
+      "10-CRISES-RESCUE-DEATH.md",
+      "13-WORLDVIEW-DISCUSSION.md"
     ],
     "world_story": [
       "01-CHARACTERS.md",
@@ -139,7 +147,8 @@
       "09-INTRIGUE-OPPORTUNITIES.md",
       "10-CRISES-RESCUE-DEATH.md",
       "11-AI-CONTENT-CONTRACT.md",
-      "12-CONTENT-AUTHORING.md"
+      "12-CONTENT-AUTHORING.md",
+      "13-WORLDVIEW-DISCUSSION.md"
     ],
     "economy_organization": [
       "01-CHARACTERS.md",
@@ -150,7 +159,8 @@
       "07-ECONOMY-ORGANIZATION.md",
       "08-LIVING-WORLD.md",
       "09-INTRIGUE-OPPORTUNITIES.md",
-      "10-CRISES-RESCUE-DEATH.md"
+      "10-CRISES-RESCUE-DEATH.md",
+      "13-WORLDVIEW-DISCUSSION.md"
     ],
     "save_runtime": [
       "01-CHARACTERS.md",
@@ -164,7 +174,8 @@
       "09-INTRIGUE-OPPORTUNITIES.md",
       "10-CRISES-RESCUE-DEATH.md",
       "11-AI-CONTENT-CONTRACT.md",
-      "12-CONTENT-AUTHORING.md"
+      "12-CONTENT-AUTHORING.md",
+      "13-WORLDVIEW-DISCUSSION.md"
     ],
     "living_world": [
       "01-CHARACTERS.md",
@@ -177,7 +188,8 @@
       "09-INTRIGUE-OPPORTUNITIES.md",
       "10-CRISES-RESCUE-DEATH.md",
       "11-AI-CONTENT-CONTRACT.md",
-      "12-CONTENT-AUTHORING.md"
+      "12-CONTENT-AUTHORING.md",
+      "13-WORLDVIEW-DISCUSSION.md"
     ],
     "intrigue_opportunities": [
       "01-CHARACTERS.md",
@@ -189,7 +201,8 @@
       "09-INTRIGUE-OPPORTUNITIES.md",
       "10-CRISES-RESCUE-DEATH.md",
       "11-AI-CONTENT-CONTRACT.md",
-      "12-CONTENT-AUTHORING.md"
+      "12-CONTENT-AUTHORING.md",
+      "13-WORLDVIEW-DISCUSSION.md"
     ],
     "crises_rescue_death": [
       "01-CHARACTERS.md",
@@ -202,7 +215,8 @@
       "09-INTRIGUE-OPPORTUNITIES.md",
       "10-CRISES-RESCUE-DEATH.md",
       "11-AI-CONTENT-CONTRACT.md",
-      "12-CONTENT-AUTHORING.md"
+      "12-CONTENT-AUTHORING.md",
+      "13-WORLDVIEW-DISCUSSION.md"
     ],
     "ai_content": [
       "01-CHARACTERS.md",
@@ -212,7 +226,8 @@
       "09-INTRIGUE-OPPORTUNITIES.md",
       "10-CRISES-RESCUE-DEATH.md",
       "11-AI-CONTENT-CONTRACT.md",
-      "12-CONTENT-AUTHORING.md"
+      "12-CONTENT-AUTHORING.md",
+      "13-WORLDVIEW-DISCUSSION.md"
     ],
     "content_authoring": [
       "01-CHARACTERS.md",
@@ -224,7 +239,8 @@
       "09-INTRIGUE-OPPORTUNITIES.md",
       "10-CRISES-RESCUE-DEATH.md",
       "11-AI-CONTENT-CONTRACT.md",
-      "12-CONTENT-AUTHORING.md"
+      "12-CONTENT-AUTHORING.md",
+      "13-WORLDVIEW-DISCUSSION.md"
     ]
   },
   "taskReadBase": "docs/design/",
@@ -372,5 +388,29 @@
     "requiresRepositoryContext": true,
     "recommendedDoesNotMeanUserApproved": true,
     "targetDesignDoesNotMeanImplemented": true
+  },
+  "worldviewDiscussion": {
+    "recordId": "WV-2026-10-05-01",
+    "path": "docs/design/13-WORLDVIEW-DISCUSSION.md",
+    "status": "in-progress",
+    "questionPolicy": "one-at-a-time",
+    "confirmedDecisionIds": [
+      "U-16",
+      "U-17",
+      "U-18",
+      "U-19",
+      "U-20",
+      "U-21",
+      "U-22",
+      "U-23"
+    ],
+    "fixedEightCultivationSystems": "withdrawn",
+    "playerAscensionCurrentlyInScope": false,
+    "descentModes": [
+      "materialized-avatar",
+      "true-body"
+    ],
+    "realmSequence": "undecided",
+    "factionRoster": "undecided"
   }
 }

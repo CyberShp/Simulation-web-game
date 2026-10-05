@@ -8,6 +8,7 @@
 2. [00-BASELINE.md](00-BASELINE.md)：产品定位与跨系统约束。
 3. [DECISIONS.md](DECISIONS.md)：哪些用户已确定，哪些只是建议，哪些可调或后置。
 4. [STATUS.md](STATUS.md)：当前实际上有哪些、哪些尚未实现。
+   世界观问答进行中，接续时一并读取[13-WORLDVIEW-DISCUSSION.md](13-WORLDVIEW-DISCUSSION.md)，区分新增确认、撤回方案和未定内容。
 5. [05-RUNTIME-CONTRACTS.md](05-RUNTIME-CONTRACTS.md)：ID、时钟、命令、事务和存档。
 6. 本次任务涉及的分系统规格，并跟随其中的依赖链接。
 7. [06-OPENING-ACCEPTANCE.md](06-OPENING-ACCEPTANCE.md)：该改动必须满足的可玩验收。
@@ -31,6 +32,7 @@
 | [危机、救援与死亡](10-CRISES-RESCUE-DEATH.md) | 怎样发现定位、及时到场、自救救人或部署陷阱，死亡留下什么？ |
 | [AI与内容边界](11-AI-CONTENT-CONTRACT.md) | 默认无AI怎样完整运行，可选AI能表达什么、不能改变什么？ |
 | [内容创作规范](12-CONTENT-AUTHORING.md) | 每条重要内容怎样提交真相卡、线索图、时间预算和持续后果？ |
+| [世界观问答记录](13-WORLDVIEW-DISCUSSION.md) | 多方势力、自由门类、正魔历史、诸界与仙凡交集目前确认了什么？ |
 | [决策登记](DECISIONS.md) | 重要决定的状态和修改影响 |
 | [实现状态](STATUS.md) | 目标与现状的差距、接续工作的起点 |
 | [参考依据](REFERENCES.md) | 竞品事实、适配建议和不能照搬的部分 |
