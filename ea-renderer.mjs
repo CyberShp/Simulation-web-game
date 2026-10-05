@@ -1,10 +1,10 @@
-import {scenicHomeActors} from './ea-scene-state.mjs?v=ea-141-release-20261005-r2';
-import {campaignArt,regionPoint,regionInverse,drawAtlas,campaignCamera} from './ea-region-art.mjs?v=ea-141-release-20261005-r2';
-import {appearance} from './ea-scenic.mjs?v=ea-141-release-20261005-r2';
-import {battlePoint,battleInverse,combatPath} from './ea-combat-geometry.mjs?v=ea-141-release-20261005-r2';
-import {createAssetLoader} from './ea-runtime.mjs?v=ea-141-release-20261005-r2';
-import characterMeta from './ea-character-frames.mjs?v=ea-141-release-20261005-r2';
-import {BUILDINGS,CELLS} from './ea-data.mjs?v=ea-141-release-20261005-r2';
+import {scenicHomeActors} from './ea-scene-state.mjs?v=ea-142-release-20261005-r1';
+import {campaignArt,regionPoint,regionInverse,drawAtlas,campaignCamera} from './ea-region-art.mjs?v=ea-142-release-20261005-r1';
+import {appearance} from './ea-scenic.mjs?v=ea-142-release-20261005-r1';
+import {battlePoint,battleInverse,combatPath} from './ea-combat-geometry.mjs?v=ea-142-release-20261005-r1';
+import {createAssetLoader} from './ea-runtime.mjs?v=ea-142-release-20261005-r1';
+import characterMeta from './ea-character-frames.mjs?v=ea-142-release-20261005-r1';
+import {BUILDINGS,CELLS} from './ea-data.mjs?v=ea-142-release-20261005-r1';
 
 const PALETTE={ink:'#183d33',gold:'#d6ba79',paper:'#f4edd7',mint:'#a8c9ab',red:'#b26954'};
 const logicalPoint=(x,y)=>({x:750+(x-y)*61,y:290+(x+y)*31});

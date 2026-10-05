@@ -1,13 +1,13 @@
-import * as SIM from './ea-sim.mjs?v=ea-141-release-20261005-r2';
-import {EA_SHELL,createEAUI} from './ea-ui.mjs?v=ea-141-release-20261005-r2';
-import {createEAPersistence,MAX_IMPORT_BYTES} from './ea-persistence.mjs?v=ea-141-release-20261005-r2';
-import {createWorldRenderer} from './ea-courtyard-renderer.mjs?v=ea-141-release-20261005-r2';
-import {attachMapInput} from './map-input.mjs?v=ea-141-release-20261005-r2';
-import {scenicPosition} from './ea-scenic.mjs?v=ea-141-release-20261005-r2';
-import {sceneInteractionReady,sceneInteractionTarget} from './ea-interactions.mjs?v=ea-141-release-20261005-r2';
-import {createRuntimeClock,createFrameDiagnostics} from './ea-runtime.mjs?v=ea-141-release-20261005-r2';
-import {recommendedPlot} from './ea-onboarding.mjs?v=ea-141-release-20261005-r2';
-import {createOpeningAudio} from './ea-opening-audio.mjs?v=ea-141-release-20261005-r2';
+import * as SIM from './ea-sim.mjs?v=ea-142-release-20261005-r1';
+import {EA_SHELL,createEAUI} from './ea-ui.mjs?v=ea-142-release-20261005-r1';
+import {createEAPersistence,MAX_IMPORT_BYTES} from './ea-persistence.mjs?v=ea-142-release-20261005-r1';
+import {createWorldRenderer} from './ea-courtyard-renderer.mjs?v=ea-142-release-20261005-r1';
+import {attachMapInput} from './map-input.mjs?v=ea-142-release-20261005-r1';
+import {scenicPosition} from './ea-scenic.mjs?v=ea-142-release-20261005-r1';
+import {sceneInteractionReady,sceneInteractionTarget} from './ea-interactions.mjs?v=ea-142-release-20261005-r1';
+import {createRuntimeClock,createFrameDiagnostics} from './ea-runtime.mjs?v=ea-142-release-20261005-r1';
+import {recommendedPlot} from './ea-onboarding.mjs?v=ea-142-release-20261005-r1';
+import {createOpeningAudio} from './ea-opening-audio.mjs?v=ea-142-release-20261005-r1';
 
 const VERSION=SIM.GAME_VERSION;
 const runtimeClock=createRuntimeClock(),diagnostics=createFrameDiagnostics();
@@ -38,7 +38,7 @@ const persistence=createEAPersistence({namespace:previewNamespace,validate:SIM.v
  updateSaveStatus();
 }});
 
-function toast(message,error=false){if(modal.open){let notice=$('modal-notice');if(!notice){notice=document.createElement('p');notice.id='modal-notice';notice.setAttribute('role','alert');$('modal-body').prepend(notice);}notice.textContent=message;notice.className=error?'warning-callout':'ui-note success';}const el=$('toast');if(!el)return;el.textContent=message;el.className='toast visible'+(error?' error':'');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('visible'),5200);}
+function toast(message,error=false){if(modal.open){let notice=$('modal-notice');if(!notice){notice=document.createElement('p');notice.id='modal-notice';notice.setAttribute('role','alert');($('modal-body').querySelector('.prologue-content')||$('modal-body')).prepend(notice);}notice.textContent=message;notice.className=error?'warning-callout':'ui-note success';}const el=$('toast');if(!el)return;el.textContent=message;el.className='toast visible'+(error?' error':'');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('visible'),5200);}
 function openModal(title,html){modal.classList.toggle('cinematic',title.startsWith('序章 ·'));mapInputStop?.cancel?.();runtimeClock.suspend();$('close-modal').hidden=!haveSession;$('modal-title').textContent=title;$('modal-body').innerHTML=html;if(!modal.open)modal.showModal();$('modal-body').scrollTop=0;audio.suspend();}
 function closeModal(){if(!haveSession)return;modal.close();lastFrame=performance.now();runtimeClock.resume(lastFrame);audio.sync();}
 function updateSaveStatus(){const el=$('save-status');if(!el)return;const text=haveSession&&saveError?saveMessage:volatile?'仅内存试玩 · 请导出':haveSession?(persistence.canWrite?(saveError?saveMessage:dirty?'有新进度 · 即将保存':saveMessage):'只读 · '+persistence.status):saveMessage;el.textContent=text;el.title=haveSession&&!volatile?`世界 ${activeSlot} · ${timeText(persistence.savedAt)}。浏览器关闭后，从本机存档继续。`:text;el.classList.toggle('save-warning',volatile||haveSession&&!persistence.canWrite||saveMessage.includes('失败'));}
