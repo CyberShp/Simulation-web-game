@@ -1,4 +1,4 @@
-> 历史计划。当前重构以[DB-2026-10-05 v1.0](design/README.md)及[06的推荐实施顺序](design/06-OPENING-ACCEPTANCE.md)为准。后续模型必须核对[实际状态](design/STATUS.md)，不能沿用本文编制时现状或将计划数量视为完成。
+> 历史计划。当前重构以[DB-2026-10-05 v1.1](design/README.md)及[06的推荐实施顺序](design/06-OPENING-ACCEPTANCE.md)为准。后续模型必须核对[实际状态](design/STATUS.md)，不能沿用本文编制时现状或将计划数量视为完成。
 
 # 模拟仙府 · 历史完整EA开发计划
 
