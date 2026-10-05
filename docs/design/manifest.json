@@ -390,7 +390,7 @@
     "targetDesignDoesNotMeanImplemented": true
   },
   "worldviewDiscussion": {
-    "recordId": "WV-2026-10-05-03",
+    "recordId": "WV-2026-10-05-04",
     "path": "docs/design/13-WORLDVIEW-DISCUSSION.md",
     "status": "in-progress",
     "questionPolicy": "one-at-a-time",
@@ -411,7 +411,8 @@
       "U-29",
       "U-30",
       "U-31",
-      "U-32"
+      "U-32",
+      "U-33"
     ],
     "fixedEightCultivationSystems": "withdrawn",
     "playerAscensionCurrentlyInScope": false,
@@ -439,7 +440,9 @@
     "otherLocalFactionsExist": true,
     "chizhangAffiliation": "subordinate-to-local-golden-core-demonic-sect",
     "revengeResponsibility": "han-lichuan-and-finite-preauthored-complicit-upper-sect-stewards",
-    "demonicSectCoreTradition": "undecided",
-    "complicitStewardRoster": "undecided"
+    "demonicSectCoreTradition": "煞炼刀法",
+    "complicitStewardRoster": "undecided",
+    "demonicSectInitialMatureTraditions": 1,
+    "orthodoxSectCoreTradition": "undecided"
   }
 }
