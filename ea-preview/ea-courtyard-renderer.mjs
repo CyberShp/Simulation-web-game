@@ -1,11 +1,11 @@
-import {createWorldRenderer as createPlanRenderer} from './ea-renderer.mjs?v=ea-140-release-20261005';
-import {WIDTH,HEIGHT,point,LANDMARKS,inPolygon} from '../yunxiu-courtyard/navigation.mjs?v=ea-140-release-20261005';
-import {foreground} from './ea-foreground.mjs?v=ea-140-release-20261005';
-import {appearance,scenicPosition,advanceScenic,repairScenicActor} from './ea-scenic.mjs?v=ea-140-release-20261005';
-import {facilityRecords,courtyardDestination,scenicHomeActors} from './ea-scene-state.mjs?v=ea-140-release-20261005';
-import {SCENIC_PLOTS,SCENE_ROADS,scenicPoint,scenicInverse,scenicNearest,scenicFindPath,scenicDistance,scenicCanStand,geometryRevision,facilityHit,plotPolygon} from './ea-scene-geometry.mjs?v=ea-140-release-20261005';
-import {createAssetLoader} from './ea-runtime.mjs?v=ea-140-release-20261005';
-import fallbackMeta from './ea-character-frames.mjs?v=ea-140-release-20261005';
+import {createWorldRenderer as createPlanRenderer} from './ea-renderer.mjs?v=ea-141-preview-20261005';
+import {WIDTH,HEIGHT,point,LANDMARKS,inPolygon} from '../yunxiu-courtyard/navigation.mjs?v=ea-141-preview-20261005';
+import {foreground} from './ea-foreground.mjs?v=ea-141-preview-20261005';
+import {appearance,scenicPosition,advanceScenic,repairScenicActor} from './ea-scenic.mjs?v=ea-141-preview-20261005';
+import {facilityRecords,courtyardDestination,scenicHomeActors} from './ea-scene-state.mjs?v=ea-141-preview-20261005';
+import {SCENIC_PLOTS,SCENE_ROADS,scenicPoint,scenicInverse,scenicNearest,scenicFindPath,scenicDistance,scenicCanStand,geometryRevision,facilityHit,plotPolygon} from './ea-scene-geometry.mjs?v=ea-141-preview-20261005';
+import {createAssetLoader} from './ea-runtime.mjs?v=ea-141-preview-20261005';
+import fallbackMeta from './ea-character-frames.mjs?v=ea-141-preview-20261005';
 
 export function createWorldRenderer(canvas,options){
  const {getState,getMode,getSelection,getCampaignScene,getPrefs=()=>({}),getPreview=()=>null,getHomeInteractions=()=>[],onLoad=()=>{}}=options;

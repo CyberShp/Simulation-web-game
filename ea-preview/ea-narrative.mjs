@@ -1,4 +1,4 @@
-import { CLUES, PREPARATIONS, campaignSummary, explorationOptions } from './ea-campaign.mjs?v=ea-140-release-20261005';
+import { CLUES, PREPARATIONS, campaignSummary, explorationOptions } from './ea-campaign.mjs?v=ea-141-preview-20261005';
 
 // Narrative is a projection of committed campaign facts, never a second quest
 // engine. Reading acknowledges prose only: costs, rewards and progress continue
@@ -191,8 +191,9 @@ export function regionInteractions(s) {
 
 export function homeInteractions(s) {
   if(s.world.exploration||s.master.journey)return [];
-  const q=campaignSummary(s), role=q.step===1?{name:'陆知微',type:'visitor',text:'家人病重，我循旧药方来到这里。若你愿赠十份灵草，我想把这份药理继续学下去。'}:q.step===2?{name:'林长风',type:'visitor',text:'我想找个安身与求道的地方。先恢复能运行的药田与伐木场，再商议留下。'}:{name:q.step>=9?'双亲遗物':'家传手札',type:'object',text:q.text};
+  const q=campaignSummary(s), arrival=q.step===0&&q.ready, role=arrival?{name:'院外来客',type:'visitor',text:'经脉渐渐安稳，主屋外传来叩门声。来人攥着一张泛黄的药方，轻声问：「这里……还能求药吗？」'}:q.step===1?{name:'陆知微',type:'visitor',text:'家人病重，我循旧药方来到这里。若你愿赠十份灵草，我想把这份药理继续学下去。'}:q.step===2?{name:'林长风',type:'visitor',text:'我想找个安身与求道的地方。先恢复能运行的药田与伐木场，再商议留下。'}:{name:q.step>=9?'双亲遗物':'家传手札',type:'object',text:q.text};
   const action=q.completed?null:q.step===9?[{label:'重建栖霞故地',command:'advanceStory',args:['rebuild'],disabled:!q.ready},{label:'带传承回云岫',command:'advanceStory',args:['return'],disabled:!q.ready}]:[{label:q.action,command:'advanceStory',args:[],disabled:!q.ready,reason:q.requirements.filter(r=>!r.met).map(r=>r.label).join('；')}];
   const building=s.buildings.find(b=>b.type===(q.step===3||q.step===4||q.step===5?'library':'hall'))||s.buildings.find(b=>b.type==='hall');
-  return [{id:`home:chapter:${q.step}`,...role,kind:role.type==='visitor'?'person':'object',buildingId:building?.id||null,title:q.title,pages:[page(role.name,role.text)],choices:action||[],requirements:q.requirements.map(r=>({...r})),scene:'home'}];
+  if(arrival)action[0].label='听来客说说缘由';
+  return [{id:`home:chapter:${q.step}`,...role,kind:role.type==='visitor'?'person':'object',buildingId:building?.id||null,title:arrival?'主屋前 · 叩门声':q.title,pages:[page(role.name,role.text)],choices:action||[],requirements:q.requirements.map(r=>({...r})),scene:'home'}];
 }

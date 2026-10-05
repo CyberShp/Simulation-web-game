@@ -1,5 +1,5 @@
-import {BUILDINGS,RESOURCES,CELLS} from './ea-data.mjs?v=ea-140-release-20261005';
-import {buildingAccess,scenicDistance} from './ea-scene-geometry.mjs?v=ea-140-release-20261005';
+import {BUILDINGS,RESOURCES,CELLS} from './ea-data.mjs?v=ea-141-preview-20261005';
+import {buildingAccess,scenicDistance} from './ea-scene-geometry.mjs?v=ea-141-preview-20261005';
 
 // Guidance records observations only. Progress, choices and resources remain
 // owned by the campaign and simulation; older worlds opt out automatically.
