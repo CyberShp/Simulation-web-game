@@ -1,11 +1,11 @@
-import {createWorldRenderer as createPlanRenderer} from './ea-renderer.mjs?v=ea-130-release-20261005';
-import {WIDTH,HEIGHT,point,LANDMARKS,inPolygon} from './yunxiu-courtyard/navigation.mjs?v=ea-130-release-20261005';
-import {foreground} from './ea-foreground.mjs?v=ea-130-release-20261005';
-import {appearance,scenicPosition,advanceScenic,repairScenicActor} from './ea-scenic.mjs?v=ea-130-release-20261005';
-import {facilityRecords,courtyardDestination,scenicHomeActors} from './ea-scene-state.mjs?v=ea-130-release-20261005';
-import {SCENIC_PLOTS,SCENE_ROADS,scenicPoint,scenicInverse,scenicNearest,scenicFindPath,scenicDistance,scenicCanStand,geometryRevision,facilityHit,plotPolygon} from './ea-scene-geometry.mjs?v=ea-130-release-20261005';
-import {createAssetLoader} from './ea-runtime.mjs?v=ea-130-release-20261005';
-import fallbackMeta from './ea-character-frames.mjs?v=ea-130-release-20261005';
+import {createWorldRenderer as createPlanRenderer} from './ea-renderer.mjs?v=ea-140-release-20261005';
+import {WIDTH,HEIGHT,point,LANDMARKS,inPolygon} from './yunxiu-courtyard/navigation.mjs?v=ea-140-release-20261005';
+import {foreground} from './ea-foreground.mjs?v=ea-140-release-20261005';
+import {appearance,scenicPosition,advanceScenic,repairScenicActor} from './ea-scenic.mjs?v=ea-140-release-20261005';
+import {facilityRecords,courtyardDestination,scenicHomeActors} from './ea-scene-state.mjs?v=ea-140-release-20261005';
+import {SCENIC_PLOTS,SCENE_ROADS,scenicPoint,scenicInverse,scenicNearest,scenicFindPath,scenicDistance,scenicCanStand,geometryRevision,facilityHit,plotPolygon} from './ea-scene-geometry.mjs?v=ea-140-release-20261005';
+import {createAssetLoader} from './ea-runtime.mjs?v=ea-140-release-20261005';
+import fallbackMeta from './ea-character-frames.mjs?v=ea-140-release-20261005';
 
 export function createWorldRenderer(canvas,options){
  const {getState,getMode,getSelection,getCampaignScene,getPrefs=()=>({}),getPreview=()=>null,getHomeInteractions=()=>[],onLoad=()=>{}}=options;
@@ -53,9 +53,9 @@ export function createWorldRenderer(canvas,options){
  }
  function polygon(points,{fill,stroke}={}){if(!points.length)return;ctx.beginPath();points.forEach(([x,y],i)=>i?ctx.lineTo(x,y):ctx.moveTo(x,y));ctx.closePath();if(fill){ctx.fillStyle=fill;ctx.fill();}if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=1;ctx.stroke();}}
  function roads(s){ctx.lineCap='round';for(const e of SCENE_ROADS.filter(e=>!e.painted)){ctx.strokeStyle='#b7ab8990';ctx.lineWidth=12;ctx.beginPath();ctx.moveTo(e.a.x,e.a.y);ctx.lineTo(e.b.x,e.b.y);ctx.stroke();ctx.strokeStyle='#e2d6b85b';ctx.lineWidth=7;ctx.stroke();}ctx.lineCap='butt';}
- function plots(s){const info=getPreview(),preview=info&&hover?{...info,x:hover.x,y:hover.y,valid:!info.lock}:null,occupied=new Set(s.buildings.map(b=>`${b.x},${b.y}`));for(const plot of SCENIC_PLOTS){const locked=(plot.x>=8||plot.y>=7)&&!s.sect.founded&&s.sect.level<2,selected=hover?.x===plot.x&&hover?.y===plot.y;
-  polygon(plotPolygon(plot.x,plot.y),{fill:selected?'#e6d58b66':occupied.has(`${plot.x},${plot.y}`)?'#4a706433':locked?'#192e3933':'#e5dcad12',stroke:locked?'#927f6266':'#d8c68c99'});
-  ctx.fillStyle=locked?'#c4bfa1':'#f5e8bc';ctx.font='10px serif';ctx.textAlign='center';ctx.fillText(`${plot.x}/${plot.y}`,plot.position.x,plot.position.y+7);
+ function plots(s){const info=getPreview(),preview=info&&hover?{...info,x:hover.x,y:hover.y,valid:!info.lock}:null,occupied=new Set(s.buildings.map(b=>`${b.x},${b.y}`));for(const plot of SCENIC_PLOTS){const recommended=info?.recommended?.x===plot.x&&info?.recommended?.y===plot.y,locked=(plot.x>=8||plot.y>=7)&&!s.sect.founded&&s.sect.level<2,selected=hover?.x===plot.x&&hover?.y===plot.y;
+  polygon(plotPolygon(plot.x,plot.y),{fill:recommended?'#ecd58b80':selected?'#e6d58b66':occupied.has(`${plot.x},${plot.y}`)?'#4a706433':locked?'#192e3933':'#e5dcad12',stroke:locked?'#927f6266':'#d8c68c99'});
+  ctx.fillStyle=locked?'#c4bfa1':'#f5e8bc';ctx.font='10px serif';ctx.textAlign='center';ctx.fillText(recommended?'推荐位置':`${plot.x}/${plot.y}`,plot.position.x,plot.position.y+7);
  }if(preview?.x!==undefined){const p=scenicPoint(preview.x,preview.y);if(p){polygon(plotPolygon(preview.x,preview.y),{fill:preview.valid?'#bad79588':'#be715577',stroke:preview.valid?'#e9dfa8':'#f5a184'});if(preview.type)plan.drawFacility({type:preview.type,x:preview.x,y:preview.y,level:1},.55,p,62);}}}
  function storyObjects(s,records){return getHomeInteractions(s).map(object=>{const r=records.find(r=>r.id===object.buildingId);return r?{...object,position:{x:r.access.x+19,y:r.access.y-7}}:null;}).filter(Boolean);}
  function storyMarker(object){const p=object.position;ctx.fillStyle='#cba967';ctx.strokeStyle='#f5e5b0';ctx.lineWidth=2;ctx.beginPath();ctx.arc(p.x,p.y-24,13,0,Math.PI*2);ctx.fill();ctx.stroke();ctx.fillStyle='#283e32';ctx.font='bold 18px serif';ctx.textAlign='center';ctx.fillText(object.kind==='person'?'談':'卷',p.x,p.y-18);tag(object.name+' · '+(object.kind==='person'?'交谈':'查看'),{x:p.x,y:p.y-65},{small:true});}
@@ -79,7 +79,7 @@ export function createWorldRenderer(canvas,options){
   if(r)return{...p,kind:'building',id:r.id,scenic:true};if(overview){const peak=s.society.peaks.find((_,i)=>Math.abs(p.x-(500+i*550))<180&&Math.abs(p.y-900)<40);if(peak)return{...p,kind:'peak',id:peak.id};}
   const l=LANDMARKS.find(l=>inPolygon(p,l.hit));return{...p,kind:l?'area':'ground',id:l?.id,scenic:true};
  }
- return {pan,ready:readyPromise,render,resize:()=>{plan.resize();render(performance.now(),true);},pick,screenPoint,mapPoint:e=>delegate()?plan.mapPoint(e):isPlan()?scenicInverse(screenPoint(e),{maxDistance:45})||{x:-1,y:-1}:screenPoint(e),setHover:e=>{hover=e?(isPlan()?scenicInverse(screenPoint(e),{maxDistance:45}):screenPoint(e)):null;plan.setHover(e);},getHover:()=>delegate()?plan.getHover():hover,
+ return {pan,ready:readyPromise,render,resize:()=>{plan.resize();render(performance.now(),true);},pick,screenPoint,mapPoint:e=>delegate()?plan.mapPoint(e):isPlan()?scenicInverse(screenPoint(e),{maxDistance:45})||{x:-1,y:-1}:screenPoint(e),setHover:e=>{hover=e?(isPlan()?scenicInverse(screenPoint(e),{maxDistance:45}):screenPoint(e)):null;plan.setHover(e);},getHover:()=>delegate()?plan.getHover():hover,setHoverPlot:p=>{hover=p?{x:p.x,y:p.y}:null;},focusScenic:(x,y)=>{const p=scenicPoint(x,y);if(p){const c=camera();pan.x+=c.w*.5-(p.x*c.scale+c.ox);pan.y+=c.h*.45-(p.y*c.scale+c.oy);}},
   setGrid:v=>{planning=v??!planning;overview=false;plan.setGrid(planning);pan.x=pan.y=0;return planning;},setZoom:d=>{if(delegate())return plan.setZoom(d);zoom=Math.max(.8,Math.min(2.3,zoom+d));return zoom;},recenter:()=>{pan.x=pan.y=0;zoom=1;plan.recenter();},
   focus:(x,y,arena=false)=>{if(delegate())plan.focus(x,y,arena);else{const selection=getSelection(),r=selection?.kind==='building'?facilityRecords(getState()).find(r=>r.id===selection.id):null,a=selection?.kind==='person'?actors.get(selection.id):null,p=a||r?.position||scenicPosition(getState().master),c=camera();pan.x+=c.w*.5-(p.x*c.scale+c.ox);pan.y+=c.h*.4-(p.y*c.scale+c.oy);}},
   getPersonPosition:id=>{const s=getState();if(id==='master')return {...scenicPosition(s.master)};const d=s.disciples.find(d=>d.id===id);if(!d||!scenicHomeActors(s).some(p=>p.id===id))return null;const a=d.mind?.scenic||actors.get(id);return a?{x:a.x,y:a.y}:null;},
