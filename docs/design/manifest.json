@@ -390,7 +390,7 @@
     "targetDesignDoesNotMeanImplemented": true
   },
   "worldviewDiscussion": {
-    "recordId": "WV-2026-10-05-10",
+    "recordId": "WV-2026-10-05-11",
     "path": "docs/design/13-WORLDVIEW-DISCUSSION.md",
     "status": "in-progress",
     "questionPolicy": "one-at-a-time",
@@ -418,7 +418,8 @@
       "U-36",
       "U-37",
       "U-38",
-      "U-39"
+      "U-39",
+      "U-40"
     ],
     "fixedEightCultivationSystems": "withdrawn",
     "playerAscensionCurrentlyInScope": false,
@@ -465,6 +466,10 @@
     "heterodoxClassification": "cultivation-taboo-violation-not-crime-severity-alone",
     "deliberateAtrocityForCultivation": "heterodox",
     "temporaryLossOfControlAtrocity": "separate-classification-not-automatic-heterodox",
-    "temporaryLossOfControlLiability": "undecided"
+    "temporaryLossOfControlLiability": "undecided",
+    "heterodoxResponsePolicy": "organization-rules-and-person-specific-not-faction-deterministic",
+    "factionReactionExamplesAreAbsolute": false,
+    "tabooAndOrganizationRuleRelationship": "undecided",
+    "bountySystemDetails": "undecided"
   }
 }
