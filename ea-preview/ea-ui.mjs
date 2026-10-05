@@ -1,10 +1,10 @@
-import {REGION_ART} from './ea-region-art.mjs?v=ea-140-preview-20261005';
-import {appearance} from './ea-scenic.mjs?v=ea-140-preview-20261005';
-import {facilityRecords,nextObjective,routeDiscovered} from './ea-scene-state.mjs?v=ea-140-preview-20261005';
-import {sceneInteractionOptions,sceneInteractionTarget} from './ea-interactions.mjs?v=ea-140-preview-20261005';
-import {narrativeForState,sceneDialogue,regionInteractions,homeInteractions} from './ea-narrative.mjs?v=ea-140-preview-20261005';
-import * as SIM from './ea-sim.mjs?v=ea-140-preview-20261005';
-import {onboardingView,availableSystems,resourceReserve,resumeSummary} from './ea-onboarding.mjs?v=ea-140-preview-20261005';
+import {REGION_ART} from './ea-region-art.mjs?v=ea-140-preview-20261005-r2';
+import {appearance} from './ea-scenic.mjs?v=ea-140-preview-20261005-r2';
+import {facilityRecords,nextObjective,routeDiscovered} from './ea-scene-state.mjs?v=ea-140-preview-20261005-r2';
+import {sceneInteractionOptions,sceneInteractionTarget} from './ea-interactions.mjs?v=ea-140-preview-20261005-r2';
+import {narrativeForState,sceneDialogue,regionInteractions,homeInteractions} from './ea-narrative.mjs?v=ea-140-preview-20261005-r2';
+import * as SIM from './ea-sim.mjs?v=ea-140-preview-20261005-r2';
+import {onboardingView,availableSystems,resourceReserve,resumeSummary} from './ea-onboarding.mjs?v=ea-140-preview-20261005-r2';
 
 const E = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
 const n = value => Number.isFinite(Number(value)) ? Number(value) : 0;
@@ -357,6 +357,6 @@ export function createEAUI(api) {
   document.addEventListener('input',event=>{if(event.target.id==='person-search'){ui.search=event.target.value;renderTab();}});
   document.addEventListener('change',event=>{const el=event.target;if(el.dataset.uiTradeCount){ui.tradeBatches[el.dataset.uiTradeCount]=Number(el.value);renderTab();}if(el.dataset.uiPolicy)command({type:'policy',key:el.dataset.uiPolicy,value:el.value});if(el.dataset.uiPeakBudget)command({type:'setPeakBudget',peakId:Number(el.dataset.uiPeakBudget),budget:Number(el.value)});});
   document.addEventListener('submit',event=>{const form=event.target;if(!form.dataset.uiForm)return;event.preventDefault();const data=new FormData(form);if(form.dataset.uiForm==='exploration'){const ids=data.getAll('companion').map(Number);if(ids.length>2){safeToast('一次至多邀请两位门人同行。');return;}if(act('startExploration',form.dataset.region,{companionIds:ids})!==null){close();ui.folded=true;render();}}if(form.dataset.uiForm==='foundSect')command({type:'foundSect',name:String(data.get('name')).trim()});if(form.dataset.uiForm==='foundPeak'){if(command({type:'foundPeak',direction:form.dataset.direction,hostId:Number(data.get('hostId')),name:String(data.get('name')).trim()})!==null)close();}});
-  $('#modal')?.addEventListener('close',()=>{if(ui.modal?.kind==='narrative')dismissedNarrative.add(ui.modal.id);if(ui.modal?.kind==='prologue'&&!getState().story.intro)act('acknowledgeIntro');ui.modal=null;});
+  $('#modal')?.addEventListener('close',()=>{if($('#modal')?.open)return;if(ui.modal?.kind==='narrative')dismissedNarrative.add(ui.modal.id);if(ui.modal?.kind==='prologue'&&!getState().story.intro)act('acknowledgeIntro');ui.modal=null;});
   return {render,renderTab,showResume,openPerson,renderDetail,openGuide,openPrologue,openSceneInteraction,finishSceneInteraction,openRegionInteraction,openHomeInteraction,maybeNarrative,resetNarrative:()=>{dismissedNarrative.clear();ui.allSystems=false;},fold:()=>{ui.folded=true;render();},unfold:()=>{ui.folded=false;render();}};
 }

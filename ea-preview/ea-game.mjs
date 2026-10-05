@@ -1,13 +1,13 @@
-import * as SIM from './ea-sim.mjs?v=ea-140-preview-20261005';
-import {EA_SHELL,createEAUI} from './ea-ui.mjs?v=ea-140-preview-20261005';
-import {createEAPersistence,MAX_IMPORT_BYTES} from './ea-persistence.mjs?v=ea-140-preview-20261005';
-import {createWorldRenderer} from './ea-courtyard-renderer.mjs?v=ea-140-preview-20261005';
-import {attachMapInput} from './map-input.mjs?v=ea-140-preview-20261005';
-import {scenicPosition} from './ea-scenic.mjs?v=ea-140-preview-20261005';
-import {sceneInteractionReady,sceneInteractionTarget} from './ea-interactions.mjs?v=ea-140-preview-20261005';
-import {createRuntimeClock,createFrameDiagnostics} from './ea-runtime.mjs?v=ea-140-preview-20261005';
-import {recommendedPlot} from './ea-onboarding.mjs?v=ea-140-preview-20261005';
-import {createOpeningAudio} from './ea-opening-audio.mjs?v=ea-140-preview-20261005';
+import * as SIM from './ea-sim.mjs?v=ea-140-preview-20261005-r2';
+import {EA_SHELL,createEAUI} from './ea-ui.mjs?v=ea-140-preview-20261005-r2';
+import {createEAPersistence,MAX_IMPORT_BYTES} from './ea-persistence.mjs?v=ea-140-preview-20261005-r2';
+import {createWorldRenderer} from './ea-courtyard-renderer.mjs?v=ea-140-preview-20261005-r2';
+import {attachMapInput} from './map-input.mjs?v=ea-140-preview-20261005-r2';
+import {scenicPosition} from './ea-scenic.mjs?v=ea-140-preview-20261005-r2';
+import {sceneInteractionReady,sceneInteractionTarget} from './ea-interactions.mjs?v=ea-140-preview-20261005-r2';
+import {createRuntimeClock,createFrameDiagnostics} from './ea-runtime.mjs?v=ea-140-preview-20261005-r2';
+import {recommendedPlot} from './ea-onboarding.mjs?v=ea-140-preview-20261005-r2';
+import {createOpeningAudio} from './ea-opening-audio.mjs?v=ea-140-preview-20261005-r2';
 
 const VERSION=SIM.GAME_VERSION;
 const runtimeClock=createRuntimeClock(),diagnostics=createFrameDiagnostics();
@@ -129,7 +129,7 @@ mapInputStop=attachMapInput(canvas,{pan:world.pan,enabled:()=>haveSession&&!moda
 }});
 canvas.addEventListener('wheel',e=>{if(modal.open)return;e.preventDefault();world.setZoom(e.deltaY>0?-.07:.07);world.render(performance.now(),true);},{passive:false});
 canvas.addEventListener('pointerleave',()=>{world.setHover(null);updatePlacement();});
-$('close-modal').addEventListener('click',closeModal);modal.addEventListener('cancel',e=>{if(!haveSession)e.preventDefault();});modal.addEventListener('close',()=>{lastFrame=performance.now();runtimeClock.resume(lastFrame);audio.sync();});
+$('close-modal').addEventListener('click',closeModal);modal.addEventListener('cancel',e=>{if(!haveSession)e.preventDefault();});modal.addEventListener('close',()=>{if(modal.open)return;lastFrame=performance.now();runtimeClock.resume(lastFrame);audio.sync();});
 $('import-file').addEventListener('change',e=>{readImport(e.target.files[0]);e.target.value='';});
 
 document.addEventListener('click',async e=>{const b=e.target.closest('button');if(!b||b.disabled)return;const d=b.dataset;try{
