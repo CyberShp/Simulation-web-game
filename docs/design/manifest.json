@@ -390,7 +390,7 @@
     "targetDesignDoesNotMeanImplemented": true
   },
   "worldviewDiscussion": {
-    "recordId": "WV-2026-10-05-14",
+    "recordId": "WV-2026-10-05-15",
     "path": "docs/design/13-WORLDVIEW-DISCUSSION.md",
     "status": "in-progress",
     "questionPolicy": "one-at-a-time",
@@ -422,7 +422,8 @@
       "U-40",
       "U-41",
       "U-42",
-      "U-43"
+      "U-43",
+      "U-44"
     ],
     "fixedEightCultivationSystems": "withdrawn",
     "playerAscensionCurrentlyInScope": false,
@@ -485,8 +486,11 @@
     "puppetSectWiderAllianceAndProtectionAgreements": "undecided",
     "spiritPlantClanMainIndustry": "basic-medicinal-spirit-herb-cultivation-and-raw-material-supply",
     "spiritPlantClanCustomerCategories": "alchemists-sects-and-markets",
-    "spiritPlantClanAffiliation": "undecided",
+    "spiritPlantClanAffiliation": "publicly-independent-actual-dependence-undecided",
     "spiritPlantClanSpecificPlantsAndIndustryScale": "undecided",
-    "spiritPlantClanCoreCultivationTradition": "undecided"
+    "spiritPlantClanCoreCultivationTradition": "undecided",
+    "spiritPlantClanSwordSectRelationship": "friendly-to-local-orthodox-flying-sword-sect",
+    "spiritPlantClanActualDependenceOrSubordination": "undecided",
+    "spiritPlantClanSwordSectRelationshipBasisAndAgreements": "undecided"
   }
 }
