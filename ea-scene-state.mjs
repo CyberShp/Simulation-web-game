@@ -1,7 +1,7 @@
-import {BUILDINGS,ROUTES,RESOURCES,stage} from './ea-data.mjs?v=ea-140-release-20261005';
-import {scenicPoint,buildingAccess,buildingSize,buildingFootprint} from './ea-scene-geometry.mjs?v=ea-140-release-20261005';
-import {lifeFacility} from './ea-life.mjs?v=ea-140-release-20261005';
-import {recoveryObjective} from './ea-onboarding.mjs?v=ea-140-release-20261005';
+import {BUILDINGS,ROUTES,RESOURCES,stage} from './ea-data.mjs?v=ea-141-release-20261005';
+import {scenicPoint,buildingAccess,buildingSize,buildingFootprint} from './ea-scene-geometry.mjs?v=ea-141-release-20261005';
+import {lifeFacility} from './ea-life.mjs?v=ea-141-release-20261005';
+import {recoveryObjective} from './ea-onboarding.mjs?v=ea-141-release-20261005';
 
 export const facilityActive=b=>!!b&&b.enabled!==false&&b.condition>0;
 export function facilityRecords(s){
@@ -31,7 +31,7 @@ export function nextObjective(s){
  const q=s.story.step,m=s.master,e=s.world.exploration;
  if(s.combat?.status==='active')return {label:'返回战场',text:'移动避开预警，留意气血；需要时可暂停或撤退。',kind:'battle'};
  if(e)return {label:e.status==='traveling'?'查看行程':e.resolved?'返回山院':'前往当前线索',text:e.status==='traveling'?'行程随游戏时间推进。':e.resolved?'此地的行动已有结果，归院后继续主线。':'沿道路走近标记，再作调查或战斗选择。',kind:e.resolved?'return':'journey'};
- if(q===0&&m.wound>0){if(m.action!=='heal'){const recovery=recoveryObjective(s,{herb:6});if(recovery)return recovery;}return {label:m.action==='heal'?'查看疗伤进度':'用灵草调息（6份）',text:m.action==='heal'?`正在疗伤，剩余约 ${Math.ceil(m.wound/2)} 秒。保持时间运行，伤愈后去主屋听听院外的动静。`:'母亲留下的灵草能温养经脉。先治好逃亡伤势。',kind:m.action==='heal'?'self':'heal'};}
+ if(q===0&&m.wound>0){if(m.action==='heal'&&s.speed===0)return {label:'继续疗伤',text:'时序已暂停，伤势暂不恢复。继续后沿用已服的药，无需再消耗灵草。',kind:'resumeHealing'};if(m.action!=='heal'){const recovery=recoveryObjective(s,{herb:6});if(recovery)return recovery;}return {label:m.action==='heal'?'查看疗伤进度':'用灵草调息（6份）',text:m.action==='heal'?`正在疗伤，剩余约 ${Math.ceil(m.wound/2)} 秒。保持时间运行，伤愈后去主屋听听院外的动静。`:'母亲留下的灵草能温养经脉。先治好逃亡伤势。',kind:m.action==='heal'?'self':'heal'};}
  if(q===0||q===1){if(q===1){const recovery=recoveryObjective(s,{herb:10});if(recovery)return recovery;}const hall=s.buildings.find(b=>b.type==='hall');return {label:q===0?'到主屋听听来意':'走近陆知微，赠药结缘',text:q===0?'伤势已愈，院外有人循着母亲的旧药方前来求助。':'陆知微在主屋前等候。走近交谈，亲手赠药，再商议留下。',kind:'home',id:hall.id};}
  for(const type of q===2?['farm','lumber']:q===3?['library']:[]){
   const built=s.buildings.filter(b=>b.type===type);if(built.some(facilityActive))continue;

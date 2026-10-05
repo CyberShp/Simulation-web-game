@@ -1,10 +1,10 @@
-import {REGION_ART} from './ea-region-art.mjs?v=ea-140-release-20261005';
-import {appearance} from './ea-scenic.mjs?v=ea-140-release-20261005';
-import {facilityRecords,nextObjective,routeDiscovered} from './ea-scene-state.mjs?v=ea-140-release-20261005';
-import {sceneInteractionOptions,sceneInteractionTarget} from './ea-interactions.mjs?v=ea-140-release-20261005';
-import {narrativeForState,sceneDialogue,regionInteractions,homeInteractions} from './ea-narrative.mjs?v=ea-140-release-20261005';
-import * as SIM from './ea-sim.mjs?v=ea-140-release-20261005';
-import {onboardingView,availableSystems,resourceReserve,resumeSummary} from './ea-onboarding.mjs?v=ea-140-release-20261005';
+import {REGION_ART} from './ea-region-art.mjs?v=ea-141-release-20261005';
+import {appearance} from './ea-scenic.mjs?v=ea-141-release-20261005';
+import {facilityRecords,nextObjective,routeDiscovered} from './ea-scene-state.mjs?v=ea-141-release-20261005';
+import {sceneInteractionOptions,sceneInteractionTarget} from './ea-interactions.mjs?v=ea-141-release-20261005';
+import {narrativeForState,sceneDialogue,regionInteractions,homeInteractions} from './ea-narrative.mjs?v=ea-141-release-20261005';
+import * as SIM from './ea-sim.mjs?v=ea-141-release-20261005';
+import {onboardingView,availableSystems,resourceReserve,resumeSummary} from './ea-onboarding.mjs?v=ea-141-release-20261005';
 
 const E = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
 const n = value => Number.isFinite(Number(value)) ? Number(value) : 0;
@@ -286,14 +286,15 @@ export function createEAUI(api) {
     if(getState().story.onboarding&&!getState().story.intro&&getState().story.onboarding.introPage!==page)act('setIntroPage',page);
     prologuePage=page;const name=E(getState().master.name),pages=[
       {title:'序章 · 栖霞雨夜',heading:'那一夜，山门失守。',text:`你是${name}，栖霞沈氏的年轻修士。天资卓绝，炼气六层，却还无力挡住赤嶂门的夺脉之祸。父亲逆转护山残阵，把追兵拦在山门之外。`},
-      {title:'序章 · 最后的托付',heading:'「活下去，传承便还在。」',text:'母亲耗尽修为发动遁符，把炼气篇、残缺筑基篇、药理札记和一封旧信交给你。双亲留在雨夜里，你带着重伤逃入云岫。'},
+      {title:'序章 · 最后的托付',heading:'<span class="prologue-line">「活下去，</span><span class="prologue-line">传承便还在。」</span>',text:'母亲耗尽修为发动遁符，把炼气篇、残缺筑基篇、药理札记和一封旧信交给你。双亲留在雨夜里，你带着重伤逃入云岫。'},
       {title:'序章 · 云岫旧居',heading:'先点起灯，再寻归路。',text:'这里是母亲早年的采药别院。主屋还在，其余地块久无人照看，尚无门人，也没有现成的药田、工坊或丹炉。先用随身灵草治伤，再与山民结缘、恢复供给，沿旧信调查仇家。'}
     ],p=pages[page];
-    open(p.title,`<div class="prologue-stage prologue-stage-${page}" aria-hidden="true"><div class="prologue-rain"></div><div class="prologue-glow"></div><div class="prologue-relics"><span>药匣</span><span>残卷</span><span>旧信</span></div><span class="prologue-caption">${['栖霞 · 山门雨夜','母亲留下的最后一盏灯','云岫 · 旧院重燃灯火'][page]}</span></div><div class="prologue-scene"><span class="eyebrow">余烬立山 · ${page+1} / 3</span><h2>${p.heading}</h2><p>${p.text}</p></div><div class="settings-note">${page===2?'当前目标：灵草调息 → 伤势痊愈 → 赠药结缘。你直接控制掌门，未来的门人会自主安排生活。':'阅读剧情时世界暂停；关闭网页后，可以从本机存档续玩。'}</div><div class="button-row">${page>0?btn('上一幕','prologue',[page-1]):''}${page<2?btn('继续','prologue',[page+1],{className:'primary'}):btn('用灵草调息（6份）','beginChapter',['heal'],{className:'primary'})}${btn('进入山院，稍后回顾','beginChapter',['skip'],{className:'text-button'})}<button type="button" class="text-button" data-intro-sound>雨声与音效开关</button></div>`,{kind:'prologue'});api.presentPrologue?.(page);
+    open(p.title,`<div class="prologue-stage prologue-stage-${page}" aria-hidden="true"><div class="prologue-rain"></div><div class="prologue-glow"></div><div class="prologue-relics"><span>药匣</span><span>残卷</span><span>旧信</span></div><span class="prologue-caption">${['栖霞 · 山门雨夜','母亲留下的最后一盏灯','云岫 · 旧院重燃灯火'][page]}</span></div><div class="prologue-scene"><span class="eyebrow">余烬立山 · ${page+1} / 3</span><h2>${p.heading}</h2><p>${p.text}</p></div><div class="settings-note">${page===2?'当前目标：灵草调息 → 伤势痊愈 → 赠药结缘。你直接控制掌门，未来的门人会自主安排生活。':api.isMemorySession?.()?'本次在内存中试玩，关页前请从设置导出进度。阅读剧情时世界暂停。':'阅读剧情时世界暂停；关闭网页后，可以从本机存档续玩。'}</div><div class="button-row">${page>0?btn('上一幕','prologue',[page-1]):''}${page<2?btn('继续','prologue',[page+1],{className:'primary'}):btn('用灵草调息（6份）','beginChapter',['heal'],{className:'primary'})}${btn('进入山院，稍后回顾','beginChapter',['skip'],{className:'text-button'})}<button type="button" class="text-button" data-intro-sound aria-pressed="${!!api.getIntroSoundEnabled?.()}">${api.getIntroSoundEnabled?.()?'关闭雨声与音效':'开启雨声与音效'}</button></div>`,{kind:'prologue'});api.presentPrologue?.(page);
   }
-  function beginChapter(choice){if(act('acknowledgeIntro')===null)return;close();setTab('self');if(choice==='heal'&&getState().master.wound>0){if(act('masterAction','heal')!==null)api.ensureRunning?.();}ui.folded=true;render();safeToast('目标留在右侧；随时点击「下一步」继续。');}
+  function beginChapter(choice){if(act('acknowledgeIntro')===null)return;close();setTab('self');if(choice==='heal'&&getState().master.wound>0){if(act('masterAction','heal')!==null)api.ensureRunning?.();}ui.folded=true;render();safeToast('当前目标会随进度更新；点击目标下方的按钮即可继续。');}
   function guideNext(){const next=nextObjective(getState());
     if(next.kind==='home'){close();if(api.interact){api.interact('building',next.id,'story');ui.folded=true;render();}else openHomeInteraction();}
+    else if(next.kind==='resumeHealing'){api.ensureRunning?.();ui.folded=true;render();safeToast('继续疗伤，无需再消耗灵草。');}
     else if(next.kind==='gather'){setTab('self');if(act('masterAction',next.id)!==null){api.ensureRunning?.();ui.folded=true;render();safeToast('正在采集'+resName(next.id)+'，补足后再继续；暂停时不产出。');}}
     else if(next.kind==='heal'){setTab('self');act('masterAction','heal');api.ensureRunning?.();ui.folded=true;render();}
     else if(next.kind==='build'){api.chooseBuild?.(next.id);ui.folded=true;render();}
@@ -331,7 +332,7 @@ export function createEAUI(api) {
     allSystems:()=>{ui.allSystems=!ui.allSystems;render();safeToast(ui.allSystems?'已展开全部管理入口；暂未满足的条件仍会注明。':'系统入口随当前进度展示。');},
     observeWork:(buildingId,personId)=>{api.observeWork?.(buildingId,personId);ui.folded=true;render();},resumeObjective:()=>{close();if(getState().combat?.status==='active'){api.selectScene?.('journey');ui.folded=true;render();safeToast('战斗保持暂停，准备好后点击继续。');}else guideNext();},
     narrativePage:openNarrative,narrativeFinish:(id,review)=>{if(review||act('acknowledgeNarrative',id)!==null)close();},narrativeReview:id=>openNarrative(id,0,true),
-    regionApproach:()=>{close();api.approachRegion?.();},regionChoice:id=>{if(act('resolveExploration',id)!==null){close();ui.folded=true;render();}},regionReturn:()=>{if(act('leaveRegion')!==null)close();},homeChoice:args=>{if(act('advanceStory',...args)!==null)close();},
+    regionApproach:()=>{close();api.approachRegion?.();},regionChoice:id=>{if(act('resolveExploration',id)!==null){close();ui.folded=true;render();}},regionReturn:()=>{if(act('leaveRegion')!==null)close();},homeChoice:args=>{const previous=getState().story.step;if(act('advanceStory',...args)!==null){if(previous===0&&getState().story.step===1)openHomeInteraction();else close();}},
     openSceneInteraction,sceneInteraction:(kind,id,choice)=>{if(api.interact?.(kind,id,choice)!==null){close();ui.folded=true;render();}},cancelInteraction:()=>api.cancelInteraction?.(),
     prologue:openPrologue,beginChapter,guideNext,locateBuilding:id=>{api.locate?.('building',id);ui.folded=true;render();},
     riskBreakthrough:riskBreakthroughDialog,confirmRiskBreakthrough,returnFromRisk:()=>{close();setTab('self');},tab:setTab,scene:id=>api.selectScene?.(id),prepareExploration,peakSuccessor,resetCultivation:()=>open('重归基础 · 调整功体',`<p>重归青岚养元诀后，可以另择相容主修。已经理解的知识会保留。</p><div class="warning-callout">需灵石 80、灵草 20，消耗精力 20，并损失当前修为的两成。</div>${btn('确认重归基础','confirmBasics',[],{className:'primary',full:true})}`),confirmBasics:()=>{if(act('returnToBasics')!==null)close();},filter:(group,value)=>{ui.filters[group]=value;renderTab();},person:openPerson,guide:openGuide,biography,closeModal:close,storyFromModal:()=>{close();setTab('journal');},

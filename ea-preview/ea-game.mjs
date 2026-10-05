@@ -1,13 +1,13 @@
-import * as SIM from './ea-sim.mjs?v=ea-141-preview-20261005-r2';
-import {EA_SHELL,createEAUI} from './ea-ui.mjs?v=ea-141-preview-20261005-r2';
-import {createEAPersistence,MAX_IMPORT_BYTES} from './ea-persistence.mjs?v=ea-141-preview-20261005-r2';
-import {createWorldRenderer} from './ea-courtyard-renderer.mjs?v=ea-141-preview-20261005-r2';
-import {attachMapInput} from './map-input.mjs?v=ea-141-preview-20261005-r2';
-import {scenicPosition} from './ea-scenic.mjs?v=ea-141-preview-20261005-r2';
-import {sceneInteractionReady,sceneInteractionTarget} from './ea-interactions.mjs?v=ea-141-preview-20261005-r2';
-import {createRuntimeClock,createFrameDiagnostics} from './ea-runtime.mjs?v=ea-141-preview-20261005-r2';
-import {recommendedPlot} from './ea-onboarding.mjs?v=ea-141-preview-20261005-r2';
-import {createOpeningAudio} from './ea-opening-audio.mjs?v=ea-141-preview-20261005-r2';
+import * as SIM from './ea-sim.mjs?v=ea-141-release-20261005';
+import {EA_SHELL,createEAUI} from './ea-ui.mjs?v=ea-141-release-20261005';
+import {createEAPersistence,MAX_IMPORT_BYTES} from './ea-persistence.mjs?v=ea-141-release-20261005';
+import {createWorldRenderer} from './ea-courtyard-renderer.mjs?v=ea-141-release-20261005';
+import {attachMapInput} from './map-input.mjs?v=ea-141-release-20261005';
+import {scenicPosition} from './ea-scenic.mjs?v=ea-141-release-20261005';
+import {sceneInteractionReady,sceneInteractionTarget} from './ea-interactions.mjs?v=ea-141-release-20261005';
+import {createRuntimeClock,createFrameDiagnostics} from './ea-runtime.mjs?v=ea-141-release-20261005';
+import {recommendedPlot} from './ea-onboarding.mjs?v=ea-141-release-20261005';
+import {createOpeningAudio} from './ea-opening-audio.mjs?v=ea-141-release-20261005';
 
 const VERSION=SIM.GAME_VERSION;
 const runtimeClock=createRuntimeClock(),diagnostics=createFrameDiagnostics();
@@ -103,7 +103,7 @@ function settings(){openModal('山居设置',`<div class="settings-list"><articl
 const openingAudio=createOpeningAudio({enabled:()=>preferences.sfx,volume:()=>preferences.sfxVolume,visible:()=>modal.open&&modal.classList.contains('cinematic')&&!document.hidden});
 const audio=(()=>{let ctx=null,ambient=null,lastNote=0,step=0;function init(){if(!ctx){const C=window.AudioContext||window.webkitAudioContext;if(C)ctx=new C();}if(ctx?.state==='suspended')ctx.resume().catch(()=>{});return ctx;}function note(freq,duration,volume,type='sine'){if(!ctx||ctx.state!=='running'||volume<=0)return;const o=ctx.createOscillator(),g=ctx.createGain();o.type=type;o.frequency.value=freq;g.gain.setValueAtTime(0,ctx.currentTime);g.gain.linearRampToValueAtTime(volume,ctx.currentTime+.05);g.gain.exponentialRampToValueAtTime(.0001,ctx.currentTime+duration);o.connect(g);g.connect(ctx.destination);o.start();o.stop(ctx.currentTime+duration);}return {prologue:page=>openingAudio.play(page),effect(kind){if(!preferences.sfx)return;init();note(kind==='battle'?146.83:329.63,.3,.035*preferences.sfxVolume,'triangle');},sync(){if(modal.open&&modal.classList.contains('cinematic')){openingAudio.play(Number(modal.dataset.introScene)||0);return;}openingAudio.stop();if((preferences.music||preferences.sfx)&&haveSession&&!document.hidden&&!modal.open)init();else if(ctx)ctx.suspend().catch(()=>{});},suspend(){openingAudio.stop();ctx?.suspend().catch(()=>{});},tick(now){if(!preferences.music||!ctx||ctx.state!=='running'||document.hidden||modal.open||now-lastNote<3100)return;lastNote=now;const notes=[196,220,261.63,293.66,329.63,293.66,261.63,220];note(notes[step++%notes.length],4,.012*preferences.musicVolume);}};})();
 
-ui=createEAUI({getState:()=>state,act,setTab,getTab:()=>tab,openModal,closeModal,toast,getMode:()=>mode,setMode,chooseBuild,selectScene,getScene:()=>scene,getSelection:()=>selection,locate,openPerson:id=>ui.openPerson(id),settings,saveNow,refresh,startRelocate,interact,cancelInteraction,getDiagnostics:()=>diagnostics.snapshot(),approachRegion,ensureRunning,observeWork,getIntroSoundEnabled:()=>preferences.sfx,presentPrologue:page=>{modal.dataset.introScene=String(page);audio.prologue?.(page);},clearSelection:()=>{selection=null;}});
+ui=createEAUI({getState:()=>state,act,setTab,getTab:()=>tab,openModal,closeModal,toast,getMode:()=>mode,setMode,chooseBuild,selectScene,getScene:()=>scene,getSelection:()=>selection,locate,openPerson:id=>ui.openPerson(id),settings,saveNow,refresh,startRelocate,interact,cancelInteraction,getDiagnostics:()=>diagnostics.snapshot(),approachRegion,ensureRunning,observeWork,isMemorySession:()=>volatile,getIntroSoundEnabled:()=>preferences.sfx,presentPrologue:page=>{modal.dataset.introScene=String(page);audio.prologue?.(page);},clearSelection:()=>{selection=null;}});
 const canvas=$('world');
 function interact(kind,id,choice){if(scene!=='map')selectScene('map');world.setOverview(false);setMode('inspect');return act('requestSceneInteraction',kind,id,choice,kind==='person'?world.getPersonPosition?.(id):null);}
 function cancelInteraction(){const result=act('cancelSceneInteraction');if(result!==null&&state.master.action==='walk')act('masterAction','rest');return result;}
