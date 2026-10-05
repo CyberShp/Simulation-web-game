@@ -1,5 +1,6 @@
-import {BUILDINGS,RESOURCES,CELLS} from './ea-data.mjs?v=ea-141-release-20261005-r2';
-import {buildingAccess,scenicDistance} from './ea-scene-geometry.mjs?v=ea-141-release-20261005-r2';
+import {BUILDINGS,RESOURCES,CELLS} from './ea-data.mjs?v=ea-142-preview-20261005-r1';
+import {buildingAccess,scenicDistance} from './ea-scene-geometry.mjs?v=ea-142-preview-20261005-r1';
+import {actorScenePosition,lifeBuildingActive,personLifeSummary} from './ea-life.mjs?v=ea-142-preview-20261005-r1';
 
 // Guidance records observations only. Progress, choices and resources remain
 // owned by the campaign and simulation; older worlds opt out automatically.
@@ -35,10 +36,27 @@ export function recommendedPlot(s,type,placementLock){
  const candidates=CELLS.filter(p=>p.x<8&&p.y<7&&!s.buildings.some(b=>b.x===p.x&&b.y===p.y)).map(p=>({...p,distance:scenicDistance(origin,buildingAccess(s,{type,...p,level:1}))})).sort((a,b)=>a.distance-b.distance||a.y-b.y||a.x-b.x);
  return candidates.find(p=>!placementLock(s,type,p.x,p.y))||null;
 }
+function firstFarmWork(s,o){
+ if(!o||o.productions.some(e=>e.type==='farm'))return null;
+ const farms=s.buildings.filter(b=>b.type==='farm');if(!farms.length)return null;
+ // Observe whoever actually chose the farm. The opening must not assign work
+ // or imply that Lu is producing while another person is doing it.
+ const worker=s.disciples.find(d=>d.mind?.activity==='work'&&!d.mind.away&&!d.mind.journey&&farms.some(b=>b.id===d.job&&lifeBuildingActive(b)));
+ const d=worker||s.disciples.find(d=>d.name==='陆知微')||s.disciples[0];if(!d)return null;
+ const farm=farms.find(b=>b.id===worker?.job)||farms.find(lifeBuildingActive)||farms[0],life=personLifeSummary(s,d),paused=s.speed===0;
+ const farmChosen=life.activity==='work'&&life.facilityId===farm.id&&lifeBuildingActive(farm);
+ const atFarm=scenicDistance(actorScenePosition(s,d),buildingAccess(s,farm))<=18;
+ const working=farmChosen&&life.status==='active'&&atFarm;
+ const status=working?'working':farmChosen&&life.status==='active'&&!atFarm?'moving':life.status;
+ const phase=status==='away'?'正在山外':status==='blocked'?'当前活动暂缓':status==='moving'?(life.status==='moving'?'正前往':'准备前往')+(life.facilityName||'当前目的地'):working?'正在照料药圃':'正在'+life.label;
+ const progress=working?{value:farm.progress||0,total:BUILDINGS.farm.duration,label:'药圃本轮照料',running:!paused}:null;
+ const facilityNotice=lifeBuildingActive(farm)?'':farm.enabled===false?'药圃已停用，恢复运行后才有生产机会。':'药圃已损坏，修缮后才有生产机会。';
+ const text=d.name+'：'+phase+'。'+life.reason+(working?' 完成这一轮照料后，真实收成会收入府库。':' 门人会自行权衡休息、学习与生产。')+(facilityNotice?' '+facilityNotice:'')+(paused?' 时序已暂停，当前活动不会推进。':'');
+ return {personId:d.id,buildingId:farm.id,name:d.name,title:'看见门人自己的选择',status,activity:life.activity,phase,reason:life.reason,paused,progress,text};
+}
 export function onboardingView(s){
- const o=s.story.onboarding,first=o?.productions.find(e=>!o.seen.includes(e.id)),farm=s.buildings.find(b=>b.type==='farm'&&b.enabled!==false&&b.condition>0),d=s.disciples.find(d=>d.name==='陆知微')||s.disciples[0];
- return {enabled:!!o&&s.story.step<4,systems:availableSystems(s),reserve:resourceReserve(s),feedback:first?{...first,title:first.type==='farm'?'药圃第一次有了收成':'山院第一次有了木料',text:first.name+'自主照料'+BUILDINGS[first.type].name+'，收获'+Object.entries(first.out).map(([k,v])=>RESOURCES[k]+' '+v.toFixed(1)).join('、')+'。已实际收入府库。'}:null,
- work:farm&&d&&!o?.productions.some(e=>e.type==='farm')?{personId:d.id,buildingId:farm.id,name:d.name,title:'看见门人自己的选择',text:d.name+'：'+(d.mind?.reason||'正在熟悉山院。')+(d.job===farm.id&&d.mind.activity==='work'?(d.mind.scenic?.path?.length?' 正沿院路前往药圃。':' 正在照料药圃，完成一个生产周期后收获。'):' 她会权衡休息、学习和生产；你可以提供设施与差事机会。')}:null};
+ const o=s.story.onboarding,first=o?.productions.find(e=>!o.seen.includes(e.id)),work=firstFarmWork(s,o);
+ return {enabled:!!o&&(s.story.step<4||!!work),systems:availableSystems(s),reserve:resourceReserve(s),feedback:first?{...first,title:first.type==='farm'?'药圃第一次有了收成':'山院第一次有了木料',buildingName:BUILDINGS[first.type].name,observeLabel:'观察'+first.name+'与'+BUILDINGS[first.type].name,text:first.name+'自主照料'+BUILDINGS[first.type].name+'，收获'+Object.entries(first.out).map(([k,v])=>RESOURCES[k]+' '+v.toFixed(1)).join('、')+'。已实际收入府库。'}:null,work};
 }
 export function resumeSummary(s,next){
  const e=s.world.exploration;
