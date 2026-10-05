@@ -390,7 +390,7 @@
     "targetDesignDoesNotMeanImplemented": true
   },
   "worldviewDiscussion": {
-    "recordId": "WV-2026-10-05-06",
+    "recordId": "WV-2026-10-05-07",
     "path": "docs/design/13-WORLDVIEW-DISCUSSION.md",
     "status": "in-progress",
     "questionPolicy": "one-at-a-time",
@@ -414,7 +414,8 @@
       "U-32",
       "U-33",
       "U-34",
-      "U-35"
+      "U-35",
+      "U-36"
     ],
     "fixedEightCultivationSystems": "withdrawn",
     "playerAscensionCurrentlyInScope": false,
@@ -448,6 +449,7 @@
     "orthodoxSectCoreTradition": "飞剑一脉",
     "localGoldenCoreSectRelationship": "bounded-rivalry-with-trade-and-possible-cooperation",
     "localSectConstraintDetails": "undecided",
-    "frontierCourtSectPolicy": "undecided"
+    "frontierCourtSectPolicy": "allows-both-sects-subject-to-tax-market-order-security-and-shared-taboos",
+    "frontierCourtPolicyDetails": "undecided"
   }
 }
