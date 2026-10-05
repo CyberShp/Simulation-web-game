@@ -137,4 +137,3 @@
 | [运行时契约](05-RUNTIME-CONTRACTS.md) | 状态、命令、时钟、事务、迁移、投影与模块边界 |
 | [开局与验收](06-OPENING-ACCEPTANCE.md) | 开局顺序、端到端情景、设备与体验门槛 |
 | [经济与组织](07-ECONOMY-ORGANIZATION.md) | 供给、预算、容量、恢复、任职、分峰与成长 |
-
