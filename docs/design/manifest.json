@@ -390,7 +390,7 @@
     "targetDesignDoesNotMeanImplemented": true
   },
   "worldviewDiscussion": {
-    "recordId": "WV-2026-10-05-09",
+    "recordId": "WV-2026-10-05-10",
     "path": "docs/design/13-WORLDVIEW-DISCUSSION.md",
     "status": "in-progress",
     "questionPolicy": "one-at-a-time",
@@ -417,7 +417,8 @@
       "U-35",
       "U-36",
       "U-37",
-      "U-38"
+      "U-38",
+      "U-39"
     ],
     "fixedEightCultivationSystems": "withdrawn",
     "playerAscensionCurrentlyInScope": false,
@@ -460,6 +461,10 @@
     ],
     "ghostSectAffiliation": "independent-of-local-golden-core-sects",
     "ghostSectWiderAlliance": "undecided",
-    "sharedTabooDefinition": "undecided"
+    "sharedTabooDefinition": "undecided",
+    "heterodoxClassification": "cultivation-taboo-violation-not-crime-severity-alone",
+    "deliberateAtrocityForCultivation": "heterodox",
+    "temporaryLossOfControlAtrocity": "separate-classification-not-automatic-heterodox",
+    "temporaryLossOfControlLiability": "undecided"
   }
 }
