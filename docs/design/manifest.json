@@ -390,7 +390,7 @@
     "targetDesignDoesNotMeanImplemented": true
   },
   "worldviewDiscussion": {
-    "recordId": "WV-2026-10-05-12",
+    "recordId": "WV-2026-10-05-13",
     "path": "docs/design/13-WORLDVIEW-DISCUSSION.md",
     "status": "in-progress",
     "questionPolicy": "one-at-a-time",
@@ -420,7 +420,8 @@
       "U-38",
       "U-39",
       "U-40",
-      "U-41"
+      "U-41",
+      "U-42"
     ],
     "fixedEightCultivationSystems": "withdrawn",
     "playerAscensionCurrentlyInScope": false,
@@ -475,8 +476,11 @@
     "puppetSectDirectionStatus": "current-user-direction-subject-to-user-revision",
     "puppetSectCoreFocus": "attack-and-guard-puppets-with-other-functional-types",
     "puppetSectMainIncome": "low-tier-combat-puppet-sales",
-    "puppetSectAffiliation": "undecided",
+    "puppetSectAffiliation": "independent-of-local-golden-core-sects",
     "puppetSectModelsAndMatureBranches": "undecided",
-    "puppetSectIndustryScaleAndControlMechanism": "undecided"
+    "puppetSectIndustryScaleAndControlMechanism": "undecided",
+    "puppetSectTradePartners": "local-orthodox-sect-demonic-sect-and-court",
+    "puppetSectCustomerSelection": "organization-rules-and-person-specific",
+    "puppetSectWiderAllianceAndProtectionAgreements": "undecided"
   }
 }
