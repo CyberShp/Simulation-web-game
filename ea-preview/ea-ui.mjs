@@ -1,10 +1,10 @@
-import {REGION_ART} from './ea-region-art.mjs?v=ea-141-preview-20261005';
-import {appearance} from './ea-scenic.mjs?v=ea-141-preview-20261005';
-import {facilityRecords,nextObjective,routeDiscovered} from './ea-scene-state.mjs?v=ea-141-preview-20261005';
-import {sceneInteractionOptions,sceneInteractionTarget} from './ea-interactions.mjs?v=ea-141-preview-20261005';
-import {narrativeForState,sceneDialogue,regionInteractions,homeInteractions} from './ea-narrative.mjs?v=ea-141-preview-20261005';
-import * as SIM from './ea-sim.mjs?v=ea-141-preview-20261005';
-import {onboardingView,availableSystems,resourceReserve,resumeSummary} from './ea-onboarding.mjs?v=ea-141-preview-20261005';
+import {REGION_ART} from './ea-region-art.mjs?v=ea-141-preview-20261005-r2';
+import {appearance} from './ea-scenic.mjs?v=ea-141-preview-20261005-r2';
+import {facilityRecords,nextObjective,routeDiscovered} from './ea-scene-state.mjs?v=ea-141-preview-20261005-r2';
+import {sceneInteractionOptions,sceneInteractionTarget} from './ea-interactions.mjs?v=ea-141-preview-20261005-r2';
+import {narrativeForState,sceneDialogue,regionInteractions,homeInteractions} from './ea-narrative.mjs?v=ea-141-preview-20261005-r2';
+import * as SIM from './ea-sim.mjs?v=ea-141-preview-20261005-r2';
+import {onboardingView,availableSystems,resourceReserve,resumeSummary} from './ea-onboarding.mjs?v=ea-141-preview-20261005-r2';
 
 const E = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
 const n = value => Number.isFinite(Number(value)) ? Number(value) : 0;
