@@ -390,7 +390,7 @@
     "targetDesignDoesNotMeanImplemented": true
   },
   "worldviewDiscussion": {
-    "recordId": "WV-2026-10-05-04",
+    "recordId": "WV-2026-10-05-05",
     "path": "docs/design/13-WORLDVIEW-DISCUSSION.md",
     "status": "in-progress",
     "questionPolicy": "one-at-a-time",
@@ -412,7 +412,8 @@
       "U-30",
       "U-31",
       "U-32",
-      "U-33"
+      "U-33",
+      "U-34"
     ],
     "fixedEightCultivationSystems": "withdrawn",
     "playerAscensionCurrentlyInScope": false,
@@ -443,6 +444,7 @@
     "demonicSectCoreTradition": "煞炼刀法",
     "complicitStewardRoster": "undecided",
     "demonicSectInitialMatureTraditions": 1,
-    "orthodoxSectCoreTradition": "undecided"
+    "orthodoxSectCoreTradition": "飞剑一脉",
+    "localGoldenCoreSectRelationship": "undecided"
   }
 }
