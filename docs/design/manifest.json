@@ -390,7 +390,7 @@
     "targetDesignDoesNotMeanImplemented": true
   },
   "worldviewDiscussion": {
-    "recordId": "WV-2026-10-05-01",
+    "recordId": "WV-2026-10-05-02",
     "path": "docs/design/13-WORLDVIEW-DISCUSSION.md",
     "status": "in-progress",
     "questionPolicy": "one-at-a-time",
@@ -402,7 +402,13 @@
       "U-20",
       "U-21",
       "U-22",
-      "U-23"
+      "U-23",
+      "U-24",
+      "U-25",
+      "U-26",
+      "U-27",
+      "U-28",
+      "U-29"
     ],
     "fixedEightCultivationSystems": "withdrawn",
     "playerAscensionCurrentlyInScope": false,
@@ -410,7 +416,22 @@
       "materialized-avatar",
       "true-body"
     ],
-    "realmSequence": "undecided",
-    "factionRoster": "undecided"
+    "realmSequence": [
+      "炼气",
+      "筑基",
+      "金丹",
+      "元婴",
+      "化神",
+      "炼虚",
+      "合体",
+      "大乘"
+    ],
+    "factionRoster": "undecided",
+    "tribulationIsSeparateRealm": false,
+    "openingPolitics": "dynasty-frontier",
+    "localDynastyState": "strong-with-growing-systemic-problems",
+    "openingMinorOrganizations": "small-with-few-mature-branches",
+    "openingGoldenCorePowers": "one-or-two-organization-affiliations-undecided",
+    "greatVehiclePopulation": "very-rare-exact-count-undecided"
   }
 }
