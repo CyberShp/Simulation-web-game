@@ -1,0 +1,63 @@
+{
+  "designId": "DB-2026-10-05",
+  "version": "1.0",
+  "kind": "target-design",
+  "language": "zh-CN",
+  "repository": "CyberShp/Simulation-web-game",
+  "entry": "AGENTS.md",
+  "index": "docs/design/README.md",
+  "precedence": ["latest-explicit-user-instruction", "decision-status", "current-design", "historical-documents"],
+  "decisionStatus": ["user-confirmed", "recommended", "tunable", "deferred"],
+  "implementationStatus": ["not-started", "designed", "partial", "implemented", "verified", "blocked"],
+  "requiredRead": [
+    "AGENTS.md", "docs/design/README.md", "docs/design/00-BASELINE.md",
+    "docs/design/DECISIONS.md", "docs/design/STATUS.md"
+  ],
+  "files": [
+    {"path": "docs/design/00-BASELINE.md", "role": "product-baseline"},
+    {"path": "docs/design/01-CHARACTERS.md", "role": "identity-autonomy-relationships"},
+    {"path": "docs/design/02-EQUIPMENT-ARTS.md", "role": "items-learning-combat"},
+    {"path": "docs/design/03-SPATIAL-ART.md", "role": "space-assets-construction-input"},
+    {"path": "docs/design/04-WORLD-STORY.md", "role": "locations-travel-reputation-events-story"},
+    {"path": "docs/design/05-RUNTIME-CONTRACTS.md", "role": "state-clock-command-transaction-save"},
+    {"path": "docs/design/06-OPENING-ACCEPTANCE.md", "role": "opening-integration-evidence-delivery"},
+    {"path": "docs/design/07-ECONOMY-ORGANIZATION.md", "role": "supply-logistics-budget-organization"},
+    {"path": "docs/design/DECISIONS.md", "role": "decision-ledger"},
+    {"path": "docs/design/STATUS.md", "role": "implementation-evidence"},
+    {"path": "docs/design/REFERENCES.md", "role": "source-facts-and-adaptation"}
+  ],
+  "taskRead": {
+    "characters": ["01-CHARACTERS.md", "03-SPATIAL-ART.md", "05-RUNTIME-CONTRACTS.md", "06-OPENING-ACCEPTANCE.md"],
+    "equipment_arts_combat": ["01-CHARACTERS.md", "02-EQUIPMENT-ARTS.md", "03-SPATIAL-ART.md", "04-WORLD-STORY.md", "05-RUNTIME-CONTRACTS.md", "06-OPENING-ACCEPTANCE.md"],
+    "space_art_input": ["01-CHARACTERS.md", "03-SPATIAL-ART.md", "05-RUNTIME-CONTRACTS.md", "06-OPENING-ACCEPTANCE.md"],
+    "world_story": ["01-CHARACTERS.md", "02-EQUIPMENT-ARTS.md", "03-SPATIAL-ART.md", "04-WORLD-STORY.md", "05-RUNTIME-CONTRACTS.md", "06-OPENING-ACCEPTANCE.md"],
+    "economy_organization": ["01-CHARACTERS.md", "02-EQUIPMENT-ARTS.md", "03-SPATIAL-ART.md", "05-RUNTIME-CONTRACTS.md", "06-OPENING-ACCEPTANCE.md", "07-ECONOMY-ORGANIZATION.md"],
+    "save_runtime": ["01-CHARACTERS.md", "02-EQUIPMENT-ARTS.md", "03-SPATIAL-ART.md", "04-WORLD-STORY.md", "05-RUNTIME-CONTRACTS.md", "06-OPENING-ACCEPTANCE.md", "07-ECONOMY-ORGANIZATION.md"]
+  },
+  "taskReadBase": "docs/design/",
+  "crossSystemContracts": {
+    "masterPersonId": "person:master",
+    "simulationTickMilliseconds": 100,
+    "initialTicksPerDay": 1200,
+    "dayLengthStatus": "tunable",
+    "worldUnit": "logical-meter",
+    "terrainCellWorldUnits": 0.5,
+    "conditionRange": [0, 1],
+    "understandingRange": [0, 100],
+    "masteryRange": [0, 100],
+    "cultivationProgressRange": [0, 1],
+    "activityPhases": ["proposed", "reserving", "navigating", "preparing", "executing", "settling", "completed", "waiting", "interrupted", "cancelled", "failed"],
+    "workOrderPhases": ["planned", "active", "waiting", "settling", "completed", "cancelled", "failed"],
+    "equipmentSlots": ["weapon", "clothing", "artifact", "pendant"],
+    "recommendedDecisionIds": ["R-01", "R-02", "R-06", "R-07", "R-10", "R-14", "R-17"],
+    "actualSaveVersionAtAudit": 5,
+    "targetSaveSchemaVersion": null
+  },
+  "execution": {
+    "scopeThisDelivery": "documentation-only",
+    "runtimeDeployment": "unchanged",
+    "requiresRepositoryContext": true,
+    "recommendedDoesNotMeanUserApproved": true,
+    "targetDesignDoesNotMeanImplemented": true
+  }
+}

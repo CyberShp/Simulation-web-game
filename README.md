@@ -1,8 +1,10 @@
-> 当前正式版本：EA 1.3.0-ea。建筑地块与院内位置统一，到场互动、人物行走、地区战场和章节对白已接入。264 项测试、48 个实际管理页模板及 7 组公开操作验收通过，正式入口已复验；证据与未测项见 [EA 1.3 验收](docs/EA-1.3-ACCEPTANCE.md)。
+> **最新设计：DB-2026-10-05 v1.0。** 后续会话与模型先读 [AGENTS.md](AGENTS.md) 和 [设计入口](docs/design/README.md)。人物、装备武学、空间营造、世界事件、经济组织、开局及存档有统一规格与验收。用户已确认与推荐方案分开登记。
+>
+> 本轮只更新设计文档。核对时GitHub Pages已为EA 1.4.2，而GitHub main运行源码仍为EA 1.3；新设计尚未实现。版本与差距见 [STATUS.md](docs/design/STATUS.md)，后续以实际提交核对。以下EA 1.3说明保留为历史功能记录，不能用于判定新设计完成。
 
 # 模拟仙府 · 余烬立山
 
-单人 2.5D 仙侠经营 Web 游戏，当前正式版本为 EA 1.3.0。直接在浏览器游玩，无需账号或后端。
+单人仙侠经营 Web 游戏。当前设计和接续入口见 [docs/design/README.md](docs/design/README.md)。直接在浏览器游玩，无需账号或后端；下文介绍历史EA 1.3实现。
 
 **在线游玩：[cybershp.github.io/Simulation-web-game](https://cybershp.github.io/Simulation-web-game/)**
 
