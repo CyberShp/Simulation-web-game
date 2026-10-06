@@ -1,13 +1,13 @@
-import * as SIM from './ea-opening-sim.mjs?v=ea-160-estate-grid-20261006-r1';
-import {EA_SHELL,createEAUI} from './ea-ui.mjs?v=ea-160-estate-grid-20261006-r1';
-import {createEAPersistence,MAX_IMPORT_BYTES} from './ea-persistence.mjs?v=ea-160-estate-grid-20261006-r1';
-import {createWorldRenderer} from './ea-courtyard-renderer.mjs?v=ea-160-estate-grid-20261006-r1';
-import {attachMapInput} from './map-input.mjs?v=ea-160-estate-grid-20261006-r1';
-import {scenicPosition} from './ea-scenic.mjs?v=ea-160-estate-grid-20261006-r1';
-import {sceneInteractionReady,sceneInteractionTarget} from './ea-interactions.mjs?v=ea-160-estate-grid-20261006-r1';
-import {createRuntimeClock,createFrameDiagnostics} from './ea-runtime.mjs?v=ea-160-estate-grid-20261006-r1';
-import {recommendedPlot} from './ea-onboarding.mjs?v=ea-160-estate-grid-20261006-r1';
-import {createOpeningAudio} from './ea-opening-audio.mjs?v=ea-160-estate-grid-20261006-r1';
+import * as SIM from './ea-opening-sim.mjs?v=ea-160-building-units-20261006-r1';
+import {EA_SHELL,createEAUI} from './ea-ui.mjs?v=ea-160-building-units-20261006-r1';
+import {createEAPersistence,MAX_IMPORT_BYTES} from './ea-persistence.mjs?v=ea-160-building-units-20261006-r1';
+import {createWorldRenderer} from './ea-courtyard-renderer.mjs?v=ea-160-building-units-20261006-r1';
+import {attachMapInput} from './map-input.mjs?v=ea-160-building-units-20261006-r1';
+import {scenicPosition} from './ea-scenic.mjs?v=ea-160-building-units-20261006-r1';
+import {sceneInteractionReady,sceneInteractionTarget} from './ea-interactions.mjs?v=ea-160-building-units-20261006-r1';
+import {createRuntimeClock,createFrameDiagnostics} from './ea-runtime.mjs?v=ea-160-building-units-20261006-r1';
+import {recommendedPlot} from './ea-onboarding.mjs?v=ea-160-building-units-20261006-r1';
+import {createOpeningAudio} from './ea-opening-audio.mjs?v=ea-160-building-units-20261006-r1';
 
 const VERSION=SIM.GAME_VERSION;
 const runtimeClock=createRuntimeClock(),diagnostics=createFrameDiagnostics();
@@ -59,7 +59,7 @@ function chooseBuild(type){
  selectScene('map');world.setOverview(false);
  if(state.story.onboarding&&state.story.step<4&&['farm','lumber','library'].includes(type)&&!state.buildings.some(b=>b.type===type)){
   const plot=SIM.srEnabled(state)?SIM.recommendedPlacement(state,type):recommendedPlot(state,type,SIM.placementLock);pendingRecommendation=plot?{type,x:plot.x,y:plot.y}:null;
-  openModal('初次营造 · '+t.name,`<div class="build-recommendation"><span class="eyebrow">给山院添一处真实设施</span><h3>${esc(t.name)}</h3><p>${esc(t.desc)}</p><p>本次消耗：${Object.entries(t.cost).map(([k,v])=>esc(SIM.RESOURCES[k])+' '+v).join(' · ')}。</p><p>${plot?'推荐地块 '+(plot.x+1)+' / '+(plot.y+1)+'：靠近主屋，入口与院路保持连通。预览后仍可改选其他空地。':'暂未找到连通的推荐空地，可自由选择；无效位置不会扣费。'}</p><p>道路影响能否抵达，生产还需要门人自主前来照料。</p><div class="actions">${plot?`<button class="primary" data-placement-preview="${esc(type)}">预览推荐位置</button>`:''}<button data-placement-free="${esc(type)}">自由选址</button><button data-resume>暂不营造</button></div></div>`);return;
+  openModal('初次营造 · '+t.name,`<div class="build-recommendation"><span class="eyebrow">给山院添一处真实设施</span><h3>${esc(t.name)}</h3><p>${esc(t.desc)}</p><p>本次消耗：${Object.entries(t.cost).map(([k,v])=>esc(SIM.RESOURCES[k])+' '+v).join(' · ')}。</p><p>${plot?'推荐地块 '+(SIM.buildingGridEnabled(state)?plot.x/SIM.BUILDING_GRID.metres+1:plot.x+1)+' / '+(SIM.buildingGridEnabled(state)?plot.y/SIM.BUILDING_GRID.metres+1:plot.y+1)+'：靠近主屋，入口与空地保持连通。预览后仍可改选其他空地。':'暂未找到连通的推荐空地，可自由选择；无效位置不会扣费。'}</p><p>${SIM.buildingGridEnabled(state)?'占地：'+SIM.buildingCellLabel(type)+'。':''}入口须留出可通行空地，生产需要门人自主前来照料；铺路暂缓。</p><div class="actions">${plot?`<button class="primary" data-placement-preview="${esc(type)}">预览推荐位置</button>`:''}<button data-placement-free="${esc(type)}">自由选址</button><button data-resume>暂不营造</button></div></div>`);return;
  }
  beginPlacement(type);
 }
@@ -69,8 +69,8 @@ function ensureRunning(){if(mayAct()&&state.speed===0){state.speed=1;dirty=true;
 function observeWork(buildingId,personId){selection={kind:'person',id:personId};selectScene('map');world.setGrid(false);world.setOverview(false);world.focus(0,0);ui.renderDetail(selection);const d=state.disciples.find(d=>d.id===personId);toast(d?d.name+'：'+d.mind.reason:'可以在人物档案中回顾这次收获。');}
 
 function startRelocate(id){const b=state.buildings.find(b=>b.id===Number(id));if(!b)return;selectScene('map');buildType=b.type;relocateId=b.id;mode='move';canvasMode();updatePlacement();closeModal();}
-function preview(){if(!buildType||!['build','move'].includes(mode))return null;const p=world?.getHover();return {type:buildType,level:mode==='move'?state.buildings.find(b=>b.id===relocateId)?.level||1:1,recommended:pendingRecommendation,lock:p?SIM.placementLock(state,buildType,Math.round(p.x*(SIM.srEnabled(state)?2:1))/(SIM.srEnabled(state)?2:1),Math.round(p.y*(SIM.srEnabled(state)?2:1))/(SIM.srEnabled(state)?2:1),relocateId)||(SIM.canPay(state,mode==='move'?{jade:10*(state.buildings.find(b=>b.id===relocateId)?.level||1),wood:8*(state.buildings.find(b=>b.id===relocateId)?.level||1)}:SIM.BUILDINGS[buildType].cost)?'':'营造物资不足'):'选择空地'};}
-function updatePlacement(){const bar=$('placement-bar');if(!bar)return;bar.hidden=!['build','move'].includes(mode);const p=preview();const confirm=$('placement-confirm');if(confirm){confirm.hidden=!pendingRecommendation||mode!=='build';confirm.disabled=!!pendingRecommendation&&(!!SIM.placementLock(state,buildType,pendingRecommendation.x,pendingRecommendation.y)||!SIM.canPay(state,SIM.BUILDINGS[buildType].cost));} $('placement-text').textContent=p?`${mode==='move'?'迁建':'营造'} · ${SIM.BUILDINGS[p.type].name}　${p.lock||'此处可安置 · 点击确认'}`:'';}
+function preview(){if(!buildType||!['build','move'].includes(mode))return null;const p=world?.getHover(),at=p?SIM.snapBuildingPoint(state,p):null,level=mode==='move'?state.buildings.find(b=>b.id===relocateId)?.level||1:1;return {type:buildType,buildingId:relocateId,level,recommended:pendingRecommendation,lock:at?SIM.placementLock(state,buildType,at.x,at.y,relocateId,level)||(SIM.canPay(state,mode==='move'?{jade:10*level,wood:8*level}:SIM.BUILDINGS[buildType].cost)?'':'营造物资不足'):'选择空地'};}
+function updatePlacement(){const bar=$('placement-bar');if(!bar)return;bar.hidden=!['build','move'].includes(mode);const p=preview();const confirm=$('placement-confirm');if(confirm){confirm.hidden=!pendingRecommendation||mode!=='build';confirm.disabled=!!pendingRecommendation&&(!!SIM.placementLock(state,buildType,pendingRecommendation.x,pendingRecommendation.y)||!SIM.canPay(state,SIM.BUILDINGS[buildType].cost));} $('placement-text').textContent=p?`${mode==='move'?'迁建':'营造'} · ${SIM.BUILDINGS[p.type].name}　${SIM.buildingGridEnabled(state)?SIM.buildingCellLabel(p.type,p.level)+'　':''}${p.lock||'此处可安置 · 点击确认'}`:'';}
 function selectScene(id){if(!['map','valley','lake','journey'].includes(id))return;if(id==='journey'&&!state.world.exploration&&!state.combat&&!state.master.journey){toast('先在「山外」选择目的地，再随掌门出行。');return;}scene=id;if(id==='map'&&state.combat?.status==='active'){state.speed=0;toast('查看山院时战斗已暂停。返回战场后点击继续。');}world?.setScene(id==='journey'?'valley':id);world?.recenter();refresh(true);}
 // Scene transitions follow the existing world clock and authoritative location.
 function syncSRLocation({initial=false}={}){
