@@ -6,7 +6,7 @@
 
 最后完整回归 346/346；空间34、经济52、成长45、世界21、地理10、固定内容9、UI17等适用检查无失败。新增采集3、授业5、旅行7、战后释放4、死亡后果10、产业8、营缮组件8、降临15；场景组件7地点/22对象的真实命中与行走检查通过。正常后期两单是额外公开链，组件边界与正常血统分开记录。40 SR/200任务/120 AC状态校验通过；18 AC有对应证据，101 not_run、1 blocked。没有据开发版发布关闭所有SR。
 
-正式 Pages `7d16d54c0d7d0ecd591e0c8e84952b00e3a674ba`，部署任务 `37453110511` completed/success；缓存标记 `ea-160-dev-release-20261006-r1`。正式网页 https://cybershp.github.io/Simulation-web-game/?v=ea-160-dev-release-20261006-r1 已显示 EA 1.6.0-dev/schema 6。源码 main 本轮提交：`pending-current-source-api-commit`（发布记录回填）。只提交源码、必要文档与复用测试脚本，不上传新增截图、存档dump、日志或其他过程产物。
+正式 Pages `7d16d54c0d7d0ecd591e0c8e84952b00e3a674ba`，部署任务 `37453110511` completed/success；缓存标记 `ea-160-dev-release-20261006-r1`。正式网页 https://cybershp.github.io/Simulation-web-game/?v=ea-160-dev-release-20261006-r1 已显示 EA 1.6.0-dev/schema 6。源码 main 本轮提交：`ae1d771444ac841f9565a8823636cd28c7d26926`（运行时源码提交；后续发布元数据沿 main 主线回填）。只提交源码、必要文档与复用测试脚本，不上传新增截图、存档dump、日志或其他过程产物。
 
 浏览器 820×1180 旧独立测试档恢复第14日、已治愈、暂停状态，系统一览鼠标展开可用；此前1180×820也已操作检查。没有在正式三个档位新建或导入测试存档。U-95仍仅限定iPadOS/Windows/macOS网页尺寸；网页视口不是实机证据。旧完整完成档、同一身份/单一时钟/NPC自主/关闭不推进继续保护。
 

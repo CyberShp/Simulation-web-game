@@ -860,9 +860,9 @@
     },
     "browserStatus": "official-EA1.6-startup-and-old-independent-portrait-save-restored-paused-real-device-touch-FPS-not-verified",
     "deploymentStatus": "EA-1.6.0-dev-pages-workflow-37453110511-success",
-    "remoteSaveStatus": "source-api-commit-being-recorded-excluding-acceptance-artifacts",
-    "sourceMainCommit": "pending-current-source-api-commit",
-    "runtimeSourceCommit": "pending-current-source-api-commit",
+    "remoteSaveStatus": "main-source-uploaded-via-github-api-excluding-generated-acceptance-artifacts",
+    "sourceMainCommit": "ae1d771444ac841f9565a8823636cd28c7d26926",
+    "runtimeSourceCommit": "ae1d771444ac841f9565a8823636cd28c7d26926",
     "pagesCommit": "7d16d54c0d7d0ecd591e0c8e84952b00e3a674ba",
     "officialUrl": "https://cybershp.github.io/Simulation-web-game/?v=ea-160-dev-release-20261006-r1",
     "remaining": [
@@ -871,7 +871,9 @@
       "all-six-high-realm-growth-balance",
       "iPadOS-Windows-macOS-real-device-touch-DPR-FPS",
       "SR037-user-unselected-dynasty-choices"
-    ]
+    ],
+    "localImplementationCommit": "e3b68ef",
+    "implementationCommitSource": "runtime source ae1d771 with descendant metadata commit; current HEAD follows git history"
   },
   "requirementsManagement": {
     "registryId": "SR-XF-2026-10-06",
