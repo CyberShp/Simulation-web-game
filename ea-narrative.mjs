@@ -1,4 +1,5 @@
-import { CLUES, PREPARATIONS, campaignSummary, explorationOptions } from './ea-campaign.mjs?v=ea-142-release-20261005-r1';
+import { CLUES, PREPARATIONS, campaignSummary, explorationOptions } from './ea-campaign.mjs?v=ea-150-dev-release-20261006-r1';
+import {capacity} from './ea-data.mjs?v=ea-150-dev-release-20261006-r1';
 
 // Narrative is a projection of committed campaign facts, never a second quest
 // engine. Reading acknowledges prose only: costs, rewards and progress continue
@@ -84,6 +85,9 @@ export function choiceResponses(s) {
 function earnedScenes(s) {
   const st=s.story, out=[];
   for(let n=1;n<=Math.min(9,st.step);n++)out.push(chapters[n]);
+  if(st.opening&&st.step>=2){const declined=st.opening.invitation==='declined';out[1]=scene('chapter:2',declined?'善缘不系去留':'留下的理由','home',[
+    page('陆知微',declined?'药已送达，我先回去照应家人。救命之情会记着，却不能因此许下追随的承诺。':'这些药能帮家人调养，亲人还有亲友照应。这里有住处、也有药理可学，我愿留下求道。同行与家仇，我仍会自己决定。'),
+    page('掌门',declined?'先照应好家人。山院还要自己恢复药田与木料供给，往后也有别的同道可以结识。':'你留下，是为了自己的路。先恢复药田与木料供给，让愿意留下的人有自己的生活。')]);}
   for(const id of st.clues) {
     const d=clueDetails[id];
     if(d)out.push(scene(`clue:${id}`,CLUES[id],d.regionId,[page(d.speaker,d.text),page('证据留档',`${d.source}：${d.tells}\n${d.limit}\n证据已经记入旧案，即使撤离、受伤或关闭网页也会保留。`)]));
@@ -191,9 +195,17 @@ export function regionInteractions(s) {
 
 export function homeInteractions(s) {
   if(s.world.exploration||s.master.journey)return [];
+  if(s.story.step===1&&s.story.opening){
+    const o=s.story.opening,p=s.personsById[o.visitorId],gifted=o.gifted;
+    const choices=gifted?[
+      {label:'商议入院 · 提供住处与药理',command:'advanceStory',args:['invite'],disabled:s.disciples.length>=capacity(s),reason:s.disciples.length>=capacity(s)?'准备可用居所后再商议':''},
+      {label:'让她先回去照应家人',command:'advanceStory',args:['decline'],disabled:false}
+    ]:[{label:'赠出十份灵草',command:'advanceStory',args:['gift'],disabled:s.resources.herb<10,reason:s.resources.herb<10?'需灵草 10 份':''}];
+    return [{id:'home:chapter:1',name:p.name,personId:p.id,kind:'person',type:'visitor',buildingId:s.buildings.find(b=>b.type==='hall').id,title:gifted?'药已送达 · 去留另议':'一剂生机',pages:[page(p.name,gifted?'这份药能帮家人调养，我会记着。若山院有住处、也愿意让我继续学药理，我愿留下求道。随你外出或参与家仇，还需另行商议。':'家人旧疾缠身，我循旧药方来求十份灵草。此时只为求药，尚未决定去留。')],choices,requirements:[],scene:'home'}];
+  }
   const q=campaignSummary(s), arrival=q.step===0&&q.ready, role=arrival?{name:'院外来客',type:'visitor',text:'经脉渐渐安稳，主屋外传来叩门声。来人攥着一张泛黄的药方，轻声问：「这里……还能求药吗？」'}:q.step===1?{name:'陆知微',type:'visitor',text:'家人病重，我循旧药方来到这里。若你愿赠十份灵草，我想把这份药理继续学下去。'}:q.step===2?{name:'林长风',type:'visitor',text:'我想找个安身与求道的地方。先恢复能运行的药田与伐木场，再商议留下。'}:{name:q.step>=9?'双亲遗物':'家传手札',type:'object',text:q.text};
   const action=q.completed?null:q.step===9?[{label:'重建栖霞故地',command:'advanceStory',args:['rebuild'],disabled:!q.ready},{label:'带传承回云岫',command:'advanceStory',args:['return'],disabled:!q.ready}]:[{label:q.action,command:'advanceStory',args:[],disabled:!q.ready,reason:q.requirements.filter(r=>!r.met).map(r=>r.label).join('；')}];
   const building=s.buildings.find(b=>b.type===(q.step===3||q.step===4||q.step===5?'library':'hall'))||s.buildings.find(b=>b.type==='hall');
   if(arrival)action[0].label='听来客说说缘由';
-  return [{id:`home:chapter:${q.step}`,...role,kind:role.type==='visitor'?'person':'object',buildingId:building?.id||null,title:arrival?'主屋前 · 叩门声':q.title,pages:[page(role.name,role.text)],choices:action||[],requirements:q.requirements.map(r=>({...r})),scene:'home'}];
+  return [{id:`home:chapter:${q.step}`,...role,...(s.story.opening&&q.step===2?{personId:s.personsById[s.story.opening.secondVisitorId].id}:{}),kind:role.type==='visitor'?'person':'object',buildingId:building?.id||null,title:arrival?'主屋前 · 叩门声':q.title,pages:[page(role.name,role.text)],choices:action||[],requirements:q.requirements.map(r=>({...r})),scene:'home'}];
 }

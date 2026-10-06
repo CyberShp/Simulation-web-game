@@ -1,7 +1,7 @@
-import { rng, day, log, pay, canPay, grant, capacity } from './ea-data.mjs?v=ea-142-release-20261005-r1';
-import { EXPEDITIONS as LEGACY_ROUTES } from './world.mjs?v=ea-142-release-20261005-r1';
-import { combatField, combatGeometryId, combatCanStand, combatClearLine, combatPath, moveCombatActor, dodgeEndpoint } from './ea-combat-geometry.mjs?v=ea-142-release-20261005-r1';
-import { appearance } from './ea-scenic.mjs?v=ea-142-release-20261005-r1';
+import { rng, day, log, pay, canPay, grant, capacity } from './ea-data.mjs?v=ea-150-dev-release-20261006-r1';
+import { EXPEDITIONS as LEGACY_ROUTES } from './world.mjs?v=ea-150-dev-release-20261006-r1';
+import { combatField, combatGeometryId, combatCanStand, combatClearLine, combatPath, moveCombatActor, dodgeEndpoint } from './ea-combat-geometry.mjs?v=ea-150-dev-release-20261006-r1';
+import { appearance } from './ea-scenic.mjs?v=ea-150-dev-release-20261006-r1';
 
 // Campaign state is deliberately plain data. Every choice, weather roll and reward
 // is committed to the save before the next tick; loading never repeats a roll.
@@ -111,6 +111,9 @@ export function campaignSummary(s) {
     [{ label:'选择重建栖霞或回归云岫', met:true }],
     [{ label:'第一大篇章已经完成', met:true }]
   ][n] || [];
+  if(n===1&&s.story.opening){
+    requirements.splice(0,requirements.length,...(s.story.opening.gifted?[]:[{label:'灵草 10 份',met:s.resources.herb>=10}]));
+  }
   return { step:n, ...STORY[n], ready:n < 10 && requirements.every(r => r.met), requirements, clues:s.story.clues.map(id => ({ id, name:CLUES[id] })), preparations:Object.entries(PREPARATIONS).map(([id, name]) => ({ id, name, done:s.story.preparations[id] })), completed:s.story.completed, ending:s.story.ending };
 }
 export function storyReady(s) { return campaignSummary(s).ready; }

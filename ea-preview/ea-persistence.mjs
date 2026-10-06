@@ -30,6 +30,7 @@ export function slotKeys(slot,namespace=EA_SAVE_PREFIX) {
 
 const clone = value => structuredClone(value);
 const isObject = value => value !== null && typeof value === 'object' && !Array.isArray(value);
+const stateVersion = value => value?.schemaVersion ?? value?.version;
 const finiteTime = value => typeof value === 'number' && Number.isFinite(value) && value >= 0;
 const byteLength = value => new TextEncoder().encode(value).byteLength;
 function fingerprint(raw) {
@@ -56,7 +57,7 @@ function readableError(error) {
 function failure(code, message) { return Object.assign(new Error(message), {code}); }
 
 /**
- * Options: getStorage, validate (must return a version-5 clone), locks (Web Locks
+ * Options: getStorage, validate (must return a current-schema clone), locks (Web Locks
  * compatible), gameVersion, dataVersion, now, writerId, onChange, getState,
  * channelFactory (null disables cooperative takeover), eventTarget.
  *
@@ -108,11 +109,11 @@ export function createEAPersistence(options = {}) {
     return value;
   }
   function validState(input) {
-    if (!isObject(input) || !Number.isInteger(input.version) || input.version < 1 || input.version > dataVersion) {
+    if (!isObject(input) || !Number.isInteger(stateVersion(input)) || stateVersion(input) < 1 || stateVersion(input) > dataVersion) {
       throw failure('unsupported-version', '不支持这个存档的数据版本。');
     }
     const state = validate(clone(input));
-    if (!isObject(state) || state.version !== dataVersion || typeof state.then === 'function') {
+    if (!isObject(state) || stateVersion(state) !== dataVersion || typeof state.then === 'function') {
       throw failure('invalid-state', '模拟器未返回有效的当前版本存档。');
     }
     stringify(state);
@@ -133,7 +134,7 @@ export function createEAPersistence(options = {}) {
       people: Array.isArray(state.disciples) ? state.disciples.length : 0,
       buildings: Array.isArray(state.buildings) ? state.buildings.length : 0,
       gameVersion: typeof envelope.gameVersion === 'string' ? envelope.gameVersion : '旧版',
-      dataVersion: envelope.dataVersion ?? state.version,
+      dataVersion: envelope.dataVersion ?? stateVersion(state),
       revision: envelope.revision ?? 0,
       checkpoint: envelope.checkpoint || null,
     };
@@ -153,7 +154,7 @@ export function createEAPersistence(options = {}) {
           !Number.isSafeInteger(data.revision) || data.revision < 0 ||
           !SLOT_IDS.includes(data.slot) || typeof data.writerId !== 'string' || data.writerId.length > 200 ||
           typeof data.gameVersion !== 'string' || data.gameVersion.length > 80 ||
-          !Number.isInteger(data.dataVersion) || data.dataVersion !== data.state?.version ||
+          !Number.isInteger(data.dataVersion) || data.dataVersion !== stateVersion(data.state) ||
           (data.checkpoint !== null && data.checkpoint !== undefined &&
            (typeof data.checkpoint !== 'string' || data.checkpoint.length > 120))) {
         throw failure('invalid-format', 'EA 存档封装或元信息异常。');
@@ -161,13 +162,13 @@ export function createEAPersistence(options = {}) {
       input = data.state; envelope = data; sourceFormat = 'ea';
     } else if (!nativeOnly && data.format === 1) {
       if (!finiteTime(data.savedAt) || !isObject(data.state)) throw failure('invalid-format', '旧存档封装异常。');
-      input = data.state; envelope = {savedAt: data.savedAt, dataVersion: data.state.version}; sourceFormat = 'legacy';
-    } else if (!nativeOnly && data.format === undefined && Number.isInteger(data.version)) {
-      input = data; envelope = {dataVersion: data.version}; sourceFormat = 'state';
+      input = data.state; envelope = {savedAt: data.savedAt, dataVersion: stateVersion(data.state)}; sourceFormat = 'legacy';
+    } else if (!nativeOnly && data.format === undefined && Number.isInteger(stateVersion(data))) {
+      input = data; envelope = {dataVersion: stateVersion(data)}; sourceFormat = 'state';
     } else if (data.format === 'xianfu-ea-recovery') {
       throw failure('recovery-bundle', '这是原始档案恢复资料包，请选择其中的有效游戏档案导入。');
     } else throw failure('invalid-format', '这不是受支持的仙府存档格式。');
-    const sourceVersion = input.version;
+    const sourceVersion = stateVersion(input);
     const state = validState(input);
     return {state, meta: metadata(state, envelope), envelope, sourceVersion,
       migrated: sourceVersion !== dataVersion, sourceFormat};

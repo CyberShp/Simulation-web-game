@@ -1,22 +1,24 @@
-import {startScenicWalk,advanceScenic,validateScenic,repairScenicState,syncScenicPosition,buildingAccess,scenicDistance,scenicCanStand,scenicFindPath} from './ea-scenic.mjs?v=ea-142-release-20261005-r1';
-import {lifeActivityLock,lifeFacility,personLifeSummary,actorScenePosition,localLifeFacility} from './ea-life.mjs?v=ea-142-release-20261005-r1';
-import {validateSceneIntent,cancelSceneInteraction} from './ea-interactions.mjs?v=ea-142-release-20261005-r1';
-import {initNarrative,validateNarrative} from './ea-narrative.mjs?v=ea-142-release-20261005-r1';
-import {routeDiscovered} from './ea-scene-state.mjs?v=ea-142-release-20261005-r1';
-import {initOnboarding,validateOnboarding,recordFirstProduction} from './ea-onboarding.mjs?v=ea-142-release-20261005-r1';
-export {setIntroPage,acknowledgeOnboarding} from './ea-onboarding.mjs?v=ea-142-release-20261005-r1';
-import * as legacy from './sect-sim.mjs?v=ea-142-release-20261005-r1';
-import * as data from './ea-data.mjs?v=ea-142-release-20261005-r1';
-import * as society from './ea-society.mjs?v=ea-142-release-20261005-r1';
-import * as campaign from './ea-campaign.mjs?v=ea-142-release-20261005-r1';
-export * from './ea-data.mjs?v=ea-142-release-20261005-r1';
-export * from './ea-society.mjs?v=ea-142-release-20261005-r1';
-export * from './ea-campaign.mjs?v=ea-142-release-20261005-r1';
-export * from './ea-life.mjs?v=ea-142-release-20261005-r1';
-export * from './ea-narrative.mjs?v=ea-142-release-20261005-r1';
-export {requestSceneInteraction,cancelSceneInteraction} from './ea-interactions.mjs?v=ea-142-release-20261005-r1';
-export {resolveVisitor,resolveVisitor as resolveWorldVisitor} from './ea-campaign.mjs?v=ea-142-release-20261005-r1';
-export {resolveVisitor as resolveSocietyVisitor} from './ea-society.mjs?v=ea-142-release-20261005-r1';
+import {hallInteriorEnabled} from './ea-hall-interior.mjs?v=ea-150-dev-release-20261006-r1';
+import {prepareFacilityActivity,releaseBodyActivity} from './ea-facility-activities.mjs?v=ea-150-dev-release-20261006-r1';
+import {startScenicWalk,advanceScenic,validateScenic,repairScenicState,syncScenicPosition,buildingAccess,scenicDistance,scenicCanStand,scenicFindPath} from './ea-scenic.mjs?v=ea-150-dev-release-20261006-r1';
+import {lifeActivityLock,lifeFacility,personLifeSummary,actorScenePosition,localLifeFacility} from './ea-life.mjs?v=ea-150-dev-release-20261006-r1';
+import {validateSceneIntent,cancelSceneInteraction} from './ea-interactions.mjs?v=ea-150-dev-release-20261006-r1';
+import {initNarrative,validateNarrative} from './ea-narrative.mjs?v=ea-150-dev-release-20261006-r1';
+import {routeDiscovered,scenicHomeActors} from './ea-scene-state.mjs?v=ea-150-dev-release-20261006-r1';
+import {initOnboarding,validateOnboarding,recordFirstProduction} from './ea-onboarding.mjs?v=ea-150-dev-release-20261006-r1';
+export {setIntroPage,acknowledgeOnboarding} from './ea-onboarding.mjs?v=ea-150-dev-release-20261006-r1';
+import * as legacy from './sect-sim.mjs?v=ea-150-dev-release-20261006-r1';
+import * as data from './ea-data.mjs?v=ea-150-dev-release-20261006-r1';
+import * as society from './ea-society.mjs?v=ea-150-dev-release-20261006-r1';
+import * as campaign from './ea-campaign.mjs?v=ea-150-dev-release-20261006-r1';
+export * from './ea-data.mjs?v=ea-150-dev-release-20261006-r1';
+export * from './ea-society.mjs?v=ea-150-dev-release-20261006-r1';
+export * from './ea-campaign.mjs?v=ea-150-dev-release-20261006-r1';
+export * from './ea-life.mjs?v=ea-150-dev-release-20261006-r1';
+export * from './ea-narrative.mjs?v=ea-150-dev-release-20261006-r1';
+export {requestSceneInteraction,cancelSceneInteraction} from './ea-interactions.mjs?v=ea-150-dev-release-20261006-r1';
+export {resolveVisitor,resolveVisitor as resolveWorldVisitor} from './ea-campaign.mjs?v=ea-150-dev-release-20261006-r1';
+export {resolveVisitor as resolveSocietyVisitor} from './ea-society.mjs?v=ea-150-dev-release-20261006-r1';
 const {RESOURCES,BUILDINGS,TECHNIQUES,RECIPES,ROUTES,GOODS,CELLS,NAMES,TRAIT_NAMES,day,xpNeed,realmName,rng,log,canPay,pay,grant,clamp,capacity,stage,finite,integer}=data;
 const resourceZero=()=>Object.fromEntries(Object.keys(RESOURCES).map(k=>[k,0]));
 const own=(o,k)=>Object.hasOwn(o,k);
@@ -93,6 +95,12 @@ export function placementLock(s,type,x,y,ignoreId=null){
  if(at(s,x,y)&&at(s,x,y).id!==ignoreId)return '地块已有建筑';
  const candidate={id:ignoreId||s.nextId,type,x,y,level:1,progress:0,condition:100,enabled:true},prospective={...s,buildings:[...s.buildings.filter(b=>b.id!==ignoreId),candidate]},position=actorScenePosition(s,s.master);
  if(!scenicCanStand(prospective,position))return '掌门正在营造范围内，或此处会封住通路，请先移开';
+ // Recheck living positions before the static layout cache. A moving visitor
+ // must not be hidden by a cached green preview or teleported on completion.
+ for(const person of scenicHomeActors(s)){
+  const p=actorScenePosition(s,person);
+  if(scenicCanStand(s,p)&&!scenicCanStand(prospective,p))return `${person.name||'有人'}正在营造范围内，请等其离开后再确认`;
+ }
  const revision=s.buildings.map(b=>`${b.id}/${b.type}/${b.x}/${b.y}`).join('|');let cached=placementCache.get(s);if(!cached||cached.revision!==revision){cached={revision,locks:new Map()};placementCache.set(s,cached);}const cacheKey=`${type}:${x}/${y}:${ignoreId}`,known=cached.locks.get(cacheKey);if(known!==undefined)return known;
  const hall=prospective.buildings.find(b=>b.type==='hall'),start=buildingAccess(prospective,hall);
  const blocked=prospective.buildings.some(b=>!scenicCanStand(prospective,buildingAccess(prospective,b))||scenicFindPath(prospective,start,buildingAccess(prospective,b))===null);
@@ -126,10 +134,21 @@ export function buildingYield(s,b,d=null){
  const effects=weather(s).production||{};const out={};for(const[k,v]of Object.entries(t.out))out[k]=v*factor*(effects[k]??1);return out;
 }
 export function foodDemand(s){const kitchen=s.buildings.find(b=>b.type==='kitchen'&&active(b));const saving=kitchen?Math.min(.4,.1*kitchen.level*layoutBonus(s,kitchen).factor):0;return Math.ceil((s.disciples.length+1)*2*(1-saving));}
-export function restRecovery(s,person){const p=stateMind(person),position=actorScenePosition(s,person),home=s.buildings.filter(b=>['hall','house'].includes(b.type)&&active(b)).sort((a,b)=>scenicDistance(position,buildingAccess(s,a))-scenicDistance(position,buildingAccess(s,b)))[0];return((person===s.master?1.3:1.05)+(p.support.includes('spring')?.4:0))*(home&&scenicDistance(position,buildingAccess(s,home))<=150?layoutBonus(s,home).factor:1);}
+export function restRecovery(s,person){const p=stateMind(person);if(hallInteriorEnabled(s)){const a=s.activitiesById[person.activityId],home=a?.phase==='executing'&&['rest','heal'].includes(a.action)&&s.buildingsById[a.targetId];return home?((person===s.master?1.3:1.05)+(p.support.includes('spring')?.4:0))*layoutBonus(s,home).factor:.3;}const position=actorScenePosition(s,person),home=s.buildings.filter(b=>['hall','house'].includes(b.type)&&active(b)).sort((a,b)=>scenicDistance(position,buildingAccess(s,a))-scenicDistance(position,buildingAccess(s,b)))[0];return((person===s.master?1.3:1.05)+(p.support.includes('spring')?.4:0))*(home&&scenicDistance(position,buildingAccess(s,home))<=150?layoutBonus(s,home).factor:1);}
 export function maintenanceCost(s){const total={};for(const b of s.buildings.filter(active))for(const[k,v]of Object.entries(BUILDINGS[b.type].upkeep))total[k]=(total[k]||0)+v*b.level;return total;}
 export function economySummary(s){const e=s.economy,windowIncome=e.previous.income,windowExpense=e.previous.expense;return{day:day(s),income:{...e.income},expense:{...e.expense},net:Object.fromEntries(Object.keys(RESOURCES).map(k=>[k,(e.income[k]||0)-(e.expense[k]||0)])),previous:{income:{...windowIncome},expense:{...windowExpense}},foodDemand:foodDemand(s),foodDays:Math.floor(s.resources.food/Math.max(1,foodDemand(s))),maintenance:maintenanceCost(s),shortages:e.shortages.slice()};}
-export function rates(s){const out=resourceZero();for(const b of s.buildings){const d=s.disciples.find(d=>d.job===b.id&&d.mind.activity==='work'&&!d.mind.away&&!d.mind.scenic?.path?.length&&(!d.mind.scenic||scenicDistance(d.mind.scenic,buildingAccess(s,b))<=18));if(BUILDINGS[b.type].work&&!d)continue;const yieldMap=buildingYield(s,b,d);for(const[k,v]of Object.entries(yieldMap))out[k]+=v;for(const[k,v]of Object.entries(BUILDINGS[b.type].input||{}))if(d&&Object.values(yieldMap).some(n=>n>0))out[k]-=v;}for(const[k,v]of Object.entries(maintenanceCost(s)))out[k]-=v/6;out.food-=foodDemand(s)/6;return out;}
+export function rates(s){
+ const out=resourceZero();
+ for(const b of s.buildings){
+  if(b.type==='hall'&&s.contentVersion==='opening-v1.2')continue;
+  const workers=s.disciples.filter(d=>d.job===b.id&&d.mind.activity==='work'&&!d.mind.away&&!d.mind.scenic?.path?.length&&(s.schemaVersion===6?s.activitiesById[d.activityId]?.phase==='executing'&&s.activitiesById[d.activityId]?.targetId===b.instanceId:!d.mind.scenic||scenicDistance(d.mind.scenic,buildingAccess(s,b))<=18));
+  if(BUILDINGS[b.type].work&&!workers.length)continue;
+  const participants=workers.length?workers:[null];
+  for(const d of participants){const yieldMap=buildingYield(s,b,d);for(const[k,v]of Object.entries(yieldMap))out[k]+=v;for(const[k,v]of Object.entries(BUILDINGS[b.type].input||{}))if(d&&Object.values(yieldMap).some(n=>n>0))out[k]-=v;}
+ }
+ for(const[k,v]of Object.entries(maintenanceCost(s)))out[k]-=v/6;out.food-=foodDemand(s)/6;return out;
+}
+
 export function compatible(person,id){const p=stateMind(person),t=TECHNIQUES[id];if(!t)return false;const ids=[p.main,...p.support].filter(x=>x&&x!==id);return !ids.some(x=>TECHNIQUES[x]?.conflicts.includes(id)||t.conflicts.includes(x));}
 export function supportLimit(person){return person.realm>=10?3:person.realm>=4&&person.talent>=1.4?2:1;}
 export function teachers(s,id){const t=TECHNIQUES[id];if(!t)return[];return[s.master,...s.disciples].filter(p=>p.realm>=t.realm&&knowledge(p,id)>=t.teacherMastery&&!(p.mind?.hiddenKnowledge?.[id]&&s.society.secrets.some(e=>e.id===p.mind.hiddenKnowledge[id]&&!e.discovered))).map(p=>({id:p===s.master?0:p.id,name:p.name,knowledge:knowledge(p,id),active:p===s.master?s.master.action==='teach':!!p.mind.mentor||p.mind.activity==='teach'||!!p.role}));}
@@ -238,6 +257,16 @@ function supplyStep(s){
 }
 function masterStep(s){
  const m=s.master;if(trip(s))return;
+ if(s.schemaVersion===6&&s.activitiesById[m.activityId]?.kind==='construction')return;
+ if(s.schemaVersion===6&&s.activitiesById[m.activityId]?.action==='care')return;
+ if(s.schemaVersion===6){
+  const action=m.learning&&m.action==='walk'?'study':m.action;
+  if(['study','teach','cultivate'].includes(action)||hallInteriorEnabled(s)&&['rest','heal'].includes(action)){
+   const facility=lifeFacility(s,m,action,m.learning?.id);
+   if(!prepareFacilityActivity(s,m,facility,action)){if(hallInteriorEnabled(s)&&action==='rest'&&(!facility||s.activitiesById[m.activityId]?.phase==='waiting'))m.energy=Math.min(100,m.energy+.3);if(m.learning)m.learning.waitingForArrival=true;return;}
+   if(m.learning){m.learning.waitingForArrival=false;m.action='study';}
+  }else releaseBodyActivity(s,m);
+ }
  const clinic=localLifeFacility(s,m,['clinic']);
  if(m.action==='walk'&&m.scenic?.path.length){advanceScenic(m.scenic,46,s);syncScenicPosition(s,m);if(!m.scenic.path.length)m.action='rest';return;}
  if(m.action==='walk'){const next=m.path.shift();if(next&&!at(s,next.x,next.y))m.position=next;else m.path=[];if(!m.path.length)m.action='rest';return;}
@@ -245,7 +274,7 @@ function masterStep(s){
  if(m.action==='rest'){m.energy=Math.min(100,m.energy+restRecovery(s,m));if(m.wound>0)m.wound=Math.max(0,m.wound-.035);return;}
  const lock=lifeActivityLock(s,m);if(lock){m.action='rest';m.path=[];log(s,`掌门${lock}`);return;}
  if(m.energy<=1){m.action='rest';log(s,'掌门精力不足，先暂歇调息，未完学习仍保留。');return;}
- if(m.action==='cultivate'){const facility=localLifeFacility(s,m,['meditation','hall']);m.energy=Math.max(0,m.energy-(TECHNIQUES[m.main]?.fatigue||.25));m.xp=Math.min(xpNeed(m.realm),m.xp+cultivationRate(s,m,facility));m.knowledge[m.main]=Math.min(100,(m.knowledge[m.main]||0)+.12);for(const id of m.support)m.knowledge[id]=Math.min(100,(m.knowledge[id]||0)+.025);return;}
+ if(m.action==='cultivate'){const facility=hallInteriorEnabled(s)?lifeFacility(s,m,'cultivate'):localLifeFacility(s,m,['meditation','hall']);m.energy=Math.max(0,m.energy-(TECHNIQUES[m.main]?.fatigue||.25));m.xp=Math.min(xpNeed(m.realm),m.xp+cultivationRate(s,m,facility));m.knowledge[m.main]=Math.min(100,(m.knowledge[m.main]||0)+.12);for(const id of m.support)m.knowledge[id]=Math.min(100,(m.knowledge[id]||0)+.025);return;}
  if(m.action==='study'&&m.learning){m.energy=Math.max(0,m.energy-.25);const l=m.learning;l.progress+=m.talent;if(l.progress>=l.total){learnTechnique(s,m,l.id,true);m.action='rest';}return;}
  if(m.action==='teach'){m.energy=Math.max(0,m.energy-.16);const id=m.teaching||m.main;if(m.knowledge[id]>=60)m.knowledge[id]=Math.min(100,m.knowledge[id]+.02);return;}
  if(['wood','stone','herb','food'].includes(m.action)){m.energy=Math.max(0,m.energy-.15);m.work++;if(m.work>=10){m.work=0;const effects=weather(s).production||{};grant(s,{[m.action]:({wood:12,stone:10,herb:10,food:16}[m.action])*(effects[m.action]??1)});}}
@@ -253,12 +282,14 @@ function masterStep(s){
 const hooks={studyLock,compatible,learnTechnique,xpNeed,cultivationRate,buildingYield,onProduction:recordFirstProduction,breakthroughLock,breakthroughPerson,consumePill,capacity,stage,teachers,supportLimit,restRecovery,addDisciple,grant,pay,canPay,rng,day,log};
 if(campaign.configureCampaign)campaign.configureCampaign({...hooks,canAccompany:society.canAccompany,campaignOutcome:society.campaignOutcome});
 function step(s){
- s.time++;renewMarket(s);supplyStep(s);
- const h=s.buildings.find(b=>b.type==='hall');if(h&&active(h)){h.progress++;if(h.progress>=BUILDINGS.hall.duration){h.progress-=BUILDINGS.hall.duration;grant(s,buildingYield(s,h));}}
+ if(s.schemaVersion!==6)s.time++;renewMarket(s);supplyStep(s);
+ const h=s.buildings.find(b=>b.type==='hall');if(h&&active(h)&&s.contentVersion!=='opening-v1.2'){h.progress++;if(h.progress>=BUILDINGS.hall.duration){h.progress-=BUILDINGS.hall.duration;grant(s,buildingYield(s,h));}}
  society.tickSociety(s,1,hooks);campaign.tickCampaign(s,1,hooks);masterStep(s);
  if(s.crafting&&s.buildings.some(b=>b.type==='alchemy'&&active(b))){s.crafting.remaining=Math.max(0,s.crafting.remaining-1);if(s.crafting.remaining===0){const id=s.crafting.recipeId,count=s.crafting.yield;s.pills[id]+=count;s.stats.crafted++;s.crafting=null;log(s,`${RECIPES[id].name}炼成${count}份，已收入府库。`);}}
 }
 export function tick(s,dt){if(!finite(dt,0,86400)||dt===0||s.speed===0)return;s.sim.carry+=dt*s.speed;while(s.sim.carry+1e-10>=1){s.sim.carry-=1;if(s.sim.carry<0)s.sim.carry=0;step(s);}}
+/** Called by the schema-6 owner; does not start another timer or consume carry. */
+export function advanceWorldSecond(s){step(s);}
 /** Validate on a copy. No RNG, time advance, new rewards, or repair of malformed v5. */
 export function validateSave(input){
  const fail=message=>{throw Error(`存档校验失败：${message}`);};
@@ -295,6 +326,7 @@ export function validateSave(input){
   if(p.scenic===undefined)society.initLifeScenic(s,d);
  }
  const m=s.master;personBase(m,true);m.sceneIntent??=null;if(!validateSceneIntent(m.sceneIntent))fail('场景互动意图异常');if(m.scenic&&m.scenic.geometry!=='plots-v1')repairScenicState(s);if(!validateScenic(m.scenic,s))fail('山院行走位置或路径异常');
+ if(s.schemaVersion===6&&s.personsById)for(const p of Object.values(s.personsById))if(p.personId!=='person:master'&&!s.disciples.some(d=>d.id===p.id))personBase(p);
  if(!finite(m.wound,0,100)||!finite(m.work,0,10)||m.work>=10||!['rest','heal','cultivate','wood','stone','herb','food','teach','study','walk','travel','combat'].includes(m.action)||!validCell(m.position?.x,m.position?.y)||!arr(m.path,CELLS.length)||!m.path.every(p=>p&&validCell(p.x,p.y))||!arr(m.memories,10000)||!m.memories.every(x=>finite(x.time,0,s.time)&&str(x.text,0,1000))||m.teaching!==null&&!own(TECHNIQUES,m.teaching))fail('掌门行动、位置或经历异常');
  if(m.breakthroughHistory!==undefined&&(!arr(m.breakthroughHistory,10000)||!m.breakthroughHistory.every(h=>h&&finite(h.time,0,s.time)&&typeof h.success==='boolean'&&finite(h.chance,.55,.85)&&finite(h.roll,0,1)&&h.roll<1&&h.success===(h.roll<h.chance)&&integer(h.fromRealm,1,11)&&h.toRealm===h.fromRealm+(h.success?1:0)&&finite(h.lostXp)&&h.injury===(h.success?0:12)&&h.cooldownUntil===h.time+(h.success?15:60)&&h.energyCost===25&&h.cost&&Object.entries(h.cost).every(([k,v])=>own(RESOURCES,k)&&finite(v))&&h.pillCost&&Object.keys(h.pillCost).every(k=>k==='foundation'&&h.pillCost[k]===1))))fail('提前冲关历史异常');
  if(m.action==='study'&&!m.learning)fail('学习行动缺少计划');if(m.action==='walk'&&!m.path.length&&!m.scenic?.path.length)fail('行走行动缺少路线');

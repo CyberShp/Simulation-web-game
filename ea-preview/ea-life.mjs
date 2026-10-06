@@ -1,5 +1,7 @@
-import {BUILDINGS, TECHNIQUES, RESOURCES, CELLS, canPay, xpNeed} from './ea-data.mjs?v=ea-142-release-20261005-r1';
-import {buildingAccess,scenicFindPath,scenicDistance,scenicSweep,geometryRevision} from './ea-scene-geometry.mjs?v=ea-142-release-20261005-r1';
+import {hallInteriorEnabled} from './ea-hall-interior.mjs?v=ea-150-dev-release-20261006-r1';
+import {facilitySlots,slotById} from './ea-facility-slots.mjs?v=ea-150-dev-release-20261006-r1';
+import {BUILDINGS, TECHNIQUES, RESOURCES, CELLS, canPay, xpNeed} from './ea-data.mjs?v=ea-150-dev-release-20261006-r1';
+import {buildingAccess,scenicFindPath,scenicDistance,scenicSweep,geometryRevision} from './ea-scene-geometry.mjs?v=ea-150-dev-release-20261006-r1';
 
 // Read-only projections. These never schedule an NPC, spend resources or reveal a private manual.
 export const lifeBuildingActive = b => !!b && !b.disabled && b.enabled!==false && (b.condition??100)>0;
@@ -35,15 +37,17 @@ export function lifePath(s,person,building) {
 }
 export function lifeFacility(s,person,activity=action(person),learningId=mind(person).learning?.id) {
   if(away(s,person))return null;
-  if(person===s.master&&activity==='cultivate')return localLifeFacility(s,person,['meditation','hall']);
-  if(person===s.master&&activity==='heal')return localLifeFacility(s,person,['clinic','hall']);
+  if(s.schemaVersion!==6&&person===s.master&&activity==='cultivate')return localLifeFacility(s,person,['meditation','hall']);
+  if(!hallInteriorEnabled(s)&&person===s.master&&activity==='heal')return localLifeFacility(s,person,['clinic','hall']);
+  const body=s.activitiesById?.[person.activityId];
+  if(body?.kind==='facility'&&body.action===activity){const b=s.buildingsById[body.targetId];if(lifeBuildingActive(b)&&(!['work','cultivate'].includes(activity)||person.job==null||b.id===person.job))return b;}
   const assigned=s.buildings.find(b=>b.id===person.job);
   if(['work','cultivate'].includes(activity)&&lifeBuildingActive(assigned)&&(activity==='work'?!!BUILDINGS[assigned.type].work:['hall','meditation'].includes(assigned.type))&&(alreadyNavigating(s,person,assigned)||lifeScenePath(s,person,assigned)!==null))return assigned;
   const p=mind(person),practice=!!p.learning?.practice;
   const types=activity==='study'?(learningId&&learningId!=='qingyuan'&&!practice?['library']:['library','hall']):activity==='teach'?['library','hall']:activity==='cultivate'?['meditation','hall']:activity==='heal'?['clinic','house','hall']:['house','hall'];
   const current=p.scenic||person.scenic;
   if(current?.revision===geometryRevision(s)&&current.goal){const held=s.buildings.find(b=>types.includes(b.type)&&lifeBuildingActive(b)&&scenicDistance(current.goal,buildingAccess(s,b))<.01);if(held)return held;}
-  const candidates=s.buildings.filter(b=>types.includes(b.type)&&lifeBuildingActive(b)).sort((a,b)=>(['rest','social','forage'].includes(activity)?0:types.indexOf(a.type)-types.indexOf(b.type))||scenicDistance(actorScenePosition(s,person),buildingAccess(s,a))-scenicDistance(actorScenePosition(s,person),buildingAccess(s,b))||a.id-b.id);
+  const candidates=s.buildings.filter(b=>types.includes(b.type)&&lifeBuildingActive(b)&&(!hallInteriorEnabled(s)||!['rest','heal'].includes(activity)||facilitySlots(s,b,activity).length)).sort((a,b)=>(['rest','social','forage'].includes(activity)?0:types.indexOf(a.type)-types.indexOf(b.type))||scenicDistance(actorScenePosition(s,person),buildingAccess(s,a))-scenicDistance(actorScenePosition(s,person),buildingAccess(s,b))||a.id-b.id);
   for(const b of candidates)if(lifeScenePath(s,person,b)!==null)return b;
   return null;
 }
@@ -55,7 +59,7 @@ export function lifeActivityLock(s,person) {
     if(!b)return '原设施已拆除，重新选择去处。';
     if(!lifeBuildingActive(b))return `${t.name}${b.enabled===false?'已停用':'已损坏'}，暂缓原活动。`;
     if(!alreadyNavigating(s,person,b)&&lifeScenePath(s,person,b)===null)return '原设施入口不通，等待改善道路。';
-    if(a==='work'&&t.input&&!canPay(s,t.input))return `生产原料不足：${Object.entries(t.input).filter(([k,v])=>(s.resources[k]||0)<v).map(([k,v])=>`${RESOURCES[k]}缺${Math.ceil(v-(s.resources[k]||0))}`).join('、')}。`;
+    if(a==='work'&&t.input&&!canPay(s,t.input)&&!Object.values(s.workOrdersById||{}).some(o=>o.kind==='production'&&o.targetId===b.instanceId&&o.phase!=='completed'))return `生产原料不足：${Object.entries(t.input).filter(([k,v])=>(s.resources[k]||0)<v).map(([k,v])=>`${RESOURCES[k]}缺${Math.ceil(v-(s.resources[k]||0))}`).join('、')}。`;
   }
   if(a==='study'&&p.learning&&!lifeFacility(s,person,a,p.learning.id))return '研习场所停用、损坏或入口不通，保留学习进度，先休整。';
   if(a==='teach'&&!lifeFacility(s,person,a))return '授业场所暂不可用，先休整。';
@@ -68,8 +72,9 @@ export function workOpportunity(s,person,buildingOrId,{checkPath=true}={}) {
   if(away(s,person))return no('正在山外，归院后再权衡差事。');
   if(!lifeBuildingActive(b))return no(b.enabled===false?'设施停用，先恢复运行。':'设施损坏，先修缮。');
   if(checkPath&&lifeScenePath(s,person,b)===null)return no('建筑入口不通，先留出连通道路。');
-  if(s.disciples.some(d=>d.id!==person.id&&d.job===b.id&&!d.mind?.away))return no('已有同门接下此处差事。');
-  const input=BUILDINGS[b.type].input;if(input&&!canPay(s,input))return no('生产原料不足，补足原料后再考虑。');
+  if(s.schemaVersion!==6&&s.disciples.some(d=>d.id!==person.id&&d.job===b.id&&!d.mind?.away))return no('已有同门接下此处差事。');
+  if(s.schemaVersion===6&&!facilitySlots(s,b,'work').length)return no('没有可达的生产工位。');
+  const input=BUILDINGS[b.type].input;if(input&&!canPay(s,input)&&!Object.values(s.workOrdersById||{}).some(o=>o.kind==='production'&&o.targetId===b.instanceId&&o.phase!=='completed'))return no('生产原料不足，补足原料后再考虑。');
   if(p.satiety<22)return no('口粮不足，优先采食。');
   if(person.wound>20)return no('伤势未愈，优先调养。');
   if(person.energy<22)return no('精力不足，先休息。');
@@ -80,14 +85,16 @@ export function workOpportunity(s,person,buildingOrId,{checkPath=true}={}) {
 export function personLifeSummary(s,person,{opportunities=false}={}) {
   const p=mind(person),a=action(person),facility=lifeFacility(s,person),lock=lifeActivityLock(s,person),isAway=away(s,person);
   const cooldown=Math.max(0,(person.breakthroughCooldown||0)-s.time),privateStudy=a==='study'&&p.learning&&(s.doctrine.sealed.includes(p.learning.id)||p.hiddenKnowledge?.[p.learning.id]&&s.society?.secrets.some(e=>e.id===p.hiddenKnowledge[p.learning.id]&&!e.discovered));
+  const body=s.activitiesById?.[person.activityId],order=body?.workOrderId&&s.workOrdersById[body.workOrderId];
   const label={rest:'休憩',heal:'调养',forage:'采食',work:'生产',study:'研习',cultivate:'修炼',teach:'授业',social:'交谈',travel:'山外行程',walk:'行走'}[a]||a;
-  const progress=a==='study'&&p.learning&&!privateStudy?{value:p.learning.progress,total:p.learning.total||40,label:TECHNIQUES[p.learning.id]?.name||'研习'}:a==='work'&&facility?{value:facility.progress,total:BUILDINGS[facility.type].duration,label:BUILDINGS[facility.type].name}:a==='cultivate'?{value:person.xp,total:xpNeed(person.realm),label:'当前修为'}:cooldown?{value:15-Math.min(15,cooldown),total:15,label:'突破后调息'}:null;
-  return {activity:a,label:cooldown&&a==='rest'?'突破后调息':label,status:isAway?'away':lock?'blocked':p.scenic?.path?.length||person.scenic?.path?.length||p.path?.length||person.path?.length?'moving':'active',facilityId:facility?.id??null,facilityName:facility?BUILDINGS[facility.type].name:null,reason:privateStudy?'独处参悟，暂不愿详谈。':lock||(cooldown&&a==='rest'?`刚刚突破，尚需调息${Math.ceil(cooldown)}秒。`:p.reason||'按当前安排继续活动。'),progress,opportunities:opportunities?s.buildings.filter(b=>BUILDINGS[b.type].work).map(b=>({facilityId:b.id,name:BUILDINGS[b.type].name,...workOpportunity(s,person,b)})):[]};
+  const progress=a==='study'&&p.learning&&!privateStudy?{value:p.learning.progress,total:p.learning.total||40,label:TECHNIQUES[p.learning.id]?.name||'研习'}:a==='work'&&facility?{value:order?order.progressTicks/10:facility.progress,total:BUILDINGS[facility.type].duration,label:BUILDINGS[facility.type].name}:a==='cultivate'?{value:person.xp,total:xpNeed(person.realm),label:'当前修为'}:cooldown?{value:15-Math.min(15,cooldown),total:15,label:'突破后调息'}:null;
+  return {activity:a,label:cooldown&&a==='rest'?'突破后调息':label,status:isAway?'away':lock?'blocked':body?.phase==='waiting'?'waiting':body?.phase==='navigating'?'moving':p.scenic?.path?.length||person.scenic?.path?.length||p.path?.length||person.path?.length?'moving':'active',slotId:body?.slotId??null,slotName:body?.slotId?slotById(s,body.slotId)?.label:null,facilityId:facility?.id??null,facilityName:facility?BUILDINGS[facility.type].name:null,reason:privateStudy?'独处参悟，暂不愿详谈。':lock||body?.reason||(cooldown&&a==='rest'?`刚刚突破，尚需调息${Math.ceil(cooldown)}秒。`:p.reason||'按当前安排继续活动。'),progress,opportunities:opportunities?s.buildings.filter(b=>BUILDINGS[b.type].work).map(b=>({facilityId:b.id,name:BUILDINGS[b.type].name,...workOpportunity(s,person,b)})):[]};
 }
 export function teachingPresent(s,teacher,student,id) {
   if(!teacher||away(s,teacher)||away(s,student)||action(teacher)!=='teach'||action(student)!=='study')return false;
   if(teacher===s.master&&teacher.teaching&&teacher.teaching!==id)return false;
   if((mind(teacher).scenic?.path?.length||teacher.scenic?.path?.length||teacher.mind?.path?.length||teacher.path?.length)||(mind(student).scenic?.path?.length||student.mind?.path?.length||student.path?.length))return false;
   const a=lifeFacility(s,teacher,'teach'),b=lifeFacility(s,student,'study',id);
+  if(s.schemaVersion===6){const ta=s.activitiesById[teacher.activityId],sa=s.activitiesById[student.activityId];return !!a&&a.id===b?.id&&ta?.phase==='executing'&&sa?.phase==='executing'&&ta.slotId!==sa.slotId&&scenicDistance(actorScenePosition(s,teacher),actorScenePosition(s,student))<48;}
   return !!a&&a.id===b?.id&&scenicDistance(actorScenePosition(s,teacher),buildingAccess(s,a))<=18&&scenicDistance(actorScenePosition(s,student),buildingAccess(s,b))<=18;
 }

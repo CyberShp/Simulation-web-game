@@ -1,6 +1,6 @@
-import {BUILDINGS,RESOURCES,CELLS} from './ea-data.mjs?v=ea-142-release-20261005-r1';
-import {buildingAccess,scenicDistance} from './ea-scene-geometry.mjs?v=ea-142-release-20261005-r1';
-import {actorScenePosition,lifeBuildingActive,personLifeSummary} from './ea-life.mjs?v=ea-142-release-20261005-r1';
+import {BUILDINGS,RESOURCES,CELLS} from './ea-data.mjs?v=ea-150-dev-release-20261006-r1';
+import {buildingAccess,scenicDistance} from './ea-scene-geometry.mjs?v=ea-150-dev-release-20261006-r1';
+import {actorScenePosition,lifeBuildingActive,personLifeSummary} from './ea-life.mjs?v=ea-150-dev-release-20261006-r1';
 
 // Guidance records observations only. Progress, choices and resources remain
 // owned by the campaign and simulation; older worlds opt out automatically.
@@ -28,7 +28,7 @@ export function resourceReserve(s){return s.story.step===0?(s.master.wound>0&&s.
 export function recoveryObjective(s,cost){
  const missing=Object.entries(cost).filter(([k,v])=>s.resources[k]<v);if(!missing.length)return null;
  const [id,amount]=missing.find(([k])=>['wood','stone','herb','food'].includes(k))||missing[0];
- return {kind:['wood','stone','herb','food'].includes(id)?'gather':'production',id,label:id==='jade'?'查看府库交易':'采集'+RESOURCES[id],text:'还缺'+missing.map(([k,v])=>RESOURCES[k]+' '+Math.ceil(v-s.resources[k])).join('、')+'。'+(id==='jade'?'主屋持续凝聚灵石，也可出售多余山货。':'先采集补足，再返回当前目标。'),needed:Math.ceil(amount-s.resources[id])};
+ return {kind:['wood','stone','herb','food'].includes(id)?'gather':'production',id,label:id==='jade'?'查看府库交易':'采集'+RESOURCES[id],text:'还缺'+missing.map(([k,v])=>RESOURCES[k]+' '+Math.ceil(v-s.resources[k])).join('、')+'。'+(id==='jade'?s.contentVersion==='opening-v1.2'?'采集山货后出售，可恢复灵石；主屋不会凭空产钱。':'主屋持续凝聚灵石，也可出售多余山货。':'先采集补足，再返回当前目标。'),needed:Math.ceil(amount-s.resources[id])};
 }
 export function recommendedPlot(s,type,placementLock){
  const hall=s.buildings.find(b=>b.type==='hall'),origin=buildingAccess(s,hall);
@@ -45,11 +45,11 @@ function firstFarmWork(s,o){
  const d=worker||s.disciples.find(d=>d.name==='陆知微')||s.disciples[0];if(!d)return null;
  const farm=farms.find(b=>b.id===worker?.job)||farms.find(lifeBuildingActive)||farms[0],life=personLifeSummary(s,d),paused=s.speed===0;
  const farmChosen=life.activity==='work'&&life.facilityId===farm.id&&lifeBuildingActive(farm);
- const atFarm=scenicDistance(actorScenePosition(s,d),buildingAccess(s,farm))<=18;
+ const atFarm=s.schemaVersion===6?s.activitiesById[d.activityId]?.phase==='executing':scenicDistance(actorScenePosition(s,d),buildingAccess(s,farm))<=18;
  const working=farmChosen&&life.status==='active'&&atFarm;
  const status=working?'working':farmChosen&&life.status==='active'&&!atFarm?'moving':life.status;
- const phase=status==='away'?'正在山外':status==='blocked'?'当前活动暂缓':status==='moving'?(life.status==='moving'?'正前往':'准备前往')+(life.facilityName||'当前目的地'):working?'正在照料药圃':'正在'+life.label;
- const progress=working?{value:farm.progress||0,total:BUILDINGS.farm.duration,label:'药圃本轮照料',running:!paused}:null;
+ const phase=status==='away'?'正在山外':status==='waiting'?'等待空闲工位':status==='blocked'?'当前活动暂缓':status==='moving'?(life.status==='moving'?'正前往':'准备前往')+(life.facilityName||'当前目的地'):working?'正在照料药圃':'正在'+life.label;
+ const progress=working?{value:life.progress?.value??farm.progress??0,total:BUILDINGS.farm.duration,label:'药圃本轮照料',running:!paused}:null;
  const facilityNotice=lifeBuildingActive(farm)?'':farm.enabled===false?'药圃已停用，恢复运行后才有生产机会。':'药圃已损坏，修缮后才有生产机会。';
  const text=d.name+'：'+phase+'。'+life.reason+(working?' 完成这一轮照料后，真实收成会收入府库。':' 门人会自行权衡休息、学习与生产。')+(facilityNotice?' '+facilityNotice:'')+(paused?' 时序已暂停，当前活动不会推进。':'');
  return {personId:d.id,buildingId:farm.id,name:d.name,title:'看见门人自己的选择',status,activity:life.activity,phase,reason:life.reason,paused,progress,text};

@@ -1,6 +1,7 @@
-import {point,findPath,sweep,canStand,distance,LANDMARKS} from './yunxiu-courtyard/navigation.mjs?v=ea-142-release-20261005-r1';
-import {SCENE_GEOMETRY,SCENIC_PLOTS,scenicCanStand,scenicFindPath,scenicSweep,scenicNearest,buildingAccess,geometryRevision,scenicDistance} from './ea-scene-geometry.mjs?v=ea-142-release-20261005-r1';
-export {SCENE_GEOMETRY,scenicPoint,scenicInverse,scenicCanStand,scenicFindPath,scenicNearest,scenicDistance,scenicPathDistance,buildingAccess,geometryRevision} from './ea-scene-geometry.mjs?v=ea-142-release-20261005-r1';
+import {slotById} from './ea-facility-slots.mjs?v=ea-150-dev-release-20261006-r1';
+import {point,findPath,sweep,canStand,distance,LANDMARKS} from './yunxiu-courtyard/navigation.mjs?v=ea-150-dev-release-20261006-r1';
+import {SCENE_GEOMETRY,SCENIC_PLOTS,scenicCanStand,scenicFindPath,scenicSweep,scenicNearest,buildingAccess,geometryRevision,scenicDistance} from './ea-scene-geometry.mjs?v=ea-150-dev-release-20261006-r1';
+export {SCENE_GEOMETRY,scenicPoint,scenicInverse,scenicCanStand,scenicFindPath,scenicNearest,scenicDistance,scenicPathDistance,buildingAccess,geometryRevision} from './ea-scene-geometry.mjs?v=ea-150-dev-release-20261006-r1';
 
 export const FACILITY_AREAS={hall:'main',house:'main',library:'main',watchtower:'gate',farm:'herbs',granary:'herbs',well:'herbs',lumber:'workshop',workshop:'workshop',quarry:'works',meditation:'meditation',alchemy:'kitchen',clinic:'kitchen',kitchen:'kitchen'};
 export const areaPoint=id=>point(LANDMARKS.find(l=>l.id===id)?.node||'centre');
@@ -25,7 +26,7 @@ export function validateScenic(a,s){
 export function repairScenicActor(a,s){
  const destination=a.destinationId!==undefined?s.buildings.find(b=>b.id===a.destinationId):null,
   fallback=buildingAccess(s,s.buildings.find(b=>b.type==='hall'))||point('mainDoor'),
-  desired=a.destinationId!==undefined?destination&&destination.enabled!==false&&destination.condition>0?buildingAccess(s,destination):fallback:a.goal||a.path?.at(-1);
+  desired=a.activitySlotId&&slotById(s,a.activitySlotId)?.position|| (a.destinationId!==undefined?destination&&destination.enabled!==false&&destination.condition>0?buildingAccess(s,destination):fallback:a.goal||a.path?.at(-1));
  if(!scenicCanStand(s,a)){const p=scenicNearest(s,a)||fallback;a.x=p.x;a.y=p.y;}
  a.path=desired?scenicFindPath(s,a,desired)||[]:[];a.goal=a.path.at(-1)||null;
  a.geometry=SCENE_GEOMETRY;a.revision=geometryRevision(s);return a;

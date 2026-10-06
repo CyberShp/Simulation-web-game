@@ -1,5 +1,6 @@
-import {CELLS} from './ea-data.mjs?v=ea-142-release-20261005-r1';
-import {WIDTH,HEIGHT,NODES,EDGES,LANDMARKS,distance,inPolygon,nearest} from './yunxiu-courtyard/navigation.mjs?v=ea-142-release-20261005-r1';
+import {hallInterior} from './ea-hall-interior.mjs?v=ea-150-dev-release-20261006-r1';
+import {CELLS} from './ea-data.mjs?v=ea-150-dev-release-20261006-r1';
+import {WIDTH,HEIGHT,NODES,EDGES,LANDMARKS,distance,inPolygon,nearest} from './yunxiu-courtyard/navigation.mjs?v=ea-150-dev-release-20261006-r1';
 
 export const SCENE_GEOMETRY='plots-v1';
 export {WIDTH,HEIGHT,distance as scenicDistance};
@@ -29,7 +30,10 @@ export function plotPolygon(x,y){const p=scenicPoint(x,y);return p?[[p.x-31,p.y-
 export function buildingFootprint(b){const p=scenicPoint(b.x,b.y);if(!p)return[];return b.type==='hall'?[[665,66],[946,66],[964,178],[699,199]]:[[p.x-25,p.y-12],[p.x+25,p.y-12],[p.x+25,p.y+13],[p.x-25,p.y+13]];}
 export function buildingAccess(s,b){const p=scenicPoint(b.x,b.y);return p?b.type==='hall'?{x:840,y:217}:{x:p.x,y:p.y+24}:null;}
 export const buildingSize=b=>b.type==='hall'?0:62+(b.level-1)*3;
-export function facilityHit(b,p){const origin=scenicPoint(b.x,b.y);if(!origin)return false;if(b.type==='hall')return inPolygon(p,LANDMARKS.find(l=>l.id==='main').hit);const size=buildingSize(b);return p.x>=origin.x-size/2&&p.x<=origin.x+size/2&&p.y>=origin.y-size+20&&p.y<=origin.y+20;}
+// One projection for preview, construction, completed sprite and selection.
+// This deliberately retains legacy scene units until the complete metre port.
+export function buildingVisual(b){const position=scenicPoint(b.x,b.y);if(!position)return null;const size=buildingSize(b);return {position,size,footprint:buildingFootprint(b),bounds:b.type==='hall'?{left:680,right:972,top:32,bottom:212}:{left:position.x-size/2,right:position.x+size/2,top:position.y-size+20,bottom:position.y+20}};}
+export function facilityHit(b,p){const view=buildingVisual(b);if(!view)return false;if(b.type==='hall')return inPolygon(p,LANDMARKS.find(l=>l.id==='main').hit);const r=view.bounds;return p.x>=r.left&&p.x<=r.right&&p.y>=r.top&&p.y<=r.bottom;}
 const baseSegments=EDGES.map(e=>({a:xy(NODES[e.a]),b:xy(NODES[e.b]),width:e.w,painted:true}));
 const terraceSegments=[];
 for(const panel of PANELS){
@@ -53,15 +57,16 @@ function indexed(geometry){
  return Object.assign(geometry,{roadBuckets:roads,footprintBuckets:footprints});
 }
 const emptyGeometry=indexed({segments:SCENE_ROADS,footprints:[],revision:'empty'});
-export function geometryRevision(s){return (s?.buildings||[]).map(b=>`${b.id}/${b.type}/${b.x}/${b.y}`).join('|');}
+export function geometryRevision(s){return `${s?.rulesetVersion||'legacy'}:`+(s?.buildings||[]).map(b=>`${b.id}/${b.type}/${b.x}/${b.y}`).join('|');}
 export function sceneGeometry(s){
  if(!s)return emptyGeometry;
  const revision=geometryRevision(s),old=cache.get(s);if(old?.revision===revision)return old;
- const geometry=indexed({segments:SCENE_ROADS,footprints:s.buildings.map(b=>({id:b.id,polygon:buildingFootprint(b)})),revision});cache.set(s,geometry);return geometry;
+ const rooms=s.buildings.map(b=>hallInterior(s,b)).filter(Boolean);
+ const geometry=indexed({segments:[...SCENE_ROADS,...rooms.flatMap(r=>r.lanes)],rooms,footprints:s.buildings.flatMap(b=>{const r=hallInterior(s,b);return r?[...r.walls,...r.furniture.map(f=>f.polygon)].map(polygon=>({id:b.id,polygon})):[{id:b.id,polygon:buildingFootprint(b)}];}),revision});cache.set(s,geometry);return geometry;
 }
 function standAt(g,p,radius=4){
  if(!Number.isFinite(p?.x)||!Number.isFinite(p?.y)||p.x<radius||p.y<radius||p.x>WIDTH-radius||p.y>HEIGHT-radius)return false;
- const k=`${Math.floor(p.x/64)},${Math.floor(p.y/64)}`;return !(g.footprintBuckets.get(k)||[]).some(f=>insideFootprint(p,f.polygon,radius))&&(g.roadBuckets.get(k)||[]).some(e=>distance(p,project(p,e.a,e.b))<=e.width/2-radius+.001);
+ const k=`${Math.floor(p.x/64)},${Math.floor(p.y/64)}`;return !(g.footprintBuckets.get(k)||[]).some(f=>insideFootprint(p,f.polygon,radius))&&((g.rooms||[]).some(r=>p.x>=r.bounds.x+radius&&p.x<=r.bounds.x+r.bounds.width-radius&&p.y>=r.bounds.y+radius&&p.y<=r.bounds.y+r.bounds.height-radius)||(g.roadBuckets.get(k)||[]).some(e=>distance(p,project(p,e.a,e.b))<=e.width/2-radius+.001));
 }
 export function scenicCanStand(s,p,radius=4){return standAt(sceneGeometry(s),p,radius);}
 export function scenicSweep(s,from,to,radius=4){
@@ -71,7 +76,8 @@ export function scenicSweep(s,from,to,radius=4){
  for(let i=1;i<=n;i++){const p={x:from.x+(to.x-from.x)*i/n,y:from.y+(to.y-from.y)*i/n};if(!standAt(g,p,radius))return finish({...last,blocked:true});last=p;}return finish({...last,blocked:false});
 }
 export function scenicNearest(s,target,{maxDistance=Infinity,radius=4}={}){
- const g=sceneGeometry(s);let best=null;for(const e of g.segments){const p=project(target,e.a,e.b),d=distance(target,p);if(d<=maxDistance&&(!best||d<best.distance)&&standAt(g,p,radius))best={...p,distance:d};}
+ const g=sceneGeometry(s);let best=null;if(standAt(g,target,radius))return {x:target.x,y:target.y};
+ for(const e of g.segments){const p=project(target,e.a,e.b),d=distance(target,p);if(d<=maxDistance&&(!best||d<best.distance)&&standAt(g,p,radius))best={...p,distance:d};}
  // A nearest projection can be inside a newly erected building; its entrance
  // and segment ends are additional candidates, never a teleport through it.
  for(const p of [...(s?.buildings||[]).map(b=>buildingAccess(s,b)),...SCENE_ROADS.flatMap(e=>[e.a,e.b])]){if(!p)continue;const d=distance(target,p);if(d<=maxDistance&&(!best||d<best.distance)&&standAt(g,p,radius))best={...p,distance:d};}
@@ -81,14 +87,14 @@ function graph(s){
  const g=sceneGeometry(s);if(g.graph)return g.graph;const nodes=new Map(),edges=new Map(),add=p=>{const k=key(p);if(!nodes.has(k)){nodes.set(k,{x:p.x,y:p.y});edges.set(k,[]);}return k;};
  // Split roads at every junction. Registered main paths and terrace paths can
  // intersect in the painting, and that intersection must be navigable.
- const splits=SCENE_ROADS.map(e=>[e.a,e.b]);
- for(let i=0;i<SCENE_ROADS.length;i++)for(let j=i+1;j<SCENE_ROADS.length;j++){
-  const a=SCENE_ROADS[i],b=SCENE_ROADS[j],dx=a.b.x-a.a.x,dy=a.b.y-a.a.y,ex=b.b.x-b.a.x,ey=b.b.y-b.a.y,den=dx*ey-dy*ex;
+ const roads=g.segments;const splits=roads.map(e=>[e.a,e.b]);
+ for(let i=0;i<roads.length;i++)for(let j=i+1;j<roads.length;j++){
+  const a=roads[i],b=roads[j],dx=a.b.x-a.a.x,dy=a.b.y-a.a.y,ex=b.b.x-b.a.x,ey=b.b.y-b.a.y,den=dx*ey-dy*ex;
   if(Math.abs(den)<1e-8)continue;const ax=b.a.x-a.a.x,ay=b.a.y-a.a.y,t=(ax*ey-ay*ex)/den,u=(ax*dy-ay*dx)/den;
   if(t>=-1e-6&&t<=1+1e-6&&u>=-1e-6&&u<=1+1e-6){const p={x:a.a.x+dx*t,y:a.a.y+dy*t};splits[i].push(p);splits[j].push(p);}
  }
- for(let i=0;i<SCENE_ROADS.length;i++){
-  const road=SCENE_ROADS[i],points=splits[i].sort((a,b)=>distance(road.a,a)-distance(road.a,b));
+ for(let i=0;i<roads.length;i++){
+  const road=roads[i],points=splits[i].sort((a,b)=>distance(road.a,a)-distance(road.a,b));
   for(let j=1;j<points.length;j++){const a=points[j-1],b=points[j];if(distance(a,b)<.01||scenicSweep(s,a,b).blocked)continue;const ak=add(a),bk=add(b),cost=distance(a,b);edges.get(ak).push({key:bk,cost});edges.get(bk).push({key:ak,cost});}
  }
  return g.graph={nodes,edges};
@@ -97,7 +103,7 @@ export function scenicFindPath(s,from,goal,{maxSnap=70}={}){
  if(!scenicCanStand(s,from))return null;if(distance(from,goal)<.001)return[];
  const g=sceneGeometry(s),routeKey=`${key(from)}>${key(goal)}:${maxSnap}`,held=g.routes?.get(routeKey);if(held!==undefined)return held===null?null:held.map(p=>({...p}));
  const remember=value=>{g.routes??=new Map();if(g.routes.size>1024)g.routes.clear();g.routes.set(routeKey,value);return value===null?null:value.map(p=>({...p}));};
- const to=scenicNearest(s,goal,{maxDistance:maxSnap});if(!to)return remember(null);
+ const to=scenicCanStand(s,goal)?{x:goal.x,y:goal.y}:scenicNearest(s,goal,{maxDistance:maxSnap});if(!to)return remember(null);
  if(!scenicSweep(s,from,to).blocked)return remember(distance(from,to)<.001?[]:[to]);
  const {nodes,edges}=graph(s),startLinks=[],endLinks=new Map();
  for(const[k,p]of nodes){const a=distance(from,p),b=distance(to,p);if(a<260&&!scenicSweep(s,from,p).blocked)startLinks.push({key:k,cost:a});if(b<260&&!scenicSweep(s,p,to).blocked)endLinks.set(k,b);}
