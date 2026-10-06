@@ -60,7 +60,7 @@ function gradient(ctx,from,to,stops,fallback){
 function clipGround(ctx,c,project,footprints){
   // Reverse the holes as well as using evenodd, so old canvas implementations
   // with a nonzero fallback retain the intended interior exclusion.
-  ctx.beginPath();trace(ctx,rect(0,0,64,64),c,project);
+  ctx.beginPath();trace(ctx,rect(0,0,SPATIAL_SCENE.width,SPATIAL_SCENE.height),c,project);
   for(const fp of footprints)trace(ctx,[...fp].reverse(),c,project);
   ctx.clip('evenodd');
 }
@@ -69,7 +69,7 @@ function drawGrass(ctx,c,project){
   // Soft color masses are drawn first. Hard-edged repeating ovals make grass
   // look like wallpaper, so broad terrain variation always has a faded edge.
   for(let i=0;i<120;i++){
-    const x=hash(i,7)*64,y=hash(i,31)*64,q=project({x,y},c),r=(1.5+hash(i,1)*3.3)*c.scale;
+    const x=hash(i,7)*SPATIAL_SCENE.width,y=hash(i,31)*SPATIAL_SCENE.height,q=project({x,y},c),r=(1.5+hash(i,1)*3.3)*c.scale;
     if(!visible(q,c,r))continue;
     ctx.save();ctx.translate(q.x,q.y);ctx.scale(1,c.depth);
     if(typeof ctx.createRadialGradient==='function'){
@@ -79,7 +79,7 @@ function drawGrass(ctx,c,project){
   }
   // Very low, nonblocking turf. Nothing here resembles a selectable shrub or
   // pretends to be a finite harvest source.
-  for(let y=.35;y<64;y+=.86)for(let x=.35;x<64;x+=.86){
+  for(let y=.35;y<SPATIAL_SCENE.height;y+=.86)for(let x=.35;x<SPATIAL_SCENE.width;x+=.86){
     const n=hash(x,y,411),p={x:x+(n-.5)*.68,y:y+(hash(x,y,4)-.5)*.66},q=project(p,c);
     if(!visible(q,c,24))continue;
     // Tiny broken fibres, pebbles and leaf litter provide a surface rather
@@ -177,25 +177,26 @@ function drawWater(ctx,c,project,terrain){
 
 /** U-98: common land cells, not predetermined building/function slots. */
 function drawGroundCells(ctx,c,project){
- const step=BUILDING_GRID.metres,extent=SPATIAL_SCENE.width;
+ const step=BUILDING_GRID.metres,extent=SPATIAL_SCENE.width,height=SPATIAL_SCENE.height;
  const fade=Math.min(1,Math.max(.35,c.scale/32));
  // Cache this tile layer with the terrain. Cull outside the viewport rather
  // than painting all 1,024 construction cells on every camera/geometry rebuild.
- for(let row=0;row<extent/step;row++)for(let col=0;col<extent/step;col++){
+ for(let row=0;row<height/step;row++)for(let col=0;col<extent/step;col++){
   const x=col*step,y=row*step,q=project({x:x+step/2,y:y+step/2},c);
   if(!visible(q,c,c.scale*step+3))continue;
-  poly(ctx,rect(x,y,step,step),c,project,(row+col)%2?'#b6c39528':'#73865a18');
+  poly(ctx,rect(x,y,step,step),c,project,(row+col)%2?'#e1dea209':'#83904f06');
  }
- ctx.strokeStyle=`rgba(77,96,63,${.45*fade})`;ctx.lineWidth=.9;ctx.beginPath();
+ ctx.strokeStyle=`rgba(77,96,63,${.35*fade})`;ctx.lineWidth=.9;ctx.beginPath();
  for(let n=0;n<=extent+1e-6;n+=step){
   const a=project({x:n,y:0},c),b=project({x:n,y:extent},c),d=project({x:0,y:n},c),e=project({x:extent,y:n},c);
   ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.moveTo(d.x,d.y);ctx.lineTo(e.x,e.y);
  }ctx.stroke();
 }
 
-function drawBoundary(ctx,c,project){
+function drawBoundary(ctx,c,project,nature){
+  if(nature?.width){drawPaintedBoundary(ctx,c,project,nature);return;}
   const shrubs=[];
-  for(let i=0;i<24;i++){
+  for(let i=0;i<Math.ceil(Math.max(SPATIAL_SCENE.width,SPATIAL_SCENE.height)/2.6);i++){
     // Tree feet are outside the entire buildable world. The thin north slope
     // gets only low stone and moss rather than a false extra collision belt.
     shrubs.push({x:-1.25-hash(i,3)*1.7,y:1+i*2.6,h:2.1+hash(i,4)*1.6,seed:i});
@@ -203,22 +204,82 @@ function drawBoundary(ctx,c,project){
   }
   shrubs.sort((a,b)=>project(a,c).y-project(b,c).y);
   for(const t of shrubs){if(t.seed%3)bamboo(ctx,t,t.h,c,project,t.seed);else pine(ctx,t,t.h,c,project,t.seed);}
-  for(let i=0;i<75;i++)rock(ctx,{x:.35+i*.84,y:.28+hash(i,11)*.45},.22+hash(i,31)*.32,c,project,i);
+  for(let i=0;i<Math.ceil(SPATIAL_SCENE.width/.84);i++)rock(ctx,{x:.35+i*.84,y:.28+hash(i,11)*.45},.22+hash(i,31)*.32,c,project,i);
 }
 
-function paintStaticGround(ctx,c,project,footprints){
-  ctx.fillStyle=gradient(ctx,{x:0,y:0},{x:c.w,y:c.h},[[0,'#aab9a4'],[.5,'#c1c9b0'],[1,'#879e8a']],'#b0bda3');ctx.fillRect(0,0,c.w,c.h);
-  const a=project({x:0,y:0},c),b=project({x:64,y:64},c);
-  poly(ctx,rect(0,0,64,64),c,project,gradient(ctx,a,b,[[0,'#a6af87'],[.48,'#a6b08c'],[1,'#8d9e7b']],'#a6af88'));
+/** Reuse the approved mountain painting as a distant, noninteractive vista.
+ * The traversable plane below still comes exclusively from metre geometry. */
+function drawPaintedVista(ctx,c,project,image){
+  if(!image?.width)return;
+  const size=Math.max(c.w/image.width,c.h/image.height)*1.08;
+  const width=image.width*size,height=image.height*size;
+  ctx.save();ctx.globalAlpha=.7;
+  ctx.drawImage(image,(c.w-width)/2,(c.h-height)/2,width,height);
+  ctx.restore();
+}
+
+/** Derived from the approved meadow; the tile is ground only, with no baked
+ * buildings/roads/resources. Alternate mirroring joins edges without seams. */
+function drawPaintedMeadow(ctx,c,project,image){
+  if(!image?.width)return false;
+  const origin=project({x:0,y:0},c),xAxis=project({x:1,y:0},c),yAxis=project({x:0,y:1},c);
+  const step=16;
+  for(let row=0,y=0;y<SPATIAL_SCENE.height;y+=step,row++)for(let col=0,x=0;x<SPATIAL_SCENE.width;x+=step,col++){
+    const q=project({x:x+step/2,y:y+step/2},c);
+    if(!visible(q,c,step*c.scale*1.5))continue;
+    ctx.save();ctx.transform(xAxis.x-origin.x,xAxis.y-origin.y,yAxis.x-origin.x,yAxis.y-origin.y,origin.x,origin.y);
+    ctx.translate(x+(col%2?step:0),y+(row%2?step:0));ctx.scale(col%2?-1:1,row%2?-1:1);
+    ctx.drawImage(image,0,0,step+.015,step+.015);ctx.restore();
+  }
+  poly(ctx,rect(0,0,SPATIAL_SCENE.width,SPATIAL_SCENE.height),c,project,'#506d5823');
+  return true;
+}
+
+function natureSprite(ctx,image,rect,x,y,width,{lip=false,reverseLip=false}={}){
+  const [sx,sy,sw,sh]=rect,height=width*sh/sw;
+  ctx.save();ctx.translate(x-width/2,y-(lip?height*.4:height*.94));
+  // The two sloping stone crops exclude the neighbouring tree roots in the
+  // original atlas. This clip is part of sprite registration, never geometry.
+  if(lip){ctx.beginPath();const high=-.04*height,low=.67*height;
+    ctx.moveTo(0,reverseLip?high:low);ctx.lineTo(width,reverseLip?low:high);
+    ctx.lineTo(width,height);ctx.lineTo(0,height);ctx.closePath();ctx.clip();}
+  ctx.drawImage(image,sx,sy,sw,sh,0,0,width,height);ctx.restore();
+}
+
+function drawPaintedBoundary(ctx,c,project,image){
+  const width=SPATIAL_SCENE.width,height=SPATIAL_SCENE.height,segment=8;
+  // Stone lips sit outside the existing boundary, never on traversable land.
+  for(let n=0;n<Math.max(width,height);n+=segment){
+    for(const east of [false,true]){
+      const p=east?{x:width+.6,y:n+segment/2}:{x:n+segment/2,y:height+.6},q=project(p,c);
+      if(!visible(q,c,segment*c.scale))continue;
+      natureSprite(ctx,image,east?[32,604,737,400]:[786,608,728,400],q.x,q.y,segment*.83*c.scale,{lip:true,reverseLip:!east});
+    }
+  }
+  const trees=[];
+  for(let n=0;n<Math.max(width,height);n+=4){
+    trees.push({x:-.25-hash(n,3)*.6,y:n+1.6,seed:n});
+    trees.push({x:n+1.5,y:.3-hash(n,9)*.6,seed:n+201});
+  }
+  trees.sort((a,b)=>project(a,c).y-project(b,c).y);
+  for(const p of trees){const q=project(p,c),size=(p.seed%3?5.4:6.9)+hash(p.seed,8)*1.7;
+    if(!visible(q,c,size*c.scale))continue;
+    natureSprite(ctx,image,p.seed%3?[830,20,685,590]:[32,20,752,584],q.x,q.y,size*c.scale);
+  }
+}
+
+function paintStaticGround(ctx,c,project,footprints,terrainArt){
+  const a=project({x:0,y:0},c),b=project({x:SPATIAL_SCENE.width,y:SPATIAL_SCENE.height},c);
+  poly(ctx,rect(0,0,SPATIAL_SCENE.width,SPATIAL_SCENE.height),c,project,gradient(ctx,a,b,[[0,'#a6af87'],[.48,'#a6b08c'],[1,'#8d9e7b']],'#a6af88'));
   ctx.save();clipGround(ctx,c,project,footprints);
-  drawGrass(ctx,c,project);
+  if(!drawPaintedMeadow(ctx,c,project,terrainArt?.meadow))drawGrass(ctx,c,project);
   drawGroundCells(ctx,c,project);
   for(const t of SPATIAL_TERRAIN){
     if(t.kind==='water')drawWater(ctx,c,project,t);
-    else if(t.kind==='slope')poly(ctx,t.polygon,c,project,'#7e8f6f','#65795770',1);
+    else if(t.kind==='slope')poly(ctx,t.polygon,c,project,'#617b5355','#65795740',1);
   }
   ctx.restore();
-  drawBoundary(ctx,c,project);
+  drawBoundary(ctx,c,project,terrainArt?.nature);
 }
 
 function drawResources(ctx,s,c,project,footprints){
@@ -245,10 +306,10 @@ function drawResources(ctx,s,c,project,footprints){
 }
 
 /** Paints the ground before all building floors and depth-sorted actors. */
-export function drawEstateGround(ctx,s,c,{project,footprints=[],planning=false}={}){
+export function drawEstateGround(ctx,s,c,{project,footprints=[],terrainArt=null,planning=false}={}){
   if(typeof project!=='function')throw new TypeError('drawEstateGround requires the shared world projection');
   const ratio=Math.max(1,Math.min(1.5,Number(globalThis.devicePixelRatio)||1)),margin=192;
-  const key=[c.w,c.h,c.scale,c.depth,c.rotation||0,ratio,signature(footprints)].join(';');
+  const key=[c.w,c.h,c.scale,c.depth,c.rotation||0,ratio,SPATIAL_SCENE.width,SPATIAL_SCENE.height,terrainArt?.terrain?.width||0,terrainArt?.nature?.width||0,terrainArt?.meadow?.width||0,signature(footprints)].join(';');
   let cached=groundCache.get(ctx);
   if(!cached||cached.key!==key||Math.abs(c.ox-cached.ox)>margin||Math.abs(c.oy-cached.oy)>margin){
     // Overscan keeps ordinary pan frames to one bitmap copy. Rebuild only
@@ -260,13 +321,17 @@ export function drawEstateGround(ctx,s,c,{project,footprints=[],planning=false}=
     }
     if(surface){
       const painter=surface.getContext('2d');painter.scale(ratio,ratio);
-      paintStaticGround(painter,{...c,w:c.w+margin*2,h:c.h+margin*2,ox:c.ox+margin,oy:c.oy+margin},project,footprints);
+      paintStaticGround(painter,{...c,w:c.w+margin*2,h:c.h+margin*2,ox:c.ox+margin,oy:c.oy+margin},project,footprints,terrainArt);
       cached={key,surface,ox:c.ox,oy:c.oy};groundCache.set(ctx,cached);
     }else cached=null;
   }
   ctx.save();
+  // The distant vista is viewport anchored, so keep it outside the moving
+  // overscan cache. Crossing a cache boundary must not snap the mountain sky.
+  ctx.fillStyle=gradient(ctx,{x:0,y:0},{x:c.w,y:c.h},[[0,'#aab9a4'],[.5,'#c1c9b0'],[1,'#879e8a']],'#b0bda3');ctx.fillRect(0,0,c.w,c.h);
+  drawPaintedVista(ctx,c,project,terrainArt?.terrain);
   if(cached)ctx.drawImage(cached.surface,c.ox-cached.ox-margin,c.oy-cached.oy-margin,c.w+margin*2,c.h+margin*2);
-  else paintStaticGround(ctx,c,project,footprints);
+  else paintStaticGround(ctx,c,project,footprints,terrainArt);
   drawResources(ctx,s,c,project,footprints);
   // Wetness comes from the ecology authority; this is a subtle surface tint,
   // never a second weather process. Planning leaves all placement cues visible.

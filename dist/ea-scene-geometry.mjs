@@ -76,7 +76,7 @@ export function scenicSweep(s,from,to,radius=4){if(spatialEnabled(s))return mete
  if(!standAt(g,from,radius))return finish({...from,blocked:true});const n=Math.max(1,Math.ceil(d/3));let last={x:from.x,y:from.y};
  for(let i=1;i<=n;i++){const p={x:from.x+(to.x-from.x)*i/n,y:from.y+(to.y-from.y)*i/n};if(!standAt(g,p,radius))return finish({...last,blocked:true});last=p;}return finish({...last,blocked:false});
 }
-export function scenicNearest(s,target,{maxDistance=Infinity,radius=4}={}){if(spatialEnabled(s))return meterNearest(s,target,{maxDistance:Number.isFinite(maxDistance)?maxDistance:64,radius:radius===4?.26:radius});
+export function scenicNearest(s,target,{maxDistance=Infinity,radius=4}={}){if(spatialEnabled(s))return meterNearest(s,target,{maxDistance:Number.isFinite(maxDistance)?maxDistance:undefined,radius:radius===4?.26:radius});
  const g=sceneGeometry(s);let best=null;if(standAt(g,target,radius))return {x:target.x,y:target.y};
  for(const e of g.segments){const p=project(target,e.a,e.b),d=distance(target,p);if(d<=maxDistance&&(!best||d<best.distance)&&standAt(g,p,radius))best={...p,distance:d};}
  // A nearest projection can be inside a newly erected building; its entrance

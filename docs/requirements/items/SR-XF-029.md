@@ -14,7 +14,7 @@
 
 纳入云岫前期，按依赖推进。
 
-决策来源：U-63, U-93, R-25, U-94, U-95, U-96, U-97, R-27。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
+决策来源：U-63, U-93, R-25, U-94, U-95, U-96, U-97, R-27, U-100, R-29。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
 
 规格：[01-CHARACTERS.md](../../../docs/design/01-CHARACTERS.md)、[03-SPATIAL-ART.md](../../../docs/design/03-SPATIAL-ART.md)、[06-OPENING-ACCEPTANCE.md](../../../docs/design/06-OPENING-ACCEPTANCE.md)、[14-EARLY-GAME-DETAILED-DESIGN.md](../../../docs/design/14-EARLY-GAME-DETAILED-DESIGN.md)。
 
@@ -96,5 +96,6 @@ SR-XF-029-REQ-03：拖拽和手势不劫持侧栏/输入/弹窗，错误提示�
 - 2026-10-06：U-95明确画布只适配iPadOS/Windows/macOS网页分辨率；必需验收平台改为iPad横竖与桌面窗口/DPR，浏览器视口与实机证据分列。
 - 2026-10-06：U-96/U-97将经营成长和同场可交互美术置于优先；按R-27消费已有米制/单时钟/存档契约实现局部模块，D/I/V/R完整门槛仍未关闭。本轮验证及发布待主集成回填，不更改旧AC事实。
 - 2026-10-06：回填主集成/独立验收确认的本轮组件和正常公开命令旧档结果；保留浏览器不可用、床体过短、混合画风的视觉缺口；闭屋后墙及两类田地已修复，并经最终Canvas快照静态读图复核。上述局部通过不提升SR整体状态，gh-pages可试玩开发版已成功部署，本轮源码main待确认；完整SR门槛仍未通过。
+- 2026-10-07：U-100固定2.5D、旧云岫人物/建筑资源接回正式U-99主线；R-29山院扩96米，旧64档先校验仅登记extentVersion。人物6/6、扩图9/9、单位格6/6与正常公开链局部通过，真实网页/发布另记STATUS；完整SR保持in_progress，不冒称全动画或全体验完成。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。

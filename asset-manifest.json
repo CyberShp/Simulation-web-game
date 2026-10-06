@@ -138,5 +138,40 @@
       "interior and people remain code-drawn",
       "adult bed dimensions and fully matched art style pending acceptance"
     ]
+  },
+  "return2d20261007": {
+    "decision": "U-100 / R-29",
+    "version": "yunxiu-2d-return-20261007-r1",
+    "reused": [
+      "dist/assets/estate-v1/core.webp",
+      "dist/assets/estate-v1/life.webp",
+      "dist/assets/estate-v1/outdoor.webp",
+      "dist/yunxiu-courtyard/assets/characters.webp",
+      "dist/assets/map.webp"
+    ],
+    "terrainReference": [
+      "dist/assets/ea-courtyard-ground-v1.png",
+      "dist/assets/map.webp"
+    ],
+    "terrainAssets": [
+      {
+        "path": "dist/assets/estate-v1/nature-20261007.webp",
+        "bytes": 783254,
+        "sha256": "9470160dd9a2a8e7b9aec12c0668c2068bd792c44c91e2cc76245109518a7ec1"
+      },
+      {
+        "path": "dist/assets/estate-v1/meadow-20261007.webp",
+        "bytes": 476466,
+        "sha256": "a14dbd1d68ea6cd20fa26c310156ae53c9c9faa21ae2450981c36c20c110a911"
+      }
+    ],
+    "generation": "built-in image generation; originals retained; WebP encoding only, no pixel edits",
+    "promptSummary": "Use approved original Yunxiu painted materials. Terrain atlas: transparent pine and bamboo plus two sloping mossy cliff edge modules, no buildings, people or paths. Meadow: seamless top-down natural grass and pale earth, no objects, roads or grid.",
+    "characterRegistration": "dist/ea-character-art.mjs",
+    "groundRegistration": "dist/ea-estate-ground-art.mjs",
+    "limitations": [
+      "Original characters have standing, two forward walking frames and one back frame; complete work/rest/combat bodies remain pending.",
+      "Ground remains a single navigable plateau; former rectangular water footprint retained for old-save compatibility."
+    ]
   }
 }

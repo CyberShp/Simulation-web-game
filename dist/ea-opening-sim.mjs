@@ -9,7 +9,7 @@ import {startScenicWalk,scenicPosition,advanceScenic,syncScenicPosition,building
 export * from './ea-sim.mjs';
 import {srEnabled,initSR,validateSR,beforeSRSecond,tickSR,SR_HANDLERS,SR_BODY_COMMANDS} from './ea-sr-runtime.mjs';
 import {executeContractCommand} from './ea-sr-contracts.mjs';
-import {sceneUnits,placementIssue,initBuildingGrid} from './ea-sr-spatial.mjs';
+import {sceneUnits,placementIssue,initBuildingGrid,spatialPrefab,SPATIAL_SCENE} from './ea-sr-spatial.mjs';
 import {BUILDING_GRID,buildingGridEnabled} from './ea-building-grid.mjs';
 import {advanceSRStory} from './ea-sr-story.mjs';
 import {tickCampaignCombat} from './ea-campaign.mjs';
@@ -254,7 +254,9 @@ export {viewBalance} from './ea-sr-balance.mjs';
 
 export function recommendedPlacement(s,type){
  if(!srEnabled(s))return base.CELLS.find(p=>!base.placementLock(s,type,p.x,p.y))||null;
- const step=buildingGridEnabled(s)?BUILDING_GRID.metres:.5,start=buildingGridEnabled(s)?step:1,candidates=[];for(let y=start;y<46;y+=step)for(let x=start;x<62;x+=step)candidates.push({x,y});
+ const d=spatialPrefab({type,level:1,buildingGridVersion:s.spatial?.buildingGridVersion});if(!d)return null;
+ const step=buildingGridEnabled(s)?BUILDING_GRID.metres:SPATIAL_SCENE.grid,start=buildingGridEnabled(s)?step:1,candidates=[];
+ for(let y=start;y+d.height+1<=SPATIAL_SCENE.height-1;y+=step)for(let x=start;x+d.width<=SPATIAL_SCENE.width-1;x+=step)candidates.push({x,y});
  candidates.sort((a,b)=>Math.hypot(a.x-27,a.y-14)-Math.hypot(b.x-27,b.y-14));
  return candidates.find(p=>!placementIssue(s,type,p.x,p.y))||null;
 }

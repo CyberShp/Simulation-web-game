@@ -2,27 +2,27 @@
   "schema_version": 1,
   "registry_id": "SR-XF-2026-10-06",
   "design_baseline": "DB-2026-10-05 v1.2",
-  "updated": "2026-10-06",
+  "updated": "2026-10-07",
   "authoritative": "registry.json for requirement records and task states; derived Markdown rendered by qa/sr-manager.py refresh",
   "source_runtime": {
-    "main": "c77c96b6be45ba8acb60e9101295ab9ae4290dda",
+    "main": "b4f33487a9ee3b9e18dae885328eb500532c1647",
     "runtime_source": "c77c96b6be45ba8acb60e9101295ab9ae4290dda",
-    "pages": "cd66139c6d2aea98093cd28386cc004dbed05dbe",
+    "pages": "cb81de0f7b789c1a054325bf6b621e09f5a1fa8f",
     "game_version": "1.6.0-dev",
     "schema_version": 6,
-    "preview_pages": "cd66139c6d2aea98093cd28386cc004dbed05dbe",
+    "preview_pages": "cb81de0f7b789c1a054325bf6b621e09f5a1fa8f",
     "preview_deployment": "37469792150",
     "working_game_version": "1.6.0-dev",
     "official_game_version": "1.6.0-dev",
-    "version_note": "正式根入口与独立预览已部署U-98方格山院，自动石路撤下、铺路暂缓；1363×936真实网页仅完成有限鼠标检查，完整触屏/设备/FPS及SR关闭门槛仍未通过。",
+    "version_note": "最新已发布基点为U-99；U-100回归正式2.5D与96米扩容本轮集成，发布证据待回填；整项SR未据局部检查关闭。",
     "main_record_type": "runtime source commit; release metadata commit is a descendant",
     "working_release_note": "本轮源码通过GitHub API提交，main后续元数据提交沿同一主线；Pages与源码证据已分别记录。",
     "previous_pages": "c0cb4038fd4a0d7536cbcfaf8755f22e10c01cb5",
     "previous_preview_deployment": "37464500470",
     "pages_deployment_status": "completed/success",
-    "working_release_tag": "ea-160-estate-grid-20261006-r1",
-    "official_release_tag": "ea-160-estate-grid-20261006-r1",
-    "official_url": "https://cybershp.github.io/Simulation-web-game/?v=ea-160-estate-grid-20261006-r1",
+    "working_release_tag": "ea-160-yunxiu-2d-20261007-r1",
+    "official_release_tag": "ea-160-building-units-20261006-r1",
+    "official_url": "https://cybershp.github.io/Simulation-web-game/?v=ea-160-building-units-20261006-r1",
     "deployed_tree_verification": {
       "text_modules": 158,
       "webp_assets": 6,
@@ -474,7 +474,9 @@
         "R-27",
         "U-98",
         "U-99",
-        "R-28"
+        "R-28",
+        "U-100",
+        "R-29"
       ],
       "source_specs": [
         "docs/design/03-SPATIAL-ART.md",
@@ -558,6 +560,10 @@
         {
           "date": "2026-10-06",
           "reason": "U-99将细网格更正为建筑单位格；R-28作者默认2米/格，一级伐木采石2×2、主屋4×4，导航仍0.5米连续移动。整格预制件、显示、摆放、冲突、工位与旧档一次映射共同调整；局部验证和发布分别登记，不关闭整项SR。"
+        },
+        {
+          "date": "2026-10-07",
+          "reason": "U-100固定2.5D、旧云岫人物/建筑资源接回正式U-99主线；R-29山院扩96米，旧64档先校验仅登记extentVersion。人物6/6、扩图9/9、单位格6/6与正常公开链局部通过，真实网页/发布另记STATUS；完整SR保持in_progress，不冒称全动画或全体验完成。"
         }
       ],
       "tasks": [
@@ -673,7 +679,9 @@
         "R-27",
         "U-98",
         "U-99",
-        "R-28"
+        "R-28",
+        "U-100",
+        "R-29"
       ],
       "source_specs": [
         "docs/design/03-SPATIAL-ART.md",
@@ -751,6 +759,10 @@
         {
           "date": "2026-10-06",
           "reason": "U-99将细网格更正为建筑单位格；R-28作者默认2米/格，一级伐木采石2×2、主屋4×4，导航仍0.5米连续移动。整格预制件、显示、摆放、冲突、工位与旧档一次映射共同调整；局部验证和发布分别登记，不关闭整项SR。"
+        },
+        {
+          "date": "2026-10-07",
+          "reason": "U-100固定2.5D、旧云岫人物/建筑资源接回正式U-99主线；R-29山院扩96米，旧64档先校验仅登记extentVersion。人物6/6、扩图9/9、单位格6/6与正常公开链局部通过，真实网页/发布另记STATUS；完整SR保持in_progress，不冒称全动画或全体验完成。"
         }
       ],
       "tasks": [
@@ -866,7 +878,9 @@
         "R-27",
         "U-98",
         "U-99",
-        "R-28"
+        "R-28",
+        "U-100",
+        "R-29"
       ],
       "source_specs": [
         "docs/design/03-SPATIAL-ART.md",
@@ -953,6 +967,10 @@
         {
           "date": "2026-10-06",
           "reason": "U-99将细网格更正为建筑单位格；R-28作者默认2米/格，一级伐木采石2×2、主屋4×4，导航仍0.5米连续移动。整格预制件、显示、摆放、冲突、工位与旧档一次映射共同调整；局部验证和发布分别登记，不关闭整项SR。"
+        },
+        {
+          "date": "2026-10-07",
+          "reason": "U-100固定2.5D、旧云岫人物/建筑资源接回正式U-99主线；R-29山院扩96米，旧64档先校验仅登记extentVersion。人物6/6、扩图9/9、单位格6/6与正常公开链局部通过，真实网页/发布另记STATUS；完整SR保持in_progress，不冒称全动画或全体验完成。"
         }
       ],
       "tasks": [
@@ -1069,7 +1087,9 @@
         "U-97",
         "R-27",
         "U-99",
-        "R-28"
+        "R-28",
+        "U-100",
+        "R-29"
       ],
       "source_specs": [
         "docs/design/03-SPATIAL-ART.md",
@@ -1151,6 +1171,10 @@
         {
           "date": "2026-10-06",
           "reason": "U-99将细网格更正为建筑单位格；R-28作者默认2米/格，一级伐木采石2×2、主屋4×4，导航仍0.5米连续移动。整格预制件、显示、摆放、冲突、工位与旧档一次映射共同调整；局部验证和发布分别登记，不关闭整项SR。"
+        },
+        {
+          "date": "2026-10-07",
+          "reason": "U-100固定2.5D、旧云岫人物/建筑资源接回正式U-99主线；R-29山院扩96米，旧64档先校验仅登记extentVersion。人物6/6、扩图9/9、单位格6/6与正常公开链局部通过，真实网页/发布另记STATUS；完整SR保持in_progress，不冒称全动画或全体验完成。"
         }
       ],
       "tasks": [
@@ -1263,7 +1287,9 @@
         "U-94",
         "U-96",
         "U-97",
-        "R-27"
+        "R-27",
+        "U-100",
+        "R-29"
       ],
       "source_specs": [
         "docs/design/01-CHARACTERS.md",
@@ -1333,6 +1359,10 @@
         {
           "date": "2026-10-06",
           "reason": "回填主集成/独立验收确认的本轮组件和正常公开命令旧档结果；保留浏览器不可用、床体过短、混合画风的视觉缺口；闭屋后墙及两类田地已修复，并经最终Canvas快照静态读图复核。上述局部通过不提升SR整体状态，gh-pages可试玩开发版已成功部署，本轮源码main待确认；完整SR门槛仍未通过。"
+        },
+        {
+          "date": "2026-10-07",
+          "reason": "U-100固定2.5D、旧云岫人物/建筑资源接回正式U-99主线；R-29山院扩96米，旧64档先校验仅登记extentVersion。人物6/6、扩图9/9、单位格6/6与正常公开链局部通过，真实网页/发布另记STATUS；完整SR保持in_progress，不冒称全动画或全体验完成。"
         }
       ],
       "tasks": [
@@ -5158,7 +5188,9 @@
         "U-95",
         "U-96",
         "U-97",
-        "R-27"
+        "R-27",
+        "U-100",
+        "R-29"
       ],
       "source_specs": [
         "docs/design/01-CHARACTERS.md",
@@ -5231,6 +5263,10 @@
         {
           "date": "2026-10-06",
           "reason": "回填主集成/独立验收确认的本轮组件和正常公开命令旧档结果；保留浏览器不可用、床体过短、混合画风的视觉缺口；闭屋后墙及两类田地已修复，并经最终Canvas快照静态读图复核。上述局部通过不提升SR整体状态，gh-pages可试玩开发版已成功部署，本轮源码main待确认；完整SR门槛仍未通过。"
+        },
+        {
+          "date": "2026-10-07",
+          "reason": "U-100固定2.5D、旧云岫人物/建筑资源接回正式U-99主线；R-29山院扩96米，旧64档先校验仅登记extentVersion。人物6/6、扩图9/9、单位格6/6与正常公开链局部通过，真实网页/发布另记STATUS；完整SR保持in_progress，不冒称全动画或全体验完成。"
         }
       ],
       "tasks": [
@@ -5340,7 +5376,9 @@
         "U-63",
         "U-93",
         "R-25",
-        "U-94"
+        "U-94",
+        "U-100",
+        "R-29"
       ],
       "source_specs": [
         "docs/design/02-EQUIPMENT-ARTS.md",
@@ -5407,6 +5445,10 @@
         {
           "date": "2026-10-06",
           "reason": "用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。"
+        },
+        {
+          "date": "2026-10-07",
+          "reason": "U-100固定2.5D、旧云岫人物/建筑资源接回正式U-99主线；R-29山院扩96米，旧64档先校验仅登记extentVersion。人物6/6、扩图9/9、单位格6/6与正常公开链局部通过，真实网页/发布另记STATUS；完整SR保持in_progress，不冒称全动画或全体验完成。"
         }
       ],
       "tasks": [
