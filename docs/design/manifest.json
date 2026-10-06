@@ -958,7 +958,7 @@
     "deploymentStatus": "completed/success",
     "releaseTag": "ea-160-estate-art-20261006-r1",
     "url": "https://cybershp.github.io/Simulation-web-game/?v=ea-160-estate-art-20261006-r1",
-    "sourceMainStatus": "pending current runtime source upload; registry main/runtime_source identify previous source revision",
+    "sourceMainStatus": "runtime source uploaded and metadata recorded on descendant main commit",
     "verification": {
       "uiComponentTests": {
         "passed": 39,
@@ -1013,6 +1013,7 @@
       "床体0.6x0.9逻辑米不足成人卧躺；仅真实抵达床边工位后半坐歇息，完整睡眠动画未完成",
       "SR003–007及029开发/验收保持in_progress，开发版发布不关闭SR"
     ],
-    "evidencePolicy": "Do not upload screenshots, save dumps or QA process artifacts; retain source, required art, docs and reusable checks only"
+    "evidencePolicy": "Do not upload screenshots, save dumps or QA process artifacts; retain source, required art, docs and reusable checks only",
+    "runtimeSourceCommit": "6e1aba828c79baf2429d2c24e38664940fc9321a"
   }
 }

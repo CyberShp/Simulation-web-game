@@ -5,8 +5,8 @@
   "updated": "2026-10-06",
   "authoritative": "registry.json for requirement records and task states; derived Markdown rendered by qa/sr-manager.py refresh",
   "source_runtime": {
-    "main": "ae1d771444ac841f9565a8823636cd28c7d26926",
-    "runtime_source": "ae1d771444ac841f9565a8823636cd28c7d26926",
+    "main": "6e1aba828c79baf2429d2c24e38664940fc9321a",
+    "runtime_source": "6e1aba828c79baf2429d2c24e38664940fc9321a",
     "pages": "c0cb4038fd4a0d7536cbcfaf8755f22e10c01cb5",
     "game_version": "1.6.0-dev",
     "schema_version": 6,
@@ -16,7 +16,7 @@
     "official_game_version": "1.6.0-dev",
     "version_note": "正式根入口与独立预览已部署山院模块美术可试玩开发版；Pages成功不自动关闭SR，旧浏览器证据不作为本轮证据。",
     "main_record_type": "runtime source commit; release metadata commit is a descendant",
-    "working_release_note": "Pages本轮部署completed/success；本轮源码main API上传待主集成完成，main/runtime_source旧SHA仅为上一版源码记录，不是本轮提交。",
+    "working_release_note": "本轮源码通过GitHub API提交，main后续元数据提交沿同一主线；Pages与源码证据已分别记录。",
     "previous_pages": "7d16d54c0d7d0ecd591e0c8e84952b00e3a674ba",
     "previous_preview_deployment": "37453110511",
     "pages_deployment_status": "completed/success",
@@ -27,7 +27,8 @@
       "text_modules": 158,
       "webp_assets": 3,
       "sha_matches_local_package": true
-    }
+    },
+    "previous_runtime_source": "ae1d771444ac841f9565a8823636cd28c7d26926"
   },
   "enums": {
     "scope": [
