@@ -9,7 +9,8 @@ import {startScenicWalk,scenicPosition,advanceScenic,syncScenicPosition,building
 export * from './ea-sim.mjs';
 import {srEnabled,initSR,validateSR,beforeSRSecond,tickSR,SR_HANDLERS,SR_BODY_COMMANDS} from './ea-sr-runtime.mjs';
 import {executeContractCommand} from './ea-sr-contracts.mjs';
-import {sceneUnits,placementIssue} from './ea-sr-spatial.mjs';
+import {sceneUnits,placementIssue,initBuildingGrid} from './ea-sr-spatial.mjs';
+import {BUILDING_GRID,buildingGridEnabled} from './ea-building-grid.mjs';
 import {advanceSRStory} from './ea-sr-story.mjs';
 import {tickCampaignCombat} from './ea-campaign.mjs';
 import {teachingQualificationSR} from './ea-sr-cultivation.mjs';
@@ -60,7 +61,7 @@ function validateOpeningRecords(s){
 }
 
 export function validateSave(input,{upgrade=false}={}){
- if(srEnabled(input)){validateV6Shape(input);const s=cloneState(input);base.validateSave(legacyProjection(s),{canonical:true});validateOpeningRecords(s);validateFacilityActivities(s);validateRainArtisan(s);return hydrateState(validateSR(s));}
+ if(srEnabled(input)){validateV6Shape(input);const s=cloneState(input);base.validateSave(legacyProjection(s),{canonical:true});validateOpeningRecords(s);validateFacilityActivities(s);validateRainArtisan(s);validateSR(s);initBuildingGrid(s);validateFacilityActivities(s);return hydrateState(validateSR(s));}
  if(input?.schemaVersion===undefined){
   const old=base.validateSave(input);
   const migrated=migrateState(old,{sourceVersion:input.version});migrated.rulesetVersion='opening-runtime-2';return validateSave(migrated,{upgrade});
@@ -244,15 +245,16 @@ export function dispatchCommand(s,{name,args=[],id=`command:${s.transactions.nex
  return {state:validateSave(next),result,replayed:false};
 }
 
-export function placementLock(s,type,x,y,ignoreId=null){return srEnabled(s)?placementIssue(s,type,x,y,{ignoreId}):base.placementLock(s,type,x,y,ignoreId);}
+export function placementLock(s,type,x,y,ignoreId=null,level=1){return srEnabled(s)?placementIssue(s,type,x,y,{ignoreId,level}):base.placementLock(s,type,x,y,ignoreId);}
 
 export {spatialEnabled,viewSpatial,PREFAB_CATALOG,placementIssue,sceneUnits} from './ea-sr-spatial.mjs';
+export {BUILDING_GRID,buildingGridEnabled,buildingCellSize,buildingCellLabel,snapBuildingPoint} from './ea-building-grid.mjs';
 
 export {viewBalance} from './ea-sr-balance.mjs';
 
 export function recommendedPlacement(s,type){
  if(!srEnabled(s))return base.CELLS.find(p=>!base.placementLock(s,type,p.x,p.y))||null;
- const candidates=[];for(let y=1;y<46;y+=.5)for(let x=1;x<62;x+=.5)candidates.push({x,y});
+ const step=buildingGridEnabled(s)?BUILDING_GRID.metres:.5,start=buildingGridEnabled(s)?step:1,candidates=[];for(let y=start;y<46;y+=step)for(let x=start;x<62;x+=step)candidates.push({x,y});
  candidates.sort((a,b)=>Math.hypot(a.x-27,a.y-14)-Math.hypot(b.x-27,b.y-14));
  return candidates.find(p=>!placementIssue(s,type,p.x,p.y))||null;
 }

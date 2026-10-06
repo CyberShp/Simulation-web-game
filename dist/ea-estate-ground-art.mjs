@@ -5,6 +5,7 @@
  * grid visible and postpones paving; this module never finds paths or advances time.
  */
 import {SPATIAL_TERRAIN,SPATIAL_SCENE} from './ea-sr-spatial.mjs';
+import {BUILDING_GRID} from './ea-building-grid.mjs';
 
 const TAU=Math.PI*2;
 const clamp=(n,min=0,max=1)=>Math.max(min,Math.min(max,n));
@@ -176,16 +177,16 @@ function drawWater(ctx,c,project,terrain){
 
 /** U-98: common land cells, not predetermined building/function slots. */
 function drawGroundCells(ctx,c,project){
- const step=SPATIAL_SCENE.grid,extent=SPATIAL_SCENE.width;
+ const step=BUILDING_GRID.metres,extent=SPATIAL_SCENE.width;
  const fade=Math.min(1,Math.max(.35,c.scale/32));
  // Cache this tile layer with the terrain. Cull outside the viewport rather
- // than painting all 16,384 cells on every camera/geometry rebuild.
+ // than painting all 1,024 construction cells on every camera/geometry rebuild.
  for(let row=0;row<extent/step;row++)for(let col=0;col<extent/step;col++){
   const x=col*step,y=row*step,q=project({x:x+step/2,y:y+step/2},c);
   if(!visible(q,c,c.scale*step+3))continue;
   poly(ctx,rect(x,y,step,step),c,project,(row+col)%2?'#b6c39528':'#73865a18');
  }
- ctx.strokeStyle=`rgba(77,96,63,${.32*fade})`;ctx.lineWidth=.65;ctx.beginPath();
+ ctx.strokeStyle=`rgba(77,96,63,${.45*fade})`;ctx.lineWidth=.9;ctx.beginPath();
  for(let n=0;n<=extent+1e-6;n+=step){
   const a=project({x:n,y:0},c),b=project({x:n,y:extent},c),d=project({x:0,y:n},c),e=project({x:extent,y:n},c);
   ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.moveTo(d.x,d.y);ctx.lineTo(e.x,e.y);

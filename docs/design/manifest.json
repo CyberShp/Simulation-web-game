@@ -294,7 +294,7 @@
     "initialTicksPerDay": 1200,
     "dayLengthStatus": "tunable",
     "worldUnit": "logical-meter",
-    "terrainCellWorldUnits": 0.5,
+    "terrainCellWorldUnits": 2,
     "conditionRange": [
       0,
       1
@@ -427,7 +427,9 @@
       "hazardsById",
       "deathRecordsByPersonId"
     ],
-    "targetContentVersion": "opening-v1.2"
+    "targetContentVersion": "opening-v1.2",
+    "navigationCellWorldUnits": 0.5,
+    "constructionGridDecision": "U-99/R-28"
   },
   "execution": {
     "scopeThisDelivery": "documentation-only",
@@ -1063,6 +1065,78 @@
       "existingWebpAssets": 6,
       "estateWebpAssets": 3,
       "shaMatchesLocalPackage": true
-    }
+    },
+    "supersededBy": "U-99 / estateBuildingUnits"
+  },
+  "estateBuildingUnits": {
+    "date": "2026-10-06",
+    "decision": "U-99",
+    "authorDefault": "R-28",
+    "version": "building-units-1",
+    "unitMetres": 2,
+    "navigationMetres": 0.5,
+    "levelOneCells": {
+      "hall": [
+        4,
+        4
+      ],
+      "farm": [
+        2,
+        2
+      ],
+      "lumber": [
+        2,
+        2
+      ],
+      "quarry": [
+        2,
+        2
+      ],
+      "house": [
+        3,
+        3
+      ],
+      "meditation": [
+        3,
+        3
+      ],
+      "alchemy": [
+        3,
+        3
+      ],
+      "library": [
+        3,
+        3
+      ],
+      "well": [
+        1,
+        1
+      ],
+      "granary": [
+        2,
+        2
+      ],
+      "kitchen": [
+        3,
+        3
+      ],
+      "clinic": [
+        3,
+        3
+      ],
+      "workshop": [
+        3,
+        3
+      ],
+      "watchtower": [
+        2,
+        2
+      ]
+    },
+    "upgrade": "one additional column and row per level",
+    "paving": "deferred",
+    "migration": "validated isolated copy, nearest legal cells, identities/progress/materials/time/RNG retained",
+    "verification": "in_progress",
+    "releaseStatus": "pending"
   }
 }
