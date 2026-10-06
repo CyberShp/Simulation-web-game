@@ -84,3 +84,6 @@ label:has(input[type=checkbox]),label:has(input[type=radio]){min-height:44px}
 .sr-card .sr-form label:has(input[type=checkbox]){display:flex;align-items:center;gap:10px;cursor:pointer}
 .sr-card input[type=checkbox]{flex:0 0 20px;width:20px;min-height:20px;accent-color:var(--green)}
 .sr-card .sr-form label:has(input[type=checkbox]) input{min-height:20px!important}
+
+/* A floating HUD parent is click-through; its explicit controls must opt in. */
+.system-overview{pointer-events:auto;touch-action:manipulation}

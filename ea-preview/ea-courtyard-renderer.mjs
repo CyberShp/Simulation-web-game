@@ -1,16 +1,16 @@
-import {BUILDINGS} from './ea-data.mjs?v=ea-160-sr-qa-20261006-r2';
-import {spatialEnabled,spatialProject,spatialUnproject,spatialPrefab,spatialTransform,spatialAccess,spatialFootprint,polygonContains,SPATIAL_TERRAIN,placementIssue,viewSpatial} from './ea-sr-spatial.mjs?v=ea-160-sr-qa-20261006-r2';
-import {hallInterior,indoorBuildingAt,indoorRoofOpen} from './ea-hall-interior.mjs?v=ea-160-sr-qa-20261006-r2';
-import {constructionView} from './ea-construction-view.mjs?v=ea-160-sr-qa-20261006-r2';
-import {personHitCandidates} from './ea-scene-picking.mjs?v=ea-160-sr-qa-20261006-r2';
-import {createWorldRenderer as createPlanRenderer} from './ea-renderer.mjs?v=ea-160-sr-qa-20261006-r2';
-import {WIDTH,HEIGHT,point,LANDMARKS,inPolygon} from '../yunxiu-courtyard/navigation.mjs?v=ea-160-sr-qa-20261006-r2';
-import {foreground} from './ea-foreground.mjs?v=ea-160-sr-qa-20261006-r2';
-import {appearance,scenicPosition,advanceScenic,repairScenicActor} from './ea-scenic.mjs?v=ea-160-sr-qa-20261006-r2';
-import {facilityRecords,courtyardDestination,scenicHomeActors} from './ea-scene-state.mjs?v=ea-160-sr-qa-20261006-r2';
-import {SCENIC_PLOTS,SCENE_ROADS,scenicPoint,scenicInverse,scenicNearest,scenicFindPath,scenicDistance,scenicCanStand,geometryRevision,facilityHit,plotPolygon,buildingVisual,buildingAccess} from './ea-scene-geometry.mjs?v=ea-160-sr-qa-20261006-r2';
-import {createAssetLoader} from './ea-runtime.mjs?v=ea-160-sr-qa-20261006-r2';
-import fallbackMeta from './ea-character-frames.mjs?v=ea-160-sr-qa-20261006-r2';
+import {BUILDINGS} from './ea-data.mjs?v=ea-160-sr-qa-20261006-r3';
+import {spatialEnabled,spatialProject,spatialUnproject,spatialPrefab,spatialTransform,spatialAccess,spatialFootprint,polygonContains,SPATIAL_TERRAIN,placementIssue,viewSpatial} from './ea-sr-spatial.mjs?v=ea-160-sr-qa-20261006-r3';
+import {hallInterior,indoorBuildingAt,indoorRoofOpen} from './ea-hall-interior.mjs?v=ea-160-sr-qa-20261006-r3';
+import {constructionView} from './ea-construction-view.mjs?v=ea-160-sr-qa-20261006-r3';
+import {personHitCandidates} from './ea-scene-picking.mjs?v=ea-160-sr-qa-20261006-r3';
+import {createWorldRenderer as createPlanRenderer} from './ea-renderer.mjs?v=ea-160-sr-qa-20261006-r3';
+import {WIDTH,HEIGHT,point,LANDMARKS,inPolygon} from '../yunxiu-courtyard/navigation.mjs?v=ea-160-sr-qa-20261006-r3';
+import {foreground} from './ea-foreground.mjs?v=ea-160-sr-qa-20261006-r3';
+import {appearance,scenicPosition,advanceScenic,repairScenicActor} from './ea-scenic.mjs?v=ea-160-sr-qa-20261006-r3';
+import {facilityRecords,courtyardDestination,scenicHomeActors} from './ea-scene-state.mjs?v=ea-160-sr-qa-20261006-r3';
+import {SCENIC_PLOTS,SCENE_ROADS,scenicPoint,scenicInverse,scenicNearest,scenicFindPath,scenicDistance,scenicCanStand,geometryRevision,facilityHit,plotPolygon,buildingVisual,buildingAccess} from './ea-scene-geometry.mjs?v=ea-160-sr-qa-20261006-r3';
+import {createAssetLoader} from './ea-runtime.mjs?v=ea-160-sr-qa-20261006-r3';
+import fallbackMeta from './ea-character-frames.mjs?v=ea-160-sr-qa-20261006-r3';
 
 export function createWorldRenderer(canvas,options){
  if(spatialEnabled(options.getState()))return createMetreRenderer(canvas,options);
@@ -136,7 +136,7 @@ function createMetreRenderer(canvas,options){
  const ctx=canvas.getContext('2d'),pan={x:0,y:0};let zoom=1,overview=false,planning=false,hover=null,anchor=null,scene='map',atlas=null,destroyed=false;const initial=getState().master.scenic||{x:27,y:10},centre={x:initial.x,y:initial.y};
  const assets=createAssetLoader({loaders:{people:({signal}={})=>new Promise((resolve,reject)=>{const im=new Image();im.onload=()=>resolve(im);im.onerror=()=>reject(Error('人物分层素材加载失败'));signal?.addEventListener('abort',()=>reject(Error('人物素材加载超时')),{once:true});im.src=new URL('../yunxiu-courtyard/assets/characters.webp',import.meta.url).href;})},onChange:status=>{atlas=assets.get('people');onLoad(status.failed.map(f=>f.id));}});
  const ready=assets.load().then(status=>{resize();return status;});
- const camera=()=>{const w=canvas.clientWidth||800,h=canvas.clientHeight||600,scale=overview?Math.min(w/64,h/(64*.65))*.92:32*zoom;return{w,h,scale,depth:.65,ox:w/2-centre.x*scale+pan.x,oy:h/2-centre.y*scale*.65+pan.y};};
+ const camera=()=>{const w=canvas.clientWidth||800,h=canvas.clientHeight||600,scale=overview?Math.min(w/64,h/(64*.65))*.92:32*zoom,s=getState(),local=getLocalScene(s),home=!options.getCampaignScene?.(s)&&(!local?.scene||['scene:yunxiu','scene:yunxiu-courtyard'].includes(local.scene.id));let ox=w/2-centre.x*scale+pan.x,oy=h/2-centre.y*scale*.65+pan.y;if(home){ox=64*scale>=w?Math.min(0,Math.max(w-64*scale,ox)):(w-64*scale)/2;oy=64*scale*.65>=h?Math.min(0,Math.max(h-64*scale*.65,oy)):(h-64*scale*.65)/2;}return{w,h,scale,depth:.65,ox,oy};};
  function syncBitmap(){const {w,h}=camera(),dpr=Math.max(1,Math.min(Number(globalThis.devicePixelRatio)||1,1.75)),width=Math.max(1,Math.round(w*dpr)),height=Math.max(1,Math.round(h*dpr));if(canvas.width!==width)canvas.width=width;if(canvas.height!==height)canvas.height=height;ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';}
  function resize(){syncBitmap();return render(0,true);}
  const css=e=>{const r=canvas.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top};};

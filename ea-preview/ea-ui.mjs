@@ -1,13 +1,13 @@
-import {portraitDataURL} from './ea-courtyard-renderer.mjs?v=ea-160-sr-qa-20261006-r2';
-import {renderSRPanel,dialogueSettings,srFormArguments} from './ea-sr-ui.mjs?v=ea-160-sr-qa-20261006-r2';
-import {createDialogueAI} from './ea-sr-ai.mjs?v=ea-160-sr-qa-20261006-r2';
-import {REGION_ART} from './ea-region-art.mjs?v=ea-160-sr-qa-20261006-r2';
-import {appearance} from './ea-scenic.mjs?v=ea-160-sr-qa-20261006-r2';
-import {facilityRecords,nextObjective,routeDiscovered} from './ea-scene-state.mjs?v=ea-160-sr-qa-20261006-r2';
-import {sceneInteractionOptions,sceneInteractionTarget} from './ea-interactions.mjs?v=ea-160-sr-qa-20261006-r2';
-import {narrativeForState,sceneDialogue,regionInteractions,homeInteractions} from './ea-narrative.mjs?v=ea-160-sr-qa-20261006-r2';
-import * as SIM from './ea-opening-sim.mjs?v=ea-160-sr-qa-20261006-r2';
-import {onboardingView,availableSystems,resourceReserve,resumeSummary} from './ea-onboarding.mjs?v=ea-160-sr-qa-20261006-r2';
+import {portraitDataURL} from './ea-courtyard-renderer.mjs?v=ea-160-sr-qa-20261006-r3';
+import {renderSRPanel,dialogueSettings,srFormArguments} from './ea-sr-ui.mjs?v=ea-160-sr-qa-20261006-r3';
+import {createDialogueAI} from './ea-sr-ai.mjs?v=ea-160-sr-qa-20261006-r3';
+import {REGION_ART} from './ea-region-art.mjs?v=ea-160-sr-qa-20261006-r3';
+import {appearance} from './ea-scenic.mjs?v=ea-160-sr-qa-20261006-r3';
+import {facilityRecords,nextObjective,routeDiscovered} from './ea-scene-state.mjs?v=ea-160-sr-qa-20261006-r3';
+import {sceneInteractionOptions,sceneInteractionTarget} from './ea-interactions.mjs?v=ea-160-sr-qa-20261006-r3';
+import {narrativeForState,sceneDialogue,regionInteractions,homeInteractions} from './ea-narrative.mjs?v=ea-160-sr-qa-20261006-r3';
+import * as SIM from './ea-opening-sim.mjs?v=ea-160-sr-qa-20261006-r3';
+import {onboardingView,availableSystems,resourceReserve,resumeSummary} from './ea-onboarding.mjs?v=ea-160-sr-qa-20261006-r3';
 
 const E = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
 const n = value => Number.isFinite(Number(value)) ? Number(value) : 0;
@@ -390,7 +390,7 @@ export function createEAUI(api) {
     dialogueDisable:()=>{dialogueAI.configure({enabled:false});render();safeToast('已关闭表达服务，基础玩法继续。');},dialogueClear:()=>{dialogueAI.clearKey();render();safeToast('已清除临时密钥。');},
     dialogueGreet:async()=>{const s=getState(),revision=s.worldTick??s.revision??0;const result=await dialogueAI.express({id:'greeting:master',revision,contentVersion:s.contentVersion,speakerId:'person:master',recipientId:'person:master',template:'愿君今日安好。',allowedExpressions:['愿君今日安好。','愿君今日顺遂安好。'],facts:[],claims:[]});const el=$('#sr-ai-response');if(el)el.textContent=`${result.text} ${result.reason}`;},
     trade:(id,side,expectedDay,batches=1)=>{const reserve=resourceReserve(getState());if(id==='herb'&&side==='sell'&&reserve&&getState().resources.herb-10*batches<reserve){open('灵草尚有眼前用途',`<p>卖出后将不足当前阶段建议保留的 ${reserve} 份灵草。疗伤需 6 份，赠药需 10 份。</p><p>仍可出售；之后请采药补足，主线不会丢失。</p>${btn('保留药材','closeModal',[],{full:true})}${btn('仍然出售，之后采药','confirmReservedTrade',[id,side,expectedDay,batches],{className:'primary',full:true})}`);}else act('trade',id,side,expectedDay,batches);},confirmReservedTrade:(...args)=>{if(act('trade',...args)!==null)close();},
-    allSystems:()=>{ui.allSystems=!ui.allSystems;render();safeToast(ui.allSystems?'已展开全部管理入口；暂未满足的条件仍会注明。':'系统入口随当前进度展示。');},
+    allSystems:()=>{ui.allSystems=!ui.allSystems;ui.folded=false;render();safeToast(ui.allSystems?'已展开全部管理入口；暂未满足的条件仍会注明。':'系统入口随当前进度展示。');},
     observeWork:(buildingId,personId)=>{api.observeWork?.(buildingId,personId);ui.folded=true;render();},resumeObjective:()=>{close();if(getState().combat?.status==='active'){api.selectScene?.('journey');ui.folded=true;render();safeToast('战斗保持暂停，准备好后点击继续。');}else guideNext();},
     narrativeRead:id=>{const d=sceneDialogue(getState(),id);if(d)openNarrative(id,d.cursor,d.acknowledged);},narrativePage:openNarrative,narrativeFinish:(id,review)=>{if(review||act('acknowledgeNarrative',id)!==null)close();},narrativeReview:id=>openNarrative(id,0,true),
     regionApproach:()=>{close();api.approachRegion?.();},regionChoice:id=>{if(act('resolveExploration',id)!==null){close();ui.folded=true;render();}},regionReturn:()=>{if(act('leaveRegion')!==null)close();},homeChoice:args=>{const previous=getState().story.step;if(act('advanceStory',...args)!==null){if((previous===0||previous===1)&&getState().story.step===1)openHomeInteraction();else close();}},
