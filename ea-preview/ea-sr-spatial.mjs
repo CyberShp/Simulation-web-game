@@ -1,7 +1,7 @@
-import {finalizeBuildingChange,releaseBodyActivity} from './ea-facility-activities.mjs?v=ea-160-sr-qa-20261006-r1';
+import {finalizeBuildingChange,releaseBodyActivity} from './ea-facility-activities.mjs?v=ea-160-sr-qa-20261006-r2';
 /** SR-XF-003–006: metre space and persistent, on-site construction transactions. */
-import {scenicPoint} from './ea-scene-geometry.mjs?v=ea-160-sr-qa-20261006-r1';
-import {BUILDINGS,log as gameLog} from './ea-data.mjs?v=ea-160-sr-qa-20261006-r1';
+import {scenicPoint} from './ea-scene-geometry.mjs?v=ea-160-sr-qa-20261006-r2';
+import {BUILDINGS,log as gameLog} from './ea-data.mjs?v=ea-160-sr-qa-20261006-r2';
 export const SPATIAL_VERSION='spatial-metres-1';
 export const SPATIAL_SCENE=Object.freeze({id:'scene:yunxiu-courtyard',width:64,height:64,grid:.5,personRadius:.26,pixelsPerMetre:32,depth:.65});
 export const spatialEnabled=s=>s?.spatial?.version===SPATIAL_VERSION;
@@ -71,7 +71,7 @@ export function placementIssue(s,type,x,y,{ignoreId=null,level=1,checkPeople=tru
  const b={type,level,transform:{x,y,orientation:'south'}},r=footprintRect(b),poly=spatialFootprint(b);
  if(x<1||y<1||x+r.w>63||y+r.h+1>63)return '此处超出可建边界或未留门外通道。';
  for(const t of SPATIAL_TERRAIN){const xs=t.polygon.map(p=>p[0]),ys=t.polygon.map(p=>p[1]);if(overlaps(r,{x:Math.min(...xs),y:Math.min(...ys),w:Math.max(...xs)-Math.min(...xs),h:Math.max(...ys)-Math.min(...ys)}))return `${t.label}不能营造。`;}
- for(const old of s.buildings||[]){if(old.id===ignoreId)continue;if(overlaps(r,footprintRect(old)))return `与${BUILDINGS[old.type].name}（${old.id}）占地冲突。`;if(polygonContains(spatialAccess(old),poly,.65))return `挡住${BUILDINGS[old.type].name}入口与门外通路。`;}
+ for(const old of s.buildings||[]){if(old.id===ignoreId)continue;if(overlaps(r,footprintRect(old)))return `与${BUILDINGS[old.type].name}（${old.id}）占地冲突。`;if(polygonContains(spatialAccess(old),poly,.65))return `挡住${BUILDINGS[old.type].name}入口与门外通路。`;if(polygonContains(spatialAccess(b),spatialFootprint(old),.65))return `${BUILDINGS[old.type].name}占地挡住新设施入口与门外通路。`;}
  if(checkReservations)for(const o of Object.values(s.workOrdersById||{})){if(o.kind!=='construction'||!o.spatial||['cancelled','completed'].includes(o.phase)||o.targetId===`building:yunxiu:${ignoreId}`||o.operation==='demolish')continue;const planned={type:o.buildingType,level:o.targetLevel,transform:o.targetTransform};if(overlaps(r,footprintRect(planned)))return '该位置已有施工预约。';}
  if(checkPeople)for(const p of people(s)){const q=personPosition(s,p);if(q&&polygonContains(q,poly,.26))return `${p.name||p.personId}正在此处，请等其走开。`;}
  if(!checkConnectivity)return '';

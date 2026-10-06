@@ -1,7 +1,7 @@
 /** SR-XF-013. Timed commands replace instant UI actions; campaign owns damage. */
-import {combatCanStand,combatPath,combatClearLine,combatGeometryId,moveCombatActor} from './ea-combat-geometry.mjs?v=ea-160-sr-qa-20261006-r1';
-import {requirePerson,reserveBody,ownedActivity,releaseSRBody,equippedItems,EQUIPMENT_DEFINITIONS,equipmentThemeView,EQUIPMENT_THEME,activateEquipmentTheme,equipmentCombatBenefits,recordBindingPractice} from './ea-sr-equipment.mjs?v=ea-160-sr-qa-20261006-r1';
-import {recordArtPractice} from './ea-sr-cultivation.mjs?v=ea-160-sr-qa-20261006-r1';
+import {combatCanStand,combatPath,combatClearLine,combatGeometryId,moveCombatActor} from './ea-combat-geometry.mjs?v=ea-160-sr-qa-20261006-r2';
+import {requirePerson,reserveBody,ownedActivity,releaseSRBody,equippedItems,EQUIPMENT_DEFINITIONS,equipmentThemeView,EQUIPMENT_THEME,activateEquipmentTheme,equipmentCombatBenefits,recordBindingPractice} from './ea-sr-equipment.mjs?v=ea-160-sr-qa-20261006-r2';
+import {recordArtPractice} from './ea-sr-cultivation.mjs?v=ea-160-sr-qa-20261006-r2';
 let hooks={};
 export function configureSRCombat(next={}){hooks={...hooks,...next};}
 export const COMBAT_ACTIONS=Object.freeze({

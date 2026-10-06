@@ -1,9 +1,9 @@
 /** SR-XF-012/018/033. One item location, one body activity, worldTick only. */
-import {canPay,pay,grant} from './ea-data.mjs?v=ea-160-sr-qa-20261006-r1';
-import {buildingAccess,scenicFindPath,geometryRevision,scenicDistance} from './ea-scene-geometry.mjs?v=ea-160-sr-qa-20261006-r1';
-import {advanceScenic,syncScenicPosition} from './ea-scenic.mjs?v=ea-160-sr-qa-20261006-r1';
-import {sceneUnits} from './ea-sr-spatial.mjs?v=ea-160-sr-qa-20261006-r1';
-import {facilitySlots,slotReservation,slotById} from './ea-facility-slots.mjs?v=ea-160-sr-qa-20261006-r1';
+import {canPay,pay,grant,RESOURCES} from './ea-data.mjs?v=ea-160-sr-qa-20261006-r2';
+import {buildingAccess,scenicFindPath,geometryRevision,scenicDistance} from './ea-scene-geometry.mjs?v=ea-160-sr-qa-20261006-r2';
+import {advanceScenic,syncScenicPosition} from './ea-scenic.mjs?v=ea-160-sr-qa-20261006-r2';
+import {sceneUnits} from './ea-sr-spatial.mjs?v=ea-160-sr-qa-20261006-r2';
+import {facilitySlots,slotReservation,slotById} from './ea-facility-slots.mjs?v=ea-160-sr-qa-20261006-r2';
 
 let hooks={};
 export function configureEquipment(next={}){hooks={...hooks,...next};}
@@ -25,7 +25,18 @@ export function requirePerson(s,id='person:master'){const p=s.personsById?.[id];
 export function requirePlayer(id){if(id!=='person:master')throw Error('玩家仅直接控制掌门；门人须自主接受机会。');}
 export function reserveBody(s,p,kind,orderId){if(p.activityId&&s.activitiesById[p.activityId])throw Error('身体已有活动，先完成或取消。');const id=`activity:${kind}:${p.personId}`;s.activitiesById[id]={id,kind:`sr-${kind}`,personId:p.personId,orderId,phase:'moving',startedTick:s.worldTick};p.activityId=id;personMind(p).action='rest';return s.activitiesById[id];}
 export function releaseSRBody(s,p){if(!p)return;const a=ownedActivity(s,p);if(!a)return;if(a.reservationId)delete s.reservationsById[a.reservationId];delete s.activitiesById[a.id];p.activityId=null;const m=personMind(p);if(m.scenic){m.scenic.path=[];m.scenic.goal=null;}}
-export function spendResources(s,cost){if(!canPay(s,cost))throw Error('材料不足：'+Object.entries(cost).map(([k,v])=>`${k} ${v}`).join('、'));pay(s,cost);}
+export function resourceSource(s,personId='person:master'){
+ const p=s.personsById?.[personId],loc=p?.location||p?.position;
+ if(s.srWorld&&loc?.sceneId&&loc.sceneId!=='scene:yunxiu-courtyard'){
+  if(loc.kind==='travel'||p.journey?.status==='traveling')throw Error('尚在途中，物资不可同时使用。');
+  if(personId!=='person:master'&&!Object.values(s.travelsById||{}).some(t=>t.status==='arrived'&&t.destination===loc.sceneId&&t.participantIds.includes(personId)))throw Error('外援未接受同行物资预算。');
+  const st=s.stockpilesById?.['stockpile:sr-party'];if(!st||st.position?.sceneId!==loc.sceneId)throw Error('身边没有实际携带的物资；不能使用远方公库。');return st;
+ }
+ return {id:'stockpile:yunxiu',resources:s.resources};
+}
+export function spendResources(s,cost,personId='person:master'){const st=resourceSource(s,personId);if(Object.entries(cost).some(([k,v])=>!Object.hasOwn(RESOURCES,k)||!Number.isFinite(v)||v<0||!Number.isFinite(st.resources[k])||st.resources[k]<v))throw Error('身边材料不足：'+Object.entries(cost).map(([k,v])=>`${RESOURCES[k]||k} ${v}`).join('、'));if(st.id==='stockpile:yunxiu')pay(s,cost);else for(const[k,v]of Object.entries(cost))st.resources[k]-=v;return st.id;}
+export function refundResources(s,cost,sourceStockpileId='stockpile:yunxiu'){if(sourceStockpileId==='stockpile:yunxiu'){grant(s,cost);return;}const st=s.stockpilesById?.[sourceStockpileId];if(!st)throw Error('原预留物资仓已丢失，不能改退远方公库。');for(const[k,v]of Object.entries(cost))st.resources[k]=(st.resources[k]||0)+v;}
+
 export function readyAtWorkstation(s,p,o){
  if(hooks.readyAtWorkstation)return hooks.readyAtWorkstation(s,p,o);
  if(p.personId==='person:master'&&(s.world?.exploration||s.master?.journey||s.combat?.status==='active')||p.journey||personMind(p).away||p.position?.sceneId&&p.position.sceneId!=='scene:yunxiu-courtyard')return false;
@@ -63,9 +74,9 @@ function startEquipmentOrder(s,operation,parameters={},cost={},ticks=20){
  if(p.personId==='person:master'&&(p.journey||personMind(p).away||s.world?.exploration)&&!['part','equip'].includes(operation))throw Error('须先实际归院，不能在山外使用院内工位。');
  if(p.energy<10||p.wound>30)throw Error('先调息或治疗。');
  if(p.activityId&&s.activitiesById[p.activityId])throw Error('身体已有活动。');
- if(!canPay(s,cost))throw Error('材料不足。');
- const id=`order:equipment:${s.srEquipment.nextId++}`,o={id,operation,parameters:structuredClone(parameters),personId:p.personId,cost:{...cost},durationTicks:ticks,progressTicks:0,phase:'reserved',consumed:false,reason:'材料已预留；须实际行动。',createdTick:s.worldTick};
- reserveBody(s,p,'equipment',id);spendResources(s,cost);s.srEquipment.orders[id]=o;return {pending:true,orderId:id,reason:o.reason};
+ const sourceStockpileId=spendResources(s,cost,p.personId);
+ const id=`order:equipment:${s.srEquipment.nextId++}`,o={id,operation,parameters:structuredClone(parameters),personId:p.personId,cost:{...cost},sourceStockpileId,durationTicks:ticks,progressTicks:0,phase:'reserved',consumed:false,reason:'材料已预留；须实际行动。',createdTick:s.worldTick};
+ reserveBody(s,p,'equipment',id);s.srEquipment.orders[id]=o;return {pending:true,orderId:id,reason:o.reason};
 }
 export function equipItem(s,id,slot){const p=requirePerson(s),i=item(s,id),d=EQUIPMENT_DEFINITIONS[i.definitionId];if(slot!==d.slot||!EQUIPMENT_SLOTS.includes(slot))throw Error('槽位不匹配。');if(!canUse(i,p))throw Error('未取得物品使用权限。');if(!accessible(s,i,p))throw Error('物品不在身边，不能从远处仓库换装。');if(i.condition<=0||p.realm<d.realm)throw Error('损坏或境界不足，不能装备。');if(i.location.kind==='person'&&!!i.location.slot&&i.location.id!==p.personId)throw Error('同一实例不能装备两人。');return startEquipmentOrder(s,'equip',{itemId:id,slot}, {},inCombat(s,p.personId)?20:10);}
 export function storeItem(s,id){const i=item(s,id);if(!accessible(s,i,requirePerson(s))||i.ownerId!=='person:master'||i.binding)throw Error('无权入库或物品尚在绑定。');return startEquipmentOrder(s,'store',{itemId:id},{},20);}
@@ -77,7 +88,7 @@ export function offerEquipItem(s,id,personId){const i=item(s,id),p=requirePerson
 export function returnEquipment(s,id){const i=item(s,id);if(!i.loan)throw Error('此物未借出。');const p=requirePerson(s,i.loan.borrowerId);if(inCombat(s,p.personId)||p.journey||p.mind?.away)throw Error('借物人须实际返院，战斗中不隔空归还。');if(p.activityId&&s.activitiesById[p.activityId])throw Error('借物人正在忙。');const orderId=`order:equipment:${s.srEquipment.nextId++}`;reserveBody(s,p,'equipment',orderId);s.srEquipment.orders[orderId]={id:orderId,operation:'return',personId:p.personId,parameters:{itemId:id},cost:{},durationTicks:30,progressTicks:0,phase:'reserved',consumed:false,createdTick:s.worldTick,reason:'借物人自行走到交还处。'};return {pending:true,orderId};}
 export function bindEquipment(s,id){const i=item(s,id),p=requirePerson(s);if(!s.srEquipment.bindingEnabled)throw Error('本命仪式尚未开放。');if(i.ownerId!==p.personId||i.loan||i.binding||!accessible(s,i,p)||p.realm<10||i.condition<.6)throw Error('须筑基、私有完整实物且无借用/绑定。');return startEquipmentOrder(s,'bind',{itemId:id},{crystal:3,herb:12,jade:35},200);}
 export function unbindEquipment(s,id){const i=item(s,id);if(i.binding?.personId!=='person:master'||!accessible(s,i,requirePerson(s)))throw Error('须本人携物解除本命。');return startEquipmentOrder(s,'unbind',{itemId:id},{herb:10,jade:20},160);}
-export function cancelEquipmentOrder(s,orderId){const o=s.srEquipment.orders[orderId];if(!o||!['reserved','executing','blocked'].includes(o.phase))throw Error('无可取消事务。');if(!o.consumed)grant(s,o.cost);if(o.helperId)releaseSRBody(s,s.personsById[o.helperId]);o.phase='cancelled';o.reason=o.consumed?'操作中断，已发生材料不退款；实物保留。':'未操作材料退回。';releaseSRBody(s,s.personsById[o.personId]);return {refunded:!o.consumed};}
+export function cancelEquipmentOrder(s,orderId){const o=s.srEquipment.orders[orderId];if(!o||!['reserved','executing','blocked'].includes(o.phase))throw Error('无可取消事务。');if(!o.consumed)refundResources(s,o.cost,o.sourceStockpileId);if(o.helperId)releaseSRBody(s,s.personsById[o.helperId]);o.phase='cancelled';o.reason=o.consumed?'操作中断，已发生材料不退款；实物保留。':'未操作材料退回。';releaseSRBody(s,s.personsById[o.personId]);return {refunded:!o.consumed};}
 export function artisanCooperate(s,accept=true){const a=s.srEquipment.artisan;if(!s.factsById['fact:rain-artisan:cooperation']||s.story.artisan?.phase!=='recovered')throw Error('先完成程问舟的换药与休养。');if(a.phase!=='unasked'&&a.phase!=='declined')throw Error('合作已登记。');a.phase=accept?'cooperating':'declined';a.refused=!accept;return {accepted:accept,reason:accept?'程问舟愿合作；不会自动入宗或交出工具。':'照料事实保留，可另行学习匠作后再合作。'};}
 export function artisanAcquirePart(s,role){if(!['robe','seal','pendant'].includes(role))throw Error('部件不存在。');const a=s.srEquipment.artisan;if(a.phase!=='cooperating')throw Error('先与康复的程问舟商议合作。');if(a.parts[role])throw Error('此关键部件已取得。');const location={robe:'market',seal:'quarry',pendant:'ruins'}[role];if(s.master.position?.sceneId!==`scene:${location}`&&s.world?.exploration?.regionId!==location||s.world?.exploration&&s.world.exploration.status!=='exploring')throw Error('须实际抵达'+({market:'青溪坊市',quarry:'石桥驿',ruins:'听雨遗址'}[location])+'交换或拓录。');return startEquipmentOrder(s,'part',{role,location},{jade:role==='seal'?20:12,stone:role==='seal'?8:0},80);}
 export function artisanLearn(s){if(s.srEquipment.artisan.taught)throw Error('借授法门已学得，不重发。');if(s.srEquipment.artisan.phase!=='cooperating'||!Object.values(s.itemsById).some(i=>EQUIPMENT_DEFINITIONS[i.definitionId]?.themeRole))throw Error('须先实际制作一件护脉遗器。');const teacher=requirePerson(s,'person:cheng-wenzhou');if(teacher.activityId&&s.activitiesById[teacher.activityId])throw Error('匠师此时正在忙，无法同时授业。');const r=startEquipmentOrder(s,'teach',{}, {food:6},120),o=s.srEquipment.orders[r.orderId];o.helperId=teacher.personId;reserveBody(s,teacher,'equipment',o.id);return r;}

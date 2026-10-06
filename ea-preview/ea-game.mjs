@@ -1,13 +1,13 @@
-import * as SIM from './ea-opening-sim.mjs?v=ea-160-sr-qa-20261006-r1';
-import {EA_SHELL,createEAUI} from './ea-ui.mjs?v=ea-160-sr-qa-20261006-r1';
-import {createEAPersistence,MAX_IMPORT_BYTES} from './ea-persistence.mjs?v=ea-160-sr-qa-20261006-r1';
-import {createWorldRenderer} from './ea-courtyard-renderer.mjs?v=ea-160-sr-qa-20261006-r1';
-import {attachMapInput} from './map-input.mjs?v=ea-160-sr-qa-20261006-r1';
-import {scenicPosition} from './ea-scenic.mjs?v=ea-160-sr-qa-20261006-r1';
-import {sceneInteractionReady,sceneInteractionTarget} from './ea-interactions.mjs?v=ea-160-sr-qa-20261006-r1';
-import {createRuntimeClock,createFrameDiagnostics} from './ea-runtime.mjs?v=ea-160-sr-qa-20261006-r1';
-import {recommendedPlot} from './ea-onboarding.mjs?v=ea-160-sr-qa-20261006-r1';
-import {createOpeningAudio} from './ea-opening-audio.mjs?v=ea-160-sr-qa-20261006-r1';
+import * as SIM from './ea-opening-sim.mjs?v=ea-160-sr-qa-20261006-r2';
+import {EA_SHELL,createEAUI} from './ea-ui.mjs?v=ea-160-sr-qa-20261006-r2';
+import {createEAPersistence,MAX_IMPORT_BYTES} from './ea-persistence.mjs?v=ea-160-sr-qa-20261006-r2';
+import {createWorldRenderer} from './ea-courtyard-renderer.mjs?v=ea-160-sr-qa-20261006-r2';
+import {attachMapInput} from './map-input.mjs?v=ea-160-sr-qa-20261006-r2';
+import {scenicPosition} from './ea-scenic.mjs?v=ea-160-sr-qa-20261006-r2';
+import {sceneInteractionReady,sceneInteractionTarget} from './ea-interactions.mjs?v=ea-160-sr-qa-20261006-r2';
+import {createRuntimeClock,createFrameDiagnostics} from './ea-runtime.mjs?v=ea-160-sr-qa-20261006-r2';
+import {recommendedPlot} from './ea-onboarding.mjs?v=ea-160-sr-qa-20261006-r2';
+import {createOpeningAudio} from './ea-opening-audio.mjs?v=ea-160-sr-qa-20261006-r2';
 
 const VERSION=SIM.GAME_VERSION;
 const runtimeClock=createRuntimeClock(),diagnostics=createFrameDiagnostics();
