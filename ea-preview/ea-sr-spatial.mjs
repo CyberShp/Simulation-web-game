@@ -1,7 +1,7 @@
-import {finalizeBuildingChange,releaseBodyActivity} from './ea-facility-activities.mjs?v=ea-160-sr-qa-20261006-r3';
+import {finalizeBuildingChange,releaseBodyActivity} from './ea-facility-activities.mjs?v=ea-160-sr-qa-20261006-r4';
 /** SR-XF-003–006: metre space and persistent, on-site construction transactions. */
-import {scenicPoint} from './ea-scene-geometry.mjs?v=ea-160-sr-qa-20261006-r3';
-import {BUILDINGS,log as gameLog} from './ea-data.mjs?v=ea-160-sr-qa-20261006-r3';
+import {scenicPoint} from './ea-scene-geometry.mjs?v=ea-160-sr-qa-20261006-r4';
+import {BUILDINGS,log as gameLog} from './ea-data.mjs?v=ea-160-sr-qa-20261006-r4';
 export const SPATIAL_VERSION='spatial-metres-1';
 export const SPATIAL_SCENE=Object.freeze({id:'scene:yunxiu-courtyard',width:64,height:64,grid:.5,personRadius:.26,pixelsPerMetre:32,depth:.65});
 export const spatialEnabled=s=>s?.spatial?.version===SPATIAL_VERSION;

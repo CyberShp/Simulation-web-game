@@ -1,8 +1,8 @@
 /** SR-XF-007/008. Persistent identity recipes, semantic action fallback and deterministic voluntary invitations. */
-import {beginPersonBreakthrough,breakthroughView} from './ea-sr-cultivation.mjs?v=ea-160-sr-qa-20261006-r3';
-import {BUILDINGS} from './ea-data.mjs?v=ea-160-sr-qa-20261006-r3';
-import {workOpportunity} from './ea-life.mjs?v=ea-160-sr-qa-20261006-r3';
-import {releaseBodyActivity} from './ea-facility-activities.mjs?v=ea-160-sr-qa-20261006-r3';
+import {beginPersonBreakthrough,breakthroughView} from './ea-sr-cultivation.mjs?v=ea-160-sr-qa-20261006-r4';
+import {BUILDINGS} from './ea-data.mjs?v=ea-160-sr-qa-20261006-r4';
+import {workOpportunity} from './ea-life.mjs?v=ea-160-sr-qa-20261006-r4';
+import {releaseBodyActivity} from './ea-facility-activities.mjs?v=ea-160-sr-qa-20261006-r4';
 const mind=p=>p.mind||p,clone=v=>structuredClone(v),hash=s=>[...s].reduce((n,c)=>(Math.imul(n,31)+c.charCodeAt(0))>>>0,7);
 export const APPEARANCE_CATALOG={id:'appearance:yunxiu:v1',body:['slim','regular','broad'],face:['oval','angular','round'],hair:['topknot','half-tied','braid','loose'],outfit:['traveller','herbalist','artisan','disciple'],source:'U-63/R-25',slots:['weapon','armor','artifact','accessory']};
 export const ACTION_FRAMES={stand:{pose:'upright',tool:null,asset:'procedural:yunxiu-v1'},walk:{pose:'walk',tool:null,asset:'procedural:yunxiu-v1'},work:{pose:'working',tool:'facility-specific',asset:'procedural:yunxiu-v1'},plant:{pose:'stoop',tool:'hoe',asset:'procedural:yunxiu-v1'},gather:{pose:'reach',tool:'basket',asset:'procedural:yunxiu-v1'},study:{pose:'seated',tool:'book',asset:'procedural:yunxiu-v1'},rest:{pose:'recline',tool:null,asset:'procedural:yunxiu-v1'},heal:{pose:'seated',tool:'bandage',asset:'procedural:yunxiu-v1'},cast:{pose:'cast',tool:'equipped-focus',asset:'procedural:yunxiu-v1'},hit:{pose:'recoil',tool:null,asset:'procedural:yunxiu-v1'},transport:{pose:'walk',tool:'bundle',asset:'procedural:yunxiu-v1'},waiting:{pose:'upright',tool:null,asset:'procedural:yunxiu-v1'},groundRest:{pose:'ground-rest',tool:null,asset:'procedural:yunxiu-v1'},cultivate:{pose:'seated',tool:null,asset:'procedural:yunxiu-v1'},teach:{pose:'gesture',tool:'book',asset:'procedural:yunxiu-v1'},down:{pose:'ground-rest',tool:null,asset:'procedural:yunxiu-v1'}};
@@ -14,6 +14,7 @@ export function appearanceView(s,personId){const p=s.personsById[personId];if(!p
  else if(activity?.kind==='sr-craft')action=activity.phase==='moving'?'walk':activity.phase==='working'?'work':'waiting';
  else if(activity?.kind==='sr-drainage')action=activity.phase==='working'?'work':'waiting';
  else if(activity?.kind==='construction')action=activity.phase==='moving'?'walk':activity.phase==='blocked'?'waiting':'work';
+ else if(activity?.kind==='sr-merchant-collection')action=activity.phase==='carrying'?'transport':activity.phase==='moving'?'walk':'waiting';
  else if(activity?.kind==='sr-transport'){const order=s.workOrdersById[activity.workOrderId];action=order?.phase==='carrying'?'transport':order?.phase==='to-source'?'walk':'waiting';}
  else if(activity?.phase==='navigating'||m.scenic?.path?.length||p.scenic?.path?.length)action='walk';else if(activity?.phase==='waiting')action='waiting';
  else if(action==='work'){if(activity?.phase!=='executing')action='waiting';else{const b=s.buildingsById[activity?.targetId];action=b?.type==='farm'?'plant':['lumber','quarry'].includes(b?.type)?'gather':'work';}}

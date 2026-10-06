@@ -1,10 +1,10 @@
-import{attachMapInput}from'./map-input.mjs?v=ea-160-sr-qa-20261006-r3';
-import{TYPES,RESOURCE,CELLS,initial,canPay,capacity,upgradeCost,build,assign,upgrade,recruit,breakthrough,tick,rates,QUESTS,claim,validateSave,addLog,buildingLock,isAway,demolish}from'./sect-sim.mjs?v=ea-160-sr-qa-20261006-r3';
-import{createExpansion}from'./expansion.mjs?v=ea-160-sr-qa-20261006-r3';
-import{createPersistence}from'./persistence.mjs?v=ea-160-sr-qa-20261006-r3';
-import{renderCommunity}from'./community.mjs?v=ea-160-sr-qa-20261006-r3';
-import{createSectUI}from'./sect-ui.mjs?v=ea-160-sr-qa-20261006-r3';
-import{moveMaster}from'./sect-sim.mjs?v=ea-160-sr-qa-20261006-r3';
+import{attachMapInput}from'./map-input.mjs?v=ea-160-sr-qa-20261006-r4';
+import{TYPES,RESOURCE,CELLS,initial,canPay,capacity,upgradeCost,build,assign,upgrade,recruit,breakthrough,tick,rates,QUESTS,claim,validateSave,addLog,buildingLock,isAway,demolish}from'./sect-sim.mjs?v=ea-160-sr-qa-20261006-r4';
+import{createExpansion}from'./expansion.mjs?v=ea-160-sr-qa-20261006-r4';
+import{createPersistence}from'./persistence.mjs?v=ea-160-sr-qa-20261006-r4';
+import{renderCommunity}from'./community.mjs?v=ea-160-sr-qa-20261006-r4';
+import{createSectUI}from'./sect-ui.mjs?v=ea-160-sr-qa-20261006-r4';
+import{moveMaster}from'./sect-sim.mjs?v=ea-160-sr-qa-20261006-r4';
 const persistence=createPersistence(()=>localStorage,validateSave);
 const restored=persistence.load();
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];

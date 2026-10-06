@@ -1,13 +1,13 @@
-import {portraitDataURL} from './ea-courtyard-renderer.mjs?v=ea-160-sr-qa-20261006-r3';
-import {renderSRPanel,dialogueSettings,srFormArguments} from './ea-sr-ui.mjs?v=ea-160-sr-qa-20261006-r3';
-import {createDialogueAI} from './ea-sr-ai.mjs?v=ea-160-sr-qa-20261006-r3';
-import {REGION_ART} from './ea-region-art.mjs?v=ea-160-sr-qa-20261006-r3';
-import {appearance} from './ea-scenic.mjs?v=ea-160-sr-qa-20261006-r3';
-import {facilityRecords,nextObjective,routeDiscovered} from './ea-scene-state.mjs?v=ea-160-sr-qa-20261006-r3';
-import {sceneInteractionOptions,sceneInteractionTarget} from './ea-interactions.mjs?v=ea-160-sr-qa-20261006-r3';
-import {narrativeForState,sceneDialogue,regionInteractions,homeInteractions} from './ea-narrative.mjs?v=ea-160-sr-qa-20261006-r3';
-import * as SIM from './ea-opening-sim.mjs?v=ea-160-sr-qa-20261006-r3';
-import {onboardingView,availableSystems,resourceReserve,resumeSummary} from './ea-onboarding.mjs?v=ea-160-sr-qa-20261006-r3';
+import {portraitDataURL} from './ea-courtyard-renderer.mjs?v=ea-160-sr-qa-20261006-r4';
+import {renderSRPanel,dialogueSettings,srFormArguments} from './ea-sr-ui.mjs?v=ea-160-sr-qa-20261006-r4';
+import {createDialogueAI} from './ea-sr-ai.mjs?v=ea-160-sr-qa-20261006-r4';
+import {REGION_ART} from './ea-region-art.mjs?v=ea-160-sr-qa-20261006-r4';
+import {appearance} from './ea-scenic.mjs?v=ea-160-sr-qa-20261006-r4';
+import {facilityRecords,nextObjective,routeDiscovered} from './ea-scene-state.mjs?v=ea-160-sr-qa-20261006-r4';
+import {sceneInteractionOptions,sceneInteractionTarget} from './ea-interactions.mjs?v=ea-160-sr-qa-20261006-r4';
+import {narrativeForState,sceneDialogue,regionInteractions,homeInteractions} from './ea-narrative.mjs?v=ea-160-sr-qa-20261006-r4';
+import * as SIM from './ea-opening-sim.mjs?v=ea-160-sr-qa-20261006-r4';
+import {onboardingView,availableSystems,resourceReserve,resumeSummary} from './ea-onboarding.mjs?v=ea-160-sr-qa-20261006-r4';
 
 const E = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
 const n = value => Number.isFinite(Number(value)) ? Number(value) : 0;
