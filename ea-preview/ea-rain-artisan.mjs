@@ -1,8 +1,10 @@
 /** Author card: docs/design/content/rain-artisan-v1.2.json. No runtime AI. */
-import {canPay,pay,grant,log} from './ea-data.mjs?v=ea-150-dev-release-20261006-r1';
-import {buildingAccess,scenicFindPath,scenicDistance,scenicSweep,geometryRevision} from './ea-scene-geometry.mjs?v=ea-150-dev-release-20261006-r1';
-import {areaPoint,advanceScenic,validateScenic} from './ea-scenic.mjs?v=ea-150-dev-release-20261006-r1';
-import {prepareFacilityActivity,releaseBodyActivity} from './ea-facility-activities.mjs?v=ea-150-dev-release-20261006-r1';
+import {canPay,pay,grant,log} from './ea-data.mjs?v=ea-160-sr-qa-20261006-r1';
+import {buildingAccess,scenicFindPath,scenicDistance,scenicSweep,geometryRevision} from './ea-scene-geometry.mjs?v=ea-160-sr-qa-20261006-r1';
+import {areaPoint,advanceScenic,validateScenic} from './ea-scenic.mjs?v=ea-160-sr-qa-20261006-r1';
+import {prepareFacilityActivity,releaseBodyActivity} from './ea-facility-activities.mjs?v=ea-160-sr-qa-20261006-r1';
+import {sceneUnits,spatialEnabled} from './ea-sr-spatial.mjs?v=ea-160-sr-qa-20261006-r1';
+const gatePoint=s=>spatialEnabled(s)?{x:32,y:56}:areaPoint('gate');
 const PERSON_ID='person:cheng-wenzhou',ORDER_ID='work:rain-artisan:care',MEDICINE_ID='reservation:rain-artisan:medicine';
 export function initRainArtisan(s,addPerson){
  const members=s.homeMemberIds.slice(),logs=s.logs.slice();s.homeMemberIds=[];const p=addPerson(s,{name:'程问舟',root:'土灵根',portrait:3,talent:1.02,goal:'修器养家',traits:[66,38,84,78,55]});
@@ -44,20 +46,20 @@ export function cancelArtisanCare(s){
 }
 export function declineArtisanCare(s){
  const event=s.story.artisan;if(event?.phase!=='present'||!home(s))throw Error('当前无法送别伤匠。');
- const p=s.personsById[event.personId];releaseBodyActivity(s,p);event.phase='departing';p.mind.activity='rest';walk(s,p,areaPoint('gate'));
+ const p=s.personsById[event.personId];releaseBodyActivity(s,p);event.phase='departing';p.mind.activity='rest';walk(s,p,gatePoint(s));
  log(s,'程问舟理解山院暂时无法照料，收好随身工具，沿山路离开。');return true;
 }
 export function advanceRainArtisan(s){
- const event=s.story.artisan;if(!event)return;const p=s.personsById[event.personId],hall=s.buildings.find(b=>b.type==='hall');
+ const event=s.story.artisan;if(!event)return;const p=s.personsById[event.personId];if(!p||p.lifeStatus==='dead'||p.life?.status==='dead'||p.dead||p.historicalOnly)return;const hall=s.buildings.find(b=>b.type==='hall');
  if(event.phase==='dormant'){
   if(!home(s)||s.story.step<4||!s.story.onboarding.productions.length)return;
-  Object.assign(p.mind.scenic,areaPoint('gate'),{path:[],goal:null,revision:geometryRevision(s)});walk(s,p,buildingAccess(s,hall));event.phase='arriving';
+  Object.assign(p.mind.scenic,gatePoint(s),{path:[],goal:null,revision:geometryRevision(s)});walk(s,p,buildingAccess(s,hall));event.phase='arriving';
   log(s,'山门传来呼唤：一名雨夜滑伤的修器匠正缓步上山。');return;
  }
  if(event.phase==='arriving'||event.phase==='departing'){
   advanceScenic(p.mind.scenic,2.2,s);
-  const goal=event.phase==='arriving'?buildingAccess(s,hall):areaPoint('gate');
-  if(!p.mind.scenic.path.length&&scenicDistance(p.mind.scenic,goal)<1){
+  const goal=event.phase==='arriving'?buildingAccess(s,hall):gatePoint(s);
+  if(!p.mind.scenic.path.length&&scenicDistance(p.mind.scenic,goal)<sceneUnits(s,1)){
    event.phase=event.phase==='arriving'?'present':'departed';
    if(event.phase==='present'){event.arrivedTick=s.worldTick;if(home(s))log(s,'程问舟来到院前，请求换药。可走近了解、暂缓，或提供8份灵草照料。');}
   }return;
@@ -86,7 +88,10 @@ export function advanceRainArtisan(s){
 export function validateRainArtisan(s){
  const e=s.story.artisan;if(!e){if(Object.values(s.workOrdersById).some(o=>o.kind==='treatment')||Object.values(s.reservationsById).some(r=>r.kind==='care-medicine'))throw Error('存档校验失败：治疗缺少来客事件');return true;}const fail=()=>{throw Error('存档校验失败：伤匠治疗记录异常');},p=s.personsById[e.personId],o=s.workOrdersById[ORDER_ID],r=s.reservationsById[MEDICINE_ID];
  if(Object.values(s.workOrdersById).some(o=>o.kind==='treatment'&&o.id!==ORDER_ID)||Object.values(s.reservationsById).some(r=>r.kind==='care-medicine'&&r.id!==MEDICINE_ID))fail();
- if(!validateScenic(p?.mind?.scenic,s))fail();
+ const feet=p?.mind?.scenic;
+ if(!feet||!Number.isFinite(feet.x)||!Number.isFinite(feet.y)||!Number.isFinite(feet.steps)||feet.steps<0||![1,-1].includes(feet.facing)||typeof feet.back!=='boolean'||!Array.isArray(feet.path)||feet.path.some(q=>!Number.isFinite(q.x)||!Number.isFinite(q.y)))fail();
+ const atCourtyard=!spatialEnabled(s)||p.position?.kind==='scene'&&p.position.sceneId==='scene:yunxiu-courtyard';
+ if(atCourtyard&&!['dormant','departed'].includes(e.phase)&&!validateScenic(feet,s))fail();
  if(e.personId!==PERSON_ID||!p||s.homeMemberIds.includes(p.personId)||!['dormant','arriving','present','care','recovering','recovered','departing','departed'].includes(e.phase)||!Number.isSafeInteger(e.recoveryTicks)||e.recoveryTicks<0||e.recoveryTicks>200||e.arrivedTick!==null&&(!Number.isSafeInteger(e.arrivedTick)||e.arrivedTick<0||e.arrivedTick>s.worldTick)||!p.mind.scenic||p.wound<0||p.wound>35)fail();
  if(o){if(o.id!==ORDER_ID||o.kind!=='treatment'||o.targetId!==PERSON_ID||!['active','completed'].includes(o.phase)||!Number.isSafeInteger(o.progressTicks)||o.progressTicks<0||o.progressTicks>250||o.durationTicks!==250||!Number.isFinite(o.startWound)||o.startWound<10||o.startWound>35||o.reservationId!==MEDICINE_ID)fail();
   if(o.phase==='active'){if(e.phase!=='care'||o.progressTicks===250||o.resultTransactionId!==null||!r||r.id!==MEDICINE_ID||r.kind!=='care-medicine'||r.workOrderId!==ORDER_ID||r.cost?.herb!==8||Object.keys(r.cost).length!==1||o.activityIds.length!==2||new Set(o.activityIds).size!==2||!o.activityIds.every(id=>s.activitiesById[id]?.action==='care')||!o.activityIds.every(id=>[PERSON_ID,'person:master'].includes(s.activitiesById[id]?.personId)))fail();}

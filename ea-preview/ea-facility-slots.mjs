@@ -1,13 +1,14 @@
-import {interiorSlots} from './ea-hall-interior.mjs?v=ea-150-dev-release-20261006-r1';
+import {spatialEnabled,spatialSlots} from './ea-sr-spatial.mjs?v=ea-160-sr-qa-20261006-r1';
+import {interiorSlots} from './ea-hall-interior.mjs?v=ea-160-sr-qa-20261006-r1';
 /** Physical courtyard work stations. The old painting is a transitional ground layer. */
-import {BUILDINGS} from './ea-data.mjs?v=ea-150-dev-release-20261006-r1';
-import {buildingAccess,scenicCanStand,scenicSweep,scenicDistance,geometryRevision} from './ea-scene-geometry.mjs?v=ea-150-dev-release-20261006-r1';
+import {BUILDINGS} from './ea-data.mjs?v=ea-160-sr-qa-20261006-r1';
+import {buildingAccess,scenicCanStand,scenicSweep,scenicDistance,geometryRevision} from './ea-scene-geometry.mjs?v=ea-160-sr-qa-20261006-r1';
 export const FACILITY_MODEL_VERSION='courtyard-stations-1';
 export const facilityBodyKinds=new Set(['work','study','teach','cultivate','care','rest','heal']);
 const suffixes={work:'work',study:'desk',teach:'teacher',cultivate:'mat',care:'care'};
 const cache=new WeakMap();
 function definitions(s){const revision=geometryRevision(s),old=cache.get(s);if(old?.revision===revision)return old;const value={revision,slots:new Map(),byId:null};cache.set(s,value);return value;}
-function compileSlots(s,b,kind){
+function compileSlots(s,b,kind){if(spatialEnabled(s))return spatialSlots(b,kind);
  if(!b||!facilityBodyKinds.has(kind))return [];
  const inside=interiorSlots(s,b,kind);if(inside&&kind!=='care')return inside;
  if(['rest','heal'].includes(kind))return [];
@@ -31,11 +32,11 @@ export function slotById(s,id){
  return defs.byId.get(id)||null;
 }
 
-export function slotReservation(s,slotId){return Object.values(s.reservationsById||{}).find(r=>r.kind==='slot'&&r.slotId===slotId)||null;}
+export function slotReservation(s,slotId){return Object.values(s.reservationsById||{}).find(r=>['slot','sr-slot'].includes(r.kind)&&r.slotId===slotId)||null;}
 export function facilitySlotView(s,b){
  const list=[...facilityBodyKinds].flatMap(kind=>facilitySlots(s,b,kind)),seen=new Set();
  return list.filter(slot=>{const key=`${slot.position.x}/${slot.position.y}`;if(seen.has(key))return false;seen.add(key);return true;}).map(slot=>{
-  const r=Object.values(s.reservationsById||{}).find(r=>r.kind==='slot'&&scenicDistance(slotById(s,r.slotId)?.position||{x:-999,y:-999},slot.position)<.01),a=r&&s.activitiesById[r.activityId];
+  const r=Object.values(s.reservationsById||{}).find(r=>['slot','sr-slot'].includes(r.kind)&&scenicDistance(slotById(s,r.slotId)?.position||{x:-999,y:-999},slot.position)<.01),a=r&&s.activitiesById[r.activityId];
   return {...slot,personId:r?.personId??null,phase:a?.phase??'free'};
  });
 }

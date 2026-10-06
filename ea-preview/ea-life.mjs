@@ -1,7 +1,9 @@
-import {hallInteriorEnabled} from './ea-hall-interior.mjs?v=ea-150-dev-release-20261006-r1';
-import {facilitySlots,slotById} from './ea-facility-slots.mjs?v=ea-150-dev-release-20261006-r1';
-import {BUILDINGS, TECHNIQUES, RESOURCES, CELLS, canPay, xpNeed} from './ea-data.mjs?v=ea-150-dev-release-20261006-r1';
-import {buildingAccess,scenicFindPath,scenicDistance,scenicSweep,geometryRevision} from './ea-scene-geometry.mjs?v=ea-150-dev-release-20261006-r1';
+import {productionAvailability,productionInputAvailable} from './ea-sr-economy.mjs?v=ea-160-sr-qa-20261006-r1';
+const units=(s,pixels)=>s.spatial?.version==='spatial-metres-1'?pixels/32:pixels;
+import {hallInteriorEnabled} from './ea-hall-interior.mjs?v=ea-160-sr-qa-20261006-r1';
+import {facilitySlots,slotById} from './ea-facility-slots.mjs?v=ea-160-sr-qa-20261006-r1';
+import {BUILDINGS, TECHNIQUES, RESOURCES, CELLS, canPay, xpNeed} from './ea-data.mjs?v=ea-160-sr-qa-20261006-r1';
+import {buildingAccess,scenicFindPath,scenicDistance,scenicSweep,geometryRevision} from './ea-scene-geometry.mjs?v=ea-160-sr-qa-20261006-r1';
 
 // Read-only projections. These never schedule an NPC, spend resources or reveal a private manual.
 export const lifeBuildingActive = b => !!b && !b.disabled && b.enabled!==false && (b.condition??100)>0;
@@ -11,7 +13,7 @@ const action = p => p.mind?.activity || p.action || 'rest';
 const cellKey = p => `${p.x},${p.y}`;
 export const actorScenePosition=(s,person)=>person===s.master?person.scenic||buildingAccess(s,s.buildings.find(b=>b.type==='hall')):mind(person).scenic||buildingAccess(s,s.buildings.find(b=>b.type==='hall'));
 export function localLifeFacility(s,person,types,{radius=28}={}){
- const position=actorScenePosition(s,person);return s.buildings.filter(b=>types.includes(b.type)&&lifeBuildingActive(b)&&scenicDistance(position,buildingAccess(s,b))<=radius&&!scenicSweep(s,position,buildingAccess(s,b)).blocked).sort((a,b)=>types.indexOf(a.type)-types.indexOf(b.type)||scenicDistance(position,buildingAccess(s,a))-scenicDistance(position,buildingAccess(s,b))||a.id-b.id)[0]||null;
+ const position=actorScenePosition(s,person);return s.buildings.filter(b=>types.includes(b.type)&&lifeBuildingActive(b)&&scenicDistance(position,buildingAccess(s,b))<=units(s,radius)&&!scenicSweep(s,position,buildingAccess(s,b)).blocked).sort((a,b)=>types.indexOf(a.type)-types.indexOf(b.type)||scenicDistance(position,buildingAccess(s,a))-scenicDistance(position,buildingAccess(s,b))||a.id-b.id)[0]||null;
 }
 const pathCache=new WeakMap();
 export function lifeScenePath(s,person,building){
@@ -20,7 +22,7 @@ export function lifeScenePath(s,person,building){
  if(!cache.paths.has(building.id))cache.paths.set(building.id,scenicFindPath(s,from,buildingAccess(s,building)));
  const path=cache.paths.get(building.id);return path===null?null:path.map(p=>({...p}));
 }
-const alreadyNavigating=(s,person,b)=>{const a=mind(person).scenic||person.scenic;return a?.revision===geometryRevision(s)&&a.goal&&scenicDistance(a.goal,buildingAccess(s,b))<.01&&(a.path?.length||scenicDistance(a,buildingAccess(s,b))<=18);};
+const alreadyNavigating=(s,person,b)=>{const a=mind(person).scenic||person.scenic;return a?.revision===geometryRevision(s)&&a.goal&&scenicDistance(a.goal,buildingAccess(s,b))<units(s,.01)&&(a.path?.length||scenicDistance(a,buildingAccess(s,b))<=units(s,18));};
 export function lifePath(s,person,building) {
   if(!building)return null;
   const start=person.position||s.master.position,blocked=new Set(s.buildings.map(cellKey)),cells=new Set(CELLS.map(cellKey));
@@ -46,7 +48,7 @@ export function lifeFacility(s,person,activity=action(person),learningId=mind(pe
   const p=mind(person),practice=!!p.learning?.practice;
   const types=activity==='study'?(learningId&&learningId!=='qingyuan'&&!practice?['library']:['library','hall']):activity==='teach'?['library','hall']:activity==='cultivate'?['meditation','hall']:activity==='heal'?['clinic','house','hall']:['house','hall'];
   const current=p.scenic||person.scenic;
-  if(current?.revision===geometryRevision(s)&&current.goal){const held=s.buildings.find(b=>types.includes(b.type)&&lifeBuildingActive(b)&&scenicDistance(current.goal,buildingAccess(s,b))<.01);if(held)return held;}
+  if(current?.revision===geometryRevision(s)&&current.goal){const held=s.buildings.find(b=>types.includes(b.type)&&lifeBuildingActive(b)&&scenicDistance(current.goal,buildingAccess(s,b))<units(s,.01));if(held)return held;}
   const candidates=s.buildings.filter(b=>types.includes(b.type)&&lifeBuildingActive(b)&&(!hallInteriorEnabled(s)||!['rest','heal'].includes(activity)||facilitySlots(s,b,activity).length)).sort((a,b)=>(['rest','social','forage'].includes(activity)?0:types.indexOf(a.type)-types.indexOf(b.type))||scenicDistance(actorScenePosition(s,person),buildingAccess(s,a))-scenicDistance(actorScenePosition(s,person),buildingAccess(s,b))||a.id-b.id);
   for(const b of candidates)if(lifeScenePath(s,person,b)!==null)return b;
   return null;
@@ -59,7 +61,7 @@ export function lifeActivityLock(s,person) {
     if(!b)return '原设施已拆除，重新选择去处。';
     if(!lifeBuildingActive(b))return `${t.name}${b.enabled===false?'已停用':'已损坏'}，暂缓原活动。`;
     if(!alreadyNavigating(s,person,b)&&lifeScenePath(s,person,b)===null)return '原设施入口不通，等待改善道路。';
-    if(a==='work'&&t.input&&!canPay(s,t.input)&&!Object.values(s.workOrdersById||{}).some(o=>o.kind==='production'&&o.targetId===b.instanceId&&o.phase!=='completed'))return `生产原料不足：${Object.entries(t.input).filter(([k,v])=>(s.resources[k]||0)<v).map(([k,v])=>`${RESOURCES[k]}缺${Math.ceil(v-(s.resources[k]||0))}`).join('、')}。`;
+    if(a==='work'&&t.input&&!productionInputAvailable(s,b)&&!Object.values(s.workOrdersById||{}).some(o=>o.kind==='production'&&o.targetId===b.instanceId&&o.phase!=='completed'))return `生产原料不足：${Object.entries(t.input).filter(([k,v])=>(s.resources[k]||0)<v).map(([k,v])=>`${RESOURCES[k]}缺${Math.ceil(v-(s.resources[k]||0))}`).join('、')}。`;
   }
   if(a==='study'&&p.learning&&!lifeFacility(s,person,a,p.learning.id))return '研习场所停用、损坏或入口不通，保留学习进度，先休整。';
   if(a==='teach'&&!lifeFacility(s,person,a))return '授业场所暂不可用，先休整。';
@@ -69,12 +71,15 @@ export function workOpportunity(s,person,buildingOrId,{checkPath=true}={}) {
   const b=typeof buildingOrId==='object'?buildingOrId:s.buildings.find(x=>x.id===buildingOrId),p=mind(person);
   const no=reason=>({available:false,willing:false,reason});
   if(!b||!BUILDINGS[b.type]?.work)return no('此设施没有生产差事。');
+  if(b.spatialLock)return no('设施正在迁建或拆除，暂停接新差事。');
+  const availability=productionAvailability(s,b);if(!availability.available)return no(availability.reason);
+  if(person.activityId&&s.activitiesById?.[person.activityId]?.kind?.startsWith('sr-'))return no('正在履行另一项身体活动。');
   if(away(s,person))return no('正在山外，归院后再权衡差事。');
   if(!lifeBuildingActive(b))return no(b.enabled===false?'设施停用，先恢复运行。':'设施损坏，先修缮。');
   if(checkPath&&lifeScenePath(s,person,b)===null)return no('建筑入口不通，先留出连通道路。');
   if(s.schemaVersion!==6&&s.disciples.some(d=>d.id!==person.id&&d.job===b.id&&!d.mind?.away))return no('已有同门接下此处差事。');
   if(s.schemaVersion===6&&!facilitySlots(s,b,'work').length)return no('没有可达的生产工位。');
-  const input=BUILDINGS[b.type].input;if(input&&!canPay(s,input)&&!Object.values(s.workOrdersById||{}).some(o=>o.kind==='production'&&o.targetId===b.instanceId&&o.phase!=='completed'))return no('生产原料不足，补足原料后再考虑。');
+  const input=BUILDINGS[b.type].input;if(input&&!productionInputAvailable(s,b)&&!Object.values(s.workOrdersById||{}).some(o=>o.kind==='production'&&o.targetId===b.instanceId&&o.phase!=='completed'))return no('生产原料不足，补足原料后再考虑。');
   if(p.satiety<22)return no('口粮不足，优先采食。');
   if(person.wound>20)return no('伤势未愈，优先调养。');
   if(person.energy<22)return no('精力不足，先休息。');
@@ -95,6 +100,6 @@ export function teachingPresent(s,teacher,student,id) {
   if(teacher===s.master&&teacher.teaching&&teacher.teaching!==id)return false;
   if((mind(teacher).scenic?.path?.length||teacher.scenic?.path?.length||teacher.mind?.path?.length||teacher.path?.length)||(mind(student).scenic?.path?.length||student.mind?.path?.length||student.path?.length))return false;
   const a=lifeFacility(s,teacher,'teach'),b=lifeFacility(s,student,'study',id);
-  if(s.schemaVersion===6){const ta=s.activitiesById[teacher.activityId],sa=s.activitiesById[student.activityId];return !!a&&a.id===b?.id&&ta?.phase==='executing'&&sa?.phase==='executing'&&ta.slotId!==sa.slotId&&scenicDistance(actorScenePosition(s,teacher),actorScenePosition(s,student))<48;}
-  return !!a&&a.id===b?.id&&scenicDistance(actorScenePosition(s,teacher),buildingAccess(s,a))<=18&&scenicDistance(actorScenePosition(s,student),buildingAccess(s,b))<=18;
+  if(s.schemaVersion===6){const ta=s.activitiesById[teacher.activityId],sa=s.activitiesById[student.activityId];return !!a&&a.id===b?.id&&ta?.phase==='executing'&&sa?.phase==='executing'&&ta.slotId!==sa.slotId&&scenicDistance(actorScenePosition(s,teacher),actorScenePosition(s,student))<units(s,48);}
+  return !!a&&a.id===b?.id&&scenicDistance(actorScenePosition(s,teacher),buildingAccess(s,a))<=units(s,18)&&scenicDistance(actorScenePosition(s,student),buildingAccess(s,b))<=units(s,18);
 }

@@ -1,14 +1,33 @@
-import {initRainArtisan,advanceRainArtisan,validateRainArtisan,offerArtisanCare,cancelArtisanCare,declineArtisanCare,treatmentStatus} from './ea-rain-artisan.mjs?v=ea-150-dev-release-20261006-r1';
-export {artisanCareView,treatmentStatus,offerArtisanCare,cancelArtisanCare,declineArtisanCare} from './ea-rain-artisan.mjs?v=ea-150-dev-release-20261006-r1';
-import {prepareFacilityActivity,releaseBodyActivity,reconcileActivities,validateFacilityActivities,cancelProduction} from './ea-facility-activities.mjs?v=ea-150-dev-release-20261006-r1';
+import {initRainArtisan,advanceRainArtisan,validateRainArtisan,offerArtisanCare,cancelArtisanCare,declineArtisanCare,treatmentStatus} from './ea-rain-artisan.mjs?v=ea-160-sr-qa-20261006-r1';
+export {artisanCareView,treatmentStatus,offerArtisanCare,cancelArtisanCare,declineArtisanCare} from './ea-rain-artisan.mjs?v=ea-160-sr-qa-20261006-r1';
+import {prepareFacilityActivity,releaseBodyActivity,reconcileActivities,validateFacilityActivities,cancelProduction} from './ea-facility-activities.mjs?v=ea-160-sr-qa-20261006-r1';
 export {cancelProduction};
 /** DB v1.2 first development slice, wired into the actual EA application. */
-import * as base from './ea-sim.mjs?v=ea-150-dev-release-20261006-r1';
-import {cloneState,hydrateState,migrateState,legacyProjection,validateV6Shape,SCHEMA_VERSION,CONTENT_VERSION} from './ea-state-v6.mjs?v=ea-150-dev-release-20261006-r1';
-import {startScenicWalk,scenicPosition,advanceScenic,syncScenicPosition,buildingAccess,repairScenicState,scenicNearest} from './ea-scenic.mjs?v=ea-150-dev-release-20261006-r1';
-export * from './ea-sim.mjs?v=ea-150-dev-release-20261006-r1';
+import * as base from './ea-sim.mjs?v=ea-160-sr-qa-20261006-r1';
+import {cloneState,hydrateState,migrateState,legacyProjection,validateV6Shape,SCHEMA_VERSION,CONTENT_VERSION} from './ea-state-v6.mjs?v=ea-160-sr-qa-20261006-r1';
+import {startScenicWalk,scenicPosition,advanceScenic,syncScenicPosition,buildingAccess,repairScenicState,scenicNearest} from './ea-scenic.mjs?v=ea-160-sr-qa-20261006-r1';
+export * from './ea-sim.mjs?v=ea-160-sr-qa-20261006-r1';
+import {srEnabled,initSR,validateSR,beforeSRSecond,tickSR,SR_HANDLERS,SR_BODY_COMMANDS} from './ea-sr-runtime.mjs?v=ea-160-sr-qa-20261006-r1';
+import {executeContractCommand} from './ea-sr-contracts.mjs?v=ea-160-sr-qa-20261006-r1';
+import {sceneUnits,placementIssue} from './ea-sr-spatial.mjs?v=ea-160-sr-qa-20261006-r1';
+import {advanceSRStory} from './ea-sr-story.mjs?v=ea-160-sr-qa-20261006-r1';
+import {tickCampaignCombat} from './ea-campaign.mjs?v=ea-160-sr-qa-20261006-r1';
+export * from './ea-sr-equipment.mjs?v=ea-160-sr-qa-20261006-r1';
+export * from './ea-sr-cultivation.mjs?v=ea-160-sr-qa-20261006-r1';
+export * from './ea-sr-combat.mjs?v=ea-160-sr-qa-20261006-r1';
+export * from './ea-sr-covenants.mjs?v=ea-160-sr-qa-20261006-r1';
+export * from './ea-sr-mother-chain.mjs?v=ea-160-sr-qa-20261006-r1';
+export * from './ea-sr-economy.mjs?v=ea-160-sr-qa-20261006-r1';
+export * from './ea-sr-persons.mjs?v=ea-160-sr-qa-20261006-r1';
+export * from './ea-sr-weather.mjs?v=ea-160-sr-qa-20261006-r1';
+export * from './ea-sr-organization.mjs?v=ea-160-sr-qa-20261006-r1';
+export * from './ea-sr-world.mjs?v=ea-160-sr-qa-20261006-r1';
+export * from './ea-sr-crises.mjs?v=ea-160-sr-qa-20261006-r1';
+export * from './ea-sr-story.mjs?v=ea-160-sr-qa-20261006-r1';
+export {srEnabled,initSR};
 export {cloneState,SCHEMA_VERSION,CONTENT_VERSION};
-export const COMMAND_NAMES=['setSpeed','setIntroPage','acknowledgeOnboarding','requestSceneInteraction','cancelSceneInteraction','setNarrativePage','acknowledgeNarrative','acknowledgeIntro','advanceStory','build','cancelConstruction','cancelProduction','offerArtisanCare','cancelArtisanCare','declineArtisanCare','upgrade','toggleBuilding','repairBuilding','relocate','demolish','recruit','obtainBook','sealBook','masterStudy','forgetSupport','returnToBasics','masterBreakthrough','masterRiskBreakthrough','masterPill','masterAction','masterTeach','moveMaster','moveScenicMaster','craft','trade','fulfill','claim','setPolicy','offerRoute','upgradeSect','societyCommand','foundSect','inviteOffice','foundPeak','inviteMentor','setSocietyPolicy','settleIncident','resolvePersonalQuest','resolveWorldVisitor','resolveSocietyVisitor','startExploration','moveExploration','resolveExploration','leaveRegion','combatAction','acknowledgeCombat','startMasterTravel','resolveMasterEncounter','cancelMasterTravel'];
+const LEGACY_COMMAND_NAMES=['setSpeed','setIntroPage','acknowledgeOnboarding','requestSceneInteraction','cancelSceneInteraction','setNarrativePage','acknowledgeNarrative','acknowledgeIntro','advanceStory','build','cancelConstruction','cancelProduction','offerArtisanCare','cancelArtisanCare','declineArtisanCare','upgrade','toggleBuilding','repairBuilding','relocate','demolish','recruit','obtainBook','sealBook','masterStudy','forgetSupport','returnToBasics','masterBreakthrough','masterRiskBreakthrough','masterPill','masterAction','masterTeach','moveMaster','moveScenicMaster','craft','trade','fulfill','claim','setPolicy','offerRoute','upgradeSect','societyCommand','foundSect','inviteOffice','foundPeak','inviteMentor','setSocietyPolicy','settleIncident','resolvePersonalQuest','resolveWorldVisitor','resolveSocietyVisitor','startExploration','moveExploration','resolveExploration','leaveRegion','combatAction','acknowledgeCombat','startMasterTravel','resolveMasterEncounter','cancelMasterTravel'];
+export const COMMAND_NAMES=[...new Set([...LEGACY_COMMAND_NAMES,...Object.keys(SR_HANDLERS)])];
 const bodyCommands=new Set(['build','upgrade','repairBuilding','relocate','demolish','masterStudy','masterAction','masterTeach','masterBreakthrough','masterRiskBreakthrough','masterPill','moveMaster','moveScenicMaster','requestSceneInteraction','startExploration','startMasterTravel','craft','advanceStory','offerArtisanCare','declineArtisanCare']);
 
 export function initial(options={}){
@@ -24,20 +43,10 @@ export function initial(options={}){
  for(const [person,offset]of [[visitor,-22],[second,22]]){const p=scenicNearest(s,{x:hall.x+offset,y:hall.y+8});if(p){person.mind.scenic.x=p.x;person.mind.scenic.y=p.y;}}
  s.story.opening={visitorId:visitor.personId,secondVisitorId:second.personId,gifted:false,invitation:'unasked'};
  s.stockpilesById['stockpile:lu-zhiwei']={id:'stockpile:lu-zhiwei',ownerId:visitor.personId,resources:Object.fromEntries(Object.keys(base.RESOURCES).map(k=>[k,0]))};
- initRainArtisan(s,base.addDisciple);s.rulesetVersion='opening-runtime-3';repairScenicState(s);return s;
+ initRainArtisan(s,base.addDisciple);s.rulesetVersion='opening-runtime-3';repairScenicState(s);if(options.sr)initSR(s,{newGame:true});return s;
 }
 
-export function validateSave(input){
- if(input?.schemaVersion===undefined){
-  const old=base.validateSave(input);
-  const migrated=migrateState(old,{sourceVersion:input.version});migrated.rulesetVersion='opening-runtime-2';return migrated;
- }
- // Base validation checks all legacy domain fields without mutating input.
- validateV6Shape(input);
- const s=cloneState(input),checked=base.validateSave(legacyProjection(s));
- s.personsById['person:master']=checked.master;
- s.disciples=checked.disciples;s.buildings=checked.buildings;
- s.story=checked.story;
+function validateOpeningRecords(s){
  const opening=s.story.opening;
  if(opening){
   if(opening.visitorId!=='person:lu-zhiwei'||opening.secondVisitorId!=='person:lin-changfeng'||!s.personsById[opening.visitorId]||!s.personsById[opening.secondVisitorId]||typeof opening.gifted!=='boolean'||!['unasked','joined','declined'].includes(opening.invitation)||!opening.gifted&&opening.invitation!=='unasked')throw Error('存档校验失败：赠药与入院记录异常');
@@ -45,6 +54,21 @@ export function validateSave(input){
   const gift=s.factsById['fact:opening:gift'];
   if(!s.stockpilesById['stockpile:lu-zhiwei']||opening.gifted!==!!gift||gift&&(gift.id!=='fact:opening:gift'||gift.kind!=='gift'||gift.actorId!=='person:master'||gift.recipientId!==opening.visitorId||gift.resource!=='herb'||gift.quantity!==10||!Number.isSafeInteger(gift.atTick)||gift.atTick<0||gift.atTick>s.worldTick))throw Error('存档校验失败：赠药事实或库存缺失');
  }
+}
+
+export function validateSave(input,{upgrade=false}={}){
+ if(srEnabled(input)){validateV6Shape(input);const s=cloneState(input);base.validateSave(legacyProjection(s),{canonical:true});validateOpeningRecords(s);validateFacilityActivities(s);validateRainArtisan(s);return hydrateState(validateSR(s));}
+ if(input?.schemaVersion===undefined){
+  const old=base.validateSave(input);
+  const migrated=migrateState(old,{sourceVersion:input.version});migrated.rulesetVersion='opening-runtime-2';return validateSave(migrated,{upgrade});
+ }
+ // Base validation checks all legacy domain fields without mutating input.
+ validateV6Shape(input);
+ const s=cloneState(input),checked=base.validateSave(legacyProjection(s));
+ s.personsById['person:master']=checked.master;
+ s.disciples=checked.disciples;s.buildings=checked.buildings;
+ s.story=checked.story;
+ validateOpeningRecords(s);
  if(s.rulesetVersion==='opening-runtime-1'){
   if(s.contentVersion==='opening-v1.2'&&!s.story.completed&&!s.story.artisan){if(s.personsById['person:cheng-wenzhou'])throw Error('存档校验失败：伤匠身份缺少事件');initRainArtisan(s,base.addDisciple);}
   s.rulesetVersion='opening-runtime-2';
@@ -57,14 +81,15 @@ export function validateSave(input){
   }
  }
  upgradeConstructionRecords(s);validateConstruction(s);validateFacilityActivities(s);validateRainArtisan(s);
- return hydrateState(s);
+ if(upgrade){initSR(s);return validateSave(s);}return hydrateState(s);
 }
 
 export function advanceStory(s,choice){
+ if(srEnabled(s)&&s.story.step>=3)return advanceSRStory(s,choice);
  if(s.story.opening&&s.story.step===2){
   if(!base.storyReady(s))throw Error('先恢复可运行的药田与伐木场，并准备可用居所。');
   const visitor=s.personsById[s.story.opening.secondVisitorId],position=visitor.mind.scenic;
-  if(s.world.exploration||s.master.journey||Math.hypot(s.master.scenic.x-position.x,s.master.scenic.y-position.y)>48)throw Error('先到林长风身边，再商议入院。');
+  if(s.world.exploration||s.master.journey||Math.hypot(s.master.scenic.x-position.x,s.master.scenic.y-position.y)>sceneUnits(s,48))throw Error('先到林长风身边，再商议入院。');
   s.homeMemberIds.push(visitor.personId);visitor.mind.reason='山院给了我安身与传承的机会，我愿靠自己的选择求道。';
   base.rememberPerson(s,visitor,visitor.mind.reason,{important:true,key:'opening:changfeng-join'});
   s.story.claimed.push('story:2');s.story.step=3;base.log(s,'林长风自愿留下，原来的身份、外观与经历一并保留。');return base.campaignSummary(s);
@@ -73,7 +98,7 @@ export function advanceStory(s,choice){
  const o=s.story.opening,visitor=s.personsById[o.visitorId];
  if(s.world.exploration||s.master.journey||s.combat?.status==='active')throw Error('先返回山院，再与来客商议。');
  const distance=Math.hypot(scenicPosition(s.master).x-scenicPosition(visitor.mind).x,scenicPosition(s.master).y-scenicPosition(visitor.mind).y);
- if(distance>48)throw Error('先走到陆知微身边，再赠药或商议。');
+ if(distance>sceneUnits(s,48))throw Error('先走到陆知微身边，再赠药或商议。');
  if(!o.gifted){
   if(choice!=='gift')throw Error('先决定是否赠药，入院须另行商议。');
   base.pay(s,{herb:10});s.stockpilesById['stockpile:lu-zhiwei'].resources.herb+=10;o.gifted=true;
@@ -171,14 +196,31 @@ export function tick(s,dt){
  s.sim.carry=Math.max(0,Math.round((total-count/10)*1e10)/1e10);
  for(let n=0;n<count;n++){
   s.worldTick++;s.revision++;
-  if((s.worldTick-s.schemaMigration.clockOriginTick)%10===0)base.advanceWorldSecond(s);
-  advanceConstruction(s);
+  if(srEnabled(s))beforeSRSecond(s);
+  if((s.worldTick-s.schemaMigration.clockOriginTick)%10===0)base.advanceWorldSecond(s,{advanceCombat:!srEnabled(s)});
+  if(srEnabled(s)){tickCampaignCombat(s,.1);tickSR(s);}else advanceConstruction(s);
   advanceRainArtisan(s);reconcileActivities(s);
  }
 }
 
 /** Atomic, revision-checked, retry-safe command gateway used by the browser. */
 export function dispatchCommand(s,{name,args=[],id=`command:${s.transactions.nextCommandId}`,expectedRevision=s.revision}={}){
+ if(srEnabled(s)){
+  const handlers=Object.fromEntries(COMMAND_NAMES.map(command=>[command,(next,...values)=>{
+   if(next.master.sceneIntent&&!['requestSceneInteraction','cancelSceneInteraction','setNarrativePage','acknowledgeNarrative','acknowledgeIntro'].includes(command))base.cancelSceneInteraction(next);
+   if(bodyCommands.has(command)||SR_BODY_COMMANDS.has(command)){
+    const a=next.activitiesById[next.master.activityId];
+    if(a?.kind==='facility')releaseBodyActivity(next,next.master);
+    if(a&&a.kind!=='facility'&&!command.startsWith('cancel')&&!['srCrisisCommand','srWorldCommand','srStoryCommand'].includes(command))throw Error('掌门已有身体活动，先完成或中止。');
+   }
+   if(command==='build'){const lock=base.buildingLock(next,values[0]);if(lock)throw Error(lock);}
+   const fn=command==='advanceStory'?advanceStory:SR_HANDLERS[command]||({setSpeed,offerArtisanCare,cancelArtisanCare,declineArtisanCare,cancelProduction}[command])||base[command];
+   if(typeof fn!=='function')throw Error('操作尚未接入。');
+   const result=fn(next,...values);reconcileActivities(next);return result;
+  }]));
+  const committed=executeContractCommand(s,{name,args,id,expectedRevision},{handlers,clone:value=>initSR(cloneState(value)),validate:validateSave});
+  if(committed.status==='rejected')throw Error(committed.message);return committed;
+ }
  if(!COMMAND_NAMES.includes(name)||!Array.isArray(args))throw Error('操作尚未接入。');
  const signature=JSON.stringify([name,args]),prior=s.transactions.receipts.find(r=>r.id===id);
  if(prior){if(prior.signature!==signature)throw Error('同一操作编号不能用于不同请求。');return {state:s,result:structuredClone(prior.result),replayed:true};}
@@ -195,4 +237,17 @@ export function dispatchCommand(s,{name,args=[],id=`command:${s.transactions.nex
  next.revision++;next.transactions.nextCommandId++;
  next.transactions.receipts.push({id,signature,result,revision:next.revision});next.transactions.receipts=next.transactions.receipts.slice(-128);
  return {state:validateSave(next),result,replayed:false};
+}
+
+export function placementLock(s,type,x,y,ignoreId=null){return srEnabled(s)?placementIssue(s,type,x,y,{ignoreId}):base.placementLock(s,type,x,y,ignoreId);}
+
+export {spatialEnabled,viewSpatial,PREFAB_CATALOG,placementIssue,sceneUnits} from './ea-sr-spatial.mjs?v=ea-160-sr-qa-20261006-r1';
+
+export {viewBalance} from './ea-sr-balance.mjs?v=ea-160-sr-qa-20261006-r1';
+
+export function recommendedPlacement(s,type){
+ if(!srEnabled(s))return base.CELLS.find(p=>!base.placementLock(s,type,p.x,p.y))||null;
+ const candidates=[];for(let y=1;y<46;y+=.5)for(let x=1;x<62;x+=.5)candidates.push({x,y});
+ candidates.sort((a,b)=>Math.hypot(a.x-27,a.y-14)-Math.hypot(b.x-27,b.y-14));
+ return candidates.find(p=>!placementIssue(s,type,p.x,p.y))||null;
 }
