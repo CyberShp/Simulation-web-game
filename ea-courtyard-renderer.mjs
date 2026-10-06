@@ -1,22 +1,22 @@
-import {drawCultivator,restRenderAnchor} from './ea-character-art.mjs?v=ea-160-estate-art-20261006-r1';
-import {drawEstateGround,drawEstateField} from './ea-estate-ground-art.mjs?v=ea-160-estate-art-20261006-r1';
-import {drawEstateInterior,estateInteriorLayers} from './ea-estate-interior-art.mjs?v=ea-160-estate-art-20261006-r1';
-import {ESTATE_ART_URLS,drawEstateExterior,estateSpriteBounds,estateSpriteContains} from './ea-estate-assets.mjs?v=ea-160-estate-art-20261006-r1';
-import {drawLocalSceneGround,drawLocalSceneObject,worldObjectContains,worldObjectApproach} from './ea-world-scene-art.mjs?v=ea-160-estate-art-20261006-r1';
-import {BUILDINGS} from './ea-data.mjs?v=ea-160-estate-art-20261006-r1';
-import {spatialEnabled,spatialProject,spatialUnproject,spatialPrefab,spatialTransform,spatialAccess,spatialFootprint,polygonContains,SPATIAL_TERRAIN,placementIssue,viewSpatial,meterFindPath,spatialRevision} from './ea-sr-spatial.mjs?v=ea-160-estate-art-20261006-r1';
-import {hallInterior,indoorBuildingAt,indoorRoofOpen} from './ea-hall-interior.mjs?v=ea-160-estate-art-20261006-r1';
-import {constructionView} from './ea-construction-view.mjs?v=ea-160-estate-art-20261006-r1';
-import {personHitCandidates} from './ea-scene-picking.mjs?v=ea-160-estate-art-20261006-r1';
-import {createWorldRenderer as createPlanRenderer} from './ea-renderer.mjs?v=ea-160-estate-art-20261006-r1';
-import {WIDTH,HEIGHT,point,LANDMARKS,inPolygon} from './yunxiu-courtyard/navigation.mjs?v=ea-160-estate-art-20261006-r1';
-import {foreground} from './ea-foreground.mjs?v=ea-160-estate-art-20261006-r1';
-import {appearance,scenicPosition,advanceScenic,repairScenicActor} from './ea-scenic.mjs?v=ea-160-estate-art-20261006-r1';
-import {facilityRecords,courtyardDestination,scenicHomeActors} from './ea-scene-state.mjs?v=ea-160-estate-art-20261006-r1';
-import {SCENIC_PLOTS,SCENE_ROADS,scenicPoint,scenicInverse,scenicNearest,scenicFindPath,scenicDistance,scenicCanStand,geometryRevision,facilityHit,plotPolygon,buildingVisual,buildingAccess} from './ea-scene-geometry.mjs?v=ea-160-estate-art-20261006-r1';
-import {createAssetLoader} from './ea-runtime.mjs?v=ea-160-estate-art-20261006-r1';
-import fallbackMeta from './ea-character-frames.mjs?v=ea-160-estate-art-20261006-r1';
-import {EQUIPMENT_DEFINITIONS,isLivingPerson,viewEquipment} from './ea-sr-equipment.mjs?v=ea-160-estate-art-20261006-r1';
+import {drawCultivator,restRenderAnchor} from './ea-character-art.mjs?v=ea-160-estate-grid-20261006-r1';
+import {drawEstateGround,drawEstateField} from './ea-estate-ground-art.mjs?v=ea-160-estate-grid-20261006-r1';
+import {drawEstateInterior,estateInteriorLayers} from './ea-estate-interior-art.mjs?v=ea-160-estate-grid-20261006-r1';
+import {ESTATE_ART_URLS,drawEstateExterior,estateSpriteBounds,estateSpriteContains} from './ea-estate-assets.mjs?v=ea-160-estate-grid-20261006-r1';
+import {drawLocalSceneGround,drawLocalSceneObject,worldObjectContains,worldObjectApproach} from './ea-world-scene-art.mjs?v=ea-160-estate-grid-20261006-r1';
+import {BUILDINGS} from './ea-data.mjs?v=ea-160-estate-grid-20261006-r1';
+import {spatialEnabled,spatialProject,spatialUnproject,spatialPrefab,spatialTransform,spatialAccess,spatialFootprint,polygonContains,SPATIAL_TERRAIN,placementIssue,viewSpatial,spatialRevision,SPATIAL_SCENE} from './ea-sr-spatial.mjs?v=ea-160-estate-grid-20261006-r1';
+import {hallInterior,indoorBuildingAt,indoorRoofOpen} from './ea-hall-interior.mjs?v=ea-160-estate-grid-20261006-r1';
+import {constructionView} from './ea-construction-view.mjs?v=ea-160-estate-grid-20261006-r1';
+import {personHitCandidates} from './ea-scene-picking.mjs?v=ea-160-estate-grid-20261006-r1';
+import {createWorldRenderer as createPlanRenderer} from './ea-renderer.mjs?v=ea-160-estate-grid-20261006-r1';
+import {WIDTH,HEIGHT,point,LANDMARKS,inPolygon} from './yunxiu-courtyard/navigation.mjs?v=ea-160-estate-grid-20261006-r1';
+import {foreground} from './ea-foreground.mjs?v=ea-160-estate-grid-20261006-r1';
+import {appearance,scenicPosition,advanceScenic,repairScenicActor} from './ea-scenic.mjs?v=ea-160-estate-grid-20261006-r1';
+import {facilityRecords,courtyardDestination,scenicHomeActors} from './ea-scene-state.mjs?v=ea-160-estate-grid-20261006-r1';
+import {SCENIC_PLOTS,SCENE_ROADS,scenicPoint,scenicInverse,scenicNearest,scenicFindPath,scenicDistance,scenicCanStand,geometryRevision,facilityHit,plotPolygon,buildingVisual,buildingAccess} from './ea-scene-geometry.mjs?v=ea-160-estate-grid-20261006-r1';
+import {createAssetLoader} from './ea-runtime.mjs?v=ea-160-estate-grid-20261006-r1';
+import fallbackMeta from './ea-character-frames.mjs?v=ea-160-estate-grid-20261006-r1';
+import {EQUIPMENT_DEFINITIONS,isLivingPerson,viewEquipment} from './ea-sr-equipment.mjs?v=ea-160-estate-grid-20261006-r1';
 
 /** Actual equipped instances only; NPC candidates come from the existing public projection. */
 export function sceneEquipmentMounts(s,personId,visibleNpcItems=null){
@@ -191,19 +191,16 @@ function createMetreRenderer(canvas,options){
    else poly(spatialFootprint(b),{fill:'#b7b697',stroke:'#8c9478',width:1});
   }ctx.restore();
  }
- let groundRoadRevision=null,groundRoad=[],terrainFootprints=[];
+ let groundGeometryRevision=null,terrainFootprints=[];
  function ground(){
   const s=getState(),revision=spatialRevision(s);
-  if(groundRoadRevision!==revision){
-   groundRoadRevision=revision;terrainFootprints=s.buildings.map(spatialFootprint);groundRoad=[];
-   const hall=s.buildings.find(b=>b.type==='hall');if(hall){
-    const door=spatialAccess(hall),gate={x:32,y:56},main=meterFindPath(s,gate,door,{maxSnap:0});
-    if(main)groundRoad.push({kind:'main',points:[gate,...main]});
-    for(const b of s.buildings){if(b===hall)continue;const path=meterFindPath(s,door,spatialAccess(b),{maxSnap:0});if(path)groundRoad.push({kind:'branch',points:[door,...path]});}
-   }
-  }
-  drawEstateGround(ctx,s,camera(),{project:spatialProject,footprints:terrainFootprints,roads:groundRoad,planning:planning||['build','move'].includes(getMode())});
+  if(groundGeometryRevision!==revision){groundGeometryRevision=revision;terrainFootprints=s.buildings.map(spatialFootprint);}
+  // U-98: grid land first; paving is deferred. Actual navigation remains in
+  // the shared simulation geometry, independent of decorative roads.
+  drawEstateGround(ctx,s,camera(),{project:spatialProject,footprints:terrainFootprints,planning:planning||['build','move'].includes(getMode())});
+  if(hover&&!getPreview()&&hover.x>=0&&hover.x<64&&hover.y>=0&&hover.y<64){const step=SPATIAL_SCENE.grid,x=Math.floor(hover.x/step)*step,y=Math.floor(hover.y/step)*step;poly([[x,y],[x+step,y],[x+step,y+step],[x,y+step]],{fill:'#e8dfaa32',stroke:'#e8dfaa90',width:1});}
  }
+ const walkPoint=e=>{const p=screenPoint(e);return !campaign()&&!awayScene()?{x:snapMetre(p.x),y:snapMetre(p.y)}:p;};
  function roofPolygon(b){const box=estateSpriteBounds(b,camera(),artOptions);return box?[[box.x,box.y],[box.x+box.width,box.y],[box.x+box.width,box.bottom],[box.x,box.bottom]]:[];}
  function roof(b,alpha=1){
   if(['farm','granary'].includes(b.type))return;
@@ -243,9 +240,9 @@ function createMetreRenderer(canvas,options){
  function pick(e){const p=screenPoint(e),s=getState(),c=camera();const battle=campaign();if(battle){const q=css(e),enemy=(battle.enemies||[]).find(a=>{const v=spatialProject(a.position||a,c);return a.hp>0&&Math.abs(q.x-v.x)<=22&&q.y>=v.y-1.8*c.scale&&q.y<=v.y+6;}),landmark=(battle.landmarks||[]).find(a=>Math.hypot(a.x-p.x,a.y-p.y)<(a.radius||1));return{...p,kind:enemy?'enemy':landmark?'landmark':'ground',id:enemy?.id||landmark?.id,scenic:true};}if(['build','move'].includes(getMode()))return{x:snapMetre(p.x),y:snapMetre(p.y),kind:'ground',scenic:false,worldX:p.x,worldY:p.y};const q=css(e),hits=people().filter(r=>awayScene()||visiblePerson(r)).filter(r=>{const foot=spatialProject(r.position,c),height=1.8*c.scale,width=Math.max(44,.9*c.scale);return Math.abs(q.x-foot.x)<=width/2&&q.y>=foot.y-Math.max(44,height)&&q.y<=foot.y+6&&(awayScene()||!s.buildings.some(b=>!isOpen(b)&&buildingDepth(b)>depthAt(r.position)&&estateSpriteContains(q,b,c,estateImages,artOptions)));}).sort((a,b)=>depthAt(b.position)-depthAt(a.position)).map(r=>({id:r.id,name:r.name,activity:r.person?.mind?.activity||r.person?.action||'rest',x:r.position.x,y:r.position.y}));if(hits.length)return{...p,kind:hits.length>1?'people':'person',id:hits[0].id,candidates:hits,scenic:true};const l=awayScene();if(l){const object=(l.scene.objects||l.objects||[]).find(o=>worldObjectContains(o,p));return{...p,kind:object?'world-object':'ground',id:object?.id,approachPoint:object?worldObjectApproach(object):null,scenic:true};}for(const object of getHomeInteractions(s)){const at=people().find(a=>a.person?.personId===object.personId)?.position||s.buildings.find(b=>b.id===object.buildingId)&&spatialAccess(s.buildings.find(b=>b.id===object.buildingId));if(at){const q=spatialProject(at,c);if(Math.hypot(css(e).x-q.x-22,css(e).y-q.y+34)<=22)return{...p,kind:'story-object',id:object.id,buildingId:object.buildingId,scenic:true};}}const b=s.buildings.slice().sort((a,b)=>buildingDepth(b)-buildingDepth(a)).find(b=>polygonContains(p,spatialFootprint(b))||!isOpen(b)&&estateSpriteContains(q,b,c,estateImages,artOptions));return{...p,kind:b?'building':'ground',id:b?.id,scenic:true};}
  function focusPoint(p){if(!p)return;centre.x=p.x;centre.y=p.y;pan.x=pan.y=0;}
  syncBitmap();
- return {pan,ready,render,pick,screenPoint,projectPoint:p=>spatialProject(p,camera()),getCamera:()=>({...camera()}),mapPoint:e=>{const p=screenPoint(e);return planning||['build','move'].includes(getMode())?{x:snapMetre(p.x),y:snapMetre(p.y)}:p;},resize,setHover:e=>{anchor=e?css(e):null;hover=e?screenPoint(e):null;},getHover:()=>hover,setHoverPlot:p=>{hover=p?{x:p.x,y:p.y}:null;},focusScenic:(x,y)=>focusPoint({x,y}),setGrid:v=>{planning=v??!planning;return planning;},setZoom:d=>{const c=camera(),at=anchor||{x:c.w/2,y:c.h/2},before=spatialUnproject(at,c);overview=false;zoom=Math.max(.35,Math.min(2.5,zoom+d));const after=spatialProject(before,camera());pan.x+=at.x-after.x;pan.y+=at.y-after.y;return zoom;},recenter:()=>{zoom=1;overview=false;focusPoint(getState().master.scenic);},focus:(x,y)=>{const selection=getSelection(),p=people().find(p=>p.id===selection?.id)?.position,b=getState().buildings.find(b=>b.id===selection?.id);focusPoint(p||b&&spatialAccess(b)||{x,y});},getPersonPosition:id=>people().find(p=>p.id===id)?.position||null,retryAssets:()=>assets.retry(),loadingState:()=>assets.snapshot(),setOverview:v=>{overview=v??!overview;return overview;},setScene:id=>{scene=id;const l=awayScene();if(l)focusPoint(people()[0]?.position||{x:32,y:24});},getScene:()=>scene,isPlanning:()=>planning||['build','move'].includes(getMode()),destroy:()=>{destroyed=true;},point:(x,y)=>({x,y})};
+ return {pan,ready,render,pick,screenPoint,walkPoint,projectPoint:p=>spatialProject(p,camera()),getCamera:()=>({...camera()}),mapPoint:e=>{const p=screenPoint(e);return planning||['build','move'].includes(getMode())?{x:snapMetre(p.x),y:snapMetre(p.y)}:p;},resize,setHover:e=>{anchor=e?css(e):null;hover=e?screenPoint(e):null;},getHover:()=>hover,setHoverPlot:p=>{hover=p?{x:p.x,y:p.y}:null;},focusScenic:(x,y)=>focusPoint({x,y}),setGrid:v=>{planning=v??!planning;return planning;},setZoom:d=>{const c=camera(),at=anchor||{x:c.w/2,y:c.h/2},before=spatialUnproject(at,c);overview=false;zoom=Math.max(.35,Math.min(2.5,zoom+d));const after=spatialProject(before,camera());pan.x+=at.x-after.x;pan.y+=at.y-after.y;return zoom;},recenter:()=>{zoom=1;overview=false;focusPoint(getState().master.scenic);},focus:(x,y)=>{const selection=getSelection(),p=people().find(p=>p.id===selection?.id)?.position,b=getState().buildings.find(b=>b.id===selection?.id);focusPoint(p||b&&spatialAccess(b)||{x,y});},getPersonPosition:id=>people().find(p=>p.id===id)?.position||null,retryAssets:()=>assets.retry(),loadingState:()=>assets.snapshot(),setOverview:v=>{overview=v??!overview;return overview;},setScene:id=>{scene=id;const l=awayScene();if(l)focusPoint(people()[0]?.position||{x:32,y:24});},getScene:()=>scene,isPlanning:()=>planning||['build','move'].includes(getMode()),destroy:()=>{destroyed=true;},point:(x,y)=>({x,y})};
 }
-const snapMetre=n=>Math.round(n*2)/2;
+const snapMetre=n=>Math.round(n/SPATIAL_SCENE.grid)*SPATIAL_SCENE.grid;
 
 /** SR-XF-007 code-native frame recipe. Simulation facts select the action; this is a pure pose. */
 export function appearanceFrame(view,tick=0,{reducedMotion=false}={}){

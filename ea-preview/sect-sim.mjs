@@ -1,5 +1,5 @@
-import * as prior from './living-world.mjs?v=ea-160-estate-art-20261006-r1';
-export * from './living-world.mjs?v=ea-160-estate-art-20261006-r1';
+import * as prior from './living-world.mjs?v=ea-160-estate-grid-20261006-r1';
+export * from './living-world.mjs?v=ea-160-estate-grid-20261006-r1';
 const {TYPES,RESOURCE,CELLS,addLog,pay,canPay,capacity,EXPEDITIONS,RECIPES}=prior;
 
 export const TECHNIQUES={

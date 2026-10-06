@@ -1,13 +1,13 @@
-import * as SIM from './ea-opening-sim.mjs?v=ea-160-estate-art-20261006-r1';
-import {EA_SHELL,createEAUI} from './ea-ui.mjs?v=ea-160-estate-art-20261006-r1';
-import {createEAPersistence,MAX_IMPORT_BYTES} from './ea-persistence.mjs?v=ea-160-estate-art-20261006-r1';
-import {createWorldRenderer} from './ea-courtyard-renderer.mjs?v=ea-160-estate-art-20261006-r1';
-import {attachMapInput} from './map-input.mjs?v=ea-160-estate-art-20261006-r1';
-import {scenicPosition} from './ea-scenic.mjs?v=ea-160-estate-art-20261006-r1';
-import {sceneInteractionReady,sceneInteractionTarget} from './ea-interactions.mjs?v=ea-160-estate-art-20261006-r1';
-import {createRuntimeClock,createFrameDiagnostics} from './ea-runtime.mjs?v=ea-160-estate-art-20261006-r1';
-import {recommendedPlot} from './ea-onboarding.mjs?v=ea-160-estate-art-20261006-r1';
-import {createOpeningAudio} from './ea-opening-audio.mjs?v=ea-160-estate-art-20261006-r1';
+import * as SIM from './ea-opening-sim.mjs?v=ea-160-estate-grid-20261006-r1';
+import {EA_SHELL,createEAUI} from './ea-ui.mjs?v=ea-160-estate-grid-20261006-r1';
+import {createEAPersistence,MAX_IMPORT_BYTES} from './ea-persistence.mjs?v=ea-160-estate-grid-20261006-r1';
+import {createWorldRenderer} from './ea-courtyard-renderer.mjs?v=ea-160-estate-grid-20261006-r1';
+import {attachMapInput} from './map-input.mjs?v=ea-160-estate-grid-20261006-r1';
+import {scenicPosition} from './ea-scenic.mjs?v=ea-160-estate-grid-20261006-r1';
+import {sceneInteractionReady,sceneInteractionTarget} from './ea-interactions.mjs?v=ea-160-estate-grid-20261006-r1';
+import {createRuntimeClock,createFrameDiagnostics} from './ea-runtime.mjs?v=ea-160-estate-grid-20261006-r1';
+import {recommendedPlot} from './ea-onboarding.mjs?v=ea-160-estate-grid-20261006-r1';
+import {createOpeningAudio} from './ea-opening-audio.mjs?v=ea-160-estate-grid-20261006-r1';
 
 const VERSION=SIM.GAME_VERSION;
 const runtimeClock=createRuntimeClock(),diagnostics=createFrameDiagnostics();
@@ -137,7 +137,7 @@ mapInputStop=attachMapInput(canvas,{pan:world.pan,enabled:()=>haveSession&&!moda
  if(mode==='build'||mode==='move'){const r=mode==='move'?act('relocate',relocateId,picked.x,picked.y):act('build',buildType,picked.x,picked.y);if(r!==null){const name=SIM.BUILDINGS[r.type]?.name;finishPlacement();selection={kind:'building',id:r.id};ui.renderDetail(selection);if(SIM.srEnabled(state))world.focusScenic?.(r.x,r.y);else world.focus(r.x,r.y);toast(r.pending?(name||'设施')+'开始营造。掌门正在前往，完成后可使用。':(name||'设施')+'已经落成；入口连通，可观察门人的自主选择。');}return;}
  if(picked.kind==='people'){ui.openNearbyPeople(picked.candidates);return;}
  if(picked.kind==='person'){chooseScenePerson(picked.id);return;}
- if(mode==='walk'){const p=world.screenPoint(e);act('moveScenicMaster',p.x,p.y);return;}
+ if(mode==='walk'){const p=world.walkPoint?.(e)||world.screenPoint(e);act('moveScenicMaster',p.x,p.y);return;}
  if(picked.kind==='story-object'){interact('building',picked.buildingId,'story');return;}
  if(picked.kind==='peak'||picked.kind==='overview'){setTab('sect');return;}if(picked.kind==='building'){selection={kind:'building',id:picked.id};ui.fold();ui.renderDetail(selection);}else if(picked.kind==='area'){setTab(picked.id==='gate'?'explore':picked.id==='meditation'?'self':'build');toast('此处尚无已建成设施，可在营造中筹建。');}else{selection=null;ui.renderDetail(null);}refresh(true);
 }});

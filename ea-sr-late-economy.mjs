@@ -2,11 +2,11 @@
  * Integration: initLateEconomy -> tickLateEconomy once per worldTick -> validateLateEconomy.
  * Register lateEconomyHandlers and add their names to the command/body gateway.
  * No independent clock, recurring capital grant, remote payment or NPC direct control. */
-import {RESOURCES,RECIPES} from './ea-data.mjs?v=ea-160-estate-art-20261006-r1';
-import {buildingAccess,scenicNearest,scenicFindPath,geometryRevision} from './ea-scene-geometry.mjs?v=ea-160-estate-art-20261006-r1';
-import {advanceScenic,syncScenicPosition} from './ea-scenic.mjs?v=ea-160-estate-art-20261006-r1';
-import {makeWorldPerson} from './ea-sr-world.mjs?v=ea-160-estate-art-20261006-r1';
-import {reserveBody,releaseSRBody} from './ea-sr-equipment.mjs?v=ea-160-estate-art-20261006-r1';
+import {RESOURCES,RECIPES} from './ea-data.mjs?v=ea-160-estate-grid-20261006-r1';
+import {buildingAccess,scenicNearest,scenicFindPath,geometryRevision} from './ea-scene-geometry.mjs?v=ea-160-estate-grid-20261006-r1';
+import {advanceScenic,syncScenicPosition} from './ea-scenic.mjs?v=ea-160-estate-grid-20261006-r1';
+import {makeWorldPerson} from './ea-sr-world.mjs?v=ea-160-estate-grid-20261006-r1';
+import {reserveBody,releaseSRBody} from './ea-sr-equipment.mjs?v=ea-160-estate-grid-20261006-r1';
 const MASTER='person:master',CLIENT='person:late:chen-yuanshu',HOME='scene:yunxiu-courtyard',MARKET='scene:market';
 const ORGANIZATION='organization:late:qingxi-maintenance',TREASURY='stockpile:late:market-treasury',CARGO='stockpile:late:client-cargo';
 const clone=x=>structuredClone(x),zero=()=>Object.fromEntries(Object.keys(RESOURCES).map(k=>[k,0]));
