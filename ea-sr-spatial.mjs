@@ -1,10 +1,20 @@
-import {finalizeBuildingChange,releaseBodyActivity} from './ea-facility-activities.mjs?v=ea-160-building-units-20261006-r1';
+import {finalizeBuildingChange,releaseBodyActivity} from './ea-facility-activities.mjs?v=ea-160-yunxiu-2d-20261007-r1';
 /** SR-XF-003–006: metre space and persistent, on-site construction transactions. */
-import {scenicPoint} from './ea-scene-geometry.mjs?v=ea-160-building-units-20261006-r1';
-import {BUILDINGS,log as gameLog} from './ea-data.mjs?v=ea-160-building-units-20261006-r1';
-import {BUILDING_GRID,buildingGridEnabled,buildingCellSize,onBuildingGrid} from './ea-building-grid.mjs?v=ea-160-building-units-20261006-r1';
+import {scenicPoint} from './ea-scene-geometry.mjs?v=ea-160-yunxiu-2d-20261007-r1';
+import {BUILDINGS,log as gameLog} from './ea-data.mjs?v=ea-160-yunxiu-2d-20261007-r1';
+import {BUILDING_GRID,buildingGridEnabled,buildingCellSize,onBuildingGrid} from './ea-building-grid.mjs?v=ea-160-yunxiu-2d-20261007-r1';
 export const SPATIAL_VERSION='spatial-metres-1';
-export const SPATIAL_SCENE=Object.freeze({id:'scene:yunxiu-courtyard',width:64,height:64,grid:.5,personRadius:.26,pixelsPerMetre:32,depth:.65});
+export const SPATIAL_EXTENT_VERSION='courtyard-96-1';
+export const SPATIAL_SCENE=Object.freeze({id:'scene:yunxiu-courtyard',width:96,height:96,grid:.5,personRadius:.26,pixelsPerMetre:32,depth:.65});
+// Unmarked metre saves must first pass their original 64m boundary. This is a
+// content extent marker within schema 6, not a coordinate or identity migration.
+const LEGACY_SPATIAL_BOUNDS=Object.freeze({width:64,height:64});
+function sceneBounds(s){
+ if(!spatialEnabled(s))return SPATIAL_SCENE;
+ if(!Object.hasOwn(s.spatial,'extentVersion'))return LEGACY_SPATIAL_BOUNDS;
+ if(s.spatial.extentVersion!==SPATIAL_EXTENT_VERSION)throw Error('未知山院范围版本，原存档保留。');
+ return SPATIAL_SCENE;
+}
 export const spatialEnabled=s=>s?.spatial?.version===SPATIAL_VERSION;
 export const sceneUnits=(s,pixels)=>spatialEnabled(s)?pixels/32:pixels;
 export const legacyToWorld=p=>({x:p.x/32,y:p.y/(32*.65)});
@@ -17,7 +27,7 @@ export const spatialProject=(p,c={scale:32,depth:.65,ox:0,oy:0})=>{const a=c.rot
 export const spatialUnproject=(p,c={scale:32,depth:.65,ox:0,oy:0})=>{const x=(p.x-c.ox)/c.scale,y=(p.y-c.oy)/(c.scale*c.depth),a=c.rotation||0,co=Math.cos(a),si=Math.sin(a);return{x:x*co+y*si,y:-x*si+y*co};};
 const rect=(x,y,w,h)=>[[x,y],[x+w,y],[x+w,y+h],[x,y+h]];
 const distance=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
-const snap=n=>Math.round(n*2)/2;
+const snap=n=>Math.round(n/SPATIAL_SCENE.grid)*SPATIAL_SCENE.grid;
 const rooms=new Set(['hall','house','library','alchemy','kitchen','clinic','workshop']);
 export const PREFAB_CATALOG=Object.freeze(Object.fromEntries(Object.keys(BUILDINGS).map(type=>[type,{id:`prefab:${type}:metres:v1`,assetVersion:'vector-metres-v1',orientations:['south'],width:['farm','granary','lumber','quarry'].includes(type)?6:type==='well'?3:6,height:['farm','granary','lumber','quarry'].includes(type)?4:type==='well'?3:5,indoor:rooms.has(type),layers:['floor','furniture','actors','walls','roof'],fallback:'same-style-vector',conditionStages:['normal','damaged'],constructionStages:['foundation','structure','finishing']}])));
 const prefabId=b=>b.buildingGridVersion===BUILDING_GRID.version?`prefab:${b.type}:units:v1`:PREFAB_CATALOG[b.type]?.id;
@@ -45,11 +55,11 @@ export function spatialAccess(b){const d=dimensions(b),t=spatialTransform(b);ret
 export function spatialSlots(b,kind){const d=spatialPrefab(b),t=spatialTransform(b);return d?d.slots.filter(slot=>slot.kind===kind).map(slot=>({...slot,id:`${b.instanceId||`building:yunxiu:${b.id}`}/slot:${slot.suffix}`,buildingId:b.id,position:{x:t.x+slot.position.x,y:t.y+slot.position.y}})):[];}
 function segmentDistance(p,a,b){const dx=b[0]-a[0],dy=b[1]-a[1],q=Math.max(0,Math.min(1,((p.x-a[0])*dx+(p.y-a[1])*dy)/(dx*dx+dy*dy||1)));return Math.hypot(p.x-a[0]-dx*q,p.y-a[1]-dy*q);}
 export function polygonContains(p,poly,radius=0){if(poly.aabb){const b=poly.aabb,dx=Math.max(b.left-p.x,0,p.x-b.right),dy=Math.max(b.top-p.y,0,p.y-b.bottom);return dx===0&&dy===0||radius>0&&dx*dx+dy*dy<(radius-1e-7)**2;}let inside=false;for(let i=0,j=poly.length-1;i<poly.length;j=i++){const a=poly[i],b=poly[j];if((a[1]>p.y)!==(b[1]>p.y)&&p.x<(b[0]-a[0])*(p.y-a[1])/(b[1]-a[1])+a[0])inside=!inside;if(radius&&segmentDistance(p,a,b)<radius-1e-7)return true;}return inside;}
-export const SPATIAL_TERRAIN=Object.freeze([{id:'water:east',label:'东侧水面',kind:'water',polygon:rect(58,8,6,22)},{id:'slope:north',label:'北侧陡坡',kind:'slope',polygon:rect(0,0,64,1)},{id:'protected:gate',label:'归院入口保护区',kind:'protected',polygon:rect(30,57,4,7)}]);
+export const SPATIAL_TERRAIN=Object.freeze([{id:'water:east',label:'东侧水面',kind:'water',polygon:rect(58,8,6,22)},{id:'slope:north',label:'北侧陡坡',kind:'slope',polygon:rect(0,0,SPATIAL_SCENE.width,1)},{id:'protected:gate',label:'归院入口保护区',kind:'protected',polygon:rect(30,57,4,7)}]);
 const collisionCache=new WeakMap();
-export function spatialRevision(s){return (s.buildings||[]).map(b=>`${b.id}:${b.type}:${b.level}:${b.buildingGridVersion||'metres'}:${spatialTransform(b).x}:${spatialTransform(b).y}`).join('|')+';'+(s.spatial?.geometryRevision||0);}
-function obstacles(s){const rev=spatialRevision(s),old=collisionCache.get(s);if(old?.rev===rev)return old.polygons;const polygons=[...SPATIAL_TERRAIN.filter(t=>t.kind!=='protected').map(t=>t.polygon),...(s.buildings||[]).flatMap(b=>{const r=spatialRoom(b);return r?[...r.walls,...r.furniture.map(f=>f.polygon)]:b.type==='well'&&b.buildingGridVersion===BUILDING_GRID.version?[spatialFootprint(b)]:[];})];for(const poly of polygons){const xs=poly.map(p=>p[0]),ys=poly.map(p=>p[1]);poly.aabb={left:Math.min(...xs),right:Math.max(...xs),top:Math.min(...ys),bottom:Math.max(...ys)};}const index=new Map();for(const poly of polygons){const b=poly.aabb;for(let y=Math.floor(b.top/2);y<=Math.floor(b.bottom/2);y++)for(let x=Math.floor(b.left/2);x<=Math.floor(b.right/2);x++){const key=`${x}/${y}`;if(!index.has(key))index.set(key,[]);index.get(key).push(poly);}}polygons.spatialIndex=index;collisionCache.set(s,{rev,polygons});return polygons;}
-function clearPoint(polygons,p,radius=.26){if(!Number.isFinite(p?.x)||!Number.isFinite(p?.y)||p.x<radius||p.y<radius||p.x>64-radius||p.y>64-radius)return false;if(!polygons.spatialIndex)return !polygons.some(poly=>polygonContains(p,poly,radius));for(let y=Math.floor((p.y-radius)/2);y<=Math.floor((p.y+radius)/2);y++)for(let x=Math.floor((p.x-radius)/2);x<=Math.floor((p.x+radius)/2);x++)if(polygons.spatialIndex.get(`${x}/${y}`)?.some(poly=>polygonContains(p,poly,radius)))return false;return true;}
+export function spatialRevision(s){return (s.buildings||[]).map(b=>`${b.id}:${b.type}:${b.level}:${b.buildingGridVersion||'metres'}:${spatialTransform(b).x}:${spatialTransform(b).y}`).join('|')+';'+(s.spatial?.geometryRevision||0)+';'+(s.spatial?.extentVersion||'legacy-64');}
+function obstacles(s){const rev=spatialRevision(s),old=collisionCache.get(s);if(old?.rev===rev)return old.polygons;const polygons=[...SPATIAL_TERRAIN.filter(t=>t.kind!=='protected').map(t=>t.polygon),...(s.buildings||[]).flatMap(b=>{const r=spatialRoom(b);return r?[...r.walls,...r.furniture.map(f=>f.polygon)]:b.type==='well'&&b.buildingGridVersion===BUILDING_GRID.version?[spatialFootprint(b)]:[];})];for(const poly of polygons){const xs=poly.map(p=>p[0]),ys=poly.map(p=>p[1]);poly.aabb={left:Math.min(...xs),right:Math.max(...xs),top:Math.min(...ys),bottom:Math.max(...ys)};}const index=new Map();for(const poly of polygons){const b=poly.aabb;for(let y=Math.floor(b.top/2);y<=Math.floor(b.bottom/2);y++)for(let x=Math.floor(b.left/2);x<=Math.floor(b.right/2);x++){const key=`${x}/${y}`;if(!index.has(key))index.set(key,[]);index.get(key).push(poly);}}polygons.spatialIndex=index;polygons.bounds=sceneBounds(s);collisionCache.set(s,{rev,polygons});return polygons;}
+function clearPoint(polygons,p,radius=.26){const bounds=polygons.bounds||SPATIAL_SCENE;if(!Number.isFinite(p?.x)||!Number.isFinite(p?.y)||p.x<radius||p.y<radius||p.x>bounds.width-radius||p.y>bounds.height-radius)return false;if(!polygons.spatialIndex)return !polygons.some(poly=>polygonContains(p,poly,radius));for(let y=Math.floor((p.y-radius)/2);y<=Math.floor((p.y+radius)/2);y++)for(let x=Math.floor((p.x-radius)/2);x<=Math.floor((p.x+radius)/2);x++)if(polygons.spatialIndex.get(`${x}/${y}`)?.some(poly=>polygonContains(p,poly,radius)))return false;return true;}
 function segmentsIntersect(a,b,c,d){const cross=(p,q,r)=>(q.x-p.x)*(r.y-p.y)-(q.y-p.y)*(r.x-p.x),v1=cross(a,b,c),v2=cross(a,b,d),v3=cross(c,d,a),v4=cross(c,d,b);if(Math.abs(v1)<1e-10&&Math.abs(v2)<1e-10)return Math.max(Math.min(a.x,b.x),Math.min(c.x,d.x))<=Math.min(Math.max(a.x,b.x),Math.max(c.x,d.x))+1e-10&&Math.max(Math.min(a.y,b.y),Math.min(c.y,d.y))<=Math.min(Math.max(a.y,b.y),Math.max(c.y,d.y))+1e-10;return v1*v2<=0&&v3*v4<=0;}
 function continuousClear(polygons,from,to,radius){if(!clearPoint(polygons,to,radius))return false;let candidates=polygons;if(polygons.spatialIndex){const nearby=new Set();for(let y=Math.floor((Math.min(from.y,to.y)-radius)/2);y<=Math.floor((Math.max(from.y,to.y)+radius)/2);y++)for(let x=Math.floor((Math.min(from.x,to.x)-radius)/2);x<=Math.floor((Math.max(from.x,to.x)+radius)/2);x++)for(const poly of polygons.spatialIndex.get(`${x}/${y}`)||[])nearby.add(poly);candidates=nearby;}
  const ab=[[from.x,from.y],[to.x,to.y]];for(const poly of candidates)for(let i=0;i<poly.length;i++){const a=poly[i],b=poly[(i+1)%poly.length],c={x:a[0],y:a[1]},d={x:b[0],y:b[1]};if(segmentsIntersect(from,to,c,d)||Math.min(segmentDistance(from,a,b),segmentDistance(to,a,b),segmentDistance(c,ab[0],ab[1]),segmentDistance(d,ab[0],ab[1]))<radius-1e-7)return false;}return true;
@@ -58,14 +68,21 @@ function sweepPolygons(polygons,from,to,radius=.26){if(!clearPoint(polygons,from
 
 export function meterCanStand(s,p,radius=.26){return clearPoint(obstacles(s),p,radius);}
 export function meterSweep(s,from,to,radius=.26){return sweepPolygons(obstacles(s),from,to,radius);}
-export function meterNearest(s,p,{maxDistance=64,radius=.26,occupied=[]}={}){const polygons=obstacles(s),free=q=>clearPoint(polygons,q,radius)&&!occupied.some(a=>distance(a,q)<radius*2+.01);if(free(p))return {x:p.x,y:p.y};let best=null,bd=Infinity;for(let y=Math.max(.5,snap(p.y-maxDistance));y<Math.min(64,p.y+maxDistance);y+=.5)for(let x=Math.max(.5,snap(p.x-maxDistance));x<Math.min(64,p.x+maxDistance);x+=.5){const q={x,y},d=distance(p,q);if(d<=maxDistance&&d<bd&&free(q)){best=q;bd=d;}}return best;}
+export function meterNearest(s,p,{maxDistance,radius=.26,occupied=[]}={}){
+ const polygons=obstacles(s),bounds=polygons.bounds,step=SPATIAL_SCENE.grid,limit=maxDistance??Math.hypot(bounds.width,bounds.height),free=q=>clearPoint(polygons,q,radius)&&!occupied.some(a=>distance(a,q)<radius*2+.01);
+ if(free(p))return {x:p.x,y:p.y};if(!Number.isFinite(p?.x)||!Number.isFinite(p?.y)||limit<0)return null;
+ let best=null,bd=Infinity;
+ for(let y=Math.max(step,snap(p.y-limit));y<Math.min(bounds.height,p.y+limit);y+=step)for(let x=Math.max(step,snap(p.x-limit));x<Math.min(bounds.width,p.x+limit);x+=step){const q={x,y},d=distance(p,q);if(d<=limit&&d<bd&&free(q)){best=q;bd=d;}}
+ return best;
+}
 function heapPush(heap,n){let i=heap.length;heap.push(n);while(i){const p=(i-1)>>1;if(heap[p].f<=n.f)break;heap[i]=heap[p];i=p;}heap[i]=n;}
 function heapPop(heap){const first=heap[0],last=heap.pop();if(heap.length){let i=0;while(i*2+1<heap.length){let c=i*2+1;if(c+1<heap.length&&heap[c+1].f<heap[c].f)c++;if(last.f<=heap[c].f)break;heap[i]=heap[c];i=c;}heap[i]=last;}return first;}
 export function meterFindPath(s,from,goal,{maxSnap=2,radius=.26}={}){
  const polygons=obstacles(s),clear=p=>clearPoint(polygons,p,radius),sweep=(a,b)=>({blocked:!clear(a)||!continuousClear(polygons,a,b,radius)});if(!clear(from))return null;const to=clear(goal)?{x:goal.x,y:goal.y}:meterNearest(s,goal,{maxDistance:maxSnap,radius});if(!to)return null;if(distance(from,to)<.001)return [];if(!sweep(from,to).blocked)return [to];
- const k=(x,y)=>y*129+x,open=[],cost=new Map(),parents=new Map(),points=new Map(),closed=new Set();
- for(let y=Math.round(from.y*2)-2;y<=Math.round(from.y*2)+2;y++)for(let x=Math.round(from.x*2)-2;x<=Math.round(from.x*2)+2;x++){const p={x:x/2,y:y/2};if(x<1||y<1||x>127||y>127||sweep(from,p).blocked)continue;const id=k(x,y),g=distance(from,p);cost.set(id,g);points.set(id,p);heapPush(open,{x,y,id,g,f:g+distance(p,to)});}
- let end=null;while(open.length){const c=heapPop(open);if(closed.has(c.id))continue;closed.add(c.id);const p={x:c.x/2,y:c.y/2};if(distance(p,to)<=1.5&&!sweep(p,to).blocked){end=c.id;break;}for(const [dx,dy]of [[1,0],[-1,0],[0,1],[0,-1],[1,1],[-1,1],[1,-1],[-1,-1]]){const x=c.x+dx,y=c.y+dy,id=k(x,y);if(x<1||y<1||x>127||y>127||closed.has(id))continue;const q={x:x/2,y:y/2};if(sweep(p,q).blocked)continue;const g=c.g+Math.hypot(dx,dy)/2;if(g>=(cost.get(id)??Infinity))continue;cost.set(id,g);parents.set(id,c.id);points.set(id,q);heapPush(open,{x,y,id,g,f:g+distance(q,to)});}}
+ const step=SPATIAL_SCENE.grid,maxX=Math.ceil(polygons.bounds.width/step)-1,maxY=Math.ceil(polygons.bounds.height/step)-1,stride=maxX+1;
+ const k=(x,y)=>y*stride+x,open=[],cost=new Map(),parents=new Map(),points=new Map(),closed=new Set();
+ for(let y=Math.round(from.y/step)-2;y<=Math.round(from.y/step)+2;y++)for(let x=Math.round(from.x/step)-2;x<=Math.round(from.x/step)+2;x++){const p={x:x*step,y:y*step};if(x<1||y<1||x>maxX||y>maxY||sweep(from,p).blocked)continue;const id=k(x,y),g=distance(from,p);cost.set(id,g);points.set(id,p);heapPush(open,{x,y,id,g,f:g+distance(p,to)});}
+ let end=null;while(open.length){const c=heapPop(open);if(closed.has(c.id))continue;closed.add(c.id);const p={x:c.x*step,y:c.y*step};if(distance(p,to)<=1.5&&!sweep(p,to).blocked){end=c.id;break;}for(const [dx,dy]of [[1,0],[-1,0],[0,1],[0,-1],[1,1],[-1,1],[1,-1],[-1,-1]]){const x=c.x+dx,y=c.y+dy,id=k(x,y);if(x<1||y<1||x>maxX||y>maxY||closed.has(id))continue;const q={x:x*step,y:y*step};if(sweep(p,q).blocked)continue;const g=c.g+Math.hypot(dx,dy)*step;if(g>=(cost.get(id)??Infinity))continue;cost.set(id,g);parents.set(id,c.id);points.set(id,q);heapPush(open,{x,y,id,g,f:g+distance(q,to)});}}
  if(end===null)return null;const path=[to];for(let n=end;n!==undefined;n=parents.get(n))path.unshift(points.get(n));const result=[];let p=from;while(path.length){let i=path.length-1;while(i>0&&sweep(p,path[i]).blocked)i--;if(sweep(p,path[i]).blocked)return null;if(distance(p,path[i])>.001)result.push(path[i]);p=path[i];path.splice(0,i+1);}return result;
 }
 const personPosition=(s,p)=>p===s.master?p.scenic:p.mind?.scenic;
@@ -79,8 +96,8 @@ function routeStillClear(s,origin,route){if(route===null)return false;const poly
 export function placementIssue(s,type,x,y,{ignoreId=null,level=1,checkPeople=true,checkReservations=true,checkConnectivity=true}={}){
  if(!PREFAB_CATALOG[type]||!Number.isFinite(x)||!Number.isFinite(y)||snap(x)!==x||snap(y)!==y)return '位置须在合法营造格上；仅支持南向预制件。';
  if(buildingGridEnabled(s)&&(!onBuildingGrid(x)||!onBuildingGrid(y)))return '位置须对齐建筑单位格；每格2米。';
- const b=layoutBuilding(s,{type,level,transform:{x,y,orientation:'south'}}),r=footprintRect(b),poly=spatialFootprint(b);
- if(x<1||y<1||x+r.w>63||y+r.h+1>63)return '此处超出可建边界或未留门外通道。';
+ const bounds=sceneBounds(s),b=layoutBuilding(s,{type,level,transform:{x,y,orientation:'south'}}),r=footprintRect(b),poly=spatialFootprint(b);
+ if(x<1||y<1||x+r.w>bounds.width-1||y+r.h+1>bounds.height-1)return '此处超出可建边界或未留门外通道。';
  for(const t of SPATIAL_TERRAIN){const xs=t.polygon.map(p=>p[0]),ys=t.polygon.map(p=>p[1]);if(overlaps(r,{x:Math.min(...xs),y:Math.min(...ys),w:Math.max(...xs)-Math.min(...xs),h:Math.max(...ys)-Math.min(...ys)}))return `${t.label}不能营造。`;}
  for(const old of s.buildings||[]){if(old.id===ignoreId)continue;if(overlaps(r,footprintRect(old)))return `与${BUILDINGS[old.type].name}（${old.id}）占地冲突。`;if(polygonContains(spatialAccess(old),poly,.65))return `挡住${BUILDINGS[old.type].name}入口与门外通路。`;if(polygonContains(spatialAccess(b),spatialFootprint(old),.65))return `${BUILDINGS[old.type].name}占地挡住新设施入口与门外通路。`;}
  if(checkReservations)for(const o of Object.values(s.workOrdersById||{})){if(o.kind!=='construction'||!o.spatial||['cancelled','completed'].includes(o.phase)||o.targetId===`building:yunxiu:${ignoreId}`||o.operation==='demolish')continue;const planned=layoutBuilding(s,{type:o.buildingType,level:o.targetLevel,transform:o.targetTransform});if(overlaps(r,footprintRect(planned)))return '该位置已有施工预约。';}
@@ -92,8 +109,9 @@ export function placementIssue(s,type,x,y,{ignoreId=null,level=1,checkPeople=tru
 }
 export function initSpatial(s){
  if(spatialEnabled(s))return s;const originalPeople=people(s).map(p=>[p,personPosition(s,p)]),oldBuildings=s.buildings||[];
- s.spatial={version:SPATIAL_VERSION,sceneId:SPATIAL_SCENE.id,geometryRevision:1,migrations:[],completedOrders:[]};
- const placed=[];for(const b of oldBuildings){const d=spatialPrefab(b),p=b.type==='hall'?{x:24,y:4}:legacyToWorld(b.legacyScenicPosition||scenicPoint(b.x,b.y)||{x:100+b.x*110,y:250+b.y*75});let target={x:snap(p.x-d.width/2),y:snap(p.y-d.height)};if(b.type==='hall')target={x:24,y:4};const test={...s,buildings:placed};let reason=placementIssue(test,b.type,target.x,target.y,{level:b.level,checkPeople:false,checkReservations:false,checkConnectivity:true});if(reason){let found=null;const candidates=[];for(let y=1;y<=63-d.height-1;y+=.5)for(let x=1;x<=63-d.width;x+=.5)candidates.push({x,y,distance:distance(target,{x,y})});candidates.sort((a,b)=>a.distance-b.distance||a.y-b.y||a.x-b.x);for(const q of candidates){if(!placementIssue(test,b.type,q.x,q.y,{level:b.level,checkPeople:false,checkReservations:false,checkConnectivity:true})){found={x:q.x,y:q.y};break;}}if(!found)throw Error(`空间迁移无法安置${b.instanceId}；保留原档，不丢弃建筑。`);s.spatial.migrations.push({entityId:b.instanceId,kind:'building-layout-repair',from:target,to:found,reason});target=found;}
+ s.spatial={version:SPATIAL_VERSION,extentVersion:SPATIAL_EXTENT_VERSION,sceneId:SPATIAL_SCENE.id,geometryRevision:1,migrations:[],completedOrders:[]};
+ const bounds=sceneBounds(s);
+ const placed=[];for(const b of oldBuildings){const d=spatialPrefab(b),p=b.type==='hall'?{x:24,y:4}:legacyToWorld(b.legacyScenicPosition||scenicPoint(b.x,b.y)||{x:100+b.x*110,y:250+b.y*75});let target={x:snap(p.x-d.width/2),y:snap(p.y-d.height)};if(b.type==='hall')target={x:24,y:4};const test={...s,buildings:placed};let reason=placementIssue(test,b.type,target.x,target.y,{level:b.level,checkPeople:false,checkReservations:false,checkConnectivity:true});if(reason){let found=null;const candidates=[];for(let y=1;y<=bounds.height-d.height-2;y+=SPATIAL_SCENE.grid)for(let x=1;x<=bounds.width-d.width-1;x+=SPATIAL_SCENE.grid)candidates.push({x,y,distance:distance(target,{x,y})});candidates.sort((a,b)=>a.distance-b.distance||a.y-b.y||a.x-b.x);for(const q of candidates){if(!placementIssue(test,b.type,q.x,q.y,{level:b.level,checkPeople:false,checkReservations:false,checkConnectivity:true})){found={x:q.x,y:q.y};break;}}if(!found)throw Error(`空间迁移无法安置${b.instanceId}；保留原档，不丢弃建筑。`);s.spatial.migrations.push({entityId:b.instanceId,kind:'building-layout-repair',from:target,to:found,reason});target=found;}
   b.transform={...target,orientation:'south'};b.prefabId=PREFAB_CATALOG[b.type].id;b.sceneId=SPATIAL_SCENE.id;delete b.legacyScenicPosition;placed.push(b);
  }
  for(const b of s.buildings){const entry=spatialAccess(b);if(!meterCanStand(s,entry)||!meterFindPath(s,{x:32,y:56},entry,{maxSnap:0}))throw Error(`空间迁移入口不可达：${b.instanceId}；原档保留。`);}
@@ -109,9 +127,17 @@ function log(s,message){gameLog(s,message);}
 /** Loading/upgrade owner calls this on an isolated state. No time, RNG or fees.
  * Existing metre saves are validated before conversion; identity and job progress
  * survive. The explicit mapping is persisted and never performed by a renderer. */
+function initSpatialExtent(s){
+ if(s.spatial.extentVersion===SPATIAL_EXTENT_VERSION)return s;
+ // Validation remains on the legacy boundary until every original position,
+ // route and construction target is accepted. Expansion only adds metadata.
+ validateSpatial(s);s.spatial.extentVersion=SPATIAL_EXTENT_VERSION;return s;
+}
 export function initBuildingGrid(s){
- if(!spatialEnabled(s)||buildingGridEnabled(s))return s;
+ if(!spatialEnabled(s))return s;
+ if(buildingGridEnabled(s))return initSpatialExtent(s);
  if(s.spatial.buildingGridVersion)throw Error('未知建筑单位格版本，原存档保留。');
+ validateSpatial(s);const bounds=sceneBounds(s);
  const oldBuildings=s.buildings.map(b=>({...b,transform:{...b.transform}}));
  const oldPeople=people(s).map(p=>({person:p,position:personPosition(s,p)&&structuredClone(personPosition(s,p))}));
  const oldById=new Map(oldBuildings.map(b=>[b.instanceId,b]));
@@ -119,7 +145,7 @@ export function initBuildingGrid(s){
  s.spatial.buildingGridVersion=BUILDING_GRID.version;
  const candidates=(type,level,preferred)=>{
   const d=buildingCellSize(type,level),points=[];
-  for(let y=2;y+d.height+1<=63;y+=2)for(let x=2;x+d.width<=63;x+=2)points.push({x,y});
+  for(let y=BUILDING_GRID.metres;y+d.height+1<=bounds.height-1;y+=BUILDING_GRID.metres)for(let x=BUILDING_GRID.metres;x+d.width<=bounds.width-1;x+=BUILDING_GRID.metres)points.push({x,y});
   return points.sort((a,b)=>distance(a,preferred)-distance(b,preferred)||a.y-b.y||a.x-b.x);
  };
  const placed=[];
@@ -185,7 +211,7 @@ export function initBuildingGrid(s){
   a.reason='单位格调整保留原施工材料与进度，重新核对实际到场。';
  }
  log(s,'山院已按建筑单位格对齐。原建筑、人物、库存与任务进度保留；铺路暂缓。');
- return s;
+ return initSpatialExtent(s);
 }
 export function spatialConstruction(s){const a=s.activitiesById?.[s.master.activityId];return a?.kind==='construction'&&s.workOrdersById[a.workOrderId]?.spatial?a:null;}
 function begin(s,operation,b,targetTransform){
@@ -254,14 +280,16 @@ export function tickSpatial(s){
 export function viewSpatial(s){const a=spatialConstruction(s),o=a&&s.workOrdersById[a.workOrderId];if(!o)return null;const b=layoutBuilding(s,{id:a.buildingId,type:a.type,level:o.targetLevel,transform:o.targetTransform});return {building:b,position:spatialAccess(b),footprint:spatialFootprint(b),access:a.target,progress:o.progressTicks/o.durationTicks,stage:o.progressTicks/o.durationTicks<1/3?'foundation':o.progressTicks/o.durationTicks<2/3?'structure':'finishing',label:a.reason||({moving:'前往工地',working:'到场施工',blocked:'等待安全条件'}[a.phase]),operation:o.operation};}
 export function validateSpatial(s){
  if(!spatialEnabled(s))return true;
+ const bounds=sceneBounds(s);
  if(s.spatial.buildingGridVersion&&!buildingGridEnabled(s))throw Error('未知建筑单位格版本。');
  if(s.spatial.sceneId!==SPATIAL_SCENE.id||!Number.isSafeInteger(s.spatial.geometryRevision)||s.spatial.geometryRevision<1||!Array.isArray(s.spatial.migrations)||!Array.isArray(s.spatial.completedOrders)||s.spatial.completedOrders.length>128)throw Error('米制空间迁移记录异常。');
- for(const b of s.buildings){const t=b.transform,d=spatialPrefab(b);if(!t||![t.x,t.y].every(Number.isFinite)||snap(t.x)!==t.x||snap(t.y)!==t.y||t.orientation!=='south'||b.prefabId!==prefabId(b)||b.buildingGridVersion&&!buildingGridEnabled(s)||buildingGridEnabled(s)&&(b.buildingGridVersion!==BUILDING_GRID.version||!onBuildingGrid(t.x)||!onBuildingGrid(t.y))||t.x<1||t.y<1||t.x+d.width>63||t.y+d.height+1>63)throw Error(`米制建筑位置异常：${b.instanceId}`);const issue=placementIssue(s,b.type,t.x,t.y,{ignoreId:b.id,level:b.level,checkPeople:false,checkReservations:false,checkConnectivity:false});if(issue||!meterCanStand(s,spatialAccess(b)))throw Error(`米制建筑占地或入口异常：${b.instanceId} ${issue}`);}
+ for(const b of s.buildings){const t=b.transform,d=spatialPrefab(b);if(!t||![t.x,t.y].every(Number.isFinite)||snap(t.x)!==t.x||snap(t.y)!==t.y||t.orientation!=='south'||b.prefabId!==prefabId(b)||b.buildingGridVersion&&!buildingGridEnabled(s)||buildingGridEnabled(s)&&(b.buildingGridVersion!==BUILDING_GRID.version||!onBuildingGrid(t.x)||!onBuildingGrid(t.y))||t.x<1||t.y<1||t.x+d.width>bounds.width-1||t.y+d.height+1>bounds.height-1)throw Error(`米制建筑位置异常：${b.instanceId}`);const issue=placementIssue(s,b.type,t.x,t.y,{ignoreId:b.id,level:b.level,checkPeople:false,checkReservations:false,checkConnectivity:false});if(issue||!meterCanStand(s,spatialAccess(b)))throw Error(`米制建筑占地或入口异常：${b.instanceId} ${issue}`);}
  for(const p of people(s)){const a=personPosition(s,p);if(a&&!meterCanStand(s,a))throw Error(`人物米制脚点不合法：${p.personId}`);let from=a;for(const q of a?.path||[]){if(meterSweep(s,from,q).blocked)throw Error('米制路径穿越障碍。');from=q;}}
  const active=Object.values(s.workOrdersById).filter(o=>o.spatial&&o.kind==='construction');if(active.length>1)throw Error('重复施工工作单。');
  for(const o of active){const a=s.activitiesById[o.activityIds?.[0]],r=s.reservationsById[o.reservationId],source=s.buildingsById?.[o.targetId];
   if(!a||s.master.activityId!==a.id||a.personId!=='person:master'||a.instanceId!==o.targetId||o.id!==`work:construction:${a.buildingId}`||a.id!==`activity:build:${a.buildingId}`||!r||r.activityId!==a.id||r.kind!=='construction-material'||a.workOrderId!==o.id||!['build','upgrade','relocate','demolish'].includes(o.operation)||!['moving','working','blocked'].includes(a.phase)||!Number.isInteger(o.progressTicks)||o.progressTicks<0||o.progressTicks>o.durationTicks||o.durationTicks!==({build:200,upgrade:240,relocate:180,demolish:120}[o.operation])||!Number.isInteger(a.buildingId)||a.buildingId<1||a.buildingId>=s.nextId||o.operation==='build'&&source||o.operation!=='build'&&!source||!BUILDINGS[o.buildingType]||o.buildingType!==a.type)throw Error('米制施工预约异常。');
   const t=o.targetTransform;if(buildingGridEnabled(s)&&(!onBuildingGrid(t?.x)||!onBuildingGrid(t?.y)))throw Error('施工目标须对齐建筑单位格。');if(!t||t.orientation!=='south'||![t.x,t.y].every(n=>Number.isFinite(n)&&snap(n)===n)||!Number.isInteger(o.targetLevel)||o.targetLevel<1||o.targetLevel>BUILDINGS[a.type].max)throw Error('施工目标预制件不合法。');
+  const d=dimensions(layoutBuilding(s,{type:o.buildingType,level:o.targetLevel}));if(t.x<1||t.y<1||t.x+d.width>bounds.width-1||t.y+d.height+1>bounds.height-1)throw Error('施工目标超出山院可建边界。');
   const level=source?.level||1,expected=o.operation==='build'?BUILDINGS[a.type].cost:o.operation==='upgrade'?{jade:45*level,wood:30*level,stone:20*level}:o.operation==='relocate'?{jade:10*level,wood:8*level}:{};
   if(Object.keys(r.cost||{}).length!==Object.keys(expected).length||!Object.entries(expected).every(([k,v])=>r.cost[k]===v))throw Error('施工材料预约来源不匹配。');
   for(const [k,v]of Object.entries(r.cost))if(o.usedCost[k]!==Math.floor(v*o.progressTicks/o.durationTicks)&&!(o.progressTicks===0&&(o.usedCost[k]||0)===0))throw Error('施工投入不守恒。');

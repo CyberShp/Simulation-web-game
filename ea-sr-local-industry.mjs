@@ -1,5 +1,5 @@
 /** SR-XF-017-AC-01/03. U-63/R-26/T author defaults; ordinary finite commerce, not new intrigue roots. */
-import {RESOURCES} from './ea-data.mjs?v=ea-160-estate-grid-20261006-r1';
+import {RESOURCES} from './ea-data.mjs?v=ea-160-yunxiu-2d-20261007-r1';
 const MASTER='person:master', clone=x=>structuredClone(x);
 const zero=()=>Object.fromEntries(Object.keys(RESOURCES).map(k=>[k,0]));
 const sum=x=>Object.values(x||{}).reduce((a,b)=>a+b,0);

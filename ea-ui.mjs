@@ -1,13 +1,13 @@
-import {portraitDataURL} from './ea-courtyard-renderer.mjs?v=ea-160-building-units-20261006-r1';
-import {renderSRPanel,dialogueSettings,srFormArguments} from './ea-sr-ui.mjs?v=ea-160-building-units-20261006-r1';
-import {createDialogueAI} from './ea-sr-ai.mjs?v=ea-160-building-units-20261006-r1';
-import {REGION_ART} from './ea-region-art.mjs?v=ea-160-building-units-20261006-r1';
-import {appearance} from './ea-scenic.mjs?v=ea-160-building-units-20261006-r1';
-import {facilityRecords,nextObjective,routeDiscovered} from './ea-scene-state.mjs?v=ea-160-building-units-20261006-r1';
-import {sceneInteractionOptions,sceneInteractionTarget} from './ea-interactions.mjs?v=ea-160-building-units-20261006-r1';
-import {narrativeForState,sceneDialogue,regionInteractions,homeInteractions} from './ea-narrative.mjs?v=ea-160-building-units-20261006-r1';
-import * as SIM from './ea-opening-sim.mjs?v=ea-160-building-units-20261006-r1';
-import {onboardingView,availableSystems,resourceReserve,resumeSummary} from './ea-onboarding.mjs?v=ea-160-building-units-20261006-r1';
+import {portraitDataURL} from './ea-courtyard-renderer.mjs?v=ea-160-yunxiu-2d-20261007-r1';
+import {renderSRPanel,dialogueSettings,srFormArguments} from './ea-sr-ui.mjs?v=ea-160-yunxiu-2d-20261007-r1';
+import {createDialogueAI} from './ea-sr-ai.mjs?v=ea-160-yunxiu-2d-20261007-r1';
+import {REGION_ART} from './ea-region-art.mjs?v=ea-160-yunxiu-2d-20261007-r1';
+import {appearance} from './ea-scenic.mjs?v=ea-160-yunxiu-2d-20261007-r1';
+import {facilityRecords,nextObjective,routeDiscovered} from './ea-scene-state.mjs?v=ea-160-yunxiu-2d-20261007-r1';
+import {sceneInteractionOptions,sceneInteractionTarget} from './ea-interactions.mjs?v=ea-160-yunxiu-2d-20261007-r1';
+import {narrativeForState,sceneDialogue,regionInteractions,homeInteractions} from './ea-narrative.mjs?v=ea-160-yunxiu-2d-20261007-r1';
+import * as SIM from './ea-opening-sim.mjs?v=ea-160-yunxiu-2d-20261007-r1';
+import {onboardingView,availableSystems,resourceReserve,resumeSummary} from './ea-onboarding.mjs?v=ea-160-yunxiu-2d-20261007-r1';
 
 const E = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
 const n = value => Number.isFinite(Number(value)) ? Number(value) : 0;
@@ -158,7 +158,7 @@ export function createEAUI(api) {
     return panelHead(`山中门人 · ${v.disciples.length} / ${cap}`,'志向有别，去留有心。了解他们，再决定提供什么。',head)+note(lock,'lock-reason')+(people.length?`<div class="people-grid">${people.map(d=>personCard(s,d)).join('')}</div>`:empty(v.disciples.length?'暂时没有符合条件的门人':'旧院尚无人追随',v.disciples.length?'换个筛选条件，或查看全院。':'先养好伤势，再用母亲留下的医术与山民结缘。'));
   }
   const portraitCache=new Map();
-  function portraitStyle(s,d){const id=d.personId||(d===s.master?'person:master':s.disciples.find(p=>p.id===d.id)?.personId),view=s.srWorld&&id?call('appearanceView',s,id):null;if(view){const key=JSON.stringify([view.recipe,view.accent,view.mounts]);let image=portraitCache.get(key);if(!image){try{image=portraitDataURL(view);}catch{}if(image)portraitCache.set(key,image);}if(image)return `background-image:url(${image});background-size:cover;background-position:center`; }return `--portrait-position:${portraitFor(s,d)}`;}
+  function portraitStyle(s,d){const id=d.personId||(d===s.master?'person:master':s.disciples.find(p=>p.id===d.id)?.personId),view=s.srWorld&&id?call('appearanceView',s,id):null;if(view){const key=JSON.stringify([view.spriteIndex,view.recipe,view.accent,view.mounts]);let image=portraitCache.get(key);if(!image){try{image=portraitDataURL(view);}catch{}if(image)portraitCache.set(key,image);}if(image)return `background-image:url(${image});background-size:cover;background-position:center`; }return `--portrait-position:${portraitFor(s,d)}`;}
   function portraitFor(s,d){const id=Number.isFinite(Number(d.id))?Number(d.id):d===s.master||d.personId==='person:master'?'master':d.personId||d.name||'known-person';const candidate=appearance(id),index=Number.isFinite(candidate)?candidate:0;return `${index%3*50}% ${Math.floor(index/3)*100}%`;}
   function personCard(s,d){return `<article class="person-card ui-card" data-key="person-${d.id}"><div class="person-heading"><div class="portrait" style="${portraitStyle(s,d)}" aria-hidden="true"></div><div><h3>${E(d.name)}</h3><p>${E(d.root)} · ${E(realm(d))}</p></div><span class="tag">${E(ACTIONS[d.activity]||d.activity||'观察山院')}</span></div><p class="person-goal">志向 · ${E(d.goal||'尚未交谈')}</p><p class="reason-box">${E(d.reason||'正在观察山院的生活。')}</p><div class="person-meters"><span>精力 <b>${fmt(d.energy)}</b></span><span>温饱 <b>${fmt(d.satiety??100)}</b></span><span>信任 <b>${fmt(d.trust??50)}</b></span></div>${bar(d.energy)}<div class="person-known"><span>主修</span><strong>${E(techniques()[d.main]?.name||'尚未公开择法')}</strong></div><div class="button-row">${btn('经历与意愿','person',[d.id],{className:'primary',full:true})}${btn('定位','locatePerson',[d.id],{icon:'pin'})}</div></article>`;}
   function personBody(id){

@@ -3,7 +3,7 @@
  * Rectangles are source-pixel crops; no decorative world is baked into them.
  */
 export const ESTATE_ART_VERSION='yunxiu-modular-20261006-v1';
-export const ESTATE_ART_URLS={core:'../assets/estate-v1/core.webp',life:'../assets/estate-v1/life.webp',outdoor:'../assets/estate-v1/outdoor.webp'};
+export const ESTATE_ART_URLS={core:'../assets/estate-v1/core.webp',life:'../assets/estate-v1/life.webp',outdoor:'../assets/estate-v1/outdoor.webp',terrain:'../assets/map.webp',nature:'../assets/estate-v1/nature-20261007.webp',meadow:'../assets/estate-v1/meadow-20261007.webp'};
 export const ESTATE_SPRITES=Object.freeze({
  hall:{atlas:'core',rect:[31,52,730,621],door:[.48,.87],rise:3.2},
  library:{atlas:'core',rect:[764,44,468,627],door:[.35,.86],rise:5.0},
