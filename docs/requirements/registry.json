@@ -1,0 +1,6582 @@
+{
+  "schema_version": 1,
+  "registry_id": "SR-XF-2026-10-06",
+  "design_baseline": "DB-2026-10-05 v1.2",
+  "updated": "2026-10-06",
+  "authoritative": "registry.json for requirement records and task states; derived Markdown rendered by qa/sr-manager.py refresh",
+  "source_runtime": {
+    "main": "74df8c4a9957a40c1510644b29a98fc2390e535b",
+    "runtime_source": "9cc4466887b349536ac7f16f15ac9f6bcfd16756",
+    "pages": "350a4d6a0d450ff5dfbcde11ea6782b00a43df29",
+    "game_version": "1.5.0-dev",
+    "schema_version": 6
+  },
+  "enums": {
+    "scope": [
+      "early",
+      "conditional",
+      "deferred"
+    ],
+    "priority": [
+      "P0",
+      "P1",
+      "P2",
+      "P3"
+    ],
+    "design_status": [
+      "refinement_pending",
+      "draft",
+      "ready",
+      "blocked"
+    ],
+    "development_status": [
+      "not_started",
+      "partial",
+      "in_progress",
+      "implemented"
+    ],
+    "acceptance_status": [
+      "not_verified",
+      "in_progress",
+      "passed",
+      "blocked"
+    ],
+    "release_status": [
+      "not_released_for_this_sr",
+      "not_applicable",
+      "released"
+    ],
+    "task_status": [
+      "todo",
+      "in_progress",
+      "blocked",
+      "done"
+    ],
+    "ac_status": [
+      "not_run",
+      "passed",
+      "failed",
+      "blocked"
+    ]
+  },
+  "requirements": [
+    {
+      "id": "SR-XF-001",
+      "title": "需求基线、设计冲突与版本状态统一",
+      "version": "1.0",
+      "scope": "early",
+      "group": "管理",
+      "priority": "P0",
+      "iteration": "I0",
+      "design_status": "ready",
+      "development_status": "implemented",
+      "acceptance_status": "passed",
+      "release_status": "not_applicable",
+      "owner": "Codex",
+      "reviewer": "Codex（结构与来源自检）",
+      "dependencies": [],
+      "related_decisions": [
+        "U-63",
+        "U-93",
+        "R-25",
+        "R-26"
+      ],
+      "source_specs": [
+        "docs/design/00-BASELINE.md",
+        "docs/design/04-WORLD-STORY.md",
+        "docs/design/12-CONTENT-AUTHORING.md",
+        "docs/design/13-WORLDVIEW-DISCUSSION.md",
+        "docs/design/14-EARLY-GAME-DETAILED-DESIGN.md",
+        "docs/design/18-SPATIAL-CONTINUITY-IMPLEMENTATION.md",
+        "docs/design/06-OPENING-ACCEPTANCE.md"
+      ],
+      "baseline": "已有统一规格与已发布EA 1.5.0-dev，旧索引仍残留未部署/待定表述。",
+      "design_gap": "建立逐项SR、来源、依赖、任务和关闭条件；统一药师身份及最新发布状态。",
+      "design_deliverables": [
+        "SR编号与字段规范、总表、机器可读台账及状态维护入口。",
+        "核实当前源码/Pages版本，给历史状态加明确时间边界。",
+        "14已确定的作者默认与旧待定字段形成覆盖说明；12示例不再复用陆知微作为失联药师。"
+      ],
+      "requirements": [
+        "新增开发必须引用SR与验收ID；设计、代码、验收、发布分别记录。",
+        "远期需求不得成为前期依赖；历史验收保留适用范围。",
+        "需求缺口、缺陷、实现子任务分别登记，未完成任务不得靠测试数量关闭。"
+      ],
+      "acceptance": [
+        {
+          "id": "SR-XF-001-AC-01",
+          "scenario": "查看台账和单项SR",
+          "expected": "每项有稳定ID、范围、来源、依赖、状态、任务和可观察验收；无悬空或循环依赖。",
+          "status": "passed",
+          "evidence": [
+            "2026-10-06：validate通过40项SR、200任务、120AC；来源有效、依赖无循环；51个Markdown文件503个本地链接无缺失。"
+          ]
+        },
+        {
+          "id": "SR-XF-001-AC-02",
+          "scenario": "核对14、12与manifest",
+          "expected": "药师身份方向一致，四个月流亡及三名责任人不再列为前期未定；源码和Pages版本与事实一致。",
+          "status": "passed",
+          "evidence": [
+            "2026-10-06：审阅12/14/04/manifest差异；独立药师未复用陆知微；四个月、开局知情及三人责任链按R-26覆盖；API核实main74df8c4与Pages350a4d6。"
+          ]
+        },
+        {
+          "id": "SR-XF-001-AC-03",
+          "scenario": "设计完成但代码未完成",
+          "expected": "台账仍显示开发/验收未完成，历史测试数量不将其自动关闭。",
+          "status": "passed",
+          "evidence": [
+            "2026-10-06：ready缺设计任务、passed缺实现与AC、无证据done、未完成前置均被拒绝；其余玩法仍partial/not_started及not_verified，task不自动提升SR整体状态。"
+          ]
+        }
+      ],
+      "excluded": [
+        "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
+        "不把该SR的设计完成声明为实现、体验或发布完成。"
+      ],
+      "evidence": [
+        "2026-10-06：需求管理文档、派生台账和维护脚本已建立并校验；D01/D02/I01/V01完成。",
+        "这只覆盖SR-XF-001管理能力；其余新玩法未实现、未验收，待逐项推进；R01待main提交核对。"
+      ],
+      "change_log": [
+        {
+          "date": "2026-10-06",
+          "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        },
+        {
+          "date": "2026-10-06",
+          "reason": "完成管理SR的设计、实现及结构/来源/状态守卫验收；仅文档提交待核对，游戏Pages不适用。"
+        }
+      ],
+      "tasks": [
+        {
+          "id": "SR-XF-001-D01",
+          "phase": "D01",
+          "title": "设计补齐",
+          "description": "交付：SR编号与字段规范、总表、机器可读台账及状态维护入口。；核实当前源码/Pages版本，给历史状态加明确时间边界。；14已确定的作者默认与旧待定字段形成覆盖说明；12示例不再复用陆知微作为失联药师。；填实必需参数并标记U/R/T来源。",
+          "status": "done",
+          "owner": "Codex",
+          "depends_on": [],
+          "evidence": [
+            "docs/requirements/README.md、TEMPLATE.md、registry.json：字段、状态、40项SR及范围已定义。"
+          ],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-001-D02",
+          "phase": "D02",
+          "title": "契约与内容审阅",
+          "description": "审阅需求基线、设计冲突与版本状态统一与依赖契约（无外部SR依赖）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。",
+          "status": "done",
+          "owner": "Codex",
+          "depends_on": [
+            "SR-XF-001-D01"
+          ],
+          "evidence": [
+            "2026-10-06：validate确认40项来源/原验收引用有效、无循环依赖、前期不依赖条件或远期。",
+            "2026-10-06：503个本地文档链接检查通过；12独立药师与14一致，旧待定字段增加R-26覆盖说明。"
+          ],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-001-I01",
+          "phase": "I01",
+          "title": "开发与集成",
+          "description": "实现JSON校验、列表、状态更新和Markdown派生；接入设计入口、AGENTS、manifest及交接文档。",
+          "status": "done",
+          "owner": "Codex",
+          "depends_on": [
+            "SR-XF-001-D02"
+          ],
+          "evidence": [
+            "qa/sr-manager.py：validate/refresh/list/task可用；派生40项页面与BACKLOG，AGENTS/manifest/STATUS/HANDOFF已接续。"
+          ],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-001-V01",
+          "phase": "V01",
+          "title": "验收与兼容",
+          "description": "执行SR-XF-001-AC-01至AC-03及DELIVERY-01；登记实际结果、兼容和设备证据边界。",
+          "status": "done",
+          "owner": "Codex",
+          "depends_on": [
+            "SR-XF-001-I01"
+          ],
+          "evidence": [
+            "2026-10-06：3项非法任务状态更新均被拒绝且registry未写入；另5项循环、越界及虚假完成守卫检查通过。",
+            "2026-10-06：GitHub API核实main基线74df8c4及Pages350a4d6，与manifest及发布记录一致。"
+          ],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-001-R01",
+          "phase": "R01",
+          "title": "发布与关闭",
+          "description": "将需求与管理脚本通过GitHub API提交main，核对远端文件内容；无游戏运行时变更，Pages发布不适用。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-001-V01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        }
+      ],
+      "scope_decision": "纳入云岫前期，按依赖推进。",
+      "ready_gate": [
+        "SR字段、分层状态及需求依赖规则固定。",
+        "原设计来源、旧验收和当前版本均可追溯，冲突覆盖关系明确。",
+        "总表、单项页面和台账使用同一组稳定SR编号。"
+      ],
+      "done_gate": [
+        "40项SR完整建档，来源、引用、依赖和状态校验通过。",
+        "文档身份与版本冲突已统一；基线能力未被误报为新功能完成。",
+        "状态守卫拒绝无证据完成、未满足前置及无原因阻塞。",
+        "文档和管理脚本提交main并核对；游戏运行时不变，发布标记not_applicable。"
+      ],
+      "existing_acceptance_refs": [
+        "DELIVERY-01"
+      ],
+      "blockers": [],
+      "acceptance_notes": "本管理SR验证文档、机器台账、状态守卫和既有发布事实；不要求新的游戏场景、设备或截图验收。"
+    },
+    {
+      "id": "SR-XF-002",
+      "title": "共同实体、动作与内容定义契约补齐",
+      "version": "1.0",
+      "scope": "early",
+      "group": "底层",
+      "priority": "P0",
+      "iteration": "I1",
+      "design_status": "refinement_pending",
+      "development_status": "partial",
+      "acceptance_status": "not_verified",
+      "release_status": "not_released_for_this_sr",
+      "owner": null,
+      "reviewer": null,
+      "dependencies": [
+        "SR-XF-001"
+      ],
+      "related_decisions": [
+        "U-63",
+        "U-93",
+        "R-25"
+      ],
+      "source_specs": [
+        "docs/design/01-CHARACTERS.md",
+        "docs/design/02-EQUIPMENT-ARTS.md",
+        "docs/design/05-RUNTIME-CONTRACTS.md",
+        "docs/design/08-LIVING-WORLD.md",
+        "docs/design/09-INTRIGUE-OPPORTUNITIES.md",
+        "docs/design/10-CRISES-RESCUE-DEATH.md",
+        "docs/design/12-CONTENT-AUTHORING.md",
+        "docs/design/06-OPENING-ACCEPTANCE.md"
+      ],
+      "baseline": "已有schema 6、人物/设施/预约和共享工作单的首轮实现。",
+      "design_gap": "目标主表、跨领域字段与内容验证仍未完整落实。",
+      "design_deliverables": [
+        "对persons/items/scenes/routes/claims/crises及活动的必填、空值、范围与引用编制契约表。",
+        "补齐命令前置、结果事务、错误码、世界步效果优先层和知识投影接口。",
+        "定义作者卡到运行内容的编译/校验输入，以及各模块版本兼容矩阵。"
+      ],
+      "requirements": [
+        "生活、战斗、旅行和危机引用同一人物与物品，不另建时钟或生命值。",
+        "读取UI和渲染不得修改事实；过期命令、重复提交及无效引用给出稳定拒绝原因。",
+        "新字段接入包含保存、加载和旧数据兼容策略。"
+      ],
+      "acceptance": [
+        {
+          "id": "SR-XF-002-AC-01",
+          "scenario": "同一人物从山院进入旅行与战斗",
+          "expected": "身份、身体、物品和时间连续，原地点不保留第二个活动身体。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-002-AC-02",
+          "scenario": "重复提交与只读查询",
+          "expected": "结果事务至多一次，查询前后权威状态一致。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-002-AC-03",
+          "scenario": "导入引用缺失或版本未知的定义",
+          "expected": "校验定位到具体ID/字段，停止激活并保留原状态，不生成占位奖励。",
+          "status": "not_run",
+          "evidence": []
+        }
+      ],
+      "excluded": [
+        "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
+        "不把该SR的设计完成声明为实现、体验或发布完成。"
+      ],
+      "evidence": [],
+      "change_log": [
+        {
+          "date": "2026-10-06",
+          "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        }
+      ],
+      "tasks": [
+        {
+          "id": "SR-XF-002-D01",
+          "phase": "D01",
+          "title": "设计补齐",
+          "description": "交付：对persons/items/scenes/routes/claims/crises及活动的必填、空值、范围与引用编制契约表。；补齐命令前置、结果事务、错误码、世界步效果优先层和知识投影接口。；定义作者卡到运行内容的编译/校验输入，以及各模块版本兼容矩阵。；填实必需参数并标记U/R/T来源。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-002-D02",
+          "phase": "D02",
+          "title": "契约与内容审阅",
+          "description": "审阅共同实体、动作与内容定义契约补齐与依赖契约（SR-XF-001）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-002-D01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-002-I01",
+          "phase": "I01",
+          "title": "开发与集成",
+          "description": "在底层模块实现共同实体、动作与内容定义契约补齐；交付SR-XF-002-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-002-D02"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-002-V01",
+          "phase": "V01",
+          "title": "验收与兼容",
+          "description": "执行SR-XF-002-AC-01至AC-03及PERSIST-03、CHAIN-02；登记实际结果、兼容和设备证据边界。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-002-I01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-002-R01",
+          "phase": "R01",
+          "title": "发布与关闭",
+          "description": "完成所需源码/运行时发布核对、交接和未覆盖说明；本轮用户不要求上传QA过程产物。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-002-V01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        }
+      ],
+      "scope_decision": "纳入云岫前期，按依赖推进。",
+      "ready_gate": [
+        "设计交付物存在且版本/引用正确。",
+        "所有行为、失败、取消、恢复和存档影响可执行；未定必需参数已填入配置。",
+        "依赖契约已可使用；涉及身份、风险、真相与来源的作者卡固定。",
+        "验收步骤、预期、数据/设备和结果守恒条件可检查。"
+      ],
+      "done_gate": [
+        "需求行为与所有必需AC通过，设计/实现/验收状态分别更新。",
+        "代码与规格同步，旧档保护、失败恢复和无AI路线通过适用检查。",
+        "范围内所需浏览器/触控/设备/真人验证已取得；未测项不能谎标通过。",
+        "提交/版本/简要结果与发布入口登记；未达到范围内门槛不得关闭。"
+      ],
+      "existing_acceptance_refs": [
+        "PERSIST-03",
+        "CHAIN-02"
+      ],
+      "blockers": []
+    },
+    {
+      "id": "SR-XF-003",
+      "title": "统一米制空间、导航与镜头",
+      "version": "1.0",
+      "scope": "early",
+      "group": "空间",
+      "priority": "P0",
+      "iteration": "I1",
+      "design_status": "refinement_pending",
+      "development_status": "partial",
+      "acceptance_status": "not_verified",
+      "release_status": "not_released_for_this_sr",
+      "owner": null,
+      "reviewer": null,
+      "dependencies": [
+        "SR-XF-002"
+      ],
+      "related_decisions": [
+        "U-63",
+        "U-93",
+        "R-25"
+      ],
+      "source_specs": [
+        "docs/design/03-SPATIAL-ART.md",
+        "docs/design/05-RUNTIME-CONTRACTS.md",
+        "docs/design/14-EARLY-GAME-DETAILED-DESIGN.md",
+        "docs/design/18-SPATIAL-CONTINUITY-IMPLEMENTATION.md"
+      ],
+      "baseline": "已有旧几何、人物移动及镜头保留修复。",
+      "design_gap": "全院尚未统一一米坐标、半米导航格和人物体积验证。",
+      "design_deliverables": [
+        "世界坐标、投影、场景边界和默认近景比例正式表。",
+        "导航网格、人物体积、门道、动态阻挡与局部重算规则。",
+        "旧像素坐标到米制坐标的映射、精度与合法位置修复方案。"
+      ],
+      "requirements": [
+        "人物脚点、门口、建筑和工位使用同一坐标；只有镜头转换屏幕位置。",
+        "建筑改变后更新真实路线，人物不穿墙、不被困于失效入口。",
+        "镜头切换、缩放和进入营造保持选中身份及合理视点。"
+      ],
+      "acceptance": [
+        {
+          "id": "SR-XF-003-AC-01",
+          "scenario": "穿过门口并绕行新建筑",
+          "expected": "足够宽门道可通行，墙体与过窄缝隙不可通行；建设后能合法重规划。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-003-AC-02",
+          "scenario": "近景/总览及触点缩放切换",
+          "expected": "同一世界点/选中对象对应正确，人物与门比例统一。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-003-AC-03",
+          "scenario": "旧坐标样本加载",
+          "expected": "位置映射确定，可修复位置有记录；人物、时间和资产不丢失。",
+          "status": "not_run",
+          "evidence": []
+        }
+      ],
+      "excluded": [
+        "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
+        "不把该SR的设计完成声明为实现、体验或发布完成。"
+      ],
+      "evidence": [],
+      "change_log": [
+        {
+          "date": "2026-10-06",
+          "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        }
+      ],
+      "tasks": [
+        {
+          "id": "SR-XF-003-D01",
+          "phase": "D01",
+          "title": "设计补齐",
+          "description": "交付：世界坐标、投影、场景边界和默认近景比例正式表。；导航网格、人物体积、门道、动态阻挡与局部重算规则。；旧像素坐标到米制坐标的映射、精度与合法位置修复方案。；填实必需参数并标记U/R/T来源。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-003-D02",
+          "phase": "D02",
+          "title": "契约与内容审阅",
+          "description": "审阅统一米制空间、导航与镜头与依赖契约（SR-XF-002）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-003-D01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-003-I01",
+          "phase": "I01",
+          "title": "开发与集成",
+          "description": "在空间模块实现统一米制空间、导航与镜头；交付SR-XF-003-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-003-D02"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-003-V01",
+          "phase": "V01",
+          "title": "验收与兼容",
+          "description": "执行SR-XF-003-AC-01至AC-03及PATH-01、SCENE-02、SAVE-01；登记实际结果、兼容和设备证据边界。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-003-I01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-003-R01",
+          "phase": "R01",
+          "title": "发布与关闭",
+          "description": "完成所需源码/运行时发布核对、交接和未覆盖说明；本轮用户不要求上传QA过程产物。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-003-V01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        }
+      ],
+      "scope_decision": "纳入云岫前期，按依赖推进。",
+      "ready_gate": [
+        "设计交付物存在且版本/引用正确。",
+        "所有行为、失败、取消、恢复和存档影响可执行；未定必需参数已填入配置。",
+        "依赖契约已可使用；涉及身份、风险、真相与来源的作者卡固定。",
+        "验收步骤、预期、数据/设备和结果守恒条件可检查。"
+      ],
+      "done_gate": [
+        "需求行为与所有必需AC通过，设计/实现/验收状态分别更新。",
+        "代码与规格同步，旧档保护、失败恢复和无AI路线通过适用检查。",
+        "范围内所需浏览器/触控/设备/真人验证已取得；未测项不能谎标通过。",
+        "提交/版本/简要结果与发布入口登记；未达到范围内门槛不得关闭。"
+      ],
+      "existing_acceptance_refs": [
+        "PATH-01",
+        "SCENE-02",
+        "SAVE-01"
+      ],
+      "blockers": []
+    },
+    {
+      "id": "SR-XF-004",
+      "title": "建筑预制件、室内与分层素材目录",
+      "version": "1.0",
+      "scope": "early",
+      "group": "空间",
+      "priority": "P0",
+      "iteration": "I1",
+      "design_status": "refinement_pending",
+      "development_status": "partial",
+      "acceptance_status": "not_verified",
+      "release_status": "not_released_for_this_sr",
+      "owner": null,
+      "reviewer": null,
+      "dependencies": [
+        "SR-XF-003"
+      ],
+      "related_decisions": [
+        "U-63",
+        "U-93",
+        "R-25"
+      ],
+      "source_specs": [
+        "docs/design/03-SPATIAL-ART.md",
+        "docs/design/01-CHARACTERS.md",
+        "docs/design/14-EARLY-GAME-DETAILED-DESIGN.md",
+        "docs/design/17-INDOOR-LIFE-IMPLEMENTATION.md",
+        "docs/design/18-SPATIAL-CONTINUITY-IMPLEMENTATION.md"
+      ],
+      "baseline": "已有主屋四床两书案、屋顶分层和三段施工素材投影。",
+      "design_gap": "药田、藏经设施、仓储和器用工坊等缺正式同尺度定义与资产。",
+      "design_deliverables": [
+        "首轮全部可用建筑/设施目录及最终尺寸、锚点、朝向、门、家具、工位、等待位。",
+        "预览/工地/成品/升级/损坏的分层资产规范与资产版本表。",
+        "占地、内部通行、屋顶遮挡和点击区域各自用途及同源生成规则。"
+      ],
+      "requirements": [
+        "容量对应可见床位/工位；经营对象独立于地面背景。",
+        "人物进入室内时屋顶按统一规则退隐，仍能选择与理解活动。",
+        "合法朝向仅使用支持的素材，升级不改变建筑身份。"
+      ],
+      "acceptance": [
+        {
+          "id": "SR-XF-004-AC-01",
+          "scenario": "比较同建筑预览、工地、成品",
+          "expected": "尺寸和锚点一致，无跳位；容量与可见家具数量对应。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-004-AC-02",
+          "scenario": "屋内睡眠、研习和疗伤",
+          "expected": "人物实际到位，遮挡下可选择，门道不作为执行工位。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-004-AC-03",
+          "scenario": "缺失/旧版资产",
+          "expected": "同风格明确回退或禁用该未交付建筑，不出现假容量或更换人物身份。",
+          "status": "not_run",
+          "evidence": []
+        }
+      ],
+      "excluded": [
+        "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
+        "不把该SR的设计完成声明为实现、体验或发布完成。"
+      ],
+      "evidence": [],
+      "change_log": [
+        {
+          "date": "2026-10-06",
+          "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        }
+      ],
+      "tasks": [
+        {
+          "id": "SR-XF-004-D01",
+          "phase": "D01",
+          "title": "设计补齐",
+          "description": "交付：首轮全部可用建筑/设施目录及最终尺寸、锚点、朝向、门、家具、工位、等待位。；预览/工地/成品/升级/损坏的分层资产规范与资产版本表。；占地、内部通行、屋顶遮挡和点击区域各自用途及同源生成规则。；填实必需参数并标记U/R/T来源。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-004-D02",
+          "phase": "D02",
+          "title": "契约与内容审阅",
+          "description": "审阅建筑预制件、室内与分层素材目录与依赖契约（SR-XF-003）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-004-D01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-004-I01",
+          "phase": "I01",
+          "title": "开发与集成",
+          "description": "在空间模块实现建筑预制件、室内与分层素材目录；交付SR-XF-004-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-004-D02"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-004-V01",
+          "phase": "V01",
+          "title": "验收与兼容",
+          "description": "执行SR-XF-004-AC-01至AC-03及SCENE-01、SCENE-03；登记实际结果、兼容和设备证据边界。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-004-I01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-004-R01",
+          "phase": "R01",
+          "title": "发布与关闭",
+          "description": "完成所需源码/运行时发布核对、交接和未覆盖说明；本轮用户不要求上传QA过程产物。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-004-V01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        }
+      ],
+      "scope_decision": "纳入云岫前期，按依赖推进。",
+      "ready_gate": [
+        "设计交付物存在且版本/引用正确。",
+        "所有行为、失败、取消、恢复和存档影响可执行；未定必需参数已填入配置。",
+        "依赖契约已可使用；涉及身份、风险、真相与来源的作者卡固定。",
+        "验收步骤、预期、数据/设备和结果守恒条件可检查。"
+      ],
+      "done_gate": [
+        "需求行为与所有必需AC通过，设计/实现/验收状态分别更新。",
+        "代码与规格同步，旧档保护、失败恢复和无AI路线通过适用检查。",
+        "范围内所需浏览器/触控/设备/真人验证已取得；未测项不能谎标通过。",
+        "提交/版本/简要结果与发布入口登记；未达到范围内门槛不得关闭。"
+      ],
+      "existing_acceptance_refs": [
+        "SCENE-01",
+        "SCENE-03"
+      ],
+      "blockers": []
+    },
+    {
+      "id": "SR-XF-005",
+      "title": "自由选址、施工与入口安全",
+      "version": "1.0",
+      "scope": "early",
+      "group": "营造",
+      "priority": "P0",
+      "iteration": "I1",
+      "design_status": "refinement_pending",
+      "development_status": "partial",
+      "acceptance_status": "not_verified",
+      "release_status": "not_released_for_this_sr",
+      "owner": null,
+      "reviewer": null,
+      "dependencies": [
+        "SR-XF-003",
+        "SR-XF-004"
+      ],
+      "related_decisions": [
+        "U-63",
+        "U-93",
+        "R-25"
+      ],
+      "source_specs": [
+        "docs/design/03-SPATIAL-ART.md",
+        "docs/design/05-RUNTIME-CONTRACTS.md",
+        "docs/design/07-ECONOMY-ORGANIZATION.md",
+        "docs/design/18-SPATIAL-CONTINUITY-IMPLEMENTATION.md",
+        "docs/design/06-OPENING-ACCEPTANCE.md"
+      ],
+      "baseline": "已有候选位置检查、人物占位拒绝、完工等待和施工三阶段。",
+      "design_gap": "仍以既有候选为主，缺完整自由合法安置与反馈设计。",
+      "design_deliverables": [
+        "可建地形、水面/陡坡/剧情保护区规则与入口连通条件。",
+        "鼠标与触控的选址、预览、支持朝向、确认、取消流程。",
+        "施工材料预留、分阶段投入、到场贡献和安全完工状态图。"
+      ],
+      "requirements": [
+        "默认画面不显示永久地块框，规划只显示当前预览和必要辅助。",
+        "确认前不扣费；一次确认生成一个工作单；未完工不提前提供容量。",
+        "放置和完工均检查通行/人物安全，不强行挪走门人或来客。"
+      ],
+      "acceptance": [
+        {
+          "id": "SR-XF-005-AC-01",
+          "scenario": "在任意合法空地放置并施工",
+          "expected": "可完成自由选址；到场后才贡献，完成后场景与容量一致。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-005-AC-02",
+          "scenario": "阻挡入口或人物占位后确认",
+          "expected": "具名/具体现象提示，费用和人物位置不变；等待后可合法继续。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-005-AC-03",
+          "scenario": "反复确认、取消、存读档和暂停",
+          "expected": "任务/材料至多登记一次，暂停不推进，取消按已发生投入结算。",
+          "status": "not_run",
+          "evidence": []
+        }
+      ],
+      "excluded": [
+        "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
+        "不把该SR的设计完成声明为实现、体验或发布完成。"
+      ],
+      "evidence": [],
+      "change_log": [
+        {
+          "date": "2026-10-06",
+          "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        }
+      ],
+      "tasks": [
+        {
+          "id": "SR-XF-005-D01",
+          "phase": "D01",
+          "title": "设计补齐",
+          "description": "交付：可建地形、水面/陡坡/剧情保护区规则与入口连通条件。；鼠标与触控的选址、预览、支持朝向、确认、取消流程。；施工材料预留、分阶段投入、到场贡献和安全完工状态图。；填实必需参数并标记U/R/T来源。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-005-D02",
+          "phase": "D02",
+          "title": "契约与内容审阅",
+          "description": "审阅自由选址、施工与入口安全与依赖契约（SR-XF-003、SR-XF-004）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-005-D01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-005-I01",
+          "phase": "I01",
+          "title": "开发与集成",
+          "description": "在营造模块实现自由选址、施工与入口安全；交付SR-XF-005-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-005-D02"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-005-V01",
+          "phase": "V01",
+          "title": "验收与兼容",
+          "description": "执行SR-XF-005-AC-01至AC-03及BUILD-01、BUILD-02、BUILD-03、OPEN-05；登记实际结果、兼容和设备证据边界。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-005-I01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-005-R01",
+          "phase": "R01",
+          "title": "发布与关闭",
+          "description": "完成所需源码/运行时发布核对、交接和未覆盖说明；本轮用户不要求上传QA过程产物。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-005-V01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        }
+      ],
+      "scope_decision": "纳入云岫前期，按依赖推进。",
+      "ready_gate": [
+        "设计交付物存在且版本/引用正确。",
+        "所有行为、失败、取消、恢复和存档影响可执行；未定必需参数已填入配置。",
+        "依赖契约已可使用；涉及身份、风险、真相与来源的作者卡固定。",
+        "验收步骤、预期、数据/设备和结果守恒条件可检查。"
+      ],
+      "done_gate": [
+        "需求行为与所有必需AC通过，设计/实现/验收状态分别更新。",
+        "代码与规格同步，旧档保护、失败恢复和无AI路线通过适用检查。",
+        "范围内所需浏览器/触控/设备/真人验证已取得；未测项不能谎标通过。",
+        "提交/版本/简要结果与发布入口登记；未达到范围内门槛不得关闭。"
+      ],
+      "existing_acceptance_refs": [
+        "BUILD-01",
+        "BUILD-02",
+        "BUILD-03",
+        "OPEN-05"
+      ],
+      "blockers": []
+    },
+    {
+      "id": "SR-XF-006",
+      "title": "升级、迁建与拆除的安全任务",
+      "version": "1.0",
+      "scope": "early",
+      "group": "营造",
+      "priority": "P1",
+      "iteration": "I1",
+      "design_status": "refinement_pending",
+      "development_status": "partial",
+      "acceptance_status": "not_verified",
+      "release_status": "not_released_for_this_sr",
+      "owner": null,
+      "reviewer": null,
+      "dependencies": [
+        "SR-XF-004",
+        "SR-XF-005"
+      ],
+      "related_decisions": [
+        "U-63",
+        "U-93",
+        "R-25"
+      ],
+      "source_specs": [
+        "docs/design/03-SPATIAL-ART.md",
+        "docs/design/05-RUNTIME-CONTRACTS.md",
+        "docs/design/07-ECONOMY-ORGANIZATION.md",
+        "docs/design/18-SPATIAL-CONTINUITY-IMPLEMENTATION.md"
+      ],
+      "baseline": "已有升级迁建预览尺寸修正和安全完工等待。",
+      "design_gap": "劳动/占床中的完整迁建拆除流程、退款与位置恢复未统一。",
+      "design_deliverables": [
+        "升级占地冲突、迁建源/目标预约、拆除与材料回收的任务状态图。",
+        "人物活动中断、等待、临时撤离/安置和重新预约策略。",
+        "各取消阶段的已用成本、余料、进度和身份保留表。"
+      ],
+      "requirements": [
+        "被使用建筑不得瞬间消失或隔空复制；改动有实际时间与劳动成本。",
+        "迁建保留buildingId及槽位关联，活动重验后恢复或说明失效原因。",
+        "目标地被占或取消时保留原实体，失败不困人不重退资源。"
+      ],
+      "acceptance": [
+        {
+          "id": "SR-XF-006-AC-01",
+          "scenario": "占床/劳动时发起迁建或拆除",
+          "expected": "按明确策略等待或安全结束活动，人物有可达去处。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-006-AC-02",
+          "scenario": "目标地失效、途中取消并重载",
+          "expected": "原建筑和已用投入可追溯，退款一次，无复制建筑。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-006-AC-03",
+          "scenario": "升级扩大占地",
+          "expected": "合法扩大才能完成；通路/容量/UI使用新统一定义。",
+          "status": "not_run",
+          "evidence": []
+        }
+      ],
+      "excluded": [
+        "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
+        "不把该SR的设计完成声明为实现、体验或发布完成。"
+      ],
+      "evidence": [],
+      "change_log": [
+        {
+          "date": "2026-10-06",
+          "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        }
+      ],
+      "tasks": [
+        {
+          "id": "SR-XF-006-D01",
+          "phase": "D01",
+          "title": "设计补齐",
+          "description": "交付：升级占地冲突、迁建源/目标预约、拆除与材料回收的任务状态图。；人物活动中断、等待、临时撤离/安置和重新预约策略。；各取消阶段的已用成本、余料、进度和身份保留表。；填实必需参数并标记U/R/T来源。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-006-D02",
+          "phase": "D02",
+          "title": "契约与内容审阅",
+          "description": "审阅升级、迁建与拆除的安全任务与依赖契约（SR-XF-004、SR-XF-005）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-006-D01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-006-I01",
+          "phase": "I01",
+          "title": "开发与集成",
+          "description": "在营造模块实现升级、迁建与拆除的安全任务；交付SR-XF-006-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-006-D02"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-006-V01",
+          "phase": "V01",
+          "title": "验收与兼容",
+          "description": "执行SR-XF-006-AC-01至AC-03及BUILD-04、SAVE-01；登记实际结果、兼容和设备证据边界。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-006-I01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-006-R01",
+          "phase": "R01",
+          "title": "发布与关闭",
+          "description": "完成所需源码/运行时发布核对、交接和未覆盖说明；本轮用户不要求上传QA过程产物。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-006-V01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        }
+      ],
+      "scope_decision": "纳入云岫前期，按依赖推进。",
+      "ready_gate": [
+        "设计交付物存在且版本/引用正确。",
+        "所有行为、失败、取消、恢复和存档影响可执行；未定必需参数已填入配置。",
+        "依赖契约已可使用；涉及身份、风险、真相与来源的作者卡固定。",
+        "验收步骤、预期、数据/设备和结果守恒条件可检查。"
+      ],
+      "done_gate": [
+        "需求行为与所有必需AC通过，设计/实现/验收状态分别更新。",
+        "代码与规格同步，旧档保护、失败恢复和无AI路线通过适用检查。",
+        "范围内所需浏览器/触控/设备/真人验证已取得；未测项不能谎标通过。",
+        "提交/版本/简要结果与发布入口登记；未达到范围内门槛不得关闭。"
+      ],
+      "existing_acceptance_refs": [
+        "BUILD-04",
+        "SAVE-01"
+      ],
+      "blockers": []
+    },
+    {
+      "id": "SR-XF-007",
+      "title": "稳定人物外观、肖像与活动动作",
+      "version": "1.0",
+      "scope": "early",
+      "group": "人物",
+      "priority": "P0",
+      "iteration": "I1",
+      "design_status": "refinement_pending",
+      "development_status": "partial",
+      "acceptance_status": "not_verified",
+      "release_status": "not_released_for_this_sr",
+      "owner": null,
+      "reviewer": null,
+      "dependencies": [
+        "SR-XF-002",
+        "SR-XF-004"
+      ],
+      "related_decisions": [
+        "U-63",
+        "U-93",
+        "R-25"
+      ],
+      "source_specs": [
+        "docs/design/01-CHARACTERS.md",
+        "docs/design/02-EQUIPMENT-ARTS.md",
+        "docs/design/03-SPATIAL-ART.md",
+        "docs/design/14-EARLY-GAME-DETAILED-DESIGN.md",
+        "docs/design/06-OPENING-ACCEPTANCE.md"
+      ],
+      "baseline": "已有具名人物与场景角色、部分动作和点选入口。",
+      "design_gap": "外观组合、装备挂点和全活动动作尚未形成正式资产配方。",
+      "design_deliverables": [
+        "关键人物配方及普通人物可组合体型/脸/发型/主色/服饰目录。",
+        "站立、行走、采集、种植、研习、休息、疗伤、施法、受击动作与工具对应表。",
+        "肖像/山院/战斗的同身份映射，装备挂点和缺帧回退规则。"
+      ],
+      "requirements": [
+        "角色重载、入宗、换衣和切场景不重掷身份外观。",
+        "活动状态、姿态与随身工具对应，途中不能显示正在执行劳动。",
+        "远景不破坏人类尺度；近景可区分至少三名人物。"
+      ],
+      "acceptance": [
+        {
+          "id": "SR-XF-007-AC-01",
+          "scenario": "三名以上同场角色指定点选",
+          "expected": "可凭外观和肖像对应身份，能说出当前活动。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-007-AC-02",
+          "scenario": "换装备和切到战斗再返回",
+          "expected": "身份特征稳定，武器/法器外观与实际实例对应。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-007-AC-03",
+          "scenario": "等待、睡眠和研习切换",
+          "expected": "动作/工具/标签与权威状态一致，回退不冒充完整动作。",
+          "status": "not_run",
+          "evidence": []
+        }
+      ],
+      "excluded": [
+        "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
+        "不把该SR的设计完成声明为实现、体验或发布完成。"
+      ],
+      "evidence": [],
+      "change_log": [
+        {
+          "date": "2026-10-06",
+          "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        }
+      ],
+      "tasks": [
+        {
+          "id": "SR-XF-007-D01",
+          "phase": "D01",
+          "title": "设计补齐",
+          "description": "交付：关键人物配方及普通人物可组合体型/脸/发型/主色/服饰目录。；站立、行走、采集、种植、研习、休息、疗伤、施法、受击动作与工具对应表。；肖像/山院/战斗的同身份映射，装备挂点和缺帧回退规则。；填实必需参数并标记U/R/T来源。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-007-D02",
+          "phase": "D02",
+          "title": "契约与内容审阅",
+          "description": "审阅稳定人物外观、肖像与活动动作与依赖契约（SR-XF-002、SR-XF-004）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-007-D01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-007-I01",
+          "phase": "I01",
+          "title": "开发与集成",
+          "description": "在人物模块实现稳定人物外观、肖像与活动动作；交付SR-XF-007-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-007-D02"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-007-V01",
+          "phase": "V01",
+          "title": "验收与兼容",
+          "description": "执行SR-XF-007-AC-01至AC-03及OPEN-02、ACT-01；登记实际结果、兼容和设备证据边界。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-007-I01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-007-R01",
+          "phase": "R01",
+          "title": "发布与关闭",
+          "description": "完成所需源码/运行时发布核对、交接和未覆盖说明；本轮用户不要求上传QA过程产物。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-007-V01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        }
+      ],
+      "scope_decision": "纳入云岫前期，按依赖推进。",
+      "ready_gate": [
+        "设计交付物存在且版本/引用正确。",
+        "所有行为、失败、取消、恢复和存档影响可执行；未定必需参数已填入配置。",
+        "依赖契约已可使用；涉及身份、风险、真相与来源的作者卡固定。",
+        "验收步骤、预期、数据/设备和结果守恒条件可检查。"
+      ],
+      "done_gate": [
+        "需求行为与所有必需AC通过，设计/实现/验收状态分别更新。",
+        "代码与规格同步，旧档保护、失败恢复和无AI路线通过适用检查。",
+        "范围内所需浏览器/触控/设备/真人验证已取得；未测项不能谎标通过。",
+        "提交/版本/简要结果与发布入口登记；未达到范围内门槛不得关闭。"
+      ],
+      "existing_acceptance_refs": [
+        "OPEN-02",
+        "ACT-01"
+      ],
+      "blockers": []
+    },
+    {
+      "id": "SR-XF-008",
+      "title": "NPC日程、自主选择与职责参数",
+      "version": "1.0",
+      "scope": "early",
+      "group": "人物",
+      "priority": "P1",
+      "iteration": "I1",
+      "design_status": "refinement_pending",
+      "development_status": "partial",
+      "acceptance_status": "not_verified",
+      "release_status": "not_released_for_this_sr",
+      "owner": null,
+      "reviewer": null,
+      "dependencies": [
+        "SR-XF-002",
+        "SR-XF-003"
+      ],
+      "related_decisions": [
+        "U-63",
+        "U-93",
+        "R-25"
+      ],
+      "source_specs": [
+        "docs/design/01-CHARACTERS.md",
+        "docs/design/07-ECONOMY-ORGANIZATION.md",
+        "docs/design/08-LIVING-WORLD.md",
+        "docs/design/14-EARLY-GAME-DETAILED-DESIGN.md",
+        "docs/design/03-SPATIAL-ART.md"
+      ],
+      "baseline": "已有自主行为、意愿和工位等候基础。",
+      "design_gap": "完整候选效用、日程、承诺、职责、记忆更新及规模参数需补齐。",
+      "design_deliverables": [
+        "需要/志向/能力/关系/风险的候选过滤与效用参数表，保留不能做与不愿做区别。",
+        "承诺期限、改意阈值、重试退避、活动中断和恢复规则。",
+        "关键人物日程、岗位可用时间、关系记忆影响和隐私投影。"
+      ],
+      "requirements": [
+        "掌门提供机会，NPC自己接受，不以批量按钮强制工作、学法或参战。",
+        "同一人物不能同时巡护、授课与外出；长期承诺受伤或危险时可合法中断。",
+        "理由只显示公开/本人说法，隐藏动机不从UI泄露。"
+      ],
+      "acceptance": [
+        {
+          "id": "SR-XF-008-AC-01",
+          "scenario": "重复邀请同条件NPC",
+          "expected": "接受结果不靠点击重掷；条件变化后才合法重评估。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-008-AC-02",
+          "scenario": "五人竞争两个工位",
+          "expected": "两人实际执行，其他等待或改做其他事，入口不叠人假生产。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-008-AC-03",
+          "scenario": "出行或受伤打断工作",
+          "expected": "生产停止，预约合理释放；恢复先重验身体、目标和材料。",
+          "status": "not_run",
+          "evidence": []
+        }
+      ],
+      "excluded": [
+        "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
+        "不把该SR的设计完成声明为实现、体验或发布完成。"
+      ],
+      "evidence": [],
+      "change_log": [
+        {
+          "date": "2026-10-06",
+          "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        }
+      ],
+      "tasks": [
+        {
+          "id": "SR-XF-008-D01",
+          "phase": "D01",
+          "title": "设计补齐",
+          "description": "交付：需要/志向/能力/关系/风险的候选过滤与效用参数表，保留不能做与不愿做区别。；承诺期限、改意阈值、重试退避、活动中断和恢复规则。；关键人物日程、岗位可用时间、关系记忆影响和隐私投影。；填实必需参数并标记U/R/T来源。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-008-D02",
+          "phase": "D02",
+          "title": "契约与内容审阅",
+          "description": "审阅NPC日程、自主选择与职责参数与依赖契约（SR-XF-002、SR-XF-003）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-008-D01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-008-I01",
+          "phase": "I01",
+          "title": "开发与集成",
+          "description": "在人物模块实现NPC日程、自主选择与职责参数；交付SR-XF-008-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-008-D02"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-008-V01",
+          "phase": "V01",
+          "title": "验收与兼容",
+          "description": "执行SR-XF-008-AC-01至AC-03及SLOT-01、ECON-04；登记实际结果、兼容和设备证据边界。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-008-I01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-008-R01",
+          "phase": "R01",
+          "title": "发布与关闭",
+          "description": "完成所需源码/运行时发布核对、交接和未覆盖说明；本轮用户不要求上传QA过程产物。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-008-V01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        }
+      ],
+      "scope_decision": "纳入云岫前期，按依赖推进。",
+      "ready_gate": [
+        "设计交付物存在且版本/引用正确。",
+        "所有行为、失败、取消、恢复和存档影响可执行；未定必需参数已填入配置。",
+        "依赖契约已可使用；涉及身份、风险、真相与来源的作者卡固定。",
+        "验收步骤、预期、数据/设备和结果守恒条件可检查。"
+      ],
+      "done_gate": [
+        "需求行为与所有必需AC通过，设计/实现/验收状态分别更新。",
+        "代码与规格同步，旧档保护、失败恢复和无AI路线通过适用检查。",
+        "范围内所需浏览器/触控/设备/真人验证已取得；未测项不能谎标通过。",
+        "提交/版本/简要结果与发布入口登记；未达到范围内门槛不得关闭。"
+      ],
+      "existing_acceptance_refs": [
+        "SLOT-01",
+        "ECON-04"
+      ],
+      "blockers": []
+    },
+    {
+      "id": "SR-XF-009",
+      "title": "有限供给链与配方产能表",
+      "version": "1.0",
+      "scope": "early",
+      "group": "经营",
+      "priority": "P0",
+      "iteration": "I1",
+      "design_status": "refinement_pending",
+      "development_status": "partial",
+      "acceptance_status": "not_verified",
+      "release_status": "not_released_for_this_sr",
+      "owner": null,
+      "reviewer": null,
+      "dependencies": [
+        "SR-XF-002",
+        "SR-XF-004"
+      ],
+      "related_decisions": [
+        "U-63",
+        "U-93",
+        "R-25"
+      ],
+      "source_specs": [
+        "docs/design/02-EQUIPMENT-ARTS.md",
+        "docs/design/07-ECONOMY-ORGANIZATION.md",
+        "docs/design/14-EARLY-GAME-DETAILED-DESIGN.md",
+        "docs/design/06-OPENING-ACCEPTANCE.md"
+      ],
+      "baseline": "已有药田生产、材料预留和多人共享批次。",
+      "design_gap": "配方、产能、耗时、维护和制作风险仍需完整版本化配置。",
+      "design_deliverables": [
+        "木石营造、药材到恢复药物、原料到装备的输入/工序/输出/工位表。",
+        "投入时机、取消退料、返工残材、技能门槛和产能瓶颈。",
+        "常用种苗/药材/材料计量、价格参考与正常缺工补救。"
+      ],
+      "requirements": [
+        "有限材料和实际劳动产出有限结果；共享批次多人贡献只结算一份。",
+        "离岗、缺料、路径断开和设施失效要停止/等待并解释原因。",
+        "掌门可亲自补足早期缺工，拒绝支线不堵住基础供给。"
+      ],
+      "acceptance": [
+        {
+          "id": "SR-XF-009-AC-01",
+          "scenario": "无人/缺料/在途期间推进世界",
+          "expected": "对应工序不产出，状态原因与库存一致。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-009-AC-02",
+          "scenario": "多人协作完成一批并重载",
+          "expected": "只产出规定数量，成本、技能与记忆按同一结果结算。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-009-AC-03",
+          "scenario": "取消加工或原料被其他订单预留",
+          "expected": "区分可用/预留/已用量，余料返还一次且可继续其他合法活动。",
+          "status": "not_run",
+          "evidence": []
+        }
+      ],
+      "excluded": [
+        "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
+        "不把该SR的设计完成声明为实现、体验或发布完成。"
+      ],
+      "evidence": [],
+      "change_log": [
+        {
+          "date": "2026-10-06",
+          "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        }
+      ],
+      "tasks": [
+        {
+          "id": "SR-XF-009-D01",
+          "phase": "D01",
+          "title": "设计补齐",
+          "description": "交付：木石营造、药材到恢复药物、原料到装备的输入/工序/输出/工位表。；投入时机、取消退料、返工残材、技能门槛和产能瓶颈。；常用种苗/药材/材料计量、价格参考与正常缺工补救。；填实必需参数并标记U/R/T来源。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-009-D02",
+          "phase": "D02",
+          "title": "契约与内容审阅",
+          "description": "审阅有限供给链与配方产能表与依赖契约（SR-XF-002、SR-XF-004）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-009-D01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-009-I01",
+          "phase": "I01",
+          "title": "开发与集成",
+          "description": "在经营模块实现有限供给链与配方产能表；交付SR-XF-009-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-009-D02"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-009-V01",
+          "phase": "V01",
+          "title": "验收与兼容",
+          "description": "执行SR-XF-009-AC-01至AC-03及ECON-01、ECON-02、OPEN-06；登记实际结果、兼容和设备证据边界。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-009-I01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-009-R01",
+          "phase": "R01",
+          "title": "发布与关闭",
+          "description": "完成所需源码/运行时发布核对、交接和未覆盖说明；本轮用户不要求上传QA过程产物。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-009-V01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        }
+      ],
+      "scope_decision": "纳入云岫前期，按依赖推进。",
+      "ready_gate": [
+        "设计交付物存在且版本/引用正确。",
+        "所有行为、失败、取消、恢复和存档影响可执行；未定必需参数已填入配置。",
+        "依赖契约已可使用；涉及身份、风险、真相与来源的作者卡固定。",
+        "验收步骤、预期、数据/设备和结果守恒条件可检查。"
+      ],
+      "done_gate": [
+        "需求行为与所有必需AC通过，设计/实现/验收状态分别更新。",
+        "代码与规格同步，旧档保护、失败恢复和无AI路线通过适用检查。",
+        "范围内所需浏览器/触控/设备/真人验证已取得；未测项不能谎标通过。",
+        "提交/版本/简要结果与发布入口登记；未达到范围内门槛不得关闭。"
+      ],
+      "existing_acceptance_refs": [
+        "ECON-01",
+        "ECON-02",
+        "OPEN-06"
+      ],
+      "blockers": []
+    },
+    {
+      "id": "SR-XF-010",
+      "title": "位置库存、搬运与公私账本",
+      "version": "1.0",
+      "scope": "early",
+      "group": "经营",
+      "priority": "P0",
+      "iteration": "I1",
+      "design_status": "refinement_pending",
+      "development_status": "partial",
+      "acceptance_status": "not_verified",
+      "release_status": "not_released_for_this_sr",
+      "owner": null,
+      "reviewer": null,
+      "dependencies": [
+        "SR-XF-002",
+        "SR-XF-003",
+        "SR-XF-009"
+      ],
+      "related_decisions": [
+        "U-63",
+        "U-93",
+        "R-25"
+      ],
+      "source_specs": [
+        "docs/design/05-RUNTIME-CONTRACTS.md",
+        "docs/design/07-ECONOMY-ORGANIZATION.md",
+        "docs/design/14-EARLY-GAME-DETAILED-DESIGN.md"
+      ],
+      "baseline": "已有公库/个人赠药及共享工作单预留的局部事实。",
+      "design_gap": "材料仍缺完整仓储位置、运输批次和保管/所有权守恒设计。",
+      "design_deliverables": [
+        "stockpile位置、容量、拥有者/保管者和资源最小单位表。",
+        "取料、携带、在途、交付、损失与归还的运输状态机及批量。",
+        "与施工/生产预约接口、公私账本、取消与迁建中的库存恢复。"
+      ],
+      "requirements": [
+        "总量、可用、预留、在途可解释；同一材料/物品不出现在两处可用库存。",
+        "搬运需要可达路线和实际到场，工地未收料不能虚假使用。",
+        "共有和个人财物权限分开，入宗不自动没收或复制装备。"
+      ],
+      "acceptance": [
+        {
+          "id": "SR-XF-010-AC-01",
+          "scenario": "从仓库搬料到工地",
+          "expected": "库存与在途逐段守恒，到场交付后才供合法工序使用。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-010-AC-02",
+          "scenario": "路断/搬运者受伤后取消与重载",
+          "expected": "材料留在有记录位置或走明确恢复事务，不丢失不重复返还。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-010-AC-03",
+          "scenario": "赠予、借用和公库竞争",
+          "expected": "权限与所有权正确，一份预留不能被第二订单消费。",
+          "status": "not_run",
+          "evidence": []
+        }
+      ],
+      "excluded": [
+        "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
+        "不把该SR的设计完成声明为实现、体验或发布完成。"
+      ],
+      "evidence": [],
+      "change_log": [
+        {
+          "date": "2026-10-06",
+          "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        }
+      ],
+      "tasks": [
+        {
+          "id": "SR-XF-010-D01",
+          "phase": "D01",
+          "title": "设计补齐",
+          "description": "交付：stockpile位置、容量、拥有者/保管者和资源最小单位表。；取料、携带、在途、交付、损失与归还的运输状态机及批量。；与施工/生产预约接口、公私账本、取消与迁建中的库存恢复。；填实必需参数并标记U/R/T来源。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-010-D02",
+          "phase": "D02",
+          "title": "契约与内容审阅",
+          "description": "审阅位置库存、搬运与公私账本与依赖契约（SR-XF-002、SR-XF-003、SR-XF-009）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-010-D01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-010-I01",
+          "phase": "I01",
+          "title": "开发与集成",
+          "description": "在经营模块实现位置库存、搬运与公私账本；交付SR-XF-010-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-010-D02"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-010-V01",
+          "phase": "V01",
+          "title": "验收与兼容",
+          "description": "执行SR-XF-010-AC-01至AC-03及ECON-02、ECON-03；登记实际结果、兼容和设备证据边界。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-010-I01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-010-R01",
+          "phase": "R01",
+          "title": "发布与关闭",
+          "description": "完成所需源码/运行时发布核对、交接和未覆盖说明；本轮用户不要求上传QA过程产物。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-010-V01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        }
+      ],
+      "scope_decision": "纳入云岫前期，按依赖推进。",
+      "ready_gate": [
+        "设计交付物存在且版本/引用正确。",
+        "所有行为、失败、取消、恢复和存档影响可执行；未定必需参数已填入配置。",
+        "依赖契约已可使用；涉及身份、风险、真相与来源的作者卡固定。",
+        "验收步骤、预期、数据/设备和结果守恒条件可检查。"
+      ],
+      "done_gate": [
+        "需求行为与所有必需AC通过，设计/实现/验收状态分别更新。",
+        "代码与规格同步，旧档保护、失败恢复和无AI路线通过适用检查。",
+        "范围内所需浏览器/触控/设备/真人验证已取得；未测项不能谎标通过。",
+        "提交/版本/简要结果与发布入口登记；未达到范围内门槛不得关闭。"
+      ],
+      "existing_acceptance_refs": [
+        "ECON-02",
+        "ECON-03"
+      ],
+      "blockers": []
+    },
+    {
+      "id": "SR-XF-011",
+      "title": "有限交易、补货与地方订单",
+      "version": "1.0",
+      "scope": "early",
+      "group": "经营",
+      "priority": "P1",
+      "iteration": "I2",
+      "design_status": "refinement_pending",
+      "development_status": "partial",
+      "acceptance_status": "not_verified",
+      "release_status": "not_released_for_this_sr",
+      "owner": null,
+      "reviewer": null,
+      "dependencies": [
+        "SR-XF-009",
+        "SR-XF-010",
+        "SR-XF-017"
+      ],
+      "related_decisions": [
+        "U-63",
+        "U-93",
+        "R-25"
+      ],
+      "source_specs": [
+        "docs/design/02-EQUIPMENT-ARTS.md",
+        "docs/design/04-WORLD-STORY.md",
+        "docs/design/07-ECONOMY-ORGANIZATION.md",
+        "docs/design/14-EARLY-GAME-DETAILED-DESIGN.md"
+      ],
+      "baseline": "已有买卖与资源交换基础。",
+      "design_gap": "真实买方/库存/补货、费率、订单交付和拒单后果需具体定义。",
+      "design_deliverables": [
+        "普通材料药物/装备的可靠来源、价格依据、商人本金与有限库存。",
+        "补货来源、运输和周期；订单报价、同意、预留、付款、交付、违约流程。",
+        "傀儡销售、顾氏供药、鬼市收费和赤嶂通路旧产的具体地方内容。"
+      ],
+      "requirements": [
+        "刷新商店/读档不凭空补货，商人支付和收到货物可追踪。",
+        "购得实物、配方知识与制作资格分别处理；借物不得越权出售。",
+        "拒单与道路故障依条件有后果和继续路径，不自动全势力敌对。"
+      ],
+      "acceptance": [
+        {
+          "id": "SR-XF-011-AC-01",
+          "scenario": "同一订单重复交付并读档",
+          "expected": "货物、付款和声誉一次结算，无复制奖励。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-011-AC-02",
+          "scenario": "断路或缺货期间访问商店",
+          "expected": "补货受实际供给影响，仍有已设计基础替代来源。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-011-AC-03",
+          "scenario": "连续买入卖出/公器销售",
+          "expected": "不可无来源套利或改变借物所有权，拒绝理由明确。",
+          "status": "not_run",
+          "evidence": []
+        }
+      ],
+      "excluded": [
+        "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
+        "不把该SR的设计完成声明为实现、体验或发布完成。"
+      ],
+      "evidence": [],
+      "change_log": [
+        {
+          "date": "2026-10-06",
+          "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        }
+      ],
+      "tasks": [
+        {
+          "id": "SR-XF-011-D01",
+          "phase": "D01",
+          "title": "设计补齐",
+          "description": "交付：普通材料药物/装备的可靠来源、价格依据、商人本金与有限库存。；补货来源、运输和周期；订单报价、同意、预留、付款、交付、违约流程。；傀儡销售、顾氏供药、鬼市收费和赤嶂通路旧产的具体地方内容。；填实必需参数并标记U/R/T来源。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-011-D02",
+          "phase": "D02",
+          "title": "契约与内容审阅",
+          "description": "审阅有限交易、补货与地方订单与依赖契约（SR-XF-009、SR-XF-010、SR-XF-017）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-011-D01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-011-I01",
+          "phase": "I01",
+          "title": "开发与集成",
+          "description": "在经营模块实现有限交易、补货与地方订单；交付SR-XF-011-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-011-D02"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-011-V01",
+          "phase": "V01",
+          "title": "验收与兼容",
+          "description": "执行SR-XF-011-AC-01至AC-03及ECON-03、EQ-02；登记实际结果、兼容和设备证据边界。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-011-I01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-011-R01",
+          "phase": "R01",
+          "title": "发布与关闭",
+          "description": "完成所需源码/运行时发布核对、交接和未覆盖说明；本轮用户不要求上传QA过程产物。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-011-V01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        }
+      ],
+      "scope_decision": "纳入云岫前期，按依赖推进。",
+      "ready_gate": [
+        "设计交付物存在且版本/引用正确。",
+        "所有行为、失败、取消、恢复和存档影响可执行；未定必需参数已填入配置。",
+        "依赖契约已可使用；涉及身份、风险、真相与来源的作者卡固定。",
+        "验收步骤、预期、数据/设备和结果守恒条件可检查。"
+      ],
+      "done_gate": [
+        "需求行为与所有必需AC通过，设计/实现/验收状态分别更新。",
+        "代码与规格同步，旧档保护、失败恢复和无AI路线通过适用检查。",
+        "范围内所需浏览器/触控/设备/真人验证已取得；未测项不能谎标通过。",
+        "提交/版本/简要结果与发布入口登记；未达到范围内门槛不得关闭。"
+      ],
+      "existing_acceptance_refs": [
+        "ECON-03",
+        "EQ-02"
+      ],
+      "blockers": []
+    },
+    {
+      "id": "SR-XF-012",
+      "title": "装备实例、维护、套装与获取目录",
+      "version": "1.0",
+      "scope": "early",
+      "group": "成长",
+      "priority": "P1",
+      "iteration": "I2",
+      "design_status": "refinement_pending",
+      "development_status": "partial",
+      "acceptance_status": "not_verified",
+      "release_status": "not_released_for_this_sr",
+      "owner": null,
+      "reviewer": null,
+      "dependencies": [
+        "SR-XF-002",
+        "SR-XF-007",
+        "SR-XF-009",
+        "SR-XF-010"
+      ],
+      "related_decisions": [
+        "U-63",
+        "U-93",
+        "R-25"
+      ],
+      "source_specs": [
+        "docs/design/02-EQUIPMENT-ARTS.md",
+        "docs/design/05-RUNTIME-CONTRACTS.md",
+        "docs/design/14-EARLY-GAME-DETAILED-DESIGN.md",
+        "docs/design/06-OPENING-ACCEPTANCE.md"
+      ],
+      "baseline": "已有部分剧情物品和奖励入口，尚无新版装备完整闭环。",
+      "design_gap": "四槽正式目录、唯一实例权限、维护和主题组合缺具体定义。",
+      "design_deliverables": [
+        "普通剑/护具/法器/佩饰和护脉遗器的定义ID、门槛、重量、品质、外观、配方。",
+        "制造/修理/使用/赠予/借用/归还的来源与磨损维护规则。",
+        "套装角色、替代件、范围、持续、消耗、冷却与叠加预算；本命绑定另见SR-033。"
+      ],
+      "requirements": [
+        "一实例一有效位置/装备者，定义和实例分开。",
+        "每件独立有用，完整主题形成可见用途，非穿齐才能推进。",
+        "装备详情、肖像和动作投影同一事实；战斗中不从远库瞬间换装。"
+      ],
+      "acceptance": [
+        {
+          "id": "SR-XF-012-AC-01",
+          "scenario": "同物装备两人或同时入库",
+          "expected": "第二请求被拒，重载后归属和位置唯一。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-012-AC-02",
+          "scenario": "借用期结束和损坏后返还",
+          "expected": "本人执行实际归还/维修，战斗中不隔空夺走。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-012-AC-03",
+          "scenario": "散件与完整组合在阵域内外使用",
+          "expected": "规定范围和代价可见，失效原因一致，不叠成永久无敌。",
+          "status": "not_run",
+          "evidence": []
+        }
+      ],
+      "excluded": [
+        "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
+        "不把该SR的设计完成声明为实现、体验或发布完成。"
+      ],
+      "evidence": [],
+      "change_log": [
+        {
+          "date": "2026-10-06",
+          "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        }
+      ],
+      "tasks": [
+        {
+          "id": "SR-XF-012-D01",
+          "phase": "D01",
+          "title": "设计补齐",
+          "description": "交付：普通剑/护具/法器/佩饰和护脉遗器的定义ID、门槛、重量、品质、外观、配方。；制造/修理/使用/赠予/借用/归还的来源与磨损维护规则。；套装角色、替代件、范围、持续、消耗、冷却与叠加预算；本命绑定另见SR-033。；填实必需参数并标记U/R/T来源。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-012-D02",
+          "phase": "D02",
+          "title": "契约与内容审阅",
+          "description": "审阅装备实例、维护、套装与获取目录与依赖契约（SR-XF-002、SR-XF-007、SR-XF-009、SR-XF-010）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-012-D01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-012-I01",
+          "phase": "I01",
+          "title": "开发与集成",
+          "description": "在成长模块实现装备实例、维护、套装与获取目录；交付SR-XF-012-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-012-D02"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-012-V01",
+          "phase": "V01",
+          "title": "验收与兼容",
+          "description": "执行SR-XF-012-AC-01至AC-03及EQ-01、EQ-02、CHAIN-04；登记实际结果、兼容和设备证据边界。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-012-I01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-012-R01",
+          "phase": "R01",
+          "title": "发布与关闭",
+          "description": "完成所需源码/运行时发布核对、交接和未覆盖说明；本轮用户不要求上传QA过程产物。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-012-V01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        }
+      ],
+      "scope_decision": "纳入云岫前期，按依赖推进。",
+      "ready_gate": [
+        "设计交付物存在且版本/引用正确。",
+        "所有行为、失败、取消、恢复和存档影响可执行；未定必需参数已填入配置。",
+        "依赖契约已可使用；涉及身份、风险、真相与来源的作者卡固定。",
+        "验收步骤、预期、数据/设备和结果守恒条件可检查。"
+      ],
+      "done_gate": [
+        "需求行为与所有必需AC通过，设计/实现/验收状态分别更新。",
+        "代码与规格同步，旧档保护、失败恢复和无AI路线通过适用检查。",
+        "范围内所需浏览器/触控/设备/真人验证已取得；未测项不能谎标通过。",
+        "提交/版本/简要结果与发布入口登记；未达到范围内门槛不得关闭。"
+      ],
+      "existing_acceptance_refs": [
+        "EQ-01",
+        "EQ-02",
+        "CHAIN-04"
+      ],
+      "blockers": []
+    },
+    {
+      "id": "SR-XF-013",
+      "title": "三路战斗动作、同行战术与敌人配置",
+      "version": "1.0",
+      "scope": "early",
+      "group": "成长",
+      "priority": "P1",
+      "iteration": "I2",
+      "design_status": "refinement_pending",
+      "development_status": "partial",
+      "acceptance_status": "not_verified",
+      "release_status": "not_released_for_this_sr",
+      "owner": null,
+      "reviewer": null,
+      "dependencies": [
+        "SR-XF-002",
+        "SR-XF-003",
+        "SR-XF-007",
+        "SR-XF-012"
+      ],
+      "related_decisions": [
+        "U-63",
+        "U-66",
+        "R-25",
+        "R-26"
+      ],
+      "source_specs": [
+        "docs/design/02-EQUIPMENT-ARTS.md",
+        "docs/design/05-RUNTIME-CONTRACTS.md",
+        "docs/design/10-CRISES-RESCUE-DEATH.md",
+        "docs/design/14-EARLY-GAME-DETAILED-DESIGN.md",
+        "docs/design/06-OPENING-ACCEPTANCE.md"
+      ],
+      "baseline": "已有固定攻击、青岚术、闪避与守御的旧战斗。",
+      "design_gap": "三路动作空间差异、NPC战术、boss配置及伤害预算待详细定义。",
+      "design_deliverables": [
+        "每个动作的起手/执行/收势、目标、范围、视线、消耗、冷却和效果层。",
+        "剑路追击、药用救治、阵节点部署的同场可行方案与反制。",
+        "韩厉川/邢烈/邵衡及普通敌人配置、自愿同行者集结/护卫/撤退策略。"
+      ],
+      "requirements": [
+        "暂停只排计划，服药/换装/施法恢复后实际耗时结算。",
+        "生活与战斗共用伤势、精力、装备与知识；大境界差距不可常规堆装备抹平。",
+        "各动作空间条件合法，同行者自主执行约定战术。"
+      ],
+      "acceptance": [
+        {
+          "id": "SR-XF-013-AC-01",
+          "scenario": "三路以同合理准备挑战同境界关键遭遇",
+          "expected": "有不同可观察手段与取舍，各自有获胜/补足路径。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-013-AC-02",
+          "scenario": "暂停连续点击服药/部署并恢复",
+          "expected": "动作依阶段执行，耗用/冷却一次，不能暂停无敌。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-013-AC-03",
+          "scenario": "障碍、撤退、击倒或装备损坏",
+          "expected": "距离与视线条件有效，身体/物品结果返回山院仍一致。",
+          "status": "not_run",
+          "evidence": []
+        }
+      ],
+      "excluded": [
+        "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
+        "不把该SR的设计完成声明为实现、体验或发布完成。"
+      ],
+      "evidence": [],
+      "change_log": [
+        {
+          "date": "2026-10-06",
+          "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        }
+      ],
+      "tasks": [
+        {
+          "id": "SR-XF-013-D01",
+          "phase": "D01",
+          "title": "设计补齐",
+          "description": "交付：每个动作的起手/执行/收势、目标、范围、视线、消耗、冷却和效果层。；剑路追击、药用救治、阵节点部署的同场可行方案与反制。；韩厉川/邢烈/邵衡及普通敌人配置、自愿同行者集结/护卫/撤退策略。；填实必需参数并标记U/R/T来源。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-013-D02",
+          "phase": "D02",
+          "title": "契约与内容审阅",
+          "description": "审阅三路战斗动作、同行战术与敌人配置与依赖契约（SR-XF-002、SR-XF-003、SR-XF-007、SR-XF-012）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-013-D01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-013-I01",
+          "phase": "I01",
+          "title": "开发与集成",
+          "description": "在成长模块实现三路战斗动作、同行战术与敌人配置；交付SR-XF-013-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-013-D02"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-013-V01",
+          "phase": "V01",
+          "title": "验收与兼容",
+          "description": "执行SR-XF-013-AC-01至AC-03及CHAIN-04、INTRO-01；登记实际结果、兼容和设备证据边界。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-013-I01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-013-R01",
+          "phase": "R01",
+          "title": "发布与关闭",
+          "description": "完成所需源码/运行时发布核对、交接和未覆盖说明；本轮用户不要求上传QA过程产物。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-013-V01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        }
+      ],
+      "scope_decision": "纳入云岫前期，按依赖推进。",
+      "ready_gate": [
+        "设计交付物存在且版本/引用正确。",
+        "所有行为、失败、取消、恢复和存档影响可执行；未定必需参数已填入配置。",
+        "依赖契约已可使用；涉及身份、风险、真相与来源的作者卡固定。",
+        "验收步骤、预期、数据/设备和结果守恒条件可检查。"
+      ],
+      "done_gate": [
+        "需求行为与所有必需AC通过，设计/实现/验收状态分别更新。",
+        "代码与规格同步，旧档保护、失败恢复和无AI路线通过适用检查。",
+        "范围内所需浏览器/触控/设备/真人验证已取得；未测项不能谎标通过。",
+        "提交/版本/简要结果与发布入口登记；未达到范围内门槛不得关闭。"
+      ],
+      "existing_acceptance_refs": [
+        "CHAIN-04",
+        "INTRO-01"
+      ],
+      "blockers": []
+    },
+    {
+      "id": "SR-XF-014",
+      "title": "学习、转修与炼气至筑基配置",
+      "version": "1.0",
+      "scope": "early",
+      "group": "成长",
+      "priority": "P1",
+      "iteration": "I2",
+      "design_status": "refinement_pending",
+      "development_status": "partial",
+      "acceptance_status": "not_verified",
+      "release_status": "not_released_for_this_sr",
+      "owner": null,
+      "reviewer": null,
+      "dependencies": [
+        "SR-XF-002",
+        "SR-XF-009",
+        "SR-XF-012"
+      ],
+      "related_decisions": [
+        "U-63",
+        "U-65",
+        "U-73",
+        "R-25",
+        "R-26"
+      ],
+      "source_specs": [
+        "docs/design/01-CHARACTERS.md",
+        "docs/design/02-EQUIPMENT-ARTS.md",
+        "docs/design/05-RUNTIME-CONTRACTS.md",
+        "docs/design/14-EARLY-GAME-DETAILED-DESIGN.md",
+        "docs/design/06-OPENING-ACCEPTANCE.md"
+      ],
+      "baseline": "已有功法、主辅修、导师及旧筑基来源。",
+      "design_gap": "理解/熟练分离、成长曲线、转修和突破阶段配置未完整。",
+      "design_deliverables": [
+        "青岚基础/筑基续篇与三路法门的章节、前置、冲突、教学和来源表。",
+        "修为积累、理解、熟练、授业资格与有效实践收益曲线。",
+        "筑基丹委托/自制两条路径；预留、炼化、完成、中断恢复阶段及成本。"
+      ],
+      "requirements": [
+        "持有、理解、练成、授业分开，不复制旧knowledge为双满级。",
+        "满足积累、材料和已定义条件可突破，无干扰不加临时悟道骰子。",
+        "转修有可查成本和可靠转回途径，普通资质仍可经技艺成长。"
+      ],
+      "acceptance": [
+        {
+          "id": "SR-XF-014-AC-01",
+          "scenario": "拒绝一种支线或改走另一修行路",
+          "expected": "仍有可靠基础能力与筑基材料来源。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-014-AC-02",
+          "scenario": "炼化前后各取消、重载、再继续",
+          "expected": "按阶段只消耗已经发生的成本，不重复扣丹/奖励境界。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-014-AC-03",
+          "scenario": "授课、低难重复练习和转修",
+          "expected": "资格真实、无空转成长，无限自伤治疗/重复换装不刷满熟练。",
+          "status": "not_run",
+          "evidence": []
+        }
+      ],
+      "excluded": [
+        "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
+        "不把该SR的设计完成声明为实现、体验或发布完成。"
+      ],
+      "evidence": [],
+      "change_log": [
+        {
+          "date": "2026-10-06",
+          "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        }
+      ],
+      "tasks": [
+        {
+          "id": "SR-XF-014-D01",
+          "phase": "D01",
+          "title": "设计补齐",
+          "description": "交付：青岚基础/筑基续篇与三路法门的章节、前置、冲突、教学和来源表。；修为积累、理解、熟练、授业资格与有效实践收益曲线。；筑基丹委托/自制两条路径；预留、炼化、完成、中断恢复阶段及成本。；填实必需参数并标记U/R/T来源。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-014-D02",
+          "phase": "D02",
+          "title": "契约与内容审阅",
+          "description": "审阅学习、转修与炼气至筑基配置与依赖契约（SR-XF-002、SR-XF-009、SR-XF-012）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-014-D01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-014-I01",
+          "phase": "I01",
+          "title": "开发与集成",
+          "description": "在成长模块实现学习、转修与炼气至筑基配置；交付SR-XF-014-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-014-D02"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-014-V01",
+          "phase": "V01",
+          "title": "验收与兼容",
+          "description": "执行SR-XF-014-AC-01至AC-03及EARLY-02、CHAIN-02；登记实际结果、兼容和设备证据边界。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-014-I01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-014-R01",
+          "phase": "R01",
+          "title": "发布与关闭",
+          "description": "完成所需源码/运行时发布核对、交接和未覆盖说明；本轮用户不要求上传QA过程产物。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-014-V01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        }
+      ],
+      "scope_decision": "纳入云岫前期，按依赖推进。",
+      "ready_gate": [
+        "设计交付物存在且版本/引用正确。",
+        "所有行为、失败、取消、恢复和存档影响可执行；未定必需参数已填入配置。",
+        "依赖契约已可使用；涉及身份、风险、真相与来源的作者卡固定。",
+        "验收步骤、预期、数据/设备和结果守恒条件可检查。"
+      ],
+      "done_gate": [
+        "需求行为与所有必需AC通过，设计/实现/验收状态分别更新。",
+        "代码与规格同步，旧档保护、失败恢复和无AI路线通过适用检查。",
+        "范围内所需浏览器/触控/设备/真人验证已取得；未测项不能谎标通过。",
+        "提交/版本/简要结果与发布入口登记；未达到范围内门槛不得关闭。"
+      ],
+      "existing_acceptance_refs": [
+        "EARLY-02",
+        "CHAIN-02"
+      ],
+      "blockers": []
+    },
+    {
+      "id": "SR-XF-015",
+      "title": "本地旅行、路线与有限定位",
+      "version": "1.0",
+      "scope": "early",
+      "group": "世界",
+      "priority": "P1",
+      "iteration": "I2",
+      "design_status": "refinement_pending",
+      "development_status": "partial",
+      "acceptance_status": "not_verified",
+      "release_status": "not_released_for_this_sr",
+      "owner": null,
+      "reviewer": null,
+      "dependencies": [
+        "SR-XF-002",
+        "SR-XF-003",
+        "SR-XF-010"
+      ],
+      "related_decisions": [
+        "U-63",
+        "U-75",
+        "R-25"
+      ],
+      "source_specs": [
+        "docs/design/04-WORLD-STORY.md",
+        "docs/design/05-RUNTIME-CONTRACTS.md",
+        "docs/design/08-LIVING-WORLD.md",
+        "docs/design/10-CRISES-RESCUE-DEATH.md",
+        "docs/design/14-EARLY-GAME-DETAILED-DESIGN.md",
+        "docs/design/03-SPATIAL-ART.md",
+        "docs/design/06-OPENING-ACCEPTANCE.md"
+      ],
+      "baseline": "已有旧出行与地图入口基础。",
+      "design_gap": "实体旅队、路线、交通条件、耗用和在途故障需完整设计。",
+      "design_deliverables": [
+        "云岫地点路网、出入口、耗时、准备成本、交通能力与可用方式。",
+        "出发/在途/改路/返程/撤退状态、同行自愿与物品携带规则。",
+        "已知最后位置/消息时间/不确定范围的定位投影及路况更新。"
+      ],
+      "requirements": [
+        "地图按消息和道路逐步开放，未知地区不提供实时全知镜头。",
+        "出行者不同时在山院劳动，交通和旅行耗唯一世界时间。",
+        "断路和拒绝同行有可行替代，关闭/后台不补算路程。"
+      ],
+      "acceptance": [
+        {
+          "id": "SR-XF-015-AC-01",
+          "scenario": "邀请同行出发后切换地图与山院",
+          "expected": "人物实体和物品只在一个有效位置，路程继续用同一时钟。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-015-AC-02",
+          "scenario": "桥断选择修复/绕行/返回",
+          "expected": "预告并实际结算对应时间与成本，路线状态持久。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-015-AC-03",
+          "scenario": "未知外出者查询人物栏",
+          "expected": "只展示已知最后消息，不泄露实时坐标或未知死亡。",
+          "status": "not_run",
+          "evidence": []
+        }
+      ],
+      "excluded": [
+        "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
+        "不把该SR的设计完成声明为实现、体验或发布完成。"
+      ],
+      "evidence": [],
+      "change_log": [
+        {
+          "date": "2026-10-06",
+          "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        }
+      ],
+      "tasks": [
+        {
+          "id": "SR-XF-015-D01",
+          "phase": "D01",
+          "title": "设计补齐",
+          "description": "交付：云岫地点路网、出入口、耗时、准备成本、交通能力与可用方式。；出发/在途/改路/返程/撤退状态、同行自愿与物品携带规则。；已知最后位置/消息时间/不确定范围的定位投影及路况更新。；填实必需参数并标记U/R/T来源。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-015-D02",
+          "phase": "D02",
+          "title": "契约与内容审阅",
+          "description": "审阅本地旅行、路线与有限定位与依赖契约（SR-XF-002、SR-XF-003、SR-XF-010）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-015-D01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-015-I01",
+          "phase": "I01",
+          "title": "开发与集成",
+          "description": "在世界模块实现本地旅行、路线与有限定位；交付SR-XF-015-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-015-D02"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-015-V01",
+          "phase": "V01",
+          "title": "验收与兼容",
+          "description": "执行SR-XF-015-AC-01至AC-03及SCENE-02、PERSIST-03；登记实际结果、兼容和设备证据边界。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-015-I01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-015-R01",
+          "phase": "R01",
+          "title": "发布与关闭",
+          "description": "完成所需源码/运行时发布核对、交接和未覆盖说明；本轮用户不要求上传QA过程产物。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-015-V01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        }
+      ],
+      "scope_decision": "纳入云岫前期，按依赖推进。",
+      "ready_gate": [
+        "设计交付物存在且版本/引用正确。",
+        "所有行为、失败、取消、恢复和存档影响可执行；未定必需参数已填入配置。",
+        "依赖契约已可使用；涉及身份、风险、真相与来源的作者卡固定。",
+        "验收步骤、预期、数据/设备和结果守恒条件可检查。"
+      ],
+      "done_gate": [
+        "需求行为与所有必需AC通过，设计/实现/验收状态分别更新。",
+        "代码与规格同步，旧档保护、失败恢复和无AI路线通过适用检查。",
+        "范围内所需浏览器/触控/设备/真人验证已取得；未测项不能谎标通过。",
+        "提交/版本/简要结果与发布入口登记；未达到范围内门槛不得关闭。"
+      ],
+      "existing_acceptance_refs": [
+        "SCENE-02",
+        "PERSIST-03"
+      ],
+      "blockers": []
+    },
+    {
+      "id": "SR-XF-016",
+      "title": "前期七类地点实景与交互设计",
+      "version": "1.0",
+      "scope": "early",
+      "group": "世界",
+      "priority": "P1",
+      "iteration": "I2",
+      "design_status": "refinement_pending",
+      "development_status": "partial",
+      "acceptance_status": "not_verified",
+      "release_status": "not_released_for_this_sr",
+      "owner": null,
+      "reviewer": null,
+      "dependencies": [
+        "SR-XF-003",
+        "SR-XF-004",
+        "SR-XF-015"
+      ],
+      "related_decisions": [
+        "U-63",
+        "U-93",
+        "R-25"
+      ],
+      "source_specs": [
+        "docs/design/03-SPATIAL-ART.md",
+        "docs/design/04-WORLD-STORY.md",
+        "docs/design/12-CONTENT-AUTHORING.md",
+        "docs/design/14-EARLY-GAME-DETAILED-DESIGN.md"
+      ],
+      "baseline": "已有别院和旧区域入口；目标场景用途已列明。",
+      "design_gap": "山外场景布局、人物/物件/交易/遭遇与持久变化需补具体交付。",
+      "design_deliverables": [
+        "别院、山谷、青溪坊市、石桥驿、听雨遗址、偏牢粮道、栖霞故地逐场景布局。",
+        "每地点对象、触发、交涉、材料/线索、拒绝与危险撤离表。",
+        "占领/修桥/破阵/重建后的持久空间变更与入口兼容。"
+      ],
+      "requirements": [
+        "交付实际可走可互动空间，背景加菜单不算实景完成。",
+        "当地人物、建筑与线路稳定引用；往返不重新生成历史或奖励。",
+        "开放来自知识、可达道路和交互条件，不把人口声望当统一钥匙。"
+      ],
+      "acceptance": [
+        {
+          "id": "SR-XF-016-AC-01",
+          "scenario": "首次进入与重复返回已知地点",
+          "expected": "空间与对象可互动，同一人物/旧结果保留。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-016-AC-02",
+          "scenario": "破阵或修桥后存读档",
+          "expected": "对应通行和场景状态持久，线索/物品不再次领取。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-016-AC-03",
+          "scenario": "无指定同行或一条路线失效",
+          "expected": "仍能按设计承担代价推进，拒绝可选准备不封全部地图。",
+          "status": "not_run",
+          "evidence": []
+        }
+      ],
+      "excluded": [
+        "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
+        "不把该SR的设计完成声明为实现、体验或发布完成。"
+      ],
+      "evidence": [],
+      "change_log": [
+        {
+          "date": "2026-10-06",
+          "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        }
+      ],
+      "tasks": [
+        {
+          "id": "SR-XF-016-D01",
+          "phase": "D01",
+          "title": "设计补齐",
+          "description": "交付：别院、山谷、青溪坊市、石桥驿、听雨遗址、偏牢粮道、栖霞故地逐场景布局。；每地点对象、触发、交涉、材料/线索、拒绝与危险撤离表。；占领/修桥/破阵/重建后的持久空间变更与入口兼容。；填实必需参数并标记U/R/T来源。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-016-D02",
+          "phase": "D02",
+          "title": "契约与内容审阅",
+          "description": "审阅前期七类地点实景与交互设计与依赖契约（SR-XF-003、SR-XF-004、SR-XF-015）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-016-D01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-016-I01",
+          "phase": "I01",
+          "title": "开发与集成",
+          "description": "在世界模块实现前期七类地点实景与交互设计；交付SR-XF-016-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-016-D02"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-016-V01",
+          "phase": "V01",
+          "title": "验收与兼容",
+          "description": "执行SR-XF-016-AC-01至AC-03及SCENE-02、EARLY-03；登记实际结果、兼容和设备证据边界。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-016-I01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-016-R01",
+          "phase": "R01",
+          "title": "发布与关闭",
+          "description": "完成所需源码/运行时发布核对、交接和未覆盖说明；本轮用户不要求上传QA过程产物。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-016-V01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        }
+      ],
+      "scope_decision": "纳入云岫前期，按依赖推进。",
+      "ready_gate": [
+        "设计交付物存在且版本/引用正确。",
+        "所有行为、失败、取消、恢复和存档影响可执行；未定必需参数已填入配置。",
+        "依赖契约已可使用；涉及身份、风险、真相与来源的作者卡固定。",
+        "验收步骤、预期、数据/设备和结果守恒条件可检查。"
+      ],
+      "done_gate": [
+        "需求行为与所有必需AC通过，设计/实现/验收状态分别更新。",
+        "代码与规格同步，旧档保护、失败恢复和无AI路线通过适用检查。",
+        "范围内所需浏览器/触控/设备/真人验证已取得；未测项不能谎标通过。",
+        "提交/版本/简要结果与发布入口登记；未达到范围内门槛不得关闭。"
+      ],
+      "existing_acceptance_refs": [
+        "SCENE-02",
+        "EARLY-03"
+      ],
+      "blockers": []
+    },
+    {
+      "id": "SR-XF-017",
+      "title": "地方组织、重要NPC与产业内容卡",
+      "version": "1.0",
+      "scope": "early",
+      "group": "内容",
+      "priority": "P1",
+      "iteration": "I2",
+      "design_status": "refinement_pending",
+      "development_status": "partial",
+      "acceptance_status": "not_verified",
+      "release_status": "not_released_for_this_sr",
+      "owner": null,
+      "reviewer": null,
+      "dependencies": [
+        "SR-XF-001",
+        "SR-XF-002"
+      ],
+      "related_decisions": [
+        "U-37",
+        "U-38",
+        "U-41",
+        "U-42",
+        "U-43",
+        "U-45",
+        "U-46",
+        "U-47",
+        "U-48",
+        "U-49",
+        "U-63",
+        "R-26"
+      ],
+      "source_specs": [
+        "docs/design/01-CHARACTERS.md",
+        "docs/design/04-WORLD-STORY.md",
+        "docs/design/07-ECONOMY-ORGANIZATION.md",
+        "docs/design/09-INTRIGUE-OPPORTUNITIES.md",
+        "docs/design/12-CONTENT-AUTHORING.md",
+        "docs/design/14-EARLY-GAME-DETAILED-DESIGN.md"
+      ],
+      "baseline": "已有七组织作者暂名和方向，开局/伤匠两张局部内容卡。",
+      "design_gap": "重要接触者、供给/利益/关系和地方产业未形成完整正式内容库。",
+      "design_deliverables": [
+        "七组织的稳定ID、具名接触者、公开诉求、资源、知情、底线和关系。",
+        "百机山型号/材料/控制、玄阴谷鬼物来历/御使/鬼市、顾氏品种/供货合作内容。",
+        "赤嶂旧产通路、州府执法人员和正魔两宗约束/交易的实际人物与权限。"
+      ],
+      "requirements": [
+        "地方以炼气筑基为主，正魔各一金丹宗；不给小组织追加洲级大乘。",
+        "利益和行为按人物事实决定，道途标签不硬编码善恶。",
+        "作者卡激活时身份与真相固定，后续显示名可改但稳定ID不改。"
+      ],
+      "acceptance": [
+        {
+          "id": "SR-XF-017-AC-01",
+          "scenario": "各组织首次接触",
+          "expected": "有可理解诉求、有限资源和具名人员，不能无来源无限交易。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-017-AC-02",
+          "scenario": "同道途不同人物面对同一选择",
+          "expected": "可有善意与逐利差异，并有动机、成本和证据支撑。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-017-AC-03",
+          "scenario": "拒单、合作和换名重载",
+          "expected": "权限及历史关系保留，不自动全员敌对或重刷角色。",
+          "status": "not_run",
+          "evidence": []
+        }
+      ],
+      "excluded": [
+        "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
+        "不把该SR的设计完成声明为实现、体验或发布完成。"
+      ],
+      "evidence": [],
+      "change_log": [
+        {
+          "date": "2026-10-06",
+          "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        }
+      ],
+      "tasks": [
+        {
+          "id": "SR-XF-017-D01",
+          "phase": "D01",
+          "title": "设计补齐",
+          "description": "交付：七组织的稳定ID、具名接触者、公开诉求、资源、知情、底线和关系。；百机山型号/材料/控制、玄阴谷鬼物来历/御使/鬼市、顾氏品种/供货合作内容。；赤嶂旧产通路、州府执法人员和正魔两宗约束/交易的实际人物与权限。；填实必需参数并标记U/R/T来源。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-017-D02",
+          "phase": "D02",
+          "title": "契约与内容审阅",
+          "description": "审阅地方组织、重要NPC与产业内容卡与依赖契约（SR-XF-001、SR-XF-002）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-017-D01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-017-I01",
+          "phase": "I01",
+          "title": "开发与集成",
+          "description": "在内容模块实现地方组织、重要NPC与产业内容卡；交付SR-XF-017-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-017-D02"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-017-V01",
+          "phase": "V01",
+          "title": "验收与兼容",
+          "description": "执行SR-XF-017-AC-01至AC-03及CONTENT-02；登记实际结果、兼容和设备证据边界。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-017-I01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-017-R01",
+          "phase": "R01",
+          "title": "发布与关闭",
+          "description": "完成所需源码/运行时发布核对、交接和未覆盖说明；本轮用户不要求上传QA过程产物。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-017-V01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        }
+      ],
+      "scope_decision": "纳入云岫前期，按依赖推进。",
+      "ready_gate": [
+        "设计交付物存在且版本/引用正确。",
+        "所有行为、失败、取消、恢复和存档影响可执行；未定必需参数已填入配置。",
+        "依赖契约已可使用；涉及身份、风险、真相与来源的作者卡固定。",
+        "验收步骤、预期、数据/设备和结果守恒条件可检查。"
+      ],
+      "done_gate": [
+        "需求行为与所有必需AC通过，设计/实现/验收状态分别更新。",
+        "代码与规格同步，旧档保护、失败恢复和无AI路线通过适用检查。",
+        "范围内所需浏览器/触控/设备/真人验证已取得；未测项不能谎标通过。",
+        "提交/版本/简要结果与发布入口登记；未达到范围内门槛不得关闭。"
+      ],
+      "existing_acceptance_refs": [
+        "CONTENT-02"
+      ],
+      "blockers": []
+    },
+    {
+      "id": "SR-XF-018",
+      "title": "雨后伤匠至唯一装备的完整事件链",
+      "version": "1.0",
+      "scope": "early",
+      "group": "内容",
+      "priority": "P1",
+      "iteration": "I2",
+      "design_status": "refinement_pending",
+      "development_status": "partial",
+      "acceptance_status": "not_verified",
+      "release_status": "not_released_for_this_sr",
+      "owner": null,
+      "reviewer": null,
+      "dependencies": [
+        "SR-XF-011",
+        "SR-XF-012",
+        "SR-XF-013",
+        "SR-XF-014",
+        "SR-XF-016",
+        "SR-XF-017"
+      ],
+      "related_decisions": [
+        "U-63",
+        "U-93",
+        "R-25"
+      ],
+      "source_specs": [
+        "docs/design/02-EQUIPMENT-ARTS.md",
+        "docs/design/06-OPENING-ACCEPTANCE.md",
+        "docs/design/12-CONTENT-AUTHORING.md",
+        "docs/design/14-EARLY-GAME-DETAILED-DESIGN.md",
+        "docs/design/16-WORKSTATIONS-ARTISAN-IMPLEMENTATION.md"
+      ],
+      "baseline": "已有程问舟到访、照料/休养/拒绝及取消续治。",
+      "design_gap": "尚缺石桥合作、配方部件、唯一装备与法门用途完整链。",
+      "design_deliverables": [
+        "伤匠未完订单真相、石桥目标和合作人物、线索/对白/交易与分支图。",
+        "具体器具/配方/部件来源、匠作条件、产出实例和战斗/救助用途。",
+        "拒治、材料不足、无同行、战败、匠师离开和奖励后继的恢复路径。"
+      ],
+      "requirements": [
+        "照料不自动入宗/送工具/承诺复仇；合作由独立选择发生。",
+        "治疗到出行到制作到使用共用人物、库存、知识与事务。",
+        "重要装备可靠获取且可追溯，事件不成为基础主线唯一随机钥匙。"
+      ],
+      "acceptance": [
+        {
+          "id": "SR-XF-018-AC-01",
+          "scenario": "正常资源完成整条链",
+          "expected": "可无控制台获得唯一实物并在至少一种真实情景体现用途。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-018-AC-02",
+          "scenario": "每阶段存读档与反复拜访",
+          "expected": "人、部件、制作和恩义奖励守恒且不重发。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-018-AC-03",
+          "scenario": "拒绝/取消/战败后继续经营或合作",
+          "expected": "已有治疗结果保留，替代人物/线索可行并付实际成本。",
+          "status": "not_run",
+          "evidence": []
+        }
+      ],
+      "excluded": [
+        "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
+        "不把该SR的设计完成声明为实现、体验或发布完成。"
+      ],
+      "evidence": [],
+      "change_log": [
+        {
+          "date": "2026-10-06",
+          "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        }
+      ],
+      "tasks": [
+        {
+          "id": "SR-XF-018-D01",
+          "phase": "D01",
+          "title": "设计补齐",
+          "description": "交付：伤匠未完订单真相、石桥目标和合作人物、线索/对白/交易与分支图。；具体器具/配方/部件来源、匠作条件、产出实例和战斗/救助用途。；拒治、材料不足、无同行、战败、匠师离开和奖励后继的恢复路径。；填实必需参数并标记U/R/T来源。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-018-D02",
+          "phase": "D02",
+          "title": "契约与内容审阅",
+          "description": "审阅雨后伤匠至唯一装备的完整事件链与依赖契约（SR-XF-011、SR-XF-012、SR-XF-013、SR-XF-014、SR-XF-016、SR-XF-017）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-018-D01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-018-I01",
+          "phase": "I01",
+          "title": "开发与集成",
+          "description": "在内容模块实现雨后伤匠至唯一装备的完整事件链；交付SR-XF-018-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-018-D02"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-018-V01",
+          "phase": "V01",
+          "title": "验收与兼容",
+          "description": "执行SR-XF-018-AC-01至AC-03及CHAIN-01、CHAIN-02、CHAIN-03；登记实际结果、兼容和设备证据边界。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-018-I01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-018-R01",
+          "phase": "R01",
+          "title": "发布与关闭",
+          "description": "完成所需源码/运行时发布核对、交接和未覆盖说明；本轮用户不要求上传QA过程产物。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-018-V01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        }
+      ],
+      "scope_decision": "纳入云岫前期，按依赖推进。",
+      "ready_gate": [
+        "设计交付物存在且版本/引用正确。",
+        "所有行为、失败、取消、恢复和存档影响可执行；未定必需参数已填入配置。",
+        "依赖契约已可使用；涉及身份、风险、真相与来源的作者卡固定。",
+        "验收步骤、预期、数据/设备和结果守恒条件可检查。"
+      ],
+      "done_gate": [
+        "需求行为与所有必需AC通过，设计/实现/验收状态分别更新。",
+        "代码与规格同步，旧档保护、失败恢复和无AI路线通过适用检查。",
+        "范围内所需浏览器/触控/设备/真人验证已取得；未测项不能谎标通过。",
+        "提交/版本/简要结果与发布入口登记；未达到范围内门槛不得关闭。"
+      ],
+      "existing_acceptance_refs": [
+        "CHAIN-01",
+        "CHAIN-02",
+        "CHAIN-03"
+      ],
+      "blockers": []
+    },
+    {
+      "id": "SR-XF-019",
+      "title": "天气、作物、道路与生态恢复参数",
+      "version": "1.0",
+      "scope": "early",
+      "group": "世界",
+      "priority": "P1",
+      "iteration": "I3",
+      "design_status": "refinement_pending",
+      "development_status": "partial",
+      "acceptance_status": "not_verified",
+      "release_status": "not_released_for_this_sr",
+      "owner": null,
+      "reviewer": null,
+      "dependencies": [
+        "SR-XF-002",
+        "SR-XF-003",
+        "SR-XF-009",
+        "SR-XF-015"
+      ],
+      "related_decisions": [
+        "U-63",
+        "U-81",
+        "R-25"
+      ],
+      "source_specs": [
+        "docs/design/05-RUNTIME-CONTRACTS.md",
+        "docs/design/08-LIVING-WORLD.md",
+        "docs/design/10-CRISES-RESCUE-DEATH.md",
+        "docs/design/14-EARLY-GAME-DETAILED-DESIGN.md"
+      ],
+      "baseline": "已有旧天气表现与部分产出关联。",
+      "design_gap": "季节/区域天气、排水、痕迹、恢复和危机影响需明确参数与边界。",
+      "design_deliverables": [
+        "季节/天气状态转换、持续时间、概率和地域差异的T-10配置。",
+        "水位积水、排水投入、作物损失、路况、痕迹消退与恢复阈值。",
+        "天气预报信息来源与误差、危险前兆和主线证据备份策略。"
+      ],
+      "requirements": [
+        "天气表现读取事实，离屏同钟，动画结束不发伤害或产物。",
+        "准备和实际干预影响损失；新手不遭无征兆即死。",
+        "灾害不抹去所有可靠复仇证据，关闭不离线恢复或扣损。"
+      ],
+      "acceptance": [
+        {
+          "id": "SR-XF-019-AC-01",
+          "scenario": "同场景近景/离屏、1x/加速重放",
+          "expected": "相同世界步事实守恒，作物路况按统一条件改变。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-019-AC-02",
+          "scenario": "有排水/库存与无准备两院对比",
+          "expected": "损失和恢复按公开可理解条件有差异，非随机文案。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-019-AC-03",
+          "scenario": "天气毁损一种线索",
+          "expected": "可用另一已定义保留来源继续调查，不复活证人。",
+          "status": "not_run",
+          "evidence": []
+        }
+      ],
+      "excluded": [
+        "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
+        "不把该SR的设计完成声明为实现、体验或发布完成。"
+      ],
+      "evidence": [],
+      "change_log": [
+        {
+          "date": "2026-10-06",
+          "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        }
+      ],
+      "tasks": [
+        {
+          "id": "SR-XF-019-D01",
+          "phase": "D01",
+          "title": "设计补齐",
+          "description": "交付：季节/天气状态转换、持续时间、概率和地域差异的T-10配置。；水位积水、排水投入、作物损失、路况、痕迹消退与恢复阈值。；天气预报信息来源与误差、危险前兆和主线证据备份策略。；填实必需参数并标记U/R/T来源。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-019-D02",
+          "phase": "D02",
+          "title": "契约与内容审阅",
+          "description": "审阅天气、作物、道路与生态恢复参数与依赖契约（SR-XF-002、SR-XF-003、SR-XF-009、SR-XF-015）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-019-D01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-019-I01",
+          "phase": "I01",
+          "title": "开发与集成",
+          "description": "在世界模块实现天气、作物、道路与生态恢复参数；交付SR-XF-019-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-019-D02"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-019-V01",
+          "phase": "V01",
+          "title": "验收与兼容",
+          "description": "执行SR-XF-019-AC-01至AC-03及WEATHER-01、WEATHER-02、WEATHER-08；登记实际结果、兼容和设备证据边界。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-019-I01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-019-R01",
+          "phase": "R01",
+          "title": "发布与关闭",
+          "description": "完成所需源码/运行时发布核对、交接和未覆盖说明；本轮用户不要求上传QA过程产物。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-019-V01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        }
+      ],
+      "scope_decision": "纳入云岫前期，按依赖推进。",
+      "ready_gate": [
+        "设计交付物存在且版本/引用正确。",
+        "所有行为、失败、取消、恢复和存档影响可执行；未定必需参数已填入配置。",
+        "依赖契约已可使用；涉及身份、风险、真相与来源的作者卡固定。",
+        "验收步骤、预期、数据/设备和结果守恒条件可检查。"
+      ],
+      "done_gate": [
+        "需求行为与所有必需AC通过，设计/实现/验收状态分别更新。",
+        "代码与规格同步，旧档保护、失败恢复和无AI路线通过适用检查。",
+        "范围内所需浏览器/触控/设备/真人验证已取得；未测项不能谎标通过。",
+        "提交/版本/简要结果与发布入口登记；未达到范围内门槛不得关闭。"
+      ],
+      "existing_acceptance_refs": [
+        "WEATHER-01",
+        "WEATHER-02",
+        "WEATHER-08"
+      ],
+      "blockers": []
+    },
+    {
+      "id": "SR-XF-020",
+      "title": "消息传播、信念与三层社会评价",
+      "version": "1.0",
+      "scope": "early",
+      "group": "世界",
+      "priority": "P1",
+      "iteration": "I3",
+      "design_status": "refinement_pending",
+      "development_status": "partial",
+      "acceptance_status": "not_verified",
+      "release_status": "not_released_for_this_sr",
+      "owner": null,
+      "reviewer": null,
+      "dependencies": [
+        "SR-XF-002",
+        "SR-XF-017"
+      ],
+      "related_decisions": [
+        "U-63",
+        "U-93",
+        "R-25"
+      ],
+      "source_specs": [
+        "docs/design/01-CHARACTERS.md",
+        "docs/design/04-WORLD-STORY.md",
+        "docs/design/08-LIVING-WORLD.md",
+        "docs/design/09-INTRIGUE-OPPORTUNITIES.md",
+        "docs/design/12-CONTENT-AUTHORING.md",
+        "docs/design/06-OPENING-ACCEPTANCE.md"
+      ],
+      "baseline": "已有关系/记忆与剧情消息的旧基础。",
+      "design_gap": "消息来源时效、传播、真假混合及名声/势力/个人评价需正式表。",
+      "design_deliverables": [
+        "fact/claim/observation/belief/knownFact的存储、支持/反驳与公开投影规则。",
+        "信使/传闻/文书/当面证词渠道、时间、陈旧和独立来源关系。",
+        "侠义名声、势力态度、个人关系的传播条件与变化预算。"
+      ],
+      "requirements": [
+        "收到说法不自动确认真相， UI只显示掌门可知事实与来源。",
+        "未获知者不自动反应，秘密行为不从理由、声音或日志泄露。",
+        "正当复仇与伤害无辜分别记录，送礼不抹去严重背叛事实。"
+      ],
+      "acceptance": [
+        {
+          "id": "SR-XF-020-AC-01",
+          "scenario": "听到真假混合的商人消息",
+          "expected": "能区分原话、观察时刻、已核实和推测，而非全知真假标签。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-020-AC-02",
+          "scenario": "事件分别被受惠者/敌方/未获知者得知",
+          "expected": "三层评价各依已知与利益改变，未获知者不即时同步。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-020-AC-03",
+          "scenario": "重复阅读、传播和加载",
+          "expected": "不重结算关系奖励，不改真相或刷新消息时间。",
+          "status": "not_run",
+          "evidence": []
+        }
+      ],
+      "excluded": [
+        "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
+        "不把该SR的设计完成声明为实现、体验或发布完成。"
+      ],
+      "evidence": [],
+      "change_log": [
+        {
+          "date": "2026-10-06",
+          "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        }
+      ],
+      "tasks": [
+        {
+          "id": "SR-XF-020-D01",
+          "phase": "D01",
+          "title": "设计补齐",
+          "description": "交付：fact/claim/observation/belief/knownFact的存储、支持/反驳与公开投影规则。；信使/传闻/文书/当面证词渠道、时间、陈旧和独立来源关系。；侠义名声、势力态度、个人关系的传播条件与变化预算。；填实必需参数并标记U/R/T来源。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-020-D02",
+          "phase": "D02",
+          "title": "契约与内容审阅",
+          "description": "审阅消息传播、信念与三层社会评价与依赖契约（SR-XF-002、SR-XF-017）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-020-D01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-020-I01",
+          "phase": "I01",
+          "title": "开发与集成",
+          "description": "在世界模块实现消息传播、信念与三层社会评价；交付SR-XF-020-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-020-D02"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-020-V01",
+          "phase": "V01",
+          "title": "验收与兼容",
+          "description": "执行SR-XF-020-AC-01至AC-03及CONTENT-05、INTRO-03；登记实际结果、兼容和设备证据边界。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-020-I01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-020-R01",
+          "phase": "R01",
+          "title": "发布与关闭",
+          "description": "完成所需源码/运行时发布核对、交接和未覆盖说明；本轮用户不要求上传QA过程产物。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-020-V01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        }
+      ],
+      "scope_decision": "纳入云岫前期，按依赖推进。",
+      "ready_gate": [
+        "设计交付物存在且版本/引用正确。",
+        "所有行为、失败、取消、恢复和存档影响可执行；未定必需参数已填入配置。",
+        "依赖契约已可使用；涉及身份、风险、真相与来源的作者卡固定。",
+        "验收步骤、预期、数据/设备和结果守恒条件可检查。"
+      ],
+      "done_gate": [
+        "需求行为与所有必需AC通过，设计/实现/验收状态分别更新。",
+        "代码与规格同步，旧档保护、失败恢复和无AI路线通过适用检查。",
+        "范围内所需浏览器/触控/设备/真人验证已取得；未测项不能谎标通过。",
+        "提交/版本/简要结果与发布入口登记；未达到范围内门槛不得关闭。"
+      ],
+      "existing_acceptance_refs": [
+        "CONTENT-05",
+        "INTRO-03"
+      ],
+      "blockers": []
+    },
+    {
+      "id": "SR-XF-021",
+      "title": "调查、有限卜算与根链调度",
+      "version": "1.0",
+      "scope": "early",
+      "group": "世界",
+      "priority": "P1",
+      "iteration": "I3",
+      "design_status": "refinement_pending",
+      "development_status": "partial",
+      "acceptance_status": "not_verified",
+      "release_status": "not_released_for_this_sr",
+      "owner": null,
+      "reviewer": null,
+      "dependencies": [
+        "SR-XF-015",
+        "SR-XF-017",
+        "SR-XF-020"
+      ],
+      "related_decisions": [
+        "U-63",
+        "U-93",
+        "R-25"
+      ],
+      "source_specs": [
+        "docs/design/05-RUNTIME-CONTRACTS.md",
+        "docs/design/09-INTRIGUE-OPPORTUNITIES.md",
+        "docs/design/10-CRISES-RESCUE-DEATH.md",
+        "docs/design/12-CONTENT-AUTHORING.md",
+        "docs/design/06-OPENING-ACCEPTANCE.md"
+      ],
+      "baseline": "已有旧调查入口，目标规则明确独立来源与约40%口径。",
+      "design_gap": "可执行查验/卜算参数及重要根链内容调度未完整。",
+      "design_deliverables": [
+        "查验与卜算的能力、锚点、成本、耗时、范围、误差、失败和反制配置。",
+        "线索可达、过期与替代路径，消息/事实引用和合法定位结果。",
+        "重要根链注册、恶意标签、滚动20条约8条与压力/平静期调度策略。"
+      ],
+      "requirements": [
+        "不免费读出真相或实时GPS；重复查询不重抽既定内幕。",
+        "40%是根链内容密度，不是说谎/死亡概率；可信帮助保留。",
+        "至少两条独立验证入口，拒绝一个线索仍有合理路线。"
+      ],
+      "acceptance": [
+        {
+          "id": "SR-XF-021-AC-01",
+          "scenario": "从陈旧消息查验并卜算找人",
+          "expected": "付实际成本和时间，获得有限方向/范围而非精确全知坐标。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-021-AC-02",
+          "scenario": "读档和反复打开传闻",
+          "expected": "重要链只计一次，真实内容不为凑配额变骗局。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-021-AC-03",
+          "scenario": "一条线索失效或反制存在",
+          "expected": "替代入口和误差信号可解释，不能未知条件秒判失败。",
+          "status": "not_run",
+          "evidence": []
+        }
+      ],
+      "excluded": [
+        "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
+        "不把该SR的设计完成声明为实现、体验或发布完成。"
+      ],
+      "evidence": [],
+      "change_log": [
+        {
+          "date": "2026-10-06",
+          "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        }
+      ],
+      "tasks": [
+        {
+          "id": "SR-XF-021-D01",
+          "phase": "D01",
+          "title": "设计补齐",
+          "description": "交付：查验与卜算的能力、锚点、成本、耗时、范围、误差、失败和反制配置。；线索可达、过期与替代路径，消息/事实引用和合法定位结果。；重要根链注册、恶意标签、滚动20条约8条与压力/平静期调度策略。；填实必需参数并标记U/R/T来源。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-021-D02",
+          "phase": "D02",
+          "title": "契约与内容审阅",
+          "description": "审阅调查、有限卜算与根链调度与依赖契约（SR-XF-015、SR-XF-017、SR-XF-020）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-021-D01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-021-I01",
+          "phase": "I01",
+          "title": "开发与集成",
+          "description": "在世界模块实现调查、有限卜算与根链调度；交付SR-XF-021-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-021-D02"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-021-V01",
+          "phase": "V01",
+          "title": "验收与兼容",
+          "description": "执行SR-XF-021-AC-01至AC-03及CONTENT-03、INTRO-03；登记实际结果、兼容和设备证据边界。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-021-I01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-021-R01",
+          "phase": "R01",
+          "title": "发布与关闭",
+          "description": "完成所需源码/运行时发布核对、交接和未覆盖说明；本轮用户不要求上传QA过程产物。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-021-V01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        }
+      ],
+      "scope_decision": "纳入云岫前期，按依赖推进。",
+      "ready_gate": [
+        "设计交付物存在且版本/引用正确。",
+        "所有行为、失败、取消、恢复和存档影响可执行；未定必需参数已填入配置。",
+        "依赖契约已可使用；涉及身份、风险、真相与来源的作者卡固定。",
+        "验收步骤、预期、数据/设备和结果守恒条件可检查。"
+      ],
+      "done_gate": [
+        "需求行为与所有必需AC通过，设计/实现/验收状态分别更新。",
+        "代码与规格同步，旧档保护、失败恢复和无AI路线通过适用检查。",
+        "范围内所需浏览器/触控/设备/真人验证已取得；未测项不能谎标通过。",
+        "提交/版本/简要结果与发布入口登记；未达到范围内门槛不得关闭。"
+      ],
+      "existing_acceptance_refs": [
+        "CONTENT-03",
+        "INTRO-03"
+      ],
+      "blockers": []
+    },
+    {
+      "id": "SR-XF-022",
+      "title": "持续危机、NPC自救与永久死亡后果",
+      "version": "1.0",
+      "scope": "early",
+      "group": "危机",
+      "priority": "P1",
+      "iteration": "I3",
+      "design_status": "refinement_pending",
+      "development_status": "not_started",
+      "acceptance_status": "not_verified",
+      "release_status": "not_released_for_this_sr",
+      "owner": null,
+      "reviewer": null,
+      "dependencies": [
+        "SR-XF-002",
+        "SR-XF-013",
+        "SR-XF-015",
+        "SR-XF-020"
+      ],
+      "related_decisions": [
+        "U-13",
+        "U-63",
+        "U-77",
+        "R-25"
+      ],
+      "source_specs": [
+        "docs/design/01-CHARACTERS.md",
+        "docs/design/05-RUNTIME-CONTRACTS.md",
+        "docs/design/08-LIVING-WORLD.md",
+        "docs/design/10-CRISES-RESCUE-DEATH.md",
+        "docs/design/12-CONTENT-AUTHORING.md"
+      ],
+      "baseline": "尚无新版致命救援闭环；已有普通伤势与战斗恢复基础。",
+      "design_gap": "危险阶段、自救资源、同tick效果与死亡/遗物原子结算需完整定义。",
+      "design_deliverables": [
+        "具体伤势/危险的forming到resolved阶段、不可逆条件及有效稳定动作。",
+        "NPC退避/求援/谈判/反制的能力、资源与条件；消息送达与定位边界。",
+        "死亡记录、遗体/物品位置、职责释放、知情关系反应和替代证据。"
+      ],
+      "requirements": [
+        "NPC可真正死亡，主角保持既定失败恢复边界，父母死亡不反转。",
+        "同tick干预与伤害按05效果顺序结算，先前死亡不被普通晚到治疗复活。",
+        "近景/离屏切换不停止危机或重抽胜负，暂停全世界一起停。"
+      ],
+      "acceptance": [
+        {
+          "id": "SR-XF-022-AC-01",
+          "scenario": "自救、掌门干预与迟到三分支",
+          "expected": "均用真实资源与同一时钟，各自形成持久结果。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-022-AC-02",
+          "scenario": "有效急救与致命伤同tick",
+          "expected": "结果按已定义效果层，不依赖数组/回调顺序。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-022-AC-03",
+          "scenario": "死者遗物、债务与师承处理后读档",
+          "expected": "一份死亡记录和一份物品归属，未知者不立即全知悼念。",
+          "status": "not_run",
+          "evidence": []
+        }
+      ],
+      "excluded": [
+        "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
+        "不把该SR的设计完成声明为实现、体验或发布完成。"
+      ],
+      "evidence": [],
+      "change_log": [
+        {
+          "date": "2026-10-06",
+          "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        }
+      ],
+      "tasks": [
+        {
+          "id": "SR-XF-022-D01",
+          "phase": "D01",
+          "title": "设计补齐",
+          "description": "交付：具体伤势/危险的forming到resolved阶段、不可逆条件及有效稳定动作。；NPC退避/求援/谈判/反制的能力、资源与条件；消息送达与定位边界。；死亡记录、遗体/物品位置、职责释放、知情关系反应和替代证据。；填实必需参数并标记U/R/T来源。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-022-D02",
+          "phase": "D02",
+          "title": "契约与内容审阅",
+          "description": "审阅持续危机、NPC自救与永久死亡后果与依赖契约（SR-XF-002、SR-XF-013、SR-XF-015、SR-XF-020）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-022-D01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-022-I01",
+          "phase": "I01",
+          "title": "开发与集成",
+          "description": "在危机模块实现持续危机、NPC自救与永久死亡后果；交付SR-XF-022-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-022-D02"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-022-V01",
+          "phase": "V01",
+          "title": "验收与兼容",
+          "description": "执行SR-XF-022-AC-01至AC-03及WORLDCHAIN-02、WORLDCHAIN-03；登记实际结果、兼容和设备证据边界。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-022-I01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-022-R01",
+          "phase": "R01",
+          "title": "发布与关闭",
+          "description": "完成所需源码/运行时发布核对、交接和未覆盖说明；本轮用户不要求上传QA过程产物。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-022-V01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        }
+      ],
+      "scope_decision": "纳入云岫前期，按依赖推进。",
+      "ready_gate": [
+        "设计交付物存在且版本/引用正确。",
+        "所有行为、失败、取消、恢复和存档影响可执行；未定必需参数已填入配置。",
+        "依赖契约已可使用；涉及身份、风险、真相与来源的作者卡固定。",
+        "验收步骤、预期、数据/设备和结果守恒条件可检查。"
+      ],
+      "done_gate": [
+        "需求行为与所有必需AC通过，设计/实现/验收状态分别更新。",
+        "代码与规格同步，旧档保护、失败恢复和无AI路线通过适用检查。",
+        "范围内所需浏览器/触控/设备/真人验证已取得；未测项不能谎标通过。",
+        "提交/版本/简要结果与发布入口登记；未达到范围内门槛不得关闭。"
+      ],
+      "existing_acceptance_refs": [
+        "WORLDCHAIN-02",
+        "WORLDCHAIN-03"
+      ],
+      "blockers": []
+    },
+    {
+      "id": "SR-XF-023",
+      "title": "暴雨、药商与独立失联药师全链",
+      "version": "1.0",
+      "scope": "early",
+      "group": "内容",
+      "priority": "P1",
+      "iteration": "I3",
+      "design_status": "refinement_pending",
+      "development_status": "not_started",
+      "acceptance_status": "not_verified",
+      "release_status": "not_released_for_this_sr",
+      "owner": null,
+      "reviewer": null,
+      "dependencies": [
+        "SR-XF-016",
+        "SR-XF-017",
+        "SR-XF-019",
+        "SR-XF-020",
+        "SR-XF-021",
+        "SR-XF-022"
+      ],
+      "related_decisions": [
+        "U-63",
+        "U-93",
+        "R-25"
+      ],
+      "source_specs": [
+        "docs/design/06-OPENING-ACCEPTANCE.md",
+        "docs/design/08-LIVING-WORLD.md",
+        "docs/design/09-INTRIGUE-OPPORTUNITIES.md",
+        "docs/design/10-CRISES-RESCUE-DEATH.md",
+        "docs/design/12-CONTENT-AUTHORING.md",
+        "docs/design/14-EARLY-GAME-DETAILED-DESIGN.md"
+      ],
+      "baseline": "尚无完整事件实现；12有示例因果骨架，与14的独立药师身份需统一。",
+      "design_gap": "缺独立人物、洞口/道路/物资、真相卡、时距预算和结果分支。",
+      "design_deliverables": [
+        "独立药师、药商、守地修士与州府接触者卡；不改陆知微可靠赠药身份。",
+        "雨→供给→出行→真假消息→定位→干预的地图、线索、作者真相与状态图。",
+        "消息/查验/准备/出行/到场/救治的最短合理、普通、延误tick预算与结局。"
+      ],
+      "requirements": [
+        "至少一条正常资源/信息下可救路线，不要求预知内幕或暂停免费行动。",
+        "NPC自救、玩家救出、迟到死亡、预设陷阱被识破均有合法实际过程。",
+        "事后库存、关系、生态、遗物与替代证据持续存在，危机后有恢复期。"
+      ],
+      "acceptance": [
+        {
+          "id": "SR-XF-023-AC-01",
+          "scenario": "普通路线收到线索后开始救援",
+          "expected": "可按公开行动完成救援，预算显示余量且与实际模拟一致。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-023-AC-02",
+          "scenario": "选择调查延误/不救/NPC自行脱险",
+          "expected": "既定条件产生可解释不同结果，阅读和镜头不改命。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-023-AC-03",
+          "scenario": "陷阱被识破或迟到死亡后回院",
+          "expected": "材料、痕迹、责任和人物反应持久，基础复仇仍有可靠证据。",
+          "status": "not_run",
+          "evidence": []
+        }
+      ],
+      "excluded": [
+        "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
+        "不把该SR的设计完成声明为实现、体验或发布完成。"
+      ],
+      "evidence": [],
+      "change_log": [
+        {
+          "date": "2026-10-06",
+          "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        }
+      ],
+      "tasks": [
+        {
+          "id": "SR-XF-023-D01",
+          "phase": "D01",
+          "title": "设计补齐",
+          "description": "交付：独立药师、药商、守地修士与州府接触者卡；不改陆知微可靠赠药身份。；雨→供给→出行→真假消息→定位→干预的地图、线索、作者真相与状态图。；消息/查验/准备/出行/到场/救治的最短合理、普通、延误tick预算与结局。；填实必需参数并标记U/R/T来源。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-023-D02",
+          "phase": "D02",
+          "title": "契约与内容审阅",
+          "description": "审阅暴雨、药商与独立失联药师全链与依赖契约（SR-XF-016、SR-XF-017、SR-XF-019、SR-XF-020、SR-XF-021、SR-XF-022）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-023-D01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-023-I01",
+          "phase": "I01",
+          "title": "开发与集成",
+          "description": "在内容模块实现暴雨、药商与独立失联药师全链；交付SR-XF-023-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-023-D02"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-023-V01",
+          "phase": "V01",
+          "title": "验收与兼容",
+          "description": "执行SR-XF-023-AC-01至AC-03及WORLDCHAIN-01、WORLDCHAIN-02、WORLDCHAIN-03、EARLY-04；登记实际结果、兼容和设备证据边界。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-023-I01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-023-R01",
+          "phase": "R01",
+          "title": "发布与关闭",
+          "description": "完成所需源码/运行时发布核对、交接和未覆盖说明；本轮用户不要求上传QA过程产物。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-023-V01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        }
+      ],
+      "scope_decision": "纳入云岫前期，按依赖推进。",
+      "ready_gate": [
+        "设计交付物存在且版本/引用正确。",
+        "所有行为、失败、取消、恢复和存档影响可执行；未定必需参数已填入配置。",
+        "依赖契约已可使用；涉及身份、风险、真相与来源的作者卡固定。",
+        "验收步骤、预期、数据/设备和结果守恒条件可检查。"
+      ],
+      "done_gate": [
+        "需求行为与所有必需AC通过，设计/实现/验收状态分别更新。",
+        "代码与规格同步，旧档保护、失败恢复和无AI路线通过适用检查。",
+        "范围内所需浏览器/触控/设备/真人验证已取得；未测项不能谎标通过。",
+        "提交/版本/简要结果与发布入口登记；未达到范围内门槛不得关闭。"
+      ],
+      "existing_acceptance_refs": [
+        "WORLDCHAIN-01",
+        "WORLDCHAIN-02",
+        "WORLDCHAIN-03",
+        "EARLY-04"
+      ],
+      "blockers": []
+    },
+    {
+      "id": "SR-XF-024",
+      "title": "母子篇缩尺暗线与反制恢复",
+      "version": "1.0",
+      "scope": "early",
+      "group": "内容",
+      "priority": "P2",
+      "iteration": "I4",
+      "design_status": "refinement_pending",
+      "development_status": "not_started",
+      "acceptance_status": "not_verified",
+      "release_status": "not_released_for_this_sr",
+      "owner": null,
+      "reviewer": null,
+      "dependencies": [
+        "SR-XF-012",
+        "SR-XF-014",
+        "SR-XF-021",
+        "SR-XF-022"
+      ],
+      "related_decisions": [
+        "U-63",
+        "U-93",
+        "R-25"
+      ],
+      "source_specs": [
+        "docs/design/02-EQUIPMENT-ARTS.md",
+        "docs/design/05-RUNTIME-CONTRACTS.md",
+        "docs/design/09-INTRIGUE-OPPORTUNITIES.md",
+        "docs/design/10-CRISES-RESCUE-DEATH.md",
+        "docs/design/12-CONTENT-AUTHORING.md"
+      ],
+      "baseline": "尚有推荐机制与示例，未交付完整炼气筑基可玩链。",
+      "design_gap": "危险版本、收割者、通路、损失上限、反制成本需正式内容配置。",
+      "design_deliverables": [
+        "快速调息诀的具体危险版本、真实收益、内化联系与固定母篇持有者。",
+        "准备/维持/传导/抽取的阶段、距离/中继/资源成本及累计损失/吸收/逸散上限。",
+        "校勘转修、紧急断流、外援破锚和追索的独立条件、材料与恢复表。"
+      ],
+      "requirements": [
+        "正常家传与可靠筑基知识不被迁移成收割陷阱。",
+        "同次突破抽取账本幂等，不因阶段回跳、易主、重载重复扣取。",
+        "严重损失/NPC死亡有真实危机过程，不顺带吸走记忆人格与全部技艺。"
+      ],
+      "acceptance": [
+        {
+          "id": "SR-XF-024-AC-01",
+          "scenario": "分别事前校勘、当场断流、外援破锚",
+          "expected": "各有独立可获得前置与实际代价，非同一稀有随机钥匙。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-024-AC-02",
+          "scenario": "危机中重载/易主/重复触发",
+          "expected": "累计已损、已吸收和终态守恒，不刷新损失上限。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-024-AC-03",
+          "scenario": "不反制与部分中断",
+          "expected": "按定义产生损失和恢复条件，不能临时追加更高幕后敌人。",
+          "status": "not_run",
+          "evidence": []
+        }
+      ],
+      "excluded": [
+        "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
+        "不把该SR的设计完成声明为实现、体验或发布完成。"
+      ],
+      "evidence": [],
+      "change_log": [
+        {
+          "date": "2026-10-06",
+          "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        }
+      ],
+      "tasks": [
+        {
+          "id": "SR-XF-024-D01",
+          "phase": "D01",
+          "title": "设计补齐",
+          "description": "交付：快速调息诀的具体危险版本、真实收益、内化联系与固定母篇持有者。；准备/维持/传导/抽取的阶段、距离/中继/资源成本及累计损失/吸收/逸散上限。；校勘转修、紧急断流、外援破锚和追索的独立条件、材料与恢复表。；填实必需参数并标记U/R/T来源。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-024-D02",
+          "phase": "D02",
+          "title": "契约与内容审阅",
+          "description": "审阅母子篇缩尺暗线与反制恢复与依赖契约（SR-XF-012、SR-XF-014、SR-XF-021、SR-XF-022）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-024-D01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-024-I01",
+          "phase": "I01",
+          "title": "开发与集成",
+          "description": "在内容模块实现母子篇缩尺暗线与反制恢复；交付SR-XF-024-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-024-D02"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-024-V01",
+          "phase": "V01",
+          "title": "验收与兼容",
+          "description": "执行SR-XF-024-AC-01至AC-03及WORLDCHAIN-04；登记实际结果、兼容和设备证据边界。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-024-I01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-024-R01",
+          "phase": "R01",
+          "title": "发布与关闭",
+          "description": "完成所需源码/运行时发布核对、交接和未覆盖说明；本轮用户不要求上传QA过程产物。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-024-V01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        }
+      ],
+      "scope_decision": "纳入云岫前期，按依赖推进。",
+      "ready_gate": [
+        "设计交付物存在且版本/引用正确。",
+        "所有行为、失败、取消、恢复和存档影响可执行；未定必需参数已填入配置。",
+        "依赖契约已可使用；涉及身份、风险、真相与来源的作者卡固定。",
+        "验收步骤、预期、数据/设备和结果守恒条件可检查。"
+      ],
+      "done_gate": [
+        "需求行为与所有必需AC通过，设计/实现/验收状态分别更新。",
+        "代码与规格同步，旧档保护、失败恢复和无AI路线通过适用检查。",
+        "范围内所需浏览器/触控/设备/真人验证已取得；未测项不能谎标通过。",
+        "提交/版本/简要结果与发布入口登记；未达到范围内门槛不得关闭。"
+      ],
+      "existing_acceptance_refs": [
+        "WORLDCHAIN-04"
+      ],
+      "blockers": []
+    },
+    {
+      "id": "SR-XF-025",
+      "title": "固定三名责任人的复仇任务图与收束",
+      "version": "1.0",
+      "scope": "early",
+      "group": "内容",
+      "priority": "P1",
+      "iteration": "I4",
+      "design_status": "refinement_pending",
+      "development_status": "partial",
+      "acceptance_status": "not_verified",
+      "release_status": "not_released_for_this_sr",
+      "owner": null,
+      "reviewer": null,
+      "dependencies": [
+        "SR-XF-013",
+        "SR-XF-014",
+        "SR-XF-016",
+        "SR-XF-017",
+        "SR-XF-020",
+        "SR-XF-021"
+      ],
+      "related_decisions": [
+        "U-32",
+        "U-50",
+        "U-51",
+        "U-54",
+        "U-57",
+        "U-63",
+        "R-26"
+      ],
+      "source_specs": [
+        "docs/design/04-WORLD-STORY.md",
+        "docs/design/05-RUNTIME-CONTRACTS.md",
+        "docs/design/09-INTRIGUE-OPPORTUNITIES.md",
+        "docs/design/12-CONTENT-AUTHORING.md",
+        "docs/design/14-EARLY-GAME-DETAILED-DESIGN.md",
+        "docs/design/06-OPENING-ACCEPTANCE.md"
+      ],
+      "baseline": "已有旧篇章流程，14已固定韩厉川/邢烈/邵衡及作者终局。",
+      "design_gap": "新调查行动图、真实战局影响和结局持续状态未完整。",
+      "design_deliverables": [
+        "三名责任人的驻地/行程/知情/资源/战斗和可靠核实死亡途径。",
+        "账册/雇佣单/阵迹调查，截粮/破阵/营救/争取中立的具体结果与替代来源。",
+        "清算→取双亲遗物→明确选择故地重建/回云岫的原子结局和后续经营。"
+      ],
+      "requirements": [
+        "直接夺产的旧案不添加洗罪、公议许可或任意证据数量门槛。",
+        "玩家可承担风险挑战已知可达敌人，准备行动改变真实补给/阵地/援手。",
+        "固定有限责任链收束后不追加幕后人；旧完成档保持旧完成事实。"
+      ],
+      "acceptance": [
+        {
+          "id": "SR-XF-025-AC-01",
+          "scenario": "三路分别调查准备并清算",
+          "expected": "每路有可靠成长和定位来源，关键战局因行动发生实际变化。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-025-AC-02",
+          "scenario": "拒绝一项准备或证人死亡",
+          "expected": "仍可走替代调查或高风险挑战，无四选二通行证。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-025-AC-03",
+          "scenario": "两种结局后重复到访和加载",
+          "expected": "结局保存且可继续经营，奖励不重发，不追插新管事废掉旧结局。",
+          "status": "not_run",
+          "evidence": []
+        }
+      ],
+      "excluded": [
+        "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
+        "不把该SR的设计完成声明为实现、体验或发布完成。"
+      ],
+      "evidence": [],
+      "change_log": [
+        {
+          "date": "2026-10-06",
+          "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        }
+      ],
+      "tasks": [
+        {
+          "id": "SR-XF-025-D01",
+          "phase": "D01",
+          "title": "设计补齐",
+          "description": "交付：三名责任人的驻地/行程/知情/资源/战斗和可靠核实死亡途径。；账册/雇佣单/阵迹调查，截粮/破阵/营救/争取中立的具体结果与替代来源。；清算→取双亲遗物→明确选择故地重建/回云岫的原子结局和后续经营。；填实必需参数并标记U/R/T来源。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-025-D02",
+          "phase": "D02",
+          "title": "契约与内容审阅",
+          "description": "审阅固定三名责任人的复仇任务图与收束与依赖契约（SR-XF-013、SR-XF-014、SR-XF-016、SR-XF-017、SR-XF-020、SR-XF-021）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-025-D01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-025-I01",
+          "phase": "I01",
+          "title": "开发与集成",
+          "description": "在内容模块实现固定三名责任人的复仇任务图与收束；交付SR-XF-025-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-025-D02"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-025-V01",
+          "phase": "V01",
+          "title": "验收与兼容",
+          "description": "执行SR-XF-025-AC-01至AC-03及EARLY-03、STORY-10；登记实际结果、兼容和设备证据边界。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-025-I01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-025-R01",
+          "phase": "R01",
+          "title": "发布与关闭",
+          "description": "完成所需源码/运行时发布核对、交接和未覆盖说明；本轮用户不要求上传QA过程产物。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-025-V01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        }
+      ],
+      "scope_decision": "纳入云岫前期，按依赖推进。",
+      "ready_gate": [
+        "设计交付物存在且版本/引用正确。",
+        "所有行为、失败、取消、恢复和存档影响可执行；未定必需参数已填入配置。",
+        "依赖契约已可使用；涉及身份、风险、真相与来源的作者卡固定。",
+        "验收步骤、预期、数据/设备和结果守恒条件可检查。"
+      ],
+      "done_gate": [
+        "需求行为与所有必需AC通过，设计/实现/验收状态分别更新。",
+        "代码与规格同步，旧档保护、失败恢复和无AI路线通过适用检查。",
+        "范围内所需浏览器/触控/设备/真人验证已取得；未测项不能谎标通过。",
+        "提交/版本/简要结果与发布入口登记；未达到范围内门槛不得关闭。"
+      ],
+      "existing_acceptance_refs": [
+        "EARLY-03",
+        "STORY-10"
+      ],
+      "blockers": []
+    },
+    {
+      "id": "SR-XF-026",
+      "title": "立派、任职、分峰与公开政策",
+      "version": "1.0",
+      "scope": "early",
+      "group": "组织",
+      "priority": "P1",
+      "iteration": "I4",
+      "design_status": "refinement_pending",
+      "development_status": "partial",
+      "acceptance_status": "not_verified",
+      "release_status": "not_released_for_this_sr",
+      "owner": null,
+      "reviewer": null,
+      "dependencies": [
+        "SR-XF-008",
+        "SR-XF-009",
+        "SR-XF-010",
+        "SR-XF-014",
+        "SR-XF-020"
+      ],
+      "related_decisions": [
+        "U-63",
+        "U-93",
+        "R-25"
+      ],
+      "source_specs": [
+        "docs/design/01-CHARACTERS.md",
+        "docs/design/07-ECONOMY-ORGANIZATION.md",
+        "docs/design/14-EARLY-GAME-DETAILED-DESIGN.md",
+        "docs/design/06-OPENING-ACCEPTANCE.md"
+      ],
+      "baseline": "已有任职、师承、阶段与分峰旧基础。",
+      "design_gap": "新版能力门槛、预算、职责时间和自治争议流程未完整。",
+      "design_deliverables": [
+        "山院/立派/分峰的设施、传承、人才、产能与公约条件，不以人数单项硬锁。",
+        "庶务/传功/护院的任职邀约、时间、报酬、权限、退出和兼任预算。",
+        "物资用途/典籍开放/访客接纳/避难等政策版本、知情与争议处置流程。"
+      ],
+      "requirements": [
+        "NPC自愿任职/归峰/师承，超过掌门境界不自动背叛或强锁忠诚。",
+        "少人专业路线可推进篇章，多人路线承担真实住居/供给/协调成本。",
+        "新规不追溯定罪，处分基于可知事实和规则。"
+      ],
+      "acceptance": [
+        {
+          "id": "SR-XF-026-AC-01",
+          "scenario": "少人专业与多人两宗门推进",
+          "expected": "各有合法成长途径与瓶颈，不用人口单项开关主线。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-026-AC-02",
+          "scenario": "一人兼任授课与巡护",
+          "expected": "有限时间冲突被处理，不能同tick承担两个身体活动。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-026-AC-03",
+          "scenario": "改变政策和NPC退出",
+          "expected": "生效/知情有记录，私人物品和知识不被强制没收。",
+          "status": "not_run",
+          "evidence": []
+        }
+      ],
+      "excluded": [
+        "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
+        "不把该SR的设计完成声明为实现、体验或发布完成。"
+      ],
+      "evidence": [],
+      "change_log": [
+        {
+          "date": "2026-10-06",
+          "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        }
+      ],
+      "tasks": [
+        {
+          "id": "SR-XF-026-D01",
+          "phase": "D01",
+          "title": "设计补齐",
+          "description": "交付：山院/立派/分峰的设施、传承、人才、产能与公约条件，不以人数单项硬锁。；庶务/传功/护院的任职邀约、时间、报酬、权限、退出和兼任预算。；物资用途/典籍开放/访客接纳/避难等政策版本、知情与争议处置流程。；填实必需参数并标记U/R/T来源。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-026-D02",
+          "phase": "D02",
+          "title": "契约与内容审阅",
+          "description": "审阅立派、任职、分峰与公开政策与依赖契约（SR-XF-008、SR-XF-009、SR-XF-010、SR-XF-014、SR-XF-020）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-026-D01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-026-I01",
+          "phase": "I01",
+          "title": "开发与集成",
+          "description": "在组织模块实现立派、任职、分峰与公开政策；交付SR-XF-026-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-026-D02"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-026-V01",
+          "phase": "V01",
+          "title": "验收与兼容",
+          "description": "执行SR-XF-026-AC-01至AC-03及ECON-04、ECON-05、LOAD-01；登记实际结果、兼容和设备证据边界。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-026-I01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-026-R01",
+          "phase": "R01",
+          "title": "发布与关闭",
+          "description": "完成所需源码/运行时发布核对、交接和未覆盖说明；本轮用户不要求上传QA过程产物。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-026-V01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        }
+      ],
+      "scope_decision": "纳入云岫前期，按依赖推进。",
+      "ready_gate": [
+        "设计交付物存在且版本/引用正确。",
+        "所有行为、失败、取消、恢复和存档影响可执行；未定必需参数已填入配置。",
+        "依赖契约已可使用；涉及身份、风险、真相与来源的作者卡固定。",
+        "验收步骤、预期、数据/设备和结果守恒条件可检查。"
+      ],
+      "done_gate": [
+        "需求行为与所有必需AC通过，设计/实现/验收状态分别更新。",
+        "代码与规格同步，旧档保护、失败恢复和无AI路线通过适用检查。",
+        "范围内所需浏览器/触控/设备/真人验证已取得；未测项不能谎标通过。",
+        "提交/版本/简要结果与发布入口登记；未达到范围内门槛不得关闭。"
+      ],
+      "existing_acceptance_refs": [
+        "ECON-04",
+        "ECON-05",
+        "LOAD-01"
+      ],
+      "blockers": []
+    },
+    {
+      "id": "SR-XF-027",
+      "title": "共同禁忌、门规与悬赏处置细则",
+      "version": "1.0",
+      "scope": "early",
+      "group": "规则",
+      "priority": "P2",
+      "iteration": "I4",
+      "design_status": "refinement_pending",
+      "development_status": "partial",
+      "acceptance_status": "not_verified",
+      "release_status": "not_released_for_this_sr",
+      "owner": null,
+      "reviewer": null,
+      "dependencies": [
+        "SR-XF-017",
+        "SR-XF-020",
+        "SR-XF-021",
+        "SR-XF-022"
+      ],
+      "related_decisions": [
+        "U-39",
+        "U-40",
+        "U-63",
+        "R-25"
+      ],
+      "source_specs": [
+        "docs/design/08-LIVING-WORLD.md",
+        "docs/design/09-INTRIGUE-OPPORTUNITIES.md",
+        "docs/design/12-CONTENT-AUTHORING.md",
+        "docs/design/14-EARLY-GAME-DETAILED-DESIGN.md"
+      ],
+      "baseline": "已有邪修定义边界和按具体组织人物处置的原则。",
+      "design_gap": "完整共同禁忌、暂态责任、证据与赏令执行细则未定稿。",
+      "design_deliverables": [
+        "共同禁忌/地区公约/组织门规的适用表；暴行目的、真实/伪称失控、诱因与责任边界。",
+        "调查、划界、清理门户、外部悬赏、不行动的决策者/资源/证据条件。",
+        "赏令等级、传播、接取、定位、完成凭证、合法付款和纠错。"
+      ],
+      "requirements": [
+        "重大伤亡不能单独判邪，自称失控不自动免罪，实际损害持续存在。",
+        "正魔标签不决定固定处置策略，公开指控不能冒充世界真相。",
+        "悬赏不能即时定位或处死人，接取者自主行动并有真实路程。"
+      ],
+      "acceptance": [
+        {
+          "id": "SR-XF-027-AC-01",
+          "scenario": "修炼暴行/其他犯罪/真实失控/伪称失控四例",
+          "expected": "依版本化事实与证据区别处理，不临场另造免责/归邪规则。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-027-AC-02",
+          "scenario": "同事实进入不同门规与人物决策",
+          "expected": "可有不同可解释行动，不按阵营固定。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-027-AC-03",
+          "scenario": "同凭证重复兑赏或后来纠错",
+          "expected": "报酬一次、来源有限，纠错与社会后果保留。",
+          "status": "not_run",
+          "evidence": []
+        }
+      ],
+      "excluded": [
+        "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
+        "不把该SR的设计完成声明为实现、体验或发布完成。"
+      ],
+      "evidence": [],
+      "change_log": [
+        {
+          "date": "2026-10-06",
+          "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        }
+      ],
+      "tasks": [
+        {
+          "id": "SR-XF-027-D01",
+          "phase": "D01",
+          "title": "设计补齐",
+          "description": "交付：共同禁忌/地区公约/组织门规的适用表；暴行目的、真实/伪称失控、诱因与责任边界。；调查、划界、清理门户、外部悬赏、不行动的决策者/资源/证据条件。；赏令等级、传播、接取、定位、完成凭证、合法付款和纠错。；填实必需参数并标记U/R/T来源。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-027-D02",
+          "phase": "D02",
+          "title": "契约与内容审阅",
+          "description": "审阅共同禁忌、门规与悬赏处置细则与依赖契约（SR-XF-017、SR-XF-020、SR-XF-021、SR-XF-022）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-027-D01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-027-I01",
+          "phase": "I01",
+          "title": "开发与集成",
+          "description": "在规则模块实现共同禁忌、门规与悬赏处置细则；交付SR-XF-027-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-027-D02"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-027-V01",
+          "phase": "V01",
+          "title": "验收与兼容",
+          "description": "执行SR-XF-027-AC-01至AC-03及INTRIGUE-13、INTRIGUE-14；登记实际结果、兼容和设备证据边界。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-027-I01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-027-R01",
+          "phase": "R01",
+          "title": "发布与关闭",
+          "description": "完成所需源码/运行时发布核对、交接和未覆盖说明；本轮用户不要求上传QA过程产物。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-027-V01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        }
+      ],
+      "scope_decision": "纳入云岫前期，按依赖推进。",
+      "ready_gate": [
+        "设计交付物存在且版本/引用正确。",
+        "所有行为、失败、取消、恢复和存档影响可执行；未定必需参数已填入配置。",
+        "依赖契约已可使用；涉及身份、风险、真相与来源的作者卡固定。",
+        "验收步骤、预期、数据/设备和结果守恒条件可检查。"
+      ],
+      "done_gate": [
+        "需求行为与所有必需AC通过，设计/实现/验收状态分别更新。",
+        "代码与规格同步，旧档保护、失败恢复和无AI路线通过适用检查。",
+        "范围内所需浏览器/触控/设备/真人验证已取得；未测项不能谎标通过。",
+        "提交/版本/简要结果与发布入口登记；未达到范围内门槛不得关闭。"
+      ],
+      "existing_acceptance_refs": [
+        "INTRIGUE-13",
+        "INTRIGUE-14"
+      ],
+      "blockers": []
+    },
+    {
+      "id": "SR-XF-028",
+      "title": "天道誓言与修真合约具体机制",
+      "version": "1.0",
+      "scope": "early",
+      "group": "规则",
+      "priority": "P2",
+      "iteration": "I4",
+      "design_status": "refinement_pending",
+      "development_status": "not_started",
+      "acceptance_status": "not_verified",
+      "release_status": "not_released_for_this_sr",
+      "owner": null,
+      "reviewer": null,
+      "dependencies": [
+        "SR-XF-002",
+        "SR-XF-017",
+        "SR-XF-020",
+        "SR-XF-027"
+      ],
+      "related_decisions": [
+        "U-63",
+        "U-70",
+        "U-78"
+      ],
+      "source_specs": [
+        "docs/design/05-RUNTIME-CONTRACTS.md",
+        "docs/design/07-ECONOMY-ORGANIZATION.md",
+        "docs/design/09-INTRIGUE-OPPORTUNITIES.md",
+        "docs/design/13-WORLDVIEW-DISCUSSION.md",
+        "docs/design/12-CONTENT-AUTHORING.md"
+      ],
+      "baseline": "尚只有实际约束及合约略弱于誓言的世界观方向。",
+      "design_gap": "成立/条款/违约/后果/解除/规避尚未成为完整可执行设计。",
+      "design_deliverables": [
+        "普通口头承诺、天道誓言、衍生合约的资格、媒介、成立与知情条件。",
+        "可判定条款、误解/被迫/履约不能/蓄意违约的区分与反噬过程。",
+        "解除、到期、代价、可合法规避范围和地方掌握者；内容使用名单。"
+      ],
+      "requirements": [
+        "誓言按客观规律生效，天道不拟人裁决；合约略弱但真实有效。",
+        "签约不生成货物，不替代实际交付，也不强制控制NPC身体。",
+        "未交付机制前普通订单不自动附加法术约束。"
+      ],
+      "acceptance": [
+        {
+          "id": "SR-XF-028-AC-01",
+          "scenario": "同条款分别口头/誓言/合约订立",
+          "expected": "成立条件和效力层次明确可查，不擅自绑定。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-028-AC-02",
+          "scenario": "履约失败、违约和解除",
+          "expected": "按预先可知条件付代价和耗时，不临场变规则。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-028-AC-03",
+          "scenario": "已签约却缺货或断路",
+          "expected": "库存和交付仍真实，后果走同一世界时间与事务。",
+          "status": "not_run",
+          "evidence": []
+        }
+      ],
+      "excluded": [
+        "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
+        "不把该SR的设计完成声明为实现、体验或发布完成。"
+      ],
+      "evidence": [],
+      "change_log": [
+        {
+          "date": "2026-10-06",
+          "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        }
+      ],
+      "tasks": [
+        {
+          "id": "SR-XF-028-D01",
+          "phase": "D01",
+          "title": "设计补齐",
+          "description": "交付：普通口头承诺、天道誓言、衍生合约的资格、媒介、成立与知情条件。；可判定条款、误解/被迫/履约不能/蓄意违约的区分与反噬过程。；解除、到期、代价、可合法规避范围和地方掌握者；内容使用名单。；填实必需参数并标记U/R/T来源。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-028-D02",
+          "phase": "D02",
+          "title": "契约与内容审阅",
+          "description": "审阅天道誓言与修真合约具体机制与依赖契约（SR-XF-002、SR-XF-017、SR-XF-020、SR-XF-027）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-028-D01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-028-I01",
+          "phase": "I01",
+          "title": "开发与集成",
+          "description": "在规则模块实现天道誓言与修真合约具体机制；交付SR-XF-028-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-028-D02"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-028-V01",
+          "phase": "V01",
+          "title": "验收与兼容",
+          "description": "执行SR-XF-028-AC-01至AC-03及CONTENT-05；登记实际结果、兼容和设备证据边界。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-028-I01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-028-R01",
+          "phase": "R01",
+          "title": "发布与关闭",
+          "description": "完成所需源码/运行时发布核对、交接和未覆盖说明；本轮用户不要求上传QA过程产物。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-028-V01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        }
+      ],
+      "scope_decision": "纳入云岫前期，按依赖推进。",
+      "ready_gate": [
+        "设计交付物存在且版本/引用正确。",
+        "所有行为、失败、取消、恢复和存档影响可执行；未定必需参数已填入配置。",
+        "依赖契约已可使用；涉及身份、风险、真相与来源的作者卡固定。",
+        "验收步骤、预期、数据/设备和结果守恒条件可检查。"
+      ],
+      "done_gate": [
+        "需求行为与所有必需AC通过，设计/实现/验收状态分别更新。",
+        "代码与规格同步，旧档保护、失败恢复和无AI路线通过适用检查。",
+        "范围内所需浏览器/触控/设备/真人验证已取得；未测项不能谎标通过。",
+        "提交/版本/简要结果与发布入口登记；未达到范围内门槛不得关闭。"
+      ],
+      "existing_acceptance_refs": [
+        "CONTENT-05"
+      ],
+      "blockers": []
+    },
+    {
+      "id": "SR-XF-029",
+      "title": "统一操作流程、窄屏与人物触控",
+      "version": "1.0",
+      "scope": "early",
+      "group": "体验",
+      "priority": "P0",
+      "iteration": "I1",
+      "design_status": "refinement_pending",
+      "development_status": "partial",
+      "acceptance_status": "not_verified",
+      "release_status": "not_released_for_this_sr",
+      "owner": null,
+      "reviewer": null,
+      "dependencies": [
+        "SR-XF-003",
+        "SR-XF-004",
+        "SR-XF-005",
+        "SR-XF-007"
+      ],
+      "related_decisions": [
+        "U-63",
+        "U-93",
+        "R-25"
+      ],
+      "source_specs": [
+        "docs/design/01-CHARACTERS.md",
+        "docs/design/03-SPATIAL-ART.md",
+        "docs/design/06-OPENING-ACCEPTANCE.md",
+        "docs/design/14-EARLY-GAME-DETAILED-DESIGN.md"
+      ],
+      "baseline": "已有80个管理页模板和线上启动/序章的基础浏览器核对。",
+      "design_gap": "新自由营造、装备、旅行、危机等完整操作流与真机体验未验收。",
+      "design_deliverables": [
+        "掌门移动/点选/重叠/遮挡/营造的统一鼠标触控语义与防误操作。",
+        "每个新系统的主目标、条件、确认、取消、等待、失败、恢复和帮助流程。",
+        "360/390宽与横屏信息布局，标题/正文/状态可读和低动态回退。"
+      ],
+      "requirements": [
+        "可见人物触控命中至少44CSS像素；缩放不让按钮/角色无法选取。",
+        "一项当前主目标和前情可回看；已读不自动替玩家赠药、入宗或出发。",
+        "拖拽和手势不劫持侧栏/输入/弹窗，错误提示提供具体继续方法。"
+      ],
+      "acceptance": [
+        {
+          "id": "SR-XF-029-AC-01",
+          "scenario": "鼠标与触控完成移动、选择和建造",
+          "expected": "语义一致，遮挡/重叠均可选指定人，辅助预览不挡关键控制。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-029-AC-02",
+          "scenario": "360/390宽与横屏操作新系统",
+          "expected": "关键文本/按钮不被覆盖截断，可取消恢复；模拟与真机结果分列。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-029-AC-03",
+          "scenario": "关闭帮助/拒绝操作/保存失败",
+          "expected": "不会自动扣费或丢关键线索，能明确找到继续与恢复路径。",
+          "status": "not_run",
+          "evidence": []
+        }
+      ],
+      "excluded": [
+        "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
+        "不把该SR的设计完成声明为实现、体验或发布完成。"
+      ],
+      "evidence": [],
+      "change_log": [
+        {
+          "date": "2026-10-06",
+          "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        }
+      ],
+      "tasks": [
+        {
+          "id": "SR-XF-029-D01",
+          "phase": "D01",
+          "title": "设计补齐",
+          "description": "交付：掌门移动/点选/重叠/遮挡/营造的统一鼠标触控语义与防误操作。；每个新系统的主目标、条件、确认、取消、等待、失败、恢复和帮助流程。；360/390宽与横屏信息布局，标题/正文/状态可读和低动态回退。；填实必需参数并标记U/R/T来源。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-029-D02",
+          "phase": "D02",
+          "title": "契约与内容审阅",
+          "description": "审阅统一操作流程、窄屏与人物触控与依赖契约（SR-XF-003、SR-XF-004、SR-XF-005、SR-XF-007）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-029-D01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-029-I01",
+          "phase": "I01",
+          "title": "开发与集成",
+          "description": "在体验模块实现统一操作流程、窄屏与人物触控；交付SR-XF-029-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-029-D02"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-029-V01",
+          "phase": "V01",
+          "title": "验收与兼容",
+          "description": "执行SR-XF-029-AC-01至AC-03及INPUT-01、INPUT-02、OPEN-10；登记实际结果、兼容和设备证据边界。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-029-I01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-029-R01",
+          "phase": "R01",
+          "title": "发布与关闭",
+          "description": "完成所需源码/运行时发布核对、交接和未覆盖说明；本轮用户不要求上传QA过程产物。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-029-V01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        }
+      ],
+      "scope_decision": "纳入云岫前期，按依赖推进。",
+      "ready_gate": [
+        "设计交付物存在且版本/引用正确。",
+        "所有行为、失败、取消、恢复和存档影响可执行；未定必需参数已填入配置。",
+        "依赖契约已可使用；涉及身份、风险、真相与来源的作者卡固定。",
+        "验收步骤、预期、数据/设备和结果守恒条件可检查。"
+      ],
+      "done_gate": [
+        "需求行为与所有必需AC通过，设计/实现/验收状态分别更新。",
+        "代码与规格同步，旧档保护、失败恢复和无AI路线通过适用检查。",
+        "范围内所需浏览器/触控/设备/真人验证已取得；未测项不能谎标通过。",
+        "提交/版本/简要结果与发布入口登记；未达到范围内门槛不得关闭。"
+      ],
+      "existing_acceptance_refs": [
+        "INPUT-01",
+        "INPUT-02",
+        "OPEN-10"
+      ],
+      "blockers": []
+    },
+    {
+      "id": "SR-XF-030",
+      "title": "旧布局、装备、成长与篇章的完整迁移",
+      "version": "1.0",
+      "scope": "early",
+      "group": "兼容",
+      "priority": "P0",
+      "iteration": "I1",
+      "design_status": "refinement_pending",
+      "development_status": "partial",
+      "acceptance_status": "not_verified",
+      "release_status": "not_released_for_this_sr",
+      "owner": null,
+      "reviewer": null,
+      "dependencies": [
+        "SR-XF-002"
+      ],
+      "related_decisions": [
+        "U-63",
+        "U-93",
+        "R-25"
+      ],
+      "source_specs": [
+        "docs/design/02-EQUIPMENT-ARTS.md",
+        "docs/design/03-SPATIAL-ART.md",
+        "docs/design/05-RUNTIME-CONTRACTS.md",
+        "docs/design/10-CRISES-RESCUE-DEATH.md",
+        "docs/design/14-EARLY-GAME-DETAILED-DESIGN.md",
+        "docs/design/06-OPENING-ACCEPTANCE.md"
+      ],
+      "baseline": "已有v5到schema 6及主屋工位预约迁移的局部实现。",
+      "design_gap": "新版米制空间、装备、学习值与责任链仍缺完整逐字段映射。",
+      "design_deliverables": [
+        "新旧实体/引用/坐标/设施/装备/knowledge/主辅修/篇章进度的确定映射表。",
+        "已完成/未完成复仇、在途/治疗/制作/危险中的兼容样本与原档保护。",
+        "无合法安置/未知版本/保存失败的回退、待安置、导出和补偿一次性账本。"
+      ],
+      "requirements": [
+        "原档备份保留，不清空重掷成员或丢资产；失败停止写入并说明原因。",
+        "旧完成档不补未清算管事，未完成档映射既有情报与真实准备而非数量许可。",
+        "不追算离线死亡天气损失，不污染可靠家传，不凭空赠满套装备。"
+      ],
+      "acceptance": [
+        {
+          "id": "SR-XF-030-AC-01",
+          "scenario": "多阶段v5及更早支持档迁入",
+          "expected": "人物、资源、时间、RNG、物品/知识来源和历史结局守恒。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-030-AC-02",
+          "scenario": "设施无法原位安置/引用未知",
+          "expected": "进入可查兼容状态或拒绝加载并保原档，有确定恢复路径。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-030-AC-03",
+          "scenario": "重复迁移与保存失败后恢复",
+          "expected": "补偿/奖励/死亡只一次，旧knowledge不双倍变满理解与熟练。",
+          "status": "not_run",
+          "evidence": []
+        }
+      ],
+      "excluded": [
+        "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
+        "不把该SR的设计完成声明为实现、体验或发布完成。"
+      ],
+      "evidence": [],
+      "change_log": [
+        {
+          "date": "2026-10-06",
+          "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        }
+      ],
+      "tasks": [
+        {
+          "id": "SR-XF-030-D01",
+          "phase": "D01",
+          "title": "设计补齐",
+          "description": "交付：新旧实体/引用/坐标/设施/装备/knowledge/主辅修/篇章进度的确定映射表。；已完成/未完成复仇、在途/治疗/制作/危险中的兼容样本与原档保护。；无合法安置/未知版本/保存失败的回退、待安置、导出和补偿一次性账本。；填实必需参数并标记U/R/T来源。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-030-D02",
+          "phase": "D02",
+          "title": "契约与内容审阅",
+          "description": "审阅旧布局、装备、成长与篇章的完整迁移与依赖契约（SR-XF-002）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-030-D01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-030-I01",
+          "phase": "I01",
+          "title": "开发与集成",
+          "description": "在兼容模块实现旧布局、装备、成长与篇章的完整迁移；交付SR-XF-030-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-030-D02"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-030-V01",
+          "phase": "V01",
+          "title": "验收与兼容",
+          "description": "执行SR-XF-030-AC-01至AC-03及EARLY-05、PERSIST-01、PERSIST-02、SAVE-01；登记实际结果、兼容和设备证据边界。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-030-I01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-030-R01",
+          "phase": "R01",
+          "title": "发布与关闭",
+          "description": "完成所需源码/运行时发布核对、交接和未覆盖说明；本轮用户不要求上传QA过程产物。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-030-V01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        }
+      ],
+      "scope_decision": "纳入云岫前期，按依赖推进。",
+      "ready_gate": [
+        "设计交付物存在且版本/引用正确。",
+        "所有行为、失败、取消、恢复和存档影响可执行；未定必需参数已填入配置。",
+        "依赖契约已可使用；涉及身份、风险、真相与来源的作者卡固定。",
+        "验收步骤、预期、数据/设备和结果守恒条件可检查。"
+      ],
+      "done_gate": [
+        "需求行为与所有必需AC通过，设计/实现/验收状态分别更新。",
+        "代码与规格同步，旧档保护、失败恢复和无AI路线通过适用检查。",
+        "范围内所需浏览器/触控/设备/真人验证已取得；未测项不能谎标通过。",
+        "提交/版本/简要结果与发布入口登记；未达到范围内门槛不得关闭。"
+      ],
+      "existing_acceptance_refs": [
+        "EARLY-05",
+        "PERSIST-01",
+        "PERSIST-02",
+        "SAVE-01"
+      ],
+      "blockers": []
+    },
+    {
+      "id": "SR-XF-031",
+      "title": "统一平衡参数与首次体验节奏",
+      "version": "1.0",
+      "scope": "early",
+      "group": "平衡",
+      "priority": "P1",
+      "iteration": "I5",
+      "design_status": "refinement_pending",
+      "development_status": "partial",
+      "acceptance_status": "not_verified",
+      "release_status": "not_released_for_this_sr",
+      "owner": null,
+      "reviewer": null,
+      "dependencies": [
+        "SR-XF-009",
+        "SR-XF-013",
+        "SR-XF-014",
+        "SR-XF-019",
+        "SR-XF-022",
+        "SR-XF-026"
+      ],
+      "related_decisions": [
+        "U-63",
+        "U-93",
+        "R-25"
+      ],
+      "source_specs": [
+        "docs/design/02-EQUIPMENT-ARTS.md",
+        "docs/design/06-OPENING-ACCEPTANCE.md",
+        "docs/design/07-ECONOMY-ORGANIZATION.md",
+        "docs/design/08-LIVING-WORLD.md",
+        "docs/design/10-CRISES-RESCUE-DEATH.md",
+        "docs/design/14-EARLY-GAME-DETAILED-DESIGN.md"
+      ],
+      "baseline": "已有T-01至T-12默认目标与旧参数。",
+      "design_gap": "完整版本化参数、依据、等待/收益/危险预算和实测节奏未定稿。",
+      "design_deliverables": [
+        "动作/装备/成长/经济/季节/危机的统一参数目录、单位、范围、来源与变更理由。",
+        "3-5人与24-32人路线的产能、缺口、用药、学习、套装/筑基/立派/分峰节奏。",
+        "首次玩家15-30分钟学习目标、最长无决策等待与可恢复失败测量计划。"
+      ],
+      "requirements": [
+        "默认值标为tunable，缺实测不称平衡完成；调日长需保持日相位与事件进度。",
+        "装备预算与减伤上限不被独立乘区绕开，不产生无成本成长/套利。",
+        "危机预算从真实获知时刻开始，不能只改倒计时假装可救。"
+      ],
+      "acceptance": [
+        {
+          "id": "SR-XF-031-AC-01",
+          "scenario": "查看任一费用/时长/战斗贡献",
+          "expected": "可定位同一参数定义与单位/理由，UI和模拟使用一致值。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-031-AC-02",
+          "scenario": "三路与两规模正常经营成长",
+          "expected": "产能/投入/等待和关键战斗取舍记录完整，无无限资源环。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-031-AC-03",
+          "scenario": "调参及重载旧过程",
+          "expected": "已发生事实守恒，未实测节奏/设备项仍明确待测。",
+          "status": "not_run",
+          "evidence": []
+        }
+      ],
+      "excluded": [
+        "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
+        "不把该SR的设计完成声明为实现、体验或发布完成。"
+      ],
+      "evidence": [],
+      "change_log": [
+        {
+          "date": "2026-10-06",
+          "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        }
+      ],
+      "tasks": [
+        {
+          "id": "SR-XF-031-D01",
+          "phase": "D01",
+          "title": "设计补齐",
+          "description": "交付：动作/装备/成长/经济/季节/危机的统一参数目录、单位、范围、来源与变更理由。；3-5人与24-32人路线的产能、缺口、用药、学习、套装/筑基/立派/分峰节奏。；首次玩家15-30分钟学习目标、最长无决策等待与可恢复失败测量计划。；填实必需参数并标记U/R/T来源。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-031-D02",
+          "phase": "D02",
+          "title": "契约与内容审阅",
+          "description": "审阅统一平衡参数与首次体验节奏与依赖契约（SR-XF-009、SR-XF-013、SR-XF-014、SR-XF-019、SR-XF-022、SR-XF-026）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-031-D01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-031-I01",
+          "phase": "I01",
+          "title": "开发与集成",
+          "description": "在平衡模块实现统一平衡参数与首次体验节奏；交付SR-XF-031-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-031-D02"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-031-V01",
+          "phase": "V01",
+          "title": "验收与兼容",
+          "description": "执行SR-XF-031-AC-01至AC-03及OPEN-08、CHAIN-04；登记实际结果、兼容和设备证据边界。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-031-I01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-031-R01",
+          "phase": "R01",
+          "title": "发布与关闭",
+          "description": "完成所需源码/运行时发布核对、交接和未覆盖说明；本轮用户不要求上传QA过程产物。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-031-V01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        }
+      ],
+      "scope_decision": "纳入云岫前期，按依赖推进。",
+      "ready_gate": [
+        "设计交付物存在且版本/引用正确。",
+        "所有行为、失败、取消、恢复和存档影响可执行；未定必需参数已填入配置。",
+        "依赖契约已可使用；涉及身份、风险、真相与来源的作者卡固定。",
+        "验收步骤、预期、数据/设备和结果守恒条件可检查。"
+      ],
+      "done_gate": [
+        "需求行为与所有必需AC通过，设计/实现/验收状态分别更新。",
+        "代码与规格同步，旧档保护、失败恢复和无AI路线通过适用检查。",
+        "范围内所需浏览器/触控/设备/真人验证已取得；未测项不能谎标通过。",
+        "提交/版本/简要结果与发布入口登记；未达到范围内门槛不得关闭。"
+      ],
+      "existing_acceptance_refs": [
+        "OPEN-08",
+        "CHAIN-04"
+      ],
+      "blockers": []
+    },
+    {
+      "id": "SR-XF-032",
+      "title": "完整前期集成、设备验收与发布关闭",
+      "version": "1.0",
+      "scope": "early",
+      "group": "交付",
+      "priority": "P1",
+      "iteration": "I5",
+      "design_status": "refinement_pending",
+      "development_status": "partial",
+      "acceptance_status": "not_verified",
+      "release_status": "not_released_for_this_sr",
+      "owner": null,
+      "reviewer": null,
+      "dependencies": [
+        "SR-XF-006",
+        "SR-XF-008",
+        "SR-XF-010",
+        "SR-XF-011",
+        "SR-XF-012",
+        "SR-XF-013",
+        "SR-XF-014",
+        "SR-XF-015",
+        "SR-XF-016",
+        "SR-XF-017",
+        "SR-XF-018",
+        "SR-XF-019",
+        "SR-XF-020",
+        "SR-XF-021",
+        "SR-XF-022",
+        "SR-XF-023",
+        "SR-XF-024",
+        "SR-XF-025",
+        "SR-XF-026",
+        "SR-XF-027",
+        "SR-XF-028",
+        "SR-XF-029",
+        "SR-XF-030",
+        "SR-XF-031"
+      ],
+      "related_decisions": [
+        "U-63",
+        "U-93",
+        "R-25"
+      ],
+      "source_specs": [
+        "docs/design/05-RUNTIME-CONTRACTS.md",
+        "docs/design/06-OPENING-ACCEPTANCE.md",
+        "docs/design/12-CONTENT-AUTHORING.md",
+        "docs/design/14-EARLY-GAME-DETAILED-DESIGN.md"
+      ],
+      "baseline": "已有346项自动检查及启动/序章线上核对，适用旧局部范围。",
+      "design_gap": "全前期正常与失败链、设备/性能/真人/长期存档证据尚缺。",
+      "design_deliverables": [
+        "新档/旧档、拒绝/缺料/战败/迟到/自救/重载/无AI的验收矩阵与SR映射。",
+        "浏览器、真机、真人首次体验、性能/规模、长期存档各自测量计划。",
+        "源码main、Pages、缓存/素材、备份回滚和发布版本核对清单。"
+      ],
+      "requirements": [
+        "单元通过、浏览器视口、Node渲染、真人体验与真机FPS分别报告。",
+        "前期完整三路与两种结局可继续经营；模块测试之和不当整链通过。",
+        "按用户要求不上传验收截图/过程产物，仓库只保留规格、必要脚本及简要结果引用。"
+      ],
+      "acceptance": [
+        {
+          "id": "SR-XF-032-AC-01",
+          "scenario": "无控制台完成新档全篇章与两种结局",
+          "expected": "有实际操作与守恒结果，各必需SR验收达标，旧完成档不退回未完成。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-032-AC-02",
+          "scenario": "后台/关闭/只读锁/暂停和长期保存",
+          "expected": "不补推进、不重复结果，保存故障可恢复。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-032-AC-03",
+          "scenario": "发布和记录设备性能",
+          "expected": "页面确为已验收代码；真机/真人未测明确保留，不能关闭相应门槛。",
+          "status": "not_run",
+          "evidence": []
+        }
+      ],
+      "excluded": [
+        "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
+        "不把该SR的设计完成声明为实现、体验或发布完成。"
+      ],
+      "evidence": [],
+      "change_log": [
+        {
+          "date": "2026-10-06",
+          "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        }
+      ],
+      "tasks": [
+        {
+          "id": "SR-XF-032-D01",
+          "phase": "D01",
+          "title": "设计补齐",
+          "description": "交付：新档/旧档、拒绝/缺料/战败/迟到/自救/重载/无AI的验收矩阵与SR映射。；浏览器、真机、真人首次体验、性能/规模、长期存档各自测量计划。；源码main、Pages、缓存/素材、备份回滚和发布版本核对清单。；填实必需参数并标记U/R/T来源。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-032-D02",
+          "phase": "D02",
+          "title": "契约与内容审阅",
+          "description": "审阅完整前期集成、设备验收与发布关闭与依赖契约（SR-XF-006、SR-XF-008、SR-XF-010、SR-XF-011、SR-XF-012、SR-XF-013、SR-XF-014、SR-XF-015、SR-XF-016、SR-XF-017、SR-XF-018、SR-XF-019、SR-XF-020、SR-XF-021、SR-XF-022、SR-XF-023、SR-XF-024、SR-XF-025、SR-XF-026、SR-XF-027、SR-XF-028、SR-XF-029、SR-XF-030、SR-XF-031）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-032-D01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-032-I01",
+          "phase": "I01",
+          "title": "开发与集成",
+          "description": "在交付模块实现完整前期集成、设备验收与发布关闭；交付SR-XF-032-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-032-D02"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-032-V01",
+          "phase": "V01",
+          "title": "验收与兼容",
+          "description": "执行SR-XF-032-AC-01至AC-03及EARLY-01、EARLY-02、EARLY-03、EARLY-04、EARLY-05、EARLY-06、DELIVERY-01、INTEGRATE-01、LOAD-02；登记实际结果、兼容和设备证据边界。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-032-I01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-032-R01",
+          "phase": "R01",
+          "title": "发布与关闭",
+          "description": "完成所需源码/运行时发布核对、交接和未覆盖说明；本轮用户不要求上传QA过程产物。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-032-V01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        }
+      ],
+      "scope_decision": "纳入云岫前期，按依赖推进。",
+      "ready_gate": [
+        "设计交付物存在且版本/引用正确。",
+        "所有行为、失败、取消、恢复和存档影响可执行；未定必需参数已填入配置。",
+        "依赖契约已可使用；涉及身份、风险、真相与来源的作者卡固定。",
+        "验收步骤、预期、数据/设备和结果守恒条件可检查。"
+      ],
+      "done_gate": [
+        "需求行为与所有必需AC通过，设计/实现/验收状态分别更新。",
+        "代码与规格同步，旧档保护、失败恢复和无AI路线通过适用检查。",
+        "范围内所需浏览器/触控/设备/真人验证已取得；未测项不能谎标通过。",
+        "提交/版本/简要结果与发布入口登记；未达到范围内门槛不得关闭。"
+      ],
+      "existing_acceptance_refs": [
+        "EARLY-01",
+        "EARLY-02",
+        "EARLY-03",
+        "EARLY-04",
+        "EARLY-05",
+        "EARLY-06",
+        "DELIVERY-01",
+        "INTEGRATE-01",
+        "LOAD-02"
+      ],
+      "blockers": []
+    },
+    {
+      "id": "SR-XF-033",
+      "title": "本命绑定的完整获取与解除闭环",
+      "version": "1.0",
+      "scope": "conditional",
+      "group": "条件范围",
+      "priority": "P3",
+      "iteration": "conditional",
+      "design_status": "refinement_pending",
+      "development_status": "not_started",
+      "acceptance_status": "not_verified",
+      "release_status": "not_released_for_this_sr",
+      "owner": null,
+      "reviewer": null,
+      "dependencies": [
+        "SR-XF-012",
+        "SR-XF-014",
+        "SR-XF-028"
+      ],
+      "related_decisions": [
+        "U-63",
+        "U-93",
+        "R-25"
+      ],
+      "source_specs": [
+        "docs/design/02-EQUIPMENT-ARTS.md",
+        "docs/design/05-RUNTIME-CONTRACTS.md",
+        "docs/design/09-INTRIGUE-OPPORTUNITIES.md"
+      ],
+      "baseline": "尚只预留本命关系方向，不承诺前期可玩。",
+      "design_gap": "需先决定是否纳入前期，并补完整仪式、能力、维护与解除。",
+      "design_deliverables": [
+        "纳入/不纳入前期的范围结论，当前默认保持规划。",
+        "知情绑定的资格、唯一关系、材料/时间、成长和离身使用规则。",
+        "解除代价、恢复、失败与NPC拒绝/死亡后的权限。"
+      ],
+      "requirements": [
+        "不增加第五槽、不允许多人同时绑定一物。",
+        "未形成完整闭环前不提供假按钮或隐含无成本绑定效果。",
+        "如开启按正式范围变更接入迁移和发布，不作为当前前期阻塞。"
+      ],
+      "acceptance": [
+        {
+          "id": "SR-XF-033-AC-01",
+          "scenario": "规划阶段查看装备",
+          "expected": "明确不开放，无隐含绑定属性。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-033-AC-02",
+          "scenario": "未来完成绑定后重载",
+          "expected": "一物一绑定者，实际能力受位置和条件约束。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-033-AC-03",
+          "scenario": "知情拒绝、解除或中断",
+          "expected": "代价预先可知，旧身份/物品守恒，不突然永久剥夺修为。",
+          "status": "not_run",
+          "evidence": []
+        }
+      ],
+      "excluded": [
+        "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
+        "不把该SR的设计完成声明为实现、体验或发布完成。"
+      ],
+      "evidence": [],
+      "change_log": [
+        {
+          "date": "2026-10-06",
+          "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        }
+      ],
+      "tasks": [
+        {
+          "id": "SR-XF-033-D01",
+          "phase": "D01",
+          "title": "设计补齐",
+          "description": "交付：纳入/不纳入前期的范围结论，当前默认保持规划。；知情绑定的资格、唯一关系、材料/时间、成长和离身使用规则。；解除代价、恢复、失败与NPC拒绝/死亡后的权限。；填实必需参数并标记U/R/T来源。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-033-D02",
+          "phase": "D02",
+          "title": "契约与内容审阅",
+          "description": "审阅本命绑定的完整获取与解除闭环与依赖契约（SR-XF-012、SR-XF-014、SR-XF-028）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-033-D01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-033-I01",
+          "phase": "I01",
+          "title": "开发与集成",
+          "description": "在条件范围模块实现本命绑定的完整获取与解除闭环；交付SR-XF-033-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-033-D02"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-033-V01",
+          "phase": "V01",
+          "title": "验收与兼容",
+          "description": "执行SR-XF-033-AC-01至AC-03及EQ-01、EQ-02；登记实际结果、兼容和设备证据边界。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-033-I01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-033-R01",
+          "phase": "R01",
+          "title": "发布与关闭",
+          "description": "完成所需源码/运行时发布核对、交接和未覆盖说明；本轮用户不要求上传QA过程产物。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-033-V01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        }
+      ],
+      "scope_decision": "当前不承诺实施，不阻塞前期；启用前登记范围决定。",
+      "ready_gate": [
+        "设计交付物存在且版本/引用正确。",
+        "所有行为、失败、取消、恢复和存档影响可执行；未定必需参数已填入配置。",
+        "依赖契约已可使用；涉及身份、风险、真相与来源的作者卡固定。",
+        "验收步骤、预期、数据/设备和结果守恒条件可检查。"
+      ],
+      "done_gate": [
+        "需求行为与所有必需AC通过，设计/实现/验收状态分别更新。",
+        "代码与规格同步，旧档保护、失败恢复和无AI路线通过适用检查。",
+        "范围内所需浏览器/触控/设备/真人验证已取得；未测项不能谎标通过。",
+        "提交/版本/简要结果与发布入口登记；未达到范围内门槛不得关闭。"
+      ],
+      "existing_acceptance_refs": [
+        "EQ-01",
+        "EQ-02"
+      ],
+      "blockers": []
+    },
+    {
+      "id": "SR-XF-034",
+      "title": "可选对白AI的服务、预算与回退",
+      "version": "1.0",
+      "scope": "conditional",
+      "group": "条件范围",
+      "priority": "P3",
+      "iteration": "conditional",
+      "design_status": "refinement_pending",
+      "development_status": "not_started",
+      "acceptance_status": "not_verified",
+      "release_status": "not_released_for_this_sr",
+      "owner": null,
+      "reviewer": null,
+      "dependencies": [
+        "SR-XF-002",
+        "SR-XF-020"
+      ],
+      "related_decisions": [
+        "U-63",
+        "U-93",
+        "R-25"
+      ],
+      "source_specs": [
+        "docs/design/05-RUNTIME-CONTRACTS.md",
+        "docs/design/11-AI-CONTENT-CONTRACT.md",
+        "docs/design/12-CONTENT-AUTHORING.md",
+        "docs/design/06-OPENING-ACCEPTANCE.md"
+      ],
+      "baseline": "尚未选供应商或接入，推荐AI默认关闭且仅做授权表达。",
+      "design_gap": "服务/网关或玩家自配、费用、超时、语义验证与去重预算未定。",
+      "design_deliverables": [
+        "是否启用及服务/鉴权/密钥持有方式；没有合适方案保持A0。",
+        "请求字段、授权事实/claim、输出限制、成本/并发/重试/超时和缓存版本。",
+        "非法/过期/超时回退，开关与用户费用说明、密钥清除流程。"
+      ],
+      "requirements": [
+        "AI不写真相、伤害、生死、奖励和新选项，基础完整玩法不依赖联网。",
+        "公共页面/仓库/存档不含运营密钥，玩家密钥不随存档导出。",
+        "开关/掉线不改变世界结算，重复查卡不刷请求；首轮至多一表达请求在途为推荐起点。"
+      ],
+      "acceptance": [
+        {
+          "id": "SR-XF-034-AC-01",
+          "scenario": "AI关闭、无配置、掉线和过期响应",
+          "expected": "基础事实/行动/危机结果一致，使用既定模板继续。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-034-AC-02",
+          "scenario": "隐藏事实与非法输出",
+          "expected": "请求先过滤，违规不展示/不写状态并明确回退。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-034-AC-03",
+          "scenario": "预算触顶或重复打开节点",
+          "expected": "停止/去重请求而不停止世界，不产生成长救人付费优势。",
+          "status": "not_run",
+          "evidence": []
+        }
+      ],
+      "excluded": [
+        "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
+        "不把该SR的设计完成声明为实现、体验或发布完成。"
+      ],
+      "evidence": [],
+      "change_log": [
+        {
+          "date": "2026-10-06",
+          "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        }
+      ],
+      "tasks": [
+        {
+          "id": "SR-XF-034-D01",
+          "phase": "D01",
+          "title": "设计补齐",
+          "description": "交付：是否启用及服务/鉴权/密钥持有方式；没有合适方案保持A0。；请求字段、授权事实/claim、输出限制、成本/并发/重试/超时和缓存版本。；非法/过期/超时回退，开关与用户费用说明、密钥清除流程。；填实必需参数并标记U/R/T来源。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-034-D02",
+          "phase": "D02",
+          "title": "契约与内容审阅",
+          "description": "审阅可选对白AI的服务、预算与回退与依赖契约（SR-XF-002、SR-XF-020）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-034-D01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-034-I01",
+          "phase": "I01",
+          "title": "开发与集成",
+          "description": "在条件范围模块实现可选对白AI的服务、预算与回退；交付SR-XF-034-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-034-D02"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-034-V01",
+          "phase": "V01",
+          "title": "验收与兼容",
+          "description": "执行SR-XF-034-AC-01至AC-03及INTEGRATE-02、AI-10；登记实际结果、兼容和设备证据边界。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-034-I01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-034-R01",
+          "phase": "R01",
+          "title": "发布与关闭",
+          "description": "完成所需源码/运行时发布核对、交接和未覆盖说明；本轮用户不要求上传QA过程产物。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-034-V01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        }
+      ],
+      "scope_decision": "当前不承诺实施，不阻塞前期；启用前登记范围决定。",
+      "ready_gate": [
+        "设计交付物存在且版本/引用正确。",
+        "所有行为、失败、取消、恢复和存档影响可执行；未定必需参数已填入配置。",
+        "依赖契约已可使用；涉及身份、风险、真相与来源的作者卡固定。",
+        "验收步骤、预期、数据/设备和结果守恒条件可检查。"
+      ],
+      "done_gate": [
+        "需求行为与所有必需AC通过，设计/实现/验收状态分别更新。",
+        "代码与规格同步，旧档保护、失败恢复和无AI路线通过适用检查。",
+        "范围内所需浏览器/触控/设备/真人验证已取得；未测项不能谎标通过。",
+        "提交/版本/简要结果与发布入口登记；未达到范围内门槛不得关闭。"
+      ],
+      "existing_acceptance_refs": [
+        "INTEGRATE-02",
+        "AI-10"
+      ],
+      "blockers": []
+    },
+    {
+      "id": "SR-XF-035",
+      "title": "青衡六宗、王朝与顶级世家人物谱",
+      "version": "1.0",
+      "scope": "deferred",
+      "group": "远期世界",
+      "priority": "P3",
+      "iteration": "deferred",
+      "design_status": "refinement_pending",
+      "development_status": "not_started",
+      "acceptance_status": "not_verified",
+      "release_status": "not_released_for_this_sr",
+      "owner": null,
+      "reviewer": null,
+      "dependencies": [
+        "SR-XF-001"
+      ],
+      "related_decisions": [
+        "U-84",
+        "U-85",
+        "U-86",
+        "U-87",
+        "U-88",
+        "U-89",
+        "U-90",
+        "U-93"
+      ],
+      "source_specs": [
+        "docs/design/01-CHARACTERS.md",
+        "docs/design/04-WORLD-STORY.md",
+        "docs/design/13-WORLDVIEW-DISCUSSION.md",
+        "docs/design/12-CONTENT-AUTHORING.md"
+      ],
+      "baseline": "尚已确认三正三魔、公开合体/隐藏大乘、王朝有大乘及世家无大乘。",
+      "design_gap": "其余宗名传承、人物领地、关系、数量与隐藏强者出手条件未完整。",
+      "design_deliverables": [
+        "归元已定五行兼剑阵与其余五宗草案的正式名单、法脉、领地和关系图。",
+        "大晟皇帝/坐镇者/大乘身份，顶级世家名单和合体上限配置。",
+        "各隐藏大乘的人数、身份、历史、隐匿与出手条件，不统一凭空闭关。"
+      ],
+      "requirements": [
+        "不把六宗数量当全洲宗门总数，不在云岫新增常驻高阶幕后人。",
+        "公开实力和作者底蕴/人物所知分别记录。",
+        "依U-93暂存，不成为前期代码任务前置。"
+      ],
+      "acceptance": [
+        {
+          "id": "SR-XF-035-AC-01",
+          "scenario": "核对势力图",
+          "expected": "确认与草案分开，六宗/王朝/世家力量结构符合U项。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-035-AC-02",
+          "scenario": "编写后续人物事件",
+          "expected": "动机、成本、领地和出手条件齐全，无无限幕后责任链。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-035-AC-03",
+          "scenario": "运行前期篇章",
+          "expected": "不需要访问或实现这些高阶势力即可收束。",
+          "status": "not_run",
+          "evidence": []
+        }
+      ],
+      "excluded": [
+        "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
+        "不把该SR的设计完成声明为实现、体验或发布完成。"
+      ],
+      "evidence": [],
+      "change_log": [
+        {
+          "date": "2026-10-06",
+          "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        }
+      ],
+      "tasks": [
+        {
+          "id": "SR-XF-035-D01",
+          "phase": "D01",
+          "title": "设计补齐",
+          "description": "交付：归元已定五行兼剑阵与其余五宗草案的正式名单、法脉、领地和关系图。；大晟皇帝/坐镇者/大乘身份，顶级世家名单和合体上限配置。；各隐藏大乘的人数、身份、历史、隐匿与出手条件，不统一凭空闭关。；填实必需参数并标记U/R/T来源。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-035-D02",
+          "phase": "D02",
+          "title": "契约与内容审阅",
+          "description": "审阅青衡六宗、王朝与顶级世家人物谱与依赖契约（SR-XF-001）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-035-D01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-035-I01",
+          "phase": "I01",
+          "title": "开发与集成",
+          "description": "在远期世界模块实现青衡六宗、王朝与顶级世家人物谱；交付SR-XF-035-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-035-D02"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-035-V01",
+          "phase": "V01",
+          "title": "验收与兼容",
+          "description": "执行SR-XF-035-AC-01至AC-03及CONTENT-02；登记实际结果、兼容和设备证据边界。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-035-I01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-035-R01",
+          "phase": "R01",
+          "title": "发布与关闭",
+          "description": "完成所需源码/运行时发布核对、交接和未覆盖说明；本轮用户不要求上传QA过程产物。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-035-V01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        }
+      ],
+      "scope_decision": "按U-93后置；不得作为early需求依赖。",
+      "ready_gate": [
+        "设计交付物存在且版本/引用正确。",
+        "所有行为、失败、取消、恢复和存档影响可执行；未定必需参数已填入配置。",
+        "依赖契约已可使用；涉及身份、风险、真相与来源的作者卡固定。",
+        "验收步骤、预期、数据/设备和结果守恒条件可检查。"
+      ],
+      "done_gate": [
+        "需求行为与所有必需AC通过，设计/实现/验收状态分别更新。",
+        "代码与规格同步，旧档保护、失败恢复和无AI路线通过适用检查。",
+        "范围内所需浏览器/触控/设备/真人验证已取得；未测项不能谎标通过。",
+        "提交/版本/简要结果与发布入口登记；未达到范围内门槛不得关闭。"
+      ],
+      "existing_acceptance_refs": [
+        "CONTENT-02"
+      ],
+      "blockers": []
+    },
+    {
+      "id": "SR-XF-036",
+      "title": "其他四洲地理、势力、族群与历史",
+      "version": "1.0",
+      "scope": "deferred",
+      "group": "远期世界",
+      "priority": "P3",
+      "iteration": "deferred",
+      "design_status": "refinement_pending",
+      "development_status": "not_started",
+      "acceptance_status": "not_verified",
+      "release_status": "not_released_for_this_sr",
+      "owner": null,
+      "reviewer": null,
+      "dependencies": [
+        "SR-XF-001"
+      ],
+      "related_decisions": [
+        "U-21",
+        "U-63",
+        "U-69",
+        "U-82",
+        "U-84",
+        "U-93"
+      ],
+      "source_specs": [
+        "docs/design/04-WORLD-STORY.md",
+        "docs/design/08-LIVING-WORLD.md",
+        "docs/design/13-WORLDVIEW-DISCUSSION.md",
+        "docs/design/14-EARLY-GAME-DETAILED-DESIGN.md"
+      ],
+      "baseline": "尚已确认五洲布局和云岫位于青衡洲，其余代表势力多为草案。",
+      "design_gap": "四洲正式地图、边界、组织配置、多族历史和跨洲关系待设计。",
+      "design_deliverables": [
+        "中天/炎荒/玄朔/沧流的边界、海域、聚居商路与荒域。",
+        "代表王朝/宗门/世家及传承、族群和地区历史内容卡。",
+        "与青衡关系和未来可玩范围，背景与运行地图分离。"
+      ],
+      "requirements": [
+        "各洲可多族多道路，不把地域特色变唯一职业/族群分区。",
+        "未知之地不默认无人无主，世界可有既存组织。",
+        "暂存且不提前开放背景即实景按钮。"
+      ],
+      "acceptance": [
+        {
+          "id": "SR-XF-036-AC-01",
+          "scenario": "审阅大陆名单",
+          "expected": "五洲确认保留，候选势力标作者草案，身份不混地方组织。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-036-AC-02",
+          "scenario": "后续地理关系设计",
+          "expected": "边界/道路/资源/历史有互相可追溯关系。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-036-AC-03",
+          "scenario": "前期地图",
+          "expected": "只开放交付且掌门获知的地区。",
+          "status": "not_run",
+          "evidence": []
+        }
+      ],
+      "excluded": [
+        "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
+        "不把该SR的设计完成声明为实现、体验或发布完成。"
+      ],
+      "evidence": [],
+      "change_log": [
+        {
+          "date": "2026-10-06",
+          "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        }
+      ],
+      "tasks": [
+        {
+          "id": "SR-XF-036-D01",
+          "phase": "D01",
+          "title": "设计补齐",
+          "description": "交付：中天/炎荒/玄朔/沧流的边界、海域、聚居商路与荒域。；代表王朝/宗门/世家及传承、族群和地区历史内容卡。；与青衡关系和未来可玩范围，背景与运行地图分离。；填实必需参数并标记U/R/T来源。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-036-D02",
+          "phase": "D02",
+          "title": "契约与内容审阅",
+          "description": "审阅其他四洲地理、势力、族群与历史与依赖契约（SR-XF-001）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-036-D01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-036-I01",
+          "phase": "I01",
+          "title": "开发与集成",
+          "description": "在远期世界模块实现其他四洲地理、势力、族群与历史；交付SR-XF-036-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-036-D02"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-036-V01",
+          "phase": "V01",
+          "title": "验收与兼容",
+          "description": "执行SR-XF-036-AC-01至AC-03及EARLY-06；登记实际结果、兼容和设备证据边界。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-036-I01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-036-R01",
+          "phase": "R01",
+          "title": "发布与关闭",
+          "description": "完成所需源码/运行时发布核对、交接和未覆盖说明；本轮用户不要求上传QA过程产物。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-036-V01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        }
+      ],
+      "scope_decision": "按U-93后置；不得作为early需求依赖。",
+      "ready_gate": [
+        "设计交付物存在且版本/引用正确。",
+        "所有行为、失败、取消、恢复和存档影响可执行；未定必需参数已填入配置。",
+        "依赖契约已可使用；涉及身份、风险、真相与来源的作者卡固定。",
+        "验收步骤、预期、数据/设备和结果守恒条件可检查。"
+      ],
+      "done_gate": [
+        "需求行为与所有必需AC通过，设计/实现/验收状态分别更新。",
+        "代码与规格同步，旧档保护、失败恢复和无AI路线通过适用检查。",
+        "范围内所需浏览器/触控/设备/真人验证已取得；未测项不能谎标通过。",
+        "提交/版本/简要结果与发布入口登记；未达到范围内门槛不得关闭。"
+      ],
+      "existing_acceptance_refs": [
+        "EARLY-06"
+      ],
+      "blockers": []
+    },
+    {
+      "id": "SR-XF-037",
+      "title": "敕封神道统一王朝的统治结构",
+      "version": "1.0",
+      "scope": "deferred",
+      "group": "远期世界",
+      "priority": "P3",
+      "iteration": "deferred",
+      "design_status": "refinement_pending",
+      "development_status": "not_started",
+      "acceptance_status": "not_verified",
+      "release_status": "not_released_for_this_sr",
+      "owner": null,
+      "reviewer": null,
+      "dependencies": [
+        "SR-XF-001"
+      ],
+      "related_decisions": [
+        "U-91",
+        "U-92",
+        "U-93"
+      ],
+      "source_specs": [
+        "docs/design/02-EQUIPMENT-ARTS.md",
+        "docs/design/04-WORLD-STORY.md",
+        "docs/design/13-WORLDVIEW-DISCUSSION.md",
+        "docs/design/14-EARLY-GAME-DETAILED-DESIGN.md"
+      ],
+      "baseline": "尚只确认有一王朝凭敕封神道统一整个大陆。",
+      "design_gap": "国号、所在洲、最高战力、官制与宗门世家位置尚未选择。",
+      "design_deliverables": [
+        "保留两道远期未答题及候选，不自动采纳旧推荐。",
+        "国号/所在洲/统治与册封结构、个人力量和职位能力的分层。",
+        "宗门世家从属、封地/失职权后的能力变化和人物关系。"
+      ],
+      "requirements": [
+        "不把青衡多方并立改成大晟统一全洲。",
+        "失去职权削弱授予神通，不清空个人已有修为知识。",
+        "只有用户重启远期讨论或改变范围时再激活相关选择。"
+      ],
+      "acceptance": [
+        {
+          "id": "SR-XF-037-AC-01",
+          "scenario": "查看当前需求",
+          "expected": "标暂存及待确认项，未答候选不写为世界事实。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-037-AC-02",
+          "scenario": "未来落实册封能力",
+          "expected": "个人修为/国运/职权能力来源分开且可解释。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-037-AC-03",
+          "scenario": "前期完篇",
+          "expected": "不依赖神道王朝位置或官制的确认。",
+          "status": "not_run",
+          "evidence": []
+        }
+      ],
+      "excluded": [
+        "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
+        "不把该SR的设计完成声明为实现、体验或发布完成。"
+      ],
+      "evidence": [],
+      "change_log": [
+        {
+          "date": "2026-10-06",
+          "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        }
+      ],
+      "tasks": [
+        {
+          "id": "SR-XF-037-D01",
+          "phase": "D01",
+          "title": "设计补齐",
+          "description": "交付：保留两道远期未答题及候选，不自动采纳旧推荐。；国号/所在洲/统治与册封结构、个人力量和职位能力的分层。；宗门世家从属、封地/失职权后的能力变化和人物关系。；填实必需参数并标记U/R/T来源。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-037-D02",
+          "phase": "D02",
+          "title": "契约与内容审阅",
+          "description": "审阅敕封神道统一王朝的统治结构与依赖契约（SR-XF-001）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-037-D01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-037-I01",
+          "phase": "I01",
+          "title": "开发与集成",
+          "description": "在远期世界模块实现敕封神道统一王朝的统治结构；交付SR-XF-037-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-037-D02"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-037-V01",
+          "phase": "V01",
+          "title": "验收与兼容",
+          "description": "执行SR-XF-037-AC-01至AC-03及EARLY-06；登记实际结果、兼容和设备证据边界。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-037-I01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-037-R01",
+          "phase": "R01",
+          "title": "发布与关闭",
+          "description": "完成所需源码/运行时发布核对、交接和未覆盖说明；本轮用户不要求上传QA过程产物。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-037-V01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        }
+      ],
+      "scope_decision": "按U-93后置；不得作为early需求依赖。",
+      "ready_gate": [
+        "设计交付物存在且版本/引用正确。",
+        "所有行为、失败、取消、恢复和存档影响可执行；未定必需参数已填入配置。",
+        "依赖契约已可使用；涉及身份、风险、真相与来源的作者卡固定。",
+        "验收步骤、预期、数据/设备和结果守恒条件可检查。"
+      ],
+      "done_gate": [
+        "需求行为与所有必需AC通过，设计/实现/验收状态分别更新。",
+        "代码与规格同步，旧档保护、失败恢复和无AI路线通过适用检查。",
+        "范围内所需浏览器/触控/设备/真人验证已取得；未测项不能谎标通过。",
+        "提交/版本/简要结果与发布入口登记；未达到范围内门槛不得关闭。"
+      ],
+      "existing_acceptance_refs": [
+        "EARLY-06"
+      ],
+      "blockers": []
+    },
+    {
+      "id": "SR-XF-038",
+      "title": "高阶境界、道路对应与寿元资源",
+      "version": "1.0",
+      "scope": "deferred",
+      "group": "远期成长",
+      "priority": "P3",
+      "iteration": "deferred",
+      "design_status": "refinement_pending",
+      "development_status": "not_started",
+      "acceptance_status": "not_verified",
+      "release_status": "not_released_for_this_sr",
+      "owner": null,
+      "reviewer": null,
+      "dependencies": [
+        "SR-XF-001"
+      ],
+      "related_decisions": [
+        "U-17",
+        "U-19",
+        "U-24",
+        "U-66",
+        "U-67",
+        "U-73",
+        "U-74",
+        "U-80",
+        "U-93"
+      ],
+      "source_specs": [
+        "docs/design/01-CHARACTERS.md",
+        "docs/design/02-EQUIPMENT-ARTS.md",
+        "docs/design/04-WORLD-STORY.md",
+        "docs/design/13-WORLDVIEW-DISCUSSION.md",
+        "docs/design/14-EARLY-GAME-DETAILED-DESIGN.md"
+      ],
+      "baseline": "尚已确认八境主干、道路自由交叉、有限寿元与积累材料突破原则。",
+      "design_gap": "各门类八境称呼、金丹以后条件/招式/寿元年数和资源梯度未完整。",
+      "design_deliverables": [
+        "各道路实力层次对照、称呼、准入/突破条件与可靠资源来源。",
+        "高阶寿元、延寿方式、弱点、功体兼容和境界差距配置。",
+        "金丹以上的成长/危机/恢复/存档与正式扩围门槛。"
+      ],
+      "requirements": [
+        "不恢复固定八职业，不用独立悟道考试作为普遍突破条件。",
+        "高阶材料稀缺与组织优势保留，散修仍有极少数登顶可能。",
+        "当前仅炼气筑基可玩，高阶背景不提供未实现突破按钮。"
+      ],
+      "acceptance": [
+        {
+          "id": "SR-XF-038-AC-01",
+          "scenario": "世界观对照表",
+          "expected": "层次可比而路径不同，明确寿元有限与跨大境界鸿沟。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-038-AC-02",
+          "scenario": "未来扩围方案",
+          "expected": "每境有条件、来源、动作、风险和迁移验收，非只改等级上限。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-038-AC-03",
+          "scenario": "当前版本",
+          "expected": "金丹以上内容保持背景/后置，不成为筑基前置。",
+          "status": "not_run",
+          "evidence": []
+        }
+      ],
+      "excluded": [
+        "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
+        "不把该SR的设计完成声明为实现、体验或发布完成。"
+      ],
+      "evidence": [],
+      "change_log": [
+        {
+          "date": "2026-10-06",
+          "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        }
+      ],
+      "tasks": [
+        {
+          "id": "SR-XF-038-D01",
+          "phase": "D01",
+          "title": "设计补齐",
+          "description": "交付：各道路实力层次对照、称呼、准入/突破条件与可靠资源来源。；高阶寿元、延寿方式、弱点、功体兼容和境界差距配置。；金丹以上的成长/危机/恢复/存档与正式扩围门槛。；填实必需参数并标记U/R/T来源。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-038-D02",
+          "phase": "D02",
+          "title": "契约与内容审阅",
+          "description": "审阅高阶境界、道路对应与寿元资源与依赖契约（SR-XF-001）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-038-D01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-038-I01",
+          "phase": "I01",
+          "title": "开发与集成",
+          "description": "在远期成长模块实现高阶境界、道路对应与寿元资源；交付SR-XF-038-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-038-D02"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-038-V01",
+          "phase": "V01",
+          "title": "验收与兼容",
+          "description": "执行SR-XF-038-AC-01至AC-03及EARLY-06；登记实际结果、兼容和设备证据边界。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-038-I01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-038-R01",
+          "phase": "R01",
+          "title": "发布与关闭",
+          "description": "完成所需源码/运行时发布核对、交接和未覆盖说明；本轮用户不要求上传QA过程产物。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-038-V01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        }
+      ],
+      "scope_decision": "按U-93后置；不得作为early需求依赖。",
+      "ready_gate": [
+        "设计交付物存在且版本/引用正确。",
+        "所有行为、失败、取消、恢复和存档影响可执行；未定必需参数已填入配置。",
+        "依赖契约已可使用；涉及身份、风险、真相与来源的作者卡固定。",
+        "验收步骤、预期、数据/设备和结果守恒条件可检查。"
+      ],
+      "done_gate": [
+        "需求行为与所有必需AC通过，设计/实现/验收状态分别更新。",
+        "代码与规格同步，旧档保护、失败恢复和无AI路线通过适用检查。",
+        "范围内所需浏览器/触控/设备/真人验证已取得；未测项不能谎标通过。",
+        "提交/版本/简要结果与发布入口登记；未达到范围内门槛不得关闭。"
+      ],
+      "existing_acceptance_refs": [
+        "EARLY-06"
+      ],
+      "blockers": []
+    },
+    {
+      "id": "SR-XF-039",
+      "title": "跨洲交通、异界适应与仙界降临",
+      "version": "1.0",
+      "scope": "deferred",
+      "group": "远期世界",
+      "priority": "P3",
+      "iteration": "deferred",
+      "design_status": "refinement_pending",
+      "development_status": "not_started",
+      "acceptance_status": "not_verified",
+      "release_status": "not_released_for_this_sr",
+      "owner": null,
+      "reviewer": null,
+      "dependencies": [
+        "SR-XF-001"
+      ],
+      "related_decisions": [
+        "U-22",
+        "U-23",
+        "U-63",
+        "U-75",
+        "U-76",
+        "U-93"
+      ],
+      "source_specs": [
+        "docs/design/02-EQUIPMENT-ARTS.md",
+        "docs/design/04-WORLD-STORY.md",
+        "docs/design/05-RUNTIME-CONTRACTS.md",
+        "docs/design/13-WORLDVIEW-DISCUSSION.md",
+        "docs/design/03-SPATIAL-ART.md"
+      ],
+      "baseline": "尚已确认稳定主世界通路、多种交通、异界保留修为和有限下凡方向。",
+      "design_gap": "跨洲线路、容量/费用/设施归属，跨界与降临成本/力量限制未完整。",
+      "design_deliverables": [
+        "坐骑/飞舟/御物/主城传送的门槛、路线、容量、耗时与收费。",
+        "独立异界能力限制/适应；上界前哨、援助/派遣和返程代价。",
+        "实体化身与本尊下凡的限制、风险与跨界身份保存接口。"
+      ],
+      "requirements": [
+        "交通需实际设施和地理能力，不免费任意目的地传送。",
+        "异界不普遍清空修为记忆，仙界下凡限制单独定义。",
+        "稀少高代价援助不新增前期必需救兵。"
+      ],
+      "acceptance": [
+        {
+          "id": "SR-XF-039-AC-01",
+          "scenario": "未来线路/设施表",
+          "expected": "所有能力、容量、费用与归属可追溯，途中人物不复制。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-039-AC-02",
+          "scenario": "异界进出与保存",
+          "expected": "原有修为/已学与当地可用效果分别保留。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-039-AC-03",
+          "scenario": "本尊/化身降临情景",
+          "expected": "力量限制和返程成本固定，不跨地图无成本救援。",
+          "status": "not_run",
+          "evidence": []
+        }
+      ],
+      "excluded": [
+        "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
+        "不把该SR的设计完成声明为实现、体验或发布完成。"
+      ],
+      "evidence": [],
+      "change_log": [
+        {
+          "date": "2026-10-06",
+          "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        }
+      ],
+      "tasks": [
+        {
+          "id": "SR-XF-039-D01",
+          "phase": "D01",
+          "title": "设计补齐",
+          "description": "交付：坐骑/飞舟/御物/主城传送的门槛、路线、容量、耗时与收费。；独立异界能力限制/适应；上界前哨、援助/派遣和返程代价。；实体化身与本尊下凡的限制、风险与跨界身份保存接口。；填实必需参数并标记U/R/T来源。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-039-D02",
+          "phase": "D02",
+          "title": "契约与内容审阅",
+          "description": "审阅跨洲交通、异界适应与仙界降临与依赖契约（SR-XF-001）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-039-D01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-039-I01",
+          "phase": "I01",
+          "title": "开发与集成",
+          "description": "在远期世界模块实现跨洲交通、异界适应与仙界降临；交付SR-XF-039-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-039-D02"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-039-V01",
+          "phase": "V01",
+          "title": "验收与兼容",
+          "description": "执行SR-XF-039-AC-01至AC-03及SCENE-02；登记实际结果、兼容和设备证据边界。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-039-I01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-039-R01",
+          "phase": "R01",
+          "title": "发布与关闭",
+          "description": "完成所需源码/运行时发布核对、交接和未覆盖说明；本轮用户不要求上传QA过程产物。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-039-V01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        }
+      ],
+      "scope_decision": "按U-93后置；不得作为early需求依赖。",
+      "ready_gate": [
+        "设计交付物存在且版本/引用正确。",
+        "所有行为、失败、取消、恢复和存档影响可执行；未定必需参数已填入配置。",
+        "依赖契约已可使用；涉及身份、风险、真相与来源的作者卡固定。",
+        "验收步骤、预期、数据/设备和结果守恒条件可检查。"
+      ],
+      "done_gate": [
+        "需求行为与所有必需AC通过，设计/实现/验收状态分别更新。",
+        "代码与规格同步，旧档保护、失败恢复和无AI路线通过适用检查。",
+        "范围内所需浏览器/触控/设备/真人验证已取得；未测项不能谎标通过。",
+        "提交/版本/简要结果与发布入口登记；未达到范围内门槛不得关闭。"
+      ],
+      "existing_acceptance_refs": [
+        "SCENE-02"
+      ],
+      "blockers": []
+    },
+    {
+      "id": "SR-XF-040",
+      "title": "魂魄留存、化身损失与远期生命玩法",
+      "version": "1.0",
+      "scope": "deferred",
+      "group": "远期生命",
+      "priority": "P3",
+      "iteration": "deferred",
+      "design_status": "refinement_pending",
+      "development_status": "not_started",
+      "acceptance_status": "not_verified",
+      "release_status": "not_released_for_this_sr",
+      "owner": null,
+      "reviewer": null,
+      "dependencies": [
+        "SR-XF-001"
+      ],
+      "related_decisions": [
+        "U-13",
+        "U-23",
+        "U-63",
+        "U-74",
+        "U-77",
+        "U-93"
+      ],
+      "source_specs": [
+        "docs/design/01-CHARACTERS.md",
+        "docs/design/04-WORLD-STORY.md",
+        "docs/design/05-RUNTIME-CONTRACTS.md",
+        "docs/design/10-CRISES-RESCUE-DEATH.md",
+        "docs/design/13-WORLDVIEW-DISCUSSION.md",
+        "docs/design/12-CONTENT-AUTHORING.md"
+      ],
+      "baseline": "尚已确认通常魂魄消散、特殊条件留存与永久死亡边界。",
+      "design_gap": "留存条件/形态/时间、化身神魂损失回传、仙界寿命及继承相关远期规则未完整。",
+      "design_deliverables": [
+        "特殊环境/修行手段的留存条件、持续、来源和鬼物与原人物关系。",
+        "本体/化身身份、生命/神魂损失、知情回传与存档引用。",
+        "寿尽/婚育/继承等后置项的边界；未来扩围前独立设计，不预承诺通用复活。"
+      ],
+      "requirements": [
+        "鬼物不默认原NPC无代价恢复，父母死亡和旧人物事实保留。",
+        "普通复活/夺舍/继承、掌门硬核删档保持后置，NPC危险永久死亡不后置。",
+        "不加入离线衰老与寿元流逝。"
+      ],
+      "acceptance": [
+        {
+          "id": "SR-XF-040-AC-01",
+          "scenario": "审阅留存样本",
+          "expected": "有真实条件、期限和代价，无无限寿元或自动重生。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-040-AC-02",
+          "scenario": "未来化身损毁并保存",
+          "expected": "主体与化身关系、损失和回传来源唯一，不以复活消除后果。",
+          "status": "not_run",
+          "evidence": []
+        },
+        {
+          "id": "SR-XF-040-AC-03",
+          "scenario": "当前死亡与关闭网页",
+          "expected": "永久死亡保持，离线不计衰老，前期不依赖继承玩法。",
+          "status": "not_run",
+          "evidence": []
+        }
+      ],
+      "excluded": [
+        "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
+        "不把该SR的设计完成声明为实现、体验或发布完成。"
+      ],
+      "evidence": [],
+      "change_log": [
+        {
+          "date": "2026-10-06",
+          "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        }
+      ],
+      "tasks": [
+        {
+          "id": "SR-XF-040-D01",
+          "phase": "D01",
+          "title": "设计补齐",
+          "description": "交付：特殊环境/修行手段的留存条件、持续、来源和鬼物与原人物关系。；本体/化身身份、生命/神魂损失、知情回传与存档引用。；寿尽/婚育/继承等后置项的边界；未来扩围前独立设计，不预承诺通用复活。；填实必需参数并标记U/R/T来源。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-040-D02",
+          "phase": "D02",
+          "title": "契约与内容审阅",
+          "description": "审阅魂魄留存、化身损失与远期生命玩法与依赖契约（SR-XF-001）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-040-D01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-040-I01",
+          "phase": "I01",
+          "title": "开发与集成",
+          "description": "在远期生命模块实现魂魄留存、化身损失与远期生命玩法；交付SR-XF-040-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-040-D02"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-040-V01",
+          "phase": "V01",
+          "title": "验收与兼容",
+          "description": "执行SR-XF-040-AC-01至AC-03及WORLDCHAIN-02；登记实际结果、兼容和设备证据边界。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-040-I01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        },
+        {
+          "id": "SR-XF-040-R01",
+          "phase": "R01",
+          "title": "发布与关闭",
+          "description": "完成所需源码/运行时发布核对、交接和未覆盖说明；本轮用户不要求上传QA过程产物。",
+          "status": "todo",
+          "owner": null,
+          "depends_on": [
+            "SR-XF-040-V01"
+          ],
+          "evidence": [],
+          "blocked_reason": null
+        }
+      ],
+      "scope_decision": "按U-93后置；不得作为early需求依赖。",
+      "ready_gate": [
+        "设计交付物存在且版本/引用正确。",
+        "所有行为、失败、取消、恢复和存档影响可执行；未定必需参数已填入配置。",
+        "依赖契约已可使用；涉及身份、风险、真相与来源的作者卡固定。",
+        "验收步骤、预期、数据/设备和结果守恒条件可检查。"
+      ],
+      "done_gate": [
+        "需求行为与所有必需AC通过，设计/实现/验收状态分别更新。",
+        "代码与规格同步，旧档保护、失败恢复和无AI路线通过适用检查。",
+        "范围内所需浏览器/触控/设备/真人验证已取得；未测项不能谎标通过。",
+        "提交/版本/简要结果与发布入口登记；未达到范围内门槛不得关闭。"
+      ],
+      "existing_acceptance_refs": [
+        "WORLDCHAIN-02"
+      ],
+      "blockers": []
+    }
+  ]
+}

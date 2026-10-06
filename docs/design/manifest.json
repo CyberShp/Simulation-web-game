@@ -123,6 +123,18 @@
     {
       "path": "docs/design/18-SPATIAL-CONTINUITY-IMPLEMENTATION.md",
       "role": "spatial-continuity-implementation-and-evidence-boundaries"
+    },
+    {
+      "path": "docs/requirements/README.md",
+      "role": "sr-management-entry"
+    },
+    {
+      "path": "docs/requirements/BACKLOG.md",
+      "role": "sr-dependencies-and-development-order"
+    },
+    {
+      "path": "docs/requirements/registry.json",
+      "role": "authoritative-sr-and-task-registry"
     }
   ],
   "taskRead": {
@@ -789,10 +801,11 @@
     ],
     "pendingQuestions": [],
     "currentWork": "early-game-detailed-design-v1.2",
-    "userConfirmationBlockersForEarlyGame": []
+    "userConfirmationBlockersForEarlyGame": [],
+    "historicalQuestionnairePendingFields": "Old undecided fields describe original question checkpoints; R-26/14 supersede the local names, four-month interval, opening knowledge and three responsibility persons. Remaining current gaps are tracked in SR registry; full world roster remains deferred."
   },
   "earlyGameDesign": {
-    "status": "designed-not-implemented",
+    "status": "framework-designed-implementation-partial-detailed-gaps-tracked-by-SR",
     "path": "docs/design/14-EARLY-GAME-DETAILED-DESIGN.md",
     "scope": "yunxiu-qi-refining-through-foundation-building-complete-revenge-and-continuing-management",
     "userConfirmationBlockers": [],
@@ -815,10 +828,12 @@
     "scope": "bounded-hall-and-construction-continuity-not-complete-spatial-migration",
     "reference": "docs/design/18-SPATIAL-CONTINUITY-IMPLEMENTATION.md",
     "fullDesignVerified": false,
-    "deployed": false,
+    "deployed": true,
     "rulesetVersion": "opening-runtime-3",
     "automatedTestsPassed": 346,
-    "uiTemplatesEvaluated": 80
+    "uiTemplatesEvaluated": 80,
+    "deploymentCommit": "350a4d6a0d450ff5dfbcde11ea6782b00a43df29",
+    "deploymentScope": "existing-bounded-opening-indoor-and-construction-only"
   },
   "currentDevelopment": {
     "version": "1.5.0-dev",
@@ -834,10 +849,33 @@
       "publicArtisanRoutes": 3,
       "productionCanvasSnapshots": 6
     },
-    "browserStatus": "not-tested-missing-browser-binary",
-    "deploymentStatus": "not-deployed",
-    "remoteSaveStatus": "blocked-auto-review-despite-retrieved-prior-authorization",
+    "browserStatus": "startup-and-prologue-verified-online-full-design-and-real-device-not-verified",
+    "deploymentStatus": "EA-1.5.0-dev-published-pages-workflow-37420271334-success",
+    "remoteSaveStatus": "main-source-uploaded-via-github-api-excluding-generated-acceptance-artifacts",
     "previousImplementationCommit": "18b419b",
-    "implementationCommitSource": "git-history-for-current-snapshot"
+    "implementationCommitSource": "git-history-for-current-snapshot",
+    "sourceMainCommit": "74df8c4a9957a40c1510644b29a98fc2390e535b",
+    "runtimeSourceCommit": "9cc4466887b349536ac7f16f15ac9f6bcfd16756",
+    "pagesCommit": "350a4d6a0d450ff5dfbcde11ea6782b00a43df29"
+  },
+  "requirementsManagement": {
+    "registryId": "SR-XF-2026-10-06",
+    "version": "1.0",
+    "entry": "docs/requirements/README.md",
+    "backlog": "docs/requirements/BACKLOG.md",
+    "registry": "docs/requirements/registry.json",
+    "itemsDirectory": "docs/requirements/items",
+    "manager": "qa/sr-manager.py",
+    "counts": {
+      "early": 32,
+      "conditional": 2,
+      "deferred": 6,
+      "total": 40,
+      "tasks": 200,
+      "acceptanceCriteria": 120
+    },
+    "nextIteration": "I1",
+    "designAndDeliveryStatesAreSeparate": true,
+    "earlyDependsOnDeferred": false
   }
 }

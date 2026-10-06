@@ -15,6 +15,10 @@
 
 不要只读取一个模块后推翻其他模块的假设。UI、美术、模拟、战斗、世界与存档必须遵守同一实体与规则。
 
+## SR需求管理
+
+以[需求入口](../requirements/README.md)、[需求总表](../requirements/BACKLOG.md)和[权威台账](../requirements/registry.json)管理待补设计与开发。每项SR的D任务补设计，I任务实现，V任务验收，R任务交接；40项需求状态独立，前期不依赖远期/条件项。接续先读I1“完整小院”及本SR来源规格，不能只按旧批次继续加局部修复。
+
 ## 文件索引
 
 | 文档 | 主要问题 |
@@ -52,7 +56,7 @@ v1.1新增的世界任务需联合读取08–12与05：NPC永久死亡覆盖v1.0
 
 ## 本地开发增量
 
-用户已要求开始开发。最新实现与未覆盖范围见[18](18-SPATIAL-CONTINUITY-IMPLEMENTATION.md)，第三批见[17](17-INDOOR-LIFE-IMPLEMENTATION.md)，第二批见[16](16-WORKSTATIONS-ARTISAN-IMPLEMENTATION.md)，首批历史见[15-OPENING-IMPLEMENTATION.md](15-OPENING-IMPLEMENTATION.md)；本地EA 1.5.0-dev使用schema 6，历史发布保持EA 1.4.2。接续先核对STATUS，不能把首批开局当成完整v1.2验收。
+用户已要求开始开发。最新实现与未覆盖范围见[18](18-SPATIAL-CONTINUITY-IMPLEMENTATION.md)，第三批见[17](17-INDOOR-LIFE-IMPLEMENTATION.md)，第二批见[16](16-WORKSTATIONS-ARTISAN-IMPLEMENTATION.md)，首批历史见[15-OPENING-IMPLEMENTATION.md](15-OPENING-IMPLEMENTATION.md)；本地EA 1.5.0-dev使用schema 6，正式Pages已发布EA 1.5.0-dev，当前发布证据见STATUS首段。接续先核对STATUS，不能把首批开局当成完整v1.2验收。
 
 ## 变更与交接方法
 
