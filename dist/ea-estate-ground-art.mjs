@@ -1,10 +1,10 @@
 /**
  * SR-XF-003/004/009: layered estate ground, read-only presentation.
  * Every mark is projected from metres. Tall scenery is confined to existing
- * blocked terrain or outside the playable boundary. Roads are supplied by the
- * renderer's geometry cache; this module never finds paths or advances time.
+ * blocked terrain or outside the playable boundary. U-98 keeps the construction
+ * grid visible and postpones paving; this module never finds paths or advances time.
  */
-import {SPATIAL_TERRAIN} from './ea-sr-spatial.mjs';
+import {SPATIAL_TERRAIN,SPATIAL_SCENE} from './ea-sr-spatial.mjs';
 
 const TAU=Math.PI*2;
 const clamp=(n,min=0,max=1)=>Math.max(min,Math.min(max,n));
@@ -174,41 +174,22 @@ function drawWater(ctx,c,project,terrain){
   }
 }
 
-function sampleRoad(points,step){
-  const result=[];let distanceToNext=step*.25;
-  for(let i=1;i<points.length;i++){
-    const a=point(points[i-1]),b=point(points[i]),length=Math.hypot(b.x-a.x,b.y-a.y);if(length<.001)continue;
-    const tx=(b.x-a.x)/length,ty=(b.y-a.y)/length;
-    while(distanceToNext<length){result.push({x:a.x+tx*distanceToNext,y:a.y+ty*distanceToNext,tx,ty});distanceToNext+=step;}
-    distanceToNext-=length;
-  }
-  return result;
-}
-function drawRoad(ctx,c,project,road,index){
-  const points=road.points||[];if(points.length<2)return;
-  const width=road.kind==='main'?1.95:1.25;
-  // Actual width in the ground plane: polygon strips avoid an anisotropic
-  // screen-space stroke making east/west roads wider than north/south roads.
-  for(let i=1;i<points.length;i++){
-    const a=point(points[i-1]),b=point(points[i]),d=Math.hypot(b.x-a.x,b.y-a.y);if(d<.001)continue;
-    const nx=-(b.y-a.y)/d,ny=(b.x-a.x)/d;
-    for(const [half,color] of [[width*.62,'#a29d7642'],[width*.53,'#a69e7e'],[width*.48,'#c4ba99']])poly(ctx,[[a.x+nx*half,a.y+ny*half],[b.x+nx*half,b.y+ny*half],[b.x-nx*half,b.y-ny*half],[a.x-nx*half,a.y-ny*half]],c,project,color);
-  }
-  const slabs=sampleRoad(points,.64),columns=road.kind==='main'?3:2;
-  slabs.forEach((p,i)=>{
-    const q=project(p,c);if(!visible(q,c,70))return;
-    for(let col=0;col<columns;col++){
-      const n=hash(i,col,index+500),cross=(col-(columns-1)/2)*(width*.92/columns),along=(col%2)*.09-.045;
-      const cx=p.x-p.ty*cross+p.tx*along,cy=p.y+p.tx*cross+p.ty*along;
-      const halfW=width*.43/columns,halfL=.286;
-      const vertex=(u,v)=>[cx+p.tx*u-p.ty*v,cy+p.ty*u+p.tx*v];
-      const face=[vertex(-halfL+.015*n,-halfW),vertex(halfL,-halfW+.015),vertex(halfL-.02,halfW),vertex(-halfL,halfW-.013)];
-      poly(ctx,face,c,project,['#cfc5a5','#d9cfaf','#c4b99a','#d4c8a8','#bfb79a'][Math.floor(n*5)],'#8c876636',Math.max(.45,.015*c.scale));
-      const edge=[face[0],face[1]];ctx.beginPath();trace(ctx,edge,c,project,false);ctx.strokeStyle='#ece2c466';ctx.lineWidth=Math.max(.5,.018*c.scale);ctx.stroke();
-      if(n>.86){const a=project(point(face[0]),c),b=project({x:cx,y:cy},c);ctx.strokeStyle='#8a896c47';ctx.lineWidth=.5;ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(a.x+(b.x-a.x)*.58,a.y+(b.y-a.y)*.45);ctx.stroke();}
-    }
-    if(i%4===0){const side=i%8?1:-1;ellipse(ctx,{x:p.x-p.ty*width*.52*side,y:p.y+p.tx*width*.52*side},.11,.075,'#69805f68',c,project);}
-  });
+/** U-98: common land cells, not predetermined building/function slots. */
+function drawGroundCells(ctx,c,project){
+ const step=SPATIAL_SCENE.grid,extent=SPATIAL_SCENE.width;
+ const fade=Math.min(1,Math.max(.35,c.scale/32));
+ // Cache this tile layer with the terrain. Cull outside the viewport rather
+ // than painting all 16,384 cells on every camera/geometry rebuild.
+ for(let row=0;row<extent/step;row++)for(let col=0;col<extent/step;col++){
+  const x=col*step,y=row*step,q=project({x:x+step/2,y:y+step/2},c);
+  if(!visible(q,c,c.scale*step+3))continue;
+  poly(ctx,rect(x,y,step,step),c,project,(row+col)%2?'#b6c39528':'#73865a18');
+ }
+ ctx.strokeStyle=`rgba(77,96,63,${.32*fade})`;ctx.lineWidth=.65;ctx.beginPath();
+ for(let n=0;n<=extent+1e-6;n+=step){
+  const a=project({x:n,y:0},c),b=project({x:n,y:extent},c),d=project({x:0,y:n},c),e=project({x:extent,y:n},c);
+  ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.moveTo(d.x,d.y);ctx.lineTo(e.x,e.y);
+ }ctx.stroke();
 }
 
 function drawBoundary(ctx,c,project){
@@ -224,17 +205,17 @@ function drawBoundary(ctx,c,project){
   for(let i=0;i<75;i++)rock(ctx,{x:.35+i*.84,y:.28+hash(i,11)*.45},.22+hash(i,31)*.32,c,project,i);
 }
 
-function paintStaticGround(ctx,c,project,footprints,roads){
+function paintStaticGround(ctx,c,project,footprints){
   ctx.fillStyle=gradient(ctx,{x:0,y:0},{x:c.w,y:c.h},[[0,'#aab9a4'],[.5,'#c1c9b0'],[1,'#879e8a']],'#b0bda3');ctx.fillRect(0,0,c.w,c.h);
   const a=project({x:0,y:0},c),b=project({x:64,y:64},c);
   poly(ctx,rect(0,0,64,64),c,project,gradient(ctx,a,b,[[0,'#a6af87'],[.48,'#a6b08c'],[1,'#8d9e7b']],'#a6af88'));
   ctx.save();clipGround(ctx,c,project,footprints);
   drawGrass(ctx,c,project);
+  drawGroundCells(ctx,c,project);
   for(const t of SPATIAL_TERRAIN){
     if(t.kind==='water')drawWater(ctx,c,project,t);
     else if(t.kind==='slope')poly(ctx,t.polygon,c,project,'#7e8f6f','#65795770',1);
   }
-  roads.forEach((road,i)=>drawRoad(ctx,c,project,road,i));
   ctx.restore();
   drawBoundary(ctx,c,project);
 }
@@ -263,10 +244,10 @@ function drawResources(ctx,s,c,project,footprints){
 }
 
 /** Paints the ground before all building floors and depth-sorted actors. */
-export function drawEstateGround(ctx,s,c,{project,footprints=[],roads=[],planning=false}={}){
+export function drawEstateGround(ctx,s,c,{project,footprints=[],planning=false}={}){
   if(typeof project!=='function')throw new TypeError('drawEstateGround requires the shared world projection');
   const ratio=Math.max(1,Math.min(1.5,Number(globalThis.devicePixelRatio)||1)),margin=192;
-  const key=[c.w,c.h,c.scale,c.depth,c.rotation||0,ratio,signature(footprints),signature(roads)].join(';');
+  const key=[c.w,c.h,c.scale,c.depth,c.rotation||0,ratio,signature(footprints)].join(';');
   let cached=groundCache.get(ctx);
   if(!cached||cached.key!==key||Math.abs(c.ox-cached.ox)>margin||Math.abs(c.oy-cached.oy)>margin){
     // Overscan keeps ordinary pan frames to one bitmap copy. Rebuild only
@@ -278,13 +259,13 @@ export function drawEstateGround(ctx,s,c,{project,footprints=[],roads=[],plannin
     }
     if(surface){
       const painter=surface.getContext('2d');painter.scale(ratio,ratio);
-      paintStaticGround(painter,{...c,w:c.w+margin*2,h:c.h+margin*2,ox:c.ox+margin,oy:c.oy+margin},project,footprints,roads);
+      paintStaticGround(painter,{...c,w:c.w+margin*2,h:c.h+margin*2,ox:c.ox+margin,oy:c.oy+margin},project,footprints);
       cached={key,surface,ox:c.ox,oy:c.oy};groundCache.set(ctx,cached);
     }else cached=null;
   }
   ctx.save();
   if(cached)ctx.drawImage(cached.surface,c.ox-cached.ox-margin,c.oy-cached.oy-margin,c.w+margin*2,c.h+margin*2);
-  else paintStaticGround(ctx,c,project,footprints,roads);
+  else paintStaticGround(ctx,c,project,footprints);
   drawResources(ctx,s,c,project,footprints);
   // Wetness comes from the ecology authority; this is a subtle surface tint,
   // never a second weather process. Planning leaves all placement cues visible.

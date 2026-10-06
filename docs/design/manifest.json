@@ -1015,5 +1015,27 @@
     ],
     "evidencePolicy": "Do not upload screenshots, save dumps or QA process artifacts; retain source, required art, docs and reusable checks only",
     "runtimeSourceCommit": "6e1aba828c79baf2429d2c24e38664940fc9321a"
+  },
+  "estateGridAdjustment": {
+    "date": "2026-10-06",
+    "decision": "U-98",
+    "gridMetres": 0.5,
+    "gridAlwaysVisible": true,
+    "paving": "deferred",
+    "automaticRoadDrawing": false,
+    "decorativeRoadPathfinding": false,
+    "logicMigration": "none",
+    "pagesCommit": "cd66139c6d2aea98093cd28386cc004dbed05dbe",
+    "releaseTag": "ea-160-estate-grid-20261006-r1",
+    "deploymentStatus": "pending",
+    "verification": {
+      "spatial": 34,
+      "normalSave": 9,
+      "grid": 6,
+      "uiInput": 13,
+      "failed": 0,
+      "browser": false
+    },
+    "sourceMainStatus": "pending source commit; metadata will record descendant"
   }
 }
