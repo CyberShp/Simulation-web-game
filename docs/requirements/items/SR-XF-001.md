@@ -69,7 +69,7 @@ SR-XF-001-AC-03证据：2026-10-06：ready缺设计任务、passed缺实现与AC
 | SR-XF-001-D02 | 契约与内容审阅：审阅需求基线、设计冲突与版本状态统一与依赖契约（无外部SR依赖）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。 | done | SR-XF-001-D01 | Codex |
 | SR-XF-001-I01 | 开发与集成：实现JSON校验、列表、状态更新和Markdown派生；接入设计入口、AGENTS、manifest及交接文档。 | done | SR-XF-001-D02 | Codex |
 | SR-XF-001-V01 | 验收与兼容：执行SR-XF-001-AC-01至AC-03及DELIVERY-01；登记实际结果、兼容和设备证据边界。 | done | SR-XF-001-I01 | Codex |
-| SR-XF-001-R01 | 发布与关闭：将需求与管理脚本通过GitHub API提交main，核对远端文件内容；无游戏运行时变更，Pages发布不适用。 | todo | SR-XF-001-V01 | 待分配 |
+| SR-XF-001-R01 | 发布与关闭：将需求与管理脚本通过GitHub API提交main，核对远端文件内容；无游戏运行时变更，Pages发布不适用。 | done | SR-XF-001-V01 | Codex |
 
 SR-XF-001-D01证据：docs/requirements/README.md、TEMPLATE.md、registry.json：字段、状态、40项SR及范围已定义。
 
@@ -78,6 +78,8 @@ SR-XF-001-D02证据：2026-10-06：validate确认40项来源/原验收引用有�
 SR-XF-001-I01证据：qa/sr-manager.py：validate/refresh/list/task可用；派生40项页面与BACKLOG，AGENTS/manifest/STATUS/HANDOFF已接续。
 
 SR-XF-001-V01证据：2026-10-06：3项非法任务状态更新均被拒绝且registry未写入；另5项循环、越界及虚假完成守卫检查通过。；2026-10-06：GitHub API核实main基线74df8c4及Pages350a4d6，与manifest及发布记录一致。
+
+SR-XF-001-R01证据：2026-10-06：GitHub API提交main 272cbe8c1f5fba39ac2293a139ce79a842619762，远端branch/tree核对成功，54个变更blob哈希与本地提交79a57c2一致。；仅文档和管理脚本；未改dist/gh-pages，Pages发布not_applicable；未上传截图或过程产物。
 
 ## 可进入开发的条件
 
@@ -99,10 +101,12 @@ SR-XF-001-V01证据：2026-10-06：3项非法任务状态更新均被拒绝且re
 
 ## 证据与变更
 
-- 2026-10-06：需求管理文档、派生台账和维护脚本已建立并校验；D01/D02/I01/V01完成。
-- 这只覆盖SR-XF-001管理能力；其余新玩法未实现、未验收，待逐项推进；R01待main提交核对。
+- 2026-10-06：40项SR、200任务、120AC建档并校验；需求管理本身D01/D02/I01/V01/R01全部完成。
+- 需求基线文档main提交：272cbe8c1f5fba39ac2293a139ce79a842619762；远端54个变更文件哈希已核对。
+- 这只覆盖SR-XF-001管理能力；其余玩法仍待设计补齐、实现及独立验收。
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：完成管理SR的设计、实现及结构/来源/状态守卫验收；仅文档提交待核对，游戏Pages不适用。
+- 2026-10-06：GitHub API提交main并核对远端内容，完成R01；文档SR关闭，Pages运行时不变。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。

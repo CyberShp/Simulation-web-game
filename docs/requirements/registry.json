@@ -136,8 +136,9 @@
         "不把该SR的设计完成声明为实现、体验或发布完成。"
       ],
       "evidence": [
-        "2026-10-06：需求管理文档、派生台账和维护脚本已建立并校验；D01/D02/I01/V01完成。",
-        "这只覆盖SR-XF-001管理能力；其余新玩法未实现、未验收，待逐项推进；R01待main提交核对。"
+        "2026-10-06：40项SR、200任务、120AC建档并校验；需求管理本身D01/D02/I01/V01/R01全部完成。",
+        "需求基线文档main提交：272cbe8c1f5fba39ac2293a139ce79a842619762；远端54个变更文件哈希已核对。",
+        "这只覆盖SR-XF-001管理能力；其余玩法仍待设计补齐、实现及独立验收。"
       ],
       "change_log": [
         {
@@ -147,6 +148,10 @@
         {
           "date": "2026-10-06",
           "reason": "完成管理SR的设计、实现及结构/来源/状态守卫验收；仅文档提交待核对，游戏Pages不适用。"
+        },
+        {
+          "date": "2026-10-06",
+          "reason": "GitHub API提交main并核对远端内容，完成R01；文档SR关闭，Pages运行时不变。"
         }
       ],
       "tasks": [
@@ -215,12 +220,15 @@
           "phase": "R01",
           "title": "发布与关闭",
           "description": "将需求与管理脚本通过GitHub API提交main，核对远端文件内容；无游戏运行时变更，Pages发布不适用。",
-          "status": "todo",
-          "owner": null,
+          "status": "done",
+          "owner": "Codex",
           "depends_on": [
             "SR-XF-001-V01"
           ],
-          "evidence": [],
+          "evidence": [
+            "2026-10-06：GitHub API提交main 272cbe8c1f5fba39ac2293a139ce79a842619762，远端branch/tree核对成功，54个变更blob哈希与本地提交79a57c2一致。",
+            "仅文档和管理脚本；未改dist/gh-pages，Pages发布not_applicable；未上传截图或过程产物。"
+          ],
           "blocked_reason": null
         }
       ],

@@ -876,6 +876,10 @@
     },
     "nextIteration": "I1",
     "designAndDeliveryStatesAreSeparate": true,
-    "earlyDependsOnDeferred": false
+    "earlyDependsOnDeferred": false,
+    "documentSourceCommit": "272cbe8c1f5fba39ac2293a139ce79a842619762",
+    "managementRequirement": "SR-XF-001",
+    "managementAcceptance": "passed",
+    "runtimeChanged": false
   }
 }
