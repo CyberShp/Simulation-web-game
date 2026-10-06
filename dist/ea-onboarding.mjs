@@ -60,6 +60,9 @@ export function onboardingView(s){
 }
 export function resumeSummary(s,next){
  const e=s.world.exploration;
- const recent=s.logs.at(0)?.text||'你已在云岫旧院落脚。';
+ // SR-XF-029: opening saves carry legacy logs; summarize actual progress rather
+ // than presenting an old join message as a current-world result.
+ const o=s.story.opening,visitor=o&&s.personsById?.[o.visitorId],name=visitor?.name||'来客';
+ const recent=s.srWorld&&o&&s.story.step<4?(s.story.step===0?(s.master.wound>0?(next?.kind==='resumeHealing'?'疗养仍在进行，伤势尚未恢复。':'伤势尚未恢复，先在院中疗养。'):'伤势已经恢复，可以继续眼前的目标。'):s.story.step===1?(o?.gifted?(o.invitation==='joined'&&(s.homeMemberIds||[]).includes(o.visitorId)?name+'已自愿入院。':o.invitation==='declined'?name+'已收到赠药，暂未答应入院。':name+'已收到赠药，去留尚未决定。'):'疗伤已完成，赠药与入院尚未发生。'):s.story.step===2?'你正在恢复山院的生活与供给。':'接着按实际所需安排研习与出行。'):(s.logs.at(0)?.text||'你已在云岫旧院落脚。');
  return {title:s.combat?.status==='active'?'战斗已暂停，准备好再继续':'山居续卷 · 上次停在这里',text:recent,detail:'第 '+(Math.floor(s.time/120)+1)+' 日 · '+s.disciples.length+' 位门人 · '+s.buildings.length+' 处设施'+(e?' · 正在'+(e.status==='traveling'?'前往':'调查')+e.regionId:''),next};
 }

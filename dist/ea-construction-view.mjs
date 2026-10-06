@@ -1,7 +1,8 @@
+import {spatialEnabled,viewSpatial} from './ea-sr-spatial.mjs';
 import {buildingVisual,buildingAccess} from './ea-scene-geometry.mjs';
 
 /** Read-only projection; never completes work or reserves another material. */
-export function constructionView(s){
+export function constructionView(s){if(spatialEnabled(s))return viewSpatial(s);
  const a=s.activitiesById?.[s.master.activityId];if(a?.kind!=='construction')return null;
  const work=s.workOrdersById[a.workOrderId];if(!work)return null;
  const progress=Math.min(1,work.progressTicks/work.durationTicks),building={type:a.type,x:a.x,y:a.y,level:1};

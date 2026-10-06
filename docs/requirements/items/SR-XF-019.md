@@ -6,15 +6,15 @@
 | --- | --- |
 | 范围 / 模块 | 前期必需 / 世界 |
 | 优先级 / 计划 | P1 / I3 |
-| 设计 / 开发 | refinement_pending / partial |
-| 验收 / 发布 | not_verified / not_released_for_this_sr |
-| 责任人 / 复核人 | 待分配 / 待分配 |
+| 设计 / 开发 | draft / in_progress |
+| 验收 / 发布 | in_progress / not_released_for_this_sr |
+| 责任人 / 复核人 | Codex/economy_people / Codex/root（集成） |
 
 ## 来源、依赖与范围
 
 纳入云岫前期，按依赖推进。
 
-决策来源：U-63, U-81, R-25。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
+决策来源：U-63, U-81, R-25, U-94。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
 
 规格：[05-RUNTIME-CONTRACTS.md](../../../docs/design/05-RUNTIME-CONTRACTS.md)、[08-LIVING-WORLD.md](../../../docs/design/08-LIVING-WORLD.md)、[10-CRISES-RESCUE-DEATH.md](../../../docs/design/10-CRISES-RESCUE-DEATH.md)、[14-EARLY-GAME-DETAILED-DESIGN.md](../../../docs/design/14-EARLY-GAME-DETAILED-DESIGN.md)。
 
@@ -59,7 +59,7 @@ SR-XF-019-REQ-03：灾害不抹去所有可靠复仇证据，关闭不离线恢�
 
 | 任务 | 工作 | 状态 | 前置 | 责任人 |
 | --- | --- | --- | --- | --- |
-| SR-XF-019-D01 | 设计补齐：交付：季节/天气状态转换、持续时间、概率和地域差异的T-10配置。；水位积水、排水投入、作物损失、路况、痕迹消退与恢复阈值。；天气预报信息来源与误差、危险前兆和主线证据备份策略。；填实必需参数并标记U/R/T来源。 | todo | 无 | 待分配 |
+| SR-XF-019-D01 | 设计补齐：交付：季节/天气状态转换、持续时间、概率和地域差异的T-10配置。；水位积水、排水投入、作物损失、路况、痕迹消退与恢复阈值。；天气预报信息来源与误差、危险前兆和主线证据备份策略。；填实必需参数并标记U/R/T来源。 | in_progress | 无 | Codex/economy_people |
 | SR-XF-019-D02 | 契约与内容审阅：审阅天气、作物、道路与生态恢复参数与依赖契约（SR-XF-002、SR-XF-003、SR-XF-009、SR-XF-015）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。 | todo | SR-XF-019-D01 | 待分配 |
 | SR-XF-019-I01 | 开发与集成：在世界模块实现天气、作物、道路与生态恢复参数；交付SR-XF-019-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。 | todo | SR-XF-019-D02 | 待分配 |
 | SR-XF-019-V01 | 验收与兼容：执行SR-XF-019-AC-01至AC-03及WEATHER-01、WEATHER-02、WEATHER-08；登记实际结果、兼容和设备证据边界。 | todo | SR-XF-019-I01 | 待分配 |
@@ -86,8 +86,10 @@ SR-XF-019-REQ-03：灾害不抹去所有可靠复仇证据，关闭不离线恢�
 
 ## 证据与变更
 
-尚无本SR完整交付证据；既有局部证据参见现状与来源规格。
+- docs/requirements/design/SR-XF-007-011-019-026-027.md
+- docs/requirements/IMPLEMENTATION-2026-10-06.md
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
+- 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。

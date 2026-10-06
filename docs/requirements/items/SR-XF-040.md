@@ -6,15 +6,15 @@
 | --- | --- |
 | 范围 / 模块 | 远期暂存 / 远期生命 |
 | 优先级 / 计划 | P3 / deferred |
-| 设计 / 开发 | refinement_pending / not_started |
-| 验收 / 发布 | not_verified / not_released_for_this_sr |
-| 责任人 / 复核人 | 待分配 / 待分配 |
+| 设计 / 开发 | draft / in_progress |
+| 验收 / 发布 | in_progress / not_released_for_this_sr |
+| 责任人 / 复核人 | Codex/equipment_growth / Codex/root（集成） |
 
 ## 来源、依赖与范围
 
 按U-93后置；不得作为early需求依赖。
 
-决策来源：U-13, U-23, U-63, U-74, U-77, U-93。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
+决策来源：U-13, U-23, U-63, U-74, U-77, U-93, U-94。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
 
 规格：[01-CHARACTERS.md](../../../docs/design/01-CHARACTERS.md)、[04-WORLD-STORY.md](../../../docs/design/04-WORLD-STORY.md)、[05-RUNTIME-CONTRACTS.md](../../../docs/design/05-RUNTIME-CONTRACTS.md)、[10-CRISES-RESCUE-DEATH.md](../../../docs/design/10-CRISES-RESCUE-DEATH.md)、[13-WORLDVIEW-DISCUSSION.md](../../../docs/design/13-WORLDVIEW-DISCUSSION.md)、[12-CONTENT-AUTHORING.md](../../../docs/design/12-CONTENT-AUTHORING.md)。
 
@@ -59,7 +59,7 @@ SR-XF-040-REQ-03：不加入离线衰老与寿元流逝。
 
 | 任务 | 工作 | 状态 | 前置 | 责任人 |
 | --- | --- | --- | --- | --- |
-| SR-XF-040-D01 | 设计补齐：交付：特殊环境/修行手段的留存条件、持续、来源和鬼物与原人物关系。；本体/化身身份、生命/神魂损失、知情回传与存档引用。；寿尽/婚育/继承等后置项的边界；未来扩围前独立设计，不预承诺通用复活。；填实必需参数并标记U/R/T来源。 | todo | 无 | 待分配 |
+| SR-XF-040-D01 | 设计补齐：交付：特殊环境/修行手段的留存条件、持续、来源和鬼物与原人物关系。；本体/化身身份、生命/神魂损失、知情回传与存档引用。；寿尽/婚育/继承等后置项的边界；未来扩围前独立设计，不预承诺通用复活。；填实必需参数并标记U/R/T来源。 | in_progress | 无 | Codex/equipment_growth |
 | SR-XF-040-D02 | 契约与内容审阅：审阅魂魄留存、化身损失与远期生命玩法与依赖契约（SR-XF-001）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。 | todo | SR-XF-040-D01 | 待分配 |
 | SR-XF-040-I01 | 开发与集成：在远期生命模块实现魂魄留存、化身损失与远期生命玩法；交付SR-XF-040-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。 | todo | SR-XF-040-D02 | 待分配 |
 | SR-XF-040-V01 | 验收与兼容：执行SR-XF-040-AC-01至AC-03及WORLDCHAIN-02；登记实际结果、兼容和设备证据边界。 | todo | SR-XF-040-I01 | 待分配 |
@@ -86,8 +86,10 @@ SR-XF-040-REQ-03：不加入离线衰老与寿元流逝。
 
 ## 证据与变更
 
-尚无本SR完整交付证据；既有局部证据参见现状与来源规格。
+- docs/requirements/design/SR-XF-038-040.md
+- docs/requirements/IMPLEMENTATION-2026-10-06.md
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
+- 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。

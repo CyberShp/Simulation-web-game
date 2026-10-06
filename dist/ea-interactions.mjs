@@ -3,9 +3,10 @@ import {facilityRecords,courtyardDestination,scenicHomeActors} from './ea-scene-
 import {startScenicWalk,scenicPosition} from './ea-scenic.mjs';
 import {homeInteractions} from './ea-narrative.mjs';
 import {scenicSweep} from './ea-scene-geometry.mjs';
+import {sceneUnits} from './ea-sr-spatial.mjs';
 
 const distance=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
-const arrived=(s,a,b)=>distance(a,b)<=28&&!scenicSweep(s,a,b).blocked;
+const arrived=(s,a,b)=>distance(a,b)<=sceneUnits(s,28)&&!scenicSweep(s,a,b).blocked;
 const home=s=>!s.world?.exploration&&!s.master.journey&&s.combat?.status!=='active';
 export function sceneInteractionTarget(s,kind,id){
  if(!home(s))return null;

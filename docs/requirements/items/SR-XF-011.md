@@ -6,15 +6,15 @@
 | --- | --- |
 | 范围 / 模块 | 前期必需 / 经营 |
 | 优先级 / 计划 | P1 / I2 |
-| 设计 / 开发 | refinement_pending / partial |
-| 验收 / 发布 | not_verified / not_released_for_this_sr |
-| 责任人 / 复核人 | 待分配 / 待分配 |
+| 设计 / 开发 | draft / in_progress |
+| 验收 / 发布 | in_progress / not_released_for_this_sr |
+| 责任人 / 复核人 | Codex/economy_people / Codex/root（集成） |
 
 ## 来源、依赖与范围
 
 纳入云岫前期，按依赖推进。
 
-决策来源：U-63, U-93, R-25。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
+决策来源：U-63, U-93, R-25, U-94。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
 
 规格：[02-EQUIPMENT-ARTS.md](../../../docs/design/02-EQUIPMENT-ARTS.md)、[04-WORLD-STORY.md](../../../docs/design/04-WORLD-STORY.md)、[07-ECONOMY-ORGANIZATION.md](../../../docs/design/07-ECONOMY-ORGANIZATION.md)、[14-EARLY-GAME-DETAILED-DESIGN.md](../../../docs/design/14-EARLY-GAME-DETAILED-DESIGN.md)。
 
@@ -59,7 +59,7 @@ SR-XF-011-REQ-03：拒单与道路故障依条件有后果和继续路径，不�
 
 | 任务 | 工作 | 状态 | 前置 | 责任人 |
 | --- | --- | --- | --- | --- |
-| SR-XF-011-D01 | 设计补齐：交付：普通材料药物/装备的可靠来源、价格依据、商人本金与有限库存。；补货来源、运输和周期；订单报价、同意、预留、付款、交付、违约流程。；傀儡销售、顾氏供药、鬼市收费和赤嶂通路旧产的具体地方内容。；填实必需参数并标记U/R/T来源。 | todo | 无 | 待分配 |
+| SR-XF-011-D01 | 设计补齐：交付：普通材料药物/装备的可靠来源、价格依据、商人本金与有限库存。；补货来源、运输和周期；订单报价、同意、预留、付款、交付、违约流程。；傀儡销售、顾氏供药、鬼市收费和赤嶂通路旧产的具体地方内容。；填实必需参数并标记U/R/T来源。 | in_progress | 无 | Codex/economy_people |
 | SR-XF-011-D02 | 契约与内容审阅：审阅有限交易、补货与地方订单与依赖契约（SR-XF-009、SR-XF-010、SR-XF-017）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。 | todo | SR-XF-011-D01 | 待分配 |
 | SR-XF-011-I01 | 开发与集成：在经营模块实现有限交易、补货与地方订单；交付SR-XF-011-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。 | todo | SR-XF-011-D02 | 待分配 |
 | SR-XF-011-V01 | 验收与兼容：执行SR-XF-011-AC-01至AC-03及ECON-03、EQ-02；登记实际结果、兼容和设备证据边界。 | todo | SR-XF-011-I01 | 待分配 |
@@ -86,8 +86,10 @@ SR-XF-011-REQ-03：拒单与道路故障依条件有后果和继续路径，不�
 
 ## 证据与变更
 
-尚无本SR完整交付证据；既有局部证据参见现状与来源规格。
+- docs/requirements/design/SR-XF-007-011-019-026-027.md
+- docs/requirements/IMPLEMENTATION-2026-10-06.md
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
+- 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。

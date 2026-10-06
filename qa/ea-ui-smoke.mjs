@@ -13,6 +13,7 @@ import {runArtisan} from './ea-rain-artisan-acceptance.mjs';
 import {buildingAccess} from '../dist/ea-scenic.mjs';
 import {runOpening} from './ea-opening-v12-acceptance.mjs';
 const openingMode=process.argv.includes('--opening-v12');
+const srMode=process.argv.includes('--sr');
 
 // The template harness calls simulation functions directly, so separately check
 // that the application's real dispatch gate accepts commands exposed by the UI.
@@ -21,14 +22,15 @@ const [uiSource, appSource] = await Promise.all([
   readFile(new URL('../dist/ea-ui.mjs', import.meta.url), 'utf8'),
   readFile(new URL('../dist/ea-game.mjs', import.meta.url), 'utf8'),
 ]);
+const authoritativeGate=/const allowed=new Set\(SIM\.COMMAND_NAMES\)/.test(appSource);
 const declaration = appSource.match(/const allowed=new Set\(\[([^\]]+)\]\)/)?.[1];
-assert.ok(declaration, 'Locate the real application command dispatch gate');
-const allowed = new Set([...declaration.matchAll(/'([^']+)'/g)].map(match => match[1]));
+assert.ok(authoritativeGate||declaration, 'Locate the real application command dispatch gate');
+const allowed = new Set(authoritativeGate?opening.COMMAND_NAMES:[...declaration.matchAll(/'([^']+)'/g)].map(match=>match[1]));
 const exposedCommands = new Set([
   ...uiSource.matchAll(/\bact\(\s*'([^']+)'/g),
   ...uiSource.matchAll(/\bbtn\([^,\n]*,\s*'([^']+)'/g),
 ].map(match => match[1]).filter(name => typeof (openingMode?opening:sim)[name] === 'function'));
-if(openingMode)for(const name of opening.COMMAND_NAMES){assert.equal(typeof opening[name],'function',name+' implemented');assert.ok(allowed.has(name),name+' allowed by actual application');}
+if(openingMode||srMode){const {SR_HANDLERS}=await import('../dist/ea-sr-runtime.mjs');for(const name of opening.COMMAND_NAMES){assert.ok(typeof opening[name]==='function'||typeof SR_HANDLERS[name]==='function',name+' implemented');assert.ok(allowed.has(name),name+' allowed by actual application');}}
 for (const name of exposedCommands) assert.ok(allowed.has(name), `UI command ${name} is rejected by the real application`);
 
 const fragments = [], nodes = new Map(), listeners = new Map();
@@ -85,7 +87,7 @@ function renderScenario(label, candidate) {
     assert.equal(fragments.length - start, 1, `${label}/${tab} records one actual management page`);
     assert.ok(html.length > 100, `${label}/${tab} must actually evaluate a page template`);
     assert.ok(html.includes('class="panel-copy"'), `${label}/${tab} must render the management container`);
-    const heading=tab==='self'&&state.story.onboarding&&state.story.step<2?'先安身，再寻归路':pageMarkers[tab];
+    const heading=state.srWorld&&tab==='production'?'府库、炉火与实际供给':state.srWorld&&tab==='sect'?'共同立山，自有章法':state.srWorld&&tab==='explore'?'亲往山外，循迹而行':tab==='self'&&state.story.onboarding&&state.story.step<2?'先安身，再寻归路':pageMarkers[tab];
     assert.ok(html.includes(heading), `${label}/${tab} must contain its own heading, not only HUD fragments`);
     assert.doesNotMatch(html, /\bNaN\b|\[object Object\]/, `${label}/${tab} invalid visible values`);
     if (tab === 'self') assert.ok(html.includes(state.master.name), 'Hero page shows the actual master');
@@ -104,7 +106,8 @@ function renderScenario(label, candidate) {
 }
 
 assert.ok(EA_SHELL.includes('id="save-status"') && EA_SHELL.includes('id="settings"'));
-if(openingMode){
+if(srMode){renderScenario('fresh SR public runtime',opening.initial({sr:true}));}
+else if(openingMode){
   let gift=opening.initial();gift=opening.dispatchCommand(gift,{name:'masterAction',args:['heal']}).state;opening.tick(gift,35);const target=buildingAccess(gift,gift.buildings.find(b=>b.type==='hall'));gift=opening.dispatchCommand(gift,{name:'moveScenicMaster',args:[target.x,target.y]}).state;for(let n=0;n<60&&gift.master.action==='walk';n++)opening.tick(gift,1);gift=opening.dispatchCommand(gift,{name:'advanceStory'}).state;gift=opening.dispatchCommand(gift,{name:'advanceStory',args:['gift']}).state;
   let building=opening.dispatchCommand(gift,{name:'advanceStory',args:['invite']}).state;const cell=opening.CELLS.find(c=>!opening.placementLock(building,'farm',c.x,c.y));building=opening.dispatchCommand(building,{name:'build',args:['farm',cell.x,cell.y]}).state;
   renderScenario('v6 new game',opening.initial());
@@ -135,7 +138,7 @@ const report = {
   verification: 'Each scenario explicitly unfolds the UI and records one renderTab management page per tab; checks distinct content, tab-specific heading and actual state facts.',
   rendered: rows,
 };
-if(!openingMode)await writeFile(new URL('./ea-ui-template-report.json', import.meta.url), JSON.stringify(report, null, 2) + '\n');
-const directory=new URL(process.env.XIANFU_QA_DIRECTORY||(openingMode?'./acceptance-indoor-v12/':'./acceptance-'+sim.GAME_VERSION.split('-')[0]+'/'),import.meta.url);await mkdir(directory,{recursive:true});
-await writeFile(new URL('ui-templates.json', directory), JSON.stringify(report, null, 2) + '\n');
+if(!srMode&&!openingMode)await writeFile(new URL('./ea-ui-template-report.json', import.meta.url), JSON.stringify(report, null, 2) + '\n');
+if(!srMode){const directory=new URL(process.env.XIANFU_QA_DIRECTORY||(openingMode?'./acceptance-indoor-v12/':'./acceptance-'+sim.GAME_VERSION.split('-')[0]+'/'),import.meta.url);await mkdir(directory,{recursive:true});
+await writeFile(new URL('ui-templates.json', directory), JSON.stringify(report, null, 2) + '\n');}
 console.log(JSON.stringify({ checked: rows.length, scenarios: new Set(rows.map(x => x.scenario)).size, result: 'templates executed without exceptions or visible nonfinite values; state unchanged' }, null, 2));

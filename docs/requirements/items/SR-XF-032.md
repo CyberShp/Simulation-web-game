@@ -1,20 +1,20 @@
 # SR-XF-032 · 完整前期集成、设备验收与发布关闭
 
-来源：DB-2026-10-05 v1.2；需求版本：1.0；建档日期：2026-10-06。
+来源：DB-2026-10-05 v1.2；需求版本：1.1；建档日期：2026-10-06。
 
 | 字段 | 值 |
 | --- | --- |
 | 范围 / 模块 | 前期必需 / 交付 |
 | 优先级 / 计划 | P1 / I5 |
-| 设计 / 开发 | refinement_pending / partial |
-| 验收 / 发布 | not_verified / not_released_for_this_sr |
-| 责任人 / 复核人 | 待分配 / 待分配 |
+| 设计 / 开发 | draft / in_progress |
+| 验收 / 发布 | in_progress / not_released_for_this_sr |
+| 责任人 / 复核人 | Codex/ui_acceptance / Codex/ui_acceptance（独立验收） |
 
 ## 来源、依赖与范围
 
 纳入云岫前期，按依赖推进。
 
-决策来源：U-63, U-93, R-25。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
+决策来源：U-63, U-93, R-25, U-94, U-95。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
 
 规格：[05-RUNTIME-CONTRACTS.md](../../../docs/design/05-RUNTIME-CONTRACTS.md)、[06-OPENING-ACCEPTANCE.md](../../../docs/design/06-OPENING-ACCEPTANCE.md)、[12-CONTENT-AUTHORING.md](../../../docs/design/12-CONTENT-AUTHORING.md)、[14-EARLY-GAME-DETAILED-DESIGN.md](../../../docs/design/14-EARLY-GAME-DETAILED-DESIGN.md)。
 
@@ -59,7 +59,7 @@ SR-XF-032-REQ-03：按用户要求不上传验收截图/过程产物，仓库只
 
 | 任务 | 工作 | 状态 | 前置 | 责任人 |
 | --- | --- | --- | --- | --- |
-| SR-XF-032-D01 | 设计补齐：交付：新档/旧档、拒绝/缺料/战败/迟到/自救/重载/无AI的验收矩阵与SR映射。；浏览器、真机、真人首次体验、性能/规模、长期存档各自测量计划。；源码main、Pages、缓存/素材、备份回滚和发布版本核对清单。；填实必需参数并标记U/R/T来源。 | todo | 无 | 待分配 |
+| SR-XF-032-D01 | 设计补齐：交付：新档/旧档、拒绝/缺料/战败/迟到/自救/重载/无AI的验收矩阵与SR映射。；浏览器、真机、真人首次体验、性能/规模、长期存档各自测量计划。；源码main、Pages、缓存/素材、备份回滚和发布版本核对清单。；填实必需参数并标记U/R/T来源。 | in_progress | 无 | Codex/ui_acceptance |
 | SR-XF-032-D02 | 契约与内容审阅：审阅完整前期集成、设备验收与发布关闭与依赖契约（SR-XF-006、SR-XF-008、SR-XF-010、SR-XF-011、SR-XF-012、SR-XF-013、SR-XF-014、SR-XF-015、SR-XF-016、SR-XF-017、SR-XF-018、SR-XF-019、SR-XF-020、SR-XF-021、SR-XF-022、SR-XF-023、SR-XF-024、SR-XF-025、SR-XF-026、SR-XF-027、SR-XF-028、SR-XF-029、SR-XF-030、SR-XF-031）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。 | todo | SR-XF-032-D01 | 待分配 |
 | SR-XF-032-I01 | 开发与集成：在交付模块实现完整前期集成、设备验收与发布关闭；交付SR-XF-032-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。 | todo | SR-XF-032-D02 | 待分配 |
 | SR-XF-032-V01 | 验收与兼容：执行SR-XF-032-AC-01至AC-03及EARLY-01、EARLY-02、EARLY-03、EARLY-04、EARLY-05、EARLY-06、DELIVERY-01、INTEGRATE-01、LOAD-02；登记实际结果、兼容和设备证据边界。 | todo | SR-XF-032-I01 | 待分配 |
@@ -86,8 +86,11 @@ SR-XF-032-REQ-03：按用户要求不上传验收截图/过程产物，仓库只
 
 ## 证据与变更
 
-尚无本SR完整交付证据；既有局部证据参见现状与来源规格。
+- docs/requirements/design/SR-XF-029-032-034.md
+- docs/requirements/IMPLEMENTATION-2026-10-06.md
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
+- 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
+- 2026-10-06：U-95明确画布只适配iPadOS/Windows/macOS网页分辨率；必需验收平台改为iPad横竖与桌面窗口/DPR，浏览器视口与实机证据分列。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。

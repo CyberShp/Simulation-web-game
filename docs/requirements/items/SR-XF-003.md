@@ -1,20 +1,20 @@
 # SR-XF-003 · 统一米制空间、导航与镜头
 
-来源：DB-2026-10-05 v1.2；需求版本：1.0；建档日期：2026-10-06。
+来源：DB-2026-10-05 v1.2；需求版本：1.1；建档日期：2026-10-06。
 
 | 字段 | 值 |
 | --- | --- |
 | 范围 / 模块 | 前期必需 / 空间 |
 | 优先级 / 计划 | P0 / I1 |
-| 设计 / 开发 | refinement_pending / partial |
-| 验收 / 发布 | not_verified / not_released_for_this_sr |
-| 责任人 / 复核人 | 待分配 / 待分配 |
+| 设计 / 开发 | draft / in_progress |
+| 验收 / 发布 | in_progress / not_released_for_this_sr |
+| 责任人 / 复核人 | Codex/space_construction / Codex/root（集成） |
 
 ## 来源、依赖与范围
 
 纳入云岫前期，按依赖推进。
 
-决策来源：U-63, U-93, R-25。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
+决策来源：U-63, U-93, R-25, U-94, U-95。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
 
 规格：[03-SPATIAL-ART.md](../../../docs/design/03-SPATIAL-ART.md)、[05-RUNTIME-CONTRACTS.md](../../../docs/design/05-RUNTIME-CONTRACTS.md)、[14-EARLY-GAME-DETAILED-DESIGN.md](../../../docs/design/14-EARLY-GAME-DETAILED-DESIGN.md)、[18-SPATIAL-CONTINUITY-IMPLEMENTATION.md](../../../docs/design/18-SPATIAL-CONTINUITY-IMPLEMENTATION.md)。
 
@@ -51,7 +51,9 @@ SR-XF-003-REQ-03：镜头切换、缩放和进入营造保持选中身份及合�
 | --- | --- | --- | --- |
 | SR-XF-003-AC-01 | 穿过门口并绕行新建筑 | 足够宽门道可通行，墙体与过窄缝隙不可通行；建设后能合法重规划。 | not_run |
 | SR-XF-003-AC-02 | 近景/总览及触点缩放切换 | 同一世界点/选中对象对应正确，人物与门比例统一。 | not_run |
-| SR-XF-003-AC-03 | 旧坐标样本加载 | 位置映射确定，可修复位置有记录；人物、时间和资产不丢失。 | not_run |
+| SR-XF-003-AC-03 | 旧坐标样本加载 | 位置映射确定，可修复位置有记录；人物、时间和资产不丢失。 | passed |
+
+SR-XF-003-AC-03证据：qa/ea-sr-spatial-acceptance.mjs；docs/requirements/IMPLEMENTATION-2026-10-06.md
 
 每条AC至少覆盖相关数据、真实行为、UI解释和保存恢复；需要设备或真人证据时单独列出，不以旧测试数量替代。
 
@@ -59,7 +61,7 @@ SR-XF-003-REQ-03：镜头切换、缩放和进入营造保持选中身份及合�
 
 | 任务 | 工作 | 状态 | 前置 | 责任人 |
 | --- | --- | --- | --- | --- |
-| SR-XF-003-D01 | 设计补齐：交付：世界坐标、投影、场景边界和默认近景比例正式表。；导航网格、人物体积、门道、动态阻挡与局部重算规则。；旧像素坐标到米制坐标的映射、精度与合法位置修复方案。；填实必需参数并标记U/R/T来源。 | todo | 无 | 待分配 |
+| SR-XF-003-D01 | 设计补齐：交付：世界坐标、投影、场景边界和默认近景比例正式表。；导航网格、人物体积、门道、动态阻挡与局部重算规则。；旧像素坐标到米制坐标的映射、精度与合法位置修复方案。；填实必需参数并标记U/R/T来源。 | in_progress | 无 | Codex/space_construction |
 | SR-XF-003-D02 | 契约与内容审阅：审阅统一米制空间、导航与镜头与依赖契约（SR-XF-002）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。 | todo | SR-XF-003-D01 | 待分配 |
 | SR-XF-003-I01 | 开发与集成：在空间模块实现统一米制空间、导航与镜头；交付SR-XF-003-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。 | todo | SR-XF-003-D02 | 待分配 |
 | SR-XF-003-V01 | 验收与兼容：执行SR-XF-003-AC-01至AC-03及PATH-01、SCENE-02、SAVE-01；登记实际结果、兼容和设备证据边界。 | todo | SR-XF-003-I01 | 待分配 |
@@ -86,8 +88,11 @@ SR-XF-003-REQ-03：镜头切换、缩放和进入营造保持选中身份及合�
 
 ## 证据与变更
 
-尚无本SR完整交付证据；既有局部证据参见现状与来源规格。
+- docs/requirements/design/SR-XF-003-006.md
+- docs/requirements/IMPLEMENTATION-2026-10-06.md
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
+- 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
+- 2026-10-06：U-95明确画布只适配iPadOS/Windows/macOS网页分辨率；必需验收平台改为iPad横竖与桌面窗口/DPR，浏览器视口与实机证据分列。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。

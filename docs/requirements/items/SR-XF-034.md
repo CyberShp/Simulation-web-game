@@ -6,15 +6,15 @@
 | --- | --- |
 | 范围 / 模块 | 条件范围 / 条件范围 |
 | 优先级 / 计划 | P3 / conditional |
-| 设计 / 开发 | refinement_pending / not_started |
-| 验收 / 发布 | not_verified / not_released_for_this_sr |
-| 责任人 / 复核人 | 待分配 / 待分配 |
+| 设计 / 开发 | draft / in_progress |
+| 验收 / 发布 | in_progress / not_released_for_this_sr |
+| 责任人 / 复核人 | Codex/ui_acceptance / Codex/root（集成） |
 
 ## 来源、依赖与范围
 
 当前不承诺实施，不阻塞前期；启用前登记范围决定。
 
-决策来源：U-63, U-93, R-25。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
+决策来源：U-63, U-93, R-25, U-94。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
 
 规格：[05-RUNTIME-CONTRACTS.md](../../../docs/design/05-RUNTIME-CONTRACTS.md)、[11-AI-CONTENT-CONTRACT.md](../../../docs/design/11-AI-CONTENT-CONTRACT.md)、[12-CONTENT-AUTHORING.md](../../../docs/design/12-CONTENT-AUTHORING.md)、[06-OPENING-ACCEPTANCE.md](../../../docs/design/06-OPENING-ACCEPTANCE.md)。
 
@@ -59,7 +59,7 @@ SR-XF-034-REQ-03：开关/掉线不改变世界结算，重复查卡不刷请求
 
 | 任务 | 工作 | 状态 | 前置 | 责任人 |
 | --- | --- | --- | --- | --- |
-| SR-XF-034-D01 | 设计补齐：交付：是否启用及服务/鉴权/密钥持有方式；没有合适方案保持A0。；请求字段、授权事实/claim、输出限制、成本/并发/重试/超时和缓存版本。；非法/过期/超时回退，开关与用户费用说明、密钥清除流程。；填实必需参数并标记U/R/T来源。 | todo | 无 | 待分配 |
+| SR-XF-034-D01 | 设计补齐：交付：是否启用及服务/鉴权/密钥持有方式；没有合适方案保持A0。；请求字段、授权事实/claim、输出限制、成本/并发/重试/超时和缓存版本。；非法/过期/超时回退，开关与用户费用说明、密钥清除流程。；填实必需参数并标记U/R/T来源。 | in_progress | 无 | Codex/ui_acceptance |
 | SR-XF-034-D02 | 契约与内容审阅：审阅可选对白AI的服务、预算与回退与依赖契约（SR-XF-002、SR-XF-020）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。 | todo | SR-XF-034-D01 | 待分配 |
 | SR-XF-034-I01 | 开发与集成：在条件范围模块实现可选对白AI的服务、预算与回退；交付SR-XF-034-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。 | todo | SR-XF-034-D02 | 待分配 |
 | SR-XF-034-V01 | 验收与兼容：执行SR-XF-034-AC-01至AC-03及INTEGRATE-02、AI-10；登记实际结果、兼容和设备证据边界。 | todo | SR-XF-034-I01 | 待分配 |
@@ -86,8 +86,10 @@ SR-XF-034-REQ-03：开关/掉线不改变世界结算，重复查卡不刷请求
 
 ## 证据与变更
 
-尚无本SR完整交付证据；既有局部证据参见现状与来源规格。
+- docs/requirements/design/SR-XF-029-032-034.md
+- docs/requirements/IMPLEMENTATION-2026-10-06.md
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
+- 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。

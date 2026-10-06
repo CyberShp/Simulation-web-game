@@ -5,11 +5,16 @@
   "updated": "2026-10-06",
   "authoritative": "registry.json for requirement records and task states; derived Markdown rendered by qa/sr-manager.py refresh",
   "source_runtime": {
-    "main": "74df8c4a9957a40c1510644b29a98fc2390e535b",
+    "main": "513b3672781615a4954296128328103b92983ebb",
     "runtime_source": "9cc4466887b349536ac7f16f15ac9f6bcfd16756",
     "pages": "350a4d6a0d450ff5dfbcde11ea6782b00a43df29",
-    "game_version": "1.5.0-dev",
-    "schema_version": 6
+    "game_version": "1.6.0-dev",
+    "schema_version": 6,
+    "preview_pages": "6af2e2449d80256407eda32025f781dfccd0adbc",
+    "preview_deployment": "37433940117",
+    "working_game_version": "1.6.0-dev",
+    "official_game_version": "1.5.0-dev",
+    "version_note": "game_version为本地当前开发版本；正式根Pages仍1.5，预览与正式发布分别记录。"
   },
   "enums": {
     "scope": [
@@ -258,19 +263,20 @@
       "group": "底层",
       "priority": "P0",
       "iteration": "I1",
-      "design_status": "refinement_pending",
-      "development_status": "partial",
-      "acceptance_status": "not_verified",
+      "design_status": "draft",
+      "development_status": "in_progress",
+      "acceptance_status": "in_progress",
       "release_status": "not_released_for_this_sr",
-      "owner": null,
-      "reviewer": null,
+      "owner": "Codex/contracts_save",
+      "reviewer": "Codex/root（集成）",
       "dependencies": [
         "SR-XF-001"
       ],
       "related_decisions": [
         "U-63",
         "U-93",
-        "R-25"
+        "R-25",
+        "U-94"
       ],
       "source_specs": [
         "docs/design/01-CHARACTERS.md",
@@ -306,26 +312,39 @@
           "id": "SR-XF-002-AC-02",
           "scenario": "重复提交与只读查询",
           "expected": "结果事务至多一次，查询前后权威状态一致。",
-          "status": "not_run",
-          "evidence": []
+          "status": "passed",
+          "evidence": [
+            "qa/ea-sr-contracts-acceptance.mjs",
+            "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+          ]
         },
         {
           "id": "SR-XF-002-AC-03",
           "scenario": "导入引用缺失或版本未知的定义",
           "expected": "校验定位到具体ID/字段，停止激活并保留原状态，不生成占位奖励。",
-          "status": "not_run",
-          "evidence": []
+          "status": "passed",
+          "evidence": [
+            "qa/ea-sr-contracts-acceptance.mjs",
+            "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+          ]
         }
       ],
       "excluded": [
         "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
         "不把该SR的设计完成声明为实现、体验或发布完成。"
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/requirements/design/SR-XF-002-030.md",
+        "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+      ],
       "change_log": [
         {
           "date": "2026-10-06",
           "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        },
+        {
+          "date": "2026-10-06",
+          "reason": "用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。"
         }
       ],
       "tasks": [
@@ -334,8 +353,8 @@
           "phase": "D01",
           "title": "设计补齐",
           "description": "交付：对persons/items/scenes/routes/claims/crises及活动的必填、空值、范围与引用编制契约表。；补齐命令前置、结果事务、错误码、世界步效果优先层和知识投影接口。；定义作者卡到运行内容的编译/校验输入，以及各模块版本兼容矩阵。；填实必需参数并标记U/R/T来源。",
-          "status": "todo",
-          "owner": null,
+          "status": "in_progress",
+          "owner": "Codex/contracts_save",
           "depends_on": [],
           "evidence": [],
           "blocked_reason": null
@@ -415,24 +434,26 @@
     {
       "id": "SR-XF-003",
       "title": "统一米制空间、导航与镜头",
-      "version": "1.0",
+      "version": "1.1",
       "scope": "early",
       "group": "空间",
       "priority": "P0",
       "iteration": "I1",
-      "design_status": "refinement_pending",
-      "development_status": "partial",
-      "acceptance_status": "not_verified",
+      "design_status": "draft",
+      "development_status": "in_progress",
+      "acceptance_status": "in_progress",
       "release_status": "not_released_for_this_sr",
-      "owner": null,
-      "reviewer": null,
+      "owner": "Codex/space_construction",
+      "reviewer": "Codex/root（集成）",
       "dependencies": [
         "SR-XF-002"
       ],
       "related_decisions": [
         "U-63",
         "U-93",
-        "R-25"
+        "R-25",
+        "U-94",
+        "U-95"
       ],
       "source_specs": [
         "docs/design/03-SPATIAL-ART.md",
@@ -471,19 +492,33 @@
           "id": "SR-XF-003-AC-03",
           "scenario": "旧坐标样本加载",
           "expected": "位置映射确定，可修复位置有记录；人物、时间和资产不丢失。",
-          "status": "not_run",
-          "evidence": []
+          "status": "passed",
+          "evidence": [
+            "qa/ea-sr-spatial-acceptance.mjs",
+            "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+          ]
         }
       ],
       "excluded": [
         "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
         "不把该SR的设计完成声明为实现、体验或发布完成。"
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/requirements/design/SR-XF-003-006.md",
+        "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+      ],
       "change_log": [
         {
           "date": "2026-10-06",
           "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        },
+        {
+          "date": "2026-10-06",
+          "reason": "用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。"
+        },
+        {
+          "date": "2026-10-06",
+          "reason": "U-95明确画布只适配iPadOS/Windows/macOS网页分辨率；必需验收平台改为iPad横竖与桌面窗口/DPR，浏览器视口与实机证据分列。"
         }
       ],
       "tasks": [
@@ -492,8 +527,8 @@
           "phase": "D01",
           "title": "设计补齐",
           "description": "交付：世界坐标、投影、场景边界和默认近景比例正式表。；导航网格、人物体积、门道、动态阻挡与局部重算规则。；旧像素坐标到米制坐标的映射、精度与合法位置修复方案。；填实必需参数并标记U/R/T来源。",
-          "status": "todo",
-          "owner": null,
+          "status": "in_progress",
+          "owner": "Codex/space_construction",
           "depends_on": [],
           "evidence": [],
           "blocked_reason": null
@@ -579,19 +614,20 @@
       "group": "空间",
       "priority": "P0",
       "iteration": "I1",
-      "design_status": "refinement_pending",
-      "development_status": "partial",
-      "acceptance_status": "not_verified",
+      "design_status": "draft",
+      "development_status": "in_progress",
+      "acceptance_status": "in_progress",
       "release_status": "not_released_for_this_sr",
-      "owner": null,
-      "reviewer": null,
+      "owner": "Codex/space_construction",
+      "reviewer": "Codex/root（集成）",
       "dependencies": [
         "SR-XF-003"
       ],
       "related_decisions": [
         "U-63",
         "U-93",
-        "R-25"
+        "R-25",
+        "U-94"
       ],
       "source_specs": [
         "docs/design/03-SPATIAL-ART.md",
@@ -639,11 +675,18 @@
         "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
         "不把该SR的设计完成声明为实现、体验或发布完成。"
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/requirements/design/SR-XF-003-006.md",
+        "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+      ],
       "change_log": [
         {
           "date": "2026-10-06",
           "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        },
+        {
+          "date": "2026-10-06",
+          "reason": "用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。"
         }
       ],
       "tasks": [
@@ -652,8 +695,8 @@
           "phase": "D01",
           "title": "设计补齐",
           "description": "交付：首轮全部可用建筑/设施目录及最终尺寸、锚点、朝向、门、家具、工位、等待位。；预览/工地/成品/升级/损坏的分层资产规范与资产版本表。；占地、内部通行、屋顶遮挡和点击区域各自用途及同源生成规则。；填实必需参数并标记U/R/T来源。",
-          "status": "todo",
-          "owner": null,
+          "status": "in_progress",
+          "owner": "Codex/space_construction",
           "depends_on": [],
           "evidence": [],
           "blocked_reason": null
@@ -738,12 +781,12 @@
       "group": "营造",
       "priority": "P0",
       "iteration": "I1",
-      "design_status": "refinement_pending",
-      "development_status": "partial",
-      "acceptance_status": "not_verified",
+      "design_status": "draft",
+      "development_status": "in_progress",
+      "acceptance_status": "in_progress",
       "release_status": "not_released_for_this_sr",
-      "owner": null,
-      "reviewer": null,
+      "owner": "Codex/space_construction",
+      "reviewer": "Codex/root（集成）",
       "dependencies": [
         "SR-XF-003",
         "SR-XF-004"
@@ -751,7 +794,8 @@
       "related_decisions": [
         "U-63",
         "U-93",
-        "R-25"
+        "R-25",
+        "U-94"
       ],
       "source_specs": [
         "docs/design/03-SPATIAL-ART.md",
@@ -777,33 +821,49 @@
           "id": "SR-XF-005-AC-01",
           "scenario": "在任意合法空地放置并施工",
           "expected": "可完成自由选址；到场后才贡献，完成后场景与容量一致。",
-          "status": "not_run",
-          "evidence": []
+          "status": "passed",
+          "evidence": [
+            "qa/ea-sr-integration-acceptance.mjs",
+            "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+          ]
         },
         {
           "id": "SR-XF-005-AC-02",
           "scenario": "阻挡入口或人物占位后确认",
           "expected": "具名/具体现象提示，费用和人物位置不变；等待后可合法继续。",
-          "status": "not_run",
-          "evidence": []
+          "status": "passed",
+          "evidence": [
+            "qa/ea-sr-spatial-acceptance.mjs",
+            "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+          ]
         },
         {
           "id": "SR-XF-005-AC-03",
           "scenario": "反复确认、取消、存读档和暂停",
           "expected": "任务/材料至多登记一次，暂停不推进，取消按已发生投入结算。",
-          "status": "not_run",
-          "evidence": []
+          "status": "passed",
+          "evidence": [
+            "qa/ea-sr-spatial-acceptance.mjs",
+            "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+          ]
         }
       ],
       "excluded": [
         "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
         "不把该SR的设计完成声明为实现、体验或发布完成。"
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/requirements/design/SR-XF-003-006.md",
+        "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+      ],
       "change_log": [
         {
           "date": "2026-10-06",
           "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        },
+        {
+          "date": "2026-10-06",
+          "reason": "用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。"
         }
       ],
       "tasks": [
@@ -812,8 +872,8 @@
           "phase": "D01",
           "title": "设计补齐",
           "description": "交付：可建地形、水面/陡坡/剧情保护区规则与入口连通条件。；鼠标与触控的选址、预览、支持朝向、确认、取消流程。；施工材料预留、分阶段投入、到场贡献和安全完工状态图。；填实必需参数并标记U/R/T来源。",
-          "status": "todo",
-          "owner": null,
+          "status": "in_progress",
+          "owner": "Codex/space_construction",
           "depends_on": [],
           "evidence": [],
           "blocked_reason": null
@@ -900,12 +960,12 @@
       "group": "营造",
       "priority": "P1",
       "iteration": "I1",
-      "design_status": "refinement_pending",
-      "development_status": "partial",
-      "acceptance_status": "not_verified",
+      "design_status": "draft",
+      "development_status": "in_progress",
+      "acceptance_status": "in_progress",
       "release_status": "not_released_for_this_sr",
-      "owner": null,
-      "reviewer": null,
+      "owner": "Codex/space_construction",
+      "reviewer": "Codex/root（集成）",
       "dependencies": [
         "SR-XF-004",
         "SR-XF-005"
@@ -913,7 +973,8 @@
       "related_decisions": [
         "U-63",
         "U-93",
-        "R-25"
+        "R-25",
+        "U-94"
       ],
       "source_specs": [
         "docs/design/03-SPATIAL-ART.md",
@@ -938,33 +999,49 @@
           "id": "SR-XF-006-AC-01",
           "scenario": "占床/劳动时发起迁建或拆除",
           "expected": "按明确策略等待或安全结束活动，人物有可达去处。",
-          "status": "not_run",
-          "evidence": []
+          "status": "passed",
+          "evidence": [
+            "qa/ea-sr-spatial-acceptance.mjs",
+            "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+          ]
         },
         {
           "id": "SR-XF-006-AC-02",
           "scenario": "目标地失效、途中取消并重载",
           "expected": "原建筑和已用投入可追溯，退款一次，无复制建筑。",
-          "status": "not_run",
-          "evidence": []
+          "status": "passed",
+          "evidence": [
+            "qa/ea-sr-spatial-acceptance.mjs",
+            "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+          ]
         },
         {
           "id": "SR-XF-006-AC-03",
           "scenario": "升级扩大占地",
           "expected": "合法扩大才能完成；通路/容量/UI使用新统一定义。",
-          "status": "not_run",
-          "evidence": []
+          "status": "passed",
+          "evidence": [
+            "qa/ea-sr-spatial-acceptance.mjs",
+            "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+          ]
         }
       ],
       "excluded": [
         "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
         "不把该SR的设计完成声明为实现、体验或发布完成。"
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/requirements/design/SR-XF-003-006.md",
+        "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+      ],
       "change_log": [
         {
           "date": "2026-10-06",
           "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        },
+        {
+          "date": "2026-10-06",
+          "reason": "用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。"
         }
       ],
       "tasks": [
@@ -973,8 +1050,8 @@
           "phase": "D01",
           "title": "设计补齐",
           "description": "交付：升级占地冲突、迁建源/目标预约、拆除与材料回收的任务状态图。；人物活动中断、等待、临时撤离/安置和重新预约策略。；各取消阶段的已用成本、余料、进度和身份保留表。；填实必需参数并标记U/R/T来源。",
-          "status": "todo",
-          "owner": null,
+          "status": "in_progress",
+          "owner": "Codex/space_construction",
           "depends_on": [],
           "evidence": [],
           "blocked_reason": null
@@ -1059,12 +1136,12 @@
       "group": "人物",
       "priority": "P0",
       "iteration": "I1",
-      "design_status": "refinement_pending",
-      "development_status": "partial",
-      "acceptance_status": "not_verified",
+      "design_status": "draft",
+      "development_status": "in_progress",
+      "acceptance_status": "in_progress",
       "release_status": "not_released_for_this_sr",
-      "owner": null,
-      "reviewer": null,
+      "owner": "Codex/economy_people",
+      "reviewer": "Codex/root（集成）",
       "dependencies": [
         "SR-XF-002",
         "SR-XF-004"
@@ -1072,7 +1149,8 @@
       "related_decisions": [
         "U-63",
         "U-93",
-        "R-25"
+        "R-25",
+        "U-94"
       ],
       "source_specs": [
         "docs/design/01-CHARACTERS.md",
@@ -1120,11 +1198,18 @@
         "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
         "不把该SR的设计完成声明为实现、体验或发布完成。"
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/requirements/design/SR-XF-007-011-019-026-027.md",
+        "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+      ],
       "change_log": [
         {
           "date": "2026-10-06",
           "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        },
+        {
+          "date": "2026-10-06",
+          "reason": "用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。"
         }
       ],
       "tasks": [
@@ -1133,8 +1218,8 @@
           "phase": "D01",
           "title": "设计补齐",
           "description": "交付：关键人物配方及普通人物可组合体型/脸/发型/主色/服饰目录。；站立、行走、采集、种植、研习、休息、疗伤、施法、受击动作与工具对应表。；肖像/山院/战斗的同身份映射，装备挂点和缺帧回退规则。；填实必需参数并标记U/R/T来源。",
-          "status": "todo",
-          "owner": null,
+          "status": "in_progress",
+          "owner": "Codex/economy_people",
           "depends_on": [],
           "evidence": [],
           "blocked_reason": null
@@ -1219,12 +1304,12 @@
       "group": "人物",
       "priority": "P1",
       "iteration": "I1",
-      "design_status": "refinement_pending",
-      "development_status": "partial",
-      "acceptance_status": "not_verified",
+      "design_status": "draft",
+      "development_status": "in_progress",
+      "acceptance_status": "in_progress",
       "release_status": "not_released_for_this_sr",
-      "owner": null,
-      "reviewer": null,
+      "owner": "Codex/economy_people",
+      "reviewer": "Codex/root（集成）",
       "dependencies": [
         "SR-XF-002",
         "SR-XF-003"
@@ -1232,7 +1317,8 @@
       "related_decisions": [
         "U-63",
         "U-93",
-        "R-25"
+        "R-25",
+        "U-94"
       ],
       "source_specs": [
         "docs/design/01-CHARACTERS.md",
@@ -1280,11 +1366,18 @@
         "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
         "不把该SR的设计完成声明为实现、体验或发布完成。"
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/requirements/design/SR-XF-007-011-019-026-027.md",
+        "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+      ],
       "change_log": [
         {
           "date": "2026-10-06",
           "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        },
+        {
+          "date": "2026-10-06",
+          "reason": "用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。"
         }
       ],
       "tasks": [
@@ -1293,8 +1386,8 @@
           "phase": "D01",
           "title": "设计补齐",
           "description": "交付：需要/志向/能力/关系/风险的候选过滤与效用参数表，保留不能做与不愿做区别。；承诺期限、改意阈值、重试退避、活动中断和恢复规则。；关键人物日程、岗位可用时间、关系记忆影响和隐私投影。；填实必需参数并标记U/R/T来源。",
-          "status": "todo",
-          "owner": null,
+          "status": "in_progress",
+          "owner": "Codex/economy_people",
           "depends_on": [],
           "evidence": [],
           "blocked_reason": null
@@ -1379,12 +1472,12 @@
       "group": "经营",
       "priority": "P0",
       "iteration": "I1",
-      "design_status": "refinement_pending",
-      "development_status": "partial",
-      "acceptance_status": "not_verified",
+      "design_status": "draft",
+      "development_status": "in_progress",
+      "acceptance_status": "in_progress",
       "release_status": "not_released_for_this_sr",
-      "owner": null,
-      "reviewer": null,
+      "owner": "Codex/economy_people",
+      "reviewer": "Codex/root（集成）",
       "dependencies": [
         "SR-XF-002",
         "SR-XF-004"
@@ -1392,7 +1485,8 @@
       "related_decisions": [
         "U-63",
         "U-93",
-        "R-25"
+        "R-25",
+        "U-94"
       ],
       "source_specs": [
         "docs/design/02-EQUIPMENT-ARTS.md",
@@ -1439,11 +1533,18 @@
         "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
         "不把该SR的设计完成声明为实现、体验或发布完成。"
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/requirements/design/SR-XF-007-011-019-026-027.md",
+        "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+      ],
       "change_log": [
         {
           "date": "2026-10-06",
           "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        },
+        {
+          "date": "2026-10-06",
+          "reason": "用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。"
         }
       ],
       "tasks": [
@@ -1452,8 +1553,8 @@
           "phase": "D01",
           "title": "设计补齐",
           "description": "交付：木石营造、药材到恢复药物、原料到装备的输入/工序/输出/工位表。；投入时机、取消退料、返工残材、技能门槛和产能瓶颈。；常用种苗/药材/材料计量、价格参考与正常缺工补救。；填实必需参数并标记U/R/T来源。",
-          "status": "todo",
-          "owner": null,
+          "status": "in_progress",
+          "owner": "Codex/economy_people",
           "depends_on": [],
           "evidence": [],
           "blocked_reason": null
@@ -1539,12 +1640,12 @@
       "group": "经营",
       "priority": "P0",
       "iteration": "I1",
-      "design_status": "refinement_pending",
-      "development_status": "partial",
-      "acceptance_status": "not_verified",
+      "design_status": "draft",
+      "development_status": "in_progress",
+      "acceptance_status": "in_progress",
       "release_status": "not_released_for_this_sr",
-      "owner": null,
-      "reviewer": null,
+      "owner": "Codex/economy_people",
+      "reviewer": "Codex/root（集成）",
       "dependencies": [
         "SR-XF-002",
         "SR-XF-003",
@@ -1553,7 +1654,8 @@
       "related_decisions": [
         "U-63",
         "U-93",
-        "R-25"
+        "R-25",
+        "U-94"
       ],
       "source_specs": [
         "docs/design/05-RUNTIME-CONTRACTS.md",
@@ -1599,11 +1701,18 @@
         "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
         "不把该SR的设计完成声明为实现、体验或发布完成。"
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/requirements/design/SR-XF-007-011-019-026-027.md",
+        "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+      ],
       "change_log": [
         {
           "date": "2026-10-06",
           "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        },
+        {
+          "date": "2026-10-06",
+          "reason": "用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。"
         }
       ],
       "tasks": [
@@ -1612,8 +1721,8 @@
           "phase": "D01",
           "title": "设计补齐",
           "description": "交付：stockpile位置、容量、拥有者/保管者和资源最小单位表。；取料、携带、在途、交付、损失与归还的运输状态机及批量。；与施工/生产预约接口、公私账本、取消与迁建中的库存恢复。；填实必需参数并标记U/R/T来源。",
-          "status": "todo",
-          "owner": null,
+          "status": "in_progress",
+          "owner": "Codex/economy_people",
           "depends_on": [],
           "evidence": [],
           "blocked_reason": null
@@ -1698,12 +1807,12 @@
       "group": "经营",
       "priority": "P1",
       "iteration": "I2",
-      "design_status": "refinement_pending",
-      "development_status": "partial",
-      "acceptance_status": "not_verified",
+      "design_status": "draft",
+      "development_status": "in_progress",
+      "acceptance_status": "in_progress",
       "release_status": "not_released_for_this_sr",
-      "owner": null,
-      "reviewer": null,
+      "owner": "Codex/economy_people",
+      "reviewer": "Codex/root（集成）",
       "dependencies": [
         "SR-XF-009",
         "SR-XF-010",
@@ -1712,7 +1821,8 @@
       "related_decisions": [
         "U-63",
         "U-93",
-        "R-25"
+        "R-25",
+        "U-94"
       ],
       "source_specs": [
         "docs/design/02-EQUIPMENT-ARTS.md",
@@ -1759,11 +1869,18 @@
         "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
         "不把该SR的设计完成声明为实现、体验或发布完成。"
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/requirements/design/SR-XF-007-011-019-026-027.md",
+        "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+      ],
       "change_log": [
         {
           "date": "2026-10-06",
           "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        },
+        {
+          "date": "2026-10-06",
+          "reason": "用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。"
         }
       ],
       "tasks": [
@@ -1772,8 +1889,8 @@
           "phase": "D01",
           "title": "设计补齐",
           "description": "交付：普通材料药物/装备的可靠来源、价格依据、商人本金与有限库存。；补货来源、运输和周期；订单报价、同意、预留、付款、交付、违约流程。；傀儡销售、顾氏供药、鬼市收费和赤嶂通路旧产的具体地方内容。；填实必需参数并标记U/R/T来源。",
-          "status": "todo",
-          "owner": null,
+          "status": "in_progress",
+          "owner": "Codex/economy_people",
           "depends_on": [],
           "evidence": [],
           "blocked_reason": null
@@ -1858,12 +1975,12 @@
       "group": "成长",
       "priority": "P1",
       "iteration": "I2",
-      "design_status": "refinement_pending",
-      "development_status": "partial",
-      "acceptance_status": "not_verified",
+      "design_status": "draft",
+      "development_status": "in_progress",
+      "acceptance_status": "in_progress",
       "release_status": "not_released_for_this_sr",
-      "owner": null,
-      "reviewer": null,
+      "owner": "Codex/equipment_growth",
+      "reviewer": "Codex/root（集成）",
       "dependencies": [
         "SR-XF-002",
         "SR-XF-007",
@@ -1873,7 +1990,8 @@
       "related_decisions": [
         "U-63",
         "U-93",
-        "R-25"
+        "R-25",
+        "U-94"
       ],
       "source_specs": [
         "docs/design/02-EQUIPMENT-ARTS.md",
@@ -1920,11 +2038,18 @@
         "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
         "不把该SR的设计完成声明为实现、体验或发布完成。"
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/requirements/design/SR-XF-012-014-018-024-028-033.md",
+        "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+      ],
       "change_log": [
         {
           "date": "2026-10-06",
           "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        },
+        {
+          "date": "2026-10-06",
+          "reason": "用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。"
         }
       ],
       "tasks": [
@@ -1933,8 +2058,8 @@
           "phase": "D01",
           "title": "设计补齐",
           "description": "交付：普通剑/护具/法器/佩饰和护脉遗器的定义ID、门槛、重量、品质、外观、配方。；制造/修理/使用/赠予/借用/归还的来源与磨损维护规则。；套装角色、替代件、范围、持续、消耗、冷却与叠加预算；本命绑定另见SR-033。；填实必需参数并标记U/R/T来源。",
-          "status": "todo",
-          "owner": null,
+          "status": "in_progress",
+          "owner": "Codex/equipment_growth",
           "depends_on": [],
           "evidence": [],
           "blocked_reason": null
@@ -2020,12 +2145,12 @@
       "group": "成长",
       "priority": "P1",
       "iteration": "I2",
-      "design_status": "refinement_pending",
-      "development_status": "partial",
-      "acceptance_status": "not_verified",
+      "design_status": "draft",
+      "development_status": "in_progress",
+      "acceptance_status": "in_progress",
       "release_status": "not_released_for_this_sr",
-      "owner": null,
-      "reviewer": null,
+      "owner": "Codex/equipment_growth",
+      "reviewer": "Codex/root（集成）",
       "dependencies": [
         "SR-XF-002",
         "SR-XF-003",
@@ -2036,7 +2161,8 @@
         "U-63",
         "U-66",
         "R-25",
-        "R-26"
+        "R-26",
+        "U-94"
       ],
       "source_specs": [
         "docs/design/02-EQUIPMENT-ARTS.md",
@@ -2084,11 +2210,18 @@
         "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
         "不把该SR的设计完成声明为实现、体验或发布完成。"
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/requirements/design/SR-XF-012-014-018-024-028-033.md",
+        "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+      ],
       "change_log": [
         {
           "date": "2026-10-06",
           "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        },
+        {
+          "date": "2026-10-06",
+          "reason": "用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。"
         }
       ],
       "tasks": [
@@ -2097,8 +2230,8 @@
           "phase": "D01",
           "title": "设计补齐",
           "description": "交付：每个动作的起手/执行/收势、目标、范围、视线、消耗、冷却和效果层。；剑路追击、药用救治、阵节点部署的同场可行方案与反制。；韩厉川/邢烈/邵衡及普通敌人配置、自愿同行者集结/护卫/撤退策略。；填实必需参数并标记U/R/T来源。",
-          "status": "todo",
-          "owner": null,
+          "status": "in_progress",
+          "owner": "Codex/equipment_growth",
           "depends_on": [],
           "evidence": [],
           "blocked_reason": null
@@ -2183,12 +2316,12 @@
       "group": "成长",
       "priority": "P1",
       "iteration": "I2",
-      "design_status": "refinement_pending",
-      "development_status": "partial",
-      "acceptance_status": "not_verified",
+      "design_status": "draft",
+      "development_status": "in_progress",
+      "acceptance_status": "in_progress",
       "release_status": "not_released_for_this_sr",
-      "owner": null,
-      "reviewer": null,
+      "owner": "Codex/equipment_growth",
+      "reviewer": "Codex/root（集成）",
       "dependencies": [
         "SR-XF-002",
         "SR-XF-009",
@@ -2199,7 +2332,8 @@
         "U-65",
         "U-73",
         "R-25",
-        "R-26"
+        "R-26",
+        "U-94"
       ],
       "source_specs": [
         "docs/design/01-CHARACTERS.md",
@@ -2247,11 +2381,18 @@
         "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
         "不把该SR的设计完成声明为实现、体验或发布完成。"
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/requirements/design/SR-XF-012-014-018-024-028-033.md",
+        "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+      ],
       "change_log": [
         {
           "date": "2026-10-06",
           "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        },
+        {
+          "date": "2026-10-06",
+          "reason": "用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。"
         }
       ],
       "tasks": [
@@ -2260,8 +2401,8 @@
           "phase": "D01",
           "title": "设计补齐",
           "description": "交付：青岚基础/筑基续篇与三路法门的章节、前置、冲突、教学和来源表。；修为积累、理解、熟练、授业资格与有效实践收益曲线。；筑基丹委托/自制两条路径；预留、炼化、完成、中断恢复阶段及成本。；填实必需参数并标记U/R/T来源。",
-          "status": "todo",
-          "owner": null,
+          "status": "in_progress",
+          "owner": "Codex/equipment_growth",
           "depends_on": [],
           "evidence": [],
           "blocked_reason": null
@@ -2346,12 +2487,12 @@
       "group": "世界",
       "priority": "P1",
       "iteration": "I2",
-      "design_status": "refinement_pending",
-      "development_status": "partial",
-      "acceptance_status": "not_verified",
+      "design_status": "draft",
+      "development_status": "in_progress",
+      "acceptance_status": "in_progress",
       "release_status": "not_released_for_this_sr",
-      "owner": null,
-      "reviewer": null,
+      "owner": "Codex/world_story",
+      "reviewer": "Codex/root（集成）",
       "dependencies": [
         "SR-XF-002",
         "SR-XF-003",
@@ -2360,7 +2501,8 @@
       "related_decisions": [
         "U-63",
         "U-75",
-        "R-25"
+        "R-25",
+        "U-94"
       ],
       "source_specs": [
         "docs/design/04-WORLD-STORY.md",
@@ -2410,11 +2552,18 @@
         "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
         "不把该SR的设计完成声明为实现、体验或发布完成。"
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/requirements/design/SR-XF-015-017-020-025-035-037-039.md",
+        "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+      ],
       "change_log": [
         {
           "date": "2026-10-06",
           "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        },
+        {
+          "date": "2026-10-06",
+          "reason": "用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。"
         }
       ],
       "tasks": [
@@ -2423,8 +2572,8 @@
           "phase": "D01",
           "title": "设计补齐",
           "description": "交付：云岫地点路网、出入口、耗时、准备成本、交通能力与可用方式。；出发/在途/改路/返程/撤退状态、同行自愿与物品携带规则。；已知最后位置/消息时间/不确定范围的定位投影及路况更新。；填实必需参数并标记U/R/T来源。",
-          "status": "todo",
-          "owner": null,
+          "status": "in_progress",
+          "owner": "Codex/world_story",
           "depends_on": [],
           "evidence": [],
           "blocked_reason": null
@@ -2509,12 +2658,12 @@
       "group": "世界",
       "priority": "P1",
       "iteration": "I2",
-      "design_status": "refinement_pending",
-      "development_status": "partial",
-      "acceptance_status": "not_verified",
+      "design_status": "draft",
+      "development_status": "in_progress",
+      "acceptance_status": "in_progress",
       "release_status": "not_released_for_this_sr",
-      "owner": null,
-      "reviewer": null,
+      "owner": "Codex/world_story",
+      "reviewer": "Codex/root（集成）",
       "dependencies": [
         "SR-XF-003",
         "SR-XF-004",
@@ -2523,7 +2672,8 @@
       "related_decisions": [
         "U-63",
         "U-93",
-        "R-25"
+        "R-25",
+        "U-94"
       ],
       "source_specs": [
         "docs/design/03-SPATIAL-ART.md",
@@ -2570,11 +2720,18 @@
         "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
         "不把该SR的设计完成声明为实现、体验或发布完成。"
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/requirements/design/SR-XF-015-017-020-025-035-037-039.md",
+        "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+      ],
       "change_log": [
         {
           "date": "2026-10-06",
           "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        },
+        {
+          "date": "2026-10-06",
+          "reason": "用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。"
         }
       ],
       "tasks": [
@@ -2583,8 +2740,8 @@
           "phase": "D01",
           "title": "设计补齐",
           "description": "交付：别院、山谷、青溪坊市、石桥驿、听雨遗址、偏牢粮道、栖霞故地逐场景布局。；每地点对象、触发、交涉、材料/线索、拒绝与危险撤离表。；占领/修桥/破阵/重建后的持久空间变更与入口兼容。；填实必需参数并标记U/R/T来源。",
-          "status": "todo",
-          "owner": null,
+          "status": "in_progress",
+          "owner": "Codex/world_story",
           "depends_on": [],
           "evidence": [],
           "blocked_reason": null
@@ -2669,12 +2826,12 @@
       "group": "内容",
       "priority": "P1",
       "iteration": "I2",
-      "design_status": "refinement_pending",
-      "development_status": "partial",
-      "acceptance_status": "not_verified",
+      "design_status": "draft",
+      "development_status": "in_progress",
+      "acceptance_status": "in_progress",
       "release_status": "not_released_for_this_sr",
-      "owner": null,
-      "reviewer": null,
+      "owner": "Codex/world_story",
+      "reviewer": "Codex/root（集成）",
       "dependencies": [
         "SR-XF-001",
         "SR-XF-002"
@@ -2691,7 +2848,8 @@
         "U-48",
         "U-49",
         "U-63",
-        "R-26"
+        "R-26",
+        "U-94"
       ],
       "source_specs": [
         "docs/design/01-CHARACTERS.md",
@@ -2740,11 +2898,18 @@
         "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
         "不把该SR的设计完成声明为实现、体验或发布完成。"
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/requirements/design/SR-XF-015-017-020-025-035-037-039.md",
+        "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+      ],
       "change_log": [
         {
           "date": "2026-10-06",
           "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        },
+        {
+          "date": "2026-10-06",
+          "reason": "用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。"
         }
       ],
       "tasks": [
@@ -2753,8 +2918,8 @@
           "phase": "D01",
           "title": "设计补齐",
           "description": "交付：七组织的稳定ID、具名接触者、公开诉求、资源、知情、底线和关系。；百机山型号/材料/控制、玄阴谷鬼物来历/御使/鬼市、顾氏品种/供货合作内容。；赤嶂旧产通路、州府执法人员和正魔两宗约束/交易的实际人物与权限。；填实必需参数并标记U/R/T来源。",
-          "status": "todo",
-          "owner": null,
+          "status": "in_progress",
+          "owner": "Codex/world_story",
           "depends_on": [],
           "evidence": [],
           "blocked_reason": null
@@ -2838,12 +3003,12 @@
       "group": "内容",
       "priority": "P1",
       "iteration": "I2",
-      "design_status": "refinement_pending",
-      "development_status": "partial",
-      "acceptance_status": "not_verified",
+      "design_status": "draft",
+      "development_status": "in_progress",
+      "acceptance_status": "in_progress",
       "release_status": "not_released_for_this_sr",
-      "owner": null,
-      "reviewer": null,
+      "owner": "Codex/equipment_growth",
+      "reviewer": "Codex/root（集成）",
       "dependencies": [
         "SR-XF-011",
         "SR-XF-012",
@@ -2855,7 +3020,8 @@
       "related_decisions": [
         "U-63",
         "U-93",
-        "R-25"
+        "R-25",
+        "U-94"
       ],
       "source_specs": [
         "docs/design/02-EQUIPMENT-ARTS.md",
@@ -2903,11 +3069,18 @@
         "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
         "不把该SR的设计完成声明为实现、体验或发布完成。"
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/requirements/design/SR-XF-012-014-018-024-028-033.md",
+        "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+      ],
       "change_log": [
         {
           "date": "2026-10-06",
           "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        },
+        {
+          "date": "2026-10-06",
+          "reason": "用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。"
         }
       ],
       "tasks": [
@@ -2916,8 +3089,8 @@
           "phase": "D01",
           "title": "设计补齐",
           "description": "交付：伤匠未完订单真相、石桥目标和合作人物、线索/对白/交易与分支图。；具体器具/配方/部件来源、匠作条件、产出实例和战斗/救助用途。；拒治、材料不足、无同行、战败、匠师离开和奖励后继的恢复路径。；填实必需参数并标记U/R/T来源。",
-          "status": "todo",
-          "owner": null,
+          "status": "in_progress",
+          "owner": "Codex/equipment_growth",
           "depends_on": [],
           "evidence": [],
           "blocked_reason": null
@@ -3003,12 +3176,12 @@
       "group": "世界",
       "priority": "P1",
       "iteration": "I3",
-      "design_status": "refinement_pending",
-      "development_status": "partial",
-      "acceptance_status": "not_verified",
+      "design_status": "draft",
+      "development_status": "in_progress",
+      "acceptance_status": "in_progress",
       "release_status": "not_released_for_this_sr",
-      "owner": null,
-      "reviewer": null,
+      "owner": "Codex/economy_people",
+      "reviewer": "Codex/root（集成）",
       "dependencies": [
         "SR-XF-002",
         "SR-XF-003",
@@ -3018,7 +3191,8 @@
       "related_decisions": [
         "U-63",
         "U-81",
-        "R-25"
+        "R-25",
+        "U-94"
       ],
       "source_specs": [
         "docs/design/05-RUNTIME-CONTRACTS.md",
@@ -3065,11 +3239,18 @@
         "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
         "不把该SR的设计完成声明为实现、体验或发布完成。"
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/requirements/design/SR-XF-007-011-019-026-027.md",
+        "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+      ],
       "change_log": [
         {
           "date": "2026-10-06",
           "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        },
+        {
+          "date": "2026-10-06",
+          "reason": "用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。"
         }
       ],
       "tasks": [
@@ -3078,8 +3259,8 @@
           "phase": "D01",
           "title": "设计补齐",
           "description": "交付：季节/天气状态转换、持续时间、概率和地域差异的T-10配置。；水位积水、排水投入、作物损失、路况、痕迹消退与恢复阈值。；天气预报信息来源与误差、危险前兆和主线证据备份策略。；填实必需参数并标记U/R/T来源。",
-          "status": "todo",
-          "owner": null,
+          "status": "in_progress",
+          "owner": "Codex/economy_people",
           "depends_on": [],
           "evidence": [],
           "blocked_reason": null
@@ -3165,12 +3346,12 @@
       "group": "世界",
       "priority": "P1",
       "iteration": "I3",
-      "design_status": "refinement_pending",
-      "development_status": "partial",
-      "acceptance_status": "not_verified",
+      "design_status": "draft",
+      "development_status": "in_progress",
+      "acceptance_status": "in_progress",
       "release_status": "not_released_for_this_sr",
-      "owner": null,
-      "reviewer": null,
+      "owner": "Codex/world_story",
+      "reviewer": "Codex/root（集成）",
       "dependencies": [
         "SR-XF-002",
         "SR-XF-017"
@@ -3178,7 +3359,8 @@
       "related_decisions": [
         "U-63",
         "U-93",
-        "R-25"
+        "R-25",
+        "U-94"
       ],
       "source_specs": [
         "docs/design/01-CHARACTERS.md",
@@ -3227,11 +3409,18 @@
         "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
         "不把该SR的设计完成声明为实现、体验或发布完成。"
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/requirements/design/SR-XF-015-017-020-025-035-037-039.md",
+        "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+      ],
       "change_log": [
         {
           "date": "2026-10-06",
           "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        },
+        {
+          "date": "2026-10-06",
+          "reason": "用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。"
         }
       ],
       "tasks": [
@@ -3240,8 +3429,8 @@
           "phase": "D01",
           "title": "设计补齐",
           "description": "交付：fact/claim/observation/belief/knownFact的存储、支持/反驳与公开投影规则。；信使/传闻/文书/当面证词渠道、时间、陈旧和独立来源关系。；侠义名声、势力态度、个人关系的传播条件与变化预算。；填实必需参数并标记U/R/T来源。",
-          "status": "todo",
-          "owner": null,
+          "status": "in_progress",
+          "owner": "Codex/world_story",
           "depends_on": [],
           "evidence": [],
           "blocked_reason": null
@@ -3326,12 +3515,12 @@
       "group": "世界",
       "priority": "P1",
       "iteration": "I3",
-      "design_status": "refinement_pending",
-      "development_status": "partial",
-      "acceptance_status": "not_verified",
+      "design_status": "draft",
+      "development_status": "in_progress",
+      "acceptance_status": "in_progress",
       "release_status": "not_released_for_this_sr",
-      "owner": null,
-      "reviewer": null,
+      "owner": "Codex/world_story",
+      "reviewer": "Codex/root（集成）",
       "dependencies": [
         "SR-XF-015",
         "SR-XF-017",
@@ -3340,7 +3529,8 @@
       "related_decisions": [
         "U-63",
         "U-93",
-        "R-25"
+        "R-25",
+        "U-94"
       ],
       "source_specs": [
         "docs/design/05-RUNTIME-CONTRACTS.md",
@@ -3388,11 +3578,18 @@
         "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
         "不把该SR的设计完成声明为实现、体验或发布完成。"
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/requirements/design/SR-XF-015-017-020-025-035-037-039.md",
+        "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+      ],
       "change_log": [
         {
           "date": "2026-10-06",
           "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        },
+        {
+          "date": "2026-10-06",
+          "reason": "用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。"
         }
       ],
       "tasks": [
@@ -3401,8 +3598,8 @@
           "phase": "D01",
           "title": "设计补齐",
           "description": "交付：查验与卜算的能力、锚点、成本、耗时、范围、误差、失败和反制配置。；线索可达、过期与替代路径，消息/事实引用和合法定位结果。；重要根链注册、恶意标签、滚动20条约8条与压力/平静期调度策略。；填实必需参数并标记U/R/T来源。",
-          "status": "todo",
-          "owner": null,
+          "status": "in_progress",
+          "owner": "Codex/world_story",
           "depends_on": [],
           "evidence": [],
           "blocked_reason": null
@@ -3487,12 +3684,12 @@
       "group": "危机",
       "priority": "P1",
       "iteration": "I3",
-      "design_status": "refinement_pending",
-      "development_status": "not_started",
-      "acceptance_status": "not_verified",
+      "design_status": "draft",
+      "development_status": "in_progress",
+      "acceptance_status": "in_progress",
       "release_status": "not_released_for_this_sr",
-      "owner": null,
-      "reviewer": null,
+      "owner": "Codex/world_story",
+      "reviewer": "Codex/root（集成）",
       "dependencies": [
         "SR-XF-002",
         "SR-XF-013",
@@ -3503,7 +3700,8 @@
         "U-13",
         "U-63",
         "U-77",
-        "R-25"
+        "R-25",
+        "U-94"
       ],
       "source_specs": [
         "docs/design/01-CHARACTERS.md",
@@ -3551,11 +3749,18 @@
         "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
         "不把该SR的设计完成声明为实现、体验或发布完成。"
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/requirements/design/SR-XF-015-017-020-025-035-037-039.md",
+        "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+      ],
       "change_log": [
         {
           "date": "2026-10-06",
           "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        },
+        {
+          "date": "2026-10-06",
+          "reason": "用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。"
         }
       ],
       "tasks": [
@@ -3564,8 +3769,8 @@
           "phase": "D01",
           "title": "设计补齐",
           "description": "交付：具体伤势/危险的forming到resolved阶段、不可逆条件及有效稳定动作。；NPC退避/求援/谈判/反制的能力、资源与条件；消息送达与定位边界。；死亡记录、遗体/物品位置、职责释放、知情关系反应和替代证据。；填实必需参数并标记U/R/T来源。",
-          "status": "todo",
-          "owner": null,
+          "status": "in_progress",
+          "owner": "Codex/world_story",
           "depends_on": [],
           "evidence": [],
           "blocked_reason": null
@@ -3650,12 +3855,12 @@
       "group": "内容",
       "priority": "P1",
       "iteration": "I3",
-      "design_status": "refinement_pending",
-      "development_status": "not_started",
-      "acceptance_status": "not_verified",
+      "design_status": "draft",
+      "development_status": "in_progress",
+      "acceptance_status": "in_progress",
       "release_status": "not_released_for_this_sr",
-      "owner": null,
-      "reviewer": null,
+      "owner": "Codex/world_story",
+      "reviewer": "Codex/root（集成）",
       "dependencies": [
         "SR-XF-016",
         "SR-XF-017",
@@ -3667,7 +3872,8 @@
       "related_decisions": [
         "U-63",
         "U-93",
-        "R-25"
+        "R-25",
+        "U-94"
       ],
       "source_specs": [
         "docs/design/06-OPENING-ACCEPTANCE.md",
@@ -3716,11 +3922,18 @@
         "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
         "不把该SR的设计完成声明为实现、体验或发布完成。"
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/requirements/design/SR-XF-015-017-020-025-035-037-039.md",
+        "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+      ],
       "change_log": [
         {
           "date": "2026-10-06",
           "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        },
+        {
+          "date": "2026-10-06",
+          "reason": "用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。"
         }
       ],
       "tasks": [
@@ -3729,8 +3942,8 @@
           "phase": "D01",
           "title": "设计补齐",
           "description": "交付：独立药师、药商、守地修士与州府接触者卡；不改陆知微可靠赠药身份。；雨→供给→出行→真假消息→定位→干预的地图、线索、作者真相与状态图。；消息/查验/准备/出行/到场/救治的最短合理、普通、延误tick预算与结局。；填实必需参数并标记U/R/T来源。",
-          "status": "todo",
-          "owner": null,
+          "status": "in_progress",
+          "owner": "Codex/world_story",
           "depends_on": [],
           "evidence": [],
           "blocked_reason": null
@@ -3817,12 +4030,12 @@
       "group": "内容",
       "priority": "P2",
       "iteration": "I4",
-      "design_status": "refinement_pending",
-      "development_status": "not_started",
-      "acceptance_status": "not_verified",
+      "design_status": "draft",
+      "development_status": "in_progress",
+      "acceptance_status": "in_progress",
       "release_status": "not_released_for_this_sr",
-      "owner": null,
-      "reviewer": null,
+      "owner": "Codex/equipment_growth",
+      "reviewer": "Codex/root（集成）",
       "dependencies": [
         "SR-XF-012",
         "SR-XF-014",
@@ -3832,7 +4045,8 @@
       "related_decisions": [
         "U-63",
         "U-93",
-        "R-25"
+        "R-25",
+        "U-94"
       ],
       "source_specs": [
         "docs/design/02-EQUIPMENT-ARTS.md",
@@ -3880,11 +4094,18 @@
         "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
         "不把该SR的设计完成声明为实现、体验或发布完成。"
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/requirements/design/SR-XF-012-014-018-024-028-033.md",
+        "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+      ],
       "change_log": [
         {
           "date": "2026-10-06",
           "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        },
+        {
+          "date": "2026-10-06",
+          "reason": "用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。"
         }
       ],
       "tasks": [
@@ -3893,8 +4114,8 @@
           "phase": "D01",
           "title": "设计补齐",
           "description": "交付：快速调息诀的具体危险版本、真实收益、内化联系与固定母篇持有者。；准备/维持/传导/抽取的阶段、距离/中继/资源成本及累计损失/吸收/逸散上限。；校勘转修、紧急断流、外援破锚和追索的独立条件、材料与恢复表。；填实必需参数并标记U/R/T来源。",
-          "status": "todo",
-          "owner": null,
+          "status": "in_progress",
+          "owner": "Codex/equipment_growth",
           "depends_on": [],
           "evidence": [],
           "blocked_reason": null
@@ -3978,12 +4199,12 @@
       "group": "内容",
       "priority": "P1",
       "iteration": "I4",
-      "design_status": "refinement_pending",
-      "development_status": "partial",
-      "acceptance_status": "not_verified",
+      "design_status": "draft",
+      "development_status": "in_progress",
+      "acceptance_status": "in_progress",
       "release_status": "not_released_for_this_sr",
-      "owner": null,
-      "reviewer": null,
+      "owner": "Codex/world_story",
+      "reviewer": "Codex/root（集成）",
       "dependencies": [
         "SR-XF-013",
         "SR-XF-014",
@@ -3999,7 +4220,8 @@
         "U-54",
         "U-57",
         "U-63",
-        "R-26"
+        "R-26",
+        "U-94"
       ],
       "source_specs": [
         "docs/design/04-WORLD-STORY.md",
@@ -4048,11 +4270,18 @@
         "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
         "不把该SR的设计完成声明为实现、体验或发布完成。"
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/requirements/design/SR-XF-015-017-020-025-035-037-039.md",
+        "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+      ],
       "change_log": [
         {
           "date": "2026-10-06",
           "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        },
+        {
+          "date": "2026-10-06",
+          "reason": "用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。"
         }
       ],
       "tasks": [
@@ -4061,8 +4290,8 @@
           "phase": "D01",
           "title": "设计补齐",
           "description": "交付：三名责任人的驻地/行程/知情/资源/战斗和可靠核实死亡途径。；账册/雇佣单/阵迹调查，截粮/破阵/营救/争取中立的具体结果与替代来源。；清算→取双亲遗物→明确选择故地重建/回云岫的原子结局和后续经营。；填实必需参数并标记U/R/T来源。",
-          "status": "todo",
-          "owner": null,
+          "status": "in_progress",
+          "owner": "Codex/world_story",
           "depends_on": [],
           "evidence": [],
           "blocked_reason": null
@@ -4147,12 +4376,12 @@
       "group": "组织",
       "priority": "P1",
       "iteration": "I4",
-      "design_status": "refinement_pending",
-      "development_status": "partial",
-      "acceptance_status": "not_verified",
+      "design_status": "draft",
+      "development_status": "in_progress",
+      "acceptance_status": "in_progress",
       "release_status": "not_released_for_this_sr",
-      "owner": null,
-      "reviewer": null,
+      "owner": "Codex/economy_people",
+      "reviewer": "Codex/root（集成）",
       "dependencies": [
         "SR-XF-008",
         "SR-XF-009",
@@ -4163,7 +4392,8 @@
       "related_decisions": [
         "U-63",
         "U-93",
-        "R-25"
+        "R-25",
+        "U-94"
       ],
       "source_specs": [
         "docs/design/01-CHARACTERS.md",
@@ -4210,11 +4440,18 @@
         "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
         "不把该SR的设计完成声明为实现、体验或发布完成。"
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/requirements/design/SR-XF-007-011-019-026-027.md",
+        "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+      ],
       "change_log": [
         {
           "date": "2026-10-06",
           "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        },
+        {
+          "date": "2026-10-06",
+          "reason": "用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。"
         }
       ],
       "tasks": [
@@ -4223,8 +4460,8 @@
           "phase": "D01",
           "title": "设计补齐",
           "description": "交付：山院/立派/分峰的设施、传承、人才、产能与公约条件，不以人数单项硬锁。；庶务/传功/护院的任职邀约、时间、报酬、权限、退出和兼任预算。；物资用途/典籍开放/访客接纳/避难等政策版本、知情与争议处置流程。；填实必需参数并标记U/R/T来源。",
-          "status": "todo",
-          "owner": null,
+          "status": "in_progress",
+          "owner": "Codex/economy_people",
           "depends_on": [],
           "evidence": [],
           "blocked_reason": null
@@ -4310,12 +4547,12 @@
       "group": "规则",
       "priority": "P2",
       "iteration": "I4",
-      "design_status": "refinement_pending",
-      "development_status": "partial",
-      "acceptance_status": "not_verified",
+      "design_status": "draft",
+      "development_status": "in_progress",
+      "acceptance_status": "in_progress",
       "release_status": "not_released_for_this_sr",
-      "owner": null,
-      "reviewer": null,
+      "owner": "Codex/economy_people",
+      "reviewer": "Codex/root（集成）",
       "dependencies": [
         "SR-XF-017",
         "SR-XF-020",
@@ -4326,7 +4563,8 @@
         "U-39",
         "U-40",
         "U-63",
-        "R-25"
+        "R-25",
+        "U-94"
       ],
       "source_specs": [
         "docs/design/08-LIVING-WORLD.md",
@@ -4373,11 +4611,18 @@
         "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
         "不把该SR的设计完成声明为实现、体验或发布完成。"
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/requirements/design/SR-XF-007-011-019-026-027.md",
+        "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+      ],
       "change_log": [
         {
           "date": "2026-10-06",
           "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        },
+        {
+          "date": "2026-10-06",
+          "reason": "用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。"
         }
       ],
       "tasks": [
@@ -4386,8 +4631,8 @@
           "phase": "D01",
           "title": "设计补齐",
           "description": "交付：共同禁忌/地区公约/组织门规的适用表；暴行目的、真实/伪称失控、诱因与责任边界。；调查、划界、清理门户、外部悬赏、不行动的决策者/资源/证据条件。；赏令等级、传播、接取、定位、完成凭证、合法付款和纠错。；填实必需参数并标记U/R/T来源。",
-          "status": "todo",
-          "owner": null,
+          "status": "in_progress",
+          "owner": "Codex/economy_people",
           "depends_on": [],
           "evidence": [],
           "blocked_reason": null
@@ -4472,12 +4717,12 @@
       "group": "规则",
       "priority": "P2",
       "iteration": "I4",
-      "design_status": "refinement_pending",
-      "development_status": "not_started",
-      "acceptance_status": "not_verified",
+      "design_status": "draft",
+      "development_status": "in_progress",
+      "acceptance_status": "in_progress",
       "release_status": "not_released_for_this_sr",
-      "owner": null,
-      "reviewer": null,
+      "owner": "Codex/equipment_growth",
+      "reviewer": "Codex/root（集成）",
       "dependencies": [
         "SR-XF-002",
         "SR-XF-017",
@@ -4487,7 +4732,8 @@
       "related_decisions": [
         "U-63",
         "U-70",
-        "U-78"
+        "U-78",
+        "U-94"
       ],
       "source_specs": [
         "docs/design/05-RUNTIME-CONTRACTS.md",
@@ -4535,11 +4781,18 @@
         "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
         "不把该SR的设计完成声明为实现、体验或发布完成。"
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/requirements/design/SR-XF-012-014-018-024-028-033.md",
+        "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+      ],
       "change_log": [
         {
           "date": "2026-10-06",
           "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        },
+        {
+          "date": "2026-10-06",
+          "reason": "用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。"
         }
       ],
       "tasks": [
@@ -4548,8 +4801,8 @@
           "phase": "D01",
           "title": "设计补齐",
           "description": "交付：普通口头承诺、天道誓言、衍生合约的资格、媒介、成立与知情条件。；可判定条款、误解/被迫/履约不能/蓄意违约的区分与反噬过程。；解除、到期、代价、可合法规避范围和地方掌握者；内容使用名单。；填实必需参数并标记U/R/T来源。",
-          "status": "todo",
-          "owner": null,
+          "status": "in_progress",
+          "owner": "Codex/equipment_growth",
           "depends_on": [],
           "evidence": [],
           "blocked_reason": null
@@ -4628,17 +4881,17 @@
     {
       "id": "SR-XF-029",
       "title": "统一操作流程、窄屏与人物触控",
-      "version": "1.0",
+      "version": "1.1",
       "scope": "early",
       "group": "体验",
       "priority": "P0",
       "iteration": "I1",
-      "design_status": "refinement_pending",
-      "development_status": "partial",
-      "acceptance_status": "not_verified",
+      "design_status": "draft",
+      "development_status": "in_progress",
+      "acceptance_status": "in_progress",
       "release_status": "not_released_for_this_sr",
-      "owner": null,
-      "reviewer": null,
+      "owner": "Codex/ui_acceptance",
+      "reviewer": "Codex/root（集成）",
       "dependencies": [
         "SR-XF-003",
         "SR-XF-004",
@@ -4648,7 +4901,9 @@
       "related_decisions": [
         "U-63",
         "U-93",
-        "R-25"
+        "R-25",
+        "U-94",
+        "U-95"
       ],
       "source_specs": [
         "docs/design/01-CHARACTERS.md",
@@ -4678,8 +4933,8 @@
         },
         {
           "id": "SR-XF-029-AC-02",
-          "scenario": "360/390宽与横屏操作新系统",
-          "expected": "关键文本/按钮不被覆盖截断，可取消恢复；模拟与真机结果分列。",
+          "scenario": "iPadOS横竖网页视口与Windows/macOS窗口缩放操作新系统",
+          "expected": "画布位图与实际CSS容器/DPR匹配，投影和命中保持；关键文本/按钮不被覆盖截断，可取消恢复；浏览器与三平台实机结果分列。",
           "status": "not_run",
           "evidence": []
         },
@@ -4695,11 +4950,22 @@
         "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
         "不把该SR的设计完成声明为实现、体验或发布完成。"
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/requirements/design/SR-XF-029-032-034.md",
+        "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+      ],
       "change_log": [
         {
           "date": "2026-10-06",
           "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        },
+        {
+          "date": "2026-10-06",
+          "reason": "用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。"
+        },
+        {
+          "date": "2026-10-06",
+          "reason": "U-95明确画布只适配iPadOS/Windows/macOS网页分辨率；必需验收平台改为iPad横竖与桌面窗口/DPR，浏览器视口与实机证据分列。"
         }
       ],
       "tasks": [
@@ -4708,8 +4974,8 @@
           "phase": "D01",
           "title": "设计补齐",
           "description": "交付：掌门移动/点选/重叠/遮挡/营造的统一鼠标触控语义与防误操作。；每个新系统的主目标、条件、确认、取消、等待、失败、恢复和帮助流程。；360/390宽与横屏信息布局，标题/正文/状态可读和低动态回退。；填实必需参数并标记U/R/T来源。",
-          "status": "todo",
-          "owner": null,
+          "status": "in_progress",
+          "owner": "Codex/ui_acceptance",
           "depends_on": [],
           "evidence": [],
           "blocked_reason": null
@@ -4795,19 +5061,20 @@
       "group": "兼容",
       "priority": "P0",
       "iteration": "I1",
-      "design_status": "refinement_pending",
-      "development_status": "partial",
-      "acceptance_status": "not_verified",
+      "design_status": "draft",
+      "development_status": "in_progress",
+      "acceptance_status": "in_progress",
       "release_status": "not_released_for_this_sr",
-      "owner": null,
-      "reviewer": null,
+      "owner": "Codex/contracts_save",
+      "reviewer": "Codex/root（集成）",
       "dependencies": [
         "SR-XF-002"
       ],
       "related_decisions": [
         "U-63",
         "U-93",
-        "R-25"
+        "R-25",
+        "U-94"
       ],
       "source_specs": [
         "docs/design/02-EQUIPMENT-ARTS.md",
@@ -4834,8 +5101,11 @@
           "id": "SR-XF-030-AC-01",
           "scenario": "多阶段v5及更早支持档迁入",
           "expected": "人物、资源、时间、RNG、物品/知识来源和历史结局守恒。",
-          "status": "not_run",
-          "evidence": []
+          "status": "passed",
+          "evidence": [
+            "qa/ea-sr-contracts-acceptance.mjs",
+            "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+          ]
         },
         {
           "id": "SR-XF-030-AC-02",
@@ -4848,19 +5118,29 @@
           "id": "SR-XF-030-AC-03",
           "scenario": "重复迁移与保存失败后恢复",
           "expected": "补偿/奖励/死亡只一次，旧knowledge不双倍变满理解与熟练。",
-          "status": "not_run",
-          "evidence": []
+          "status": "passed",
+          "evidence": [
+            "qa/ea-sr-contracts-acceptance.mjs",
+            "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+          ]
         }
       ],
       "excluded": [
         "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
         "不把该SR的设计完成声明为实现、体验或发布完成。"
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/requirements/design/SR-XF-002-030.md",
+        "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+      ],
       "change_log": [
         {
           "date": "2026-10-06",
           "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        },
+        {
+          "date": "2026-10-06",
+          "reason": "用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。"
         }
       ],
       "tasks": [
@@ -4869,8 +5149,8 @@
           "phase": "D01",
           "title": "设计补齐",
           "description": "交付：新旧实体/引用/坐标/设施/装备/knowledge/主辅修/篇章进度的确定映射表。；已完成/未完成复仇、在途/治疗/制作/危险中的兼容样本与原档保护。；无合法安置/未知版本/保存失败的回退、待安置、导出和补偿一次性账本。；填实必需参数并标记U/R/T来源。",
-          "status": "todo",
-          "owner": null,
+          "status": "in_progress",
+          "owner": "Codex/contracts_save",
           "depends_on": [],
           "evidence": [],
           "blocked_reason": null
@@ -4957,12 +5237,12 @@
       "group": "平衡",
       "priority": "P1",
       "iteration": "I5",
-      "design_status": "refinement_pending",
-      "development_status": "partial",
-      "acceptance_status": "not_verified",
+      "design_status": "draft",
+      "development_status": "in_progress",
+      "acceptance_status": "in_progress",
       "release_status": "not_released_for_this_sr",
-      "owner": null,
-      "reviewer": null,
+      "owner": "Codex/root",
+      "reviewer": "Codex/root（集成）",
       "dependencies": [
         "SR-XF-009",
         "SR-XF-013",
@@ -4974,7 +5254,8 @@
       "related_decisions": [
         "U-63",
         "U-93",
-        "R-25"
+        "R-25",
+        "U-94"
       ],
       "source_specs": [
         "docs/design/02-EQUIPMENT-ARTS.md",
@@ -5023,11 +5304,18 @@
         "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
         "不把该SR的设计完成声明为实现、体验或发布完成。"
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/requirements/design/SR-XF-031.md",
+        "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+      ],
       "change_log": [
         {
           "date": "2026-10-06",
           "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        },
+        {
+          "date": "2026-10-06",
+          "reason": "用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。"
         }
       ],
       "tasks": [
@@ -5036,8 +5324,8 @@
           "phase": "D01",
           "title": "设计补齐",
           "description": "交付：动作/装备/成长/经济/季节/危机的统一参数目录、单位、范围、来源与变更理由。；3-5人与24-32人路线的产能、缺口、用药、学习、套装/筑基/立派/分峰节奏。；首次玩家15-30分钟学习目标、最长无决策等待与可恢复失败测量计划。；填实必需参数并标记U/R/T来源。",
-          "status": "todo",
-          "owner": null,
+          "status": "in_progress",
+          "owner": "Codex/root",
           "depends_on": [],
           "evidence": [],
           "blocked_reason": null
@@ -5117,17 +5405,17 @@
     {
       "id": "SR-XF-032",
       "title": "完整前期集成、设备验收与发布关闭",
-      "version": "1.0",
+      "version": "1.1",
       "scope": "early",
       "group": "交付",
       "priority": "P1",
       "iteration": "I5",
-      "design_status": "refinement_pending",
-      "development_status": "partial",
-      "acceptance_status": "not_verified",
+      "design_status": "draft",
+      "development_status": "in_progress",
+      "acceptance_status": "in_progress",
       "release_status": "not_released_for_this_sr",
-      "owner": null,
-      "reviewer": null,
+      "owner": "Codex/ui_acceptance",
+      "reviewer": "Codex/ui_acceptance（独立验收）",
       "dependencies": [
         "SR-XF-006",
         "SR-XF-008",
@@ -5157,7 +5445,9 @@
       "related_decisions": [
         "U-63",
         "U-93",
-        "R-25"
+        "R-25",
+        "U-94",
+        "U-95"
       ],
       "source_specs": [
         "docs/design/05-RUNTIME-CONTRACTS.md",
@@ -5204,11 +5494,22 @@
         "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
         "不把该SR的设计完成声明为实现、体验或发布完成。"
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/requirements/design/SR-XF-029-032-034.md",
+        "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+      ],
       "change_log": [
         {
           "date": "2026-10-06",
           "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        },
+        {
+          "date": "2026-10-06",
+          "reason": "用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。"
+        },
+        {
+          "date": "2026-10-06",
+          "reason": "U-95明确画布只适配iPadOS/Windows/macOS网页分辨率；必需验收平台改为iPad横竖与桌面窗口/DPR，浏览器视口与实机证据分列。"
         }
       ],
       "tasks": [
@@ -5217,8 +5518,8 @@
           "phase": "D01",
           "title": "设计补齐",
           "description": "交付：新档/旧档、拒绝/缺料/战败/迟到/自救/重载/无AI的验收矩阵与SR映射。；浏览器、真机、真人首次体验、性能/规模、长期存档各自测量计划。；源码main、Pages、缓存/素材、备份回滚和发布版本核对清单。；填实必需参数并标记U/R/T来源。",
-          "status": "todo",
-          "owner": null,
+          "status": "in_progress",
+          "owner": "Codex/ui_acceptance",
           "depends_on": [],
           "evidence": [],
           "blocked_reason": null
@@ -5305,17 +5606,17 @@
     {
       "id": "SR-XF-033",
       "title": "本命绑定的完整获取与解除闭环",
-      "version": "1.0",
+      "version": "1.1",
       "scope": "conditional",
       "group": "条件范围",
       "priority": "P3",
       "iteration": "conditional",
-      "design_status": "refinement_pending",
-      "development_status": "not_started",
-      "acceptance_status": "not_verified",
+      "design_status": "draft",
+      "development_status": "in_progress",
+      "acceptance_status": "in_progress",
       "release_status": "not_released_for_this_sr",
-      "owner": null,
-      "reviewer": null,
+      "owner": "Codex/equipment_growth",
+      "reviewer": "Codex/root（集成）",
       "dependencies": [
         "SR-XF-012",
         "SR-XF-014",
@@ -5324,7 +5625,8 @@
       "related_decisions": [
         "U-63",
         "U-93",
-        "R-25"
+        "R-25",
+        "U-94"
       ],
       "source_specs": [
         "docs/design/02-EQUIPMENT-ARTS.md",
@@ -5334,7 +5636,7 @@
       "baseline": "尚只预留本命关系方向，不承诺前期可玩。",
       "design_gap": "需先决定是否纳入前期，并补完整仪式、能力、维护与解除。",
       "design_deliverables": [
-        "纳入/不纳入前期的范围结论，当前默认保持规划。",
+        "按U-94实施完整绑定闭环，保留原条件范围来源，并核对实际材料、时间与取消恢复。",
         "知情绑定的资格、唯一关系、材料/时间、成长和离身使用规则。",
         "解除代价、恢复、失败与NPC拒绝/死亡后的权限。"
       ],
@@ -5346,14 +5648,16 @@
       "acceptance": [
         {
           "id": "SR-XF-033-AC-01",
-          "scenario": "规划阶段查看装备",
-          "expected": "明确不开放，无隐含绑定属性。",
+          "scenario": "目标模式实际绑定入口与资格不足",
+          "expected": "只有完整获取、维持与解除闭环才开放；资格与代价提前可见，未完成仪式没有隐含绑定属性。",
           "status": "not_run",
-          "evidence": []
+          "evidence": [],
+          "historical_scenario": "规划阶段查看装备",
+          "historical_expected": "明确不开放，无隐含绑定属性。"
         },
         {
           "id": "SR-XF-033-AC-02",
-          "scenario": "未来完成绑定后重载",
+          "scenario": "完成实际绑定后保存重载",
           "expected": "一物一绑定者，实际能力受位置和条件约束。",
           "status": "not_run",
           "evidence": []
@@ -5370,11 +5674,22 @@
         "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
         "不把该SR的设计完成声明为实现、体验或发布完成。"
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/requirements/design/SR-XF-012-014-018-024-028-033.md",
+        "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+      ],
       "change_log": [
         {
           "date": "2026-10-06",
           "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        },
+        {
+          "date": "2026-10-06",
+          "reason": "用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。"
+        },
+        {
+          "date": "2026-10-06",
+          "reason": "U-94激活实施，AC01由旧规划不开放改为完整闭环开放条件；保留历史scenario/expected，不冒充原AC通过。"
         }
       ],
       "tasks": [
@@ -5382,9 +5697,9 @@
           "id": "SR-XF-033-D01",
           "phase": "D01",
           "title": "设计补齐",
-          "description": "交付：纳入/不纳入前期的范围结论，当前默认保持规划。；知情绑定的资格、唯一关系、材料/时间、成长和离身使用规则。；解除代价、恢复、失败与NPC拒绝/死亡后的权限。；填实必需参数并标记U/R/T来源。",
-          "status": "todo",
-          "owner": null,
+          "description": "交付：按U-94实施完整绑定闭环，保留原条件范围来源，并核对实际材料、时间与取消恢复。；知情绑定的资格、唯一关系、材料/时间、成长和离身使用规则。；解除代价、恢复、失败与NPC拒绝/死亡后的权限。；填实必需参数并标记U/R/T来源。",
+          "status": "in_progress",
+          "owner": "Codex/equipment_growth",
           "depends_on": [],
           "evidence": [],
           "blocked_reason": null
@@ -5442,7 +5757,7 @@
           "blocked_reason": null
         }
       ],
-      "scope_decision": "当前不承诺实施，不阻塞前期；启用前登记范围决定。",
+      "scope_decision": "原conditional分类保留来源；U-94已激活完整获取/维持/解除实施与验收，不能以旧规划状态跳过；不作为筑基前置。",
       "ready_gate": [
         "设计交付物存在且版本/引用正确。",
         "所有行为、失败、取消、恢复和存档影响可执行；未定必需参数已填入配置。",
@@ -5469,12 +5784,12 @@
       "group": "条件范围",
       "priority": "P3",
       "iteration": "conditional",
-      "design_status": "refinement_pending",
-      "development_status": "not_started",
-      "acceptance_status": "not_verified",
+      "design_status": "draft",
+      "development_status": "in_progress",
+      "acceptance_status": "in_progress",
       "release_status": "not_released_for_this_sr",
-      "owner": null,
-      "reviewer": null,
+      "owner": "Codex/ui_acceptance",
+      "reviewer": "Codex/root（集成）",
       "dependencies": [
         "SR-XF-002",
         "SR-XF-020"
@@ -5482,7 +5797,8 @@
       "related_decisions": [
         "U-63",
         "U-93",
-        "R-25"
+        "R-25",
+        "U-94"
       ],
       "source_specs": [
         "docs/design/05-RUNTIME-CONTRACTS.md",
@@ -5529,11 +5845,18 @@
         "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
         "不把该SR的设计完成声明为实现、体验或发布完成。"
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/requirements/design/SR-XF-029-032-034.md",
+        "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+      ],
       "change_log": [
         {
           "date": "2026-10-06",
           "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        },
+        {
+          "date": "2026-10-06",
+          "reason": "用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。"
         }
       ],
       "tasks": [
@@ -5542,8 +5865,8 @@
           "phase": "D01",
           "title": "设计补齐",
           "description": "交付：是否启用及服务/鉴权/密钥持有方式；没有合适方案保持A0。；请求字段、授权事实/claim、输出限制、成本/并发/重试/超时和缓存版本。；非法/过期/超时回退，开关与用户费用说明、密钥清除流程。；填实必需参数并标记U/R/T来源。",
-          "status": "todo",
-          "owner": null,
+          "status": "in_progress",
+          "owner": "Codex/ui_acceptance",
           "depends_on": [],
           "evidence": [],
           "blocked_reason": null
@@ -5628,12 +5951,12 @@
       "group": "远期世界",
       "priority": "P3",
       "iteration": "deferred",
-      "design_status": "refinement_pending",
-      "development_status": "not_started",
-      "acceptance_status": "not_verified",
+      "design_status": "draft",
+      "development_status": "in_progress",
+      "acceptance_status": "in_progress",
       "release_status": "not_released_for_this_sr",
-      "owner": null,
-      "reviewer": null,
+      "owner": "Codex/world_story",
+      "reviewer": "Codex/root（集成）",
       "dependencies": [
         "SR-XF-001"
       ],
@@ -5645,7 +5968,8 @@
         "U-88",
         "U-89",
         "U-90",
-        "U-93"
+        "U-93",
+        "U-94"
       ],
       "source_specs": [
         "docs/design/01-CHARACTERS.md",
@@ -5692,11 +6016,18 @@
         "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
         "不把该SR的设计完成声明为实现、体验或发布完成。"
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/requirements/design/SR-XF-015-017-020-025-035-037-039.md",
+        "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+      ],
       "change_log": [
         {
           "date": "2026-10-06",
           "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        },
+        {
+          "date": "2026-10-06",
+          "reason": "用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。"
         }
       ],
       "tasks": [
@@ -5705,8 +6036,8 @@
           "phase": "D01",
           "title": "设计补齐",
           "description": "交付：归元已定五行兼剑阵与其余五宗草案的正式名单、法脉、领地和关系图。；大晟皇帝/坐镇者/大乘身份，顶级世家名单和合体上限配置。；各隐藏大乘的人数、身份、历史、隐匿与出手条件，不统一凭空闭关。；填实必需参数并标记U/R/T来源。",
-          "status": "todo",
-          "owner": null,
+          "status": "in_progress",
+          "owner": "Codex/world_story",
           "depends_on": [],
           "evidence": [],
           "blocked_reason": null
@@ -5790,12 +6121,12 @@
       "group": "远期世界",
       "priority": "P3",
       "iteration": "deferred",
-      "design_status": "refinement_pending",
-      "development_status": "not_started",
-      "acceptance_status": "not_verified",
+      "design_status": "draft",
+      "development_status": "in_progress",
+      "acceptance_status": "in_progress",
       "release_status": "not_released_for_this_sr",
-      "owner": null,
-      "reviewer": null,
+      "owner": "Codex/world_story",
+      "reviewer": "Codex/root（集成）",
       "dependencies": [
         "SR-XF-001"
       ],
@@ -5805,7 +6136,8 @@
         "U-69",
         "U-82",
         "U-84",
-        "U-93"
+        "U-93",
+        "U-94"
       ],
       "source_specs": [
         "docs/design/04-WORLD-STORY.md",
@@ -5852,11 +6184,18 @@
         "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
         "不把该SR的设计完成声明为实现、体验或发布完成。"
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/requirements/design/SR-XF-015-017-020-025-035-037-039.md",
+        "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+      ],
       "change_log": [
         {
           "date": "2026-10-06",
           "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        },
+        {
+          "date": "2026-10-06",
+          "reason": "用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。"
         }
       ],
       "tasks": [
@@ -5865,8 +6204,8 @@
           "phase": "D01",
           "title": "设计补齐",
           "description": "交付：中天/炎荒/玄朔/沧流的边界、海域、聚居商路与荒域。；代表王朝/宗门/世家及传承、族群和地区历史内容卡。；与青衡关系和未来可玩范围，背景与运行地图分离。；填实必需参数并标记U/R/T来源。",
-          "status": "todo",
-          "owner": null,
+          "status": "in_progress",
+          "owner": "Codex/world_story",
           "depends_on": [],
           "evidence": [],
           "blocked_reason": null
@@ -5950,19 +6289,20 @@
       "group": "远期世界",
       "priority": "P3",
       "iteration": "deferred",
-      "design_status": "refinement_pending",
-      "development_status": "not_started",
-      "acceptance_status": "not_verified",
+      "design_status": "blocked",
+      "development_status": "in_progress",
+      "acceptance_status": "blocked",
       "release_status": "not_released_for_this_sr",
-      "owner": null,
-      "reviewer": null,
+      "owner": "Codex/world_story",
+      "reviewer": "Codex/root（集成）",
       "dependencies": [
         "SR-XF-001"
       ],
       "related_decisions": [
         "U-91",
         "U-92",
-        "U-93"
+        "U-93",
+        "U-94"
       ],
       "source_specs": [
         "docs/design/02-EQUIPMENT-ARTS.md",
@@ -5994,8 +6334,10 @@
           "id": "SR-XF-037-AC-02",
           "scenario": "未来落实册封能力",
           "expected": "个人修为/国运/职权能力来源分开且可解释。",
-          "status": "not_run",
-          "evidence": []
+          "status": "blocked",
+          "evidence": [
+            "docs/requirements/design/SR-XF-015-017-020-025-035-037-039.md"
+          ]
         },
         {
           "id": "SR-XF-037-AC-03",
@@ -6009,11 +6351,18 @@
         "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
         "不把该SR的设计完成声明为实现、体验或发布完成。"
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/requirements/design/SR-XF-015-017-020-025-035-037-039.md",
+        "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+      ],
       "change_log": [
         {
           "date": "2026-10-06",
           "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        },
+        {
+          "date": "2026-10-06",
+          "reason": "用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。"
         }
       ],
       "tasks": [
@@ -6022,11 +6371,11 @@
           "phase": "D01",
           "title": "设计补齐",
           "description": "交付：保留两道远期未答题及候选，不自动采纳旧推荐。；国号/所在洲/统治与册封结构、个人力量和职位能力的分层。；宗门世家从属、封地/失职权后的能力变化和人物关系。；填实必需参数并标记U/R/T来源。",
-          "status": "todo",
-          "owner": null,
+          "status": "blocked",
+          "owner": "Codex/world_story",
           "depends_on": [],
           "evidence": [],
-          "blocked_reason": null
+          "blocked_reason": "敕封神道王朝所在地/国号与宗门世家安排两题未选择；不将推荐候选写为事实。"
         },
         {
           "id": "SR-XF-037-D02",
@@ -6097,22 +6446,24 @@
       "existing_acceptance_refs": [
         "EARLY-06"
       ],
-      "blockers": []
+      "blockers": [
+        "敕封神道王朝所在地/国号与宗门世家安排两题未选择；不将推荐候选写为事实。"
+      ]
     },
     {
       "id": "SR-XF-038",
       "title": "高阶境界、道路对应与寿元资源",
-      "version": "1.0",
+      "version": "1.1",
       "scope": "deferred",
       "group": "远期成长",
       "priority": "P3",
       "iteration": "deferred",
-      "design_status": "refinement_pending",
-      "development_status": "not_started",
-      "acceptance_status": "not_verified",
+      "design_status": "draft",
+      "development_status": "in_progress",
+      "acceptance_status": "in_progress",
       "release_status": "not_released_for_this_sr",
-      "owner": null,
-      "reviewer": null,
+      "owner": "Codex/equipment_growth",
+      "reviewer": "Codex/root（集成）",
       "dependencies": [
         "SR-XF-001"
       ],
@@ -6125,7 +6476,8 @@
         "U-73",
         "U-74",
         "U-80",
-        "U-93"
+        "U-93",
+        "U-94"
       ],
       "source_specs": [
         "docs/design/01-CHARACTERS.md",
@@ -6144,7 +6496,7 @@
       "requirements": [
         "不恢复固定八职业，不用独立悟道考试作为普遍突破条件。",
         "高阶材料稀缺与组织优势保留，散修仍有极少数登顶可能。",
-        "当前仅炼气筑基可玩，高阶背景不提供未实现突破按钮。"
+        "金丹以上成长按实际章法、有限材料与分阶段风险闭环开放；可靠高阶来源在前期收束后开放，不成为筑基前置。"
       ],
       "acceptance": [
         {
@@ -6156,7 +6508,7 @@
         },
         {
           "id": "SR-XF-038-AC-02",
-          "scenario": "未来扩围方案",
+          "scenario": "各高阶境界实际成长、失败与恢复",
           "expected": "每境有条件、来源、动作、风险和迁移验收，非只改等级上限。",
           "status": "not_run",
           "evidence": []
@@ -6164,20 +6516,32 @@
         {
           "id": "SR-XF-038-AC-03",
           "scenario": "当前版本",
-          "expected": "金丹以上内容保持背景/后置，不成为筑基前置。",
+          "expected": "金丹以上可靠来源在前期收束后开放，每境有实际条件和动作；既有筑基路线与旧完成档不新增高阶前置。",
           "status": "not_run",
-          "evidence": []
+          "evidence": [],
+          "historical_expected": "金丹以上内容保持背景/后置，不成为筑基前置。"
         }
       ],
       "excluded": [
         "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
         "不把该SR的设计完成声明为实现、体验或发布完成。"
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/requirements/design/SR-XF-038-040.md",
+        "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+      ],
       "change_log": [
         {
           "date": "2026-10-06",
           "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        },
+        {
+          "date": "2026-10-06",
+          "reason": "用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。"
+        },
+        {
+          "date": "2026-10-06",
+          "reason": "U-94激活高阶实施，REQ03/AC03由旧背景后置改为实际开放与前期隔离；保留历史expected，新增组件证据不能直接关闭实际全程AC。"
         }
       ],
       "tasks": [
@@ -6186,8 +6550,8 @@
           "phase": "D01",
           "title": "设计补齐",
           "description": "交付：各道路实力层次对照、称呼、准入/突破条件与可靠资源来源。；高阶寿元、延寿方式、弱点、功体兼容和境界差距配置。；金丹以上的成长/危机/恢复/存档与正式扩围门槛。；填实必需参数并标记U/R/T来源。",
-          "status": "todo",
-          "owner": null,
+          "status": "in_progress",
+          "owner": "Codex/equipment_growth",
           "depends_on": [],
           "evidence": [],
           "blocked_reason": null
@@ -6245,7 +6609,7 @@
           "blocked_reason": null
         }
       ],
-      "scope_decision": "按U-93后置；不得作为early需求依赖。",
+      "scope_decision": "原deferred分类保留来源；U-94已激活高阶成长实施与验收，可靠来源在前期收束后开放，不作为筑基前置。",
       "ready_gate": [
         "设计交付物存在且版本/引用正确。",
         "所有行为、失败、取消、恢复和存档影响可执行；未定必需参数已填入配置。",
@@ -6271,12 +6635,12 @@
       "group": "远期世界",
       "priority": "P3",
       "iteration": "deferred",
-      "design_status": "refinement_pending",
-      "development_status": "not_started",
-      "acceptance_status": "not_verified",
+      "design_status": "draft",
+      "development_status": "in_progress",
+      "acceptance_status": "in_progress",
       "release_status": "not_released_for_this_sr",
-      "owner": null,
-      "reviewer": null,
+      "owner": "Codex/world_story",
+      "reviewer": "Codex/root（集成）",
       "dependencies": [
         "SR-XF-001"
       ],
@@ -6286,7 +6650,8 @@
         "U-63",
         "U-75",
         "U-76",
-        "U-93"
+        "U-93",
+        "U-94"
       ],
       "source_specs": [
         "docs/design/02-EQUIPMENT-ARTS.md",
@@ -6334,11 +6699,18 @@
         "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
         "不把该SR的设计完成声明为实现、体验或发布完成。"
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/requirements/design/SR-XF-015-017-020-025-035-037-039.md",
+        "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+      ],
       "change_log": [
         {
           "date": "2026-10-06",
           "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        },
+        {
+          "date": "2026-10-06",
+          "reason": "用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。"
         }
       ],
       "tasks": [
@@ -6347,8 +6719,8 @@
           "phase": "D01",
           "title": "设计补齐",
           "description": "交付：坐骑/飞舟/御物/主城传送的门槛、路线、容量、耗时与收费。；独立异界能力限制/适应；上界前哨、援助/派遣和返程代价。；实体化身与本尊下凡的限制、风险与跨界身份保存接口。；填实必需参数并标记U/R/T来源。",
-          "status": "todo",
-          "owner": null,
+          "status": "in_progress",
+          "owner": "Codex/world_story",
           "depends_on": [],
           "evidence": [],
           "blocked_reason": null
@@ -6432,12 +6804,12 @@
       "group": "远期生命",
       "priority": "P3",
       "iteration": "deferred",
-      "design_status": "refinement_pending",
-      "development_status": "not_started",
-      "acceptance_status": "not_verified",
+      "design_status": "draft",
+      "development_status": "in_progress",
+      "acceptance_status": "in_progress",
       "release_status": "not_released_for_this_sr",
-      "owner": null,
-      "reviewer": null,
+      "owner": "Codex/equipment_growth",
+      "reviewer": "Codex/root（集成）",
       "dependencies": [
         "SR-XF-001"
       ],
@@ -6447,7 +6819,8 @@
         "U-63",
         "U-74",
         "U-77",
-        "U-93"
+        "U-93",
+        "U-94"
       ],
       "source_specs": [
         "docs/design/01-CHARACTERS.md",
@@ -6496,11 +6869,18 @@
         "不改变仅控掌门、NPC自主、单一时钟和旧完成档保护。",
         "不把该SR的设计完成声明为实现、体验或发布完成。"
       ],
-      "evidence": [],
+      "evidence": [
+        "docs/requirements/design/SR-XF-038-040.md",
+        "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+      ],
       "change_log": [
         {
           "date": "2026-10-06",
           "reason": "由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。"
+        },
+        {
+          "date": "2026-10-06",
+          "reason": "用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。"
         }
       ],
       "tasks": [
@@ -6509,8 +6889,8 @@
           "phase": "D01",
           "title": "设计补齐",
           "description": "交付：特殊环境/修行手段的留存条件、持续、来源和鬼物与原人物关系。；本体/化身身份、生命/神魂损失、知情回传与存档引用。；寿尽/婚育/继承等后置项的边界；未来扩围前独立设计，不预承诺通用复活。；填实必需参数并标记U/R/T来源。",
-          "status": "todo",
-          "owner": null,
+          "status": "in_progress",
+          "owner": "Codex/equipment_growth",
           "depends_on": [],
           "evidence": [],
           "blocked_reason": null
@@ -6586,5 +6966,17 @@
       ],
       "blockers": []
     }
-  ]
+  ],
+  "deliveryGoal": {
+    "date": "2026-10-06",
+    "instruction": "开始执行开发，允许多个agent同时开发及验收，以目标模式运行，将需求全部交付验收",
+    "coordination": "6 module agents + root integration; scope/conditional/deferred decisions retain explicit provenance; do not infer device/human verification",
+    "sourceCheckpoint": "513b3672781615a4954296128328103b92983ebb",
+    "implementationRecord": "docs/requirements/IMPLEMENTATION-2026-10-06.md",
+    "canvasPlatforms": [
+      "iPadOS",
+      "Windows",
+      "macOS"
+    ]
+  }
 }

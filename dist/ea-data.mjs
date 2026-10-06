@@ -1,5 +1,5 @@
 /** EA data is independent of legacy shared objects. All randomness is state-owned. */
-export const GAME_VERSION='1.5.0-dev';
+export const GAME_VERSION='1.6.0-dev';
 export const DAY_LENGTH=120;
 export const RESOURCES={jade:'灵石',wood:'灵木',stone:'青石',herb:'灵草',crystal:'灵晶',insight:'道韵',food:'口粮'};
 export const RESOURCE=RESOURCES;
@@ -57,7 +57,7 @@ export const TRAIT_NAMES=['仁心','野心','守信','自律','好奇'];
 export const NAMES=['顾听澜','云见月','裴照雪','江晚棠','叶松声','苏归岚','洛清川','许望舒','温南星','陶静初','陆清和','徐闻溪'];
 export const day=s=>Math.floor(s.time/DAY_LENGTH);
 export const gameDay=day;
-export const realmName=n=>n<=9?`炼气${n}层`:['筑基初期','筑基中期','筑基后期'][n-10]||'境界未明';
+export const realmName=n=>n<=9?`炼气${n}层`:n<=30?(['筑基','金丹','元婴','化神','炼虚','合体','大乘'][Math.floor((n-10)/3)]+['初期','中期','后期'][(n-10)%3]):'境界未明';
 export const xpNeed=n=>n<=9?n*100:1200+(n-10)*600;
 export const finite=(n,min=0,max=1e12)=>typeof n==='number'&&Number.isFinite(n)&&n>=min&&n<=max;
 export const integer=(n,min=0,max=1e12)=>Number.isSafeInteger(n)&&finite(n,min,max);

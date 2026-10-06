@@ -6,15 +6,15 @@
 | --- | --- |
 | 范围 / 模块 | 前期必需 / 平衡 |
 | 优先级 / 计划 | P1 / I5 |
-| 设计 / 开发 | refinement_pending / partial |
-| 验收 / 发布 | not_verified / not_released_for_this_sr |
-| 责任人 / 复核人 | 待分配 / 待分配 |
+| 设计 / 开发 | draft / in_progress |
+| 验收 / 发布 | in_progress / not_released_for_this_sr |
+| 责任人 / 复核人 | Codex/root / Codex/root（集成） |
 
 ## 来源、依赖与范围
 
 纳入云岫前期，按依赖推进。
 
-决策来源：U-63, U-93, R-25。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
+决策来源：U-63, U-93, R-25, U-94。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
 
 规格：[02-EQUIPMENT-ARTS.md](../../../docs/design/02-EQUIPMENT-ARTS.md)、[06-OPENING-ACCEPTANCE.md](../../../docs/design/06-OPENING-ACCEPTANCE.md)、[07-ECONOMY-ORGANIZATION.md](../../../docs/design/07-ECONOMY-ORGANIZATION.md)、[08-LIVING-WORLD.md](../../../docs/design/08-LIVING-WORLD.md)、[10-CRISES-RESCUE-DEATH.md](../../../docs/design/10-CRISES-RESCUE-DEATH.md)、[14-EARLY-GAME-DETAILED-DESIGN.md](../../../docs/design/14-EARLY-GAME-DETAILED-DESIGN.md)。
 
@@ -59,7 +59,7 @@ SR-XF-031-REQ-03：危机预算从真实获知时刻开始，不能只改倒计�
 
 | 任务 | 工作 | 状态 | 前置 | 责任人 |
 | --- | --- | --- | --- | --- |
-| SR-XF-031-D01 | 设计补齐：交付：动作/装备/成长/经济/季节/危机的统一参数目录、单位、范围、来源与变更理由。；3-5人与24-32人路线的产能、缺口、用药、学习、套装/筑基/立派/分峰节奏。；首次玩家15-30分钟学习目标、最长无决策等待与可恢复失败测量计划。；填实必需参数并标记U/R/T来源。 | todo | 无 | 待分配 |
+| SR-XF-031-D01 | 设计补齐：交付：动作/装备/成长/经济/季节/危机的统一参数目录、单位、范围、来源与变更理由。；3-5人与24-32人路线的产能、缺口、用药、学习、套装/筑基/立派/分峰节奏。；首次玩家15-30分钟学习目标、最长无决策等待与可恢复失败测量计划。；填实必需参数并标记U/R/T来源。 | in_progress | 无 | Codex/root |
 | SR-XF-031-D02 | 契约与内容审阅：审阅统一平衡参数与首次体验节奏与依赖契约（SR-XF-009、SR-XF-013、SR-XF-014、SR-XF-019、SR-XF-022、SR-XF-026）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。 | todo | SR-XF-031-D01 | 待分配 |
 | SR-XF-031-I01 | 开发与集成：在平衡模块实现统一平衡参数与首次体验节奏；交付SR-XF-031-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。 | todo | SR-XF-031-D02 | 待分配 |
 | SR-XF-031-V01 | 验收与兼容：执行SR-XF-031-AC-01至AC-03及OPEN-08、CHAIN-04；登记实际结果、兼容和设备证据边界。 | todo | SR-XF-031-I01 | 待分配 |
@@ -86,8 +86,10 @@ SR-XF-031-REQ-03：危机预算从真实获知时刻开始，不能只改倒计�
 
 ## 证据与变更
 
-尚无本SR完整交付证据；既有局部证据参见现状与来源规格。
+- docs/requirements/design/SR-XF-031.md
+- docs/requirements/IMPLEMENTATION-2026-10-06.md
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
+- 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。

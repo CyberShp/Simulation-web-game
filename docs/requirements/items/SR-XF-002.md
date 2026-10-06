@@ -6,15 +6,15 @@
 | --- | --- |
 | 范围 / 模块 | 前期必需 / 底层 |
 | 优先级 / 计划 | P0 / I1 |
-| 设计 / 开发 | refinement_pending / partial |
-| 验收 / 发布 | not_verified / not_released_for_this_sr |
-| 责任人 / 复核人 | 待分配 / 待分配 |
+| 设计 / 开发 | draft / in_progress |
+| 验收 / 发布 | in_progress / not_released_for_this_sr |
+| 责任人 / 复核人 | Codex/contracts_save / Codex/root（集成） |
 
 ## 来源、依赖与范围
 
 纳入云岫前期，按依赖推进。
 
-决策来源：U-63, U-93, R-25。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
+决策来源：U-63, U-93, R-25, U-94。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
 
 规格：[01-CHARACTERS.md](../../../docs/design/01-CHARACTERS.md)、[02-EQUIPMENT-ARTS.md](../../../docs/design/02-EQUIPMENT-ARTS.md)、[05-RUNTIME-CONTRACTS.md](../../../docs/design/05-RUNTIME-CONTRACTS.md)、[08-LIVING-WORLD.md](../../../docs/design/08-LIVING-WORLD.md)、[09-INTRIGUE-OPPORTUNITIES.md](../../../docs/design/09-INTRIGUE-OPPORTUNITIES.md)、[10-CRISES-RESCUE-DEATH.md](../../../docs/design/10-CRISES-RESCUE-DEATH.md)、[12-CONTENT-AUTHORING.md](../../../docs/design/12-CONTENT-AUTHORING.md)、[06-OPENING-ACCEPTANCE.md](../../../docs/design/06-OPENING-ACCEPTANCE.md)。
 
@@ -50,8 +50,12 @@ SR-XF-002-REQ-03：新字段接入包含保存、加载和旧数据兼容策略�
 | ID | 情景 / 操作 | 必须看到的结果 | 状态 |
 | --- | --- | --- | --- |
 | SR-XF-002-AC-01 | 同一人物从山院进入旅行与战斗 | 身份、身体、物品和时间连续，原地点不保留第二个活动身体。 | not_run |
-| SR-XF-002-AC-02 | 重复提交与只读查询 | 结果事务至多一次，查询前后权威状态一致。 | not_run |
-| SR-XF-002-AC-03 | 导入引用缺失或版本未知的定义 | 校验定位到具体ID/字段，停止激活并保留原状态，不生成占位奖励。 | not_run |
+| SR-XF-002-AC-02 | 重复提交与只读查询 | 结果事务至多一次，查询前后权威状态一致。 | passed |
+| SR-XF-002-AC-03 | 导入引用缺失或版本未知的定义 | 校验定位到具体ID/字段，停止激活并保留原状态，不生成占位奖励。 | passed |
+
+SR-XF-002-AC-02证据：qa/ea-sr-contracts-acceptance.mjs；docs/requirements/IMPLEMENTATION-2026-10-06.md
+
+SR-XF-002-AC-03证据：qa/ea-sr-contracts-acceptance.mjs；docs/requirements/IMPLEMENTATION-2026-10-06.md
 
 每条AC至少覆盖相关数据、真实行为、UI解释和保存恢复；需要设备或真人证据时单独列出，不以旧测试数量替代。
 
@@ -59,7 +63,7 @@ SR-XF-002-REQ-03：新字段接入包含保存、加载和旧数据兼容策略�
 
 | 任务 | 工作 | 状态 | 前置 | 责任人 |
 | --- | --- | --- | --- | --- |
-| SR-XF-002-D01 | 设计补齐：交付：对persons/items/scenes/routes/claims/crises及活动的必填、空值、范围与引用编制契约表。；补齐命令前置、结果事务、错误码、世界步效果优先层和知识投影接口。；定义作者卡到运行内容的编译/校验输入，以及各模块版本兼容矩阵。；填实必需参数并标记U/R/T来源。 | todo | 无 | 待分配 |
+| SR-XF-002-D01 | 设计补齐：交付：对persons/items/scenes/routes/claims/crises及活动的必填、空值、范围与引用编制契约表。；补齐命令前置、结果事务、错误码、世界步效果优先层和知识投影接口。；定义作者卡到运行内容的编译/校验输入，以及各模块版本兼容矩阵。；填实必需参数并标记U/R/T来源。 | in_progress | 无 | Codex/contracts_save |
 | SR-XF-002-D02 | 契约与内容审阅：审阅共同实体、动作与内容定义契约补齐与依赖契约（SR-XF-001）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。 | todo | SR-XF-002-D01 | 待分配 |
 | SR-XF-002-I01 | 开发与集成：在底层模块实现共同实体、动作与内容定义契约补齐；交付SR-XF-002-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。 | todo | SR-XF-002-D02 | 待分配 |
 | SR-XF-002-V01 | 验收与兼容：执行SR-XF-002-AC-01至AC-03及PERSIST-03、CHAIN-02；登记实际结果、兼容和设备证据边界。 | todo | SR-XF-002-I01 | 待分配 |
@@ -86,8 +90,10 @@ SR-XF-002-REQ-03：新字段接入包含保存、加载和旧数据兼容策略�
 
 ## 证据与变更
 
-尚无本SR完整交付证据；既有局部证据参见现状与来源规格。
+- docs/requirements/design/SR-XF-002-030.md
+- docs/requirements/IMPLEMENTATION-2026-10-06.md
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
+- 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。

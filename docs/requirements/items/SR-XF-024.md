@@ -6,15 +6,15 @@
 | --- | --- |
 | 范围 / 模块 | 前期必需 / 内容 |
 | 优先级 / 计划 | P2 / I4 |
-| 设计 / 开发 | refinement_pending / not_started |
-| 验收 / 发布 | not_verified / not_released_for_this_sr |
-| 责任人 / 复核人 | 待分配 / 待分配 |
+| 设计 / 开发 | draft / in_progress |
+| 验收 / 发布 | in_progress / not_released_for_this_sr |
+| 责任人 / 复核人 | Codex/equipment_growth / Codex/root（集成） |
 
 ## 来源、依赖与范围
 
 纳入云岫前期，按依赖推进。
 
-决策来源：U-63, U-93, R-25。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
+决策来源：U-63, U-93, R-25, U-94。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
 
 规格：[02-EQUIPMENT-ARTS.md](../../../docs/design/02-EQUIPMENT-ARTS.md)、[05-RUNTIME-CONTRACTS.md](../../../docs/design/05-RUNTIME-CONTRACTS.md)、[09-INTRIGUE-OPPORTUNITIES.md](../../../docs/design/09-INTRIGUE-OPPORTUNITIES.md)、[10-CRISES-RESCUE-DEATH.md](../../../docs/design/10-CRISES-RESCUE-DEATH.md)、[12-CONTENT-AUTHORING.md](../../../docs/design/12-CONTENT-AUTHORING.md)。
 
@@ -59,7 +59,7 @@ SR-XF-024-REQ-03：严重损失/NPC死亡有真实危机过程，不顺带吸走
 
 | 任务 | 工作 | 状态 | 前置 | 责任人 |
 | --- | --- | --- | --- | --- |
-| SR-XF-024-D01 | 设计补齐：交付：快速调息诀的具体危险版本、真实收益、内化联系与固定母篇持有者。；准备/维持/传导/抽取的阶段、距离/中继/资源成本及累计损失/吸收/逸散上限。；校勘转修、紧急断流、外援破锚和追索的独立条件、材料与恢复表。；填实必需参数并标记U/R/T来源。 | todo | 无 | 待分配 |
+| SR-XF-024-D01 | 设计补齐：交付：快速调息诀的具体危险版本、真实收益、内化联系与固定母篇持有者。；准备/维持/传导/抽取的阶段、距离/中继/资源成本及累计损失/吸收/逸散上限。；校勘转修、紧急断流、外援破锚和追索的独立条件、材料与恢复表。；填实必需参数并标记U/R/T来源。 | in_progress | 无 | Codex/equipment_growth |
 | SR-XF-024-D02 | 契约与内容审阅：审阅母子篇缩尺暗线与反制恢复与依赖契约（SR-XF-012、SR-XF-014、SR-XF-021、SR-XF-022）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。 | todo | SR-XF-024-D01 | 待分配 |
 | SR-XF-024-I01 | 开发与集成：在内容模块实现母子篇缩尺暗线与反制恢复；交付SR-XF-024-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。 | todo | SR-XF-024-D02 | 待分配 |
 | SR-XF-024-V01 | 验收与兼容：执行SR-XF-024-AC-01至AC-03及WORLDCHAIN-04；登记实际结果、兼容和设备证据边界。 | todo | SR-XF-024-I01 | 待分配 |
@@ -86,8 +86,10 @@ SR-XF-024-REQ-03：严重损失/NPC死亡有真实危机过程，不顺带吸走
 
 ## 证据与变更
 
-尚无本SR完整交付证据；既有局部证据参见现状与来源规格。
+- docs/requirements/design/SR-XF-012-014-018-024-028-033.md
+- docs/requirements/IMPLEMENTATION-2026-10-06.md
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
+- 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。

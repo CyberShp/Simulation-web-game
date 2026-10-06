@@ -6,15 +6,15 @@
 | --- | --- |
 | 范围 / 模块 | 前期必需 / 成长 |
 | 优先级 / 计划 | P1 / I2 |
-| 设计 / 开发 | refinement_pending / partial |
-| 验收 / 发布 | not_verified / not_released_for_this_sr |
-| 责任人 / 复核人 | 待分配 / 待分配 |
+| 设计 / 开发 | draft / in_progress |
+| 验收 / 发布 | in_progress / not_released_for_this_sr |
+| 责任人 / 复核人 | Codex/equipment_growth / Codex/root（集成） |
 
 ## 来源、依赖与范围
 
 纳入云岫前期，按依赖推进。
 
-决策来源：U-63, U-93, R-25。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
+决策来源：U-63, U-93, R-25, U-94。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
 
 规格：[02-EQUIPMENT-ARTS.md](../../../docs/design/02-EQUIPMENT-ARTS.md)、[05-RUNTIME-CONTRACTS.md](../../../docs/design/05-RUNTIME-CONTRACTS.md)、[14-EARLY-GAME-DETAILED-DESIGN.md](../../../docs/design/14-EARLY-GAME-DETAILED-DESIGN.md)、[06-OPENING-ACCEPTANCE.md](../../../docs/design/06-OPENING-ACCEPTANCE.md)。
 
@@ -59,7 +59,7 @@ SR-XF-012-REQ-03：装备详情、肖像和动作投影同一事实；战斗中�
 
 | 任务 | 工作 | 状态 | 前置 | 责任人 |
 | --- | --- | --- | --- | --- |
-| SR-XF-012-D01 | 设计补齐：交付：普通剑/护具/法器/佩饰和护脉遗器的定义ID、门槛、重量、品质、外观、配方。；制造/修理/使用/赠予/借用/归还的来源与磨损维护规则。；套装角色、替代件、范围、持续、消耗、冷却与叠加预算；本命绑定另见SR-033。；填实必需参数并标记U/R/T来源。 | todo | 无 | 待分配 |
+| SR-XF-012-D01 | 设计补齐：交付：普通剑/护具/法器/佩饰和护脉遗器的定义ID、门槛、重量、品质、外观、配方。；制造/修理/使用/赠予/借用/归还的来源与磨损维护规则。；套装角色、替代件、范围、持续、消耗、冷却与叠加预算；本命绑定另见SR-033。；填实必需参数并标记U/R/T来源。 | in_progress | 无 | Codex/equipment_growth |
 | SR-XF-012-D02 | 契约与内容审阅：审阅装备实例、维护、套装与获取目录与依赖契约（SR-XF-002、SR-XF-007、SR-XF-009、SR-XF-010）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。 | todo | SR-XF-012-D01 | 待分配 |
 | SR-XF-012-I01 | 开发与集成：在成长模块实现装备实例、维护、套装与获取目录；交付SR-XF-012-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。 | todo | SR-XF-012-D02 | 待分配 |
 | SR-XF-012-V01 | 验收与兼容：执行SR-XF-012-AC-01至AC-03及EQ-01、EQ-02、CHAIN-04；登记实际结果、兼容和设备证据边界。 | todo | SR-XF-012-I01 | 待分配 |
@@ -86,8 +86,10 @@ SR-XF-012-REQ-03：装备详情、肖像和动作投影同一事实；战斗中�
 
 ## 证据与变更
 
-尚无本SR完整交付证据；既有局部证据参见现状与来源规格。
+- docs/requirements/design/SR-XF-012-014-018-024-028-033.md
+- docs/requirements/IMPLEMENTATION-2026-10-06.md
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
+- 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。
