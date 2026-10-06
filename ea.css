@@ -64,3 +64,26 @@ html.reduced-motion *,html.reduced-motion *::before,html.reduced-motion *::after
 @media(max-width:760px){.trade-row{flex-wrap:wrap}.trade-row>div{flex:1 1 45%}.trade-quantity select{min-height:44px}.trade-row>button{flex:1;min-height:44px}}
 
 @media(max-width:760px){.map-tools button{width:44px;height:44px}.scene-nav button{min-height:44px}.time-controls button{height:44px;min-width:44px}.top-actions #settings{width:44px;height:44px}.fold-panel{min-width:44px;min-height:44px}.filter-tabs button{min-height:44px}}
+
+/* SR-XF-029: every interactive control has a 44 CSS px target, including landscape. */
+button,[role=button],input:not([type=checkbox]):not([type=radio]),select,textarea{min-height:44px}
+.icon-button,.map-tools button,.time-controls button,.fold-panel{min-width:44px;min-height:44px}
+button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:3px solid #765c25;outline-offset:3px}
+.sr-workflows{margin:20px 0;min-width:0}.sr-workflows>h3{font-size:24px;line-height:1.5}.sr-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,270px),1fr));gap:12px}.sr-card{min-width:0;padding:15px;border:1px solid #c5d1b4;background:#f7f6e8;border-radius:7px}.sr-card h4{font-size:20px;margin-bottom:9px}.sr-card p,.sr-card small,.sr-card label{font-size:12px;line-height:1.8;overflow-wrap:anywhere}.sr-card .button-row{flex-wrap:wrap}.sr-card .button-row button{flex:1 1 125px;white-space:normal}.sr-form{display:grid;gap:8px}.sr-form label{display:grid;gap:4px}.sr-form input,.sr-form select{width:100%;min-width:0;box-sizing:border-box;font-size:16px}.sr-form .sr-inline{display:grid;grid-template-columns:1fr 1fr;gap:8px}.sr-state{padding:9px 11px;background:#edf0dd;border-left:3px solid #69824c;white-space:normal}.sr-state[role=status]{font-size:12px}.sr-warning{border-left-color:#ad723c}.sr-key-hint{color:#62724f}.sr-ai-status{min-height:24px}.sr-card details summary{cursor:pointer;min-height:44px;display:flex;align-items:center}.sr-card details>div{padding-top:10px}
+@media(max-width:760px){.sr-grid{grid-template-columns:1fr}.sr-card h4{font-size:21px}.sr-card p,.sr-card small,.sr-card label{font-size:13px}.sr-workflows>h3{font-size:24px}#bottom-content .panel-copy{overflow-wrap:anywhere}.modal-top .icon-button{width:44px;height:44px}.scene-nav button,.quest-panel button{min-height:44px}.top-actions #help{width:44px;height:44px}}
+@media(max-width:950px) and (max-height:550px) and (orientation:landscape){.topbar{height:52px;min-height:52px}.top-actions .icon-button,.map-tools button,.time-controls button{height:44px;min-width:44px}.quest-panel button,.combat-actions button{min-height:44px}.nav-tabs{overflow-x:auto;flex-wrap:nowrap}.nav-tabs button{flex:0 0 auto;min-width:62px}.sr-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+/* Target dimensions are safety constraints and must survive older responsive overrides. */
+button,[role=button]{min-height:44px!important;min-width:44px!important}
+.sr-form input:not([type=checkbox]):not([type=radio]),.sr-form select{min-height:44px!important}
+label:has(input[type=checkbox]),label:has(input[type=radio]){min-height:44px}
+
+/* SR inventory, alchemy and finite market each use their visible category. */
+.sr-grid>[data-sr-production]{display:contents}
+.production-page[data-production-view="inventory"] [data-sr-production]:not([data-sr-production="inventory"]),.production-page[data-production-view="alchemy"] [data-sr-production]:not([data-sr-production="alchemy"]),.production-page[data-production-view="market"] [data-sr-production]:not([data-sr-production="market"]){display:none}
+.sr-opening-options>summary,.sr-workflows>summary{cursor:pointer;min-height:44px;display:flex;align-items:center;font-size:14px;line-height:1.7;padding:8px 0}
+.sr-card .sr-form label:has(input[type=checkbox]){display:flex;align-items:center;gap:10px;cursor:pointer}
+.sr-card input[type=checkbox]{flex:0 0 20px;width:20px;min-height:20px;accent-color:var(--green)}
+.sr-card .sr-form label:has(input[type=checkbox]) input{min-height:20px!important}
+
+/* A floating HUD parent is click-through; its explicit controls must opt in. */
+.system-overview{pointer-events:auto;touch-action:manipulation}

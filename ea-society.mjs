@@ -1,11 +1,14 @@
-import {hallInteriorEnabled} from './ea-hall-interior.mjs?v=ea-150-dev-release-20261006-r1';
-import {prepareFacilityActivity,releaseBodyActivity,contributeProduction} from './ea-facility-activities.mjs?v=ea-150-dev-release-20261006-r1';
+import {npcScheduleDecision} from './ea-sr-persons.mjs?v=ea-160-dev-release-20261006-r1';
+import {hallInteriorEnabled} from './ea-hall-interior.mjs?v=ea-160-dev-release-20261006-r1';
+import {prepareFacilityActivity,releaseBodyActivity,contributeProduction} from './ea-facility-activities.mjs?v=ea-160-dev-release-20261006-r1';
+import {sceneUnits} from './ea-sr-spatial.mjs?v=ea-160-dev-release-20261006-r1';
+import {consumeHarvest,availablePills,ownAvailablePills,preparePillUse,consumeAccessiblePill} from './ea-sr-economy.mjs?v=ea-160-dev-release-20261006-r1';
 import {BUILDINGS, TECHNIQUES, RECIPES, ROUTES, CELLS, RESOURCES, TRAIT_NAMES,
-  rng, day, log, pay, canPay, grant, capacity, xpNeed, clamp} from './ea-data.mjs?v=ea-150-dev-release-20261006-r1';
+  rng, day, log, pay, canPay, grant, capacity, xpNeed, clamp} from './ea-data.mjs?v=ea-160-dev-release-20261006-r1';
 
-import {routeDiscovered} from './ea-scene-state.mjs?v=ea-150-dev-release-20261006-r1';
-import {lifeFacility,lifeActivityLock,lifePath,lifeScenePath,actorScenePosition,personLifeSummary,workOpportunity,teachingPresent} from './ea-life.mjs?v=ea-150-dev-release-20261006-r1';
-import {advanceScenic,repairScenicActor,validateScenic,SCENE_GEOMETRY,buildingAccess,scenicDistance,geometryRevision,syncScenicPosition} from './ea-scenic.mjs?v=ea-150-dev-release-20261006-r1';
+import {routeDiscovered} from './ea-scene-state.mjs?v=ea-160-dev-release-20261006-r1';
+import {lifeFacility,lifeActivityLock,lifePath,lifeScenePath,actorScenePosition,personLifeSummary,workOpportunity,teachingPresent} from './ea-life.mjs?v=ea-160-dev-release-20261006-r1';
+import {advanceScenic,repairScenicActor,validateScenic,SCENE_GEOMETRY,buildingAccess,scenicDistance,geometryRevision,syncScenicPosition} from './ea-scenic.mjs?v=ea-160-dev-release-20261006-r1';
 
 /** Society owns every NPC action. The main loop owns time, meals, upkeep and the master's actions. */
 export const SOCIETY_ROLES = {
@@ -233,7 +236,7 @@ function production(s,d,b,hooks,participants=null) {
   grant(s,out); s.society.stats.workCycles++;hooks.onProduction?.(s,d,b,out);
   for(const {person,share}of participants||[{person:d,share:1}]) {
     const p=person.mind;p.skills[skill]=clamp(p.skills[skill]+.6*share,0,100);
-    p.purse=clamp(p.purse+.8*share,0,10000);
+    if(s.srEconomy){const wage=Math.min(.8*share,s.resources.jade);s.resources.jade-=wage;p.purse=clamp(p.purse+wage,0,10000);}else p.purse=clamp(p.purse+.8*share,0,10000);
     p.restitutionBalance=Math.max(0,p.restitutionBalance-Object.values(out).reduce((a,b)=>a+b,0)*.2*share);
     if(skill==='plant'&&known(person,'wood'))p.knowledge.wood=clamp(known(person,'wood')+.18*share,0,100);
     if(skill==='array'&&known(person,'array'))p.knowledge.array=clamp(known(person,'array')+.18*share,0,100);
@@ -241,9 +244,11 @@ function production(s,d,b,hooks,participants=null) {
   return true;
 }
 function consumePill(s,d,id,secret,hooks) {
-  const r=RECIPES[id]; if(!r||id==='foundation'||!(s.pills[id]>0))return false;
+  const r=RECIPES[id]; if(!r||id==='foundation')return false;
+  if(s.srEconomy&&availablePills(s,d.personId,id)<1){const a=s.activitiesById[d.activityId];if(a&&a.kind!=='facility')return false;try{preparePillUse(s,id,d.personId);}catch{}return false;}
+  if(!s.srEconomy&&!(s.pills[id]>0))return false;
   if(hooks.consumePill)hooks.consumePill(s,id,d,{silent:true});
-  else {s.pills[id]--;d.xp=Math.min(xpNeed(d.realm),d.xp+(r.effect.xp||0));d.energy=clamp(d.energy+(r.effect.energy||0),0,100);d.wound=clamp(d.wound-(r.effect.wound||0),0,100);}
+  else {if(s.srEconomy)consumeAccessiblePill(s,d.personId,id);else s.pills[id]--;d.xp=Math.min(xpNeed(d.realm),d.xp+(r.effect.xp||0));d.energy=clamp(d.energy+(r.effect.energy||0),0,100);d.wound=clamp(d.wound-(r.effect.wound||0),0,100);}
   d.mind.lastPillDay=day(s);
   if(secret)addSecret(s,d,'pill',id,'修为停滞而急于进境，趁取用记录未核对私取丹药。');
   else remember(s,d,`依据取用约定，自行服用${r.name}。`,{key:`pill:${day(s)}`});
@@ -252,9 +257,11 @@ function consumePill(s,d,id,secret,hooks) {
 function considerPill(s,d,hooks) {
   const p=d.mind;
   if(p.lastPillDay===day(s)||p.away)return;
-  const id=d.wound>20&&s.pills.heal>0?'heal':d.energy<28&&s.pills.spirit>0?'spirit':d.xp<xpNeed(d.realm)-65&&s.pills.qi>0?'qi':null;
+  const hasPill=id=>s.pills[id]>0||(s.srEconomy&&availablePills(s,d.personId,id)>0);
+  const id=d.wound>20&&hasPill('heal')?'heal':d.energy<28&&hasPill('spirit')?'spirit':d.xp<xpNeed(d.realm)-65&&hasPill('qi')?'qi':null;
   if(!id)return;
-  const authorized=(s.doctrine.pillRule==='shared'||p.pillPermitDay===day(s))&&p.restrictedUntil<=clock(s);
+  const ownPill=s.srEconomy&&ownAvailablePills(s,d.personId,id)>0;
+  const authorized=ownPill||((s.doctrine.pillRule==='shared'||p.pillPermitDay===day(s))&&p.restrictedUntil<=clock(s));
   const temptation=p.traits[1]-p.traits[2]-p.caution*13+(d.wound>35?20:0);
   const opportunity=hasBuilding(s,'alchemy')||s.pills[id]>0;
   if(authorized)consumePill(s,d,id,false,hooks);
@@ -322,9 +329,9 @@ function decide(s,d,hooks) {
   const p=d.mind;if(p.away)return;
   considerPill(s,d,hooks);
   if(d.breakthroughCooldown>s.time){p.activity='rest';d.job=null;p.path=[];p.scenic.path=[];p.reason='突破后守住心神，先在原地调息，暂缓差事与授业。';p.commitUntil=d.breakthroughCooldown;return;}
-  if(d.xp>=xpNeed(d.realm)&&d.realm<12&&d.energy>=45&&d.wound<=5&&clock(s)-p.lastBreakthrough>=120&&hooks.breakthroughLock&&!hooks.breakthroughLock(s,d,false)) {
+  if(!s.srCultivation&&d.xp>=xpNeed(d.realm)&&d.realm<12&&d.energy>=45&&d.wound<=5&&clock(s)-p.lastBreakthrough>=120&&hooks.breakthroughLock&&!hooks.breakthroughLock(s,d,false)) {
     const quiet=lifeFacility(s,d,'cultivate');
-    if(quiet&&scenicDistance(p.scenic,buildingAccess(s,quiet))<=28&&!p.scenic.path.length&&(s.schemaVersion!==6||s.activitiesById[d.activityId]?.action==='cultivate'&&s.activitiesById[d.activityId]?.phase==='executing'&&s.activitiesById[d.activityId]?.targetId===quiet.instanceId)){
+    if(quiet&&scenicDistance(p.scenic,buildingAccess(s,quiet))<=sceneUnits(s,28)&&!p.scenic.path.length&&(s.schemaVersion!==6||s.activitiesById[d.activityId]?.action==='cultivate'&&s.activitiesById[d.activityId]?.phase==='executing'&&s.activitiesById[d.activityId]?.targetId===quiet.instanceId)){
       p.lastBreakthrough=clock(s);hooks.breakthroughPerson(s,d,false,{autonomous:true});p.activity='rest';d.job=null;p.path=[];p.scenic.path=[];p.reason='自己衡量准备后完成突破，先在安静处调息。';p.commitUntil=d.breakthroughCooldown;
       remember(s,d,'自己衡量准备后尝试突破。境界高低不会代替对同门的判断。',{important:true,key:`breakthrough:${d.realm}:${p.lastBreakthrough}`});return;
     }
@@ -451,12 +458,12 @@ function execute(s,d,hooks) {
     if(d.wound<=5){p.activity='rest';p.commitUntil=0;}
   } else if(p.activity==='forage') {
     p.workProgress++;d.energy=clamp(d.energy-.12,0,100);
-    if(p.workProgress>=12){p.workProgress=0;grant(s,{food:3});p.satiety=clamp(p.satiety+24,0,100);p.commitUntil=0;}
+    if(p.workProgress>=12){p.workProgress=0;if(consumeHarvest(s,'food',3)){grant(s,{food:3});p.satiety=clamp(p.satiety+24,0,100);}else p.reason='附近采食来源不足，等待种植或商队供给。';p.commitUntil=0;}
   } else if(p.activity==='work') {
     const b=s.buildings.find(b=>b.id===d.job),t=BUILDINGS[b?.type];
     if(!b||!t?.work||!buildingActive(b)){p.commitUntil=0;p.activity='rest';d.job=null;return;}
     if(s.schemaVersion===6){
-      if(contributeProduction(s,d,b,participants=>production(s,participants[0].person,b,hooks,participants)))d.energy=clamp(d.energy-.32,0,100);
+      if(contributeProduction(s,d,b,(participants,target=s)=>production(target,participants[0].person,target.buildingsById?.[b.instanceId]||b,hooks,participants)))d.energy=clamp(d.energy-.32,0,100);
       else {p.reason='原料不足，已保留共同批次进度。';p.commitUntil=0;}
     }else {
       d.energy=clamp(d.energy-.32,0,100);b.progress=(b.progress||0)+1;
@@ -752,13 +759,14 @@ function depart(s,d,reason) {
 }
 function daily(s) {
   for(const d of [...s.disciples]) {
+    if(d.lifeStatus==='dead')continue;
     const p=d.mind,r=relation(d);
     const supplied=s.economy?.lastSupplyDay===day(s)?s.economy.starvation===0:s.resources.food>=Math.max(1,s.disciples.length);
     p.satiety=clamp(p.satiety+(supplied?22:-32),0,100);
     if(!supplied){p.mood=clamp(p.mood-7,0,100);r.trust=clamp(r.trust-2,0,100);}
     else {p.mood=clamp(p.mood+3,0,100);if(r.trust<45)r.trust=clamp(r.trust+.8,0,100);}
     if(p.satiety<15&&r.trust<15)p.neglectDays++;else p.neglectDays=Math.max(0,p.neglectDays-1);
-    if(p.neglectDays>=4&&s.disciples.length>1&&!p.away){depart(s,d,'长期缺乏供给且信任耗尽，决定另寻安身之地。');continue;}
+    if(p.neglectDays>=4&&s.disciples.length>1&&!p.away&&!s.activitiesById?.[d.activityId]?.kind?.startsWith('sr-')){depart(s,d,'长期缺乏供给且信任耗尽，决定另寻安身之地。');continue;}
     createPersonalQuest(s,d);
   }
   for(const p of s.society.peaks)refreshPeak(s,p);choosePeaks(s);
@@ -773,7 +781,8 @@ export function tickSociety(s,dt=1,hooks={}) {
   s.society.clock=Math.max(s.society.clock+dt,s.time);
   if(day(s)!==s.society.lastDay){s.society.lastDay=day(s);daily(s);}
   for(const d of [...s.disciples]) {
-    if(!d.mind.away&&(clock(s)-d.mind.lastDecision>=6||d.mind.commitUntil<=clock(s)))decide(s,d,hooks);
+    if(d.lifeStatus==='dead'||s.activitiesById?.[d.activityId]?.kind?.startsWith('sr-'))continue;
+    if(!d.mind.away&&(clock(s)-d.mind.lastDecision>=6||d.mind.commitUntil<=clock(s))&&!npcScheduleDecision(s,d))decide(s,d,hooks);
     execute(s,d,hooks);
   }
   if(s.society.guestLesson?.until<=clock(s))delete s.society.guestLesson;
@@ -871,7 +880,8 @@ export function getSocietyView(s) {
 }
 export function traitText(d) {return d.mind.traits.map((n,i)=>({n,name:TRAIT_NAMES[i]})).sort((a,b)=>b.n-a.n).slice(0,2).map(x=>`${x.name} ${x.n}`).join(' · ');}
 
-export function validateSociety(s) {
+export function validateSociety(s,{canonical=false}={}) {
+  if(canonical&&s.contentVersion!=='sr-content-v1.2')throw Error('门人社会存档异常：canonical版本不一致');
   const bad=message=>{throw Error(`门人社会存档异常：${message}`);};
   const num=(n,min=0,max=1e12)=>typeof n==='number'&&Number.isFinite(n)&&n>=min&&n<=max;
   const int=(n,min=0,max=1e12)=>Number.isSafeInteger(n)&&num(n,min,max);
@@ -895,17 +905,18 @@ export function validateSociety(s) {
   const jobIds=new Set();
   for(const d of s.disciples) {
     const p=d.mind;if(!p||!Array.isArray(p.traits)||p.traits.length!==5||p.traits.some(n=>!num(n,0,100))||!ACTIVITIES.has(p.activity)||!str(p.reason)||!str(p.goal,40)||!num(d.wound,0,100)||!num(p.satiety,0,100)||!num(p.mood,0,100))bad('人物状态');
-    if(!p.scenic||p.scenic.geometry!==SCENE_GEOMETRY||!validateScenic(p.scenic,s))bad('门人实际行走位置或路径');
+    if(!p.scenic||!canonical&&p.scenic.geometry!==SCENE_GEOMETRY||!validateScenic(p.scenic,s))bad('门人实际行走位置或路径');
     if(!num(p.commitUntil)||!num(p.lastDecision,-100)||!num(p.lastSocial,-120)||!num(p.lastTalk,-120)||!num(p.lastBreakthrough,-120)||!num(p.caution,0,5)||!num(p.purse,0,10000)||!num(p.restitutionBalance)||!num(p.restrictedUntil)||!int(p.lastPillDay,-1)||!int(p.pillPermitDay,-1)||!int(p.neglectDays)||!num(p.joinedAt)||!num(p.refusalUntil)||!num(p.lastPeakChange,-120)||!num(p.reorientUntil)||!num(p.lastConversion,-600))bad('人物计时');
     if(!p.skills||!['plant','industry','learning','array','medicine'].every(k=>num(p.skills[k],0,100))||!p.relationships||!p.relationships.master||Object.values(p.relationships).some(r=>!r||!['trust','respect','affection','conflict'].every(k=>num(r[k],0,100))||!num(r.lastEvent,-1000)))bad('关系与技艺');
     if(!Array.isArray(p.memories)||p.memories.length>10000||p.memories.some(m=>!num(m.time)||!str(m.text)||typeof m.important!=='boolean'||typeof m.public!=='boolean'||m.key!==null&&!str(m.key)))bad('记忆');
     if(p.mentorId!==null&&p.mentorId!=='master'&&!ids.has(p.mentorId)||p.mentorId===d.id||p.peakId!==null&&!peakIds.has(p.peakId)||p.office!==null&&sc.officers[p.office]!==d.id)bad('师徒或职责');
-    if(!Array.isArray(p.path)||p.path.length>CELLS.length||p.path.some(q=>!CELLS.some(c=>c.x===q.x&&c.y===q.y))||!CELLS.some(c=>c.x===d.position?.x&&c.y===d.position?.y))bad('门人位置');
+    if(!Array.isArray(p.path)||p.path.length>(canonical?512:CELLS.length)||p.path.some(q=>canonical?!Number.isFinite(q.x)||!Number.isFinite(q.y):!CELLS.some(c=>c.x===q.x&&c.y===q.y))||!canonical&&!CELLS.some(c=>c.x===d.position?.x&&c.y===d.position?.y))bad('门人位置');
     if(!p.hiddenKnowledge||Object.entries(p.hiddenKnowledge).some(([id,secret])=>!TECHNIQUES[id]||!sc.secrets.some(e=>e.id===secret&&e.discipleId===d.id&&e.kind==='book'&&e.subject===id)))bad('私下研习');
     if(p.supportIntent!==null&&TECHNIQUES[p.supportIntent]?.kind!=='support')bad('辅修志向');
     if(!num(p.workProgress,0,12)||p.publicMain!==null&&TECHNIQUES[p.publicMain]?.kind!=='main')bad('人物工作或公开修行');
     if(!['support','cautious','oppose'].includes(p.revengeAttitude)||!Array.isArray(p.questKinds)||p.questKinds.some(k=>!QUESTS[k]))bad('人物志向');
-    if(p.away!==null&&(!['errand','campaign'].includes(p.away.kind)||!str(p.away.id,100)))bad('外出状态');
+    if(p.away!==null&&(!(canonical?['errand','campaign','sr']:['errand','campaign']).includes(p.away.kind)||!str(p.away.id,100)))bad('外出状态');
+    if(canonical&&p.away?.kind==='sr'&&(!s.travelsById?.[p.away.id]||!s.travelsById[p.away.id].participantIds?.includes(d.personId)))bad('SR同行引用');
     if(p.away?.kind==='errand'&&!p.journey)bad('自主外出缺少行程');
     if(p.away?.kind==='campaign'&&(!s.world?.exploration?.companionIds?.includes(d.id)||s.world.exploration.regionId!==p.away.id))bad('同行记录缺少实际行程');
     if(p.journey!==null){const j=p.journey;if(!ROUTES[j.routeId]||!num(j.remaining,0,j.total)||!num(j.total,1,1000)||!j.legacy&&j.total!==ROUTES[j.routeId].duration||typeof j.encounterResolved!=='boolean'||!num(j.risk,0,1)||p.away?.kind!=='errand')bad('自主行程');if(j.legacy&&(!j.snapshotReward||Object.entries(j.snapshotReward).some(([k,v])=>!RESOURCES[k]||!num(v))||!num(j.snapshotReputation)||!num(j.snapshotXp)||![1,1.5].includes(j.multiplier)))bad('旧日游历快照');}
