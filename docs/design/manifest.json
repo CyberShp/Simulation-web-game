@@ -939,5 +939,80 @@
     "sourceMainCommit": "74df8c4a9957a40c1510644b29a98fc2390e535b",
     "runtimeSourceCommit": "9cc4466887b349536ac7f16f15ac9f6bcfd16756",
     "pagesCommit": "350a4d6a0d450ff5dfbcde11ea6782b00a43df29"
+  },
+  "estateInteractiveRelease": {
+    "date": "2026-10-06",
+    "status": "playable-development-release",
+    "gameVersion": "1.6.0-dev",
+    "schemaVersion": 6,
+    "decisions": [
+      "U-96",
+      "U-97",
+      "R-27"
+    ],
+    "assetVersion": "yunxiu-modular-20261006-v1",
+    "scope": "固定45度平面旋转正交2.5D；12类独立外立面、两类代码田地、代码地表/室内/人物；地点同步、紧凑侧卡及折叠剧情",
+    "logicCompatibility": "既有逻辑米坐标、人物/建筑身份、导航、工位、单时钟及存档schema保持；granary仍为灵稻田",
+    "pagesCommit": "c0cb4038fd4a0d7536cbcfaf8755f22e10c01cb5",
+    "deploymentRun": "37464500470",
+    "deploymentStatus": "completed/success",
+    "releaseTag": "ea-160-estate-art-20261006-r1",
+    "url": "https://cybershp.github.io/Simulation-web-game/?v=ea-160-estate-art-20261006-r1",
+    "sourceMainStatus": "pending current runtime source upload; registry main/runtime_source identify previous source revision",
+    "verification": {
+      "uiComponentTests": {
+        "passed": 39,
+        "failed": 0,
+        "scripts": [
+          "tests/ea-scene-ui.test.mjs",
+          "tests/ea-narrative-ui.test.mjs",
+          "tests/map-input.test.mjs"
+        ]
+      },
+      "spatialCanvasTests": {
+        "passed": 34,
+        "failed": 0,
+        "script": "qa/ea-sr-spatial-acceptance.mjs",
+        "viewportDprCases": 9,
+        "browser": false
+      },
+      "worldSceneTests": {
+        "scenes": 7,
+        "objects": 22,
+        "script": "qa/ea-sr-scene-art-acceptance.mjs"
+      },
+      "normalSaveFlow": {
+        "passed": 9,
+        "failed": 0,
+        "buildings": 8,
+        "members": 5,
+        "publicCommands": 11,
+        "exactSaveReloads": 2,
+        "walkedEntrances": 8,
+        "worldTickStart": 229941,
+        "worldTickEnd": 230690,
+        "restArrived": true,
+        "pausedClockUnchanged": true,
+        "injectedProgress": false
+      },
+      "productionCanvasSnapshots": "final still-image review passed for courtyard field rendering and closed facade wall correction; not browser screenshots",
+      "domMouse": "not_run",
+      "iPadTouch": "not_run",
+      "targetHardware": "not_run",
+      "fps": "not_run",
+      "browserLimitation": "CUA browser tool unavailable in this callable tool set; older browser results do not apply to this release",
+      "deployedTree": {
+        "textModules": 158,
+        "webpAssets": 3,
+        "shaMatchesLocalPackage": true,
+        "browser": false
+      }
+    },
+    "limitations": [
+      "整体风格与原型仍有差距，独立精细外立面与代码人物/室内混合",
+      "床体0.6x0.9逻辑米不足成人卧躺；仅真实抵达床边工位后半坐歇息，完整睡眠动画未完成",
+      "SR003–007及029开发/验收保持in_progress，开发版发布不关闭SR"
+    ],
+    "evidencePolicy": "Do not upload screenshots, save dumps or QA process artifacts; retain source, required art, docs and reusable checks only"
   }
 }

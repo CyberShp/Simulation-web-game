@@ -110,5 +110,33 @@
     "Building atlas has fully transparent background despite hidden RGB gradient in alpha=0 areas. Render as RGBA without discarding alpha.",
     "Generated sprites are not rigidly contained by equal-grid boundaries; use provided generous crop rectangles. Coordinates are x1,y1,x2,y2 with exclusive x2/y2.",
     "Original generated images have been preserved."
-  ]
+  ],
+  "estateInteractive20261006": {
+    "version": "yunxiu-modular-20261006-v1",
+    "source": "OpenAI image generation, independent transparent sprite atlases; WebP runtime encoding",
+    "registration": "dist/ea-estate-assets.mjs",
+    "geometry": "dist/ea-sr-spatial.mjs",
+    "assets": [
+      {
+        "path": "dist/assets/estate-v1/core.webp",
+        "bytes": 532566,
+        "sha256": "f744e9ebacd30712c1c6d54c517359f3582d25d788771f5d54a16e42d80db223"
+      },
+      {
+        "path": "dist/assets/estate-v1/life.webp",
+        "bytes": 513374,
+        "sha256": "c6aedd802449f3bdec26f2f90feb45e030d0e60214c58917ac47bd7aa8f4778e"
+      },
+      {
+        "path": "dist/assets/estate-v1/outdoor.webp",
+        "bytes": 566944,
+        "sha256": "525f00490e97754b90c485fb41bdbd8740728f73ca86b7bdf43843af87a52366"
+      }
+    ],
+    "coverage": "12 exterior sprites; farm and granary are procedural crops, not storehouses",
+    "limitations": [
+      "interior and people remain code-drawn",
+      "adult bed dimensions and fully matched art style pending acceptance"
+    ]
+  }
 }

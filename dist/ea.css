@@ -87,3 +87,31 @@ label:has(input[type=checkbox]),label:has(input[type=radio]){min-height:44px}
 
 /* A floating HUD parent is click-through; its explicit controls must opt in. */
 .system-overview{pointer-events:auto;touch-action:manipulation}
+
+/* SR-XF-029: a compact scene-first HUD; controls stay independently touchable. */
+.right-stack{width:300px;max-height:calc(100% - 92px);pointer-events:none;overflow:visible;align-content:start;gap:10px}
+.right-stack>section,.right-stack>aside{pointer-events:auto;touch-action:pan-y;overscroll-behavior:contain}
+.quest-panel{padding:0;overflow:auto;max-height:min(460px,55dvh)}
+.quest-toggle{width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 15px;background:transparent;border:0;text-align:left;color:#294c3e}
+.quest-toggle>span{min-width:0}.quest-toggle small{display:block;font-size:11px;color:#65785e;letter-spacing:.6px}.quest-toggle strong{display:block;font-size:15px;line-height:1.5;margin-top:3px;font-weight:650}.quest-toggle .ea-icon{flex:0 0 20px;transition:transform .15s}.quest-toggle[aria-expanded=true] .ea-icon{transform:rotate(180deg)}
+#quest[hidden]{display:none!important}#quest{padding:0 15px 15px}.quest-panel #quest h2{font-size:22px}.quest-panel #quest p,.quest-panel #quest .requirement-list{font-size:12px;line-height:1.75}.quest-panel #quest button{font-size:12px}
+.has-selection .quest-panel{display:none}.detail-panel{max-height:calc(100dvh - 205px);overflow-y:auto;overscroll-behavior:contain;padding:15px 16px;font-size:13px;line-height:1.7}.detail-panel h2{font-size:25px;line-height:1.4}.detail-panel p{font-size:13px}.detail-panel .section-head{align-items:center}.detail-panel .section-head .text-button{padding:5px 8px;font-size:12px}.detail-panel .narrative-clue{margin:10px 0;padding:8px 10px;font-size:12px}.detail-panel .narrative-clue p{margin:3px 0;font-size:12px}.detail-panel .ea-progress{margin:7px 0 10px}.detail-management{border-top:1px solid #c6cfb9;margin-top:12px}.detail-management summary{display:flex;align-items:center;min-height:44px;cursor:pointer;font-size:13px;color:#456744}.detail-management summary::after{content:'＋';margin-left:auto}.detail-management[open] summary::after{content:'−'}.detail-management>.primary{margin-top:8px}.detail-panel .scene-object-actions{display:grid;gap:6px;margin-top:8px}
+#viewport .right-stack .detail-panel{position:static;left:auto;right:auto;top:auto;bottom:auto;width:auto}
+#viewport .right-stack .detail-panel .life-opportunities{display:none}
+@media(min-width:761px) and (max-width:1100px){.right-stack{right:16px;top:18px;width:270px}.location h1{font-size:34px}.detail-panel{max-height:calc(100dvh - 205px)}}
+@media(max-width:760px){.right-stack{right:12px;top:14px;width:min(278px,43vw)}.quest-toggle{padding:10px 12px}.quest-toggle strong{font-size:13px}.quest-toggle small{font-size:10px}#viewport .right-stack .detail-panel{max-height:calc(100dvh - 220px);padding:12px}.detail-panel h2{font-size:22px}.detail-panel p{font-size:12px}}
+@media(pointer:coarse){.quest-toggle,.detail-panel button,.detail-management summary{min-height:44px!important}.detail-panel{scrollbar-width:auto}}
+
+/* Loaded before the historical courtyard skin: explicit scope preserves these HUD rules. */
+#viewport .right-stack{top:68px;right:14px;bottom:86px;width:300px;max-height:none;display:flex;flex-direction:column;gap:10px;overflow:visible;pointer-events:none}
+#viewport .quest-panel{padding:0;max-height:min(460px,55dvh);overflow:auto}
+#viewport .detail-panel{margin-top:0;max-height:calc(100dvh - 170px);padding:15px 16px;background:#f6eeddeF}
+#viewport .quest-toggle,#viewport .detail-panel button,#viewport .detail-management summary{font-family:system-ui,-apple-system,"Microsoft YaHei",sans-serif;font-size:13px;font-weight:500;letter-spacing:0}
+#viewport .quest-toggle{padding:10px 14px}
+#viewport .has-selection .quest-panel,#viewport.has-selection .quest-panel{display:none}
+#viewport .quest-panel #quest>p,#viewport .quest-panel #quest>.requirement-list{display:block}
+#viewport.in-combat .right-stack{display:none}
+@media(min-width:761px) and (max-width:1100px){#viewport .right-stack{width:270px}}
+@media(max-width:760px){#viewport .right-stack{top:98px;right:12px;bottom:130px;width:min(278px,43vw)}#viewport .right-stack .detail-panel{max-height:calc(100dvh - 235px);padding:12px}}
+
+#viewport .detail-person-heading{display:flex;align-items:center;gap:12px}#viewport .detail-person-heading .portrait{width:44px;height:60px;flex:0 0 44px}#viewport .detail-person-heading h2{margin:0}

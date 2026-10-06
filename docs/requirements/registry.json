@@ -7,15 +7,27 @@
   "source_runtime": {
     "main": "ae1d771444ac841f9565a8823636cd28c7d26926",
     "runtime_source": "ae1d771444ac841f9565a8823636cd28c7d26926",
-    "pages": "7d16d54c0d7d0ecd591e0c8e84952b00e3a674ba",
+    "pages": "c0cb4038fd4a0d7536cbcfaf8755f22e10c01cb5",
     "game_version": "1.6.0-dev",
     "schema_version": 6,
-    "preview_pages": "7d16d54c0d7d0ecd591e0c8e84952b00e3a674ba",
-    "preview_deployment": "37453110511",
+    "preview_pages": "c0cb4038fd4a0d7536cbcfaf8755f22e10c01cb5",
+    "preview_deployment": "37464500470",
     "working_game_version": "1.6.0-dev",
     "official_game_version": "1.6.0-dev",
-    "version_note": "正式根入口与独立预览均为本轮EA1.6；开发版发布不自动关闭各SR。",
-    "main_record_type": "runtime source commit; release metadata commit is a descendant"
+    "version_note": "正式根入口与独立预览已部署山院模块美术可试玩开发版；Pages成功不自动关闭SR，旧浏览器证据不作为本轮证据。",
+    "main_record_type": "runtime source commit; release metadata commit is a descendant",
+    "working_release_note": "Pages本轮部署completed/success；本轮源码main API上传待主集成完成，main/runtime_source旧SHA仅为上一版源码记录，不是本轮提交。",
+    "previous_pages": "7d16d54c0d7d0ecd591e0c8e84952b00e3a674ba",
+    "previous_preview_deployment": "37453110511",
+    "pages_deployment_status": "completed/success",
+    "working_release_tag": "ea-160-estate-art-20261006-r1",
+    "official_release_tag": "ea-160-estate-art-20261006-r1",
+    "official_url": "https://cybershp.github.io/Simulation-web-game/?v=ea-160-estate-art-20261006-r1",
+    "deployed_tree_verification": {
+      "text_modules": 158,
+      "webp_assets": 3,
+      "sha_matches_local_package": true
+    }
   },
   "enums": {
     "scope": [
@@ -454,7 +466,10 @@
         "U-93",
         "R-25",
         "U-94",
-        "U-95"
+        "U-95",
+        "U-96",
+        "U-97",
+        "R-27"
       ],
       "source_specs": [
         "docs/design/03-SPATIAL-ART.md",
@@ -462,8 +477,8 @@
         "docs/design/14-EARLY-GAME-DETAILED-DESIGN.md",
         "docs/design/18-SPATIAL-CONTINUITY-IMPLEMENTATION.md"
       ],
-      "baseline": "已有旧几何、人物移动及镜头保留修复。",
-      "design_gap": "全院尚未统一一米坐标、半米导航格和人物体积验证。",
+      "baseline": "已有米制预制件与导航基础；本轮为固定45°平面旋转的正交2.5D接入同源投影/逆投影，不重写既有存档坐标。",
+      "design_gap": "新镜头下全院导航、人物比例、鼠标/触点命中、旧档镜头恢复及设备效果仍须整体复核。",
       "design_deliverables": [
         "世界坐标、投影、场景边界和默认近景比例正式表。",
         "导航网格、人物体积、门道、动态阻挡与局部重算规则。",
@@ -506,7 +521,9 @@
       ],
       "evidence": [
         "docs/requirements/design/SR-XF-003-006.md",
-        "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+        "docs/requirements/IMPLEMENTATION-2026-10-06.md",
+        "docs/design/03-SPATIAL-ART.md",
+        "docs/design/STATUS.md"
       ],
       "change_log": [
         {
@@ -520,6 +537,14 @@
         {
           "date": "2026-10-06",
           "reason": "U-95明确画布只适配iPadOS/Windows/macOS网页分辨率；必需验收平台改为iPad横竖与桌面窗口/DPR，浏览器视口与实机证据分列。"
+        },
+        {
+          "date": "2026-10-06",
+          "reason": "U-96/U-97将经营成长和同场可交互美术置于优先；按R-27消费已有米制/单时钟/存档契约实现局部模块，D/I/V/R完整门槛仍未关闭。本轮验证及发布待主集成回填，不更改旧AC事实。"
+        },
+        {
+          "date": "2026-10-06",
+          "reason": "回填主集成/独立验收确认的本轮组件和正常公开命令旧档结果；保留浏览器不可用、床体过短、混合画风的视觉缺口；闭屋后墙及两类田地已修复，并经最终Canvas快照静态读图复核。上述局部通过不提升SR整体状态，gh-pages可试玩开发版已成功部署，本轮源码main待确认；完整SR门槛仍未通过。"
         }
       ],
       "tasks": [
@@ -605,7 +630,8 @@
         "SCENE-02",
         "SAVE-01"
       ],
-      "blockers": []
+      "blockers": [],
+      "acceptance_notes": "2026-10-06晚：本轮局部回归为UI/叙事/输入39/39、空间34/34（含9视口/DPR生产Canvas）和正常8设施5门人档9/9（11公开命令、2精确存读、真走8入口、rest实际到位、暂停不推进）。CUA浏览器工具当前不可调用，DOM鼠标/触屏/实机/FPS均未验收，旧浏览器证据不适用于新版。12类精细外立面与代码人物/室内尚有画风差距；0.6×0.9米床仅支持真实到场半坐歇息，成人卧躺未完成，闭屋后墙露出及两类田地显示已修复，最终生产Canvas快照已静态读图复核。既有passed AC保留原情景，整项不关闭；可试玩开发版gh-pages c0cb4038fd4a0d7536cbcfaf8755f22e10c01cb5已部署，任务37464500470 completed/success；本轮main源码上传待确认，不能据Pages成功标整项released。"
     },
     {
       "id": "SR-XF-004",
@@ -628,7 +654,10 @@
         "U-63",
         "U-93",
         "R-25",
-        "U-94"
+        "U-94",
+        "U-96",
+        "U-97",
+        "R-27"
       ],
       "source_specs": [
         "docs/design/03-SPATIAL-ART.md",
@@ -637,8 +666,8 @@
         "docs/design/17-INDOOR-LIFE-IMPLEMENTATION.md",
         "docs/design/18-SPATIAL-CONTINUITY-IMPLEMENTATION.md"
       ],
-      "baseline": "已有主屋四床两书案、屋顶分层和三段施工素材投影。",
-      "design_gap": "药田、藏经设施、仓储和器用工坊等缺正式同尺度定义与资产。",
+      "baseline": "已有主屋室内与三段施工基础；本轮建立独立建筑图集、地表、室内模块与统一锚点，正在主渲染器集成。",
+      "design_gap": "完整建筑的施工/成品/升级/损坏、屋顶退隐、室内外对应和缺失资产回退尚未整体验收；granary必须保持灵稻田。",
       "design_deliverables": [
         "首轮全部可用建筑/设施目录及最终尺寸、锚点、朝向、门、家具、工位、等待位。",
         "预览/工地/成品/升级/损坏的分层资产规范与资产版本表。",
@@ -678,7 +707,9 @@
       ],
       "evidence": [
         "docs/requirements/design/SR-XF-003-006.md",
-        "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+        "docs/requirements/IMPLEMENTATION-2026-10-06.md",
+        "docs/design/03-SPATIAL-ART.md",
+        "docs/design/STATUS.md"
       ],
       "change_log": [
         {
@@ -688,6 +719,14 @@
         {
           "date": "2026-10-06",
           "reason": "用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。"
+        },
+        {
+          "date": "2026-10-06",
+          "reason": "U-96/U-97将经营成长和同场可交互美术置于优先；按R-27消费已有米制/单时钟/存档契约实现局部模块，D/I/V/R完整门槛仍未关闭。本轮验证及发布待主集成回填，不更改旧AC事实。"
+        },
+        {
+          "date": "2026-10-06",
+          "reason": "回填主集成/独立验收确认的本轮组件和正常公开命令旧档结果；保留浏览器不可用、床体过短、混合画风的视觉缺口；闭屋后墙及两类田地已修复，并经最终Canvas快照静态读图复核。上述局部通过不提升SR整体状态，gh-pages可试玩开发版已成功部署，本轮源码main待确认；完整SR门槛仍未通过。"
         }
       ],
       "tasks": [
@@ -772,7 +811,8 @@
         "SCENE-01",
         "SCENE-03"
       ],
-      "blockers": []
+      "blockers": [],
+      "acceptance_notes": "2026-10-06晚：本轮局部回归为UI/叙事/输入39/39、空间34/34（含9视口/DPR生产Canvas）和正常8设施5门人档9/9（11公开命令、2精确存读、真走8入口、rest实际到位、暂停不推进）。CUA浏览器工具当前不可调用，DOM鼠标/触屏/实机/FPS均未验收，旧浏览器证据不适用于新版。12类精细外立面与代码人物/室内尚有画风差距；0.6×0.9米床仅支持真实到场半坐歇息，成人卧躺未完成，闭屋后墙露出及两类田地显示已修复，最终生产Canvas快照已静态读图复核。既有passed AC保留原情景，整项不关闭；可试玩开发版gh-pages c0cb4038fd4a0d7536cbcfaf8755f22e10c01cb5已部署，任务37464500470 completed/success；本轮main源码上传待确认，不能据Pages成功标整项released。"
     },
     {
       "id": "SR-XF-005",
@@ -796,7 +836,10 @@
         "U-63",
         "U-93",
         "R-25",
-        "U-94"
+        "U-94",
+        "U-96",
+        "U-97",
+        "R-27"
       ],
       "source_specs": [
         "docs/design/03-SPATIAL-ART.md",
@@ -805,8 +848,8 @@
         "docs/design/18-SPATIAL-CONTINUITY-IMPLEMENTATION.md",
         "docs/design/06-OPENING-ACCEPTANCE.md"
       ],
-      "baseline": "已有候选位置检查、人物占位拒绝、完工等待和施工三阶段。",
-      "design_gap": "仍以既有候选为主，缺完整自由合法安置与反馈设计。",
+      "baseline": "已有自由选址、材料预留、人物占位拒绝、完工等待和施工三阶段；本轮新投影与独立建筑外观正在接入同一实际流程。",
+      "design_gap": "新美术与45°镜头下预览、确认、入口、施工安全及鼠标/iPad触控需要重新核对；原逻辑AC通过不代表新画面已通过。",
       "design_deliverables": [
         "可建地形、水面/陡坡/剧情保护区规则与入口连通条件。",
         "鼠标与触控的选址、预览、支持朝向、确认、取消流程。",
@@ -855,7 +898,9 @@
       ],
       "evidence": [
         "docs/requirements/design/SR-XF-003-006.md",
-        "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+        "docs/requirements/IMPLEMENTATION-2026-10-06.md",
+        "docs/design/03-SPATIAL-ART.md",
+        "docs/design/STATUS.md"
       ],
       "change_log": [
         {
@@ -865,6 +910,14 @@
         {
           "date": "2026-10-06",
           "reason": "用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。"
+        },
+        {
+          "date": "2026-10-06",
+          "reason": "U-96/U-97将经营成长和同场可交互美术置于优先；按R-27消费已有米制/单时钟/存档契约实现局部模块，D/I/V/R完整门槛仍未关闭。本轮验证及发布待主集成回填，不更改旧AC事实。"
+        },
+        {
+          "date": "2026-10-06",
+          "reason": "回填主集成/独立验收确认的本轮组件和正常公开命令旧档结果；保留浏览器不可用、床体过短、混合画风的视觉缺口；闭屋后墙及两类田地已修复，并经最终Canvas快照静态读图复核。上述局部通过不提升SR整体状态，gh-pages可试玩开发版已成功部署，本轮源码main待确认；完整SR门槛仍未通过。"
         }
       ],
       "tasks": [
@@ -951,7 +1004,8 @@
         "BUILD-03",
         "OPEN-05"
       ],
-      "blockers": []
+      "blockers": [],
+      "acceptance_notes": "2026-10-06晚：本轮局部回归为UI/叙事/输入39/39、空间34/34（含9视口/DPR生产Canvas）和正常8设施5门人档9/9（11公开命令、2精确存读、真走8入口、rest实际到位、暂停不推进）。CUA浏览器工具当前不可调用，DOM鼠标/触屏/实机/FPS均未验收，旧浏览器证据不适用于新版。12类精细外立面与代码人物/室内尚有画风差距；0.6×0.9米床仅支持真实到场半坐歇息，成人卧躺未完成，闭屋后墙露出及两类田地显示已修复，最终生产Canvas快照已静态读图复核。既有passed AC保留原情景，整项不关闭；可试玩开发版gh-pages c0cb4038fd4a0d7536cbcfaf8755f22e10c01cb5已部署，任务37464500470 completed/success；本轮main源码上传待确认，不能据Pages成功标整项released。"
     },
     {
       "id": "SR-XF-006",
@@ -975,7 +1029,10 @@
         "U-63",
         "U-93",
         "R-25",
-        "U-94"
+        "U-94",
+        "U-96",
+        "U-97",
+        "R-27"
       ],
       "source_specs": [
         "docs/design/03-SPATIAL-ART.md",
@@ -983,8 +1040,8 @@
         "docs/design/07-ECONOMY-ORGANIZATION.md",
         "docs/design/18-SPATIAL-CONTINUITY-IMPLEMENTATION.md"
       ],
-      "baseline": "已有升级迁建预览尺寸修正和安全完工等待。",
-      "design_gap": "劳动/占床中的完整迁建拆除流程、退款与位置恢复未统一。",
+      "baseline": "已有保留身份的实际升级、迁建与拆除任务；本轮侧卡保留维护/升级/迁建入口，新建筑资产共用原实例锚点。",
+      "design_gap": "新素材下升级占地、迁建前后预览/成品、遮挡和取消恢复的视觉一致性未完成整体验收。",
       "design_deliverables": [
         "升级占地冲突、迁建源/目标预约、拆除与材料回收的任务状态图。",
         "人物活动中断、等待、临时撤离/安置和重新预约策略。",
@@ -1033,7 +1090,9 @@
       ],
       "evidence": [
         "docs/requirements/design/SR-XF-003-006.md",
-        "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+        "docs/requirements/IMPLEMENTATION-2026-10-06.md",
+        "docs/design/03-SPATIAL-ART.md",
+        "docs/design/STATUS.md"
       ],
       "change_log": [
         {
@@ -1043,6 +1102,14 @@
         {
           "date": "2026-10-06",
           "reason": "用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。"
+        },
+        {
+          "date": "2026-10-06",
+          "reason": "U-96/U-97将经营成长和同场可交互美术置于优先；按R-27消费已有米制/单时钟/存档契约实现局部模块，D/I/V/R完整门槛仍未关闭。本轮验证及发布待主集成回填，不更改旧AC事实。"
+        },
+        {
+          "date": "2026-10-06",
+          "reason": "回填主集成/独立验收确认的本轮组件和正常公开命令旧档结果；保留浏览器不可用、床体过短、混合画风的视觉缺口；闭屋后墙及两类田地已修复，并经最终Canvas快照静态读图复核。上述局部通过不提升SR整体状态，gh-pages可试玩开发版已成功部署，本轮源码main待确认；完整SR门槛仍未通过。"
         }
       ],
       "tasks": [
@@ -1127,7 +1194,8 @@
         "BUILD-04",
         "SAVE-01"
       ],
-      "blockers": []
+      "blockers": [],
+      "acceptance_notes": "2026-10-06晚：本轮局部回归为UI/叙事/输入39/39、空间34/34（含9视口/DPR生产Canvas）和正常8设施5门人档9/9（11公开命令、2精确存读、真走8入口、rest实际到位、暂停不推进）。CUA浏览器工具当前不可调用，DOM鼠标/触屏/实机/FPS均未验收，旧浏览器证据不适用于新版。12类精细外立面与代码人物/室内尚有画风差距；0.6×0.9米床仅支持真实到场半坐歇息，成人卧躺未完成，闭屋后墙露出及两类田地显示已修复，最终生产Canvas快照已静态读图复核。既有passed AC保留原情景，整项不关闭；可试玩开发版gh-pages c0cb4038fd4a0d7536cbcfaf8755f22e10c01cb5已部署，任务37464500470 completed/success；本轮main源码上传待确认，不能据Pages成功标整项released。"
     },
     {
       "id": "SR-XF-007",
@@ -1151,7 +1219,10 @@
         "U-63",
         "U-93",
         "R-25",
-        "U-94"
+        "U-94",
+        "U-96",
+        "U-97",
+        "R-27"
       ],
       "source_specs": [
         "docs/design/01-CHARACTERS.md",
@@ -1160,8 +1231,8 @@
         "docs/design/14-EARLY-GAME-DETAILED-DESIGN.md",
         "docs/design/06-OPENING-ACCEPTANCE.md"
       ],
-      "baseline": "已有具名人物与场景角色、部分动作和点选入口。",
-      "design_gap": "外观组合、装备挂点和全活动动作尚未形成正式资产配方。",
+      "baseline": "已有持久人物身份/外观配方与点选；本轮新增代码原生人物组合模块，读取同一模拟tick和实际活动/装备，正在同场集成。",
+      "design_gap": "人物肖像、场景/战斗的同身份对应、全活动动作和真实工具/装备辨识仍须浏览器及目标设备验收。",
       "design_deliverables": [
         "关键人物配方及普通人物可组合体型/脸/发型/主色/服饰目录。",
         "站立、行走、采集、种植、研习、休息、疗伤、施法、受击动作与工具对应表。",
@@ -1201,7 +1272,9 @@
       ],
       "evidence": [
         "docs/requirements/design/SR-XF-007-011-019-026-027.md",
-        "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+        "docs/requirements/IMPLEMENTATION-2026-10-06.md",
+        "docs/design/03-SPATIAL-ART.md",
+        "docs/design/STATUS.md"
       ],
       "change_log": [
         {
@@ -1211,6 +1284,14 @@
         {
           "date": "2026-10-06",
           "reason": "用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。"
+        },
+        {
+          "date": "2026-10-06",
+          "reason": "U-96/U-97将经营成长和同场可交互美术置于优先；按R-27消费已有米制/单时钟/存档契约实现局部模块，D/I/V/R完整门槛仍未关闭。本轮验证及发布待主集成回填，不更改旧AC事实。"
+        },
+        {
+          "date": "2026-10-06",
+          "reason": "回填主集成/独立验收确认的本轮组件和正常公开命令旧档结果；保留浏览器不可用、床体过短、混合画风的视觉缺口；闭屋后墙及两类田地已修复，并经最终Canvas快照静态读图复核。上述局部通过不提升SR整体状态，gh-pages可试玩开发版已成功部署，本轮源码main待确认；完整SR门槛仍未通过。"
         }
       ],
       "tasks": [
@@ -1295,7 +1376,8 @@
         "OPEN-02",
         "ACT-01"
       ],
-      "blockers": []
+      "blockers": [],
+      "acceptance_notes": "2026-10-06晚：本轮局部回归为UI/叙事/输入39/39、空间34/34（含9视口/DPR生产Canvas）和正常8设施5门人档9/9（11公开命令、2精确存读、真走8入口、rest实际到位、暂停不推进）。CUA浏览器工具当前不可调用，DOM鼠标/触屏/实机/FPS均未验收，旧浏览器证据不适用于新版。12类精细外立面与代码人物/室内尚有画风差距；0.6×0.9米床仅支持真实到场半坐歇息，成人卧躺未完成，闭屋后墙露出及两类田地显示已修复，最终生产Canvas快照已静态读图复核。既有passed AC保留原情景，整项不关闭；可试玩开发版gh-pages c0cb4038fd4a0d7536cbcfaf8755f22e10c01cb5已部署，任务37464500470 completed/success；本轮main源码上传待确认，不能据Pages成功标整项released。"
     },
     {
       "id": "SR-XF-008",
@@ -5021,7 +5103,10 @@
         "U-93",
         "R-25",
         "U-94",
-        "U-95"
+        "U-95",
+        "U-96",
+        "U-97",
+        "R-27"
       ],
       "source_specs": [
         "docs/design/01-CHARACTERS.md",
@@ -5029,12 +5114,12 @@
         "docs/design/06-OPENING-ACCEPTANCE.md",
         "docs/design/14-EARLY-GAME-DETAILED-DESIGN.md"
       ],
-      "baseline": "已有80个管理页模板和线上启动/序章的基础浏览器核对。",
-      "design_gap": "新自由营造、装备、旅行、危机等完整操作流与真机体验未验收。",
+      "baseline": "已有统一命令入口和管理页；本轮接入折叠剧情栏、紧凑对象侧卡、SR到达地点/天气同步、筑基目标修正和当地实际交互。",
+      "design_gap": "新场景下鼠标/iPad触控、遮挡重叠选人、输入焦点、营造及存档恢复尚需整体浏览器/设备核对。",
       "design_deliverables": [
         "掌门移动/点选/重叠/遮挡/营造的统一鼠标触控语义与防误操作。",
         "每个新系统的主目标、条件、确认、取消、等待、失败、恢复和帮助流程。",
-        "360/390宽与横屏信息布局，标题/正文/状态可读和低动态回退。"
+        "iPadOS横竖网页视口与Windows/macOS窗口、DPR的信息布局，标题/正文/状态可读和低动态回退。"
       ],
       "requirements": [
         "可见人物触控命中至少44CSS像素；缩放不让按钮/角色无法选取。",
@@ -5070,7 +5155,9 @@
       ],
       "evidence": [
         "docs/requirements/design/SR-XF-029-032-034.md",
-        "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+        "docs/requirements/IMPLEMENTATION-2026-10-06.md",
+        "docs/design/03-SPATIAL-ART.md",
+        "docs/design/STATUS.md"
       ],
       "change_log": [
         {
@@ -5084,6 +5171,14 @@
         {
           "date": "2026-10-06",
           "reason": "U-95明确画布只适配iPadOS/Windows/macOS网页分辨率；必需验收平台改为iPad横竖与桌面窗口/DPR，浏览器视口与实机证据分列。"
+        },
+        {
+          "date": "2026-10-06",
+          "reason": "U-96/U-97将经营成长和同场可交互美术置于优先；按R-27消费已有米制/单时钟/存档契约实现局部模块，D/I/V/R完整门槛仍未关闭。本轮验证及发布待主集成回填，不更改旧AC事实。"
+        },
+        {
+          "date": "2026-10-06",
+          "reason": "回填主集成/独立验收确认的本轮组件和正常公开命令旧档结果；保留浏览器不可用、床体过短、混合画风的视觉缺口；闭屋后墙及两类田地已修复，并经最终Canvas快照静态读图复核。上述局部通过不提升SR整体状态，gh-pages可试玩开发版已成功部署，本轮源码main待确认；完整SR门槛仍未通过。"
         }
       ],
       "tasks": [
@@ -5091,7 +5186,7 @@
           "id": "SR-XF-029-D01",
           "phase": "D01",
           "title": "设计补齐",
-          "description": "交付：掌门移动/点选/重叠/遮挡/营造的统一鼠标触控语义与防误操作。；每个新系统的主目标、条件、确认、取消、等待、失败、恢复和帮助流程。；360/390宽与横屏信息布局，标题/正文/状态可读和低动态回退。；填实必需参数并标记U/R/T来源。",
+          "description": "交付：掌门移动/点选/重叠/遮挡/营造的统一鼠标触控语义与防误操作。；每个新系统的主目标、条件、确认、取消、等待、失败、恢复和帮助流程。；iPadOS横竖网页视口与Windows/macOS窗口、DPR的信息布局，标题/正文/状态可读和低动态回退。；填实必需参数并标记U/R/T来源。",
           "status": "in_progress",
           "owner": "Codex/ui_acceptance",
           "depends_on": [],
@@ -5169,7 +5264,8 @@
         "INPUT-02",
         "OPEN-10"
       ],
-      "blockers": []
+      "blockers": [],
+      "acceptance_notes": "2026-10-06晚：本轮局部回归为UI/叙事/输入39/39、空间34/34（含9视口/DPR生产Canvas）和正常8设施5门人档9/9（11公开命令、2精确存读、真走8入口、rest实际到位、暂停不推进）。CUA浏览器工具当前不可调用，DOM鼠标/触屏/实机/FPS均未验收，旧浏览器证据不适用于新版。12类精细外立面与代码人物/室内尚有画风差距；0.6×0.9米床仅支持真实到场半坐歇息，成人卧躺未完成，闭屋后墙露出及两类田地显示已修复，最终生产Canvas快照已静态读图复核。既有passed AC保留原情景，整项不关闭；可试玩开发版gh-pages c0cb4038fd4a0d7536cbcfaf8755f22e10c01cb5已部署，任务37464500470 completed/success；本轮main源码上传待确认，不能据Pages成功标整项released。"
     },
     {
       "id": "SR-XF-030",

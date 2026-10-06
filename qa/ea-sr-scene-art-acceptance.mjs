@@ -18,7 +18,7 @@ try{
   for(const o of S.WORLD_SCENES[sceneId].objects){
    const b=worldObjectFootprint(o),x=b.left+.1,y=o.y;r.focusScenic(x,y);
    const before=JSON.stringify(s);r.render();assert.equal(JSON.stringify(s),before,'render never advances or writes facts');
-   const hit=r.pick({clientX:410,clientY:590});
+   const point=r.projectPoint({x,y}),hit=r.pick({clientX:point.x,clientY:point.y});
    assert.equal(hit.kind,'world-object',`${sceneId}/${o.id} visible left half selects real centred object`);assert.equal(hit.id,o.id);
    assert(hit.approachPoint.y>b.bottom,'click approaches outside its blocked base');
    s=S.dispatchCommand(s,{name:'srWorldCommand',args:[{action:'move',...hit.approachPoint}]}).state;

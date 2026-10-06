@@ -14,7 +14,7 @@
 
 纳入云岫前期，按依赖推进。
 
-决策来源：U-63, U-93, R-25, U-94。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
+决策来源：U-63, U-93, R-25, U-94, U-96, U-97, R-27。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
 
 规格：[03-SPATIAL-ART.md](../../../docs/design/03-SPATIAL-ART.md)、[05-RUNTIME-CONTRACTS.md](../../../docs/design/05-RUNTIME-CONTRACTS.md)、[07-ECONOMY-ORGANIZATION.md](../../../docs/design/07-ECONOMY-ORGANIZATION.md)、[18-SPATIAL-CONTINUITY-IMPLEMENTATION.md](../../../docs/design/18-SPATIAL-CONTINUITY-IMPLEMENTATION.md)、[06-OPENING-ACCEPTANCE.md](../../../docs/design/06-OPENING-ACCEPTANCE.md)。
 
@@ -24,9 +24,9 @@
 
 ## 现状与设计缺口
 
-已有候选位置检查、人物占位拒绝、完工等待和施工三阶段。
+已有自由选址、材料预留、人物占位拒绝、完工等待和施工三阶段；本轮新投影与独立建筑外观正在接入同一实际流程。
 
-仍以既有候选为主，缺完整自由合法安置与反馈设计。
+新美术与45°镜头下预览、确认、入口、施工安全及鼠标/iPad触控需要重新核对；原逻辑AC通过不代表新画面已通过。
 
 现状是适用旧能力的基线，不表示该SR完整目标已通过。
 
@@ -59,7 +59,7 @@ SR-XF-005-AC-02证据：qa/ea-sr-spatial-acceptance.mjs；docs/requirements/IMPL
 
 SR-XF-005-AC-03证据：qa/ea-sr-spatial-acceptance.mjs；docs/requirements/IMPLEMENTATION-2026-10-06.md
 
-每条AC至少覆盖相关数据、真实行为、UI解释和保存恢复；需要设备或真人证据时单独列出，不以旧测试数量替代。
+2026-10-06晚：本轮局部回归为UI/叙事/输入39/39、空间34/34（含9视口/DPR生产Canvas）和正常8设施5门人档9/9（11公开命令、2精确存读、真走8入口、rest实际到位、暂停不推进）。CUA浏览器工具当前不可调用，DOM鼠标/触屏/实机/FPS均未验收，旧浏览器证据不适用于新版。12类精细外立面与代码人物/室内尚有画风差距；0.6×0.9米床仅支持真实到场半坐歇息，成人卧躺未完成，闭屋后墙露出及两类田地显示已修复，最终生产Canvas快照已静态读图复核。既有passed AC保留原情景，整项不关闭；可试玩开发版gh-pages c0cb4038fd4a0d7536cbcfaf8755f22e10c01cb5已部署，任务37464500470 completed/success；本轮main源码上传待确认，不能据Pages成功标整项released。
 
 ## 开发任务
 
@@ -94,8 +94,12 @@ SR-XF-005-AC-03证据：qa/ea-sr-spatial-acceptance.mjs；docs/requirements/IMPL
 
 - docs/requirements/design/SR-XF-003-006.md
 - docs/requirements/IMPLEMENTATION-2026-10-06.md
+- docs/design/03-SPATIAL-ART.md
+- docs/design/STATUS.md
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
+- 2026-10-06：U-96/U-97将经营成长和同场可交互美术置于优先；按R-27消费已有米制/单时钟/存档契约实现局部模块，D/I/V/R完整门槛仍未关闭。本轮验证及发布待主集成回填，不更改旧AC事实。
+- 2026-10-06：回填主集成/独立验收确认的本轮组件和正常公开命令旧档结果；保留浏览器不可用、床体过短、混合画风的视觉缺口；闭屋后墙及两类田地已修复，并经最终Canvas快照静态读图复核。上述局部通过不提升SR整体状态，gh-pages可试玩开发版已成功部署，本轮源码main待确认；完整SR门槛仍未通过。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。
