@@ -5,31 +5,36 @@
   "updated": "2026-10-07",
   "authoritative": "registry.json for requirement records and task states; derived Markdown rendered by qa/sr-manager.py refresh",
   "source_runtime": {
-    "main": "b4f33487a9ee3b9e18dae885328eb500532c1647",
-    "runtime_source": "c77c96b6be45ba8acb60e9101295ab9ae4290dda",
-    "pages": "cb81de0f7b789c1a054325bf6b621e09f5a1fa8f",
+    "main": "eb5cca59b226c49c184a2082bcdda5ebd64de3fb",
+    "runtime_source": "eb5cca59b226c49c184a2082bcdda5ebd64de3fb",
+    "pages": "809d5bb8aecfbfc2a4681fd706e6597ed62297b3",
     "game_version": "1.6.0-dev",
     "schema_version": 6,
-    "preview_pages": "cb81de0f7b789c1a054325bf6b621e09f5a1fa8f",
-    "preview_deployment": "37469792150",
+    "preview_pages": "809d5bb8aecfbfc2a4681fd706e6597ed62297b3",
+    "preview_deployment": "37541344563",
     "working_game_version": "1.6.0-dev",
     "official_game_version": "1.6.0-dev",
-    "version_note": "最新已发布基点为U-99；U-100回归正式2.5D与96米扩容本轮集成，发布证据待回填；整项SR未据局部检查关闭。",
+    "version_note": "U-100已回归正式2.5D与原云岫素材，山院扩为96米；Pages发布及有限真实网页鼠标检查已完成，完整动作/设备性能/整项SR继续验收。",
     "main_record_type": "runtime source commit; release metadata commit is a descendant",
     "working_release_note": "本轮源码通过GitHub API提交，main后续元数据提交沿同一主线；Pages与源码证据已分别记录。",
-    "previous_pages": "c0cb4038fd4a0d7536cbcfaf8755f22e10c01cb5",
-    "previous_preview_deployment": "37464500470",
+    "previous_pages": "cb81de0f7b789c1a054325bf6b621e09f5a1fa8f",
     "pages_deployment_status": "completed/success",
     "working_release_tag": "ea-160-yunxiu-2d-20261007-r1",
-    "official_release_tag": "ea-160-building-units-20261006-r1",
-    "official_url": "https://cybershp.github.io/Simulation-web-game/?v=ea-160-building-units-20261006-r1",
+    "official_release_tag": "ea-160-yunxiu-2d-20261007-r1",
+    "official_url": "https://cybershp.github.io/Simulation-web-game/?v=ea-160-yunxiu-2d-20261007-r1",
     "deployed_tree_verification": {
-      "text_modules": 158,
-      "webp_assets": 6,
-      "estate_webp_assets": 3,
+      "text_modules": 160,
+      "webp_assets": 7,
+      "estate_webp_assets": 5,
       "sha_matches_local_package": true
     },
-    "previous_runtime_source": "6e1aba828c79baf2429d2c24e38664940fc9321a"
+    "previous_main": "b4f33487a9ee3b9e18dae885328eb500532c1647",
+    "browser_verification": {
+      "viewport": "1363x936",
+      "scope": "独立验收旧档恢复、真实人物行走、外观加载、缩放/拖动/暂停、建筑点选；正式入口只读启动",
+      "real_devices": false,
+      "fps_measured": false
+    }
   },
   "enums": {
     "scope": [
