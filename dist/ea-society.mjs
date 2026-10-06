@@ -1,3 +1,5 @@
+import {hallInteriorEnabled} from './ea-hall-interior.mjs';
+import {prepareFacilityActivity,releaseBodyActivity,contributeProduction} from './ea-facility-activities.mjs';
 import {BUILDINGS, TECHNIQUES, RECIPES, ROUTES, CELLS, RESOURCES, TRAIT_NAMES,
   rng, day, log, pay, canPay, grant, capacity, xpNeed, clamp} from './ea-data.mjs';
 
@@ -192,7 +194,7 @@ function pathTo(s,d,b) {
   }
   return null;
 }
-const occupied = (s,d,b) => b.type!=='hall'&&s.disciples.some(x=>x.id!==d.id&&x.job===b.id&&!x.mind.away);
+const occupied = (s,d,b) => s.schemaVersion!==6&&b.type!=='hall'&&s.disciples.some(x=>x.id!==d.id&&x.job===b.id&&!x.mind.away);
 function studyLock(s,d,id,hooks={}) {
   if(hooks.studyLock)return hooks.studyLock(s,d,id,false);
   const t=TECHNIQUES[id],p=d.mind;
@@ -219,20 +221,23 @@ function lessonBonus(s,d,id) {
   if(peak&&PEAK_DIRECTIONS[peak.direction].techniques.includes(id))value+=.15+.08*peak.budget;
   return value;
 }
-function production(s,d,b,hooks) {
+function production(s,d,b,hooks,participants=null) {
   const t=BUILDINGS[b.type];
-  if(t.input&&!canPay(s,t.input))return false;
+  if(!participants&&t.input&&!canPay(s,t.input))return false;
   let out=hooks.buildingYield?hooks.buildingYield(s,b,d):Object.fromEntries(Object.entries(t.out).map(([k,v])=>[k,v*b.level*(.8+.2*d.talent)]));
   if(!Object.values(out).some(v=>v>0))return false;
-  if(t.input)pay(s,t.input);
+  if(!participants&&t.input)pay(s,t.input);
   const peak=peakFor(s,d), tags=t.tags||[], skill=tags.includes('plant')?'plant':tags.includes('learning')?'learning':tags.includes('water')?'array':'industry';
   out=Object.fromEntries(Object.entries(out).map(([k,v])=>[k,v*(1+d.mind.skills[skill]/250)*(peak&&PEAK_DIRECTIONS[peak.direction].outputs.includes(k)?1+.12*peak.budget:1)]));
-  grant(s,out); s.society.stats.workCycles++;
-  d.mind.skills[skill]=clamp(d.mind.skills[skill]+.6,0,100);
-  d.mind.purse=clamp(d.mind.purse+.8,0,10000);
-  d.mind.restitutionBalance=Math.max(0,d.mind.restitutionBalance-Object.values(out).reduce((a,b)=>a+b,0)*.2);
-  if(skill==='plant'&&known(d,'wood'))d.mind.knowledge.wood=clamp(known(d,'wood')+.18,0,100);
-  if(skill==='array'&&known(d,'array'))d.mind.knowledge.array=clamp(known(d,'array')+.18,0,100);
+  if(participants){const credited=participants.reduce((total,p)=>total+p.share,0);out={};for(const {person,share}of participants){const yields=hooks.buildingYield?hooks.buildingYield(s,b,person):Object.fromEntries(Object.entries(t.out).map(([k,v])=>[k,v*b.level*(.8+.2*person.talent)])),pk=peakFor(s,person);for(const[k,v]of Object.entries(yields))out[k]=(out[k]||0)+v*share/credited*(1+person.mind.skills[skill]/250)*(pk&&PEAK_DIRECTIONS[pk.direction].outputs.includes(k)?1+.12*pk.budget:1);}}
+  grant(s,out); s.society.stats.workCycles++;hooks.onProduction?.(s,d,b,out);
+  for(const {person,share}of participants||[{person:d,share:1}]) {
+    const p=person.mind;p.skills[skill]=clamp(p.skills[skill]+.6*share,0,100);
+    p.purse=clamp(p.purse+.8*share,0,10000);
+    p.restitutionBalance=Math.max(0,p.restitutionBalance-Object.values(out).reduce((a,b)=>a+b,0)*.2*share);
+    if(skill==='plant'&&known(person,'wood'))p.knowledge.wood=clamp(known(person,'wood')+.18*share,0,100);
+    if(skill==='array'&&known(person,'array'))p.knowledge.array=clamp(known(person,'array')+.18*share,0,100);
+  }
   return true;
 }
 function consumePill(s,d,id,secret,hooks) {
@@ -319,7 +324,7 @@ function decide(s,d,hooks) {
   if(d.breakthroughCooldown>s.time){p.activity='rest';d.job=null;p.path=[];p.scenic.path=[];p.reason='突破后守住心神，先在原地调息，暂缓差事与授业。';p.commitUntil=d.breakthroughCooldown;return;}
   if(d.xp>=xpNeed(d.realm)&&d.realm<12&&d.energy>=45&&d.wound<=5&&clock(s)-p.lastBreakthrough>=120&&hooks.breakthroughLock&&!hooks.breakthroughLock(s,d,false)) {
     const quiet=lifeFacility(s,d,'cultivate');
-    if(quiet&&scenicDistance(p.scenic,buildingAccess(s,quiet))<=18&&!p.scenic.path.length){
+    if(quiet&&scenicDistance(p.scenic,buildingAccess(s,quiet))<=28&&!p.scenic.path.length&&(s.schemaVersion!==6||s.activitiesById[d.activityId]?.action==='cultivate'&&s.activitiesById[d.activityId]?.phase==='executing'&&s.activitiesById[d.activityId]?.targetId===quiet.instanceId)){
       p.lastBreakthrough=clock(s);hooks.breakthroughPerson(s,d,false,{autonomous:true});p.activity='rest';d.job=null;p.path=[];p.scenic.path=[];p.reason='自己衡量准备后完成突破，先在安静处调息。';p.commitUntil=d.breakthroughCooldown;
       remember(s,d,'自己衡量准备后尝试突破。境界高低不会代替对同门的判断。',{important:true,key:`breakthrough:${d.realm}:${p.lastBreakthrough}`});return;
     }
@@ -426,9 +431,12 @@ function execute(s,d,hooks) {
   const lock=lifeActivityLock(s,d);
   if(lock){p.commitUntil=0;p.activity='rest';d.job=null;p.path=[];p.reason=lock;return;}
   if(p.scenic.revision!==geometryRevision(s))repairScenicActor(p.scenic,s);
-  if(d.breakthroughCooldown>s.time){d.energy=clamp(d.energy+(hooks.restRecovery?hooks.restRecovery(s,d):1.05),0,100);return;}
+  if(d.breakthroughCooldown>s.time&&!hallInteriorEnabled(s)){d.energy=clamp(d.energy+(hooks.restRecovery?hooks.restRecovery(s,d):1.05),0,100);return;}
   const destination=lifeFacility(s,d);
-  if(destination){const goal=buildingAccess(s,destination);if(!p.scenic.goal||scenicDistance(goal,p.scenic.goal)>.01){p.scenic.path=lifeScenePath(s,d,destination)||[];p.scenic.goal=goal;}}
+  if(s.schemaVersion===6&&(['work','study','teach','cultivate'].includes(p.activity)||hallInteriorEnabled(s)&&['rest','heal'].includes(p.activity))) {
+    if(!prepareFacilityActivity(s,d,destination,p.activity)){if(hallInteriorEnabled(s)&&p.activity==='rest'&&(!destination||s.activitiesById[d.activityId]?.phase==='waiting')){d.energy=clamp(d.energy+.3,0,100);p.reason='床位暂满，在原处暂歇，恢复较慢。';}return;}
+  }else if(s.schemaVersion===6)releaseBodyActivity(s,d);
+  if(s.schemaVersion!==6&&destination){const goal=buildingAccess(s,destination);if(!p.scenic.goal||scenicDistance(goal,p.scenic.goal)>.01){p.scenic.path=lifeScenePath(s,d,destination)||[];p.scenic.goal=goal;}}
   if(p.scenic.path.length) {
     advanceScenic(p.scenic,46,s);syncScenicPosition(s,d);d.energy=clamp(d.energy-.04,0,100);return;
   }
@@ -447,8 +455,13 @@ function execute(s,d,hooks) {
   } else if(p.activity==='work') {
     const b=s.buildings.find(b=>b.id===d.job),t=BUILDINGS[b?.type];
     if(!b||!t?.work||!buildingActive(b)){p.commitUntil=0;p.activity='rest';d.job=null;return;}
-    d.energy=clamp(d.energy-.32,0,100);b.progress=(b.progress||0)+1;
-    if(b.progress>=t.duration){b.progress-=t.duration;if(!production(s,d,b,hooks)){p.reason='原料、维护或运输条件不足，暂缓生产。';p.commitUntil=0;}}
+    if(s.schemaVersion===6){
+      if(contributeProduction(s,d,b,participants=>production(s,participants[0].person,b,hooks,participants)))d.energy=clamp(d.energy-.32,0,100);
+      else {p.reason='原料不足，已保留共同批次进度。';p.commitUntil=0;}
+    }else {
+      d.energy=clamp(d.energy-.32,0,100);b.progress=(b.progress||0)+1;
+      if(b.progress>=t.duration){b.progress-=t.duration;if(!production(s,d,b,hooks)){p.reason='原料、维护或运输条件不足，暂缓生产。';p.commitUntil=0;}}
+    }
   } else if(p.activity==='cultivate') {
     const b=s.buildings.find(b=>b.id===d.job);
     const rate=hooks.cultivationRate?hooks.cultivationRate(s,d,b):(.8+(b?.type==='meditation'?1:0))*d.talent*(TECHNIQUES[p.main]?.cultivation||1);
@@ -896,7 +909,7 @@ export function validateSociety(s) {
     if(p.away?.kind==='errand'&&!p.journey)bad('自主外出缺少行程');
     if(p.away?.kind==='campaign'&&(!s.world?.exploration?.companionIds?.includes(d.id)||s.world.exploration.regionId!==p.away.id))bad('同行记录缺少实际行程');
     if(p.journey!==null){const j=p.journey;if(!ROUTES[j.routeId]||!num(j.remaining,0,j.total)||!num(j.total,1,1000)||!j.legacy&&j.total!==ROUTES[j.routeId].duration||typeof j.encounterResolved!=='boolean'||!num(j.risk,0,1)||p.away?.kind!=='errand')bad('自主行程');if(j.legacy&&(!j.snapshotReward||Object.entries(j.snapshotReward).some(([k,v])=>!RESOURCES[k]||!num(v))||!num(j.snapshotReputation)||!num(j.snapshotXp)||![1,1.5].includes(j.multiplier)))bad('旧日游历快照');}
-    if(d.job!==null) {const b=s.buildings.find(b=>b.id===d.job);if(!b)bad('工作位置');if(!['hall','meditation'].includes(b.type)){if(jobIds.has(d.job))bad('重复生产岗位');jobIds.add(d.job);}}
+    if(d.job!==null) {const b=s.buildings.find(b=>b.id===d.job);if(!b)bad('工作位置');if(s.schemaVersion!==6&&!['hall','meditation'].includes(b.type)){if(jobIds.has(d.job))bad('重复生产岗位');jobIds.add(d.job);}}
     if(p.activity==='work'&&d.job===null)bad('无设施的生产');
   }
   for(const q of sc.quests){if(!int(q.id,1,sc.nextQuestId-1)||!historic.has(q.discipleId)||!QUESTS[q.kind]||!['offered','active','completed','declined','expired','failed'].includes(q.status)||!num(q.progress,0,1)||!num(q.createdAt)||!num(q.deadline)||q.outcome!==null&&!str(q.outcome))bad('个人心事');if(q.kind==='mastery'&&['active','completed','failed'].includes(q.status)&&(!TECHNIQUES[q.target]||!num(q.startMastery,0,100)||!num(q.targetMastery,q.startMastery,100)||!int(q.researchTicks)))bad('研考进度');}

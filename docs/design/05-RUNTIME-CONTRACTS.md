@@ -1,6 +1,8 @@
 # 运行时、数据与存档契约
 
-设计编号：DB-2026-10-05；版本：1.1。本文为目标接口，不宣称现有EA已经采用这些字段。它负责跨模块的唯一事实与序列化边界；领域规则分别见 [人物](01-CHARACTERS.md)、[装备武学](02-EQUIPMENT-ARTS.md)、[空间](03-SPATIAL-ART.md)、[世界](04-WORLD-STORY.md)、[经济](07-ECONOMY-ORGANIZATION.md)。
+设计编号：DB-2026-10-05；版本：1.2。本文为目标接口，不宣称现有EA已经采用这些字段。它负责跨模块的唯一事实与序列化边界；领域规则分别见 [人物](01-CHARACTERS.md)、[装备武学](02-EQUIPMENT-ARTS.md)、[空间](03-SPATIAL-ART.md)、[世界](04-WORLD-STORY.md)、[经济](07-ECONOMY-ORGANIZATION.md)。
+
+本地实施状态：schema 6共同表、工位预约、施工/生产/伤匠治疗工作单已有部分实现，规则修订opening-runtime-3；不是下列完整目标schema。最新兼容范围见[18](18-SPATIAL-CONTINUITY-IMPLEMENTATION.md)，工位初批见[16](16-WORKSTATIONS-ARTISAN-IMPLEMENTATION.md)。
 
 ## 1. 事实、定义和画面分开
 
@@ -21,7 +23,7 @@
 
 | 字段 | 含义 |
 | --- | --- |
-| `schemaVersion` | 存档结构版本；本轮尚未决定新版本号，当前实际存档为v5 |
+| `schemaVersion` | 存档结构版本；本地开发版首轮schema 6迁移已实现；其余目标主表按15逐步接入，历史旧档为version=5 |
 | `revision` | 权威状态修订号，用于命令前置及过期请求判断；不等于schemaVersion |
 | `rulesetVersion, contentVersion` | 平衡规则、内容定义版本，与运行时版本分离 |
 | `worldTick, ticksPerDay, rngState` | 唯一时钟、日长配置、已持久化随机状态 |
@@ -228,7 +230,7 @@ NPC目标/阶段生活计划、信念`beliefs`内嵌人物。`person.combatSessi
 
 ## 11. 旧存档迁移
 
-当前实际 `version=5`，保留已有v1–v4路径。目标结构采用新的schema版本时，必须增加明确迁移，不就地覆盖v5后谎称仍兼容。
+历史实际档为 `version=5`，含v1–v4路径。本地EA 1.5.0-dev已实现schema 6首轮迁移、主表适配与旧完成档保护；具体代码和证据见[15](15-OPENING-IMPLEMENTATION.md)。加载器识别旧version后生成新根，新档不写重复的version或旧人物/建筑/库存入口。未完成旧篇章暂存为legacy-ea-1.4.2，固定三责任人等内容映射仍待实现；不能把结构迁移写成全篇内容迁移完成。完整目标矩阵仍见[14](14-EARLY-GAME-DETAILED-DESIGN.md)。
 
 | 原数据 | 迁移原则 |
 | --- | --- |

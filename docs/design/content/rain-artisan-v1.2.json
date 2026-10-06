@@ -1,0 +1,40 @@
+{
+  "contentId": "content:rain-artisan:care:v1",
+  "causalSpecVersion": 1,
+  "kind": "author-input",
+  "rootKind": "event-chain",
+  "rootChainId": "root:rain-artisan:v1",
+  "scope": {"regionId": "region:yunxiu", "realmIds": ["realm:qi"], "countsAsImportantRoot": true},
+  "truthAuthoring": {
+    "manipulationTag": false,
+    "involvedPersonIds": ["person:master", "person:cheng-wenzhou"],
+    "cause": "程问舟在此前雨夜赶往石桥驿修理行旅器具，滑落坡道，自行包扎后循山院炊烟求助。",
+    "injury": "非致命筋骨伤；初始伤势35，能缓慢步行，不隐设死亡倒数。",
+    "motives": "愿意接受说明过用途的草药与院前照护，伤稳后回驿交工；不自动入宗、交出工具或参与复仇。",
+    "knowledge": "只知道自己的行程、器具手艺和石桥驿合作机会，不知道沈家夺产内情。",
+    "hiddenThreadIds": ["thread:artisan-unfinished-order"],
+    "notYetImplemented": ["石桥驿实景", "器具部件与唯一装备制作", "与法门的实战配合", "失联采药人致命危机"]
+  },
+  "publicClaims": [{"speakerId":"person:cheng-wenzhou","recipientId":"person:master","channel":"当面交谈","content":"此前雨夜滑伤，想借干燥地方换药；驿上还有修器的活计。"}],
+  "cluePaths": [
+    {"id":"clue:artisan-account","sourceKind":"direct-testimony","independenceGroup":"artisan","position":"云岫别院来客"},
+    {"id":"clue:artisan-bandage","sourceKind":"scene-observation","independenceGroup":"observed-injury","position":"掌门到场后观察旧绷带与伤势"}
+  ],
+  "timeGraph": {
+    "activation":"新开局整理遗卷并发生首次真实收成后，下一worldTick；旧档不追加此人。",
+    "arrival":"程问舟从实际山门位置步行到主屋入口；单一时钟，暂停不走。",
+    "preparation":"双方各自前往主屋附近的独立照护位置；途中不减伤。",
+    "intervention":{"durationTicks":250,"cost":{"herb":8},"requires":"双方到场、照护席可用、掌门精力；个人活动引用同一治疗工作单。"},
+    "recovery":{"durationTicks":200,"effect":"伤势从10渐降到0；停止占用掌门身体，只保留伤匠休养位置。"},
+    "decline":"本人沿原路离院，不重刷人或惩罚可靠主线。",
+    "cancel":"保留已缓解的伤势与已用药材，按未用比例退药；本次换药结束，重新照料需重新备药，恩义不重发。"
+  },
+  "possibleOutcomeIds":["outcome:artisan:treated","outcome:artisan:declined","outcome:artisan:care-cancelled"],
+  "criticalStoryFallbackFactIds":["fact:opening:gift"],
+  "compiledEffects": {
+    "treatment":"药物预留一次，250个到场tick完成；伤势降至10，唯一知情恩义记忆和石桥驿合作事实。",
+    "membership":"无自动入院或同行；随身工具不转给掌门。",
+    "scope":"本批只交付到访、治疗、休养和拒绝分支，不宣称CHAIN-01完整通过。"
+  },
+  "acceptanceIds":["CHAIN-02","CHAIN-03","CONTENT-02","ECON-02"]
+}

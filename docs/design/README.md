@@ -1,4 +1,4 @@
-# 设计入口 · DB-2026-10-05 v1.1
+# 设计入口 · DB-2026-10-05 v1.2
 
 这套文档用于后续所有会话和模型接续同一项目。它把已确认方向、推荐方案、数据边界、验收和实现状态分开，不依赖模型记得聊天记录。
 
@@ -8,7 +8,7 @@
 2. [00-BASELINE.md](00-BASELINE.md)：产品定位与跨系统约束。
 3. [DECISIONS.md](DECISIONS.md)：哪些用户已确定，哪些只是建议，哪些可调或后置。
 4. [STATUS.md](STATUS.md)：当前实际上有哪些、哪些尚未实现。
-   世界观问答进行中，接续时一并读取[13-WORLDVIEW-DISCUSSION.md](13-WORLDVIEW-DISCUSSION.md)，区分新增确认、撤回方案和未定内容。
+   世界观问答按U-93阶段收束；接续读取[14前期详细设计](14-EARLY-GAME-DETAILED-DESIGN.md)，确认来源查[13](13-WORLDVIEW-DISCUSSION.md)。远期未定项不阻塞前期。
 5. [05-RUNTIME-CONTRACTS.md](05-RUNTIME-CONTRACTS.md)：ID、时钟、命令、事务和存档。
 6. 本次任务涉及的分系统规格，并跟随其中的依赖链接。
 7. [06-OPENING-ACCEPTANCE.md](06-OPENING-ACCEPTANCE.md)：该改动必须满足的可玩验收。
@@ -32,7 +32,11 @@
 | [危机、救援与死亡](10-CRISES-RESCUE-DEATH.md) | 怎样发现定位、及时到场、自救救人或部署陷阱，死亡留下什么？ |
 | [AI与内容边界](11-AI-CONTENT-CONTRACT.md) | 默认无AI怎样完整运行，可选AI能表达什么、不能改变什么？ |
 | [内容创作规范](12-CONTENT-AUTHORING.md) | 每条重要内容怎样提交真相卡、线索图、时间预算和持续后果？ |
-| [世界观问答记录](13-WORLDVIEW-DISCUSSION.md) | 多方势力、自由门类、正魔历史、诸界与仙凡交集目前确认了什么？ |
+| [世界观问答记录](13-WORLDVIEW-DISCUSSION.md) | 多方势力与修行规则的确认来源、撤回方案及暂存远期问题 |
+| [前期详细设计](14-EARLY-GAME-DETAILED-DESIGN.md) | 前期范围、地方内容、固定责任链、成长与迁移怎样具体落实？ |
+| [第四批实施](18-SPATIAL-CONTINUITY-IMPLEMENTATION.md) | 营造场景联动修正、完工占位安全与当前真实差距 |
+| [第三批实施](17-INDOOR-LIFE-IMPLEMENTATION.md) | 主屋床位、门道、屋顶与旧预约迁移，以及尚未完成的空间目标 |
+| [第二批实施](16-WORKSTATIONS-ARTISAN-IMPLEMENTATION.md) | 独立工位、共享批次、伤匠照料与当前未覆盖范围 |
 | [决策登记](DECISIONS.md) | 重要决定的状态和修改影响 |
 | [实现状态](STATUS.md) | 目标与现状的差距、接续工作的起点 |
 | [参考依据](REFERENCES.md) | 竞品事实、适配建议和不能照搬的部分 |
@@ -44,7 +48,11 @@ v1.1新增的世界任务需联合读取08–12与05：NPC永久死亡覆盖v1.0
 
 下面这段可用于任何模型、任何新会话。仓库支持读取AGENTS.md的工具会自动获得入口；其他工具需显式附上本提示词。任何文件都不能保证未获得仓库内容的模型自动知晓设计。
 
-> 接续 CyberShp/Simulation-web-game。先读取仓库AGENTS.md，再读取docs/design/README.md、00-BASELINE.md、DECISIONS.md、STATUS.md、05-RUNTIME-CONTRACTS.md，以及任务相关规格和06-OPENING-ACCEPTANCE.md。当前设计为DB-2026-10-05 v1.1。先核对实际代码和交付状态，不把规格、旧截图或通过数量当成已实现。保留仅直接控制掌门、NPC自主、复仇篇章收束、统一场景实体、稳定身份、单一时钟和旧档保护。遵守user-confirmed与recommended的区分。执行时更新实际状态与证据；若新用户指令改变设计，同步决策及所有受影响文档，不能只在聊天里改变。
+> 接续 CyberShp/Simulation-web-game。先读取仓库AGENTS.md，再读取docs/design/README.md、00-BASELINE.md、DECISIONS.md、STATUS.md、05-RUNTIME-CONTRACTS.md，以及任务相关规格和06-OPENING-ACCEPTANCE.md。当前设计为DB-2026-10-05 v1.2；先读14收束前期，不继续主动追问远期世界观。先核对实际代码和交付状态，不把规格、旧截图或通过数量当成已实现。保留仅直接控制掌门、NPC自主、复仇篇章收束、统一场景实体、稳定身份、单一时钟和旧档保护。遵守user-confirmed与recommended的区分。执行时更新实际状态与证据；若新用户指令改变设计，同步决策及所有受影响文档，不能只在聊天里改变。
+
+## 本地开发增量
+
+用户已要求开始开发。最新实现与未覆盖范围见[18](18-SPATIAL-CONTINUITY-IMPLEMENTATION.md)，第三批见[17](17-INDOOR-LIFE-IMPLEMENTATION.md)，第二批见[16](16-WORKSTATIONS-ARTISAN-IMPLEMENTATION.md)，首批历史见[15-OPENING-IMPLEMENTATION.md](15-OPENING-IMPLEMENTATION.md)；本地EA 1.5.0-dev使用schema 6，历史发布保持EA 1.4.2。接续先核对STATUS，不能把首批开局当成完整v1.2验收。
 
 ## 变更与交接方法
 

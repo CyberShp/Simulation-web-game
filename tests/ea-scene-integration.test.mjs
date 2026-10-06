@@ -9,8 +9,8 @@ test('new courtyard shows exactly the surviving house and an actionable recovery
  const s=S.initial(),before=structuredClone(s),view=sceneSnapshot(s);
  assert.deepEqual(view.facilities.map(r=>r.type),['hall']);assert.equal(view.people.length,0);assert.equal(view.objective.kind,'heal');
  assert.deepEqual(s,before,'scene projection must be read-only');
- S.masterAction(s,'heal');assert.equal(nextObjective(s).kind,'self');S.tick(s,16);assert.equal(nextObjective(s).kind,'journal');
- s.story.step=2;s.resources.wood=0;assert.equal(nextObjective(s).kind,'production');assert.match(nextObjective(s).text,/灵木 25/);
+ S.masterAction(s,'heal');assert.equal(nextObjective(s).kind,'self');S.tick(s,16);assert.equal(nextObjective(s).kind,'home');
+ s.story.step=2;s.resources.wood=0;assert.equal(nextObjective(s).kind,'gather');assert.match(nextObjective(s).text,/灵木 25/);
 });
 test('build, upgrade, relocation, pause, demolition and restore project the exact facility IDs',()=>{
  const s=S.initial();Object.assign(s.resources,{wood:200,stone:200,jade:300});

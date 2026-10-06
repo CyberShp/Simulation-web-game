@@ -111,6 +111,9 @@ export function campaignSummary(s) {
     [{ label:'选择重建栖霞或回归云岫', met:true }],
     [{ label:'第一大篇章已经完成', met:true }]
   ][n] || [];
+  if(n===1&&s.story.opening){
+    requirements.splice(0,requirements.length,...(s.story.opening.gifted?[]:[{label:'灵草 10 份',met:s.resources.herb>=10}]));
+  }
   return { step:n, ...STORY[n], ready:n < 10 && requirements.every(r => r.met), requirements, clues:s.story.clues.map(id => ({ id, name:CLUES[id] })), preparations:Object.entries(PREPARATIONS).map(([id, name]) => ({ id, name, done:s.story.preparations[id] })), completed:s.story.completed, ending:s.story.ending };
 }
 export function storyReady(s) { return campaignSummary(s).ready; }

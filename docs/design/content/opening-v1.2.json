@@ -1,0 +1,35 @@
+{
+  "contentId": "content:opening-gift:v1",
+  "causalSpecVersion": 1,
+  "kind": "author-input",
+  "rootKind": "event-chain",
+  "rootChainId": "root:opening-gift:v1",
+  "scope": {
+    "regionId": "region:yunxiu",
+    "realmIds": ["realm:qi"],
+    "countsAsImportantRoot": false
+  },
+  "truthAuthoring": {
+    "manipulationTag": false,
+    "involvedPersonIds": ["person:master", "person:lu-zhiwei", "person:lin-changfeng"],
+    "cause": "陆知微为患病家人循旧药方求药；赠药善缘可靠，没有伏击或反转。",
+    "knowledgeLimit": "来客不知道掌门仇家的隐秘参与者，也不因此承诺复仇。",
+    "exclusion": "赠药转移药材；本批不模拟院外家属的服药、送药旅程或治疗结算，不宣称已完成院外救援。"
+  },
+  "cluePaths": [
+    {"id": "clue:opening-old-prescription", "sourceKind": "document", "independenceGroup": "family-prescription"},
+    {"id": "clue:opening-visitor-request", "sourceKind": "person", "independenceGroup": "visitor-request"}
+  ],
+  "possibleOutcomeIds": ["outcome:postpone-gift", "outcome:gift-and-invite", "outcome:gift-and-depart"],
+  "criticalStoryFallbackFactIds": ["fact:changfeng-independent-join-opportunity"],
+  "compiledEffect": {
+    "giftFactId": "fact:opening:gift",
+    "resourceId": "herb",
+    "quantity": 10,
+    "fromStockpileId": "stockpile:yunxiu",
+    "toStockpileId": "stockpile:lu-zhiwei",
+    "membershipNeedsSeparateChoice": true,
+    "companionNeedsSeparateChoice": true
+  },
+  "acceptanceIds": ["EARLY-01", "EARLY-05"]
+}

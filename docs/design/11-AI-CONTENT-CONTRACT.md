@@ -1,6 +1,6 @@
 # AI 与内容生成契约
 
-设计编号：DB-2026-10-05；版本：1.1。本文是目标设计，**本轮不接入任何 AI API**，也不选定供应商、模型、价格或计费套餐。AI 是可选表达能力，世界成立的条件由本地规则和受验收内容保证。
+设计编号：DB-2026-10-05；版本：1.2。本文是目标设计，**本轮不接入任何 AI API**，也不选定供应商、模型、价格或计费套餐。AI 是可选表达能力，世界成立的条件由本地规则和受验收内容保证。
 
 共同事实、时钟和命令见 [05-RUNTIME-CONTRACTS.md](05-RUNTIME-CONTRACTS.md)；天气与生态见 [08-LIVING-WORLD.md](08-LIVING-WORLD.md)；情报、暗线与谋局见 [09-INTRIGUE-OPPORTUNITIES.md](09-INTRIGUE-OPPORTUNITIES.md)；危机、斗法与生死见 [10-CRISES-RESCUE-DEATH.md](10-CRISES-RESCUE-DEATH.md)。作者内容入库规则见 [12-CONTENT-AUTHORING.md](12-CONTENT-AUTHORING.md)。
 

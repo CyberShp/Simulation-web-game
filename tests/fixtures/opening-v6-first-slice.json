@@ -1,0 +1,1283 @@
+{
+  "speed": 1,
+  "nextId": 6,
+  "claimed": [],
+  "stats": {
+    "built": 4,
+    "breakthroughs": 0,
+    "expeditions": 1,
+    "crafted": 0,
+    "relocated": 0,
+    "trades": 0,
+    "consumed": 0
+  },
+  "logs": [
+    {
+      "time": 245,
+      "text": "掌门从云岫山谷归来。已取得的证据与收获均保留。"
+    },
+    {
+      "time": 245,
+      "text": "照应迷路行人已完成：交出口粮，结下善缘并获赠实用药材。 本次灵露的收获已经带在身上。"
+    },
+    {
+      "time": 243,
+      "text": "抵达云岫山谷。在地图中走近溪边药径，再选择查访行动。"
+    },
+    {
+      "time": 240,
+      "text": "行脚药师来到山门，等待你的回应。"
+    },
+    {
+      "time": 240,
+      "text": "山中转为长风：风干土壤，采石与伐木需要更多照应。"
+    },
+    {
+      "time": 240,
+      "text": "陆知微初步掌握《春雨养脉法》，还需继续熟悉才能授业。"
+    },
+    {
+      "time": 231,
+      "text": "掌门亲往「云岫山谷」。"
+    },
+    {
+      "time": 223,
+      "text": "掌门公布「侧重灵草」，门人会按人格、需要与经历重新权衡。"
+    },
+    {
+      "time": 222,
+      "text": "灵稻田营造完成，入口连通，门人可自主前来使用。"
+    },
+    {
+      "time": 180,
+      "text": "游方讲师来访：「一席论道」。"
+    },
+    {
+      "time": 178,
+      "text": "灵稻田开始备料，掌门须到场营造；材料已预留。"
+    },
+    {
+      "time": 178,
+      "text": "沈砚初步掌握《春雨养脉法》的理解（20）。"
+    },
+    {
+      "time": 140,
+      "text": "掌门开始研习《春雨养脉法》，需投入约38秒。"
+    },
+    {
+      "time": 140,
+      "text": "整理出《春雨养脉法》与旧商路信笺。青溪坊市、石桥驿与听雨遗址均有可追查之处。"
+    },
+    {
+      "time": 139,
+      "text": "藏经阁营造完成，入口连通，门人可自主前来使用。"
+    },
+    {
+      "time": 131,
+      "text": "林长风初步掌握《青岚养元诀》，还需继续熟悉才能授业。"
+    },
+    {
+      "time": 120,
+      "text": "山中转为灵露：灵气凝露，药圃与悟道均受滋养。"
+    },
+    {
+      "time": 120,
+      "text": "林长风提出一桩心事：「一卷心愿」。可在门人事务中听取。"
+    },
+    {
+      "time": 120,
+      "text": "陆知微提出一桩心事：「山下家书」。可在门人事务中听取。"
+    },
+    {
+      "time": 109,
+      "text": "藏经阁开始备料，掌门须到场营造；材料已预留。"
+    },
+    {
+      "time": 79,
+      "text": "林长风自愿留下，原来的身份、外观与经历一并保留。"
+    },
+    {
+      "time": 67,
+      "text": "伐木场营造完成，入口连通，门人可自主前来使用。"
+    },
+    {
+      "time": 63,
+      "text": "陆知微初步掌握《青岚养元诀》，还需继续熟悉才能授业。"
+    },
+    {
+      "time": 45,
+      "text": "伐木场开始备料，掌门须到场营造；材料已预留。"
+    },
+    {
+      "time": 44,
+      "text": "灵草田营造完成，入口连通，门人可自主前来使用。"
+    },
+    {
+      "time": 15,
+      "text": "灵草田开始备料，掌门须到场营造；材料已预留。"
+    },
+    {
+      "time": 15,
+      "text": "陆知微自愿入院研习药理。赠药、入院和参与复仇各是一次选择。"
+    },
+    {
+      "time": 15,
+      "text": "赠出十份灵草。陆知微谢过救命之情，尚未承诺入院或同行。"
+    },
+    {
+      "time": 15,
+      "text": "伤势渐平，根基未损。母亲留下的药理仍能救人。"
+    },
+    {
+      "time": 15,
+      "text": "伤势已愈，逃亡并未永久损伤天资。"
+    },
+    {
+      "time": 0,
+      "text": "林长风愿意留下，共同生活与求道。"
+    },
+    {
+      "time": 0,
+      "text": "栖霞一夜成灰。你携残存传承来到云岫别院，父母留下的最后一句话是：活下去。"
+    }
+  ],
+  "sect": {
+    "level": 1,
+    "reputation": 4,
+    "name": "云岫山院",
+    "founded": false
+  },
+  "pills": {
+    "qi": 0,
+    "spirit": 0,
+    "foundation": 0,
+    "heal": 0
+  },
+  "crafting": null,
+  "expedition": null,
+  "community": {
+    "day": 2,
+    "fulfilled": [],
+    "trades": {
+      "food": 0,
+      "wood": 0,
+      "stone": 0,
+      "herb": 0,
+      "crystal": 0,
+      "insight": 0
+    },
+    "completed": 0
+  },
+  "story": {
+    "step": 4,
+    "intro": false,
+    "clues": [],
+    "preparations": {
+      "witness": false,
+      "supply": false,
+      "array": false,
+      "public": false
+    },
+    "claimed": [
+      "story:0",
+      "story:1",
+      "story:2",
+      "story:3"
+    ],
+    "milestones": [],
+    "gateCleared": false,
+    "revengeDone": false,
+    "completed": false,
+    "ending": null,
+    "narrative": {
+      "version": 1,
+      "acknowledged": [],
+      "cursor": null
+    },
+    "onboarding": {
+      "version": 1,
+      "introPage": 0,
+      "productions": [
+        {
+          "id": "harvest:farm",
+          "type": "farm",
+          "personId": 1,
+          "name": "陆知微",
+          "buildingId": 2,
+          "time": 93,
+          "out": {
+            "herb": 13.799999999999999
+          }
+        },
+        {
+          "id": "harvest:lumber",
+          "type": "lumber",
+          "personId": 2,
+          "name": "林长风",
+          "buildingId": 3,
+          "time": 162,
+          "out": {
+            "wood": 19.44
+          }
+        }
+      ],
+      "seen": []
+    },
+    "opening": {
+      "visitorId": "person:lu-zhiwei",
+      "secondVisitorId": "person:lin-changfeng",
+      "gifted": true,
+      "invitation": "joined"
+    }
+  },
+  "doctrine": {
+    "books": [
+      "qingyuan",
+      "spring"
+    ],
+    "sealed": [],
+    "workFocus": "herb",
+    "pillRule": "shared",
+    "routes": [],
+    "outingRule": "notice",
+    "enforcement": "restorative"
+  },
+  "sim": {
+    "carry": 0,
+    "decision": 0
+  },
+  "incidents": [],
+  "incidentId": 1,
+  "economy": {
+    "day": 2,
+    "income": {
+      "jade": 10,
+      "wood": 0,
+      "stone": 0,
+      "herb": 18,
+      "crystal": 0,
+      "insight": 2,
+      "food": 0
+    },
+    "expense": {
+      "jade": 4,
+      "wood": 0,
+      "stone": 0,
+      "herb": 0,
+      "crystal": 0,
+      "insight": 0,
+      "food": 10
+    },
+    "previous": {
+      "income": {
+        "jade": 60,
+        "wood": 78.03993600000001,
+        "stone": 0,
+        "herb": 32.763408,
+        "crystal": 0,
+        "insight": 15.934999999999999,
+        "food": 0
+      },
+      "expense": {
+        "jade": 27,
+        "wood": 20,
+        "stone": 5,
+        "herb": 0,
+        "crystal": 0,
+        "insight": 0,
+        "food": 6
+      }
+    },
+    "shortages": [],
+    "starvation": 0,
+    "lastSupplyDay": 2
+  },
+  "society": {
+    "revision": 1,
+    "clock": 245,
+    "lastDay": 2,
+    "formal": false,
+    "foundedAt": null,
+    "name": "云岫山院",
+    "fairness": 65,
+    "officers": {
+      "steward": null,
+      "teacher": null,
+      "warden": null
+    },
+    "peaks": [],
+    "secrets": [],
+    "quests": [
+      {
+        "id": 1,
+        "discipleId": 1,
+        "kind": "family",
+        "status": "offered",
+        "progress": 0,
+        "createdAt": 120,
+        "deadline": 720,
+        "outcome": null,
+        "target": null,
+        "startedAt": null,
+        "otherId": null
+      },
+      {
+        "id": 2,
+        "discipleId": 2,
+        "kind": "mastery",
+        "status": "offered",
+        "progress": 0,
+        "createdAt": 120,
+        "deadline": 720,
+        "outcome": null,
+        "target": null,
+        "startedAt": null,
+        "otherId": null
+      }
+    ],
+    "visitors": [
+      {
+        "id": 1,
+        "kind": "scholar",
+        "status": "present",
+        "arrivedAt": 180,
+        "expiresAt": 360,
+        "outcome": null
+      }
+    ],
+    "visitorHistory": [],
+    "invitations": [],
+    "departed": [],
+    "nextIncidentId": 1,
+    "nextPeakId": 1,
+    "nextQuestId": 3,
+    "nextVisitorId": 2,
+    "nextPersonId": 3,
+    "nextVisitorAt": 509,
+    "stats": {
+      "workCycles": 9,
+      "lessons": 0,
+      "relationships": 0,
+      "questsCompleted": 0,
+      "visitorsResolved": 0,
+      "discovered": 0
+    },
+    "lastShortageNotice": -120
+  },
+  "world": {
+    "weather": {
+      "id": "wind",
+      "remaining": 115,
+      "cycle": 2
+    },
+    "hostility": 0,
+    "exploration": null,
+    "nextJourneyId": 2,
+    "visits": {
+      "valley": 1
+    },
+    "visitors": [
+      {
+        "id": 1,
+        "kind": "herbalist",
+        "arrived": 240,
+        "resolved": false
+      }
+    ],
+    "nextVisitorDay": 4,
+    "visitorSequence": 1,
+    "reactions": [
+      {
+        "time": 240,
+        "text": "行脚药师来到山门，等待你的回应。",
+        "kind": "visitor"
+      },
+      {
+        "time": 240,
+        "text": "山中转为长风：风干土壤，采石与伐木需要更多照应。",
+        "kind": "weather"
+      },
+      {
+        "time": 120,
+        "text": "山中转为灵露：灵气凝露，药圃与悟道均受滋养。",
+        "kind": "weather"
+      }
+    ],
+    "legacyJourney": null
+  },
+  "combat": null,
+  "schemaVersion": 6,
+  "revision": 2474,
+  "rulesetVersion": "opening-runtime-1",
+  "contentVersion": "opening-v1.2",
+  "worldTick": 2450,
+  "ticksPerDay": 1200,
+  "rngState": 1840059551,
+  "personsById": {
+    "person:master": {
+      "name": "沈砚",
+      "realm": 6,
+      "xp": 18,
+      "talent": 1.75,
+      "energy": 74.69999999999939,
+      "wound": 0,
+      "action": "rest",
+      "work": 0,
+      "position": {
+        "x": 5,
+        "y": 0
+      },
+      "path": [],
+      "main": "qingyuan",
+      "support": [
+        "spring"
+      ],
+      "knowledge": {
+        "qingyuan": 40,
+        "spring": 20
+      },
+      "learning": null,
+      "journey": null,
+      "teaching": null,
+      "breakthroughCooldown": 0,
+      "sceneIntent": null,
+      "memories": [],
+      "hp": 100,
+      "maxHp": 100,
+      "personId": "person:master",
+      "appearance": {
+        "spriteIndex": 0,
+        "accent": "#d6b673"
+      },
+      "scenic": {
+        "x": 405,
+        "y": 219,
+        "path": [],
+        "steps": 2637.221696978824,
+        "facing": -1,
+        "back": false,
+        "geometry": "plots-v1",
+        "revision": "1/hall/3/2|2/farm/5/5|3/lumber/3/6|4/library/6/5|5/granary/5/0",
+        "goal": null
+      },
+      "activityId": null
+    },
+    "person:lu-zhiwei": {
+      "id": 1,
+      "name": "陆知微",
+      "root": "木灵根",
+      "realm": 1,
+      "xp": 0,
+      "talent": 1.15,
+      "energy": 33.06000000000014,
+      "portrait": 1,
+      "trait": "自寻前路",
+      "job": null,
+      "mind": {
+        "traits": [
+          82,
+          44,
+          78,
+          68,
+          62
+        ],
+        "goal": "精研草木",
+        "main": "qingyuan",
+        "support": [
+          "spring"
+        ],
+        "knowledge": {
+          "qingyuan": 20,
+          "spring": 20
+        },
+        "learning": {
+          "id": "spring",
+          "progress": 5.7615,
+          "total": 65,
+          "mode": "deepen"
+        },
+        "activity": "study",
+        "reason": "愿意花时间研习《春雨养脉法》。",
+        "memories": [
+          {
+            "time": 241,
+            "text": "愿意花时间研习《春雨养脉法》。",
+            "important": false,
+            "public": true,
+            "key": null
+          },
+          {
+            "time": 240,
+            "text": "经过持续研习，初步掌握《春雨养脉法》。",
+            "important": true,
+            "public": true,
+            "key": "learn:spring"
+          },
+          {
+            "time": 184,
+            "text": "愿意花时间研习《春雨养脉法》。",
+            "important": false,
+            "public": true,
+            "key": null
+          },
+          {
+            "time": 160,
+            "text": "看到供给紧缺，愿意到藏经阁做事。",
+            "important": false,
+            "public": true,
+            "key": null
+          },
+          {
+            "time": 64,
+            "text": "看到供给紧缺，愿意到灵草田做事。",
+            "important": false,
+            "public": true,
+            "key": null
+          },
+          {
+            "time": 63,
+            "text": "经过持续研习，初步掌握《青岚养元诀》。",
+            "important": true,
+            "public": true,
+            "key": "learn:qingyuan"
+          },
+          {
+            "time": 16,
+            "text": "愿意花时间研习《青岚养元诀》。",
+            "important": false,
+            "public": true,
+            "key": null
+          },
+          {
+            "time": 15,
+            "text": "药材已备好，山院提供药理与住处，我愿留下求道；同行仍另作决定。",
+            "important": true,
+            "public": true,
+            "key": "opening:voluntary-join"
+          },
+          {
+            "time": 15,
+            "text": "掌门赠来十份灵草救急。赠药不要求我入院，也未要求参与他的家仇。",
+            "important": true,
+            "public": true,
+            "key": "opening:gift"
+          }
+        ],
+        "lastPillDay": -1,
+        "caution": 0,
+        "satiety": 100,
+        "mood": 66,
+        "commitUntil": 265,
+        "lastDecision": 241,
+        "lastSocial": -120,
+        "lastTalk": -120,
+        "lastBreakthrough": -120,
+        "relationships": {
+          "master": {
+            "trust": 55,
+            "respect": 55,
+            "affection": 45,
+            "conflict": 0,
+            "lastEvent": -1000
+          }
+        },
+        "skills": {
+          "plant": 2.4,
+          "industry": 0,
+          "learning": 0.6,
+          "array": 0,
+          "medicine": 0
+        },
+        "mentorId": null,
+        "peakId": null,
+        "office": null,
+        "path": [],
+        "away": null,
+        "journey": null,
+        "workProgress": 0,
+        "publicMain": "qingyuan",
+        "hiddenKnowledge": {},
+        "restrictedUntil": 0,
+        "purse": 12.000000000000004,
+        "restitutionBalance": 0,
+        "pillPermitDay": -1,
+        "neglectDays": 0,
+        "joinedAt": 0,
+        "questKinds": [
+          "family"
+        ],
+        "revengeAttitude": "cautious",
+        "lastPeakChange": -120,
+        "refusalUntil": 0,
+        "reorientUntil": 0,
+        "lastConversion": -600,
+        "supportIntent": null,
+        "scenic": {
+          "x": 1241,
+          "y": 367,
+          "path": [],
+          "steps": 494.6170660396797,
+          "facing": 1,
+          "back": false,
+          "geometry": "plots-v1",
+          "revision": "1/hall/3/2|2/farm/5/5|3/lumber/3/6|4/library/6/5|5/granary/5/0",
+          "goal": {
+            "x": 1241,
+            "y": 367
+          }
+        }
+      },
+      "personId": "person:lu-zhiwei",
+      "appearance": {
+        "spriteIndex": 1,
+        "accent": "#83b49c"
+      },
+      "wound": 0,
+      "position": {
+        "x": 4,
+        "y": 6
+      }
+    },
+    "person:lin-changfeng": {
+      "id": 2,
+      "name": "林长风",
+      "root": "土灵根",
+      "realm": 1,
+      "xp": 0,
+      "talent": 1.08,
+      "energy": 53.68000000000006,
+      "portrait": 2,
+      "trait": "自寻前路",
+      "job": null,
+      "mind": {
+        "traits": [
+          45,
+          88,
+          36,
+          57,
+          80
+        ],
+        "goal": "求取长生",
+        "main": "qingyuan",
+        "support": [],
+        "knowledge": {
+          "qingyuan": 20
+        },
+        "learning": {
+          "id": "spring",
+          "progress": 18.36,
+          "total": 65,
+          "mode": "learn"
+        },
+        "activity": "study",
+        "reason": "愿意花时间研习《春雨养脉法》。",
+        "memories": [
+          {
+            "time": 224,
+            "text": "愿意花时间研习《春雨养脉法》。",
+            "important": false,
+            "public": true,
+            "key": null
+          },
+          {
+            "time": 132,
+            "text": "看到供给紧缺，愿意到伐木场做事。",
+            "important": false,
+            "public": true,
+            "key": null
+          },
+          {
+            "time": 131,
+            "text": "经过持续研习，初步掌握《青岚养元诀》。",
+            "important": true,
+            "public": true,
+            "key": "learn:qingyuan"
+          },
+          {
+            "time": 80,
+            "text": "愿意花时间研习《青岚养元诀》。",
+            "important": false,
+            "public": true,
+            "key": null
+          },
+          {
+            "time": 79,
+            "text": "山院给了我安身与传承的机会，我愿靠自己的选择求道。",
+            "important": true,
+            "public": true,
+            "key": "opening:changfeng-join"
+          }
+        ],
+        "lastPillDay": -1,
+        "caution": 0,
+        "satiety": 100,
+        "mood": 66,
+        "commitUntil": 247,
+        "lastDecision": 224,
+        "lastSocial": -120,
+        "lastTalk": -120,
+        "lastBreakthrough": -120,
+        "relationships": {
+          "master": {
+            "trust": 55,
+            "respect": 55,
+            "affection": 45,
+            "conflict": 0,
+            "lastEvent": -1000
+          }
+        },
+        "skills": {
+          "plant": 0,
+          "industry": 2.4,
+          "learning": 0,
+          "array": 0,
+          "medicine": 0
+        },
+        "mentorId": null,
+        "peakId": null,
+        "office": null,
+        "path": [],
+        "away": null,
+        "journey": null,
+        "workProgress": 0,
+        "publicMain": "qingyuan",
+        "hiddenKnowledge": {},
+        "restrictedUntil": 0,
+        "purse": 11.200000000000003,
+        "restitutionBalance": 0,
+        "pillPermitDay": -1,
+        "neglectDays": 0,
+        "joinedAt": 0,
+        "questKinds": [
+          "mastery"
+        ],
+        "revengeAttitude": "support",
+        "lastPeakChange": -120,
+        "refusalUntil": 0,
+        "reorientUntil": 0,
+        "lastConversion": -600,
+        "supportIntent": null,
+        "scenic": {
+          "x": 1241,
+          "y": 367,
+          "path": [],
+          "steps": 691.9027424030089,
+          "facing": 1,
+          "back": false,
+          "geometry": "plots-v1",
+          "revision": "1/hall/3/2|2/farm/5/5|3/lumber/3/6|4/library/6/5|5/granary/5/0",
+          "goal": {
+            "x": 1241,
+            "y": 367
+          }
+        }
+      },
+      "personId": "person:lin-changfeng",
+      "appearance": {
+        "spriteIndex": 2,
+        "accent": "#91a9ce"
+      },
+      "wound": 0,
+      "position": {
+        "x": 4,
+        "y": 6
+      }
+    }
+  },
+  "homeMemberIds": [
+    "person:lu-zhiwei",
+    "person:lin-changfeng"
+  ],
+  "buildingsById": {
+    "building:yunxiu:1": {
+      "id": 1,
+      "type": "hall",
+      "x": 3,
+      "y": 2,
+      "level": 1,
+      "progress": 5,
+      "condition": 100,
+      "enabled": true,
+      "instanceId": "building:yunxiu:1"
+    },
+    "building:yunxiu:2": {
+      "id": 2,
+      "instanceId": "building:yunxiu:2",
+      "type": "farm",
+      "x": 5,
+      "y": 5,
+      "level": 1,
+      "progress": 6,
+      "condition": 100,
+      "enabled": true
+    },
+    "building:yunxiu:3": {
+      "id": 3,
+      "instanceId": "building:yunxiu:3",
+      "type": "lumber",
+      "x": 3,
+      "y": 6,
+      "level": 1,
+      "progress": 1,
+      "condition": 100,
+      "enabled": true
+    },
+    "building:yunxiu:4": {
+      "id": 4,
+      "instanceId": "building:yunxiu:4",
+      "type": "library",
+      "x": 6,
+      "y": 5,
+      "level": 1,
+      "progress": 2,
+      "condition": 100,
+      "enabled": true
+    },
+    "building:yunxiu:5": {
+      "id": 5,
+      "instanceId": "building:yunxiu:5",
+      "type": "granary",
+      "x": 5,
+      "y": 0,
+      "level": 1,
+      "progress": 0,
+      "condition": 100,
+      "enabled": true
+    }
+  },
+  "activitiesById": {},
+  "workOrdersById": {},
+  "reservationsById": {},
+  "factsById": {
+    "fact:opening:gift": {
+      "id": "fact:opening:gift",
+      "kind": "gift",
+      "actorId": "person:master",
+      "recipientId": "person:lu-zhiwei",
+      "resource": "herb",
+      "quantity": 10,
+      "atTick": 150
+    }
+  },
+  "stockpilesById": {
+    "stockpile:yunxiu": {
+      "id": "stockpile:yunxiu",
+      "ownerId": "person:master",
+      "resources": {
+        "jade": 79,
+        "wood": 69.03993600000001,
+        "stone": 2,
+        "herb": 84.39652799999999,
+        "crystal": 0,
+        "insight": 17.935,
+        "food": 34
+      }
+    },
+    "stockpile:lu-zhiwei": {
+      "id": "stockpile:lu-zhiwei",
+      "ownerId": "person:lu-zhiwei",
+      "resources": {
+        "jade": 0,
+        "wood": 0,
+        "stone": 0,
+        "herb": 10,
+        "crystal": 0,
+        "insight": 0,
+        "food": 0
+      }
+    }
+  },
+  "transactions": {
+    "nextCommandId": 25,
+    "receipts": [
+      {
+        "id": "command:1",
+        "signature": "[\"masterAction\",[\"heal\"]]",
+        "result": true,
+        "revision": 1
+      },
+      {
+        "id": "command:2",
+        "signature": "[\"advanceStory\",[]]",
+        "result": {
+          "step": 1,
+          "title": "一剂生机",
+          "text": "采药人陆知微为家人求药。赠出十份灵草，结下一段有来由的善缘。",
+          "action": "赠药救人",
+          "ready": true,
+          "requirements": [
+            {
+              "label": "灵草 10 份",
+              "met": true
+            }
+          ],
+          "clues": [],
+          "preparations": [
+            {
+              "id": "witness",
+              "name": "救出知情者",
+              "done": false
+            },
+            {
+              "id": "supply",
+              "name": "截断敌方补给",
+              "done": false
+            },
+            {
+              "id": "array",
+              "name": "拆解护脉阵",
+              "done": false
+            },
+            {
+              "id": "public",
+              "name": "公开夺脉罪证",
+              "done": false
+            }
+          ],
+          "completed": false,
+          "ending": null
+        },
+        "revision": 152
+      },
+      {
+        "id": "command:3",
+        "signature": "[\"advanceStory\",[\"gift\"]]",
+        "result": {
+          "step": 1,
+          "title": "一剂生机",
+          "text": "采药人陆知微为家人求药。赠出十份灵草，结下一段有来由的善缘。",
+          "action": "赠药救人",
+          "ready": true,
+          "requirements": [],
+          "clues": [],
+          "preparations": [
+            {
+              "id": "witness",
+              "name": "救出知情者",
+              "done": false
+            },
+            {
+              "id": "supply",
+              "name": "截断敌方补给",
+              "done": false
+            },
+            {
+              "id": "array",
+              "name": "拆解护脉阵",
+              "done": false
+            },
+            {
+              "id": "public",
+              "name": "公开夺脉罪证",
+              "done": false
+            }
+          ],
+          "completed": false,
+          "ending": null
+        },
+        "revision": 153
+      },
+      {
+        "id": "command:4",
+        "signature": "[\"advanceStory\",[\"invite\"]]",
+        "result": {
+          "step": 2,
+          "title": "孤客来投",
+          "text": "恢复灵草田与伐木场，让愿意留下的人有自己的生活。林长风正寻找安身和求道之处。",
+          "action": "接纳来客",
+          "ready": false,
+          "requirements": [
+            {
+              "label": "灵草田可运行",
+              "met": false
+            },
+            {
+              "label": "伐木场可运行",
+              "met": false
+            },
+            {
+              "label": "有可用居所",
+              "met": true
+            }
+          ],
+          "clues": [],
+          "preparations": [
+            {
+              "id": "witness",
+              "name": "救出知情者",
+              "done": false
+            },
+            {
+              "id": "supply",
+              "name": "截断敌方补给",
+              "done": false
+            },
+            {
+              "id": "array",
+              "name": "拆解护脉阵",
+              "done": false
+            },
+            {
+              "id": "public",
+              "name": "公开夺脉罪证",
+              "done": false
+            }
+          ],
+          "completed": false,
+          "ending": null
+        },
+        "revision": 154
+      },
+      {
+        "id": "command:5",
+        "signature": "[\"masterAction\",[\"rest\"]]",
+        "result": true,
+        "revision": 155
+      },
+      {
+        "id": "command:6",
+        "signature": "[\"build\",[\"farm\",5,5]]",
+        "result": {
+          "id": 2,
+          "type": "farm",
+          "x": 5,
+          "y": 5,
+          "pending": true,
+          "activityId": "activity:build:2"
+        },
+        "revision": 156
+      },
+      {
+        "id": "command:7",
+        "signature": "[\"masterAction\",[\"rest\"]]",
+        "result": true,
+        "revision": 457
+      },
+      {
+        "id": "command:8",
+        "signature": "[\"build\",[\"lumber\",3,6]]",
+        "result": {
+          "id": 3,
+          "type": "lumber",
+          "x": 3,
+          "y": 6,
+          "pending": true,
+          "activityId": "activity:build:3"
+        },
+        "revision": 458
+      },
+      {
+        "id": "command:9",
+        "signature": "[\"moveScenicMaster\",[840,217]]",
+        "result": true,
+        "revision": 689
+      },
+      {
+        "id": "command:10",
+        "signature": "[\"advanceStory\",[]]",
+        "result": {
+          "step": 3,
+          "title": "旧卷余温",
+          "text": "建成藏经阁，整理母亲的药理札记与旧商路信笺。往来账册与被收买的阵匠，是两条可靠线索。",
+          "action": "整理遗卷",
+          "ready": false,
+          "requirements": [
+            {
+              "label": "藏经阁可运行",
+              "met": false
+            }
+          ],
+          "clues": [],
+          "preparations": [
+            {
+              "id": "witness",
+              "name": "救出知情者",
+              "done": false
+            },
+            {
+              "id": "supply",
+              "name": "截断敌方补给",
+              "done": false
+            },
+            {
+              "id": "array",
+              "name": "拆解护脉阵",
+              "done": false
+            },
+            {
+              "id": "public",
+              "name": "公开夺脉罪证",
+              "done": false
+            }
+          ],
+          "completed": false,
+          "ending": null
+        },
+        "revision": 800
+      },
+      {
+        "id": "command:11",
+        "signature": "[\"masterAction\",[\"wood\"]]",
+        "result": true,
+        "revision": 801
+      },
+      {
+        "id": "command:12",
+        "signature": "[\"masterAction\",[\"rest\"]]",
+        "result": true,
+        "revision": 1102
+      },
+      {
+        "id": "command:13",
+        "signature": "[\"build\",[\"library\",6,5]]",
+        "result": {
+          "id": 4,
+          "type": "library",
+          "x": 6,
+          "y": 5,
+          "pending": true,
+          "activityId": "activity:build:4"
+        },
+        "revision": 1103
+      },
+      {
+        "id": "command:14",
+        "signature": "[\"moveScenicMaster\",[1241,367]]",
+        "result": true,
+        "revision": 1414
+      },
+      {
+        "id": "command:15",
+        "signature": "[\"advanceStory\",[]]",
+        "result": {
+          "step": 4,
+          "title": "旧账新证",
+          "text": "亲往青溪坊市查账、石桥驿询问阵匠，或听雨遗址核对阵纹。任取两份证据，就能拼合家传筑基篇；关键线索不会随机消失。",
+          "action": "校勘证据与筑基篇",
+          "ready": false,
+          "requirements": [
+            {
+              "label": "可靠证据 0/2（坊市、驿站、遗址三选二）",
+              "met": false
+            }
+          ],
+          "clues": [],
+          "preparations": [
+            {
+              "id": "witness",
+              "name": "救出知情者",
+              "done": false
+            },
+            {
+              "id": "supply",
+              "name": "截断敌方补给",
+              "done": false
+            },
+            {
+              "id": "array",
+              "name": "拆解护脉阵",
+              "done": false
+            },
+            {
+              "id": "public",
+              "name": "公开夺脉罪证",
+              "done": false
+            }
+          ],
+          "completed": false,
+          "ending": null
+        },
+        "revision": 1415
+      },
+      {
+        "id": "command:16",
+        "signature": "[\"masterStudy\",[\"spring\"]]",
+        "result": {
+          "facilityId": 4,
+          "waitingForArrival": false
+        },
+        "revision": 1416
+      },
+      {
+        "id": "command:17",
+        "signature": "[\"masterAction\",[\"rest\"]]",
+        "result": true,
+        "revision": 1797
+      },
+      {
+        "id": "command:18",
+        "signature": "[\"build\",[\"granary\",5,0]]",
+        "result": {
+          "id": 5,
+          "type": "granary",
+          "x": 5,
+          "y": 0,
+          "pending": true,
+          "activityId": "activity:build:5"
+        },
+        "revision": 1798
+      },
+      {
+        "id": "command:19",
+        "signature": "[\"setPolicy\",[\"workFocus\",\"herb\"]]",
+        "result": true,
+        "revision": 2249
+      },
+      {
+        "id": "command:20",
+        "signature": "[\"masterAction\",[\"rest\"]]",
+        "result": true,
+        "revision": 2250
+      },
+      {
+        "id": "command:21",
+        "signature": "[\"startExploration\",[\"valley\",[]]]",
+        "result": {
+          "id": 1,
+          "regionId": "valley",
+          "status": "traveling",
+          "total": 12,
+          "remaining": 12,
+          "position": {
+            "x": 1.3,
+            "y": 4
+          },
+          "target": null,
+          "eventId": "traveler",
+          "visit": 0,
+          "resolved": false,
+          "companionIds": [],
+          "companionInjuries": {},
+          "weather": "dew",
+          "outcome": null
+        },
+        "revision": 2331
+      },
+      {
+        "id": "command:22",
+        "signature": "[\"moveExploration\",[8,4]]",
+        "result": true,
+        "revision": 2452
+      },
+      {
+        "id": "command:23",
+        "signature": "[\"resolveExploration\",[\"help\"]]",
+        "result": "照应迷路行人已完成：交出口粮，结下善缘并获赠实用药材。 本次灵露的收获已经带在身上。",
+        "revision": 2473
+      },
+      {
+        "id": "command:24",
+        "signature": "[\"leaveRegion\",[]]",
+        "result": true,
+        "revision": 2474
+      }
+    ]
+  },
+  "schemaMigration": {
+    "from": 0,
+    "atTick": 0,
+    "clockOriginTime": 0,
+    "clockOriginTick": 0,
+    "completedEndingPreserved": false
+  }
+}

@@ -73,6 +73,13 @@ test('on-site dialogue uses the real landmark and campaign choices, including di
   assert.deepEqual(p.state,before,'UI projections do not share mutable state');
 });
 
+test('the first knock appears after healing and listening never changes state by itself',()=>{
+ const s=sim.initial();assert.equal(narrative.homeInteractions(s)[0].kind,'object');
+ sim.masterAction(s,'heal');sim.tick(s,15);const before=structuredClone(s),arrival=narrative.homeInteractions(s)[0];
+ assert.equal(arrival.kind,'person');assert.equal(arrival.name,'院外来客');assert.match(arrival.pages[0].text,/叩门声/);
+ assert.equal(arrival.choices[0].disabled,false);assert.deepEqual(s,before);
+});
+
 test('home visitor dialogue references authoritative stage requirements and does not recruit by reading',()=>{
   const p=new Player();metadata(p.state);p.action('masterAction','heal');p.until(s=>s.master.wound===0,{limit:100,chunk:1});p.action('advanceStory');
   const before=structuredClone(p.state),visitor=narrative.homeInteractions(p.state)[0];

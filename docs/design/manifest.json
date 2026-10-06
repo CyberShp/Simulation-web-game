@@ -1,6 +1,6 @@
 {
   "designId": "DB-2026-10-05",
-  "version": "1.1",
+  "version": "1.2",
   "kind": "target-design",
   "language": "zh-CN",
   "repository": "CyberShp/Simulation-web-game",
@@ -32,7 +32,8 @@
     "docs/design/00-BASELINE.md",
     "docs/design/DECISIONS.md",
     "docs/design/STATUS.md",
-    "docs/design/13-WORLDVIEW-DISCUSSION.md"
+    "docs/design/13-WORLDVIEW-DISCUSSION.md",
+    "docs/design/14-EARLY-GAME-DETAILED-DESIGN.md"
   ],
   "files": [
     {
@@ -89,7 +90,7 @@
     },
     {
       "path": "docs/design/13-WORLDVIEW-DISCUSSION.md",
-      "role": "in-progress-worldview-confirmed-decisions-and-open-questions"
+      "role": "confirmed-worldview-and-deferred-nonblocking-questions"
     },
     {
       "path": "docs/design/DECISIONS.md",
@@ -102,6 +103,26 @@
     {
       "path": "docs/design/REFERENCES.md",
       "role": "source-facts-and-adaptation"
+    },
+    {
+      "path": "docs/design/14-EARLY-GAME-DETAILED-DESIGN.md",
+      "role": "early-game-scope-content-growth-migration-and-design-readiness"
+    },
+    {
+      "path": "docs/design/15-OPENING-IMPLEMENTATION.md",
+      "role": "opening-development-slice-and-evidence"
+    },
+    {
+      "path": "docs/design/16-WORKSTATIONS-ARTISAN-IMPLEMENTATION.md",
+      "role": "second-development-slice-workstations-shared-batches-artisan-care"
+    },
+    {
+      "path": "docs/design/17-INDOOR-LIFE-IMPLEMENTATION.md",
+      "role": "third-development-slice-hall-indoor-life-doors-beds-and-render-snapshots"
+    },
+    {
+      "path": "docs/design/18-SPATIAL-CONTINUITY-IMPLEMENTATION.md",
+      "role": "spatial-continuity-implementation-and-evidence-boundaries"
     }
   ],
   "taskRead": {
@@ -113,7 +134,8 @@
       "08-LIVING-WORLD.md",
       "09-INTRIGUE-OPPORTUNITIES.md",
       "10-CRISES-RESCUE-DEATH.md",
-      "13-WORLDVIEW-DISCUSSION.md"
+      "13-WORLDVIEW-DISCUSSION.md",
+      "14-EARLY-GAME-DETAILED-DESIGN.md"
     ],
     "equipment_arts_combat": [
       "01-CHARACTERS.md",
@@ -125,7 +147,8 @@
       "09-INTRIGUE-OPPORTUNITIES.md",
       "10-CRISES-RESCUE-DEATH.md",
       "12-CONTENT-AUTHORING.md",
-      "13-WORLDVIEW-DISCUSSION.md"
+      "13-WORLDVIEW-DISCUSSION.md",
+      "14-EARLY-GAME-DETAILED-DESIGN.md"
     ],
     "space_art_input": [
       "01-CHARACTERS.md",
@@ -134,7 +157,8 @@
       "06-OPENING-ACCEPTANCE.md",
       "08-LIVING-WORLD.md",
       "10-CRISES-RESCUE-DEATH.md",
-      "13-WORLDVIEW-DISCUSSION.md"
+      "13-WORLDVIEW-DISCUSSION.md",
+      "14-EARLY-GAME-DETAILED-DESIGN.md"
     ],
     "world_story": [
       "01-CHARACTERS.md",
@@ -148,7 +172,8 @@
       "10-CRISES-RESCUE-DEATH.md",
       "11-AI-CONTENT-CONTRACT.md",
       "12-CONTENT-AUTHORING.md",
-      "13-WORLDVIEW-DISCUSSION.md"
+      "13-WORLDVIEW-DISCUSSION.md",
+      "14-EARLY-GAME-DETAILED-DESIGN.md"
     ],
     "economy_organization": [
       "01-CHARACTERS.md",
@@ -160,7 +185,8 @@
       "08-LIVING-WORLD.md",
       "09-INTRIGUE-OPPORTUNITIES.md",
       "10-CRISES-RESCUE-DEATH.md",
-      "13-WORLDVIEW-DISCUSSION.md"
+      "13-WORLDVIEW-DISCUSSION.md",
+      "14-EARLY-GAME-DETAILED-DESIGN.md"
     ],
     "save_runtime": [
       "01-CHARACTERS.md",
@@ -175,7 +201,8 @@
       "10-CRISES-RESCUE-DEATH.md",
       "11-AI-CONTENT-CONTRACT.md",
       "12-CONTENT-AUTHORING.md",
-      "13-WORLDVIEW-DISCUSSION.md"
+      "13-WORLDVIEW-DISCUSSION.md",
+      "14-EARLY-GAME-DETAILED-DESIGN.md"
     ],
     "living_world": [
       "01-CHARACTERS.md",
@@ -189,7 +216,8 @@
       "10-CRISES-RESCUE-DEATH.md",
       "11-AI-CONTENT-CONTRACT.md",
       "12-CONTENT-AUTHORING.md",
-      "13-WORLDVIEW-DISCUSSION.md"
+      "13-WORLDVIEW-DISCUSSION.md",
+      "14-EARLY-GAME-DETAILED-DESIGN.md"
     ],
     "intrigue_opportunities": [
       "01-CHARACTERS.md",
@@ -202,7 +230,8 @@
       "10-CRISES-RESCUE-DEATH.md",
       "11-AI-CONTENT-CONTRACT.md",
       "12-CONTENT-AUTHORING.md",
-      "13-WORLDVIEW-DISCUSSION.md"
+      "13-WORLDVIEW-DISCUSSION.md",
+      "14-EARLY-GAME-DETAILED-DESIGN.md"
     ],
     "crises_rescue_death": [
       "01-CHARACTERS.md",
@@ -216,7 +245,8 @@
       "10-CRISES-RESCUE-DEATH.md",
       "11-AI-CONTENT-CONTRACT.md",
       "12-CONTENT-AUTHORING.md",
-      "13-WORLDVIEW-DISCUSSION.md"
+      "13-WORLDVIEW-DISCUSSION.md",
+      "14-EARLY-GAME-DETAILED-DESIGN.md"
     ],
     "ai_content": [
       "01-CHARACTERS.md",
@@ -227,7 +257,8 @@
       "10-CRISES-RESCUE-DEATH.md",
       "11-AI-CONTENT-CONTRACT.md",
       "12-CONTENT-AUTHORING.md",
-      "13-WORLDVIEW-DISCUSSION.md"
+      "13-WORLDVIEW-DISCUSSION.md",
+      "14-EARLY-GAME-DETAILED-DESIGN.md"
     ],
     "content_authoring": [
       "01-CHARACTERS.md",
@@ -240,7 +271,8 @@
       "10-CRISES-RESCUE-DEATH.md",
       "11-AI-CONTENT-CONTRACT.md",
       "12-CONTENT-AUTHORING.md",
-      "13-WORLDVIEW-DISCUSSION.md"
+      "13-WORLDVIEW-DISCUSSION.md",
+      "14-EARLY-GAME-DETAILED-DESIGN.md"
     ]
   },
   "taskReadBase": "docs/design/",
@@ -310,10 +342,12 @@
       "R-20",
       "R-21",
       "R-22",
-      "R-23"
+      "R-23",
+      "R-25",
+      "R-26"
     ],
     "actualSaveVersionAtAudit": 5,
-    "targetSaveSchemaVersion": null,
+    "targetSaveSchemaVersion": 6,
     "npcLifeStatuses": [
       "alive",
       "dead"
@@ -380,7 +414,8 @@
       "combatSessionsById",
       "hazardsById",
       "deathRecordsByPersonId"
-    ]
+    ],
+    "targetContentVersion": "opening-v1.2"
   },
   "execution": {
     "scopeThisDelivery": "documentation-only",
@@ -390,10 +425,10 @@
     "targetDesignDoesNotMeanImplemented": true
   },
   "worldviewDiscussion": {
-    "recordId": "WV-2026-10-05-15",
+    "recordId": "WV-2026-10-06-48",
     "path": "docs/design/13-WORLDVIEW-DISCUSSION.md",
-    "status": "in-progress",
-    "questionPolicy": "one-at-a-time",
+    "status": "paused-for-early-game-detailed-design",
+    "questionPolicy": "two-per-round-up-to-three-when-needed",
     "confirmedDecisionIds": [
       "U-16",
       "U-17",
@@ -423,7 +458,56 @@
       "U-41",
       "U-42",
       "U-43",
-      "U-44"
+      "U-44",
+      "U-45",
+      "U-46",
+      "U-47",
+      "U-48",
+      "U-49",
+      "U-50",
+      "U-51",
+      "U-52",
+      "U-53",
+      "U-54",
+      "U-55",
+      "U-56",
+      "U-57",
+      "U-58",
+      "U-59",
+      "U-60",
+      "U-61",
+      "U-62",
+      "U-63",
+      "U-64",
+      "U-65",
+      "U-66",
+      "U-67",
+      "U-68",
+      "U-69",
+      "U-70",
+      "U-71",
+      "U-72",
+      "U-73",
+      "U-74",
+      "U-75",
+      "U-76",
+      "U-77",
+      "U-78",
+      "U-79",
+      "U-80",
+      "U-81",
+      "U-82",
+      "U-83",
+      "U-84",
+      "U-85",
+      "U-86",
+      "U-87",
+      "U-88",
+      "U-89",
+      "U-90",
+      "U-91",
+      "U-92",
+      "U-93"
     ],
     "fixedEightCultivationSystems": "withdrawn",
     "playerAscensionCurrentlyInScope": false,
@@ -486,11 +570,274 @@
     "puppetSectWiderAllianceAndProtectionAgreements": "undecided",
     "spiritPlantClanMainIndustry": "basic-medicinal-spirit-herb-cultivation-and-raw-material-supply",
     "spiritPlantClanCustomerCategories": "alchemists-sects-and-markets",
-    "spiritPlantClanAffiliation": "publicly-independent-actual-dependence-undecided",
+    "spiritPlantClanAffiliation": "independent-and-self-governing",
     "spiritPlantClanSpecificPlantsAndIndustryScale": "undecided",
     "spiritPlantClanCoreCultivationTradition": "undecided",
-    "spiritPlantClanSwordSectRelationship": "friendly-to-local-orthodox-flying-sword-sect",
-    "spiritPlantClanActualDependenceOrSubordination": "undecided",
-    "spiritPlantClanSwordSectRelationshipBasisAndAgreements": "undecided"
+    "spiritPlantClanSwordSectRelationship": "long-term-friendly-cooperation-with-personal-and-mutual-interest-ties",
+    "spiritPlantClanActualDependenceOrSubordination": "self-governing-without-subordinate-decision-control",
+    "spiritPlantClanSwordSectRelationshipGeneralBasis": "personal-ties-and-mutual-interests",
+    "spiritPlantClanSwordSectRelationshipSpecificHistoryAndAgreements": "undecided",
+    "ghostSectCoreTradition": "养鬼御鬼",
+    "ghostSectCoreFocus": "cultivate-and-command-a-small-number-of-ghosts-for-combat-and-scouting",
+    "ghostSectAuxiliaryAbilities": "limited-auxiliary-abilities-allowed-details-undecided",
+    "ghostSectGhostOriginsAndControlMechanism": "undecided",
+    "ghostSectMainCommissionsAndIncome": "covert-ghost-market-trade-in-yin-materials-and-ghost-artifacts-and-brokering-hidden-deals",
+    "ghostSectBusinessCandidateFeedback": "previous-service-options-rejected-option-C-covert-ghost-market-trader-confirmed",
+    "ghostSectGoodsProvenancePolicy": "purchases-goods-of-unclear-origin-specific-rules-undecided",
+    "ghostSectMarketRoleScaleAndIncomeDetails": "covert-host-of-small-local-ghost-market-collects-fees-details-undecided",
+    "ghostSectMarketResponsibilities": [
+      "secretly-organize-trades",
+      "collect-fees",
+      "maintain-market-order"
+    ],
+    "ghostSectMarketCourtRelationship": "knowingly-tolerated-locally-no-crackdown-unless-major-trouble",
+    "ghostSectMarketVenueScheduleAdmissionAndRules": "undecided",
+    "ghostSectMarketEnforcementThresholdAndOfficials": "undecided",
+    "shenClanPoliticalAlignment": "orthodox-side-formal-subordination-undecided",
+    "currentPeaceAndLowerFactionConflict": "temporary-peace-with-limited-orthodox-restraint-on-lower-faction-disputes",
+    "shenEstateDisputeSequence": [
+      "enemy-sect-occupies-shen-assets",
+      "orthodox-intervention-claims-righteousness-but-seeks-cultivation-spirit-vein-interests",
+      "intervening-side-fails-to-gain-advantage"
+    ],
+    "orthodoxInterveningFactionsAndPeople": "local-sword-sect-middle-tier-organized-participation-specific-people-undecided",
+    "orthodoxInterventionUnitsAndAuthorization": "undecided",
+    "orthodoxSectLeadershipKnowledgeAndPosition": "undecided",
+    "orthodoxSpiritVeinDisputeFailureCauseAndFinalAllocation": "demonic-backing-escalation-risk-and-high-cost-confirmed-final-allocation-undecided",
+    "orthodoxSpiritVeinDisputeJointConsiderations": [
+      "chizhang-demonic-upper-sect-support-risks-conflict-escalation",
+      "taking-controlled-assets-costs-more-than-sword-sect-middle-tier-is-willing-to-bear"
+    ],
+    "spiritVeinDisputeSupportersMeansAndActualClashOutcome": "undecided",
+    "shenDisputedResource": "existing-cultivation-spirit-vein",
+    "shenMineralVeinMention": "user-corrected-slip-not-an-additional-mineral-asset",
+    "shenDisputeTimingRelativeToOpening": "historical-background-before-protagonist-formally-settles-at-yunxiu",
+    "shenDisputeDiscovery": "later-investigation-initial-knowledge-undecided",
+    "shenEscapeToSettlementInterval": "several-months-of-concealed-flight-before-arrival",
+    "shenEscapeExactDurationRouteAndInjuryDetails": "undecided",
+    "hanLichuanBeliefAboutProtagonistSurvivalAtOpening": "uncertain-life-or-death-suspects-possible-survivors",
+    "hanLichuanInvestigationEffortAndEvidenceAtOpening": "undecided",
+    "localOpinionOfShenDestructionAtOpening": "accusation-based-options-withdrawn-no-criminal-pretext",
+    "shenMassacrePremise": "direct-seizure-of-spirit-vein-and-property-without-accusation",
+    "shenFabricatedHeterodoxAccusation": "withdrawn-by-user-correction",
+    "shenExonerationOrPublicApprovalRequiredForRevenge": false,
+    "chizhangCoreTraditionRelationToUpperSect": "unrelated-blade-lineage-with-political-subordination-retained",
+    "chizhangCoreCultivationTradition": "自有刀法",
+    "chizhangCoreTraditionDetailsAndOrigins": "specific-techniques-name-mechanics-costs-and-own-origin-undecided",
+    "chizhangMainIncomeBeforeShenSeizure": "own-small-scale-existing-estate-operations",
+    "chizhangBladeStyle": "重刀刚猛，正面压制，以势破敌",
+    "chizhangSecondaryIncomeBeforeShenSeizure": "tolls-from-a-controlled-local-trade-route-or-crossing",
+    "chizhangPreSeizureIncomeHierarchy": "estate-operations-primary-route-tolls-secondary-exact-shares-undecided",
+    "chizhangPreSeizureEstateCondition": "declining-spiritual-land-and-growing-operating-shortfall",
+    "chizhangEstateTypesAndRouteTollDetails": "author-default-R-24-small-spirit-fields-and-herb-gardens-with-mountain-route-tolls",
+    "chizhangUpperSectObligations": "author-default-R-24-periodic-tribute-and-limited-agreed-manpower-service",
+    "questionScope": "concrete-continents-sects-clans-dynasties-and-cultivation-traditions",
+    "localDetailAuthority": "author-may-fill-details-within-confirmed-worldview-mark-as-author-defaults",
+    "authorDefaults": {
+      "R-24": {
+        "status": "recommended",
+        "authorityDecisionId": "U-63",
+        "userSelectedOptions": false,
+        "estate": "small-spirit-grain-fields-and-low-tier-herb-gardens",
+        "secondaryIncome": "mountain-trade-route-checkpoint-tolls",
+        "upperSectObligations": [
+          "periodic-spirit-stone-or-material-tribute",
+          "limited-agreed-personnel-service"
+        ],
+        "details": "quantities-rates-place-names-and-personnel-for-author-content-design"
+      }
+    },
+    "mortalCultivatorSocietyRelationship": "lower-tier-interwoven-with-mortal-society-highest-tier-socially-stratified",
+    "ordinarySpiritualCultivationInnateEntryRequirement": "no-universal-innate-gate-entry-possible-in-principle-for-everyone",
+    "mortalCultivatorSocialTierBoundary": "no-fixed-realm-cutoff-confirmed-regional-and-personal-variation-allowed",
+    "specificArtsOrSystemsMayRequireInnateConditions": true,
+    "specificInnateEntryConditions": "author-to-define-per-art-or-system-no-universal-exclusion",
+    "universalEntryPossibilityMeansUniversalActualCultivationOrGuaranteedBreakthrough": false,
+    "majorRealmPowerGap": "near-insurmountable-with-extremely-rare-prodigy-level-cross-major-realm-kills",
+    "cultivationResourceScarcityPattern": "higher-tier-scarcity-combined-with-extreme-geographic-disparity",
+    "crossMajorRealmKillDifficultyTrend": "increases-at-higher-realms",
+    "chosenOnePhraseConfirmsFateSystemOrProtagonistGuaranteedVictory": false,
+    "resourceScarcityAxes": [
+      "lower-tier-relatively-common-higher-tier-resources-and-breakthrough-opportunities-increasingly-scarce",
+      "large-disparities-between-rich-and-poor-regions-shaping-migration-and-resource-control"
+    ],
+    "resourceDistributionQuantitiesPricesAndRenewal": "author-content-design-within-confirmed-pattern",
+    "ancientAndContemporaryCultivationCivilizationRelationship": "overall-progress-with-growing-knowledge-ancient-arts-not-inherently-superior",
+    "sapientPeoplesWorldDistribution": "multiple-peoples-powers-interspersed-across-major-continents-with-competition-and-cooperation",
+    "antiquityAloneGuaranteesArtOrArtifactSuperiority": false,
+    "sapientPeoplesRosterAndLocalDistribution": "author-content-design-no-equal-strength-or-universal-mixed-settlement-assumption",
+    "heavenlyDaoHasWill": false,
+    "basicCultivationKnowledgeAccessibility": "basic-entry-methods-relatively-accessible-guidance-advanced-transmissions-and-breakthrough-resources-scarcer",
+    "heavenlyDaoNature": "impersonal-objective-laws-no-intentional-decisions",
+    "questionRecommendationPolicy": "mark-recommended-option-and-explain-reason-for-each-question-without-treating-recommendation-as-confirmation",
+    "basicKnowledgeAccessibilityMeansFreeUniformOrFullAdvancedAccess": false,
+    "majorRealmBreakthroughPrimaryBottleneck": "game-accumulation-breakthrough-materials-and-defined-high-tier-conditions",
+    "preAscensionNaturalLifespanBoundary": "finite-at-all-pre-ascension-realms-with-lifespan-extension-and-path-differences",
+    "universalIndependentInsightGateRequiredForBreakthrough": false,
+    "breakthroughMaterialsAndHigherTierConditions": "author-to-define-actionable-requirements",
+    "immortalRealmLifespan": "undecided",
+    "lifespanExhaustionGameplay": "deferred-no-offline-aging-or-new-permadeath-implementation",
+    "mainWorldIntercontinentalConnectivity": "stable-routes-with-high-long-distance-travel-costs",
+    "otherIndependentWorldCultivationCompatibility": "cultivation-retained-some-abilities-adapt-to-local-laws",
+    "mainWorldTravelModes": {
+      "nearby": [
+        "walking",
+        "mounts",
+        "flying-boats",
+        "object-flight"
+      ],
+      "longDistanceAdditionalOption": "teleportation-arrays-usually-in-major-cities",
+      "details": "author-to-define-routes-requirements-costs-duration-capacity-and-ownership",
+      "nearbyExamplesExcludeLongDistanceUse": false
+    },
+    "otherIndependentWorldCompatibilityScope": "independent-worlds-other-than-immortal-realm-existing-immortal-descent-rules-remain-separate",
+    "ordinaryPostDeathSoulFate": "gradual-dissipation-with-persistence-under-special-conditions",
+    "supernaturalContractEnforceability": "heavenly-dao-oaths-and-sect-derived-cultivation-contracts-with-slightly-lower-binding-force",
+    "universalAutomaticReincarnation": false,
+    "specialSoulPersistenceRules": "author-to-define-no-automatic-immortality-or-routine-resurrection",
+    "oathAndContractMechanism": "impersonal-heavenly-dao-laws-no-conscious-divine-adjudication",
+    "oathAndContractDetails": "author-to-define-formation-conditions-costs-scope-breach-consequences-and-release-rules",
+    "orthodoxDemonicPrimaryIdeologicalEmphasis": "professed-order-status-and-lineage-duty-versus-personal-will-and-power-not-fixed-individual-morality",
+    "highestRealmDependenceOnFixedMajorOrganization": "major-organizational-advantages-but-not-required-rare-independent-cultivators-can-reach-highest-realms",
+    "spiritualEnergyAndVeinLongTermRenewal": "slow-renewal-and-new-formation-with-possible-local-degradation",
+    "mainWorldExplorationExtent": "established-core-settlements-and-routes-with-large-unexplored-wilderness",
+    "proposedContinentLayout": {
+      "status": "user-confirmed-layout-U-84",
+      "names": [
+        "青衡洲",
+        "中天洲",
+        "炎荒洲",
+        "玄朔洲",
+        "沧流洲"
+      ],
+      "proposedOpeningContinent": "青衡洲",
+      "detailsSource": "docs/design/13-WORLDVIEW-DISCUSSION.md",
+      "representativeFactionsStatus": "dasheng-confirmed-U-85-other-factions-author-proposals"
+    },
+    "openingDynastyCurrentHighestRealm": "dacheng-hidden",
+    "openingDynastyProposedName": {
+      "name": "大晟王朝",
+      "status": "user-confirmed-U-85"
+    },
+    "qinghengTopPowerConfiguration": "three-orthodox-and-three-demonic-major-sects-public-heti-each-with-hidden-dacheng",
+    "guiyuanCoreTransmission": "five-element-arts-primary-with-sword-and-formation-transmissions",
+    "qinghengFactionProposal": {
+      "status": "sect-counts-and-power-confirmed-guiyuan-name-and-core-confirmed-other-sect-names-and-cores-proposed",
+      "source": "docs/design/13-WORLDVIEW-DISCUSSION.md",
+      "orthodoxNames": [
+        "归元道宗",
+        "天工谷",
+        "万灵山"
+      ],
+      "demonicNames": [
+        "无相魔宗",
+        "幽冥宗",
+        "玄煞宗"
+      ],
+      "otherNames": [
+        "大晟王朝",
+        "丹阳陆氏"
+      ]
+    },
+    "qinghengMajorSectCounts": {
+      "orthodox": 3,
+      "demonic": 3
+    },
+    "qinghengMajorSectPublicHighestRealm": "heti",
+    "qinghengMajorSectHiddenRealm": "dacheng",
+    "hiddenDachengCoverageForDynastiesAndTopClans": "qingheng-dynasties-yes-clans-no",
+    "openingDynastyPublicHighestRealm": "heti",
+    "qinghengTopClanHighestRealm": "heti-no-dacheng",
+    "dashengFortuneCultivationMainBranch": "national-fortune-cultivation-with-individual-foundation-military-and-state-protection-formations",
+    "qinghengRepresentativeClanProposals": {
+      "status": "author-proposals-not-confirmed",
+      "names": [
+        "丹阳陆氏",
+        "云川谢氏",
+        "北陵裴氏"
+      ]
+    },
+    "usualDynasticCultivationMainBranch": "almost-all-dynasties-national-fortune-cultivation",
+    "investitureDynastyContinent": "undecided",
+    "investitureDynastySectClanArrangement": "undecided",
+    "continentConqueringInvestitureDynasty": {
+      "status": "existence-and-completed-continent-conquest-user-confirmed-U-92",
+      "confirmedCount": 1,
+      "name": "undecided",
+      "cultivation": "office-fief-and-authority-granted-supernatural-powers-weakened-by-loss-of-office-or-land",
+      "highestRealm": "undecided",
+      "proposedLocations": [
+        "中天洲的大胤王朝",
+        "玄朔洲的玄霜王朝"
+      ]
+    },
+    "deferredQuestions": [
+      {
+        "topic": "investitureDynastyContinent",
+        "recommendedOption": "A",
+        "reason": "places-a-unified-imperial-power-at-the-intercontinental-hub-while-preserving-Qingheng-multipolarity",
+        "status": "deferred-not-blocking-early-game-design",
+        "deferredByDecisionId": "U-93"
+      },
+      {
+        "topic": "investitureDynastySectClanArrangement",
+        "recommendedOption": "A",
+        "reason": "retains-named-sects-clans-and-transmissions-under-real-imperial-subordination-and-investiture",
+        "status": "deferred-not-blocking-early-game-design",
+        "deferredByDecisionId": "U-93"
+      }
+    ],
+    "pendingQuestions": [],
+    "currentWork": "early-game-detailed-design-v1.2",
+    "userConfirmationBlockersForEarlyGame": []
+  },
+  "earlyGameDesign": {
+    "status": "designed-not-implemented",
+    "path": "docs/design/14-EARLY-GAME-DETAILED-DESIGN.md",
+    "scope": "yunxiu-qi-refining-through-foundation-building-complete-revenge-and-continuing-management",
+    "userConfirmationBlockers": [],
+    "authorDefaultsDecisionIds": [
+      "R-25",
+      "R-26"
+    ],
+    "revengeResponsibilityPersonIds": [
+      "person:han-lichuan",
+      "person:xing-lie",
+      "person:shao-heng"
+    ],
+    "revengeRequiresExonerationOrEvidenceCount": false,
+    "preserveLegacyCompletedEndings": true,
+    "deferredWorldbuildingDecisionId": "U-93"
+  },
+  "implementationSnapshot": {
+    "localGameVersion": "1.5.0-dev",
+    "schemaVersion": 6,
+    "scope": "bounded-hall-and-construction-continuity-not-complete-spatial-migration",
+    "reference": "docs/design/18-SPATIAL-CONTINUITY-IMPLEMENTATION.md",
+    "fullDesignVerified": false,
+    "deployed": false,
+    "rulesetVersion": "opening-runtime-3",
+    "automatedTestsPassed": 346,
+    "uiTemplatesEvaluated": 80
+  },
+  "currentDevelopment": {
+    "version": "1.5.0-dev",
+    "schemaVersion": 6,
+    "rulesetVersion": "opening-runtime-3",
+    "branch": "feat/indoor-life-v12",
+    "reference": "docs/design/18-SPATIAL-CONTINUITY-IMPLEMENTATION.md",
+    "scope": "bounded-hall-and-construction-continuity-not-complete-spatial-migration",
+    "verified": {
+      "automatedChecks": 346,
+      "managementTemplates": 80,
+      "publicOpeningRoutes": 2,
+      "publicArtisanRoutes": 3,
+      "productionCanvasSnapshots": 6
+    },
+    "browserStatus": "not-tested-missing-browser-binary",
+    "deploymentStatus": "not-deployed",
+    "remoteSaveStatus": "blocked-auto-review-despite-retrieved-prior-authorization",
+    "previousImplementationCommit": "18b419b",
+    "implementationCommitSource": "git-history-for-current-snapshot"
   }
 }

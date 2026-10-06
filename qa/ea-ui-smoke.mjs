@@ -4,10 +4,15 @@
  * Native DOM reconciliation, focus, touch, layout and drawing need browser QA.
  */
 import assert from 'node:assert/strict';
-import { readFile, writeFile } from 'node:fs/promises';
+import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { Player, sim } from './ea-player.mjs';
 import { normalRun } from './ea-normal-play.mjs';
 import { createEAUI, EA_SHELL } from '../dist/ea-ui.mjs';
+import * as opening from '../dist/ea-opening-sim.mjs';
+import {runArtisan} from './ea-rain-artisan-acceptance.mjs';
+import {buildingAccess} from '../dist/ea-scenic.mjs';
+import {runOpening} from './ea-opening-v12-acceptance.mjs';
+const openingMode=process.argv.includes('--opening-v12');
 
 // The template harness calls simulation functions directly, so separately check
 // that the application's real dispatch gate accepts commands exposed by the UI.
@@ -22,7 +27,8 @@ const allowed = new Set([...declaration.matchAll(/'([^']+)'/g)].map(match => mat
 const exposedCommands = new Set([
   ...uiSource.matchAll(/\bact\(\s*'([^']+)'/g),
   ...uiSource.matchAll(/\bbtn\([^,\n]*,\s*'([^']+)'/g),
-].map(match => match[1]).filter(name => typeof sim[name] === 'function'));
+].map(match => match[1]).filter(name => typeof (openingMode?opening:sim)[name] === 'function'));
+if(openingMode)for(const name of opening.COMMAND_NAMES){assert.equal(typeof opening[name],'function',name+' implemented');assert.ok(allowed.has(name),name+' allowed by actual application');}
 for (const name of exposedCommands) assert.ok(allowed.has(name), `UI command ${name} is rejected by the real application`);
 
 const fragments = [], nodes = new Map(), listeners = new Map();
@@ -63,6 +69,10 @@ const rows = [];
 function renderScenario(label, candidate) {
   state = candidate;
   const before = structuredClone(state);
+  if(openingMode){const start=fragments.length;ui.render();if(opening.treatmentStatus(state)){const rendered=fragments.slice(start).join('');assert.ok(rendered.includes('为程问舟换药'));assert.ok(rendered.includes('cancelArtisanCare'));}
+    if(opening.artisanCareView(state))ui.openArtisan();
+    ui.openNearbyPeople([{id:'master',name:'沈砚',activity:'rest'},{id:1,name:'陆知微',activity:'work'}]);
+    if(opening.constructionStatus(state)){const rendered=fragments.slice(start).join('');assert.ok(rendered.includes('取消营造'));assert.ok(rendered.includes('施工'));}}
   // The UI begins folded. Rendering only the shell/HUD is not evidence that
   // any of its eight management-page functions evaluated successfully.
   ui.unfold();
@@ -75,7 +85,8 @@ function renderScenario(label, candidate) {
     assert.equal(fragments.length - start, 1, `${label}/${tab} records one actual management page`);
     assert.ok(html.length > 100, `${label}/${tab} must actually evaluate a page template`);
     assert.ok(html.includes('class="panel-copy"'), `${label}/${tab} must render the management container`);
-    assert.ok(html.includes(pageMarkers[tab]), `${label}/${tab} must contain its own heading, not only HUD fragments`);
+    const heading=tab==='self'&&state.story.onboarding&&state.story.step<2?'先安身，再寻归路':pageMarkers[tab];
+    assert.ok(html.includes(heading), `${label}/${tab} must contain its own heading, not only HUD fragments`);
     assert.doesNotMatch(html, /\bNaN\b|\[object Object\]/, `${label}/${tab} invalid visible values`);
     if (tab === 'self') assert.ok(html.includes(state.master.name), 'Hero page shows the actual master');
     if (tab === 'disciples') assert.ok(html.includes(`山中门人 · ${state.disciples.length} /`), 'People page shows the actual count');
@@ -83,7 +94,7 @@ function renderScenario(label, candidate) {
     if (tab === 'journal') assert.ok(html.includes(sim.campaignSummary(state).title), 'Journal page shows the current campaign');
     if (tab === 'sect' && state.sect.founded) assert.ok(html.includes(state.sect.name), 'Sect page shows the founded name');
     scenarioPages.add(html);
-    rows.push({ scenario: label, tab, heading: pageMarkers[tab], htmlCharacters: html.length, managementPageVerified: true });
+    rows.push({ scenario: label, tab, heading, htmlCharacters: html.length, managementPageVerified: true });
   }
   assert.equal(scenarioPages.size, tabs.length, `${label} must generate eight different management pages`);
   for (const disciple of state.disciples.slice(0, 3)) ui.openPerson(disciple.id);
@@ -93,6 +104,20 @@ function renderScenario(label, candidate) {
 }
 
 assert.ok(EA_SHELL.includes('id="save-status"') && EA_SHELL.includes('id="settings"'));
+if(openingMode){
+  let gift=opening.initial();gift=opening.dispatchCommand(gift,{name:'masterAction',args:['heal']}).state;opening.tick(gift,35);const target=buildingAccess(gift,gift.buildings.find(b=>b.type==='hall'));gift=opening.dispatchCommand(gift,{name:'moveScenicMaster',args:[target.x,target.y]}).state;for(let n=0;n<60&&gift.master.action==='walk';n++)opening.tick(gift,1);gift=opening.dispatchCommand(gift,{name:'advanceStory'}).state;gift=opening.dispatchCommand(gift,{name:'advanceStory',args:['gift']}).state;
+  let building=opening.dispatchCommand(gift,{name:'advanceStory',args:['invite']}).state;const cell=opening.CELLS.find(c=>!opening.placementLock(building,'farm',c.x,c.y));building=opening.dispatchCommand(building,{name:'build',args:['farm',cell.x,cell.y]}).state;
+  renderScenario('v6 new game',opening.initial());
+  renderScenario('v6 gifted before membership',gift);
+  renderScenario('v6 walking to construction',building);
+  const paused=opening.cloneState(building);paused.speed=0;renderScenario('v6 paused construction',paused);
+  renderScenario('v6 first trip returned with Lu',runOpening().state);
+  renderScenario('v6 declined membership',runOpening({invitation:'decline'}).state);
+  const artisan=runOpening().state;for(let n=0;n<120&&artisan.story.artisan.phase!=='present';n++)opening.tick(artisan,1);renderScenario('v6 artisan asking for care',artisan);
+  const care=opening.dispatchCommand(artisan,{name:'offerArtisanCare'}).state;renderScenario('v6 artisan care in progress',care);
+  renderScenario('v6 artisan recovered',runArtisan().state);
+  renderScenario('v6 artisan declined',runArtisan({outcome:'declined'}).state);
+}else{
 renderScenario('new game', sim.initial());
 renderScenario('first chapter', new Player().chapterOne().state);
 renderScenario('30 people, 40 buildings, two peaks, completed story', normalRun({ reference: true }).state);
@@ -102,13 +127,15 @@ journey.action('resolveExploration', 'challenge');
 renderScenario('active final combat', journey.state);
 journey.tick(100);
 renderScenario('battle defeat and recovery', journey.state);
+}
 const report = {
-  generatedAt: new Date().toISOString(), version: sim.GAME_VERSION,
+  generatedAt: new Date().toISOString(), version: openingMode?opening.GAME_VERSION:sim.GAME_VERSION,
   limitation: 'Real template evaluation with a minimal recording document. No browser layout, focus, pointer, mobile or FPS claims.',
   dispatchCommandsChecked: [...exposedCommands].sort(),
   verification: 'Each scenario explicitly unfolds the UI and records one renderTab management page per tab; checks distinct content, tab-specific heading and actual state facts.',
   rendered: rows,
 };
-await writeFile(new URL('./ea-ui-template-report.json', import.meta.url), JSON.stringify(report, null, 2) + '\n');
-await writeFile(new URL('./acceptance-1.3/ui-templates.json', import.meta.url), JSON.stringify(report, null, 2) + '\n');
+if(!openingMode)await writeFile(new URL('./ea-ui-template-report.json', import.meta.url), JSON.stringify(report, null, 2) + '\n');
+const directory=new URL(process.env.XIANFU_QA_DIRECTORY||(openingMode?'./acceptance-indoor-v12/':'./acceptance-'+sim.GAME_VERSION.split('-')[0]+'/'),import.meta.url);await mkdir(directory,{recursive:true});
+await writeFile(new URL('ui-templates.json', directory), JSON.stringify(report, null, 2) + '\n');
 console.log(JSON.stringify({ checked: rows.length, scenarios: new Set(rows.map(x => x.scenario)).size, result: 'templates executed without exceptions or visible nonfinite values; state unchanged' }, null, 2));
