@@ -1,7 +1,7 @@
-import {finalizeBuildingChange,releaseBodyActivity} from './ea-facility-activities.mjs?v=ea-160-dev-release-20261006-r1';
+import {finalizeBuildingChange,releaseBodyActivity} from './ea-facility-activities.mjs?v=ea-160-estate-art-20261006-r1';
 /** SR-XF-003–006: metre space and persistent, on-site construction transactions. */
-import {scenicPoint} from './ea-scene-geometry.mjs?v=ea-160-dev-release-20261006-r1';
-import {BUILDINGS,log as gameLog} from './ea-data.mjs?v=ea-160-dev-release-20261006-r1';
+import {scenicPoint} from './ea-scene-geometry.mjs?v=ea-160-estate-art-20261006-r1';
+import {BUILDINGS,log as gameLog} from './ea-data.mjs?v=ea-160-estate-art-20261006-r1';
 export const SPATIAL_VERSION='spatial-metres-1';
 export const SPATIAL_SCENE=Object.freeze({id:'scene:yunxiu-courtyard',width:64,height:64,grid:.5,personRadius:.26,pixelsPerMetre:32,depth:.65});
 export const spatialEnabled=s=>s?.spatial?.version===SPATIAL_VERSION;
@@ -10,8 +10,10 @@ export const legacyToWorld=p=>({x:p.x/32,y:p.y/(32*.65)});
 export const legacyToScenic=(s,p)=>spatialEnabled(s)?legacyToWorld(p):{...p};
 export const scenicToLegacy=(s,p)=>spatialEnabled(s)?worldToLegacy(p):{...p};
 export const worldToLegacy=p=>({x:p.x*32,y:p.y*32*.65});
-export const spatialProject=(p,c={scale:32,depth:.65,ox:0,oy:0})=>({x:c.ox+p.x*c.scale,y:c.oy+p.y*c.scale*c.depth});
-export const spatialUnproject=(p,c={scale:32,depth:.65,ox:0,oy:0})=>({x:(p.x-c.ox)/c.scale,y:(p.y-c.oy)/(c.scale*c.depth)});
+// Camera rotation is presentation-only. Old saves, paths and default callers
+// retain their world coordinates and the legacy unrotated projection.
+export const spatialProject=(p,c={scale:32,depth:.65,ox:0,oy:0})=>{const a=c.rotation||0,co=Math.cos(a),si=Math.sin(a);return{x:c.ox+(p.x*co-p.y*si)*c.scale,y:c.oy+(p.x*si+p.y*co)*c.scale*c.depth};};
+export const spatialUnproject=(p,c={scale:32,depth:.65,ox:0,oy:0})=>{const x=(p.x-c.ox)/c.scale,y=(p.y-c.oy)/(c.scale*c.depth),a=c.rotation||0,co=Math.cos(a),si=Math.sin(a);return{x:x*co+y*si,y:-x*si+y*co};};
 const rect=(x,y,w,h)=>[[x,y],[x+w,y],[x+w,y+h],[x,y+h]];
 const distance=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
 const snap=n=>Math.round(n*2)/2;

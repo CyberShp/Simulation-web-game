@@ -1,32 +1,32 @@
-import {initRainArtisan,advanceRainArtisan,validateRainArtisan,offerArtisanCare,cancelArtisanCare,declineArtisanCare,treatmentStatus} from './ea-rain-artisan.mjs?v=ea-160-dev-release-20261006-r1';
-export {artisanCareView,treatmentStatus,offerArtisanCare,cancelArtisanCare,declineArtisanCare} from './ea-rain-artisan.mjs?v=ea-160-dev-release-20261006-r1';
-import {prepareFacilityActivity,releaseBodyActivity,reconcileActivities,validateFacilityActivities,cancelProduction} from './ea-facility-activities.mjs?v=ea-160-dev-release-20261006-r1';
+import {initRainArtisan,advanceRainArtisan,validateRainArtisan,offerArtisanCare,cancelArtisanCare,declineArtisanCare,treatmentStatus} from './ea-rain-artisan.mjs?v=ea-160-estate-art-20261006-r1';
+export {artisanCareView,treatmentStatus,offerArtisanCare,cancelArtisanCare,declineArtisanCare} from './ea-rain-artisan.mjs?v=ea-160-estate-art-20261006-r1';
+import {prepareFacilityActivity,releaseBodyActivity,reconcileActivities,validateFacilityActivities,cancelProduction} from './ea-facility-activities.mjs?v=ea-160-estate-art-20261006-r1';
 export {cancelProduction};
 /** DB v1.2 first development slice, wired into the actual EA application. */
-import * as base from './ea-sim.mjs?v=ea-160-dev-release-20261006-r1';
-import {cloneState,hydrateState,migrateState,legacyProjection,validateV6Shape,SCHEMA_VERSION,CONTENT_VERSION} from './ea-state-v6.mjs?v=ea-160-dev-release-20261006-r1';
-import {startScenicWalk,scenicPosition,advanceScenic,syncScenicPosition,buildingAccess,repairScenicState,scenicNearest} from './ea-scenic.mjs?v=ea-160-dev-release-20261006-r1';
-export * from './ea-sim.mjs?v=ea-160-dev-release-20261006-r1';
-import {srEnabled,initSR,validateSR,beforeSRSecond,tickSR,SR_HANDLERS,SR_BODY_COMMANDS} from './ea-sr-runtime.mjs?v=ea-160-dev-release-20261006-r1';
-import {executeContractCommand} from './ea-sr-contracts.mjs?v=ea-160-dev-release-20261006-r1';
-import {sceneUnits,placementIssue} from './ea-sr-spatial.mjs?v=ea-160-dev-release-20261006-r1';
-import {advanceSRStory} from './ea-sr-story.mjs?v=ea-160-dev-release-20261006-r1';
-import {tickCampaignCombat} from './ea-campaign.mjs?v=ea-160-dev-release-20261006-r1';
-import {teachingQualificationSR} from './ea-sr-cultivation.mjs?v=ea-160-dev-release-20261006-r1';
-export * from './ea-sr-equipment.mjs?v=ea-160-dev-release-20261006-r1';
-export * from './ea-sr-cultivation.mjs?v=ea-160-dev-release-20261006-r1';
-export * from './ea-sr-combat.mjs?v=ea-160-dev-release-20261006-r1';
-export * from './ea-sr-covenants.mjs?v=ea-160-dev-release-20261006-r1';
-export * from './ea-sr-mother-chain.mjs?v=ea-160-dev-release-20261006-r1';
-export * from './ea-sr-economy.mjs?v=ea-160-dev-release-20261006-r1';
-export * from './ea-sr-persons.mjs?v=ea-160-dev-release-20261006-r1';
-export * from './ea-sr-weather.mjs?v=ea-160-dev-release-20261006-r1';
-export * from './ea-sr-organization.mjs?v=ea-160-dev-release-20261006-r1';
-export * from './ea-sr-world.mjs?v=ea-160-dev-release-20261006-r1';
-export * from './ea-sr-crises.mjs?v=ea-160-dev-release-20261006-r1';
-export * from './ea-sr-story.mjs?v=ea-160-dev-release-20261006-r1';
-export * from './ea-sr-descent.mjs?v=ea-160-dev-release-20261006-r1';
-export * from './ea-sr-late-economy.mjs?v=ea-160-dev-release-20261006-r1';
+import * as base from './ea-sim.mjs?v=ea-160-estate-art-20261006-r1';
+import {cloneState,hydrateState,migrateState,legacyProjection,validateV6Shape,SCHEMA_VERSION,CONTENT_VERSION} from './ea-state-v6.mjs?v=ea-160-estate-art-20261006-r1';
+import {startScenicWalk,scenicPosition,advanceScenic,syncScenicPosition,buildingAccess,repairScenicState,scenicNearest} from './ea-scenic.mjs?v=ea-160-estate-art-20261006-r1';
+export * from './ea-sim.mjs?v=ea-160-estate-art-20261006-r1';
+import {srEnabled,initSR,validateSR,beforeSRSecond,tickSR,SR_HANDLERS,SR_BODY_COMMANDS} from './ea-sr-runtime.mjs?v=ea-160-estate-art-20261006-r1';
+import {executeContractCommand} from './ea-sr-contracts.mjs?v=ea-160-estate-art-20261006-r1';
+import {sceneUnits,placementIssue} from './ea-sr-spatial.mjs?v=ea-160-estate-art-20261006-r1';
+import {advanceSRStory} from './ea-sr-story.mjs?v=ea-160-estate-art-20261006-r1';
+import {tickCampaignCombat} from './ea-campaign.mjs?v=ea-160-estate-art-20261006-r1';
+import {teachingQualificationSR} from './ea-sr-cultivation.mjs?v=ea-160-estate-art-20261006-r1';
+export * from './ea-sr-equipment.mjs?v=ea-160-estate-art-20261006-r1';
+export * from './ea-sr-cultivation.mjs?v=ea-160-estate-art-20261006-r1';
+export * from './ea-sr-combat.mjs?v=ea-160-estate-art-20261006-r1';
+export * from './ea-sr-covenants.mjs?v=ea-160-estate-art-20261006-r1';
+export * from './ea-sr-mother-chain.mjs?v=ea-160-estate-art-20261006-r1';
+export * from './ea-sr-economy.mjs?v=ea-160-estate-art-20261006-r1';
+export * from './ea-sr-persons.mjs?v=ea-160-estate-art-20261006-r1';
+export * from './ea-sr-weather.mjs?v=ea-160-estate-art-20261006-r1';
+export * from './ea-sr-organization.mjs?v=ea-160-estate-art-20261006-r1';
+export * from './ea-sr-world.mjs?v=ea-160-estate-art-20261006-r1';
+export * from './ea-sr-crises.mjs?v=ea-160-estate-art-20261006-r1';
+export * from './ea-sr-story.mjs?v=ea-160-estate-art-20261006-r1';
+export * from './ea-sr-descent.mjs?v=ea-160-estate-art-20261006-r1';
+export * from './ea-sr-late-economy.mjs?v=ea-160-estate-art-20261006-r1';
 export {srEnabled,initSR};
 export {cloneState,SCHEMA_VERSION,CONTENT_VERSION};
 const LEGACY_COMMAND_NAMES=['setSpeed','setIntroPage','acknowledgeOnboarding','requestSceneInteraction','cancelSceneInteraction','setNarrativePage','acknowledgeNarrative','acknowledgeIntro','advanceStory','build','cancelConstruction','cancelProduction','offerArtisanCare','cancelArtisanCare','declineArtisanCare','upgrade','toggleBuilding','repairBuilding','relocate','demolish','recruit','obtainBook','sealBook','masterStudy','forgetSupport','returnToBasics','masterBreakthrough','masterRiskBreakthrough','masterPill','masterAction','masterTeach','moveMaster','moveScenicMaster','craft','trade','fulfill','claim','setPolicy','offerRoute','upgradeSect','societyCommand','foundSect','inviteOffice','foundPeak','inviteMentor','setSocietyPolicy','settleIncident','resolvePersonalQuest','resolveWorldVisitor','resolveSocietyVisitor','startExploration','moveExploration','resolveExploration','leaveRegion','combatAction','acknowledgeCombat','startMasterTravel','resolveMasterEncounter','cancelMasterTravel'];
@@ -246,9 +246,9 @@ export function dispatchCommand(s,{name,args=[],id=`command:${s.transactions.nex
 
 export function placementLock(s,type,x,y,ignoreId=null){return srEnabled(s)?placementIssue(s,type,x,y,{ignoreId}):base.placementLock(s,type,x,y,ignoreId);}
 
-export {spatialEnabled,viewSpatial,PREFAB_CATALOG,placementIssue,sceneUnits} from './ea-sr-spatial.mjs?v=ea-160-dev-release-20261006-r1';
+export {spatialEnabled,viewSpatial,PREFAB_CATALOG,placementIssue,sceneUnits} from './ea-sr-spatial.mjs?v=ea-160-estate-art-20261006-r1';
 
-export {viewBalance} from './ea-sr-balance.mjs?v=ea-160-dev-release-20261006-r1';
+export {viewBalance} from './ea-sr-balance.mjs?v=ea-160-estate-art-20261006-r1';
 
 export function recommendedPlacement(s,type){
  if(!srEnabled(s))return base.CELLS.find(p=>!base.placementLock(s,type,p.x,p.y))||null;
