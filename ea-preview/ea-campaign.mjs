@@ -1,7 +1,7 @@
-import { rng, day, log, pay, canPay, grant, capacity } from './ea-data.mjs?v=ea-160-sr-qa-20261006-r4';
-import { EXPEDITIONS as LEGACY_ROUTES } from './world.mjs?v=ea-160-sr-qa-20261006-r4';
-import { combatField, combatGeometryId, combatCanStand, combatClearLine, combatPath, moveCombatActor, dodgeEndpoint } from './ea-combat-geometry.mjs?v=ea-160-sr-qa-20261006-r4';
-import { appearance } from './ea-scenic.mjs?v=ea-160-sr-qa-20261006-r4';
+import { rng, day, log, pay, canPay, grant, capacity } from './ea-data.mjs?v=ea-160-sr-qa-20261006-r5';
+import { EXPEDITIONS as LEGACY_ROUTES } from './world.mjs?v=ea-160-sr-qa-20261006-r5';
+import { combatField, combatGeometryId, combatCanStand, combatClearLine, combatPath, moveCombatActor, dodgeEndpoint } from './ea-combat-geometry.mjs?v=ea-160-sr-qa-20261006-r5';
+import { appearance } from './ea-scenic.mjs?v=ea-160-sr-qa-20261006-r5';
 
 // Campaign state is deliberately plain data. Every choice, weather roll and reward
 // is committed to the save before the next tick; loading never repeats a roll.
@@ -369,6 +369,7 @@ function damageActor(s,c,source,target,amount,kind){
   if(hooks.incomingDamage)amount=hooks.incomingDamage(s,c,source,target,amount,kind);
   const applied=Math.min(target.hp,amount);target.hp=Math.max(0,target.hp-amount);
   effect(c,kind,source,target,applied);effect(c,'hit',source,target,applied);
+  if(applied>0&&hooks.onEffectiveDamage)hooks.onEffectiveDamage(s,c,source,target,applied,kind);
   if(target.hp===0){if(Object.hasOwn(target,'knockedOut'))target.knockedOut=true;if(Object.hasOwn(target,'telegraph')){target.telegraph=null;target.windup=0;}effect(c,'down',source,target,0);}
 }
 export function combatOptions(s) {
@@ -638,7 +639,7 @@ export function validateCampaign(s) {
     if([...c.allies,...c.enemies].some(a=>a.facing!==undefined&&(!num(a.facing?.x,-1,1)||!num(a.facing?.y,-1,1))))bad('人物战斗朝向');
     if(c.allies.some(a=>a.knockedOut!==(a.hp===0)))bad('同行者倒地状态');
     if(c.geometryVersion===1&&[p,...c.allies,...c.enemies].some(actor=>!combatCanStand(actor,c.regionId)))bad('人物越过战场通行边界');
-    if(c.effects!==undefined&&(!Array.isArray(c.effects)||c.effects.length>24||!int(c.nextEffectId,1)||!unique(c.effects.map(v=>v.id))||!c.effects.every(v=>int(v.id,1,c.nextEffectId-1)&&['attack','spell','guard','dodge','impact','strike','hit','down'].includes(v.kind)&&['master',...c.enemies.map(v=>v.id),...c.allies.map(v=>v.id)].includes(v.sourceId)&&['master',...c.enemies.map(v=>v.id),...c.allies.map(v=>v.id)].includes(v.targetId)&&point(v.from)&&point(v.to)&&num(v.amount,0,150)&&num(v.total,.1,1.2)&&num(v.remaining,0,v.total))))bad('战斗表现事件');
+    if(c.effects!==undefined&&(!Array.isArray(c.effects)||c.effects.length>24||!int(c.nextEffectId,1)||!unique(c.effects.map(v=>v.id))||!c.effects.every(v=>int(v.id,1,c.nextEffectId-1)&&['attack','spell','guard','dodge','impact','strike','hit','down'].includes(v.kind)&&['master',...c.enemies.map(v=>v.id),...c.allies.map(v=>v.id)].includes(v.sourceId)&&['master',...c.enemies.map(v=>v.id),...c.allies.map(v=>v.id)].includes(v.targetId)&&point(v.from)&&point(v.to)&&num(v.amount,0,s.contentVersion==='sr-content-v1.2'?10000:150)&&num(v.total,.1,1.2)&&num(v.remaining,0,v.total))))bad('战斗表现事件');
     if(c.status==='active'&&(!e||e.status!=='combat'||e.id!==c.journeyId||e.regionId!==c.regionId||c.rewardApplied||c.result!==null||p.hp<=0||c.allies.length!==e.companionIds.length||c.allies.some((a,i)=>a.id!==e.companionIds[i])))bad('战斗与探索关联');
     if(c.status!=='active'&&(!c.result||!str(c.result.title,40)||!str(c.result.text)||!num(c.result.injury,0,100)))bad('战斗结果');
     if(c.status==='won'&&(!c.rewardApplied||c.enemies.some(e=>e.hp>0)))bad('战斗奖励');

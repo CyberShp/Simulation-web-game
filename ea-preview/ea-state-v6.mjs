@@ -1,7 +1,8 @@
 /** Canonical identity tables. Legacy modules use non-serialized live adapters. */
-import {appearance} from './ea-scenic.mjs?v=ea-160-sr-qa-20261006-r4';
-import {RESOURCES} from './ea-data.mjs?v=ea-160-sr-qa-20261006-r4';
-import {initContracts,validateContracts,SR_CONTENT_VERSION,SR_RULESET_VERSION} from './ea-sr-contracts.mjs?v=ea-160-sr-qa-20261006-r4';
+import {appearance} from './ea-scenic.mjs?v=ea-160-sr-qa-20261006-r5';
+import {RESOURCES} from './ea-data.mjs?v=ea-160-sr-qa-20261006-r5';
+import {hydratePillTotals} from './ea-sr-economy.mjs?v=ea-160-sr-qa-20261006-r5';
+import {initContracts,validateContracts,SR_CONTENT_VERSION,SR_RULESET_VERSION} from './ea-sr-contracts.mjs?v=ea-160-sr-qa-20261006-r5';
 
 export const SCHEMA_VERSION=6;
 export const CONTENT_VERSION='opening-v1.2';
@@ -37,7 +38,7 @@ export function hydrateState(s){
   resources:{configurable:true,get:()=>s.stockpilesById['stockpile:yunxiu'].resources},
  });
  Object.defineProperty(s.sim,'seed',{configurable:true,get:()=>s.rngState,set:value=>{s.rngState=value;}});
- return s;
+ hydratePillTotals(s);return s;
 }
 export function cloneState(s){return s.schemaVersion===6?hydrateState(structuredClone(s)):structuredClone(s);}
 
@@ -76,7 +77,7 @@ export function validateV6Shape(s){
  for(const field of ['personsById','buildingsById','activitiesById','workOrdersById','reservationsById','stockpilesById','factsById'])if(!s[field]||typeof s[field]!=='object'||Array.isArray(s[field]))fail('主表容器异常');
  for(const a of Object.values(s.activitiesById))if(a?.kind==='construction'&&a.workOrderId&&Object.keys(a).some(k=>['progressTicks','totalTicks'].includes(k)))fail('营造含重复进度字段');
  if(!s.stockpilesById['stockpile:yunxiu'])fail('山院库存缺失');
- for(const [id,stockpile]of Object.entries(s.stockpilesById))if(stockpile?.id!==id||!s.personsById[stockpile.ownerId]||!stockpile.resources||Object.keys(stockpile.resources).length!==Object.keys(RESOURCES).length||!Object.keys(RESOURCES).every(k=>Number.isFinite(stockpile.resources[k])&&stockpile.resources[k]>=0))fail('库存归属或数量异常');
+ for(const [id,stockpile]of Object.entries(s.stockpilesById))if(stockpile?.id!==id||![s.personsById,s.organizationsById,s.factionsById].some(table=>table&&Object.hasOwn(table,stockpile.ownerId))||!stockpile.resources||Object.keys(stockpile.resources).length!==Object.keys(RESOURCES).length||!Object.keys(RESOURCES).every(k=>Number.isFinite(stockpile.resources[k])&&stockpile.resources[k]>=0))fail('库存归属或数量异常');
  if(!Array.isArray(s.homeMemberIds)||new Set(s.homeMemberIds).size!==s.homeMemberIds.length||s.homeMemberIds.includes('person:master')||!s.homeMemberIds.every(id=>s.personsById[id]))fail('人物引用异常');
  if(!s.personsById['person:master'])fail('掌门身份缺失');
  const ids=new Set();

@@ -1,14 +1,14 @@
-import {npcScheduleDecision} from './ea-sr-persons.mjs?v=ea-160-sr-qa-20261006-r4';
-import {hallInteriorEnabled} from './ea-hall-interior.mjs?v=ea-160-sr-qa-20261006-r4';
-import {prepareFacilityActivity,releaseBodyActivity,contributeProduction} from './ea-facility-activities.mjs?v=ea-160-sr-qa-20261006-r4';
-import {sceneUnits} from './ea-sr-spatial.mjs?v=ea-160-sr-qa-20261006-r4';
-import {consumeHarvest} from './ea-sr-economy.mjs?v=ea-160-sr-qa-20261006-r4';
+import {npcScheduleDecision} from './ea-sr-persons.mjs?v=ea-160-sr-qa-20261006-r5';
+import {hallInteriorEnabled} from './ea-hall-interior.mjs?v=ea-160-sr-qa-20261006-r5';
+import {prepareFacilityActivity,releaseBodyActivity,contributeProduction} from './ea-facility-activities.mjs?v=ea-160-sr-qa-20261006-r5';
+import {sceneUnits} from './ea-sr-spatial.mjs?v=ea-160-sr-qa-20261006-r5';
+import {consumeHarvest,availablePills,ownAvailablePills,preparePillUse,consumeAccessiblePill} from './ea-sr-economy.mjs?v=ea-160-sr-qa-20261006-r5';
 import {BUILDINGS, TECHNIQUES, RECIPES, ROUTES, CELLS, RESOURCES, TRAIT_NAMES,
-  rng, day, log, pay, canPay, grant, capacity, xpNeed, clamp} from './ea-data.mjs?v=ea-160-sr-qa-20261006-r4';
+  rng, day, log, pay, canPay, grant, capacity, xpNeed, clamp} from './ea-data.mjs?v=ea-160-sr-qa-20261006-r5';
 
-import {routeDiscovered} from './ea-scene-state.mjs?v=ea-160-sr-qa-20261006-r4';
-import {lifeFacility,lifeActivityLock,lifePath,lifeScenePath,actorScenePosition,personLifeSummary,workOpportunity,teachingPresent} from './ea-life.mjs?v=ea-160-sr-qa-20261006-r4';
-import {advanceScenic,repairScenicActor,validateScenic,SCENE_GEOMETRY,buildingAccess,scenicDistance,geometryRevision,syncScenicPosition} from './ea-scenic.mjs?v=ea-160-sr-qa-20261006-r4';
+import {routeDiscovered} from './ea-scene-state.mjs?v=ea-160-sr-qa-20261006-r5';
+import {lifeFacility,lifeActivityLock,lifePath,lifeScenePath,actorScenePosition,personLifeSummary,workOpportunity,teachingPresent} from './ea-life.mjs?v=ea-160-sr-qa-20261006-r5';
+import {advanceScenic,repairScenicActor,validateScenic,SCENE_GEOMETRY,buildingAccess,scenicDistance,geometryRevision,syncScenicPosition} from './ea-scenic.mjs?v=ea-160-sr-qa-20261006-r5';
 
 /** Society owns every NPC action. The main loop owns time, meals, upkeep and the master's actions. */
 export const SOCIETY_ROLES = {
@@ -244,9 +244,11 @@ function production(s,d,b,hooks,participants=null) {
   return true;
 }
 function consumePill(s,d,id,secret,hooks) {
-  const r=RECIPES[id]; if(!r||id==='foundation'||!(s.pills[id]>0))return false;
+  const r=RECIPES[id]; if(!r||id==='foundation')return false;
+  if(s.srEconomy&&availablePills(s,d.personId,id)<1){const a=s.activitiesById[d.activityId];if(a&&a.kind!=='facility')return false;try{preparePillUse(s,id,d.personId);}catch{}return false;}
+  if(!s.srEconomy&&!(s.pills[id]>0))return false;
   if(hooks.consumePill)hooks.consumePill(s,id,d,{silent:true});
-  else {s.pills[id]--;d.xp=Math.min(xpNeed(d.realm),d.xp+(r.effect.xp||0));d.energy=clamp(d.energy+(r.effect.energy||0),0,100);d.wound=clamp(d.wound-(r.effect.wound||0),0,100);}
+  else {if(s.srEconomy)consumeAccessiblePill(s,d.personId,id);else s.pills[id]--;d.xp=Math.min(xpNeed(d.realm),d.xp+(r.effect.xp||0));d.energy=clamp(d.energy+(r.effect.energy||0),0,100);d.wound=clamp(d.wound-(r.effect.wound||0),0,100);}
   d.mind.lastPillDay=day(s);
   if(secret)addSecret(s,d,'pill',id,'修为停滞而急于进境，趁取用记录未核对私取丹药。');
   else remember(s,d,`依据取用约定，自行服用${r.name}。`,{key:`pill:${day(s)}`});
@@ -255,9 +257,11 @@ function consumePill(s,d,id,secret,hooks) {
 function considerPill(s,d,hooks) {
   const p=d.mind;
   if(p.lastPillDay===day(s)||p.away)return;
-  const id=d.wound>20&&s.pills.heal>0?'heal':d.energy<28&&s.pills.spirit>0?'spirit':d.xp<xpNeed(d.realm)-65&&s.pills.qi>0?'qi':null;
+  const hasPill=id=>s.pills[id]>0||(s.srEconomy&&availablePills(s,d.personId,id)>0);
+  const id=d.wound>20&&hasPill('heal')?'heal':d.energy<28&&hasPill('spirit')?'spirit':d.xp<xpNeed(d.realm)-65&&hasPill('qi')?'qi':null;
   if(!id)return;
-  const authorized=(s.doctrine.pillRule==='shared'||p.pillPermitDay===day(s))&&p.restrictedUntil<=clock(s);
+  const ownPill=s.srEconomy&&ownAvailablePills(s,d.personId,id)>0;
+  const authorized=ownPill||((s.doctrine.pillRule==='shared'||p.pillPermitDay===day(s))&&p.restrictedUntil<=clock(s));
   const temptation=p.traits[1]-p.traits[2]-p.caution*13+(d.wound>35?20:0);
   const opportunity=hasBuilding(s,'alchemy')||s.pills[id]>0;
   if(authorized)consumePill(s,d,id,false,hooks);

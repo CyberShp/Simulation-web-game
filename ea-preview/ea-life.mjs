@@ -1,9 +1,9 @@
-import {productionAvailability,productionInputAvailable} from './ea-sr-economy.mjs?v=ea-160-sr-qa-20261006-r4';
+import {productionAvailability,productionInputAvailable} from './ea-sr-economy.mjs?v=ea-160-sr-qa-20261006-r5';
 const units=(s,pixels)=>s.spatial?.version==='spatial-metres-1'?pixels/32:pixels;
-import {hallInteriorEnabled} from './ea-hall-interior.mjs?v=ea-160-sr-qa-20261006-r4';
-import {facilitySlots,slotById} from './ea-facility-slots.mjs?v=ea-160-sr-qa-20261006-r4';
-import {BUILDINGS, TECHNIQUES, RESOURCES, CELLS, canPay, xpNeed} from './ea-data.mjs?v=ea-160-sr-qa-20261006-r4';
-import {buildingAccess,scenicFindPath,scenicDistance,scenicSweep,geometryRevision} from './ea-scene-geometry.mjs?v=ea-160-sr-qa-20261006-r4';
+import {hallInteriorEnabled} from './ea-hall-interior.mjs?v=ea-160-sr-qa-20261006-r5';
+import {facilitySlots,slotById} from './ea-facility-slots.mjs?v=ea-160-sr-qa-20261006-r5';
+import {BUILDINGS, TECHNIQUES, RESOURCES, CELLS, canPay, xpNeed} from './ea-data.mjs?v=ea-160-sr-qa-20261006-r5';
+import {buildingAccess,scenicFindPath,scenicDistance,scenicSweep,geometryRevision} from './ea-scene-geometry.mjs?v=ea-160-sr-qa-20261006-r5';
 
 // Read-only projections. These never schedule an NPC, spend resources or reveal a private manual.
 export const lifeBuildingActive = b => !!b && !b.disabled && b.enabled!==false && (b.condition??100)>0;
@@ -38,6 +38,7 @@ export function lifePath(s,person,building) {
   return null;
 }
 export function lifeFacility(s,person,activity=action(person),learningId=mind(person).learning?.id) {
+  if(s.srWorld&&activity==='teach'&&(person.lifeStatus==='dead'||person.life?.status==='dead'||!Object.entries(person.artsById||{}).some(([id,a])=>TECHNIQUES[id]&&person.realm>=TECHNIQUES[id].realm&&a.understanding>=65&&a.mastery>=60)))return null;
   if(away(s,person))return null;
   if(s.schemaVersion!==6&&person===s.master&&activity==='cultivate')return localLifeFacility(s,person,['meditation','hall']);
   if(!hallInteriorEnabled(s)&&person===s.master&&activity==='heal')return localLifeFacility(s,person,['clinic','hall']);
@@ -96,6 +97,7 @@ export function personLifeSummary(s,person,{opportunities=false}={}) {
   return {activity:a,label:cooldown&&a==='rest'?'突破后调息':label,status:isAway?'away':lock?'blocked':body?.phase==='waiting'?'waiting':body?.phase==='navigating'?'moving':p.scenic?.path?.length||person.scenic?.path?.length||p.path?.length||person.path?.length?'moving':'active',slotId:body?.slotId??null,slotName:body?.slotId?slotById(s,body.slotId)?.label:null,facilityId:facility?.id??null,facilityName:facility?BUILDINGS[facility.type].name:null,reason:privateStudy?'独处参悟，暂不愿详谈。':lock||body?.reason||(cooldown&&a==='rest'?`刚刚突破，尚需调息${Math.ceil(cooldown)}秒。`:p.reason||'按当前安排继续活动。'),progress,opportunities:opportunities?s.buildings.filter(b=>BUILDINGS[b.type].work).map(b=>({facilityId:b.id,name:BUILDINGS[b.type].name,...workOpportunity(s,person,b)})):[]};
 }
 export function teachingPresent(s,teacher,student,id) {
+  if(s.srWorld){const art=teacher?.artsById?.[id];if(!art||art.understanding<65||art.mastery<60||teacher.lifeStatus==='dead'||teacher.life?.status==='dead'||student?.lifeStatus==='dead'||student?.life?.status==='dead')return false;}
   if(!teacher||away(s,teacher)||away(s,student)||action(teacher)!=='teach'||action(student)!=='study')return false;
   if(teacher===s.master&&teacher.teaching&&teacher.teaching!==id)return false;
   if((mind(teacher).scenic?.path?.length||teacher.scenic?.path?.length||teacher.mind?.path?.length||teacher.path?.length)||(mind(student).scenic?.path?.length||student.mind?.path?.length||student.path?.length))return false;

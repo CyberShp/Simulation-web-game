@@ -1,12 +1,12 @@
 /** Body activities and exclusive work stations, called only by the world owner. */
-import {BUILDINGS,canPay,pay,grant} from './ea-data.mjs?v=ea-160-sr-qa-20261006-r4';
-import {productionAvailability,settleFiniteProduction,initEconomy,productionInputAvailable,reserveProductionInput,refundProductionInput} from './ea-sr-economy.mjs?v=ea-160-sr-qa-20261006-r4';
+import {BUILDINGS,canPay,pay,grant} from './ea-data.mjs?v=ea-160-sr-qa-20261006-r5';
+import {productionAvailability,settleFiniteProduction,initEconomy,productionInputAvailable,reserveProductionInput,refundProductionInput,cancelMerchantCollection} from './ea-sr-economy.mjs?v=ea-160-sr-qa-20261006-r5';
 const units=(s,pixels)=>s.spatial?.version==='spatial-metres-1'?pixels/32:pixels;
 const spacing=s=>s.spatial?.version==='spatial-metres-1'?.5:8;
 const arrival=s=>s.spatial?.version==='spatial-metres-1'?.04:.5;
-import {facilitySlots,slotById,slotReservation,facilityBodyKinds} from './ea-facility-slots.mjs?v=ea-160-sr-qa-20261006-r4';
-import {geometryRevision,buildingAccess,scenicFindPath,scenicDistance,scenicSweep,scenicNearest} from './ea-scene-geometry.mjs?v=ea-160-sr-qa-20261006-r4';
-import {advanceScenic,syncScenicPosition} from './ea-scenic.mjs?v=ea-160-sr-qa-20261006-r4';
+import {facilitySlots,slotById,slotReservation,facilityBodyKinds} from './ea-facility-slots.mjs?v=ea-160-sr-qa-20261006-r5';
+import {geometryRevision,buildingAccess,scenicFindPath,scenicDistance,scenicSweep,scenicNearest} from './ea-scene-geometry.mjs?v=ea-160-sr-qa-20261006-r5';
+import {advanceScenic,syncScenicPosition} from './ea-scenic.mjs?v=ea-160-sr-qa-20261006-r5';
 const owner=(s,p)=>p===s.master?p:p.mind;
 export function bodyActivity(s,p){const a=s.activitiesById?.[p.activityId];return a?.kind==='facility'?a:null;}
 export function releaseBodyActivity(s,p){
@@ -85,6 +85,7 @@ export function contributeProduction(s,p,b,settle){
 }
 export function cancelProduction(s,id){
  const b=s.buildings.find(b=>b.id===id),order=b&&productionOrder(s,b);if(!order||order.phase==='completed')throw Error('当前没有未完成的生产批次。');
+ for(const collection of Object.values(s.workOrdersById))if(collection.kind==='sr-merchant-collection'&&collection.productionWorkOrderId===order.id&&collection.productionBatch===order.batch&&['to-source','waiting-for-goods'].includes(collection.phase))cancelMerchantCollection(s,collection.id);
  const r=s.reservationsById[order.reservationId],refund={};for(const[k,v]of Object.entries(r.cost))refund[k]=v*(1-order.progressTicks/order.durationTicks);
  refundProductionInput(s,b,refund);delete s.reservationsById[order.reservationId];delete s.workOrdersById[order.id];
  for(const a of Object.values(s.activitiesById))if(a.workOrderId===order.id)delete a.workOrderId;return refund;
