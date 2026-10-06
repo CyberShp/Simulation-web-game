@@ -1027,15 +1027,42 @@
     "logicMigration": "none",
     "pagesCommit": "cd66139c6d2aea98093cd28386cc004dbed05dbe",
     "releaseTag": "ea-160-estate-grid-20261006-r1",
-    "deploymentStatus": "pending",
+    "deploymentStatus": "completed/success",
     "verification": {
       "spatial": 34,
       "normalSave": 9,
       "grid": 6,
       "uiInput": 13,
       "failed": 0,
-      "browser": false
+      "browser": {
+        "viewport": "1363x936",
+        "scope": "limited mouse smoke check",
+        "passed": [
+          "formal root startup",
+          "normal old-save memory-only acceptance import",
+          "visible ground grid and no automatic stone roads",
+          "map drag",
+          "zoom-in",
+          "building selection detail"
+        ],
+        "notTested": [
+          "full construction/upgrade/relocation workflow",
+          "iPad touch",
+          "physical target devices",
+          "FPS"
+        ],
+        "officialSaveSlotsWritten": false
+      }
     },
-    "sourceMainStatus": "pending source commit; metadata will record descendant"
+    "sourceMainStatus": "runtime source committed; release metadata commit is a descendant",
+    "sourceMainCommit": "c77c96b6be45ba8acb60e9101295ab9ae4290dda",
+    "officialUrl": "https://cybershp.github.io/Simulation-web-game/?v=ea-160-estate-grid-20261006-r1",
+    "deploymentRun": "37469792150",
+    "deployedTreeVerification": {
+      "textModules": 158,
+      "existingWebpAssets": 6,
+      "estateWebpAssets": 3,
+      "shaMatchesLocalPackage": true
+    }
   }
 }
