@@ -25,6 +25,8 @@ export * from './ea-sr-organization.mjs';
 export * from './ea-sr-world.mjs';
 export * from './ea-sr-crises.mjs';
 export * from './ea-sr-story.mjs';
+export * from './ea-sr-descent.mjs';
+export * from './ea-sr-late-economy.mjs';
 export {srEnabled,initSR};
 export {cloneState,SCHEMA_VERSION,CONTENT_VERSION};
 const LEGACY_COMMAND_NAMES=['setSpeed','setIntroPage','acknowledgeOnboarding','requestSceneInteraction','cancelSceneInteraction','setNarrativePage','acknowledgeNarrative','acknowledgeIntro','advanceStory','build','cancelConstruction','cancelProduction','offerArtisanCare','cancelArtisanCare','declineArtisanCare','upgrade','toggleBuilding','repairBuilding','relocate','demolish','recruit','obtainBook','sealBook','masterStudy','forgetSupport','returnToBasics','masterBreakthrough','masterRiskBreakthrough','masterPill','masterAction','masterTeach','moveMaster','moveScenicMaster','craft','trade','fulfill','claim','setPolicy','offerRoute','upgradeSect','societyCommand','foundSect','inviteOffice','foundPeak','inviteMentor','setSocietyPolicy','settleIncident','resolvePersonalQuest','resolveWorldVisitor','resolveSocietyVisitor','startExploration','moveExploration','resolveExploration','leaveRegion','combatAction','acknowledgeCombat','startMasterTravel','resolveMasterEncounter','cancelMasterTravel'];
@@ -213,7 +215,8 @@ export function dispatchCommand(s,{name,args=[],id=`command:${s.transactions.nex
    if(bodyCommands.has(command)||SR_BODY_COMMANDS.has(command)){
     const a=next.activitiesById[next.master.activityId];
     if(a?.kind==='facility')releaseBodyActivity(next,next.master);
-    if(a&&a.kind!=='facility'&&!command.startsWith('cancel')&&!['srCrisisCommand','srWorldCommand','srStoryCommand'].includes(command))throw Error('掌门已有身体活动，先完成或中止。');
+    const cancelling=command==='descentCommand'&&values[0]?.action==='cancel'||command==='aftermathAction'&&values[0]?.choice==='cancel';
+    if(a&&a.kind!=='facility'&&!cancelling&&!command.startsWith('cancel')&&!['srCrisisCommand','srWorldCommand','srStoryCommand'].includes(command))throw Error('掌门已有身体活动，先完成或中止。');
    }
    if(command==='build'){const lock=base.buildingLock(next,values[0]);if(lock)throw Error(lock);}
    const fn=command==='advanceStory'?advanceStory:SR_HANDLERS[command]||({setSpeed,offerArtisanCare,cancelArtisanCare,declineArtisanCare,cancelProduction}[command])||base[command];

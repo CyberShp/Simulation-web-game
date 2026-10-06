@@ -5,16 +5,16 @@
   "updated": "2026-10-06",
   "authoritative": "registry.json for requirement records and task states; derived Markdown rendered by qa/sr-manager.py refresh",
   "source_runtime": {
-    "main": "513b3672781615a4954296128328103b92983ebb",
-    "runtime_source": "9cc4466887b349536ac7f16f15ac9f6bcfd16756",
-    "pages": "350a4d6a0d450ff5dfbcde11ea6782b00a43df29",
+    "main": "pending-current-source-api-commit",
+    "runtime_source": "pending-current-source-api-commit",
+    "pages": "7d16d54c0d7d0ecd591e0c8e84952b00e3a674ba",
     "game_version": "1.6.0-dev",
     "schema_version": 6,
-    "preview_pages": "6af2e2449d80256407eda32025f781dfccd0adbc",
-    "preview_deployment": "37433940117",
+    "preview_pages": "7d16d54c0d7d0ecd591e0c8e84952b00e3a674ba",
+    "preview_deployment": "37453110511",
     "working_game_version": "1.6.0-dev",
-    "official_game_version": "1.5.0-dev",
-    "version_note": "game_version为本地当前开发版本；正式根Pages仍1.5，预览与正式发布分别记录。"
+    "official_game_version": "1.6.0-dev",
+    "version_note": "正式根入口与独立预览均为本轮EA1.6；开发版发布不自动关闭各SR。"
   },
   "enums": {
     "scope": [
@@ -2658,8 +2658,8 @@
       "group": "世界",
       "priority": "P1",
       "iteration": "I2",
-      "design_status": "draft",
-      "development_status": "in_progress",
+      "design_status": "ready",
+      "development_status": "implemented",
       "acceptance_status": "in_progress",
       "release_status": "not_released_for_this_sr",
       "owner": "Codex/world_story",
@@ -2679,10 +2679,11 @@
         "docs/design/03-SPATIAL-ART.md",
         "docs/design/04-WORLD-STORY.md",
         "docs/design/12-CONTENT-AUTHORING.md",
-        "docs/design/14-EARLY-GAME-DETAILED-DESIGN.md"
+        "docs/design/14-EARLY-GAME-DETAILED-DESIGN.md",
+        "docs/requirements/TAKEOVER-2026-10-06.md"
       ],
-      "baseline": "已有别院和旧区域入口；目标场景用途已列明。",
-      "design_gap": "山外场景布局、人物/物件/交易/遭遇与持久变化需补具体交付。",
+      "baseline": "七个前期世界场景已经接实际旅行、中心基座对象和区别地景；身份及持久路况沿用旧 ID。",
+      "design_gap": "设计与基座命中已补齐；破阵/修桥全部恢复分支、替代路线及真实平台视觉仍由 V01 核验。",
       "design_deliverables": [
         "别院、山谷、青溪坊市、石桥驿、听雨遗址、偏牢粮道、栖霞故地逐场景布局。",
         "每地点对象、触发、交涉、材料/线索、拒绝与危险撤离表。",
@@ -2699,21 +2700,27 @@
           "scenario": "首次进入与重复返回已知地点",
           "expected": "空间与对象可互动，同一人物/旧结果保留。",
           "status": "not_run",
-          "evidence": []
+          "evidence": [
+            "2026-10-06部分证据：七类前期场景及22对象生产renderer：中心脚点、真实公开路径、只读投影、旧ID与地方状态；qa/ea-sr-scene-art-acceptance.mjs，7场景通过。 本条完整必需覆盖仍待逐项复核，状态未据总数量提升。"
+          ]
         },
         {
           "id": "SR-XF-016-AC-02",
           "scenario": "破阵或修桥后存读档",
           "expected": "对应通行和场景状态持久，线索/物品不再次领取。",
           "status": "not_run",
-          "evidence": []
+          "evidence": [
+            "2026-10-06部分证据：七类前期场景及22对象生产renderer：中心脚点、真实公开路径、只读投影、旧ID与地方状态；qa/ea-sr-scene-art-acceptance.mjs，7场景通过。 本条完整必需覆盖仍待逐项复核，状态未据总数量提升。"
+          ]
         },
         {
           "id": "SR-XF-016-AC-03",
           "scenario": "无指定同行或一条路线失效",
           "expected": "仍能按设计承担代价推进，拒绝可选准备不封全部地图。",
           "status": "not_run",
-          "evidence": []
+          "evidence": [
+            "2026-10-06部分证据：七类前期场景及22对象生产renderer：中心脚点、真实公开路径、只读投影、旧ID与地方状态；qa/ea-sr-scene-art-acceptance.mjs，7场景通过。 本条完整必需覆盖仍待逐项复核，状态未据总数量提升。"
+          ]
         }
       ],
       "excluded": [
@@ -2722,7 +2729,10 @@
       ],
       "evidence": [
         "docs/requirements/design/SR-XF-015-017-020-025-035-037-039.md",
-        "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+        "docs/requirements/IMPLEMENTATION-2026-10-06.md",
+        "docs/requirements/TAKEOVER-2026-10-06.md",
+        "2026-10-06接续：七类前期场景及22对象生产renderer：中心脚点、真实公开路径、只读投影、旧ID与地方状态；qa/ea-sr-scene-art-acceptance.mjs，7场景通过。 专项证据不自动关闭全部AC；平台/正常整链不足继续明列。",
+        "2026-10-06运行时部分已发布 Pages 7d16d54 / workflow 37453110511 success；release_status 仍表示整项 SR 验收/关闭门槛，未因开发版部署提升。"
       ],
       "change_log": [
         {
@@ -2732,6 +2742,10 @@
         {
           "date": "2026-10-06",
           "reason": "用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。"
+        },
+        {
+          "date": "2026-10-06",
+          "reason": "接续具体设计及运行时集成完成，D01/D02/I01据源码与作者配置更新；V01继续，未据局部检查宣布SR验收或发布关闭。"
         }
       ],
       "tasks": [
@@ -2740,10 +2754,12 @@
           "phase": "D01",
           "title": "设计补齐",
           "description": "交付：别院、山谷、青溪坊市、石桥驿、听雨遗址、偏牢粮道、栖霞故地逐场景布局。；每地点对象、触发、交涉、材料/线索、拒绝与危险撤离表。；占领/修桥/破阵/重建后的持久空间变更与入口兼容。；填实必需参数并标记U/R/T来源。",
-          "status": "in_progress",
-          "owner": "Codex/world_story",
+          "status": "done",
+          "owner": "Codex/root（接续集成）",
           "depends_on": [],
-          "evidence": [],
+          "evidence": [
+            "2026-10-06接续：docs/requirements/TAKEOVER-2026-10-06.md 与运行时固定作者配置、世界实体/材料/时序及失败恢复约定。"
+          ],
           "blocked_reason": null
         },
         {
@@ -2751,12 +2767,14 @@
           "phase": "D02",
           "title": "契约与内容审阅",
           "description": "审阅前期七类地点实景与交互设计与依赖契约（SR-XF-003、SR-XF-004、SR-XF-015）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。",
-          "status": "todo",
-          "owner": null,
+          "status": "done",
+          "owner": "Codex/root（接续集成）",
           "depends_on": [
             "SR-XF-016-D01"
           ],
-          "evidence": [],
+          "evidence": [
+            "2026-10-06接续：审阅唯一身份/公私物资、身体互斥、单钟、消息知情与旧完成档保护，模块接口已接共同入口。"
+          ],
           "blocked_reason": null
         },
         {
@@ -2764,12 +2782,14 @@
           "phase": "I01",
           "title": "开发与集成",
           "description": "在世界模块实现前期七类地点实景与交互设计；交付SR-XF-016-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。",
-          "status": "todo",
-          "owner": null,
+          "status": "done",
+          "owner": "Codex/root（接续集成）",
           "depends_on": [
             "SR-XF-016-D02"
           ],
-          "evidence": [],
+          "evidence": [
+            "2026-10-06接续：七类前期场景及22对象生产renderer：中心脚点、真实公开路径、只读投影、旧ID与地方状态；qa/ea-sr-scene-art-acceptance.mjs，7场景通过。 已接init/validate/tick、公开网关和HTML操作投影；完整AC及真实设备另由V01判断。"
+          ],
           "blocked_reason": null
         },
         {
@@ -2777,12 +2797,14 @@
           "phase": "V01",
           "title": "验收与兼容",
           "description": "执行SR-XF-016-AC-01至AC-03及SCENE-02、EARLY-03；登记实际结果、兼容和设备证据边界。",
-          "status": "todo",
-          "owner": null,
+          "status": "in_progress",
+          "owner": "Codex/root（独立验收）",
           "depends_on": [
             "SR-XF-016-I01"
           ],
-          "evidence": [],
+          "evidence": [
+            "2026-10-06：定向脚本与回归结果见接续实施记录；不能以组件或人工边界替代正常全程/设备证据。"
+          ],
           "blocked_reason": null
         },
         {
@@ -2816,7 +2838,9 @@
         "SCENE-02",
         "EARLY-03"
       ],
-      "blockers": []
+      "blockers": [],
+      "historical_baseline": "已有别院和旧区域入口；目标场景用途已列明。",
+      "historical_design_gap": "山外场景布局、人物/物件/交易/遭遇与持久变化需补具体交付。"
     },
     {
       "id": "SR-XF-017",
@@ -2826,8 +2850,8 @@
       "group": "内容",
       "priority": "P1",
       "iteration": "I2",
-      "design_status": "draft",
-      "development_status": "in_progress",
+      "design_status": "ready",
+      "development_status": "implemented",
       "acceptance_status": "in_progress",
       "release_status": "not_released_for_this_sr",
       "owner": "Codex/world_story",
@@ -2857,10 +2881,11 @@
         "docs/design/07-ECONOMY-ORGANIZATION.md",
         "docs/design/09-INTRIGUE-OPPORTUNITIES.md",
         "docs/design/12-CONTENT-AUTHORING.md",
-        "docs/design/14-EARLY-GAME-DETAILED-DESIGN.md"
+        "docs/design/14-EARLY-GAME-DETAILED-DESIGN.md",
+        "docs/requirements/TAKEOVER-2026-10-06.md"
       ],
-      "baseline": "已有七组织作者暂名和方向，开局/伤匠两张局部内容卡。",
-      "design_gap": "重要接触者、供给/利益/关系和地方产业未形成完整正式内容库。",
+      "baseline": "七组织作者卡、地方产业、百机有限傀儡和玄阴鬼市费用/工具接入实体供给与行为。",
+      "design_gap": "固定作者参数已补齐；七组织全部首次接触、不同人物选择与拒单/改名完整 AC 尚待逐项覆盖。",
       "design_deliverables": [
         "七组织的稳定ID、具名接触者、公开诉求、资源、知情、底线和关系。",
         "百机山型号/材料/控制、玄阴谷鬼物来历/御使/鬼市、顾氏品种/供货合作内容。",
@@ -2877,21 +2902,27 @@
           "scenario": "各组织首次接触",
           "expected": "有可理解诉求、有限资源和具名人员，不能无来源无限交易。",
           "status": "not_run",
-          "evidence": []
+          "evidence": [
+            "2026-10-06部分证据：ea-sr-local-industry/world-content：百机山两具有限傀儡、实际晶芯作用和维修；玄阴谷铜铃/阴材、场务及具名维护分账。新增8项＋既有内容9项通过；正常新档19请求/1446刻/6次重载，HTML payload另列。 本条完整必需覆盖仍待逐项复核，状态未据总数量提升。"
+          ]
         },
         {
           "id": "SR-XF-017-AC-02",
           "scenario": "同道途不同人物面对同一选择",
           "expected": "可有善意与逐利差异，并有动机、成本和证据支撑。",
           "status": "not_run",
-          "evidence": []
+          "evidence": [
+            "2026-10-06部分证据：ea-sr-local-industry/world-content：百机山两具有限傀儡、实际晶芯作用和维修；玄阴谷铜铃/阴材、场务及具名维护分账。新增8项＋既有内容9项通过；正常新档19请求/1446刻/6次重载，HTML payload另列。 本条完整必需覆盖仍待逐项复核，状态未据总数量提升。"
+          ]
         },
         {
           "id": "SR-XF-017-AC-03",
           "scenario": "拒单、合作和换名重载",
           "expected": "权限及历史关系保留，不自动全员敌对或重刷角色。",
           "status": "not_run",
-          "evidence": []
+          "evidence": [
+            "2026-10-06部分证据：ea-sr-local-industry/world-content：百机山两具有限傀儡、实际晶芯作用和维修；玄阴谷铜铃/阴材、场务及具名维护分账。新增8项＋既有内容9项通过；正常新档19请求/1446刻/6次重载，HTML payload另列。 本条完整必需覆盖仍待逐项复核，状态未据总数量提升。"
+          ]
         }
       ],
       "excluded": [
@@ -2900,7 +2931,10 @@
       ],
       "evidence": [
         "docs/requirements/design/SR-XF-015-017-020-025-035-037-039.md",
-        "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+        "docs/requirements/IMPLEMENTATION-2026-10-06.md",
+        "docs/requirements/TAKEOVER-2026-10-06.md",
+        "2026-10-06接续：ea-sr-local-industry/world-content：百机山两具有限傀儡、实际晶芯作用和维修；玄阴谷铜铃/阴材、场务及具名维护分账。新增8项＋既有内容9项通过；正常新档19请求/1446刻/6次重载，HTML payload另列。 专项证据不自动关闭全部AC；平台/正常整链不足继续明列。",
+        "2026-10-06运行时部分已发布 Pages 7d16d54 / workflow 37453110511 success；release_status 仍表示整项 SR 验收/关闭门槛，未因开发版部署提升。"
       ],
       "change_log": [
         {
@@ -2910,6 +2944,10 @@
         {
           "date": "2026-10-06",
           "reason": "用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。"
+        },
+        {
+          "date": "2026-10-06",
+          "reason": "接续具体设计及运行时集成完成，D01/D02/I01据源码与作者配置更新；V01继续，未据局部检查宣布SR验收或发布关闭。"
         }
       ],
       "tasks": [
@@ -2918,10 +2956,12 @@
           "phase": "D01",
           "title": "设计补齐",
           "description": "交付：七组织的稳定ID、具名接触者、公开诉求、资源、知情、底线和关系。；百机山型号/材料/控制、玄阴谷鬼物来历/御使/鬼市、顾氏品种/供货合作内容。；赤嶂旧产通路、州府执法人员和正魔两宗约束/交易的实际人物与权限。；填实必需参数并标记U/R/T来源。",
-          "status": "in_progress",
-          "owner": "Codex/world_story",
+          "status": "done",
+          "owner": "Codex/root（接续集成）",
           "depends_on": [],
-          "evidence": [],
+          "evidence": [
+            "2026-10-06接续：docs/requirements/TAKEOVER-2026-10-06.md 与运行时固定作者配置、世界实体/材料/时序及失败恢复约定。"
+          ],
           "blocked_reason": null
         },
         {
@@ -2929,12 +2969,14 @@
           "phase": "D02",
           "title": "契约与内容审阅",
           "description": "审阅地方组织、重要NPC与产业内容卡与依赖契约（SR-XF-001、SR-XF-002）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。",
-          "status": "todo",
-          "owner": null,
+          "status": "done",
+          "owner": "Codex/root（接续集成）",
           "depends_on": [
             "SR-XF-017-D01"
           ],
-          "evidence": [],
+          "evidence": [
+            "2026-10-06接续：审阅唯一身份/公私物资、身体互斥、单钟、消息知情与旧完成档保护，模块接口已接共同入口。"
+          ],
           "blocked_reason": null
         },
         {
@@ -2942,12 +2984,14 @@
           "phase": "I01",
           "title": "开发与集成",
           "description": "在内容模块实现地方组织、重要NPC与产业内容卡；交付SR-XF-017-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。",
-          "status": "todo",
-          "owner": null,
+          "status": "done",
+          "owner": "Codex/root（接续集成）",
           "depends_on": [
             "SR-XF-017-D02"
           ],
-          "evidence": [],
+          "evidence": [
+            "2026-10-06接续：ea-sr-local-industry/world-content：百机山两具有限傀儡、实际晶芯作用和维修；玄阴谷铜铃/阴材、场务及具名维护分账。新增8项＋既有内容9项通过；正常新档19请求/1446刻/6次重载，HTML payload另列。 已接init/validate/tick、公开网关和HTML操作投影；完整AC及真实设备另由V01判断。"
+          ],
           "blocked_reason": null
         },
         {
@@ -2955,12 +2999,14 @@
           "phase": "V01",
           "title": "验收与兼容",
           "description": "执行SR-XF-017-AC-01至AC-03及CONTENT-02；登记实际结果、兼容和设备证据边界。",
-          "status": "todo",
-          "owner": null,
+          "status": "in_progress",
+          "owner": "Codex/root（独立验收）",
           "depends_on": [
             "SR-XF-017-I01"
           ],
-          "evidence": [],
+          "evidence": [
+            "2026-10-06：定向脚本与回归结果见接续实施记录；不能以组件或人工边界替代正常全程/设备证据。"
+          ],
           "blocked_reason": null
         },
         {
@@ -2993,7 +3039,9 @@
       "existing_acceptance_refs": [
         "CONTENT-02"
       ],
-      "blockers": []
+      "blockers": [],
+      "historical_baseline": "已有七组织作者暂名和方向，开局/伤匠两张局部内容卡。",
+      "historical_design_gap": "重要接触者、供给/利益/关系和地方产业未形成完整正式内容库。"
     },
     {
       "id": "SR-XF-018",
@@ -3346,8 +3394,8 @@
       "group": "世界",
       "priority": "P1",
       "iteration": "I3",
-      "design_status": "draft",
-      "development_status": "in_progress",
+      "design_status": "ready",
+      "development_status": "implemented",
       "acceptance_status": "in_progress",
       "release_status": "not_released_for_this_sr",
       "owner": "Codex/world_story",
@@ -3368,10 +3416,11 @@
         "docs/design/08-LIVING-WORLD.md",
         "docs/design/09-INTRIGUE-OPPORTUNITIES.md",
         "docs/design/12-CONTENT-AUTHORING.md",
-        "docs/design/06-OPENING-ACCEPTANCE.md"
+        "docs/design/06-OPENING-ACCEPTANCE.md",
+        "docs/requirements/TAKEOVER-2026-10-06.md"
       ],
-      "baseline": "已有关系/记忆与剧情消息的旧基础。",
-      "design_gap": "消息来源时效、传播、真假混合及名声/势力/个人评价需正式表。",
+      "baseline": "真假消息、有限传播、知情评价和死讯后果已接共同事实与消息系统；普通死亡不归罪送信者。",
+      "design_gap": "传播及个人/阵营/公开评价已有独立检查；真假混合消息与完整重复传播 AC 尚待逐项覆盖。",
       "design_deliverables": [
         "fact/claim/observation/belief/knownFact的存储、支持/反驳与公开投影规则。",
         "信使/传闻/文书/当面证词渠道、时间、陈旧和独立来源关系。",
@@ -3388,21 +3437,28 @@
           "scenario": "听到真假混合的商人消息",
           "expected": "能区分原话、观察时刻、已核实和推测，而非全知真假标签。",
           "status": "not_run",
-          "evidence": []
+          "evidence": [
+            "2026-10-06部分证据：ea-sr-aftermath/world/persons：送达事实按个人利益、阵营权限与公开行为三层一次结算；未知者不全知，重复传播不刷分，非序列化增量缓存；旧share阵营固定分支已去重。 本条完整必需覆盖仍待逐项复核，状态未据总数量提升。"
+          ]
         },
         {
           "id": "SR-XF-020-AC-02",
           "scenario": "事件分别被受惠者/敌方/未获知者得知",
           "expected": "三层评价各依已知与利益改变，未获知者不即时同步。",
-          "status": "not_run",
-          "evidence": []
+          "status": "passed",
+          "evidence": [
+            "2026-10-06部分证据：ea-sr-aftermath/world/persons：送达事实按个人利益、阵营权限与公开行为三层一次结算；未知者不全知，重复传播不刷分，非序列化增量缓存；旧share阵营固定分支已去重。 本条完整必需覆盖仍待逐项复核，状态未据总数量提升。",
+            "2026-10-06：ea-sr-aftermath-acceptance.mjs 10/10：自然救援与50刻消息交付后，受惠亲属和已知阵营反应；明确利益对照夹具检验敌方/未知者的差异与唯一收据，未冒称自然敌方全篇章。 详细证据见 docs/requirements/TAKEOVER-2026-10-06.md。"
+          ]
         },
         {
           "id": "SR-XF-020-AC-03",
           "scenario": "重复阅读、传播和加载",
           "expected": "不重结算关系奖励，不改真相或刷新消息时间。",
           "status": "not_run",
-          "evidence": []
+          "evidence": [
+            "2026-10-06部分证据：ea-sr-aftermath/world/persons：送达事实按个人利益、阵营权限与公开行为三层一次结算；未知者不全知，重复传播不刷分，非序列化增量缓存；旧share阵营固定分支已去重。 本条完整必需覆盖仍待逐项复核，状态未据总数量提升。"
+          ]
         }
       ],
       "excluded": [
@@ -3411,7 +3467,10 @@
       ],
       "evidence": [
         "docs/requirements/design/SR-XF-015-017-020-025-035-037-039.md",
-        "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+        "docs/requirements/IMPLEMENTATION-2026-10-06.md",
+        "docs/requirements/TAKEOVER-2026-10-06.md",
+        "2026-10-06接续：ea-sr-aftermath/world/persons：送达事实按个人利益、阵营权限与公开行为三层一次结算；未知者不全知，重复传播不刷分，非序列化增量缓存；旧share阵营固定分支已去重。 专项证据不自动关闭全部AC；平台/正常整链不足继续明列。",
+        "2026-10-06运行时部分已发布 Pages 7d16d54 / workflow 37453110511 success；release_status 仍表示整项 SR 验收/关闭门槛，未因开发版部署提升。"
       ],
       "change_log": [
         {
@@ -3421,6 +3480,10 @@
         {
           "date": "2026-10-06",
           "reason": "用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。"
+        },
+        {
+          "date": "2026-10-06",
+          "reason": "接续具体设计及运行时集成完成，D01/D02/I01据源码与作者配置更新；V01继续，未据局部检查宣布SR验收或发布关闭。"
         }
       ],
       "tasks": [
@@ -3429,10 +3492,12 @@
           "phase": "D01",
           "title": "设计补齐",
           "description": "交付：fact/claim/observation/belief/knownFact的存储、支持/反驳与公开投影规则。；信使/传闻/文书/当面证词渠道、时间、陈旧和独立来源关系。；侠义名声、势力态度、个人关系的传播条件与变化预算。；填实必需参数并标记U/R/T来源。",
-          "status": "in_progress",
-          "owner": "Codex/world_story",
+          "status": "done",
+          "owner": "Codex/root（接续集成）",
           "depends_on": [],
-          "evidence": [],
+          "evidence": [
+            "2026-10-06接续：docs/requirements/TAKEOVER-2026-10-06.md 与运行时固定作者配置、世界实体/材料/时序及失败恢复约定。"
+          ],
           "blocked_reason": null
         },
         {
@@ -3440,12 +3505,14 @@
           "phase": "D02",
           "title": "契约与内容审阅",
           "description": "审阅消息传播、信念与三层社会评价与依赖契约（SR-XF-002、SR-XF-017）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。",
-          "status": "todo",
-          "owner": null,
+          "status": "done",
+          "owner": "Codex/root（接续集成）",
           "depends_on": [
             "SR-XF-020-D01"
           ],
-          "evidence": [],
+          "evidence": [
+            "2026-10-06接续：审阅唯一身份/公私物资、身体互斥、单钟、消息知情与旧完成档保护，模块接口已接共同入口。"
+          ],
           "blocked_reason": null
         },
         {
@@ -3453,12 +3520,14 @@
           "phase": "I01",
           "title": "开发与集成",
           "description": "在世界模块实现消息传播、信念与三层社会评价；交付SR-XF-020-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。",
-          "status": "todo",
-          "owner": null,
+          "status": "done",
+          "owner": "Codex/root（接续集成）",
           "depends_on": [
             "SR-XF-020-D02"
           ],
-          "evidence": [],
+          "evidence": [
+            "2026-10-06接续：ea-sr-aftermath/world/persons：送达事实按个人利益、阵营权限与公开行为三层一次结算；未知者不全知，重复传播不刷分，非序列化增量缓存；旧share阵营固定分支已去重。 已接init/validate/tick、公开网关和HTML操作投影；完整AC及真实设备另由V01判断。"
+          ],
           "blocked_reason": null
         },
         {
@@ -3466,12 +3535,14 @@
           "phase": "V01",
           "title": "验收与兼容",
           "description": "执行SR-XF-020-AC-01至AC-03及CONTENT-05、INTRO-03；登记实际结果、兼容和设备证据边界。",
-          "status": "todo",
-          "owner": null,
+          "status": "in_progress",
+          "owner": "Codex/root（独立验收）",
           "depends_on": [
             "SR-XF-020-I01"
           ],
-          "evidence": [],
+          "evidence": [
+            "2026-10-06：定向脚本与回归结果见接续实施记录；不能以组件或人工边界替代正常全程/设备证据。"
+          ],
           "blocked_reason": null
         },
         {
@@ -3505,7 +3576,9 @@
         "CONTENT-05",
         "INTRO-03"
       ],
-      "blockers": []
+      "blockers": [],
+      "historical_baseline": "已有关系/记忆与剧情消息的旧基础。",
+      "historical_design_gap": "消息来源时效、传播、真假混合及名声/势力/个人评价需正式表。"
     },
     {
       "id": "SR-XF-021",
@@ -3684,8 +3757,8 @@
       "group": "危机",
       "priority": "P1",
       "iteration": "I3",
-      "design_status": "draft",
-      "development_status": "in_progress",
+      "design_status": "ready",
+      "development_status": "implemented",
       "acceptance_status": "in_progress",
       "release_status": "not_released_for_this_sr",
       "owner": "Codex/world_story",
@@ -3708,10 +3781,11 @@
         "docs/design/05-RUNTIME-CONTRACTS.md",
         "docs/design/08-LIVING-WORLD.md",
         "docs/design/10-CRISES-RESCUE-DEATH.md",
-        "docs/design/12-CONTENT-AUTHORING.md"
+        "docs/design/12-CONTENT-AUTHORING.md",
+        "docs/requirements/TAKEOVER-2026-10-06.md"
       ],
-      "baseline": "尚无新版致命救援闭环；已有普通伤势与战斗恢复基础。",
-      "design_gap": "危险阶段、自救资源、同tick效果与死亡/遗物原子结算需完整定义。",
+      "baseline": "真实定位、致命危机、有限救援、永久死亡、遗物托管、债务及师承后果已接入单一世界步。",
+      "design_gap": "死亡后果已正常链验收；自救/干预/迟到三分支全集和同 tick 优先级完整 AC 继续复核。",
       "design_deliverables": [
         "具体伤势/危险的forming到resolved阶段、不可逆条件及有效稳定动作。",
         "NPC退避/求援/谈判/反制的能力、资源与条件；消息送达与定位边界。",
@@ -3728,21 +3802,28 @@
           "scenario": "自救、掌门干预与迟到三分支",
           "expected": "均用真实资源与同一时钟，各自形成持久结果。",
           "status": "not_run",
-          "evidence": []
+          "evidence": [
+            "2026-10-06部分证据：ea-sr-aftermath/crises：新雨链固定亲属、师承、有限借契、原物收殓托管、知情自愿代偿；正常公开链及旧档不追补历史后果边界分别验证。 本条完整必需覆盖仍待逐项复核，状态未据总数量提升。"
+          ]
         },
         {
           "id": "SR-XF-022-AC-02",
           "scenario": "有效急救与致命伤同tick",
           "expected": "结果按已定义效果层，不依赖数组/回调顺序。",
           "status": "not_run",
-          "evidence": []
+          "evidence": [
+            "2026-10-06部分证据：ea-sr-aftermath/crises：新雨链固定亲属、师承、有限借契、原物收殓托管、知情自愿代偿；正常公开链及旧档不追补历史后果边界分别验证。 本条完整必需覆盖仍待逐项复核，状态未据总数量提升。"
+          ]
         },
         {
           "id": "SR-XF-022-AC-03",
           "scenario": "死者遗物、债务与师承处理后读档",
           "expected": "一份死亡记录和一份物品归属，未知者不立即全知悼念。",
-          "status": "not_run",
-          "evidence": []
+          "status": "passed",
+          "evidence": [
+            "2026-10-06部分证据：ea-sr-aftermath/crises：新雨链固定亲属、师承、有限借契、原物收殓托管、知情自愿代偿；正常公开链及旧档不追补历史后果边界分别验证。 本条完整必需覆盖仍待逐项复核，状态未据总数量提升。",
+            "2026-10-06：ea-sr-aftermath-acceptance.mjs 10/10：新档自然天气迟到死亡，搜索原件、知情托付、实地收殓交还、实际有限自愿代偿及师承不可用；23命令/18精确存读档/3463世界步。旧死亡迁移不 retroactive 补债。 详细证据见 docs/requirements/TAKEOVER-2026-10-06.md。"
+          ]
         }
       ],
       "excluded": [
@@ -3751,7 +3832,10 @@
       ],
       "evidence": [
         "docs/requirements/design/SR-XF-015-017-020-025-035-037-039.md",
-        "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+        "docs/requirements/IMPLEMENTATION-2026-10-06.md",
+        "docs/requirements/TAKEOVER-2026-10-06.md",
+        "2026-10-06接续：ea-sr-aftermath/crises：新雨链固定亲属、师承、有限借契、原物收殓托管、知情自愿代偿；正常公开链及旧档不追补历史后果边界分别验证。 专项证据不自动关闭全部AC；平台/正常整链不足继续明列。",
+        "2026-10-06运行时部分已发布 Pages 7d16d54 / workflow 37453110511 success；release_status 仍表示整项 SR 验收/关闭门槛，未因开发版部署提升。"
       ],
       "change_log": [
         {
@@ -3761,6 +3845,10 @@
         {
           "date": "2026-10-06",
           "reason": "用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。"
+        },
+        {
+          "date": "2026-10-06",
+          "reason": "接续具体设计及运行时集成完成，D01/D02/I01据源码与作者配置更新；V01继续，未据局部检查宣布SR验收或发布关闭。"
         }
       ],
       "tasks": [
@@ -3769,10 +3857,12 @@
           "phase": "D01",
           "title": "设计补齐",
           "description": "交付：具体伤势/危险的forming到resolved阶段、不可逆条件及有效稳定动作。；NPC退避/求援/谈判/反制的能力、资源与条件；消息送达与定位边界。；死亡记录、遗体/物品位置、职责释放、知情关系反应和替代证据。；填实必需参数并标记U/R/T来源。",
-          "status": "in_progress",
-          "owner": "Codex/world_story",
+          "status": "done",
+          "owner": "Codex/root（接续集成）",
           "depends_on": [],
-          "evidence": [],
+          "evidence": [
+            "2026-10-06接续：docs/requirements/TAKEOVER-2026-10-06.md 与运行时固定作者配置、世界实体/材料/时序及失败恢复约定。"
+          ],
           "blocked_reason": null
         },
         {
@@ -3780,12 +3870,14 @@
           "phase": "D02",
           "title": "契约与内容审阅",
           "description": "审阅持续危机、NPC自救与永久死亡后果与依赖契约（SR-XF-002、SR-XF-013、SR-XF-015、SR-XF-020）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。",
-          "status": "todo",
-          "owner": null,
+          "status": "done",
+          "owner": "Codex/root（接续集成）",
           "depends_on": [
             "SR-XF-022-D01"
           ],
-          "evidence": [],
+          "evidence": [
+            "2026-10-06接续：审阅唯一身份/公私物资、身体互斥、单钟、消息知情与旧完成档保护，模块接口已接共同入口。"
+          ],
           "blocked_reason": null
         },
         {
@@ -3793,12 +3885,14 @@
           "phase": "I01",
           "title": "开发与集成",
           "description": "在危机模块实现持续危机、NPC自救与永久死亡后果；交付SR-XF-022-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。",
-          "status": "todo",
-          "owner": null,
+          "status": "done",
+          "owner": "Codex/root（接续集成）",
           "depends_on": [
             "SR-XF-022-D02"
           ],
-          "evidence": [],
+          "evidence": [
+            "2026-10-06接续：ea-sr-aftermath/crises：新雨链固定亲属、师承、有限借契、原物收殓托管、知情自愿代偿；正常公开链及旧档不追补历史后果边界分别验证。 已接init/validate/tick、公开网关和HTML操作投影；完整AC及真实设备另由V01判断。"
+          ],
           "blocked_reason": null
         },
         {
@@ -3806,12 +3900,14 @@
           "phase": "V01",
           "title": "验收与兼容",
           "description": "执行SR-XF-022-AC-01至AC-03及WORLDCHAIN-02、WORLDCHAIN-03；登记实际结果、兼容和设备证据边界。",
-          "status": "todo",
-          "owner": null,
+          "status": "in_progress",
+          "owner": "Codex/root（独立验收）",
           "depends_on": [
             "SR-XF-022-I01"
           ],
-          "evidence": [],
+          "evidence": [
+            "2026-10-06：定向脚本与回归结果见接续实施记录；不能以组件或人工边界替代正常全程/设备证据。"
+          ],
           "blocked_reason": null
         },
         {
@@ -3845,7 +3941,9 @@
         "WORLDCHAIN-02",
         "WORLDCHAIN-03"
       ],
-      "blockers": []
+      "blockers": [],
+      "historical_baseline": "尚无新版致命救援闭环；已有普通伤势与战斗恢复基础。",
+      "historical_design_gap": "危险阶段、自救资源、同tick效果与死亡/遗物原子结算需完整定义。"
     },
     {
       "id": "SR-XF-023",
@@ -4194,13 +4292,13 @@
     {
       "id": "SR-XF-025",
       "title": "固定三名责任人的复仇任务图与收束",
-      "version": "1.0",
+      "version": "1.1",
       "scope": "early",
       "group": "内容",
       "priority": "P1",
       "iteration": "I4",
-      "design_status": "draft",
-      "development_status": "in_progress",
+      "design_status": "ready",
+      "development_status": "implemented",
       "acceptance_status": "in_progress",
       "release_status": "not_released_for_this_sr",
       "owner": "Codex/world_story",
@@ -4229,10 +4327,11 @@
         "docs/design/09-INTRIGUE-OPPORTUNITIES.md",
         "docs/design/12-CONTENT-AUTHORING.md",
         "docs/design/14-EARLY-GAME-DETAILED-DESIGN.md",
-        "docs/design/06-OPENING-ACCEPTANCE.md"
+        "docs/design/06-OPENING-ACCEPTANCE.md",
+        "docs/requirements/TAKEOVER-2026-10-06.md"
       ],
-      "baseline": "已有旧篇章流程，14已固定韩厉川/邢烈/邵衡及作者终局。",
-      "design_gap": "新调查行动图、真实战局影响和结局持续状态未完整。",
+      "baseline": "固定三责任人、可靠调查、实际挑战/死亡、双亲遗物与两种持久结局已接入，正常公开命令血统打通。",
+      "design_gap": "具体任务图与作者参数已补齐；三道途分别成长清算、拒绝准备/证人死亡替代路线仍需完整正常验证。",
       "design_deliverables": [
         "三名责任人的驻地/行程/知情/资源/战斗和可靠核实死亡途径。",
         "账册/雇佣单/阵迹调查，截粮/破阵/营救/争取中立的具体结果与替代来源。",
@@ -4262,8 +4361,10 @@
           "id": "SR-XF-025-AC-03",
           "scenario": "两种结局后重复到访和加载",
           "expected": "结局保存且可继续经营，奖励不重发，不追插新管事废掉旧结局。",
-          "status": "not_run",
-          "evidence": []
+          "status": "passed",
+          "evidence": [
+            "2026-10-06：ea-sr-integration-acceptance.mjs normalRevisitEnding：同一正常结局前存档分支 return/rebuild，各实际重复到访栖霞/查验/回院/休息/存读档；13命令/10存读档，终步387156；重发结局资源不变，固定清算名单与事实不变。 详细证据见 docs/requirements/TAKEOVER-2026-10-06.md。"
+          ]
         }
       ],
       "excluded": [
@@ -4272,7 +4373,9 @@
       ],
       "evidence": [
         "docs/requirements/design/SR-XF-015-017-020-025-035-037-039.md",
-        "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+        "docs/requirements/IMPLEMENTATION-2026-10-06.md",
+        "docs/requirements/TAKEOVER-2026-10-06.md",
+        "2026-10-06运行时部分已发布 Pages 7d16d54 / workflow 37453110511 success；release_status 仍表示整项 SR 验收/关闭门槛，未因开发版部署提升。"
       ],
       "change_log": [
         {
@@ -4282,6 +4385,10 @@
         {
           "date": "2026-10-06",
           "reason": "用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。"
+        },
+        {
+          "date": "2026-10-06",
+          "reason": "正常成长与固定清算双结局接通，战后身体残留修复；设计/集成任务完成，验收不据单一路线关闭。"
         }
       ],
       "tasks": [
@@ -4290,10 +4397,12 @@
           "phase": "D01",
           "title": "设计补齐",
           "description": "交付：三名责任人的驻地/行程/知情/资源/战斗和可靠核实死亡途径。；账册/雇佣单/阵迹调查，截粮/破阵/营救/争取中立的具体结果与替代来源。；清算→取双亲遗物→明确选择故地重建/回云岫的原子结局和后续经营。；填实必需参数并标记U/R/T来源。",
-          "status": "in_progress",
-          "owner": "Codex/world_story",
+          "status": "done",
+          "owner": "Codex/root（接续集成）",
           "depends_on": [],
-          "evidence": [],
+          "evidence": [
+            "2026-10-06：具体任务图见 design/SR-XF-015-017-020-025-035-037-039.md；共同入口实际定位、挑战、永久死亡、原子结局与恢复见 TAKEOVER-2026-10-06.md。"
+          ],
           "blocked_reason": null
         },
         {
@@ -4301,12 +4410,14 @@
           "phase": "D02",
           "title": "契约与内容审阅",
           "description": "审阅固定三名责任人的复仇任务图与收束与依赖契约（SR-XF-013、SR-XF-014、SR-XF-016、SR-XF-017、SR-XF-020、SR-XF-021）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。",
-          "status": "todo",
-          "owner": null,
+          "status": "done",
+          "owner": "Codex/root（接续集成）",
           "depends_on": [
             "SR-XF-025-D01"
           ],
-          "evidence": [],
+          "evidence": [
+            "2026-10-06：具体任务图见 design/SR-XF-015-017-020-025-035-037-039.md；共同入口实际定位、挑战、永久死亡、原子结局与恢复见 TAKEOVER-2026-10-06.md。"
+          ],
           "blocked_reason": null
         },
         {
@@ -4314,12 +4425,14 @@
           "phase": "I01",
           "title": "开发与集成",
           "description": "在内容模块实现固定三名责任人的复仇任务图与收束；交付SR-XF-025-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。",
-          "status": "todo",
-          "owner": null,
+          "status": "done",
+          "owner": "Codex/root（接续集成）",
           "depends_on": [
             "SR-XF-025-D02"
           ],
-          "evidence": [],
+          "evidence": [
+            "2026-10-06：具体任务图见 design/SR-XF-015-017-020-025-035-037-039.md；共同入口实际定位、挑战、永久死亡、原子结局与恢复见 TAKEOVER-2026-10-06.md。"
+          ],
           "blocked_reason": null
         },
         {
@@ -4327,12 +4440,14 @@
           "phase": "V01",
           "title": "验收与兼容",
           "description": "执行SR-XF-025-AC-01至AC-03及EARLY-03、STORY-10；登记实际结果、兼容和设备证据边界。",
-          "status": "todo",
-          "owner": null,
+          "status": "in_progress",
+          "owner": "Codex/root（独立验收）",
           "depends_on": [
             "SR-XF-025-I01"
           ],
-          "evidence": [],
+          "evidence": [
+            "正常单一路径筑基三层、三死亡、双结局及重复实际到访/存读档通过；AC01/02 尚需完整覆盖。"
+          ],
           "blocked_reason": null
         },
         {
@@ -4366,7 +4481,9 @@
         "EARLY-03",
         "STORY-10"
       ],
-      "blockers": []
+      "blockers": [],
+      "historical_baseline": "已有旧篇章流程，14已固定韩厉川/邢烈/邵衡及作者终局。",
+      "historical_design_gap": "新调查行动图、真实战局影响和结局持续状态未完整。"
     },
     {
       "id": "SR-XF-026",
@@ -6458,8 +6575,8 @@
       "group": "远期成长",
       "priority": "P3",
       "iteration": "deferred",
-      "design_status": "draft",
-      "development_status": "in_progress",
+      "design_status": "ready",
+      "development_status": "implemented",
       "acceptance_status": "in_progress",
       "release_status": "not_released_for_this_sr",
       "owner": "Codex/equipment_growth",
@@ -6484,10 +6601,11 @@
         "docs/design/02-EQUIPMENT-ARTS.md",
         "docs/design/04-WORLD-STORY.md",
         "docs/design/13-WORLDVIEW-DISCUSSION.md",
-        "docs/design/14-EARLY-GAME-DETAILED-DESIGN.md"
+        "docs/design/14-EARLY-GAME-DETAILED-DESIGN.md",
+        "docs/requirements/TAKEOVER-2026-10-06.md"
       ],
-      "baseline": "尚已确认八境主干、道路自由交叉、有限寿元与积累材料突破原则。",
-      "design_gap": "各门类八境称呼、金丹以后条件/招式/寿元年数和资源梯度未完整。",
+      "baseline": "八境主干、道路交叉、有限寿元和六境来源/招式已经配置；正常结局可达首处外港续篇与凝丹髓，后期营缮有有限本金。",
+      "design_gap": "参数与行为已补齐；六境全程自然成长、材料和维护预算以及设备体验尚未通过。",
       "design_deliverables": [
         "各道路实力层次对照、称呼、准入/突破条件与可靠资源来源。",
         "高阶寿元、延寿方式、弱点、功体兼容和境界差距配置。",
@@ -6504,21 +6622,27 @@
           "scenario": "世界观对照表",
           "expected": "层次可比而路径不同，明确寿元有限与跨大境界鸿沟。",
           "status": "not_run",
-          "evidence": []
+          "evidence": [
+            "2026-10-06部分证据：ea-sr-late-economy：72只旧箱、12960有限商会本金、实际200刻修理和客商步行付款；8项网关组件通过，满库/取消/身体中断保持财物守恒；六境完整自然成长仍未通过。 本条完整必需覆盖仍待逐项复核，状态未据总数量提升。"
+          ]
         },
         {
           "id": "SR-XF-038-AC-02",
           "scenario": "各高阶境界实际成长、失败与恢复",
           "expected": "每境有条件、来源、动作、风险和迁移验收，非只改等级上限。",
           "status": "not_run",
-          "evidence": []
+          "evidence": [
+            "2026-10-06部分证据：ea-sr-late-economy：72只旧箱、12960有限商会本金、实际200刻修理和客商步行付款；8项网关组件通过，满库/取消/身体中断保持财物守恒；六境完整自然成长仍未通过。 本条完整必需覆盖仍待逐项复核，状态未据总数量提升。"
+          ]
         },
         {
           "id": "SR-XF-038-AC-03",
           "scenario": "当前版本",
           "expected": "金丹以上可靠来源在前期收束后开放，每境有实际条件和动作；既有筑基路线与旧完成档不新增高阶前置。",
           "status": "not_run",
-          "evidence": [],
+          "evidence": [
+            "2026-10-06部分证据：ea-sr-late-economy：72只旧箱、12960有限商会本金、实际200刻修理和客商步行付款；8项网关组件通过，满库/取消/身体中断保持财物守恒；六境完整自然成长仍未通过。 本条完整必需覆盖仍待逐项复核，状态未据总数量提升。"
+          ],
           "historical_expected": "金丹以上内容保持背景/后置，不成为筑基前置。"
         }
       ],
@@ -6528,7 +6652,10 @@
       ],
       "evidence": [
         "docs/requirements/design/SR-XF-038-040.md",
-        "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+        "docs/requirements/IMPLEMENTATION-2026-10-06.md",
+        "docs/requirements/TAKEOVER-2026-10-06.md",
+        "2026-10-06接续：ea-sr-late-economy：72只旧箱、12960有限商会本金、实际200刻修理和客商步行付款；8项网关组件通过，满库/取消/身体中断保持财物守恒；六境完整自然成长仍未通过。 专项证据不自动关闭全部AC；平台/正常整链不足继续明列。",
+        "2026-10-06运行时部分已发布 Pages 7d16d54 / workflow 37453110511 success；release_status 仍表示整项 SR 验收/关闭门槛，未因开发版部署提升。"
       ],
       "change_log": [
         {
@@ -6542,6 +6669,10 @@
         {
           "date": "2026-10-06",
           "reason": "U-94激活高阶实施，REQ03/AC03由旧背景后置改为实际开放与前期隔离；保留历史expected，新增组件证据不能直接关闭实际全程AC。"
+        },
+        {
+          "date": "2026-10-06",
+          "reason": "接续具体设计及运行时集成完成，D01/D02/I01据源码与作者配置更新；V01继续，未据局部检查宣布SR验收或发布关闭。"
         }
       ],
       "tasks": [
@@ -6550,10 +6681,12 @@
           "phase": "D01",
           "title": "设计补齐",
           "description": "交付：各道路实力层次对照、称呼、准入/突破条件与可靠资源来源。；高阶寿元、延寿方式、弱点、功体兼容和境界差距配置。；金丹以上的成长/危机/恢复/存档与正式扩围门槛。；填实必需参数并标记U/R/T来源。",
-          "status": "in_progress",
-          "owner": "Codex/equipment_growth",
+          "status": "done",
+          "owner": "Codex/root（接续集成）",
           "depends_on": [],
-          "evidence": [],
+          "evidence": [
+            "2026-10-06接续：docs/requirements/TAKEOVER-2026-10-06.md 与运行时固定作者配置、世界实体/材料/时序及失败恢复约定。"
+          ],
           "blocked_reason": null
         },
         {
@@ -6561,12 +6694,14 @@
           "phase": "D02",
           "title": "契约与内容审阅",
           "description": "审阅高阶境界、道路对应与寿元资源与依赖契约（SR-XF-001）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。",
-          "status": "todo",
-          "owner": null,
+          "status": "done",
+          "owner": "Codex/root（接续集成）",
           "depends_on": [
             "SR-XF-038-D01"
           ],
-          "evidence": [],
+          "evidence": [
+            "2026-10-06接续：审阅唯一身份/公私物资、身体互斥、单钟、消息知情与旧完成档保护，模块接口已接共同入口。"
+          ],
           "blocked_reason": null
         },
         {
@@ -6574,12 +6709,14 @@
           "phase": "I01",
           "title": "开发与集成",
           "description": "在远期成长模块实现高阶境界、道路对应与寿元资源；交付SR-XF-038-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。",
-          "status": "todo",
-          "owner": null,
+          "status": "done",
+          "owner": "Codex/root（接续集成）",
           "depends_on": [
             "SR-XF-038-D02"
           ],
-          "evidence": [],
+          "evidence": [
+            "2026-10-06接续：ea-sr-late-economy：72只旧箱、12960有限商会本金、实际200刻修理和客商步行付款；8项网关组件通过，满库/取消/身体中断保持财物守恒；六境完整自然成长仍未通过。 已接init/validate/tick、公开网关和HTML操作投影；完整AC及真实设备另由V01判断。"
+          ],
           "blocked_reason": null
         },
         {
@@ -6587,12 +6724,14 @@
           "phase": "V01",
           "title": "验收与兼容",
           "description": "执行SR-XF-038-AC-01至AC-03及EARLY-06；登记实际结果、兼容和设备证据边界。",
-          "status": "todo",
-          "owner": null,
+          "status": "in_progress",
+          "owner": "Codex/root（独立验收）",
           "depends_on": [
             "SR-XF-038-I01"
           ],
-          "evidence": [],
+          "evidence": [
+            "2026-10-06：定向脚本与回归结果见接续实施记录；不能以组件或人工边界替代正常全程/设备证据。"
+          ],
           "blocked_reason": null
         },
         {
@@ -6625,7 +6764,9 @@
       "existing_acceptance_refs": [
         "EARLY-06"
       ],
-      "blockers": []
+      "blockers": [],
+      "historical_baseline": "尚已确认八境主干、道路自由交叉、有限寿元与积累材料突破原则。",
+      "historical_design_gap": "各门类八境称呼、金丹以后条件/招式/寿元年数和资源梯度未完整。"
     },
     {
       "id": "SR-XF-039",
@@ -6635,8 +6776,8 @@
       "group": "远期世界",
       "priority": "P3",
       "iteration": "deferred",
-      "design_status": "draft",
-      "development_status": "in_progress",
+      "design_status": "ready",
+      "development_status": "implemented",
       "acceptance_status": "in_progress",
       "release_status": "not_released_for_this_sr",
       "owner": "Codex/world_story",
@@ -6658,10 +6799,11 @@
         "docs/design/04-WORLD-STORY.md",
         "docs/design/05-RUNTIME-CONTRACTS.md",
         "docs/design/13-WORLDVIEW-DISCUSSION.md",
-        "docs/design/03-SPATIAL-ART.md"
+        "docs/design/03-SPATIAL-ART.md",
+        "docs/requirements/TAKEOVER-2026-10-06.md"
       ],
-      "baseline": "尚已确认稳定主世界通路、多种交通、异界保留修为和有限下凡方向。",
-      "design_gap": "跨洲线路、容量/费用/设施归属，跨界与降临成本/力量限制未完整。",
+      "baseline": "稳定主世界通路、有偿公共交通、异界适应和本尊/化身有限降临已接实际身份、设施与预算。",
+      "design_gap": "降临两模式及失败恢复有独立行为检查；全部未来线路/设施表和异界进出完整 AC 继续逐项覆盖。",
       "design_deliverables": [
         "坐骑/飞舟/御物/主城传送的门槛、路线、容量、耗时与收费。",
         "独立异界能力限制/适应；上界前哨、援助/派遣和返程代价。",
@@ -6678,21 +6820,28 @@
           "scenario": "未来线路/设施表",
           "expected": "所有能力、容量、费用与归属可追溯，途中人物不复制。",
           "status": "not_run",
-          "evidence": []
+          "evidence": [
+            "2026-10-06部分证据：ea-sr-descent及世界/战斗/网关/UI：独立上下界、实体化身与同一本尊身体、正时长跨界、固定压制力量与托管返程预算、窗口故障和永久死亡；不提供掌门飞升或隔空救援。 本条完整必需覆盖仍待逐项复核，状态未据总数量提升。"
+          ]
         },
         {
           "id": "SR-XF-039-AC-02",
           "scenario": "异界进出与保存",
           "expected": "原有修为/已学与当地可用效果分别保留。",
           "status": "not_run",
-          "evidence": []
+          "evidence": [
+            "2026-10-06部分证据：ea-sr-descent及世界/战斗/网关/UI：独立上下界、实体化身与同一本尊身体、正时长跨界、固定压制力量与托管返程预算、窗口故障和永久死亡；不提供掌门飞升或隔空救援。 本条完整必需覆盖仍待逐项复核，状态未据总数量提升。"
+          ]
         },
         {
           "id": "SR-XF-039-AC-03",
           "scenario": "本尊/化身降临情景",
           "expected": "力量限制和返程成本固定，不跨地图无成本救援。",
-          "status": "not_run",
-          "evidence": []
+          "status": "passed",
+          "evidence": [
+            "2026-10-06部分证据：ea-sr-descent及世界/战斗/网关/UI：独立上下界、实体化身与同一本尊身体、正时长跨界、固定压制力量与托管返程预算、窗口故障和永久死亡；不提供掌门飞升或隔空救援。 本条完整必需覆盖仍待逐项复核，状态未据总数量提升。",
+            "2026-10-06：ea-sr-descent-acceptance.mjs 15/15：合法境界/阵法/预算边界夹具和实际公开请求、护界、返程；分离化身/原身、有限有效力量、留驻、故障补媒介、损毁反馈/永久死亡与旧档恢复。不是自然全高境界可达证明。 详细证据见 docs/requirements/TAKEOVER-2026-10-06.md。"
+          ]
         }
       ],
       "excluded": [
@@ -6701,7 +6850,10 @@
       ],
       "evidence": [
         "docs/requirements/design/SR-XF-015-017-020-025-035-037-039.md",
-        "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+        "docs/requirements/IMPLEMENTATION-2026-10-06.md",
+        "docs/requirements/TAKEOVER-2026-10-06.md",
+        "2026-10-06接续：ea-sr-descent及世界/战斗/网关/UI：独立上下界、实体化身与同一本尊身体、正时长跨界、固定压制力量与托管返程预算、窗口故障和永久死亡；不提供掌门飞升或隔空救援。 专项证据不自动关闭全部AC；平台/正常整链不足继续明列。",
+        "2026-10-06运行时部分已发布 Pages 7d16d54 / workflow 37453110511 success；release_status 仍表示整项 SR 验收/关闭门槛，未因开发版部署提升。"
       ],
       "change_log": [
         {
@@ -6711,6 +6863,10 @@
         {
           "date": "2026-10-06",
           "reason": "用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。"
+        },
+        {
+          "date": "2026-10-06",
+          "reason": "接续具体设计及运行时集成完成，D01/D02/I01据源码与作者配置更新；V01继续，未据局部检查宣布SR验收或发布关闭。"
         }
       ],
       "tasks": [
@@ -6719,10 +6875,12 @@
           "phase": "D01",
           "title": "设计补齐",
           "description": "交付：坐骑/飞舟/御物/主城传送的门槛、路线、容量、耗时与收费。；独立异界能力限制/适应；上界前哨、援助/派遣和返程代价。；实体化身与本尊下凡的限制、风险与跨界身份保存接口。；填实必需参数并标记U/R/T来源。",
-          "status": "in_progress",
-          "owner": "Codex/world_story",
+          "status": "done",
+          "owner": "Codex/root（接续集成）",
           "depends_on": [],
-          "evidence": [],
+          "evidence": [
+            "2026-10-06接续：docs/requirements/TAKEOVER-2026-10-06.md 与运行时固定作者配置、世界实体/材料/时序及失败恢复约定。"
+          ],
           "blocked_reason": null
         },
         {
@@ -6730,12 +6888,14 @@
           "phase": "D02",
           "title": "契约与内容审阅",
           "description": "审阅跨洲交通、异界适应与仙界降临与依赖契约（SR-XF-001）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。",
-          "status": "todo",
-          "owner": null,
+          "status": "done",
+          "owner": "Codex/root（接续集成）",
           "depends_on": [
             "SR-XF-039-D01"
           ],
-          "evidence": [],
+          "evidence": [
+            "2026-10-06接续：审阅唯一身份/公私物资、身体互斥、单钟、消息知情与旧完成档保护，模块接口已接共同入口。"
+          ],
           "blocked_reason": null
         },
         {
@@ -6743,12 +6903,14 @@
           "phase": "I01",
           "title": "开发与集成",
           "description": "在远期世界模块实现跨洲交通、异界适应与仙界降临；交付SR-XF-039-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。",
-          "status": "todo",
-          "owner": null,
+          "status": "done",
+          "owner": "Codex/root（接续集成）",
           "depends_on": [
             "SR-XF-039-D02"
           ],
-          "evidence": [],
+          "evidence": [
+            "2026-10-06接续：ea-sr-descent及世界/战斗/网关/UI：独立上下界、实体化身与同一本尊身体、正时长跨界、固定压制力量与托管返程预算、窗口故障和永久死亡；不提供掌门飞升或隔空救援。 已接init/validate/tick、公开网关和HTML操作投影；完整AC及真实设备另由V01判断。"
+          ],
           "blocked_reason": null
         },
         {
@@ -6756,12 +6918,14 @@
           "phase": "V01",
           "title": "验收与兼容",
           "description": "执行SR-XF-039-AC-01至AC-03及SCENE-02；登记实际结果、兼容和设备证据边界。",
-          "status": "todo",
-          "owner": null,
+          "status": "in_progress",
+          "owner": "Codex/root（独立验收）",
           "depends_on": [
             "SR-XF-039-I01"
           ],
-          "evidence": [],
+          "evidence": [
+            "2026-10-06：定向脚本与回归结果见接续实施记录；不能以组件或人工边界替代正常全程/设备证据。"
+          ],
           "blocked_reason": null
         },
         {
@@ -6794,7 +6958,9 @@
       "existing_acceptance_refs": [
         "SCENE-02"
       ],
-      "blockers": []
+      "blockers": [],
+      "historical_baseline": "尚已确认稳定主世界通路、多种交通、异界保留修为和有限下凡方向。",
+      "historical_design_gap": "跨洲线路、容量/费用/设施归属，跨界与降临成本/力量限制未完整。"
     },
     {
       "id": "SR-XF-040",

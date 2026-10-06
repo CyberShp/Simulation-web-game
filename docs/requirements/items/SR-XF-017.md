@@ -6,7 +6,7 @@
 | --- | --- |
 | 范围 / 模块 | 前期必需 / 内容 |
 | 优先级 / 计划 | P1 / I2 |
-| 设计 / 开发 | draft / in_progress |
+| 设计 / 开发 | ready / implemented |
 | 验收 / 发布 | in_progress / not_released_for_this_sr |
 | 责任人 / 复核人 | Codex/world_story / Codex/root（集成） |
 
@@ -16,7 +16,7 @@
 
 决策来源：U-37, U-38, U-41, U-42, U-43, U-45, U-46, U-47, U-48, U-49, U-63, R-26, U-94。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
 
-规格：[01-CHARACTERS.md](../../../docs/design/01-CHARACTERS.md)、[04-WORLD-STORY.md](../../../docs/design/04-WORLD-STORY.md)、[07-ECONOMY-ORGANIZATION.md](../../../docs/design/07-ECONOMY-ORGANIZATION.md)、[09-INTRIGUE-OPPORTUNITIES.md](../../../docs/design/09-INTRIGUE-OPPORTUNITIES.md)、[12-CONTENT-AUTHORING.md](../../../docs/design/12-CONTENT-AUTHORING.md)、[14-EARLY-GAME-DETAILED-DESIGN.md](../../../docs/design/14-EARLY-GAME-DETAILED-DESIGN.md)。
+规格：[01-CHARACTERS.md](../../../docs/design/01-CHARACTERS.md)、[04-WORLD-STORY.md](../../../docs/design/04-WORLD-STORY.md)、[07-ECONOMY-ORGANIZATION.md](../../../docs/design/07-ECONOMY-ORGANIZATION.md)、[09-INTRIGUE-OPPORTUNITIES.md](../../../docs/design/09-INTRIGUE-OPPORTUNITIES.md)、[12-CONTENT-AUTHORING.md](../../../docs/design/12-CONTENT-AUTHORING.md)、[14-EARLY-GAME-DETAILED-DESIGN.md](../../../docs/design/14-EARLY-GAME-DETAILED-DESIGN.md)、[TAKEOVER-2026-10-06.md](../../../docs/requirements/TAKEOVER-2026-10-06.md)。
 
 依赖：[SR-XF-001](SR-XF-001.md)、[SR-XF-002](SR-XF-002.md)。
 
@@ -24,9 +24,9 @@
 
 ## 现状与设计缺口
 
-已有七组织作者暂名和方向，开局/伤匠两张局部内容卡。
+七组织作者卡、地方产业、百机有限傀儡和玄阴鬼市费用/工具接入实体供给与行为。
 
-重要接触者、供给/利益/关系和地方产业未形成完整正式内容库。
+固定作者参数已补齐；七组织全部首次接触、不同人物选择与拒单/改名完整 AC 尚待逐项覆盖。
 
 现状是适用旧能力的基线，不表示该SR完整目标已通过。
 
@@ -53,17 +53,31 @@ SR-XF-017-REQ-03：作者卡激活时身份与真相固定，后续显示名可�
 | SR-XF-017-AC-02 | 同道途不同人物面对同一选择 | 可有善意与逐利差异，并有动机、成本和证据支撑。 | not_run |
 | SR-XF-017-AC-03 | 拒单、合作和换名重载 | 权限及历史关系保留，不自动全员敌对或重刷角色。 | not_run |
 
+SR-XF-017-AC-01证据：2026-10-06部分证据：ea-sr-local-industry/world-content：百机山两具有限傀儡、实际晶芯作用和维修；玄阴谷铜铃/阴材、场务及具名维护分账。新增8项＋既有内容9项通过；正常新档19请求/1446刻/6次重载，HTML payload另列。 本条完整必需覆盖仍待逐项复核，状态未据总数量提升。
+
+SR-XF-017-AC-02证据：2026-10-06部分证据：ea-sr-local-industry/world-content：百机山两具有限傀儡、实际晶芯作用和维修；玄阴谷铜铃/阴材、场务及具名维护分账。新增8项＋既有内容9项通过；正常新档19请求/1446刻/6次重载，HTML payload另列。 本条完整必需覆盖仍待逐项复核，状态未据总数量提升。
+
+SR-XF-017-AC-03证据：2026-10-06部分证据：ea-sr-local-industry/world-content：百机山两具有限傀儡、实际晶芯作用和维修；玄阴谷铜铃/阴材、场务及具名维护分账。新增8项＋既有内容9项通过；正常新档19请求/1446刻/6次重载，HTML payload另列。 本条完整必需覆盖仍待逐项复核，状态未据总数量提升。
+
 每条AC至少覆盖相关数据、真实行为、UI解释和保存恢复；需要设备或真人证据时单独列出，不以旧测试数量替代。
 
 ## 开发任务
 
 | 任务 | 工作 | 状态 | 前置 | 责任人 |
 | --- | --- | --- | --- | --- |
-| SR-XF-017-D01 | 设计补齐：交付：七组织的稳定ID、具名接触者、公开诉求、资源、知情、底线和关系。；百机山型号/材料/控制、玄阴谷鬼物来历/御使/鬼市、顾氏品种/供货合作内容。；赤嶂旧产通路、州府执法人员和正魔两宗约束/交易的实际人物与权限。；填实必需参数并标记U/R/T来源。 | in_progress | 无 | Codex/world_story |
-| SR-XF-017-D02 | 契约与内容审阅：审阅地方组织、重要NPC与产业内容卡与依赖契约（SR-XF-001、SR-XF-002）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。 | todo | SR-XF-017-D01 | 待分配 |
-| SR-XF-017-I01 | 开发与集成：在内容模块实现地方组织、重要NPC与产业内容卡；交付SR-XF-017-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。 | todo | SR-XF-017-D02 | 待分配 |
-| SR-XF-017-V01 | 验收与兼容：执行SR-XF-017-AC-01至AC-03及CONTENT-02；登记实际结果、兼容和设备证据边界。 | todo | SR-XF-017-I01 | 待分配 |
+| SR-XF-017-D01 | 设计补齐：交付：七组织的稳定ID、具名接触者、公开诉求、资源、知情、底线和关系。；百机山型号/材料/控制、玄阴谷鬼物来历/御使/鬼市、顾氏品种/供货合作内容。；赤嶂旧产通路、州府执法人员和正魔两宗约束/交易的实际人物与权限。；填实必需参数并标记U/R/T来源。 | done | 无 | Codex/root（接续集成） |
+| SR-XF-017-D02 | 契约与内容审阅：审阅地方组织、重要NPC与产业内容卡与依赖契约（SR-XF-001、SR-XF-002）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。 | done | SR-XF-017-D01 | Codex/root（接续集成） |
+| SR-XF-017-I01 | 开发与集成：在内容模块实现地方组织、重要NPC与产业内容卡；交付SR-XF-017-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。 | done | SR-XF-017-D02 | Codex/root（接续集成） |
+| SR-XF-017-V01 | 验收与兼容：执行SR-XF-017-AC-01至AC-03及CONTENT-02；登记实际结果、兼容和设备证据边界。 | in_progress | SR-XF-017-I01 | Codex/root（独立验收） |
 | SR-XF-017-R01 | 发布与关闭：完成所需源码/运行时发布核对、交接和未覆盖说明；本轮用户不要求上传QA过程产物。 | todo | SR-XF-017-V01 | 待分配 |
+
+SR-XF-017-D01证据：2026-10-06接续：docs/requirements/TAKEOVER-2026-10-06.md 与运行时固定作者配置、世界实体/材料/时序及失败恢复约定。
+
+SR-XF-017-D02证据：2026-10-06接续：审阅唯一身份/公私物资、身体互斥、单钟、消息知情与旧完成档保护，模块接口已接共同入口。
+
+SR-XF-017-I01证据：2026-10-06接续：ea-sr-local-industry/world-content：百机山两具有限傀儡、实际晶芯作用和维修；玄阴谷铜铃/阴材、场务及具名维护分账。新增8项＋既有内容9项通过；正常新档19请求/1446刻/6次重载，HTML payload另列。 已接init/validate/tick、公开网关和HTML操作投影；完整AC及真实设备另由V01判断。
+
+SR-XF-017-V01证据：2026-10-06：定向脚本与回归结果见接续实施记录；不能以组件或人工边界替代正常全程/设备证据。
 
 ## 可进入开发的条件
 
@@ -88,8 +102,12 @@ SR-XF-017-REQ-03：作者卡激活时身份与真相固定，后续显示名可�
 
 - docs/requirements/design/SR-XF-015-017-020-025-035-037-039.md
 - docs/requirements/IMPLEMENTATION-2026-10-06.md
+- docs/requirements/TAKEOVER-2026-10-06.md
+- 2026-10-06接续：ea-sr-local-industry/world-content：百机山两具有限傀儡、实际晶芯作用和维修；玄阴谷铜铃/阴材、场务及具名维护分账。新增8项＋既有内容9项通过；正常新档19请求/1446刻/6次重载，HTML payload另列。 专项证据不自动关闭全部AC；平台/正常整链不足继续明列。
+- 2026-10-06运行时部分已发布 Pages 7d16d54 / workflow 37453110511 success；release_status 仍表示整项 SR 验收/关闭门槛，未因开发版部署提升。
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
+- 2026-10-06：接续具体设计及运行时集成完成，D01/D02/I01据源码与作者配置更新；V01继续，未据局部检查宣布SR验收或发布关闭。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。

@@ -14,35 +14,38 @@ import * as mother from './ea-sr-mother-chain.mjs';
 import * as world from './ea-sr-world.mjs';
 import * as crises from './ea-sr-crises.mjs';
 import * as story from './ea-sr-story.mjs';
+import * as descent from './ea-sr-descent.mjs';
+import * as lateEconomy from './ea-sr-late-economy.mjs';
+import {localIndustryCombatDamageSR} from './ea-sr-world-content.mjs';
 import {configureCampaign} from './ea-campaign.mjs';
 export const srEnabled=s=>s.contentVersion==='sr-content-v1.2';
 combat.configureSRCombat({execute:(s,id,target)=>id==='move'?base.combatAction(s,id,target):combat.executeSpatialCombatAction(s,id,target,base.combatAction)});
 crises.configureSRCrises({onPermanentDeath:economy.settleEconomyDeath});
 mother.configureMotherChain({createCrisis:crises.createMotherCrisisSR,resolveCrisis:crises.resolveMotherCrisisSR,onCriticalOutcome:crises.motherCriticalOutcomeSR});
-configureCampaign({enemyCombatConfig:(s,id)=>srEnabled(s)?combat.ENEMY_COMBAT_CONFIG[id]:null,companionTactic:(s)=>srEnabled(s)?s.srCombat?.tactic||'guard':null,incomingDamage:(s,c,source,target,amount,kind)=>srEnabled(s)?amount*combat.outgoingCombatMultiplier(s,source,kind)*combat.incomingCombatMultiplier(s,target)*combat.realmGapCombatMultiplier(s,source,target):amount,onEffectiveDamage:(s,c,source,target,amount,kind)=>{if(!srEnabled(s)||!source.personId||source.personId==='person:master')return;const p=s.personsById[source.personId];if(!p||p.lifeStatus!=='alive')return;const artId=p.mind?.main||p.main;if(artId)cultivation.recordArtPractice(s,p.personId,artId,{eventId:`combat:${s.srCombat.battleId||c.encounterId}:${c.nextEffectId}:${p.personId}`,difficulty:1,effective:amount>0});}});
+configureCampaign({enemyCombatConfig:(s,id)=>srEnabled(s)?combat.ENEMY_COMBAT_CONFIG[id]:null,companionTactic:(s)=>srEnabled(s)?s.srCombat?.tactic||'guard':null,incomingDamage:(s,c,source,target,amount,kind)=>srEnabled(s)?localIndustryCombatDamageSR(s,c,source,target,amount*combat.outgoingCombatMultiplier(s,source,kind)*combat.incomingCombatMultiplier(s,target)*combat.realmGapCombatMultiplier(s,source,target),kind):amount,onEffectiveDamage:(s,c,source,target,amount,kind)=>{if(!srEnabled(s)||!source.personId||source.personId==='person:master')return;const p=s.personsById[source.personId];if(!p||p.lifeStatus!=='alive')return;const artId=p.mind?.main||p.main;if(artId)cultivation.recordArtPractice(s,p.personId,artId,{eventId:`combat:${s.srCombat.battleId||c.encounterId}:${c.nextEffectId}:${p.personId}`,difficulty:1,effective:amount>0});}});
 cultivation.configureCultivation({breakthroughCost:base.breakthroughCost,onBreakthroughRefining:mother.activateMotherBreakthrough,canCompleteBreakthrough:(s,p,a)=>!mother.motherBlocksBreakthrough(s,p,a),onLifespanExhausted:(s,p)=>{if(p.personId!=='person:master')crises.recordPermanentDeathSR(s,p.personId,{cause:'有限寿元耗尽'});else{s.speed=0;base.log(s,'寿元已到有限界限，此卷暂停并保留；掌门永久死亡与删档规则尚未启用。');}}});
 export function initSR(s,{newGame=false}={}){
- if(srEnabled(s)){economy.initEconomy(s);world.hydrateSRWorld(s);economy.initPillInventory(s);cultivation.initCultivation(s);return s;}
+ if(srEnabled(s)){combat.initSRCombat(s);economy.initEconomy(s);world.hydrateSRWorld(s);economy.initPillInventory(s);cultivation.initCultivation(s);persons.initPersons(s);descent.initDescentSR(s);lateEconomy.initLateEconomy(s);return s;}
  initContracts(s,{activate:true});spatial.initSpatial(s);
  world.initSRWorld(s,base.addDisciple);crises.initSRCrises(s,base.addDisciple);story.initSRStory(s,base.addDisciple);
  economy.initEconomy(s);persons.initPersons(s);weather.initWeather(s);organization.initOrganization(s);
  equipment.initEquipment(s,{newGame});cultivation.initCultivation(s);combat.initSRCombat(s);covenants.initCovenants(s);mother.initMotherChain(s,{addPerson:base.addDisciple});
- for(const p of Object.values(s.personsById))if(p.compatibilityMode!=='historical-only')world.hydrateWorldPositionSR(s,p);economy.initPillInventory(s);return s;
+ for(const p of Object.values(s.personsById))if(p.compatibilityMode!=='historical-only')world.hydrateWorldPositionSR(s,p);economy.initPillInventory(s);descent.initDescentSR(s);lateEconomy.initLateEconomy(s);return s;
 }
 export function validateSR(s){
  economy.initEconomy(s);
  world.hydrateSRWorld(s);
- economy.initPillInventory(s);cultivation.initCultivation(s);
+ economy.initPillInventory(s);cultivation.initCultivation(s);persons.initPersons(s);descent.initDescentSR(s);lateEconomy.initLateEconomy(s);
  validateContracts(s);spatial.validateSpatial(s);economy.validateEconomy(s);persons.validatePersons(s);weather.validateWeather(s);organization.validateOrganization(s);
- equipment.validateEquipment(s);cultivation.validateCultivation(s);combat.validateSRCombat(s);covenants.validateCovenants(s);mother.validateMotherChain(s);world.validateSRWorld(s);crises.validateSRCrises(s);story.validateSRStory(s);return s;
+ equipment.validateEquipment(s);cultivation.validateCultivation(s);combat.validateSRCombat(s);covenants.validateCovenants(s);mother.validateMotherChain(s);world.validateSRWorld(s);crises.validateSRCrises(s);story.validateSRStory(s);descent.validateDescentSR(s);lateEconomy.validateLateEconomy(s);return s;
 }
 export function beforeSRSecond(s){weather.tickWeather(s);}
 export function tickSR(s){
  spatial.tickSpatial(s);economy.tickEconomy(s);persons.tickPersons(s);organization.tickOrganization(s);
  equipment.tickEquipment(s);cultivation.tickCultivation(s);combat.tickSRCombat(s);covenants.tickCovenants(s);mother.tickMotherChain(s);
- world.tickSRWorld(s);crises.tickSRCrises(s);story.tickSRStory(s);
+ world.tickSRWorld(s);crises.tickSRCrises(s);story.tickSRStory(s);descent.tickDescentSR(s);lateEconomy.tickLateEconomy(s);
 }
-export const SR_HANDLERS={...spatial.handlers,...economy.economyHandlers,...persons.personsHandlers,...weather.weatherHandlers,...organization.organizationHandlers,...equipment.equipmentHandlers,...cultivation.cultivationHandlers,...combat.combatHandlers,...covenants.covenantHandlers,...mother.motherHandlers,
+export const SR_HANDLERS={...spatial.handlers,...economy.economyHandlers,...persons.personsHandlers,...weather.weatherHandlers,...organization.organizationHandlers,...equipment.equipmentHandlers,...cultivation.cultivationHandlers,...combat.combatHandlers,...covenants.covenantHandlers,...mother.motherHandlers,...descent.descentHandlers,...lateEconomy.lateEconomyHandlers,
  srWorldCommand:world.srWorldCommand,srCrisisCommand:crises.srCrisisCommand,srStoryCommand:story.srStoryCommand,
  craft:economy.craftSR,craftPill:economy.craftSR,cancelCraft:economy.cancelCraftSR,
  preparePillUse:(s,id,personId='person:master')=>{if(personId!=='person:master')throw Error('掌门只能亲自取药；门人按取用约定自主取药。');return economy.preparePillUse(s,id,personId);},
@@ -57,4 +60,4 @@ export const SR_HANDLERS={...spatial.handlers,...economy.economyHandlers,...pers
  masterStudy:cultivation.studyArt,masterBreakthrough:cultivation.beginBreakthrough,masterRiskBreakthrough:cultivation.beginBreakthrough,masterTeach:cultivation.teachArt,combatAction:combat.srCombatAction,
  foundSect:organization.foundSectSR,inviteOffice:organization.inviteOfficeSR,foundPeak:organization.foundPeakSR,setSocietyPolicy:organization.policySR,setPolicy:organization.policySR,
  trade:economy.marketTrade,fulfill:(s,id)=>economy.marketOrder(s,id,'deliver')};
-export const SR_BODY_COMMANDS=new Set(['build','upgrade','relocate','demolish','masterStudy','masterBreakthrough','masterRiskBreakthrough','masterTeach','combatAction','srWorldCommand','srCrisisCommand','srStoryCommand',...Object.keys(cultivation.cultivationHandlers),...Object.keys(equipment.equipmentHandlers),...Object.keys(covenants.covenantHandlers),...Object.keys(mother.motherHandlers),'craftSR','craftPill','craft','preparePillUse','startTransport','replenishPatch','startMasterHarvest','improveDrainage','transferProperty','marketTrade','marketOrder','returnToBasics','forgetSupport','masterPill','startExploration','startMasterTravel','moveExploration','leaveRegion']);
+export const SR_BODY_COMMANDS=new Set(['build','upgrade','relocate','demolish','masterStudy','masterBreakthrough','masterRiskBreakthrough','masterTeach','combatAction','srWorldCommand','srCrisisCommand','srStoryCommand',...Object.keys(cultivation.cultivationHandlers),...Object.keys(equipment.equipmentHandlers),...Object.keys(covenants.covenantHandlers),...Object.keys(mother.motherHandlers),...Object.keys(descent.descentHandlers),...Object.keys(lateEconomy.lateEconomyHandlers),'craftSR','craftPill','craft','preparePillUse','startTransport','replenishPatch','startMasterHarvest','improveDrainage','transferProperty','marketTrade','marketOrder','returnToBasics','forgetSupport','masterPill','startExploration','startMasterTravel','moveExploration','leaveRegion']);

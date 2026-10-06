@@ -6,7 +6,7 @@
 | --- | --- |
 | 范围 / 模块 | 前期必需 / 危机 |
 | 优先级 / 计划 | P1 / I3 |
-| 设计 / 开发 | draft / in_progress |
+| 设计 / 开发 | ready / implemented |
 | 验收 / 发布 | in_progress / not_released_for_this_sr |
 | 责任人 / 复核人 | Codex/world_story / Codex/root（集成） |
 
@@ -16,7 +16,7 @@
 
 决策来源：U-13, U-63, U-77, R-25, U-94。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
 
-规格：[01-CHARACTERS.md](../../../docs/design/01-CHARACTERS.md)、[05-RUNTIME-CONTRACTS.md](../../../docs/design/05-RUNTIME-CONTRACTS.md)、[08-LIVING-WORLD.md](../../../docs/design/08-LIVING-WORLD.md)、[10-CRISES-RESCUE-DEATH.md](../../../docs/design/10-CRISES-RESCUE-DEATH.md)、[12-CONTENT-AUTHORING.md](../../../docs/design/12-CONTENT-AUTHORING.md)。
+规格：[01-CHARACTERS.md](../../../docs/design/01-CHARACTERS.md)、[05-RUNTIME-CONTRACTS.md](../../../docs/design/05-RUNTIME-CONTRACTS.md)、[08-LIVING-WORLD.md](../../../docs/design/08-LIVING-WORLD.md)、[10-CRISES-RESCUE-DEATH.md](../../../docs/design/10-CRISES-RESCUE-DEATH.md)、[12-CONTENT-AUTHORING.md](../../../docs/design/12-CONTENT-AUTHORING.md)、[TAKEOVER-2026-10-06.md](../../../docs/requirements/TAKEOVER-2026-10-06.md)。
 
 依赖：[SR-XF-002](SR-XF-002.md)、[SR-XF-013](SR-XF-013.md)、[SR-XF-015](SR-XF-015.md)、[SR-XF-020](SR-XF-020.md)。
 
@@ -24,9 +24,9 @@
 
 ## 现状与设计缺口
 
-尚无新版致命救援闭环；已有普通伤势与战斗恢复基础。
+真实定位、致命危机、有限救援、永久死亡、遗物托管、债务及师承后果已接入单一世界步。
 
-危险阶段、自救资源、同tick效果与死亡/遗物原子结算需完整定义。
+死亡后果已正常链验收；自救/干预/迟到三分支全集和同 tick 优先级完整 AC 继续复核。
 
 现状是适用旧能力的基线，不表示该SR完整目标已通过。
 
@@ -51,7 +51,13 @@ SR-XF-022-REQ-03：近景/离屏切换不停止危机或重抽胜负，暂停全
 | --- | --- | --- | --- |
 | SR-XF-022-AC-01 | 自救、掌门干预与迟到三分支 | 均用真实资源与同一时钟，各自形成持久结果。 | not_run |
 | SR-XF-022-AC-02 | 有效急救与致命伤同tick | 结果按已定义效果层，不依赖数组/回调顺序。 | not_run |
-| SR-XF-022-AC-03 | 死者遗物、债务与师承处理后读档 | 一份死亡记录和一份物品归属，未知者不立即全知悼念。 | not_run |
+| SR-XF-022-AC-03 | 死者遗物、债务与师承处理后读档 | 一份死亡记录和一份物品归属，未知者不立即全知悼念。 | passed |
+
+SR-XF-022-AC-01证据：2026-10-06部分证据：ea-sr-aftermath/crises：新雨链固定亲属、师承、有限借契、原物收殓托管、知情自愿代偿；正常公开链及旧档不追补历史后果边界分别验证。 本条完整必需覆盖仍待逐项复核，状态未据总数量提升。
+
+SR-XF-022-AC-02证据：2026-10-06部分证据：ea-sr-aftermath/crises：新雨链固定亲属、师承、有限借契、原物收殓托管、知情自愿代偿；正常公开链及旧档不追补历史后果边界分别验证。 本条完整必需覆盖仍待逐项复核，状态未据总数量提升。
+
+SR-XF-022-AC-03证据：2026-10-06部分证据：ea-sr-aftermath/crises：新雨链固定亲属、师承、有限借契、原物收殓托管、知情自愿代偿；正常公开链及旧档不追补历史后果边界分别验证。 本条完整必需覆盖仍待逐项复核，状态未据总数量提升。；2026-10-06：ea-sr-aftermath-acceptance.mjs 10/10：新档自然天气迟到死亡，搜索原件、知情托付、实地收殓交还、实际有限自愿代偿及师承不可用；23命令/18精确存读档/3463世界步。旧死亡迁移不 retroactive 补债。 详细证据见 docs/requirements/TAKEOVER-2026-10-06.md。
 
 每条AC至少覆盖相关数据、真实行为、UI解释和保存恢复；需要设备或真人证据时单独列出，不以旧测试数量替代。
 
@@ -59,11 +65,19 @@ SR-XF-022-REQ-03：近景/离屏切换不停止危机或重抽胜负，暂停全
 
 | 任务 | 工作 | 状态 | 前置 | 责任人 |
 | --- | --- | --- | --- | --- |
-| SR-XF-022-D01 | 设计补齐：交付：具体伤势/危险的forming到resolved阶段、不可逆条件及有效稳定动作。；NPC退避/求援/谈判/反制的能力、资源与条件；消息送达与定位边界。；死亡记录、遗体/物品位置、职责释放、知情关系反应和替代证据。；填实必需参数并标记U/R/T来源。 | in_progress | 无 | Codex/world_story |
-| SR-XF-022-D02 | 契约与内容审阅：审阅持续危机、NPC自救与永久死亡后果与依赖契约（SR-XF-002、SR-XF-013、SR-XF-015、SR-XF-020）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。 | todo | SR-XF-022-D01 | 待分配 |
-| SR-XF-022-I01 | 开发与集成：在危机模块实现持续危机、NPC自救与永久死亡后果；交付SR-XF-022-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。 | todo | SR-XF-022-D02 | 待分配 |
-| SR-XF-022-V01 | 验收与兼容：执行SR-XF-022-AC-01至AC-03及WORLDCHAIN-02、WORLDCHAIN-03；登记实际结果、兼容和设备证据边界。 | todo | SR-XF-022-I01 | 待分配 |
+| SR-XF-022-D01 | 设计补齐：交付：具体伤势/危险的forming到resolved阶段、不可逆条件及有效稳定动作。；NPC退避/求援/谈判/反制的能力、资源与条件；消息送达与定位边界。；死亡记录、遗体/物品位置、职责释放、知情关系反应和替代证据。；填实必需参数并标记U/R/T来源。 | done | 无 | Codex/root（接续集成） |
+| SR-XF-022-D02 | 契约与内容审阅：审阅持续危机、NPC自救与永久死亡后果与依赖契约（SR-XF-002、SR-XF-013、SR-XF-015、SR-XF-020）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。 | done | SR-XF-022-D01 | Codex/root（接续集成） |
+| SR-XF-022-I01 | 开发与集成：在危机模块实现持续危机、NPC自救与永久死亡后果；交付SR-XF-022-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。 | done | SR-XF-022-D02 | Codex/root（接续集成） |
+| SR-XF-022-V01 | 验收与兼容：执行SR-XF-022-AC-01至AC-03及WORLDCHAIN-02、WORLDCHAIN-03；登记实际结果、兼容和设备证据边界。 | in_progress | SR-XF-022-I01 | Codex/root（独立验收） |
 | SR-XF-022-R01 | 发布与关闭：完成所需源码/运行时发布核对、交接和未覆盖说明；本轮用户不要求上传QA过程产物。 | todo | SR-XF-022-V01 | 待分配 |
+
+SR-XF-022-D01证据：2026-10-06接续：docs/requirements/TAKEOVER-2026-10-06.md 与运行时固定作者配置、世界实体/材料/时序及失败恢复约定。
+
+SR-XF-022-D02证据：2026-10-06接续：审阅唯一身份/公私物资、身体互斥、单钟、消息知情与旧完成档保护，模块接口已接共同入口。
+
+SR-XF-022-I01证据：2026-10-06接续：ea-sr-aftermath/crises：新雨链固定亲属、师承、有限借契、原物收殓托管、知情自愿代偿；正常公开链及旧档不追补历史后果边界分别验证。 已接init/validate/tick、公开网关和HTML操作投影；完整AC及真实设备另由V01判断。
+
+SR-XF-022-V01证据：2026-10-06：定向脚本与回归结果见接续实施记录；不能以组件或人工边界替代正常全程/设备证据。
 
 ## 可进入开发的条件
 
@@ -88,8 +102,12 @@ SR-XF-022-REQ-03：近景/离屏切换不停止危机或重抽胜负，暂停全
 
 - docs/requirements/design/SR-XF-015-017-020-025-035-037-039.md
 - docs/requirements/IMPLEMENTATION-2026-10-06.md
+- docs/requirements/TAKEOVER-2026-10-06.md
+- 2026-10-06接续：ea-sr-aftermath/crises：新雨链固定亲属、师承、有限借契、原物收殓托管、知情自愿代偿；正常公开链及旧档不追补历史后果边界分别验证。 专项证据不自动关闭全部AC；平台/正常整链不足继续明列。
+- 2026-10-06运行时部分已发布 Pages 7d16d54 / workflow 37453110511 success；release_status 仍表示整项 SR 验收/关闭门槛，未因开发版部署提升。
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
+- 2026-10-06：接续具体设计及运行时集成完成，D01/D02/I01据源码与作者配置更新；V01继续，未据局部检查宣布SR验收或发布关闭。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。

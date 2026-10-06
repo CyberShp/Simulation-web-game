@@ -823,40 +823,55 @@
     "deferredWorldbuildingDecisionId": "U-93"
   },
   "implementationSnapshot": {
-    "localGameVersion": "1.5.0-dev",
+    "localGameVersion": "1.6.0-dev",
     "schemaVersion": 6,
-    "scope": "bounded-hall-and-construction-continuity-not-complete-spatial-migration",
-    "reference": "docs/design/18-SPATIAL-CONTINUITY-IMPLEMENTATION.md",
+    "contentVersion": "sr-content-v1.2",
+    "rulesetVersion": "opening-runtime-3",
+    "scope": "SR-integration-normal-foundation-revenge-both-endings-local-industry-aftermath-late-income-descent",
+    "reference": "docs/requirements/TAKEOVER-2026-10-06.md",
     "fullDesignVerified": false,
     "deployed": true,
-    "rulesetVersion": "opening-runtime-3",
     "automatedTestsPassed": 346,
-    "uiTemplatesEvaluated": 80,
-    "deploymentCommit": "350a4d6a0d450ff5dfbcde11ea6782b00a43df29",
-    "deploymentScope": "existing-bounded-opening-indoor-and-construction-only"
+    "deploymentCommit": "7d16d54c0d7d0ecd591e0c8e84952b00e3a674ba",
+    "deploymentWorkflow": 37453110511,
+    "deploymentScope": "current-tested-EA-1.6.0-dev-runtime-not-all-SR-AC-closed"
   },
   "currentDevelopment": {
-    "version": "1.5.0-dev",
+    "version": "1.6.0-dev",
     "schemaVersion": 6,
+    "contentVersion": "sr-content-v1.2",
     "rulesetVersion": "opening-runtime-3",
-    "branch": "feat/indoor-life-v12",
-    "reference": "docs/design/18-SPATIAL-CONTINUITY-IMPLEMENTATION.md",
-    "scope": "bounded-hall-and-construction-continuity-not-complete-spatial-migration",
+    "reference": "docs/requirements/TAKEOVER-2026-10-06.md",
+    "scope": "SR-integration-normal-foundation-revenge-both-endings-local-industry-aftermath-late-income-descent",
     "verified": {
       "automatedChecks": 346,
-      "managementTemplates": 80,
-      "publicOpeningRoutes": 2,
-      "publicArtisanRoutes": 3,
-      "productionCanvasSnapshots": 6
+      "combatReservationBoundary": 4,
+      "aftermath": 10,
+      "localIndustry": 8,
+      "lateIncomeComponent": 8,
+      "earnedLateIncomeOrders": 2,
+      "descentBoundary": 15,
+      "sceneObjectHits": 22,
+      "normalFoundationRealm": 12,
+      "normalResponsibleDeaths": 3,
+      "normalPersistentEndings": 2,
+      "normalEndingRevisits": 2,
+      "normalHighChapterSources": 1
     },
-    "browserStatus": "startup-and-prologue-verified-online-full-design-and-real-device-not-verified",
-    "deploymentStatus": "EA-1.5.0-dev-published-pages-workflow-37420271334-success",
-    "remoteSaveStatus": "main-source-uploaded-via-github-api-excluding-generated-acceptance-artifacts",
-    "previousImplementationCommit": "18b419b",
-    "implementationCommitSource": "git-history-for-current-snapshot",
-    "sourceMainCommit": "74df8c4a9957a40c1510644b29a98fc2390e535b",
-    "runtimeSourceCommit": "9cc4466887b349536ac7f16f15ac9f6bcfd16756",
-    "pagesCommit": "350a4d6a0d450ff5dfbcde11ea6782b00a43df29"
+    "browserStatus": "official-EA1.6-startup-and-old-independent-portrait-save-restored-paused-real-device-touch-FPS-not-verified",
+    "deploymentStatus": "EA-1.6.0-dev-pages-workflow-37453110511-success",
+    "remoteSaveStatus": "source-api-commit-being-recorded-excluding-acceptance-artifacts",
+    "sourceMainCommit": "pending-current-source-api-commit",
+    "runtimeSourceCommit": "pending-current-source-api-commit",
+    "pagesCommit": "7d16d54c0d7d0ecd591e0c8e84952b00e3a674ba",
+    "officialUrl": "https://cybershp.github.io/Simulation-web-game/?v=ea-160-dev-release-20261006-r1",
+    "remaining": [
+      "full-natural-three-cultivation-routes",
+      "full-natural-mother-counteraction-routes",
+      "all-six-high-realm-growth-balance",
+      "iPadOS-Windows-macOS-real-device-touch-DPR-FPS",
+      "SR037-user-unselected-dynasty-choices"
+    ]
   },
   "requirementsManagement": {
     "registryId": "SR-XF-2026-10-06",
@@ -880,6 +895,47 @@
     "documentSourceCommit": "272cbe8c1f5fba39ac2293a139ce79a842619762",
     "managementRequirement": "SR-XF-001",
     "managementAcceptance": "passed",
-    "runtimeChanged": false
+    "runtimeChanged": true,
+    "acceptanceCounts": {
+      "passed": 18,
+      "not_run": 101,
+      "blocked": 1
+    }
+  },
+  "previousImplementationSnapshot": {
+    "localGameVersion": "1.5.0-dev",
+    "schemaVersion": 6,
+    "scope": "bounded-hall-and-construction-continuity-not-complete-spatial-migration",
+    "reference": "docs/design/18-SPATIAL-CONTINUITY-IMPLEMENTATION.md",
+    "fullDesignVerified": false,
+    "deployed": true,
+    "rulesetVersion": "opening-runtime-3",
+    "automatedTestsPassed": 346,
+    "uiTemplatesEvaluated": 80,
+    "deploymentCommit": "350a4d6a0d450ff5dfbcde11ea6782b00a43df29",
+    "deploymentScope": "existing-bounded-opening-indoor-and-construction-only"
+  },
+  "previousDevelopmentRecord": {
+    "version": "1.5.0-dev",
+    "schemaVersion": 6,
+    "rulesetVersion": "opening-runtime-3",
+    "branch": "feat/indoor-life-v12",
+    "reference": "docs/design/18-SPATIAL-CONTINUITY-IMPLEMENTATION.md",
+    "scope": "bounded-hall-and-construction-continuity-not-complete-spatial-migration",
+    "verified": {
+      "automatedChecks": 346,
+      "managementTemplates": 80,
+      "publicOpeningRoutes": 2,
+      "publicArtisanRoutes": 3,
+      "productionCanvasSnapshots": 6
+    },
+    "browserStatus": "startup-and-prologue-verified-online-full-design-and-real-device-not-verified",
+    "deploymentStatus": "EA-1.5.0-dev-published-pages-workflow-37420271334-success",
+    "remoteSaveStatus": "main-source-uploaded-via-github-api-excluding-generated-acceptance-artifacts",
+    "previousImplementationCommit": "18b419b",
+    "implementationCommitSource": "git-history-for-current-snapshot",
+    "sourceMainCommit": "74df8c4a9957a40c1510644b29a98fc2390e535b",
+    "runtimeSourceCommit": "9cc4466887b349536ac7f16f15ac9f6bcfd16756",
+    "pagesCommit": "350a4d6a0d450ff5dfbcde11ea6782b00a43df29"
   }
 }

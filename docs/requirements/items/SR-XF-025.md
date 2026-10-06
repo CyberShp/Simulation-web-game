@@ -1,12 +1,12 @@
 # SR-XF-025 · 固定三名责任人的复仇任务图与收束
 
-来源：DB-2026-10-05 v1.2；需求版本：1.0；建档日期：2026-10-06。
+来源：DB-2026-10-05 v1.2；需求版本：1.1；建档日期：2026-10-06。
 
 | 字段 | 值 |
 | --- | --- |
 | 范围 / 模块 | 前期必需 / 内容 |
 | 优先级 / 计划 | P1 / I4 |
-| 设计 / 开发 | draft / in_progress |
+| 设计 / 开发 | ready / implemented |
 | 验收 / 发布 | in_progress / not_released_for_this_sr |
 | 责任人 / 复核人 | Codex/world_story / Codex/root（集成） |
 
@@ -16,7 +16,7 @@
 
 决策来源：U-32, U-50, U-51, U-54, U-57, U-63, R-26, U-94。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
 
-规格：[04-WORLD-STORY.md](../../../docs/design/04-WORLD-STORY.md)、[05-RUNTIME-CONTRACTS.md](../../../docs/design/05-RUNTIME-CONTRACTS.md)、[09-INTRIGUE-OPPORTUNITIES.md](../../../docs/design/09-INTRIGUE-OPPORTUNITIES.md)、[12-CONTENT-AUTHORING.md](../../../docs/design/12-CONTENT-AUTHORING.md)、[14-EARLY-GAME-DETAILED-DESIGN.md](../../../docs/design/14-EARLY-GAME-DETAILED-DESIGN.md)、[06-OPENING-ACCEPTANCE.md](../../../docs/design/06-OPENING-ACCEPTANCE.md)。
+规格：[04-WORLD-STORY.md](../../../docs/design/04-WORLD-STORY.md)、[05-RUNTIME-CONTRACTS.md](../../../docs/design/05-RUNTIME-CONTRACTS.md)、[09-INTRIGUE-OPPORTUNITIES.md](../../../docs/design/09-INTRIGUE-OPPORTUNITIES.md)、[12-CONTENT-AUTHORING.md](../../../docs/design/12-CONTENT-AUTHORING.md)、[14-EARLY-GAME-DETAILED-DESIGN.md](../../../docs/design/14-EARLY-GAME-DETAILED-DESIGN.md)、[06-OPENING-ACCEPTANCE.md](../../../docs/design/06-OPENING-ACCEPTANCE.md)、[TAKEOVER-2026-10-06.md](../../../docs/requirements/TAKEOVER-2026-10-06.md)。
 
 依赖：[SR-XF-013](SR-XF-013.md)、[SR-XF-014](SR-XF-014.md)、[SR-XF-016](SR-XF-016.md)、[SR-XF-017](SR-XF-017.md)、[SR-XF-020](SR-XF-020.md)、[SR-XF-021](SR-XF-021.md)。
 
@@ -24,9 +24,9 @@
 
 ## 现状与设计缺口
 
-已有旧篇章流程，14已固定韩厉川/邢烈/邵衡及作者终局。
+固定三责任人、可靠调查、实际挑战/死亡、双亲遗物与两种持久结局已接入，正常公开命令血统打通。
 
-新调查行动图、真实战局影响和结局持续状态未完整。
+具体任务图与作者参数已补齐；三道途分别成长清算、拒绝准备/证人死亡替代路线仍需完整正常验证。
 
 现状是适用旧能力的基线，不表示该SR完整目标已通过。
 
@@ -51,7 +51,9 @@ SR-XF-025-REQ-03：固定有限责任链收束后不追加幕后人；旧完成�
 | --- | --- | --- | --- |
 | SR-XF-025-AC-01 | 三路分别调查准备并清算 | 每路有可靠成长和定位来源，关键战局因行动发生实际变化。 | not_run |
 | SR-XF-025-AC-02 | 拒绝一项准备或证人死亡 | 仍可走替代调查或高风险挑战，无四选二通行证。 | not_run |
-| SR-XF-025-AC-03 | 两种结局后重复到访和加载 | 结局保存且可继续经营，奖励不重发，不追插新管事废掉旧结局。 | not_run |
+| SR-XF-025-AC-03 | 两种结局后重复到访和加载 | 结局保存且可继续经营，奖励不重发，不追插新管事废掉旧结局。 | passed |
+
+SR-XF-025-AC-03证据：2026-10-06：ea-sr-integration-acceptance.mjs normalRevisitEnding：同一正常结局前存档分支 return/rebuild，各实际重复到访栖霞/查验/回院/休息/存读档；13命令/10存读档，终步387156；重发结局资源不变，固定清算名单与事实不变。 详细证据见 docs/requirements/TAKEOVER-2026-10-06.md。
 
 每条AC至少覆盖相关数据、真实行为、UI解释和保存恢复；需要设备或真人证据时单独列出，不以旧测试数量替代。
 
@@ -59,11 +61,19 @@ SR-XF-025-REQ-03：固定有限责任链收束后不追加幕后人；旧完成�
 
 | 任务 | 工作 | 状态 | 前置 | 责任人 |
 | --- | --- | --- | --- | --- |
-| SR-XF-025-D01 | 设计补齐：交付：三名责任人的驻地/行程/知情/资源/战斗和可靠核实死亡途径。；账册/雇佣单/阵迹调查，截粮/破阵/营救/争取中立的具体结果与替代来源。；清算→取双亲遗物→明确选择故地重建/回云岫的原子结局和后续经营。；填实必需参数并标记U/R/T来源。 | in_progress | 无 | Codex/world_story |
-| SR-XF-025-D02 | 契约与内容审阅：审阅固定三名责任人的复仇任务图与收束与依赖契约（SR-XF-013、SR-XF-014、SR-XF-016、SR-XF-017、SR-XF-020、SR-XF-021）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。 | todo | SR-XF-025-D01 | 待分配 |
-| SR-XF-025-I01 | 开发与集成：在内容模块实现固定三名责任人的复仇任务图与收束；交付SR-XF-025-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。 | todo | SR-XF-025-D02 | 待分配 |
-| SR-XF-025-V01 | 验收与兼容：执行SR-XF-025-AC-01至AC-03及EARLY-03、STORY-10；登记实际结果、兼容和设备证据边界。 | todo | SR-XF-025-I01 | 待分配 |
+| SR-XF-025-D01 | 设计补齐：交付：三名责任人的驻地/行程/知情/资源/战斗和可靠核实死亡途径。；账册/雇佣单/阵迹调查，截粮/破阵/营救/争取中立的具体结果与替代来源。；清算→取双亲遗物→明确选择故地重建/回云岫的原子结局和后续经营。；填实必需参数并标记U/R/T来源。 | done | 无 | Codex/root（接续集成） |
+| SR-XF-025-D02 | 契约与内容审阅：审阅固定三名责任人的复仇任务图与收束与依赖契约（SR-XF-013、SR-XF-014、SR-XF-016、SR-XF-017、SR-XF-020、SR-XF-021）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。 | done | SR-XF-025-D01 | Codex/root（接续集成） |
+| SR-XF-025-I01 | 开发与集成：在内容模块实现固定三名责任人的复仇任务图与收束；交付SR-XF-025-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。 | done | SR-XF-025-D02 | Codex/root（接续集成） |
+| SR-XF-025-V01 | 验收与兼容：执行SR-XF-025-AC-01至AC-03及EARLY-03、STORY-10；登记实际结果、兼容和设备证据边界。 | in_progress | SR-XF-025-I01 | Codex/root（独立验收） |
 | SR-XF-025-R01 | 发布与关闭：完成所需源码/运行时发布核对、交接和未覆盖说明；本轮用户不要求上传QA过程产物。 | todo | SR-XF-025-V01 | 待分配 |
+
+SR-XF-025-D01证据：2026-10-06：具体任务图见 design/SR-XF-015-017-020-025-035-037-039.md；共同入口实际定位、挑战、永久死亡、原子结局与恢复见 TAKEOVER-2026-10-06.md。
+
+SR-XF-025-D02证据：2026-10-06：具体任务图见 design/SR-XF-015-017-020-025-035-037-039.md；共同入口实际定位、挑战、永久死亡、原子结局与恢复见 TAKEOVER-2026-10-06.md。
+
+SR-XF-025-I01证据：2026-10-06：具体任务图见 design/SR-XF-015-017-020-025-035-037-039.md；共同入口实际定位、挑战、永久死亡、原子结局与恢复见 TAKEOVER-2026-10-06.md。
+
+SR-XF-025-V01证据：正常单一路径筑基三层、三死亡、双结局及重复实际到访/存读档通过；AC01/02 尚需完整覆盖。
 
 ## 可进入开发的条件
 
@@ -88,8 +98,11 @@ SR-XF-025-REQ-03：固定有限责任链收束后不追加幕后人；旧完成�
 
 - docs/requirements/design/SR-XF-015-017-020-025-035-037-039.md
 - docs/requirements/IMPLEMENTATION-2026-10-06.md
+- docs/requirements/TAKEOVER-2026-10-06.md
+- 2026-10-06运行时部分已发布 Pages 7d16d54 / workflow 37453110511 success；release_status 仍表示整项 SR 验收/关闭门槛，未因开发版部署提升。
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
+- 2026-10-06：正常成长与固定清算双结局接通，战后身体残留修复；设计/集成任务完成，验收不据单一路线关闭。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。

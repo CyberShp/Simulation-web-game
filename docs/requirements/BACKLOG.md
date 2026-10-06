@@ -37,8 +37,8 @@
 | [SR-XF-013](items/SR-XF-013.md) | 三路战斗动作、同行战术与敌人配置 | P1 | draft | in_progress | in_progress | SR-XF-002, SR-XF-003, SR-XF-007, SR-XF-012 |
 | [SR-XF-014](items/SR-XF-014.md) | 学习、转修与炼气至筑基配置 | P1 | draft | in_progress | in_progress | SR-XF-002, SR-XF-009, SR-XF-012 |
 | [SR-XF-015](items/SR-XF-015.md) | 本地旅行、路线与有限定位 | P1 | draft | in_progress | in_progress | SR-XF-002, SR-XF-003, SR-XF-010 |
-| [SR-XF-016](items/SR-XF-016.md) | 前期七类地点实景与交互设计 | P1 | draft | in_progress | in_progress | SR-XF-003, SR-XF-004, SR-XF-015 |
-| [SR-XF-017](items/SR-XF-017.md) | 地方组织、重要NPC与产业内容卡 | P1 | draft | in_progress | in_progress | SR-XF-001, SR-XF-002 |
+| [SR-XF-016](items/SR-XF-016.md) | 前期七类地点实景与交互设计 | P1 | ready | implemented | in_progress | SR-XF-003, SR-XF-004, SR-XF-015 |
+| [SR-XF-017](items/SR-XF-017.md) | 地方组织、重要NPC与产业内容卡 | P1 | ready | implemented | in_progress | SR-XF-001, SR-XF-002 |
 | [SR-XF-018](items/SR-XF-018.md) | 雨后伤匠至唯一装备的完整事件链 | P1 | draft | in_progress | in_progress | SR-XF-011, SR-XF-012, SR-XF-013, SR-XF-014, SR-XF-016, SR-XF-017 |
 
 ## I3 · 活世界与救援
@@ -46,9 +46,9 @@
 | SR | 名称 | 优先级 | 设计 | 开发 | 验收 | 依赖 |
 | --- | --- | --- | --- | --- | --- | --- |
 | [SR-XF-019](items/SR-XF-019.md) | 天气、作物、道路与生态恢复参数 | P1 | draft | in_progress | in_progress | SR-XF-002, SR-XF-003, SR-XF-009, SR-XF-015 |
-| [SR-XF-020](items/SR-XF-020.md) | 消息传播、信念与三层社会评价 | P1 | draft | in_progress | in_progress | SR-XF-002, SR-XF-017 |
+| [SR-XF-020](items/SR-XF-020.md) | 消息传播、信念与三层社会评价 | P1 | ready | implemented | in_progress | SR-XF-002, SR-XF-017 |
 | [SR-XF-021](items/SR-XF-021.md) | 调查、有限卜算与根链调度 | P1 | draft | in_progress | in_progress | SR-XF-015, SR-XF-017, SR-XF-020 |
-| [SR-XF-022](items/SR-XF-022.md) | 持续危机、NPC自救与永久死亡后果 | P1 | draft | in_progress | in_progress | SR-XF-002, SR-XF-013, SR-XF-015, SR-XF-020 |
+| [SR-XF-022](items/SR-XF-022.md) | 持续危机、NPC自救与永久死亡后果 | P1 | ready | implemented | in_progress | SR-XF-002, SR-XF-013, SR-XF-015, SR-XF-020 |
 | [SR-XF-023](items/SR-XF-023.md) | 暴雨、药商与独立失联药师全链 | P1 | draft | in_progress | in_progress | SR-XF-016, SR-XF-017, SR-XF-019, SR-XF-020, SR-XF-021, SR-XF-022 |
 
 ## I4 · 篇章与组织收束
@@ -56,7 +56,7 @@
 | SR | 名称 | 优先级 | 设计 | 开发 | 验收 | 依赖 |
 | --- | --- | --- | --- | --- | --- | --- |
 | [SR-XF-024](items/SR-XF-024.md) | 母子篇缩尺暗线与反制恢复 | P2 | draft | in_progress | in_progress | SR-XF-012, SR-XF-014, SR-XF-021, SR-XF-022 |
-| [SR-XF-025](items/SR-XF-025.md) | 固定三名责任人的复仇任务图与收束 | P1 | draft | in_progress | in_progress | SR-XF-013, SR-XF-014, SR-XF-016, SR-XF-017, SR-XF-020, SR-XF-021 |
+| [SR-XF-025](items/SR-XF-025.md) | 固定三名责任人的复仇任务图与收束 | P1 | ready | implemented | in_progress | SR-XF-013, SR-XF-014, SR-XF-016, SR-XF-017, SR-XF-020, SR-XF-021 |
 | [SR-XF-026](items/SR-XF-026.md) | 立派、任职、分峰与公开政策 | P1 | draft | in_progress | in_progress | SR-XF-008, SR-XF-009, SR-XF-010, SR-XF-014, SR-XF-020 |
 | [SR-XF-027](items/SR-XF-027.md) | 共同禁忌、门规与悬赏处置细则 | P2 | draft | in_progress | in_progress | SR-XF-017, SR-XF-020, SR-XF-021, SR-XF-022 |
 | [SR-XF-028](items/SR-XF-028.md) | 天道誓言与修真合约具体机制 | P2 | draft | in_progress | in_progress | SR-XF-002, SR-XF-017, SR-XF-020, SR-XF-027 |
@@ -82,8 +82,8 @@
 | [SR-XF-035](items/SR-XF-035.md) | 青衡六宗、王朝与顶级世家人物谱 | P3 | draft | in_progress | in_progress | SR-XF-001 |
 | [SR-XF-036](items/SR-XF-036.md) | 其他四洲地理、势力、族群与历史 | P3 | draft | in_progress | in_progress | SR-XF-001 |
 | [SR-XF-037](items/SR-XF-037.md) | 敕封神道统一王朝的统治结构 | P3 | blocked | in_progress | blocked | SR-XF-001 |
-| [SR-XF-038](items/SR-XF-038.md) | 高阶境界、道路对应与寿元资源 | P3 | draft | in_progress | in_progress | SR-XF-001 |
-| [SR-XF-039](items/SR-XF-039.md) | 跨洲交通、异界适应与仙界降临 | P3 | draft | in_progress | in_progress | SR-XF-001 |
+| [SR-XF-038](items/SR-XF-038.md) | 高阶境界、道路对应与寿元资源 | P3 | ready | implemented | in_progress | SR-XF-001 |
+| [SR-XF-039](items/SR-XF-039.md) | 跨洲交通、异界适应与仙界降临 | P3 | ready | implemented | in_progress | SR-XF-001 |
 | [SR-XF-040](items/SR-XF-040.md) | 魂魄留存、化身损失与远期生命玩法 | P3 | draft | in_progress | in_progress | SR-XF-001 |
 
 ## 当前接续

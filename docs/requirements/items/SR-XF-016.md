@@ -6,7 +6,7 @@
 | --- | --- |
 | 范围 / 模块 | 前期必需 / 世界 |
 | 优先级 / 计划 | P1 / I2 |
-| 设计 / 开发 | draft / in_progress |
+| 设计 / 开发 | ready / implemented |
 | 验收 / 发布 | in_progress / not_released_for_this_sr |
 | 责任人 / 复核人 | Codex/world_story / Codex/root（集成） |
 
@@ -16,7 +16,7 @@
 
 决策来源：U-63, U-93, R-25, U-94。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
 
-规格：[03-SPATIAL-ART.md](../../../docs/design/03-SPATIAL-ART.md)、[04-WORLD-STORY.md](../../../docs/design/04-WORLD-STORY.md)、[12-CONTENT-AUTHORING.md](../../../docs/design/12-CONTENT-AUTHORING.md)、[14-EARLY-GAME-DETAILED-DESIGN.md](../../../docs/design/14-EARLY-GAME-DETAILED-DESIGN.md)。
+规格：[03-SPATIAL-ART.md](../../../docs/design/03-SPATIAL-ART.md)、[04-WORLD-STORY.md](../../../docs/design/04-WORLD-STORY.md)、[12-CONTENT-AUTHORING.md](../../../docs/design/12-CONTENT-AUTHORING.md)、[14-EARLY-GAME-DETAILED-DESIGN.md](../../../docs/design/14-EARLY-GAME-DETAILED-DESIGN.md)、[TAKEOVER-2026-10-06.md](../../../docs/requirements/TAKEOVER-2026-10-06.md)。
 
 依赖：[SR-XF-003](SR-XF-003.md)、[SR-XF-004](SR-XF-004.md)、[SR-XF-015](SR-XF-015.md)。
 
@@ -24,9 +24,9 @@
 
 ## 现状与设计缺口
 
-已有别院和旧区域入口；目标场景用途已列明。
+七个前期世界场景已经接实际旅行、中心基座对象和区别地景；身份及持久路况沿用旧 ID。
 
-山外场景布局、人物/物件/交易/遭遇与持久变化需补具体交付。
+设计与基座命中已补齐；破阵/修桥全部恢复分支、替代路线及真实平台视觉仍由 V01 核验。
 
 现状是适用旧能力的基线，不表示该SR完整目标已通过。
 
@@ -53,17 +53,31 @@ SR-XF-016-REQ-03：开放来自知识、可达道路和交互条件，不把人�
 | SR-XF-016-AC-02 | 破阵或修桥后存读档 | 对应通行和场景状态持久，线索/物品不再次领取。 | not_run |
 | SR-XF-016-AC-03 | 无指定同行或一条路线失效 | 仍能按设计承担代价推进，拒绝可选准备不封全部地图。 | not_run |
 
+SR-XF-016-AC-01证据：2026-10-06部分证据：七类前期场景及22对象生产renderer：中心脚点、真实公开路径、只读投影、旧ID与地方状态；qa/ea-sr-scene-art-acceptance.mjs，7场景通过。 本条完整必需覆盖仍待逐项复核，状态未据总数量提升。
+
+SR-XF-016-AC-02证据：2026-10-06部分证据：七类前期场景及22对象生产renderer：中心脚点、真实公开路径、只读投影、旧ID与地方状态；qa/ea-sr-scene-art-acceptance.mjs，7场景通过。 本条完整必需覆盖仍待逐项复核，状态未据总数量提升。
+
+SR-XF-016-AC-03证据：2026-10-06部分证据：七类前期场景及22对象生产renderer：中心脚点、真实公开路径、只读投影、旧ID与地方状态；qa/ea-sr-scene-art-acceptance.mjs，7场景通过。 本条完整必需覆盖仍待逐项复核，状态未据总数量提升。
+
 每条AC至少覆盖相关数据、真实行为、UI解释和保存恢复；需要设备或真人证据时单独列出，不以旧测试数量替代。
 
 ## 开发任务
 
 | 任务 | 工作 | 状态 | 前置 | 责任人 |
 | --- | --- | --- | --- | --- |
-| SR-XF-016-D01 | 设计补齐：交付：别院、山谷、青溪坊市、石桥驿、听雨遗址、偏牢粮道、栖霞故地逐场景布局。；每地点对象、触发、交涉、材料/线索、拒绝与危险撤离表。；占领/修桥/破阵/重建后的持久空间变更与入口兼容。；填实必需参数并标记U/R/T来源。 | in_progress | 无 | Codex/world_story |
-| SR-XF-016-D02 | 契约与内容审阅：审阅前期七类地点实景与交互设计与依赖契约（SR-XF-003、SR-XF-004、SR-XF-015）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。 | todo | SR-XF-016-D01 | 待分配 |
-| SR-XF-016-I01 | 开发与集成：在世界模块实现前期七类地点实景与交互设计；交付SR-XF-016-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。 | todo | SR-XF-016-D02 | 待分配 |
-| SR-XF-016-V01 | 验收与兼容：执行SR-XF-016-AC-01至AC-03及SCENE-02、EARLY-03；登记实际结果、兼容和设备证据边界。 | todo | SR-XF-016-I01 | 待分配 |
+| SR-XF-016-D01 | 设计补齐：交付：别院、山谷、青溪坊市、石桥驿、听雨遗址、偏牢粮道、栖霞故地逐场景布局。；每地点对象、触发、交涉、材料/线索、拒绝与危险撤离表。；占领/修桥/破阵/重建后的持久空间变更与入口兼容。；填实必需参数并标记U/R/T来源。 | done | 无 | Codex/root（接续集成） |
+| SR-XF-016-D02 | 契约与内容审阅：审阅前期七类地点实景与交互设计与依赖契约（SR-XF-003、SR-XF-004、SR-XF-015）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。 | done | SR-XF-016-D01 | Codex/root（接续集成） |
+| SR-XF-016-I01 | 开发与集成：在世界模块实现前期七类地点实景与交互设计；交付SR-XF-016-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。 | done | SR-XF-016-D02 | Codex/root（接续集成） |
+| SR-XF-016-V01 | 验收与兼容：执行SR-XF-016-AC-01至AC-03及SCENE-02、EARLY-03；登记实际结果、兼容和设备证据边界。 | in_progress | SR-XF-016-I01 | Codex/root（独立验收） |
 | SR-XF-016-R01 | 发布与关闭：完成所需源码/运行时发布核对、交接和未覆盖说明；本轮用户不要求上传QA过程产物。 | todo | SR-XF-016-V01 | 待分配 |
+
+SR-XF-016-D01证据：2026-10-06接续：docs/requirements/TAKEOVER-2026-10-06.md 与运行时固定作者配置、世界实体/材料/时序及失败恢复约定。
+
+SR-XF-016-D02证据：2026-10-06接续：审阅唯一身份/公私物资、身体互斥、单钟、消息知情与旧完成档保护，模块接口已接共同入口。
+
+SR-XF-016-I01证据：2026-10-06接续：七类前期场景及22对象生产renderer：中心脚点、真实公开路径、只读投影、旧ID与地方状态；qa/ea-sr-scene-art-acceptance.mjs，7场景通过。 已接init/validate/tick、公开网关和HTML操作投影；完整AC及真实设备另由V01判断。
+
+SR-XF-016-V01证据：2026-10-06：定向脚本与回归结果见接续实施记录；不能以组件或人工边界替代正常全程/设备证据。
 
 ## 可进入开发的条件
 
@@ -88,8 +102,12 @@ SR-XF-016-REQ-03：开放来自知识、可达道路和交互条件，不把人�
 
 - docs/requirements/design/SR-XF-015-017-020-025-035-037-039.md
 - docs/requirements/IMPLEMENTATION-2026-10-06.md
+- docs/requirements/TAKEOVER-2026-10-06.md
+- 2026-10-06接续：七类前期场景及22对象生产renderer：中心脚点、真实公开路径、只读投影、旧ID与地方状态；qa/ea-sr-scene-art-acceptance.mjs，7场景通过。 专项证据不自动关闭全部AC；平台/正常整链不足继续明列。
+- 2026-10-06运行时部分已发布 Pages 7d16d54 / workflow 37453110511 success；release_status 仍表示整项 SR 验收/关闭门槛，未因开发版部署提升。
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
+- 2026-10-06：接续具体设计及运行时集成完成，D01/D02/I01据源码与作者配置更新；V01继续，未据局部检查宣布SR验收或发布关闭。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。
