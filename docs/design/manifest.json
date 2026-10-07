@@ -33,7 +33,11 @@
     "docs/design/DECISIONS.md",
     "docs/design/STATUS.md",
     "docs/design/13-WORLDVIEW-DISCUSSION.md",
-    "docs/design/14-EARLY-GAME-DETAILED-DESIGN.md"
+    "docs/design/14-EARLY-GAME-DETAILED-DESIGN.md",
+    "docs/CODEX-HANDOFF.md",
+    "docs/design/05-RUNTIME-CONTRACTS.md",
+    "docs/design/06-OPENING-ACCEPTANCE.md",
+    "docs/requirements/registry.json"
   ],
   "files": [
     {
@@ -356,7 +360,11 @@
       "R-22",
       "R-23",
       "R-25",
-      "R-26"
+      "R-26",
+      "R-27",
+      "R-28",
+      "R-29",
+      "R-30"
     ],
     "actualSaveVersionAtAudit": 5,
     "targetSaveSchemaVersion": 6,
@@ -429,7 +437,8 @@
     ],
     "targetContentVersion": "opening-v1.2",
     "navigationCellWorldUnits": 0.5,
-    "constructionGridDecision": "U-99/R-28"
+    "constructionGridDecision": "U-99/R-28",
+    "actualSaveVersionAtAuditNote": "Historical pre-schema6 audit; current schema and local state are recorded in currentDevelopment."
   },
   "execution": {
     "scopeThisDelivery": "documentation-only",
@@ -829,53 +838,40 @@
     "schemaVersion": 6,
     "contentVersion": "sr-content-v1.2",
     "rulesetVersion": "opening-runtime-3",
-    "scope": "SR-integration-normal-foundation-revenge-both-endings-local-industry-aftermath-late-income-descent",
-    "reference": "docs/requirements/TAKEOVER-2026-10-06.md",
+    "reference": "docs/design/STATUS.md",
+    "scope": "courtyard-local-increment-2026-10-07",
     "fullDesignVerified": false,
-    "deployed": true,
-    "automatedTestsPassed": 346,
-    "deploymentCommit": "7d16d54c0d7d0ecd591e0c8e84952b00e3a674ba",
-    "deploymentWorkflow": 37453110511,
-    "deploymentScope": "current-tested-EA-1.6.0-dev-runtime-not-all-SR-AC-closed"
+    "deployed": false,
+    "evidencePolicy": "Local implementation, component tests, normal public-command flows, browser viewports, target hardware and published release remain separate."
   },
   "currentDevelopment": {
     "version": "1.6.0-dev",
     "schemaVersion": 6,
     "contentVersion": "sr-content-v1.2",
     "rulesetVersion": "opening-runtime-3",
-    "reference": "docs/requirements/TAKEOVER-2026-10-06.md",
-    "scope": "SR-integration-normal-foundation-revenge-both-endings-local-industry-aftermath-late-income-descent",
-    "verified": {
-      "automatedChecks": 346,
-      "combatReservationBoundary": 4,
-      "aftermath": 10,
-      "localIndustry": 8,
-      "lateIncomeComponent": 8,
-      "earnedLateIncomeOrders": 2,
-      "descentBoundary": 15,
-      "sceneObjectHits": 22,
-      "normalFoundationRealm": 12,
-      "normalResponsibleDeaths": 3,
-      "normalPersistentEndings": 2,
-      "normalEndingRevisits": 2,
-      "normalHighChapterSources": 1
+    "reference": "docs/CODEX-HANDOFF.md",
+    "evidence": "docs/design/STATUS.md",
+    "sourceBaseCommit": "1b28260007c3049d077dfce424d0db2c6e8cbd60",
+    "scope": "adult-furniture-static-rest-and-scene-interaction-local-increment",
+    "sourceStatus": "uncommitted-local-changes",
+    "deploymentStatus": "local-increment-not-deployed",
+    "lastPublishedCheckpoint": {
+      "runtimeSourceCommit": "eb5cca59b226c49c184a2082bcdda5ebd64de3fb",
+      "pagesCommit": "809d5bb8aecfbfc2a4681fd706e6597ed62297b3",
+      "releaseTag": "ea-160-yunxiu-2d-20261007-r1",
+      "evidence": "docs/design/STATUS.md"
     },
-    "browserStatus": "official-EA1.6-startup-and-old-independent-portrait-save-restored-paused-real-device-touch-FPS-not-verified",
-    "deploymentStatus": "EA-1.6.0-dev-pages-workflow-37453110511-success",
-    "remoteSaveStatus": "main-source-uploaded-via-github-api-excluding-generated-acceptance-artifacts",
-    "sourceMainCommit": "ae1d771444ac841f9565a8823636cd28c7d26926",
-    "runtimeSourceCommit": "ae1d771444ac841f9565a8823636cd28c7d26926",
-    "pagesCommit": "7d16d54c0d7d0ecd591e0c8e84952b00e3a674ba",
-    "officialUrl": "https://cybershp.github.io/Simulation-web-game/?v=ea-160-dev-release-20261006-r1",
-    "remaining": [
-      "full-natural-three-cultivation-routes",
-      "full-natural-mother-counteraction-routes",
-      "all-six-high-realm-growth-balance",
-      "iPadOS-Windows-macOS-real-device-touch-DPR-FPS",
-      "SR037-user-unselected-dynasty-choices"
-    ],
-    "localImplementationCommit": "e3b68ef",
-    "implementationCommitSource": "runtime source ae1d771 with descendant metadata commit; current HEAD follows git history"
+    "scene": {
+      "widthMetres": 96,
+      "heightMetres": 96,
+      "buildingUnitMetres": 2,
+      "navigationMetres": 0.5,
+      "extentVersion": "courtyard-96-1",
+      "buildingGridVersion": "building-units-1",
+      "interiorLayoutVersion": "adult-furniture-1"
+    },
+    "nextWorkSource": "docs/CODEX-HANDOFF.md#已知差距及下一步",
+    "fullDesignVerified": false
   },
   "requirementsManagement": {
     "registryId": "SR-XF-2026-10-06",
@@ -1137,6 +1133,85 @@
     "paving": "deferred",
     "migration": "validated isolated copy, nearest legal cells, identities/progress/materials/time/RNG retained",
     "verification": "in_progress",
-    "releaseStatus": "pending"
+    "releaseStatus": "published-historical-U99-see-STATUS",
+    "currentImplementationReference": "docs/design/STATUS.md"
+  },
+  "historicalImplementationRecords": {
+    "beforeCourtyard20261007": {
+      "implementationSnapshot": {
+        "localGameVersion": "1.6.0-dev",
+        "schemaVersion": 6,
+        "contentVersion": "sr-content-v1.2",
+        "rulesetVersion": "opening-runtime-3",
+        "scope": "SR-integration-normal-foundation-revenge-both-endings-local-industry-aftermath-late-income-descent",
+        "reference": "docs/requirements/TAKEOVER-2026-10-06.md",
+        "fullDesignVerified": false,
+        "deployed": true,
+        "automatedTestsPassed": 346,
+        "deploymentCommit": "7d16d54c0d7d0ecd591e0c8e84952b00e3a674ba",
+        "deploymentWorkflow": 37453110511,
+        "deploymentScope": "current-tested-EA-1.6.0-dev-runtime-not-all-SR-AC-closed"
+      },
+      "currentDevelopment": {
+        "version": "1.6.0-dev",
+        "schemaVersion": 6,
+        "contentVersion": "sr-content-v1.2",
+        "rulesetVersion": "opening-runtime-3",
+        "reference": "docs/requirements/TAKEOVER-2026-10-06.md",
+        "scope": "SR-integration-normal-foundation-revenge-both-endings-local-industry-aftermath-late-income-descent",
+        "verified": {
+          "automatedChecks": 346,
+          "combatReservationBoundary": 4,
+          "aftermath": 10,
+          "localIndustry": 8,
+          "lateIncomeComponent": 8,
+          "earnedLateIncomeOrders": 2,
+          "descentBoundary": 15,
+          "sceneObjectHits": 22,
+          "normalFoundationRealm": 12,
+          "normalResponsibleDeaths": 3,
+          "normalPersistentEndings": 2,
+          "normalEndingRevisits": 2,
+          "normalHighChapterSources": 1
+        },
+        "browserStatus": "official-EA1.6-startup-and-old-independent-portrait-save-restored-paused-real-device-touch-FPS-not-verified",
+        "deploymentStatus": "EA-1.6.0-dev-pages-workflow-37453110511-success",
+        "remoteSaveStatus": "main-source-uploaded-via-github-api-excluding-generated-acceptance-artifacts",
+        "sourceMainCommit": "ae1d771444ac841f9565a8823636cd28c7d26926",
+        "runtimeSourceCommit": "ae1d771444ac841f9565a8823636cd28c7d26926",
+        "pagesCommit": "7d16d54c0d7d0ecd591e0c8e84952b00e3a674ba",
+        "officialUrl": "https://cybershp.github.io/Simulation-web-game/?v=ea-160-dev-release-20261006-r1",
+        "remaining": [
+          "full-natural-three-cultivation-routes",
+          "full-natural-mother-counteraction-routes",
+          "all-six-high-realm-growth-balance",
+          "iPadOS-Windows-macOS-real-device-touch-DPR-FPS",
+          "SR037-user-unselected-dynasty-choices"
+        ],
+        "localImplementationCommit": "e3b68ef",
+        "implementationCommitSource": "runtime source ae1d771 with descendant metadata commit; current HEAD follows git history"
+      }
+    }
+  },
+  "currentHandoff": {
+    "updatedAt": "2026-10-07",
+    "entry": "AGENTS.md",
+    "handoff": "docs/CODEX-HANDOFF.md",
+    "deliveryPlan": "docs/DELIVERY-PLAN.md",
+    "actualStatus": "docs/design/STATUS.md",
+    "requirements": "docs/requirements/registry.json",
+    "decisionLedger": "docs/design/DECISIONS.md",
+    "appliesTo": "all agents, including Sol high and extra-high reasoning settings",
+    "workingTree": "/Volumes/Media/immortal",
+    "preserveUncommittedChanges": true,
+    "sourceBaseCommit": "1b28260007c3049d077dfce424d0db2c6e8cbd60",
+    "scopePerBatch": [
+      "SR and AC",
+      "design clause and U/R/T",
+      "changed files and shared contracts",
+      "normal failure reload and UI evidence"
+    ],
+    "independentDesignReviewRequired": true,
+    "historicalRecordsPolicy": "Versioned snapshots retain their original evidence scope; current state comes from actualStatus and requirements, verified against the working tree."
   }
 }

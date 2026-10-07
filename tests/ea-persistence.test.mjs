@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {
   createEAPersistence, slotKeys, SLOT_IDS, LEGACY_SAVE_KEY, LEGACY_BACKUP_KEY, SAVE_FORMAT,
 } from '../dist/ea-persistence.mjs';
+import {packSave} from '../dist/ea-save-codec.mjs';
 
 // These tests isolate the storage protocol with an injected miniature simulator.
 // The integration suite also exercises the real version-5 simulation validator.
@@ -225,9 +226,68 @@ test('imports reject illegal, oversized and unsupported data without changing an
   }
   assert.equal(p.parseImport('{incomplete').code, 'invalid-json');
   assert.equal(p.parseImport(' '.repeat(5000) + '{}').code, 'file-too-large');
+  const packed = JSON.parse(packSave('x'.repeat(5000)));
+  packed.uncompressedBytes = 1;
+  assert.equal(p.parseImport(JSON.stringify(packed)).ok, false);
   const tampered = JSON.parse(primary); tampered.dataVersion = 4;
   assert.equal(p.parseImport(JSON.stringify(tampered)).ok, false);
   assert.equal(storage.getItem(slotKeys(1).primary), primary);
+  p.close();
+});
+
+test('a long-running world larger than 2 MB can be saved, imported and reopened', async () => {
+  const {p, make} = setup();
+  const advanced = {...world(19), history: 'earned-history-'.repeat(220000)};
+  const text = p.exportState(advanced);
+  assert(Buffer.byteLength(text) > 2 * 1024 * 1024);
+  assert.equal(p.parseImport(text).ok, true);
+  await p.open(1);
+  assert.equal(p.save(advanced).ok, true);
+  p.close(); await flush();
+  const reopened = make();
+  assert.equal((await reopened.open(1)).state.history, advanced.history);
+  reopened.close();
+});
+
+test('a large existing plain save can continue within a 5 MB browser quota', async () => {
+  const storage = memoryStorage();
+  storage.fail = (key, value) => {
+    const used = [...storage.data.entries()].reduce((sum, [name, raw]) => sum + (name === key ? 0 : raw.length), String(value).length);
+    if (used > 5 * 1024 * 1024) throw quota();
+  };
+  const {p, make} = setup({storage});
+  const advanced = {...world(19), events: Array.from({length: 25000}, (_, i) =>
+    ({id: `fact:${i}`, tick: i * 17, actor: 'person:master', detail: `第 ${i} 次真实经营与旅行结算`}))};
+  const original = p.exportState(advanced);
+  assert(original.length > 2 * 1024 * 1024);
+  storage.setItem(slotKeys(1).primary, original);
+  assert.equal((await p.open(1)).state.events.length, 25000);
+  for (let i = 0; i < 3; i++) assert.equal(p.save({...advanced, time: 38 + i}).ok, true);
+  assert.equal(p.inspect(1).backups.filter(item => item.valid).length, 3);
+  p.close(); await flush();
+  const reopened = make();
+  assert.equal((await reopened.open(1)).state.time, 40);
+  reopened.close();
+});
+
+test('high-entropy saves remain readable when a compressed envelope would exceed the limit', async () => {
+  let random = 123456789;
+  const bytes = Buffer.alloc(300000);
+  for (let i = 0; i < bytes.length; i++) {
+    random ^= random << 13; random ^= random >>> 17; random ^= random << 5;
+    bytes[i] = random & 255;
+  }
+  const advanced = {...world(19), history: bytes.toString('base64')};
+  const probe = setup();
+  const plain = probe.p.exportState(advanced);
+  const limit = Buffer.byteLength(plain) + 64;
+  assert(Buffer.byteLength(plain) > 256 * 1024);
+  assert(Buffer.byteLength(packSave(plain)) > limit);
+  const {p} = setup({config: {maxImportBytes: limit}});
+  await p.open(1);
+  assert.equal(p.save(advanced).ok, true);
+  assert.equal(p.inspect(1).status, 'ready');
+  assert.equal(p.inspect(1).state.history, advanced.history);
   p.close();
 });
 

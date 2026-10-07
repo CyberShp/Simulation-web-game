@@ -17,7 +17,7 @@
 
 ## SR需求管理
 
-以[需求入口](../requirements/README.md)、[需求总表](../requirements/BACKLOG.md)和[权威台账](../requirements/registry.json)管理待补设计与开发。每项SR的D任务补设计，I任务实现，V任务验收，R任务交接；40项需求状态独立，前期不依赖远期/条件项。接续先读I1“完整小院”及本SR来源规格，不能只按旧批次继续加局部修复。
+以[需求入口](../requirements/README.md)、[需求总表](../requirements/BACKLOG.md)和[权威台账](../requirements/registry.json)管理待补设计与开发。每项SR的D任务补设计，I任务实现，V任务验收，R任务交接。U-94已将全部40项设为本轮目标；“前期/条件/远期”保留建档来源和依赖顺序，前期可独立推进，不因此取消其他SR。接续先读I1“完整小院”及本SR来源规格，不能只按旧批次继续加局部修复。
 
 ## 文件索引
 
@@ -52,7 +52,7 @@ v1.1新增的世界任务需联合读取08–12与05：NPC永久死亡覆盖v1.0
 
 下面这段可用于任何模型、任何新会话。仓库支持读取AGENTS.md的工具会自动获得入口；其他工具需显式附上本提示词。任何文件都不能保证未获得仓库内容的模型自动知晓设计。
 
-> 接续 CyberShp/Simulation-web-game。先读取仓库AGENTS.md，再读取docs/design/README.md、00-BASELINE.md、DECISIONS.md、STATUS.md、05-RUNTIME-CONTRACTS.md，以及任务相关规格和06-OPENING-ACCEPTANCE.md。当前设计为DB-2026-10-05 v1.2；先读14收束前期，不继续主动追问远期世界观。先核对实际代码和交付状态，不把规格、旧截图或通过数量当成已实现。保留仅直接控制掌门、NPC自主、复仇篇章收束、统一场景实体、稳定身份、单一时钟和旧档保护。遵守user-confirmed与recommended的区分。执行时更新实际状态与证据；若新用户指令改变设计，同步决策及所有受影响文档，不能只在聊天里改变。
+> 接续 CyberShp/Simulation-web-game。先读取仓库AGENTS.md与docs/CODEX-HANDOFF.md，核对当前工作区并保留未提交增量；再读取docs/design/README.md、00-BASELINE.md、DECISIONS.md、STATUS.md、05-RUNTIME-CONTRACTS.md，以及任务相关规格和06-OPENING-ACCEPTANCE.md。当前设计为DB-2026-10-05 v1.2；先读14收束前期，不继续主动追问远期世界观。无论Sol高、极高或其他模型，每批都按SR/AC、设计条款、修改文件和实际验证建立对应关系。保留固定2.5D与云岫美术、仅直接控制掌门、NPC自主、复仇篇章收束、统一场景实体、稳定身份、单一时钟和旧档保护。遵守user-confirmed与recommended的区分。按现有优先顺序完成已授权40项总目标，逐项独立复核与回填；局部成果准确登记为局部成果。若新用户指令改变设计，同步决策及所有受影响文档。
 
 ## 本地开发增量
 

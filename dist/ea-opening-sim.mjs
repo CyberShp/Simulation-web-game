@@ -12,7 +12,7 @@ import {executeContractCommand} from './ea-sr-contracts.mjs';
 import {sceneUnits,placementIssue,initBuildingGrid,spatialPrefab,SPATIAL_SCENE} from './ea-sr-spatial.mjs';
 import {BUILDING_GRID,buildingGridEnabled} from './ea-building-grid.mjs';
 import {advanceSRStory} from './ea-sr-story.mjs';
-import {tickCampaignCombat} from './ea-campaign.mjs';
+import {tickCampaignCombat,settleCombatBodyProjection} from './ea-campaign.mjs';
 import {teachingQualificationSR} from './ea-sr-cultivation.mjs';
 export * from './ea-sr-equipment.mjs';
 export * from './ea-sr-cultivation.mjs';
@@ -204,7 +204,9 @@ export function tick(s,dt){
   if(srEnabled(s))beforeSRSecond(s);
   if((s.worldTick-s.schemaMigration.clockOriginTick)%10===0)base.advanceWorldSecond(s,{advanceCombat:!srEnabled(s)});
   if(srEnabled(s)){tickCampaignCombat(s,.1);tickSR(s);}else advanceConstruction(s);
-  advanceRainArtisan(s);reconcileActivities(s);
+  advanceRainArtisan(s);
+  if(srEnabled(s))settleCombatBodyProjection(s);
+  reconcileActivities(s);
  }
 }
 
@@ -217,7 +219,8 @@ export function dispatchCommand(s,{name,args=[],id=`command:${s.transactions.nex
     const a=next.activitiesById[next.master.activityId];
     if(a?.kind==='facility')releaseBodyActivity(next,next.master);
     const cancelling=command==='descentCommand'&&values[0]?.action==='cancel'||command==='aftermathAction'&&values[0]?.choice==='cancel';
-    if(a&&a.kind!=='facility'&&!cancelling&&!command.startsWith('cancel')&&!['srCrisisCommand','srWorldCommand','srStoryCommand'].includes(command))throw Error('掌门已有身体活动，先完成或中止。');
+    const currentCombatAction=command==='combatAction'&&a?.kind==='sr-combat'&&next.combat?.status==='active'&&a.orderId===next.combat.sessionId;
+    if(a&&a.kind!=='facility'&&!cancelling&&!currentCombatAction&&!command.startsWith('cancel')&&!['srCrisisCommand','srWorldCommand','srStoryCommand'].includes(command))throw Error('掌门已有身体活动，先完成或中止。');
    }
    if(command==='build'){const lock=base.buildingLock(next,values[0]);if(lock)throw Error(lock);}
    const fn=command==='advanceStory'?advanceStory:SR_HANDLERS[command]||({setSpeed,offerArtisanCare,cancelArtisanCare,declineArtisanCare,cancelProduction}[command])||base[command];

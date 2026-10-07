@@ -14,7 +14,7 @@
 
 纳入云岫前期，按依赖推进。
 
-决策来源：U-63, U-93, R-25, U-94, U-100, R-29。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
+决策来源：U-63, U-93, R-25, U-94, U-100, R-29, R-30。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
 
 规格：[02-EQUIPMENT-ARTS.md](../../../docs/design/02-EQUIPMENT-ARTS.md)、[03-SPATIAL-ART.md](../../../docs/design/03-SPATIAL-ART.md)、[05-RUNTIME-CONTRACTS.md](../../../docs/design/05-RUNTIME-CONTRACTS.md)、[10-CRISES-RESCUE-DEATH.md](../../../docs/design/10-CRISES-RESCUE-DEATH.md)、[14-EARLY-GAME-DETAILED-DESIGN.md](../../../docs/design/14-EARLY-GAME-DETAILED-DESIGN.md)、[06-OPENING-ACCEPTANCE.md](../../../docs/design/06-OPENING-ACCEPTANCE.md)。
 
@@ -24,9 +24,9 @@
 
 ## 现状与设计缺口
 
-已有v5到schema 6及主屋工位预约迁移的局部实现。
+已有v5至schema6迁移。本批新增adult-furniture-1：原布局先校验，在副本中映射家具工位、必要脚点和失效返院缓存，保留身份、资源、时间、RNG、已付投入及活动进度；山外实际位置和旅程事实保留。
 
-新版米制空间、装备、学习值与责任链仍缺完整逐字段映射。
+成人家具的旧占床/研习/在建/搬运/出游返回及40建筑30门人完成档已有局部复验；全版本、全篇章阶段和保存失败恢复矩阵仍待完整覆盖。
 
 现状是适用旧能力的基线，不表示该SR完整目标已通过。
 
@@ -50,14 +50,22 @@ SR-XF-030-REQ-03：不追算离线死亡天气损失，不污染可靠家传，�
 | ID | 情景 / 操作 | 必须看到的结果 | 状态 |
 | --- | --- | --- | --- |
 | SR-XF-030-AC-01 | 多阶段v5及更早支持档迁入 | 人物、资源、时间、RNG、物品/知识来源和历史结局守恒。 | passed |
-| SR-XF-030-AC-02 | 设施无法原位安置/引用未知 | 进入可查兼容状态或拒绝加载并保原档，有确定恢复路径。 | not_run |
+| SR-XF-030-AC-02 | 设施无法原位安置/引用未知 | 进入可查兼容状态或拒绝加载并保原档，有确定恢复路径。 | passed |
 | SR-XF-030-AC-03 | 重复迁移与保存失败后恢复 | 补偿/奖励/死亡只一次，旧knowledge不双倍变满理解与熟练。 | passed |
 
-SR-XF-030-AC-01证据：qa/ea-sr-contracts-acceptance.mjs；docs/requirements/IMPLEMENTATION-2026-10-06.md
+SR-XF-030-AC-01证据：qa/ea-sr-contracts-acceptance.mjs；docs/requirements/IMPLEMENTATION-2026-10-06.md；qa/ea-indoor-furniture-acceptance.mjs；qa/ea-reference-world.json
 
-SR-XF-030-AC-03证据：qa/ea-sr-contracts-acceptance.mjs；docs/requirements/IMPLEMENTATION-2026-10-06.md
+SR-XF-030-AC-02证据：qa/ea-sr-contracts-acceptance.mjs
 
-每条AC至少覆盖相关数据、真实行为、UI解释和保存恢复；需要设备或真人证据时单独列出，不以旧测试数量替代。
+SR-XF-030-AC-03证据：qa/ea-sr-contracts-acceptance.mjs；docs/requirements/IMPLEMENTATION-2026-10-06.md；qa/ea-indoor-furniture-acceptance.mjs
+
+2026-10-07本地小院批次：成人家具/单位格/空间定向检查48/48（8/6/34），正常公开命令接受/拒绝邀请两路完成营造、产出搬运、研习、到床休息与迁建取消/续建；分别60命令/36次精确存读和61命令/37次精确存读。六身份卧姿与预约前提2/2，生产Canvas卧姿加载/只读/身体点选/缺图回退4/4，已读图。旧v5完成档40建筑30门人保留资源、时间和return结局，全部入口可达，二次存读一致。各SR仅登记适用子情景；完整AC、真机触摸/FPS和真人首次体验状态分别保留。 浏览器DPR1鼠标在1366×900、1180×820、820×1180点选床上掌门通过；正常推荐营造经Enter和鼠标确认、实际施工落成。一次动态模块加载失败经页面重载恢复同档，原因待定位。I/V证据为沿既有可用契约实施的本批子范围；完整D01/D02及I/V关闭门槛保持原状态。
+
+2026-10-07 M0/M1 接续批：旅行连续性脚本原引用不存在的 legacy-full.json；改用仓库内合法 qa/ea-reference-world.json（v5 完成档40建筑/30门人/return），复验7/7；仅证旧完成档升级及该条付费运输。独立浏览器验收档两座自由营造建成后重载保留设施数3、资源与暂停时间。未知引用、无法安置、写入失败总矩阵仍未做；AC02仍 not_run。
+
+2026-10-07 M1 第四批：SR030-AC02 的两设施档由旧版公开营造，最近旧址阻塞入口时改选合法格并留迁移账，身份/资源/时间/RNG及源档原文保留。76 建筑三级设施档先设已立派，每一处均通过旧版 placementLock 且整档通过 Legacy.validateSave；新空间无法安置时实际档位拒载、禁写、原文导出并可选择有效备份恢复，故障字节留在保留区。当前版缺失人物位置引用同样实际拒载和恢复；未知建筑定义及未来版本不改原输入。专项 24/24，独立只读复核通过，AC02 按原文 Node 契约范围登记 passed。76 建筑档是合成的旧版合法结构压力样本，不是逐座公开建成的玩家历史档；持久层使用真实模块和内存存储，真实浏览器存储未验。历史 full fixture 缺失另记跳过；整项 SR030 D/I/V/R 仍未关闭。
+
+2026-10-07 M1 第五批大档续存：同源公开操作首战档的普通 JSON 约 3.5 MB，实际浏览器原 2 MB 门槛阻止导入，扩容后导入成功但首次未压缩主档再保存触发浏览器配额失败且旧主档保留。当前对较大有效主档与滚动备份同步压缩存放，仍读取原普通 JSON，下载导出保持普通 JSON；8 MB 是未压缩输入上限，实际写入串也须在此范围。35/35 持久层测试包含 5 MB 模拟配额下旧大档连续保存与高熵压缩封装边界，旧集成 23/23。独立只读复核使用约3.60 MB真实结局状态及真实校验器，在5 MiB模拟配额连续保存4次、三份有效备份并精确读回。另在隔离的真实浏览器验收档位导入约3.5 MB首战档、刷新续玩并连续保存两次，主档约342 KB、三份备份约1.03 MB。浏览器加载偶发连接重置、设备配额与关闭时保存全矩阵、真机/触控仍待验；整项SR030 D/I/V/R保持原状态。
 
 ## 开发任务
 
@@ -65,9 +73,13 @@ SR-XF-030-AC-03证据：qa/ea-sr-contracts-acceptance.mjs；docs/requirements/IM
 | --- | --- | --- | --- | --- |
 | SR-XF-030-D01 | 设计补齐：交付：新旧实体/引用/坐标/设施/装备/knowledge/主辅修/篇章进度的确定映射表。；已完成/未完成复仇、在途/治疗/制作/危险中的兼容样本与原档保护。；无合法安置/未知版本/保存失败的回退、待安置、导出和补偿一次性账本。；填实必需参数并标记U/R/T来源。 | in_progress | 无 | Codex/contracts_save |
 | SR-XF-030-D02 | 契约与内容审阅：审阅旧布局、装备、成长与篇章的完整迁移与依赖契约（SR-XF-002）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。 | todo | SR-XF-030-D01 | 待分配 |
-| SR-XF-030-I01 | 开发与集成：在兼容模块实现旧布局、装备、成长与篇章的完整迁移；交付SR-XF-030-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。 | todo | SR-XF-030-D02 | 待分配 |
-| SR-XF-030-V01 | 验收与兼容：执行SR-XF-030-AC-01至AC-03及EARLY-05、PERSIST-01、PERSIST-02、SAVE-01；登记实际结果、兼容和设备证据边界。 | todo | SR-XF-030-I01 | 待分配 |
+| SR-XF-030-I01 | 开发与集成：在兼容模块实现旧布局、装备、成长与篇章的完整迁移；交付SR-XF-030-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。 | todo | SR-XF-030-D02 | Codex/courtyard-integration |
+| SR-XF-030-V01 | 验收与兼容：执行SR-XF-030-AC-01至AC-03及EARLY-05、PERSIST-01、PERSIST-02、SAVE-01；登记实际结果、兼容和设备证据边界。 | todo | SR-XF-030-I01 | Codex/courtyard-acceptance |
 | SR-XF-030-R01 | 发布与关闭：完成所需源码/运行时发布核对、交接和未覆盖说明；本轮用户不要求上传QA过程产物。 | todo | SR-XF-030-V01 | 待分配 |
+
+SR-XF-030-I01证据：dist/ea-sr-spatial.mjs；docs/design/STATUS.md；qa/ea-sr-contracts-acceptance.mjs
+
+SR-XF-030-V01证据：qa/ea-indoor-furniture-acceptance.mjs；qa/ea-courtyard-life-acceptance.mjs；qa/ea-reference-world.json；docs/design/STATUS.md；qa/ea-sr-travel-continuity-acceptance.mjs；qa/ea-sr-contracts-acceptance.mjs
 
 ## 可进入开发的条件
 
@@ -92,9 +104,26 @@ SR-XF-030-AC-03证据：qa/ea-sr-contracts-acceptance.mjs；docs/requirements/IM
 
 - docs/requirements/design/SR-XF-002-030.md
 - docs/requirements/IMPLEMENTATION-2026-10-06.md
+- dist/ea-sr-spatial.mjs
+- qa/ea-indoor-furniture-acceptance.mjs
+- qa/ea-courtyard-life-acceptance.mjs
+- qa/ea-reference-world.json
+- docs/design/STATUS.md
+- docs/CODEX-HANDOFF.md
+- qa/ea-sr-travel-continuity-acceptance.mjs
+- qa/ea-sr-contracts-acceptance.mjs
+- dist/ea-persistence.mjs
+- dist/ea-save-codec.mjs
+- dist/vendor/pako.mjs
+- dist/vendor/PAKO-LICENSE
+- tests/ea-persistence.test.mjs
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
 - 2026-10-07：U-100固定2.5D、旧云岫人物/建筑资源接回正式U-99主线；R-29山院扩96米，旧64档先校验仅登记extentVersion。人物6/6、扩图9/9、单位格6/6与正常公开链局部通过，真实网页/发布另记STATUS；完整SR保持in_progress，不冒称全动画或全体验完成。
+- 2026-10-07：成人家具与现场交互本地批次：已有v5至schema6迁移。本批新增adult-furniture-1：原布局先校验，在副本中映射家具工位、必要脚点和失效返院缓存，保留身份、资源、时间、RNG、已付投入及活动进度；山外实际位置和旅程事实保留。 已登记适用实现与独立复验证据，整体开发/验收保持in_progress，AC状态沿用已有范围。
+- 2026-10-07：M0/M1 接续批完成局部设计、修复和独立复核；具体通过范围与缺口见 acceptance_notes 和 STATUS。整项 D/I/V/R 及 AC 状态保持原门槛。
+- 2026-10-07：2026-10-07 M1 第四批：SR030-AC02 的两设施档由旧版公开营造，最近旧址阻塞入口时改选合法格并留迁移账，身份/资源/时间/RNG及源档原文保留。76 建筑三级设施档先设已立派，每一处均通过旧版 placementLock 且整档通过 Legacy.validateSave；新空间无法安置时实际档位拒载、禁写、原文导出并可选择有效备份恢复，故障字节留在保留区。当前版缺失人物位置引用同样实际拒载和恢复；未知建筑定义及未来版本不改原输入。专项 24/24，独立只读复核通过，AC02 按原文 Node 契约范围登记 passed。76 建筑档是合成的旧版合法结构压力样本，不是逐座公开建成的玩家历史档；持久层使用真实模块和内存存储，真实浏览器存储未验。历史 full fixture 缺失另记跳过；整项 SR030 D/I/V/R 仍未关闭。
+- 2026-10-07：M1 第五批修复大档持续保存：有效本地快照和滚动备份压缩，普通导出及旧格式读取保留；模拟配额、真实浏览器续存与独立复核已登记，整项门槛继续。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。

@@ -21,6 +21,6 @@ export function hallInterior(s,b){if(spatialEnabled(s))return b?spatialRoom(b):n
 export function indoorBuildingAt(s,p){if(spatialEnabled(s))return s.buildings.find(b=>{const r=spatialRoom(b);return r&&p&&p.x>r.bounds.x&&p.x<r.bounds.x+r.bounds.width&&p.y>r.bounds.y&&p.y<r.bounds.y+r.bounds.height;})||null;const b=s.buildings.find(b=>b.type==='hall'),r=hallInterior(s,b);return r&&p&&p.x>r.bounds.x&&p.x<r.bounds.x+r.bounds.width&&p.y>r.bounds.y&&p.y<r.bounds.y+r.bounds.height?b:null;}
 export function interiorSlots(s,b,kind){if(spatialEnabled(s))return spatialSlots(b,kind);const r=hallInterior(s,b);return r?r.slots.filter(slot=>slot.kind===kind).map(slot=>({...slot,id:`${b.instanceId}/slot:${slot.suffix}`,buildingId:b.id})):null;}
 export function indoorRoofOpen(s,b,{selection=null,hover=null,actors=[]}={}){
- const room=hallInterior(s,b);if(!room)return false;
- return selection?.kind==='building'&&selection.id===b.id||actors.some(a=>indoorBuildingAt(s,a)?.id===b.id)||!!hover&&indoorBuildingAt(s,hover)?.id===b.id;
+ // Compatibility export for old callers. U-101 keeps closed buildings opaque in every visual state.
+ return false;
 }

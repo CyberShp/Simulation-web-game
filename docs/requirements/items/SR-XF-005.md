@@ -14,7 +14,7 @@
 
 纳入云岫前期，按依赖推进。
 
-决策来源：U-63, U-93, R-25, U-94, U-96, U-97, R-27, U-98, U-99, R-28, U-100, R-29。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
+决策来源：U-63, U-93, R-25, U-94, U-96, U-97, R-27, U-98, U-99, R-28, U-100, R-29, R-30。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
 
 规格：[03-SPATIAL-ART.md](../../../docs/design/03-SPATIAL-ART.md)、[05-RUNTIME-CONTRACTS.md](../../../docs/design/05-RUNTIME-CONTRACTS.md)、[07-ECONOMY-ORGANIZATION.md](../../../docs/design/07-ECONOMY-ORGANIZATION.md)、[18-SPATIAL-CONTINUITY-IMPLEMENTATION.md](../../../docs/design/18-SPATIAL-CONTINUITY-IMPLEMENTATION.md)、[06-OPENING-ACCEPTANCE.md](../../../docs/design/06-OPENING-ACCEPTANCE.md)。
 
@@ -24,9 +24,9 @@
 
 ## 现状与设计缺口
 
-已有自由选址、材料预留、人物占位拒绝、完工等待和施工三阶段；本轮新投影与独立建筑外观正在接入同一实际流程。 U-99整格营造与0.5米导航分离，旧档按明确单位格版本映射。
+自由选址、材料预留和到场施工沿用单位格事务。本批推荐营造确认按返回的transform与选中建筑类型显示镜头及反馈；建筑卡读取真实可用容量和工位状态。推荐营造说明使用稳定布局，指针离开画布后确认按钮仍可点击。
 
-新美术与45°镜头下预览、确认、入口、施工安全及鼠标/iPad触控需要重新核对；原逻辑AC通过不代表新画面已通过。
+正常营造及暂停/取消/存读已有局部复验；完整鼠标与iPad触控选址、预览、确认、施工安全仍须结合实际网页流程验收。
 
 现状是适用旧能力的基线，不表示该SR完整目标已通过。
 
@@ -53,13 +53,15 @@ SR-XF-005-REQ-03：放置和完工均检查通行/人物安全，不强行挪走
 | SR-XF-005-AC-02 | 阻挡入口或人物占位后确认 | 具名/具体现象提示，费用和人物位置不变；等待后可合法继续。 | passed |
 | SR-XF-005-AC-03 | 反复确认、取消、存读档和暂停 | 任务/材料至多登记一次，暂停不推进，取消按已发生投入结算。 | passed |
 
-SR-XF-005-AC-01证据：qa/ea-sr-integration-acceptance.mjs；docs/requirements/IMPLEMENTATION-2026-10-06.md
+SR-XF-005-AC-01证据：qa/ea-sr-integration-acceptance.mjs；docs/requirements/IMPLEMENTATION-2026-10-06.md；qa/ea-courtyard-life-acceptance.mjs
 
 SR-XF-005-AC-02证据：qa/ea-sr-spatial-acceptance.mjs；docs/requirements/IMPLEMENTATION-2026-10-06.md
 
-SR-XF-005-AC-03证据：qa/ea-sr-spatial-acceptance.mjs；docs/requirements/IMPLEMENTATION-2026-10-06.md
+SR-XF-005-AC-03证据：qa/ea-sr-spatial-acceptance.mjs；docs/requirements/IMPLEMENTATION-2026-10-06.md；qa/ea-courtyard-life-acceptance.mjs
 
-2026-10-06晚：本轮局部回归为UI/叙事/输入39/39、空间34/34（含9视口/DPR生产Canvas）和正常8设施5门人档9/9（11公开命令、2精确存读、真走8入口、rest实际到位、暂停不推进）。CUA浏览器工具当前不可调用，DOM鼠标/触屏/实机/FPS均未验收，旧浏览器证据不适用于新版。12类精细外立面与代码人物/室内尚有画风差距；0.6×0.9米床仅支持真实到场半坐歇息，成人卧躺未完成，闭屋后墙露出及两类田地显示已修复，最终生产Canvas快照已静态读图复核。既有passed AC保留原情景，整项不关闭；可试玩开发版gh-pages c0cb4038fd4a0d7536cbcfaf8755f22e10c01cb5已部署，任务37464500470 completed/success；本轮main源码上传待确认，不能据Pages成功标整项released。
+2026-10-07本地小院批次：成人家具/单位格/空间定向检查48/48（8/6/34），正常公开命令接受/拒绝邀请两路完成营造、产出搬运、研习、到床休息与迁建取消/续建；分别60命令/36次精确存读和61命令/37次精确存读。六身份卧姿与预约前提2/2，生产Canvas卧姿加载/只读/身体点选/缺图回退4/4，已读图。旧v5完成档40建筑30门人保留资源、时间和return结局，全部入口可达，二次存读一致。各SR仅登记适用子情景；完整AC、真机触摸/FPS和真人首次体验状态分别保留。 浏览器DPR1鼠标在1366×900、1180×820、820×1180点选床上掌门通过；正常推荐营造经Enter和鼠标确认、实际施工落成。一次动态模块加载失败经页面重载恢复同档，原因待定位。I/V证据为沿既有可用契约实施的本批子范围；完整D01/D02及I/V关闭门槛保持原状态。
+
+2026-10-07 M0/M1 接续批：独立 qa-m1-freebuild-20261007 新档鼠标链：疗伤前营造命令拒绝；疗伤后主屋占地拒绝且资源不扣；非推荐空地灵草田从110/65/45扣到80/40/35，实际到场施工、建成显示4工作位；第二座非推荐伐木场从80/40/35扣到55/20/27，建成显示2工作位；两座均从正式保存档重新加载，设施总数3、资源和暂停时间保留。首次链发现自由营造返回 transform 被误读为顶层 x/y，引发镜头 NaN/Canvas 错误；已修并用第二次链复验。AC原有 passed 保留，触控/入口封堵/人物占位等完整矩阵未因此新增通过声明。
 
 ## 开发任务
 
@@ -67,9 +69,13 @@ SR-XF-005-AC-03证据：qa/ea-sr-spatial-acceptance.mjs；docs/requirements/IMPL
 | --- | --- | --- | --- | --- |
 | SR-XF-005-D01 | 设计补齐：交付：可建地形、水面/陡坡/剧情保护区规则与入口连通条件。；鼠标与触控的选址、预览、支持朝向、确认、取消流程。；施工材料预留、分阶段投入、到场贡献和安全完工状态图。；填实必需参数并标记U/R/T来源。 | in_progress | 无 | Codex/space_construction |
 | SR-XF-005-D02 | 契约与内容审阅：审阅自由选址、施工与入口安全与依赖契约（SR-XF-003、SR-XF-004）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。 | todo | SR-XF-005-D01 | 待分配 |
-| SR-XF-005-I01 | 开发与集成：在营造模块实现自由选址、施工与入口安全；交付SR-XF-005-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。 | todo | SR-XF-005-D02 | 待分配 |
-| SR-XF-005-V01 | 验收与兼容：执行SR-XF-005-AC-01至AC-03及BUILD-01、BUILD-02、BUILD-03、OPEN-05；登记实际结果、兼容和设备证据边界。 | todo | SR-XF-005-I01 | 待分配 |
+| SR-XF-005-I01 | 开发与集成：在营造模块实现自由选址、施工与入口安全；交付SR-XF-005-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。 | todo | SR-XF-005-D02 | Codex/courtyard-integration |
+| SR-XF-005-V01 | 验收与兼容：执行SR-XF-005-AC-01至AC-03及BUILD-01、BUILD-02、BUILD-03、OPEN-05；登记实际结果、兼容和设备证据边界。 | todo | SR-XF-005-I01 | Codex/courtyard-acceptance |
 | SR-XF-005-R01 | 发布与关闭：完成所需源码/运行时发布核对、交接和未覆盖说明；本轮用户不要求上传QA过程产物。 | todo | SR-XF-005-V01 | 待分配 |
+
+SR-XF-005-I01证据：dist/ea-game.mjs；dist/ea-ui.mjs；docs/design/STATUS.md；dist/ea.css；dist/ea-courtyard-renderer.mjs
+
+SR-XF-005-V01证据：qa/ea-courtyard-life-acceptance.mjs；tests/ea-scene-ui.test.mjs；docs/design/STATUS.md
 
 ## 可进入开发的条件
 
@@ -96,6 +102,13 @@ SR-XF-005-AC-03证据：qa/ea-sr-spatial-acceptance.mjs；docs/requirements/IMPL
 - docs/requirements/IMPLEMENTATION-2026-10-06.md
 - docs/design/03-SPATIAL-ART.md
 - docs/design/STATUS.md
+- dist/ea-game.mjs
+- dist/ea-ui.mjs
+- qa/ea-courtyard-life-acceptance.mjs
+- tests/ea-scene-ui.test.mjs
+- docs/CODEX-HANDOFF.md
+- dist/ea.css
+- dist/ea-courtyard-renderer.mjs
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
@@ -104,5 +117,8 @@ SR-XF-005-AC-03证据：qa/ea-sr-spatial-acceptance.mjs；docs/requirements/IMPL
 - 2026-10-06：U-98改常态通用方格布局并暂缓院内铺路；沿用0.5米营造格、旧位置/工位/身份及导航，地面点选同源吸附。空间34、正常旧档9、grid6、UI/输入13均通过（生产Canvas/组件非browser），整项SR不关闭，发布证据单独登记。
 - 2026-10-06：U-99将细网格更正为建筑单位格；R-28作者默认2米/格，一级伐木采石2×2、主屋4×4，导航仍0.5米连续移动。整格预制件、显示、摆放、冲突、工位与旧档一次映射共同调整；局部验证和发布分别登记，不关闭整项SR。
 - 2026-10-07：U-100固定2.5D、旧云岫人物/建筑资源接回正式U-99主线；R-29山院扩96米，旧64档先校验仅登记extentVersion。人物6/6、扩图9/9、单位格6/6与正常公开链局部通过，真实网页/发布另记STATUS；完整SR保持in_progress，不冒称全动画或全体验完成。
+- 2026-10-07：成人家具与现场交互本地批次：自由选址、材料预留和到场施工沿用单位格事务。本批推荐营造确认按返回的transform与选中建筑类型显示镜头及反馈；建筑卡读取真实可用容量和工位状态。 已登记适用实现与独立复验证据，整体开发/验收保持in_progress，AC状态沿用已有范围。 推荐营造按钮的指针离开布局变化已修复并由实际鼠标复验。
+- 2026-10-07：M0/M1 接续批完成局部设计、修复和独立复核；具体通过范围与缺口见 acceptance_notes 和 STATUS。整项 D/I/V/R 及 AC 状态保持原门槛。
+- 2026-10-08：M1 第十批独立补验现有 SR005 三条 passed AC 对当前代码仍适用：正常来源档桌面鼠标完成拒绝、自由选址、一次预留、暂停、取消、到场完工及两阶段重载；Chromium 合成触控点按/拖拽/双指不误建，相关输入空间 47/47。真 iPadOS、人物占位和部分投入取消的逐项浏览器场景未覆盖，整项 D/I/V/R 保持原状态。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。

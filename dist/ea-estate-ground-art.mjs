@@ -271,8 +271,10 @@ function drawPaintedBoundary(ctx,c,project,image){
 function paintStaticGround(ctx,c,project,footprints,terrainArt){
   const a=project({x:0,y:0},c),b=project({x:SPATIAL_SCENE.width,y:SPATIAL_SCENE.height},c);
   poly(ctx,rect(0,0,SPATIAL_SCENE.width,SPATIAL_SCENE.height),c,project,gradient(ctx,a,b,[[0,'#a6af87'],[.48,'#a6b08c'],[1,'#8d9e7b']],'#a6af88'));
-  ctx.save();clipGround(ctx,c,project,footprints);
   if(!drawPaintedMeadow(ctx,c,project,terrainArt?.meadow))drawGrass(ctx,c,project);
+  // Keep the same grass beneath transparent stage-art edges. Only the grid
+  // and terrain marks need the building-footprint cutout.
+  ctx.save();clipGround(ctx,c,project,footprints);
   drawGroundCells(ctx,c,project);
   for(const t of SPATIAL_TERRAIN){
     if(t.kind==='water')drawWater(ctx,c,project,t);
@@ -398,4 +400,61 @@ export function drawEstateField(ctx,b,s,c,{project,prefab,transform}={}){
     plant(ctx,{x:t.x+x+(hash(seed,2)-.5)*.05,y:t.y+y+(hash(seed,3)-.5)*.05},c,project,{maturity,grain,seed});
   }
   ctx.restore();return true;
+}
+
+/** Missing outdoor artwork still exposes the work places in the authoritative prefab. */
+export function drawEstateOutdoorFallback(ctx,b,c,{project,prefab,transform}={}){
+  if(!project||!prefab||!transform||['farm','granary'].includes(b.type))return false;
+  const d=typeof prefab==='function'?prefab(b):prefab;
+  if(!d||d.indoor)return false;
+  const t=typeof transform==='function'?transform(b):transform;
+  const at=slot=>({x:t.x+slot.position.x,y:t.y+slot.position.y});
+  const slots=d.slots.filter(slot=>slot.kind==='work'||slot.kind==='cultivate');
+  const k=c.scale;
+  ctx.save();
+  if(b.type==='watchtower'){
+    const x=t.x+d.width/2,y=t.y+d.height/2;
+    poly(ctx,rect(x-1.12,y-.85,2.24,1.7),c,project,'#967e5a','#655841',Math.max(.7,.035*k));
+    for(const dx of [-.9,.9])for(const dy of [-.66,.66]){
+      const p=project({x:x+dx,y:y+dy},c);
+      ctx.strokeStyle='#6c5940';ctx.lineWidth=Math.max(2,.13*k);
+      ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(p.x,p.y-.9*k);ctx.stroke();
+    }
+    const top=project({x,y:y-.35},c);
+    ctx.fillStyle='#4f665a';ctx.beginPath();ctx.moveTo(top.x-1.3*k,top.y-.67*k);ctx.lineTo(top.x,top.y-1.55*k);ctx.lineTo(top.x+1.3*k,top.y-.67*k);ctx.closePath();ctx.fill();
+    ctx.restore();return true;
+  }
+  if(b.type==='well'){
+    const p={x:t.x+d.width/2,y:t.y+d.height/2};
+    ellipse(ctx,p,.9,.7,'#656c5e',c,project);
+    ellipse(ctx,p,.66,.48,'#b4ae8b',c,project);
+    ellipse(ctx,p,.48,.33,'#658b88',c,project);
+  }
+  for(const slot of slots){
+    const p=at(slot);
+    // Each mark is centred on exactly one saved work/cultivation slot.
+    ellipse(ctx,p,.45,.27,'#4b594344',c,project);
+    if(slot.kind==='cultivate'){
+      ellipse(ctx,p,.37,.22,'#9d865e',c,project);
+      ellipse(ctx,p,.27,.15,'#c6ae78',c,project);
+    }else if(b.type==='lumber'){
+      for(const dy of [-.1,.07]){
+        poly(ctx,rect(p.x-.39,p.y+dy,.78,.1),c,project,'#99704c','#65523b',Math.max(.6,.018*k));
+      }
+      for(const dx of [-.27,.27])ellipse(ctx,{x:p.x+dx,y:p.y+.18},.09,.085,'#c3a677',c,project);
+    }else if(b.type==='quarry'){
+      rock(ctx,p,.37,c,project,slot.suffix.length);
+    }else if(b.type==='meditation'){
+      ellipse(ctx,p,.32,.24,'#846c4e',c,project);
+      ellipse(ctx,p,.23,.14,'#c9b998',c,project);
+      const q=project({x:p.x,y:p.y-.14},c);
+      ctx.strokeStyle='#594d3e';ctx.lineWidth=Math.max(.7,.025*k);
+      ctx.beginPath();ctx.moveTo(q.x,q.y);ctx.lineTo(q.x,q.y-.18*k);ctx.stroke();
+    }else if(b.type==='well'){
+      ellipse(ctx,p,.4,.23,'#b1a17b',c,project);
+      ellipse(ctx,p,.25,.13,'#688b89',c,project);
+    }
+  }
+  ctx.restore();
+  return slots.length>0;
 }

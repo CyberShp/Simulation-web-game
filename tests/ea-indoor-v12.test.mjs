@@ -37,7 +37,7 @@ test('rest and healing compete for the same physical beds; a later patient canno
  assert.equal(s.activitiesById[s.master.activityId].slotId,null);assert.equal(s.activitiesById[s.master.activityId].phase,'waiting');
  const rows=facilitySlotView(s,hall).filter(x=>x.kind==='rest');assert.equal(rows.length,4);assert.ok(rows.every(x=>x.personId));
  releaseBodyActivity(s,s.disciples[0]);prepareFacilityActivity(s,s.master,hall,'heal',0);
- assert.ok(s.activitiesById[s.master.activityId].slotId);assert.equal(facilitySlotView(s,hall).filter(x=>x.kind==='rest')[0].personId,'person:master');saved(s);
+ assert.ok(s.activitiesById[s.master.activityId].slotId);const firstBed=facilitySlotView(s,hall).find(x=>x.id===s.activitiesById[s.master.activityId].slotId);assert.equal(firstBed.personId,'person:master');assert.equal(firstBed.kind,'heal');saved(s);
 });
 
 test('a full bed pool offers slower temporary rest; movement never receives the bed recovery rate',()=>{
@@ -73,10 +73,10 @@ test('an old hall applicant without a reservation remains waiting after indoor m
  saved(loaded);sim.tick(loaded,20);assert.equal(loaded.activitiesById[a.id].phase,'executing');saved(loaded);
 });
 
-test('roof reveal and person hit candidates are pure projections of the same indoor person',()=>{
+test('closed roof stays opaque while the original indoor person and position remain factual',()=>{
  let s=act(sim.initial(),'masterAction','heal');sim.tick(s,10);const hall=s.buildings[0],p=s.master.scenic,raw=JSON.stringify(s);
- assert.equal(indoorRoofOpen(s,hall,{actors:[p]}),true);assert.equal(indoorRoofOpen(s,hall,{actors:[buildingAccess(s,hall)]}),false);
- assert.equal(indoorRoofOpen(s,hall,{selection:{kind:'building',id:hall.id}}),true);
+ assert.equal(indoorRoofOpen(s,hall,{actors:[p]}),false);assert.equal(indoorRoofOpen(s,hall,{actors:[buildingAccess(s,hall)]}),false);
+ assert.equal(indoorRoofOpen(s,hall,{selection:{kind:'building',id:hall.id}}),false);
  const hit=personHitCandidates({x:p.x,y:p.y-20},[{...p,id:'master'}],{scale:.5,height:58});assert.equal(hit[0].id,'master');assert.equal(JSON.stringify(s),raw);
 });
 

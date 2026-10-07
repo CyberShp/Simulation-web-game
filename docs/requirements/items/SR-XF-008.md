@@ -49,11 +49,19 @@ SR-XF-008-REQ-03：理由只显示公开/本人说法，隐藏动机不从UI泄�
 
 | ID | 情景 / 操作 | 必须看到的结果 | 状态 |
 | --- | --- | --- | --- |
-| SR-XF-008-AC-01 | 重复邀请同条件NPC | 接受结果不靠点击重掷；条件变化后才合法重评估。 | not_run |
-| SR-XF-008-AC-02 | 五人竞争两个工位 | 两人实际执行，其他等待或改做其他事，入口不叠人假生产。 | not_run |
-| SR-XF-008-AC-03 | 出行或受伤打断工作 | 生产停止，预约合理释放；恢复先重验身体、目标和材料。 | not_run |
+| SR-XF-008-AC-01 | 重复邀请同条件NPC | 接受结果不靠点击重掷；条件变化后才合法重评估。 | passed |
+| SR-XF-008-AC-02 | 五人竞争两个工位 | 两人实际执行，其他等待或改做其他事，入口不叠人假生产。 | passed |
+| SR-XF-008-AC-03 | 出行或受伤打断工作 | 生产停止，预约合理释放；恢复先重验身体、目标和材料。 | passed |
 
-每条AC至少覆盖相关数据、真实行为、UI解释和保存恢复；需要设备或真人证据时单独列出，不以旧测试数量替代。
+SR-XF-008-AC-01证据：qa/ea-sr-008-invite-public-acceptance.mjs；dist/ea-sr-persons.mjs；dist/ea-sr-ui.mjs；docs/design/STATUS.md
+
+SR-XF-008-AC-02证据：qa/ea-sr-008-five-workers-public-acceptance.mjs；dist/ea-ui.mjs；dist/ea-sr-persons.mjs；docs/design/STATUS.md
+
+SR-XF-008-AC-03证据：qa/ea-sr-008-travel-interrupt-public-acceptance.mjs；qa/ea-sr-008-material-interrupt-public-acceptance.mjs；qa/ea-sr-008-injury-interrupt-acceptance.mjs；dist/ea-facility-activities.mjs；docs/design/STATUS.md
+
+
+2026-10-08 M2 首批：SR008-AC01 公开命令五阶段 accepted/repeated/unavailable/renewed/working 精确存读与原生导入一致；管理页在接受和停用同 tick 显示当前公开原因与有效承诺，浏览器独立只读导入核对。根 Agent 复跑 1/1，相关界面10/10、经济52/52。AC02/03和整项门槛仍未完成。
+2026-10-08 M2 五人两工位验收：正常新档 128 条公开命令招至五人、建居舍并三趟搬运腾出木材缓存；五人分别获邀，两人实际占独立伐木工位，两人各在门外独立点等候，一人自主休憩；第28批仅两名执行者记贡献、只一条产出事实且库存增量等于产量。根 Agent 复跑1/1并看隔离桌面浏览器的执行者、等候者、建筑2/2三张截图；修正侧卡从投影人物误读旧休憩为真实身体活动。AC02 passed，真iPadOS/真人、AC03和整项门槛未关闭。
 
 ## 开发任务
 
@@ -64,6 +72,10 @@ SR-XF-008-REQ-03：理由只显示公开/本人说法，隐藏动机不从UI泄�
 | SR-XF-008-I01 | 开发与集成：在人物模块实现NPC日程、自主选择与职责参数；交付SR-XF-008-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。 | todo | SR-XF-008-D02 | 待分配 |
 | SR-XF-008-V01 | 验收与兼容：执行SR-XF-008-AC-01至AC-03及SLOT-01、ECON-04；登记实际结果、兼容和设备证据边界。 | todo | SR-XF-008-I01 | 待分配 |
 | SR-XF-008-R01 | 发布与关闭：完成所需源码/运行时发布核对、交接和未覆盖说明；本轮用户不要求上传QA过程产物。 | todo | SR-XF-008-V01 | 待分配 |
+
+SR-XF-008-I01证据：qa/ea-sr-008-invite-public-acceptance.mjs；dist/ea-sr-persons.mjs；dist/ea-sr-ui.mjs；docs/design/STATUS.md
+
+SR-XF-008-V01证据：qa/ea-sr-008-invite-public-acceptance.mjs；dist/ea-sr-persons.mjs；dist/ea-sr-ui.mjs；docs/design/STATUS.md
 
 ## 可进入开发的条件
 
@@ -88,8 +100,16 @@ SR-XF-008-REQ-03：理由只显示公开/本人说法，隐藏动机不从UI泄�
 
 - docs/requirements/design/SR-XF-007-011-019-026-027.md
 - docs/requirements/IMPLEMENTATION-2026-10-06.md
+- qa/ea-sr-008-invite-public-acceptance.mjs
+- dist/ea-sr-persons.mjs
+- dist/ea-sr-ui.mjs
+- docs/design/STATUS.md
+- qa/ea-sr-008-five-workers-public-acceptance.mjs
+- dist/ea-ui.mjs
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
+- 2026-10-08：M2 首批按原文通过 SR-XF-008-AC-01：正常开局公开邀请、同条件重复不重掷、停用后拒绝、恢复后重评估与实际工位执行；五阶段 33–41 正式命令、22–26 次精确存读。修正管理页同世界步旧日程理由/承诺计时误报，独立根 Agent 复跑公开链、审读实现及隔离桌面浏览器接受/停用页面。AC02/03、完整日程职责设计与整项 D/I/V/R 未关闭。
+- 2026-10-08：2026-10-08 M2 五人两工位验收：正常新档 128 条公开命令招至五人、建居舍并三趟搬运腾出木材缓存；五人分别获邀，两人实际占独立伐木工位，两人各在门外独立点等候，一人自主休憩；第28批仅两名执行者记贡献、只一条产出事实且库存增量等于产量。根 Agent 复跑1/1并看隔离桌面浏览器的执行者、等候者、建筑2/2三张截图；修正侧卡从投影人物误读旧休憩为真实身体活动。AC02 passed，真iPadOS/真人、AC03和整项门槛未关闭。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。

@@ -2,6 +2,7 @@ import { rng, day, log, pay, canPay, grant, capacity } from './ea-data.mjs';
 import { EXPEDITIONS as LEGACY_ROUTES } from './world.mjs';
 import { combatField, combatGeometryId, combatCanStand, combatClearLine, combatPath, moveCombatActor, dodgeEndpoint } from './ea-combat-geometry.mjs';
 import { appearance } from './ea-scenic.mjs';
+import {beginCombatSession,endCombatSession,initSRCombat,projectedCombatHp,setCombatActorHp,syncCombatBodyProjection} from './ea-sr-combat.mjs';
 
 // Campaign state is deliberately plain data. Every choice, weather roll and reward
 // is committed to the save before the next tick; loading never repeats a roll.
@@ -300,7 +301,7 @@ function returnCompanions(s, e, outcome) {
     const injury=Math.max(outcome.injury||0,e.companionInjuries?.[id]||0,ally?.knockedOut?20:ally&&ally.hp<ally.maxHp*.5?8:0);
     if(ally||Object.hasOwn(e.companionInjuries,id))d.energy=Math.max(0,d.energy-8);
     d.mind.reason=outcome.success?'共同出行已有结果，先归院休整。':'此行暂退，先恢复身心，再自行安排生活。';
-    if (hooks.campaignOutcome) hooks.campaignOutcome(s, d, { kind:REGIONS[e.regionId].name, revenge:REGIONS[e.regionId].step >= 6, ...outcome, injury });
+    if (hooks.campaignOutcome) hooks.campaignOutcome(s, d, { kind:REGIONS[e.regionId].name, revenge:REGIONS[e.regionId].step >= 6, ...outcome, injury:ally?.personId&&s.combat?.sessionId?0:injury });
   }
 }
 export function leaveRegion(s) {
@@ -333,9 +334,9 @@ function startCombat(s, encounterId) {
     const hp = Math.round((i === 0 ? def.hp : def.hp * .62) * (def.final && p.supply ? .76 : 1));
     enemies.push({ id:`enemy-${i + 1}`,personId:i===0?def.personId||null:null, name:isBoss ? '韩厉川 · 筑基后期' : def.final ? '赤嶂护卫' : `${def.name}${count > 1 ? i + 1 : ''}`, x:8.5 + i, y:3 + i * 2, facing:{x:-1,y:0},hp, maxHp:hp, damage:Math.round((i === 0 ? def.damage : def.damage * .7) * (def.final && p.array ? .7 : 1) * (1 + WEATHER[e.weather].risk * .5)), speed:isBoss ? 1.1 : 1.3, cooldown:1.6 + i, windup:0, telegraph:null, strikes:0, boss:isBoss, ...(config?{srMoves:{...config},damage:Math.round(config.damage*(p.array?.7:1)*(1+WEATHER[e.weather].risk*.5))}:{} ) });
   }
-  const allies = e.companionIds.map((id, i) => { const d = s.disciples.find(d => d.id === id), hp = 55 + d.realm * 5; return { id:d.id, personId:d.personId||null, name:d.name, x:2, y:2 + i * 3, facing:{x:1,y:0},hp, maxHp:hp, damage:8 + d.realm, cooldown:.8 + i, knockedOut:false }; });
-  s.combat = { status:'active', geometryVersion:1, encounterId, regionId:e.regionId, journeyId:e.id, arena:{width:12,height:8}, player:{ x:e.position.x, y:e.position.y, target:null, hp:maxHp * (.72 + m.energy / 360), maxHp, qi:maxQi, maxQi, cooldowns:{attack:0,spell:0,dodge:0,guard:0}, guard:0, evade:0, facing:{x:1,y:0} }, enemies, allies, effects:[],nextEffectId:1,elapsed:0, retreatRequested:false, result:null, rewardApplied:false, message:`移动躲开红色落点；近身攻击或施展远程术法。货箱和碎石阻挡通行与直线攻击，可绕行；左侧可撤离。${WEATHER[e.weather].risk ? '风雨视线不利，敌方命中伤害略增。' : ''}`, prepared:{...p} };
-  s.combat.player.hp = Math.min(maxHp, Math.round(s.combat.player.hp));
+  const allies = e.companionIds.map((id, i) => { const d = s.disciples.find(d => d.id === id), maxHp = 55 + d.realm * 5,hp=s.contentVersion==='sr-content-v1.2'?projectedCombatHp(d,maxHp):maxHp; return { id:d.id, personId:d.personId||null, name:d.name, x:2, y:2 + i * 3, facing:{x:1,y:0},hp, maxHp, damage:8 + d.realm, cooldown:.8 + i, knockedOut:hp===0 }; });
+  s.combat = { status:'active', geometryVersion:1, encounterId, regionId:e.regionId, journeyId:e.id, arena:{width:12,height:8}, player:{ personId:'person:master',x:e.position.x, y:e.position.y, target:null, hp:s.contentVersion==='sr-content-v1.2'?projectedCombatHp(m,maxHp):Math.min(maxHp,Math.round(maxHp * (.72 + m.energy / 360))), maxHp, qi:maxQi, maxQi, cooldowns:{attack:0,spell:0,dodge:0,guard:0}, guard:0, evade:0, facing:{x:1,y:0} }, enemies, allies, effects:[],nextEffectId:1,elapsed:0, retreatRequested:false, result:null, rewardApplied:false, message:`移动躲开红色落点；近身攻击或施展远程术法。货箱和碎石阻挡通行与直线攻击，可绕行；左侧可撤离。${WEATHER[e.weather].risk ? '风雨视线不利，敌方命中伤害略增。' : ''}`, prepared:{...p} };
+  if(s.contentVersion==='sr-content-v1.2')beginCombatSession(s,s.combat);
   e.status = 'combat'; e.target = null;
   s.master.journey.status = 'combat';
   log(s, `${def.name}迎面而来。掌门亲自应战，同行者将自主行动。`);
@@ -367,7 +368,7 @@ function effect(c,kind,source,target,amount=0){
 }
 function damageActor(s,c,source,target,amount,kind){
   if(hooks.incomingDamage)amount=hooks.incomingDamage(s,c,source,target,amount,kind);
-  const applied=Math.min(target.hp,amount);target.hp=Math.max(0,target.hp-amount);
+  const beforeHp=target.hp;if(c.sessionId)setCombatActorHp(s,target,target.hp-amount);else target.hp=Math.max(0,target.hp-amount);const applied=beforeHp-target.hp;
   effect(c,kind,source,target,applied);effect(c,'hit',source,target,applied);
   if(applied>0&&hooks.onEffectiveDamage)hooks.onEffectiveDamage(s,c,source,target,applied,kind);
   if(target.hp===0){if(Object.hasOwn(target,'knockedOut'))target.knockedOut=true;if(Object.hasOwn(target,'telegraph')){target.telegraph=null;target.windup=0;}effect(c,'down',source,target,0);}
@@ -434,12 +435,16 @@ function moveToward(p, target, speed, dt) {
   if (p.facing) p.facing = {x:dx/d,y:dy/d};
   return false;
 }
-function finishCombat(s, status) {
+function finishCombat(s, status, {settle=false}={}) {
   const c = s.combat, e = s.world.exploration;
   if (!c || c.status !== 'active' || !e) return;
+  // SR body effects from later systems in this world tick must be considered
+  // before a reward, retreat, or defeat becomes irreversible.
+  if(c.sessionId&&!settle)return;
   c.status = status; c.player.target = null;
   for(const ally of c.allies) e.companionInjuries[ally.id]=Math.max(e.companionInjuries[ally.id]||0,ally.knockedOut?20:ally.hp<ally.maxHp*.5?8:0);
   const def = ENCOUNTERS[c.encounterId];
+  const session=c.sessionId&&s.combatSessionsById?.[c.sessionId];
   if (status === 'won') {
     const key = `battle:${c.encounterId}`;
     once(s, key, () => {
@@ -451,13 +456,13 @@ function finishCombat(s, status) {
     });
     c.rewardApplied = true;
     const text = def.final ? (s.story.revenge?'韩厉川倒下；固定责任链的核实清算与双亲遗物仍需逐项处理。':'韩厉川倒下，夺脉仇怨至此清算。取回遗物后，选择传承的归处。') : `${def.name}已被击败，行动结果已记录。`;
-    c.result = {title:'胜利',text,injury:0};
+    c.result = {title:'胜利',text,injury:session?Math.max(0,Math.round(s.master.wound-(session.startingWounds['person:master']||0))):0};
     e.status = 'exploring'; e.position = {x:c.player.x,y:4}; s.master.journey.status = 'exploring';
     finishVisit(s,e,text);
     s.master.energy = Math.max(0,s.master.energy-8);
   } else {
-    const injury = status === 'lost' ? 35 : Math.max(0, Math.round((1 - c.player.hp / c.player.maxHp) * 18));
-    s.master.wound = clamp(s.master.wound + injury,0,100);
+    const injury = session?Math.max(0,Math.round(s.master.wound-(session.startingWounds['person:master']||0))):status === 'lost' ? 35 : Math.max(0, Math.round((1 - c.player.hp / c.player.maxHp) * 18));
+    if(!session)s.master.wound = clamp(s.master.wound + injury,0,100);
     s.master.energy = Math.max(5,s.master.energy - (status === 'lost' ? 18 : 8));
     const text = status === 'lost' ? '伤重退回云岫，掌门根基未损。线索与既有准备保留；在院中疗伤后可再次出发。' : '已沿退路撤回云岫，线索与既有准备保留。';
     c.result = {title:status === 'lost' ? '暂退养伤' : '平安撤离',text,injury};
@@ -465,6 +470,7 @@ function finishCombat(s, status) {
     s.world.exploration = null; s.master.journey = e.srOwned?{kind:'sr',routeId:`scene:${e.regionId}`,status:'exploring',remaining:0,total:e.total}:null;s.master.action='rest';
     log(s,e.srOwned?'斗法暂退到场景安全处；须沿真实道路归院疗伤，证据与准备保留。':text);
   }
+  if(session)endCombatSession(s,c);
 }
 export function acknowledgeCombat(s) {
   if (!s.combat || s.combat.status === 'active') throw Error('战斗尚未结束。');
@@ -474,7 +480,9 @@ export function tickCampaignCombat(s, dt=.1) {
   if(!Number.isFinite(dt)||dt<=0||dt>1)return;
   const c = s.combat;
   if (!c || c.status !== 'active') return;
+  syncCombatBodyProjection(s,c);
   const p = c.player;
+  if(p.hp<=0)return finishCombat(s,'lost');
   c.elapsed += dt;
   if(c.effects)c.effects=c.effects.map(v=>({...v,remaining:Math.max(0,v.remaining-dt)})).filter(v=>v.remaining>0);
   for (const id of Object.keys(p.cooldowns)) p.cooldowns[id] = Math.max(0,p.cooldowns[id]-dt);
@@ -521,6 +529,17 @@ export function tickCampaignCombat(s, dt=.1) {
   }
   if (p.hp <= 0) finishCombat(s,'lost');
   else if (c.enemies.every(e=>e.hp<=0)) finishCombat(s,'won');
+}
+
+/** Reconcile body effects produced by later systems in the same world tick. */
+export function settleCombatBodyProjection(s){
+ const c=s.combat;
+ if(c?.status!=='active'||!c.sessionId)return;
+ syncCombatBodyProjection(s,c);
+ if(c.player.hp<=0)finishCombat(s,'lost',{settle:true});
+ else if(c.retreatRequested&&c.player.x<=1&&Math.abs(c.player.y-4)<.5)finishCombat(s,'retreated',{settle:true});
+ else if(c.enemies.every(enemy=>enemy.hp<=0))finishCombat(s,'won',{settle:true});
+ if(c.status!=='active')initSRCombat(s);
 }
 
 const VISITORS = {

@@ -14,7 +14,7 @@
 
 纳入云岫前期，按依赖推进。
 
-决策来源：U-63, U-93, R-25, U-94, U-95, U-96, U-97, R-27, U-98, U-99, R-28, U-100, R-29。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
+决策来源：U-63, U-93, R-25, U-94, U-95, U-96, U-97, R-27, U-98, U-99, R-28, U-100, R-29, R-30。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
 
 规格：[03-SPATIAL-ART.md](../../../docs/design/03-SPATIAL-ART.md)、[05-RUNTIME-CONTRACTS.md](../../../docs/design/05-RUNTIME-CONTRACTS.md)、[14-EARLY-GAME-DETAILED-DESIGN.md](../../../docs/design/14-EARLY-GAME-DETAILED-DESIGN.md)、[18-SPATIAL-CONTINUITY-IMPLEMENTATION.md](../../../docs/design/18-SPATIAL-CONTINUITY-IMPLEMENTATION.md)。
 
@@ -24,9 +24,9 @@
 
 ## 现状与设计缺口
 
-已有米制预制件与导航基础；本轮为固定45°平面旋转的正交2.5D接入同源投影/逆投影，不重写既有存档坐标。 U-98默认显示同源通用营造方格，院内装饰路面暂缓。 U-99整格营造与0.5米导航分离，旧档按明确单位格版本映射。
+96米山院与2米营造格沿用同一米制空间。本批登记adult-furniture-1室内布局，成人家具、导航、预约脚点和可见床面共用预制件；旧合法布局在副本中一次映射并记录位置变化。
 
-新镜头下全院导航、人物比例、鼠标/触点命中、旧档镜头恢复及设备效果仍须整体复核。
+成人家具的264工位与正常小院路径已有局部证据；全院镜头切换、触摸缩放、目标设备表现仍需整体核对。
 
 现状是适用旧能力的基线，不表示该SR完整目标已通过。
 
@@ -49,13 +49,24 @@ SR-XF-003-REQ-03：镜头切换、缩放和进入营造保持选中身份及合�
 
 | ID | 情景 / 操作 | 必须看到的结果 | 状态 |
 | --- | --- | --- | --- |
-| SR-XF-003-AC-01 | 穿过门口并绕行新建筑 | 足够宽门道可通行，墙体与过窄缝隙不可通行；建设后能合法重规划。 | not_run |
+| SR-XF-003-AC-01 | 穿过门口并绕行新建筑 | 足够宽门道可通行，墙体与过窄缝隙不可通行；建设后能合法重规划。 | passed |
 | SR-XF-003-AC-02 | 近景/总览及触点缩放切换 | 同一世界点/选中对象对应正确，人物与门比例统一。 | not_run |
 | SR-XF-003-AC-03 | 旧坐标样本加载 | 位置映射确定，可修复位置有记录；人物、时间和资产不丢失。 | passed |
 
-SR-XF-003-AC-03证据：qa/ea-sr-spatial-acceptance.mjs；docs/requirements/IMPLEMENTATION-2026-10-06.md
+SR-XF-003-AC-01证据：tests/ea-sr-spatial-door-replan.test.mjs；qa/ea-sr-spatial-acceptance.mjs；docs/design/STATUS.md
 
-2026-10-06晚：本轮局部回归为UI/叙事/输入39/39、空间34/34（含9视口/DPR生产Canvas）和正常8设施5门人档9/9（11公开命令、2精确存读、真走8入口、rest实际到位、暂停不推进）。CUA浏览器工具当前不可调用，DOM鼠标/触屏/实机/FPS均未验收，旧浏览器证据不适用于新版。12类精细外立面与代码人物/室内尚有画风差距；0.6×0.9米床仅支持真实到场半坐歇息，成人卧躺未完成，闭屋后墙露出及两类田地显示已修复，最终生产Canvas快照已静态读图复核。既有passed AC保留原情景，整项不关闭；可试玩开发版gh-pages c0cb4038fd4a0d7536cbcfaf8755f22e10c01cb5已部署，任务37464500470 completed/success；本轮main源码上传待确认，不能据Pages成功标整项released。
+SR-XF-003-AC-02证据：局部：qa/ea-sr-spatial-acceptance.mjs（生产Canvas：总览按钮聚焦、同号对象与标签、显式触点逆投影及状态只读）；局部：tests/map-input.test.mjs（双触点中点与取消）；局部：docs/design/STATUS.md（隔离真实浏览器鼠标/合成触控步骤、截图路径及未覆盖范围）
+
+SR-XF-003-AC-03证据：qa/ea-sr-spatial-acceptance.mjs；docs/requirements/IMPLEMENTATION-2026-10-06.md；qa/ea-indoor-furniture-acceptance.mjs
+
+2026-10-07本地小院批次：成人家具/单位格/空间定向检查48/48（8/6/34），正常公开命令接受/拒绝邀请两路完成营造、产出搬运、研习、到床休息与迁建取消/续建；分别60命令/36次精确存读和61命令/37次精确存读。六身份卧姿与预约前提2/2，生产Canvas卧姿加载/只读/身体点选/缺图回退4/4，已读图。旧v5完成档40建筑30门人保留资源、时间和return结局，全部入口可达，二次存读一致。各SR仅登记适用子情景；完整AC、真机触摸/FPS和真人首次体验状态分别保留。 浏览器DPR1鼠标在1366×900、1180×820、820×1180点选床上掌门通过；正常推荐营造经Enter和鼠标确认、实际施工落成。一次动态模块加载失败经页面重载恢复同档，原因待定位。I/V证据为沿既有可用契约实施的本批子范围；完整D01/D02及I/V关闭门槛保持原状态。
+
+2026-10-07 M0/M1 接续批：03 §3 的双指手势中心及滚轮当前指针锚点已接入统一米制镜头，输入13/13、空间生产Canvas34/34通过；非法焦点不再污染镜头。浏览器鼠标自由营造镜头已复验，真机双指/完整近景总览玩家链未做，AC02仍 not_run。
+
+2026-10-07 M1 门道与绕行：新档公开命令疗伤后在(26,16)建成门人居，存读后穿真实门道到床位、退到左侧；在门口重叠营造灵草田被原子拒绝，随后向右沿合法路径绕墙，二次存读位置/原建筑保持。6条成功公开命令、1条拒绝、2次精确重载；定向1/1，已有窄缝/墙体和生产Canvas空间34/34。根执行者复读用例并复跑通过，AC01按Node公开命令/组件环境通过；未据此声称真实网页或目标设备已验，AC02及整项门槛保持。
+
+2026-10-07 M1 第六批镜头子情景：隔离浏览器 qa-sr003-camera-20261007 从有来源的第584日五人/十设施返院档导入第二档位，暂停状态在 820×1180 和 1200×843 画面点选门人居，总览→按钮放大保持建筑可见和详情对应；在画布角落残留悬停后再放大复验通过。浏览器合成双触点缩放时，锚点和选择未丢；这是 CDP 合成触控而非 iPadOS 真机。首轮发现总览按钮放大落到空地，后经修复及独立复核；同号建筑/门人聚焦及标签歧义也已修复。生产 Canvas 定向34/34、输入13/13，镜头前后序列化世界状态不变。仍缺真机双指与逐建筑人物/门视觉比例、详情遮挡核对，故 AC02 保持 not_run，完整 D/I/V/R 保持原状态。
+2026-10-08 U-101 背层版独立隔离浏览器复核 AC02 子范围：有来源第584日五人十设施档，在 1200×843 和 820×1180 视口点选主屋、门人居及掌门，切总览/近景、滚轮、平移和合成双指后，同一对象与详情仍对应；背层不挡点击，相关定向47/47。人物/门比例未见明显跳变，但未逐类审查，竖屏详情覆盖选中建筑局部；合成触控非 iPadOS 真机，故 AC02 继续 not_run。截图 /tmp/immortal-sr003-ac02-portrait-{near,overview}.png。
 
 ## 开发任务
 
@@ -63,9 +74,13 @@ SR-XF-003-AC-03证据：qa/ea-sr-spatial-acceptance.mjs；docs/requirements/IMPL
 | --- | --- | --- | --- | --- |
 | SR-XF-003-D01 | 设计补齐：交付：世界坐标、投影、场景边界和默认近景比例正式表。；导航网格、人物体积、门道、动态阻挡与局部重算规则。；旧像素坐标到米制坐标的映射、精度与合法位置修复方案。；填实必需参数并标记U/R/T来源。 | in_progress | 无 | Codex/space_construction |
 | SR-XF-003-D02 | 契约与内容审阅：审阅统一米制空间、导航与镜头与依赖契约（SR-XF-002）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。 | todo | SR-XF-003-D01 | 待分配 |
-| SR-XF-003-I01 | 开发与集成：在空间模块实现统一米制空间、导航与镜头；交付SR-XF-003-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。 | todo | SR-XF-003-D02 | 待分配 |
-| SR-XF-003-V01 | 验收与兼容：执行SR-XF-003-AC-01至AC-03及PATH-01、SCENE-02、SAVE-01；登记实际结果、兼容和设备证据边界。 | todo | SR-XF-003-I01 | 待分配 |
+| SR-XF-003-I01 | 开发与集成：在空间模块实现统一米制空间、导航与镜头；交付SR-XF-003-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。 | todo | SR-XF-003-D02 | Codex/courtyard-integration |
+| SR-XF-003-V01 | 验收与兼容：执行SR-XF-003-AC-01至AC-03及PATH-01、SCENE-02、SAVE-01；登记实际结果、兼容和设备证据边界。 | todo | SR-XF-003-I01 | Codex/courtyard-acceptance |
 | SR-XF-003-R01 | 发布与关闭：完成所需源码/运行时发布核对、交接和未覆盖说明；本轮用户不要求上传QA过程产物。 | todo | SR-XF-003-V01 | 待分配 |
+
+SR-XF-003-I01证据：dist/ea-sr-spatial.mjs；docs/design/STATUS.md；dist/map-input.mjs；dist/ea-game.mjs；dist/ea-courtyard-renderer.mjs
+
+SR-XF-003-V01证据：qa/ea-indoor-furniture-acceptance.mjs；qa/ea-courtyard-life-acceptance.mjs；docs/design/STATUS.md；tests/map-input.test.mjs；qa/ea-sr-spatial-acceptance.mjs
 
 ## 可进入开发的条件
 
@@ -92,6 +107,15 @@ SR-XF-003-AC-03证据：qa/ea-sr-spatial-acceptance.mjs；docs/requirements/IMPL
 - docs/requirements/IMPLEMENTATION-2026-10-06.md
 - docs/design/03-SPATIAL-ART.md
 - docs/design/STATUS.md
+- dist/ea-sr-spatial.mjs
+- qa/ea-indoor-furniture-acceptance.mjs
+- qa/ea-courtyard-life-acceptance.mjs
+- docs/CODEX-HANDOFF.md
+- dist/map-input.mjs
+- dist/ea-courtyard-renderer.mjs
+- tests/map-input.test.mjs
+- tests/ea-sr-spatial-door-replan.test.mjs
+- qa/ea-sr-spatial-acceptance.mjs
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
@@ -101,5 +125,9 @@ SR-XF-003-AC-03证据：qa/ea-sr-spatial-acceptance.mjs；docs/requirements/IMPL
 - 2026-10-06：U-98改常态通用方格布局并暂缓院内铺路；沿用0.5米营造格、旧位置/工位/身份及导航，地面点选同源吸附。空间34、正常旧档9、grid6、UI/输入13均通过（生产Canvas/组件非browser），整项SR不关闭，发布证据单独登记。
 - 2026-10-06：U-99将细网格更正为建筑单位格；R-28作者默认2米/格，一级伐木采石2×2、主屋4×4，导航仍0.5米连续移动。整格预制件、显示、摆放、冲突、工位与旧档一次映射共同调整；局部验证和发布分别登记，不关闭整项SR。
 - 2026-10-07：U-100固定2.5D、旧云岫人物/建筑资源接回正式U-99主线；R-29山院扩96米，旧64档先校验仅登记extentVersion。人物6/6、扩图9/9、单位格6/6与正常公开链局部通过，真实网页/发布另记STATUS；完整SR保持in_progress，不冒称全动画或全体验完成。
+- 2026-10-07：成人家具与现场交互本地批次：96米山院与2米营造格沿用同一米制空间。本批登记adult-furniture-1室内布局，成人家具、导航、预约脚点和可见床面共用预制件；旧合法布局在副本中一次映射并记录位置变化。 已登记适用实现与独立复验证据，整体开发/验收保持in_progress，AC状态沿用已有范围。
+- 2026-10-07：M0/M1 接续批完成局部设计、修复和独立复核；具体通过范围与缺口见 acceptance_notes 和 STATUS。整项 D/I/V/R 及 AC 状态保持原门槛。
+- 2026-10-07：M1 新档真实门道与建后绕行子链经独立根复核通过，SR003-AC01登记Node公开命令/空间组件证据；完整D/I/V/R及其余AC不变。
+- 2026-10-07：M1 第六批修复总览按钮焦点及同号对象标签；独立复核与隔离浏览器局部通过。真机手势和人物/门视觉比例未验，AC02及整项状态不提升。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。

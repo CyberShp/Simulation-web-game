@@ -14,7 +14,7 @@
 
 纳入云岫前期，按依赖推进。
 
-决策来源：U-63, U-93, R-25, U-94, U-96, U-97, R-27, U-99, R-28, U-100, R-29。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
+决策来源：U-63, U-93, R-25, U-94, U-96, U-97, R-27, U-99, R-28, U-100, R-29, R-30。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
 
 规格：[03-SPATIAL-ART.md](../../../docs/design/03-SPATIAL-ART.md)、[05-RUNTIME-CONTRACTS.md](../../../docs/design/05-RUNTIME-CONTRACTS.md)、[07-ECONOMY-ORGANIZATION.md](../../../docs/design/07-ECONOMY-ORGANIZATION.md)、[18-SPATIAL-CONTINUITY-IMPLEMENTATION.md](../../../docs/design/18-SPATIAL-CONTINUITY-IMPLEMENTATION.md)。
 
@@ -24,9 +24,9 @@
 
 ## 现状与设计缺口
 
-已有保留身份的实际升级、迁建与拆除任务；本轮侧卡保留维护/升级/迁建入口，新建筑资产共用原实例锚点。 U-99整格营造与0.5米导航分离，旧档按明确单位格版本映射。
+升级、迁建、拆除继续保留同一建筑身份。本批成人床占用者可按实际步长撤离；正常迁建取消、暂停续建和旧在建进度加载保留材料与唯一实体。
 
-新素材下升级占地、迁建前后预览/成品、遮挡和取消恢复的视觉一致性未完成整体验收。
+整套升级/迁建/拆除的不同占用、目标失效及视觉对应仍需完整流程验收；本批证据覆盖床位撤离、三种在建迁移与正常迁建取消/续建。
 
 现状是适用旧能力的基线，不表示该SR完整目标已通过。
 
@@ -53,13 +53,14 @@ SR-XF-006-REQ-03：目标地被占或取消时保留原实体，失败不困人�
 | SR-XF-006-AC-02 | 目标地失效、途中取消并重载 | 原建筑和已用投入可追溯，退款一次，无复制建筑。 | passed |
 | SR-XF-006-AC-03 | 升级扩大占地 | 合法扩大才能完成；通路/容量/UI使用新统一定义。 | passed |
 
-SR-XF-006-AC-01证据：qa/ea-sr-spatial-acceptance.mjs；docs/requirements/IMPLEMENTATION-2026-10-06.md
+SR-XF-006-AC-01证据：qa/ea-sr-spatial-acceptance.mjs；docs/requirements/IMPLEMENTATION-2026-10-06.md；qa/ea-indoor-furniture-acceptance.mjs
 
-SR-XF-006-AC-02证据：qa/ea-sr-spatial-acceptance.mjs；docs/requirements/IMPLEMENTATION-2026-10-06.md
+SR-XF-006-AC-02证据：qa/ea-sr-spatial-acceptance.mjs；docs/requirements/IMPLEMENTATION-2026-10-06.md；qa/ea-indoor-furniture-acceptance.mjs；qa/ea-courtyard-life-acceptance.mjs
 
-SR-XF-006-AC-03证据：qa/ea-sr-spatial-acceptance.mjs；docs/requirements/IMPLEMENTATION-2026-10-06.md
+SR-XF-006-AC-03证据：qa/ea-sr-spatial-acceptance.mjs；docs/requirements/IMPLEMENTATION-2026-10-06.md；qa/ea-indoor-furniture-acceptance.mjs
 
-2026-10-06晚：本轮局部回归为UI/叙事/输入39/39、空间34/34（含9视口/DPR生产Canvas）和正常8设施5门人档9/9（11公开命令、2精确存读、真走8入口、rest实际到位、暂停不推进）。CUA浏览器工具当前不可调用，DOM鼠标/触屏/实机/FPS均未验收，旧浏览器证据不适用于新版。12类精细外立面与代码人物/室内尚有画风差距；0.6×0.9米床仅支持真实到场半坐歇息，成人卧躺未完成，闭屋后墙露出及两类田地显示已修复，最终生产Canvas快照已静态读图复核。既有passed AC保留原情景，整项不关闭；可试玩开发版gh-pages c0cb4038fd4a0d7536cbcfaf8755f22e10c01cb5已部署，任务37464500470 completed/success；本轮main源码上传待确认，不能据Pages成功标整项released。
+2026-10-07本地小院批次：成人家具/单位格/空间定向检查48/48（8/6/34），正常公开命令接受/拒绝邀请两路完成营造、产出搬运、研习、到床休息与迁建取消/续建；分别60命令/36次精确存读和61命令/37次精确存读。六身份卧姿与预约前提2/2，生产Canvas卧姿加载/只读/身体点选/缺图回退4/4，已读图。旧v5完成档40建筑30门人保留资源、时间和return结局，全部入口可达，二次存读一致。各SR仅登记适用子情景；完整AC、真机触摸/FPS和真人首次体验状态分别保留。 浏览器DPR1鼠标在1366×900、1180×820、820×1180点选床上掌门通过；正常推荐营造经Enter和鼠标确认、实际施工落成。一次动态模块加载失败经页面重载恢复同档，原因待定位。I/V证据为沿既有可用契约实施的本批子范围；完整D01/D02及I/V关闭门槛保持原状态。
+2026-10-08 M1 第十批：补验占床升级、劳动中拆除、足迹内携货原子拒绝/取消一次退款、足迹外在途货物迁建后送达，正式公开操作4/4、相关空间家具42/42。独立只读复核同意原三条AC继续passed；扩大升级占地和真机仍未覆盖。
 
 ## 开发任务
 
@@ -67,9 +68,13 @@ SR-XF-006-AC-03证据：qa/ea-sr-spatial-acceptance.mjs；docs/requirements/IMPL
 | --- | --- | --- | --- | --- |
 | SR-XF-006-D01 | 设计补齐：交付：升级占地冲突、迁建源/目标预约、拆除与材料回收的任务状态图。；人物活动中断、等待、临时撤离/安置和重新预约策略。；各取消阶段的已用成本、余料、进度和身份保留表。；填实必需参数并标记U/R/T来源。 | in_progress | 无 | Codex/space_construction |
 | SR-XF-006-D02 | 契约与内容审阅：审阅升级、迁建与拆除的安全任务与依赖契约（SR-XF-004、SR-XF-005）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。 | todo | SR-XF-006-D01 | 待分配 |
-| SR-XF-006-I01 | 开发与集成：在营造模块实现升级、迁建与拆除的安全任务；交付SR-XF-006-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。 | todo | SR-XF-006-D02 | 待分配 |
-| SR-XF-006-V01 | 验收与兼容：执行SR-XF-006-AC-01至AC-03及BUILD-04、SAVE-01；登记实际结果、兼容和设备证据边界。 | todo | SR-XF-006-I01 | 待分配 |
+| SR-XF-006-I01 | 开发与集成：在营造模块实现升级、迁建与拆除的安全任务；交付SR-XF-006-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。 | todo | SR-XF-006-D02 | Codex/courtyard-integration |
+| SR-XF-006-V01 | 验收与兼容：执行SR-XF-006-AC-01至AC-03及BUILD-04、SAVE-01；登记实际结果、兼容和设备证据边界。 | todo | SR-XF-006-I01 | Codex/courtyard-acceptance |
 | SR-XF-006-R01 | 发布与关闭：完成所需源码/运行时发布核对、交接和未覆盖说明；本轮用户不要求上传QA过程产物。 | todo | SR-XF-006-V01 | 待分配 |
+
+SR-XF-006-I01证据：dist/ea-sr-spatial.mjs；docs/design/STATUS.md；qa/ea-sr-building-change-public-acceptance.mjs
+
+SR-XF-006-V01证据：qa/ea-indoor-furniture-acceptance.mjs；qa/ea-courtyard-life-acceptance.mjs；docs/design/STATUS.md；qa/ea-sr-building-change-public-acceptance.mjs
 
 ## 可进入开发的条件
 
@@ -96,6 +101,11 @@ SR-XF-006-AC-03证据：qa/ea-sr-spatial-acceptance.mjs；docs/requirements/IMPL
 - docs/requirements/IMPLEMENTATION-2026-10-06.md
 - docs/design/03-SPATIAL-ART.md
 - docs/design/STATUS.md
+- dist/ea-sr-spatial.mjs
+- qa/ea-indoor-furniture-acceptance.mjs
+- qa/ea-courtyard-life-acceptance.mjs
+- docs/CODEX-HANDOFF.md
+- qa/ea-sr-building-change-public-acceptance.mjs
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
@@ -103,5 +113,7 @@ SR-XF-006-AC-03证据：qa/ea-sr-spatial-acceptance.mjs；docs/requirements/IMPL
 - 2026-10-06：回填主集成/独立验收确认的本轮组件和正常公开命令旧档结果；保留浏览器不可用、床体过短、混合画风的视觉缺口；闭屋后墙及两类田地已修复，并经最终Canvas快照静态读图复核。上述局部通过不提升SR整体状态，gh-pages可试玩开发版已成功部署，本轮源码main待确认；完整SR门槛仍未通过。
 - 2026-10-06：U-99将细网格更正为建筑单位格；R-28作者默认2米/格，一级伐木采石2×2、主屋4×4，导航仍0.5米连续移动。整格预制件、显示、摆放、冲突、工位与旧档一次映射共同调整；局部验证和发布分别登记，不关闭整项SR。
 - 2026-10-07：U-100固定2.5D、旧云岫人物/建筑资源接回正式U-99主线；R-29山院扩96米，旧64档先校验仅登记extentVersion。人物6/6、扩图9/9、单位格6/6与正常公开链局部通过，真实网页/发布另记STATUS；完整SR保持in_progress，不冒称全动画或全体验完成。
+- 2026-10-07：成人家具与现场交互本地批次：升级、迁建、拆除继续保留同一建筑身份。本批成人床占用者可按实际步长撤离；正常迁建取消、暂停续建和旧在建进度加载保留材料与唯一实体。 已登记适用实现与独立复验证据，整体开发/验收保持in_progress，AC状态沿用已有范围。
+- 2026-10-08：M1 第十批并行复验现有 SR006 三条已通过 AC：公开操作覆盖占床升级、劳动中拆除、迁建遇建筑足迹内携货人原子拒绝、取消一次退款及足迹外携货完成后继续送达。修复足迹内搬运身体被锁而与施工等待互相卡住的缺陷，独立只读复核同意保留原 AC 状态；扩大升级占地的额外场景、真机与整项 D/I/V/R 继续。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。

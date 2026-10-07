@@ -2,7 +2,7 @@
   "schema_version": 1,
   "registry_id": "SR-XF-2026-10-06",
   "design_baseline": "DB-2026-10-05 v1.2",
-  "updated": "2026-10-07",
+  "updated": "2026-10-08",
   "authoritative": "registry.json for requirement records and task states; derived Markdown rendered by qa/sr-manager.py refresh",
   "source_runtime": {
     "main": "eb5cca59b226c49c184a2082bcdda5ebd64de3fb",
@@ -16,7 +16,7 @@
     "official_game_version": "1.6.0-dev",
     "version_note": "U-100已回归正式2.5D与原云岫素材，山院扩为96米；Pages发布及有限真实网页鼠标检查已完成，完整动作/设备性能/整项SR继续验收。",
     "main_record_type": "runtime source commit; release metadata commit is a descendant",
-    "working_release_note": "本轮源码通过GitHub API提交，main后续元数据提交沿同一主线；Pages与源码证据已分别记录。",
+    "working_release_note": "2026-10-07成人家具与现场交互批次为本地开发；本批尚未提交或发布。已部署版本继续由official_release_tag及pages记录。",
     "previous_pages": "cb81de0f7b789c1a054325bf6b621e09f5a1fa8f",
     "pages_deployment_status": "completed/success",
     "working_release_tag": "ea-160-yunxiu-2d-20261007-r1",
@@ -34,6 +34,69 @@
       "scope": "独立验收旧档恢复、真实人物行走、外观加载、缩放/拖动/暂停、建筑点选；正式入口只读启动",
       "real_devices": false,
       "fps_measured": false
+    },
+    "working_source_base": "1b28260007c3049d077dfce424d0db2c6e8cbd60",
+    "working_validation": {
+      "batch": "courtyard-interior-20261007",
+      "interior_layout_version": "adult-furniture-1",
+      "normal_public_scenarios": {
+        "invite": {
+          "commands": 60,
+          "exact_reloads": 36,
+          "world_tick": 5660
+        },
+        "decline": {
+          "commands": 61,
+          "exact_reloads": 37,
+          "world_tick": 7840
+        }
+      },
+      "furniture_component_tests": 8,
+      "rest_renderer_tests": 4,
+      "legacy_completed_sample": {
+        "path": "qa/ea-reference-world.json",
+        "buildings": 40,
+        "home_members": 30,
+        "ending": "return",
+        "second_load_exact": true
+      },
+      "browser_status": "verified scoped mouse workflow in three DPR1 viewports",
+      "real_devices": false,
+      "fps_measured": false,
+      "first_player_experience": false,
+      "rest_pose_tests": 2,
+      "spatial_regression_tests": {
+        "adult_furniture": 8,
+        "building_grid": 6,
+        "spatial": 34,
+        "total": 48
+      },
+      "browser_verification": {
+        "acceptance_namespace": "qa-courtyard-20261007",
+        "viewports": [
+          "1366x900",
+          "1180x820",
+          "820x1180"
+        ],
+        "dpr": 1,
+        "input": "mouse",
+        "scope": "正常开局疗伤22至16、赠药10、邀请；Enter及鼠标推荐营造确认、扣除木石、实际施工落成与NPC前往；三个视口床面身体点选掌门及关闭详情；暂停时世界时间稳定",
+        "portrait_layout": {
+          "canvas": "820x1180",
+          "scroll_width": 820,
+          "pause_button_px": 44
+        },
+        "module_load_failure": {
+          "occurrences": 1,
+          "recovered_same_save_via_page_reload": true,
+          "cause": "unresolved"
+        },
+        "later_flow_new_errors": 0
+      },
+      "related_component_tests": 59,
+      "release_package_tests": 1,
+      "onboarding_tests": 12,
+      "release_package_environment": "python command absent; passed using temporary python alias to existing /usr/bin/python3 outside repository"
     }
   },
   "enums": {
@@ -325,8 +388,14 @@
           "id": "SR-XF-002-AC-01",
           "scenario": "同一人物从山院进入旅行与战斗",
           "expected": "身份、身体、物品和时间连续，原地点不保留第二个活动身体。",
-          "status": "not_run",
-          "evidence": []
+          "status": "passed",
+          "evidence": [
+            "qa/ea-sr-integration-acceptance.mjs",
+            "docs/design/STATUS.md",
+            "tests/ea-sr-combat-body.test.mjs",
+            "dist/ea-sr-story.mjs",
+            "dist/ea-sr-runtime.mjs"
+          ]
         },
         {
           "id": "SR-XF-002-AC-02",
@@ -355,7 +424,14 @@
       ],
       "evidence": [
         "docs/requirements/design/SR-XF-002-030.md",
-        "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+        "docs/requirements/IMPLEMENTATION-2026-10-06.md",
+        "dist/ea-campaign.mjs",
+        "dist/ea-sr-combat.mjs",
+        "dist/ea-opening-sim.mjs",
+        "tests/ea-sr-combat-body.test.mjs",
+        "qa/ea-sr-combat-release-acceptance.mjs",
+        "docs/design/STATUS.md",
+        "qa/ea-sr-integration-acceptance.mjs"
       ],
       "change_log": [
         {
@@ -365,6 +441,22 @@
         {
           "date": "2026-10-06",
           "reason": "用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。"
+        },
+        {
+          "date": "2026-10-07",
+          "reason": "M0/M1 接续批完成局部设计、修复和独立复核；具体通过范围与缺口见 acceptance_notes 和 STATUS。整项 D/I/V/R 及 AC 状态保持原门槛。"
+        },
+        {
+          "date": "2026-10-07",
+          "reason": "M1 战斗共同身体或房屋/人物画稿首批局部实现与独立验收；整项原门槛未关闭。"
+        },
+        {
+          "date": "2026-10-07",
+          "reason": "M1 正常筑基资源子链：由有来源匠人档公开营造采石场，实产并搬运青石；补足五名门人后世界步439776正式建灵泉。独立只读复核核对两笔石料交付和65造价，并从该档公开邀请、生产、搬运6晶到公库，三次精确存读通过。完整山院→旅行→实战→返院尚未完成，AC01与D/I/V/R不提升。"
+        },
+        {
+          "date": "2026-10-07",
+          "reason": "M1 第五批以有来源的正常公开命令链逐点验收山院、在途、抵达、受伤战斗与返院；独立复核确认 SR002-AC01 passed，整项门槛继续。"
         }
       ],
       "tasks": [
@@ -376,7 +468,9 @@
           "status": "in_progress",
           "owner": "Codex/contracts_save",
           "depends_on": [],
-          "evidence": [],
+          "evidence": [
+            "docs/requirements/design/SR-XF-002-030.md"
+          ],
           "blocked_reason": null
         },
         {
@@ -415,7 +509,11 @@
           "depends_on": [
             "SR-XF-002-I01"
           ],
-          "evidence": [],
+          "evidence": [
+            "qa/ea-sr-contracts-acceptance.mjs",
+            "docs/design/STATUS.md",
+            "qa/ea-sr-integration-acceptance.mjs"
+          ],
           "blocked_reason": null
         },
         {
@@ -449,7 +547,8 @@
         "PERSIST-03",
         "CHAIN-02"
       ],
-      "blockers": []
+      "blockers": [],
+      "acceptance_notes": "2026-10-07 M0/M1 接续批：D01 补了当前 schema6 主人物山院、旅行、斗法、返院的实际字段/失败/存读映射。共同契约 Node 19/19 复验。另以 qa/ea-sr-integration-acceptance.mjs 的新档正常公开命令链验证疗伤、发现地点、出发、在途、抵达、返院和5次精确 JSON 存读：4命令、世界步至561，person:master 人物记录始终唯一，一件随身继承剑实例 ID/归属/位置与外观配方保留；此为 AC01 的旅行子范围。独立审阅确认斗法同链身份/装备/伤势尚未核验，且 combat.player 仍有独立 hp、缺持久 personId。故 D01/D02 和 AC01 均未关闭，AC02/03 沿用既有通过证据。\n\n2026-10-07 M1 战斗共同身体批：SR 会话持久引用同一掌门/具名参战者；战斗 HP 从人物伤势投影，受击/携药治疗立即写回伤势，胜败撤只释放身体而不重复记伤。同 tick 致胜一击后又遭契约致命反噬时按最终身体事实判败、无胜利奖励。独立只读复核重跑战斗及旧回归 30/30；新增组件测试 8/8 覆盖会话、存读、旧活跃形状迁移与坏引用拒绝。新档正常旅行子链已通过，但未到实战返院；旧活跃档只用合成历史形状，浏览器实战未验，故 AC01、D/I/V/R 均保持原状态。\n2026-10-07 正常新档公开操作链从已完成五人匠人档继续，完成第9/10/11境并在世界步474439保存；后续世界步483700的晶石采购因商人现货6、补货来源0被正式命令拒绝。真实来源/远方采集和成本尚待核对，尚未进入同档实战返院；AC01与完整D/I/V/R保持原状态。\n\n2026-10-07 M1 第五批：从 /tmp/immortal-m1-well-realm11-earned.json（seed 618033、有来源山院第11境有效存档）继续，以公开命令到第12境、调查、三场实战及三名固定责任人死亡结算，并分别完成 return/rebuild 结局和重复访问。SR002-AC01 同一链逐点存读档保存在仓库外 /tmp/immortal-m1-sr002-ac01-audit/：出发前/在途世界步698140，抵达698340，首战698952，受伤战斗699701，返程在途699980，返院700505。独立只读复核18个阶段档精确重载不变：唯一 person:master、单一身体活动、铁剑 item:sr-equipment:1 与法袍 item:sr-equipment:5 的归属/槽位连续；受伤档人物伤势23.5602与战场HP 146/191投影一致，时钟单调。319条公开命令、80次精确存读，两个结局均至世界步703301。真实浏览器用同源首战档验证可导入、实战界面、保存和刷新续玩；AC01按其公开命令/运行时要求登记 passed。该长链从有来源的正常存档续跑，另一次独立新档采购路径至第7境时耗尽当前可用原料，未据其判定玩法死锁。完整SR002的 D/I/V/R、触控/实机与发布门槛继续保持原状态。"
     },
     {
       "id": "SR-XF-003",
@@ -481,7 +580,8 @@
         "U-99",
         "R-28",
         "U-100",
-        "R-29"
+        "R-29",
+        "R-30"
       ],
       "source_specs": [
         "docs/design/03-SPATIAL-ART.md",
@@ -489,8 +589,8 @@
         "docs/design/14-EARLY-GAME-DETAILED-DESIGN.md",
         "docs/design/18-SPATIAL-CONTINUITY-IMPLEMENTATION.md"
       ],
-      "baseline": "已有米制预制件与导航基础；本轮为固定45°平面旋转的正交2.5D接入同源投影/逆投影，不重写既有存档坐标。 U-98默认显示同源通用营造方格，院内装饰路面暂缓。 U-99整格营造与0.5米导航分离，旧档按明确单位格版本映射。",
-      "design_gap": "新镜头下全院导航、人物比例、鼠标/触点命中、旧档镜头恢复及设备效果仍须整体复核。",
+      "baseline": "96米山院与2米营造格沿用同一米制空间。本批登记adult-furniture-1室内布局，成人家具、导航、预约脚点和可见床面共用预制件；旧合法布局在副本中一次映射并记录位置变化。",
+      "design_gap": "成人家具的264工位与正常小院路径已有局部证据；全院镜头切换、触摸缩放、目标设备表现仍需整体核对。",
       "design_deliverables": [
         "世界坐标、投影、场景边界和默认近景比例正式表。",
         "导航网格、人物体积、门道、动态阻挡与局部重算规则。",
@@ -506,15 +606,23 @@
           "id": "SR-XF-003-AC-01",
           "scenario": "穿过门口并绕行新建筑",
           "expected": "足够宽门道可通行，墙体与过窄缝隙不可通行；建设后能合法重规划。",
-          "status": "not_run",
-          "evidence": []
+          "status": "passed",
+          "evidence": [
+            "tests/ea-sr-spatial-door-replan.test.mjs",
+            "qa/ea-sr-spatial-acceptance.mjs",
+            "docs/design/STATUS.md"
+          ]
         },
         {
           "id": "SR-XF-003-AC-02",
           "scenario": "近景/总览及触点缩放切换",
           "expected": "同一世界点/选中对象对应正确，人物与门比例统一。",
           "status": "not_run",
-          "evidence": []
+          "evidence": [
+            "局部：qa/ea-sr-spatial-acceptance.mjs（生产Canvas：总览按钮聚焦、同号对象与标签、显式触点逆投影及状态只读）",
+            "局部：tests/map-input.test.mjs（双触点中点与取消）",
+            "局部：docs/design/STATUS.md（隔离真实浏览器鼠标/合成触控步骤、截图路径及未覆盖范围）"
+          ]
         },
         {
           "id": "SR-XF-003-AC-03",
@@ -523,7 +631,8 @@
           "status": "passed",
           "evidence": [
             "qa/ea-sr-spatial-acceptance.mjs",
-            "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+            "docs/requirements/IMPLEMENTATION-2026-10-06.md",
+            "qa/ea-indoor-furniture-acceptance.mjs"
           ]
         }
       ],
@@ -535,7 +644,16 @@
         "docs/requirements/design/SR-XF-003-006.md",
         "docs/requirements/IMPLEMENTATION-2026-10-06.md",
         "docs/design/03-SPATIAL-ART.md",
-        "docs/design/STATUS.md"
+        "docs/design/STATUS.md",
+        "dist/ea-sr-spatial.mjs",
+        "qa/ea-indoor-furniture-acceptance.mjs",
+        "qa/ea-courtyard-life-acceptance.mjs",
+        "docs/CODEX-HANDOFF.md",
+        "dist/map-input.mjs",
+        "dist/ea-courtyard-renderer.mjs",
+        "tests/map-input.test.mjs",
+        "tests/ea-sr-spatial-door-replan.test.mjs",
+        "qa/ea-sr-spatial-acceptance.mjs"
       ],
       "change_log": [
         {
@@ -569,6 +687,22 @@
         {
           "date": "2026-10-07",
           "reason": "U-100固定2.5D、旧云岫人物/建筑资源接回正式U-99主线；R-29山院扩96米，旧64档先校验仅登记extentVersion。人物6/6、扩图9/9、单位格6/6与正常公开链局部通过，真实网页/发布另记STATUS；完整SR保持in_progress，不冒称全动画或全体验完成。"
+        },
+        {
+          "date": "2026-10-07",
+          "reason": "成人家具与现场交互本地批次：96米山院与2米营造格沿用同一米制空间。本批登记adult-furniture-1室内布局，成人家具、导航、预约脚点和可见床面共用预制件；旧合法布局在副本中一次映射并记录位置变化。 已登记适用实现与独立复验证据，整体开发/验收保持in_progress，AC状态沿用已有范围。"
+        },
+        {
+          "date": "2026-10-07",
+          "reason": "M0/M1 接续批完成局部设计、修复和独立复核；具体通过范围与缺口见 acceptance_notes 和 STATUS。整项 D/I/V/R 及 AC 状态保持原门槛。"
+        },
+        {
+          "date": "2026-10-07",
+          "reason": "M1 新档真实门道与建后绕行子链经独立根复核通过，SR003-AC01登记Node公开命令/空间组件证据；完整D/I/V/R及其余AC不变。"
+        },
+        {
+          "date": "2026-10-07",
+          "reason": "M1 第六批修复总览按钮焦点及同号对象标签；独立复核与隔离浏览器局部通过。真机手势和人物/门视觉比例未验，AC02及整项状态不提升。"
         }
       ],
       "tasks": [
@@ -602,11 +736,17 @@
           "title": "开发与集成",
           "description": "在空间模块实现统一米制空间、导航与镜头；交付SR-XF-003-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。",
           "status": "todo",
-          "owner": null,
+          "owner": "Codex/courtyard-integration",
           "depends_on": [
             "SR-XF-003-D02"
           ],
-          "evidence": [],
+          "evidence": [
+            "dist/ea-sr-spatial.mjs",
+            "docs/design/STATUS.md",
+            "dist/map-input.mjs",
+            "dist/ea-game.mjs",
+            "dist/ea-courtyard-renderer.mjs"
+          ],
           "blocked_reason": null
         },
         {
@@ -615,11 +755,17 @@
           "title": "验收与兼容",
           "description": "执行SR-XF-003-AC-01至AC-03及PATH-01、SCENE-02、SAVE-01；登记实际结果、兼容和设备证据边界。",
           "status": "todo",
-          "owner": null,
+          "owner": "Codex/courtyard-acceptance",
           "depends_on": [
             "SR-XF-003-I01"
           ],
-          "evidence": [],
+          "evidence": [
+            "qa/ea-indoor-furniture-acceptance.mjs",
+            "qa/ea-courtyard-life-acceptance.mjs",
+            "docs/design/STATUS.md",
+            "tests/map-input.test.mjs",
+            "qa/ea-sr-spatial-acceptance.mjs"
+          ],
           "blocked_reason": null
         },
         {
@@ -655,7 +801,7 @@
         "SAVE-01"
       ],
       "blockers": [],
-      "acceptance_notes": "2026-10-06晚：本轮局部回归为UI/叙事/输入39/39、空间34/34（含9视口/DPR生产Canvas）和正常8设施5门人档9/9（11公开命令、2精确存读、真走8入口、rest实际到位、暂停不推进）。CUA浏览器工具当前不可调用，DOM鼠标/触屏/实机/FPS均未验收，旧浏览器证据不适用于新版。12类精细外立面与代码人物/室内尚有画风差距；0.6×0.9米床仅支持真实到场半坐歇息，成人卧躺未完成，闭屋后墙露出及两类田地显示已修复，最终生产Canvas快照已静态读图复核。既有passed AC保留原情景，整项不关闭；可试玩开发版gh-pages c0cb4038fd4a0d7536cbcfaf8755f22e10c01cb5已部署，任务37464500470 completed/success；本轮main源码上传待确认，不能据Pages成功标整项released。"
+      "acceptance_notes": "2026-10-07本地小院批次：成人家具/单位格/空间定向检查48/48（8/6/34），正常公开命令接受/拒绝邀请两路完成营造、产出搬运、研习、到床休息与迁建取消/续建；分别60命令/36次精确存读和61命令/37次精确存读。六身份卧姿与预约前提2/2，生产Canvas卧姿加载/只读/身体点选/缺图回退4/4，已读图。旧v5完成档40建筑30门人保留资源、时间和return结局，全部入口可达，二次存读一致。各SR仅登记适用子情景；完整AC、真机触摸/FPS和真人首次体验状态分别保留。 浏览器DPR1鼠标在1366×900、1180×820、820×1180点选床上掌门通过；正常推荐营造经Enter和鼠标确认、实际施工落成。一次动态模块加载失败经页面重载恢复同档，原因待定位。I/V证据为沿既有可用契约实施的本批子范围；完整D01/D02及I/V关闭门槛保持原状态。\n\n2026-10-07 M0/M1 接续批：03 §3 的双指手势中心及滚轮当前指针锚点已接入统一米制镜头，输入13/13、空间生产Canvas34/34通过；非法焦点不再污染镜头。浏览器鼠标自由营造镜头已复验，真机双指/完整近景总览玩家链未做，AC02仍 not_run。\n\n2026-10-07 M1 门道与绕行：新档公开命令疗伤后在(26,16)建成门人居，存读后穿真实门道到床位、退到左侧；在门口重叠营造灵草田被原子拒绝，随后向右沿合法路径绕墙，二次存读位置/原建筑保持。6条成功公开命令、1条拒绝、2次精确重载；定向1/1，已有窄缝/墙体和生产Canvas空间34/34。根执行者复读用例并复跑通过，AC01按Node公开命令/组件环境通过；未据此声称真实网页或目标设备已验，AC02及整项门槛保持。\n\n2026-10-07 M1 第六批镜头子情景：隔离浏览器 qa-sr003-camera-20261007 从有来源的第584日五人/十设施返院档导入第二档位，暂停状态在 820×1180 和 1200×843 画面点选门人居，总览→按钮放大保持建筑可见和详情对应；在画布角落残留悬停后再放大复验通过。浏览器合成双触点缩放时，锚点和选择未丢；这是 CDP 合成触控而非 iPadOS 真机。首轮发现总览按钮放大落到空地，后经修复及独立复核；同号建筑/门人聚焦及标签歧义也已修复。生产 Canvas 定向34/34、输入13/13，镜头前后序列化世界状态不变。仍缺真机双指与逐建筑人物/门视觉比例、详情遮挡核对，故 AC02 保持 not_run，完整 D/I/V/R 保持原状态。\n2026-10-08 U-101 背层版独立隔离浏览器复核 AC02 子范围：有来源第584日五人十设施档，在 1200×843 和 820×1180 视口点选主屋、门人居及掌门，切总览/近景、滚轮、平移和合成双指后，同一对象与详情仍对应；背层不挡点击，相关定向47/47。人物/门比例未见明显跳变，但未逐类审查，竖屏详情覆盖选中建筑局部；合成触控非 iPadOS 真机，故 AC02 继续 not_run。截图 /tmp/immortal-sr003-ac02-portrait-{near,overview}.png。"
     },
     {
       "id": "SR-XF-004",
@@ -686,7 +832,9 @@
         "U-99",
         "R-28",
         "U-100",
-        "R-29"
+        "R-29",
+        "R-30",
+        "U-101"
       ],
       "source_specs": [
         "docs/design/03-SPATIAL-ART.md",
@@ -695,39 +843,61 @@
         "docs/design/17-INDOOR-LIFE-IMPLEMENTATION.md",
         "docs/design/18-SPATIAL-CONTINUITY-IMPLEMENTATION.md"
       ],
-      "baseline": "已有主屋室内与三段施工基础；本轮建立独立建筑图集、地表、室内模块与统一锚点，正在主渲染器集成。 U-99整格营造与0.5米导航分离，旧档按明确单位格版本映射。",
-      "design_gap": "完整建筑的施工/成品/升级/损坏、屋顶退隐、室内外对应和缺失资产回退尚未整体验收；granary必须保持灵稻田。",
+      "baseline": "主屋、居舍、医庐采用0.9×2.2米成人床，书案与工作台按统一室内布局放置。相同预制件服务家具、工位、通行与营造；床位及卧姿仍保存在真实活动中。按U-101，院景中封闭建筑保持完整外观，不绘制室内家具与人物；容量和活动由人物/建筑管理查看。",
+      "design_gap": "已登记14类当前资产—米制预制件、阶段、锚点和门/工位对照表；14类七阶段图集已接入，但逐类正常施工、视觉门对齐、缺图回退与目标设备浏览器验收仍缺。U-101的封闭外观和露天作业显示需独立网页及性能复核。",
       "design_deliverables": [
         "首轮全部可用建筑/设施目录及最终尺寸、锚点、朝向、门、家具、工位、等待位。",
         "预览/工地/成品/升级/损坏的分层资产规范与资产版本表。",
-        "占地、内部通行、屋顶遮挡和点击区域各自用途及同源生成规则。"
+        "占地、内部通行、封闭外观遮挡、露天人物显示和点击区域各自用途及同源生成规则。"
       ],
       "requirements": [
-        "容量对应可见床位/工位；经营对象独立于地面背景。",
-        "人物进入室内时屋顶按统一规则退隐，仍能选择与理解活动。",
+        "容量对应真实床位/工位；封闭建筑在管理页显示容量与占用，露天工位在院景可见；经营对象独立于地面背景。",
+        "人物进入封闭建筑后院景保持完整外观，不绘制室内家具或身体；人物按真实位置和活动运行，可通过人物/建筑管理选择与理解。露天到场作业人物按实际脚点显示和点选。",
         "合法朝向仅使用支持的素材，升级不改变建筑身份。"
       ],
       "acceptance": [
         {
           "id": "SR-XF-004-AC-01",
           "scenario": "比较同建筑预览、工地、成品",
-          "expected": "尺寸和锚点一致，无跳位；容量与可见家具数量对应。",
-          "status": "not_run",
-          "evidence": []
+          "expected": "尺寸和锚点一致，无跳位；管理页容量对应真实家具/工位，封闭外观不露出内部结构。",
+          "status": "passed",
+          "evidence": [
+            "qa/ea-sr004-stage-browser-source.mjs",
+            "dist/ea-courtyard-renderer.mjs",
+            "dist/ea-estate-assets.mjs",
+            "dist/ea-facility-slots.mjs",
+            "asset-manifest.json",
+            "docs/design/STATUS.md"
+          ]
         },
         {
           "id": "SR-XF-004-AC-02",
           "scenario": "屋内睡眠、研习和疗伤",
-          "expected": "人物实际到位，遮挡下可选择，门道不作为执行工位。",
-          "status": "not_run",
-          "evidence": []
+          "expected": "人物实际到达床位/书案，封闭建筑保持完整外观；管理页可选择真实人物和活动，门道不作为执行工位。",
+          "status": "passed",
+          "evidence": [
+            "qa/ea-indoor-activities-acceptance.mjs",
+            "qa/ea-courtyard-rest-render-acceptance.mjs",
+            "qa/ea-courtyard-visibility-acceptance.mjs",
+            "dist/ea-facility-slots.mjs",
+            "docs/design/STATUS.md"
+          ]
         },
         {
           "id": "SR-XF-004-AC-03",
           "scenario": "缺失/旧版资产",
-          "expected": "同风格明确回退或禁用该未交付建筑，不出现假容量或更换人物身份。",
-          "status": "not_run",
-          "evidence": []
+          "expected": "缺失或旧版素材回退为封闭建筑外观或真实露天工位，不出现假容量或更换人物身份。",
+          "status": "passed",
+          "evidence": [
+            "dist/ea-estate-assets.mjs",
+            "dist/ea-courtyard-renderer.mjs",
+            "qa/ea-courtyard-visibility-acceptance.mjs",
+            "tests/ea-house-activity-art.test.mjs",
+            "tests/ea-outdoor-stage-art.test.mjs",
+            "docs/design/STATUS.md",
+            "dist/ea-estate-ground-art.mjs",
+            "tests/ea-closed-stage-fallback.test.mjs"
+          ]
         }
       ],
       "excluded": [
@@ -738,7 +908,37 @@
         "docs/requirements/design/SR-XF-003-006.md",
         "docs/requirements/IMPLEMENTATION-2026-10-06.md",
         "docs/design/03-SPATIAL-ART.md",
-        "docs/design/STATUS.md"
+        "docs/design/STATUS.md",
+        "dist/ea-sr-spatial.mjs",
+        "dist/ea-character-art.mjs",
+        "dist/ea-courtyard-renderer.mjs",
+        "dist/assets/estate-v1/characters-rest-v1.png",
+        "qa/ea-indoor-furniture-acceptance.mjs",
+        "qa/ea-courtyard-rest-render-acceptance.mjs",
+        "qa/ea-courtyard-life-acceptance.mjs",
+        "docs/CODEX-HANDOFF.md",
+        "asset-manifest.json",
+        "dist/ea-estate-assets.mjs",
+        "dist/assets/estate-v1/house-stages-v1.png",
+        "tests/ea-house-activity-art.test.mjs",
+        "qa/ea-indoor-activities-acceptance.mjs",
+        "dist/ea-life.mjs",
+        "dist/ea-sr-persons.mjs",
+        "dist/ea-ui.mjs",
+        "tests/ea-scene-ui.test.mjs",
+        "dist/ea-estate-ground-art.mjs",
+        "dist/assets/estate-v1/hall-stages-v1.png",
+        "dist/assets/estate-v1/clinic-stages-v1.png",
+        "dist/assets/estate-v1/library-stages-v1.png",
+        "tests/ea-hall-stage-art.test.mjs",
+        "dist/assets/estate-v1/farm-stages-v1.png",
+        "dist/assets/estate-v1/lumber-stages-v1.png",
+        "dist/assets/estate-v1/quarry-stages-v1.png",
+        "dist/assets/estate-v1/meditation-stages-v1.png",
+        "tests/ea-outdoor-stage-art.test.mjs",
+        "tests/ea-estate-remaining-stage-art.test.mjs",
+        "qa/ea-courtyard-visibility-acceptance.mjs",
+        "tests/ea-closed-stage-fallback.test.mjs"
       ],
       "change_log": [
         {
@@ -768,6 +968,50 @@
         {
           "date": "2026-10-07",
           "reason": "U-100固定2.5D、旧云岫人物/建筑资源接回正式U-99主线；R-29山院扩96米，旧64档先校验仅登记extentVersion。人物6/6、扩图9/9、单位格6/6与正常公开链局部通过，真实网页/发布另记STATUS；完整SR保持in_progress，不冒称全动画或全体验完成。"
+        },
+        {
+          "date": "2026-10-07",
+          "reason": "成人家具与现场交互本地批次：主屋、居舍、医庐采用0.9×2.2米成人床，书案与工作台按统一室内布局放置。相同预制件服务家具绘制、工位、通行与营造；正常到床休息可显示六身份静态卧姿。 已登记适用实现与独立复验证据，整体开发/验收保持in_progress，AC状态沿用已有范围。"
+        },
+        {
+          "date": "2026-10-07",
+          "reason": "M1 战斗共同身体或房屋/人物画稿首批局部实现与独立验收；整项原门槛未关闭。"
+        },
+        {
+          "date": "2026-10-07",
+          "reason": "M1补14类建筑当前资产/几何/阶段与视觉锚点目录，独立清单审计揭示其余13类画稿和视觉对齐缺口；设计与AC状态未提升。"
+        },
+        {
+          "date": "2026-10-07",
+          "reason": "M1 第七批由公开命令得到调养/研习/休憩三份真实室内存档，生产 Canvas 与隔离浏览器三态点选、精确存读及独立只读复核按原文通过 AC02；SR004 整项仍未关闭。"
+        },
+        {
+          "date": "2026-10-07",
+          "reason": "M1 第八批补齐全图集缺失时露天设施按真实槽位的可见回退；有来源档浏览器、逐槽 Canvas 与独立只读复核通过 AC03，整项 SR004 保持进行中。"
+        },
+        {
+          "date": "2026-10-08",
+          "reason": "M1 第十批新增主屋、医庐、藏经阁七阶段图集并接入同一米制预制件及缺图回退，根 Agent 与实现 Agent 分别核对生产画布和素材，最终合并工作树相关定向 46/46。连同门人居现为 4/14 类；剩余十类、逐类正常施工与设备验收未完成，AC01 仍 not_run，D/I/V/R 不关闭。"
+        },
+        {
+          "date": "2026-10-08",
+          "reason": "M1 第十一批新增灵草田、伐木场、采石场、聚灵台各七阶段图集，连同此前四类现为 8/14；有来源档与旧档迁移生产 Canvas、建筑点选/缺图回退及最终合并定向 61/61，根 Agent 独立读图复跑。剩余六类、逐类浏览器施工与目标设备、石基地色统一未完成，AC01 与整项 D/I/V/R 不关闭。"
+        },
+        {
+          "date": "2026-10-08",
+          "reason": "2026-10-08 M1 第十二批：剩余丹房、灵泉、灵稻田、膳房、百工坊、瞭望台各七阶段图已接入，14/14 类均有图集；根 Agent 读六张生产 Canvas，复跑阶段素材27/27和空间家具42/42。逐类正常施工网页、灵稻田避人物点选、灰地接缝及目标设备未验，SR004-AC01 保持 not_run，整项 D/I/V/R 不关闭。备份见 batch12-pre-construction manifest。"
+        },
+        {
+          "date": "2026-10-08",
+          "reason": "U-101 按用户决定改为封闭建筑外观及管理页查询，露天工人可见；修订 SR004 REQ/AC，旧退顶证据只作为历史，AC02/AC03 待当前版本独立重验。"
+        },
+        {
+          "date": "2026-10-08",
+          "reason": "U-101 关闭院景室内显示并减少重复世界视图计算；同源40建筑30人桌面浏览器压力场景从旧暂停1.3 FPS到新暂停113.2/运行108.1 FPS，封闭外观和露天点选通过，SR004新口径其余AC仍待。"
+        },
+        {
+          "date": "2026-10-08",
+          "reason": "U-101 最终封闭外观版 AC03 独立浏览器复验：旧 v5 40 建筑/30 人档在七类封闭建筑正常/缺图/错尺寸/同尺寸 v1 与六类露天缺图中保留身份、容量、点选和精确再读；背层性能改动后独立快速复验维持结论，定向9/9、相关最终回归40/40。AC03 passed；AC01 与真机、整体 D/I/V/R 仍待。"
         }
       ],
       "tasks": [
@@ -801,11 +1045,27 @@
           "title": "开发与集成",
           "description": "在空间模块实现建筑预制件、室内与分层素材目录；交付SR-XF-004-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。",
           "status": "todo",
-          "owner": null,
+          "owner": "Codex/courtyard-integration",
           "depends_on": [
             "SR-XF-004-D02"
           ],
-          "evidence": [],
+          "evidence": [
+            "dist/ea-sr-spatial.mjs",
+            "dist/ea-character-art.mjs",
+            "dist/ea-courtyard-renderer.mjs",
+            "dist/assets/estate-v1/characters-rest-v1.png",
+            "docs/design/STATUS.md",
+            "asset-manifest.json",
+            "dist/assets/estate-v1/hall-stages-v1.png",
+            "dist/assets/estate-v1/clinic-stages-v1.png",
+            "dist/assets/estate-v1/library-stages-v1.png",
+            "tests/ea-hall-stage-art.test.mjs",
+            "dist/assets/estate-v1/farm-stages-v1.png",
+            "dist/assets/estate-v1/lumber-stages-v1.png",
+            "dist/assets/estate-v1/quarry-stages-v1.png",
+            "dist/assets/estate-v1/meditation-stages-v1.png",
+            "tests/ea-outdoor-stage-art.test.mjs"
+          ],
           "blocked_reason": null
         },
         {
@@ -814,11 +1074,25 @@
           "title": "验收与兼容",
           "description": "执行SR-XF-004-AC-01至AC-03及SCENE-01、SCENE-03；登记实际结果、兼容和设备证据边界。",
           "status": "todo",
-          "owner": null,
+          "owner": "Codex/courtyard-acceptance",
           "depends_on": [
             "SR-XF-004-I01"
           ],
-          "evidence": [],
+          "evidence": [
+            "qa/ea-indoor-furniture-acceptance.mjs",
+            "qa/ea-courtyard-rest-render-acceptance.mjs",
+            "qa/ea-courtyard-life-acceptance.mjs",
+            "docs/design/STATUS.md",
+            "dist/assets/estate-v1/hall-stages-v1.png",
+            "dist/assets/estate-v1/clinic-stages-v1.png",
+            "dist/assets/estate-v1/library-stages-v1.png",
+            "tests/ea-hall-stage-art.test.mjs",
+            "dist/assets/estate-v1/farm-stages-v1.png",
+            "dist/assets/estate-v1/lumber-stages-v1.png",
+            "dist/assets/estate-v1/quarry-stages-v1.png",
+            "dist/assets/estate-v1/meditation-stages-v1.png",
+            "tests/ea-outdoor-stage-art.test.mjs"
+          ],
           "blocked_reason": null
         },
         {
@@ -853,7 +1127,7 @@
         "SCENE-03"
       ],
       "blockers": [],
-      "acceptance_notes": "2026-10-06晚：本轮局部回归为UI/叙事/输入39/39、空间34/34（含9视口/DPR生产Canvas）和正常8设施5门人档9/9（11公开命令、2精确存读、真走8入口、rest实际到位、暂停不推进）。CUA浏览器工具当前不可调用，DOM鼠标/触屏/实机/FPS均未验收，旧浏览器证据不适用于新版。12类精细外立面与代码人物/室内尚有画风差距；0.6×0.9米床仅支持真实到场半坐歇息，成人卧躺未完成，闭屋后墙露出及两类田地显示已修复，最终生产Canvas快照已静态读图复核。既有passed AC保留原情景，整项不关闭；可试玩开发版gh-pages c0cb4038fd4a0d7536cbcfaf8755f22e10c01cb5已部署，任务37464500470 completed/success；本轮main源码上传待确认，不能据Pages成功标整项released。"
+      "acceptance_notes": "2026-10-07本地小院批次：成人家具/单位格/空间定向检查48/48（8/6/34），正常公开命令接受/拒绝邀请两路完成营造、产出搬运、研习、到床休息与迁建取消/续建；分别60命令/36次精确存读和61命令/37次精确存读。六身份卧姿与预约前提2/2，生产Canvas卧姿加载/只读/身体点选/缺图回退4/4，已读图。旧v5完成档40建筑30门人保留资源、时间和return结局，全部入口可达，二次存读一致。各SR仅登记适用子情景；完整AC、真机触摸/FPS和真人首次体验状态分别保留。 浏览器DPR1鼠标在1366×900、1180×820、820×1180点选床上掌门通过；正常推荐营造经Enter和鼠标确认、实际施工落成。一次动态模块加载失败经页面重载恢复同档，原因待定位。I/V证据为沿既有可用契约实施的本批子范围；完整D01/D02及I/V关闭门槛保持原状态。\n\n2026-10-07 M1 首批房屋资产：新增门人居预览、地基、主体、收尾、成品、升级、损坏七阶段同尺寸图集，正式渲染读取施工 progress 并在缺图时回退同源几何。新档正常公开命令到房屋地基/主体/收尾检查点，精确 JSON 存读；独立浏览器 QA 内存档观察三阶段与完成画面。资产/人物/室内定向 22/22。只覆盖门人居；其余 13 类建筑状态、室内整体和实际设备/真人视觉仍待验，AC 与 D/I/V/R 不据此关闭。\n独立只读复核已确认首批三项房屋接缝修复：显示与点选同阶段、迁建旧址不误显升级、错尺寸图集回退；定向重跑 22/22，仍不等于完整 AC。\n2026-10-07 M1目录核查：独立只读审计已核对14类一级占地、同源入口/等待位/容量、三张既有图集与两类生产田块；设计目录新增逐类型当前外观、版本、阶段和屏幕锚点。房屋专用图的门比例metadata尚未驱动实际米制门位，逐建筑视觉对齐未验；D01仍in_progress；独立审阅已核对当前目录事实和屋内退顶接线，但阶段素材与逐建筑状态未齐，D02保持todo。\n2026-10-07 室内屋顶子情景：未选门人在室内时退顶显示同一身体并可命中；独立生产Canvas复核含离屋/悬停，相关定向48/48。正常五人存档在独立浏览器仅内存试读，实见屋内四人、家具及门人详情点选；未写正式档位。只覆盖该情景，AC01/03和D/I/V/R仍按原状态。\n2026-10-07 M1 第七批：新档正式命令取得掌门调养、藏经阁研习、主屋休憩；三次暂停精确存读保持同一活动、预约与脚点，生产 Canvas 加载/绘制/退顶点选只读 1/1，门道不作执行位。隔离浏览器分别导入三份有来源档、实际点选人物，侧卡显示调养床1/书案1/床位3；研习旧动作误显示休憩已修复。独立只读复核同样用真实 Canvas 在未预选人物时点中研习/卧床掌门，确认 AC02 原文范围通过。浏览器为桌面鼠标，不代表目标真机、完整建筑阶段素材或整项 SR004 已完成。\n2026-10-07 M1 第八批：有来源的正常公开命令门人居档 53 命令/37 次精确存读；隔离浏览器分别检验阶段图缺失、1×1 旧尺寸图、阶段图与旧房屋图同时缺失，房屋四床/四休息位及人物身份不变。全建筑图集缺失暴露伐木场空地仍报两个作业位；按权威预制件槽位补绘露天工位后，桌面浏览器实见两处原木，点选侧卡 0/2 与两个空闲位。真实 Canvas 逐槽覆盖伐木、采石、聚灵台、灵泉当前和旧布局，并检查无工位瞭望台，7/7；空间34/34。独立只读复核按 AC03 原文判 passed。仅限缺图/旧版资产 AC，完整阶段素材、SR004-AC01、目标真机及整项 D/I/V/R 继续。\n2026-10-08 M1 第十批：主屋、医庐、藏经阁各七阶段图集补齐，现有4/14类；实际图集加载/点选/缺图回退和合并工作树定向46/46，仅作AC01子范围证据。十类建筑、逐类正常施工/浏览器及目标设备未覆盖，AC01和整项保持原状态。\n2026-10-08 M1 第十一批：四类露天阶段图接入并保留真实田块动态作物，累计8/14类；生产Canvas/空间定向61/61及有来源档读图仅为AC01子范围，浏览器逐类施工、目标设备与余六类仍待验。\n2026-10-08 M1 第十二批：剩余丹房、灵泉、灵稻田、膳房、百工坊、瞭望台各七阶段图已接入，14/14 类均有图集；根 Agent 读六张生产 Canvas，复跑阶段素材27/27和空间家具42/42。逐类正常施工网页、灵稻田避人物点选、灰地接缝及目标设备未验，SR004-AC01 保持 not_run，整项 D/I/V/R 不关闭。备份见 batch12-pre-construction manifest。\n2026-10-08 U-101 改变院景显示口径：上述退顶、室内身体直点及相应 AC02/AC03 旧结论仅属历史版本。真实床位、工位、身份和活动仍保留；按新 AC 重新验收，独立浏览器和性能数据回填前不继续标记通过。\n2026-10-08 U-101 定向通过：正常床位/研习和药田工位的生产 Canvas 5/5、空间34/34；旧完成档40建筑30门人同源桌面浏览器暂停1.3→113.2 FPS、运行108.1 FPS（1366×900/DPR1，帧P95分别15.1/15.3ms，处理P95均4.9ms），闭屋与露天点选实见。SR004-AC02仍需疗伤和管理页在新口径下逐态独立复核，AC03仍需缺图封闭回退浏览器复核；真机FPS未验。\n2026-10-08 U-101 AC03 新口径独立验收：合法旧 v5 40建筑30人档 SHA256 b0522b6f15cbd5e9fdada0ae312cc782a99611cca66238f385c1e554785b8215；七类封闭建筑正常、缺图、错尺寸、同尺寸旧 v1 浏览器矩阵均保持封闭几何/外观、原身份/容量和点选；六类露天缺图真实工位仍绘制。五情形导出后新页试读再导出精确一致。最终背层版同源桌面 Chromium 快速复验地表/屋体叠层、缩放/平移、主屋和伐木场点选及存读，结论维持。QA 报告 /tmp/immortal-sr004-ac03-independent/report.json 与 /tmp/immortal-sr004-ac03-final-backlayer/report.json；定向9/9，相关回归40/40。选址预览保留半透明只读 ghost，不画内部。DPR1 桌面证据不等于目标真机；AC01 及整项仍待。"
     },
     {
       "id": "SR-XF-005",
@@ -885,7 +1159,8 @@
         "U-99",
         "R-28",
         "U-100",
-        "R-29"
+        "R-29",
+        "R-30"
       ],
       "source_specs": [
         "docs/design/03-SPATIAL-ART.md",
@@ -894,8 +1169,8 @@
         "docs/design/18-SPATIAL-CONTINUITY-IMPLEMENTATION.md",
         "docs/design/06-OPENING-ACCEPTANCE.md"
       ],
-      "baseline": "已有自由选址、材料预留、人物占位拒绝、完工等待和施工三阶段；本轮新投影与独立建筑外观正在接入同一实际流程。 U-99整格营造与0.5米导航分离，旧档按明确单位格版本映射。",
-      "design_gap": "新美术与45°镜头下预览、确认、入口、施工安全及鼠标/iPad触控需要重新核对；原逻辑AC通过不代表新画面已通过。",
+      "baseline": "自由选址、材料预留和到场施工沿用单位格事务。本批推荐营造确认按返回的transform与选中建筑类型显示镜头及反馈；建筑卡读取真实可用容量和工位状态。推荐营造说明使用稳定布局，指针离开画布后确认按钮仍可点击。",
+      "design_gap": "正常营造及暂停/取消/存读已有局部复验；完整鼠标与iPad触控选址、预览、确认、施工安全仍须结合实际网页流程验收。",
       "design_deliverables": [
         "可建地形、水面/陡坡/剧情保护区规则与入口连通条件。",
         "鼠标与触控的选址、预览、支持朝向、确认、取消流程。",
@@ -914,7 +1189,8 @@
           "status": "passed",
           "evidence": [
             "qa/ea-sr-integration-acceptance.mjs",
-            "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+            "docs/requirements/IMPLEMENTATION-2026-10-06.md",
+            "qa/ea-courtyard-life-acceptance.mjs"
           ]
         },
         {
@@ -934,7 +1210,8 @@
           "status": "passed",
           "evidence": [
             "qa/ea-sr-spatial-acceptance.mjs",
-            "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+            "docs/requirements/IMPLEMENTATION-2026-10-06.md",
+            "qa/ea-courtyard-life-acceptance.mjs"
           ]
         }
       ],
@@ -946,7 +1223,14 @@
         "docs/requirements/design/SR-XF-003-006.md",
         "docs/requirements/IMPLEMENTATION-2026-10-06.md",
         "docs/design/03-SPATIAL-ART.md",
-        "docs/design/STATUS.md"
+        "docs/design/STATUS.md",
+        "dist/ea-game.mjs",
+        "dist/ea-ui.mjs",
+        "qa/ea-courtyard-life-acceptance.mjs",
+        "tests/ea-scene-ui.test.mjs",
+        "docs/CODEX-HANDOFF.md",
+        "dist/ea.css",
+        "dist/ea-courtyard-renderer.mjs"
       ],
       "change_log": [
         {
@@ -976,6 +1260,18 @@
         {
           "date": "2026-10-07",
           "reason": "U-100固定2.5D、旧云岫人物/建筑资源接回正式U-99主线；R-29山院扩96米，旧64档先校验仅登记extentVersion。人物6/6、扩图9/9、单位格6/6与正常公开链局部通过，真实网页/发布另记STATUS；完整SR保持in_progress，不冒称全动画或全体验完成。"
+        },
+        {
+          "date": "2026-10-07",
+          "reason": "成人家具与现场交互本地批次：自由选址、材料预留和到场施工沿用单位格事务。本批推荐营造确认按返回的transform与选中建筑类型显示镜头及反馈；建筑卡读取真实可用容量和工位状态。 已登记适用实现与独立复验证据，整体开发/验收保持in_progress，AC状态沿用已有范围。 推荐营造按钮的指针离开布局变化已修复并由实际鼠标复验。"
+        },
+        {
+          "date": "2026-10-07",
+          "reason": "M0/M1 接续批完成局部设计、修复和独立复核；具体通过范围与缺口见 acceptance_notes 和 STATUS。整项 D/I/V/R 及 AC 状态保持原门槛。"
+        },
+        {
+          "date": "2026-10-08",
+          "reason": "M1 第十批独立补验现有 SR005 三条 passed AC 对当前代码仍适用：正常来源档桌面鼠标完成拒绝、自由选址、一次预留、暂停、取消、到场完工及两阶段重载；Chromium 合成触控点按/拖拽/双指不误建，相关输入空间 47/47。真 iPadOS、人物占位和部分投入取消的逐项浏览器场景未覆盖，整项 D/I/V/R 保持原状态。"
         }
       ],
       "tasks": [
@@ -1009,11 +1305,17 @@
           "title": "开发与集成",
           "description": "在营造模块实现自由选址、施工与入口安全；交付SR-XF-005-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。",
           "status": "todo",
-          "owner": null,
+          "owner": "Codex/courtyard-integration",
           "depends_on": [
             "SR-XF-005-D02"
           ],
-          "evidence": [],
+          "evidence": [
+            "dist/ea-game.mjs",
+            "dist/ea-ui.mjs",
+            "docs/design/STATUS.md",
+            "dist/ea.css",
+            "dist/ea-courtyard-renderer.mjs"
+          ],
           "blocked_reason": null
         },
         {
@@ -1022,11 +1324,15 @@
           "title": "验收与兼容",
           "description": "执行SR-XF-005-AC-01至AC-03及BUILD-01、BUILD-02、BUILD-03、OPEN-05；登记实际结果、兼容和设备证据边界。",
           "status": "todo",
-          "owner": null,
+          "owner": "Codex/courtyard-acceptance",
           "depends_on": [
             "SR-XF-005-I01"
           ],
-          "evidence": [],
+          "evidence": [
+            "qa/ea-courtyard-life-acceptance.mjs",
+            "tests/ea-scene-ui.test.mjs",
+            "docs/design/STATUS.md"
+          ],
           "blocked_reason": null
         },
         {
@@ -1063,7 +1369,7 @@
         "OPEN-05"
       ],
       "blockers": [],
-      "acceptance_notes": "2026-10-06晚：本轮局部回归为UI/叙事/输入39/39、空间34/34（含9视口/DPR生产Canvas）和正常8设施5门人档9/9（11公开命令、2精确存读、真走8入口、rest实际到位、暂停不推进）。CUA浏览器工具当前不可调用，DOM鼠标/触屏/实机/FPS均未验收，旧浏览器证据不适用于新版。12类精细外立面与代码人物/室内尚有画风差距；0.6×0.9米床仅支持真实到场半坐歇息，成人卧躺未完成，闭屋后墙露出及两类田地显示已修复，最终生产Canvas快照已静态读图复核。既有passed AC保留原情景，整项不关闭；可试玩开发版gh-pages c0cb4038fd4a0d7536cbcfaf8755f22e10c01cb5已部署，任务37464500470 completed/success；本轮main源码上传待确认，不能据Pages成功标整项released。"
+      "acceptance_notes": "2026-10-07本地小院批次：成人家具/单位格/空间定向检查48/48（8/6/34），正常公开命令接受/拒绝邀请两路完成营造、产出搬运、研习、到床休息与迁建取消/续建；分别60命令/36次精确存读和61命令/37次精确存读。六身份卧姿与预约前提2/2，生产Canvas卧姿加载/只读/身体点选/缺图回退4/4，已读图。旧v5完成档40建筑30门人保留资源、时间和return结局，全部入口可达，二次存读一致。各SR仅登记适用子情景；完整AC、真机触摸/FPS和真人首次体验状态分别保留。 浏览器DPR1鼠标在1366×900、1180×820、820×1180点选床上掌门通过；正常推荐营造经Enter和鼠标确认、实际施工落成。一次动态模块加载失败经页面重载恢复同档，原因待定位。I/V证据为沿既有可用契约实施的本批子范围；完整D01/D02及I/V关闭门槛保持原状态。\n\n2026-10-07 M0/M1 接续批：独立 qa-m1-freebuild-20261007 新档鼠标链：疗伤前营造命令拒绝；疗伤后主屋占地拒绝且资源不扣；非推荐空地灵草田从110/65/45扣到80/40/35，实际到场施工、建成显示4工作位；第二座非推荐伐木场从80/40/35扣到55/20/27，建成显示2工作位；两座均从正式保存档重新加载，设施总数3、资源和暂停时间保留。首次链发现自由营造返回 transform 被误读为顶层 x/y，引发镜头 NaN/Canvas 错误；已修并用第二次链复验。AC原有 passed 保留，触控/入口封堵/人物占位等完整矩阵未因此新增通过声明。"
     },
     {
       "id": "SR-XF-006",
@@ -1094,7 +1400,8 @@
         "U-99",
         "R-28",
         "U-100",
-        "R-29"
+        "R-29",
+        "R-30"
       ],
       "source_specs": [
         "docs/design/03-SPATIAL-ART.md",
@@ -1102,8 +1409,8 @@
         "docs/design/07-ECONOMY-ORGANIZATION.md",
         "docs/design/18-SPATIAL-CONTINUITY-IMPLEMENTATION.md"
       ],
-      "baseline": "已有保留身份的实际升级、迁建与拆除任务；本轮侧卡保留维护/升级/迁建入口，新建筑资产共用原实例锚点。 U-99整格营造与0.5米导航分离，旧档按明确单位格版本映射。",
-      "design_gap": "新素材下升级占地、迁建前后预览/成品、遮挡和取消恢复的视觉一致性未完成整体验收。",
+      "baseline": "升级、迁建、拆除继续保留同一建筑身份。本批成人床占用者可按实际步长撤离；正常迁建取消、暂停续建和旧在建进度加载保留材料与唯一实体。",
+      "design_gap": "整套升级/迁建/拆除的不同占用、目标失效及视觉对应仍需完整流程验收；本批证据覆盖床位撤离、三种在建迁移与正常迁建取消/续建。",
       "design_deliverables": [
         "升级占地冲突、迁建源/目标预约、拆除与材料回收的任务状态图。",
         "人物活动中断、等待、临时撤离/安置和重新预约策略。",
@@ -1122,7 +1429,8 @@
           "status": "passed",
           "evidence": [
             "qa/ea-sr-spatial-acceptance.mjs",
-            "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+            "docs/requirements/IMPLEMENTATION-2026-10-06.md",
+            "qa/ea-indoor-furniture-acceptance.mjs"
           ]
         },
         {
@@ -1132,7 +1440,9 @@
           "status": "passed",
           "evidence": [
             "qa/ea-sr-spatial-acceptance.mjs",
-            "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+            "docs/requirements/IMPLEMENTATION-2026-10-06.md",
+            "qa/ea-indoor-furniture-acceptance.mjs",
+            "qa/ea-courtyard-life-acceptance.mjs"
           ]
         },
         {
@@ -1142,7 +1452,8 @@
           "status": "passed",
           "evidence": [
             "qa/ea-sr-spatial-acceptance.mjs",
-            "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+            "docs/requirements/IMPLEMENTATION-2026-10-06.md",
+            "qa/ea-indoor-furniture-acceptance.mjs"
           ]
         }
       ],
@@ -1154,7 +1465,12 @@
         "docs/requirements/design/SR-XF-003-006.md",
         "docs/requirements/IMPLEMENTATION-2026-10-06.md",
         "docs/design/03-SPATIAL-ART.md",
-        "docs/design/STATUS.md"
+        "docs/design/STATUS.md",
+        "dist/ea-sr-spatial.mjs",
+        "qa/ea-indoor-furniture-acceptance.mjs",
+        "qa/ea-courtyard-life-acceptance.mjs",
+        "docs/CODEX-HANDOFF.md",
+        "qa/ea-sr-building-change-public-acceptance.mjs"
       ],
       "change_log": [
         {
@@ -1180,6 +1496,14 @@
         {
           "date": "2026-10-07",
           "reason": "U-100固定2.5D、旧云岫人物/建筑资源接回正式U-99主线；R-29山院扩96米，旧64档先校验仅登记extentVersion。人物6/6、扩图9/9、单位格6/6与正常公开链局部通过，真实网页/发布另记STATUS；完整SR保持in_progress，不冒称全动画或全体验完成。"
+        },
+        {
+          "date": "2026-10-07",
+          "reason": "成人家具与现场交互本地批次：升级、迁建、拆除继续保留同一建筑身份。本批成人床占用者可按实际步长撤离；正常迁建取消、暂停续建和旧在建进度加载保留材料与唯一实体。 已登记适用实现与独立复验证据，整体开发/验收保持in_progress，AC状态沿用已有范围。"
+        },
+        {
+          "date": "2026-10-08",
+          "reason": "M1 第十批并行复验现有 SR006 三条已通过 AC：公开操作覆盖占床升级、劳动中拆除、迁建遇建筑足迹内携货人原子拒绝、取消一次退款及足迹外携货完成后继续送达。修复足迹内搬运身体被锁而与施工等待互相卡住的缺陷，独立只读复核同意保留原 AC 状态；扩大升级占地的额外场景、真机与整项 D/I/V/R 继续。"
         }
       ],
       "tasks": [
@@ -1213,11 +1537,15 @@
           "title": "开发与集成",
           "description": "在营造模块实现升级、迁建与拆除的安全任务；交付SR-XF-006-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。",
           "status": "todo",
-          "owner": null,
+          "owner": "Codex/courtyard-integration",
           "depends_on": [
             "SR-XF-006-D02"
           ],
-          "evidence": [],
+          "evidence": [
+            "dist/ea-sr-spatial.mjs",
+            "docs/design/STATUS.md",
+            "qa/ea-sr-building-change-public-acceptance.mjs"
+          ],
           "blocked_reason": null
         },
         {
@@ -1226,11 +1554,16 @@
           "title": "验收与兼容",
           "description": "执行SR-XF-006-AC-01至AC-03及BUILD-04、SAVE-01；登记实际结果、兼容和设备证据边界。",
           "status": "todo",
-          "owner": null,
+          "owner": "Codex/courtyard-acceptance",
           "depends_on": [
             "SR-XF-006-I01"
           ],
-          "evidence": [],
+          "evidence": [
+            "qa/ea-indoor-furniture-acceptance.mjs",
+            "qa/ea-courtyard-life-acceptance.mjs",
+            "docs/design/STATUS.md",
+            "qa/ea-sr-building-change-public-acceptance.mjs"
+          ],
           "blocked_reason": null
         },
         {
@@ -1265,7 +1598,7 @@
         "SAVE-01"
       ],
       "blockers": [],
-      "acceptance_notes": "2026-10-06晚：本轮局部回归为UI/叙事/输入39/39、空间34/34（含9视口/DPR生产Canvas）和正常8设施5门人档9/9（11公开命令、2精确存读、真走8入口、rest实际到位、暂停不推进）。CUA浏览器工具当前不可调用，DOM鼠标/触屏/实机/FPS均未验收，旧浏览器证据不适用于新版。12类精细外立面与代码人物/室内尚有画风差距；0.6×0.9米床仅支持真实到场半坐歇息，成人卧躺未完成，闭屋后墙露出及两类田地显示已修复，最终生产Canvas快照已静态读图复核。既有passed AC保留原情景，整项不关闭；可试玩开发版gh-pages c0cb4038fd4a0d7536cbcfaf8755f22e10c01cb5已部署，任务37464500470 completed/success；本轮main源码上传待确认，不能据Pages成功标整项released。"
+      "acceptance_notes": "2026-10-07本地小院批次：成人家具/单位格/空间定向检查48/48（8/6/34），正常公开命令接受/拒绝邀请两路完成营造、产出搬运、研习、到床休息与迁建取消/续建；分别60命令/36次精确存读和61命令/37次精确存读。六身份卧姿与预约前提2/2，生产Canvas卧姿加载/只读/身体点选/缺图回退4/4，已读图。旧v5完成档40建筑30门人保留资源、时间和return结局，全部入口可达，二次存读一致。各SR仅登记适用子情景；完整AC、真机触摸/FPS和真人首次体验状态分别保留。 浏览器DPR1鼠标在1366×900、1180×820、820×1180点选床上掌门通过；正常推荐营造经Enter和鼠标确认、实际施工落成。一次动态模块加载失败经页面重载恢复同档，原因待定位。I/V证据为沿既有可用契约实施的本批子范围；完整D01/D02及I/V关闭门槛保持原状态。\n2026-10-08 M1 第十批：补验占床升级、劳动中拆除、足迹内携货原子拒绝/取消一次退款、足迹外在途货物迁建后送达，正式公开操作4/4、相关空间家具42/42。独立只读复核同意原三条AC继续passed；扩大升级占地和真机仍未覆盖。"
     },
     {
       "id": "SR-XF-007",
@@ -1294,7 +1627,8 @@
         "U-97",
         "R-27",
         "U-100",
-        "R-29"
+        "R-29",
+        "R-30"
       ],
       "source_specs": [
         "docs/design/01-CHARACTERS.md",
@@ -1303,8 +1637,8 @@
         "docs/design/14-EARLY-GAME-DETAILED-DESIGN.md",
         "docs/design/06-OPENING-ACCEPTANCE.md"
       ],
-      "baseline": "已有持久人物身份/外观配方与点选；本轮新增代码原生人物组合模块，读取同一模拟tick和实际活动/装备，正在同场集成。",
-      "design_gap": "人物肖像、场景/战斗的同身份对应、全活动动作和真实工具/装备辨识仍须浏览器及目标设备验收。",
+      "baseline": "沿用六列云岫人物及稳定spriteIndex/外观配方；真实床位休憩、书案研习和满包等候已按同一身份与身体活动投影静态姿态，缺图保留基础同身份人物和点选。",
+      "design_gap": "疗伤/劳动/斗法及等待/研习/休憩的完整连续动作与三人以上真人辨识体验仍待补齐和验收；当前静态姿态及回退不代表完整动画完成。",
       "design_deliverables": [
         "关键人物配方及普通人物可组合体型/脸/发型/主色/服饰目录。",
         "站立、行走、采集、种植、研习、休息、疗伤、施法、受击动作与工具对应表。",
@@ -1327,15 +1661,26 @@
           "id": "SR-XF-007-AC-02",
           "scenario": "换装备和切到战斗再返回",
           "expected": "身份特征稳定，武器/法器外观与实际实例对应。",
-          "status": "not_run",
-          "evidence": []
+          "status": "passed",
+          "evidence": [
+            "qa/ea-person-equipment-battle-acceptance.mjs",
+            "qa/ea-person-equipment-art-acceptance.mjs",
+            "dist/ea-life.mjs",
+            "dist/ea-ui.mjs",
+            "docs/design/STATUS.md"
+          ]
         },
         {
           "id": "SR-XF-007-AC-03",
           "scenario": "等待、睡眠和研习切换",
           "expected": "动作/工具/标签与权威状态一致，回退不冒充完整动作。",
-          "status": "not_run",
-          "evidence": []
+          "status": "passed",
+          "evidence": [
+            "qa/ea-person-activity-switch-acceptance.mjs",
+            "tests/ea-scene-ui.test.mjs",
+            "qa/ea-courtyard-rest-render-acceptance.mjs",
+            "docs/design/STATUS.md"
+          ]
         }
       ],
       "excluded": [
@@ -1346,7 +1691,31 @@
         "docs/requirements/design/SR-XF-007-011-019-026-027.md",
         "docs/requirements/IMPLEMENTATION-2026-10-06.md",
         "docs/design/03-SPATIAL-ART.md",
-        "docs/design/STATUS.md"
+        "docs/design/STATUS.md",
+        "dist/ea-character-art.mjs",
+        "dist/ea-courtyard-renderer.mjs",
+        "dist/assets/estate-v1/characters-rest-v1.png",
+        "qa/ea-courtyard-rest-render-acceptance.mjs",
+        "tests/ea-rest-pose.test.mjs",
+        "qa/ea-courtyard-life-acceptance.mjs",
+        "docs/CODEX-HANDOFF.md",
+        "asset-manifest.json",
+        "dist/ea-sr-persons.mjs",
+        "dist/ea-sr-economy.mjs",
+        "tests/ea-activity-truth.test.mjs",
+        "qa/ea-sr-economy-acceptance.mjs",
+        "qa/ea-sr-spatial-acceptance.mjs",
+        "dist/assets/estate-v1/characters-wait-study-v1.png",
+        "tests/ea-house-activity-art.test.mjs",
+        "dist/ea-sr-equipment.mjs",
+        "qa/ea-sr-integration-acceptance.mjs",
+        "qa/ea-indoor-activities-acceptance.mjs",
+        "dist/ea-life.mjs",
+        "tests/ea-scene-ui.test.mjs",
+        "qa/ea-person-activity-switch-acceptance.mjs",
+        "qa/ea-person-equipment-battle-acceptance.mjs",
+        "qa/ea-person-equipment-art-acceptance.mjs",
+        "dist/ea-ui.mjs"
       ],
       "change_log": [
         {
@@ -1368,6 +1737,34 @@
         {
           "date": "2026-10-07",
           "reason": "U-100固定2.5D、旧云岫人物/建筑资源接回正式U-99主线；R-29山院扩96米，旧64档先校验仅登记extentVersion。人物6/6、扩图9/9、单位格6/6与正常公开链局部通过，真实网页/发布另记STATUS；完整SR保持in_progress，不冒称全动画或全体验完成。"
+        },
+        {
+          "date": "2026-10-07",
+          "reason": "成人家具与现场交互本地批次：沿用六列云岫人物及稳定spriteIndex/外观配方。本批新增同六身份的真实静态仰卧素材；只有到床执行且持有对应预约时投影到床面，掉图保留同身份床边人物和点选。 已登记适用实现与独立复验证据，整体开发/验收保持in_progress，AC状态沿用已有范围。"
+        },
+        {
+          "date": "2026-10-07",
+          "reason": "2026-10-07活动事实局部修正：采集/补种因受伤、离位、低精力暂停时阶段记paused，画面为等候，不推进；自然采集第四批包裹满也暂停且不扣来源。定向测试覆盖伤势、低精力、包裹满、存读与恢复3/3，离位未逐项注入验收。人物投影asset限定为身份基础云岫画稿，卧床只列sceneAssetCandidate；实际床几何、脚点与加载由渲染决定，完整动作标记false。人物与卧姿11/11、空间34/34、经济52/52通过；三人辨识、全套动作、触屏及整项AC仍未通过。"
+        },
+        {
+          "date": "2026-10-07",
+          "reason": "M1 战斗共同身体或房屋/人物画稿首批局部实现与独立验收；整项原门槛未关闭。"
+        },
+        {
+          "date": "2026-10-07",
+          "reason": "M1 换装子链：山院、山外与战斗绘制统一按同一有效装备实例过滤定义、槽位、耐久及归属/借用；肖像同步使用该挂点，法器与配饰按真实定义显示不同形状。新档公开借剑同行返院10命令、5次精确存读至470世界步，身份与实例稳定；独立只读复核、空间34/34和画稿12/12通过。完整自然实战、浏览器视觉、真人辨识与专用动作仍待验，AC02及整项状态不提升。"
+        },
+        {
+          "date": "2026-10-07",
+          "reason": "M1 第七批修复实际研习与旧休憩字段冲突、到位前地点误述，并以公开命令和浏览器核对研习姿态/标签子范围；AC03 仍待完整动作/回退验收。"
+        },
+        {
+          "date": "2026-10-08",
+          "reason": "M1 第九批按原文通过 SR-XF-007-AC-03：同一掌门公开命令依次休憩、研习、满包等候，34/22/3660、37/23/3833、43/24/4416 三态各自精确存读；桌面浏览器画布点选、活动图集缺失回退及生产 Canvas 独立只读复核通过，定向 25/25。只证实静态姿态、工具、标签和回退真实；AC01/02、完整连续动作、真机/真人与整项 D/I/V/R 均未关闭。"
+        },
+        {
+          "date": "2026-10-08",
+          "reason": "M1 第十批 SR-XF-007-AC-02 独立复核通过：同一掌门以正式公开命令换衣、制作并装备护持小印、真实实战、结算返院，五阶段精确存读，装备实例与身份稳定；生产 Canvas 及隔离桌面浏览器复验。实战活动提示修正为临敌交锋。战场远景法器细节须结合来源档和生产画布核对；AC01、完整连续动作、真机/真人及整项 D/I/V/R 仍未关闭。"
         }
       ],
       "tasks": [
@@ -1401,11 +1798,26 @@
           "title": "开发与集成",
           "description": "在人物模块实现稳定人物外观、肖像与活动动作；交付SR-XF-007-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。",
           "status": "todo",
-          "owner": null,
+          "owner": "Codex/courtyard-integration",
           "depends_on": [
             "SR-XF-007-D02"
           ],
-          "evidence": [],
+          "evidence": [
+            "dist/ea-character-art.mjs",
+            "dist/ea-courtyard-renderer.mjs",
+            "dist/assets/estate-v1/characters-rest-v1.png",
+            "docs/design/STATUS.md",
+            "asset-manifest.json",
+            "dist/ea-sr-persons.mjs",
+            "dist/ea-sr-economy.mjs",
+            "tests/ea-activity-truth.test.mjs",
+            "qa/ea-sr-economy-acceptance.mjs",
+            "qa/ea-sr-spatial-acceptance.mjs",
+            "dist/ea-sr-equipment.mjs",
+            "qa/ea-sr-integration-acceptance.mjs",
+            "qa/ea-person-equipment-battle-acceptance.mjs",
+            "qa/ea-person-equipment-art-acceptance.mjs"
+          ],
           "blocked_reason": null
         },
         {
@@ -1414,11 +1826,25 @@
           "title": "验收与兼容",
           "description": "执行SR-XF-007-AC-01至AC-03及OPEN-02、ACT-01；登记实际结果、兼容和设备证据边界。",
           "status": "todo",
-          "owner": null,
+          "owner": "Codex/courtyard-acceptance",
           "depends_on": [
             "SR-XF-007-I01"
           ],
-          "evidence": [],
+          "evidence": [
+            "qa/ea-courtyard-rest-render-acceptance.mjs",
+            "tests/ea-rest-pose.test.mjs",
+            "qa/ea-courtyard-life-acceptance.mjs",
+            "docs/design/STATUS.md",
+            "dist/ea-sr-persons.mjs",
+            "dist/ea-sr-economy.mjs",
+            "tests/ea-activity-truth.test.mjs",
+            "qa/ea-sr-economy-acceptance.mjs",
+            "qa/ea-sr-spatial-acceptance.mjs",
+            "dist/ea-sr-equipment.mjs",
+            "qa/ea-sr-integration-acceptance.mjs",
+            "qa/ea-person-equipment-battle-acceptance.mjs",
+            "qa/ea-person-equipment-art-acceptance.mjs"
+          ],
           "blocked_reason": null
         },
         {
@@ -1453,7 +1879,7 @@
         "ACT-01"
       ],
       "blockers": [],
-      "acceptance_notes": "2026-10-06晚：本轮局部回归为UI/叙事/输入39/39、空间34/34（含9视口/DPR生产Canvas）和正常8设施5门人档9/9（11公开命令、2精确存读、真走8入口、rest实际到位、暂停不推进）。CUA浏览器工具当前不可调用，DOM鼠标/触屏/实机/FPS均未验收，旧浏览器证据不适用于新版。12类精细外立面与代码人物/室内尚有画风差距；0.6×0.9米床仅支持真实到场半坐歇息，成人卧躺未完成，闭屋后墙露出及两类田地显示已修复，最终生产Canvas快照已静态读图复核。既有passed AC保留原情景，整项不关闭；可试玩开发版gh-pages c0cb4038fd4a0d7536cbcfaf8755f22e10c01cb5已部署，任务37464500470 completed/success；本轮main源码上传待确认，不能据Pages成功标整项released。"
+      "acceptance_notes": "2026-10-07本地小院批次：成人家具/单位格/空间定向检查48/48（8/6/34），正常公开命令接受/拒绝邀请两路完成营造、产出搬运、研习、到床休息与迁建取消/续建；分别60命令/36次精确存读和61命令/37次精确存读。六身份卧姿与预约前提2/2，生产Canvas卧姿加载/只读/身体点选/缺图回退4/4，已读图。旧v5完成档40建筑30门人保留资源、时间和return结局，全部入口可达，二次存读一致。各SR仅登记适用子情景；完整AC、真机触摸/FPS和真人首次体验状态分别保留。 浏览器DPR1鼠标在1366×900、1180×820、820×1180点选床上掌门通过；正常推荐营造经Enter和鼠标确认、实际施工落成。一次动态模块加载失败经页面重载恢复同档，原因待定位。I/V证据为沿既有可用契约实施的本批子范围；完整D01/D02及I/V关闭门槛保持原状态。 2026-10-07活动事实局部修正：采集/补种因受伤、离位、低精力暂停时阶段记paused，画面为等候，不推进；自然采集第四批包裹满也暂停且不扣来源。定向测试覆盖伤势、低精力、包裹满、存读与恢复3/3，离位未逐项注入验收。人物投影asset限定为身份基础云岫画稿，卧床只列sceneAssetCandidate；实际床几何、脚点与加载由渲染决定，完整动作标记false。人物与卧姿11/11、空间34/34、经济52/52通过；三人辨识、全套动作、触屏及整项AC仍未通过。\n\n2026-10-07 M1 首批人物画稿：沿既有六身份图集新增各自等待立姿与持书研习坐姿；沿权威活动与原 personId 选图，缺图回退原身份画稿。定向资产/人物/卧姿/界面 21/21；六身份静态图集已读图。疗伤、劳动、施法、受击和战斗连续动作、三人真人辨识及换装往返仍未验，AC 与 D/I/V/R 保持原状态。\n独立只读复核已确认首批三项房屋接缝修复：显示与点选同阶段、迁建旧址不误显升级、错尺寸图集回退；定向重跑 22/22，仍不等于完整 AC。\n2026-10-07 独立浏览器仅内存试读五人正常档：暂停同一第62日场景，画布分别点选程问舟、温南星、林长风三名门人，侧卡身份与休憩/候位等当前活动一致，主屋床位列表列出实际预约者。此为指定点选与事实标签子范围；尚无真人盲辨外观/肖像，也未核对三人全动作和换装实战，因此AC01–03均保持not_run。\n2026-10-07 M1 第七批研习子情景：sr-cultivation 订单执行时取真实身体活动/书案/进度驱动姿态、掌门状态及详情，旧休憩字段不再覆盖；到位前显示前往研习位置。公开命令 + 精确存读的生产 Canvas 及桌面浏览器画面/点选通过，scene UI 9/9。等待、睡眠、专用完整动作和回退矩阵未由本批覆盖，AC03 仍 not_run，整项 SR007 不提升。\n2026-10-08 M1 第十批：AC02 由独立只读复核按原文通过。五份公开命令来源档精确存读，同一掌门换衣、真实制作装备法器、实战及返院；生产画布和隔离桌面浏览器核对身份与实际实例挂点，战斗活动提示按真实状态显示。战场远景法器细节需结合生产画布与状态；真机/真人及整项仍未关闭。"
     },
     {
       "id": "SR-XF-008",
@@ -1503,22 +1929,38 @@
           "id": "SR-XF-008-AC-01",
           "scenario": "重复邀请同条件NPC",
           "expected": "接受结果不靠点击重掷；条件变化后才合法重评估。",
-          "status": "not_run",
-          "evidence": []
+          "status": "passed",
+          "evidence": [
+            "qa/ea-sr-008-invite-public-acceptance.mjs",
+            "dist/ea-sr-persons.mjs",
+            "dist/ea-sr-ui.mjs",
+            "docs/design/STATUS.md"
+          ]
         },
         {
           "id": "SR-XF-008-AC-02",
           "scenario": "五人竞争两个工位",
           "expected": "两人实际执行，其他等待或改做其他事，入口不叠人假生产。",
-          "status": "not_run",
-          "evidence": []
+          "status": "passed",
+          "evidence": [
+            "qa/ea-sr-008-five-workers-public-acceptance.mjs",
+            "dist/ea-ui.mjs",
+            "dist/ea-sr-persons.mjs",
+            "docs/design/STATUS.md"
+          ]
         },
         {
           "id": "SR-XF-008-AC-03",
           "scenario": "出行或受伤打断工作",
           "expected": "生产停止，预约合理释放；恢复先重验身体、目标和材料。",
-          "status": "not_run",
-          "evidence": []
+          "status": "passed",
+          "evidence": [
+            "qa/ea-sr-008-travel-interrupt-public-acceptance.mjs",
+            "qa/ea-sr-008-material-interrupt-public-acceptance.mjs",
+            "qa/ea-sr-008-injury-interrupt-acceptance.mjs",
+            "dist/ea-facility-activities.mjs",
+            "docs/design/STATUS.md"
+          ]
         }
       ],
       "excluded": [
@@ -1527,7 +1969,13 @@
       ],
       "evidence": [
         "docs/requirements/design/SR-XF-007-011-019-026-027.md",
-        "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+        "docs/requirements/IMPLEMENTATION-2026-10-06.md",
+        "qa/ea-sr-008-invite-public-acceptance.mjs",
+        "dist/ea-sr-persons.mjs",
+        "dist/ea-sr-ui.mjs",
+        "docs/design/STATUS.md",
+        "qa/ea-sr-008-five-workers-public-acceptance.mjs",
+        "dist/ea-ui.mjs"
       ],
       "change_log": [
         {
@@ -1537,6 +1985,14 @@
         {
           "date": "2026-10-06",
           "reason": "用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。"
+        },
+        {
+          "date": "2026-10-08",
+          "reason": "M2 首批按原文通过 SR-XF-008-AC-01：正常开局公开邀请、同条件重复不重掷、停用后拒绝、恢复后重评估与实际工位执行；五阶段 33–41 正式命令、22–26 次精确存读。修正管理页同世界步旧日程理由/承诺计时误报，独立根 Agent 复跑公开链、审读实现及隔离桌面浏览器接受/停用页面。AC02/03、完整日程职责设计与整项 D/I/V/R 未关闭。"
+        },
+        {
+          "date": "2026-10-08",
+          "reason": "2026-10-08 M2 五人两工位验收：正常新档 128 条公开命令招至五人、建居舍并三趟搬运腾出木材缓存；五人分别获邀，两人实际占独立伐木工位，两人各在门外独立点等候，一人自主休憩；第28批仅两名执行者记贡献、只一条产出事实且库存增量等于产量。根 Agent 复跑1/1并看隔离桌面浏览器的执行者、等候者、建筑2/2三张截图；修正侧卡从投影人物误读旧休憩为真实身体活动。AC02 passed，真iPadOS/真人、AC03和整项门槛未关闭。"
         }
       ],
       "tasks": [
@@ -1574,7 +2030,12 @@
           "depends_on": [
             "SR-XF-008-D02"
           ],
-          "evidence": [],
+          "evidence": [
+            "qa/ea-sr-008-invite-public-acceptance.mjs",
+            "dist/ea-sr-persons.mjs",
+            "dist/ea-sr-ui.mjs",
+            "docs/design/STATUS.md"
+          ],
           "blocked_reason": null
         },
         {
@@ -1587,7 +2048,12 @@
           "depends_on": [
             "SR-XF-008-I01"
           ],
-          "evidence": [],
+          "evidence": [
+            "qa/ea-sr-008-invite-public-acceptance.mjs",
+            "dist/ea-sr-persons.mjs",
+            "dist/ea-sr-ui.mjs",
+            "docs/design/STATUS.md"
+          ],
           "blocked_reason": null
         },
         {
@@ -1621,7 +2087,8 @@
         "SLOT-01",
         "ECON-04"
       ],
-      "blockers": []
+      "blockers": [],
+      "acceptance_notes": "\n2026-10-08 M2 首批：SR008-AC01 公开命令五阶段 accepted/repeated/unavailable/renewed/working 精确存读与原生导入一致；管理页在接受和停用同 tick 显示当前公开原因与有效承诺，浏览器独立只读导入核对。根 Agent 复跑 1/1，相关界面10/10、经济52/52。AC02/03和整项门槛仍未完成。\n2026-10-08 M2 五人两工位验收：正常新档 128 条公开命令招至五人、建居舍并三趟搬运腾出木材缓存；五人分别获邀，两人实际占独立伐木工位，两人各在门外独立点等候，一人自主休憩；第28批仅两名执行者记贡献、只一条产出事实且库存增量等于产量。根 Agent 复跑1/1并看隔离桌面浏览器的执行者、等候者、建筑2/2三张截图；修正侧卡从投影人物误读旧休憩为真实身体活动。AC02 passed，真iPadOS/真人、AC03和整项门槛未关闭。"
     },
     {
       "id": "SR-XF-009",
@@ -1673,22 +2140,35 @@
           "id": "SR-XF-009-AC-01",
           "scenario": "无人/缺料/在途期间推进世界",
           "expected": "对应工序不产出，状态原因与库存一致。",
-          "status": "not_run",
-          "evidence": []
+          "status": "passed",
+          "evidence": [
+            "qa/ea-sr-009-production-gates-public-acceptance.mjs",
+            "dist/ea-sr-economy.mjs",
+            "dist/ea-sr-ui.mjs",
+            "docs/design/STATUS.md"
+          ]
         },
         {
           "id": "SR-XF-009-AC-02",
           "scenario": "多人协作完成一批并重载",
           "expected": "只产出规定数量，成本、技能与记忆按同一结果结算。",
-          "status": "not_run",
-          "evidence": []
+          "status": "passed",
+          "evidence": [
+            "qa/ea-sr-009-shared-batch-public-acceptance.mjs",
+            "dist/ea-sr-economy.mjs",
+            "docs/design/STATUS.md"
+          ]
         },
         {
           "id": "SR-XF-009-AC-03",
           "scenario": "取消加工或原料被其他订单预留",
           "expected": "区分可用/预留/已用量，余料返还一次且可继续其他合法活动。",
-          "status": "not_run",
-          "evidence": []
+          "status": "passed",
+          "evidence": [
+            "qa/ea-sr-009-reservation-competition-public-acceptance.mjs",
+            "qa/ea-sr-009-cancel-public-acceptance.mjs",
+            "docs/design/STATUS.md"
+          ]
         }
       ],
       "excluded": [
@@ -1697,7 +2177,19 @@
       ],
       "evidence": [
         "docs/requirements/design/SR-XF-007-011-019-026-027.md",
-        "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+        "docs/requirements/IMPLEMENTATION-2026-10-06.md",
+        "dist/ea-sr-economy.mjs",
+        "dist/ea-sr-persons.mjs",
+        "tests/ea-activity-truth.test.mjs",
+        "qa/ea-sr-economy-acceptance.mjs",
+        "tests/ea-merchant-idle-recovery.test.mjs",
+        "qa/ea-sr-integration-acceptance.mjs",
+        "docs/design/STATUS.md",
+        "qa/ea-sr-009-production-gates-public-acceptance.mjs",
+        "dist/ea-sr-ui.mjs",
+        "qa/ea-sr-009-shared-batch-public-acceptance.mjs",
+        "qa/ea-sr-009-reservation-competition-public-acceptance.mjs",
+        "qa/ea-sr-009-cancel-public-acceptance.mjs"
       ],
       "change_log": [
         {
@@ -1715,6 +2207,30 @@
         {
           "date": "2026-10-06",
           "reason": "U-99将细网格更正为建筑单位格；R-28作者默认2米/格，一级伐木采石2×2、主屋4×4，导航仍0.5米连续移动。整格预制件、显示、摆放、冲突、工位与旧档一次映射共同调整；局部验证和发布分别登记，不关闭整项SR。"
+        },
+        {
+          "date": "2026-10-07",
+          "reason": "2026-10-07局部修正：掌门采集与有限来源恢复在受伤、离位或低精力时明确paused，不再保留working伪装劳动；包裹满的采集也暂停而不扣有限来源。公开命令定向覆盖伤势、低精力、自然四批包裹满、精确存读与恢复3/3，离位分支尚未单独验证；经济52/52通过。完整配方/产能和SR-XF-009各AC仍未关闭。"
+        },
+        {
+          "date": "2026-10-07",
+          "reason": "修复商人空闲精力门槛造成的正常工坊收货停滞，独立检查同场恢复、真实付款/收货及存读守恒；完整AC状态不变。"
+        },
+        {
+          "date": "2026-10-07",
+          "reason": "M1 灵泉正常生产子链：世界步439776有来源建泉，独立复核先运粮、门人自愿接工，再至440710产晶6.8432并留生产事实；掌门公开搬运6晶至公库且交付事实守恒。仅覆盖此生产/供给局部，完整AC与整项门槛保持原状。"
+        },
+        {
+          "date": "2026-10-08",
+          "reason": "2026-10-08 M2 有限工序验收：根 Agent 独立复跑 SR-XF-009-AC-01 正常公开命令来源档三场景 3/3；无人实际执行时旧批次不前进，工位缺料虽公库有货仍拒绝邀请，木材预约/取货/在途不进入工位库存或产出，送达后才可用。各关键点精确存读，生产管理 HTML 与位置库存/公开原因同源。此 AC 按原文 passed；未做浏览器/真机，AC02/03、配方设计和整项 D/I/V/R 未关闭。"
+        },
+        {
+          "date": "2026-10-08",
+          "reason": "2026-10-08 M2 两人一批验收：正常百工坊公开来源档续实物木3石2搬入、两人自愿到双工位；第1批贡献110/90，唯一生产事实、一次木石成本、买方实付20.220271868159998、现场入账19.420271868159997、两人总工资0.8及各按贡献技能增长同一结果。修复成功结算后缺少个人记忆，每人记一条以事实ID关联的持久公开记忆，失败试算/重载后30步无重复。根 Agent 复跑定向1/1及经济52/52，按原文 AC02 passed。证据为 Node 公开命令链，浏览器/真机、AC03与整项门槛未关闭。"
+        },
+        {
+          "date": "2026-10-08",
+          "reason": "独立复核取消加工和其他订单预留竞争两条有来源公开命令链各1/1，余料、占用、重复取消和恢复活动守恒，按原文将 SR009-AC03 记 passed；整项设计/验收仍未收口。"
         }
       ],
       "tasks": [
@@ -1752,7 +2268,12 @@
           "depends_on": [
             "SR-XF-009-D02"
           ],
-          "evidence": [],
+          "evidence": [
+            "dist/ea-sr-economy.mjs",
+            "dist/ea-sr-persons.mjs",
+            "tests/ea-activity-truth.test.mjs",
+            "qa/ea-sr-economy-acceptance.mjs"
+          ],
           "blocked_reason": null
         },
         {
@@ -1765,7 +2286,14 @@
           "depends_on": [
             "SR-XF-009-I01"
           ],
-          "evidence": [],
+          "evidence": [
+            "dist/ea-sr-economy.mjs",
+            "dist/ea-sr-persons.mjs",
+            "tests/ea-activity-truth.test.mjs",
+            "qa/ea-sr-economy-acceptance.mjs",
+            "qa/ea-sr-integration-acceptance.mjs",
+            "docs/design/STATUS.md"
+          ],
           "blocked_reason": null
         },
         {
@@ -1800,7 +2328,8 @@
         "ECON-02",
         "OPEN-06"
       ],
-      "blockers": []
+      "blockers": [],
+      "acceptance_notes": " 2026-10-07局部修正：掌门采集与有限来源恢复在受伤、离位或低精力时明确paused，不再保留working伪装劳动；包裹满的采集也暂停而不扣有限来源。公开命令定向覆盖伤势、低精力、自然四批包裹满、精确存读与恢复3/3，离位分支尚未单独验证；经济52/52通过。完整配方/产能和SR-XF-009各AC仍未关闭。\n2026-10-07 M1正常成长链阻断修复：有来源正常档 tick404450 的商人精力9.706低于工坊收货门槛10，空闲长期不恢复，真实工序停在190/200。现在商人仅在院/坊市始末同场且无身体活动时每世界tick恢复0.3；出行或收货中不恢复。定向3/3、经济52/52；独立只读复核从该正常档克隆1200 tick内见两批实物收货/分别付款64.1923331328及64.503802176，商人减少与工坊增加逐笔相等，生产工资0.8另按公库和人物钱袋守恒；600 tick完整存读逐字一致。仅局部Node证据，不提升原AC或完整D/I/V/R。\n2026-10-08 M2 有限工序验收：根 Agent 独立复跑 SR-XF-009-AC-01 正常公开命令来源档三场景 3/3；无人实际执行时旧批次不前进，工位缺料虽公库有货仍拒绝邀请，木材预约/取货/在途不进入工位库存或产出，送达后才可用。各关键点精确存读，生产管理 HTML 与位置库存/公开原因同源。此 AC 按原文 passed；未做浏览器/真机，AC02/03、配方设计和整项 D/I/V/R 未关闭。\n2026-10-08 M2 两人一批验收：正常百工坊公开来源档续实物木3石2搬入、两人自愿到双工位；第1批贡献110/90，唯一生产事实、一次木石成本、买方实付20.220271868159998、现场入账19.420271868159997、两人总工资0.8及各按贡献技能增长同一结果。修复成功结算后缺少个人记忆，每人记一条以事实ID关联的持久公开记忆，失败试算/重载后30步无重复。根 Agent 复跑定向1/1及经济52/52，按原文 AC02 passed。证据为 Node 公开命令链，浏览器/真机、AC03与整项门槛未关闭。\n2026-10-08 M2 AC03：有来源百工坊活跃批次部分加工30/200，取消只退现场未用木2.55/石1.7、重复取消无变化，后续掌门可采石；另一有来源档中运输订单预留工位仅有木3后，第二生产邀请以缺料拒绝，取消运输原位返木一次，随后真实门人可开批。两条公开命令 Node 链各1/1、多阶段精确存读，独立只读复核通过；未据此宣布浏览器/真机或完整 SR009 通过。\n2026-10-08 同两份有来源公开命令工坊档复验 SR009-AC01/02：新档 187 命令、100 次存读、tick32157，旧有效档 208/109、tick31820；两档各 4/4。验收按真实门人到位、商人行程与物流交付判定，不依赖固定世界步或指定门人。新档两人贡献110/90，商人付款与现场产出均28.7743092，0.8工资由公库支付；旧档两人贡献110/90，付款20.22027186816，现场19.42027186816，0.8工资从批次收入支付。均一次结算、记忆关联唯一且精确存读。此次只修订 QA 的时序假设，现有 AC01/02 passed 不改判，整项 D/I/V/R 仍待。"
     },
     {
       "id": "SR-XF-010",
@@ -1810,7 +2339,7 @@
       "group": "经营",
       "priority": "P0",
       "iteration": "I1",
-      "design_status": "draft",
+      "design_status": "ready",
       "development_status": "in_progress",
       "acceptance_status": "in_progress",
       "release_status": "not_released_for_this_sr",
@@ -1849,22 +2378,39 @@
           "id": "SR-XF-010-AC-01",
           "scenario": "从仓库搬料到工地",
           "expected": "库存与在途逐段守恒，到场交付后才供合法工序使用。",
-          "status": "not_run",
-          "evidence": []
+          "status": "passed",
+          "evidence": [
+            "qa/ea-sr-010-construction-logistics-public-acceptance.mjs",
+            "qa/ea-sr-building-change-public-acceptance.mjs",
+            "dist/ea-sr-spatial.mjs",
+            "dist/ea-sr-economy.mjs",
+            "docs/design/STATUS.md"
+          ]
         },
         {
           "id": "SR-XF-010-AC-02",
           "scenario": "路断/搬运者受伤后取消与重载",
           "expected": "材料留在有记录位置或走明确恢复事务，不丢失不重复返还。",
-          "status": "not_run",
-          "evidence": []
+          "status": "passed",
+          "evidence": [
+            "qa/ea-sr-010-transport-interrupt-public-acceptance.mjs",
+            "qa/ea-sr-010-construction-logistics-public-acceptance.mjs",
+            "dist/ea-sr-economy.mjs",
+            "docs/design/STATUS.md"
+          ]
         },
         {
           "id": "SR-XF-010-AC-03",
           "scenario": "赠予、借用和公库竞争",
           "expected": "权限与所有权正确，一份预留不能被第二订单消费。",
-          "status": "not_run",
-          "evidence": []
+          "status": "passed",
+          "evidence": [
+            "qa/ea-sr-010-property-public-acceptance.mjs",
+            "qa/ea-sr-growth-acceptance.mjs",
+            "dist/ea-sr-economy.mjs",
+            "dist/ea-sr-equipment.mjs",
+            "docs/design/STATUS.md"
+          ]
         }
       ],
       "excluded": [
@@ -1873,7 +2419,17 @@
       ],
       "evidence": [
         "docs/requirements/design/SR-XF-007-011-019-026-027.md",
-        "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+        "docs/requirements/IMPLEMENTATION-2026-10-06.md",
+        "dist/ea-sr-economy.mjs",
+        "qa/ea-sr-economy-acceptance.mjs",
+        "qa/ea-sr-010-construction-logistics-public-acceptance.mjs",
+        "qa/ea-sr-building-change-public-acceptance.mjs",
+        "dist/ea-sr-spatial.mjs",
+        "docs/design/STATUS.md",
+        "qa/ea-sr-010-property-public-acceptance.mjs",
+        "qa/ea-sr-growth-acceptance.mjs",
+        "dist/ea-sr-equipment.mjs",
+        "qa/ea-sr-010-study-budget-contract-acceptance.mjs"
       ],
       "change_log": [
         {
@@ -1883,6 +2439,30 @@
         {
           "date": "2026-10-06",
           "reason": "用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。"
+        },
+        {
+          "date": "2026-10-07",
+          "reason": "M1 正常成长链定位掌门实物搬运完成后路线已清而 action 仍为 walk，下一正式命令被存档校验拒绝；结束/取消搬运只在本人物持有对应活动时复位残留行走。经济定向52/52通过，独立只读复核另查取料前和携带中取消4/4及精确存读。此为局部稳定性修复，AC及整项状态不提升。"
+        },
+        {
+          "date": "2026-10-08",
+          "reason": "2026-10-08 M2 工地物流缺口复现：正常公开疗伤后在世界步200营造灵草田，下单同刻公库木65→40、石45→35，有逻辑材料预约但无工地位置库存或搬运批次；前后精确存读档在 /tmp/immortal-m2-sr010-gap。SR010-AC01 保持 not_run，待补材料实际到场/逐段守恒并复核现有营造与旧档。"
+        },
+        {
+          "date": "2026-10-08",
+          "reason": "新施工材料流按主屋预留、携带、工地、安装分段守恒，取消实物返仓后退款一次，兼容旧在建档；独立复核 AC01 正常公开链和界面后记 passed，AC02/03 保留。"
+        },
+        {
+          "date": "2026-10-08",
+          "reason": "M2 第八批：公开赠药、同所有者搬运、跨所有者私财拒绝、内部自主取公药、实际步行归还原借剑及公库末批竞争按 AC03 原文复验；公开权限 6/6，装备成长 45/45，精确存读通过。AC03 passed；完整 D/I/V/R 与网页真机仍待。"
+        },
+        {
+          "date": "2026-10-08",
+          "reason": "SR010-D01 仓位/容量/归属与最小计量、搬运状态和失败恢复、施工四处守恒、生产/迁建及公私权限已写入当前设计小节，根 Agent 对照原 D01 交付项与当前配置独立审阅，记 D01 done。D02 跨规格差异另行处理，设计整体仍 draft。"
+        },
+        {
+          "date": "2026-10-08",
+          "reason": "独立跨规格复核完成：道韵预算与运输边界、施工取消返料、仓位归属位置校验和公库容量结算已统一；旧档保留原值与在途单。"
         }
       ],
       "tasks": [
@@ -1891,10 +2471,16 @@
           "phase": "D01",
           "title": "设计补齐",
           "description": "交付：stockpile位置、容量、拥有者/保管者和资源最小单位表。；取料、携带、在途、交付、损失与归还的运输状态机及批量。；与施工/生产预约接口、公私账本、取消与迁建中的库存恢复。；填实必需参数并标记U/R/T来源。",
-          "status": "in_progress",
+          "status": "done",
           "owner": "Codex/economy_people",
           "depends_on": [],
-          "evidence": [],
+          "evidence": [
+            "docs/requirements/design/SR-XF-007-011-019-026-027.md",
+            "docs/design/05-RUNTIME-CONTRACTS.md",
+            "dist/ea-sr-economy.mjs",
+            "dist/ea-sr-spatial.mjs",
+            "dist/ea-sr-equipment.mjs"
+          ],
           "blocked_reason": null
         },
         {
@@ -1902,12 +2488,17 @@
           "phase": "D02",
           "title": "契约与内容审阅",
           "description": "审阅位置库存、搬运与公私账本与依赖契约（SR-XF-002、SR-XF-003、SR-XF-009）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。",
-          "status": "todo",
-          "owner": null,
+          "status": "done",
+          "owner": "Codex/root",
           "depends_on": [
             "SR-XF-010-D01"
           ],
-          "evidence": [],
+          "evidence": [
+            "docs/requirements/design/SR-XF-007-011-019-026-027.md",
+            "qa/ea-sr-010-study-budget-contract-acceptance.mjs",
+            "qa/ea-sr-010-construction-logistics-public-acceptance.mjs",
+            "dist/ea-sr-economy.mjs"
+          ],
           "blocked_reason": null
         },
         {
@@ -1920,7 +2511,10 @@
           "depends_on": [
             "SR-XF-010-D02"
           ],
-          "evidence": [],
+          "evidence": [
+            "dist/ea-sr-economy.mjs",
+            "qa/ea-sr-economy-acceptance.mjs"
+          ],
           "blocked_reason": null
         },
         {
@@ -1933,7 +2527,10 @@
           "depends_on": [
             "SR-XF-010-I01"
           ],
-          "evidence": [],
+          "evidence": [
+            "dist/ea-sr-economy.mjs",
+            "qa/ea-sr-economy-acceptance.mjs"
+          ],
           "blocked_reason": null
         },
         {
@@ -1967,7 +2564,8 @@
         "ECON-02",
         "ECON-03"
       ],
-      "blockers": []
+      "blockers": [],
+      "acceptance_notes": "\n2026-10-08 M2 工地物流缺口复现：正常公开疗伤后在世界步200营造灵草田，下单同刻公库木65→40、石45→35，有逻辑材料预约但无工地位置库存或搬运批次；前后精确存读档在 /tmp/immortal-m2-sr010-gap。SR010-AC01 保持 not_run，待补材料实际到场/逐段守恒并复核现有营造与旧档。\n2026-10-08 M2 AC01：正常公开灵草田档在主屋预留、掌门携料、工地交付、安装和完工各阶段木石数量守恒；交付前进度0，取消后材料实际返仓才一次退款，旧无材料流在建档保留原结算。定向7/7、空间34/34、相关场景UI10/10、升级/迁建/拆除公开回归4/4；独立只读复核施工条真实阶段/百分比。隔离桌面浏览器另确认建成和在途取消返仓。受伤/断路仅故障注入，AC02/03和整项仍未完成。\n2026-10-08 M2 AC03：公开命令来源的赠药与入宗、同所有者私仓搬运、远程赠物绕行拒绝；隔离医疗触发后内部只取公药一剂，公开命令不可伪造。原借剑由借物人实际走到主屋公库，抵达后 30 世界步完成同一实例归还；公库末 40 木只准一单预约。各阶段精确存读，权限专项6/6、装备成长回归45/45；医药伤势为标注的注入，网页真机未验，整项 D/I/V/R 不关闭。"
     },
     {
       "id": "SR-XF-011",
@@ -2041,7 +2639,9 @@
       ],
       "evidence": [
         "docs/requirements/design/SR-XF-007-011-019-026-027.md",
-        "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+        "docs/requirements/IMPLEMENTATION-2026-10-06.md",
+        "dist/ea-sr-economy.mjs",
+        "tests/ea-merchant-idle-recovery.test.mjs"
       ],
       "change_log": [
         {
@@ -2051,6 +2651,10 @@
         {
           "date": "2026-10-06",
           "reason": "用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。"
+        },
+        {
+          "date": "2026-10-07",
+          "reason": "修复商人空闲精力门槛造成的正常工坊收货停滞，独立检查同场恢复、真实付款/收货及存读守恒；完整AC状态不变。"
         }
       ],
       "tasks": [
@@ -2135,7 +2739,8 @@
         "ECON-03",
         "EQ-02"
       ],
-      "blockers": []
+      "blockers": [],
+      "acceptance_notes": "\n2026-10-07 M1正常成长链阻断修复：有来源正常档 tick404450 的商人精力9.706低于工坊收货门槛10，空闲长期不恢复，真实工序停在190/200。现在商人仅在院/坊市始末同场且无身体活动时每世界tick恢复0.3；出行或收货中不恢复。定向3/3、经济52/52；独立只读复核从该正常档克隆1200 tick内见两批实物收货/分别付款64.1923331328及64.503802176，商人减少与工坊增加逐笔相等，生产工资0.8另按公库和人物钱袋守恒；600 tick完整存读逐字一致。仅局部Node证据，不提升原AC或完整D/I/V/R。"
     },
     {
       "id": "SR-XF-012",
@@ -5195,7 +5800,8 @@
         "U-97",
         "R-27",
         "U-100",
-        "R-29"
+        "R-29",
+        "R-30"
       ],
       "source_specs": [
         "docs/design/01-CHARACTERS.md",
@@ -5203,8 +5809,8 @@
         "docs/design/06-OPENING-ACCEPTANCE.md",
         "docs/design/14-EARLY-GAME-DETAILED-DESIGN.md"
       ],
-      "baseline": "已有统一命令入口和管理页；本轮接入折叠剧情栏、紧凑对象侧卡、SR到达地点/天气同步、筑基目标修正和当地实际交互。",
-      "design_gap": "新场景下鼠标/iPad触控、遮挡重叠选人、输入焦点、营造及存档恢复尚需整体浏览器/设备核对。",
+      "baseline": "建筑侧卡按预制件显示床位、作业位、研习位及当前占用；现场及重叠人物使用同身份头像入口。pointerup补验移动距离，拖动放开保持拖动语义；推荐营造确认消费正式返回字段。推荐营造说明使用稳定布局，指针离开画布后确认按钮仍可点击。",
+      "design_gap": "完整鼠标/iPad触控、遮挡/重叠选人、输入焦点、所有新系统失败恢复仍需整体网页及目标设备核对。",
       "design_deliverables": [
         "掌门移动/点选/重叠/遮挡/营造的统一鼠标触控语义与防误操作。",
         "每个新系统的主目标、条件、确认、取消、等待、失败、恢复和帮助流程。",
@@ -5246,7 +5852,17 @@
         "docs/requirements/design/SR-XF-029-032-034.md",
         "docs/requirements/IMPLEMENTATION-2026-10-06.md",
         "docs/design/03-SPATIAL-ART.md",
-        "docs/design/STATUS.md"
+        "docs/design/STATUS.md",
+        "dist/ea-ui.mjs",
+        "dist/map-input.mjs",
+        "dist/ea-game.mjs",
+        "tests/ea-scene-ui.test.mjs",
+        "tests/map-input.test.mjs",
+        "qa/ea-courtyard-rest-render-acceptance.mjs",
+        "docs/CODEX-HANDOFF.md",
+        "dist/ea.css",
+        "dist/ea-courtyard-renderer.mjs",
+        "qa/ea-sr-spatial-acceptance.mjs"
       ],
       "change_log": [
         {
@@ -5272,6 +5888,14 @@
         {
           "date": "2026-10-07",
           "reason": "U-100固定2.5D、旧云岫人物/建筑资源接回正式U-99主线；R-29山院扩96米，旧64档先校验仅登记extentVersion。人物6/6、扩图9/9、单位格6/6与正常公开链局部通过，真实网页/发布另记STATUS；完整SR保持in_progress，不冒称全动画或全体验完成。"
+        },
+        {
+          "date": "2026-10-07",
+          "reason": "成人家具与现场交互本地批次：建筑侧卡按预制件显示床位、作业位、研习位及当前占用；现场及重叠人物使用同身份头像入口。pointerup补验移动距离，拖动放开保持拖动语义；推荐营造确认消费正式返回字段。 已登记适用实现与独立复验证据，整体开发/验收保持in_progress，AC状态沿用已有范围。 推荐营造按钮的指针离开布局变化已修复并由实际鼠标复验。"
+        },
+        {
+          "date": "2026-10-07",
+          "reason": "M0/M1 接续批完成局部设计、修复和独立复核；具体通过范围与缺口见 acceptance_notes 和 STATUS。整项 D/I/V/R 及 AC 状态保持原门槛。"
         }
       ],
       "tasks": [
@@ -5305,11 +5929,18 @@
           "title": "开发与集成",
           "description": "在体验模块实现统一操作流程、窄屏与人物触控；交付SR-XF-029-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。",
           "status": "todo",
-          "owner": null,
+          "owner": "Codex/courtyard-integration",
           "depends_on": [
             "SR-XF-029-D02"
           ],
-          "evidence": [],
+          "evidence": [
+            "dist/ea-ui.mjs",
+            "dist/map-input.mjs",
+            "dist/ea-game.mjs",
+            "docs/design/STATUS.md",
+            "dist/ea.css",
+            "dist/ea-courtyard-renderer.mjs"
+          ],
           "blocked_reason": null
         },
         {
@@ -5318,11 +5949,17 @@
           "title": "验收与兼容",
           "description": "执行SR-XF-029-AC-01至AC-03及INPUT-01、INPUT-02、OPEN-10；登记实际结果、兼容和设备证据边界。",
           "status": "todo",
-          "owner": null,
+          "owner": "Codex/courtyard-acceptance",
           "depends_on": [
             "SR-XF-029-I01"
           ],
-          "evidence": [],
+          "evidence": [
+            "tests/ea-scene-ui.test.mjs",
+            "tests/map-input.test.mjs",
+            "qa/ea-courtyard-rest-render-acceptance.mjs",
+            "docs/design/STATUS.md",
+            "qa/ea-sr-spatial-acceptance.mjs"
+          ],
           "blocked_reason": null
         },
         {
@@ -5358,7 +5995,7 @@
         "OPEN-10"
       ],
       "blockers": [],
-      "acceptance_notes": "2026-10-06晚：本轮局部回归为UI/叙事/输入39/39、空间34/34（含9视口/DPR生产Canvas）和正常8设施5门人档9/9（11公开命令、2精确存读、真走8入口、rest实际到位、暂停不推进）。CUA浏览器工具当前不可调用，DOM鼠标/触屏/实机/FPS均未验收，旧浏览器证据不适用于新版。12类精细外立面与代码人物/室内尚有画风差距；0.6×0.9米床仅支持真实到场半坐歇息，成人卧躺未完成，闭屋后墙露出及两类田地显示已修复，最终生产Canvas快照已静态读图复核。既有passed AC保留原情景，整项不关闭；可试玩开发版gh-pages c0cb4038fd4a0d7536cbcfaf8755f22e10c01cb5已部署，任务37464500470 completed/success；本轮main源码上传待确认，不能据Pages成功标整项released。"
+      "acceptance_notes": "2026-10-07本地小院批次：成人家具/单位格/空间定向检查48/48（8/6/34），正常公开命令接受/拒绝邀请两路完成营造、产出搬运、研习、到床休息与迁建取消/续建；分别60命令/36次精确存读和61命令/37次精确存读。六身份卧姿与预约前提2/2，生产Canvas卧姿加载/只读/身体点选/缺图回退4/4，已读图。旧v5完成档40建筑30门人保留资源、时间和return结局，全部入口可达，二次存读一致。各SR仅登记适用子情景；完整AC、真机触摸/FPS和真人首次体验状态分别保留。 浏览器DPR1鼠标在1366×900、1180×820、820×1180点选床上掌门通过；正常推荐营造经Enter和鼠标确认、实际施工落成。一次动态模块加载失败经页面重载恢复同档，原因待定位。I/V证据为沿既有可用契约实施的本批子范围；完整D01/D02及I/V关闭门槛保持原状态。\n\n2026-10-07 M0/M1 接续批：鼠标自由营造误触拒绝、正常确认、施工详情和重载可用；双指合成输入13/13及生产Canvas显式锚点检查34/34。真iPad双指、三平台设备、全系统焦点/失败恢复仍未验，AC01/02/03状态不变；旧非schema6渲染委派分支尚未承诺指针锚点。\n\n2026-10-07 M1 第五批：隔离浏览器首战大档实际导入、保存、刷新续玩与再次连续保存成功；旧未压缩大档容量失败会显式告知且旧主档留存，随后通过较大快照压缩修复。同一验收浏览器首次载入仍偶发动态模块连接重置，重载后可进入。此为保存失败/恢复及战斗界面的局部证据，未覆盖 AC03 全部帮助/拒绝/失败情景或目标设备，AC状态不提升。"
     },
     {
       "id": "SR-XF-030",
@@ -5383,7 +6020,8 @@
         "R-25",
         "U-94",
         "U-100",
-        "R-29"
+        "R-29",
+        "R-30"
       ],
       "source_specs": [
         "docs/design/02-EQUIPMENT-ARTS.md",
@@ -5393,8 +6031,8 @@
         "docs/design/14-EARLY-GAME-DETAILED-DESIGN.md",
         "docs/design/06-OPENING-ACCEPTANCE.md"
       ],
-      "baseline": "已有v5到schema 6及主屋工位预约迁移的局部实现。",
-      "design_gap": "新版米制空间、装备、学习值与责任链仍缺完整逐字段映射。",
+      "baseline": "已有v5至schema6迁移。本批新增adult-furniture-1：原布局先校验，在副本中映射家具工位、必要脚点和失效返院缓存，保留身份、资源、时间、RNG、已付投入及活动进度；山外实际位置和旅程事实保留。",
+      "design_gap": "成人家具的旧占床/研习/在建/搬运/出游返回及40建筑30门人完成档已有局部复验；全版本、全篇章阶段和保存失败恢复矩阵仍待完整覆盖。",
       "design_deliverables": [
         "新旧实体/引用/坐标/设施/装备/knowledge/主辅修/篇章进度的确定映射表。",
         "已完成/未完成复仇、在途/治疗/制作/危险中的兼容样本与原档保护。",
@@ -5413,15 +6051,19 @@
           "status": "passed",
           "evidence": [
             "qa/ea-sr-contracts-acceptance.mjs",
-            "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+            "docs/requirements/IMPLEMENTATION-2026-10-06.md",
+            "qa/ea-indoor-furniture-acceptance.mjs",
+            "qa/ea-reference-world.json"
           ]
         },
         {
           "id": "SR-XF-030-AC-02",
           "scenario": "设施无法原位安置/引用未知",
           "expected": "进入可查兼容状态或拒绝加载并保原档，有确定恢复路径。",
-          "status": "not_run",
-          "evidence": []
+          "status": "passed",
+          "evidence": [
+            "qa/ea-sr-contracts-acceptance.mjs"
+          ]
         },
         {
           "id": "SR-XF-030-AC-03",
@@ -5430,7 +6072,8 @@
           "status": "passed",
           "evidence": [
             "qa/ea-sr-contracts-acceptance.mjs",
-            "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+            "docs/requirements/IMPLEMENTATION-2026-10-06.md",
+            "qa/ea-indoor-furniture-acceptance.mjs"
           ]
         }
       ],
@@ -5440,7 +6083,20 @@
       ],
       "evidence": [
         "docs/requirements/design/SR-XF-002-030.md",
-        "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+        "docs/requirements/IMPLEMENTATION-2026-10-06.md",
+        "dist/ea-sr-spatial.mjs",
+        "qa/ea-indoor-furniture-acceptance.mjs",
+        "qa/ea-courtyard-life-acceptance.mjs",
+        "qa/ea-reference-world.json",
+        "docs/design/STATUS.md",
+        "docs/CODEX-HANDOFF.md",
+        "qa/ea-sr-travel-continuity-acceptance.mjs",
+        "qa/ea-sr-contracts-acceptance.mjs",
+        "dist/ea-persistence.mjs",
+        "dist/ea-save-codec.mjs",
+        "dist/vendor/pako.mjs",
+        "dist/vendor/PAKO-LICENSE",
+        "tests/ea-persistence.test.mjs"
       ],
       "change_log": [
         {
@@ -5454,6 +6110,22 @@
         {
           "date": "2026-10-07",
           "reason": "U-100固定2.5D、旧云岫人物/建筑资源接回正式U-99主线；R-29山院扩96米，旧64档先校验仅登记extentVersion。人物6/6、扩图9/9、单位格6/6与正常公开链局部通过，真实网页/发布另记STATUS；完整SR保持in_progress，不冒称全动画或全体验完成。"
+        },
+        {
+          "date": "2026-10-07",
+          "reason": "成人家具与现场交互本地批次：已有v5至schema6迁移。本批新增adult-furniture-1：原布局先校验，在副本中映射家具工位、必要脚点和失效返院缓存，保留身份、资源、时间、RNG、已付投入及活动进度；山外实际位置和旅程事实保留。 已登记适用实现与独立复验证据，整体开发/验收保持in_progress，AC状态沿用已有范围。"
+        },
+        {
+          "date": "2026-10-07",
+          "reason": "M0/M1 接续批完成局部设计、修复和独立复核；具体通过范围与缺口见 acceptance_notes 和 STATUS。整项 D/I/V/R 及 AC 状态保持原门槛。"
+        },
+        {
+          "date": "2026-10-07",
+          "reason": "2026-10-07 M1 第四批：SR030-AC02 的两设施档由旧版公开营造，最近旧址阻塞入口时改选合法格并留迁移账，身份/资源/时间/RNG及源档原文保留。76 建筑三级设施档先设已立派，每一处均通过旧版 placementLock 且整档通过 Legacy.validateSave；新空间无法安置时实际档位拒载、禁写、原文导出并可选择有效备份恢复，故障字节留在保留区。当前版缺失人物位置引用同样实际拒载和恢复；未知建筑定义及未来版本不改原输入。专项 24/24，独立只读复核通过，AC02 按原文 Node 契约范围登记 passed。76 建筑档是合成的旧版合法结构压力样本，不是逐座公开建成的玩家历史档；持久层使用真实模块和内存存储，真实浏览器存储未验。历史 full fixture 缺失另记跳过；整项 SR030 D/I/V/R 仍未关闭。"
+        },
+        {
+          "date": "2026-10-07",
+          "reason": "M1 第五批修复大档持续保存：有效本地快照和滚动备份压缩，普通导出及旧格式读取保留；模拟配额、真实浏览器续存与独立复核已登记，整项门槛继续。"
         }
       ],
       "tasks": [
@@ -5487,11 +6159,15 @@
           "title": "开发与集成",
           "description": "在兼容模块实现旧布局、装备、成长与篇章的完整迁移；交付SR-XF-030-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。",
           "status": "todo",
-          "owner": null,
+          "owner": "Codex/courtyard-integration",
           "depends_on": [
             "SR-XF-030-D02"
           ],
-          "evidence": [],
+          "evidence": [
+            "dist/ea-sr-spatial.mjs",
+            "docs/design/STATUS.md",
+            "qa/ea-sr-contracts-acceptance.mjs"
+          ],
           "blocked_reason": null
         },
         {
@@ -5500,11 +6176,18 @@
           "title": "验收与兼容",
           "description": "执行SR-XF-030-AC-01至AC-03及EARLY-05、PERSIST-01、PERSIST-02、SAVE-01；登记实际结果、兼容和设备证据边界。",
           "status": "todo",
-          "owner": null,
+          "owner": "Codex/courtyard-acceptance",
           "depends_on": [
             "SR-XF-030-I01"
           ],
-          "evidence": [],
+          "evidence": [
+            "qa/ea-indoor-furniture-acceptance.mjs",
+            "qa/ea-courtyard-life-acceptance.mjs",
+            "qa/ea-reference-world.json",
+            "docs/design/STATUS.md",
+            "qa/ea-sr-travel-continuity-acceptance.mjs",
+            "qa/ea-sr-contracts-acceptance.mjs"
+          ],
           "blocked_reason": null
         },
         {
@@ -5540,7 +6223,8 @@
         "PERSIST-02",
         "SAVE-01"
       ],
-      "blockers": []
+      "blockers": [],
+      "acceptance_notes": "2026-10-07本地小院批次：成人家具/单位格/空间定向检查48/48（8/6/34），正常公开命令接受/拒绝邀请两路完成营造、产出搬运、研习、到床休息与迁建取消/续建；分别60命令/36次精确存读和61命令/37次精确存读。六身份卧姿与预约前提2/2，生产Canvas卧姿加载/只读/身体点选/缺图回退4/4，已读图。旧v5完成档40建筑30门人保留资源、时间和return结局，全部入口可达，二次存读一致。各SR仅登记适用子情景；完整AC、真机触摸/FPS和真人首次体验状态分别保留。 浏览器DPR1鼠标在1366×900、1180×820、820×1180点选床上掌门通过；正常推荐营造经Enter和鼠标确认、实际施工落成。一次动态模块加载失败经页面重载恢复同档，原因待定位。I/V证据为沿既有可用契约实施的本批子范围；完整D01/D02及I/V关闭门槛保持原状态。\n\n2026-10-07 M0/M1 接续批：旅行连续性脚本原引用不存在的 legacy-full.json；改用仓库内合法 qa/ea-reference-world.json（v5 完成档40建筑/30门人/return），复验7/7；仅证旧完成档升级及该条付费运输。独立浏览器验收档两座自由营造建成后重载保留设施数3、资源与暂停时间。未知引用、无法安置、写入失败总矩阵仍未做；AC02仍 not_run。\n\n2026-10-07 M1 第四批：SR030-AC02 的两设施档由旧版公开营造，最近旧址阻塞入口时改选合法格并留迁移账，身份/资源/时间/RNG及源档原文保留。76 建筑三级设施档先设已立派，每一处均通过旧版 placementLock 且整档通过 Legacy.validateSave；新空间无法安置时实际档位拒载、禁写、原文导出并可选择有效备份恢复，故障字节留在保留区。当前版缺失人物位置引用同样实际拒载和恢复；未知建筑定义及未来版本不改原输入。专项 24/24，独立只读复核通过，AC02 按原文 Node 契约范围登记 passed。76 建筑档是合成的旧版合法结构压力样本，不是逐座公开建成的玩家历史档；持久层使用真实模块和内存存储，真实浏览器存储未验。历史 full fixture 缺失另记跳过；整项 SR030 D/I/V/R 仍未关闭。\n\n2026-10-07 M1 第五批大档续存：同源公开操作首战档的普通 JSON 约 3.5 MB，实际浏览器原 2 MB 门槛阻止导入，扩容后导入成功但首次未压缩主档再保存触发浏览器配额失败且旧主档保留。当前对较大有效主档与滚动备份同步压缩存放，仍读取原普通 JSON，下载导出保持普通 JSON；8 MB 是未压缩输入上限，实际写入串也须在此范围。35/35 持久层测试包含 5 MB 模拟配额下旧大档连续保存与高熵压缩封装边界，旧集成 23/23。独立只读复核使用约3.60 MB真实结局状态及真实校验器，在5 MiB模拟配额连续保存4次、三份有效备份并精确读回。另在隔离的真实浏览器验收档位导入约3.5 MB首战档、刷新续玩并连续保存两次，主档约342 KB、三份备份约1.03 MB。浏览器加载偶发连接重置、设备配额与关闭时保存全矩阵、真机/触控仍待验；整项SR030 D/I/V/R保持原状态。"
     },
     {
       "id": "SR-XF-031",

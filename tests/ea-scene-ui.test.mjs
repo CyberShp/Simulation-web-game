@@ -2,15 +2,17 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import * as SIM from '../dist/ea-opening-sim.mjs';
 import {createEAUI,scenePresentation,currentObjective,EA_SHELL} from '../dist/ea-ui.mjs';
+import {prepareFacilityActivity} from '../dist/ea-facility-activities.mjs';
+import {normalOpening} from '../qa/ea-sr-integration-acceptance.mjs';
 
 function uiHarness(state){
- const nodes=new Map(),events=new Map(),fragments=[],commands=[];
+ const nodes=new Map(),events=new Map(),fragments=[],commands=[],modals=[],choices=[];
  const node=selector=>{if(!nodes.has(selector))nodes.set(selector,{childNodes:[],textContent:'',dataset:{},style:{},scrollTop:0,open:false,attributes:{},classList:{toggle(){},add(){},remove(){},contains(){return false;}},setAttribute(k,v){this.attributes[k]=v;},removeAttribute(){},addEventListener(){},querySelector(){return null;},querySelectorAll(){return [];}});return nodes.get(selector);};
  globalThis.window={matchMedia:()=>({matches:false})};
  globalThis.document={activeElement:null,body:node('body'),querySelector:node,getElementById:id=>node('#'+id),querySelectorAll:()=>[],addEventListener:(name,fn)=>events.set(name,fn),createElement:()=>({set innerHTML(v){fragments.push(v);},content:{childNodes:[]}})};
- const ui=createEAUI({getState:()=>state,getScene:()=>'map',getTab:()=>'self',act(name,...args){commands.push({name,args});const d=SIM.dispatchCommand(state,{name,args,expectedRevision:state.revision});state=d.state;return d.result;},ensureRunning(){state.speed=1;}});
+ const ui=createEAUI({getState:()=>state,getScene:()=>'map',getTab:()=>'self',openModal:(title,body)=>modals.push({title,body}),chooseScenePerson:id=>{choices.push(id);ui.renderDetail({kind:'person',id});},act(name,...args){commands.push({name,args});const d=SIM.dispatchCommand(state,{name,args,expectedRevision:state.revision});state=d.state;return d.result;},ensureRunning(){state.speed=1;}});
  const click=(action,args=[])=>events.get('click')({target:{closest:selector=>selector==='[data-ui-action]'?{dataset:{uiAction:action,uiArgs:JSON.stringify(args)}}:null},preventDefault(){}});
- return {ui,node,click,fragments,commands,get state(){return state;}};
+ return {ui,node,click,fragments,commands,modals,choices,get state(){return state;}};
 }
 function travelToValley(){
  let s=SIM.initial({sr:true});s=SIM.dispatchCommand(s,{name:'srWorldCommand',args:[{action:'travel',destination:'scene:valley'}],expectedRevision:s.revision}).state;
@@ -48,4 +50,66 @@ test('SR-XF-016/029: local object approach button dispatches actual movement; re
  const h=uiHarness(s),id='object:valley:herbs',before=JSON.stringify(s);h.ui.renderDetail({kind:'world-object',id});
  assert.match(h.fragments.at(-1),/溪边药丛/);assert.match(h.fragments.at(-1),/data-ui-action="approachWorldObject"/);assert.match(h.fragments.at(-1),/disabled title="须先走近此处"/);assert.equal(JSON.stringify(s),before);
  h.click('approachWorldObject',[id]);assert.deepEqual(h.commands,[{name:'srWorldCommand',args:[{action:'move',x:15,y:18.5}]}]);assert.equal(h.state.srWorld.interaction.kind,'walk');assert.equal(h.state.master.location.sceneId,'scene:valley');
+});
+
+test('SR-XF-029: building capacity and indoor selection read the actual reserved bed without issuing commands',()=>{
+ const s=SIM.dispatchCommand(SIM.initial({sr:true}),{name:'masterAction',args:['heal']}).state;
+ SIM.tick(s,1);
+ const a=s.activitiesById[s.master.activityId];assert.equal(a.phase,'navigating');assert.ok(a.slotId);
+ const before=JSON.stringify(s),h=uiHarness(s);h.ui.renderDetail({kind:'building',id:s.buildings[0].id});
+ const html=h.fragments.at(-1);assert.match(html,/疗养位 1 \/ 1/);assert.match(html,/床位 0 \/ 3/);assert.match(html,/调养床 1 · 前往中/);assert.ok(html.includes(a.reason));
+ assert.match(html,/灵石来自实际交易与差事/);assert.doesNotMatch(html,/凝聚少量灵石|产出：灵石/);
+ assert.match(html,/class="portrait mini"/);assert.match(html,/data-ui-action="chooseScenePerson" data-ui-args="\[&quot;master&quot;\]"/);
+ h.click('chooseScenePerson',['master']);assert.deepEqual(h.choices,['master']);assert.match(h.fragments.at(-1),/沈砚 · 掌门/);
+ assert.equal(JSON.stringify(s),before);assert.equal(h.commands.length,0);
+});
+
+test('SR-XF-029: a patient waiting for all four beds stays visible with the real reason and no extra capacity',()=>{
+ // Focused capacity fixture: reserve the four real beds before the patient applies.
+ const s=SIM.initial({sr:true}),hall=s.buildings[0];
+ for(let i=0;i<4;i++){const p=SIM.addDisciple(s);p.mind.activity='rest';prepareFacilityActivity(s,p,hall,'rest',0);}
+ s.master.action='heal';prepareFacilityActivity(s,s.master,hall,'heal',0);
+ const a=s.activitiesById[s.master.activityId];assert.equal(a.phase,'waiting');assert.equal(a.slotId,null);
+ const before=JSON.stringify(s),h=uiHarness(s);h.ui.renderDetail({kind:'building',id:hall.id});const html=h.fragments.at(-1);
+ assert.match(html,/床位 4 \/ 4/);assert.match(html,/沈砚 · 疗养伤势 · 等候/);assert.match(html,/工位已满，在门外独立位置等候/);
+ assert.equal((html.match(/data-ui-action="chooseScenePerson"/g)||[]).length,5);assert.equal(JSON.stringify(s),before);assert.equal(h.commands.length,0);
+});
+
+test('SR-XF-029: overlapping people retain identity portraits and select the requested person read-only',()=>{
+ const s=SIM.initial({sr:true}),visitor=s.personsById[s.story.opening.visitorId],before=JSON.stringify(s),h=uiHarness(s);
+ h.ui.openNearbyPeople([{id:'master',name:s.master.name,activity:'heal'},{id:visitor.id,name:visitor.name,activity:'rest'}]);
+ const {title,body}=h.modals.at(-1);assert.equal(title,'选择附近人物');assert.equal((body.match(/class="portrait mini"/g)||[]).length,2);
+ assert.match(body,/沈砚 · 疗养伤势/);assert.match(body,/陆知微 · 调息休憩/);assert.doesNotMatch(body,/undefined|NaN/);
+ h.click('chooseScenePerson',[visitor.id]);assert.deepEqual(h.choices,[visitor.id]);assert.match(h.fragments.at(-1),/陆知微/);
+ assert.equal(JSON.stringify(s),before);assert.equal(h.commands.length,0);
+});
+
+test('SR-XF-007: a newly ordered study is shown as travelling until a real desk is reserved',()=>{
+ const run=normalOpening();run.act('masterStudy','spring');
+ const body=run.s.activitiesById[run.s.master.activityId];assert.equal(body.phase,'moving');assert.equal(body.slotId==null,true);
+ const before=JSON.stringify(run.s),h=uiHarness(run.s);h.ui.renderDetail({kind:'person',id:'master'});
+ assert.match(h.fragments.at(-1),/研习 · 前往研习位置/);
+ assert.doesNotMatch(h.fragments.at(-1),/山外或等待机会/);
+ assert.equal(JSON.stringify(run.s),before);assert.equal(h.commands.length,0);
+});
+
+test('SR-XF-007: a public harvest paused by a full pack is shown as waiting, not stale rest',()=>{
+ const run=normalOpening(),study=run.act('masterStudy','spring');
+ run.until(s=>s.srCultivation.orders[study.orderId]?.phase==='completed','real study completed',1000);
+ for(let i=0;i<4;i++){
+  const harvest=run.act('startMasterHarvest','wood');
+  run.until(s=>!s.activitiesById[harvest.id]||s.activitiesById[harvest.id].phase==='paused','real harvest finished or paused',500);
+ }
+ run.act('setSpeed',0);run.save();
+ const body=run.s.activitiesById[run.s.master.activityId],life=SIM.personLifeSummary(run.s,run.s.master);
+ assert.equal(body.kind,'sr-harvest');assert.equal(body.phase,'paused');
+ assert.equal(life.activity,'waiting');assert.equal(life.status,'waiting');assert.equal(life.facilityName,null);
+ assert.equal(SIM.appearanceView(run.s,'person:master').action,'waiting');
+ const before=JSON.stringify(run.s),h=uiHarness(run.s);h.ui.render();
+ assert.ok(h.fragments.some(fragment=>fragment.includes('等候中')));
+ h.ui.renderDetail({kind:'person',id:'master'});
+ assert.match(h.fragments.at(-1),/等候 · 院中等候/);
+ assert.match(h.fragments.at(-1),/随身包裹已满/);
+ assert.doesNotMatch(h.fragments.at(-1),/休憩 · 别院主屋/);
+ assert.equal(JSON.stringify(run.s),before);assert.equal(h.commands.length,0);
 });

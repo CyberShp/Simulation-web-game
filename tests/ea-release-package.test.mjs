@@ -9,7 +9,7 @@ import {fileURLToPath} from 'node:url';
 test('Pages package resolves every module and keeps preview shared navigation outside the preview directory',()=>{
  const root=fileURLToPath(new URL('../',import.meta.url)),dir=mkdtempSync(join(tmpdir(),'ea-pages-')),output=join(dir,'release.json');
  try{
-  const run=spawnSync('python',[join(root,'qa/package-pages-release.py'),'--tag','qa-package-test','--output',output],{encoding:'utf8'});
+  const run=spawnSync('python3',[join(root,'qa/package-pages-release.py'),'--tag','qa-package-test','--output',output],{encoding:'utf8'});
   assert.equal(run.status,0,run.stderr);
   const entries=JSON.parse(readFileSync(output,'utf8')),byPath=new Map(entries.map(e=>[e.path,e]));
   for(const prefix of ['', 'ea-preview/']){
