@@ -6,7 +6,7 @@
 | --- | --- |
 | 范围 / 模块 | 前期必需 / 空间 |
 | 优先级 / 计划 | P0 / I1 |
-| 设计 / 开发 | draft / in_progress |
+| 设计 / 开发 | ready / in_progress |
 | 验收 / 发布 | in_progress / not_released_for_this_sr |
 | 责任人 / 复核人 | Codex/space_construction / Codex/root（集成） |
 
@@ -78,11 +78,15 @@ SR-XF-004-AC-03证据：dist/ea-estate-assets.mjs；dist/ea-courtyard-renderer.m
 
 | 任务 | 工作 | 状态 | 前置 | 责任人 |
 | --- | --- | --- | --- | --- |
-| SR-XF-004-D01 | 设计补齐：交付：首轮全部可用建筑/设施目录及最终尺寸、锚点、朝向、门、家具、工位、等待位。；预览/工地/成品/升级/损坏的分层资产规范与资产版本表。；占地、内部通行、屋顶遮挡和点击区域各自用途及同源生成规则。；填实必需参数并标记U/R/T来源。 | in_progress | 无 | Codex/space_construction |
-| SR-XF-004-D02 | 契约与内容审阅：审阅建筑预制件、室内与分层素材目录与依赖契约（SR-XF-003）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。 | todo | SR-XF-004-D01 | 待分配 |
+| SR-XF-004-D01 | 设计补齐：交付：首轮全部可用建筑/设施目录及最终尺寸、锚点、朝向、门、家具、工位、等待位。；预览/工地/成品/升级/损坏的分层资产规范与资产版本表。；占地、内部通行、屋顶遮挡和点击区域各自用途及同源生成规则。；填实必需参数并标记U/R/T来源。 | done | 无 | Codex/root |
+| SR-XF-004-D02 | 契约与内容审阅：审阅建筑预制件、室内与分层素材目录与依赖契约（SR-XF-003）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。 | done | SR-XF-004-D01 | Codex/sr010_contract_validation |
 | SR-XF-004-I01 | 开发与集成：在空间模块实现建筑预制件、室内与分层素材目录；交付SR-XF-004-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。 | todo | SR-XF-004-D02 | Codex/courtyard-integration |
 | SR-XF-004-V01 | 验收与兼容：执行SR-XF-004-AC-01至AC-03及SCENE-01、SCENE-03；登记实际结果、兼容和设备证据边界。 | todo | SR-XF-004-I01 | Codex/courtyard-acceptance |
 | SR-XF-004-R01 | 发布与关闭：完成所需源码/运行时发布核对、交接和未覆盖说明；本轮用户不要求上传QA过程产物。 | todo | SR-XF-004-V01 | 待分配 |
+
+SR-XF-004-D01证据：docs/requirements/design/SR-XF-003-006.md
+
+SR-XF-004-D02证据：docs/requirements/design/SR-XF-003-006.md
 
 SR-XF-004-I01证据：dist/ea-sr-spatial.mjs；dist/ea-character-art.mjs；dist/ea-courtyard-renderer.mjs；dist/assets/estate-v1/characters-rest-v1.png；docs/design/STATUS.md；asset-manifest.json；dist/assets/estate-v1/hall-stages-v1.png；dist/assets/estate-v1/clinic-stages-v1.png；dist/assets/estate-v1/library-stages-v1.png；tests/ea-hall-stage-art.test.mjs；dist/assets/estate-v1/farm-stages-v1.png；dist/assets/estate-v1/lumber-stages-v1.png；dist/assets/estate-v1/quarry-stages-v1.png；dist/assets/estate-v1/meditation-stages-v1.png；tests/ea-outdoor-stage-art.test.mjs
 
@@ -162,5 +166,7 @@ SR-XF-004-V01证据：qa/ea-indoor-furniture-acceptance.mjs；qa/ea-courtyard-re
 - 2026-10-08：U-101 按用户决定改为封闭建筑外观及管理页查询，露天工人可见；修订 SR004 REQ/AC，旧退顶证据只作为历史，AC02/AC03 待当前版本独立重验。
 - 2026-10-08：U-101 关闭院景室内显示并减少重复世界视图计算；同源40建筑30人桌面浏览器压力场景从旧暂停1.3 FPS到新暂停113.2/运行108.1 FPS，封闭外观和露天点选通过，SR004新口径其余AC仍待。
 - 2026-10-08：U-101 最终封闭外观版 AC03 独立浏览器复验：旧 v5 40 建筑/30 人档在七类封闭建筑正常/缺图/错尺寸/同尺寸 v1 与六类露天缺图中保留身份、容量、点选和精确再读；背层性能改动后独立快速复验维持结论，定向9/9、相关最终回归40/40。AC03 passed；AC01 与真机、整体 D/I/V/R 仍待。
+- 2026-10-08：SR-XF-004-D01更新为done；任务状态不自动改变SR整体状态。
+- 2026-10-08：SR-XF-004-D02更新为done；任务状态不自动改变SR整体状态。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。
