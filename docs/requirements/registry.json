@@ -1161,7 +1161,7 @@
       "group": "营造",
       "priority": "P0",
       "iteration": "I1",
-      "design_status": "draft",
+      "design_status": "ready",
       "development_status": "in_progress",
       "acceptance_status": "in_progress",
       "release_status": "not_released_for_this_sr",
@@ -1296,6 +1296,14 @@
         {
           "date": "2026-10-08",
           "reason": "M1 第十批独立补验现有 SR005 三条 passed AC 对当前代码仍适用：正常来源档桌面鼠标完成拒绝、自由选址、一次预留、暂停、取消、到场完工及两阶段重载；Chromium 合成触控点按/拖拽/双指不误建，相关输入空间 47/47。真 iPadOS、人物占位和部分投入取消的逐项浏览器场景未覆盖，整项 D/I/V/R 保持原状态。"
+        },
+        {
+          "date": "2026-10-08",
+          "reason": "SR005 选址、预览确认、双施工位、材料事务、取消与存读设计已补齐；仅关闭设计任务。"
+        },
+        {
+          "date": "2026-10-08",
+          "reason": "独立复核 SR005-D01 与 SR003/004/010 接缝通过；I/V/R 和真机验收继续。"
         }
       ],
       "tasks": [
@@ -1304,10 +1312,12 @@
           "phase": "D01",
           "title": "设计补齐",
           "description": "交付：可建地形、水面/陡坡/剧情保护区规则与入口连通条件。；鼠标与触控的选址、预览、支持朝向、确认、取消流程。；施工材料预留、分阶段投入、到场贡献和安全完工状态图。；填实必需参数并标记U/R/T来源。",
-          "status": "in_progress",
-          "owner": "Codex/space_construction",
+          "status": "done",
+          "owner": "Codex/root",
           "depends_on": [],
-          "evidence": [],
+          "evidence": [
+            "docs/requirements/design/SR-XF-003-006.md"
+          ],
           "blocked_reason": null
         },
         {
@@ -1315,12 +1325,14 @@
           "phase": "D02",
           "title": "契约与内容审阅",
           "description": "审阅自由选址、施工与入口安全与依赖契约（SR-XF-003、SR-XF-004）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。",
-          "status": "todo",
-          "owner": null,
+          "status": "done",
+          "owner": "Codex/sr010_contract_validation",
           "depends_on": [
             "SR-XF-005-D01"
           ],
-          "evidence": [],
+          "evidence": [
+            "docs/requirements/design/SR-XF-003-006.md"
+          ],
           "blocked_reason": null
         },
         {

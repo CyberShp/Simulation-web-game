@@ -6,7 +6,7 @@
 | --- | --- |
 | 范围 / 模块 | 前期必需 / 营造 |
 | 优先级 / 计划 | P0 / I1 |
-| 设计 / 开发 | draft / in_progress |
+| 设计 / 开发 | ready / in_progress |
 | 验收 / 发布 | in_progress / not_released_for_this_sr |
 | 责任人 / 复核人 | Codex/space_construction / Codex/root（集成） |
 
@@ -67,11 +67,15 @@ SR-XF-005-AC-03证据：qa/ea-sr-spatial-acceptance.mjs；docs/requirements/IMPL
 
 | 任务 | 工作 | 状态 | 前置 | 责任人 |
 | --- | --- | --- | --- | --- |
-| SR-XF-005-D01 | 设计补齐：交付：可建地形、水面/陡坡/剧情保护区规则与入口连通条件。；鼠标与触控的选址、预览、支持朝向、确认、取消流程。；施工材料预留、分阶段投入、到场贡献和安全完工状态图。；填实必需参数并标记U/R/T来源。 | in_progress | 无 | Codex/space_construction |
-| SR-XF-005-D02 | 契约与内容审阅：审阅自由选址、施工与入口安全与依赖契约（SR-XF-003、SR-XF-004）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。 | todo | SR-XF-005-D01 | 待分配 |
+| SR-XF-005-D01 | 设计补齐：交付：可建地形、水面/陡坡/剧情保护区规则与入口连通条件。；鼠标与触控的选址、预览、支持朝向、确认、取消流程。；施工材料预留、分阶段投入、到场贡献和安全完工状态图。；填实必需参数并标记U/R/T来源。 | done | 无 | Codex/root |
+| SR-XF-005-D02 | 契约与内容审阅：审阅自由选址、施工与入口安全与依赖契约（SR-XF-003、SR-XF-004）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。 | done | SR-XF-005-D01 | Codex/sr010_contract_validation |
 | SR-XF-005-I01 | 开发与集成：在营造模块实现自由选址、施工与入口安全；交付SR-XF-005-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。 | todo | SR-XF-005-D02 | Codex/courtyard-integration |
 | SR-XF-005-V01 | 验收与兼容：执行SR-XF-005-AC-01至AC-03及BUILD-01、BUILD-02、BUILD-03、OPEN-05；登记实际结果、兼容和设备证据边界。 | todo | SR-XF-005-I01 | Codex/courtyard-acceptance |
 | SR-XF-005-R01 | 发布与关闭：完成所需源码/运行时发布核对、交接和未覆盖说明；本轮用户不要求上传QA过程产物。 | todo | SR-XF-005-V01 | 待分配 |
+
+SR-XF-005-D01证据：docs/requirements/design/SR-XF-003-006.md
+
+SR-XF-005-D02证据：docs/requirements/design/SR-XF-003-006.md
 
 SR-XF-005-I01证据：dist/ea-game.mjs；dist/ea-ui.mjs；docs/design/STATUS.md；dist/ea.css；dist/ea-courtyard-renderer.mjs
 
@@ -120,5 +124,7 @@ SR-XF-005-V01证据：qa/ea-courtyard-life-acceptance.mjs；tests/ea-scene-ui.te
 - 2026-10-07：成人家具与现场交互本地批次：自由选址、材料预留和到场施工沿用单位格事务。本批推荐营造确认按返回的transform与选中建筑类型显示镜头及反馈；建筑卡读取真实可用容量和工位状态。 已登记适用实现与独立复验证据，整体开发/验收保持in_progress，AC状态沿用已有范围。 推荐营造按钮的指针离开布局变化已修复并由实际鼠标复验。
 - 2026-10-07：M0/M1 接续批完成局部设计、修复和独立复核；具体通过范围与缺口见 acceptance_notes 和 STATUS。整项 D/I/V/R 及 AC 状态保持原门槛。
 - 2026-10-08：M1 第十批独立补验现有 SR005 三条 passed AC 对当前代码仍适用：正常来源档桌面鼠标完成拒绝、自由选址、一次预留、暂停、取消、到场完工及两阶段重载；Chromium 合成触控点按/拖拽/双指不误建，相关输入空间 47/47。真 iPadOS、人物占位和部分投入取消的逐项浏览器场景未覆盖，整项 D/I/V/R 保持原状态。
+- 2026-10-08：SR005 选址、预览确认、双施工位、材料事务、取消与存读设计已补齐；仅关闭设计任务。
+- 2026-10-08：独立复核 SR005-D01 与 SR003/004/010 接缝通过；I/V/R 和真机验收继续。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。
