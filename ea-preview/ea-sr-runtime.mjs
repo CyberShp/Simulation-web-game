@@ -1,23 +1,23 @@
 /** Integration owner: one world clock, one atomic command gateway. */
-import * as base from './ea-sim.mjs?v=ea-160-yunxiu-2d-20261007-r1';
-import {initContracts,validateContracts} from './ea-sr-contracts.mjs?v=ea-160-yunxiu-2d-20261007-r1';
-import * as spatial from './ea-sr-spatial.mjs?v=ea-160-yunxiu-2d-20261007-r1';
-import * as economy from './ea-sr-economy.mjs?v=ea-160-yunxiu-2d-20261007-r1';
-import * as persons from './ea-sr-persons.mjs?v=ea-160-yunxiu-2d-20261007-r1';
-import * as weather from './ea-sr-weather.mjs?v=ea-160-yunxiu-2d-20261007-r1';
-import * as organization from './ea-sr-organization.mjs?v=ea-160-yunxiu-2d-20261007-r1';
-import * as equipment from './ea-sr-equipment.mjs?v=ea-160-yunxiu-2d-20261007-r1';
-import * as cultivation from './ea-sr-cultivation.mjs?v=ea-160-yunxiu-2d-20261007-r1';
-import * as combat from './ea-sr-combat.mjs?v=ea-160-yunxiu-2d-20261007-r1';
-import * as covenants from './ea-sr-covenants.mjs?v=ea-160-yunxiu-2d-20261007-r1';
-import * as mother from './ea-sr-mother-chain.mjs?v=ea-160-yunxiu-2d-20261007-r1';
-import * as world from './ea-sr-world.mjs?v=ea-160-yunxiu-2d-20261007-r1';
-import * as crises from './ea-sr-crises.mjs?v=ea-160-yunxiu-2d-20261007-r1';
-import * as story from './ea-sr-story.mjs?v=ea-160-yunxiu-2d-20261007-r1';
-import * as descent from './ea-sr-descent.mjs?v=ea-160-yunxiu-2d-20261007-r1';
-import * as lateEconomy from './ea-sr-late-economy.mjs?v=ea-160-yunxiu-2d-20261007-r1';
-import {localIndustryCombatDamageSR} from './ea-sr-world-content.mjs?v=ea-160-yunxiu-2d-20261007-r1';
-import {configureCampaign} from './ea-campaign.mjs?v=ea-160-yunxiu-2d-20261007-r1';
+import * as base from './ea-sim.mjs?v=ea-160-courtyard-20261008-r1';
+import {initContracts,validateContracts} from './ea-sr-contracts.mjs?v=ea-160-courtyard-20261008-r1';
+import * as spatial from './ea-sr-spatial.mjs?v=ea-160-courtyard-20261008-r1';
+import * as economy from './ea-sr-economy.mjs?v=ea-160-courtyard-20261008-r1';
+import * as persons from './ea-sr-persons.mjs?v=ea-160-courtyard-20261008-r1';
+import * as weather from './ea-sr-weather.mjs?v=ea-160-courtyard-20261008-r1';
+import * as organization from './ea-sr-organization.mjs?v=ea-160-courtyard-20261008-r1';
+import * as equipment from './ea-sr-equipment.mjs?v=ea-160-courtyard-20261008-r1';
+import * as cultivation from './ea-sr-cultivation.mjs?v=ea-160-courtyard-20261008-r1';
+import * as combat from './ea-sr-combat.mjs?v=ea-160-courtyard-20261008-r1';
+import * as covenants from './ea-sr-covenants.mjs?v=ea-160-courtyard-20261008-r1';
+import * as mother from './ea-sr-mother-chain.mjs?v=ea-160-courtyard-20261008-r1';
+import * as world from './ea-sr-world.mjs?v=ea-160-courtyard-20261008-r1';
+import * as crises from './ea-sr-crises.mjs?v=ea-160-courtyard-20261008-r1';
+import * as story from './ea-sr-story.mjs?v=ea-160-courtyard-20261008-r1';
+import * as descent from './ea-sr-descent.mjs?v=ea-160-courtyard-20261008-r1';
+import * as lateEconomy from './ea-sr-late-economy.mjs?v=ea-160-courtyard-20261008-r1';
+import {localIndustryCombatDamageSR} from './ea-sr-world-content.mjs?v=ea-160-courtyard-20261008-r1';
+import {configureCampaign} from './ea-campaign.mjs?v=ea-160-courtyard-20261008-r1';
 export const srEnabled=s=>s.contentVersion==='sr-content-v1.2';
 combat.configureSRCombat({execute:(s,id,target)=>id==='move'?base.combatAction(s,id,target):combat.executeSpatialCombatAction(s,id,target,base.combatAction)});
 crises.configureSRCrises({onPermanentDeath:economy.settleEconomyDeath});
@@ -58,6 +58,7 @@ export const SR_HANDLERS={...spatial.handlers,...economy.economyHandlers,...pers
  leaveRegion:(s)=>world.srWorldCommand(s,{action:'travel',destination:'scene:yunxiu-courtyard'}),
  resolveExploration:()=>{throw Error('请在当前地点走近具体对象并选择行动。');},resolveMasterEncounter:()=>{throw Error('请在当前地点选择实际行动。');},
  masterStudy:cultivation.studyArt,masterBreakthrough:cultivation.beginBreakthrough,masterRiskBreakthrough:cultivation.beginBreakthrough,masterTeach:cultivation.teachArt,combatAction:combat.srCombatAction,
+ acknowledgeCombat:s=>{if(s.combat?.status&&s.combat.status!=='active')story.tickSRStory(s);return base.acknowledgeCombat(s);},
  foundSect:organization.foundSectSR,inviteOffice:organization.inviteOfficeSR,foundPeak:organization.foundPeakSR,setSocietyPolicy:organization.policySR,setPolicy:organization.policySR,
  trade:economy.marketTrade,fulfill:(s,id)=>economy.marketOrder(s,id,'deliver')};
 export const SR_BODY_COMMANDS=new Set(['build','upgrade','relocate','demolish','masterStudy','masterBreakthrough','masterRiskBreakthrough','masterTeach','combatAction','srWorldCommand','srCrisisCommand','srStoryCommand',...Object.keys(cultivation.cultivationHandlers),...Object.keys(equipment.equipmentHandlers),...Object.keys(covenants.covenantHandlers),...Object.keys(mother.motherHandlers),...Object.keys(descent.descentHandlers),...Object.keys(lateEconomy.lateEconomyHandlers),'craftSR','craftPill','craft','preparePillUse','startTransport','replenishPatch','startMasterHarvest','improveDrainage','transferProperty','marketTrade','marketOrder','returnToBasics','forgetSupport','masterPill','startExploration','startMasterTravel','moveExploration','leaveRegion']);

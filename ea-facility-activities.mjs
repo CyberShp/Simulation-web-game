@@ -1,18 +1,27 @@
 /** Body activities and exclusive work stations, called only by the world owner. */
-import {BUILDINGS,canPay,pay,grant} from './ea-data.mjs?v=ea-160-yunxiu-2d-20261007-r1';
-import {productionAvailability,settleFiniteProduction,initEconomy,productionInputAvailable,reserveProductionInput,refundProductionInput,cancelMerchantCollection} from './ea-sr-economy.mjs?v=ea-160-yunxiu-2d-20261007-r1';
+import {BUILDINGS,canPay,pay,grant} from './ea-data.mjs?v=ea-160-courtyard-20261008-r1';
+import {productionAvailability,settleFiniteProduction,initEconomy,productionInputAvailable,reserveProductionInput,refundProductionInput,cancelMerchantCollection} from './ea-sr-economy.mjs?v=ea-160-courtyard-20261008-r1';
 const units=(s,pixels)=>s.spatial?.version==='spatial-metres-1'?pixels/32:pixels;
 const spacing=s=>s.spatial?.version==='spatial-metres-1'?.5:8;
 const arrival=s=>s.spatial?.version==='spatial-metres-1'?.04:.5;
-import {facilitySlots,slotById,slotReservation,facilityBodyKinds} from './ea-facility-slots.mjs?v=ea-160-yunxiu-2d-20261007-r1';
-import {geometryRevision,buildingAccess,scenicFindPath,scenicDistance,scenicSweep,scenicNearest} from './ea-scene-geometry.mjs?v=ea-160-yunxiu-2d-20261007-r1';
-import {advanceScenic,syncScenicPosition} from './ea-scenic.mjs?v=ea-160-yunxiu-2d-20261007-r1';
+import {facilitySlots,slotById,slotReservation,facilityBodyKinds} from './ea-facility-slots.mjs?v=ea-160-courtyard-20261008-r1';
+import {geometryRevision,buildingAccess,scenicFindPath,scenicDistance,scenicSweep,scenicNearest} from './ea-scene-geometry.mjs?v=ea-160-courtyard-20261008-r1';
+import {advanceScenic,syncScenicPosition} from './ea-scenic.mjs?v=ea-160-courtyard-20261008-r1';
 const owner=(s,p)=>p===s.master?p:p.mind;
 export function bodyActivity(s,p){const a=s.activitiesById?.[p.activityId];return a?.kind==='facility'?a:null;}
 export function releaseBodyActivity(s,p){
  const a=bodyActivity(s,p);if(!a)return;
  if(a.reservationId)delete s.reservationsById[a.reservationId];delete s.activitiesById[a.id];p.activityId=null;
  const o=owner(s,p);if(o.scenic){o.scenic.path=[];o.scenic.goal=null;delete o.scenic.activitySlotId;}
+}
+// SR-XF-008-AC-03: an injury ends this person's work promise before another contribution.
+// The shared production order and its material reservation belong to the batch.
+function interruptWoundedWork(s,p){
+ const o=owner(s,p),a=bodyActivity(s,p);
+ if(p===s.master||!(p.wound>20)||a?.action!=='work'&&o.activity!=='work')return false;
+ releaseBodyActivity(s,p);p.job=null;o.activity='heal';o.reason='伤势未愈，原差事已中断，先调养。';o.commitUntil=s.time;
+ if(p.schedule)p.schedule.commitUntilTick=s.worldTick;
+ return true;
 }
 function waitOutside(s,p,a,b,budget){const o=owner(s,p),entry=buildingAccess(s,b),queue=Object.values(s.activitiesById).filter(x=>x.kind==='facility'&&x.targetId===a.targetId&&!x.slotId).sort((x,y)=>x.startedTick-y.startedTick||x.personId.localeCompare(y.personId));let index=Math.max(0,queue.findIndex(x=>x.id===a.id));
  if(!a.waitingPosition){for(let step=0;step<12;step++){const n=index+step,side=n%2?-1:1,q=scenicNearest(s,{x:entry.x+side*units(s,28+Math.floor(n/2)*20),y:entry.y+units(s,24)});if(!q||Object.values(s.activitiesById).some(x=>x.id!==a.id&&x.waitingPosition&&scenicDistance(x.waitingPosition,q)<spacing(s)))continue;a.waitingPosition=q;break;}}
@@ -26,6 +35,7 @@ function reserve(s,p,a,b){
 /** Returns true only after actual arrival at an exclusively reserved station. */
 export function prepareFacilityActivity(s,p,b,action,budget=46){
  if(s.schemaVersion!==6)return true;
+ if(action==='work'&&interruptWoundedWork(s,p))return false;
  if(owner(s,p)?.scenic?.spatialEvacuationOrderId)return false;
  if(p.activityId&&s.activitiesById[p.activityId]?.kind!=='facility')return false;
  let a=bodyActivity(s,p);
@@ -60,6 +70,7 @@ export function prepareFacilityActivity(s,p,b,action,budget=46){
 }
 export function productionOrder(s,b){return s.workOrdersById?.[`work:production:${b.instanceId}`]||null;}
 export function contributeProduction(s,p,b,settle){
+ if(interruptWoundedWork(s,p))return false;
  const a=bodyActivity(s,p);if(!a||a.action!=='work'||a.phase!=='executing'||a.targetId!==b.instanceId)return false;
  const availability=productionAvailability(s,b);if(!availability.available){a.reason=availability.reason;return false;}
  if(s.srEconomy)initEconomy(s);
@@ -100,6 +111,7 @@ export function reconcileActivities(s){
  if(s.schemaVersion!==6)return;
  for(const p of Object.values(s.personsById)){
   const a=bodyActivity(s,p);if(!a)continue;
+  if(interruptWoundedWork(s,p))continue;
   if(a.workOrderId&&!s.workOrdersById[a.workOrderId])delete a.workOrderId;
   const o=owner(s,p),b=s.buildingsById[a.targetId],careRole=(s.story.artisan?.phase==='care'&&[s.story.artisan.personId,'person:master'].includes(p.personId)||s.story.artisan?.phase==='recovering'&&s.story.artisan.personId===p.personId),action=careRole?'care':p===s.master?p.learning&&o.action==='walk'?'study':o.action:o.activity;
   if(b&&a.slotId&&a.phase==='executing'){const slot=slotById(s,a.slotId);if(!slot||o.scenic.path.length||scenicDistance(o.scenic,slot.position)>=arrival(s))a.phase='navigating';}

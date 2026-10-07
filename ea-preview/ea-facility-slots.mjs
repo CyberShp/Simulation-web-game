@@ -1,8 +1,8 @@
-import {spatialEnabled,spatialSlots} from './ea-sr-spatial.mjs?v=ea-160-yunxiu-2d-20261007-r1';
-import {interiorSlots} from './ea-hall-interior.mjs?v=ea-160-yunxiu-2d-20261007-r1';
+import {spatialEnabled,spatialSlots} from './ea-sr-spatial.mjs?v=ea-160-courtyard-20261008-r1';
+import {interiorSlots} from './ea-hall-interior.mjs?v=ea-160-courtyard-20261008-r1';
 /** Physical courtyard work stations. The old painting is a transitional ground layer. */
-import {BUILDINGS} from './ea-data.mjs?v=ea-160-yunxiu-2d-20261007-r1';
-import {buildingAccess,scenicCanStand,scenicSweep,scenicDistance,geometryRevision} from './ea-scene-geometry.mjs?v=ea-160-yunxiu-2d-20261007-r1';
+import {BUILDINGS} from './ea-data.mjs?v=ea-160-courtyard-20261008-r1';
+import {buildingAccess,scenicCanStand,scenicSweep,scenicDistance,geometryRevision} from './ea-scene-geometry.mjs?v=ea-160-courtyard-20261008-r1';
 export const FACILITY_MODEL_VERSION='courtyard-stations-1';
 export const facilityBodyKinds=new Set(['work','study','teach','cultivate','care','rest','heal']);
 const suffixes={work:'work',study:'desk',teach:'teacher',cultivate:'mat',care:'care'};
@@ -36,7 +36,9 @@ export function slotReservation(s,slotId){return Object.values(s.reservationsByI
 export function facilitySlotView(s,b){
  const list=[...facilityBodyKinds].flatMap(kind=>facilitySlots(s,b,kind)),seen=new Set();
  return list.filter(slot=>{const key=`${slot.position.x}/${slot.position.y}`;if(seen.has(key))return false;seen.add(key);return true;}).map(slot=>{
-  const r=Object.values(s.reservationsById||{}).find(r=>['slot','sr-slot'].includes(r.kind)&&scenicDistance(slotById(s,r.slotId)?.position||{x:-999,y:-999},slot.position)<.01),a=r&&s.activitiesById[r.activityId];
-  return {...slot,personId:r?.personId??null,phase:a?.phase??'free'};
+ const r=Object.values(s.reservationsById||{}).find(r=>['slot','sr-slot'].includes(r.kind)&&scenicDistance(slotById(s,r.slotId)?.position||{x:-999,y:-999},slot.position)<.01),a=r&&s.activitiesById[r.activityId];
+  // Rest and healing may share one bed position. Show the reserved activity's
+  // real slot name instead of the first unoccupied kind at that coordinate.
+  return {...slot,...(r?slotById(s,r.slotId):null),personId:r?.personId??null,phase:a?.phase??'free'};
  });
 }

@@ -1,9 +1,9 @@
 /** SR-XF-012/018/033. One item location, one body activity, worldTick only. */
-import {canPay,pay,grant,RESOURCES} from './ea-data.mjs?v=ea-160-yunxiu-2d-20261007-r1';
-import {buildingAccess,scenicFindPath,geometryRevision,scenicDistance} from './ea-scene-geometry.mjs?v=ea-160-yunxiu-2d-20261007-r1';
-import {advanceScenic,syncScenicPosition} from './ea-scenic.mjs?v=ea-160-yunxiu-2d-20261007-r1';
-import {sceneUnits} from './ea-sr-spatial.mjs?v=ea-160-yunxiu-2d-20261007-r1';
-import {facilitySlots,slotReservation,slotById} from './ea-facility-slots.mjs?v=ea-160-yunxiu-2d-20261007-r1';
+import {canPay,pay,grant,RESOURCES} from './ea-data.mjs?v=ea-160-courtyard-20261008-r1';
+import {buildingAccess,scenicFindPath,scenicNearest,geometryRevision,scenicDistance} from './ea-scene-geometry.mjs?v=ea-160-courtyard-20261008-r1';
+import {advanceScenic,syncScenicPosition} from './ea-scenic.mjs?v=ea-160-courtyard-20261008-r1';
+import {sceneUnits} from './ea-sr-spatial.mjs?v=ea-160-courtyard-20261008-r1';
+import {facilitySlots,slotReservation,slotById} from './ea-facility-slots.mjs?v=ea-160-courtyard-20261008-r1';
 
 let hooks={};
 export function configureEquipment(next={}){hooks={...hooks,...next};}
@@ -21,6 +21,15 @@ export const EQUIPMENT_THEME=Object.freeze({id:'theme:pulse',roles:['robe','seal
 export const ownedActivity=(s,p)=>s.activitiesById?.[p?.activityId]?.kind?.startsWith('sr-')?s.activitiesById[p.activityId]:null;
 export const personMind=p=>p.personId==='person:master'?p:p.mind;
 export const isLivingPerson=p=>!!p&&!p.dead&&p.life?.status!=='dead'&&p.status!=='dead'&&p.lifeStatus!=='dead'&&!p.historicalOnly;
+export function equippedAppearanceMounts(s,personId,items=Object.values(s.itemsById||{})){
+ const person=s.personsById?.[personId],mounts={};if(!isLivingPerson(person))return mounts;
+ for(const item of items){const definition=EQUIPMENT_DEFINITIONS[item.definitionId],location=item.location;
+  if(!definition||location?.kind!=='person'||location.id!==personId||location.slot!==definition.slot||!(item.condition>0))continue;
+  if(item.loan?item.loan.borrowerId!==personId:item.ownerId!==personId)continue;
+  mounts[definition.slot]={itemId:item.id,definitionId:item.definitionId,appearanceId:item.definitionId,sprite:definition.sprite};
+ }
+ return mounts;
+}
 export function requirePerson(s,id='person:master'){const p=s.personsById?.[id];if(!isLivingPerson(p))throw Error('人物已离世或不存在。');return p;}
 export function requirePlayer(id){if(id!=='person:master')throw Error('玩家仅直接控制掌门；门人须自主接受机会。');}
 export function reserveBody(s,p,kind,orderId){if(p.activityId&&s.activitiesById[p.activityId])throw Error('身体已有活动，先完成或取消。');const id=`activity:${kind}:${p.personId}`;s.activitiesById[id]={id,kind:`sr-${kind}`,personId:p.personId,orderId,phase:'moving',startedTick:s.worldTick};p.activityId=id;personMind(p).action='rest';return s.activitiesById[id];}
@@ -51,6 +60,21 @@ export function readyAtWorkstation(s,p,o){
  const pos=personMind(p).scenic;if(!pos)return false;
  if(scenicDistance(pos,slot.position)>sceneUnits(s,1)){const path=scenicFindPath(s,pos,slot.position);if(path===null){o.reason='工位通路受阻。';return false;}pos.path=path;pos.goal={...slot.position};pos.revision=geometryRevision(s);advanceScenic(pos,4.6,s);syncScenicPosition(s,p);o.reason='前往'+slot.label+'。';return false;}
  o.reason='正在使用'+slot.label+'。';return true;
+}
+function readyAtReturnPoint(s,p,o){
+ const home=s.stockpilesById?.['stockpile:yunxiu'],hall=s.buildingsById?.[home?.buildingId]||s.buildings.find(b=>b.type==='hall');
+ const courtyard='scene:yunxiu-courtyard';
+ const personHere=s.srWorld?p.position?.sceneId===courtyard:!p.position?.sceneId||p.position.sceneId===courtyard;
+ const warehouseHere=s.srWorld?home?.position?.sceneId===courtyard:!home?.position?.sceneId||home.position.sceneId===courtyard;
+ if(!personHere||p.journey||personMind(p).away||!home||!warehouseHere||!hall||hall.enabled===false||hall.condition<=0||hall.spatialLock){o.reason='主屋公库交还处暂不可用。';return false;}
+ const target=home.position?scenicNearest(s,home.position,{maxDistance:sceneUnits(s,48)}):buildingAccess(s,hall),pos=personMind(p).scenic;
+ if(!target||!pos){o.reason='主屋公库交还处没有合法脚点。';return false;}
+ o.target={...target};
+ if(scenicDistance(pos,target)>sceneUnits(s,1)){
+  if(pos.revision!==geometryRevision(s)||!pos.path?.length||!pos.goal||scenicDistance(pos.goal,target)>.01){const path=scenicFindPath(s,pos,target,{maxSnap:0});if(path===null){pos.path=[];pos.goal=null;pos.revision=geometryRevision(s);o.reason='交还处通路受阻。';return false;}pos.path=path;pos.goal={...target};pos.revision=geometryRevision(s);}
+  advanceScenic(pos,4.6,s);syncScenicPosition(s,p);o.reason='前往主屋公库交还处。';return false;
+ }
+ o.reason='已到主屋公库交还处。';return true;
 }
 export function initEquipment(s,{newGame=false}={}){
  s.itemsById??={};s.srEquipment??={version:1,lastTick:s.worldTick,nextId:1,orders:{},claims:{},themeByPerson:{},bindingEnabled:true,artisan:{phase:'unasked',parts:{},taught:false,refused:false}};
@@ -98,7 +122,7 @@ function settle(s,o,p){const q=o.parameters;if(o.operation==='craft'){const role
 export function tickEquipment(s){const e=s.srEquipment;if(!e||e.lastTick===s.worldTick||s.speed===0)return;e.lastTick=s.worldTick;
  for(const i of Object.values(s.itemsById))if(i.loan&&i.loan.dueTick<=s.worldTick)i.loan.status='return-due';
  for(const o of Object.values(e.orders))if(['reserved','executing','blocked'].includes(o.phase)){const p=s.personsById[o.personId],body=ownedActivity(s,p);if(!p||body?.orderId!==o.id){o.phase='blocked';o.reason='身体活动中断，请取消后重新安排。';continue;}if(!isLivingPerson(p)||p.energy<1){o.phase='blocked';o.reason='身体条件不允。';continue;}
-  const ready=['equip','npc-equip'].includes(o.operation)?true:['lend','gift'].includes(o.operation)?nearPerson(s,p,s.personsById[o.parameters.borrowerId||o.parameters.recipientId]):o.operation==='part'?s.master.position?.sceneId===`scene:${o.parameters.location}`||s.world?.exploration?.status==='exploring'&&s.world.exploration.regionId===o.parameters.location:readyAtWorkstation(s,p,o);
+  const ready=['equip','npc-equip'].includes(o.operation)?true:['lend','gift'].includes(o.operation)?nearPerson(s,p,s.personsById[o.parameters.borrowerId||o.parameters.recipientId]):o.operation==='part'?s.master.position?.sceneId===`scene:${o.parameters.location}`||s.world?.exploration?.status==='exploring'&&s.world.exploration.regionId===o.parameters.location:o.operation==='return'?readyAtReturnPoint(s,p,o):readyAtWorkstation(s,p,o);
   if(!ready){body.phase='moving';continue;}if(o.helperId&&(!isLivingPerson(s.personsById[o.helperId])||ownedActivity(s,s.personsById[o.helperId])?.orderId!==o.id)){o.phase='blocked';o.reason='协作者活动已中断，取消后重新商议。';continue;}if(o.helperId&&o.operation==='teach'&&!readyAtWorkstation(s,s.personsById[o.helperId],{id:o.id,kind:'teach',parameters:{}})){o.reason='等待匠师实际到授业席。';continue;}o.phase='executing';body.phase='executing';o.consumed=true;o.progressTicks++;p.energy=Math.max(0,p.energy-.02);if(o.progressTicks===o.durationTicks)settle(s,o,p);
  }
  for(const t of Object.values(e.themeByPerson))if(t.activeUntil<=s.worldTick)t.active=false;

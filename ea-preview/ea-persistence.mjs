@@ -10,11 +10,13 @@
  * is only an extra conflict check, NOT a substitute for an atomic lock. Without
  * a lock provider, reads/exports work but writes are explicitly unavailable.
  */
+import {PACKED_SAVE_FORMAT,packSave,unpackSave} from './ea-save-codec.mjs?v=ea-160-courtyard-20261008-r1';
+
 export const EA_SAVE_PREFIX = 'xianfu:simulation-web-game:ea:';
 export const LEGACY_SAVE_KEY = 'xianfu:simulation-web-game:save';
 export const LEGACY_BACKUP_KEY = LEGACY_SAVE_KEY + ':backup';
 export const SLOT_IDS = Object.freeze([1, 2, 3]);
-export const MAX_IMPORT_BYTES = 2 * 1024 * 1024;
+export const MAX_IMPORT_BYTES = 8 * 1024 * 1024;
 export const SAVE_FORMAT = 'xianfu-ea';
 const FORMAT_VERSION = 1;
 const BACKUP_FORMAT = 'xianfu-ea-backups';
@@ -33,6 +35,11 @@ const isObject = value => value !== null && typeof value === 'object' && !Array.
 const stateVersion = value => value?.schemaVersion ?? value?.version;
 const finiteTime = value => typeof value === 'number' && Number.isFinite(value) && value >= 0;
 const byteLength = value => new TextEncoder().encode(value).byteLength;
+function compactStorage(raw, maxBytes) {
+  if (byteLength(raw) <= 256 * 1024 || JSON.parse(raw).format === PACKED_SAVE_FORMAT) return raw;
+  const packed = packSave(raw);
+  return byteLength(packed) <= maxBytes && byteLength(packed) < byteLength(raw) ? packed : raw;
+}
 function fingerprint(raw) {
   let hash = 2166136261;
   for (let i = 0; i < raw.length; i++) hash = Math.imul(hash ^ raw.charCodeAt(i), 16777619);
@@ -148,6 +155,11 @@ export function createEAPersistence(options = {}) {
     try { data = JSON.parse(raw.replace(/^\uFEFF/, '')); }
     catch { throw failure('invalid-json', '存档不是有效的 JSON 文件。'); }
     if (!isObject(data)) throw failure('invalid-format', '存档必须是完整的游戏档案。');
+    if (data.format === PACKED_SAVE_FORMAT) {
+      try { data = JSON.parse(unpackSave(data, maxImportBytes)); }
+      catch (error) { throw failure(error instanceof RangeError ? 'file-too-large' : 'invalid-format', error.message); }
+      if (!isObject(data)) throw failure('invalid-format', '压缩存档不是完整的游戏档案。');
+    }
     let input, envelope = {}, sourceFormat;
     if (data.format === SAVE_FORMAT) {
       if (data.formatVersion !== FORMAT_VERSION || !finiteTime(data.savedAt) ||
@@ -301,7 +313,10 @@ export function createEAPersistence(options = {}) {
       const revisions = validBackups.map(entry => decode(entry.raw, {nativeOnly: true}).meta.revision);
       const revision = Math.max(0, current?.valid ? current.meta.revision : 0, ...revisions) + 1;
       if (!Number.isSafeInteger(revision)) throw failure('invalid-revision', '档案修订号超出允许范围。');
-      const next = stringify(envelope(state, activeSlot, revision, checkpoint));
+      const payload = envelope(state, activeSlot, revision, checkpoint);
+      const plain = stringify(payload);
+      if (byteLength(plain) > maxImportBytes) throw failure('file-too-large', '当前存档过大，无法安全保存；请导出当前进度。');
+      const next = compactStorage(plain, maxImportBytes);
       if (byteLength(next) > maxImportBytes) throw failure('file-too-large', '当前存档过大，无法安全保存；请导出当前进度。');
 
       if (reason && known !== null) preserve(store, activeSlot, known, reason, 'primary');
@@ -309,7 +324,7 @@ export function createEAPersistence(options = {}) {
       if (backupIndex.corrupt) preserve(store, activeSlot, backupsRaw, 'damaged-backup-index', 'backups');
       for (const entry of invalidBackups) preserve(store, activeSlot, entry.raw, 'damaged-backup', entry.id);
       const entries = [];
-      if (current?.valid) entries.push({id: 'backup-' + current.meta.revision + '-' + fingerprint(known), raw: known});
+      if (current?.valid) entries.push({id: 'backup-' + current.meta.revision + '-' + fingerprint(known), raw: compactStorage(known, maxImportBytes)});
       for (const entry of validBackups) if (!entries.some(item => item.raw === entry.raw)) entries.push(entry);
       entries.splice(3);
       const backupsNext = stringify({format: BACKUP_FORMAT, formatVersion: FORMAT_VERSION, entries});
@@ -328,7 +343,7 @@ export function createEAPersistence(options = {}) {
         throw failure('verification-failed', '保存后无法确认写入结果，未报告保存成功；请导出当前进度。');
       }
       known = next; blocked = false;
-      const meta = metadata(state, JSON.parse(next));
+      const meta = metadata(state, payload);
       savedAt = meta.savedAt;
       return result(true, 'saved', '已保存于 ' + new Date(savedAt).toLocaleTimeString(), {meta});
     } catch (error) {

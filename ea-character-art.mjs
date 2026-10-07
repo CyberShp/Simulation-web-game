@@ -4,7 +4,7 @@
  * poses. This module neither imports simulation/render owners nor mutates a view.
  * x/y is the actor's ground anchor, scale is pixels per logical metre.
  */
-import characterFrames from './ea-character-frames.mjs?v=ea-160-yunxiu-2d-20261007-r1';
+import characterFrames from './ea-character-frames.mjs?v=ea-160-courtyard-20261008-r1';
 
 const TAU = Math.PI * 2;
 const DEFAULT_RECIPE = Object.freeze({height:1.75, body:'regular', face:'oval', hair:'topknot', outfit:'disciple', faceMark:0});
@@ -57,12 +57,79 @@ const usableAtlas=image=>!!image&&image.complete!==false&&
 export function registerCultivatorAtlas(image){sharedAtlas=usableAtlas(image)?image:null;return !!sharedAtlas;}
 export function hasCultivatorAtlas(){return usableAtlas(sharedAtlas);}
 
+export const CULTIVATOR_REST_ATLAS=Object.freeze({
+  id:'yunxiu-courtyard:rest:v1',source:'./assets/estate-v1/characters-rest-v1.png',
+  width:1024,height:1536,
+  frames:Object.freeze([
+    {x:28,y:26,w:313,h:694},{x:341,y:48,w:334,h:670},{x:696,y:26,w:307,h:695},
+    {x:26,y:766,w:315,h:724},{x:354,y:790,w:323,h:697},{x:695,y:791,w:312,h:691},
+  ].map(Object.freeze)),
+});
+let sharedRestAtlas=null;
+const usableRestAtlas=image=>!!image&&image.complete!==false&&
+  Number(image.naturalWidth??image.width)===CULTIVATOR_REST_ATLAS.width&&
+  Number(image.naturalHeight??image.height)===CULTIVATOR_REST_ATLAS.height;
+export function registerCultivatorRestAtlas(image){sharedRestAtlas=usableRestAtlas(image)?image:null;return !!sharedRestAtlas;}
+export function hasCultivatorRestAtlas(){return usableRestAtlas(sharedRestAtlas);}
+
+/** SR-XF-007: static authored waiting and seated study bodies in saved identity order. */
+export const CULTIVATOR_ACTIVITY_ATLAS=Object.freeze({
+  id:'yunxiu-courtyard:wait-study:v1',source:'./assets/estate-v1/characters-wait-study-v1.png',
+  width:1536,height:1024,columns:6,
+  frames:Object.freeze({
+    waiting:Object.freeze([
+      {x:30,y:10,w:205,h:359,footX:127,footY:357},
+      {x:330,y:31,w:153,h:333,footX:86,footY:331},
+      {x:568,y:16,w:148,h:353,footX:77,footY:351},
+      {x:830,y:20,w:136,h:349,footX:73,footY:347},
+      {x:1075,y:35,w:139,h:330,footX:87,footY:328},
+      {x:1336,y:36,w:137,h:331,footX:73,footY:329},
+    ].map(Object.freeze)),
+    study:Object.freeze([
+      {x:12,y:428,w:243,h:282,footX:150,footY:280},
+      {x:305,y:443,w:205,h:266,footX:111,footY:264},
+      {x:558,y:431,w:202,h:278,footX:118,footY:276},
+      {x:806,y:436,w:206,h:274,footX:109,footY:272},
+      {x:1057,y:439,w:210,h:269,footX:125,footY:267},
+      {x:1323,y:445,w:190,h:265,footX:104,footY:263},
+    ].map(Object.freeze)),
+  }),
+});
+let sharedActivityAtlas=null;
+const usableActivityAtlas=image=>!!image&&image.complete!==false&&
+  Number(image.naturalWidth??image.width)===CULTIVATOR_ACTIVITY_ATLAS.width&&
+  Number(image.naturalHeight??image.height)===CULTIVATOR_ACTIVITY_ATLAS.height;
+export function registerCultivatorActivityAtlas(image){sharedActivityAtlas=usableActivityAtlas(image)?image:null;return !!sharedActivityAtlas;}
+export function hasCultivatorActivityAtlas(){return usableActivityAtlas(sharedActivityAtlas);}
+
+/** Authored supine body, projected onto the same bed plane as the furniture. */
+export function drawRestingCultivator(ctx,view,anchor,{atlas=sharedRestAtlas,selected=false}={}){
+  if(!usableRestAtlas(atlas)||anchor?.poseVariant!=='bed-rest')return false;
+  const saved=view?.spriteIndex??view?.appearance?.spriteIndex;
+  const column=Number.isInteger(saved)&&saved>=0&&saved<6?saved:0;
+  const f=CULTIVATOR_REST_ATLAS.frames[column],{origin,across,along,length}=anchor.surface;
+  const width=length*f.w/f.h;
+  ctx.save();ctx.transform(across.x,across.y,along.x,along.y,origin.x,origin.y);
+  ctx.drawImage(atlas,f.x,f.y,f.w,f.h,-width/2,0,width,length);
+  if(selected){ctx.strokeStyle='#e1c888';ctx.lineWidth=.035;ctx.strokeRect(-width/2-.04,-.025,width+.08,length+.05);}
+  ctx.restore();
+  return {asset:CULTIVATOR_REST_ATLAS.id,column,action:'rest',sourcePose:'supine',animated:false,length,width};
+}
+
 /** Read-only source selection; an activity can never change a person's column. */
 export function cultivatorSpriteFrame(view={},tick=0,options={}){
   const pose=cultivatorPose(view,tick,options),savedIndex=view.spriteIndex??view.appearance?.spriteIndex;
   const column=Number.isInteger(savedIndex)&&savedIndex>=0&&savedIndex<CULTIVATOR_ATLAS.columns?savedIndex:0;
+  if(!options.portrait&&!pose.back&&usableActivityAtlas(options.activityAtlas??sharedActivityAtlas)&&
+      CULTIVATOR_ACTIVITY_ATLAS.frames[pose.action]){
+    return {asset:CULTIVATOR_ACTIVITY_ATLAS.id,column,row:null,
+      frame:{...CULTIVATOR_ACTIVITY_ATLAS.frames[pose.action][column]},
+      sourcePose:pose.action,action:pose.action,mirror:pose.mirror,height:pose.height,
+      renderHeight:pose.action==='study'?1.13:1.75,animated:false,
+      dedicatedPoseAvailable:true,fullAnimationAvailable:false,fallback:null};
+  }
   const row=options.portrait?0:pose.back?3:pose.walking&&!options.reducedMotion?1+(Math.floor(pose.phase/Math.PI)%2):0;
-  const sourcePose=CULTIVATOR_ATLAS.rows[row],dedicatedPoseAvailable=['stand','waiting','walk','transport'].includes(pose.action);
+  const sourcePose=CULTIVATOR_ATLAS.rows[row],dedicatedPoseAvailable=['stand','walk','transport'].includes(pose.action);
   return {asset:CULTIVATOR_ATLAS.id,column,row,frame:{...(PAINTED_FRAME_CORRECTIONS[row]||characterFrames.frames[row])[column]},
     sourcePose,action:pose.action,mirror:pose.mirror,height:pose.height,
     animated:pose.walking&&!pose.back&&!options.reducedMotion,
@@ -70,12 +137,7 @@ export function cultivatorSpriteFrame(view={},tick=0,options={}){
     fallback:dedicatedPoseAvailable?null:'同一人物静态图集与实际工具；该活动专用身体姿态尚未绘制'};
 }
 
-/**
- * The existing 0.6 × 0.9 m bed is too short for an adult lying down. An actual,
- * executing rest reservation is therefore shown honestly at its walkable
- * bedside slot, never moved into furniture or shrunk to fit it. This read-only
- * rendering adjustment does not change the underlying rest action or benefits.
- */
+/** Rest uses its reserved bed surface; the saved arrival/collision foot stays put. */
 export function restRenderAnchor(s,person,{prefab,transform,project,camera}={}){
   if(!s||!person||typeof prefab!=='function'||typeof transform!=='function'||typeof project!=='function'||!camera)return null;
   const a=s.activitiesById?.[person.activityId];
@@ -93,6 +155,21 @@ export function restRenderAnchor(s,person,{prefab,transform,project,camera}={}){
   if(!at||!Number.isFinite(at.x)||!Number.isFinite(at.y)||Math.hypot(at.x-expected.x,at.y-expected.y)>.08)return null;
   const worldPosition={x:at.x,y:at.y},q=project(worldPosition,camera);
   if(!Number.isFinite(q?.x)||!Number.isFinite(q?.y))return null;
+  const reservation=s.reservationsById?.[a.reservationId];
+  const xs=bed.polygon.map(p=>p[0]),ys=bed.polygon.map(p=>p[1]);
+  const left=t.x+Math.min(...xs),top=t.y+Math.min(...ys),width=Math.max(...xs)-Math.min(...xs),depth=Math.max(...ys)-Math.min(...ys);
+  const length=clamp(Number(person.appearance?.recipe?.height)||1.75,1.6,1.9);
+  if(reservation?.kind==='slot'&&reservation.activityId===a.id&&reservation.slotId===a.slotId&&reservation.personId===person.personId&&depth>=length+.12&&width>=.8){
+    const centre={x:left+width/2,y:top+depth/2};
+    const head={x:centre.x,y:centre.y-length/2};
+    const origin=project(head,camera),xAxis=project({x:head.x+1,y:head.y},camera),yAxis=project({x:head.x,y:head.y+1},camera);
+    origin.y-=.46*camera.scale;
+    const across={x:xAxis.x-origin.x,y:xAxis.y-origin.y-.46*camera.scale},along={x:yAxis.x-origin.x,y:yAxis.y-origin.y-.46*camera.scale};
+    const visualPosition=project(centre,camera);visualPosition.y-=.46*camera.scale;
+    const corners=[[-.52,0],[.52,0],[.52,length],[-.52,length]].map(([x,y])=>({x:origin.x+across.x*x+along.x*y,y:origin.y+across.y*x+along.y*y}));
+    const bounds={left:Math.min(...corners.map(p=>p.x)),right:Math.max(...corners.map(p=>p.x)),top:Math.min(...corners.map(p=>p.y)),bottom:Math.max(...corners.map(p=>p.y))};
+    return {x:visualPosition.x,y:visualPosition.y,worldPosition,visualWorldPosition:centre,depthPosition:{x:left+width,y:top+depth},surface:{origin,across,along,length},bounds,poseVariant:'bed-rest',action:'rest',label:'卧床休养',buildingId:b.id,buildingInstanceId:baseId,slotId:a.slotId,bedId:bed.id};
+  }
   return {x:q.x,y:q.y,worldPosition,angle:0,scale:camera.scale,poseVariant:'bedside-rest',action:'rest',label:'床边歇息',buildingId:b.id,buildingInstanceId:baseId,slotId:a.slotId,bedId:bed.id};
 }
 
@@ -294,9 +371,32 @@ const PAINTED_MOUNTS=Object.freeze([
   [.63,.48,.43,.51,.58,.54], [.60,.40,.41,.49,.54,.54],
 ]);
 function paintedAttachments(sprite,pose){
-  const f=sprite.frame,unit=1.75/f.footY,a=PAINTED_MOUNTS[sprite.column];
+  const f=sprite.frame,unit=(sprite.renderHeight||1.75)/f.footY;
+  const a=sprite.sourcePose==='study'?[.65,.52,.38,.53,.5,.69]:
+    sprite.sourcePose==='waiting'?[.55,.50,.45,.50,.5,.57]:PAINTED_MOUNTS[sprite.column];
   const at=(x,y)=>pt((f.w*x-f.footX)*unit,(f.h*y-f.footY)*unit);
   return {...pose,nearHand:at(a[0],a[1]),farHand:at(a[2],a[3]),hip:at(a[4],a[5]),lean:0};
+}
+function attachmentSprite(mount){return mount?.sprite||mount?.appearanceId||mount?.definitionId||'';}
+function drawAccessoryAttachment(ctx,mount,hip,{herbalist=false}={}){
+  const pendant=attachmentSprite(mount).includes('pendant'),x=hip.x-.20,y=hip.y+.20;
+  line(ctx,[[hip.x-.16,hip.y+.03],[x,y-.04]],'#a98f60',.013);
+  if(pendant){
+    shape(ctx,p=>{p.moveTo(x,y-.09);p.lineTo(x+.055,y);p.lineTo(x,y+.09);p.lineTo(x-.055,y);p.closePath();},'#9bc8b3','#476e60');
+    ellipse(ctx,x,y,.017,.025,'#e1e6bf');
+  }else{
+    ellipse(ctx,x,y,.061,.079,herbalist?'#9e956d':'#8daa99','#516457');
+    line(ctx,[[x-.04,y-.03],[x+.04,y-.03]],'#c5bc8b',.014);
+  }
+}
+function drawArtifactAttachment(ctx,mount,hand){
+  if(attachmentSprite(mount).includes('pulse')){
+    shape(ctx,p=>{p.moveTo(hand.x,hand.y-.04);p.lineTo(hand.x+.065,hand.y+.075);p.lineTo(hand.x,hand.y+.18);p.lineTo(hand.x-.065,hand.y+.075);p.closePath();},'#90c3ad','#426b5b');
+    ellipse(ctx,hand.x,hand.y+.075,.025,.035,'#e3e6bd');
+  }else{
+    shape(ctx,p=>{p.moveTo(hand.x-.046,hand.y);p.lineTo(hand.x+.047,hand.y);p.lineTo(hand.x+.042,hand.y+.145);p.lineTo(hand.x-.043,hand.y+.145);p.closePath();},'#b7c5a6','#647a62');
+    line(ctx,[[hand.x-.021,hand.y+.035],[hand.x+.022,hand.y+.06],[hand.x-.02,hand.y+.109]],'#8c7350',.011);
+  }
 }
 function paintedEquipment(ctx,f,palette,{portrait=false}={}){
   const h=f.hip,weapon=f.mounts.weapon||f.mounts.mainHand,robe=f.mounts.armor||f.mounts.robe;
@@ -314,20 +414,13 @@ function paintedEquipment(ctx,f,palette,{portrait=false}={}){
     line(ctx,[[x-.07,y-.07],[x+.07,y-.07]],'#c9b781',.023);
     line(ctx,[[x,y-.01],[x,y+.11]],'#81714e',.028);
   }
-  if(f.mounts.accessory||f.mounts.belt){
-    line(ctx,[[h.x-.12,h.y+.01],[h.x-.16,h.y+.12]],'#a98f60',.016);
-    ellipse(ctx,h.x-.16,h.y+.16,.055,.073,'#8daa99','#516457');
-  }
-  if(f.mounts.artifact||f.mounts.charm){
-    const hand=f.farHand;
-    shape(ctx,p=>{p.moveTo(hand.x-.046,hand.y);p.lineTo(hand.x+.047,hand.y);p.lineTo(hand.x+.042,hand.y+.145);p.lineTo(hand.x-.043,hand.y+.145);},'#b7c5a6','#647a62');
-    line(ctx,[[hand.x-.021,hand.y+.035],[hand.x+.022,hand.y+.06],[hand.x-.02,hand.y+.109]],'#8c7350',.011);
-  }
+  if(f.mounts.accessory||f.mounts.belt)drawAccessoryAttachment(ctx,f.mounts.accessory||f.mounts.belt,h);
+  if(f.mounts.artifact||f.mounts.charm)drawArtifactAttachment(ctx,f.mounts.artifact||f.mounts.charm,f.farHand);
 }
-function drawPaintedCultivator(ctx,view,options,atlas){
+function drawPaintedCultivator(ctx,view,options,atlas,activityAtlas){
   const {x,y,scale,tick,facing,reducedMotion,portrait,selected}=options;
-  const pose=cultivatorPose(view,tick,options),sprite=cultivatorSpriteFrame(view,tick,options),f=sprite.frame;
-  const attachment=paintedAttachments(sprite,pose),unit=1.75/f.footY;
+  const pose=cultivatorPose(view,tick,options),sprite=cultivatorSpriteFrame(view,tick,{...options,activityAtlas}),f=sprite.frame;
+  const attachment=paintedAttachments(sprite,pose),unit=(sprite.renderHeight||1.75)/f.footY;
   const accent=view.accent||view.appearance?.accent||'#819787';
   const palette={cloth:accent,skin:'#d8b995',hair:'#303b36',trim:'#c4cfb5',ink:'#35483e'};
   ctx.save();ctx.translate(x,y);ctx.scale(scale,scale);ctx.lineCap='round';ctx.lineJoin='round';
@@ -339,12 +432,14 @@ function drawPaintedCultivator(ctx,view,options,atlas){
   // A downed person is laid at their existing anchor, not displayed alive and
   // standing. This is a static image transform, not an authored falling cycle.
   if(pose.action==='down'&&!portrait){ctx.translate(-.72,-.10);ctx.rotate(Math.PI/2);}
-  ctx.drawImage(atlas,f.x,f.y,f.w,f.h,-f.footX*unit,-f.footY*unit,f.w*unit,f.h*unit);
+  ctx.drawImage(sprite.asset===CULTIVATOR_ACTIVITY_ATLAS.id?activityAtlas:atlas,
+    f.x,f.y,f.w,f.h,-f.footX*unit,-f.footY*unit,f.w*unit,f.h*unit);
   paintedEquipment(ctx,attachment,palette,{portrait});
   if(!portrait){
     // Walk rows are used only for real movement. Work/study/rest keep this same
     // painted identity and use truthful tools rather than a fake work loop.
-    const activeTool=['work','plant','gather','study','teach','heal','transport','cast'].includes(pose.action);
+    const activeTool=['work','plant','gather','study','teach','heal','transport','cast'].includes(pose.action)&&
+      sprite.sourcePose!=='study';
     if(activeTool&&!pose.back){
       const toolPose={...attachment,phase:0}; // no floating tool motion on a static hand
       if(['book','basket','bundle','mortar'].includes(toolPose.tool)||pose.action==='transport'){
@@ -361,8 +456,8 @@ function drawPaintedCultivator(ctx,view,options,atlas){
 }
 
 /** Draw one stable identity, returning its pure pose without touching world state. */
-export function drawCultivator(ctx,view={}, {x=0,y=0,scale=32,tick=0,facing=1,reducedMotion=false,portrait=false,selected=false,atlas=sharedAtlas}={}){
-  if(usableAtlas(atlas))return drawPaintedCultivator(ctx,view,{x,y,scale,tick,facing,reducedMotion,portrait,selected},atlas);
+export function drawCultivator(ctx,view={}, {x=0,y=0,scale=32,tick=0,facing=1,reducedMotion=false,portrait=false,selected=false,atlas=sharedAtlas,activityAtlas=sharedActivityAtlas}={}){
+  if(usableAtlas(atlas))return drawPaintedCultivator(ctx,view,{x,y,scale,tick,facing,reducedMotion,portrait,selected},atlas,activityAtlas);
   const f=cultivatorPose(view,tick,{reducedMotion,portrait,facing}),r=f.recipe;
   const accent=view.accent||view.appearance?.accent||'#819787',mark=((Number(r.faceMark)||0)%SKINS.length+SKINS.length)%SKINS.length;
   const robeMount=f.mounts.armor||f.mounts.robe,robeId=robeMount?.appearanceId||robeMount?.definitionId||'';
@@ -439,11 +534,7 @@ export function drawCultivator(ctx,view={}, {x=0,y=0,scale=32,tick=0,facing=1,re
     line(ctx,[[sh.x-.115,sh.y+.15],[sh.x-.043,sh.y+.23],[sh.x-.098,sh.y+.29]],'#b7d2bf',.018);
     ellipse(ctx,sh.x-.053,sh.y+.23,.014,.018,'#dfe3bc');
   }
-  if(f.mounts.accessory||f.mounts.belt||r.outfit==='herbalist'){
-    line(ctx,[[hip.x-.16,hip.y+.03],[hip.x-.21,hip.y+.16]],'#a98f60',.013);
-    ellipse(ctx,hip.x-.20,hip.y+.20,.061,.079,r.outfit==='herbalist'?'#9e956d':'#8daa99','#516457');
-    line(ctx,[[hip.x-.24,hip.y+.17],[hip.x-.16,hip.y+.17]],'#c5bc8b',.014);
-  }
+  if(f.mounts.accessory||f.mounts.belt||r.outfit==='herbalist')drawAccessoryAttachment(ctx,f.mounts.accessory||f.mounts.belt,hip,{herbalist:r.outfit==='herbalist'});
   drawFace(ctx,f,palette);
   sleeve(ctx,f.nearShoulder,f.nearElbow,f.nearHand,cloth,trim,palette.skin);
   if(!portrait){
@@ -452,10 +543,7 @@ export function drawCultivator(ctx,view={}, {x=0,y=0,scale=32,tick=0,facing=1,re
       const hand=f.nearHand;line(ctx,[[hand.x-.04,hand.y+.08],[hand.x+.26,hand.y-.57]],'#c5d1c0',.034);
       line(ctx,[[hand.x-.066,hand.y-.013],[hand.x+.079,hand.y+.039]],'#cab783',.024);
     }
-    if(f.mounts.artifact||f.mounts.charm){
-      const hand=f.farHand;shape(ctx,p=>{p.moveTo(hand.x-.049,hand.y+.02);p.lineTo(hand.x+.052,hand.y+.018);p.lineTo(hand.x+.051,hand.y+.157);p.lineTo(hand.x-.043,hand.y+.16);},'#b7c5a6','#647a62');
-      line(ctx,[[hand.x-.025,hand.y+.051],[hand.x+.027,hand.y+.07],[hand.x-.024,hand.y+.116]],'#8c7350',.011);
-    }
+    if(f.mounts.artifact||f.mounts.charm)drawArtifactAttachment(ctx,f.mounts.artifact||f.mounts.charm,f.farHand);
   }
   ctx.restore();return f;
 }

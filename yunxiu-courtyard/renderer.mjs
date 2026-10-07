@@ -1,7 +1,7 @@
 import{WIDTH,HEIGHT,EDGES,point,LANDMARKS}from'./navigation.mjs?v=courtyard-1.3';
 // Foreground silhouettes use the same registered world coordinates as navigation.
 // A sprite is clipped by an object only when its feet are behind that object.
-const foreground=[
+export const foreground=[
  {poly:[[541,558],[575,535],[615,520],[654,515],[695,519],[723,526],[727,548],[697,539],[655,536],[618,541],[583,558],[557,580],[541,580]],zone:p=>p.x>530&&p.x<731&&p.y<582&&p.y>509},
  {poly:[[706,509],[747,486],[779,508],[801,535],[790,576],[753,580],[717,561]],zone:p=>p.x>710&&p.x<780&&p.y<553},
  {poly:[[913,411],[950,420],[968,447],[966,485],[957,519],[920,518],[899,478],[894,452]],zone:p=>p.x>898&&p.x<969&&p.y<486},
