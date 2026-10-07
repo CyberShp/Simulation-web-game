@@ -68,4 +68,4 @@ python qa/sr-manager.py task SR-XF-003-D01 --status in_progress --owner assigned
 
 ## 文档与实际成果
 
-本次只建立和校验需求管理、修正文档状态/身份冲突；未实现这些SR对应的新游戏玩法，不部署新运行时。既有线上版本仍EA 1.5.0-dev。源码仓库是权威管理入口，本轮不自动创建40个GitHub Issue，不引入另一个会漂移的任务台账。
+初次建档只建立和校验需求管理，不代表实现了全部 SR。此后已持续开发，当前线上版本为 EA 1.6.0-dev；以 registry.json 和 [最新状态](../design/STATUS.md) 区分现有实现、局部证据及未验收内容。当前交接见 [Codex 接手指南](../CODEX-HANDOFF.md)。源码仓库仍是权威管理入口，不自动创建 40 个 GitHub Issue，不引入另一个会漂移的任务台账。

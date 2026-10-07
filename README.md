@@ -1,6 +1,6 @@
-> **最新设计：DB-2026-10-05 v1.1。** 后续会话与模型先读 [AGENTS.md](AGENTS.md) 和 [设计入口](docs/design/README.md)。统一规格现包含人物、装备武学、空间营造、经济组织、活世界、真假消息、稀世暗线、NPC死亡救援及可选AI边界。用户已确认与推荐方案分开登记。
+> **当前接手入口（2026-10-07）：[Codex 接手指南](docs/CODEX-HANDOFF.md)。** 设计基线 DB-2026-10-05 v1.2，正式运行时 EA 1.6.0-dev / schema 6，固定 2.5D、沿用云岫旧美术、96×96 米山院。先读 [AGENTS.md](AGENTS.md)、[设计入口](docs/design/README.md)、[最新状态](docs/design/STATUS.md) 与 [SR 台账](docs/requirements/registry.json)。
 >
-> 本轮只更新设计文档。核对时GitHub Pages已为EA 1.4.2，而GitHub main运行源码仍为EA 1.3；新设计尚未实现。版本与差距见 [STATUS.md](docs/design/STATUS.md)，后续以实际提交核对。以下EA 1.3说明保留为历史功能记录，不能用于判定新设计完成。
+> 源码与新美术已在 main，正式网页版已发布；本次接手交付只补充文档，不改变游戏运行时。40 项 SR 尚未全部交付验收。以下 EA 1.3 说明及独立原型链接保留为历史记录，不是当前开发或验收基线。
 
 # 模拟仙府 · 余烬立山
 

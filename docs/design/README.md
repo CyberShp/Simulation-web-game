@@ -56,7 +56,7 @@ v1.1新增的世界任务需联合读取08–12与05：NPC永久死亡覆盖v1.0
 
 ## 本地开发增量
 
-用户已要求开始开发。最新实现与未覆盖范围见[18](18-SPATIAL-CONTINUITY-IMPLEMENTATION.md)，第三批见[17](17-INDOOR-LIFE-IMPLEMENTATION.md)，第二批见[16](16-WORKSTATIONS-ARTISAN-IMPLEMENTATION.md)，首批历史见[15-OPENING-IMPLEMENTATION.md](15-OPENING-IMPLEMENTATION.md)；本地EA 1.5.0-dev使用schema 6，正式Pages已发布EA 1.5.0-dev，当前发布证据见STATUS首段。接续先核对STATUS，不能把首批开局当成完整v1.2验收。
+当前运行时为 EA 1.6.0-dev / schema 6，U-100 固定 2.5D、沿用旧云岫素材并扩大山院；当前发布、实际证据和未覆盖范围以 [STATUS](STATUS.md) 首段及 [Codex 接手指南](../CODEX-HANDOFF.md) 为准。[18](18-SPATIAL-CONTINUITY-IMPLEMENTATION.md)、[17](17-INDOOR-LIFE-IMPLEMENTATION.md)、[16](16-WORKSTATIONS-ARTISAN-IMPLEMENTATION.md)、[15](15-OPENING-IMPLEMENTATION.md) 是各批历史实施记录，不是当前总进度。不能把首批开局或历史局部通过数当成完整 v1.2 验收。
 
 ## 变更与交接方法
 
