@@ -2,7 +2,7 @@
 
 ## 已发布阶段检查点 · 2026-10-08
 
-本批已将保留的开发成果与已独立通过的 17 条新增 AC 提交并推送至源码 `main`：`9e39ae959f7cc4a430e05cd22cda964af197d947`。现有游戏网页 [GitHub Pages](https://cybershp.github.io/Simulation-web-game/) 的 `gh-pages` 已更新至 `603a3a821e253c57e74e3ddd1dcbf9ed7bb154ca`，缓存标记为 `ea-160-courtyard-20261008-r1`；Pages 构建状态为 `built`。公开首页和预览页、新渲染模块及藏经阁 v3 素材返回 200，抽查素材 SHA-256 与源码一致。独立验收网址 `?acceptance=qa-release-20261008` 在真实 Chromium 中可新建世界、进入山院、保存并刷新后读回同一档，控制台无错误。网页验收使用独立存档，不涉及正式三份世界档。
+本批已将保留的开发成果与已独立通过的 17 条新增 AC 提交并推送至源码 `main`，运行代码检查点为 `9e39ae959f7cc4a430e05cd22cda964af197d947`。现有游戏网页 [GitHub Pages](https://cybershp.github.io/Simulation-web-game/) 的 `gh-pages` 已更新至 `603a3a821e253c57e74e3ddd1dcbf9ed7bb154ca`，缓存标记为 `ea-160-courtyard-20261008-r1`；Pages 构建状态为 `built`。公开首页和预览页、新渲染模块及藏经阁 v3 素材返回 200，抽查素材 SHA-256 与源码一致。独立验收网址 `?acceptance=qa-release-20261008` 在真实 Chromium 中可新建世界、进入山院、保存并刷新后读回同一档，控制台无错误。网页验收使用独立存档，不涉及正式三份世界档。
 
 发布前封闭建筑缺图施工回退经有来源的六类建筑各地基、主体、收尾共 18/18 个生产 Canvas 快照独立复核：地基低矮、主体开放木架、收尾封闭，渲染前后存档一致；室内真实活动继续运行而院景不绘室内人物。SR-XF-003、004、011 的 D01/D02 设计契约经独立审阅完成，台账标 `ready`，其 I/V/R 仍待。当前权威台账为 40 SR、120 AC：35 `passed`、84 `not_run`、1 `blocked`；整项仍仅 SR001 通过。SR003-AC02 的 14 类独立画面核对发现门人居与藏经阁门高不足、820×1180 详情遮挡，仍为待验；真 iPadOS、Windows/macOS 目标设备和真人视觉未验。本节以下保留各批当时的阶段记录，以台账和本节作为当前状态。
 
