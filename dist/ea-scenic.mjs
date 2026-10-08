@@ -1,4 +1,4 @@
-import {spatialEnabled,sceneUnits,spatialAccess,SPATIAL_VERSION} from './ea-sr-spatial.mjs';
+import {spatialEnabled,sceneUnits,spatialAccess,SPATIAL_VERSION,meterBodyBlocker,meterLocalBodyDetour,metreWalkTarget,requestBodyYield,meterDoorPermit,meterDoorMoved} from './ea-sr-spatial.mjs';
 import {slotById} from './ea-facility-slots.mjs';
 import {point,findPath,sweep,canStand,distance,LANDMARKS} from './yunxiu-courtyard/navigation.mjs';
 import {SCENE_GEOMETRY,SCENIC_PLOTS,scenicCanStand,scenicFindPath,scenicSweep,scenicNearest,buildingAccess,geometryRevision,scenicDistance} from './ea-scene-geometry.mjs';
@@ -9,14 +9,18 @@ export const areaPoint=id=>point(LANDMARKS.find(l=>l.id===id)?.node||'centre');
 export const appearance=id=>id==='master'?0:1+((Number(id)-1)%5);
 export function scenicPosition(master){return master.scenic||{...point('mainDoor'),path:[],steps:0,facing:1,back:false};}
 export function startScenicWalk(master,goal,s){
- const a=scenicPosition(master),path=s?scenicFindPath(s,a,goal):findPath(a,goal);if(!path)return false;
+ const a=scenicPosition(master),target=s&&spatialEnabled(s)?metreWalkTarget(s,a,goal):goal,path=s?scenicFindPath(s,a,target):findPath(a,target);if(!path)return false;
  master.scenic={...a,path,...(s?{geometry:spatialEnabled(s)?SPATIAL_VERSION:SCENE_GEOMETRY,revision:geometryRevision(s),goal:path.at(-1)||{x:a.x,y:a.y}}:{})};master.path=[];master.action=path.length?'walk':'rest';master.learning=null;master.teaching=null;return true;
 }
 export function advanceScenic(actor,budget,s){budget=sceneUnits(s,budget);
  if(s&&actor.revision!==geometryRevision(s)){repairScenicActor(actor,s);}
- let used=0;while(actor.path.length&&budget>.001){const target=actor.path[0],d=distance(actor,target);if(d<.001){actor.path.shift();continue;}
+ let used=0,detours=0;while(actor.path.length&&budget>.001){const target=actor.path[0],d=distance(actor,target);if(d<.001){actor.path.shift();continue;}
  const step=Math.min(budget,d),next={x:actor.x+(target.x-actor.x)*step/d,y:actor.y+(target.y-actor.y)*step/d},moved=s?scenicSweep(s,actor,next):sweep(actor,next);
- if(moved.blocked){if(s){actor.path=[];actor.goal=null;break;}throw Error('山道路径越过通行边界。');}actor.facing=next.x<actor.x?-1:1;actor.back=next.y<actor.y-sceneUnits(s,1);actor.x=moved.x;actor.y=moved.y;actor.steps=(actor.steps||0)+step;budget-=step;used+=step;if(step>=d-.001)actor.path.shift();
+ if(moved.blocked){if(s){actor.path=[];actor.goal=null;break;}throw Error('山道路径越过通行边界。');}
+ if(s&&!meterDoorPermit(s,actor,actor,actor.path,next))break;
+ const blocker=s&&meterBodyBlocker(s,actor,actor,next);
+ if(blocker){const detour=detours<2&&meterLocalBodyDetour(s,actor,actor,actor.path);if(detour){actor.path=detour;detours++;continue;}requestBodyYield(s,actor,blocker,actor.path);actor.waitingForPersonId=blocker.personId;break;}
+ delete actor.waitingForPersonId;actor.facing=next.x<actor.x?-1:1;actor.back=next.y<actor.y-sceneUnits(s,1);actor.x=moved.x;actor.y=moved.y;actor.steps=(actor.steps||0)+step;budget-=step;used+=step;if(step>=d-.001)actor.path.shift();if(s)meterDoorMoved(s,actor);
  }return used;
 }
 export function validateScenic(a,s){

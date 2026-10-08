@@ -93,6 +93,105 @@ export function meterFindPath(s,from,goal,{maxSnap=2,radius=.26}={}){
 }
 const personPosition=(s,p)=>p===s.master?p.scenic:p.mind?.scenic;
 const people=s=>Object.values(s.personsById||{}).filter(p=>p.lifeStatus!=='dead'&&!p.left&&!p.mind?.away&&!p.mind?.journey&&(!p.location||p.location.kind==='local'&&p.location.sceneId===SPATIAL_SCENE.id)&&(p===s.master||s.homeMemberIds?.includes(p.personId)||p.mind?.scenic));
+const walkingPerson=(s,actor)=>people(s).find(p=>personPosition(s,p)===actor);
+export function metreWalkTarget(s,actor,goal){
+ const mover=walkingPerson(s,actor);if(!mover||!people(s).some(p=>p!==mover&&personPosition(s,p)&&distance(personPosition(s,p),goal)<.53))return goal;
+ const occupied=people(s).filter(p=>p!==mover).map(p=>personPosition(s,p)).filter(Boolean);
+ return meterNearest(s,goal,{maxDistance:2,occupied})||goal;
+}
+function pointSegmentDistance(p,a,b){const dx=b.x-a.x,dy=b.y-a.y,t=Math.max(0,Math.min(1,((p.x-a.x)*dx+(p.y-a.y)*dy)/(dx*dx+dy*dy||1)));return Math.hypot(p.x-a.x-t*dx,p.y-a.y-t*dy);}
+const doorCache=new WeakMap();
+function closedDoors(s){const revision=spatialRevision(s),cached=doorCache.get(s);if(cached?.revision===revision)return cached.doors;const doors=s.buildings.flatMap(b=>{const prefab=spatialPrefab(b);if(!prefab?.indoor)return [];const t=spatialTransform(b);return [{entryId:`${b.instanceId}/entry:south`,door:{x:t.x+prefab.door.x,y:t.y+prefab.door.y}}];});doorCache.set(s,{revision,doors});return doors;}
+const doorRecord=(s,a)=>Object.values(s.spatial?.doorQueuesByEntryId||{}).find(q=>q.holder?.personId===a.personId||q.waiting.some(w=>w.personId===a.personId));
+function doorCrossing(s,from,route,next){
+ if(!route?.length)return null;
+ for(const {entryId,door} of closedDoors(s)){const goal=route.at(-1),phase=from.y<door.y-.26&&goal.y>door.y+.26?'out':from.y>door.y+.26&&goal.y<door.y-.26?'in':null;
+  if(!phase||pointSegmentDistance(door,from,next||from)>1.5)continue;
+  let before=from;for(const after of route){if((before.y-door.y)*(after.y-door.y)<=0&&Math.abs(after.y-before.y)>1e-9){const x=before.x+(after.x-before.x)*(door.y-before.y)/(after.y-before.y);if(Math.abs(x-door.x)<=.44+1e-6)return {entryId,phase,door};}before=after;}
+ }
+ return null;
+}
+function doorCandidateValid(s,record,entryId){
+ const p=s.personsById[record.personId],a=p&&personPosition(s,p);
+ if(!p||!a||!closedDoors(s).some(d=>d.entryId===entryId)||!people(s).includes(p)||p.activityId!==record.activityId||!a.path?.length||!a.goal||distance(a.goal,record.target)>.01)return false;
+ if(p.wound>20&&['construction','sr-construction','sr-transport'].includes(s.activitiesById[p.activityId]?.kind))return false;
+ return true;
+}
+function pruneDoorQueues(s){
+ const queues=s.spatial?.doorQueuesByEntryId;if(!queues)return;
+ for(const [entryId,q]of Object.entries(queues)){
+  if(!closedDoors(s).some(d=>d.entryId===entryId)){delete queues[entryId];continue;}
+  if(q.holder&&!doorCandidateValid(s,q.holder,entryId)){q.holder=null;q.lastPassTick=s.worldTick;}
+  q.waiting=q.waiting.filter(w=>doorCandidateValid(s,w,entryId));
+  q.waiting.sort((a,b)=>a.firstArrivalTick-b.firstArrivalTick||a.personId.localeCompare(b.personId));
+  if(!q.holder&&!q.waiting.length&&q.lastPassTick<s.worldTick-1)delete queues[entryId];
+ }
+}
+function requestDoorWaitingStep(s,p,q,door,phase){
+ const a=personPosition(s,p);if(a.bodyYield?.kind==='door-wait')return;
+ const holder=s.personsById[q.holder?.personId],holderAt=holder&&personPosition(s,holder),candidates=[];
+ for(let y=snap(door.y-2);y<=snap(door.y+2);y+=.5)for(let x=snap(door.x-2);x<=snap(door.x+2);x+=.5){const at={x,y};
+  if(phase==='in'?y<door.y+.8:y>door.y-.8)continue;
+  if(Math.abs(x-door.x)<.8||distance(a,at)<.2||distance(a,at)>2.5||holderAt&&distance(holderAt,at)<.8||!meterCanStand(s,at)||people(s).some(other=>other!==p&&personPosition(s,other)?.bodyYield?.target&&distance(personPosition(s,other).bodyYield.target,at)<.53))continue;
+  const path=meterFindPath(s,a,at,{maxSnap:0});if(path===null||doorCrossing(s,a,path,at)||path.some((end,i)=>meterBodyBlocker(s,a,i?path[i-1]:a,end)))continue;
+  candidates.push({at,path,cost:path.reduce((sum,end,i)=>sum+distance(i?path[i-1]:a,end),0)});
+ }
+ candidates.sort((a,b)=>a.cost-b.cost||a.at.y-b.at.y||a.at.x-b.at.x);
+ if(candidates.length)a.bodyYield={kind:'door-wait',requestedBy:q.holder.personId,startedTick:s.worldTick,target:candidates[0].at,path:candidates[0].path};
+}
+/** Single-person door ownership is granted only by a real world movement step. */
+export function meterDoorPermit(s,actor,from,route,next){
+ if(!spatialEnabled(s)||!walkingPerson(s,actor))return true;
+ const p=walkingPerson(s,actor);pruneDoorQueues(s);
+ const crossing=doorCrossing(s,from,route,next),prior=doorRecord(s,p);
+ if(prior&&crossing&&prior.entryId!==crossing.entryId){if(prior.holder?.personId===p.personId)prior.holder=null;prior.waiting=prior.waiting.filter(w=>w.personId!==p.personId);}
+ if(!crossing){if(!prior)return true;if(prior.holder?.personId===p.personId)return true;if(!prior.holder&&prior.lastPassTick<s.worldTick&&prior.waiting[0]?.personId===p.personId&&prior.waiting[0].firstArrivalTick<s.worldTick){prior.holder=prior.waiting.shift();return true;}return false;}
+ s.spatial.doorQueuesByEntryId??={};const queues=s.spatial.doorQueuesByEntryId,q=queues[crossing.entryId]??={entryId:crossing.entryId,holder:null,waiting:[],lastPassTick:-1};
+ const current=q.holder?.personId===p.personId?q.holder:q.waiting.find(w=>w.personId===p.personId);
+ if(!current)q.waiting.push({entryId:crossing.entryId,personId:p.personId,firstArrivalTick:s.worldTick,activityId:p.activityId??null,target:{...actor.goal},phase:crossing.phase});
+ q.waiting.sort((a,b)=>a.firstArrivalTick-b.firstArrivalTick||a.personId.localeCompare(b.personId));
+ if(!q.holder&&q.lastPassTick<s.worldTick&&q.waiting[0]?.firstArrivalTick<s.worldTick)q.holder=q.waiting.shift();
+ if(q.holder?.personId!==p.personId&&q.holder)requestDoorWaitingStep(s,p,q,crossing.door,crossing.phase);
+ return q.holder?.personId===p.personId;
+}
+export function meterDoorMoved(s,actor){
+ const p=walkingPerson(s,actor);if(!p)return;const q=doorRecord(s,p);if(q?.holder?.personId!==p.personId)return;
+ const door=closedDoors(s).find(d=>d.entryId===q.entryId)?.door;if(!door)return;
+ if(q.holder.phase==='out'&&actor.y>door.y+.26||q.holder.phase==='in'&&actor.y<door.y-.26){q.holder=null;q.lastPassTick=s.worldTick;}
+}
+/** Only real courtyard bodies participate; a renderer's copied pose remains read-only. */
+export function meterBodyBlocker(s,actor,from,to){
+ if(!spatialEnabled(s))return null;
+ const mover=walkingPerson(s,actor);if(!mover)return null;
+ return people(s).find(p=>{if(p===mover)return false;const q=personPosition(s,p);if(!q)return false;const before=distance(from,q),after=distance(to,q);
+  // Legal old positions may already overlap: walking outward must remain possible.
+  return !(before<.53-1e-7&&after>before+1e-7)&&pointSegmentDistance(q,from,to)<.53-1e-7;
+ })||null;
+}
+/** A bounded half-metre bypass rejoins the original route without changing its goal. */
+export function meterLocalBodyDetour(s,actor,from,route){
+ if(!spatialEnabled(s)||!walkingPerson(s,actor)||!route?.length)return null;
+ const blocker=meterBodyBlocker(s,actor,from,route[0]);if(!blocker)return null;
+ const q=personPosition(s,blocker),candidates=[];
+ for(let y=snap(q.y-1.5);y<=snap(q.y+1.5);y+=.5)for(let x=snap(q.x-1.5);x<=snap(q.x+1.5);x+=.5){const at={x,y},first=distance(from,at);if(first<.05||first>2.5||!meterCanStand(s,at)||meterSweep(s,from,at).blocked||meterBodyBlocker(s,actor,from,at))continue;
+  for(let j=0;j<route.length;j++){const end=route[j];if(meterSweep(s,at,end).blocked||meterBodyBlocker(s,actor,at,end))continue;const suffix=route.slice(j);candidates.push({path:[at,...suffix],cost:first+distance(at,end)+j*.001,x,y});break;}
+ }
+ candidates.sort((a,b)=>a.cost-b.cost||a.y-b.y||a.x-b.x);return candidates[0]?.path||null;
+}
+/** An idle local person can physically step aside without changing a task or material reservation. */
+export function requestBodyYield(s,actor,blocker,route){
+ const mover=walkingPerson(s,actor),q=personPosition(s,blocker);
+ if(!mover||!q||blocker===mover||blocker.activityId||q.path?.length||q.bodyYield||!route?.length)return false;
+ const from={x:q.x,y:q.y},points=[];
+ for(let y=snap(from.y-2);y<=snap(from.y+2);y+=.5)for(let x=snap(from.x-2);x<=snap(from.x+2);x+=.5){const at={x,y},away=distance(from,at);if(away<.53||away>2.25||!meterCanStand(s,at))continue;
+  if(pointSegmentDistance(at,actor,route[0])<.8||route.some((end,i)=>pointSegmentDistance(at,i?route[i-1]:actor,end)<.8))continue;
+  const path=meterFindPath(s,from,at,{maxSnap:0});if(path===null||!path.length||doorCrossing(s,from,path,at)||closedDoors(s).some(d=>distance(at,d.door)<.8)||path.some((end,i)=>meterBodyBlocker(s,q,i?path[i-1]:from,end)))continue;
+  points.push({at,path,cost:path.reduce((sum,end,i)=>sum+distance(i?path[i-1]:from,end),0)});
+ }
+ points.sort((a,b)=>a.cost-b.cost||a.at.y-b.at.y||a.at.x-b.at.x);
+ if(!points.length)return false;
+ q.bodyYield={requestedBy:mover.personId,startedTick:s.worldTick,target:points[0].at,path:points[0].path};return true;
+}
 function syncPosition(s,p){const a=personPosition(s,p);if(a&&(!p.location||p.location.kind==='local'&&p.location.sceneId===SPATIAL_SCENE.id)&&p.position?.kind!=='travel'&&(!p.position?.sceneId||p.position.sceneId===SPATIAL_SCENE.id))p.position={kind:'scene',sceneId:SPATIAL_SCENE.id,x:a.x,y:a.y};}
 function overlaps(a,b){return a.x<b.x+b.w-.001&&a.x+a.w>b.x+.001&&a.y<b.y+b.h-.001&&a.y+a.h>b.y+.001;}
 function footprintRect(b){const t=spatialTransform(b),d=dimensions(b);return {x:t.x,y:t.y,w:d.width,h:d.height};}
@@ -184,6 +283,7 @@ function initInteriorLayout(s){
 }
 export function initBuildingGrid(s){
  if(!spatialEnabled(s))return s;
+ pruneDoorQueues(s);pruneBodyYields(s);
  if(buildingGridEnabled(s))return initInteriorLayout(initSpatialExtent(s));
  if(s.spatial.buildingGridVersion)throw Error('未知建筑单位格版本，原存档保留。');
  validateSpatial(s);const bounds=sceneBounds(s);
@@ -332,7 +432,17 @@ function releaseConstructionHelper(s,o,activity){
  o.activityIds=o.activityIds.filter(id=>id!==activity.id);delete s.activitiesById[activity.id];
 }
 function cleanup(s,a){const o=s.workOrdersById[a.workOrderId],flow=o?.materialFlow;for(const id of [...(o?.activityIds||[])]){const helper=s.activitiesById[id];if(helper?.kind==='sr-construction')releaseConstructionHelper(s,o,helper);}for(const p of people(s)){const q=personPosition(s,p);if(q?.spatialEvacuationOrderId===a.workOrderId){delete q.spatialEvacuationOrderId;q.path=[];q.goal=null;}}if(flow){delete s.stockpilesById[flow.sourceStockpileId];delete s.stockpilesById[flow.siteStockpileId];}delete s.reservationsById[a.reservationId];delete s.workOrdersById[a.workOrderId];delete s.activitiesById[a.id];s.master.activityId=null;s.master.action='rest';s.master.scenic.path=[];s.master.scenic.goal=null;s.spatial.completedOrders=s.spatial.completedOrders.slice(-128);}
-function moveActor(s,a,budget){while(a.path?.length&&budget>.001){const q=a.path[0],d=distance(a,q);if(d<.001){a.path.shift();continue;}const n=Math.min(d,budget),to={x:a.x+(q.x-a.x)*n/d,y:a.y+(q.y-a.y)*n/d},r=meterSweep(s,a,to);if(r.blocked){a.path=[];return false;}a.facing=to.x<a.x?-1:1;a.back=to.y<a.y;a.x=r.x;a.y=r.y;a.steps=(a.steps||0)+n;budget-=n;if(n>=d-.001)a.path.shift();}return !a.path?.length;}
+function moveActor(s,a,budget){
+ const revision=spatialRevision(s);
+ if(a.path?.length&&a.revision!==revision){
+  if(!routeStillClear(s,a,a.path))a.path=meterFindPath(s,a,a.goal||a.path.at(-1),{maxSnap:0})||[];
+  a.revision=revision;
+  if(!a.path.length)return false;
+ }
+ let detours=0;while(a.path?.length&&budget>.001){const q=a.path[0],d=distance(a,q);if(d<.001){a.path.shift();continue;}const n=Math.min(d,budget),to={x:a.x+(q.x-a.x)*n/d,y:a.y+(q.y-a.y)*n/d},r=meterSweep(s,a,to);if(r.blocked){a.path=[];return false;}if(!meterDoorPermit(s,a,a,a.path,to))return false;const blocker=meterBodyBlocker(s,a,a,to);if(blocker){const detour=detours<2&&meterLocalBodyDetour(s,a,a,a.path);if(detour){a.path=detour;detours++;continue;}requestBodyYield(s,a,blocker,a.path);a.waitingForPersonId=blocker.personId;return false;}delete a.waitingForPersonId;a.facing=to.x<a.x?-1:1;a.back=to.y<a.y;a.x=r.x;a.y=r.y;a.steps=(a.steps||0)+n;budget-=n;if(n>=d-.001)a.path.shift();meterDoorMoved(s,a);}return !a.path?.length;
+}
+function pruneBodyYields(s){for(const p of Object.values(s.personsById||{})){const a=personPosition(s,p),yielding=a?.bodyYield;if(!yielding)continue;const local=people(s).includes(p),queue=yielding.kind==='door-wait'&&doorRecord(s,p);if(!local||!s.personsById[yielding.requestedBy]||yielding.kind==='door-wait'&&!queue?.waiting.some(w=>w.personId===p.personId)||yielding.kind!=='door-wait'&&p.activityId)delete a.bodyYield;}}
+function tickBodyYields(s){pruneBodyYields(s);for(const p of people(s)){const a=personPosition(s,p),yielding=a?.bodyYield;if(!yielding)continue;const next=yielding.path[0];if(!next){delete a.bodyYield;continue;}const d=distance(a,next);if(d<.001){yielding.path.shift();if(!yielding.path.length)delete a.bodyYield;continue;}const n=Math.min(.13,d),to={x:a.x+(next.x-a.x)*n/d,y:a.y+(next.y-a.y)*n/d};if(!meterSweep(s,a,to).blocked&&!meterBodyBlocker(s,a,a,to)){a.facing=to.x<a.x?-1:1;a.back=to.y<a.y;a.x=to.x;a.y=to.y;a.steps=(a.steps||0)+n;if(n>=d-.001)yielding.path.shift();syncPosition(s,p);if(p.location?.kind==='local'&&p.location.sceneId===SPATIAL_SCENE.id){p.location.x=a.x;p.location.y=a.y;}if(a.goal&&a.path?.length&&meterSweep(s,a,a.path[0]).blocked)a.path=meterFindPath(s,a,a.goal,{maxSnap:0})||[];}if(!yielding.path.length)delete a.bodyYield;}}
 const materialTotal=resources=>Object.values(resources).reduce((sum,quantity)=>sum+quantity,0);
 function constructionRefund(o,r){return Object.fromEntries(Object.entries(r.cost).map(([k,v])=>[k,v-(o.usedCost[k]||0)]));}
 function finishConstructionCancellation(s,a,o){
@@ -350,11 +460,19 @@ function requestConstructionCancellation(s,a,o){
  if(!materialTotal(flow.cargo)&&!materialTotal(s.stockpilesById[flow.siteStockpileId].resources))return finishConstructionCancellation(s,a,o);
  return {pending:true,refund,usedCost:{...o.usedCost}};
 }
-function moveConstructionCarrier(s,a,point,reason){
- const sc=s.master.scenic;if(distance(sc,point)<=.1){sc.path=[];sc.goal={x:point.x,y:point.y};s.master.action='rest';return true;}
- if(!sc.goal||distance(sc.goal,point)>.01||!sc.path?.length){const route=meterFindPath(s,sc,point,{maxSnap:0});if(route===null){sc.path=[];sc.goal=null;s.master.action='rest';a.phase='blocked';a.reason='施工材料通路受阻，保留所在位置与数量，等待通路恢复。';return false;}sc.path=route;sc.goal={x:point.x,y:point.y};}
+function constructionWarehouseContact(s,from,stockPosition){
+ const clear=at=>meterCanStand(s,at)&&!people(s).some(p=>p!==s.master&&personPosition(s,p)&&distance(personPosition(s,p),at)<.53);
+ if(clear(stockPosition)&&meterFindPath(s,from,stockPosition,{maxSnap:0})!==null)return stockPosition;
+ const candidates=[];for(let y=snap(stockPosition.y);y<=snap(stockPosition.y+1.25);y+=.5)for(let x=snap(stockPosition.x-1.25);x<=snap(stockPosition.x+1.25);x+=.5){const at={x,y},offset=distance(at,stockPosition);if(y>=stockPosition.y&&offset<=1.25&&clear(at))candidates.push({at,offset});}
+ candidates.sort((a,b)=>a.offset-b.offset||a.at.y-b.at.y||a.at.x-b.at.x);
+ return candidates.find(({at})=>meterFindPath(s,from,at,{maxSnap:0})!==null)?.at||null;
+}
+function moveConstructionCarrier(s,a,point,reason,{warehouse=false}={}){
+ const sc=s.master.scenic,contact=warehouse?constructionWarehouseContact(s,sc,point):point;if(!contact){sc.path=[];sc.goal=null;s.master.action='rest';a.phase='blocked';a.reason='主屋材料仓周围没有身体可达的取料脚点；货物与进度保留。';return false;}
+ if(distance(sc,contact)<=.1){sc.path=[];sc.goal={x:contact.x,y:contact.y};s.master.action='rest';return true;}
+ if(!sc.goal||distance(sc.goal,contact)>.01||!sc.path?.length){const route=meterFindPath(s,sc,contact,{maxSnap:0});if(route===null){sc.path=[];sc.goal=null;s.master.action='rest';a.phase='blocked';a.reason='施工材料通路受阻，保留所在位置与数量，等待通路恢复。';return false;}sc.path=route;sc.goal={x:contact.x,y:contact.y};}
  a.phase='moving';a.reason=reason;s.master.action='walk';moveActor(s,sc,.144);syncPosition(s,s.master);s.master.energy=Math.max(0,s.master.energy-.01);
- return distance(sc,point)<=.1;
+ return distance(sc,contact)<=.1;
 }
 function pickConstructionCargo(source,capacity){const cargo={};let room=capacity;for(const k of Object.keys(RESOURCES)){if(k==='jade')continue;const amount=Math.min(room,source.resources[k]);if(amount>0){source.resources[k]-=amount;cargo[k]=amount;room-=amount;}if(room<=0)break;}return cargo;}
 function carryConstructionMaterials(s,a,o){
@@ -363,7 +481,7 @@ function carryConstructionMaterials(s,a,o){
  if(s.master.wound>20||s.master.energy<5){a.phase='blocked';a.reason='掌门受伤或精力不足，原地休整；施工材料保留在实际位置。';s.master.action='rest';s.master.energy=Math.min(100,s.master.energy+.3);s.master.wound=Math.max(0,s.master.wound-.035);return true;}
  if(flow.cancelRequested){
   if(flow.phase==='returning'){
-   if(!moveConstructionCarrier(s,a,source.position,'携未用材料返回主屋。'))return true;
+   if(!moveConstructionCarrier(s,a,source.position,'携未用材料返回主屋。',{warehouse:true}))return true;
    for(const[k,v]of Object.entries(flow.cargo))source.resources[k]+=v;
    flow.trips.at(-1).phase='returned';flow.trips.at(-1).finishedTick=s.worldTick;flow.cargo={};flow.phase='recover-site';return true;
   }
@@ -374,7 +492,7 @@ function carryConstructionMaterials(s,a,o){
  if(flow.phase==='ready')return false;
  if(flow.phase==='to-source'){
   if(!materialTotal(source.resources)){flow.phase='ready';a.phase='working';a.reason='工地材料已全部实际到场，可以施工。';return true;}
-  if(!moveConstructionCarrier(s,a,source.position,'前往主屋领取已预留的施工材料。'))return true;
+  if(!moveConstructionCarrier(s,a,source.position,'前往主屋领取已预留的施工材料。',{warehouse:true}))return true;
   flow.cargo=pickConstructionCargo(source,CONSTRUCTION_CARRY_CAPACITY);flow.trips.push({id:`trip:${o.id}:${flow.trips.length+1}`,kind:'delivery',cargo:{...flow.cargo},sourceStockpileId:source.id,targetStockpileId:site.id,carrierId:'person:master',phase:'carrying',startedTick:s.worldTick});flow.phase='carrying';return true;
  }
  if(flow.phase==='carrying'){
@@ -474,7 +592,7 @@ function tickConstructionCrew(s,a,o,r,{masterAvailable,canWork}){
  if(!participants.some(activity=>activity.phase==='working')&&!o.waitingReason)o.waitingReason=participants.length?'等待参与者实际到达工地执行位。':'暂无愿意且能够到场的施工者。';
 }
 export function tickSpatial(s){
- if(!spatialEnabled(s)||s.speed===0)return;const a=spatialConstruction(s);if(!a)return;const o=s.workOrdersById[a.workOrderId],r=s.reservationsById[a.reservationId],source=s.buildingsById?.[a.instanceId]||s.buildings.find(b=>b.id===a.buildingId);
+ if(!spatialEnabled(s)||s.speed===0)return;pruneDoorQueues(s);tickBodyYields(s);const a=spatialConstruction(s);if(!a)return;const o=s.workOrdersById[a.workOrderId],r=s.reservationsById[a.reservationId],source=s.buildingsById?.[a.instanceId]||s.buildings.find(b=>b.id===a.buildingId);
  if(o.workSlots){const carrying=carryConstructionMaterials(s,a,o);if(!s.workOrdersById[o.id]||o.materialFlow?.cancelRequested)return;if(o.progressTicks<o.durationTicks){const safe=!carrying&&(!source||evacuate(s,source,o));tickConstructionCrew(s,a,o,r,{masterAvailable:!carrying,canWork:safe});if(!safe&&!carrying){a.phase='blocked';a.reason=o.waitingReason||'等待使用者沿门道撤离到新占地之外。';}if(o.progressTicks<o.durationTicks)return;}}
  else{
  if(carryConstructionMaterials(s,a,o))return;
@@ -505,8 +623,14 @@ export function validateSpatial(s){
  if(s.spatial.buildingGridVersion&&!buildingGridEnabled(s))throw Error('未知建筑单位格版本。');
  if(s.spatial.interiorLayoutVersion&&s.spatial.interiorLayoutVersion!==INTERIOR_LAYOUT_VERSION||s.buildings.some(b=>b.interiorLayoutVersion&&b.interiorLayoutVersion!==INTERIOR_LAYOUT_VERSION))throw Error('未知室内布局版本，原存档保留。');
  if(s.spatial.sceneId!==SPATIAL_SCENE.id||!Number.isSafeInteger(s.spatial.geometryRevision)||s.spatial.geometryRevision<1||!Array.isArray(s.spatial.migrations)||!Array.isArray(s.spatial.completedOrders)||s.spatial.completedOrders.length>128)throw Error('米制空间迁移记录异常。');
+ const queues=s.spatial.doorQueuesByEntryId;
+ if(queues!==undefined){if(!queues||typeof queues!=='object'||Array.isArray(queues))throw Error('门道队列容器异常。');const queued=new Set();for(const [entryId,q]of Object.entries(queues)){
+  if(!/^building:yunxiu:[1-9][0-9]*\/entry:south$/.test(entryId)||q?.entryId!==entryId||!Array.isArray(q.waiting)||!Number.isSafeInteger(q.lastPassTick)||q.lastPassTick< -1||q.lastPassTick>s.worldTick)throw Error('门道队列入口或释放时刻异常。');
+  let previous=null;for(const record of [...(q.holder?[q.holder]:[]),...q.waiting]){if(record?.entryId!==entryId||typeof record.personId!=='string'||!Number.isSafeInteger(record.firstArrivalTick)||record.firstArrivalTick<0||record.firstArrivalTick>s.worldTick||record.activityId!==null&&typeof record.activityId!=='string'||!Number.isFinite(record.target?.x)||!Number.isFinite(record.target?.y)||!['in','out'].includes(record.phase)||queued.has(record.personId))throw Error('门道通行权或候选记录异常。');queued.add(record.personId);}
+  for(const record of q.waiting){if(previous&&(previous.firstArrivalTick>record.firstArrivalTick||previous.firstArrivalTick===record.firstArrivalTick&&previous.personId.localeCompare(record.personId)>0))throw Error('门道候选队序异常。');previous=record;}
+ }}
  for(const b of s.buildings){const t=b.transform,d=spatialPrefab(b);if(!t||![t.x,t.y].every(Number.isFinite)||snap(t.x)!==t.x||snap(t.y)!==t.y||t.orientation!=='south'||b.prefabId!==prefabId(b)||b.buildingGridVersion&&!buildingGridEnabled(s)||buildingGridEnabled(s)&&(b.buildingGridVersion!==BUILDING_GRID.version||!onBuildingGrid(t.x)||!onBuildingGrid(t.y))||t.x<1||t.y<1||t.x+d.width>bounds.width-1||t.y+d.height+1>bounds.height-1)throw Error(`米制建筑位置异常：${b.instanceId}`);const issue=placementIssue(s,b.type,t.x,t.y,{ignoreId:b.id,level:b.level,checkPeople:false,checkReservations:false,checkConnectivity:false});if(issue||!meterCanStand(s,spatialAccess(b)))throw Error(`米制建筑占地或入口异常：${b.instanceId} ${issue}`);}
- for(const p of people(s)){const a=personPosition(s,p);if(a&&!meterCanStand(s,a))throw Error(`人物米制脚点不合法：${p.personId}`);let from=a;for(const q of a?.path||[]){if(meterSweep(s,from,q).blocked)throw Error('米制路径穿越障碍。');from=q;}}
+ for(const p of people(s)){const a=personPosition(s,p);if(a&&!meterCanStand(s,a))throw Error(`人物米制脚点不合法：${p.personId}`);let from=a;for(const q of a?.path||[]){if(meterSweep(s,from,q).blocked)throw Error('米制路径穿越障碍。');from=q;}if(a?.bodyYield){const y=a.bodyYield;if(!['door-wait',undefined].includes(y.kind)||typeof y.requestedBy!=='string'||!Number.isSafeInteger(y.startedTick)||y.startedTick<0||y.startedTick>s.worldTick||!Number.isFinite(y.target?.x)||!Number.isFinite(y.target?.y)||!Array.isArray(y.path)||y.path.length>24||y.path.some(q=>!Number.isFinite(q?.x)||!Number.isFinite(q?.y)))throw Error('人物真实让行路径异常。');}}
  const active=Object.values(s.workOrdersById).filter(o=>o.spatial&&o.kind==='construction');if(active.length>1)throw Error('重复施工工作单。');
  for(const o of active){const a=s.activitiesById[o.activityIds?.[0]],r=s.reservationsById[o.reservationId],source=s.buildingsById?.[o.targetId];
   if(!a||s.master.activityId!==a.id||a.personId!=='person:master'||a.instanceId!==o.targetId||o.id!==`work:construction:${a.buildingId}`||a.id!==`activity:build:${a.buildingId}`||!r||r.activityId!==a.id||r.kind!=='construction-material'||a.workOrderId!==o.id||!['build','upgrade','relocate','demolish'].includes(o.operation)||!['moving','working','blocked'].includes(a.phase)||!Number.isInteger(o.progressTicks)||o.progressTicks<0||o.progressTicks>o.durationTicks||o.durationTicks!==({build:200,upgrade:240,relocate:180,demolish:120}[o.operation])||!Number.isInteger(a.buildingId)||a.buildingId<1||a.buildingId>=s.nextId||o.operation==='build'&&source||o.operation!=='build'&&!source||!BUILDINGS[o.buildingType]||o.buildingType!==a.type)throw Error('米制施工预约异常。');

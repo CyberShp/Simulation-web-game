@@ -6,6 +6,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync,existsSync} from 'node:fs';
 import * as S from '../dist/ea-opening-sim.mjs';
+import {meterSweep} from '../dist/ea-sr-spatial.mjs';
 import {harness} from './ea-sr-integration-acceptance.mjs';
 
 const sourceDir=process.env.SR010_SOURCE_DIR||'/tmp/immortal-m2-sr010-gap';
@@ -145,16 +146,21 @@ if(!sourcesPresent){
   const {h}=earned('before'),initial={...h.s.resources};start(h);
   h.until(s=>flow(s)?.phase==='carrying','actual pickup before route fault injection',500);
   for(let i=0;i<5;i++)S.tick(h.s,.1);
+  const heldRoute=structuredClone(h.s.master.scenic.path);
+  assert(heldRoute.length>0,'the carrier has a route before the isolated obstruction');
   // Fault injection: a newly placed, otherwise legal well cuts the route already
   // held by the carrier. Move the story visitor outside the injected footprint.
   const visitor=h.s.personsById['person:lin-changfeng'];
   visitor.mind.scenic={...visitor.mind.scenic,x:35,y:30,path:[],goal:null};
-  const id=h.s.nextId++,well={id,instanceId:`building:yunxiu:${id}`,type:'well',x:26,y:14,level:1,
-   transform:{x:26,y:14,orientation:'south'},prefabId:'prefab:well:units:v1',sceneId:'scene:yunxiu-courtyard',
+  visitor.position={kind:'scene',sceneId:'scene:yunxiu-courtyard',x:35,y:30};
+  if(visitor.location?.sceneId==='scene:yunxiu-courtyard'){visitor.location.x=35;visitor.location.y=30;}
+  const id=h.s.nextId++,well={id,instanceId:`building:yunxiu:${id}`,type:'well',x:28,y:14,level:1,
+   transform:{x:28,y:14,orientation:'south'},prefabId:'prefab:well:units:v1',sceneId:'scene:yunxiu-courtyard',
    condition:100,enabled:true,progress:0,buildingGridVersion:'building-units-1'};
-  h.s.buildings.push(well);h.s.buildingsById[well.instanceId]=well;
+  h.s.buildings.push(well);h.s.buildingsById[well.instanceId]=well;h.s.spatial.geometryRevision++;
+  assert(heldRoute.some((p,i)=>meterSweep(h.s,i?heldRoute[i-1]:h.s.master.scenic,p).blocked),'the new wall cuts the previously held route');
   for(let i=0;i<4;i++)S.tick(h.s,.1);
-  assert.equal(h.s.master.scenic.path.length,0,'the intercepted route is cleared instead of crossing the new wall');
+  assert.equal(meterSweep(h.s,h.s.master.scenic,h.s.master.scenic.path[0]||h.s.master.scenic).blocked,false,'the carrier holds or replans a wall-free route');
   assert.equal(h.s.workOrdersById[orderId].progressTicks,0);
   assert.deepEqual(count(h.s).carried,{wood:25,stone:10});
   conservation(h.s);exactSave(h,'route interrupted with cargo at one actual position');
