@@ -26,7 +26,7 @@
 
 已有药田生产、材料预留和多人共享批次。 U-98本轮暂缓院内铺路，既有通行与山外交通保留。 U-99整格营造与0.5米导航分离，旧档按明确单位格版本映射。
 
-D01/D02 配方契约已复核；r19 局部实现药田播种、成熟、积水暂停、有限收获与旧活跃药田批次兼容。其他版本化配方、完整新档解锁链和目标设备验收仍待。
+D01/D02 配方契约已复核；r19 药田种苗与有限收获、r23 普通生产 v2 冻结配方及旧活跃 v1 批次一次迁移已实现并局部验收。施工、丹炉与装备工单快照/迁移、完整新档解锁链、目标设备及整项 I/V/R 仍待。
 
 现状是适用旧能力的基线，不表示该SR完整目标已通过。
 
@@ -66,6 +66,7 @@ SR-XF-009-AC-03证据：qa/ea-sr-009-reservation-competition-public-acceptance.m
 2026-10-08 M2 AC03：有来源百工坊活跃批次部分加工30/200，取消只退现场未用木2.55/石1.7、重复取消无变化，后续掌门可采石；另一有来源档中运输订单预留工位仅有木3后，第二生产邀请以缺料拒绝，取消运输原位返木一次，随后真实门人可开批。两条公开命令 Node 链各1/1、多阶段精确存读，独立只读复核通过；未据此宣布浏览器/真机或完整 SR009 通过。
 2026-10-08 同两份有来源公开命令工坊档复验 SR009-AC01/02：新档 187 命令、100 次存读、tick32157，旧有效档 208/109、tick31820；两档各 4/4。验收按真实门人到位、商人行程与物流交付判定，不依赖固定世界步或指定门人。新档两人贡献110/90，商人付款与现场产出均28.7743092，0.8工资由公库支付；旧档两人贡献110/90，付款20.22027186816，现场19.42027186816，0.8工资从批次收入支付。均一次结算、记忆关联唯一且精确存读。此次只修订 QA 的时序假设，现有 AC01/02 passed 不改判，整项 D/I/V/R 仍待。
 2026-10-08 SR009 D01/D02 设计复核：现行木石、丹药、装备数值及共享生产贡献量对照代码；新增药田种苗2、10步成熟、积水暂停/恢复、单次收获及旧活跃药田免追缴，四类工单冻结 v1 快照与逐入口克隆迁移/校验，阶段1丹炉和阶段2百工坊的正常新档门槛。独立 D02 初审三项阻断修订后复审 PASS；采购只能获得补种材料，不能直接恢复地块来源余额。此为设计契约，v2 运行实现、旧档迁移、浏览器和真机均未验，既有 AC passed 证据及整项状态不因设计文稿提升。
+2026-10-08 r23 普通生产 v2 配方快照：木场、采石、谷仓、藏经、井、百工坊、打坐的投入/产出/时长/技能及首位贡献者固定于开工单；旧活跃 v1 批次克隆时一次迁移，坏快照拒载，旧批在现行建筑定义变化后仍按原值唯一结算。独立复核新旧批与技能归属；根复跑共享生产1/1、门槛3/3、取消1/1、预留竞争1/1、生命11/11、邀请1/1。施工/丹炉/装备及完整新档解锁仍待，I01/V01/R01 不关闭。
 
 ## 开发任务
 
@@ -81,7 +82,7 @@ SR-XF-009-D01证据：docs/requirements/design/SR-XF-007-011-019-026-027.md; 202
 
 SR-XF-009-D02证据：docs/requirements/design/SR-XF-007-011-019-026-027.md; independent D02 review PASS after three blocking corrections, 2026-10-08
 
-SR-XF-009-I01证据：dist/ea-sr-economy.mjs；dist/ea-sr-persons.mjs；tests/ea-activity-truth.test.mjs；qa/ea-sr-economy-acceptance.mjs；2026-10-08 r19: qa/ea-sr-009-herb-crop-public-acceptance.mjs 5/5; adjacent production 5/5, facility and door 17/17, opt-in v2 work route 1/1; local Chromium memory import showed crop status and cancellation; source c9be1d476311a558e7a37a4e0305e5086b71a369, Pages 15ec91db21b8f4b37f30accdd5ac643e024a160d built
+SR-XF-009-I01证据：dist/ea-sr-economy.mjs；dist/ea-sr-persons.mjs；tests/ea-activity-truth.test.mjs；qa/ea-sr-economy-acceptance.mjs；2026-10-08 r19: qa/ea-sr-009-herb-crop-public-acceptance.mjs 5/5; adjacent production 5/5, facility and door 17/17, opt-in v2 work route 1/1; local Chromium memory import showed crop status and cancellation; source c9be1d476311a558e7a37a4e0305e5086b71a369, Pages 15ec91db21b8f4b37f30accdd5ac643e024a160d built；2026-10-08 r23: ordinary production recipe:v2 snapshots, old active v1 migration, tamper rejection and scoped independent replay; runtime main dc1ff06670f569be34f836580ce83c31f1c92150, Pages e7f6a8a55f2e7bbd74d33d6a33563d885bd17b27 built; construction/craft/equipment snapshots and full new-game unlock remain open
 
 SR-XF-009-V01证据：dist/ea-sr-economy.mjs；dist/ea-sr-persons.mjs；tests/ea-activity-truth.test.mjs；qa/ea-sr-economy-acceptance.mjs；qa/ea-sr-integration-acceptance.mjs；docs/design/STATUS.md
 
@@ -120,6 +121,7 @@ SR-XF-009-V01证据：dist/ea-sr-economy.mjs；dist/ea-sr-persons.mjs；tests/ea
 - qa/ea-sr-009-shared-batch-public-acceptance.mjs
 - qa/ea-sr-009-reservation-competition-public-acceptance.mjs
 - qa/ea-sr-009-cancel-public-acceptance.mjs
+- 2026-10-08 r23 普通生产 v2 配方快照：木场、采石、谷仓、藏经、井、百工坊、打坐的投入/产出/时长/技能及首位贡献者固定于开工单；旧活跃 v1 批次克隆时一次迁移，坏快照拒载，旧批在现行建筑定义变化后仍按原值唯一结算。独立复核新旧批与技能归属；根复跑共享生产1/1、门槛3/3、取消1/1、预留竞争1/1、生命11/11、邀请1/1。施工/丹炉/装备及完整新档解锁仍待，I01/V01/R01 不关闭。
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
@@ -133,5 +135,6 @@ SR-XF-009-V01证据：dist/ea-sr-economy.mjs；dist/ea-sr-persons.mjs；tests/ea
 - 2026-10-08：独立复核取消加工和其他订单预留竞争两条有来源公开命令链各1/1，余料、占用、重复取消和恢复活动守恒，按原文将 SR009-AC03 记 passed；整项设计/验收仍未收口。
 - 2026-10-08：SR009 D01 配方、种苗成熟、旧四类工单快照及新档解锁经独立 D02 初审三项退回、修订复审通过；仅设计 ready，I01 完整实现和 V/R 未完成。
 - 2026-10-08：r19 implements seeded herb crop batches and exact old-active-batch compatibility; other versioned recipes, full early-game unlock and target-device acceptance remain open
+- 2026-10-08：r23 普通生产 v2 版本配方快照及旧活跃批次迁移发布、独立审读并局部验收；其余工单与完整 I/V/R 继续。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。

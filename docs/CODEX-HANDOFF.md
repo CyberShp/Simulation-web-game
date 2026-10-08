@@ -1,5 +1,7 @@
 # Codex 接手指南 · 2026-10-08
 
+最新 M2 r23 已发布普通生产冻结配方和旧活跃批次迁移、商单有效时刻期限及有来源停表/失约、顾氏同一路线善意与逐利人物选择。SR017-AC02 经独立公开链及本地 Chromium 存读、刷新续档改为 `passed`；SR009/011 的完整实现及 AC 继续。根复跑定向生产、商单、七组织和界面；源码 `main` `dc1ff06670f569be34f836580ce83c31f1c92150`，网页 `gh-pages` `e7f6a8a55f2e7bbd74d33d6a33563d885bd17b27`，Pages `built`、162 文本 blob 匹配，公网入口 HTTP 200、八个改动模块字节相符。性能、目标设备与公网浏览器交互尚未验收；**37 passed、82 not_run、1 blocked**。最新状态见 [STATUS](design/STATUS.md) 与 [台账](requirements/registry.json)。
+
 最新 M2 r22 已发布 SR011 公物跨场景订单及玩家明确划拨：预留、取货、运输、取消、收款保持来源权限，转入掌门私物需完成订单卡上指定数量。根复跑公开链 12/12、旧单 1/1、库存 4/4、产权 6/6、界面 17/17；独立本地 Chromium 实点划拨、购粮、返院。源码 `main` `980fa93dc71325171e3d37f48456bfa108654b50`，网页 `gh-pages` `53c38b2771dcd064a73c745e9454ac212aacc871`，Pages `built`、162 文本 blob 匹配，公网入口 HTTP 200 及改动模块字节一致。完整 SR011 AC、目标设备和公网浏览器操作待验；**36 passed、83 not_run、1 blocked**。最新状态见 [STATUS](design/STATUS.md) 与 [台账](requirements/registry.json)。
 
 最新 M1 r21 已发布山外“此地总览”交互标签。公开来源档在本地 Chromium 的青溪坊市与驻棚实点总览、建筑点选和近景返回，坊市保存刷新续读保持场景与资源；根复跑镜头 **5/5**、界面 **17/17**。源码 `main` `050a78fa3fd33d73478401a4a733373cd8870cc1`，网页 `gh-pages` `679dab3b53c8571807f84cda36ac9b3edc6ce695`，Pages `built`、162 文本 blob 匹配。门位画稿、真机触控和真人辨识待验，SR003-AC02 保持 `not_run`；40 SR/120 AC 为 **36 passed、83 not_run、1 blocked**。最新状态见 [STATUS](design/STATUS.md) 和 [台账](requirements/registry.json)。

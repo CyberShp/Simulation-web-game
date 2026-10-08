@@ -5,44 +5,48 @@
   "updated": "2026-10-08",
   "authoritative": "registry.json for requirement records and task states; derived Markdown rendered by qa/sr-manager.py refresh",
   "source_runtime": {
-    "main": "980fa93dc71325171e3d37f48456bfa108654b50",
-    "runtime_source": "980fa93dc71325171e3d37f48456bfa108654b50",
-    "pages": "53c38b2771dcd064a73c745e9454ac212aacc871",
+    "main": "dc1ff06670f569be34f836580ce83c31f1c92150",
+    "runtime_source": "dc1ff06670f569be34f836580ce83c31f1c92150",
+    "pages": "e7f6a8a55f2e7bbd74d33d6a33563d885bd17b27",
     "game_version": "1.6.0-dev",
     "schema_version": 6,
-    "preview_pages": "53c38b2771dcd064a73c745e9454ac212aacc871",
+    "preview_pages": "e7f6a8a55f2e7bbd74d33d6a33563d885bd17b27",
     "preview_deployment": null,
     "working_game_version": "1.6.0-dev",
     "official_game_version": "1.6.0-dev",
-    "version_note": "M2 r22 keeps cross-scene market-order goods, freight and proceeds in their source public scope, with an explicit recorded allocation to the master bag; full SR011 acceptance remains open.",
+    "version_note": "M2 r23 publishes ordinary production recipe snapshots, a sourced market-order deadline counter and the Gu spirit-grower character-choice outcome; SR009 and SR011 full acceptance remain open.",
     "main_record_type": "runtime source commit; release metadata commit is a descendant",
-    "working_release_note": "2026-10-08 r22: a public-source market order keeps its reserved goods and freight public through pickup, travel, cancellation and recovery. Payment first enters a public carried holding; the player can explicitly allocate a chosen amount to the private bag, then buy market food and return. Root reran v2 public order 12/12, old same-yard order 1/1, inventory 4/4, property 6/6 and UI contracts 17/17. Independent local Chromium clicked allocation, purchase and return. Existing active v2 saves migrate access once; completed old v2 saves keep their settled balances. Pages built, 162 packaged text Git blobs match, public entry returned HTTP 200 and two changed modules match manifest bytes. Upstream replenishment, deadlines, alternate orders, target devices and full SR011 AC remain open.",
-    "previous_pages": "679dab3b53c8571807f84cda36ac9b3edc6ce695",
+    "working_release_note": "2026-10-08 r23: ordinary production batches freeze versioned recipe inputs, outputs, duration and contributor skill; old active v1 batches migrate once, reject tampering and retain their original settlement. Cross-scene market orders show a quoted 1200-passable-tick deadline, sourced pauses and one breach fact. Gu Wanyi and Gu Shoulin offer the same finite herb exchange with distinct motivated trust and fee outcomes; correction refunds the paid fee. Root reran scoped production, order, character and UI contracts; independent agents audited old-batch skill/output and tested public-source saves in local Chromium. Pages built, 162 packaged text blobs match the published tree, public entry HTTP 200 and eight changed runtime modules match manifest bytes. Full SR009 construction/craft/equipment snapshots and new-game unlock, full SR011 other orders/replenishment/carriers, target devices and public-browser interaction remain open.",
+    "previous_pages": "53c38b2771dcd064a73c745e9454ac212aacc871",
     "pages_deployment_status": "built",
-    "working_release_tag": "ea-160-courtyard-20261008-r22",
-    "official_release_tag": "ea-160-courtyard-20261008-r22",
-    "official_url": "https://cybershp.github.io/Simulation-web-game/?v=ea-160-courtyard-20261008-r22",
+    "working_release_tag": "ea-160-courtyard-20261008-r23",
+    "official_release_tag": "ea-160-courtyard-20261008-r23",
+    "official_url": "https://cybershp.github.io/Simulation-web-game/?v=ea-160-courtyard-20261008-r23",
     "deployed_tree_verification": {
       "published_tree_blobs": 235,
       "packaged_text_blobs_checked": 162,
       "source_and_pages_commits_verified": true,
       "verified_files": [
         "index.html",
-        "ea-game.mjs",
+        "ea-facility-activities.mjs",
+        "ea-life.mjs",
+        "ea-opening-sim.mjs",
+        "ea-sim.mjs",
+        "ea-society.mjs",
         "ea-sr-economy.mjs",
         "ea-sr-ui.mjs",
-        "ea-opening-sim.mjs"
+        "ea-sr-world-content.mjs"
       ],
-      "verification": "GitHub API confirms main 980fa93dc71325171e3d37f48456bfa108654b50, gh-pages 53c38b2771dcd064a73c745e9454ac212aacc871 and Pages built; all 162 packaged text Git blob hashes match the published tree. Public entry returned HTTP 200 and changed economy/UI module bytes match the release manifest; public browser interaction was not verified.",
+      "verification": "GitHub API confirms runtime main dc1ff06670f569be34f836580ce83c31f1c92150, gh-pages e7f6a8a55f2e7bbd74d33d6a33563d885bd17b27 and Pages built. All 162 packaged text Git blob hashes match the published tree. Public entry returned HTTP 200 and eight changed runtime module bytes match the release manifest; public browser interaction was not verified.",
       "mismatches": 0
     },
-    "previous_main": "439ab58235cb29758d15e3c881141440ef964277",
+    "previous_main": "c3575cca5c22aa068dfc8a453870a93ae2f746e3",
     "browser_verification": {
-      "viewport": "local Chromium, isolated acceptance qa-sr011-public-transfer",
-      "scope": "Independent real-browser clicks on a normal source-backed save allocated 10 jade from a public receipt to the private bag, bought 10 food and returned home with 8 private food remaining; console had no errors or warnings after stable backlog-128 load. Public HTTP entry and changed module bytes were verified; public browser interaction and target devices were not.",
+      "viewport": "local Chromium, isolated SR011 deadline and SR017 choice acceptance",
+      "scope": "Independent real-browser import, native save, refresh and continuation preserved SR011 quoted/pause/breach counts (1201/1200 and pause 1499) with zero console errors/warnings; SR017 same-path choices, payment and correction were clicked in local Chromium. Public HTTP entry and changed module bytes were verified; public browser interaction and target devices were not.",
       "real_devices": false,
       "fps_measured": false,
-      "acceptance_namespace": "qa-sr011-public-transfer"
+      "acceptance_namespace": "qa-sr011-deadline-r9; SR017 isolated local browser"
     },
     "working_source_base": "1b28260007c3049d077dfce424d0db2c6e8cbd60",
     "working_validation": {
@@ -2352,7 +2356,7 @@
         "docs/design/06-OPENING-ACCEPTANCE.md"
       ],
       "baseline": "已有药田生产、材料预留和多人共享批次。 U-98本轮暂缓院内铺路，既有通行与山外交通保留。 U-99整格营造与0.5米导航分离，旧档按明确单位格版本映射。",
-      "design_gap": "D01/D02 配方契约已复核；r19 局部实现药田播种、成熟、积水暂停、有限收获与旧活跃药田批次兼容。其他版本化配方、完整新档解锁链和目标设备验收仍待。",
+      "design_gap": "D01/D02 配方契约已复核；r19 药田种苗与有限收获、r23 普通生产 v2 冻结配方及旧活跃 v1 批次一次迁移已实现并局部验收。施工、丹炉与装备工单快照/迁移、完整新档解锁链、目标设备及整项 I/V/R 仍待。",
       "design_deliverables": [
         "木石营造、药材到恢复药物、原料到装备的输入/工序/输出/工位表。",
         "投入时机、取消退料、返工残材、技能门槛和产能瓶颈。",
@@ -2417,7 +2421,8 @@
         "dist/ea-sr-ui.mjs",
         "qa/ea-sr-009-shared-batch-public-acceptance.mjs",
         "qa/ea-sr-009-reservation-competition-public-acceptance.mjs",
-        "qa/ea-sr-009-cancel-public-acceptance.mjs"
+        "qa/ea-sr-009-cancel-public-acceptance.mjs",
+        "2026-10-08 r23 普通生产 v2 配方快照：木场、采石、谷仓、藏经、井、百工坊、打坐的投入/产出/时长/技能及首位贡献者固定于开工单；旧活跃 v1 批次克隆时一次迁移，坏快照拒载，旧批在现行建筑定义变化后仍按原值唯一结算。独立复核新旧批与技能归属；根复跑共享生产1/1、门槛3/3、取消1/1、预留竞争1/1、生命11/11、邀请1/1。施工/丹炉/装备及完整新档解锁仍待，I01/V01/R01 不关闭。"
       ],
       "change_log": [
         {
@@ -2467,6 +2472,10 @@
         {
           "date": "2026-10-08",
           "reason": "r19 implements seeded herb crop batches and exact old-active-batch compatibility; other versioned recipes, full early-game unlock and target-device acceptance remain open"
+        },
+        {
+          "date": "2026-10-08",
+          "reason": "r23 普通生产 v2 版本配方快照及旧活跃批次迁移发布、独立审读并局部验收；其余工单与完整 I/V/R 继续。"
         }
       ],
       "tasks": [
@@ -2513,7 +2522,8 @@
             "dist/ea-sr-persons.mjs",
             "tests/ea-activity-truth.test.mjs",
             "qa/ea-sr-economy-acceptance.mjs",
-            "2026-10-08 r19: qa/ea-sr-009-herb-crop-public-acceptance.mjs 5/5; adjacent production 5/5, facility and door 17/17, opt-in v2 work route 1/1; local Chromium memory import showed crop status and cancellation; source c9be1d476311a558e7a37a4e0305e5086b71a369, Pages 15ec91db21b8f4b37f30accdd5ac643e024a160d built"
+            "2026-10-08 r19: qa/ea-sr-009-herb-crop-public-acceptance.mjs 5/5; adjacent production 5/5, facility and door 17/17, opt-in v2 work route 1/1; local Chromium memory import showed crop status and cancellation; source c9be1d476311a558e7a37a4e0305e5086b71a369, Pages 15ec91db21b8f4b37f30accdd5ac643e024a160d built",
+            "2026-10-08 r23: ordinary production recipe:v2 snapshots, old active v1 migration, tamper rejection and scoped independent replay; runtime main dc1ff06670f569be34f836580ce83c31f1c92150, Pages e7f6a8a55f2e7bbd74d33d6a33563d885bd17b27 built; construction/craft/equipment snapshots and full new-game unlock remain open"
           ],
           "blocked_reason": null
         },
@@ -2570,7 +2580,7 @@
         "OPEN-06"
       ],
       "blockers": [],
-      "acceptance_notes": " 2026-10-07局部修正：掌门采集与有限来源恢复在受伤、离位或低精力时明确paused，不再保留working伪装劳动；包裹满的采集也暂停而不扣有限来源。公开命令定向覆盖伤势、低精力、自然四批包裹满、精确存读与恢复3/3，离位分支尚未单独验证；经济52/52通过。完整配方/产能和SR-XF-009各AC仍未关闭。\n2026-10-07 M1正常成长链阻断修复：有来源正常档 tick404450 的商人精力9.706低于工坊收货门槛10，空闲长期不恢复，真实工序停在190/200。现在商人仅在院/坊市始末同场且无身体活动时每世界tick恢复0.3；出行或收货中不恢复。定向3/3、经济52/52；独立只读复核从该正常档克隆1200 tick内见两批实物收货/分别付款64.1923331328及64.503802176，商人减少与工坊增加逐笔相等，生产工资0.8另按公库和人物钱袋守恒；600 tick完整存读逐字一致。仅局部Node证据，不提升原AC或完整D/I/V/R。\n2026-10-08 M2 有限工序验收：根 Agent 独立复跑 SR-XF-009-AC-01 正常公开命令来源档三场景 3/3；无人实际执行时旧批次不前进，工位缺料虽公库有货仍拒绝邀请，木材预约/取货/在途不进入工位库存或产出，送达后才可用。各关键点精确存读，生产管理 HTML 与位置库存/公开原因同源。此 AC 按原文 passed；未做浏览器/真机，AC02/03、配方设计和整项 D/I/V/R 未关闭。\n2026-10-08 M2 两人一批验收：正常百工坊公开来源档续实物木3石2搬入、两人自愿到双工位；第1批贡献110/90，唯一生产事实、一次木石成本、买方实付20.220271868159998、现场入账19.420271868159997、两人总工资0.8及各按贡献技能增长同一结果。修复成功结算后缺少个人记忆，每人记一条以事实ID关联的持久公开记忆，失败试算/重载后30步无重复。根 Agent 复跑定向1/1及经济52/52，按原文 AC02 passed。证据为 Node 公开命令链，浏览器/真机、AC03与整项门槛未关闭。\n2026-10-08 M2 AC03：有来源百工坊活跃批次部分加工30/200，取消只退现场未用木2.55/石1.7、重复取消无变化，后续掌门可采石；另一有来源档中运输订单预留工位仅有木3后，第二生产邀请以缺料拒绝，取消运输原位返木一次，随后真实门人可开批。两条公开命令 Node 链各1/1、多阶段精确存读，独立只读复核通过；未据此宣布浏览器/真机或完整 SR009 通过。\n2026-10-08 同两份有来源公开命令工坊档复验 SR009-AC01/02：新档 187 命令、100 次存读、tick32157，旧有效档 208/109、tick31820；两档各 4/4。验收按真实门人到位、商人行程与物流交付判定，不依赖固定世界步或指定门人。新档两人贡献110/90，商人付款与现场产出均28.7743092，0.8工资由公库支付；旧档两人贡献110/90，付款20.22027186816，现场19.42027186816，0.8工资从批次收入支付。均一次结算、记忆关联唯一且精确存读。此次只修订 QA 的时序假设，现有 AC01/02 passed 不改判，整项 D/I/V/R 仍待。\n2026-10-08 SR009 D01/D02 设计复核：现行木石、丹药、装备数值及共享生产贡献量对照代码；新增药田种苗2、10步成熟、积水暂停/恢复、单次收获及旧活跃药田免追缴，四类工单冻结 v1 快照与逐入口克隆迁移/校验，阶段1丹炉和阶段2百工坊的正常新档门槛。独立 D02 初审三项阻断修订后复审 PASS；采购只能获得补种材料，不能直接恢复地块来源余额。此为设计契约，v2 运行实现、旧档迁移、浏览器和真机均未验，既有 AC passed 证据及整项状态不因设计文稿提升。"
+      "acceptance_notes": " 2026-10-07局部修正：掌门采集与有限来源恢复在受伤、离位或低精力时明确paused，不再保留working伪装劳动；包裹满的采集也暂停而不扣有限来源。公开命令定向覆盖伤势、低精力、自然四批包裹满、精确存读与恢复3/3，离位分支尚未单独验证；经济52/52通过。完整配方/产能和SR-XF-009各AC仍未关闭。\n2026-10-07 M1正常成长链阻断修复：有来源正常档 tick404450 的商人精力9.706低于工坊收货门槛10，空闲长期不恢复，真实工序停在190/200。现在商人仅在院/坊市始末同场且无身体活动时每世界tick恢复0.3；出行或收货中不恢复。定向3/3、经济52/52；独立只读复核从该正常档克隆1200 tick内见两批实物收货/分别付款64.1923331328及64.503802176，商人减少与工坊增加逐笔相等，生产工资0.8另按公库和人物钱袋守恒；600 tick完整存读逐字一致。仅局部Node证据，不提升原AC或完整D/I/V/R。\n2026-10-08 M2 有限工序验收：根 Agent 独立复跑 SR-XF-009-AC-01 正常公开命令来源档三场景 3/3；无人实际执行时旧批次不前进，工位缺料虽公库有货仍拒绝邀请，木材预约/取货/在途不进入工位库存或产出，送达后才可用。各关键点精确存读，生产管理 HTML 与位置库存/公开原因同源。此 AC 按原文 passed；未做浏览器/真机，AC02/03、配方设计和整项 D/I/V/R 未关闭。\n2026-10-08 M2 两人一批验收：正常百工坊公开来源档续实物木3石2搬入、两人自愿到双工位；第1批贡献110/90，唯一生产事实、一次木石成本、买方实付20.220271868159998、现场入账19.420271868159997、两人总工资0.8及各按贡献技能增长同一结果。修复成功结算后缺少个人记忆，每人记一条以事实ID关联的持久公开记忆，失败试算/重载后30步无重复。根 Agent 复跑定向1/1及经济52/52，按原文 AC02 passed。证据为 Node 公开命令链，浏览器/真机、AC03与整项门槛未关闭。\n2026-10-08 M2 AC03：有来源百工坊活跃批次部分加工30/200，取消只退现场未用木2.55/石1.7、重复取消无变化，后续掌门可采石；另一有来源档中运输订单预留工位仅有木3后，第二生产邀请以缺料拒绝，取消运输原位返木一次，随后真实门人可开批。两条公开命令 Node 链各1/1、多阶段精确存读，独立只读复核通过；未据此宣布浏览器/真机或完整 SR009 通过。\n2026-10-08 同两份有来源公开命令工坊档复验 SR009-AC01/02：新档 187 命令、100 次存读、tick32157，旧有效档 208/109、tick31820；两档各 4/4。验收按真实门人到位、商人行程与物流交付判定，不依赖固定世界步或指定门人。新档两人贡献110/90，商人付款与现场产出均28.7743092，0.8工资由公库支付；旧档两人贡献110/90，付款20.22027186816，现场19.42027186816，0.8工资从批次收入支付。均一次结算、记忆关联唯一且精确存读。此次只修订 QA 的时序假设，现有 AC01/02 passed 不改判，整项 D/I/V/R 仍待。\n2026-10-08 SR009 D01/D02 设计复核：现行木石、丹药、装备数值及共享生产贡献量对照代码；新增药田种苗2、10步成熟、积水暂停/恢复、单次收获及旧活跃药田免追缴，四类工单冻结 v1 快照与逐入口克隆迁移/校验，阶段1丹炉和阶段2百工坊的正常新档门槛。独立 D02 初审三项阻断修订后复审 PASS；采购只能获得补种材料，不能直接恢复地块来源余额。此为设计契约，v2 运行实现、旧档迁移、浏览器和真机均未验，既有 AC passed 证据及整项状态不因设计文稿提升。\n2026-10-08 r23 普通生产 v2 配方快照：木场、采石、谷仓、藏经、井、百工坊、打坐的投入/产出/时长/技能及首位贡献者固定于开工单；旧活跃 v1 批次克隆时一次迁移，坏快照拒载，旧批在现行建筑定义变化后仍按原值唯一结算。独立复核新旧批与技能归属；根复跑共享生产1/1、门槛3/3、取消1/1、预留竞争1/1、生命11/11、邀请1/1。施工/丹炉/装备及完整新档解锁仍待，I01/V01/R01 不关闭。"
     },
     {
       "id": "SR-XF-010",
@@ -2845,7 +2855,7 @@
         "docs/design/14-EARLY-GAME-DETAILED-DESIGN.md"
       ],
       "baseline": "已有买卖与资源交换基础。",
-      "design_gap": "D01/D02 已完成；现有跨场景百工订单仅为有界子链。取消/取回后的公物权限保持、上游实体补货、改道/关口费用、药物及器物订单、旧已接订单迁移与完整 AC 仍待实现或复验。",
+      "design_gap": "D01/D02 已完成；r22 公物跨场景百工订单及显式划拨、r23 报价期限/有效时刻停表/一次失约事实已发布。其他订单、上游实体补货、改道与关口费用、NPC 承运、旧订单迁移及完整 AC/I/V/R 仍待。",
       "design_deliverables": [
         "普通材料药物/装备的可靠来源、价格依据、商人本金与有限库存。",
         "补货来源、运输和周期；订单报价、同意、预留、付款、交付、违约流程。",
@@ -2865,7 +2875,8 @@
           "evidence": [
             "2026-10-08 r12 同院百工用材订单子情景：正常新档实际采料入库，接单一次预留灵木20/青石10；商人实际到院且掌门近身后交付，灵石30/名声2与唯一结算事实一致。正常链41条公开命令/30次精确存读，拒单链2命令/3次精确存读；提前/重复交付拒绝、重复接单不重复预留、取消返料一次。本地主线独立专项1/1、UI17 pass/4 pending、顾氏相邻1/1；本地浏览器有来源原生档导入、保存刷新后订单与完整账本可见。源码8334155、Pages016b065 built，162文本blob匹配发布树；公网浏览器安全策略校验不可用。market-order:v2跨场景货位/承运/付款预留未实施，完整AC01与整项验收仍待。旧经济综合脚本的旧初始化档版本错误已在合入前r11复现。",
             "2026-10-08 r13 跨场景百工用材订单子情景：正常开局公开采集入库，卖方木20/石10、商人灵石30、运粮2分别预留有权货位；掌门实际取货、两段世界行程逐段扣粮、青溪同场结算一次。专项目 7/7，旧同院订单 1/1，逐阶段原生存读一致；断路是明确环境夹具，取消后院内或坊市能公开取回，失败出发原账不变。活跃预留货位在普通搬运/赠予命令前拒绝且不列入下拉。世界21/21、世界内容9/9、地方产业8/8、界面17 pass/4 pending；SR010相邻赠物1项在未改r11同样失败，非本批引入。独立本地浏览器实点取货/出发/近商人交付/取消取回，保存刷新后木20石10→灵石30名声2的唯一账本保留；首次本地静态服务连接重置，最后刷新无控制台错误。源码6e81238、Pages5260563 built，发布树162文本blob一致；公网浏览器受应用安全策略验证不可用限制，目标设备未验。仅 AC01 有界子情景；期限、NPC承运、上游实体补货、收费/改道及旧单迁移未覆盖，AC01及整项V/R保持原状态。",
-            "局部：2026-10-08 r22 正常开局百工跨场景订单公物接单/运送/取消与当面交付，显式公款划拨、坊市买粮返院及每阶段精确存读；v2 12/12、旧同院1/1，本地浏览器实点。完整多订单、期限与补货未验。"
+            "局部：2026-10-08 r22 正常开局百工跨场景订单公物接单/运送/取消与当面交付，显式公款划拨、坊市买粮返院及每阶段精确存读；v2 12/12、旧同院1/1，本地浏览器实点。完整多订单、期限与补货未验。",
+            "局部：2026-10-08 r23 商单期限子批：报价后最早可交付时起算1200个可通行世界步；道路封闭、商人不可用或受伤、收货库不可用有来源停表，1201步仅记一次失约事实。旧活跃v2订单不倒追计时，取消仍保持产权与退款。正常公开期限专项2/2、相邻商单12/12；独立本地Chromium导入有来源档、原生保存刷新后订单卡仍显示1201/1200、停表1499与失约入账，控制台0错误/0警告。此为AC01有界子链；其他订单、补货和承运未验，AC01-03继续not_run。"
           ]
         },
         {
@@ -2895,7 +2906,8 @@
         "2026-10-08 r12 同院百工用材订单子情景：正常新档实际采料入库，接单一次预留灵木20/青石10；商人实际到院且掌门近身后交付，灵石30/名声2与唯一结算事实一致。正常链41条公开命令/30次精确存读，拒单链2命令/3次精确存读；提前/重复交付拒绝、重复接单不重复预留、取消返料一次。本地主线独立专项1/1、UI17 pass/4 pending、顾氏相邻1/1；本地浏览器有来源原生档导入、保存刷新后订单与完整账本可见。源码8334155、Pages016b065 built，162文本blob匹配发布树；公网浏览器安全策略校验不可用。market-order:v2跨场景货位/承运/付款预留未实施，完整AC01与整项验收仍待。旧经济综合脚本的旧初始化档版本错误已在合入前r11复现。",
         "2026-10-08 r13 跨场景百工用材订单子情景：正常开局公开采集入库，卖方木20/石10、商人灵石30、运粮2分别预留有权货位；掌门实际取货、两段世界行程逐段扣粮、青溪同场结算一次。专项目 7/7，旧同院订单 1/1，逐阶段原生存读一致；断路是明确环境夹具，取消后院内或坊市能公开取回，失败出发原账不变。活跃预留货位在普通搬运/赠予命令前拒绝且不列入下拉。世界21/21、世界内容9/9、地方产业8/8、界面17 pass/4 pending；SR010相邻赠物1项在未改r11同样失败，非本批引入。独立本地浏览器实点取货/出发/近商人交付/取消取回，保存刷新后木20石10→灵石30名声2的唯一账本保留；首次本地静态服务连接重置，最后刷新无控制台错误。源码6e81238、Pages5260563 built，发布树162文本blob一致；公网浏览器受应用安全策略验证不可用限制，目标设备未验。仅 AC01 有界子情景；期限、NPC承运、上游实体补货、收费/改道及旧单迁移未覆盖，AC01及整项V/R保持原状态。",
         "qa/ea-sr-011-market-order-v2-public-acceptance.mjs",
-        "dist/ea-sr-ui.mjs"
+        "dist/ea-sr-ui.mjs",
+        "2026-10-08 r23 商单期限子批：报价后最早可交付时起算1200个可通行世界步；道路封闭、商人不可用或受伤、收货库不可用有来源停表，1201步仅记一次失约事实。旧活跃v2订单不倒追计时，取消仍保持产权与退款。正常公开期限专项2/2、相邻商单12/12；独立本地Chromium导入有来源档、原生保存刷新后订单卡仍显示1201/1200、停表1499与失约入账，控制台0错误/0警告。此为AC01有界子链；其他订单、补货和承运未验，AC01-03继续not_run。 证据 qa/ea-sr-011-order-deadline-public-acceptance.mjs；/tmp/immortal-sr011-deadline-ui/.playwright-cli/element-2026-10-08T10-45-30-827Z.png。"
       ],
       "change_log": [
         {
@@ -2929,6 +2941,10 @@
         {
           "date": "2026-10-08",
           "reason": "M2 r22 公库来源商单的货物、运费及收款按源权限留在公用货位；玩家显式划拨后才按已知物权命令转私。正常公开链、旧单、库存与产权根复验，浏览器实点划拨/买粮/返院。源码980fa93、Pages53c38b2 built、162文本blob与公开两模块字节匹配。SR011完整AC及I/V/R仍未完成。"
+        },
+        {
+          "date": "2026-10-08",
+          "reason": "r23 有来源商单期限、停表和一次失约事实发布并完成局部公开链与浏览器续档；SR011 AC01-03 及完整 I/V/R 继续。"
         }
       ],
       "tasks": [
@@ -2972,7 +2988,8 @@
           ],
           "evidence": [
             "2026-10-08 r12 同院百工用材订单子情景：正常新档实际采料入库，接单一次预留灵木20/青石10；商人实际到院且掌门近身后交付，灵石30/名声2与唯一结算事实一致。正常链41条公开命令/30次精确存读，拒单链2命令/3次精确存读；提前/重复交付拒绝、重复接单不重复预留、取消返料一次。本地主线独立专项1/1、UI17 pass/4 pending、顾氏相邻1/1；本地浏览器有来源原生档导入、保存刷新后订单与完整账本可见。源码8334155、Pages016b065 built，162文本blob匹配发布树；公网浏览器安全策略校验不可用。market-order:v2跨场景货位/承运/付款预留未实施，完整AC01与整项验收仍待。旧经济综合脚本的旧初始化档版本错误已在合入前r11复现。",
-            "2026-10-08 r13 跨场景百工用材订单子情景：正常开局公开采集入库，卖方木20/石10、商人灵石30、运粮2分别预留有权货位；掌门实际取货、两段世界行程逐段扣粮、青溪同场结算一次。专项目 7/7，旧同院订单 1/1，逐阶段原生存读一致；断路是明确环境夹具，取消后院内或坊市能公开取回，失败出发原账不变。活跃预留货位在普通搬运/赠予命令前拒绝且不列入下拉。世界21/21、世界内容9/9、地方产业8/8、界面17 pass/4 pending；SR010相邻赠物1项在未改r11同样失败，非本批引入。独立本地浏览器实点取货/出发/近商人交付/取消取回，保存刷新后木20石10→灵石30名声2的唯一账本保留；首次本地静态服务连接重置，最后刷新无控制台错误。源码6e81238、Pages5260563 built，发布树162文本blob一致；公网浏览器受应用安全策略验证不可用限制，目标设备未验。仅 AC01 有界子情景；期限、NPC承运、上游实体补货、收费/改道及旧单迁移未覆盖，AC01及整项V/R保持原状态。"
+            "2026-10-08 r13 跨场景百工用材订单子情景：正常开局公开采集入库，卖方木20/石10、商人灵石30、运粮2分别预留有权货位；掌门实际取货、两段世界行程逐段扣粮、青溪同场结算一次。专项目 7/7，旧同院订单 1/1，逐阶段原生存读一致；断路是明确环境夹具，取消后院内或坊市能公开取回，失败出发原账不变。活跃预留货位在普通搬运/赠予命令前拒绝且不列入下拉。世界21/21、世界内容9/9、地方产业8/8、界面17 pass/4 pending；SR010相邻赠物1项在未改r11同样失败，非本批引入。独立本地浏览器实点取货/出发/近商人交付/取消取回，保存刷新后木20石10→灵石30名声2的唯一账本保留；首次本地静态服务连接重置，最后刷新无控制台错误。源码6e81238、Pages5260563 built，发布树162文本blob一致；公网浏览器受应用安全策略验证不可用限制，目标设备未验。仅 AC01 有界子情景；期限、NPC承运、上游实体补货、收费/改道及旧单迁移未覆盖，AC01及整项V/R保持原状态。",
+            "2026-10-08 r23 deadline quote, pause ledger and unique sourced breach fact; public 2/2, local Chromium native save refresh; runtime dc1ff06670f569be34f836580ce83c31f1c92150, Pages e7f6a8a55f2e7bbd74d33d6a33563d885bd17b27 built; full I01 open"
           ],
           "blocked_reason": null
         },
@@ -3021,7 +3038,7 @@
         "EQ-02"
       ],
       "blockers": [],
-      "acceptance_notes": "\n2026-10-07 M1正常成长链阻断修复：有来源正常档 tick404450 的商人精力9.706低于工坊收货门槛10，空闲长期不恢复，真实工序停在190/200。现在商人仅在院/坊市始末同场且无身体活动时每世界tick恢复0.3；出行或收货中不恢复。定向3/3、经济52/52；独立只读复核从该正常档克隆1200 tick内见两批实物收货/分别付款64.1923331328及64.503802176，商人减少与工坊增加逐笔相等，生产工资0.8另按公库和人物钱袋守恒；600 tick完整存读逐字一致。仅局部Node证据，不提升原AC或完整D/I/V/R。\n2026-10-08 M2 r22 公物商单子批：从正常开局实际采木20/石10/粮5，接单预留、到场取货、两段旅程、青溪商人当面交付，木石/灵石/口粮/名声只有一次结算；订单货物、未耗运费与收款公私权限保持原来源。已完成订单卡允许玩家明确选择灵石数量划入掌门私人行囊，随后公开买粮10、实际返院耗粮2。旧活跃v2档一次迁正公物权限，已完成旧单原值保留，坏引用拒载。根合入后v2 12/12、同院旧单1/1、库存4/4、产权6/6、界面17/17；独立本地Chromium实点划拨10/买粮/返院，正常加载后控制台无错误警告。Pages built，162文本blob匹配，公网HTTP入口200且两改动模块逐字节匹配打包；公网浏览器、目标设备及上游实体补货/时限/NPC承运/其他订单未验，AC01-03及完整I/V/R保持原状态。"
+      "acceptance_notes": "\n2026-10-07 M1正常成长链阻断修复：有来源正常档 tick404450 的商人精力9.706低于工坊收货门槛10，空闲长期不恢复，真实工序停在190/200。现在商人仅在院/坊市始末同场且无身体活动时每世界tick恢复0.3；出行或收货中不恢复。定向3/3、经济52/52；独立只读复核从该正常档克隆1200 tick内见两批实物收货/分别付款64.1923331328及64.503802176，商人减少与工坊增加逐笔相等，生产工资0.8另按公库和人物钱袋守恒；600 tick完整存读逐字一致。仅局部Node证据，不提升原AC或完整D/I/V/R。\n2026-10-08 M2 r22 公物商单子批：从正常开局实际采木20/石10/粮5，接单预留、到场取货、两段旅程、青溪商人当面交付，木石/灵石/口粮/名声只有一次结算；订单货物、未耗运费与收款公私权限保持原来源。已完成订单卡允许玩家明确选择灵石数量划入掌门私人行囊，随后公开买粮10、实际返院耗粮2。旧活跃v2档一次迁正公物权限，已完成旧单原值保留，坏引用拒载。根合入后v2 12/12、同院旧单1/1、库存4/4、产权6/6、界面17/17；独立本地Chromium实点划拨10/买粮/返院，正常加载后控制台无错误警告。Pages built，162文本blob匹配，公网HTTP入口200且两改动模块逐字节匹配打包；公网浏览器、目标设备及上游实体补货/时限/NPC承运/其他订单未验，AC01-03及完整I/V/R保持原状态。\n2026-10-08 r23 商单期限子批：报价后最早可交付时起算1200个可通行世界步；道路封闭、商人不可用或受伤、收货库不可用有来源停表，1201步仅记一次失约事实。旧活跃v2订单不倒追计时，取消仍保持产权与退款。正常公开期限专项2/2、相邻商单12/12；独立本地Chromium导入有来源档、原生保存刷新后订单卡仍显示1201/1200、停表1499与失约入账，控制台0错误/0警告。此为AC01有界子链；其他订单、补货和承运未验，AC01-03继续not_run。"
     },
     {
       "id": "SR-XF-012",
@@ -3941,7 +3958,7 @@
         "docs/requirements/TAKEOVER-2026-10-06.md"
       ],
       "baseline": "七组织作者卡、地方产业、百机有限傀儡和玄阴鬼市费用/工具接入实体供给与行为。",
-      "design_gap": "七组织首次接触 AC01 已有正常公开命令和本地浏览器验收；同道途不同人物选择、拒单合作与改名重载 AC02/03 仍待逐项覆盖。",
+      "design_gap": "七组织首次接触 AC01 与顾氏同道途不同人物选择 AC02 已有正常公开命令、独立复核及本地浏览器证据；拒单、合作与改名重载 AC03、目标设备和整项 V/R 仍待。",
       "design_deliverables": [
         "七组织的稳定ID、具名接触者、公开诉求、资源、知情、底线和关系。",
         "百机山型号/材料/控制、玄阴谷鬼物来历/御使/鬼市、顾氏品种/供货合作内容。",
@@ -3968,9 +3985,10 @@
           "id": "SR-XF-017-AC-02",
           "scenario": "同道途不同人物面对同一选择",
           "expected": "可有善意与逐利差异，并有动机、成本和证据支撑。",
-          "status": "not_run",
+          "status": "passed",
           "evidence": [
-            "2026-10-06部分证据：ea-sr-local-industry/world-content：百机山两具有限傀儡、实际晶芯作用和维修；玄阴谷铜铃/阴材、场务及具名维护分账。新增8项＋既有内容9项通过；正常新档19请求/1446刻/6次重载，HTML payload另列。 本条完整必需覆盖仍待逐项复核，状态未据总数量提升。"
+            "2026-10-06部分证据：ea-sr-local-industry/world-content：百机山两具有限傀儡、实际晶芯作用和维修；玄阴谷铜铃/阴材、场务及具名维护分账。新增8项＋既有内容9项通过；正常新档19请求/1446刻/6次重载，HTML payload另列。 本条完整必需覆盖仍待逐项复核，状态未据总数量提升。",
+            "2026-10-08 r23 SR017-AC02：同一灵植师路径选择顾婉仪或顾守林，双方都以有来源木4/粮2换有限灵草8。顾婉仪善意路线信任+3；顾守林核原单后从自身有限灵石交附费6、信任-4，角色线索在选择前可见且隐藏附费不提前泄漏；玩家能以真实粮1/35步验单，再以粮1/40步纠正并退附费6，卡片保存刷新后显示已退。正常公开38命令/30次精确存读、专项1/1、相邻七组织1/1、世界内容9/9、界面17/17；独立本地Chromium实点接受/核验/纠正与存读。本条按原文 passed；AC03、设备与整项V/R继续。 证据 qa/ea-sr-017-same-path-choice-public-acceptance.mjs、dist/ea-sr-world-content.mjs、dist/ea-sr-ui.mjs。"
           ]
         },
         {
@@ -3994,7 +4012,8 @@
         "2026-10-06接续：ea-sr-local-industry/world-content：百机山两具有限傀儡、实际晶芯作用和维修；玄阴谷铜铃/阴材、场务及具名维护分账。新增8项＋既有内容9项通过；正常新档19请求/1446刻/6次重载，HTML payload另列。 专项证据不自动关闭全部AC；平台/正常整链不足继续明列。",
         "2026-10-06运行时部分已发布 Pages 7d16d54 / workflow 37453110511 success；release_status 仍表示整项 SR 验收/关闭门槛，未因开发版部署提升。",
         "2026-10-08 r11 顾氏首次接触子情景：正常新档疗伤→发现青溪坊市→带真实木粮见顾婉仪→35步核单→60步交货；顾氏8份灵草有限库存清零，物资守恒。公开命令17提交/3同ID重发/4拒绝，13次逐阶段精确存读；远距/缺料拒绝、取消恢复通过。主线独立专项1/1、世界内容9/9、地方产业8/8、界面17 pass/4 pending；本地浏览器实点接洽/核单/交货，294请求全200/控制台零错误。源码0d6df503，Pages18d8bf4 built，发布树162文本blob相符；公网浏览器安全策略验证不可用未验。仅顾氏子情景，七组织完整AC01及设备/真人待验，状态保留not_run。",
-        "2026-10-08 M2 七组织完整首次接触：正常公开开局经84条公开命令、43次精确存读，逐个走到青溪顾氏、百机山、州府、承霄、赤嶂、玄阴、伏煞七位具名接洽人，查看可读诉求与产业、现场核原单并完成有限实物交换；各联系人私有奖励仓实际扣减，重复结算拒绝。独立审读脚本无资源/交易状态注入；本地桌面浏览器实际点击罗铭走近、核单、仅主约、完成，最终原生档导入、刷新续档七卡保持完成。其余六单由正常公开命令链与浏览器续档 UI 交叉核对；公网浏览器、iPad 实机、AC02/03及整项V/R未验。证据 qa/ea-sr-017-seven-contacts-public-acceptance.mjs；/private/tmp/immortal-sr017-seven-independent-review.md。"
+        "2026-10-08 M2 七组织完整首次接触：正常公开开局经84条公开命令、43次精确存读，逐个走到青溪顾氏、百机山、州府、承霄、赤嶂、玄阴、伏煞七位具名接洽人，查看可读诉求与产业、现场核原单并完成有限实物交换；各联系人私有奖励仓实际扣减，重复结算拒绝。独立审读脚本无资源/交易状态注入；本地桌面浏览器实际点击罗铭走近、核单、仅主约、完成，最终原生档导入、刷新续档七卡保持完成。其余六单由正常公开命令链与浏览器续档 UI 交叉核对；公网浏览器、iPad 实机、AC02/03及整项V/R未验。证据 qa/ea-sr-017-seven-contacts-public-acceptance.mjs；/private/tmp/immortal-sr017-seven-independent-review.md。",
+        "2026-10-08 r23 SR017-AC02：同一灵植师路径选择顾婉仪或顾守林，双方都以有来源木4/粮2换有限灵草8。顾婉仪善意路线信任+3；顾守林核原单后从自身有限灵石交附费6、信任-4，角色线索在选择前可见且隐藏附费不提前泄漏；玩家能以真实粮1/35步验单，再以粮1/40步纠正并退附费6，卡片保存刷新后显示已退。正常公开38命令/30次精确存读、专项1/1、相邻七组织1/1、世界内容9/9、界面17/17；独立本地Chromium实点接受/核验/纠正与存读。本条按原文 passed；AC03、设备与整项V/R继续。"
       ],
       "change_log": [
         {
@@ -4016,6 +4035,10 @@
         {
           "date": "2026-10-08",
           "reason": "SR017-AC01 七组织正常公开命令与独立本地浏览器验收通过；AC02/03、目标设备及整项V/R继续。"
+        },
+        {
+          "date": "2026-10-08",
+          "reason": "r23 顾氏同一路线两人物的善意/逐利、有来源成本、信任和退附费经过独立公开链及本地浏览器复核，SR017-AC02 passed；AC03与整项V/R未关闭。"
         }
       ],
       "tasks": [
@@ -4074,7 +4097,8 @@
           ],
           "evidence": [
             "2026-10-06：定向脚本与回归结果见接续实施记录；不能以组件或人工边界替代正常全程/设备证据。",
-            "2026-10-08 r11 顾氏首次接触子情景：正常新档疗伤→发现青溪坊市→带真实木粮见顾婉仪→35步核单→60步交货；顾氏8份灵草有限库存清零，物资守恒。公开命令17提交/3同ID重发/4拒绝，13次逐阶段精确存读；远距/缺料拒绝、取消恢复通过。主线独立专项1/1、世界内容9/9、地方产业8/8、界面17 pass/4 pending；本地浏览器实点接洽/核单/交货，294请求全200/控制台零错误。源码0d6df503，Pages18d8bf4 built，发布树162文本blob相符；公网浏览器安全策略验证不可用未验。仅顾氏子情景，七组织完整AC01及设备/真人待验，状态保留not_run。"
+            "2026-10-08 r11 顾氏首次接触子情景：正常新档疗伤→发现青溪坊市→带真实木粮见顾婉仪→35步核单→60步交货；顾氏8份灵草有限库存清零，物资守恒。公开命令17提交/3同ID重发/4拒绝，13次逐阶段精确存读；远距/缺料拒绝、取消恢复通过。主线独立专项1/1、世界内容9/9、地方产业8/8、界面17 pass/4 pending；本地浏览器实点接洽/核单/交货，294请求全200/控制台零错误。源码0d6df503，Pages18d8bf4 built，发布树162文本blob相符；公网浏览器安全策略验证不可用未验。仅顾氏子情景，七组织完整AC01及设备/真人待验，状态保留not_run。",
+            "2026-10-08 r23 AC02 same-path choice public 1/1, adjacent seven-contacts 1/1, local Chromium accept/verify/correct and native save; runtime dc1ff06670f569be34f836580ce83c31f1c92150, Pages e7f6a8a55f2e7bbd74d33d6a33563d885bd17b27 built; AC03 and target devices open"
           ],
           "blocked_reason": null
         },
