@@ -2,46 +2,48 @@
   "schema_version": 1,
   "registry_id": "SR-XF-2026-10-06",
   "design_baseline": "DB-2026-10-05 v1.2",
-  "updated": "2026-10-08",
+  "updated": "2026-10-09",
   "authoritative": "registry.json for requirement records and task states; derived Markdown rendered by qa/sr-manager.py refresh",
   "source_runtime": {
-    "main": "74e135d78a594303d9bac805f95d9a7d87897630",
-    "runtime_source": "74e135d78a594303d9bac805f95d9a7d87897630",
-    "pages": "47d435295a62f1b626df1299b4bc94132c6b2fd3",
+    "main": "7d27532bf22e8c6064281e12b390edb8370abce9",
+    "runtime_source": "7d27532bf22e8c6064281e12b390edb8370abce9",
+    "pages": "acb40955ded401e6e2c5225c463d3e0a380ae6a2",
     "game_version": "1.6.0-dev",
     "schema_version": 6,
-    "preview_pages": "47d435295a62f1b626df1299b4bc94132c6b2fd3",
+    "preview_pages": "acb40955ded401e6e2c5225c463d3e0a380ae6a2",
     "preview_deployment": null,
     "working_game_version": "1.6.0-dev",
     "official_game_version": "1.6.0-dev",
-    "version_note": "r36: door queue pruning reuses a door set and present-person set within each call; complete SR003 and overall frame performance remain open.",
+    "version_note": "r37: canvas backing bitmap follows the effective device pixel ratio; narrow-screen help remains reachable. Full SR029 acceptance and overall frame performance remain open.",
     "main_record_type": "runtime source commit; release metadata commit is a descendant",
-    "working_release_note": "Independent 400-tick dense-save ABBA checks found exact state, per-step door queues and native reloads; door 7/7 and spatial Canvas 36/36. Old world-step P95 fell in two Node pairs, while two Chromium rAF P95 pairs stayed effectively unchanged. Public r36 old completed save imported, ran, saved and resumed after reload with zero console errors. No real-device or full SR acceptance.",
-    "previous_pages": "237100e3ce31f165b1ed173138896d265310e735",
+    "working_release_note": "Independent local Chromium viewport checks found exact DPR2 main/ground bitmaps, clickable 44px help and working person picking; QA save/reload passed. Spatial Canvas 36/36 and input 13/13. Four 5-second browser pairs showed no clear rAF regression; backing allocation rose ~7.11 MiB for two DPR2 canvases. Public release files verified; real devices and full SR acceptance remain open.",
+    "previous_pages": "47d435295a62f1b626df1299b4bc94132c6b2fd3",
     "pages_deployment_status": "built",
-    "working_release_tag": "ea-160-courtyard-20261008-r36",
-    "official_release_tag": "ea-160-courtyard-20261008-r36",
-    "official_url": "https://cybershp.github.io/Simulation-web-game/?v=ea-160-courtyard-20261008-r36",
+    "working_release_tag": "ea-160-courtyard-20261009-r37",
+    "official_release_tag": "ea-160-courtyard-20261009-r37",
+    "official_url": "https://cybershp.github.io/Simulation-web-game/?v=ea-160-courtyard-20261009-r37",
     "deployed_tree_verification": {
       "published_tree_blobs": 235,
       "packaged_text_blobs_checked": 162,
       "source_and_pages_commits_verified": true,
       "verified_files": [
         "index.html",
-        "ea-sr-spatial.mjs",
+        "ea-courtyard-renderer.mjs",
+        "ea.css",
         "ea-preview/index.html",
-        "ea-preview/ea-sr-spatial.mjs"
+        "ea-preview/ea-courtyard-renderer.mjs",
+        "ea-preview/ea.css"
       ],
-      "verification": "GitHub API confirms runtime main 74e135d78a594303d9bac805f95d9a7d87897630, gh-pages 47d435295a62f1b626df1299b4bc94132c6b2fd3 and Pages built. All 162 packaged text blobs match remote tree; cache-busted public entry/preview and changed modules return HTTP 200 and match package bytes. Public Chromium dense save import, running, save and reload were checked.",
+      "verification": "GitHub API confirms runtime main 7d27532bf22e8c6064281e12b390edb8370abce9, gh-pages acb40955ded401e6e2c5225c463d3e0a380ae6a2 and Pages built. All 162 packaged text blobs match remote tree; cache-busted public entry/preview and changed modules return HTTP 200 and match package bytes. Public isolated Chromium confirmed DPR2 bitmaps, help, person selection, pause-save-reload and continued play with zero console errors/warnings.",
       "mismatches": 0
     },
-    "previous_main": "8151169552d88b363de39c1fab34a25c24529c7d",
+    "previous_main": "74e135d78a594303d9bac805f95d9a7d87897630",
     "browser_verification": {
-      "viewport": "default headed Chromium viewport, not recorded",
-      "scope": "Public r36 URL: legal v5 40-building/30-person completed save imported to an isolated browser world, ran to day 56, paused, saved, reloaded and continued with no console errors or warnings; local Chromium performance A/B is separately documented.",
+      "viewport": "Isolated public Chromium simulated iPad Pro 11 portrait, 834x1194 DPR2",
+      "scope": "Public r37 main and ground bitmaps both 1668x2388; help 44x44 CSS px opened, canvas tapped Lu Zhiwei; isolated QA world manually saved while paused, reloaded and continued with wound/food/clock retained; console 0 errors and 0 warnings.",
       "real_devices": false,
       "fps_measured": false,
-      "acceptance_namespace": "isolated Playwright browser profile for r36"
+      "acceptance_namespace": "isolated Playwright public r37 profile"
     },
     "working_source_base": "1b28260007c3049d077dfce424d0db2c6e8cbd60",
     "working_validation": {
@@ -6336,6 +6338,10 @@
         {
           "date": "2026-10-08",
           "reason": "SR-XF-029 D01/D02 细化开局结缘的赠药、暂居与正式入宗三次独立确认；新流程本人拒绝单独留痕，旧档 declined 保留掌门让陆知微回家照应家人的选择与赠药善缘；OPEN-04/REQ-02 步骤可核对。设计 ready，运行实现与设备验收状态不变。"
+        },
+        {
+          "date": "2026-10-09",
+          "reason": "M1 r37 局部实现实际 DPR 位图与窄屏帮助入口；本地与公开浏览器定向验证单独登记，不提升 SR029 整项或三条 AC。"
         }
       ],
       "tasks": [
@@ -6439,7 +6445,7 @@
         "OPEN-10"
       ],
       "blockers": [],
-      "acceptance_notes": "2026-10-07本地小院批次：成人家具/单位格/空间定向检查48/48（8/6/34），正常公开命令接受/拒绝邀请两路完成营造、产出搬运、研习、到床休息与迁建取消/续建；分别60命令/36次精确存读和61命令/37次精确存读。六身份卧姿与预约前提2/2，生产Canvas卧姿加载/只读/身体点选/缺图回退4/4，已读图。旧v5完成档40建筑30门人保留资源、时间和return结局，全部入口可达，二次存读一致。各SR仅登记适用子情景；完整AC、真机触摸/FPS和真人首次体验状态分别保留。 浏览器DPR1鼠标在1366×900、1180×820、820×1180点选床上掌门通过；正常推荐营造经Enter和鼠标确认、实际施工落成。一次动态模块加载失败经页面重载恢复同档，原因待定位。I/V证据为沿既有可用契约实施的本批子范围；完整D01/D02及I/V关闭门槛保持原状态。\n\n2026-10-07 M0/M1 接续批：鼠标自由营造误触拒绝、正常确认、施工详情和重载可用；双指合成输入13/13及生产Canvas显式锚点检查34/34。真iPad双指、三平台设备、全系统焦点/失败恢复仍未验，AC01/02/03状态不变；旧非schema6渲染委派分支尚未承诺指针锚点。\n\n2026-10-07 M1 第五批：隔离浏览器首战大档实际导入、保存、刷新续玩与再次连续保存成功；旧未压缩大档容量失败会显式告知且旧主档留存，随后通过较大快照压缩修复。同一验收浏览器首次载入仍偶发动态模块连接重置，重载后可进入。此为保存失败/恢复及战斗界面的局部证据，未覆盖 AC03 全部帮助/拒绝/失败情景或目标设备，AC状态不提升。"
+      "acceptance_notes": "2026-10-07本地小院批次：成人家具/单位格/空间定向检查48/48（8/6/34），正常公开命令接受/拒绝邀请两路完成营造、产出搬运、研习、到床休息与迁建取消/续建；分别60命令/36次精确存读和61命令/37次精确存读。六身份卧姿与预约前提2/2，生产Canvas卧姿加载/只读/身体点选/缺图回退4/4，已读图。旧v5完成档40建筑30门人保留资源、时间和return结局，全部入口可达，二次存读一致。各SR仅登记适用子情景；完整AC、真机触摸/FPS和真人首次体验状态分别保留。 浏览器DPR1鼠标在1366×900、1180×820、820×1180点选床上掌门通过；正常推荐营造经Enter和鼠标确认、实际施工落成。一次动态模块加载失败经页面重载恢复同档，原因待定位。I/V证据为沿既有可用契约实施的本批子范围；完整D01/D02及I/V关闭门槛保持原状态。\n\n2026-10-07 M0/M1 接续批：鼠标自由营造误触拒绝、正常确认、施工详情和重载可用；双指合成输入13/13及生产Canvas显式锚点检查34/34。真iPad双指、三平台设备、全系统焦点/失败恢复仍未验，AC01/02/03状态不变；旧非schema6渲染委派分支尚未承诺指针锚点。\n\n2026-10-07 M1 第五批：隔离浏览器首战大档实际导入、保存、刷新续玩与再次连续保存成功；旧未压缩大档容量失败会显式告知且旧主档留存，随后通过较大快照压缩修复。同一验收浏览器首次载入仍偶发动态模块连接重置，重载后可进入。此为保存失败/恢复及战斗界面的局部证据，未覆盖 AC03 全部帮助/拒绝/失败情景或目标设备，AC状态不提升。\n\n2026-10-09 M1 r37：真实 DPR 2 的主画布与地面底图按 CSS 容器精确分配位图；窄屏帮助入口恢复可点击。空间 Canvas 36/36、输入点选 13/13；本地 Chromium 834×1194 与1194×834 DPR2、820×1180 DPR1 点选/帮助及 QA 档存读通过。四组5秒前后浏览器样本约60帧/秒、P95约16.7ms，DPR2两画布位图估算多约7.11MiB；不作为整体卡顿改善或真机证据。完整输入、设备/真人 AC 继续 not_run。 公网 r37 隔离 Chromium 模拟 iPad Pro 11 竖屏 834×1194/DPR2：两画布均 1668×2388，44×44 帮助可实点，Canvas 实点选中陆知微；QA 档暂停手存、刷新续玩保留时刻/伤势/口粮，随后时间继续，控制台零错误/警告。此非真机证据。"
     },
     {
       "id": "SR-XF-030",

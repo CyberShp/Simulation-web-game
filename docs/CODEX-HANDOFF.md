@@ -1,4 +1,6 @@
-# Codex 接手指南 · 2026-10-08
+# Codex 接手指南 · 2026-10-09
+
+最新 r37 运行版本已发布：SR029 局部修正窄屏帮助和真实 DPR 画布位图，源码 `main` `7d27532bf22e8c6064281e12b390edb8370abce9`，网页 `gh-pages` `acb40955ded401e6e2c5225c463d3e0a380ae6a2`，标记 `ea-160-courtyard-20261009-r37`，Pages `built`。空间 Canvas 36/36、输入 13/13；公网隔离 Chromium 模拟 iPad Pro 11 竖屏完成两画布 1668×2388、44×44 帮助、陆知微点选及 QA 档暂停手存刷新续玩，控制台零错误/警告。162 文本 blob 与公网树一致，正式/预览入口和改动模块 HTTP 200、字节相符。短样本未见明显帧率回退，DPR2 两画布位图估算增加 7.11 MiB；完整卡顿、真机、SR029 整项和暂居流程继续。台账 **40 passed、79 not_run、1 blocked，整项仅 SR001 关闭**；详见 [STATUS](design/STATUS.md)。
 
 当前最新 r36 已发布门队列清理减负：同一次清理复用门和在院人物集合，真实移动与排队语义不变。独立合法密集档 400 世界步终态、逐步门队列和存读与 r35 一致，门道人流 7/7、空间 Canvas 36/36；旧世界步 P95 两轮 28.01→24.35ms、27.23→23.80ms。本地 Chromium rAF P95 没有稳定改善，整体卡顿继续；公开 r36 完整旧档导入、运行、暂停保存与刷新续玩通过，控制台无错误。源码 `main` `74e135d78a594303d9bac805f95d9a7d87897630`，网页 `gh-pages` `47d435295a62f1b626df1299b4bc94132c6b2fd3`，标记 `ea-160-courtyard-20261008-r36`，Pages `built`；162 文本 blob 和公网正式/预览入口及改动模块字节一致。门位画稿仍未达容差，SR029 三步关系链与 DPR2/窄屏缺口、完整动作、真机和真人验收继续；**40 passed、79 not_run、1 blocked，整项仅 SR001 关闭**。详见 [STATUS](design/STATUS.md) 与 [台账](requirements/registry.json)。
 
