@@ -145,3 +145,60 @@ test('SR-XF-011-AC-01 same-yard public order: one reserve, real meeting, one pay
 
   t.diagnostic(JSON.stringify({main: h.counts, decline: cancel.counts, initialJade: jadeBefore, initialReputation: repBefore}));
 });
+
+test('SR-XF-011-AC-01 remaining same-yard offers settle once after native reload', t => {
+  const h = normalOpening();
+  const offers = [
+    {id: 'gu_medicine', name: '顾氏供药', cost: {herb: 20}, reward: {jade: 24}, rep: 2},
+    {id: 'ghost_shelter', name: '安息院灯火', cost: {wood: 10, food: 10}, reward: {jade: 18}, rep: 1},
+  ];
+  h.resources({herb: 20, wood: 10, food: 10});
+  const home = () => h.s.stockpilesById['stockpile:yunxiu'];
+  const merchantStock = () => h.s.stockpilesById['stockpile:qingxi'];
+  const exact = label => {
+    h.save();
+    const raw = JSON.stringify(h.s);
+    const imported = persistence.parseImport(persistence.exportState(h.s, {slot: 1}));
+    assert.equal(imported.ok, true, `${label}: native import succeeds`);
+    assert.equal(JSON.stringify(imported.state), raw, `${label}: native reload is exact`);
+  };
+  for (const offer of offers) {
+    const original = Object.fromEntries(Object.keys(offer.cost).map(key => [key, home().resources[key]]));
+    const accepted = h.act('marketOrder', offer.id, 'accept');
+    assert.equal(accepted.phase, 'accepted');
+    for (const [key, quantity] of Object.entries(offer.cost)) assert.equal(home().resources[key], original[key] - quantity);
+    assert.deepEqual(h.s.reservationsById[`reservation:order:${offer.id}`].cost, offer.cost);
+    exact(`${offer.id} accepted`);
+    const beforeRepeat = JSON.stringify({home: home().resources, merchant: merchantStock().resources,
+      reputation: h.s.sect.reputation, order: h.s.srEconomy.orders[offer.id],
+      reservation: h.s.reservationsById[`reservation:order:${offer.id}`],
+      result: h.s.factsById[`fact:order:${offer.id}`]});
+    assert.deepEqual(h.act('marketOrder', offer.id, 'accept'), accepted);
+    assert.equal(JSON.stringify({home: home().resources, merchant: merchantStock().resources,
+      reputation: h.s.sect.reputation, order: h.s.srEconomy.orders[offer.id],
+      reservation: h.s.reservationsById[`reservation:order:${offer.id}`],
+      result: h.s.factsById[`fact:order:${offer.id}`]}), beforeRepeat,
+    `${offer.id}: accepting twice cannot reserve twice`);
+  }
+  h.until(s => offers.every(offer => s.worldTick >= s.srEconomy.orders[offer.id].arrivalTick), 'both delivery windows open', 1000);
+  h.merchant();
+  for (const offer of offers) {
+    const before = {homeJade: home().resources.jade, merchantJade: merchantStock().resources.jade,
+      merchantCargo: Object.fromEntries(Object.keys(offer.cost).map(key => [key, merchantStock().resources[key]])),
+      reputation: h.s.sect.reputation};
+    const completed = h.act('marketOrder', offer.id, 'deliver');
+    assert.equal(completed.phase, 'completed');
+    assert.equal(home().resources.jade, before.homeJade + offer.reward.jade);
+    assert.equal(merchantStock().resources.jade, before.merchantJade - offer.reward.jade);
+    assert.equal(h.s.sect.reputation, before.reputation + offer.rep);
+    for (const [key, quantity] of Object.entries(offer.cost)) assert.equal(merchantStock().resources[key], before.merchantCargo[key] + quantity);
+    assert.equal(h.s.reservationsById[`reservation:order:${offer.id}`], undefined);
+    assert.deepEqual(h.s.factsById[`fact:order:${offer.id}`].cargo, offer.cost);
+    exact(`${offer.id} completed`);
+    const settled = JSON.stringify(h.s);
+    assert.throws(() => h.act('marketOrder', offer.id, 'deliver'), /该订单已结算或拒绝/);
+    assert.equal(JSON.stringify(h.s), settled, `${offer.id}: repeat delivery changes nothing`);
+    exact(`${offer.id} repeat rejected`);
+  }
+  t.diagnostic(JSON.stringify({offers: offers.map(offer => offer.id), ...h.counts}));
+});

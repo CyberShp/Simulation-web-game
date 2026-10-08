@@ -6,7 +6,7 @@
 | --- | --- |
 | 范围 / 模块 | 前期必需 / 人物 |
 | 优先级 / 计划 | P0 / I1 |
-| 设计 / 开发 | draft / in_progress |
+| 设计 / 开发 | ready / in_progress |
 | 验收 / 发布 | in_progress / not_released_for_this_sr |
 | 责任人 / 复核人 | Codex/economy_people / Codex/root（集成） |
 
@@ -14,7 +14,7 @@
 
 纳入云岫前期，按依赖推进。
 
-决策来源：U-63, U-93, R-25, U-94, U-96, U-97, R-27, U-100, R-29, R-30。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
+决策来源：U-63, U-93, R-25, U-94, U-96, U-97, R-27, U-100, R-29, R-30, U-101。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
 
 规格：[01-CHARACTERS.md](../../../docs/design/01-CHARACTERS.md)、[02-EQUIPMENT-ARTS.md](../../../docs/design/02-EQUIPMENT-ARTS.md)、[03-SPATIAL-ART.md](../../../docs/design/03-SPATIAL-ART.md)、[14-EARLY-GAME-DETAILED-DESIGN.md](../../../docs/design/14-EARLY-GAME-DETAILED-DESIGN.md)、[06-OPENING-ACCEPTANCE.md](../../../docs/design/06-OPENING-ACCEPTANCE.md)。
 
@@ -26,7 +26,7 @@
 
 沿用六列云岫人物及稳定spriteIndex/外观配方；真实床位休憩、书案研习和满包等候已按同一身份与身体活动投影静态姿态，缺图保留基础同身份人物和点选。
 
-疗伤/劳动/斗法及等待/研习/休憩的完整连续动作与三人以上真人辨识体验仍待补齐和验收；当前静态姿态及回退不代表完整动画完成。
+D01/D02 已补齐关键人物配方、活动/工具和三视图同身份映射，并完成 SR002/SR004 与 REQ/AC 契约审阅。疗伤/劳动/斗法等完整连续动作、持久配方版本及面部标记范围门禁、三人以上真人辨识体验仍属 I/V 后续缺口；静态姿态与回退不代表完整动画完成。
 
 现状是适用旧能力的基线，不表示该SR完整目标已通过。
 
@@ -73,11 +73,15 @@ SR-XF-007-AC-03证据：qa/ea-person-activity-switch-acceptance.mjs；tests/ea-s
 
 | 任务 | 工作 | 状态 | 前置 | 责任人 |
 | --- | --- | --- | --- | --- |
-| SR-XF-007-D01 | 设计补齐：交付：关键人物配方及普通人物可组合体型/脸/发型/主色/服饰目录。；站立、行走、采集、种植、研习、休息、疗伤、施法、受击动作与工具对应表。；肖像/山院/战斗的同身份映射，装备挂点和缺帧回退规则。；填实必需参数并标记U/R/T来源。 | in_progress | 无 | Codex/economy_people |
-| SR-XF-007-D02 | 契约与内容审阅：审阅稳定人物外观、肖像与活动动作与依赖契约（SR-XF-002、SR-XF-004）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。 | todo | SR-XF-007-D01 | 待分配 |
+| SR-XF-007-D01 | 设计补齐：交付：关键人物配方及普通人物可组合体型/脸/发型/主色/服饰目录。；站立、行走、采集、种植、研习、休息、疗伤、施法、受击动作与工具对应表。；肖像/山院/战斗的同身份映射，装备挂点和缺帧回退规则。；填实必需参数并标记U/R/T来源。 | done | 无 | Codex/sr007-design |
+| SR-XF-007-D02 | 契约与内容审阅：审阅稳定人物外观、肖像与活动动作与依赖契约（SR-XF-002、SR-XF-004）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。 | done | SR-XF-007-D01 | Codex/sr007-contract-review |
 | SR-XF-007-I01 | 开发与集成：在人物模块实现稳定人物外观、肖像与活动动作；交付SR-XF-007-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。 | todo | SR-XF-007-D02 | Codex/courtyard-integration |
 | SR-XF-007-V01 | 验收与兼容：执行SR-XF-007-AC-01至AC-03及OPEN-02、ACT-01；登记实际结果、兼容和设备证据边界。 | todo | SR-XF-007-I01 | Codex/courtyard-acceptance |
 | SR-XF-007-R01 | 发布与关闭：完成所需源码/运行时发布核对、交接和未覆盖说明；本轮用户不要求上传QA过程产物。 | todo | SR-XF-007-V01 | 待分配 |
+
+SR-XF-007-D01证据：docs/requirements/design/SR-XF-007-011-019-026-027.md
+
+SR-XF-007-D02证据：docs/requirements/design/SR-XF-007-011-019-026-027.md
 
 SR-XF-007-I01证据：dist/ea-character-art.mjs；dist/ea-courtyard-renderer.mjs；dist/assets/estate-v1/characters-rest-v1.png；docs/design/STATUS.md；asset-manifest.json；dist/ea-sr-persons.mjs；dist/ea-sr-economy.mjs；tests/ea-activity-truth.test.mjs；qa/ea-sr-economy-acceptance.mjs；qa/ea-sr-spatial-acceptance.mjs；dist/ea-sr-equipment.mjs；qa/ea-sr-integration-acceptance.mjs；qa/ea-person-equipment-battle-acceptance.mjs；qa/ea-person-equipment-art-acceptance.mjs；dist/ea-ui.mjs；tests/ea-scene-ui.test.mjs；qa/ea-person-three-selection-acceptance.mjs
 
@@ -147,5 +151,8 @@ SR-XF-007-V01证据：qa/ea-courtyard-rest-render-acceptance.mjs；tests/ea-rest
 - 2026-10-08：M1 第九批按原文通过 SR-XF-007-AC-03：同一掌门公开命令依次休憩、研习、满包等候，34/22/3660、37/23/3833、43/24/4416 三态各自精确存读；桌面浏览器画布点选、活动图集缺失回退及生产 Canvas 独立只读复核通过，定向 25/25。只证实静态姿态、工具、标签和回退真实；AC01/02、完整连续动作、真机/真人与整项 D/I/V/R 均未关闭。
 - 2026-10-08：M1 第十批 SR-XF-007-AC-02 独立复核通过：同一掌门以正式公开命令换衣、制作并装备护持小印、真实实战、结算返院，五阶段精确存读，装备实例与身份稳定；生产 Canvas 及隔离桌面浏览器复验。实战活动提示修正为临敌交锋。战场远景法器细节须结合来源档和生产画布核对；AC01、完整连续动作、真机/真人及整项 D/I/V/R 仍未关闭。
 - 2026-10-08：M1 r9 SR007-AC01 三人身份、肖像与实时动作窄批：同一权威投影用于列表/档案/侧卡/重叠候选，模拟和存档不变。公开开局 37 命令/24 次精确存读、生产 Canvas 1/1、界面与人物图集 17/17；独立本地 Chromium 三人实点与刷新续档通过，196 请求全 200。真人盲辨、真 iPadOS 与完整动作仍待，AC01 和 I/V/R 不提级。
+- 2026-10-08：SR007 D01：按现行新档、权威人物/空间设计补齐具名外观配方、普通组合目录、活动与工具条件、三视图身份挂点及缺帧回退；未知配方版本校验保留为 I01。
+- 2026-10-08：SR007 D02：逐项对照 SR002/SR004 与 REQ01-03、AC01-03、OPEN02/ACT01 的身份、时序、失败、存读和证据边界；静态 AC02/03 既有通过保留，AC01 及完整 I/V/R 不提升。
+- 2026-10-08：SR007 D01/D02 设计及契约审阅完成，design_status 调为 ready；现有 AC02/03 适用证据不变，AC01、开发/验收/发布及完整动作、配方版本门禁继续原状态。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。
