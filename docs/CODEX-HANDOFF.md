@@ -1,5 +1,7 @@
 # Codex 接手指南 · 2026-10-08
 
+最新 M2 r25 已发布 SR020 混合商人口信：原话、观察/送达时刻、掌门实际查验侧洞及与青萝当面交谈所得的现场记录分开展示，药量和救急效果仍标为推测。正常公开链 30 命令/23 次精确存读、消息相邻 1/1、世界 21/21、SR002 玩家投影 7/7；本地 Chromium 导入初闻与最终档、刷新续读纪事，控制台零错误/警告。SR020-AC01 按原文 `passed`，CONTENT-05/INTRO-03、设备与整项 V/R 继续。源码 `main` `12335f4112fa3d6c637125ac8dff080a7b3bd284`，网页 `gh-pages` `ff263c5785129cb0f32261931417423404011b73`，标记 `ea-160-courtyard-20261008-r25`，Pages `built`，162 文本 blob 及两个公网模块与发布包匹配；公网浏览器交互未验。**39 passed、80 not_run、1 blocked**。详见 [STATUS](design/STATUS.md) 与 [台账](requirements/registry.json)。
+
 最新 M2 r24 已发布丹炉新批配方冻结、旧炉次兼容、满仓同产权退料和完成/取消事实校验；跨场景商单失约后，周行舟按实际货物与库存继续、提出须当面同意的原价 300 可履约步改约，或拒收。SR017 拒单/再合作正常链通过，但改名仅受控兼容夹具，AC03 保持待验；SR020-AC03 重复阅读、传播、存读正常公开链与本地 Chromium 实点通过，改为 `passed`。根复跑丹炉 1/1、商人回应 3/3、旧期限 2/2、商单 12/12、地方关系 1/1、消息 1/1、界面契约 17 通过/4 待设备；独立复核和本地浏览器证据见 [STATUS](design/STATUS.md)。运行源码 `main` `6f372f6ec6099e5936f6b867c4d7ca059a2775ca`，网页 `gh-pages` `910526ee7bb90e559d86b5dfa41273cfdb951572`，Pages `built`、162 文本 blob 与三个公网改动模块字节匹配，公开入口 HTTP 200。运行帧率、完整 SR009/011/017、目标设备和公网浏览器操作仍待；**38 passed、81 not_run、1 blocked**。最新状态见 [台账](requirements/registry.json)。
 
 最新 M2 r23 已发布普通生产冻结配方和旧活跃批次迁移、商单有效时刻期限及有来源停表/失约、顾氏同一路线善意与逐利人物选择。SR017-AC02 经独立公开链及本地 Chromium 存读、刷新续档改为 `passed`；SR009/011 的完整实现及 AC 继续。根复跑定向生产、商单、七组织和界面；源码 `main` `dc1ff06670f569be34f836580ce83c31f1c92150`，网页 `gh-pages` `e7f6a8a55f2e7bbd74d33d6a33563d885bd17b27`，Pages `built`、162 文本 blob 匹配，公网入口 HTTP 200、八个改动模块字节相符。性能、目标设备与公网浏览器交互尚未验收；**37 passed、82 not_run、1 blocked**。最新状态见 [STATUS](design/STATUS.md) 与 [台账](requirements/registry.json)。
