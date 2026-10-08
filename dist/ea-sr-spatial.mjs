@@ -111,18 +111,20 @@ function doorCrossing(s,from,route,next){
  }
  return null;
 }
-function doorCandidateValid(s,record,entryId){
+function doorCandidateValid(s,record,entryId,doorIds,participants){
  const p=s.personsById[record.personId],a=p&&personPosition(s,p);
- if(!p||!a||!closedDoors(s).some(d=>d.entryId===entryId)||!people(s).includes(p)||p.activityId!==record.activityId||!a.path?.length||!a.goal||distance(a.goal,record.target)>.01)return false;
+ if(!p||!a||!doorIds.has(entryId)||!participants.has(p)||p.activityId!==record.activityId||!a.path?.length||!a.goal||distance(a.goal,record.target)>.01)return false;
  if(p.wound>20&&['construction','sr-construction','sr-transport'].includes(s.activitiesById[p.activityId]?.kind))return false;
  return true;
 }
 function pruneDoorQueues(s){
  const queues=s.spatial?.doorQueuesByEntryId;if(!queues)return;
- for(const [entryId,q]of Object.entries(queues)){
-  if(!closedDoors(s).some(d=>d.entryId===entryId)){delete queues[entryId];continue;}
-  if(q.holder&&!doorCandidateValid(s,q.holder,entryId)){q.holder=null;q.lastPassTick=s.worldTick;}
-  q.waiting=q.waiting.filter(w=>doorCandidateValid(s,w,entryId));
+ const entries=Object.entries(queues);if(!entries.length)return;
+ const doorIds=new Set(closedDoors(s).map(d=>d.entryId)),participants=new Set(people(s));
+ for(const [entryId,q]of entries){
+  if(!doorIds.has(entryId)){delete queues[entryId];continue;}
+  if(q.holder&&!doorCandidateValid(s,q.holder,entryId,doorIds,participants)){q.holder=null;q.lastPassTick=s.worldTick;}
+  q.waiting=q.waiting.filter(w=>doorCandidateValid(s,w,entryId,doorIds,participants));
   q.waiting.sort((a,b)=>a.firstArrivalTick-b.firstArrivalTick||a.personId.localeCompare(b.personId));
   if(!q.holder&&!q.waiting.length&&q.lastPassTick<s.worldTick-1)delete queues[entryId];
  }
@@ -141,8 +143,10 @@ function requestDoorWaitingStep(s,p,q,door,phase){
 }
 /** Single-person door ownership is granted only by a real world movement step. */
 export function meterDoorPermit(s,actor,from,route,next){
- if(!spatialEnabled(s)||!walkingPerson(s,actor))return true;
- const p=walkingPerson(s,actor);pruneDoorQueues(s);
+ if(!spatialEnabled(s))return true;
+ const p=walkingPerson(s,actor);
+ if(!p)return true;
+ pruneDoorQueues(s);
  const crossing=doorCrossing(s,from,route,next),prior=doorRecord(s,p);
  if(prior&&crossing&&prior.entryId!==crossing.entryId){if(prior.holder?.personId===p.personId)prior.holder=null;prior.waiting=prior.waiting.filter(w=>w.personId!==p.personId);}
  if(!crossing){if(!prior)return true;if(prior.holder?.personId===p.personId)return true;if(!prior.holder&&prior.lastPassTick<s.worldTick&&prior.waiting[0]?.personId===p.personId&&prior.waiting[0].firstArrivalTick<s.worldTick){prior.holder=prior.waiting.shift();return true;}return false;}
