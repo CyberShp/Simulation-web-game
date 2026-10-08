@@ -70,6 +70,8 @@ SR-XF-002-AC-03证据：qa/ea-sr-contracts-acceptance.mjs；docs/requirements/IM
 
 2026-10-08 M1 旧离宗窄项：合法 v5 离宗历史升级后保留身份/原因/记忆、时钟/资源/RNG和源文，不再凭缺字段生成活跃生命周期或院内脚点；世界场景不画该人，传话发起与伪造进行中传话存档均拒绝。独立专项 3/3、共同契约 24/24、世界相关 21/21，源档精确存读。外观/日程/生命史仍由旧兼容路径合成，版本组合及逐人送达时刻仍属 I01；I/V/R 不提升。
 
+2026-10-08 M1 版本与收件窄项：schema6 已登记主规则/内容组合、核心模块和显式空间子版本按字段校验；混搭、未知或缺失核心版本拒载。知识查询只读，初始收件与实际传话完结分别登记逐人时刻和送达事实；旧格式缺逐人证据时显示未知，首次再传话只登记新收件人。证据：qa/ea-sr-version-gate-acceptance.mjs 9/9、qa/ea-sr002-receipt-time-acceptance.mjs 5/5、qa/ea-sr-contracts-acceptance.mjs 24/24；相邻 qa/ea-sr-world-acceptance.mjs 21/21、qa/ea-sr-world-content-acceptance.mjs 9/9、qa/ea-sr-local-industry-acceptance.mjs 8/8，均经独立只读复验。自含存档只能校验内部一致性，无法证明所有时间与事实被同步篡改前的外部历史；旧档外观/日程来源、浏览器/目标设备与完整 I/V/R 继续。
+
 ## 开发任务
 
 | 任务 | 工作 | 状态 | 前置 | 责任人 |
@@ -127,5 +129,6 @@ SR-XF-002-V01证据：qa/ea-sr-contracts-acceptance.mjs；docs/design/STATUS.md�
 - 2026-10-08：独立逐段核对旧离宗例外、主子版本矩阵、条件模块与I01接缝，结论PASS
 - 2026-10-08：SR002 D01/D02 设计与独立审阅完成；将历史离宗人兼容、版本门禁及知识送达时刻列入 I01，不宣称实现。
 - 2026-10-08：2026-10-08 M1 旧离宗窄项：合法 v5 离宗历史升级后保留身份/原因/记忆、时钟/资源/RNG和源文，不再凭缺字段生成活跃生命周期或院内脚点；世界场景不画该人，传话发起与伪造进行中传话存档均拒绝。独立专项 3/3、共同契约 24/24、世界相关 21/21，源档精确存读。外观/日程/生命史仍由旧兼容路径合成，版本组合及逐人送达时刻仍属 I01；I/V/R 不提升。
+- 2026-10-08：2026-10-08 M1 版本与收件窄项：schema6 已登记主规则/内容组合、核心模块和显式空间子版本按字段校验；混搭、未知或缺失核心版本拒载。知识查询只读，初始收件与实际传话完结分别登记逐人时刻和送达事实；旧格式缺逐人证据时显示未知，首次再传话只登记新收件人。证据：qa/ea-sr-version-gate-acceptance.mjs 9/9、qa/ea-sr002-receipt-time-acceptance.mjs 5/5、qa/ea-sr-contracts-acceptance.mjs 24/24；相邻 qa/ea-sr-world-acceptance.mjs 21/21、qa/ea-sr-world-content-acceptance.mjs 9/9、qa/ea-sr-local-industry-acceptance.mjs 8/8，均经独立只读复验。自含存档只能校验内部一致性，无法证明所有时间与事实被同步篡改前的外部历史；旧档外观/日程来源、浏览器/目标设备与完整 I/V/R 继续。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。

@@ -67,6 +67,8 @@ SR-XF-030-AC-03证据：qa/ea-sr-contracts-acceptance.mjs；docs/requirements/IM
 
 2026-10-07 M1 第五批大档续存：同源公开操作首战档的普通 JSON 约 3.5 MB，实际浏览器原 2 MB 门槛阻止导入，扩容后导入成功但首次未压缩主档再保存触发浏览器配额失败且旧主档保留。当前对较大有效主档与滚动备份同步压缩存放，仍读取原普通 JSON，下载导出保持普通 JSON；8 MB 是未压缩输入上限，实际写入串也须在此范围。35/35 持久层测试包含 5 MB 模拟配额下旧大档连续保存与高熵压缩封装边界，旧集成 23/23。独立只读复核使用约3.60 MB真实结局状态及真实校验器，在5 MiB模拟配额连续保存4次、三份有效备份并精确读回。另在隔离的真实浏览器验收档位导入约3.5 MB首战档、刷新续玩并连续保存两次，主档约342 KB、三份备份约1.03 MB。浏览器加载偶发连接重置、设备配额与关闭时保存全矩阵、真机/触控仍待验；整项SR030 D/I/V/R保持原状态。
 
+2026-10-08 M1 版本迁移窄项：prepareMigration 要求调用方提供返回已校验结构6状态的完整加载器，并在隔离初始化前后各校验一次。合法 v1–v4 生成器、真实 qa/prototype-worlds/legacy-v4.json 与 qa/ea-reference-world.json 的旧档均迁至 opening-runtime-2 + legacy-ea-1.4.2，原文保留、离线推进为0、存读稳定；已登记 opening/runtime 和 SR v6 来源仍可读。混搭主版本、未知内容或子版本、缺失 SR 核心模块拒载且不改输入。证据：qa/ea-sr-version-gate-acceptance.mjs 9/9、qa/ea-sr-contracts-acceptance.mjs 24/24，以及独立同源复验。浏览器存储、目标设备、旧可选模块来源全矩阵和完整 I/V/R 尚未由本窄项覆盖。
+
 ## 开发任务
 
 | 任务 | 工作 | 状态 | 前置 | 责任人 |
@@ -125,5 +127,6 @@ SR-XF-030-V01证据：qa/ea-indoor-furniture-acceptance.mjs；qa/ea-courtyard-li
 - 2026-10-07：M0/M1 接续批完成局部设计、修复和独立复核；具体通过范围与缺口见 acceptance_notes 和 STATUS。整项 D/I/V/R 及 AC 状态保持原门槛。
 - 2026-10-07：2026-10-07 M1 第四批：SR030-AC02 的两设施档由旧版公开营造，最近旧址阻塞入口时改选合法格并留迁移账，身份/资源/时间/RNG及源档原文保留。76 建筑三级设施档先设已立派，每一处均通过旧版 placementLock 且整档通过 Legacy.validateSave；新空间无法安置时实际档位拒载、禁写、原文导出并可选择有效备份恢复，故障字节留在保留区。当前版缺失人物位置引用同样实际拒载和恢复；未知建筑定义及未来版本不改原输入。专项 24/24，独立只读复核通过，AC02 按原文 Node 契约范围登记 passed。76 建筑档是合成的旧版合法结构压力样本，不是逐座公开建成的玩家历史档；持久层使用真实模块和内存存储，真实浏览器存储未验。历史 full fixture 缺失另记跳过；整项 SR030 D/I/V/R 仍未关闭。
 - 2026-10-07：M1 第五批修复大档持续保存：有效本地快照和滚动备份压缩，普通导出及旧格式读取保留；模拟配额、真实浏览器续存与独立复核已登记，整项门槛继续。
+- 2026-10-08：2026-10-08 M1 版本迁移窄项：prepareMigration 要求调用方提供返回已校验结构6状态的完整加载器，并在隔离初始化前后各校验一次。合法 v1–v4 生成器、真实 qa/prototype-worlds/legacy-v4.json 与 qa/ea-reference-world.json 的旧档均迁至 opening-runtime-2 + legacy-ea-1.4.2，原文保留、离线推进为0、存读稳定；已登记 opening/runtime 和 SR v6 来源仍可读。混搭主版本、未知内容或子版本、缺失 SR 核心模块拒载且不改输入。证据：qa/ea-sr-version-gate-acceptance.mjs 9/9、qa/ea-sr-contracts-acceptance.mjs 24/24，以及独立同源复验。浏览器存储、目标设备、旧可选模块来源全矩阵和完整 I/V/R 尚未由本窄项覆盖。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。

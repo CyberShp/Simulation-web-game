@@ -2,11 +2,58 @@
 import {appearance} from './ea-scenic.mjs';
 import {RESOURCES} from './ea-data.mjs';
 import {hydratePillTotals} from './ea-sr-economy.mjs';
-import {initContracts,validateContracts,SR_CONTENT_VERSION,SR_RULESET_VERSION} from './ea-sr-contracts.mjs';
+import {ContractError,initContracts,validateContracts,SR_CONTENT_VERSION,SR_RULESET_VERSION} from './ea-sr-contracts.mjs';
 
 export const SCHEMA_VERSION=6;
 export const CONTENT_VERSION='opening-v1.2';
 export const TICKS_PER_SECOND=10;
+const versionPairs=new Set([
+ 'opening-runtime-1/legacy-ea-1.4.2','opening-runtime-1/opening-v1.2',
+ 'opening-runtime-2/legacy-ea-1.4.2','opening-runtime-2/opening-v1.2',
+ 'opening-runtime-3/opening-v1.2',`${SR_RULESET_VERSION}/${SR_CONTENT_VERSION}`,
+]);
+const srCoreVersions={srWorld:1,srGeography:1,srTransport:1,srWorldContent:1,srCrises:1,
+ srEconomy:'economy:yunxiu:v1',srOrganization:'organization:yunxiu:v1',srEquipment:1,
+ srCultivation:1,srCombat:1,srCovenants:1,srMother:1};
+const srLaterVersions={srDescent:1,srAftermath:'aftermath:yunxiu:v1',srLateEconomy:'late-economy:qingxi:v1'};
+const unsupported=(path,value)=>{throw new ContractError('unsupported-version',path,`未登记版本 ${String(value)}`);};
+function versionField(record,field,expected,path,{required=false,optionalField=false}={}){
+ if(record===undefined){if(required)unsupported(path,'缺失');return;}
+ if(!record||typeof record!=='object'||Array.isArray(record))unsupported(path,record);
+ if(!Object.hasOwn(record,field)){if(optionalField)return;unsupported(path,'缺失');}
+ if(record[field]!==expected)unsupported(path,record[field]);
+}
+function validateVersionCombination(s){
+ const rules=['opening-runtime-1','opening-runtime-2','opening-runtime-3',SR_RULESET_VERSION];
+ const content=['opening-v1.2','legacy-ea-1.4.2',SR_CONTENT_VERSION];
+ if(!rules.includes(s.rulesetVersion))unsupported('rulesetVersion',s.rulesetVersion);
+ if(!content.includes(s.contentVersion))unsupported('contentVersion',s.contentVersion);
+ if(!versionPairs.has(`${s.rulesetVersion}/${s.contentVersion}`))unsupported('rulesetVersion+contentVersion',`${s.rulesetVersion}/${s.contentVersion}`);
+ const sr=s.contentVersion===SR_CONTENT_VERSION;
+ if(!sr){
+  if(s.spatial!==undefined)unsupported('spatial.version',s.spatial?.version);
+  for(const field of [...Object.keys(srCoreVersions),...Object.keys(srLaterVersions)])if(s[field]!==undefined)unsupported(`${field}.version`,s[field]?.version);
+ }
+ if(s.contracts!==undefined||sr)versionField(s.contracts,'version',1,'contracts.version',{required:sr});
+ if(s.migrationLedger!==undefined||sr)versionField(s.migrationLedger,'version',1,'migrationLedger.version',{required:sr});
+ if(s.spatial!==undefined||sr){
+  versionField(s.spatial,'version','spatial-metres-1','spatial.version',{required:sr});
+  versionField(s.spatial,'extentVersion','courtyard-96-1','spatial.extentVersion',{optionalField:true});
+  versionField(s.spatial,'buildingGridVersion','building-units-1','spatial.buildingGridVersion',{optionalField:true});
+  versionField(s.spatial,'interiorLayoutVersion','adult-furniture-1','spatial.interiorLayoutVersion',{optionalField:true});
+ }
+ for(const [id,b]of Object.entries(s.buildingsById||{})){
+  if(b?.buildingGridVersion!==undefined)versionField(b,'buildingGridVersion','building-units-1',`buildingsById.${id}.buildingGridVersion`);
+  if(b?.interiorLayoutVersion!==undefined)versionField(b,'interiorLayoutVersion','adult-furniture-1',`buildingsById.${id}.interiorLayoutVersion`);
+  if(b?.prefabId!==undefined){const expected=`prefab:${b.type}:${b.buildingGridVersion?'units':'metres'}:v1`;
+   if(b.prefabId!==expected)unsupported(`buildingsById.${id}.prefabId`,b.prefabId);}
+ }
+ if(sr){
+  for(const [field,version]of Object.entries(srCoreVersions))versionField(s[field],'version',version,`${field}.version`,{required:true});
+  for(const [field,version]of Object.entries(srLaterVersions))if(s[field]!==undefined)versionField(s[field],'version',version,`${field}.version`,{required:true});
+  if(s.srLateEconomy&&!s.story?.completed)unsupported('srLateEconomy.version',s.srLateEconomy.version);
+ }
+}
 const accents=['#d6b673','#83b49c','#91a9ce','#c79078','#b29cc5','#a5ba70'];
 const personKey=p=>p.personId||(p.id===undefined?'person:master':`person:yunxiu:${p.id}`);
 const buildingKey=b=>b.instanceId||`building:yunxiu:${b.id}`;
@@ -69,10 +116,12 @@ export function legacyProjection(s){
 
 export function validateV6Shape(s){
  const fail=message=>{throw Error('存档校验失败：'+message);};
- if(s.version!==undefined||s.schemaVersion!==6)fail('结构版本冲突或尚不支持');
+ if(s.version!==undefined)fail('结构版本冲突或尚不支持');
+ if(s.schemaVersion!==SCHEMA_VERSION)unsupported('schemaVersion',s.schemaVersion);
  if(Object.keys(s).some(k=>['master','disciples','buildings','resources','time'].includes(k)))fail('含重复的旧版权威字段');
  for(const key of ['revision','worldTick'])if(!Number.isSafeInteger(s[key])||s[key]<0)fail('时钟或修订号异常');
- if(s.ticksPerDay!==1200||!['opening-runtime-1','opening-runtime-2','opening-runtime-3',SR_RULESET_VERSION].includes(s.rulesetVersion)||!['opening-v1.2','legacy-ea-1.4.2',SR_CONTENT_VERSION].includes(s.contentVersion))fail('规则或内容版本不支持');
+ if(s.ticksPerDay!==1200)fail('世界日长度异常');
+ validateVersionCombination(s);
  if(!s.sim||!Number.isFinite(s.sim.carry)||s.sim.carry<0||s.sim.carry>=.1)fail('时钟余量异常');
  for(const field of ['personsById','buildingsById','activitiesById','workOrdersById','reservationsById','stockpilesById','factsById'])if(!s[field]||typeof s[field]!=='object'||Array.isArray(s[field]))fail('主表容器异常');
  for(const a of Object.values(s.activitiesById))if(a?.kind==='construction'&&a.workOrderId&&Object.keys(a).some(k=>['progressTicks','totalTicks'].includes(k)))fail('营造含重复进度字段');

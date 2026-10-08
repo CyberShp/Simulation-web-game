@@ -16,7 +16,7 @@ import {initContracts,validateContracts,validateContentDefinitions,executeContra
 let checks=0;
 function test(name,fn){fn();checks++;console.log('PASS '+name);}
 const fresh=()=>migrateState(Legacy.initial({seed:713}),{newGame:true});
-const prepare=raw=>prepareMigration(raw,{validateLegacy:Legacy.validateSave,migrate:migrateState,validate:validateV6Shape});
+const prepare=raw=>prepareMigration(raw,{validateLegacy:Legacy.validateSave,migrate:migrateState,validate:Opening.validateSave});
 test('SR-XF-030-AC-01 v5 migration preserves source, assets, RNG, phase and identities',()=>{
  const raw=Legacy.initial({seed:777,name:'迁移守恒'});Legacy.tick(raw,3.25);const before=structuredClone(raw);
  const s=migrateState(raw);assert.deepEqual(raw,before);assert.equal(s.rngState,raw.sim.seed);assert.equal(s.worldTick,32);assert.equal(s.master.name,raw.master.name);assert.deepEqual(s.resources,raw.resources);assert.equal(s.master.personId,'person:master');assert.ok(Math.abs(s.sim.carry-.05)<1e-12);validateV6Shape(s);
@@ -46,7 +46,7 @@ test('SR-XF-002-AC-01 canonical person reference survives travel/combat table an
  const loaded=cloneState(JSON.parse(JSON.stringify(s)));assert.equal(loaded.personsById[loaded.travelsById['travel:test'].personId],loaded.master);assert.equal(loaded.personsById[loaded.combatSessionsById['combat:test'].personId],loaded.master);assert.equal(Object.keys(loaded.personsById).filter(id=>id==='person:master').length,1);assert.equal(loaded.rngState,s.rngState);assert.equal(loaded.worldTick,s.worldTick);
 });
 test('SR-XF-002-AC-02 knowledge query is read-only and excludes hidden author truths',()=>{
- const s=fresh();s.claimsById['claim:public']={id:'claim:public',public:true,text:'昨日有人走过石桥',truth:'hidden',receivedAtTick:0};s.claimsById['claim:secret']={id:'claim:secret',public:false,text:'秘闻'};const before=JSON.stringify(s);assert.deepEqual(knowledgeView(s),[{id:'claim:public',text:'昨日有人走过石桥',sourcePersonId:null,observedAtTick:null,receivedAtTick:0,locationHint:null,certainty:'unverified'}]);assert.equal(JSON.stringify(s),before);
+ const s=fresh();s.claimsById['claim:public']={id:'claim:public',public:true,text:'昨日有人走过石桥',truth:'hidden',receivedAtTick:0};s.claimsById['claim:secret']={id:'claim:secret',public:false,text:'秘闻'};const before=JSON.stringify(s);assert.deepEqual(knowledgeView(s),[{id:'claim:public',text:'昨日有人走过石桥',sourcePersonId:null,observedAtTick:null,receivedAtTick:null,locationHint:null,certainty:'unverified'}]);assert.equal(JSON.stringify(s),before);
 });
 test('SR-XF-002-AC-03 content version and missing ref reject isolated definitions precisely',()=>{
  const d={version:1,contentVersion:SR_CONTENT_VERSION,persons:{},items:{},scenes:{'scene:a':{id:'scene:a',references:[]}},routes:{},claims:{},crises:{},activities:{},authorCards:{}};assert.deepEqual(validateContentDefinitions(d),d);d.routes['route:x']={id:'route:x',references:['scene:missing']};const before=JSON.stringify(d);assert.throws(()=>validateContentDefinitions(d),e=>e.code==='invalid-reference'&&e.path==='definitions.routes.route:x.references');assert.equal(JSON.stringify(d),before);assert.throws(()=>validateContentDefinitions({...d,contentVersion:'future'}),/unsupported-version/);
