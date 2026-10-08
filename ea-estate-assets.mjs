@@ -154,10 +154,52 @@ function drawableBox(b,c,images,options){
  return {box,im};
 }
 
+/** Keep finished stage art at its current screen resolution while the camera is stable.
+ * Entries belong to one renderer and are bounded so repeated zooms cannot retain
+ * every full-resolution size. The destination and the source art remain unchanged.
+ */
+export function createEstateExteriorRasterCache({maxBytes=32*1024*1024}={}){
+ const entries=new Map(),imageIds=new WeakMap();
+ let nextImageId=0,bytes=0,buildsRemaining=Infinity;
+ return {
+  beginFrame(){buildsRemaining=1;},
+  draw(ctx,image,rect,box){
+   if(typeof globalThis.OffscreenCanvas!=='function'||typeof ctx.getTransform!=='function')return false;
+   let matrix;try{matrix=ctx.getTransform();}catch{return false;}
+   if(!matrix||matrix.a<=0||matrix.d<=0||Math.abs(matrix.b)>1e-8||Math.abs(matrix.c)>1e-8)return false;
+   const width=Math.max(1,Math.round(box.width*matrix.a)),height=Math.max(1,Math.round(box.height*matrix.d)),size=width*height*4;
+   if(!Number.isFinite(size)||size>maxBytes||width>4096||height>4096)return false;
+   let id=imageIds.get(image);if(id===undefined){id=++nextImageId;imageIds.set(image,id);}
+   const key=[id,...rect,width,height,ctx.imageSmoothingEnabled,ctx.imageSmoothingQuality].join(':');
+   let entry=entries.get(key);
+   if(entry){entries.delete(key);entries.set(key,entry);}
+   else{
+    if(buildsRemaining<=0)return false;
+    try{
+     const surface=new OffscreenCanvas(width,height),surfaceCtx=surface.getContext('2d');
+     if(!surfaceCtx)return false;
+     surfaceCtx.imageSmoothingEnabled=ctx.imageSmoothingEnabled;
+     surfaceCtx.imageSmoothingQuality=ctx.imageSmoothingQuality;
+     surfaceCtx.drawImage(image,...rect,0,0,width,height);
+     while(entries.size&&bytes+size>maxBytes){const oldest=entries.keys().next().value;bytes-=entries.get(oldest).size;entries.delete(oldest);}
+     entry={surface,size};entries.set(key,entry);bytes+=size;
+     buildsRemaining--;
+    }catch{return false;}
+   }
+   ctx.drawImage(entry.surface,box.x,box.y,box.width,box.height);
+   return true;
+  },
+  clear(){entries.clear();bytes=0;},
+  snapshot(){return{entries:entries.size,bytes};},
+ };
+}
+
 export function drawEstateExterior(ctx,b,c,images,options={}){
  const {box,im}=drawableBox(b,c,images,options);if(!box||!im||!im.width)return false;
  ctx.save();ctx.globalAlpha=options.alpha??1;
- const [sx,sy,sw,sh]=box.art.rect;ctx.drawImage(im,sx,sy,sw,sh,box.x,box.y,box.width,box.height);ctx.restore();return true;
+ const [sx,sy,sw,sh]=box.art.rect;
+ if(!box.art.atlas.endsWith('Stages')||!options.rasterCache?.draw(ctx,im,box.art.rect,box))ctx.drawImage(im,sx,sy,sw,sh,box.x,box.y,box.width,box.height);
+ ctx.restore();return true;
 }
 
 /** Alpha-aware picking uses the exact rendered source pixels, including roofs.

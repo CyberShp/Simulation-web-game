@@ -1,8 +1,8 @@
 /** SR-XF-020/022. Persistent obligations and reactions require delivered evidence.
  * Author R/T defaults; this module consumes worldTick and never owns a clock. */
-import {RESOURCES,RECIPES} from './ea-data.mjs?v=ea-160-courtyard-20261008-r13';
-import {makeWorldPerson,recordFactSR,publishFactSR} from './ea-sr-world.mjs?v=ea-160-courtyard-20261008-r13';
-import {reserveBody,releaseSRBody,ownedActivity,isLivingPerson,spendResources,refundResources} from './ea-sr-equipment.mjs?v=ea-160-courtyard-20261008-r13';
+import {RESOURCES,RECIPES} from './ea-data.mjs?v=ea-160-courtyard-20261008-r14';
+import {makeWorldPerson,recordFactSR,publishFactSR} from './ea-sr-world.mjs?v=ea-160-courtyard-20261008-r14';
+import {reserveBody,releaseSRBody,ownedActivity,isLivingPerson,spendResources,refundResources} from './ea-sr-equipment.mjs?v=ea-160-courtyard-20261008-r14';
 
 const MASTER='person:master',HERBALIST='person:su-yelan',KIN='person:su-mingzhi';
 const zero=()=>Object.fromEntries(Object.keys(RESOURCES).map(k=>[k,0]));

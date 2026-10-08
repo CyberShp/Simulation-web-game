@@ -1,6 +1,6 @@
-import {BUILDINGS,RESOURCES,CELLS} from './ea-data.mjs?v=ea-160-courtyard-20261008-r13';
-import {buildingAccess,scenicDistance} from './ea-scene-geometry.mjs?v=ea-160-courtyard-20261008-r13';
-import {actorScenePosition,lifeBuildingActive,personLifeSummary} from './ea-life.mjs?v=ea-160-courtyard-20261008-r13';
+import {BUILDINGS,RESOURCES,CELLS} from './ea-data.mjs?v=ea-160-courtyard-20261008-r14';
+import {buildingAccess,scenicDistance} from './ea-scene-geometry.mjs?v=ea-160-courtyard-20261008-r14';
+import {actorScenePosition,lifeBuildingActive,personLifeSummary} from './ea-life.mjs?v=ea-160-courtyard-20261008-r14';
 
 // Guidance records observations only. Progress, choices and resources remain
 // owned by the campaign and simulation; older worlds opt out automatically.
