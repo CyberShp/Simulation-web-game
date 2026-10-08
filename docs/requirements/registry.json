@@ -5,36 +5,36 @@
   "updated": "2026-10-08",
   "authoritative": "registry.json for requirement records and task states; derived Markdown rendered by qa/sr-manager.py refresh",
   "source_runtime": {
-    "main": "729d24a148f744c535b2abbe93cbec7429c482e0",
-    "runtime_source": "729d24a148f744c535b2abbe93cbec7429c482e0",
-    "pages": "73f716cddf1464658730066cfb093c0e13c41324",
+    "main": "56639dc8925a5697782edd41db37e7fa49fb5035",
+    "runtime_source": "56639dc8925a5697782edd41db37e7fa49fb5035",
+    "pages": "03d3e30cd6c618e12958351afa5afaf845f382b5",
     "game_version": "1.6.0-dev",
     "schema_version": 6,
-    "preview_pages": "73f716cddf1464658730066cfb093c0e13c41324",
+    "preview_pages": "03d3e30cd6c618e12958351afa5afaf845f382b5",
     "preview_deployment": null,
     "working_game_version": "1.6.0-dev",
     "official_game_version": "1.6.0-dev",
-    "version_note": "M1 窄项：SR002/030 版本组合和隔离迁移、逐人实际送达时刻，SR005 显式选址确认，均独立复核并发布；完整 SR/真机继续。",
+    "version_note": "M1 SR002 知识投影窄项：按观察者实际取得的事实限制消息证据、核实程度、位置、危机和旧案界面；独立定向验收通过并发布，整项继续。",
     "main_record_type": "runtime source commit; release metadata commit is a descendant",
-    "working_release_note": "2026-10-08 M1 窄项运行批已验收并发布，公开浏览器新建/续档与营造确认通过；完整 40 SR 尚未完成。",
-    "previous_pages": "8e734f6efd149bc9435336b52d3ee0d6058c595b",
+    "working_release_note": "2026-10-08 M1 SR002 知识投影子批已独立验收并发布；公开 Chromium 合法传闻试读、新建保存与续档通过，完整 40 SR 未完成。",
+    "previous_pages": "73f716cddf1464658730066cfb093c0e13c41324",
     "pages_deployment_status": "built",
-    "working_release_tag": "ea-160-courtyard-20261008-r3",
-    "official_release_tag": "ea-160-courtyard-20261008-r3",
-    "official_url": "https://cybershp.github.io/Simulation-web-game/?v=ea-160-courtyard-20261008-r3",
+    "working_release_tag": "ea-160-courtyard-20261008-r4",
+    "official_release_tag": "ea-160-courtyard-20261008-r4",
+    "official_url": "https://cybershp.github.io/Simulation-web-game/?v=ea-160-courtyard-20261008-r4",
     "deployed_tree_verification": {
       "packaged_files": 162,
       "text_cache_changes": 120,
       "static_art_changes": 0,
       "sample_asset_sha256_match": true
     },
-    "previous_main": "e4bc0907f6cd9da2406e7653ca0081a12395ff33",
+    "previous_main": "729d24a148f744c535b2abbe93cbec7429c482e0",
     "browser_verification": {
-      "viewport": "public Chromium 820x1180 placement; public save/resume responsive viewport",
-      "scope": "独立公开验收档新建、入院、保存、刷新及同一世界继续；另以合法档在820x1180核对选址、改选、冲突禁确认、取消不扣费及一次确认工单和材料；控制台0错误。旧仓库外QA档孤立收据字段需规范化，不代表生产生成旧档。",
+      "viewport": "independent local and public Chromium responsive viewport",
+      "scope": "独立公开 GitHub Pages 合法传闻档只读试读显示观察/收到时刻和尚未核实，未见测试私有证据或精确坐标；刷新后试读未落盘。新建世界 1、手动保存、刷新继续成功，控制台 0 错误/0 警告。仅覆盖一份合法传闻档与一份新档。本地 8080 模块连接重置，同一 dist 的 8177 刷新后完成本地试读。",
       "real_devices": false,
       "fps_measured": false,
-      "acceptance_namespace": "qa-release-r3-20261008; qa-r3-placement-20261008"
+      "acceptance_namespace": "qa-sr002-r4-local-20261008; qa-sr002-r4-public-20261008"
     },
     "working_source_base": "1b28260007c3049d077dfce424d0db2c6e8cbd60",
     "working_validation": {
@@ -432,7 +432,11 @@
         "tests/ea-sr-combat-body.test.mjs",
         "qa/ea-sr-combat-release-acceptance.mjs",
         "docs/design/STATUS.md",
-        "qa/ea-sr-integration-acceptance.mjs"
+        "qa/ea-sr-integration-acceptance.mjs",
+        "qa/ea-sr002-knowledge-projection-acceptance.mjs",
+        "qa/ea-sr002-world-knowledge-acceptance.mjs",
+        "qa/ea-sr002-story-knowledge-acceptance.mjs",
+        "qa/ea-sr002-player-projection-ui-acceptance.mjs"
       ],
       "change_log": [
         {
@@ -478,6 +482,10 @@
         {
           "date": "2026-10-08",
           "reason": "2026-10-08 M1 版本与收件窄项：schema6 已登记主规则/内容组合、核心模块和显式空间子版本按字段校验；混搭、未知或缺失核心版本拒载。知识查询只读，初始收件与实际传话完结分别登记逐人时刻和送达事实；旧格式缺逐人证据时显示未知，首次再传话只登记新收件人。证据：qa/ea-sr-version-gate-acceptance.mjs 9/9、qa/ea-sr002-receipt-time-acceptance.mjs 5/5、qa/ea-sr-contracts-acceptance.mjs 24/24；相邻 qa/ea-sr-world-acceptance.mjs 21/21、qa/ea-sr-world-content-acceptance.mjs 9/9、qa/ea-sr-local-industry-acceptance.mjs 8/8，均经独立只读复验。自含存档只能校验内部一致性，无法证明所有时间与事实被同步篡改前的外部历史；旧档外观/日程来源、浏览器/目标设备与完整 I/V/R 继续。"
+        },
+        {
+          "date": "2026-10-08",
+          "reason": "M1 知识投影子批：消息、世界位置、危机和旧案界面按观察者实际获知事实收窄；独立专项 5/5、7/7、6/6、7/7，本地合法档试读和存读通过。公开源码及 Pages r4 已发布；不提升整项 I/V/R 或 AC。"
         }
       ],
       "tasks": [
@@ -520,7 +528,12 @@
           "depends_on": [
             "SR-XF-002-D02"
           ],
-          "evidence": [],
+          "evidence": [
+            "qa/ea-sr002-knowledge-projection-acceptance.mjs",
+            "qa/ea-sr002-world-knowledge-acceptance.mjs",
+            "qa/ea-sr002-story-knowledge-acceptance.mjs",
+            "qa/ea-sr002-player-projection-ui-acceptance.mjs"
+          ],
           "blocked_reason": null
         },
         {
@@ -536,7 +549,11 @@
           "evidence": [
             "qa/ea-sr-contracts-acceptance.mjs",
             "docs/design/STATUS.md",
-            "qa/ea-sr-integration-acceptance.mjs"
+            "qa/ea-sr-integration-acceptance.mjs",
+            "qa/ea-sr002-knowledge-projection-acceptance.mjs",
+            "qa/ea-sr002-world-knowledge-acceptance.mjs",
+            "qa/ea-sr002-story-knowledge-acceptance.mjs",
+            "qa/ea-sr002-player-projection-ui-acceptance.mjs"
           ],
           "blocked_reason": null
         },
@@ -572,7 +589,7 @@
         "CHAIN-02"
       ],
       "blockers": [],
-      "acceptance_notes": "2026-10-07 M0/M1 接续批：D01 补了当前 schema6 主人物山院、旅行、斗法、返院的实际字段/失败/存读映射。共同契约 Node 19/19 复验。另以 qa/ea-sr-integration-acceptance.mjs 的新档正常公开命令链验证疗伤、发现地点、出发、在途、抵达、返院和5次精确 JSON 存读：4命令、世界步至561，person:master 人物记录始终唯一，一件随身继承剑实例 ID/归属/位置与外观配方保留；此为 AC01 的旅行子范围。独立审阅确认斗法同链身份/装备/伤势尚未核验，且 combat.player 仍有独立 hp、缺持久 personId。故 D01/D02 和 AC01 均未关闭，AC02/03 沿用既有通过证据。\n\n2026-10-07 M1 战斗共同身体批：SR 会话持久引用同一掌门/具名参战者；战斗 HP 从人物伤势投影，受击/携药治疗立即写回伤势，胜败撤只释放身体而不重复记伤。同 tick 致胜一击后又遭契约致命反噬时按最终身体事实判败、无胜利奖励。独立只读复核重跑战斗及旧回归 30/30；新增组件测试 8/8 覆盖会话、存读、旧活跃形状迁移与坏引用拒绝。新档正常旅行子链已通过，但未到实战返院；旧活跃档只用合成历史形状，浏览器实战未验，故 AC01、D/I/V/R 均保持原状态。\n2026-10-07 正常新档公开操作链从已完成五人匠人档继续，完成第9/10/11境并在世界步474439保存；后续世界步483700的晶石采购因商人现货6、补货来源0被正式命令拒绝。真实来源/远方采集和成本尚待核对，尚未进入同档实战返院；AC01与完整D/I/V/R保持原状态。\n\n2026-10-07 M1 第五批：从 /tmp/immortal-m1-well-realm11-earned.json（seed 618033、有来源山院第11境有效存档）继续，以公开命令到第12境、调查、三场实战及三名固定责任人死亡结算，并分别完成 return/rebuild 结局和重复访问。SR002-AC01 同一链逐点存读档保存在仓库外 /tmp/immortal-m1-sr002-ac01-audit/：出发前/在途世界步698140，抵达698340，首战698952，受伤战斗699701，返程在途699980，返院700505。独立只读复核18个阶段档精确重载不变：唯一 person:master、单一身体活动、铁剑 item:sr-equipment:1 与法袍 item:sr-equipment:5 的归属/槽位连续；受伤档人物伤势23.5602与战场HP 146/191投影一致，时钟单调。319条公开命令、80次精确存读，两个结局均至世界步703301。真实浏览器用同源首战档验证可导入、实战界面、保存和刷新续玩；AC01按其公开命令/运行时要求登记 passed。该长链从有来源的正常存档续跑，另一次独立新档采购路径至第7境时耗尽当前可用原料，未据其判定玩法死锁。完整SR002的 D/I/V/R、触控/实机与发布门槛继续保持原状态。\n\n2026-10-08 M1 设计批：D01 字段级共同实体/命令事务/世界步/知识投影/作者卡编译及主子版本兼容矩阵补齐；D02 独立复核 PASS。现行兼容字段不一致可能使旧离宗历史人获得院内脚点，版本组合门禁和知识送达时刻仍属 I01 代码缺口；D01/D02 完成不提升 I/V/R、旧档全兼容或浏览器验收。\n\n2026-10-08 M1 旧离宗窄项：合法 v5 离宗历史升级后保留身份/原因/记忆、时钟/资源/RNG和源文，不再凭缺字段生成活跃生命周期或院内脚点；世界场景不画该人，传话发起与伪造进行中传话存档均拒绝。独立专项 3/3、共同契约 24/24、世界相关 21/21，源档精确存读。外观/日程/生命史仍由旧兼容路径合成，版本组合及逐人送达时刻仍属 I01；I/V/R 不提升。\n\n2026-10-08 M1 版本与收件窄项：schema6 已登记主规则/内容组合、核心模块和显式空间子版本按字段校验；混搭、未知或缺失核心版本拒载。知识查询只读，初始收件与实际传话完结分别登记逐人时刻和送达事实；旧格式缺逐人证据时显示未知，首次再传话只登记新收件人。证据：qa/ea-sr-version-gate-acceptance.mjs 9/9、qa/ea-sr002-receipt-time-acceptance.mjs 5/5、qa/ea-sr-contracts-acceptance.mjs 24/24；相邻 qa/ea-sr-world-acceptance.mjs 21/21、qa/ea-sr-world-content-acceptance.mjs 9/9、qa/ea-sr-local-industry-acceptance.mjs 8/8，均经独立只读复验。自含存档只能校验内部一致性，无法证明所有时间与事实被同步篡改前的外部历史；旧档外观/日程来源、浏览器/目标设备与完整 I/V/R 继续。"
+      "acceptance_notes": "2026-10-07 M0/M1 接续批：D01 补了当前 schema6 主人物山院、旅行、斗法、返院的实际字段/失败/存读映射。共同契约 Node 19/19 复验。另以 qa/ea-sr-integration-acceptance.mjs 的新档正常公开命令链验证疗伤、发现地点、出发、在途、抵达、返院和5次精确 JSON 存读：4命令、世界步至561，person:master 人物记录始终唯一，一件随身继承剑实例 ID/归属/位置与外观配方保留；此为 AC01 的旅行子范围。独立审阅确认斗法同链身份/装备/伤势尚未核验，且 combat.player 仍有独立 hp、缺持久 personId。故 D01/D02 和 AC01 均未关闭，AC02/03 沿用既有通过证据。\n\n2026-10-07 M1 战斗共同身体批：SR 会话持久引用同一掌门/具名参战者；战斗 HP 从人物伤势投影，受击/携药治疗立即写回伤势，胜败撤只释放身体而不重复记伤。同 tick 致胜一击后又遭契约致命反噬时按最终身体事实判败、无胜利奖励。独立只读复核重跑战斗及旧回归 30/30；新增组件测试 8/8 覆盖会话、存读、旧活跃形状迁移与坏引用拒绝。新档正常旅行子链已通过，但未到实战返院；旧活跃档只用合成历史形状，浏览器实战未验，故 AC01、D/I/V/R 均保持原状态。\n2026-10-07 正常新档公开操作链从已完成五人匠人档继续，完成第9/10/11境并在世界步474439保存；后续世界步483700的晶石采购因商人现货6、补货来源0被正式命令拒绝。真实来源/远方采集和成本尚待核对，尚未进入同档实战返院；AC01与完整D/I/V/R保持原状态。\n\n2026-10-07 M1 第五批：从 /tmp/immortal-m1-well-realm11-earned.json（seed 618033、有来源山院第11境有效存档）继续，以公开命令到第12境、调查、三场实战及三名固定责任人死亡结算，并分别完成 return/rebuild 结局和重复访问。SR002-AC01 同一链逐点存读档保存在仓库外 /tmp/immortal-m1-sr002-ac01-audit/：出发前/在途世界步698140，抵达698340，首战698952，受伤战斗699701，返程在途699980，返院700505。独立只读复核18个阶段档精确重载不变：唯一 person:master、单一身体活动、铁剑 item:sr-equipment:1 与法袍 item:sr-equipment:5 的归属/槽位连续；受伤档人物伤势23.5602与战场HP 146/191投影一致，时钟单调。319条公开命令、80次精确存读，两个结局均至世界步703301。真实浏览器用同源首战档验证可导入、实战界面、保存和刷新续玩；AC01按其公开命令/运行时要求登记 passed。该长链从有来源的正常存档续跑，另一次独立新档采购路径至第7境时耗尽当前可用原料，未据其判定玩法死锁。完整SR002的 D/I/V/R、触控/实机与发布门槛继续保持原状态。\n\n2026-10-08 M1 设计批：D01 字段级共同实体/命令事务/世界步/知识投影/作者卡编译及主子版本兼容矩阵补齐；D02 独立复核 PASS。现行兼容字段不一致可能使旧离宗历史人获得院内脚点，版本组合门禁和知识送达时刻仍属 I01 代码缺口；D01/D02 完成不提升 I/V/R、旧档全兼容或浏览器验收。\n\n2026-10-08 M1 旧离宗窄项：合法 v5 离宗历史升级后保留身份/原因/记忆、时钟/资源/RNG和源文，不再凭缺字段生成活跃生命周期或院内脚点；世界场景不画该人，传话发起与伪造进行中传话存档均拒绝。独立专项 3/3、共同契约 24/24、世界相关 21/21，源档精确存读。外观/日程/生命史仍由旧兼容路径合成，版本组合及逐人送达时刻仍属 I01；I/V/R 不提升。\n\n2026-10-08 M1 版本与收件窄项：schema6 已登记主规则/内容组合、核心模块和显式空间子版本按字段校验；混搭、未知或缺失核心版本拒载。知识查询只读，初始收件与实际传话完结分别登记逐人时刻和送达事实；旧格式缺逐人证据时显示未知，首次再传话只登记新收件人。证据：qa/ea-sr-version-gate-acceptance.mjs 9/9、qa/ea-sr002-receipt-time-acceptance.mjs 5/5、qa/ea-sr-contracts-acceptance.mjs 24/24；相邻 qa/ea-sr-world-acceptance.mjs 21/21、qa/ea-sr-world-content-acceptance.mjs 9/9、qa/ea-sr-local-industry-acceptance.mjs 8/8，均经独立只读复验。自含存档只能校验内部一致性，无法证明所有时间与事实被同步篡改前的外部历史；旧档外观/日程来源、浏览器/目标设备与完整 I/V/R 继续。\n\n2026-10-08 M1 知识投影子批：knownFactForObserver 不把普通转述证据视作本人亲见；消息分开显示观察/实际收件时刻，旧档缺值未知，核实程度及位置按已获事实过滤。山外位置/卜算、危机远程结果、旧案责任和死亡传闻沿同一边界。独立专项 qa/ea-sr002-knowledge-projection-acceptance.mjs 5/5、qa/ea-sr002-world-knowledge-acceptance.mjs 7/7、qa/ea-sr002-story-knowledge-acceptance.mjs 6/6、qa/ea-sr002-player-projection-ui-acceptance.mjs 7/7；相邻收据 5/5、世界 21/21、共同契约 24/24。本地独立 Chromium 合法试读传闻卡、未落盘、新建/保存/刷新续档通过；8080 模块连接重置，8177 刷新后可用。更宽的集成脚本 9 pass/4 fail，四处同为未修改上一源码也复现的开局运输资源断言；独立公开 Chromium 合法传闻试读、新建、手动保存、刷新续档通过，控制台 0 错误/0 警告；完整历史来源矩阵和真 iPadOS 仍未证明。运行源码 56639dc8925a5697782edd41db37e7fa49fb5035、Pages 03d3e30cd6c618e12958351afa5afaf845f382b5 已发布且构建完成，整项 I/V/R 与 AC 状态不提升。"
     },
     {
       "id": "SR-XF-003",
