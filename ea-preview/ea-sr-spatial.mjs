@@ -1,8 +1,8 @@
-import {finalizeBuildingChange,releaseBodyActivity} from './ea-facility-activities.mjs?v=ea-160-courtyard-20261008-r16';
+import {finalizeBuildingChange,releaseBodyActivity} from './ea-facility-activities.mjs?v=ea-160-courtyard-20261008-r17';
 /** SR-XF-003–006: metre space and persistent, on-site construction transactions. */
-import {scenicPoint} from './ea-scene-geometry.mjs?v=ea-160-courtyard-20261008-r16';
-import {BUILDINGS,RESOURCES,log as gameLog} from './ea-data.mjs?v=ea-160-courtyard-20261008-r16';
-import {BUILDING_GRID,buildingGridEnabled,buildingCellSize,onBuildingGrid} from './ea-building-grid.mjs?v=ea-160-courtyard-20261008-r16';
+import {scenicPoint} from './ea-scene-geometry.mjs?v=ea-160-courtyard-20261008-r17';
+import {BUILDINGS,RESOURCES,log as gameLog} from './ea-data.mjs?v=ea-160-courtyard-20261008-r17';
+import {BUILDING_GRID,buildingGridEnabled,buildingCellSize,onBuildingGrid} from './ea-building-grid.mjs?v=ea-160-courtyard-20261008-r17';
 export const SPATIAL_VERSION='spatial-metres-1';
 export const SPATIAL_EXTENT_VERSION='courtyard-96-1';
 export const INTERIOR_LAYOUT_VERSION='adult-furniture-1';
@@ -198,7 +198,8 @@ function footprintRect(b){const t=spatialTransform(b),d=dimensions(b);return {x:
 const connectivityCache=new WeakMap();
 function rememberedConnection(s,origin,goal){const rev=spatialRevision(s);let data=connectivityCache.get(s);if(data?.revision!==rev){data={revision:rev,routes:new Map()};connectivityCache.set(s,data);}const key=`${goal.x}/${goal.y}`;if(!data.routes.has(key))data.routes.set(key,meterFindPath(s,origin,goal,{maxSnap:0}));return data.routes.get(key);}
 function routeStillClear(s,origin,route){if(route===null)return false;const polygons=obstacles(s);if(!clearPoint(polygons,origin,.26))return false;let p=origin;for(const q of route){if(!continuousClear(polygons,p,q,.26))return false;p=q;}return true;}
-export function placementIssue(s,type,x,y,{ignoreId=null,level=1,checkPeople=true,checkReservations=true,checkConnectivity=true}={}){
+const migrationConnectionProof=Symbol('migration-connected-entrances');
+export function placementIssue(s,type,x,y,{ignoreId=null,level=1,checkPeople=true,checkReservations=true,checkConnectivity=true,connectionProof=null}={}){
  if(!PREFAB_CATALOG[type]||!Number.isFinite(x)||!Number.isFinite(y)||snap(x)!==x||snap(y)!==y)return '位置须在合法营造格上；仅支持南向预制件。';
  if(buildingGridEnabled(s)&&(!onBuildingGrid(x)||!onBuildingGrid(y)))return '位置须对齐建筑单位格；每格2米。';
  const bounds=sceneBounds(s),b=layoutBuilding(s,{type,level,transform:{x,y,orientation:'south'}}),r=footprintRect(b),poly=spatialFootprint(b);
@@ -209,6 +210,9 @@ export function placementIssue(s,type,x,y,{ignoreId=null,level=1,checkPeople=tru
  if(checkPeople)for(const p of people(s)){const q=personPosition(s,p);if(q&&polygonContains(q,poly,.26))return `${p.name||p.personId}正在此处，请等其走开。`;}
  if(!checkConnectivity)return '';
  const candidate={...s,buildings:[...(s.buildings||[]).filter(old=>old.id!==ignoreId),b]},entry=spatialAccess(b),origin={x:32,y:56};if(!meterCanStand(candidate,entry)||!meterFindPath(candidate,origin,entry,{maxSnap:0}))return '入口未与归院道路连通，或门道过窄。';
+ // Ordered migration has already connected every placed entrance. Outdoor
+ // prefabs other than the unit well add no navigation obstacles.
+ if(connectionProof===migrationConnectionProof&&!PREFAB_CATALOG[type].indoor&&type!=='well')return '';
  for(const old of candidate.buildings){if(old===b)continue;const a=spatialAccess(old);if(!meterCanStand(candidate,a)||!routeStillClear(candidate,origin,rememberedConnection(s,origin,a))&&!meterFindPath(candidate,origin,a,{maxSnap:0}))return `改动会封住${BUILDINGS[old.type].name}入口。`;}
  return '';
 }
@@ -216,7 +220,7 @@ export function initSpatial(s){
  if(spatialEnabled(s))return s;const originalPeople=people(s).map(p=>[p,personPosition(s,p)]),oldBuildings=s.buildings||[];
  s.spatial={version:SPATIAL_VERSION,extentVersion:SPATIAL_EXTENT_VERSION,sceneId:SPATIAL_SCENE.id,geometryRevision:1,migrations:[],completedOrders:[]};
  const bounds=sceneBounds(s);
- const placed=[];for(const b of oldBuildings){const d=spatialPrefab(b),p=b.type==='hall'?{x:24,y:4}:legacyToWorld(b.legacyScenicPosition||scenicPoint(b.x,b.y)||{x:100+b.x*110,y:250+b.y*75});let target={x:snap(p.x-d.width/2),y:snap(p.y-d.height)};if(b.type==='hall')target={x:24,y:4};const test={...s,buildings:placed};let reason=placementIssue(test,b.type,target.x,target.y,{level:b.level,checkPeople:false,checkReservations:false,checkConnectivity:true});if(reason){let found=null;const candidates=[];for(let y=1;y<=bounds.height-d.height-2;y+=SPATIAL_SCENE.grid)for(let x=1;x<=bounds.width-d.width-1;x+=SPATIAL_SCENE.grid)candidates.push({x,y,distance:distance(target,{x,y})});candidates.sort((a,b)=>a.distance-b.distance||a.y-b.y||a.x-b.x);for(const q of candidates){if(!placementIssue(test,b.type,q.x,q.y,{level:b.level,checkPeople:false,checkReservations:false,checkConnectivity:true})){found={x:q.x,y:q.y};break;}}if(!found)throw Error(`空间迁移无法安置${b.instanceId}；保留原档，不丢弃建筑。`);s.spatial.migrations.push({entityId:b.instanceId,kind:'building-layout-repair',from:target,to:found,reason});target=found;}
+ const placed=[];for(const b of oldBuildings){const d=spatialPrefab(b),p=b.type==='hall'?{x:24,y:4}:legacyToWorld(b.legacyScenicPosition||scenicPoint(b.x,b.y)||{x:100+b.x*110,y:250+b.y*75});let target={x:snap(p.x-d.width/2),y:snap(p.y-d.height)};if(b.type==='hall')target={x:24,y:4};const test={...s,buildings:placed};let reason=placementIssue(test,b.type,target.x,target.y,{level:b.level,checkPeople:false,checkReservations:false,checkConnectivity:true,connectionProof:migrationConnectionProof});if(reason){let found=null;const candidates=[];for(let y=1;y<=bounds.height-d.height-2;y+=SPATIAL_SCENE.grid)for(let x=1;x<=bounds.width-d.width-1;x+=SPATIAL_SCENE.grid)candidates.push({x,y,distance:distance(target,{x,y})});candidates.sort((a,b)=>a.distance-b.distance||a.y-b.y||a.x-b.x);for(const q of candidates){if(!placementIssue(test,b.type,q.x,q.y,{level:b.level,checkPeople:false,checkReservations:false,checkConnectivity:true,connectionProof:migrationConnectionProof})){found={x:q.x,y:q.y};break;}}if(!found)throw Error(`空间迁移无法安置${b.instanceId}；保留原档，不丢弃建筑。`);s.spatial.migrations.push({entityId:b.instanceId,kind:'building-layout-repair',from:target,to:found,reason});target=found;}
   b.transform={...target,orientation:'south'};b.prefabId=PREFAB_CATALOG[b.type].id;b.sceneId=SPATIAL_SCENE.id;delete b.legacyScenicPosition;placed.push(b);
  }
  for(const b of s.buildings){const entry=spatialAccess(b);if(!meterCanStand(s,entry)||!meterFindPath(s,{x:32,y:56},entry,{maxSnap:0}))throw Error(`空间迁移入口不可达：${b.instanceId}；原档保留。`);}
@@ -300,7 +304,7 @@ export function initBuildingGrid(s){
  const placed=[];
  for(const b of s.buildings.slice().sort((a,b)=>(a.type==='hall'?-1:0)-(b.type==='hall'?-1:0)||a.id-b.id)){
   const old=oldById.get(b.instanceId),preferred={x:nearestCell(old.transform.x),y:nearestCell(old.transform.y)},view={...s,buildings:placed};
-  const target=candidates(b.type,b.level,preferred).find(q=>!placementIssue(view,b.type,q.x,q.y,{level:b.level,checkPeople:false,checkReservations:false}));
+  const target=candidates(b.type,b.level,preferred).find(q=>!placementIssue(view,b.type,q.x,q.y,{level:b.level,checkPeople:false,checkReservations:false,connectionProof:migrationConnectionProof}));
   if(!target)throw Error(`单位格迁移无法合法安置${BUILDINGS[b.type].name}，原存档保留。`);
   b.buildingGridVersion=BUILDING_GRID.version;b.transform={...target,orientation:'south'};b.prefabId=prefabId(b);placed.push(b);
   s.spatial.migrations.push({entityId:b.instanceId,kind:'building-unit-grid',from:{...old.transform,width:dimensions(old).width,height:dimensions(old).height},to:{...b.transform,...buildingCellSize(b.type,b.level)},reason:'U-99整格占地；最近合法单位格，保留建筑身份/等级/库存/投入。'});

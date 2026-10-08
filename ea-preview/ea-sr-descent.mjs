@@ -2,10 +2,10 @@
  * U-22/U-23/U-63/U-94; names, costs and windows below are author R/T defaults.
  * One persistent upper body, a separate finite avatar body, real lower positions and world ticks.
  */
-import {RESOURCES} from './ea-data.mjs?v=ea-160-courtyard-20261008-r16';
-import {makeWorldPerson,avatarObservationPlanSR,recordFactSR,publishFactSR,WORLD_SCENES} from './ea-sr-world.mjs?v=ea-160-courtyard-20261008-r16';
-import {recordPermanentDeathSR} from './ea-sr-crises.mjs?v=ea-160-courtyard-20261008-r16';
-import {requirePerson,isLivingPerson,reserveBody,ownedActivity,releaseSRBody,spendResources,resourceSource} from './ea-sr-equipment.mjs?v=ea-160-courtyard-20261008-r16';
+import {RESOURCES} from './ea-data.mjs?v=ea-160-courtyard-20261008-r17';
+import {makeWorldPerson,avatarObservationPlanSR,recordFactSR,publishFactSR,WORLD_SCENES} from './ea-sr-world.mjs?v=ea-160-courtyard-20261008-r17';
+import {recordPermanentDeathSR} from './ea-sr-crises.mjs?v=ea-160-courtyard-20261008-r17';
+import {requirePerson,isLivingPerson,reserveBody,ownedActivity,releaseSRBody,spendResources,resourceSource} from './ea-sr-equipment.mjs?v=ea-160-courtyard-20261008-r17';
 
 const MASTER='person:master',ENVOY='person:immortal:yunhe-envoy';
 const ORIGIN='scene:immortal-origin',SITE='scene:immortal-descent-outpost';
