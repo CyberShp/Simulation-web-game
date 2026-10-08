@@ -1,5 +1,7 @@
 # Codex 接手指南 · 2026-10-08
 
+最新 M2 r22 已发布 SR011 公物跨场景订单及玩家明确划拨：预留、取货、运输、取消、收款保持来源权限，转入掌门私物需完成订单卡上指定数量。根复跑公开链 12/12、旧单 1/1、库存 4/4、产权 6/6、界面 17/17；独立本地 Chromium 实点划拨、购粮、返院。源码 `main` `980fa93dc71325171e3d37f48456bfa108654b50`，网页 `gh-pages` `53c38b2771dcd064a73c745e9454ac212aacc871`，Pages `built`、162 文本 blob 匹配，公网入口 HTTP 200 及改动模块字节一致。完整 SR011 AC、目标设备和公网浏览器操作待验；**36 passed、83 not_run、1 blocked**。最新状态见 [STATUS](design/STATUS.md) 与 [台账](requirements/registry.json)。
+
 最新 M1 r21 已发布山外“此地总览”交互标签。公开来源档在本地 Chromium 的青溪坊市与驻棚实点总览、建筑点选和近景返回，坊市保存刷新续读保持场景与资源；根复跑镜头 **5/5**、界面 **17/17**。源码 `main` `050a78fa3fd33d73478401a4a733373cd8870cc1`，网页 `gh-pages` `679dab3b53c8571807f84cda36ac9b3edc6ce695`，Pages `built`、162 文本 blob 匹配。门位画稿、真机触控和真人辨识待验，SR003-AC02 保持 `not_run`；40 SR/120 AC 为 **36 passed、83 not_run、1 blocked**。最新状态见 [STATUS](design/STATUS.md) 和 [台账](requirements/registry.json)。
 
 最新 M2 r12 已发布“百工用材”同院订单账本：正常新档真实采料入库，接单一次预留木 20、石 10，商人实际到院且掌门近身后交付，灵石 30、名声 2 仅结算一次；账本可见货、款、名声。根执行者独立重跑专项 1/1、界面 17 pass / 4 pending、顾氏相邻 1/1，本地浏览器有来源原生档保存刷新保持订单与账本。源码 `main` `833415505f4620ad23206ebb24fe261d3520be1c`，网页 `gh-pages` `016b0653ae7673c01e524eeb339532f4105a003d`，标记 `ea-160-courtyard-20261008-r12`，Pages `built`，162 个打包文本 blob 与发布树一致。公开网页浏览器因应用安全策略验证不可用未验；跨场景订单 `market-order:v2` 及 SR011 完整 AC 待实现/验收。旧经济综合脚本的旧初始化档版本失败已在合入前主线复现，见 [STATUS](design/STATUS.md) 首节。40 SR/120 AC 为 **35 passed、84 not_run、1 blocked**。

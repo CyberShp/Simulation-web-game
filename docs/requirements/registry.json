@@ -5,23 +5,23 @@
   "updated": "2026-10-08",
   "authoritative": "registry.json for requirement records and task states; derived Markdown rendered by qa/sr-manager.py refresh",
   "source_runtime": {
-    "main": "050a78fa3fd33d73478401a4a733373cd8870cc1",
-    "runtime_source": "050a78fa3fd33d73478401a4a733373cd8870cc1",
-    "pages": "679dab3b53c8571807f84cda36ac9b3edc6ce695",
+    "main": "980fa93dc71325171e3d37f48456bfa108654b50",
+    "runtime_source": "980fa93dc71325171e3d37f48456bfa108654b50",
+    "pages": "53c38b2771dcd064a73c745e9454ac212aacc871",
     "game_version": "1.6.0-dev",
     "schema_version": 6,
-    "preview_pages": "679dab3b53c8571807f84cda36ac9b3edc6ce695",
+    "preview_pages": "53c38b2771dcd064a73c745e9454ac212aacc871",
     "preview_deployment": null,
     "working_game_version": "1.6.0-dev",
     "official_game_version": "1.6.0-dev",
-    "version_note": "M1 r21 labels the overview control for the current outer scene while preserving the courtyard label; SR003-AC02 and full device acceptance remain open.",
+    "version_note": "M2 r22 keeps cross-scene market-order goods, freight and proceeds in their source public scope, with an explicit recorded allocation to the master bag; full SR011 acceptance remains open.",
     "main_record_type": "runtime source commit; release metadata commit is a descendant",
-    "working_release_note": "2026-10-08 r21: the outer-scene overview button now reads 总览 with aria-label 此地总览; the courtyard still reads 山势. Independent browser acceptance clicked overview, selected a building and returned to its near view in Qingxi market and the ward; market save/refresh preserved scene, selection context and resources. Root reran SR003 camera 5/5 and UI 17/17. Pages built and all 162 packaged text Git blobs match its tree. Door art alignment, target devices and full SR003-AC02 remain open.",
-    "previous_pages": "098cc0511096de37b5da79cf01cceb65e68e7727",
+    "working_release_note": "2026-10-08 r22: a public-source market order keeps its reserved goods and freight public through pickup, travel, cancellation and recovery. Payment first enters a public carried holding; the player can explicitly allocate a chosen amount to the private bag, then buy market food and return. Root reran v2 public order 12/12, old same-yard order 1/1, inventory 4/4, property 6/6 and UI contracts 17/17. Independent local Chromium clicked allocation, purchase and return. Existing active v2 saves migrate access once; completed old v2 saves keep their settled balances. Pages built, 162 packaged text Git blobs match, public entry returned HTTP 200 and two changed modules match manifest bytes. Upstream replenishment, deadlines, alternate orders, target devices and full SR011 AC remain open.",
+    "previous_pages": "679dab3b53c8571807f84cda36ac9b3edc6ce695",
     "pages_deployment_status": "built",
-    "working_release_tag": "ea-160-courtyard-20261008-r21",
-    "official_release_tag": "ea-160-courtyard-20261008-r21",
-    "official_url": "https://cybershp.github.io/Simulation-web-game/?v=ea-160-courtyard-20261008-r21",
+    "working_release_tag": "ea-160-courtyard-20261008-r22",
+    "official_release_tag": "ea-160-courtyard-20261008-r22",
+    "official_url": "https://cybershp.github.io/Simulation-web-game/?v=ea-160-courtyard-20261008-r22",
     "deployed_tree_verification": {
       "published_tree_blobs": 235,
       "packaged_text_blobs_checked": 162,
@@ -29,20 +29,20 @@
       "verified_files": [
         "index.html",
         "ea-game.mjs",
-        "ea-ui.mjs",
-        "ea-opening-sim.mjs",
-        "ea-sr-economy.mjs"
+        "ea-sr-economy.mjs",
+        "ea-sr-ui.mjs",
+        "ea-opening-sim.mjs"
       ],
-      "verification": "GitHub API confirms main 050a78fa3fd33d73478401a4a733373cd8870cc1, gh-pages 679dab3b53c8571807f84cda36ac9b3edc6ce695 and Pages built; all 162 packaged text Git blob hashes match the published tree. Public entry returned HTTP 200 and published ea-ui.mjs bytes match the release manifest; public browser interaction was not verified.",
+      "verification": "GitHub API confirms main 980fa93dc71325171e3d37f48456bfa108654b50, gh-pages 53c38b2771dcd064a73c745e9454ac212aacc871 and Pages built; all 162 packaged text Git blob hashes match the published tree. Public entry returned HTTP 200 and changed economy/UI module bytes match the release manifest; public browser interaction was not verified.",
       "mismatches": 0
     },
-    "previous_main": "850cc4599dc2e245117920725df449fd03ac4323",
+    "previous_main": "439ab58235cb29758d15e3c881141440ef964277",
     "browser_verification": {
-      "viewport": "local Chromium, Qingxi market and ward outer scenes",
-      "scope": "Independent real-browser clicks used source-backed public travel saves on local Chromium: overview, building selection and return to near view worked in both scenes; market save and refresh preserved scene and displayed resources. Public entry returned HTTP 200 and published ea-ui.mjs bytes match the release manifest; public browser interaction and target devices were not verified.",
+      "viewport": "local Chromium, isolated acceptance qa-sr011-public-transfer",
+      "scope": "Independent real-browser clicks on a normal source-backed save allocated 10 jade from a public receipt to the private bag, bought 10 food and returned home with 8 private food remaining; console had no errors or warnings after stable backlog-128 load. Public HTTP entry and changed module bytes were verified; public browser interaction and target devices were not.",
       "real_devices": false,
       "fps_measured": false,
-      "acceptance_namespace": "qa-sr003-outer-overview-r21"
+      "acceptance_namespace": "qa-sr011-public-transfer"
     },
     "working_source_base": "1b28260007c3049d077dfce424d0db2c6e8cbd60",
     "working_validation": {
@@ -2811,7 +2811,7 @@
         "ECON-03"
       ],
       "blockers": [],
-      "acceptance_notes": "\n2026-10-08 M2 工地物流缺口复现：正常公开疗伤后在世界步200营造灵草田，下单同刻公库木65→40、石45→35，有逻辑材料预约但无工地位置库存或搬运批次；前后精确存读档在 /tmp/immortal-m2-sr010-gap。SR010-AC01 保持 not_run，待补材料实际到场/逐段守恒并复核现有营造与旧档。\n2026-10-08 M2 AC01：正常公开灵草田档在主屋预留、掌门携料、工地交付、安装和完工各阶段木石数量守恒；交付前进度0，取消后材料实际返仓才一次退款，旧无材料流在建档保留原结算。定向7/7、空间34/34、相关场景UI10/10、升级/迁建/拆除公开回归4/4；独立只读复核施工条真实阶段/百分比。隔离桌面浏览器另确认建成和在途取消返仓。受伤/断路仅故障注入，AC02/03和整项仍未完成。\n2026-10-08 M2 AC03：公开命令来源的赠药与入宗、同所有者私仓搬运、远程赠物绕行拒绝；隔离医疗触发后内部只取公药一剂，公开命令不可伪造。原借剑由借物人实际走到主屋公库，抵达后 30 世界步完成同一实例归还；公库末 40 木只准一单预约。各阶段精确存读，权限专项6/6、装备成长回归45/45；医药伤势为标注的注入，网页真机未验，整项 D/I/V/R 不关闭。"
+      "acceptance_notes": "\n2026-10-08 M2 工地物流缺口复现：正常公开疗伤后在世界步200营造灵草田，下单同刻公库木65→40、石45→35，有逻辑材料预约但无工地位置库存或搬运批次；前后精确存读档在 /tmp/immortal-m2-sr010-gap。SR010-AC01 保持 not_run，待补材料实际到场/逐段守恒并复核现有营造与旧档。\n2026-10-08 M2 AC01：正常公开灵草田档在主屋预留、掌门携料、工地交付、安装和完工各阶段木石数量守恒；交付前进度0，取消后材料实际返仓才一次退款，旧无材料流在建档保留原结算。定向7/7、空间34/34、相关场景UI10/10、升级/迁建/拆除公开回归4/4；独立只读复核施工条真实阶段/百分比。隔离桌面浏览器另确认建成和在途取消返仓。受伤/断路仅故障注入，AC02/03和整项仍未完成。\n2026-10-08 M2 AC03：公开命令来源的赠药与入宗、同所有者私仓搬运、远程赠物绕行拒绝；隔离医疗触发后内部只取公药一剂，公开命令不可伪造。原借剑由借物人实际走到主屋公库，抵达后 30 世界步完成同一实例归还；公库末 40 木只准一单预约。各阶段精确存读，权限专项6/6、装备成长回归45/45；医药伤势为标注的注入，网页真机未验，整项 D/I/V/R 不关闭。\n2026-10-08 r22 相邻物权复验：公库百工单预留/取货/取消/返院保留公共权限，只有玩家明确划拨才转掌门私物；位置库存4/4、产权6/6根复跑。SR010完整I/V/R与目标设备仍待。"
     },
     {
       "id": "SR-XF-011",
@@ -2864,7 +2864,8 @@
           "status": "not_run",
           "evidence": [
             "2026-10-08 r12 同院百工用材订单子情景：正常新档实际采料入库，接单一次预留灵木20/青石10；商人实际到院且掌门近身后交付，灵石30/名声2与唯一结算事实一致。正常链41条公开命令/30次精确存读，拒单链2命令/3次精确存读；提前/重复交付拒绝、重复接单不重复预留、取消返料一次。本地主线独立专项1/1、UI17 pass/4 pending、顾氏相邻1/1；本地浏览器有来源原生档导入、保存刷新后订单与完整账本可见。源码8334155、Pages016b065 built，162文本blob匹配发布树；公网浏览器安全策略校验不可用。market-order:v2跨场景货位/承运/付款预留未实施，完整AC01与整项验收仍待。旧经济综合脚本的旧初始化档版本错误已在合入前r11复现。",
-            "2026-10-08 r13 跨场景百工用材订单子情景：正常开局公开采集入库，卖方木20/石10、商人灵石30、运粮2分别预留有权货位；掌门实际取货、两段世界行程逐段扣粮、青溪同场结算一次。专项目 7/7，旧同院订单 1/1，逐阶段原生存读一致；断路是明确环境夹具，取消后院内或坊市能公开取回，失败出发原账不变。活跃预留货位在普通搬运/赠予命令前拒绝且不列入下拉。世界21/21、世界内容9/9、地方产业8/8、界面17 pass/4 pending；SR010相邻赠物1项在未改r11同样失败，非本批引入。独立本地浏览器实点取货/出发/近商人交付/取消取回，保存刷新后木20石10→灵石30名声2的唯一账本保留；首次本地静态服务连接重置，最后刷新无控制台错误。源码6e81238、Pages5260563 built，发布树162文本blob一致；公网浏览器受应用安全策略验证不可用限制，目标设备未验。仅 AC01 有界子情景；期限、NPC承运、上游实体补货、收费/改道及旧单迁移未覆盖，AC01及整项V/R保持原状态。"
+            "2026-10-08 r13 跨场景百工用材订单子情景：正常开局公开采集入库，卖方木20/石10、商人灵石30、运粮2分别预留有权货位；掌门实际取货、两段世界行程逐段扣粮、青溪同场结算一次。专项目 7/7，旧同院订单 1/1，逐阶段原生存读一致；断路是明确环境夹具，取消后院内或坊市能公开取回，失败出发原账不变。活跃预留货位在普通搬运/赠予命令前拒绝且不列入下拉。世界21/21、世界内容9/9、地方产业8/8、界面17 pass/4 pending；SR010相邻赠物1项在未改r11同样失败，非本批引入。独立本地浏览器实点取货/出发/近商人交付/取消取回，保存刷新后木20石10→灵石30名声2的唯一账本保留；首次本地静态服务连接重置，最后刷新无控制台错误。源码6e81238、Pages5260563 built，发布树162文本blob一致；公网浏览器受应用安全策略验证不可用限制，目标设备未验。仅 AC01 有界子情景；期限、NPC承运、上游实体补货、收费/改道及旧单迁移未覆盖，AC01及整项V/R保持原状态。",
+            "局部：2026-10-08 r22 正常开局百工跨场景订单公物接单/运送/取消与当面交付，显式公款划拨、坊市买粮返院及每阶段精确存读；v2 12/12、旧同院1/1，本地浏览器实点。完整多订单、期限与补货未验。"
           ]
         },
         {
@@ -2892,7 +2893,9 @@
         "dist/ea-sr-economy.mjs",
         "tests/ea-merchant-idle-recovery.test.mjs",
         "2026-10-08 r12 同院百工用材订单子情景：正常新档实际采料入库，接单一次预留灵木20/青石10；商人实际到院且掌门近身后交付，灵石30/名声2与唯一结算事实一致。正常链41条公开命令/30次精确存读，拒单链2命令/3次精确存读；提前/重复交付拒绝、重复接单不重复预留、取消返料一次。本地主线独立专项1/1、UI17 pass/4 pending、顾氏相邻1/1；本地浏览器有来源原生档导入、保存刷新后订单与完整账本可见。源码8334155、Pages016b065 built，162文本blob匹配发布树；公网浏览器安全策略校验不可用。market-order:v2跨场景货位/承运/付款预留未实施，完整AC01与整项验收仍待。旧经济综合脚本的旧初始化档版本错误已在合入前r11复现。",
-        "2026-10-08 r13 跨场景百工用材订单子情景：正常开局公开采集入库，卖方木20/石10、商人灵石30、运粮2分别预留有权货位；掌门实际取货、两段世界行程逐段扣粮、青溪同场结算一次。专项目 7/7，旧同院订单 1/1，逐阶段原生存读一致；断路是明确环境夹具，取消后院内或坊市能公开取回，失败出发原账不变。活跃预留货位在普通搬运/赠予命令前拒绝且不列入下拉。世界21/21、世界内容9/9、地方产业8/8、界面17 pass/4 pending；SR010相邻赠物1项在未改r11同样失败，非本批引入。独立本地浏览器实点取货/出发/近商人交付/取消取回，保存刷新后木20石10→灵石30名声2的唯一账本保留；首次本地静态服务连接重置，最后刷新无控制台错误。源码6e81238、Pages5260563 built，发布树162文本blob一致；公网浏览器受应用安全策略验证不可用限制，目标设备未验。仅 AC01 有界子情景；期限、NPC承运、上游实体补货、收费/改道及旧单迁移未覆盖，AC01及整项V/R保持原状态。"
+        "2026-10-08 r13 跨场景百工用材订单子情景：正常开局公开采集入库，卖方木20/石10、商人灵石30、运粮2分别预留有权货位；掌门实际取货、两段世界行程逐段扣粮、青溪同场结算一次。专项目 7/7，旧同院订单 1/1，逐阶段原生存读一致；断路是明确环境夹具，取消后院内或坊市能公开取回，失败出发原账不变。活跃预留货位在普通搬运/赠予命令前拒绝且不列入下拉。世界21/21、世界内容9/9、地方产业8/8、界面17 pass/4 pending；SR010相邻赠物1项在未改r11同样失败，非本批引入。独立本地浏览器实点取货/出发/近商人交付/取消取回，保存刷新后木20石10→灵石30名声2的唯一账本保留；首次本地静态服务连接重置，最后刷新无控制台错误。源码6e81238、Pages5260563 built，发布树162文本blob一致；公网浏览器受应用安全策略验证不可用限制，目标设备未验。仅 AC01 有界子情景；期限、NPC承运、上游实体补货、收费/改道及旧单迁移未覆盖，AC01及整项V/R保持原状态。",
+        "qa/ea-sr-011-market-order-v2-public-acceptance.mjs",
+        "dist/ea-sr-ui.mjs"
       ],
       "change_log": [
         {
@@ -2922,6 +2925,10 @@
         {
           "date": "2026-10-08",
           "reason": "r13 跨场景百工订单有界子情景已独立验收并发布；完整 market-order:v2、AC01及整项I/V/R继续。"
+        },
+        {
+          "date": "2026-10-08",
+          "reason": "M2 r22 公库来源商单的货物、运费及收款按源权限留在公用货位；玩家显式划拨后才按已知物权命令转私。正常公开链、旧单、库存与产权根复验，浏览器实点划拨/买粮/返院。源码980fa93、Pages53c38b2 built、162文本blob与公开两模块字节匹配。SR011完整AC及I/V/R仍未完成。"
         }
       ],
       "tasks": [
@@ -3014,7 +3021,7 @@
         "EQ-02"
       ],
       "blockers": [],
-      "acceptance_notes": "\n2026-10-07 M1正常成长链阻断修复：有来源正常档 tick404450 的商人精力9.706低于工坊收货门槛10，空闲长期不恢复，真实工序停在190/200。现在商人仅在院/坊市始末同场且无身体活动时每世界tick恢复0.3；出行或收货中不恢复。定向3/3、经济52/52；独立只读复核从该正常档克隆1200 tick内见两批实物收货/分别付款64.1923331328及64.503802176，商人减少与工坊增加逐笔相等，生产工资0.8另按公库和人物钱袋守恒；600 tick完整存读逐字一致。仅局部Node证据，不提升原AC或完整D/I/V/R。"
+      "acceptance_notes": "\n2026-10-07 M1正常成长链阻断修复：有来源正常档 tick404450 的商人精力9.706低于工坊收货门槛10，空闲长期不恢复，真实工序停在190/200。现在商人仅在院/坊市始末同场且无身体活动时每世界tick恢复0.3；出行或收货中不恢复。定向3/3、经济52/52；独立只读复核从该正常档克隆1200 tick内见两批实物收货/分别付款64.1923331328及64.503802176，商人减少与工坊增加逐笔相等，生产工资0.8另按公库和人物钱袋守恒；600 tick完整存读逐字一致。仅局部Node证据，不提升原AC或完整D/I/V/R。\n2026-10-08 M2 r22 公物商单子批：从正常开局实际采木20/石10/粮5，接单预留、到场取货、两段旅程、青溪商人当面交付，木石/灵石/口粮/名声只有一次结算；订单货物、未耗运费与收款公私权限保持原来源。已完成订单卡允许玩家明确选择灵石数量划入掌门私人行囊，随后公开买粮10、实际返院耗粮2。旧活跃v2档一次迁正公物权限，已完成旧单原值保留，坏引用拒载。根合入后v2 12/12、同院旧单1/1、库存4/4、产权6/6、界面17/17；独立本地Chromium实点划拨10/买粮/返院，正常加载后控制台无错误警告。Pages built，162文本blob匹配，公网HTTP入口200且两改动模块逐字节匹配打包；公网浏览器、目标设备及上游实体补货/时限/NPC承运/其他订单未验，AC01-03及完整I/V/R保持原状态。"
     },
     {
       "id": "SR-XF-012",

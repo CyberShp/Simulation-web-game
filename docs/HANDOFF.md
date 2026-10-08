@@ -1,5 +1,7 @@
 # M0→M1 交付接续 · 2026-10-08
 
+当前最新 M2 r22 已发布 SR011 公物跨场景订单及明确划拨：货物、运费和收款随原公有权限流转，取消取回不改产权；玩家在完成订单卡指定数量后才转入私人物品。正常公开链 12/12、旧单 1/1、库存 4/4、产权 6/6、界面 17/17；独立本地 Chromium 实点划拨、买粮、返院。源码 `main` `980fa93dc71325171e3d37f48456bfa108654b50`，网页 `gh-pages` `53c38b2771dcd064a73c745e9454ac212aacc871`，Pages `built`，162 个文本 blob 匹配，公网入口与改动模块字节核对通过。完整 SR011 AC、目标设备与公网浏览器操作仍待；**36 passed、83 not_run、1 blocked**。详见 [STATUS](design/STATUS.md) 与 [台账](requirements/registry.json)。
+
 当前最新 M1 r21 已发布山外“此地总览”标签：独立 Chromium 在青溪坊市与驻棚实点总览、建筑点选、放大回近景，坊市保存刷新续读保持场景与资源；根合入后镜头 **5/5**、界面 **17/17**。源码 `main` `050a78fa3fd33d73478401a4a733373cd8870cc1`，网页 `gh-pages` `679dab3b53c8571807f84cda36ac9b3edc6ce695`，Pages `built`，162 个文本 blob 匹配。SR003-AC02 的门位画稿、目标设备和真人辨识未完成；40 SR / 120 AC 仍 **36 passed、83 not_run、1 blocked**。详见 [STATUS](design/STATUS.md) 与 [台账](requirements/registry.json)。
 
 当前最新 M2 r20 已发布 SR010 公库、掌门私物、商人物资五数只读汇总：施工、搬运、商单与药田待料按同一实仓/工单计数，展示总量、可用、预留、在途、已知缺口；查询与格式化不改存档。正常公开链 4/4、SR010 相邻 25/25、商单 7/7、界面 17/17，独立只读复核与本地 Chromium 隔离试读通过。源码 `main` `f8b8912244d05a7c101d5dc8b81dc2502d41d5d4`，网页 `gh-pages` `098cc0511096de37b5da79cf01cceb65e68e7727`，Pages `built`，162 个发布文本 blob 匹配。既有 SR011 商单取消后公物可能转入私有货位，本批不宣称该产权链验收；临时 Python 静态服务连接队列造成的首载重置已隔离，不是运行帧率证据。SR010/011 整项与目标设备仍待，**40 SR / 120 AC：36 passed、83 not_run、1 blocked**，详见 [STATUS](design/STATUS.md) 首节及 [台账](requirements/registry.json)。
