@@ -15,6 +15,7 @@ import {advanceSRStory} from './ea-sr-story.mjs';
 import {tickCampaignCombat,settleCombatBodyProjection} from './ea-campaign.mjs';
 import {teachingQualificationSR} from './ea-sr-cultivation.mjs';
 import {prepareAutonomyV2 as prepareAutonomyV2Checked,reconcileAutonomyV2Commitments} from './ea-sr-persons.mjs';
+import {upgradeEquipmentRecipeSnapshots} from './ea-sr-equipment.mjs';
 export * from './ea-sr-equipment.mjs';
 export * from './ea-sr-cultivation.mjs';
 export * from './ea-sr-combat.mjs';
@@ -62,7 +63,7 @@ function validateOpeningRecords(s){
 }
 
 export function validateSave(input,{upgrade=false}={}){
- if(srEnabled(input)){validateV6Shape(input);const s=cloneState(input);base.validateSave(legacyProjection(s),{canonical:true});validateOpeningRecords(s);validateFacilityActivities(s);validateRainArtisan(s);validateSR(s);initBuildingGrid(s);validateFacilityActivities(s);upgradeProductionRecipeSnapshots(s);validateFacilityActivities(s);return hydrateState(validateSR(s));}
+ if(srEnabled(input)){validateV6Shape(input);const s=cloneState(input);base.validateSave(legacyProjection(s),{canonical:true});validateOpeningRecords(s);validateFacilityActivities(s);validateRainArtisan(s);upgradeEquipmentRecipeSnapshots(s);validateSR(s);initBuildingGrid(s);validateFacilityActivities(s);upgradeProductionRecipeSnapshots(s);validateFacilityActivities(s);return hydrateState(validateSR(s));}
  if(input?.schemaVersion===undefined){
   const old=base.validateSave(input);
   const migrated=migrateState(old,{sourceVersion:input.version});migrated.rulesetVersion='opening-runtime-2';return validateSave(migrated,{upgrade});
