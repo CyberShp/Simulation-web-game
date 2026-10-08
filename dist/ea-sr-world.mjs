@@ -89,7 +89,7 @@ export function makeWorldPerson(s,id,name,sceneId,realm=6,addDisciple){
  if(s.personsById[id])return s.personsById[id];
  let p;
  if(addDisciple){const oldIds=s.homeMemberIds.slice(),oldLogs=s.logs.slice();p=addDisciple(s,{name,root:'土灵根',portrait:2,talent:1.05,goal:'守住生计',traits:[65,64,52,62,60]});delete s.personsById[p.personId];s.homeMemberIds=oldIds;s.logs=oldLogs;p.personId=id;s.personsById[id]=p;}
- else {const model=Object.values(s.personsById).find(p=>p.mind);if(!model)throw Error('世界人物初始化缺少共同人物工厂');p=clone(model);p.id=s.society.nextPersonId++;p.personId=id;p.name=name;p.job=null;p.mind.memories=[];p.mind.away=null;p.mind.learning=null;s.personsById[id]=p;}
+ else {const model=Object.values(s.personsById).find(p=>p.mind);if(!model)throw Error('世界人物初始化缺少共同人物工厂');p=clone(model);p.id=s.society.nextPersonId++;p.personId=id;if(p.appearance?.recipe)p.appearance.recipe.id=`appearance:${id}:v1`;p.name=name;p.job=null;p.mind.memories=[];p.mind.away=null;p.mind.learning=null;s.personsById[id]=p;}
  hydrateWorldPositionSR(s,p);p.realm=realm;p.xp=0;p.lifeStatus='alive';p.bodyState='fit';p.location={kind:'local',sceneId,x:12,y:27};p.beliefs??={};p.knownFacts??=[];p.mind.activity='rest';return p;
 }
 export function initSRWorld(s,addDisciple){

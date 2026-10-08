@@ -6,7 +6,7 @@
 | --- | --- |
 | 范围 / 模块 | 前期必需 / 体验 |
 | 优先级 / 计划 | P0 / I1 |
-| 设计 / 开发 | draft / in_progress |
+| 设计 / 开发 | ready / in_progress |
 | 验收 / 发布 | in_progress / not_released_for_this_sr |
 | 责任人 / 复核人 | Codex/ui_acceptance / Codex/root（集成） |
 
@@ -26,7 +26,7 @@
 
 建筑侧卡按预制件显示床位、作业位、研习位及当前占用；现场及重叠人物使用同身份头像入口。pointerup补验移动距离，拖动放开保持拖动语义；推荐营造确认消费正式返回字段。推荐营造说明使用稳定布局，指针离开画布后确认按钮仍可点击。
 
-完整鼠标/iPad触控、遮挡/重叠选人、输入焦点、所有新系统失败恢复仍需整体网页及目标设备核对。
+D01/D02 已形成可执行的统一输入、开局赠药/暂居/正式入宗独立决定、八页操作流程、U-95 适配与依赖/REQ/AC 核对；I01 仍需分立现行开局两段决策、修正实际位图 DPR、44 CSS px 控件及完整操作路径，V01 尚缺真 iPadOS、Windows/macOS 设备和各 AC 整链证据。
 
 现状是适用旧能力的基线，不表示该SR完整目标已通过。
 
@@ -63,11 +63,15 @@ SR-XF-029-REQ-03：拖拽和手势不劫持侧栏/输入/弹窗，错误提示�
 
 | 任务 | 工作 | 状态 | 前置 | 责任人 |
 | --- | --- | --- | --- | --- |
-| SR-XF-029-D01 | 设计补齐：交付：掌门移动/点选/重叠/遮挡/营造的统一鼠标触控语义与防误操作。；每个新系统的主目标、条件、确认、取消、等待、失败、恢复和帮助流程。；iPadOS横竖网页视口与Windows/macOS窗口、DPR的信息布局，标题/正文/状态可读和低动态回退。；填实必需参数并标记U/R/T来源。 | in_progress | 无 | Codex/ui_acceptance |
-| SR-XF-029-D02 | 契约与内容审阅：审阅统一操作流程、窄屏与人物触控与依赖契约（SR-XF-003、SR-XF-004、SR-XF-005、SR-XF-007）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。 | todo | SR-XF-029-D01 | 待分配 |
+| SR-XF-029-D01 | 设计补齐：交付：掌门移动/点选/重叠/遮挡/营造的统一鼠标触控语义与防误操作。；每个新系统的主目标、条件、确认、取消、等待、失败、恢复和帮助流程。；iPadOS横竖网页视口与Windows/macOS窗口、DPR的信息布局，标题/正文/状态可读和低动态回退。；填实必需参数并标记U/R/T来源。 | done | 无 | Codex/r35-input-design |
+| SR-XF-029-D02 | 契约与内容审阅：审阅统一操作流程、窄屏与人物触控与依赖契约（SR-XF-003、SR-XF-004、SR-XF-005、SR-XF-007）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。 | done | SR-XF-029-D01 | Codex/r35-input-design |
 | SR-XF-029-I01 | 开发与集成：在体验模块实现统一操作流程、窄屏与人物触控；交付SR-XF-029-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。 | todo | SR-XF-029-D02 | Codex/courtyard-integration |
 | SR-XF-029-V01 | 验收与兼容：执行SR-XF-029-AC-01至AC-03及INPUT-01、INPUT-02、OPEN-10；登记实际结果、兼容和设备证据边界。 | todo | SR-XF-029-I01 | Codex/courtyard-acceptance |
 | SR-XF-029-R01 | 发布与关闭：完成所需源码/运行时发布核对、交接和未覆盖说明；本轮用户不要求上传QA过程产物。 | todo | SR-XF-029-V01 | 待分配 |
+
+SR-XF-029-D01证据：docs/requirements/design/SR-XF-029-INPUT-FLOW.md
+
+SR-XF-029-D02证据：docs/requirements/design/SR-XF-029-INPUT-FLOW.md
 
 SR-XF-029-I01证据：dist/ea-ui.mjs；dist/map-input.mjs；dist/ea-game.mjs；docs/design/STATUS.md；dist/ea.css；dist/ea-courtyard-renderer.mjs
 
@@ -94,6 +98,7 @@ SR-XF-029-V01证据：tests/ea-scene-ui.test.mjs；tests/map-input.test.mjs；qa
 
 ## 证据与变更
 
+- docs/requirements/design/SR-XF-029-INPUT-FLOW.md
 - docs/requirements/design/SR-XF-029-032-034.md
 - docs/requirements/IMPLEMENTATION-2026-10-06.md
 - docs/design/03-SPATIAL-ART.md
@@ -117,5 +122,8 @@ SR-XF-029-V01证据：tests/ea-scene-ui.test.mjs；tests/map-input.test.mjs；qa
 - 2026-10-07：U-100固定2.5D、旧云岫人物/建筑资源接回正式U-99主线；R-29山院扩96米，旧64档先校验仅登记extentVersion。人物6/6、扩图9/9、单位格6/6与正常公开链局部通过，真实网页/发布另记STATUS；完整SR保持in_progress，不冒称全动画或全体验完成。
 - 2026-10-07：成人家具与现场交互本地批次：建筑侧卡按预制件显示床位、作业位、研习位及当前占用；现场及重叠人物使用同身份头像入口。pointerup补验移动距离，拖动放开保持拖动语义；推荐营造确认消费正式返回字段。 已登记适用实现与独立复验证据，整体开发/验收保持in_progress，AC状态沿用已有范围。 推荐营造按钮的指针离开布局变化已修复并由实际鼠标复验。
 - 2026-10-07：M0/M1 接续批完成局部设计、修复和独立复核；具体通过范围与缺口见 acceptance_notes 和 STATUS。整项 D/I/V/R 及 AC 状态保持原门槛。
+- 2026-10-08：SR-XF-029-D01：鼠标/触控语义、八页主目标至恢复、三平台布局和低动态实施参数已写入统一输入流程设计。
+- 2026-10-08：SR-XF-029-D02：对照 SR003/004/005/007、05/06 逐项核对字段、时序、失败恢复和 029-REQ/AC；设计契约可用于 I01，实际网页与设备仍待验收。
+- 2026-10-08：SR-XF-029 D01/D02 细化开局结缘的赠药、暂居与正式入宗三次独立确认；新流程本人拒绝单独留痕，旧档 declined 保留掌门让陆知微回家照应家人的选择与赠药善缘；OPEN-04/REQ-02 步骤可核对。设计 ready，运行实现与设备验收状态不变。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。

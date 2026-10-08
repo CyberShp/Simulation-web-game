@@ -25,17 +25,17 @@ mother.configureMotherChain({createCrisis:crises.createMotherCrisisSR,resolveCri
 configureCampaign({enemyCombatConfig:(s,id)=>srEnabled(s)?combat.ENEMY_COMBAT_CONFIG[id]:null,companionTactic:(s)=>srEnabled(s)?s.srCombat?.tactic||'guard':null,incomingDamage:(s,c,source,target,amount,kind)=>srEnabled(s)?localIndustryCombatDamageSR(s,c,source,target,amount*combat.outgoingCombatMultiplier(s,source,kind)*combat.incomingCombatMultiplier(s,target)*combat.realmGapCombatMultiplier(s,source,target),kind):amount,onEffectiveDamage:(s,c,source,target,amount,kind)=>{if(!srEnabled(s)||!source.personId||source.personId==='person:master')return;const p=s.personsById[source.personId];if(!p||p.lifeStatus!=='alive')return;const artId=p.mind?.main||p.main;if(artId)cultivation.recordArtPractice(s,p.personId,artId,{eventId:`combat:${s.srCombat.battleId||c.encounterId}:${c.nextEffectId}:${p.personId}`,difficulty:1,effective:amount>0});}});
 cultivation.configureCultivation({breakthroughCost:base.breakthroughCost,onBreakthroughRefining:mother.activateMotherBreakthrough,canCompleteBreakthrough:(s,p,a)=>!mother.motherBlocksBreakthrough(s,p,a),onLifespanExhausted:(s,p)=>{if(p.personId!=='person:master')crises.recordPermanentDeathSR(s,p.personId,{cause:'有限寿元耗尽'});else{s.speed=0;base.log(s,'寿元已到有限界限，此卷暂停并保留；掌门永久死亡与删档规则尚未启用。');}}});
 export function initSR(s,{newGame=false}={}){
- if(srEnabled(s)){spatial.initBuildingGrid(s);combat.initSRCombat(s);economy.initEconomy(s);world.hydrateSRWorld(s);economy.initPillInventory(s);cultivation.initCultivation(s);persons.initPersons(s);descent.initDescentSR(s);lateEconomy.initLateEconomy(s);return s;}
+ if(srEnabled(s)){spatial.initBuildingGrid(s);combat.initSRCombat(s);economy.initEconomy(s);world.hydrateSRWorld(s);economy.initPillInventory(s);cultivation.initCultivation(s);persons.initPersons(s);descent.initDescentSR(s);lateEconomy.initLateEconomy(s);persons.initPersons(s);return s;}
  initContracts(s,{activate:true});spatial.initSpatial(s);spatial.initBuildingGrid(s);
  world.initSRWorld(s,base.addDisciple);crises.initSRCrises(s,base.addDisciple);story.initSRStory(s,base.addDisciple);
  economy.initEconomy(s);persons.initPersons(s);weather.initWeather(s);organization.initOrganization(s);
  equipment.initEquipment(s,{newGame});cultivation.initCultivation(s);combat.initSRCombat(s);covenants.initCovenants(s);mother.initMotherChain(s,{addPerson:base.addDisciple});
- for(const p of Object.values(s.personsById))if(p.compatibilityMode!=='historical-only')world.hydrateWorldPositionSR(s,p);economy.initPillInventory(s);descent.initDescentSR(s);lateEconomy.initLateEconomy(s);return s;
+ for(const p of Object.values(s.personsById))if(p.compatibilityMode!=='historical-only')world.hydrateWorldPositionSR(s,p);economy.initPillInventory(s);descent.initDescentSR(s);lateEconomy.initLateEconomy(s);persons.initPersons(s);return s;
 }
 export function validateSR(s){
  economy.initEconomy(s);
  world.hydrateSRWorld(s);
- economy.initPillInventory(s);cultivation.initCultivation(s);persons.initPersons(s);descent.initDescentSR(s);lateEconomy.initLateEconomy(s);
+ economy.initPillInventory(s);cultivation.initCultivation(s);persons.initPersons(s);descent.initDescentSR(s);lateEconomy.initLateEconomy(s);persons.initPersons(s);
  validateContracts(s);spatial.validateSpatial(s);economy.validateEconomy(s);persons.validatePersons(s);weather.validateWeather(s);organization.validateOrganization(s);
  equipment.validateEquipment(s);cultivation.validateCultivation(s);combat.validateSRCombat(s);covenants.validateCovenants(s);mother.validateMotherChain(s);world.validateSRWorld(s);crises.validateSRCrises(s);story.validateSRStory(s);descent.validateDescentSR(s);lateEconomy.validateLateEconomy(s);return s;
 }

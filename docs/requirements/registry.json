@@ -1904,7 +1904,8 @@
         "qa/ea-person-equipment-battle-acceptance.mjs",
         "qa/ea-person-equipment-art-acceptance.mjs",
         "dist/ea-ui.mjs",
-        "qa/ea-person-three-selection-acceptance.mjs"
+        "qa/ea-person-three-selection-acceptance.mjs",
+        "qa/ea-person-recipe-save-acceptance.mjs"
       ],
       "change_log": [
         {
@@ -1970,6 +1971,10 @@
         {
           "date": "2026-10-08",
           "reason": "SR007 D01/D02 设计及契约审阅完成，design_status 调为 ready；现有 AC02/03 适用证据不变，AC01、开发/验收/发布及完整动作、配方版本门禁继续原状态。"
+        },
+        {
+          "date": "2026-10-08",
+          "reason": "M1 r35 人物外观配方版本和本人 ID 校验：新档初始化后全员配方/日程齐全；有来源 v5 已完成档及旧 schema6 的已知后期客户复制 ID 在校验副本中保留外观值并归本人，其他错误 ID、越界标记和显式空配方拒载。专项 5/5、世界 21/21、空间 36/36，经独立复核；连续专用动作、真人辨识、真机及完整 I/V/R 继续。"
         }
       ],
       "tasks": [
@@ -2028,7 +2033,8 @@
             "qa/ea-person-equipment-art-acceptance.mjs",
             "dist/ea-ui.mjs",
             "tests/ea-scene-ui.test.mjs",
-            "qa/ea-person-three-selection-acceptance.mjs"
+            "qa/ea-person-three-selection-acceptance.mjs",
+            "qa/ea-person-recipe-save-acceptance.mjs"
           ],
           "blocked_reason": null
         },
@@ -2057,7 +2063,8 @@
             "qa/ea-person-equipment-battle-acceptance.mjs",
             "qa/ea-person-equipment-art-acceptance.mjs",
             "tests/ea-scene-ui.test.mjs",
-            "qa/ea-person-three-selection-acceptance.mjs"
+            "qa/ea-person-three-selection-acceptance.mjs",
+            "qa/ea-person-recipe-save-acceptance.mjs"
           ],
           "blocked_reason": null
         },
@@ -6193,7 +6200,7 @@
       "group": "体验",
       "priority": "P0",
       "iteration": "I1",
-      "design_status": "draft",
+      "design_status": "ready",
       "development_status": "in_progress",
       "acceptance_status": "in_progress",
       "release_status": "not_released_for_this_sr",
@@ -6225,7 +6232,7 @@
         "docs/design/14-EARLY-GAME-DETAILED-DESIGN.md"
       ],
       "baseline": "建筑侧卡按预制件显示床位、作业位、研习位及当前占用；现场及重叠人物使用同身份头像入口。pointerup补验移动距离，拖动放开保持拖动语义；推荐营造确认消费正式返回字段。推荐营造说明使用稳定布局，指针离开画布后确认按钮仍可点击。",
-      "design_gap": "完整鼠标/iPad触控、遮挡/重叠选人、输入焦点、所有新系统失败恢复仍需整体网页及目标设备核对。",
+      "design_gap": "D01/D02 已形成可执行的统一输入、开局赠药/暂居/正式入宗独立决定、八页操作流程、U-95 适配与依赖/REQ/AC 核对；I01 仍需分立现行开局两段决策、修正实际位图 DPR、44 CSS px 控件及完整操作路径，V01 尚缺真 iPadOS、Windows/macOS 设备和各 AC 整链证据。",
       "design_deliverables": [
         "掌门移动/点选/重叠/遮挡/营造的统一鼠标触控语义与防误操作。",
         "每个新系统的主目标、条件、确认、取消、等待、失败、恢复和帮助流程。",
@@ -6264,6 +6271,7 @@
         "不把该SR的设计完成声明为实现、体验或发布完成。"
       ],
       "evidence": [
+        "docs/requirements/design/SR-XF-029-INPUT-FLOW.md",
         "docs/requirements/design/SR-XF-029-032-034.md",
         "docs/requirements/IMPLEMENTATION-2026-10-06.md",
         "docs/design/03-SPATIAL-ART.md",
@@ -6311,6 +6319,18 @@
         {
           "date": "2026-10-07",
           "reason": "M0/M1 接续批完成局部设计、修复和独立复核；具体通过范围与缺口见 acceptance_notes 和 STATUS。整项 D/I/V/R 及 AC 状态保持原门槛。"
+        },
+        {
+          "date": "2026-10-08",
+          "reason": "SR-XF-029-D01：鼠标/触控语义、八页主目标至恢复、三平台布局和低动态实施参数已写入统一输入流程设计。"
+        },
+        {
+          "date": "2026-10-08",
+          "reason": "SR-XF-029-D02：对照 SR003/004/005/007、05/06 逐项核对字段、时序、失败恢复和 029-REQ/AC；设计契约可用于 I01，实际网页与设备仍待验收。"
+        },
+        {
+          "date": "2026-10-08",
+          "reason": "SR-XF-029 D01/D02 细化开局结缘的赠药、暂居与正式入宗三次独立确认；新流程本人拒绝单独留痕，旧档 declined 保留掌门让陆知微回家照应家人的选择与赠药善缘；OPEN-04/REQ-02 步骤可核对。设计 ready，运行实现与设备验收状态不变。"
         }
       ],
       "tasks": [
@@ -6319,10 +6339,12 @@
           "phase": "D01",
           "title": "设计补齐",
           "description": "交付：掌门移动/点选/重叠/遮挡/营造的统一鼠标触控语义与防误操作。；每个新系统的主目标、条件、确认、取消、等待、失败、恢复和帮助流程。；iPadOS横竖网页视口与Windows/macOS窗口、DPR的信息布局，标题/正文/状态可读和低动态回退。；填实必需参数并标记U/R/T来源。",
-          "status": "in_progress",
-          "owner": "Codex/ui_acceptance",
+          "status": "done",
+          "owner": "Codex/r35-input-design",
           "depends_on": [],
-          "evidence": [],
+          "evidence": [
+            "docs/requirements/design/SR-XF-029-INPUT-FLOW.md"
+          ],
           "blocked_reason": null
         },
         {
@@ -6330,12 +6352,14 @@
           "phase": "D02",
           "title": "契约与内容审阅",
           "description": "审阅统一操作流程、窄屏与人物触控与依赖契约（SR-XF-003、SR-XF-004、SR-XF-005、SR-XF-007）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。",
-          "status": "todo",
-          "owner": null,
+          "status": "done",
+          "owner": "Codex/r35-input-design",
           "depends_on": [
             "SR-XF-029-D01"
           ],
-          "evidence": [],
+          "evidence": [
+            "docs/requirements/design/SR-XF-029-INPUT-FLOW.md"
+          ],
           "blocked_reason": null
         },
         {

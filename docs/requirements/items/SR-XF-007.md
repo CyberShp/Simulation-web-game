@@ -83,9 +83,9 @@ SR-XF-007-D01证据：docs/requirements/design/SR-XF-007-011-019-026-027.md
 
 SR-XF-007-D02证据：docs/requirements/design/SR-XF-007-011-019-026-027.md
 
-SR-XF-007-I01证据：dist/ea-character-art.mjs；dist/ea-courtyard-renderer.mjs；dist/assets/estate-v1/characters-rest-v1.png；docs/design/STATUS.md；asset-manifest.json；dist/ea-sr-persons.mjs；dist/ea-sr-economy.mjs；tests/ea-activity-truth.test.mjs；qa/ea-sr-economy-acceptance.mjs；qa/ea-sr-spatial-acceptance.mjs；dist/ea-sr-equipment.mjs；qa/ea-sr-integration-acceptance.mjs；qa/ea-person-equipment-battle-acceptance.mjs；qa/ea-person-equipment-art-acceptance.mjs；dist/ea-ui.mjs；tests/ea-scene-ui.test.mjs；qa/ea-person-three-selection-acceptance.mjs
+SR-XF-007-I01证据：dist/ea-character-art.mjs；dist/ea-courtyard-renderer.mjs；dist/assets/estate-v1/characters-rest-v1.png；docs/design/STATUS.md；asset-manifest.json；dist/ea-sr-persons.mjs；dist/ea-sr-economy.mjs；tests/ea-activity-truth.test.mjs；qa/ea-sr-economy-acceptance.mjs；qa/ea-sr-spatial-acceptance.mjs；dist/ea-sr-equipment.mjs；qa/ea-sr-integration-acceptance.mjs；qa/ea-person-equipment-battle-acceptance.mjs；qa/ea-person-equipment-art-acceptance.mjs；dist/ea-ui.mjs；tests/ea-scene-ui.test.mjs；qa/ea-person-three-selection-acceptance.mjs；qa/ea-person-recipe-save-acceptance.mjs
 
-SR-XF-007-V01证据：qa/ea-courtyard-rest-render-acceptance.mjs；tests/ea-rest-pose.test.mjs；qa/ea-courtyard-life-acceptance.mjs；docs/design/STATUS.md；dist/ea-sr-persons.mjs；dist/ea-sr-economy.mjs；tests/ea-activity-truth.test.mjs；qa/ea-sr-economy-acceptance.mjs；qa/ea-sr-spatial-acceptance.mjs；dist/ea-sr-equipment.mjs；qa/ea-sr-integration-acceptance.mjs；qa/ea-person-equipment-battle-acceptance.mjs；qa/ea-person-equipment-art-acceptance.mjs；tests/ea-scene-ui.test.mjs；qa/ea-person-three-selection-acceptance.mjs
+SR-XF-007-V01证据：qa/ea-courtyard-rest-render-acceptance.mjs；tests/ea-rest-pose.test.mjs；qa/ea-courtyard-life-acceptance.mjs；docs/design/STATUS.md；dist/ea-sr-persons.mjs；dist/ea-sr-economy.mjs；tests/ea-activity-truth.test.mjs；qa/ea-sr-economy-acceptance.mjs；qa/ea-sr-spatial-acceptance.mjs；dist/ea-sr-equipment.mjs；qa/ea-sr-integration-acceptance.mjs；qa/ea-person-equipment-battle-acceptance.mjs；qa/ea-person-equipment-art-acceptance.mjs；tests/ea-scene-ui.test.mjs；qa/ea-person-three-selection-acceptance.mjs；qa/ea-person-recipe-save-acceptance.mjs
 
 ## 可进入开发的条件
 
@@ -137,6 +137,7 @@ SR-XF-007-V01证据：qa/ea-courtyard-rest-render-acceptance.mjs；tests/ea-rest
 - qa/ea-person-equipment-art-acceptance.mjs
 - dist/ea-ui.mjs
 - qa/ea-person-three-selection-acceptance.mjs
+- qa/ea-person-recipe-save-acceptance.mjs
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
@@ -154,5 +155,6 @@ SR-XF-007-V01证据：qa/ea-courtyard-rest-render-acceptance.mjs；tests/ea-rest
 - 2026-10-08：SR007 D01：按现行新档、权威人物/空间设计补齐具名外观配方、普通组合目录、活动与工具条件、三视图身份挂点及缺帧回退；未知配方版本校验保留为 I01。
 - 2026-10-08：SR007 D02：逐项对照 SR002/SR004 与 REQ01-03、AC01-03、OPEN02/ACT01 的身份、时序、失败、存读和证据边界；静态 AC02/03 既有通过保留，AC01 及完整 I/V/R 不提升。
 - 2026-10-08：SR007 D01/D02 设计及契约审阅完成，design_status 调为 ready；现有 AC02/03 适用证据不变，AC01、开发/验收/发布及完整动作、配方版本门禁继续原状态。
+- 2026-10-08：M1 r35 人物外观配方版本和本人 ID 校验：新档初始化后全员配方/日程齐全；有来源 v5 已完成档及旧 schema6 的已知后期客户复制 ID 在校验副本中保留外观值并归本人，其他错误 ID、越界标记和显式空配方拒载。专项 5/5、世界 21/21、空间 36/36，经独立复核；连续专用动作、真人辨识、真机及完整 I/V/R 继续。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。
