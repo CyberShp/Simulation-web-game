@@ -64,6 +64,7 @@ SR-XF-006-AC-03证据：qa/ea-sr-spatial-acceptance.mjs；docs/requirements/IMPL
 2026-10-08 SR006 设计补齐与局部实现：独立 D02 按设计 171-230 行及 SR004/005/010 接缝复审通过；公开命令 4/4、空间 36/36、室内 8/8、SR UI 17 pass/4 pending，现行浏览器串行和设备结果另记。
 独立 1200×849 Chromium：正常公开来源住宅档仅将 speed 1→0 暂停并通过校验；陆知微实际占床、林长风趋向床位。升级一次扣 45/30/20，原建筑与 0/240 工单保存刷新一致；迁建候选和取消不扣费，确认一次扣 10/8/0，0/180 工单保存刷新一致；拆除弹窗列两人、床位/生产/仓/入口/剧情。原求助浮条遮挡确认按钮中心，选址时暂隐并退出后恢复，普通点击复验通过；最终浏览器控制台 0 error/0 warning。施工完工、拆除执行、真机/真人未验。仓库外报告 /private/tmp/immortal-sr006-player-review.json。
 2026-10-08 M1 r7 同一座伐木场正常公开串行：建造、升级扩大占地、迁建、拆除 93 命令/62 次精确存读/世界步 15911；真实药田草药搬入设施仓且各阶段存量守恒；完工账单、建筑唯一身份、施工材料位置和拆除一次返料均逐阶段核对。独立专项 1/1，来源 qa/ea-sr006-serial-public-acceptance.mjs。此证据限正常 Node 公开命令链；取消/目标失效、浏览器完整串行、真机/真人及整项 I/V/R 仍待。
+2026-10-08 M1 r8 升级施工中取消与重试：独立公开链 1/1，已发生实际施工进度后取消，余料实物到仓才只返灵石40、木27、石18；重复确认不再返，保存/重载及原建筑重试仍保持身份和工单。新建筑截断在途搬运路线的相邻物流专项 7/7；更多失败/取消阶段、浏览器完整串行及目标设备仍待，I/V/R 与整项状态不变。
 
 ## 开发任务
 
@@ -79,9 +80,9 @@ SR-XF-006-D01证据：docs/requirements/design/SR-XF-003-006.md
 
 SR-XF-006-D02证据：docs/requirements/design/SR-XF-003-006.md；dist/ea-sr-spatial.mjs；dist/ea-game.mjs；dist/ea-ui.mjs
 
-SR-XF-006-I01证据：dist/ea-sr-spatial.mjs；docs/design/STATUS.md；qa/ea-sr-building-change-public-acceptance.mjs；qa/ea-sr006-serial-public-acceptance.mjs
+SR-XF-006-I01证据：dist/ea-sr-spatial.mjs；docs/design/STATUS.md；qa/ea-sr-building-change-public-acceptance.mjs；qa/ea-sr006-serial-public-acceptance.mjs；qa/ea-sr006-upgrade-cancel-recovery-public-acceptance.mjs
 
-SR-XF-006-V01证据：qa/ea-indoor-furniture-acceptance.mjs；qa/ea-courtyard-life-acceptance.mjs；docs/design/STATUS.md；qa/ea-sr-building-change-public-acceptance.mjs；qa/ea-sr006-serial-public-acceptance.mjs
+SR-XF-006-V01证据：qa/ea-indoor-furniture-acceptance.mjs；qa/ea-courtyard-life-acceptance.mjs；docs/design/STATUS.md；qa/ea-sr-building-change-public-acceptance.mjs；qa/ea-sr006-serial-public-acceptance.mjs；qa/ea-sr006-upgrade-cancel-recovery-public-acceptance.mjs
 
 ## 可进入开发的条件
 
@@ -120,6 +121,7 @@ SR-XF-006-V01证据：qa/ea-indoor-furniture-acceptance.mjs；qa/ea-courtyard-li
 - qa/ea-sr-integration-acceptance.mjs
 - qa/ea-sr-spatial-acceptance.mjs
 - qa/ea-sr006-serial-public-acceptance.mjs
+- qa/ea-sr006-upgrade-cancel-recovery-public-acceptance.mjs
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
@@ -131,5 +133,6 @@ SR-XF-006-V01证据：qa/ea-indoor-furniture-acceptance.mjs；qa/ea-courtyard-li
 - 2026-10-08：M1 第十批并行复验现有 SR006 三条已通过 AC：公开操作覆盖占床升级、劳动中拆除、迁建遇建筑足迹内携货人原子拒绝、取消一次退款及足迹外携货完成后继续送达。修复足迹内搬运身体被锁而与施工等待互相卡住的缺陷，独立只读复核同意保留原 AC 状态；扩大升级占地的额外场景、真机与整项 D/I/V/R 继续。
 - 2026-10-08：SR006 升级/迁建/拆除状态、工时费用、人物撤离、物流返料、失败与存读设计完成并经独立 D02 复核；迁建网页改为选址后显式确认、拆除确认显示具名影响、升级预查扩地。公开命令 4/4、空间 36/36、室内 8/8、界面 17/17；隔离 Chromium 在合法占床住宅档通过升级/迁建工单提交与保存重载、具名拆除预览、候选取消和浮条遮挡修复。实际完工/拆除执行和目标设备仍待，I/V/R 不关闭。
 - 2026-10-08：2026-10-08 M1 r7 同一座伐木场正常公开串行：建造、升级扩大占地、迁建、拆除 93 命令/62 次精确存读/世界步 15911；真实药田草药搬入设施仓且各阶段存量守恒；完工账单、建筑唯一身份、施工材料位置和拆除一次返料均逐阶段核对。独立专项 1/1，来源 qa/ea-sr006-serial-public-acceptance.mjs。此证据限正常 Node 公开命令链；取消/目标失效、浏览器完整串行、真机/真人及整项 I/V/R 仍待。
+- 2026-10-08：M1 r8 升级施工中取消专项核对真实返料到仓后一次退款，灵石40木27石18；返料、保存重载和同建筑重试通过。相邻施工物流新建筑断路会重求或保留货物与工单。完整取消分支、浏览器串行与真机/真人仍待，AC 和 I/V/R 状态不提升。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。

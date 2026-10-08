@@ -72,6 +72,7 @@ SR-XF-003-AC-03证据：qa/ea-sr-spatial-acceptance.mjs；docs/requirements/IMPL
 
 2026-10-08 M1 山外局部镜头子批：64×48 米、45°/0.65 镜头，四角物件占地、投影逆变换及限幅；封闭驻棚隐藏占地内人物画面，屋顶点选建筑，地点卡具名打开邢烈；露天谷地青萝保持可见可点。正常公开命令链生成 ward 档且逐次 validateSave；独立代码专项 5/5、相邻 SR003 3/3、输入 13/13、世界 21/21、SR UI 17 pass/4 pending。独立 Chromium 在 1200×849、820×1180 实点屋顶、姓名入口及谷地露天青萝通过，控制台 0 ERROR；试读仅内存，HUD 资源在点选前后相同；冻结版浏览器未专项核对 worldTick 数值。真 iPadOS、全建筑人物/门比例和显式总览按钮本进度仍待；AC02 not_run，I01 in_progress、V/R todo。
 2026-10-08 r6 发布：运行源码 main 6617b8670fd396a488469a864ba170b4f2681425，Pages a6fd4838ff0ba998a7f1bb20b97016aa298ddf37，构建 built；四个公开脚本与发布树一致。独立公网 Chromium 首载 ea-persistence.mjs HTTP 503 导致页面未展开及 2 条控制台 ERROR；一次重载后隔离档新建/保存/刷新续档与合法 ward 试读屋顶、邢烈入口通过，之后 0 新 ERROR；再次刷新原档仍在。首载可用性未通过，真机和完整 AC02 仍待。公网报告 /private/tmp/immortal-sr003-r6-public-smoke.json。
+2026-10-08 M1 r8 门道与避让子批：同 tick 候选下一步按(首达世界步,人物ID)授予单人过门，失效活动放锁；身体避让不穿墙，持货路线被新建筑截断时复核剩余全路并重求原目标。普通公开命令/精确存读 7/7，施工物流 7/7、相关串行 2/2，空间/施工人员/地图输入 57/57，独立只读复核室内精确脚点不变。浏览器旧档外观与露天人物点选通过，门道浏览器逐步读回/真机拥挤布局与 AC02 完整门槛未验；AC 状态不变。
 
 ## 开发任务
 
@@ -87,9 +88,9 @@ SR-XF-003-D01证据：docs/requirements/design/SR-XF-003-006.md
 
 SR-XF-003-D02证据：docs/requirements/design/SR-XF-003-006.md
 
-SR-XF-003-I01证据：dist/ea-sr-spatial.mjs；docs/design/STATUS.md；dist/map-input.mjs；dist/ea-game.mjs；dist/ea-courtyard-renderer.mjs；dist/ea-world-scene-art.mjs；dist/ea-sr-ui.mjs；qa/ea-sr003-outer-camera-acceptance.mjs
+SR-XF-003-I01证据：dist/ea-sr-spatial.mjs；docs/design/STATUS.md；dist/map-input.mjs；dist/ea-game.mjs；dist/ea-courtyard-renderer.mjs；dist/ea-world-scene-art.mjs；dist/ea-sr-ui.mjs；qa/ea-sr003-outer-camera-acceptance.mjs；qa/ea-sr003-pedestrian-occupancy-acceptance.mjs；dist/ea-scenic.mjs；dist/ea-facility-activities.mjs
 
-SR-XF-003-V01证据：qa/ea-indoor-furniture-acceptance.mjs；qa/ea-courtyard-life-acceptance.mjs；docs/design/STATUS.md；tests/map-input.test.mjs；qa/ea-sr-spatial-acceptance.mjs
+SR-XF-003-V01证据：qa/ea-indoor-furniture-acceptance.mjs；qa/ea-courtyard-life-acceptance.mjs；docs/design/STATUS.md；tests/map-input.test.mjs；qa/ea-sr-spatial-acceptance.mjs；qa/ea-sr003-pedestrian-occupancy-acceptance.mjs
 
 ## 可进入开发的条件
 
@@ -125,6 +126,9 @@ SR-XF-003-V01证据：qa/ea-indoor-furniture-acceptance.mjs；qa/ea-courtyard-li
 - tests/map-input.test.mjs
 - tests/ea-sr-spatial-door-replan.test.mjs
 - qa/ea-sr-spatial-acceptance.mjs
+- qa/ea-sr003-pedestrian-occupancy-acceptance.mjs
+- dist/ea-scenic.mjs
+- dist/ea-facility-activities.mjs
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
@@ -142,5 +146,6 @@ SR-XF-003-V01证据：qa/ea-indoor-furniture-acceptance.mjs；qa/ea-courtyard-li
 - 2026-10-08：SR-XF-003-D02更新为done；任务状态不自动改变SR整体状态。
 - 2026-10-08：2026-10-08 M1 竖屏 UI 子批：820×1180 合法旧 v5 完成档 40 建筑/30 人，真实浏览器完整画稿加载、控制台零错误；选中宗门正殿与 (350,500) 滚轮放大后屋脊/屋檐/台阶/入口均完整在详情之外。生产 renderer 定向覆盖连续触点缩放、极端边缘限幅、地形边界、状态只读，合并空间相关 46/46；独立复核通过该交互窄项。门人居/藏经阁门洞画稿比例、真 iPadOS 触控与全部逐类视觉仍未验，AC02 保持 not_run，I/V/R 不关闭。
 - 2026-10-08：M1 山外局部 45° 镜头与四角物件绘制接入；封闭屋顶遮挡室内人物并保持具名详情入口，露天人物正常可见。独立代码专项及两视口浏览器局部通过；I01 进入进行中，AC02 与 V/R 仍按完整门槛。
+- 2026-10-08：M1 r8 门道按首达世界步和稳定人物 ID 单人排队、无效活动放锁，身体绕行与侧步有真实路线；室内床位/书案/工位终点不变，封闭屋只画外观。SR003 专项 7/7、相邻 57/57，独立只读复核；浏览器只验合法密集档外观/露天点选，真机及完整 AC02/I/V/R 仍待。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。
