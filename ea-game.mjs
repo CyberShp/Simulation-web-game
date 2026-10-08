@@ -1,14 +1,14 @@
-import * as SIM from './ea-opening-sim.mjs?v=ea-160-courtyard-20261008-r31';
-import {EA_SHELL,createEAUI} from './ea-ui.mjs?v=ea-160-courtyard-20261008-r31';
-import {createEAPersistence,MAX_IMPORT_BYTES} from './ea-persistence.mjs?v=ea-160-courtyard-20261008-r31';
-import {createWorldRenderer} from './ea-courtyard-renderer.mjs?v=ea-160-courtyard-20261008-r31';
-import {attachMapInput} from './map-input.mjs?v=ea-160-courtyard-20261008-r31';
-import {scenicPosition} from './ea-scenic.mjs?v=ea-160-courtyard-20261008-r31';
-import {spatialPrefab} from './ea-sr-spatial.mjs?v=ea-160-courtyard-20261008-r31';
-import {sceneInteractionReady,sceneInteractionTarget} from './ea-interactions.mjs?v=ea-160-courtyard-20261008-r31';
-import {createRuntimeClock,createFrameDiagnostics} from './ea-runtime.mjs?v=ea-160-courtyard-20261008-r31';
-import {recommendedPlot} from './ea-onboarding.mjs?v=ea-160-courtyard-20261008-r31';
-import {createOpeningAudio} from './ea-opening-audio.mjs?v=ea-160-courtyard-20261008-r31';
+import * as SIM from './ea-opening-sim.mjs?v=ea-160-courtyard-20261008-r32';
+import {EA_SHELL,createEAUI} from './ea-ui.mjs?v=ea-160-courtyard-20261008-r32';
+import {createEAPersistence,MAX_IMPORT_BYTES} from './ea-persistence.mjs?v=ea-160-courtyard-20261008-r32';
+import {createWorldRenderer} from './ea-courtyard-renderer.mjs?v=ea-160-courtyard-20261008-r32';
+import {attachMapInput} from './map-input.mjs?v=ea-160-courtyard-20261008-r32';
+import {scenicPosition} from './ea-scenic.mjs?v=ea-160-courtyard-20261008-r32';
+import {spatialPrefab} from './ea-sr-spatial.mjs?v=ea-160-courtyard-20261008-r32';
+import {sceneInteractionReady,sceneInteractionTarget} from './ea-interactions.mjs?v=ea-160-courtyard-20261008-r32';
+import {createRuntimeClock,createFrameDiagnostics} from './ea-runtime.mjs?v=ea-160-courtyard-20261008-r32';
+import {recommendedPlot} from './ea-onboarding.mjs?v=ea-160-courtyard-20261008-r32';
+import {createOpeningAudio} from './ea-opening-audio.mjs?v=ea-160-courtyard-20261008-r32';
 
 const VERSION=SIM.GAME_VERSION;
 const runtimeClock=createRuntimeClock(),diagnostics=createFrameDiagnostics();

@@ -1,8 +1,8 @@
 /** SR017/020/021: fixed author cards, actual local exchange and pressure-limited root director. */
-import {RESOURCES} from './ea-data.mjs?v=ea-160-courtyard-20261008-r31';
-import {stampInitialClaimReceipts} from './ea-sr-contracts.mjs?v=ea-160-courtyard-20261008-r31';
-import {initLocalIndustrySR,tickLocalIndustrySR,startLocalIndustrySR,finishLocalIndustrySR,cancelLocalIndustrySR,viewLocalIndustrySR,validateLocalIndustrySR} from './ea-sr-local-industry.mjs?v=ea-160-courtyard-20261008-r31';
-export {localIndustryCombatDamageSR,LOCAL_INDUSTRY_DEFINITIONS,LOCAL_INDUSTRY_ORGANIZATIONS,LOCAL_INDUSTRY_OFFERS} from './ea-sr-local-industry.mjs?v=ea-160-courtyard-20261008-r31';
+import {RESOURCES} from './ea-data.mjs?v=ea-160-courtyard-20261008-r32';
+import {stampInitialClaimReceipts} from './ea-sr-contracts.mjs?v=ea-160-courtyard-20261008-r32';
+import {initLocalIndustrySR,tickLocalIndustrySR,startLocalIndustrySR,finishLocalIndustrySR,cancelLocalIndustrySR,viewLocalIndustrySR,validateLocalIndustrySR} from './ea-sr-local-industry.mjs?v=ea-160-courtyard-20261008-r32';
+export {localIndustryCombatDamageSR,LOCAL_INDUSTRY_DEFINITIONS,LOCAL_INDUSTRY_ORGANIZATIONS,LOCAL_INDUSTRY_OFFERS} from './ea-sr-local-industry.mjs?v=ea-160-courtyard-20261008-r32';
 const MASTER='person:master',zero=()=>Object.fromEntries(Object.keys(RESOURCES).map(k=>[k,0]));
 const row=(key,title,personId,sceneId,cost,reward,motive,terms={},manipulation=false,publicRequest=null)=>({id:`card:local:${key}:v1`,rootId:`root:local:${key}:v1`,title,personId,sceneId,cost,reward,motive,terms,publicRequest,manipulationTag:manipulation,manipulationReasonIds:manipulation?['consequential-deception']:[],durationTicks:60,verificationTicks:35,verificationCost:{food:1},negotiationTicks:40,sourceStatus:'U-63/R-26-author-default',authorTruth:manipulation?'实物与报价真实，但受益者刻意隐瞒附加条款；附费与用途在登记前固定，不按后续选择翻转':'双方有限物资与既有用途真实，守约后实际交付；不存在临时追加骗局',clue:manipulation?'原单边角有未随口信说明的附条和不同日期，先核对可知完整约定':'原单列明本批用途与交付数量，可与接洽人携带实物核对',counter:manipulation?'本人到场查原单，明确只按主约交易；已收附费可凭文书要求从对方实际余款纠正':'查验后仍按原有守约流程交付，不把可信互助改成骗局',aftermath:'人物、库存、文书与已发生得失保留；看菜单、传闻转述与重载不重复奖惩'});
 function deepFreeze(value){if(value&&typeof value==='object'){for(const child of Object.values(value))deepFreeze(child);Object.freeze(value);}return value;}

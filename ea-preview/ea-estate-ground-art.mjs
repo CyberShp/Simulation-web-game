@@ -4,8 +4,8 @@
  * blocked terrain or outside the playable boundary. U-98 keeps the construction
  * grid visible and postpones paving; this module never finds paths or advances time.
  */
-import {SPATIAL_TERRAIN,SPATIAL_SCENE,spatialProject} from './ea-sr-spatial.mjs?v=ea-160-courtyard-20261008-r31';
-import {BUILDING_GRID} from './ea-building-grid.mjs?v=ea-160-courtyard-20261008-r31';
+import {SPATIAL_TERRAIN,SPATIAL_SCENE,spatialProject} from './ea-sr-spatial.mjs?v=ea-160-courtyard-20261008-r32';
+import {BUILDING_GRID} from './ea-building-grid.mjs?v=ea-160-courtyard-20261008-r32';
 
 const TAU=Math.PI*2;
 const clamp=(n,min=0,max=1)=>Math.max(min,Math.min(max,n));
