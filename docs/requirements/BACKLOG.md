@@ -23,7 +23,7 @@
 | [SR-XF-006](items/SR-XF-006.md) | 升级、迁建与拆除的安全任务 | P1 | ready | in_progress | in_progress | SR-XF-004, SR-XF-005 |
 | [SR-XF-007](items/SR-XF-007.md) | 稳定人物外观、肖像与活动动作 | P0 | draft | in_progress | in_progress | SR-XF-002, SR-XF-004 |
 | [SR-XF-008](items/SR-XF-008.md) | NPC日程、自主选择与职责参数 | P1 | ready | in_progress | in_progress | SR-XF-002, SR-XF-003 |
-| [SR-XF-009](items/SR-XF-009.md) | 有限供给链与配方产能表 | P0 | draft | in_progress | in_progress | SR-XF-002, SR-XF-004 |
+| [SR-XF-009](items/SR-XF-009.md) | 有限供给链与配方产能表 | P0 | ready | in_progress | in_progress | SR-XF-002, SR-XF-004 |
 | [SR-XF-010](items/SR-XF-010.md) | 位置库存、搬运与公私账本 | P0 | ready | in_progress | in_progress | SR-XF-002, SR-XF-003, SR-XF-009 |
 | [SR-XF-029](items/SR-XF-029.md) | 统一操作流程、窄屏与人物触控 | P0 | draft | in_progress | in_progress | SR-XF-003, SR-XF-004, SR-XF-005, SR-XF-007 |
 | [SR-XF-030](items/SR-XF-030.md) | 旧布局、装备、成长与篇章的完整迁移 | P0 | draft | in_progress | in_progress | SR-XF-002 |
