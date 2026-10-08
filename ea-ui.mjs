@@ -1,13 +1,13 @@
-import {appearanceActionLabel,portraitDataURL} from './ea-courtyard-renderer.mjs?v=ea-160-courtyard-20261008-r20';
-import {renderSRPanel,dialogueSettings,srFormArguments} from './ea-sr-ui.mjs?v=ea-160-courtyard-20261008-r20';
-import {createDialogueAI} from './ea-sr-ai.mjs?v=ea-160-courtyard-20261008-r20';
-import {REGION_ART} from './ea-region-art.mjs?v=ea-160-courtyard-20261008-r20';
-import {appearance} from './ea-scenic.mjs?v=ea-160-courtyard-20261008-r20';
-import {facilityRecords,nextObjective,routeDiscovered} from './ea-scene-state.mjs?v=ea-160-courtyard-20261008-r20';
-import {sceneInteractionOptions,sceneInteractionTarget} from './ea-interactions.mjs?v=ea-160-courtyard-20261008-r20';
-import {narrativeForState,sceneDialogue,regionInteractions,homeInteractions} from './ea-narrative.mjs?v=ea-160-courtyard-20261008-r20';
-import * as SIM from './ea-opening-sim.mjs?v=ea-160-courtyard-20261008-r20';
-import {onboardingView,availableSystems,resourceReserve,resumeSummary} from './ea-onboarding.mjs?v=ea-160-courtyard-20261008-r20';
+import {appearanceActionLabel,portraitDataURL} from './ea-courtyard-renderer.mjs?v=ea-160-courtyard-20261008-r21';
+import {renderSRPanel,dialogueSettings,srFormArguments} from './ea-sr-ui.mjs?v=ea-160-courtyard-20261008-r21';
+import {createDialogueAI} from './ea-sr-ai.mjs?v=ea-160-courtyard-20261008-r21';
+import {REGION_ART} from './ea-region-art.mjs?v=ea-160-courtyard-20261008-r21';
+import {appearance} from './ea-scenic.mjs?v=ea-160-courtyard-20261008-r21';
+import {facilityRecords,nextObjective,routeDiscovered} from './ea-scene-state.mjs?v=ea-160-courtyard-20261008-r21';
+import {sceneInteractionOptions,sceneInteractionTarget} from './ea-interactions.mjs?v=ea-160-courtyard-20261008-r21';
+import {narrativeForState,sceneDialogue,regionInteractions,homeInteractions} from './ea-narrative.mjs?v=ea-160-courtyard-20261008-r21';
+import * as SIM from './ea-opening-sim.mjs?v=ea-160-courtyard-20261008-r21';
+import {onboardingView,availableSystems,resourceReserve,resumeSummary} from './ea-onboarding.mjs?v=ea-160-courtyard-20261008-r21';
 
 const E = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
 const n = value => Number.isFinite(Number(value)) ? Number(value) : 0;
@@ -294,7 +294,12 @@ export function createEAUI(api) {
     const sceneView=scenePresentation(s,api.getScene?.());
     $('#stage-label').textContent=sceneView.subtitle;
     $('#scene-title').textContent=sceneView.title;
-    const placeButton=$('#scene-nav [data-scene="map"] span');if(placeButton)placeButton.textContent=sceneView.sceneId&&sceneView.sceneId!=='scene:yunxiu-courtyard'?'此地':'山院';
+    const isOuterLocal=sceneView.sceneId&&sceneView.sceneId!=='scene:yunxiu-courtyard';
+    const placeButton=$('#scene-nav [data-scene="map"] span');if(placeButton)placeButton.textContent=isOuterLocal?'此地':'山院';
+    const overviewButton=$('#estate-overview');if(overviewButton){
+      overviewButton.setAttribute('aria-label',isOuterLocal?'此地总览':'山势总览');
+      const overviewLabel=overviewButton.querySelector('span');if(overviewLabel)overviewLabel.textContent=isOuterLocal?'总览':'山势';
+    }
     $('#game-date').textContent=`第 ${Math.floor(s.time/120)+1} 日 · ${['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'][Math.floor(s.time%120/10)]}时`;
     $('#scene-weather').textContent=sceneView.weather;
     $('#disciple-count').textContent=String(v.disciples.length);

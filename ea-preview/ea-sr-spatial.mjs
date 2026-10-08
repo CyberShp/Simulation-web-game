@@ -1,8 +1,8 @@
-import {finalizeBuildingChange,releaseBodyActivity} from './ea-facility-activities.mjs?v=ea-160-courtyard-20261008-r20';
+import {finalizeBuildingChange,releaseBodyActivity} from './ea-facility-activities.mjs?v=ea-160-courtyard-20261008-r21';
 /** SR-XF-003–006: metre space and persistent, on-site construction transactions. */
-import {scenicPoint} from './ea-scene-geometry.mjs?v=ea-160-courtyard-20261008-r20';
-import {BUILDINGS,RESOURCES,log as gameLog} from './ea-data.mjs?v=ea-160-courtyard-20261008-r20';
-import {BUILDING_GRID,buildingGridEnabled,buildingCellSize,onBuildingGrid} from './ea-building-grid.mjs?v=ea-160-courtyard-20261008-r20';
+import {scenicPoint} from './ea-scene-geometry.mjs?v=ea-160-courtyard-20261008-r21';
+import {BUILDINGS,RESOURCES,log as gameLog} from './ea-data.mjs?v=ea-160-courtyard-20261008-r21';
+import {BUILDING_GRID,buildingGridEnabled,buildingCellSize,onBuildingGrid} from './ea-building-grid.mjs?v=ea-160-courtyard-20261008-r21';
 export const SPATIAL_VERSION='spatial-metres-1';
 export const SPATIAL_EXTENT_VERSION='courtyard-96-1';
 export const INTERIOR_LAYOUT_VERSION='adult-furniture-1';
