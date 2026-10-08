@@ -1,12 +1,12 @@
 /** Body activities and exclusive work stations, called only by the world owner. */
-import {BUILDINGS,canPay,pay,grant} from './ea-data.mjs?v=ea-160-courtyard-20261008-r8';
-import {productionAvailability,settleFiniteProduction,initEconomy,productionInputAvailable,reserveProductionInput,refundProductionInput,cancelMerchantCollection} from './ea-sr-economy.mjs?v=ea-160-courtyard-20261008-r8';
+import {BUILDINGS,canPay,pay,grant} from './ea-data.mjs?v=ea-160-courtyard-20261008-r9';
+import {productionAvailability,settleFiniteProduction,initEconomy,productionInputAvailable,reserveProductionInput,refundProductionInput,cancelMerchantCollection} from './ea-sr-economy.mjs?v=ea-160-courtyard-20261008-r9';
 const units=(s,pixels)=>s.spatial?.version==='spatial-metres-1'?pixels/32:pixels;
 const spacing=s=>s.spatial?.version==='spatial-metres-1'?.5:8;
 const arrival=s=>s.spatial?.version==='spatial-metres-1'?.04:.5;
-import {facilitySlots,slotById,slotReservation,facilityBodyKinds} from './ea-facility-slots.mjs?v=ea-160-courtyard-20261008-r8';
-import {geometryRevision,buildingAccess,scenicFindPath,scenicDistance,scenicSweep,scenicNearest} from './ea-scene-geometry.mjs?v=ea-160-courtyard-20261008-r8';
-import {advanceScenic,syncScenicPosition} from './ea-scenic.mjs?v=ea-160-courtyard-20261008-r8';
+import {facilitySlots,slotById,slotReservation,facilityBodyKinds} from './ea-facility-slots.mjs?v=ea-160-courtyard-20261008-r9';
+import {geometryRevision,buildingAccess,scenicFindPath,scenicDistance,scenicSweep,scenicNearest} from './ea-scene-geometry.mjs?v=ea-160-courtyard-20261008-r9';
+import {advanceScenic,syncScenicPosition} from './ea-scenic.mjs?v=ea-160-courtyard-20261008-r9';
 const owner=(s,p)=>p===s.master?p:p.mind;
 export function bodyActivity(s,p){const a=s.activitiesById?.[p.activityId];return a?.kind==='facility'?a:null;}
 export function releaseBodyActivity(s,p){
