@@ -1,9 +1,9 @@
-import {BUILDINGS,TECHNIQUES,RECIPES,canPay} from './ea-data.mjs?v=ea-160-courtyard-20261008-r19';
-import {facilityRecords,courtyardDestination,scenicHomeActors} from './ea-scene-state.mjs?v=ea-160-courtyard-20261008-r19';
-import {startScenicWalk,scenicPosition} from './ea-scenic.mjs?v=ea-160-courtyard-20261008-r19';
-import {homeInteractions} from './ea-narrative.mjs?v=ea-160-courtyard-20261008-r19';
-import {scenicSweep} from './ea-scene-geometry.mjs?v=ea-160-courtyard-20261008-r19';
-import {sceneUnits} from './ea-sr-spatial.mjs?v=ea-160-courtyard-20261008-r19';
+import {BUILDINGS,TECHNIQUES,RECIPES,canPay} from './ea-data.mjs?v=ea-160-courtyard-20261008-r20';
+import {facilityRecords,courtyardDestination,scenicHomeActors} from './ea-scene-state.mjs?v=ea-160-courtyard-20261008-r20';
+import {startScenicWalk,scenicPosition} from './ea-scenic.mjs?v=ea-160-courtyard-20261008-r20';
+import {homeInteractions} from './ea-narrative.mjs?v=ea-160-courtyard-20261008-r20';
+import {scenicSweep} from './ea-scene-geometry.mjs?v=ea-160-courtyard-20261008-r20';
+import {sceneUnits} from './ea-sr-spatial.mjs?v=ea-160-courtyard-20261008-r20';
 
 const distance=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
 const arrived=(s,a,b)=>distance(a,b)<=sceneUnits(s,28)&&!scenicSweep(s,a,b).blocked;
