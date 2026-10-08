@@ -116,6 +116,12 @@ label:has(input[type=checkbox]),label:has(input[type=radio]){min-height:44px}
 
 #viewport .detail-person-heading{display:flex;align-items:center;gap:12px}#viewport .detail-person-heading .portrait{width:44px;height:60px;flex:0 0 44px}#viewport .detail-person-heading h2{margin:0}
 
+/* Keep the pinch/wheel world point fixed while the selected exterior and detail coexist. */
+#viewport .right-stack[data-detail-dock] .detail-panel{max-height:min(300px,32dvh);overflow-y:auto}
+#viewport .right-stack[data-detail-dock="bottom-right"]{top:auto;bottom:130px;left:auto;right:14px}
+#viewport .right-stack[data-detail-dock="top-left"]{top:68px;bottom:auto;left:82px;right:auto}
+#viewport .right-stack[data-detail-dock="bottom-left"]{top:auto;bottom:130px;left:82px;right:auto}
+
 /* SR-XF-029: keep confirmation targets fixed while placement feedback changes. */
 #viewport #placement-bar{display:grid;grid-template-columns:minmax(0,1fr) auto auto;align-items:end;width:auto;gap:12px}
 #placement-text{min-width:0;overflow-wrap:anywhere;line-height:1.6}

@@ -1,13 +1,13 @@
-import * as SIM from './ea-opening-sim.mjs?v=ea-160-courtyard-20261008-r1';
-import {EA_SHELL,createEAUI} from './ea-ui.mjs?v=ea-160-courtyard-20261008-r1';
-import {createEAPersistence,MAX_IMPORT_BYTES} from './ea-persistence.mjs?v=ea-160-courtyard-20261008-r1';
-import {createWorldRenderer} from './ea-courtyard-renderer.mjs?v=ea-160-courtyard-20261008-r1';
-import {attachMapInput} from './map-input.mjs?v=ea-160-courtyard-20261008-r1';
-import {scenicPosition} from './ea-scenic.mjs?v=ea-160-courtyard-20261008-r1';
-import {sceneInteractionReady,sceneInteractionTarget} from './ea-interactions.mjs?v=ea-160-courtyard-20261008-r1';
-import {createRuntimeClock,createFrameDiagnostics} from './ea-runtime.mjs?v=ea-160-courtyard-20261008-r1';
-import {recommendedPlot} from './ea-onboarding.mjs?v=ea-160-courtyard-20261008-r1';
-import {createOpeningAudio} from './ea-opening-audio.mjs?v=ea-160-courtyard-20261008-r1';
+import * as SIM from './ea-opening-sim.mjs?v=ea-160-courtyard-20261008-r2';
+import {EA_SHELL,createEAUI} from './ea-ui.mjs?v=ea-160-courtyard-20261008-r2';
+import {createEAPersistence,MAX_IMPORT_BYTES} from './ea-persistence.mjs?v=ea-160-courtyard-20261008-r2';
+import {createWorldRenderer} from './ea-courtyard-renderer.mjs?v=ea-160-courtyard-20261008-r2';
+import {attachMapInput} from './map-input.mjs?v=ea-160-courtyard-20261008-r2';
+import {scenicPosition} from './ea-scenic.mjs?v=ea-160-courtyard-20261008-r2';
+import {sceneInteractionReady,sceneInteractionTarget} from './ea-interactions.mjs?v=ea-160-courtyard-20261008-r2';
+import {createRuntimeClock,createFrameDiagnostics} from './ea-runtime.mjs?v=ea-160-courtyard-20261008-r2';
+import {recommendedPlot} from './ea-onboarding.mjs?v=ea-160-courtyard-20261008-r2';
+import {createOpeningAudio} from './ea-opening-audio.mjs?v=ea-160-courtyard-20261008-r2';
 
 const VERSION=SIM.GAME_VERSION;
 const runtimeClock=createRuntimeClock(),diagnostics=createFrameDiagnostics();
@@ -81,9 +81,10 @@ function syncSRLocation({initial=false}={}){
  if(loc?.kind==='local'&&!state.world.exploration&&!state.combat){scene='map';world?.setScene('map');world?.recenter();world?.focus(loc.x,loc.y);}
  if(!initial&&previous){ui?.fold();if(loc?.kind==='local')toast('已抵达'+(SIM.WORLD_SCENES?.[loc.sceneId]?.name||'目的地')+'，点击人物或设施查看互动。');}
 }
-function locate(kind,id){selection={kind,id:Number(id)};selectScene('map');const b=kind==='building'?state.buildings.find(b=>b.id===Number(id)):state.disciples.find(d=>d.id===Number(id));if(b){const p=b.position||b;world.focus(p.x,p.y);}ui?.renderDetail(selection);}
+function locate(kind,id){selection={kind,id:Number(id)};selectScene('map');const b=kind==='building'?state.buildings.find(b=>b.id===Number(id)):state.disciples.find(d=>d.id===Number(id));if(b){const p=b.position||b;world.focus(p.x,p.y);}ui?.renderDetail(selection);revealSelectedBuilding();world?.render(performance.now(),true);}
 function setTab(next){tab=next;ui?.unfold();refresh(true);}
-function refresh(force=false){if(!ui)return;ui.render({force});canvasMode();updatePlacement();updateSaveStatus();world?.render(performance.now(),true);}
+function revealSelectedBuilding(options){world?.keepSelectedBuildingVisible?.($('detail'),options);}
+function refresh(force=false){if(!ui)return;ui.render({force});canvasMode();updatePlacement();updateSaveStatus();revealSelectedBuilding();world?.render(performance.now(),true);}
 
 function slotMeta(meta){return meta?`<p><strong>${esc(meta.leader)} · ${esc(meta.realm)}</strong></p><p>${esc(meta.sect)} · 第 ${meta.day} 日 · 门人 ${meta.people}</p><small>本机保存：${esc(timeText(meta.savedAt))}</small>`:'<p>从云岫旧药庐开始。</p><small>三个世界独立保存</small>';}
 function slotCard(v){let action='';if(v.status==='ready')action=`<button class="primary" data-slot-open="${v.slot}">继续修行</button>`;else if(v.status==='empty')action=`<button class="primary" data-slot-new="${v.slot}">新建世界</button>`;else if(v.status==='migration-available')action=`<button class="primary" data-slot-migrate="${v.slot}">保留旧档并迁移</button>`;else if(v.status==='recovery-required')action=`<button class="primary" data-slot-recover="${v.slot}">选择备份恢复</button>`;else action='<span class="warning">本机存储暂不可用</span>';
@@ -129,7 +130,7 @@ function checkSceneInteraction(now){
  if(!state.master.scenic?.path?.length&&state.master.action!=='walk'){const target=sceneInteractionTarget(state,intent.kind,intent.id);if(target)act('requestSceneInteraction',intent.kind,intent.id,intent.action,personPosition);}
 }
 world=createWorldRenderer(canvas,{getState:()=>state,getMode:()=>mode,getSelection:()=>selection,getCampaignScene:s=>scene==='journey'?SIM.getCampaignScene(s):null,getLocalScene:SIM.viewSRWorld,getAppearance:SIM.appearanceView,getPrefs:()=>preferences,getHomeInteractions:SIM.homeInteractions,getPreview:preview,onLoad:failed=>{const el=$('asset-status');if(el){el.hidden=!failed.length;el.innerHTML=failed.length?'<span>部分画卷未载入，已保留可用内容</span><button type="button" data-retry-assets>重试加载</button>':'';}}});
-mapInputStop=attachMapInput(canvas,{pan:world.pan,enabled:()=>haveSession&&!modal.open,onHover:e=>{world.setHover(e);updatePlacement();},onPinch:e=>{world.pan.x+=e.dx;world.pan.y+=e.dy;world.setZoom(Math.log(e.scale)*.8,e);world.render(performance.now(),true);},onDragChange:v=>canvas.classList.toggle('dragging',v),onActivate:e=>{
+mapInputStop=attachMapInput(canvas,{pan:world.pan,enabled:()=>haveSession&&!modal.open,onHover:e=>{world.setHover(e);updatePlacement();},onPinch:e=>{world.pan.x+=e.dx;world.pan.y+=e.dy;world.setZoom(Math.log(e.scale)*.8,e);revealSelectedBuilding({preserveAnchor:true});world.render(performance.now(),true);},onDragChange:v=>canvas.classList.toggle('dragging',v),onActivate:e=>{
  const picked=world.pick(e);if(picked.distance>75){toast('请点击山路或交互点附近。');return;}if(scene==='valley'||scene==='lake'){setTab('explore');toast('此处为舆图预览，在「山外」选择目的地出行。');return;}
  if(scene==='journey'){const current=SIM.getCampaignScene(state);if(current?.type==='combat'&&current.interactive===false){toast('此战已结束，请先确认战果。');return;}if(state.combat?.status==='active'){act('combatAction',picked.kind==='enemy'?'attack':'move',picked.kind==='enemy'?picked.id:{x:picked.x,y:picked.y});}else if(state.world.exploration?.status==='exploring'){act('moveExploration',picked.x,picked.y);if(picked.kind==='landmark'){if(picked.id==='exit')act('leaveRegion');else ui.openRegionInteraction();}}else toast('正在途中，请稍候。');return;}
  if(picked.kind==='world-object'){selection={kind:'world-object',id:picked.id};ui.fold();ui.renderDetail(selection);refresh(true);return;}
@@ -141,7 +142,7 @@ mapInputStop=attachMapInput(canvas,{pan:world.pan,enabled:()=>haveSession&&!moda
  if(picked.kind==='story-object'){interact('building',picked.buildingId,'story');return;}
  if(picked.kind==='peak'||picked.kind==='overview'){setTab('sect');return;}if(picked.kind==='building'){selection={kind:'building',id:picked.id};ui.fold();ui.renderDetail(selection);}else if(picked.kind==='area'){setTab(picked.id==='gate'?'explore':picked.id==='meditation'?'self':'build');toast('此处尚无已建成设施，可在营造中筹建。');}else{selection=null;ui.renderDetail(null);}refresh(true);
 }});
-canvas.addEventListener('wheel',e=>{if(modal.open)return;e.preventDefault();world.setZoom(e.deltaY>0?-.07:.07,e);world.render(performance.now(),true);},{passive:false});
+canvas.addEventListener('wheel',e=>{if(modal.open)return;e.preventDefault();world.setZoom(e.deltaY>0?-.07:.07,e);revealSelectedBuilding({preserveAnchor:true});world.render(performance.now(),true);},{passive:false});
 canvas.addEventListener('pointerleave',()=>{world.setHover(null);if(mode==='build'&&pendingRecommendation)world.setHoverPlot?.(pendingRecommendation);updatePlacement();});
 $('close-modal').addEventListener('click',closeModal);modal.addEventListener('cancel',e=>{if(!haveSession)e.preventDefault();});modal.addEventListener('close',()=>{if(modal.open)return;lastFrame=performance.now();runtimeClock.resume(lastFrame);audio.sync();});
 $('import-file').addEventListener('change',e=>{readImport(e.target.files[0]);e.target.value='';});
@@ -155,7 +156,7 @@ document.addEventListener('click',async e=>{const b=e.target.closest('button');i
  else if('relocate'in d)startRelocate(d.relocate);
  else if('speed'in d){act('setSpeed',Number(d.speed));}
  else if(b.id==='pause'){act('setSpeed',state.speed?0:1);}
- else if(b.id==='estate-overview'){selectScene('map');setMode('inspect');world.setOverview();ui.fold();world.render(performance.now(),true);}else if(b.id==='settings')settings();else if(b.id==='zoom-in')world.setZoom(.14);else if(b.id==='zoom-out')world.setZoom(-.14);else if(b.id==='recenter'){const p=scene==='journey'?SIM.getCampaignScene(state)?.player:state.master.position;if(p)world.focus(p.x,p.y,scene==='journey');else world.recenter();}else if(b.id==='grid-toggle'){const g=world.setGrid();b.setAttribute('aria-pressed',String(g));}else if(b.id==='master-mode'){selectScene('map');setMode(mode==='walk'?'inspect':'walk');}else if(b.id==='cancel-build')finishPlacement();
+ else if(b.id==='estate-overview'){selectScene('map');setMode('inspect');world.setOverview();ui.fold();revealSelectedBuilding();world.render(performance.now(),true);}else if(b.id==='settings')settings();else if(b.id==='zoom-in'){world.setZoom(.14);revealSelectedBuilding();}else if(b.id==='zoom-out'){world.setZoom(-.14);revealSelectedBuilding();}else if(b.id==='recenter'){const p=scene==='journey'?SIM.getCampaignScene(state)?.player:state.master.position;if(p)world.focus(p.x,p.y,scene==='journey');else world.recenter();revealSelectedBuilding();}else if(b.id==='grid-toggle'){const g=world.setGrid();b.setAttribute('aria-pressed',String(g));}else if(b.id==='master-mode'){selectScene('map');setMode(mode==='walk'?'inspect':'walk');}else if(b.id==='cancel-build')finishPlacement();
  }catch(error){toast(error.message,true);}});
 document.addEventListener('input',e=>{const key=e.target.dataset.pref;if(['musicVolume','sfxVolume'].includes(key)){preferences[key]=Number(e.target.value);persistPreferences();}});
 document.addEventListener('change',e=>{const key=e.target.dataset.pref;if(key&&Object.hasOwn(preferences,key)){preferences[key]=e.target.type==='checkbox'?e.target.checked:Number(e.target.value);persistPreferences();}});
@@ -168,5 +169,5 @@ window.addEventListener('pageshow',async e=>{if(e.persisted&&resumeAfterPagehide
 document.addEventListener('freeze',()=>{runtimeClock.suspend();mapInputStop?.cancel?.();if(haveSession&&!volatile&&persistence.canWrite)saveNow({silent:true});});
 document.addEventListener('resume',()=>{lastFrame=performance.now();runtimeClock.resume(lastFrame);});
 function loop(now){const started=performance.now(),timing=runtimeClock.next(now),dt=timing.dt;lastFrame=now;if(haveSession&&!modal.open&&!hiddenPause&&(volatile||persistence.canWrite)&&state.speed){try{const prev=state.worldTick;SIM.tick(state,dt);if(state.worldTick!==prev){dirty=true;syncSRLocation();if(!state.world.exploration&&scene==='journey'&&!state.combat)selectScene('map');}}catch(e){state=clone(lastGood);state.speed=0;toast('世界已暂停，保留上个完整状态：'+e.message,true);}}
- if(now-lastUI>550){lastUI=now;ui.render();updateSaveStatus();updatePlacement();}if(haveSession&&dirty&&!volatile&&persistence.canWrite&&now-lastAuto>5000){lastAuto=now;saveNow({silent:true});}const painted=world.render(now);checkSceneInteraction(now);checkRegionDialogue();if(haveSession&&!modal.open&&!hiddenPause&&(volatile||persistence.canWrite))ui.maybeNarrative?.();audio.tick(now);if(painted){const paintElapsed=lastPaintAt===null?0:now-lastPaintAt;lastPaintAt=now;diagnostics.record({elapsedMs:paintElapsed,workMs:performance.now()-started,visible:haveSession&&!document.hidden&&!modal.open,droppedGap:timing.droppedGap||paintElapsed>1000});}requestAnimationFrame(loop);}
+ if(now-lastUI>550){lastUI=now;ui.render();updateSaveStatus();updatePlacement();revealSelectedBuilding();}if(haveSession&&dirty&&!volatile&&persistence.canWrite&&now-lastAuto>5000){lastAuto=now;saveNow({silent:true});}const painted=world.render(now);checkSceneInteraction(now);checkRegionDialogue();if(haveSession&&!modal.open&&!hiddenPause&&(volatile||persistence.canWrite))ui.maybeNarrative?.();audio.tick(now);if(painted){const paintElapsed=lastPaintAt===null?0:now-lastPaintAt;lastPaintAt=now;diagnostics.record({elapsedMs:paintElapsed,workMs:performance.now()-started,visible:haveSession&&!document.hidden&&!modal.open,droppedGap:timing.droppedGap||paintElapsed>1000});}requestAnimationFrame(loop);}
 persistPreferences();refresh(true);showSlots();requestAnimationFrame(loop);

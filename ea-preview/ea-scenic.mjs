@@ -1,8 +1,8 @@
-import {spatialEnabled,sceneUnits,spatialAccess,SPATIAL_VERSION} from './ea-sr-spatial.mjs?v=ea-160-courtyard-20261008-r1';
-import {slotById} from './ea-facility-slots.mjs?v=ea-160-courtyard-20261008-r1';
-import {point,findPath,sweep,canStand,distance,LANDMARKS} from '../yunxiu-courtyard/navigation.mjs?v=ea-160-courtyard-20261008-r1';
-import {SCENE_GEOMETRY,SCENIC_PLOTS,scenicCanStand,scenicFindPath,scenicSweep,scenicNearest,buildingAccess,geometryRevision,scenicDistance} from './ea-scene-geometry.mjs?v=ea-160-courtyard-20261008-r1';
-export {SCENE_GEOMETRY,scenicPoint,scenicInverse,scenicCanStand,scenicFindPath,scenicNearest,scenicDistance,scenicPathDistance,buildingAccess,geometryRevision} from './ea-scene-geometry.mjs?v=ea-160-courtyard-20261008-r1';
+import {spatialEnabled,sceneUnits,spatialAccess,SPATIAL_VERSION} from './ea-sr-spatial.mjs?v=ea-160-courtyard-20261008-r2';
+import {slotById} from './ea-facility-slots.mjs?v=ea-160-courtyard-20261008-r2';
+import {point,findPath,sweep,canStand,distance,LANDMARKS} from '../yunxiu-courtyard/navigation.mjs?v=ea-160-courtyard-20261008-r2';
+import {SCENE_GEOMETRY,SCENIC_PLOTS,scenicCanStand,scenicFindPath,scenicSweep,scenicNearest,buildingAccess,geometryRevision,scenicDistance} from './ea-scene-geometry.mjs?v=ea-160-courtyard-20261008-r2';
+export {SCENE_GEOMETRY,scenicPoint,scenicInverse,scenicCanStand,scenicFindPath,scenicNearest,scenicDistance,scenicPathDistance,buildingAccess,geometryRevision} from './ea-scene-geometry.mjs?v=ea-160-courtyard-20261008-r2';
 
 export const FACILITY_AREAS={hall:'main',house:'main',library:'main',watchtower:'gate',farm:'herbs',granary:'herbs',well:'herbs',lumber:'workshop',workshop:'workshop',quarry:'works',meditation:'meditation',alchemy:'kitchen',clinic:'kitchen',kitchen:'kitchen'};
 export const areaPoint=id=>point(LANDMARKS.find(l=>l.id===id)?.node||'centre');
