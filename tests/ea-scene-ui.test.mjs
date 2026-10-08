@@ -84,6 +84,24 @@ test('SR-XF-029: overlapping people retain identity portraits and select the req
  assert.equal(JSON.stringify(s),before);assert.equal(h.commands.length,0);
 });
 
+test('SR-XF-007-AC-01: three public opening identities keep portraits and current activity on selection',()=>{
+ const run=normalOpening(),s=run.s,ids=['person:master',...s.homeMemberIds],before=JSON.stringify(s),h=uiHarness(s);
+ assert.equal(ids.length,3);assert.equal(new Set(ids.map(id=>SIM.appearanceView(s,id).spriteIndex)).size,3);
+ const expected=new Map([['person:master','暂歇'],['person:lu-zhiwei','行走'],['person:lin-changfeng','等候']]);
+ assert.deepEqual(ids.map(id=>SIM.appearanceView(s,id).action),['groundRest','walk','waiting']);
+ h.ui.openNearbyPeople(ids.map(id=>({id:s.personsById[id].id||'master',name:s.personsById[id].name,activity:SIM.appearanceView(s,id).action})));
+ assert.equal((h.modals.at(-1).body.match(/class="portrait mini"/g)||[]).length,3);
+ for(const id of ids){
+  const person=s.personsById[id],sceneId=id==='person:master'?'master':person.id;
+  h.click('chooseScenePerson',[sceneId]);
+  const html=h.fragments.at(-1);
+  assert.match(html,/class="portrait mini"/);
+  assert.ok(html.includes(person.name)&&html.includes(expected.get(id)),`${person.name}: current action`);
+ }
+ assert.equal(JSON.stringify(SIM.validateSave(JSON.parse(before))),before);
+ assert.equal(JSON.stringify(s),before);assert.equal(h.commands.length,0);
+});
+
 test('SR-XF-007: a newly ordered study is shown as travelling until a real desk is reserved',()=>{
  const run=normalOpening();run.act('masterStudy','spring');
  const body=run.s.activitiesById[run.s.master.activityId];assert.equal(body.phase,'moving');assert.equal(body.slotId==null,true);
