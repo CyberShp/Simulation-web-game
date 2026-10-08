@@ -1,5 +1,7 @@
 # M0→M1 交付接续 · 2026-10-08
 
+当前最新 M2 r24 已发布丹炉冻结配方、旧炉次兼容及满仓同地退料，周行舟失约后有来源地继续、原价改约或拒收；改约需玩家当面同意。完成/取消与改约事实校验已补。SR020-AC03 重复阅读、传播、读档不重结，经正常公开链及本地 Chromium 实点改为 `passed`。SR017 拒单/再合作链已验，改名仅受控兼容夹具，AC03 仍待；运行卡顿、完整 SR009/011、目标设备和公网浏览器操作继续。运行源码 `main` `6f372f6ec6099e5936f6b867c4d7ca059a2775ca`，网页 `gh-pages` `910526ee7bb90e559d86b5dfa41273cfdb951572`，标记 `ea-160-courtyard-20261008-r24`，Pages `built`、162 文本 blob 匹配，公开入口 HTTP 200 且三个改动模块字节一致。**38 passed、81 not_run、1 blocked**。详见 [STATUS](design/STATUS.md) 与 [台账](requirements/registry.json)。
+
 当前最新 M2 r23 已发布普通生产版本配方快照与旧活跃批次一次迁移、跨场景商单期限/有来源停表/一次失约，以及顾氏同一路线两人物的善意与逐利选择。SR017-AC02 经正常公开链及本地 Chromium 实点/续档改为 `passed`；SR009 与 SR011 仍是局部实现。根复跑生产、商单、七组织及界面定向验收；源码 `main` `dc1ff06670f569be34f836580ce83c31f1c92150`，网页 `gh-pages` `e7f6a8a55f2e7bbd74d33d6a33563d885bd17b27`，标记 `ea-160-courtyard-20261008-r23`，Pages `built`，162 文本 blob 匹配，公网入口 HTTP 200、八个改动模块字节一致。完整工单/商单、SR017-AC03、性能、目标设备和公网浏览器操作仍待；**37 passed、82 not_run、1 blocked**。详见 [STATUS](design/STATUS.md) 与 [台账](requirements/registry.json)。
 
 当前最新 M2 r22 已发布 SR011 公物跨场景订单及明确划拨：货物、运费和收款随原公有权限流转，取消取回不改产权；玩家在完成订单卡指定数量后才转入私人物品。正常公开链 12/12、旧单 1/1、库存 4/4、产权 6/6、界面 17/17；独立本地 Chromium 实点划拨、买粮、返院。源码 `main` `980fa93dc71325171e3d37f48456bfa108654b50`，网页 `gh-pages` `53c38b2771dcd064a73c745e9454ac212aacc871`，Pages `built`，162 个文本 blob 匹配，公网入口与改动模块字节核对通过。完整 SR011 AC、目标设备与公网浏览器操作仍待；**36 passed、83 not_run、1 blocked**。详见 [STATUS](design/STATUS.md) 与 [台账](requirements/registry.json)。

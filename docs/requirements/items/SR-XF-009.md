@@ -57,7 +57,7 @@ SR-XF-009-AC-01证据：qa/ea-sr-009-production-gates-public-acceptance.mjs；di
 
 SR-XF-009-AC-02证据：qa/ea-sr-009-shared-batch-public-acceptance.mjs；dist/ea-sr-economy.mjs；docs/design/STATUS.md
 
-SR-XF-009-AC-03证据：qa/ea-sr-009-reservation-competition-public-acceptance.mjs；qa/ea-sr-009-cancel-public-acceptance.mjs；docs/design/STATUS.md
+SR-XF-009-AC-03证据：qa/ea-sr-009-reservation-competition-public-acceptance.mjs；qa/ea-sr-009-cancel-public-acceptance.mjs；docs/design/STATUS.md；2026-10-08 r24 局部丹炉：正常公开开局建炉/运草/成丹59命令、39次精确存读；v1及旧已付费迁移、取消余料一次返还、满仓同地同产权暂存、完成/取消坏事实拒载。根1/1、独立1/1，本地Chromium导入/刷新续档4/20。施工/装备和完整新档解锁未验，整项状态不提升。
 
  2026-10-07局部修正：掌门采集与有限来源恢复在受伤、离位或低精力时明确paused，不再保留working伪装劳动；包裹满的采集也暂停而不扣有限来源。公开命令定向覆盖伤势、低精力、自然四批包裹满、精确存读与恢复3/3，离位分支尚未单独验证；经济52/52通过。完整配方/产能和SR-XF-009各AC仍未关闭。
 2026-10-07 M1正常成长链阻断修复：有来源正常档 tick404450 的商人精力9.706低于工坊收货门槛10，空闲长期不恢复，真实工序停在190/200。现在商人仅在院/坊市始末同场且无身体活动时每世界tick恢复0.3；出行或收货中不恢复。定向3/3、经济52/52；独立只读复核从该正常档克隆1200 tick内见两批实物收货/分别付款64.1923331328及64.503802176，商人减少与工坊增加逐笔相等，生产工资0.8另按公库和人物钱袋守恒；600 tick完整存读逐字一致。仅局部Node证据，不提升原AC或完整D/I/V/R。
@@ -67,6 +67,7 @@ SR-XF-009-AC-03证据：qa/ea-sr-009-reservation-competition-public-acceptance.m
 2026-10-08 同两份有来源公开命令工坊档复验 SR009-AC01/02：新档 187 命令、100 次存读、tick32157，旧有效档 208/109、tick31820；两档各 4/4。验收按真实门人到位、商人行程与物流交付判定，不依赖固定世界步或指定门人。新档两人贡献110/90，商人付款与现场产出均28.7743092，0.8工资由公库支付；旧档两人贡献110/90，付款20.22027186816，现场19.42027186816，0.8工资从批次收入支付。均一次结算、记忆关联唯一且精确存读。此次只修订 QA 的时序假设，现有 AC01/02 passed 不改判，整项 D/I/V/R 仍待。
 2026-10-08 SR009 D01/D02 设计复核：现行木石、丹药、装备数值及共享生产贡献量对照代码；新增药田种苗2、10步成熟、积水暂停/恢复、单次收获及旧活跃药田免追缴，四类工单冻结 v1 快照与逐入口克隆迁移/校验，阶段1丹炉和阶段2百工坊的正常新档门槛。独立 D02 初审三项阻断修订后复审 PASS；采购只能获得补种材料，不能直接恢复地块来源余额。此为设计契约，v2 运行实现、旧档迁移、浏览器和真机均未验，既有 AC passed 证据及整项状态不因设计文稿提升。
 2026-10-08 r23 普通生产 v2 配方快照：木场、采石、谷仓、藏经、井、百工坊、打坐的投入/产出/时长/技能及首位贡献者固定于开工单；旧活跃 v1 批次克隆时一次迁移，坏快照拒载，旧批在现行建筑定义变化后仍按原值唯一结算。独立复核新旧批与技能归属；根复跑共享生产1/1、门槛3/3、取消1/1、预留竞争1/1、生命11/11、邀请1/1。施工/丹炉/装备及完整新档解锁仍待，I01/V01/R01 不关闭。
+2026-10-08 r24 局部丹炉：正常公开开局建炉/运草/成丹59命令、39次精确存读；v1及旧已付费迁移、取消余料一次返还、满仓同地同产权暂存、完成/取消坏事实拒载。根1/1、独立1/1，本地Chromium导入/刷新续档4/20。施工/装备和完整新档解锁未验，整项状态不提升。
 
 ## 开发任务
 
@@ -84,7 +85,7 @@ SR-XF-009-D02证据：docs/requirements/design/SR-XF-007-011-019-026-027.md; ind
 
 SR-XF-009-I01证据：dist/ea-sr-economy.mjs；dist/ea-sr-persons.mjs；tests/ea-activity-truth.test.mjs；qa/ea-sr-economy-acceptance.mjs；2026-10-08 r19: qa/ea-sr-009-herb-crop-public-acceptance.mjs 5/5; adjacent production 5/5, facility and door 17/17, opt-in v2 work route 1/1; local Chromium memory import showed crop status and cancellation; source c9be1d476311a558e7a37a4e0305e5086b71a369, Pages 15ec91db21b8f4b37f30accdd5ac643e024a160d built；2026-10-08 r23: ordinary production recipe:v2 snapshots, old active v1 migration, tamper rejection and scoped independent replay; runtime main dc1ff06670f569be34f836580ce83c31f1c92150, Pages e7f6a8a55f2e7bbd74d33d6a33563d885bd17b27 built; construction/craft/equipment snapshots and full new-game unlock remain open
 
-SR-XF-009-V01证据：dist/ea-sr-economy.mjs；dist/ea-sr-persons.mjs；tests/ea-activity-truth.test.mjs；qa/ea-sr-economy-acceptance.mjs；qa/ea-sr-integration-acceptance.mjs；docs/design/STATUS.md
+SR-XF-009-V01证据：dist/ea-sr-economy.mjs；dist/ea-sr-persons.mjs；tests/ea-activity-truth.test.mjs；qa/ea-sr-economy-acceptance.mjs；qa/ea-sr-integration-acceptance.mjs；docs/design/STATUS.md；2026-10-08 r24 局部丹炉：正常公开开局建炉/运草/成丹59命令、39次精确存读；v1及旧已付费迁移、取消余料一次返还、满仓同地同产权暂存、完成/取消坏事实拒载。根1/1、独立1/1，本地Chromium导入/刷新续档4/20。施工/装备和完整新档解锁未验，整项状态不提升。
 
 ## 可进入开发的条件
 
@@ -122,6 +123,7 @@ SR-XF-009-V01证据：dist/ea-sr-economy.mjs；dist/ea-sr-persons.mjs；tests/ea
 - qa/ea-sr-009-reservation-competition-public-acceptance.mjs
 - qa/ea-sr-009-cancel-public-acceptance.mjs
 - 2026-10-08 r23 普通生产 v2 配方快照：木场、采石、谷仓、藏经、井、百工坊、打坐的投入/产出/时长/技能及首位贡献者固定于开工单；旧活跃 v1 批次克隆时一次迁移，坏快照拒载，旧批在现行建筑定义变化后仍按原值唯一结算。独立复核新旧批与技能归属；根复跑共享生产1/1、门槛3/3、取消1/1、预留竞争1/1、生命11/11、邀请1/1。施工/丹炉/装备及完整新档解锁仍待，I01/V01/R01 不关闭。
+- 2026-10-08 r24 局部丹炉：正常公开开局建炉/运草/成丹59命令、39次精确存读；v1及旧已付费迁移、取消余料一次返还、满仓同地同产权暂存、完成/取消坏事实拒载。根1/1、独立1/1，本地Chromium导入/刷新续档4/20。施工/装备和完整新档解锁未验，整项状态不提升。
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
@@ -136,5 +138,6 @@ SR-XF-009-V01证据：dist/ea-sr-economy.mjs；dist/ea-sr-persons.mjs；tests/ea
 - 2026-10-08：SR009 D01 配方、种苗成熟、旧四类工单快照及新档解锁经独立 D02 初审三项退回、修订复审通过；仅设计 ready，I01 完整实现和 V/R 未完成。
 - 2026-10-08：r19 implements seeded herb crop batches and exact old-active-batch compatibility; other versioned recipes, full early-game unlock and target-device acceptance remain open
 - 2026-10-08：r23 普通生产 v2 版本配方快照及旧活跃批次迁移发布、独立审读并局部验收；其余工单与完整 I/V/R 继续。
+- 2026-10-08：2026-10-08 r24 局部丹炉：正常公开开局建炉/运草/成丹59命令、39次精确存读；v1及旧已付费迁移、取消余料一次返还、满仓同地同产权暂存、完成/取消坏事实拒载。根1/1、独立1/1，本地Chromium导入/刷新续档4/20。施工/装备和完整新档解锁未验，整项状态不提升。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。
