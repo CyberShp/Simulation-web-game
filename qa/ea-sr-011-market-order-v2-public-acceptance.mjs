@@ -90,7 +90,7 @@ test('public order reserves three located holdings, follows actual two-leg trave
 });
 
 test('explicit public-receipt allocation funds market food and a real return without automatic ownership change',()=>{
- const h=publicOpening(),opening=accountTotals(h);
+ const h=publicOpening(),opening=accountTotals(h),regionalCash=()=>stock(h,MERCHANT).resources.jade+stock(h,'stockpile:qingxi-supplier-wallet').resources.jade+stock(h,'stockpile:chizhang-market-toll').resources.jade,openingRegionalCash=regionalCash();
  reserve(h);h.act('marketOrder',ID,'pickup-v2');h.act('marketOrder',ID,'depart-v2');
  h.until(s=>!s.srWorld.activeTravelId,'market arrival',300);h.until(s=>state({s}).phase==='delivered','order arrival',3);
  h.worldWalk(37,25);h.until(s=>s.worldTick>=state({s}).quote.earliestDeliverTick,'delivery time',500);
@@ -122,7 +122,7 @@ test('explicit public-receipt allocation funds market food and a real return wit
  h.until(s=>!s.srWorld.activeTravelId,'actual return home',300);
  assert.equal(h.s.master.location.sceneId,'scene:yunxiu-courtyard');assert.equal(stock(h,PARTY).resources.food,8);
  assert.equal(stock(h,PARTY).resources.jade,20);assert.equal(stock(h,CARGO).resources.jade,0);
- assert.equal(accountTotals(h).merchant.jade,opening.merchant.jade-20,'merchant funds paid 30 and received 10 for food');
+ assert.equal(regionalCash(),openingRegionalCash-20,'order payment and food purchase preserve actual merchant, supplier and toll holdings');
  checkpoint(h,'returned-after-explicit-allocation');
 });
 
