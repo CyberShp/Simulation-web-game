@@ -1,11 +1,11 @@
-import {markAftermathKnowledge} from './ea-sr-aftermath.mjs?v=ea-160-courtyard-20261008-r4';
-import {knowledgeView,knownFactForObserver,stampInitialClaimReceipts} from './ea-sr-contracts.mjs?v=ea-160-courtyard-20261008-r4';
+import {markAftermathKnowledge} from './ea-sr-aftermath.mjs?v=ea-160-courtyard-20261008-r5';
+import {knowledgeView,knownFactForObserver,stampInitialClaimReceipts} from './ea-sr-contracts.mjs?v=ea-160-courtyard-20261008-r5';
 /** SR-XF-015/016/017/020/021. Facts are authoritative; views contain acquired knowledge only. */
-import {pay,grant,log,RESOURCES} from './ea-data.mjs?v=ea-160-courtyard-20261008-r4';
-import {GEOGRAPHY_SCENES,GEOGRAPHY_ROUTES,GEOGRAPHY_REGIONS,initGeographySR,startGeographySR,finishGeographySR,tickGeographySR,viewGeographySR,validateGeographySR} from './ea-sr-world-geography.mjs?v=ea-160-courtyard-20261008-r4';
-import {TELEPORT_ROUTES,initTransportSR,transportRouteUsableSR,transportModePlanSR,ticketPlanSR,reserveJourneyTicketsSR,releaseJourneyTicketsSR,tickTransportSR,startTransportCapabilitySR,finishTransportCapabilitySR,useTravelModeSR,viewTransportSR,validateTransportSR} from './ea-sr-world-transport.mjs?v=ea-160-courtyard-20261008-r4';
-import {HIGH_REALM_PATHS} from './ea-sr-cultivation.mjs?v=ea-160-courtyard-20261008-r4';
-import {initWorldContentSR,tickWorldContentSR,startWorldContentSR,finishWorldContentSR,cancelWorldContentSR,viewWorldContentSR,validateWorldContentSR,worldContentDiagnosticsSR} from './ea-sr-world-content.mjs?v=ea-160-courtyard-20261008-r4';
+import {pay,grant,log,RESOURCES} from './ea-data.mjs?v=ea-160-courtyard-20261008-r5';
+import {GEOGRAPHY_SCENES,GEOGRAPHY_ROUTES,GEOGRAPHY_REGIONS,initGeographySR,startGeographySR,finishGeographySR,tickGeographySR,viewGeographySR,validateGeographySR} from './ea-sr-world-geography.mjs?v=ea-160-courtyard-20261008-r5';
+import {TELEPORT_ROUTES,initTransportSR,transportRouteUsableSR,transportModePlanSR,ticketPlanSR,reserveJourneyTicketsSR,releaseJourneyTicketsSR,tickTransportSR,startTransportCapabilitySR,finishTransportCapabilitySR,useTravelModeSR,viewTransportSR,validateTransportSR} from './ea-sr-world-transport.mjs?v=ea-160-courtyard-20261008-r5';
+import {HIGH_REALM_PATHS} from './ea-sr-cultivation.mjs?v=ea-160-courtyard-20261008-r5';
+import {initWorldContentSR,tickWorldContentSR,startWorldContentSR,finishWorldContentSR,cancelWorldContentSR,viewWorldContentSR,validateWorldContentSR,worldContentDiagnosticsSR} from './ea-sr-world-content.mjs?v=ea-160-courtyard-20261008-r5';
 const HOME='scene:yunxiu-courtyard', MASTER='person:master';
 const obj=(id,name,kind,x,y,width=4,height=3,choices=['inspect'])=>({id,name,kind,x,y,width,height,interactionRadius:2.4,choices:choices.map(action=>({action,label:({inspect:'查验',talk:'交谈',repair:'修复',gather:'采集',trade:'合作采购',open:'解除阵眼',memorial:'祭扫',studyMap:'研读洲图并登记有偿航路',cooperate:'按当地约章合作',adapt:'研习异界灵息',ransom:'赎救知情者（50灵石、8草药、6口粮）',settle:'安顿运粮人并截断补给（20口粮、12木）',neutral:'争取坊市护送者中立（15灵石、4口粮）',collectEstate:'收取石室遗产（需已收束，行囊容纳72份）'})[action]||action}))});
 export const WORLD_SCENES=Object.freeze({

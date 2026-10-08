@@ -1,4 +1,4 @@
-import{GOODS,commissions,fulfill,trade,canPay,RESOURCE}from'./living-world.mjs?v=ea-160-courtyard-20261008-r4';
+import{GOODS,commissions,fulfill,trade,canPay,RESOURCE}from'./living-world.mjs?v=ea-160-courtyard-20261008-r5';
 export function renderCommunity(s,mutate,toast){
  const quotedDay=Math.floor(s.time/120);
  const root=document.querySelector('#bottom-content'),fmt=obj=>Object.entries(obj).map(([k,v])=>`${RESOURCE[k]} ${v}`).join(' · ');

@@ -124,6 +124,7 @@ label:has(input[type=checkbox]),label:has(input[type=radio]){min-height:44px}
 
 /* SR-XF-029: keep confirmation targets fixed while placement feedback changes. */
 #viewport #placement-bar{display:grid;grid-template-columns:minmax(0,1fr) auto auto;align-items:end;width:auto;gap:12px}
+#viewport.placing #scene-intent{display:none}
 #placement-text{min-width:0;overflow-wrap:anywhere;line-height:1.6}
 #viewport #placement-bar button{min-width:44px;min-height:44px;white-space:normal}
 #placement-confirm{grid-column:2}#cancel-build{grid-column:3}
