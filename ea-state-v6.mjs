@@ -1,8 +1,8 @@
 /** Canonical identity tables. Legacy modules use non-serialized live adapters. */
-import {appearance} from './ea-scenic.mjs?v=ea-160-courtyard-20261008-r23';
-import {RESOURCES} from './ea-data.mjs?v=ea-160-courtyard-20261008-r23';
-import {hydratePillTotals} from './ea-sr-economy.mjs?v=ea-160-courtyard-20261008-r23';
-import {ContractError,initContracts,validateContracts,SR_CONTENT_VERSION,SR_RULESET_VERSION} from './ea-sr-contracts.mjs?v=ea-160-courtyard-20261008-r23';
+import {appearance} from './ea-scenic.mjs?v=ea-160-courtyard-20261008-r24';
+import {RESOURCES} from './ea-data.mjs?v=ea-160-courtyard-20261008-r24';
+import {hydratePillTotals} from './ea-sr-economy.mjs?v=ea-160-courtyard-20261008-r24';
+import {ContractError,initContracts,validateContracts,SR_CONTENT_VERSION,SR_RULESET_VERSION} from './ea-sr-contracts.mjs?v=ea-160-courtyard-20261008-r24';
 
 export const SCHEMA_VERSION=6;
 export const CONTENT_VERSION='opening-v1.2';

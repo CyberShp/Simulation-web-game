@@ -1,7 +1,7 @@
-import {spatialEnabled,spatialPrefab,spatialTransform,spatialAccess,spatialFootprint,spatialRoom,spatialRevision,meterCanStand,meterSweep,meterNearest,meterFindPath,polygonContains} from './ea-sr-spatial.mjs?v=ea-160-courtyard-20261008-r23';
-import {hallInterior} from './ea-hall-interior.mjs?v=ea-160-courtyard-20261008-r23';
-import {CELLS} from './ea-data.mjs?v=ea-160-courtyard-20261008-r23';
-import {WIDTH,HEIGHT,NODES,EDGES,LANDMARKS,distance,inPolygon,nearest} from '../yunxiu-courtyard/navigation.mjs?v=ea-160-courtyard-20261008-r23';
+import {spatialEnabled,spatialPrefab,spatialTransform,spatialAccess,spatialFootprint,spatialRoom,spatialRevision,meterCanStand,meterSweep,meterNearest,meterFindPath,polygonContains} from './ea-sr-spatial.mjs?v=ea-160-courtyard-20261008-r24';
+import {hallInterior} from './ea-hall-interior.mjs?v=ea-160-courtyard-20261008-r24';
+import {CELLS} from './ea-data.mjs?v=ea-160-courtyard-20261008-r24';
+import {WIDTH,HEIGHT,NODES,EDGES,LANDMARKS,distance,inPolygon,nearest} from '../yunxiu-courtyard/navigation.mjs?v=ea-160-courtyard-20261008-r24';
 
 export const SCENE_GEOMETRY='plots-v1';
 export {WIDTH,HEIGHT,distance as scenicDistance};

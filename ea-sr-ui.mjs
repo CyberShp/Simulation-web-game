@@ -1,5 +1,5 @@
 /** Player-facing projections only. Does not advance clocks or write world state. */
-import {BUILDING_GRID,buildingGridEnabled,buildingCellLabel} from './ea-building-grid.mjs?v=ea-160-courtyard-20261008-r23';
+import {BUILDING_GRID,buildingGridEnabled,buildingCellLabel} from './ea-building-grid.mjs?v=ea-160-courtyard-20261008-r24';
 const E=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const list=v=>Array.isArray(v)?v:[];
 const names={wood:'灵木',stone:'青石',herb:'灵草',food:'口粮',jade:'灵石',crystal:'灵晶',insight:'道韵',weapon:'兵器',armor:'衣甲',artifact:'法器',accessory:'饰物','pill:heal':'回春散','pill:qi':'聚气丹','pill:spirit':'灵息丹','pill:foundation':'筑基丹'};
@@ -41,16 +41,22 @@ function marketOrderCard(o,s,stockpiles){
   buttons.push(B('接下跨场景委托','marketOrder',[o.id,'accept-v2'],q?'':'须在云岫别院且通往青溪的约定道路可用'));
   buttons.push(B('拒绝委托','marketOrder',[o.id,'decline-v2'],q?'':'先返回云岫别院查看报价'));
  }else if(stage==='accepted'){
-  buttons.push(state.pickupTick===undefined?B('到公库实际取货','marketOrder',[o.id,'pickup-v2']):B('携货出发去青溪','marketOrder',[o.id,'depart-v2']));
+  const refusal=state.merchantResponse?.decision==='refuse'||state.amendment?.expiredTick!==undefined;
+  buttons.push(state.pickupTick===undefined?B('到公库实际取货','marketOrder',[o.id,'pickup-v2'],refusal?'周行舟已拒收，须先取消订单':''):B('携货出发去青溪','marketOrder',[o.id,'depart-v2'],refusal?'周行舟已拒收，须先取消订单':''));
   buttons.push(B('取消并保留物资','marketOrder',[o.id,'cancel-v2']));
  }else if(stage==='delivered'){
-  buttons.push(B('当面验货收款','marketOrder',[o.id,'deliver-v2']));
+  const refusal=state.merchantResponse?.decision==='refuse'||state.amendment?.expiredTick!==undefined,unagreed=state.merchantResponse?.decision==='renegotiate'&&!state.amendment;
+  buttons.push(B('当面验货收款','marketOrder',[o.id,'deliver-v2'],refusal?'周行舟已拒收本单':unagreed?'须先当面同意改约':''));
   buttons.push(B('取消并保留物资','marketOrder',[o.id,'cancel-v2']));
  }else if(stage==='blocked')buttons.push(B('到合法落点后取消','marketOrder',[o.id,'cancel-v2']));
  else if(stage==='cancelled'&&state.cancelledAfterPickup&&!s.factsById?.[`fact:order-v2:recover:${o.id}`])buttons.push(B('整理随行公用物资','marketOrder',[o.id,'recover-v2']));
  const offer=q?P(`云岫公库交付 ${cost(q.cargo)}；青溪商人预留 ${cost(q.payment)}；掌门承运 ${q.routeIds.length} 段，预留口粮 ${q.foodCost}。接单后最早 ${q.earliestDeliverTick-q.quotedTick} 世界步交付，此后有 ${q.deadlineTick-q.earliestDeliverTick} 个可履约世界步；道路、商人或收货仓不可用时停表。`):P('从云岫公库到青溪坊市的报价须在原地查看；道路变化后保留已接约定，等待处理。');
  const clock=state.deadlineClockVersion==='passable-window:v1'?P(`交货窗口：已计 ${state.passableTicks}/1200 可履约时段，停表 ${state.pausedTicks} 时段${state.breachTick!==undefined?'；卖方失约已记入账本':''}。`):'';
- return C(o.name,offer+S(`${phase(stage)}${state.blockedReason?' · '+state.blockedReason:''}`)+clock+(stage==='accepted'&&state.pickupTick===undefined?P('先走到院中公库取货。'):stage==='accepted'?P('货物和路粮已由掌门实际保管；出发不会重复装入随行物资。'):stage==='in_transit'?P('掌门携货按世界行程前往青溪；途中可从行旅页查看路况。'):stage==='cancelled'&&state.cancelledAtSourceRetained?P('原公库容量不足，货物留在院中原位，可通过实际搬运取回。'):stage==='cancelled'&&state.cancelledAfterPickup?P(publicCargo?(s.factsById?.[`fact:order-v2:recover:${o.id}`]?'公用货物与剩余口粮已整理到同一随行货位。':'公用货物仍在承运人实际位置；可同场整理剩余口粮。'):(s.factsById?.[`fact:order-v2:recover:${o.id}`]?'货物已取回原行囊。':'货物仍在承运人实际位置。')):'')+`<div class="button-row">${buttons.join('')}</div>`+withdraw,'market-order-'+o.id);
+ const response=state.merchantResponse?P(`周行舟在世界刻 ${state.merchantResponse.decidedTick} 得知本单失约：${state.merchantResponse.reason} 当时自有现货木 ${state.merchantResponse.merchantStock.wood}、石 ${state.merchantResponse.merchantStock.stone}；${state.merchantResponse.cargoVisible?'货已在面前':'货未在面前'}。`)+P(`本单毛付款 ${state.merchantResponse.costs.grossPaymentJade} 灵石，额外费 ${state.merchantResponse.costs.extraFeeJade}、罚款 ${state.merchantResponse.costs.penaltyJade}；商人决定时已耗路粮 ${state.merchantResponse.costs.spentFoodAtDecision} 份，已耗部分不退。${state.merchantResponse.decision==='refuse'?'拒收后未付灵石仍属周行舟；明确取消时退回其货位。':'若实际交付，仍按原单付款。'}`)+(state.merchantResponse.decision==='renegotiate'?P(`改约报价：仍付 ${cost(state.merchantResponse.terms.payment)}，另给 ${state.merchantResponse.terms.extraPassableTicks} 个可履约世界步；不加收费用或罚款。${state.amendment?'本次已当面同意。':'未当面同意前，期限不延长。'}`):''):'';
+ const amend=state.amendment?P(`已同意改约：追加窗口已计 ${state.amendment.passableTicks}/300 可履约时段，停表 ${state.amendment.pausedTicks} 时段${state.amendment.expiredTick!==undefined?'；追加期限届满，周行舟拒收':''}。`):'';
+ const merchant=s.personsById?.['person:merchant-qingxi'],meeting=s.master.location?.kind==='local'&&s.master.location.sceneId==='scene:market'&&merchant?.position?.sceneId==='scene:market'&&Math.hypot(s.master.location.x-merchant.position.x,s.master.location.y-merchant.position.y)<3;
+ const agree=state.merchantResponse?.decision==='renegotiate'&&!state.amendment&&!['completed','cancelled'].includes(stage)?B('当面同意原价改约','marketOrder',[o.id,'agree-amend-v2'],meeting?'':'须到青溪坊市并走近周行舟'):'';
+ return C(o.name,offer+S(`${stage==='delivered'?'货到坊市待验收':phase(stage)}${state.blockedReason?' · '+state.blockedReason:''}`)+clock+response+amend+(stage==='accepted'&&state.pickupTick===undefined?P('先走到院中公库取货。'):stage==='accepted'?P('货物和路粮已由掌门实际保管；出发不会重复装入随行物资。'):stage==='in_transit'?P('掌门携货按世界行程前往青溪；途中可从行旅页查看路况。'):stage==='cancelled'&&state.cancelledAtSourceRetained?P('原公库容量不足，货物留在院中原位，可通过实际搬运取回。'):stage==='cancelled'&&state.cancelledAfterPickup?P(publicCargo?(s.factsById?.[`fact:order-v2:recover:${o.id}`]?'公用货物与剩余口粮已整理到同一随行货位。':'公用货物仍在承运人实际位置；可同场整理剩余口粮。'):(s.factsById?.[`fact:order-v2:recover:${o.id}`]?'货物已取回原行囊。':'货物仍在承运人实际位置。')):'')+`<div class="button-row">${buttons.join('')}${agree}</div>`+withdraw,'market-order-'+o.id);
 }
 function inventorySummary(groups){
  const labels={public:'公用财物',personal:'掌门私物',merchant:'商人物资'};
