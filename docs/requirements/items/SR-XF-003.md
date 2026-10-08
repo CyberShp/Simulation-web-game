@@ -75,6 +75,7 @@ SR-XF-003-AC-03证据：qa/ea-sr-spatial-acceptance.mjs；docs/requirements/IMPL
 2026-10-08 M1 r8 门道与避让子批：同 tick 候选下一步按(首达世界步,人物ID)授予单人过门，失效活动放锁；身体避让不穿墙，持货路线被新建筑截断时复核剩余全路并重求原目标。普通公开命令/精确存读 7/7，施工物流 7/7、相关串行 2/2，空间/施工人员/地图输入 57/57，独立只读复核室内精确脚点不变。浏览器旧档外观与露天人物点选通过，门道浏览器逐步读回/真机拥挤布局与 AC02 完整门槛未验；AC 状态不变。
 2026-10-08 门人居门洞画稿对位只读量测：一级完工图可见门槛相对 spatialPrefab(b).door 投影估计偏横向 0.85 米、纵深 1.27 米，超过现行 0.35/0.25 米容差；试修未满足门槛，生产素材和元数据未改。其余六阶段、藏经阁/其他建筑、浏览器逐类与真机触控均未验，AC02 继续 not_run。仓库外量测 /private/tmp/immortal-r10-door-art-trial.json。
 2026-10-08 M1 r10 暂停静止院景减负：合法 40 建筑/30 人档 1200×849/DPR1 冻结对照约3秒清画 180→0、drawImage 10440→0，画布像素 SHA-256 相同、点主殿卡一致；运行候选 139/139 帧照绘。同一 state 对象建筑/人物原地变化、hover/selection、镜头/视口/DPR、规划、素材重试均定向通过，独立 1/1 与相邻 16/16。发布源码 main 542b3502bd33055d62ac963f7ae1c06bdd6b4707，Pages f57c25079de2693e3625fce136f170b1de306042 built，162 文本发布 blob 全部匹配；公开浏览器被应用管理员策略验证不可用拦截，首载/交互未验。整幅运行卡顿未解决，AC02 和 I/V/R 不提升。
+2026-10-08 r14 默认倍率密集山院局部减负：已验收来源档40建筑/30人、1200x849/DPR2，独立本地Chromium两次各6秒热身后对照，rAF回调约34.8/s→56.7/s、间隔P95 50→16.8ms；候选最长166.7ms且主线程累计任务时间更高，不等于实际显示FPS或整幅卡顿修复。32MiB LRU、每帧最多新建1幅、素材/销毁清空、无OffscreenCanvas直绘降级；像素专项均差0.11/255、强差0.07%，主殿外观/门位/人物遮挡与点选保持。缓存专项1/1、暂停/田地2/2、三人点选及封闭建筑回归通过；相邻4项旧断言在未改空间/场景逻辑失败。源码307894b、Pages f3e0d63 built，162文本blob匹配。缩放长帧、首次导入、公开浏览器、真机和完整AC02/I/V/R继续。
 
 ## 开发任务
 
@@ -90,9 +91,9 @@ SR-XF-003-D01证据：docs/requirements/design/SR-XF-003-006.md
 
 SR-XF-003-D02证据：docs/requirements/design/SR-XF-003-006.md
 
-SR-XF-003-I01证据：dist/ea-sr-spatial.mjs；docs/design/STATUS.md；dist/map-input.mjs；dist/ea-game.mjs；dist/ea-courtyard-renderer.mjs；dist/ea-world-scene-art.mjs；dist/ea-sr-ui.mjs；qa/ea-sr003-outer-camera-acceptance.mjs；qa/ea-sr003-pedestrian-occupancy-acceptance.mjs；dist/ea-scenic.mjs；dist/ea-facility-activities.mjs；qa/ea-paused-courtyard-render-acceptance.mjs
+SR-XF-003-I01证据：dist/ea-sr-spatial.mjs；docs/design/STATUS.md；dist/map-input.mjs；dist/ea-game.mjs；dist/ea-courtyard-renderer.mjs；dist/ea-world-scene-art.mjs；dist/ea-sr-ui.mjs；qa/ea-sr003-outer-camera-acceptance.mjs；qa/ea-sr003-pedestrian-occupancy-acceptance.mjs；dist/ea-scenic.mjs；dist/ea-facility-activities.mjs；qa/ea-paused-courtyard-render-acceptance.mjs；2026-10-08 r14 默认倍率密集山院局部减负：已验收来源档40建筑/30人、1200x849/DPR2，独立本地Chromium两次各6秒热身后对照，rAF回调约34.8/s→56.7/s、间隔P95 50→16.8ms；候选最长166.7ms且主线程累计任务时间更高，不等于实际显示FPS或整幅卡顿修复。32MiB LRU、每帧最多新建1幅、素材/销毁清空、无OffscreenCanvas直绘降级；像素专项均差0.11/255、强差0.07%，主殿外观/门位/人物遮挡与点选保持。缓存专项1/1、暂停/田地2/2、三人点选及封闭建筑回归通过；相邻4项旧断言在未改空间/场景逻辑失败。源码307894b、Pages f3e0d63 built，162文本blob匹配。缩放长帧、首次导入、公开浏览器、真机和完整AC02/I/V/R继续。
 
-SR-XF-003-V01证据：qa/ea-indoor-furniture-acceptance.mjs；qa/ea-courtyard-life-acceptance.mjs；docs/design/STATUS.md；tests/map-input.test.mjs；qa/ea-sr-spatial-acceptance.mjs；qa/ea-sr003-pedestrian-occupancy-acceptance.mjs；qa/ea-paused-courtyard-render-acceptance.mjs
+SR-XF-003-V01证据：qa/ea-indoor-furniture-acceptance.mjs；qa/ea-courtyard-life-acceptance.mjs；docs/design/STATUS.md；tests/map-input.test.mjs；qa/ea-sr-spatial-acceptance.mjs；qa/ea-sr003-pedestrian-occupancy-acceptance.mjs；qa/ea-paused-courtyard-render-acceptance.mjs；2026-10-08 r14 默认倍率密集山院局部减负：已验收来源档40建筑/30人、1200x849/DPR2，独立本地Chromium两次各6秒热身后对照，rAF回调约34.8/s→56.7/s、间隔P95 50→16.8ms；候选最长166.7ms且主线程累计任务时间更高，不等于实际显示FPS或整幅卡顿修复。32MiB LRU、每帧最多新建1幅、素材/销毁清空、无OffscreenCanvas直绘降级；像素专项均差0.11/255、强差0.07%，主殿外观/门位/人物遮挡与点选保持。缓存专项1/1、暂停/田地2/2、三人点选及封闭建筑回归通过；相邻4项旧断言在未改空间/场景逻辑失败。源码307894b、Pages f3e0d63 built，162文本blob匹配。缩放长帧、首次导入、公开浏览器、真机和完整AC02/I/V/R继续。
 
 ## 可进入开发的条件
 
@@ -132,6 +133,8 @@ SR-XF-003-V01证据：qa/ea-indoor-furniture-acceptance.mjs；qa/ea-courtyard-li
 - dist/ea-scenic.mjs
 - dist/ea-facility-activities.mjs
 - qa/ea-paused-courtyard-render-acceptance.mjs
+- dist/ea-estate-assets.mjs
+- qa/ea-building-raster-cache-acceptance.mjs
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
@@ -151,5 +154,6 @@ SR-XF-003-V01证据：qa/ea-indoor-furniture-acceptance.mjs；qa/ea-courtyard-li
 - 2026-10-08：M1 山外局部 45° 镜头与四角物件绘制接入；封闭屋顶遮挡室内人物并保持具名详情入口，露天人物正常可见。独立代码专项及两视口浏览器局部通过；I01 进入进行中，AC02 与 V/R 仍按完整门槛。
 - 2026-10-08：M1 r8 门道按首达世界步和稳定人物 ID 单人排队、无效活动放锁，身体绕行与侧步有真实路线；室内床位/书案/工位终点不变，封闭屋只画外观。SR003 专项 7/7、相邻 57/57，独立只读复核；浏览器只验合法密集档外观/露天点选，真机及完整 AC02/I/V/R 仍待。
 - 2026-10-08：M1 r10 暂停静止山院帧跳过整幅重绘；可见状态原地变化、点选/镜头/视口/素材/规划均失效重画，运行态继续绘制。合法密集档冻结对照 180→0 次清画、10440→0 次 drawImage，像素与主殿点选一致；独立定向 1/1、相邻 16/16。运行卡顿根因、真机及 AC02/I/V/R 门槛未关闭，公网浏览器受应用安全策略验证不可用限制未验。
+- 2026-10-08：r14 默认倍率建筑缓存有界子批独立验收并发布；密集档画面回调改善但长帧与完整 SR003 继续。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。
