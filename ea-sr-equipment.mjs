@@ -1,9 +1,9 @@
 /** SR-XF-012/018/033. One item location, one body activity, worldTick only. */
-import {canPay,pay,grant,RESOURCES} from './ea-data.mjs?v=ea-160-courtyard-20261008-r33';
-import {buildingAccess,scenicFindPath,scenicNearest,geometryRevision,scenicDistance} from './ea-scene-geometry.mjs?v=ea-160-courtyard-20261008-r33';
-import {advanceScenic,syncScenicPosition} from './ea-scenic.mjs?v=ea-160-courtyard-20261008-r33';
-import {sceneUnits} from './ea-sr-spatial.mjs?v=ea-160-courtyard-20261008-r33';
-import {facilitySlots,slotReservation,slotById} from './ea-facility-slots.mjs?v=ea-160-courtyard-20261008-r33';
+import {canPay,pay,grant,RESOURCES} from './ea-data.mjs?v=ea-160-courtyard-20261008-r34';
+import {buildingAccess,scenicFindPath,scenicNearest,geometryRevision,scenicDistance} from './ea-scene-geometry.mjs?v=ea-160-courtyard-20261008-r34';
+import {advanceScenic,syncScenicPosition} from './ea-scenic.mjs?v=ea-160-courtyard-20261008-r34';
+import {sceneUnits} from './ea-sr-spatial.mjs?v=ea-160-courtyard-20261008-r34';
+import {facilitySlots,slotReservation,slotById} from './ea-facility-slots.mjs?v=ea-160-courtyard-20261008-r34';
 
 let hooks={};
 export function configureEquipment(next={}){hooks={...hooks,...next};}
@@ -86,7 +86,8 @@ export function readyAtWorkstation(s,p,o){
  const buildings=Object.values(s.buildingsById||{}),preferred=kind==='work'?(o.kind==='pill-craft'||o.kind==='foundation-source'&&o.parameters.route==='self-study'?'alchemy':'workshop'):kind==='cultivate'?'meditation':'library';
  const candidates=buildings.filter(b=>(o.kind==='pill-craft'||o.kind==='foundation-source'&&o.parameters.route==='self-study'?[preferred]:[preferred,'hall']).includes(b.type)&&(!o.parameters?.materialWorkstationId||b.instanceId===o.parameters.materialWorkstationId)&&b.enabled!==false&&b.condition>0&&!b.spatialLock).sort((a,b)=>(b.type===preferred)-(a.type===preferred));
  const a=ownedActivity(s,p);if(!a)return false;let slot=null,b=null;
- for(const candidate of candidates){const options=facilitySlots(s,candidate,kind);slot=options.find(slot=>{const r=Object.values(s.reservationsById).find(r=>['slot','sr-slot'].includes(r.kind)&&(r.slotId===slot.id||slotById(s,r.slotId)&&scenicDistance(slotById(s,r.slotId).position,slot.position)<sceneUnits(s,8)));return !r||r.activityId===a.id;});if(slot){b=candidate;break;}}
+ const reservedSlots=Object.values(s.reservationsById).filter(r=>['slot','sr-slot'].includes(r.kind)).map(r=>({reservation:r,slot:slotById(s,r.slotId)})),exclusionRadius=sceneUnits(s,8);
+ for(const candidate of candidates){const options=facilitySlots(s,candidate,kind);slot=options.find(slot=>{const r=reservedSlots.find(({reservation,slot:held})=>reservation.slotId===slot.id||held&&scenicDistance(held.position,slot.position)<exclusionRadius)?.reservation;return !r||r.activityId===a.id;});if(slot){b=candidate;break;}}
  if(!slot){o.reason='实际工位不足或正在被他人占用。';return false;}
  if(a.reservationId&&s.reservationsById[a.reservationId]?.slotId!==slot.id)delete s.reservationsById[a.reservationId];
  const reservationId=`reservation:sr-slot:${a.id}`;s.reservationsById[reservationId]={id:reservationId,kind:'sr-slot',slotId:slot.id,personId:p.personId,activityId:a.id,createdTick:s.worldTick};a.reservationId=reservationId;a.slotId=slot.id;o.workstationId=b.instanceId;o.target={...slot.position};
