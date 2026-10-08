@@ -620,6 +620,7 @@ export function tickSpatial(s){
  else{source.transform={...o.targetTransform};if(o.operation==='upgrade'){source.level=o.targetLevel;source.condition=100;}if(o.operation==='relocate'){source.x=o.targetTransform.x;source.y=o.targetTransform.y;s.stats.relocated++;}delete source.spatialLock;finalizeBuildingChange(s,source,o.operation);}
  s.spatial.geometryRevision++;s.spatial.completedOrders.push({id:o.id,operation:o.operation,phase:'completed',progressTicks:o.progressTicks,usedCost:{...o.usedCost},sourceTransform:o.sourceTransform,targetTransform:o.targetTransform,evacuations:o.evacuations,salvage:o.salvage||null,tick:s.worldTick});cleanup(s,a);
  for(const p of people(s)){const q=personPosition(s,p);if(q){q.revision=spatialRevision(s);q.path=[];q.goal=null;}}
+ pruneDoorQueues(s);
 }
 export function viewSpatial(s){const a=spatialConstruction(s),o=a&&s.workOrdersById[a.workOrderId];if(!o)return null;const b=layoutBuilding(s,{id:a.buildingId,type:a.type,level:o.targetLevel,transform:o.targetTransform});return {building:b,position:spatialAccess(b),footprint:spatialFootprint(b),access:a.target,progress:o.progressTicks/o.durationTicks,stage:o.progressTicks/o.durationTicks<1/3?'foundation':o.progressTicks/o.durationTicks<2/3?'structure':'finishing',label:o.waitingReason||a.reason||({moving:'前往工地',working:'到场施工',blocked:'等待安全条件'}[a.phase]),operation:o.operation};}
 export function validateSpatial(s){
