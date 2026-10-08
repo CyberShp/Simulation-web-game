@@ -20,7 +20,7 @@
 | [SR-XF-003](items/SR-XF-003.md) | 统一米制空间、导航与镜头 | P0 | ready | in_progress | in_progress | SR-XF-002 |
 | [SR-XF-004](items/SR-XF-004.md) | 建筑预制件、室内与分层素材目录 | P0 | ready | in_progress | in_progress | SR-XF-003 |
 | [SR-XF-005](items/SR-XF-005.md) | 自由选址、施工与入口安全 | P0 | ready | in_progress | in_progress | SR-XF-003, SR-XF-004 |
-| [SR-XF-006](items/SR-XF-006.md) | 升级、迁建与拆除的安全任务 | P1 | draft | in_progress | in_progress | SR-XF-004, SR-XF-005 |
+| [SR-XF-006](items/SR-XF-006.md) | 升级、迁建与拆除的安全任务 | P1 | ready | in_progress | in_progress | SR-XF-004, SR-XF-005 |
 | [SR-XF-007](items/SR-XF-007.md) | 稳定人物外观、肖像与活动动作 | P0 | draft | in_progress | in_progress | SR-XF-002, SR-XF-004 |
 | [SR-XF-008](items/SR-XF-008.md) | NPC日程、自主选择与职责参数 | P1 | draft | in_progress | in_progress | SR-XF-002, SR-XF-003 |
 | [SR-XF-009](items/SR-XF-009.md) | 有限供给链与配方产能表 | P0 | draft | in_progress | in_progress | SR-XF-002, SR-XF-004 |

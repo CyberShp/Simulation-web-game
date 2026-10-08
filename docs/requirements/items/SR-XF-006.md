@@ -6,9 +6,9 @@
 | --- | --- |
 | 范围 / 模块 | 前期必需 / 营造 |
 | 优先级 / 计划 | P1 / I1 |
-| 设计 / 开发 | draft / in_progress |
+| 设计 / 开发 | ready / in_progress |
 | 验收 / 发布 | in_progress / not_released_for_this_sr |
-| 责任人 / 复核人 | Codex/space_construction / Codex/root（集成） |
+| 责任人 / 复核人 | Codex/space_construction / Codex/sr002_version_gate（独立设计复核） |
 
 ## 来源、依赖与范围
 
@@ -26,7 +26,7 @@
 
 升级、迁建、拆除继续保留同一建筑身份。本批成人床占用者可按实际步长撤离；正常迁建取消、暂停续建和旧在建进度加载保留材料与唯一实体。
 
-整套升级/迁建/拆除的不同占用、目标失效及视觉对应仍需完整流程验收；本批证据覆盖床位撤离、三种在建迁移与正常迁建取消/续建。
+D01/D02 已按现行代码和 SR004/005/010 接缝独立复核；完整玩家串行、取消/存读分支、目标设备与真人体验仍属 I/V。
 
 现状是适用旧能力的基线，不表示该SR完整目标已通过。
 
@@ -61,16 +61,22 @@ SR-XF-006-AC-03证据：qa/ea-sr-spatial-acceptance.mjs；docs/requirements/IMPL
 
 2026-10-07本地小院批次：成人家具/单位格/空间定向检查48/48（8/6/34），正常公开命令接受/拒绝邀请两路完成营造、产出搬运、研习、到床休息与迁建取消/续建；分别60命令/36次精确存读和61命令/37次精确存读。六身份卧姿与预约前提2/2，生产Canvas卧姿加载/只读/身体点选/缺图回退4/4，已读图。旧v5完成档40建筑30门人保留资源、时间和return结局，全部入口可达，二次存读一致。各SR仅登记适用子情景；完整AC、真机触摸/FPS和真人首次体验状态分别保留。 浏览器DPR1鼠标在1366×900、1180×820、820×1180点选床上掌门通过；正常推荐营造经Enter和鼠标确认、实际施工落成。一次动态模块加载失败经页面重载恢复同档，原因待定位。I/V证据为沿既有可用契约实施的本批子范围；完整D01/D02及I/V关闭门槛保持原状态。
 2026-10-08 M1 第十批：补验占床升级、劳动中拆除、足迹内携货原子拒绝/取消一次退款、足迹外在途货物迁建后送达，正式公开操作4/4、相关空间家具42/42。独立只读复核同意原三条AC继续passed；扩大升级占地和真机仍未覆盖。
+2026-10-08 SR006 设计补齐与局部实现：独立 D02 按设计 171-230 行及 SR004/005/010 接缝复审通过；公开命令 4/4、空间 36/36、室内 8/8、SR UI 17 pass/4 pending，现行浏览器串行和设备结果另记。
+独立 1200×849 Chromium：正常公开来源住宅档仅将 speed 1→0 暂停并通过校验；陆知微实际占床、林长风趋向床位。升级一次扣 45/30/20，原建筑与 0/240 工单保存刷新一致；迁建候选和取消不扣费，确认一次扣 10/8/0，0/180 工单保存刷新一致；拆除弹窗列两人、床位/生产/仓/入口/剧情。原求助浮条遮挡确认按钮中心，选址时暂隐并退出后恢复，普通点击复验通过；最终浏览器控制台 0 error/0 warning。施工完工、拆除执行、真机/真人未验。仓库外报告 /private/tmp/immortal-sr006-player-review.json。
 
 ## 开发任务
 
 | 任务 | 工作 | 状态 | 前置 | 责任人 |
 | --- | --- | --- | --- | --- |
-| SR-XF-006-D01 | 设计补齐：交付：升级占地冲突、迁建源/目标预约、拆除与材料回收的任务状态图。；人物活动中断、等待、临时撤离/安置和重新预约策略。；各取消阶段的已用成本、余料、进度和身份保留表。；填实必需参数并标记U/R/T来源。 | in_progress | 无 | Codex/space_construction |
-| SR-XF-006-D02 | 契约与内容审阅：审阅升级、迁建与拆除的安全任务与依赖契约（SR-XF-004、SR-XF-005）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。 | todo | SR-XF-006-D01 | 待分配 |
-| SR-XF-006-I01 | 开发与集成：在营造模块实现升级、迁建与拆除的安全任务；交付SR-XF-006-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。 | todo | SR-XF-006-D02 | Codex/courtyard-integration |
+| SR-XF-006-D01 | 设计补齐：交付：升级占地冲突、迁建源/目标预约、拆除与材料回收的任务状态图。；人物活动中断、等待、临时撤离/安置和重新预约策略。；各取消阶段的已用成本、余料、进度和身份保留表。；填实必需参数并标记U/R/T来源。 | done | 无 | Codex/space_construction |
+| SR-XF-006-D02 | 契约与内容审阅：审阅升级、迁建与拆除的安全任务与依赖契约（SR-XF-004、SR-XF-005）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。 | done | SR-XF-006-D01 | Codex/sr002_version_gate |
+| SR-XF-006-I01 | 开发与集成：在营造模块实现升级、迁建与拆除的安全任务；交付SR-XF-006-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。 | in_progress | SR-XF-006-D02 | Codex/courtyard-integration |
 | SR-XF-006-V01 | 验收与兼容：执行SR-XF-006-AC-01至AC-03及BUILD-04、SAVE-01；登记实际结果、兼容和设备证据边界。 | todo | SR-XF-006-I01 | Codex/courtyard-acceptance |
 | SR-XF-006-R01 | 发布与关闭：完成所需源码/运行时发布核对、交接和未覆盖说明；本轮用户不要求上传QA过程产物。 | todo | SR-XF-006-V01 | 待分配 |
+
+SR-XF-006-D01证据：docs/requirements/design/SR-XF-003-006.md
+
+SR-XF-006-D02证据：docs/requirements/design/SR-XF-003-006.md；dist/ea-sr-spatial.mjs；dist/ea-game.mjs；dist/ea-ui.mjs
 
 SR-XF-006-I01证据：dist/ea-sr-spatial.mjs；docs/design/STATUS.md；qa/ea-sr-building-change-public-acceptance.mjs
 
@@ -106,6 +112,12 @@ SR-XF-006-V01证据：qa/ea-indoor-furniture-acceptance.mjs；qa/ea-courtyard-li
 - qa/ea-courtyard-life-acceptance.mjs
 - docs/CODEX-HANDOFF.md
 - qa/ea-sr-building-change-public-acceptance.mjs
+- dist/ea-game.mjs
+- dist/ea-ui.mjs
+- dist/ea-sr-ui.mjs
+- dist/ea.css
+- qa/ea-sr-integration-acceptance.mjs
+- qa/ea-sr-spatial-acceptance.mjs
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
@@ -115,5 +127,6 @@ SR-XF-006-V01证据：qa/ea-indoor-furniture-acceptance.mjs；qa/ea-courtyard-li
 - 2026-10-07：U-100固定2.5D、旧云岫人物/建筑资源接回正式U-99主线；R-29山院扩96米，旧64档先校验仅登记extentVersion。人物6/6、扩图9/9、单位格6/6与正常公开链局部通过，真实网页/发布另记STATUS；完整SR保持in_progress，不冒称全动画或全体验完成。
 - 2026-10-07：成人家具与现场交互本地批次：升级、迁建、拆除继续保留同一建筑身份。本批成人床占用者可按实际步长撤离；正常迁建取消、暂停续建和旧在建进度加载保留材料与唯一实体。 已登记适用实现与独立复验证据，整体开发/验收保持in_progress，AC状态沿用已有范围。
 - 2026-10-08：M1 第十批并行复验现有 SR006 三条已通过 AC：公开操作覆盖占床升级、劳动中拆除、迁建遇建筑足迹内携货人原子拒绝、取消一次退款及足迹外携货完成后继续送达。修复足迹内搬运身体被锁而与施工等待互相卡住的缺陷，独立只读复核同意保留原 AC 状态；扩大升级占地的额外场景、真机与整项 D/I/V/R 继续。
+- 2026-10-08：SR006 升级/迁建/拆除状态、工时费用、人物撤离、物流返料、失败与存读设计完成并经独立 D02 复核；迁建网页改为选址后显式确认、拆除确认显示具名影响、升级预查扩地。公开命令 4/4、空间 36/36、室内 8/8、界面 17/17；隔离 Chromium 在合法占床住宅档通过升级/迁建工单提交与保存重载、具名拆除预览、候选取消和浮条遮挡修复。实际完工/拆除执行和目标设备仍待，I/V/R 不关闭。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。

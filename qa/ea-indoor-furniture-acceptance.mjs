@@ -48,7 +48,7 @@ test('SR-XF-004-AC-02 / SAVE-01: executing bed and navigating study keep their i
 test('SR-XF-004-AC-03 / SAVE-01: invalid original geometry and unknown furniture versions leave source saves intact',()=>{
  const s=fixture();delete s.spatial.interiorLayoutVersion;for(const b of s.buildings)delete b.interiorLayoutVersion;
  const b=s.buildings[0];feet(s,s.master,{x:b.transform.x+.05,y:b.transform.y+1});const bad=JSON.stringify(s);assert.throws(()=>S.validateSave(s),/脚点|位置/);assert.equal(JSON.stringify(s),bad);
- for(const owner of ['spatial','building']){const v=fixture();(owner==='spatial'?v.spatial:v.buildings[0]).interiorLayoutVersion='future-furniture';const before=JSON.stringify(v);assert.throws(()=>S.validateSave(v),/室内布局版本/);assert.equal(JSON.stringify(v),before);}
+ for(const owner of ['spatial','building']){const v=fixture();(owner==='spatial'?v.spatial:v.buildings[0]).interiorLayoutVersion='future-furniture';const before=JSON.stringify(v);assert.throws(()=>S.validateSave(v),/interiorLayoutVersion|室内布局版本/);assert.equal(JSON.stringify(v),before);}
 });
 
 test('SR-XF-004-AC-02 / SAVE-01: an executing study order retains paid materials and exact progress, then resumes at its same desk',()=>{
@@ -71,7 +71,7 @@ test('SR-XF-006-AC-01/03: occupied adult bed evacuates by bounded real steps bef
 test('SR-XF-006 / SAVE-01: build, upgrade and relocation underway retain paid progress and finish with the adult prefab after loading',()=>{
  for(const operation of ['build','upgrade','relocate'])for(const phase of ['moving','working']){
   const s=fixture(),b=operation==='build'?null:room(s,'house');compact(s);const result=operation==='build'?handlers.build(s,'house',40,40):operation==='upgrade'?handlers.upgrade(s,b.id):handlers.relocate(s,b.id,62,40);
-  if(phase==='working'){const a=s.activitiesById[s.master.activityId];feet(s,s.master,a.target);a.phase='working';for(let n=0;n<25;n++)S.tick(s,.1);}
+  if(phase==='working'){for(let n=0;s.workOrdersById[result.workOrderId].progressTicks<5&&n<4000;n++)S.tick(s,.1);assert(s.workOrdersById[result.workOrderId].progressTicks>=5,`${operation} begins real paid work`);}
   const original=JSON.stringify(s),facts=snapshotFacts(s),loaded=S.validateSave(s);assert.equal(JSON.stringify(s),original);assert.deepEqual(snapshotFacts(loaded),facts);assert.equal(loaded.activitiesById[loaded.master.activityId].phase,phase);assert.equal(viewSpatial(loaded).building.interiorLayoutVersion,INTERIOR_LAYOUT_VERSION);
   for(let n=0;loaded.workOrdersById[result.workOrderId]&&n<4000;n++)S.tick(loaded,.1);assert(!loaded.workOrdersById[result.workOrderId],`${operation}/${phase} completed`);
   const completed=loaded.buildingsById[`building:yunxiu:${result.id}`];assert.equal(completed.interiorLayoutVersion,INTERIOR_LAYOUT_VERSION);assertNear(dimensions(spatialPrefab(completed).furniture.find(f=>f.kind==='bed').polygon).height,2.2);assert.equal(loaded.buildings.filter(x=>x.instanceId===completed.instanceId).length,1);S.validateSave(loaded);

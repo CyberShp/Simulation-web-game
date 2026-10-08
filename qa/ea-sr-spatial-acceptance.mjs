@@ -108,6 +108,19 @@ test('SR-XF-006-AC-01/02: occupied domain-owned cargo rejects before any constru
  assert.throws(()=>handlers.relocate(s,b.id,35,35),/建筑内履行事务/);assert.equal(JSON.stringify(s),before);assert.equal(s.activitiesById[a.id],a);assert.equal(s.reservationsById[r.id],r);
  delete s.activitiesById[a.id];delete s.reservationsById[r.id];p.activityId=null;handlers.relocate(s,b.id,35,35);atSite(s);finish(s);assert.deepEqual(b.transform,{x:35,y:35,orientation:'south'});
 });
+test('SR-XF-006: demolition rechecks beds when residents change before completion',()=>{
+ const s=fixture(),b=addBuilding(s,'house',12,24),remaining=s.buildings.reduce((n,v)=>n+(base.BUILDINGS[v.type].capacity||0)*v.level,0)-(base.BUILDINGS.house.capacity||0);
+ assert(remaining>s.homeMemberIds.length);
+ while(s.homeMemberIds.length<remaining)base.addDisciple(s,{name:`改建前住客${s.homeMemberIds.length}`});
+ const order=handlers.demolish(s,b.id),o=s.workOrdersById[order.workOrderId];
+ base.addDisciple(s,{name:'施工中新住客'});
+ advanceUntil(s,()=>o.progressTicks===o.durationTicks,1200);
+ assert.equal(s.buildingsById[b.instanceId],b,'the original building remains when remaining beds are insufficient');
+ assert.equal(s.activitiesById[s.master.activityId].phase,'blocked');
+ assert.match(s.activitiesById[s.master.activityId].reason,/床位不足/);
+ validateSpatial(s);
+ handlers.cancelConstruction(s);assert.equal(s.buildingsById[b.instanceId],b);validateSpatial(s);
+});
 test('SR-XF-005-AC-03: direct construction cannot replace a live domain-owned master transaction',()=>{
  const s=fixture(),id='activity:sr-live';s.master.activityId=id;s.activitiesById[id]={id,kind:'sr-breakthrough',personId:'person:master'};const before=structuredClone(s);assert.throws(()=>handlers.build(s,'farm',12,24),/身体事务/);assert.deepEqual(structuredClone(s),before);
 });

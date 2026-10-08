@@ -344,6 +344,7 @@ function finishConstructionCancellation(s,a,o){
 function requestConstructionCancellation(s,a,o){
  for(const id of [...o.activityIds]){const helper=s.activitiesById[id];if(helper?.kind==='sr-construction')releaseConstructionHelper(s,o,helper);}
  for(const slot of o.workSlots||[]){slot.occupantId=null;slot.firstArrivalTick=null;}
+ a.slotId=null;a.slotArrived=false;a.firstArrivalTick=null;a.phase='moving';
  const flow=o.materialFlow,r=s.reservationsById[o.reservationId],refund=constructionRefund(o,r);
  if(!flow.cancelRequested){flow.cancelRequested=true;flow.phase=materialTotal(flow.cargo)?'returning':'recover-site';a.reason='收回未用材料，实际带回主屋后结清退款。';}
  if(!materialTotal(flow.cargo)&&!materialTotal(s.stockpilesById[flow.siteStockpileId].resources))return finishConstructionCancellation(s,a,o);
@@ -486,6 +487,10 @@ export function tickSpatial(s){
  if(source){for(const id of [...o.activityIds]){const helper=s.activitiesById[id],person=helper&&s.personsById[helper.personId],position=person&&personPosition(s,person);if(helper?.kind==='sr-construction'&&position&&polygonContains(position,spatialFootprint(o.operation==='upgrade'?future:source),.26))releaseConstructionHelper(s,o,helper);}if(!evacuate(s,source,o)){a.phase='blocked';a.reason=o.waitingReason||'等待工地人员安全撤离。';return;}}
  if(o.operation!=='demolish'){for(const id of [...o.activityIds]){const helper=s.activitiesById[id],person=helper&&s.personsById[helper.personId],position=person&&personPosition(s,person);if(helper?.kind==='sr-construction'&&position&&polygonContains(position,spatialFootprint(future),.26))releaseConstructionHelper(s,o,helper);}if(!evacuate(s,future,o)){a.phase='blocked';a.reason=o.waitingReason||'等待目标占地人员安全撤离。';return;}}
  if(o.operation==='upgrade'&&polygonContains(s.master.scenic,spatialFootprint(future),.26)){const safe=spatialAccess(future);if(!s.master.scenic.path?.length)s.master.scenic.path=meterFindPath(s,s.master.scenic,safe,{maxSnap:0})||[];s.master.scenic.goal=safe;moveActor(s,s.master.scenic,.144);syncPosition(s,s.master);a.phase='blocked';a.reason='掌门沿门道撤离扩建范围，安全后切换占地。';s.master.action='walk';return;}
+ if(o.operation==='demolish'){
+  const remainingCapacity=s.buildings.reduce((n,b)=>n+(BUILDINGS[b.type].capacity||0)*b.level,0)-(BUILDINGS[source.type].capacity||0)*source.level;
+  if(remainingCapacity<(s.homeMemberIds?.length||0)){a.phase='blocked';a.reason='拆除后床位不足，请先安排其他居所。';o.waitingReason=a.reason;return;}
+ }
  const issue=o.operation==='demolish'?'':placementIssue(s,a.type,o.targetTransform.x,o.targetTransform.y,{ignoreId:source?.id,level:o.targetLevel,checkReservations:false});if(issue){a.phase='blocked';a.reason=issue;return;}
  if(o.operation==='build'){const b=layoutBuilding(s,{id:a.buildingId,instanceId:a.instanceId,type:a.type,x:a.x,y:a.y,transform:{...o.targetTransform},prefabId:prefabId(future),sceneId:SPATIAL_SCENE.id,level:1,progress:0,condition:100,enabled:true});s.buildings.push(b);s.stats.built++;}
  else if(o.operation==='demolish'){finalizeBuildingChange(s,source,'demolish');const refund={};for(const [k,v]of Object.entries(BUILDINGS[source.type].cost))refund[k]=Math.floor(v*.65);for(let n=1;n<source.level;n++)for(const[k,v]of Object.entries({jade:45*n,wood:30*n,stone:20*n}))refund[k]=(refund[k]||0)+Math.floor(v*.65);grant(s,refund);for(const p of s.disciples||[])if(p.job===source.id)p.job=null;s.buildings=s.buildings.filter(b=>b.id!==source.id);o.salvage=refund;}
