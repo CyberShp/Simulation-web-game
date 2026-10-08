@@ -67,7 +67,9 @@ test('normal two-sided market order reserves distinct public cargo and merchant 
  snapshot(h,'freight carried','public','food',[48,0,2]);
  snapshot(h,'buyer payment stays held','merchant','jade',[570,30,0]);
  h.act('marketOrder','artisan_tools','cancel-v2');
- snapshot(h,'cancelled cargo remains with master','personal','wood',[20,0,0]);
+ snapshot(h,'cancelled cargo remains public with its carrier','public','wood',[65,0,0]);
+ snapshot(h,'cancelled freight remains public with its carrier','public','food',[50,0,0]);
+ assert.equal(S.viewEconomy(h.s).inventorySummary.find(g=>g.id==='personal').amounts.wood.total,0,'public cargo never becomes private');
  snapshot(h,'cancelled payment returns to merchant','merchant','jade',[600,0,0]);
 });
 

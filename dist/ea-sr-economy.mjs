@@ -86,7 +86,7 @@ export function initEconomy(s){
   st.resources.insight=0;publicBudget.resources.insight+=amount;
   ledger(s,`fact:library-budget:${b.instanceId}:${s.srEconomy.nextId++}`,{operation:'library-study-budget',sourceStockpileId:st.id,targetStockpileId:publicBudget.id,resource:'insight',quantity:amount});
  }
- initPillInventory(s);if(s.crafting&&!s.activitiesById[s.master.activityId]?.kind?.startsWith('sr-'))resumeLegacyCraft(s);return s;
+ initPillInventory(s);upgradeMarketOrderAccessV2(s);if(s.crafting&&!s.activitiesById[s.master.activityId]?.kind?.startsWith('sr-'))resumeLegacyCraft(s);return s;
 }
 const HARVEST_BATCH={wood:12,stone:10,herb:10,food:16};
 function reservedHarvest(s,resource,exceptActivityId){return Object.values(s.activitiesById||{}).filter(a=>a.kind==='sr-harvest'&&a.resource===resource&&a.id!==exceptActivityId).reduce((n,a)=>n+(a.reservedQuantity||0),0);}
@@ -125,7 +125,7 @@ export function replenishPatch(s,resource){
 export function cancelReplenish(s){const a=s.activitiesById[s.master.activityId];if(a?.kind!=='sr-replenish')fail('没有进行中的来源恢复。');const r=s.reservationsById[a.reservationId],refund={};for(const[k,v]of Object.entries(r.cost)){refund[k]=v*(1-a.progressTicks/a.durationTicks);s.resources[k]+=refund[k];}delete s.reservationsById[a.reservationId];delete s.activitiesById[a.id];s.master.activityId=null;s.master.scenic.path=[];s.master.scenic.goal=null;ledger(s,`fact:replenish-cancel:${a.id}`,{operation:'replenish-cancel',resource:a.resource,refund,actorId:'person:master'});return {cancelled:true,refund};}
 function advanceReplenish(s){const a=s.activitiesById[s.master.activityId];if(a?.kind!=='sr-replenish')return;if(!atHome(s,s.master)||s.master.scenic?.spatialEvacuationOrderId||s.master.wound>20||s.master.energy<5){a.phase='paused';a.reason='本人外出、受伤或精力不足，保留恢复进度。';return;}if(!close(s,s.master.scenic,a.target)){const sc=s.master.scenic;if(sc.revision!==geometryRevision(s)||!sc.path.length){const path=scenicFindPath(s,sc,a.target);if(path===null){a.phase='blocked';a.reason='通路受阻，先疏通或取消。';return;}sc.path=path;sc.goal={...a.target};sc.revision=geometryRevision(s);}advanceScenic(sc,4.6,s);syncScenicPosition(s,s.master);a.phase='moving';return;}a.phase='working';a.reason='已到现场恢复有限来源。';a.progressTicks++;s.master.energy=Math.max(0,s.master.energy-.02);if(a.progressTicks<a.durationTicks)return;s.srEconomy.patches[a.resource].remaining=s.srEconomy.patches[a.resource].max;ledger(s,`fact:patch:${a.id}`,{operation:'replenish',resource:a.resource,cost:copy(s.reservationsById[a.reservationId].cost),actorId:'person:master',sourcePosition:copy(a.target)});delete s.reservationsById[a.reservationId];delete s.activitiesById[a.id];s.master.activityId=null;s.master.action='rest';}
 export function startTransport(s,sourceId,targetId,carrierId='person:master',cargo={},authorization=null){
- initEconomy(s);const source=stock(s,sourceId),target=stock(s,targetId),p=s.personsById[carrierId];if(orderV2ReserveLocked(s,sourceId)||orderV2ReserveLocked(s,targetId))fail('此货位已由商单预留，须先履约或取消。');if(source.position?.sceneId!==target.position?.sceneId)fail('跨地点运输须通过真实旅程；不能在院中瞬间到远方取料。');if(source.position?.sceneId!=='scene:yunxiu-courtyard')fail('这里只能搬运当前院落物资。');if(!p||sourceId===targetId)fail('搬运人物或目的地无效。');if(!canUse(source,carrierId)||!canUse(target,carrierId))fail('无权取用或投放个人/商人物资。');
+ initEconomy(s);const source=stock(s,sourceId),target=stock(s,targetId),p=s.personsById[carrierId];if(orderV2ReserveLocked(s,sourceId)||orderV2ReserveLocked(s,targetId))fail('此货位已由商单预留，须先履约或取消。');if(position(s,source)?.sceneId!==position(s,target)?.sceneId)fail('跨地点运输须通过真实旅程；不能在院中瞬间到远方取料。');if(position(s,source)?.sceneId!=='scene:yunxiu-courtyard')fail('这里只能搬运当前院落物资。');if(!p||sourceId===targetId)fail('搬运人物或目的地无效。');if(!canUse(source,carrierId)||!canUse(target,carrierId))fail('无权取用或投放个人/商人物资。');
  const pairs=Object.entries(cargo);if(!pairs.length||!pairs.every(([k,v])=>physicalTransportKey(k)&&Number.isFinite(v)&&v>0&&(!pillId(k)||Number.isSafeInteger(v)))||pairs.reduce((n,[,v])=>n+v,0)>40)fail('每次搬运1至40份实际物资；道韵作为研习预算留在账本。');
  const npcPrivateTransfer=source.ownerId!==target.ownerId&&[source,target].some(st=>st.access==='private'&&st.ownerId!=='person:master');
  const npcMedicinePickup=authorization===autonomousPillPickup&&p!==s.master&&source.access==='public'&&target.access==='private'&&target.ownerId===carrierId&&target.carrierId===carrierId&&target.id===`stockpile:carried:${carrierId.slice(7)}`&&pairs.length===1&&pillId(pairs[0][0])&&pairs[0][1]===1&&usablePillStocks(s,carrierId,pillId(pairs[0][0]),{near:false}).some(st=>st.id===sourceId);
@@ -175,7 +175,17 @@ const ORDER_V2_PAYMENT='stockpile:market-order:artisan_tools:payment';
 const ORDER_V2_CARGO='stockpile:market-order:artisan_tools:cargo';
 const ORDER_V2_FREIGHT='stockpile:market-order:artisan_tools:freight';
 const ORDER_V2_RESERVATION='reservation:market-order:v2:artisan_tools';
-const ORDER_V2_STOCK_LABELS={[ORDER_V2_CARGO]:'百工用材 · 卖方货物',[ORDER_V2_PAYMENT]:'百工用材 · 商人付款',[ORDER_V2_FREIGHT]:'百工用材 · 承运口粮'};
+const ORDER_V2_ACCESS='source-access:v1';
+const ORDER_V2_STOCK_LABELS={[ORDER_V2_CARGO]:'百工用材 · 公用随行货位',[ORDER_V2_PAYMENT]:'百工用材 · 商人付款',[ORDER_V2_FREIGHT]:'百工用材 · 承运口粮'};
+// SR-XF-011 / R-16: restore the source warehouse's access for earlier active v2 reserves.
+function upgradeMarketOrderAccessV2(s){
+ const o=s.srEconomy.orders?.[ORDER_V2_ID];
+ if(o?.version!==ORDER_V2||o.accessVersion||['completed','declined'].includes(o.phase)||o.phase==='cancelled'&&s.factsById[`fact:order-v2:recover:${o.id}`])return;
+ const source=s.stockpilesById[o.sourceStockpileId],freightSource=s.stockpilesById[o.quote?.deliveryCostStockpileId],cargo=s.stockpilesById[o.cargoStockpileId],freight=s.stockpilesById[o.freightStockpileId];
+ if(!source||!freightSource||!cargo||!freight||source.ownerId!==cargo.ownerId||freightSource.ownerId!==freight.ownerId||source.access!=='public'||freightSource.access!=='public'||!['private','public'].includes(cargo.access)||!['private','public'].includes(freight.access))return;
+ cargo.access=source.access;freight.access=freightSource.access;o.accessVersion=ORDER_V2_ACCESS;
+ ledger(s,`fact:order-v2:access-migration:${o.id}`,{operation:'order-access-migration',orderId:o.id,sourceStockpileIds:[source.id,freightSource.id],cargoStockpileIds:[cargo.id,freight.id],quantities:{cargo:copy(cargo.resources),freight:copy(freight.resources)}});
+}
 function orderV2ReserveLocked(s,id){const o=s.srEconomy?.orders?.[ORDER_V2_ID];return o?.version===ORDER_V2&&!['completed','cancelled','declined'].includes(o.phase)&&[o.cargoStockpileId,o.paymentStockpileId,o.freightStockpileId].includes(id);}
 const localFeet=(s,p)=>{const feet=personFeet(s,p);return {sceneId:personScene(s,p),x:feet.x,y:feet.y};};
 function marketOrderQuoteV2(s,id,options={}){
@@ -236,12 +246,12 @@ function marketOrderV2(s,id,choice,options){
   if(Object.values(quote.cargo).reduce((n,v)=>n+v,0)>40)fail('承运货物超过本趟四十份。');
   for(const[k,v]of Object.entries(quote.cargo))source.resources[k]-=v;
   freightSource.resources.food-=quote.foodCost;buyer.resources.jade-=quote.payment.jade;
-  const cargo=orderV2Stockpile(s,ORDER_V2_CARGO,quote.sellerId,quote.sellerId,'private',40,position(s,source));
+  const cargo=orderV2Stockpile(s,ORDER_V2_CARGO,quote.sellerId,quote.sellerId,source.access,40,position(s,source));
   const payment=orderV2Stockpile(s,ORDER_V2_PAYMENT,quote.buyerId,quote.buyerId,'merchant',quote.payment.jade,position(s,buyer));
-  const freight=orderV2Stockpile(s,ORDER_V2_FREIGHT,quote.sellerId,quote.sellerId,'private',quote.foodCost,position(s,freightSource));
+  const freight=orderV2Stockpile(s,ORDER_V2_FREIGHT,quote.sellerId,quote.sellerId,freightSource.access,quote.foodCost,position(s,freightSource));
   for(const[k,v]of Object.entries(quote.cargo))cargo.resources[k]=v;
   payment.resources.jade=quote.payment.jade;freight.resources.food=quote.foodCost;
-  const o={id,version:ORDER_V2,phase:'accepted',quote,sourceStockpileId:source.id,targetStockpileId:buyer.id,cargoStockpileId:cargo.id,paymentStockpileId:payment.id,freightStockpileId:freight.id,carrierId:quote.carrierId,acceptedTick:s.worldTick,chargedSegments:0,routeTravelTicks:[],travelId:null};
+  const o={id,version:ORDER_V2,phase:'accepted',quote,sourceStockpileId:source.id,targetStockpileId:buyer.id,cargoStockpileId:cargo.id,paymentStockpileId:payment.id,freightStockpileId:freight.id,carrierId:quote.carrierId,accessVersion:ORDER_V2_ACCESS,acceptedTick:s.worldTick,chargedSegments:0,routeTravelTicks:[],travelId:null};
   s.srEconomy.orders[id]=o;s.reservationsById[ORDER_V2_RESERVATION]={id:ORDER_V2_RESERVATION,kind:'sr-market-order-v2',orderId:id,cargoStockpileId:cargo.id,paymentStockpileId:payment.id,freightStockpileId:freight.id};
   ledger(s,`fact:order-v2:accept:${id}`,{operation:'order-reserve',orderId:id,cargo:copy(quote.cargo),payment:copy(quote.payment),food:quote.foodCost,sourceStockpileId:source.id,paymentSourceStockpileId:buyer.id,freightSourceStockpileId:freightSource.id});
   return copy(o);
@@ -250,13 +260,15 @@ function marketOrderV2(s,id,choice,options){
  const o=prior;
  if(choice==='recover-v2'){
   if(o.phase!=='cancelled'||!o.cancelledAfterPickup||s.master.location?.kind!=='local')fail('须在取消后到承运货物所在地点取回。');
-  const cargo=stock(s,o.cargoStockpileId),freight=stock(s,o.freightStockpileId),party=stock(s,s.master.location.sceneId==='scene:yunxiu-courtyard'?carriedStockpile(s,'person:master'):'stockpile:sr-party'),at=position(s,cargo);
-  if(cargo.carrierId!==o.carrierId||freight.carrierId!==o.carrierId||at.sceneId!==s.master.location.sceneId||position(s,freight).sceneId!==at.sceneId||position(s,party).sceneId!==at.sceneId||scenicDistance(personFeet(s,s.master),position(s,party))>1.5)fail('承运货物与本人行囊不在同一地点。');
+  const cargo=stock(s,o.cargoStockpileId),freight=stock(s,o.freightStockpileId),at=position(s,cargo);
+  if(s.factsById[`fact:order-v2:recover:${id}`])fail('此订单货物已取回。');
+  if(cargo.carrierId!==o.carrierId||freight.carrierId!==o.carrierId||cargo.access!=='public'||freight.access!=='public'||at.sceneId!==s.master.location.sceneId||position(s,freight).sceneId!==at.sceneId||scenicDistance(personFeet(s,s.master),at)>1.5)fail('承运公物与本人不在同一实际地点。');
   const goods=Object.fromEntries(Object.keys(o.quote.cargo).map(k=>[k,cargo.resources[k]])),food=freight.resources.food,quantity=Object.values(goods).reduce((n,v)=>n+v,0)+food;
-  if(quantity<=0)fail('此订单货物已取回。');if(total(party)+quantity>party.capacity)fail('本人行囊容量不足，保留原位货物。');
-  for(const[k,v]of Object.entries(goods)){cargo.resources[k]=0;party.resources[k]+=v;}freight.resources.food=0;party.resources.food+=food;
-  ledger(s,`fact:order-v2:recover:${id}`,{operation:'order-v2-recover',orderId:id,carrierId:o.carrierId,sourceStockpileIds:[cargo.id,freight.id],targetStockpileId:party.id,cargo:goods,food});
-  return {recovered:true,targetStockpileId:party.id,cargo:goods,food};
+  if(quantity<=0)fail('此订单货物已取回。');if(total(cargo)+food>cargo.capacity)fail('公用随行货位容量不足，保留原位物资。');
+  // The public cargo holding follows its named carrier after the order closes.
+  freight.resources.food=0;cargo.resources.food+=food;
+  ledger(s,`fact:order-v2:recover:${id}`,{operation:'order-v2-recover',orderId:id,carrierId:o.carrierId,sourceStockpileIds:[cargo.id,freight.id],targetStockpileId:cargo.id,cargo:goods,food});
+  return {recovered:true,targetStockpileId:cargo.id,cargo:goods,food};
  }
  if(['completed','declined','cancelled'].includes(o.phase))fail('此订单已经结束。');
  orderV2Sync(s,o);
@@ -289,10 +301,11 @@ function marketOrderV2(s,id,choice,options){
  if(choice==='deliver-v2'){
   if(o.phase!=='delivered'||s.master.location?.sceneId!=='scene:market'||!merchantPresent(s)||s.personsById[o.quote.buyerId].lifeStatus==='dead')fail('双方须在青溪坊市同场验货。');
   if(s.worldTick<o.quote.earliestDeliverTick)fail('尚未到约定最早交付时刻。');
-  const cargo=stock(s,o.cargoStockpileId),payment=stock(s,o.paymentStockpileId),freight=stock(s,o.freightStockpileId),buyer=stock(s,o.targetStockpileId),seller=stock(s,'stockpile:sr-party');
+  // The vacated public cargo holding receives payment at the actual market position.
+  const cargo=stock(s,o.cargoStockpileId),payment=stock(s,o.paymentStockpileId),freight=stock(s,o.freightStockpileId),buyer=stock(s,o.targetStockpileId),seller=cargo;
   if(Object.entries(o.quote.cargo).some(([k,v])=>cargo.resources[k]!==v)||payment.resources.jade!==o.quote.payment.jade)fail('货物或付款预留不完整。');
   const cargoCount=Object.values(o.quote.cargo).reduce((n,v)=>n+v,0),refund=freight.resources.food;
-  if(total(buyer)+cargoCount>buyer.capacity||total(seller)+o.quote.payment.jade+refund>seller.capacity)fail('收货或收款货位容量不足。');
+  if(total(buyer)+cargoCount>buyer.capacity||total(seller)-cargoCount+o.quote.payment.jade+refund>seller.capacity)fail('收货或收款货位容量不足。');
   for(const[k,v]of Object.entries(o.quote.cargo)){cargo.resources[k]=0;buyer.resources[k]+=v;s.srEconomy.resaleInventory[k]+=v;}
   payment.resources.jade=0;seller.resources.jade+=o.quote.payment.jade;freight.resources.food=0;seller.resources.food+=refund;s.sect.reputation+=o.quote.reputation;
   o.phase='completed';o.completedTick=s.worldTick;o.freightRefundStockpileId=seller.id;o.resultTransactionId=`fact:order-v2:complete:${id}`;delete s.reservationsById[ORDER_V2_RESERVATION];
@@ -394,10 +407,11 @@ function marketOrderPreviewV2(s,id){if(id!==ORDER_V2_ID)return null;const prior=
 export function viewEconomy(s){if(!s.srEconomy)return {enabled:false};return {enabled:true,inventorySummary:viewInventorySummary(s),constructionMaterials:viewConstructionMaterials(s),definition:ECONOMY_DEFINITION,pillAccess:Object.entries(RECIPES).map(([id,r])=>({recipeId:id,name:r.name,available:availablePills(s,'person:master',id),total:s.pills[id],reason:availablePills(s,'person:master',id)>0?'本人身边有合法可达药物。':'须实际取药或携到当前地点。'})),craft:Object.values(s.workOrdersById).find(w=>w.kind==='sr-crafting'&&w.phase==='active')?copy(Object.values(s.workOrdersById).find(w=>w.kind==='sr-crafting'&&w.phase==='active')):null,craftRecipes:Object.entries(RECIPES).map(([id,r])=>({id,name:r.name,...craftAvailabilitySR(s,id)})),giftRecipients:Object.values(s.stockpilesById).filter(st=>st.access==='private'&&st.ownerId!=='person:master'&&s.personsById[st.ownerId]&&s.personsById[st.ownerId].lifeStatus!=='dead'&&position(s,st)?.sceneId===personScene(s,s.master)&&(s.homeMemberIds.includes(st.ownerId)||s.personsById[st.ownerId].visibility!=='author-private')).map(st=>({stockpileId:st.id,personId:st.ownerId,name:s.personsById[st.ownerId].name,position:copy(position(s,st))})),stockpiles:Object.values(s.stockpilesById).filter(st=>st.access!=='private'||st.ownerId==='person:master').map(st=>({id:st.id,label:st.label||ORDER_V2_STOCK_LABELS[st.id]||(st.buildingId?BUILDINGS[s.buildingsById[st.buildingId]?.type]?.name||st.id:st.id),orderReserved:orderV2ReserveLocked(s,st.id),resources:copy(st.resources),pills:copy(st.pills||pillZeros()),ownerId:st.legalOwnerId||st.ownerId,access:st.access,capacity:st.capacity,position:copy(position(s,st))})),merchantCollections:Object.values(s.workOrdersById).filter(w=>w.kind==='sr-merchant-collection').map(copy),transports:Object.values(s.workOrdersById).filter(w=>w.kind==='transport').map(copy),patches:copy(s.srEconomy.patches),market:{goods:copy(GOODS),wholesale:{definition:WHOLESALE_DEFINITION,lastKnownPayments:s.srEconomy.wholesale.spentLifetime,rule:'只在商人实际回到坊市后，以已收购材料/器物向有限客户交付取得付款；无货不补本金。'},orders:Object.entries(ORDER_DEFINITIONS).map(([id,d])=>({id,...copy(d),state:copy(s.srEconomy.orders[id]||{phase:'available'}),quoteV2:marketOrderPreviewV2(s,id)})),routeOpen:marketRouteOpen(s),merchantPresent:merchantPresent(s),arrivalTick:s.srEconomy.merchantArrivalTick,departureTick:s.srEconomy.merchantVisitEndsTick},ledger:Object.values(s.factsById).filter(f=>f.kind==='inventory-transaction').slice(-20).map(copy)};}
 function validateMarketOrderV2(s,id,o){
  const q=o.quote,active=!['completed','cancelled','declined'].includes(o.phase);
- if(id!==ORDER_V2_ID||o.id!==id||q?.version!==ORDER_V2||q.orderId!==id||q.sellerId!=='person:master'||q.buyerId!=='person:merchant-qingxi'||JSON.stringify(q.cargo)!==JSON.stringify(ORDER_DEFINITIONS[id].cost)||q.payment?.jade!==30||q.reputation!==2||q.foodCost!==2||JSON.stringify(q.routeIds)!==JSON.stringify(['route:home-valley','route:valley-market'])||!['accepted','in_transit','blocked','delivered','completed','declined','cancelled'].includes(o.phase))fail('跨场景商单报价或阶段异常。');
+ if(id!==ORDER_V2_ID||o.id!==id||q?.version!==ORDER_V2||q.priceVersion!=='artisan-tools:home-market:v1'||q.orderId!==id||q.sellerId!=='person:master'||q.buyerId!=='person:merchant-qingxi'||q.carrierId!=='person:master'||q.sourceStockpileId!==ORDER_V2_SOURCE||q.deliveryCostStockpileId!==ORDER_V2_SOURCE||q.targetStockpileId!==ORDER_V2_DESTINATION||JSON.stringify(q.cargo)!==JSON.stringify(ORDER_DEFINITIONS[id].cost)||q.payment?.jade!==30||q.reputation!==2||q.foodCost!==2||JSON.stringify(q.routeIds)!==JSON.stringify(['route:home-valley','route:valley-market'])||!Array.isArray(q.routeFoodBySegment)||q.routeFoodBySegment.length!==2||q.routeFoodBySegment.some(v=>!Number.isSafeInteger(v)||v<0)||q.routeFoodBySegment.reduce((n,v)=>n+v,0)!==q.foodCost||!['accepted','in_transit','blocked','delivered','completed','declined','cancelled'].includes(o.phase))fail('跨场景商单报价或阶段异常。');
  if(o.phase==='declined'){if(s.reservationsById[ORDER_V2_RESERVATION]||s.stockpilesById[ORDER_V2_CARGO]||s.stockpilesById[ORDER_V2_PAYMENT]||s.stockpilesById[ORDER_V2_FREIGHT])fail('拒单后不能存在预留货位。');return;}
+ if(o.sourceStockpileId!==q.sourceStockpileId||o.targetStockpileId!==q.targetStockpileId||o.carrierId!==q.carrierId||o.cargoStockpileId!==ORDER_V2_CARGO||o.paymentStockpileId!==ORDER_V2_PAYMENT||o.freightStockpileId!==ORDER_V2_FREIGHT)fail('订单来源、目的地或承运引用异常。');
  const cargo=s.stockpilesById[o.cargoStockpileId],payment=s.stockpilesById[o.paymentStockpileId],freight=s.stockpilesById[o.freightStockpileId];
- if(!cargo||!payment||!freight||cargo.id!==ORDER_V2_CARGO||payment.id!==ORDER_V2_PAYMENT||freight.id!==ORDER_V2_FREIGHT||cargo.ownerId!=='person:master'||freight.ownerId!=='person:master'||payment.ownerId!=='person:merchant-qingxi'||cargo.custodianId!=='person:master'||freight.custodianId!=='person:master'||payment.custodianId!=='person:merchant-qingxi')fail('订单三处货位产权或保管人异常。');
+ if(!cargo||!payment||!freight||o.accessVersion&&o.accessVersion!==ORDER_V2_ACCESS||o.accessVersion&&(cargo.access!==s.stockpilesById[o.sourceStockpileId]?.access||freight.access!==s.stockpilesById[o.quote.deliveryCostStockpileId]?.access)||cargo.id!==ORDER_V2_CARGO||payment.id!==ORDER_V2_PAYMENT||freight.id!==ORDER_V2_FREIGHT||cargo.ownerId!=='person:master'||freight.ownerId!=='person:master'||payment.ownerId!=='person:merchant-qingxi'||cargo.custodianId!=='person:master'||freight.custodianId!=='person:master'||payment.custodianId!=='person:merchant-qingxi')fail('订单三处货位产权或保管人异常。');
  if(active?!s.reservationsById[ORDER_V2_RESERVATION]:!!s.reservationsById[ORDER_V2_RESERVATION])fail('订单预约关联异常。');
  if(!Number.isSafeInteger(o.chargedSegments)||o.chargedSegments<0||o.chargedSegments>2||!Array.isArray(o.routeTravelTicks)||o.travelId&&!s.travelsById[o.travelId]||o.travelId&&s.travelsById[o.travelId].participantIds?.[0]!==o.carrierId||o.travelId&&!s.travelsById[o.travelId].returning&&JSON.stringify(s.travelsById[o.travelId].routeIds)!==JSON.stringify(q.routeIds))fail('订单旅程或分段进度异常。');
  for(let i=0;i<o.chargedSegments;i++)if(!s.factsById[`fact:order-v2:route:${id}:${i+1}`])fail('已走路段口粮事实缺失。');
