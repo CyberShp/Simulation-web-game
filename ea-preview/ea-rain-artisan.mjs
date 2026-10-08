@@ -1,9 +1,9 @@
 /** Author card: docs/design/content/rain-artisan-v1.2.json. No runtime AI. */
-import {canPay,pay,grant,log} from './ea-data.mjs?v=ea-160-courtyard-20261008-r29';
-import {buildingAccess,scenicFindPath,scenicDistance,scenicSweep,geometryRevision} from './ea-scene-geometry.mjs?v=ea-160-courtyard-20261008-r29';
-import {areaPoint,advanceScenic,validateScenic} from './ea-scenic.mjs?v=ea-160-courtyard-20261008-r29';
-import {prepareFacilityActivity,releaseBodyActivity} from './ea-facility-activities.mjs?v=ea-160-courtyard-20261008-r29';
-import {sceneUnits,spatialEnabled} from './ea-sr-spatial.mjs?v=ea-160-courtyard-20261008-r29';
+import {canPay,pay,grant,log} from './ea-data.mjs?v=ea-160-courtyard-20261008-r30';
+import {buildingAccess,scenicFindPath,scenicDistance,scenicSweep,geometryRevision} from './ea-scene-geometry.mjs?v=ea-160-courtyard-20261008-r30';
+import {areaPoint,advanceScenic,validateScenic} from './ea-scenic.mjs?v=ea-160-courtyard-20261008-r30';
+import {prepareFacilityActivity,releaseBodyActivity} from './ea-facility-activities.mjs?v=ea-160-courtyard-20261008-r30';
+import {sceneUnits,spatialEnabled} from './ea-sr-spatial.mjs?v=ea-160-courtyard-20261008-r30';
 const gatePoint=s=>spatialEnabled(s)?{x:32,y:56}:areaPoint('gate');
 const PERSON_ID='person:cheng-wenzhou',ORDER_ID='work:rain-artisan:care',MEDICINE_ID='reservation:rain-artisan:medicine';
 export function initRainArtisan(s,addPerson){

@@ -1,14 +1,14 @@
-import {AUTONOMY_V2,npcScheduleDecision} from './ea-sr-persons.mjs?v=ea-160-courtyard-20261008-r29';
-import {hallInteriorEnabled} from './ea-hall-interior.mjs?v=ea-160-courtyard-20261008-r29';
-import {prepareFacilityActivity,releaseBodyActivity,contributeProduction} from './ea-facility-activities.mjs?v=ea-160-courtyard-20261008-r29';
-import {sceneUnits} from './ea-sr-spatial.mjs?v=ea-160-courtyard-20261008-r29';
-import {consumeHarvest,availablePills,ownAvailablePills,preparePillUse,consumeAccessiblePill} from './ea-sr-economy.mjs?v=ea-160-courtyard-20261008-r29';
+import {AUTONOMY_V2,npcScheduleDecision} from './ea-sr-persons.mjs?v=ea-160-courtyard-20261008-r30';
+import {hallInteriorEnabled} from './ea-hall-interior.mjs?v=ea-160-courtyard-20261008-r30';
+import {prepareFacilityActivity,releaseBodyActivity,contributeProduction} from './ea-facility-activities.mjs?v=ea-160-courtyard-20261008-r30';
+import {sceneUnits} from './ea-sr-spatial.mjs?v=ea-160-courtyard-20261008-r30';
+import {consumeHarvest,availablePills,ownAvailablePills,preparePillUse,consumeAccessiblePill} from './ea-sr-economy.mjs?v=ea-160-courtyard-20261008-r30';
 import {BUILDINGS, TECHNIQUES, RECIPES, ROUTES, CELLS, RESOURCES, TRAIT_NAMES,
-  rng, day, log, pay, canPay, grant, capacity, xpNeed, clamp} from './ea-data.mjs?v=ea-160-courtyard-20261008-r29';
+  rng, day, log, pay, canPay, grant, capacity, xpNeed, clamp} from './ea-data.mjs?v=ea-160-courtyard-20261008-r30';
 
-import {routeDiscovered} from './ea-scene-state.mjs?v=ea-160-courtyard-20261008-r29';
-import {lifeFacility,lifeActivityLock,lifePath,lifeScenePath,actorScenePosition,personLifeSummary,workOpportunity,teachingPresent} from './ea-life.mjs?v=ea-160-courtyard-20261008-r29';
-import {advanceScenic,repairScenicActor,validateScenic,SCENE_GEOMETRY,buildingAccess,scenicDistance,geometryRevision,syncScenicPosition} from './ea-scenic.mjs?v=ea-160-courtyard-20261008-r29';
+import {routeDiscovered} from './ea-scene-state.mjs?v=ea-160-courtyard-20261008-r30';
+import {lifeFacility,lifeActivityLock,lifePath,lifeScenePath,actorScenePosition,personLifeSummary,workOpportunity,teachingPresent} from './ea-life.mjs?v=ea-160-courtyard-20261008-r30';
+import {advanceScenic,repairScenicActor,validateScenic,SCENE_GEOMETRY,buildingAccess,scenicDistance,geometryRevision,syncScenicPosition} from './ea-scenic.mjs?v=ea-160-courtyard-20261008-r30';
 
 /** Society owns every NPC action. The main loop owns time, meals, upkeep and the master's actions. */
 export const SOCIETY_ROLES = {

@@ -1,9 +1,9 @@
 /** SR-XF-012/018/033. One item location, one body activity, worldTick only. */
-import {canPay,pay,grant,RESOURCES} from './ea-data.mjs?v=ea-160-courtyard-20261008-r29';
-import {buildingAccess,scenicFindPath,scenicNearest,geometryRevision,scenicDistance} from './ea-scene-geometry.mjs?v=ea-160-courtyard-20261008-r29';
-import {advanceScenic,syncScenicPosition} from './ea-scenic.mjs?v=ea-160-courtyard-20261008-r29';
-import {sceneUnits} from './ea-sr-spatial.mjs?v=ea-160-courtyard-20261008-r29';
-import {facilitySlots,slotReservation,slotById} from './ea-facility-slots.mjs?v=ea-160-courtyard-20261008-r29';
+import {canPay,pay,grant,RESOURCES} from './ea-data.mjs?v=ea-160-courtyard-20261008-r30';
+import {buildingAccess,scenicFindPath,scenicNearest,geometryRevision,scenicDistance} from './ea-scene-geometry.mjs?v=ea-160-courtyard-20261008-r30';
+import {advanceScenic,syncScenicPosition} from './ea-scenic.mjs?v=ea-160-courtyard-20261008-r30';
+import {sceneUnits} from './ea-sr-spatial.mjs?v=ea-160-courtyard-20261008-r30';
+import {facilitySlots,slotReservation,slotById} from './ea-facility-slots.mjs?v=ea-160-courtyard-20261008-r30';
 
 let hooks={};
 export function configureEquipment(next={}){hooks={...hooks,...next};}

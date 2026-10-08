@@ -10,4 +10,4 @@ function failed(message){
  box.append(heading,detail,button,note);root.replaceChildren(box);
 }
 const timer=setTimeout(()=>{if(!finished&&document.querySelector('#game>.boot-screen'))failed('游戏内容加载较慢，请检查网络后重试。');},20000);
-import('./ea-game.mjs?v=ea-160-courtyard-20261008-r29').then(()=>{finished=true;clearTimeout(timer);}).catch(error=>{finished=true;clearTimeout(timer);console.error('仙府启动失败',error);failed('游戏内容未能载入：'+(error?.message||'请重新加载。'));});
+import('./ea-game.mjs?v=ea-160-courtyard-20261008-r30').then(()=>{finished=true;clearTimeout(timer);}).catch(error=>{finished=true;clearTimeout(timer);console.error('仙府启动失败',error);failed('游戏内容未能载入：'+(error?.message||'请重新加载。'));});
