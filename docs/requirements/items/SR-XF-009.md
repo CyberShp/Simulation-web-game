@@ -26,7 +26,7 @@
 
 已有药田生产、材料预留和多人共享批次。 U-98本轮暂缓院内铺路，既有通行与山外交通保留。 U-99整格营造与0.5米导航分离，旧档按明确单位格版本映射。
 
-D01/D02 配方与旧活跃工单迁移契约已独立复核；四类版本快照、药田播种成熟及完整新档解锁链仍待实现和验收。
+D01/D02 配方契约已复核；r19 局部实现药田播种、成熟、积水暂停、有限收获与旧活跃药田批次兼容。其他版本化配方、完整新档解锁链和目标设备验收仍待。
 
 现状是适用旧能力的基线，不表示该SR完整目标已通过。
 
@@ -81,7 +81,7 @@ SR-XF-009-D01证据：docs/requirements/design/SR-XF-007-011-019-026-027.md; 202
 
 SR-XF-009-D02证据：docs/requirements/design/SR-XF-007-011-019-026-027.md; independent D02 review PASS after three blocking corrections, 2026-10-08
 
-SR-XF-009-I01证据：dist/ea-sr-economy.mjs；dist/ea-sr-persons.mjs；tests/ea-activity-truth.test.mjs；qa/ea-sr-economy-acceptance.mjs；D01/D02 recipe and migration contract ready; v2 crop/recipe snapshot runtime still pending
+SR-XF-009-I01证据：dist/ea-sr-economy.mjs；dist/ea-sr-persons.mjs；tests/ea-activity-truth.test.mjs；qa/ea-sr-economy-acceptance.mjs；2026-10-08 r19: qa/ea-sr-009-herb-crop-public-acceptance.mjs 5/5; adjacent production 5/5, facility and door 17/17, opt-in v2 work route 1/1; local Chromium memory import showed crop status and cancellation; source c9be1d476311a558e7a37a4e0305e5086b71a369, Pages 15ec91db21b8f4b37f30accdd5ac643e024a160d built
 
 SR-XF-009-V01证据：dist/ea-sr-economy.mjs；dist/ea-sr-persons.mjs；tests/ea-activity-truth.test.mjs；qa/ea-sr-economy-acceptance.mjs；qa/ea-sr-integration-acceptance.mjs；docs/design/STATUS.md
 
@@ -132,5 +132,6 @@ SR-XF-009-V01证据：dist/ea-sr-economy.mjs；dist/ea-sr-persons.mjs；tests/ea
 - 2026-10-08：2026-10-08 M2 两人一批验收：正常百工坊公开来源档续实物木3石2搬入、两人自愿到双工位；第1批贡献110/90，唯一生产事实、一次木石成本、买方实付20.220271868159998、现场入账19.420271868159997、两人总工资0.8及各按贡献技能增长同一结果。修复成功结算后缺少个人记忆，每人记一条以事实ID关联的持久公开记忆，失败试算/重载后30步无重复。根 Agent 复跑定向1/1及经济52/52，按原文 AC02 passed。证据为 Node 公开命令链，浏览器/真机、AC03与整项门槛未关闭。
 - 2026-10-08：独立复核取消加工和其他订单预留竞争两条有来源公开命令链各1/1，余料、占用、重复取消和恢复活动守恒，按原文将 SR009-AC03 记 passed；整项设计/验收仍未收口。
 - 2026-10-08：SR009 D01 配方、种苗成熟、旧四类工单快照及新档解锁经独立 D02 初审三项退回、修订复审通过；仅设计 ready，I01 完整实现和 V/R 未完成。
+- 2026-10-08：r19 implements seeded herb crop batches and exact old-active-batch compatibility; other versioned recipes, full early-game unlock and target-device acceptance remain open
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。
