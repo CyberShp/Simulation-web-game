@@ -1,5 +1,5 @@
-import * as world from './world.mjs?v=ea-160-courtyard-20261008-r26';
-export * from './world.mjs?v=ea-160-courtyard-20261008-r26';
+import * as world from './world.mjs?v=ea-160-courtyard-20261008-r27';
+export * from './world.mjs?v=ea-160-courtyard-20261008-r27';
 export const GOODS={wood:{name:'灵木',buy:18,sell:7},stone:{name:'青石',buy:22,sell:9},herb:{name:'灵草',buy:25,sell:10}};
 const orders=[
  [{id:'timber',name:'修缮山道',text:'山下村民求购灵木，修复入山栈道。',cost:{wood:25},reward:{jade:30,insight:2},rep:4},{id:'herbs',name:'悬壶济世',text:'行脚医师需要凝露草，救治山中病患。',cost:{herb:18},reward:{jade:35},rep:5},{id:'pill',name:'同道求丹',text:'云游散修求一枚聚气丹，愿以道韵相酬。',pill:'qi',reward:{jade:35,insight:5},rep:8}],
