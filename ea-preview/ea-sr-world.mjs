@@ -1,11 +1,11 @@
-import {markAftermathKnowledge} from './ea-sr-aftermath.mjs?v=ea-160-courtyard-20261008-r34';
-import {knowledgeView,knownFactForObserver,stampInitialClaimReceipts} from './ea-sr-contracts.mjs?v=ea-160-courtyard-20261008-r34';
+import {markAftermathKnowledge} from './ea-sr-aftermath.mjs?v=ea-160-courtyard-20261008-r35';
+import {knowledgeView,knownFactForObserver,stampInitialClaimReceipts} from './ea-sr-contracts.mjs?v=ea-160-courtyard-20261008-r35';
 /** SR-XF-015/016/017/020/021. Facts are authoritative; views contain acquired knowledge only. */
-import {pay,grant,log,RESOURCES} from './ea-data.mjs?v=ea-160-courtyard-20261008-r34';
-import {GEOGRAPHY_SCENES,GEOGRAPHY_ROUTES,GEOGRAPHY_REGIONS,initGeographySR,startGeographySR,finishGeographySR,tickGeographySR,viewGeographySR,validateGeographySR} from './ea-sr-world-geography.mjs?v=ea-160-courtyard-20261008-r34';
-import {TELEPORT_ROUTES,initTransportSR,transportRouteUsableSR,transportModePlanSR,ticketPlanSR,reserveJourneyTicketsSR,releaseJourneyTicketsSR,tickTransportSR,startTransportCapabilitySR,finishTransportCapabilitySR,useTravelModeSR,viewTransportSR,validateTransportSR} from './ea-sr-world-transport.mjs?v=ea-160-courtyard-20261008-r34';
-import {HIGH_REALM_PATHS} from './ea-sr-cultivation.mjs?v=ea-160-courtyard-20261008-r34';
-import {initWorldContentSR,tickWorldContentSR,startWorldContentSR,finishWorldContentSR,cancelWorldContentSR,viewWorldContentSR,validateWorldContentSR,worldContentDiagnosticsSR} from './ea-sr-world-content.mjs?v=ea-160-courtyard-20261008-r34';
+import {pay,grant,log,RESOURCES} from './ea-data.mjs?v=ea-160-courtyard-20261008-r35';
+import {GEOGRAPHY_SCENES,GEOGRAPHY_ROUTES,GEOGRAPHY_REGIONS,initGeographySR,startGeographySR,finishGeographySR,tickGeographySR,viewGeographySR,validateGeographySR} from './ea-sr-world-geography.mjs?v=ea-160-courtyard-20261008-r35';
+import {TELEPORT_ROUTES,initTransportSR,transportRouteUsableSR,transportModePlanSR,ticketPlanSR,reserveJourneyTicketsSR,releaseJourneyTicketsSR,tickTransportSR,startTransportCapabilitySR,finishTransportCapabilitySR,useTravelModeSR,viewTransportSR,validateTransportSR} from './ea-sr-world-transport.mjs?v=ea-160-courtyard-20261008-r35';
+import {HIGH_REALM_PATHS} from './ea-sr-cultivation.mjs?v=ea-160-courtyard-20261008-r35';
+import {initWorldContentSR,tickWorldContentSR,startWorldContentSR,finishWorldContentSR,cancelWorldContentSR,viewWorldContentSR,validateWorldContentSR,worldContentDiagnosticsSR} from './ea-sr-world-content.mjs?v=ea-160-courtyard-20261008-r35';
 const HOME='scene:yunxiu-courtyard', MASTER='person:master';
 const obj=(id,name,kind,x,y,width=4,height=3,choices=['inspect'])=>({id,name,kind,x,y,width,height,interactionRadius:2.4,choices:choices.map(action=>({action,label:({inspect:'查验',talk:'交谈',repair:'修复',gather:'采集',trade:'合作采购',open:'解除阵眼',memorial:'祭扫',studyMap:'研读洲图并登记有偿航路',cooperate:'按当地约章合作',adapt:'研习异界灵息',ransom:'赎救知情者（50灵石、8草药、6口粮）',settle:'安顿运粮人并截断补给（20口粮、12木）',neutral:'争取坊市护送者中立（15灵石、4口粮）',collectEstate:'收取石室遗产（需已收束，行囊容纳72份）'})[action]||action}))});
 export const WORLD_SCENES=Object.freeze({
@@ -89,7 +89,7 @@ export function makeWorldPerson(s,id,name,sceneId,realm=6,addDisciple){
  if(s.personsById[id])return s.personsById[id];
  let p;
  if(addDisciple){const oldIds=s.homeMemberIds.slice(),oldLogs=s.logs.slice();p=addDisciple(s,{name,root:'土灵根',portrait:2,talent:1.05,goal:'守住生计',traits:[65,64,52,62,60]});delete s.personsById[p.personId];s.homeMemberIds=oldIds;s.logs=oldLogs;p.personId=id;s.personsById[id]=p;}
- else {const model=Object.values(s.personsById).find(p=>p.mind);if(!model)throw Error('世界人物初始化缺少共同人物工厂');p=clone(model);p.id=s.society.nextPersonId++;p.personId=id;p.name=name;p.job=null;p.mind.memories=[];p.mind.away=null;p.mind.learning=null;s.personsById[id]=p;}
+ else {const model=Object.values(s.personsById).find(p=>p.mind);if(!model)throw Error('世界人物初始化缺少共同人物工厂');p=clone(model);p.id=s.society.nextPersonId++;p.personId=id;if(p.appearance?.recipe)p.appearance.recipe.id=`appearance:${id}:v1`;p.name=name;p.job=null;p.mind.memories=[];p.mind.away=null;p.mind.learning=null;s.personsById[id]=p;}
  hydrateWorldPositionSR(s,p);p.realm=realm;p.xp=0;p.lifeStatus='alive';p.bodyState='fit';p.location={kind:'local',sceneId,x:12,y:27};p.beliefs??={};p.knownFacts??=[];p.mind.activity='rest';return p;
 }
 export function initSRWorld(s,addDisciple){

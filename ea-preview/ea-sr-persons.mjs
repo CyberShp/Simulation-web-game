@@ -1,19 +1,27 @@
 /** SR-XF-007/008. Persistent identity recipes, semantic action fallback and deterministic voluntary invitations. */
-import {beginPersonBreakthrough,breakthroughView} from './ea-sr-cultivation.mjs?v=ea-160-courtyard-20261008-r34';
-import {BUILDINGS} from './ea-data.mjs?v=ea-160-courtyard-20261008-r34';
-import {workOpportunity} from './ea-life.mjs?v=ea-160-courtyard-20261008-r34';
-import {cloneState} from './ea-state-v6.mjs?v=ea-160-courtyard-20261008-r34';
-import {releaseBodyActivity} from './ea-facility-activities.mjs?v=ea-160-courtyard-20261008-r34';
-import {equippedAppearanceMounts} from './ea-sr-equipment.mjs?v=ea-160-courtyard-20261008-r34';
-import {initAftermath,tickAftermath,validateAftermath,aftermathDecision,aftermathAction,viewAftermath} from './ea-sr-aftermath.mjs?v=ea-160-courtyard-20261008-r34';
-export {viewAftermath,AFTERMATH_RULES} from './ea-sr-aftermath.mjs?v=ea-160-courtyard-20261008-r34';
+import {beginPersonBreakthrough,breakthroughView} from './ea-sr-cultivation.mjs?v=ea-160-courtyard-20261008-r35';
+import {BUILDINGS} from './ea-data.mjs?v=ea-160-courtyard-20261008-r35';
+import {workOpportunity} from './ea-life.mjs?v=ea-160-courtyard-20261008-r35';
+import {cloneState} from './ea-state-v6.mjs?v=ea-160-courtyard-20261008-r35';
+import {releaseBodyActivity} from './ea-facility-activities.mjs?v=ea-160-courtyard-20261008-r35';
+import {equippedAppearanceMounts} from './ea-sr-equipment.mjs?v=ea-160-courtyard-20261008-r35';
+import {initAftermath,tickAftermath,validateAftermath,aftermathDecision,aftermathAction,viewAftermath} from './ea-sr-aftermath.mjs?v=ea-160-courtyard-20261008-r35';
+export {viewAftermath,AFTERMATH_RULES} from './ea-sr-aftermath.mjs?v=ea-160-courtyard-20261008-r35';
 const mind=p=>p.mind||p,clone=v=>structuredClone(v),hash=s=>[...s].reduce((n,c)=>(Math.imul(n,31)+c.charCodeAt(0))>>>0,7);
 export const APPEARANCE_CATALOG={id:'appearance:yunxiu:v1',body:['slim','regular','broad'],face:['oval','angular','round'],hair:['topknot','half-tied','braid','loose'],outfit:['traveller','herbalist','artisan','disciple'],source:'U-63/R-25',slots:['weapon','armor','artifact','accessory']};
 export const ACTION_FRAMES={stand:{pose:'upright',tool:null,asset:'yunxiu-courtyard:characters:v1'},walk:{pose:'walk',tool:null,asset:'yunxiu-courtyard:characters:v1'},work:{pose:'working',tool:'facility-specific',asset:'yunxiu-courtyard:characters:v1'},plant:{pose:'stoop',tool:'hoe',asset:'yunxiu-courtyard:characters:v1'},gather:{pose:'reach',tool:'basket',asset:'yunxiu-courtyard:characters:v1'},study:{pose:'seated',tool:'book',asset:'yunxiu-courtyard:characters:v1'},rest:{pose:'recline',tool:null,asset:'yunxiu-courtyard:characters:v1'},heal:{pose:'seated',tool:'bandage',asset:'yunxiu-courtyard:characters:v1'},cast:{pose:'cast',tool:'equipped-focus',asset:'yunxiu-courtyard:characters:v1'},hit:{pose:'recoil',tool:null,asset:'yunxiu-courtyard:characters:v1'},transport:{pose:'walk',tool:'bundle',asset:'yunxiu-courtyard:characters:v1'},waiting:{pose:'upright',tool:null,asset:'yunxiu-courtyard:characters:v1'},groundRest:{pose:'ground-rest',tool:null,asset:'yunxiu-courtyard:characters:v1'},cultivate:{pose:'seated',tool:null,asset:'yunxiu-courtyard:characters:v1'},teach:{pose:'gesture',tool:'book',asset:'yunxiu-courtyard:characters:v1'},down:{pose:'ground-rest',tool:null,asset:'yunxiu-courtyard:characters:v1'}};
 export const AUTONOMY={version:'autonomy:yunxiu:v1',source:'U-63/R-25/T-03',commitTicks:240,retryTicks:120,switchThreshold:12,injuryInterrupt:20,energyMin:22,trustMin:15,dayPhases:[{from:0,to:.2,activity:'rest'},{from:.2,to:.55,activity:'work'},{from:.55,to:.8,activity:'study'},{from:.8,to:1,activity:'rest'}]};
 export const AUTONOMY_V2={version:'autonomy:yunxiu:v2',source:'U-63/R-25/T-03',commitTicks:240,switchThreshold:15,retryTicks:[150,300,600],invitationThreshold:42};
 const dayPhaseAtTick=s=>{const fraction=(s.worldTick%s.ticksPerDay)/s.ticksPerDay;return AUTONOMY.dayPhases.find(phase=>fraction>=phase.from&&fraction<phase.to).activity;};
-export function initPersons(s){initAftermath(s);for(const p of Object.values(s.personsById)){const seed=hash(p.personId);p.appearance??={spriteIndex:seed%6,accent:'#91a9ce'};p.appearance.recipe??={id:`appearance:${p.personId}:v1`,body:APPEARANCE_CATALOG.body[seed%3],face:APPEARANCE_CATALOG.face[(seed>>>2)%3],hair:APPEARANCE_CATALOG.hair[(seed>>>4)%4],outfit:p.personId==='person:lu-zhiwei'?'herbalist':p.personId==='person:cheng-wenzhou'?'artisan':p.personId==='person:master'?'traveller':'disciple',faceMark:(seed>>>7)%5,height:1.65+(seed%20)/100};p.schedule??={definitionId:AUTONOMY.version,commitUntilTick:s.worldTick,updatedThroughTick:s.worldTick,lastReason:'自行权衡生活与修行。',invitations:{},phase:'rest',responsibilitySlots:[],privateMotives:[]};}return s;}
+function upgradeLegacyClientRecipe(s,p){
+ if(p.personId!=='person:late:chen-yuanshu'||s.srLateEconomy?.version!=='late-economy:qingxi:v1'||s.factsById?.['fact:late:registered-budget']?.actorId!==p.personId||p.appearance?.spriteIndex!==3||p.appearance.accent!=='#6696ad')return;
+ const source=Object.values(s.personsById).find(person=>person.mind);
+ if(source&&source!==p&&p.appearance.recipe?.id===`appearance:${source.personId}:v1`&&source.appearance?.recipe?.id===p.appearance.recipe.id){
+  // The old world-person factory copied this ID; retain the saved visual traits.
+  p.appearance.recipe.id=`appearance:${p.personId}:v1`;
+ }
+}
+export function initPersons(s){initAftermath(s);for(const p of Object.values(s.personsById)){const seed=hash(p.personId);p.appearance??={spriteIndex:seed%6,accent:'#91a9ce'};upgradeLegacyClientRecipe(s,p);if(!Object.hasOwn(p.appearance,'recipe'))p.appearance.recipe={id:`appearance:${p.personId}:v1`,body:APPEARANCE_CATALOG.body[seed%3],face:APPEARANCE_CATALOG.face[(seed>>>2)%3],hair:APPEARANCE_CATALOG.hair[(seed>>>4)%4],outfit:p.personId==='person:lu-zhiwei'?'herbalist':p.personId==='person:cheng-wenzhou'?'artisan':p.personId==='person:master'?'traveller':'disciple',faceMark:(seed>>>7)%5,height:1.65+(seed%20)/100};p.schedule??={definitionId:AUTONOMY.version,commitUntilTick:s.worldTick,updatedThroughTick:s.worldTick,lastReason:'自行权衡生活与修行。',invitations:{},phase:'rest',responsibilitySlots:[],privateMotives:[]};}return s;}
 /** Prepare a v2 candidate save on an isolated copy; the live v1 decision owner remains unchanged. */
 export function prepareAutonomyV2(input,validateSource){
  if(input.schemaVersion!==6||input.contentVersion!=='sr-content-v1.2')throw Error('自主日程迁移需要正式 SR 存档。');
@@ -160,5 +168,5 @@ function validateAutonomyV2(s,p){
  if(plan.commitmentIds.some(id=>!schedule.commitmentsById[id])||plan.currentStepId!==null&&schedule.commitmentsById[plan.currentStepId]?.status!=='active')throw Error('人物阶段计划承诺引用异常。');
  for(const retry of Object.values(schedule.retriesByTarget))if(!retry||typeof retry.signature!=='string'||!validTick(retry.consecutiveFailures)||retry.consecutiveFailures>3||!validTick(retry.nextReviewTick)||s.factsById?.[retry.sourceFactId]?.kind!=='autonomy-work-choice'||s.factsById[retry.sourceFactId].personId!==p.personId||s.factsById[retry.sourceFactId].accepted!==false)throw Error('人物失败退避记录异常。');
 }
-export function validatePersons(s){validateAftermath(s);for(const p of Object.values(s.personsById)){if(!p.schedule)continue;const r=p.appearance?.recipe;if(!r||!APPEARANCE_CATALOG.body.includes(r.body)||!APPEARANCE_CATALOG.face.includes(r.face)||!APPEARANCE_CATALOG.hair.includes(r.hair)||!APPEARANCE_CATALOG.outfit.includes(r.outfit)||r.height<1.6||r.height>1.9||!Number.isSafeInteger(p.schedule.commitUntilTick)||p.schedule.commitUntilTick<0||p.schedule.updatedThroughTick>s.worldTick||![AUTONOMY.version,AUTONOMY_V2.version].includes(p.schedule.definitionId))throw Error('人物外观配方或自主日程异常。');if(p.schedule.definitionId===AUTONOMY_V2.version)validateAutonomyV2(s,p);}return true;}
+export function validatePersons(s){validateAftermath(s);for(const p of Object.values(s.personsById)){if(!p.schedule)continue;const r=p.appearance?.recipe;if(!r||typeof r!=='object'||Array.isArray(r)||r.id!==`appearance:${p.personId}:v1`||!APPEARANCE_CATALOG.body.includes(r.body)||!APPEARANCE_CATALOG.face.includes(r.face)||!APPEARANCE_CATALOG.hair.includes(r.hair)||!APPEARANCE_CATALOG.outfit.includes(r.outfit)||!Number.isSafeInteger(r.faceMark)||r.faceMark<0||r.faceMark>4||!Number.isFinite(r.height)||r.height<1.6||r.height>1.9||!Number.isSafeInteger(p.schedule.commitUntilTick)||p.schedule.commitUntilTick<0||p.schedule.updatedThroughTick>s.worldTick||![AUTONOMY.version,AUTONOMY_V2.version].includes(p.schedule.definitionId))throw Error('人物外观配方或自主日程异常。');if(p.schedule.definitionId===AUTONOMY_V2.version)validateAutonomyV2(s,p);}return true;}
 export const personsHandlers={inviteWork,aftermathAction};
