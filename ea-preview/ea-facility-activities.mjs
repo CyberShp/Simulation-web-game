@@ -1,12 +1,12 @@
 /** Body activities and exclusive work stations, called only by the world owner. */
-import {BUILDINGS,canPay,pay,grant} from './ea-data.mjs?v=ea-160-courtyard-20261008-r7';
-import {productionAvailability,settleFiniteProduction,initEconomy,productionInputAvailable,reserveProductionInput,refundProductionInput,cancelMerchantCollection} from './ea-sr-economy.mjs?v=ea-160-courtyard-20261008-r7';
+import {BUILDINGS,canPay,pay,grant} from './ea-data.mjs?v=ea-160-courtyard-20261008-r8';
+import {productionAvailability,settleFiniteProduction,initEconomy,productionInputAvailable,reserveProductionInput,refundProductionInput,cancelMerchantCollection} from './ea-sr-economy.mjs?v=ea-160-courtyard-20261008-r8';
 const units=(s,pixels)=>s.spatial?.version==='spatial-metres-1'?pixels/32:pixels;
 const spacing=s=>s.spatial?.version==='spatial-metres-1'?.5:8;
 const arrival=s=>s.spatial?.version==='spatial-metres-1'?.04:.5;
-import {facilitySlots,slotById,slotReservation,facilityBodyKinds} from './ea-facility-slots.mjs?v=ea-160-courtyard-20261008-r7';
-import {geometryRevision,buildingAccess,scenicFindPath,scenicDistance,scenicSweep,scenicNearest} from './ea-scene-geometry.mjs?v=ea-160-courtyard-20261008-r7';
-import {advanceScenic,syncScenicPosition} from './ea-scenic.mjs?v=ea-160-courtyard-20261008-r7';
+import {facilitySlots,slotById,slotReservation,facilityBodyKinds} from './ea-facility-slots.mjs?v=ea-160-courtyard-20261008-r8';
+import {geometryRevision,buildingAccess,scenicFindPath,scenicDistance,scenicSweep,scenicNearest} from './ea-scene-geometry.mjs?v=ea-160-courtyard-20261008-r8';
+import {advanceScenic,syncScenicPosition} from './ea-scenic.mjs?v=ea-160-courtyard-20261008-r8';
 const owner=(s,p)=>p===s.master?p:p.mind;
 export function bodyActivity(s,p){const a=s.activitiesById?.[p.activityId];return a?.kind==='facility'?a:null;}
 export function releaseBodyActivity(s,p){
@@ -61,7 +61,7 @@ export function prepareFacilityActivity(s,p,b,action,budget=46){
    position.path=path;position.goal={...slot.position};position.revision=geometryRevision(s);position.destinationId=b.id;
   }
   a.phase='navigating';a.reason='前往'+slot.label+'。';
-  if(budget>0){const moved=advanceScenic(position,budget,s);p.energy=Math.max(0,p.energy-moved/46*.04);syncScenicPosition(s,p);}
+  if(budget>0){const moved=advanceScenic(position,budget,s);p.energy=Math.max(0,p.energy-moved/46*.04);syncScenicPosition(s,p);if(position.waitingForPersonId){a.phase='waiting';a.reason=`${s.personsById[position.waitingForPersonId]?.name||'同行者'}暂占通路，等待其移动。`;}}
   if(p===s.master&&!position.path.length&&action==='study')p.action='study';
   // Arrival itself spends this world step, never also a full second of work.
   return false;
