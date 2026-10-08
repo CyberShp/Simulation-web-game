@@ -1,9 +1,9 @@
 /** SR-XF-025 finite responsibility chain; original completed endings are preserved. */
-import {log,RESOURCES} from './ea-data.mjs?v=ea-160-courtyard-20261008-r5';
-import {knownFactForObserver} from './ea-sr-contracts.mjs?v=ea-160-courtyard-20261008-r5';
-import {makeWorldPerson,recordFactSR,publishFactSR,recordClaimSR,activateRootSR,discoverSceneSR,knownLocationsForMasterSR,WORLD_SCENES,GREAT_FACTIONS} from './ea-sr-world.mjs?v=ea-160-courtyard-20261008-r5';
-import {recordPermanentDeathSR,activateRainChainSR} from './ea-sr-crises.mjs?v=ea-160-courtyard-20261008-r5';
-import {startSRCombat} from './ea-campaign.mjs?v=ea-160-courtyard-20261008-r5';
+import {log,RESOURCES} from './ea-data.mjs?v=ea-160-courtyard-20261008-r6';
+import {knownFactForObserver} from './ea-sr-contracts.mjs?v=ea-160-courtyard-20261008-r6';
+import {makeWorldPerson,recordFactSR,publishFactSR,recordClaimSR,activateRootSR,discoverSceneSR,knownLocationsForMasterSR,WORLD_SCENES,GREAT_FACTIONS} from './ea-sr-world.mjs?v=ea-160-courtyard-20261008-r6';
+import {recordPermanentDeathSR,activateRainChainSR} from './ea-sr-crises.mjs?v=ea-160-courtyard-20261008-r6';
+import {startSRCombat} from './ea-campaign.mjs?v=ea-160-courtyard-20261008-r6';
 export const REVENGE_TARGETS=Object.freeze([
  {personId:'person:han-lichuan',name:'韩厉川',realm:12,sceneId:'scene:qixia',x:35,y:23,encounterId:'challenge',role:'直接主导赤嶂门夺取沈氏灵脉产业并灭门',sources:['claim:shen:direct']},
  {personId:'person:xing-lie',name:'邢烈',realm:12,sceneId:'scene:ward',x:47,y:33,encounterId:'xing',role:'事前知情、调配援手并约定分利',sources:['object:quarry:artisan','object:quarry:tools','object:ward:records']},
