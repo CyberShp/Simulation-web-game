@@ -1,7 +1,7 @@
 /** SR-XF-024: fixed dangerous edition, bodily countermeasures, conserved transfer. */
-import {requirePerson,reserveBody,ownedActivity,releaseSRBody,readyAtWorkstation,spendResources,refundResources,personMind,isLivingPerson} from './ea-sr-equipment.mjs?v=ea-160-courtyard-20261008-r28';
-import {sceneUnits} from './ea-sr-spatial.mjs?v=ea-160-courtyard-20261008-r28';
-import {RESOURCES} from './ea-data.mjs?v=ea-160-courtyard-20261008-r28';
+import {requirePerson,reserveBody,ownedActivity,releaseSRBody,readyAtWorkstation,spendResources,refundResources,personMind,isLivingPerson} from './ea-sr-equipment.mjs?v=ea-160-courtyard-20261008-r29';
+import {sceneUnits} from './ea-sr-spatial.mjs?v=ea-160-courtyard-20261008-r29';
+import {RESOURCES} from './ea-data.mjs?v=ea-160-courtyard-20261008-r29';
 let hooks={};
 export function configureMotherChain(next={}){hooks={...hooks,...next};}
 export const MOTHER_CHAIN_DEFINITION=Object.freeze({id:'scheme:quick-breath:v1',editionId:'edition:quick-breath:stolen:v1',safeEditionId:'edition:quick-breath:collated:v1',name:'快速调息诀·缺页抄本',holderId:'person:xu-qinghe',holderName:'徐清河',signatureId:'signature:quick-breath:stolen:v1',benefit:1.15,preparationTicks:120,exposedTicks:80,drainTicks:120,capXp:120,capFraction:.25,absorptionFraction:.4,woundBudget:30,criticalTicks:60,rangeMetres:6,holderCost:{crystal:2,herb:8},counterCosts:{collate:{herb:12,jade:10},cut:{herb:5},break:{stone:8,crystal:1}},counterTicks:{collate:100,cut:30,break:40}});

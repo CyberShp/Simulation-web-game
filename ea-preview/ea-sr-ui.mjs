@@ -1,5 +1,5 @@
 /** Player-facing projections only. Does not advance clocks or write world state. */
-import {BUILDING_GRID,buildingGridEnabled,buildingCellLabel} from './ea-building-grid.mjs?v=ea-160-courtyard-20261008-r28';
+import {BUILDING_GRID,buildingGridEnabled,buildingCellLabel} from './ea-building-grid.mjs?v=ea-160-courtyard-20261008-r29';
 const E=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const list=v=>Array.isArray(v)?v:[];
 const names={wood:'灵木',stone:'青石',herb:'灵草',food:'口粮',jade:'灵石',crystal:'灵晶',insight:'道韵',weapon:'兵器',armor:'衣甲',artifact:'法器',accessory:'饰物','pill:heal':'回春散','pill:qi':'聚气丹','pill:spirit':'灵息丹','pill:foundation':'筑基丹'};
@@ -80,6 +80,8 @@ function economy(s,sim){
   ?`订单交付 · ${v.market?.orders?.find(o=>o.id===f.orderId)?.name||'已知委托'} · 交付 ${cost(f.cargo)} · 收款 ${cost(f.payment)} · 名声+${f.reputation} · 世界刻${f.atTick??f.createdTick??'已记录'}`
   :`${phase(f.operation)} · ${cost(f.quantities||f.cost||f.reward)} · 世界刻${f.atTick??f.createdTick??'已记录'}`)).join('')||P('尚无物资交易记录。'));
  const merchant=stockpiles.find(p=>p.id==='stockpile:qingxi'),tradeLock=v.market?.merchantPresent?'':'需到坊市，或等待商队真实抵院并走近';let market=C('青溪现货交易',P('每组10份，买卖以实际现货与本金结算。补货受道路与有限来源限制，反复开菜单不补货。')+Object.entries(v.market?.goods||{}).map(([id,g])=>P(`${g.name} · 现货${merchant?.resources[id]??0}份 · 买${g.buy}/卖${g.sell}灵石每组`)+`<div class="button-row">${B('买入一组','marketTrade',[id,'buy',1],tradeLock)}${B('卖出一组','marketTrade',[id,'sell',1],tradeLock)}</div>`).join(''));
+ const supply=v.market?.supply;
+ if(supply)market+=C('青溪实体供货',P(`${supply.clerkName}在赤嶂粮道保管有限货源；${supply.carrierName}须预留6口粮、2灵石关口费及购货款，往返分段行路。下次报价世界刻${supply.nextQuoteTick}。`)+P(['food','wood','stone','herb','crystal'].map(id=>`${names[id]||id}：源仓${supply.source[id]||0}、已预约${supply.reserved[id]||0}、在途${supply.inTransit[id]||0}、坊市现货${supply.shop[id]||0}`).join(' · '))+P(`供货执事可当面出售的研习预算余量${supply.insightBudget}；须双方实际同地并由商人付款。`)+(supply.active?S(`${supply.carrierName} · ${phase(supply.active.phase)} · ${cost(supply.active.cargo)}；${supply.active.reason}`):P(supply.queued?`另有${supply.queued}批已预约，等候承运。`:'当前没有在途供货。'))+(supply.reason?P(supply.reason):'')+P(`山院可实际采收的粮田余量${supply.localFoodRemaining}；断路时可在院内采粮，运到可达商人处出售，或留作本地使用。`));
  market+=list(v.market?.orders).map(o=>marketOrderCard(o,s,stockpiles)).join('');
  return `<div data-sr-production="inventory">${inventory}</div><div data-sr-production="market" id="sr-market-section">${market}</div>`;
 }
