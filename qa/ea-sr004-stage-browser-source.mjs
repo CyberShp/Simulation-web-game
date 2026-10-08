@@ -67,11 +67,17 @@ if(onlyHall){
  checkpoint('hall','before-upgrade',s,hall,initial);
  let command;
  const cleared=[];
- for(let attempt=0;attempt<10;attempt++){
+ let waitedForHallActivityTicks=0;
+ for(let attempt=0;attempt<130;attempt++){
   try{command=S.dispatchCommand(s,{name:'upgrade',args:[hall.id]});break;}
   catch(error){
+   if(String(error.message).includes('正在建筑内履行事务')){
+    assert(waitedForHallActivityTicks<120,'hall activity did not clear through normal world ticks');
+    S.tick(s,1);waitedForHallActivityTicks++;continue;
+   }
    const conflictId=Number(String(error.message).match(/（(\d+)）占地冲突/)?.[1]);
    assert(conflictId&&conflictId!==hall.id,`upgrade cannot be prepared through public commands: ${error.message}`);
+   assert(cleared.length<10,'hall upgrade needs more than ten public demolitions');
    const blocker=s.buildings.find(b=>b.id===conflictId);
    assert(blocker,`conflicting building ${conflictId} exists`);
    const removal=S.dispatchCommand(s,{name:'demolish',args:[conflictId]});s=removal.state;
@@ -82,7 +88,10 @@ if(onlyHall){
   }
  }
  assert(command,`hall upgrade can start after clearing ${cleared.length} blockers`);
+ const prepared=s.buildings.find(b=>b.id===hall.id);
+ checkpoint('hall','preview',s,{...prepared,level:prepared.level+1},initial);
  report.clearedForHall=cleared;
+ report.waitedForHallActivityTicks=waitedForHallActivityTicks;
  s=command.state;
  assert(command.result.workOrderId,'public upgrade starts');
  const orderId=command.result.workOrderId;
