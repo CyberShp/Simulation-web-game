@@ -4,8 +4,8 @@
  * blocked terrain or outside the playable boundary. U-98 keeps the construction
  * grid visible and postpones paving; this module never finds paths or advances time.
  */
-import {SPATIAL_TERRAIN,SPATIAL_SCENE} from './ea-sr-spatial.mjs?v=ea-160-courtyard-20261008-r6';
-import {BUILDING_GRID} from './ea-building-grid.mjs?v=ea-160-courtyard-20261008-r6';
+import {SPATIAL_TERRAIN,SPATIAL_SCENE,spatialProject} from './ea-sr-spatial.mjs?v=ea-160-courtyard-20261008-r7';
+import {BUILDING_GRID} from './ea-building-grid.mjs?v=ea-160-courtyard-20261008-r7';
 
 const TAU=Math.PI*2;
 const clamp=(n,min=0,max=1)=>Math.max(min,Math.min(max,n));
@@ -16,6 +16,8 @@ const hash=(x,y=0,salt=0)=>{
 const point=p=>Array.isArray(p)?{x:p[0],y:p[1]}:p;
 const rect=(x,y,w,h)=>[[x,y],[x+w,y],[x+w,y+h],[x,y+h]];
 const groundCache=new WeakMap();
+const fieldCache=new WeakMap();
+const MAX_FIELD_CACHE_PIXELS=8_000_000;
 const geometrySignatures=new WeakMap();
 
 function signature(list){
@@ -364,21 +366,13 @@ function plant(ctx,p,c,project,{maturity,grain,seed}){
   }
 }
 
-/** True farm/granary footprint: earth, furrows, access lanes and batch crops. */
-export function drawEstateField(ctx,b,s,c,{project,prefab,transform}={}){
-  if(!['farm','granary'].includes(b.type)||!prefab||!transform||typeof project!=='function')return false;
-  const t=typeof transform==='function'?transform(b):transform,d=typeof prefab==='function'?prefab(b):prefab,fp=rect(t.x,t.y,d.width,d.height),order=s.workOrdersById?.[`work:production:${b.instanceId}`];
-  // Without an active production order, show tilled ground and young starts.
-  // Never infer an earned harvest from wall-clock time or presentation RNG.
-  const progress=order?.durationTicks>0?clamp(order.progressTicks/order.durationTicks):0;
-  const maturity=order?.phase==='completed'?1:progress;
-  const grain=b.type==='granary',k=c.scale;
+function paintEstateField(ctx,b,c,project,t,d,maturity,wet){
+  const fp=rect(t.x,t.y,d.width,d.height),grain=b.type==='granary',k=c.scale;
   ctx.save();
   poly(ctx,fp,c,project,grain?'#8d8760':'#827655','#c1b086',Math.max(.7,.04*k));
   ctx.beginPath();trace(ctx,fp,c,project);ctx.clip();
   // Shallow drainage grooves stay within the agricultural footprint. Their
   // damp appearance comes only from the existing surface wetness authority.
-  const wet=clamp(s.ecologiesBySceneId?.['scene:yunxiu-courtyard']?.surfaceZones?.['zone:yard-path']?.wetness||0);
   for(const x of [t.x+.08,t.x+d.width-.16])poly(ctx,rect(x,t.y+.1,.08,d.height-.2),c,project,wet>.5?'#687f69':'#615d42');
   for(let y=.16;y<d.height;y+=.18){
     poly(ctx,rect(t.x+.12,t.y+y,d.width-.24,.045),c,project,y%.36<.2?'#b4a37555':'#665d433b');
@@ -399,7 +393,69 @@ export function drawEstateField(ctx,b,s,c,{project,prefab,transform}={}){
     const seed=row*71+col*13;
     plant(ctx,{x:t.x+x+(hash(seed,2)-.5)*.05,y:t.y+y+(hash(seed,3)-.5)*.05},c,project,{maturity,grain,seed});
   }
-  ctx.restore();return true;
+  ctx.restore();
+}
+
+function cachedField(ctx,b,c,project,t,d,maturity,wet){
+  // The production projection is stable; arbitrary test projections retain
+  // the direct painter because their hidden inputs cannot be cache-keyed.
+  if(project!==spatialProject||!ctx.canvas||typeof ctx.getTransform!=='function'||ctx.globalAlpha!==1||ctx.globalCompositeOperation!=='source-over'||ctx.filter&&ctx.filter!=='none'||ctx.shadowBlur||ctx.shadowOffsetX||ctx.shadowOffsetY||ctx.lineCap!=='butt'||ctx.lineJoin!=='miter'||ctx.miterLimit!==10||ctx.getLineDash?.().length||ctx.lineDashOffset)return null;
+  const matrix=ctx.getTransform(),rx=matrix.a,ry=matrix.d;
+  if(!Number.isFinite(rx)||!Number.isFinite(ry)||rx<=0||ry<=0||matrix.b||matrix.c||matrix.e||matrix.f)return null;
+  const corners=rect(t.x,t.y,d.width,d.height).map(([x,y])=>project({x,y},c));
+  const pad=c.scale+8,pixelLeft=Math.floor((Math.min(...corners.map(p=>p.x))-pad)*rx),pixelTop=Math.floor((Math.min(...corners.map(p=>p.y))-pad)*ry);
+  const pixelRight=Math.ceil((Math.max(...corners.map(p=>p.x))+pad)*rx),pixelBottom=Math.ceil((Math.max(...corners.map(p=>p.y))+pad)*ry);
+  const physicalWidth=pixelRight-pixelLeft,physicalHeight=pixelBottom-pixelTop,pixels=physicalWidth*physicalHeight;
+  if(!Number.isSafeInteger(pixels)||physicalWidth<=0||physicalHeight<=0||physicalWidth>2048||physicalHeight>2048||pixels>MAX_FIELD_CACHE_PIXELS)return null;
+  const left=pixelLeft/rx,top=pixelTop/ry,width=physicalWidth/rx,height=physicalHeight/ry;
+  let cache=fieldCache.get(ctx);
+  if(!cache){cache={items:new Map(),pixels:0};fieldCache.set(ctx,cache);}
+  const id=b.instanceId??b.id??`${b.type}:${t.x}:${t.y}`;
+  const phaseX=Math.round((c.ox-left)*rx*1000)/1000,phaseY=Math.round((c.oy-top)*ry*1000)/1000;
+  const key=[b.type,b.level,b.buildingGridVersion||'',t.x,t.y,d.width,d.height,d.slots?.map(slot=>`${slot.kind}:${slot.position.x}:${slot.position.y}`).join('|')||'',c.scale,c.depth,c.rotation||0,rx,ry,physicalWidth,physicalHeight,phaseX,phaseY,maturity,wet>.5].join(';');
+  const now=globalThis.performance?.now?.()??Date.now();
+  let entry=cache.items.get(id);
+  if(!entry||entry.key!==key){
+    if(entry){cache.pixels-=entry.pixels;cache.items.delete(id);}
+    if(cache.pixels+pixels>MAX_FIELD_CACHE_PIXELS){
+      // Keep currently visible fields warm. Only reclaim entries that have
+      // not been drawn recently; other fields use the direct painter.
+      for(const [oldId,old] of cache.items){
+        if(now-old.lastUsed<1500)continue;
+        cache.pixels-=old.pixels;cache.items.delete(oldId);
+        if(cache.pixels+pixels<=MAX_FIELD_CACHE_PIXELS)break;
+      }
+      if(cache.pixels+pixels>MAX_FIELD_CACHE_PIXELS)return null;
+    }
+    let surface;
+    try{
+      surface=typeof globalThis.OffscreenCanvas==='function'?new globalThis.OffscreenCanvas(physicalWidth,physicalHeight):globalThis.document?.createElement?.('canvas');
+      if(!surface)return null;
+      surface.width=physicalWidth;surface.height=physicalHeight;
+      const painter=surface.getContext('2d');
+      if(!painter)return null;
+      painter.setTransform(rx,0,0,ry,0,0);
+      paintEstateField(painter,b,{...c,w:width,h:height,ox:c.ox-left,oy:c.oy-top},project,t,d,maturity,wet);
+    }catch{return null;}
+    entry={key,surface,pixels,lastUsed:now};cache.items.set(id,entry);cache.pixels+=pixels;
+  }
+  entry.lastUsed=now;
+  return {surface:entry.surface,left,top,width,height};
+}
+
+/** True farm/granary footprint: earth, furrows, access lanes and batch crops. */
+export function drawEstateField(ctx,b,s,c,{project,prefab,transform}={}){
+  if(!['farm','granary'].includes(b.type)||!prefab||!transform||typeof project!=='function')return false;
+  const t=typeof transform==='function'?transform(b):transform,d=typeof prefab==='function'?prefab(b):prefab,order=s.workOrdersById?.[`work:production:${b.instanceId}`];
+  // Without an active production order, show tilled ground and young starts.
+  // Never infer an earned harvest from wall-clock time or presentation RNG.
+  const progress=order?.durationTicks>0?clamp(order.progressTicks/order.durationTicks):0;
+  const maturity=order?.phase==='completed'?1:progress;
+  const wet=clamp(s.ecologiesBySceneId?.['scene:yunxiu-courtyard']?.surfaceZones?.['zone:yard-path']?.wetness||0);
+  const cached=cachedField(ctx,b,c,project,t,d,maturity,wet);
+  if(cached)ctx.drawImage(cached.surface,cached.left,cached.top,cached.width,cached.height);
+  else paintEstateField(ctx,b,c,project,t,d,maturity,wet);
+  return true;
 }
 
 /** Missing outdoor artwork still exposes the work places in the authoritative prefab. */
