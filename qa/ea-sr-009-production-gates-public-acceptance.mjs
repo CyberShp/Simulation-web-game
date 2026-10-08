@@ -23,8 +23,9 @@ const siteId='stockpile:building:yunxiu:6';
 function earned(){
  assert.equal(source?.provenance?.kind,'normal-public-command-checkpoint');
  assert.equal(source.provenance.label,'physical workshop built');
- const state=S.validateSave(source.state);
- assert.equal(JSON.stringify(state),JSON.stringify(source.state),'source must already be a canonical save');
+ const raw=JSON.stringify(source.state),state=S.validateSave(source.state);
+ assert.equal(JSON.stringify(source.state),raw,'validation must not mutate the earned source');
+ assert.equal(JSON.stringify(S.validateSave(state)),JSON.stringify(state),'compatible save is canonical after one migration');
  assert.equal(source.provenance.counts.worldTick,state.worldTick);
  assert(state.homeMemberIds.length>=5);
  assert.equal(state.buildingsById['building:yunxiu:6']?.type,'workshop');
@@ -82,6 +83,7 @@ if(!source){
   assert(lumber&&!lumber.enabled);
   const orderId=`work:production:${lumber.instanceId}`,pileId=`stockpile:${lumber.instanceId}`;
   const initialProgress=h.s.workOrdersById[orderId].progressTicks;
+  assert.equal(h.s.workOrdersById[orderId].recipeSnapshot.recipeVersion,'economy:yunxiu:v1','earned active batch keeps its historical recipe');
   const initialWood=h.s.stockpilesById[pileId].resources.wood;
   const initialFacts=productionFacts(h.s,pileId);
   assert(initialProgress>0&&initialProgress<h.s.workOrdersById[orderId].durationTicks,'earned unfinished batch is the test target');

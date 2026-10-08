@@ -20,8 +20,9 @@ if (!source) {
   test('cancelling a partly worked batch returns only unused local input once and leaves other real work available', () => {
     assert.equal(source.provenance?.kind, 'derived-public-command-checkpoint');
     assert.equal(source.provenance?.sourceProvenance?.kind, 'normal-public-command-checkpoint');
-    const state = SIM.validateSave(source.state);
-    assert.equal(JSON.stringify(state), JSON.stringify(source.state));
+    const raw = JSON.stringify(source.state), state = SIM.validateSave(source.state);
+    assert.equal(JSON.stringify(source.state), raw, 'validation keeps the earned source intact');
+    assert.equal(JSON.stringify(SIM.validateSave(state)), JSON.stringify(state), 'migration applies once');
     const h = harness(state);
     const b = h.s.buildings.find(b => b.type === 'workshop');
     assert.equal(b?.instanceId, 'building:yunxiu:6');

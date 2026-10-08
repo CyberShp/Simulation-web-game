@@ -1,6 +1,6 @@
 import {initRainArtisan,advanceRainArtisan,validateRainArtisan,offerArtisanCare,cancelArtisanCare,declineArtisanCare,treatmentStatus} from './ea-rain-artisan.mjs';
 export {artisanCareView,treatmentStatus,offerArtisanCare,cancelArtisanCare,declineArtisanCare} from './ea-rain-artisan.mjs';
-import {prepareFacilityActivity,releaseBodyActivity,reconcileActivities,validateFacilityActivities,cancelProduction} from './ea-facility-activities.mjs';
+import {prepareFacilityActivity,releaseBodyActivity,reconcileActivities,validateFacilityActivities,upgradeProductionRecipeSnapshots,cancelProduction} from './ea-facility-activities.mjs';
 export {cancelProduction};
 /** DB v1.2 first development slice, wired into the actual EA application. */
 import * as base from './ea-sim.mjs';
@@ -62,7 +62,7 @@ function validateOpeningRecords(s){
 }
 
 export function validateSave(input,{upgrade=false}={}){
- if(srEnabled(input)){validateV6Shape(input);const s=cloneState(input);base.validateSave(legacyProjection(s),{canonical:true});validateOpeningRecords(s);validateFacilityActivities(s);validateRainArtisan(s);validateSR(s);initBuildingGrid(s);validateFacilityActivities(s);return hydrateState(validateSR(s));}
+ if(srEnabled(input)){validateV6Shape(input);const s=cloneState(input);base.validateSave(legacyProjection(s),{canonical:true});validateOpeningRecords(s);validateFacilityActivities(s);validateRainArtisan(s);validateSR(s);initBuildingGrid(s);validateFacilityActivities(s);upgradeProductionRecipeSnapshots(s);validateFacilityActivities(s);return hydrateState(validateSR(s));}
  if(input?.schemaVersion===undefined){
   const old=base.validateSave(input);
   const migrated=migrateState(old,{sourceVersion:input.version});migrated.rulesetVersion='opening-runtime-2';return validateSave(migrated,{upgrade});

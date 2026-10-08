@@ -1,4 +1,4 @@
-import {productionAvailability,productionInputAvailable,FARM_CROP_RECIPE} from './ea-sr-economy.mjs';
+import {productionAvailability,productionInputAvailable,FARM_CROP_RECIPE,PRODUCTION_RECIPE_VERSION,productionRecipeDefinition} from './ea-sr-economy.mjs';
 const units=(s,pixels)=>s.spatial?.version==='spatial-metres-1'?pixels/32:pixels;
 import {hallInteriorEnabled} from './ea-hall-interior.mjs';
 import {facilitySlots,slotById} from './ea-facility-slots.mjs';
@@ -81,7 +81,7 @@ export function workOpportunity(s,person,buildingOrId,{checkPath=true}={}) {
   if(checkPath&&lifeScenePath(s,person,b)===null)return no('建筑入口不通，先留出连通道路。');
   if(s.schemaVersion!==6&&s.disciples.some(d=>d.id!==person.id&&d.job===b.id&&!d.mind?.away))return no('已有同门接下此处差事。');
   if(s.schemaVersion===6&&!facilitySlots(s,b,'work').length)return no('没有可达的生产工位。');
-  const input=farmCrop&&(!order||order.phase==='completed')?FARM_CROP_RECIPE.seedCost:BUILDINGS[b.type].input;if(input&&!productionInputAvailable(s,b,input)&&!Object.values(s.workOrdersById||{}).some(o=>o.kind==='production'&&o.targetId===b.instanceId&&o.phase!=='completed'))return no(farmCrop?'药田缺少田边灵草2份种苗，先实际搬入。':'生产原料不足，补足原料后再考虑。');
+  const input=farmCrop&&(!order||order.phase==='completed')?FARM_CROP_RECIPE.seedCost:s.srEconomy?((order?.phase!=='completed'&&order?.recipeSnapshot?.inputCost)||productionRecipeDefinition(PRODUCTION_RECIPE_VERSION,b.type)?.inputCost||{}):BUILDINGS[b.type].input;if(input&&!productionInputAvailable(s,b,input)&&!Object.values(s.workOrdersById||{}).some(o=>o.kind==='production'&&o.targetId===b.instanceId&&o.phase!=='completed'))return no(farmCrop?'药田缺少田边灵草2份种苗，先实际搬入。':'生产原料不足，补足原料后再考虑。');
   if(p.satiety<22)return no('口粮不足，优先采食。');
   if(person.wound>20)return no('伤势未愈，优先调养。');
   if(person.energy<22)return no('精力不足，先休息。');
@@ -98,7 +98,7 @@ export function personLifeSummary(s,person,{opportunities=false}={}) {
   const cooldown=Math.max(0,(person.breakthroughCooldown||0)-s.time),privateStudy=a==='study'&&p.learning&&(s.doctrine.sealed.includes(p.learning.id)||p.hiddenKnowledge?.[p.learning.id]&&s.society?.secrets.some(e=>e.id===p.hiddenKnowledge[p.learning.id]&&!e.discovered));
   const order=body?.workOrderId&&s.workOrdersById[body.workOrderId];
   const label={rest:'休憩',heal:'调养',forage:'采食',work:'生产',study:'研习',cultivate:'修炼',teach:'授业',social:'交谈',travel:'山外行程',walk:'行走',gather:'采集',waiting:'等候',combat:'临敌交锋'}[a]||a;
-  const progress=studyOrder&&!privateStudy?{value:studyOrder.progressTicks,total:studyOrder.durationTicks,label:'研习'}:a==='study'&&p.learning&&!privateStudy?{value:p.learning.progress,total:p.learning.total||40,label:TECHNIQUES[p.learning.id]?.name||'研习'}:a==='work'&&facility?{value:order?order.progressTicks/10:facility.progress,total:BUILDINGS[facility.type].duration,label:BUILDINGS[facility.type].name}:a==='cultivate'?{value:person.xp,total:xpNeed(person.realm),label:'当前修为'}:!combat&&cooldown?{value:15-Math.min(15,cooldown),total:15,label:'突破后调息'}:null;
+  const progress=studyOrder&&!privateStudy?{value:studyOrder.progressTicks,total:studyOrder.durationTicks,label:'研习'}:a==='study'&&p.learning&&!privateStudy?{value:p.learning.progress,total:p.learning.total||40,label:TECHNIQUES[p.learning.id]?.name||'研习'}:a==='work'&&facility?{value:order?order.progressTicks/10:facility.progress,total:order?order.durationTicks/10:BUILDINGS[facility.type].duration,label:BUILDINGS[facility.type].name}:a==='cultivate'?{value:person.xp,total:xpNeed(person.realm),label:'当前修为'}:!combat&&cooldown?{value:15-Math.min(15,cooldown),total:15,label:'突破后调息'}:null;
   return {activity:a,label:cooldown&&a==='rest'?'突破后调息':label,status:isAway?'away':lock||harvest&&body.phase==='blocked'?'blocked':harvest&&body.phase==='paused'||body?.phase==='waiting'?'waiting':['navigating','moving'].includes(body?.phase)?'moving':p.scenic?.path?.length||person.scenic?.path?.length||p.path?.length||person.path?.length?'moving':'active',slotId:combat?null:body?.slotId??null,slotName:combat?null:body?.slotId?slotById(s,body.slotId)?.label:null,facilityId:facility?.id??null,facilityName:facility?BUILDINGS[facility.type].name:null,reason:combat?'正在战场应对敌人。':privateStudy?'独处参悟，暂不愿详谈。':lock||studyOrder?.reason||body?.reason||(cooldown&&a==='rest'?`刚刚突破，尚需调息${Math.ceil(cooldown)}秒。`:p.reason||'按当前安排继续活动。'),progress,opportunities:opportunities?s.buildings.filter(b=>BUILDINGS[b.type].work).map(b=>({facilityId:b.id,name:BUILDINGS[b.type].name,...workOpportunity(s,person,b)})):[]};
 }
 export function teachingPresent(s,teacher,student,id) {

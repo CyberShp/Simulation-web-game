@@ -15,6 +15,28 @@ export const WHOLESALE_DEFINITION={id:'wholesale:qingxi:v1',source:'U-63/R-25/T-
 export const ECONOMY_DEFINITION={id:'economy:yunxiu:v1',source:'U-63/R-25/T-04',units:'resource units; fractional legacy balances retained',capacity:2400,carryCapacity:40,replenishTicks:150,recipes:Object.fromEntries(Object.entries(BUILDINGS).filter(([,b])=>b.work).map(([id,b])=>[id,{id:`recipe:${id}:v1`,durationTicks:b.duration*10,input:copy(b.input||{}),output:copy(b.out),capacity:'exclusive declared facility slots',cancel:'unworked proportion returned exactly once',skill:id==='farm'?'plant':'industry'}]))};
 export const FARM_CROP_RECIPE={recipeId:'recipe:farm',recipeVersion:'herb-crop:yunxiu:v1',seedCost:{herb:2},maturityRequiredTicks:10,careRequired:200,contributionPerWorker:10,output:{herb:12},skill:'plant'};
 export const FARM_V1_RECIPE={recipeId:'recipe:farm:v1',recipeVersion:'economy:yunxiu:v1',inputCost:{},durationUnit:'contribution',durationValue:200,outputDefinition:{herb:12},skillRuleVersion:'production-skill:v1'};
+// Keep the shipped v1 definitions independent of later BUILDINGS tuning so a
+// paid, active batch can be checked against the rules that opened it.
+const freezeRecipes=rows=>Object.freeze(Object.fromEntries(Object.entries(rows).map(([id,row])=>[id,Object.freeze({...row,inputCost:Object.freeze({...row.inputCost}),outputDefinition:Object.freeze({...row.outputDefinition})})])));
+export const PRODUCTION_RECIPES_V1=freezeRecipes({
+ farm:{inputCost:{},outputDefinition:{herb:12},durationValue:200,skill:'plant'},
+ lumber:{inputCost:{},outputDefinition:{wood:18},durationValue:200,skill:'industry'},
+ quarry:{inputCost:{},outputDefinition:{stone:16},durationValue:200,skill:'industry'},
+ meditation:{inputCost:{},outputDefinition:{},durationValue:200,skill:'industry'},
+ library:{inputCost:{},outputDefinition:{insight:6},durationValue:200,skill:'learning'},
+ well:{inputCost:{},outputDefinition:{crystal:4},durationValue:200,skill:'array'},
+ granary:{inputCost:{},outputDefinition:{food:22},durationValue:200,skill:'plant'},
+ workshop:{inputCost:{wood:3,stone:2},outputDefinition:{jade:24},durationValue:200,skill:'industry'}
+});
+export const PRODUCTION_RECIPE_VERSION='supply-recipes:yunxiu:v2';
+// A later tune adds a new catalogue/version; existing entries are never edited.
+const PRODUCTION_RECIPE_CATALOG=Object.freeze({'economy:yunxiu:v1':PRODUCTION_RECIPES_V1,[PRODUCTION_RECIPE_VERSION]:PRODUCTION_RECIPES_V1});
+export function productionRecipeDefinition(version,type){return PRODUCTION_RECIPE_CATALOG[version]?.[type]||null;}
+export function productionRecipeSnapshot(s,b,version=PRODUCTION_RECIPE_VERSION){
+ const recipe=productionRecipeDefinition(version,b.type),siteId=`stockpile:${b.instanceId}`;
+ if(!recipe)fail('生产配方不存在。');
+ return {recipeId:`recipe:${b.type}`,recipeVersion:version,inputCost:copy(recipe.inputCost),durationUnit:'contribution',durationValue:recipe.durationValue,outputDefinition:copy(recipe.outputDefinition),outputRuleVersion:'production-yield:v1',skillRuleVersion:'production-skill:v1',skillKey:recipe.skill,skillGate:0,workstationRule:`facility:${b.type}:exclusive-slots`,sourceStockpileIds:Object.fromEntries(Object.keys(recipe.inputCost).map(k=>[k,siteId])),ownerId:'person:master',createdTick:s.worldTick};
+}
 export function farmWaterlogged(s){return (s.ecologiesBySceneId?.['scene:yunxiu-courtyard']?.surfaceZones?.['zone:yard-path']?.wetness||0)>CLIMATE.floodThreshold;}
 export function advanceFarmCrops(s){for(const order of Object.values(s.workOrdersById||{})){
  if(order.kind!=='production'||order.recipeSnapshot?.recipeVersion!==FARM_CROP_RECIPE.recipeVersion||!order.crop||order.phase==='completed')continue;
@@ -101,7 +123,7 @@ export function productionInputAvailable(s,b,cost=BUILDINGS[b.type]?.input||{}){
 export function reserveProductionInput(s,b,cost){if(!productionInputAvailable(s,b,cost))return false;const source=productionInputResources(s,b);for(const[k,v]of Object.entries(cost))source[k]-=v;return true;}
 export function refundProductionInput(s,b,cost){const target=productionInputResources(s,b);for(const[k,v]of Object.entries(cost))target[k]=(target[k]||0)+v;}
 function workshopBuyerAvailable(s){if(s.srWorld)return s.personsById['person:merchant-qingxi']?.lifeStatus!=='dead'&&s.personsById['person:merchant-qingxi']?.position?.kind==='scene'&&s.personsById['person:merchant-qingxi'].position.sceneId==='scene:yunxiu-courtyard'&&marketRouteOpen(s);return merchantPresent(s);}
-export function productionAvailability(s,b){if(!s.srEconomy)return {available:true,reason:''};if(b.type==='workshop'&&!workshopBuyerAvailable(s))return {available:false,reason:'器物买方尚未实际到达；等商人抵院后交货收款。'};if(b.type==='workshop'&&stock(s,'stockpile:qingxi').resources.jade<=0)return {available:false,reason:'器物买方本金不足，保留投入等待。'};const order=s.workOrdersById?.[`work:production:${b.instanceId}`],out=b.type==='farm'?(order?.recipeSnapshot?.outputDefinition||FARM_V1_RECIPE.outputDefinition):BUILDINGS[b.type].out||{},st=s.stockpilesById[`stockpile:${b.instanceId}`];if(st&&total(st)+physicalOutputTotal(b,out)>st.capacity)return {available:false,reason:'成品存放处已满，先搬入府库。'};if(b.type==='library'){const home=stock(s,'stockpile:yunxiu');if(total(home)+(out.insight||0)>home.capacity+1e-9)return {available:false,reason:'院中公库研习预算容量已满，先腾出容量。'};}for(const[k,v]of Object.entries(out))if(!harvestAvailable(s,k,v))return {available:false,reason:`${RESOURCES[k]}来源已耗尽；补种、采购或另寻供给。`};return {available:true,reason:''};}
+export function productionAvailability(s,b){if(!s.srEconomy)return {available:true,reason:''};if(b.type==='workshop'&&!workshopBuyerAvailable(s))return {available:false,reason:'器物买方尚未实际到达；等商人抵院后交货收款。'};if(b.type==='workshop'&&stock(s,'stockpile:qingxi').resources.jade<=0)return {available:false,reason:'器物买方本金不足，保留投入等待。'};const order=s.workOrdersById?.[`work:production:${b.instanceId}`],out=(order?.phase!=='completed'&&order?.recipeSnapshot?.outputDefinition)||(b.type==='farm'?FARM_V1_RECIPE.outputDefinition:productionRecipeDefinition(PRODUCTION_RECIPE_VERSION,b.type)?.outputDefinition||{}),st=s.stockpilesById[`stockpile:${b.instanceId}`];if(st&&total(st)+physicalOutputTotal(b,out)>st.capacity)return {available:false,reason:'成品存放处已满，先搬入府库。'};if(b.type==='library'){const home=stock(s,'stockpile:yunxiu');if(total(home)+(out.insight||0)>home.capacity+1e-9)return {available:false,reason:'院中公库研习预算容量已满，先腾出容量。'};}for(const[k,v]of Object.entries(out))if(!harvestAvailable(s,k,v))return {available:false,reason:`${RESOURCES[k]}来源已耗尽；补种、采购或另寻供给。`};return {available:true,reason:''};}
 /** Wrap the existing single production callback; relocate its actual delta rather than create another result. */
 export function settleFiniteProduction(s,b,settle,participants){
  if(!s.srEconomy)return settle(participants);initEconomy(s);const order=s.workOrdersById[`work:production:${b.instanceId}`];if(!order||s.factsById[`fact:production:${b.instanceId}:${order.batch}`])return false;const pursesBefore=Object.fromEntries(Object.values(s.personsById).map(p=>[p.personId,p.mind?.purse||0]));const before={...s.resources},st=stock(s,`stockpile:${b.instanceId}`);
@@ -114,7 +136,7 @@ export function settleFiniteProduction(s,b,settle,participants){
  const received={};for(const[k,v]of Object.entries(out)){const budget=b.type==='library'&&k==='insight',moved=budget?v:k==='jade'?Math.min(v,s.resources[k]):v;received[k]=moved;if(!budget){s.resources[k]=Math.max(0,s.resources[k]-moved);st.resources[k]+=moved;}if(s.srEconomy.patches[k])s.srEconomy.patches[k].remaining=Math.max(0,s.srEconomy.patches[k].remaining-v);}
 
  const factId=`fact:production:${b.instanceId}:${order.batch}`;
- ledger(s,factId,{operation:'production',targetStockpileId:b.type==='library'?'stockpile:yunxiu':st.id,quantities:received,grossOutput:out,wagesFromProceeds:Math.max(0,(out.jade||0)-(received.jade||0)),participantIds:participants.map(p=>p.person.personId),...(order.crop?{recipeVersion:order.recipeSnapshot.recipeVersion,cropId:order.crop.cropId,weatherSnapshot:weatherModifiers(s),facilitySnapshot:{level:b.level,condition:b.condition,enabled:b.enabled},participantSkills:copy(order.participantSkills)}:{}),...(b.type==='workshop'?{buyerId:'person:merchant-qingxi',payment:out.jade||0}: {})});
+ ledger(s,factId,{operation:'production',targetStockpileId:b.type==='library'?'stockpile:yunxiu':st.id,quantities:received,grossOutput:out,wagesFromProceeds:Math.max(0,(out.jade||0)-(received.jade||0)),participantIds:participants.map(p=>p.person.personId),...(order.recipeSnapshot?{recipeVersion:order.recipeSnapshot.recipeVersion,weatherSnapshot:weatherModifiers(s),facilitySnapshot:{level:b.level,condition:b.condition,enabled:b.enabled},participantSkills:copy(order.participantSkills||{})}:{}),...(order.crop?{cropId:order.crop.cropId}:{}),...(b.type==='workshop'?{buyerId:'person:merchant-qingxi',payment:out.jade||0}: {})});
  rememberProductionResult(s,b,participants,factId);return true;
 }
 /** Patch restoration is a paid physical activity, never an instant remote refill. */
@@ -251,7 +273,7 @@ function marketOrderV2(s,id,choice,options){
   const freight=orderV2Stockpile(s,ORDER_V2_FREIGHT,quote.sellerId,quote.sellerId,freightSource.access,quote.foodCost,position(s,freightSource));
   for(const[k,v]of Object.entries(quote.cargo))cargo.resources[k]=v;
   payment.resources.jade=quote.payment.jade;freight.resources.food=quote.foodCost;
-  const o={id,version:ORDER_V2,phase:'accepted',quote,sourceStockpileId:source.id,targetStockpileId:buyer.id,cargoStockpileId:cargo.id,paymentStockpileId:payment.id,freightStockpileId:freight.id,carrierId:quote.carrierId,accessVersion:ORDER_V2_ACCESS,acceptedTick:s.worldTick,chargedSegments:0,routeTravelTicks:[],travelId:null};
+  const o={id,version:ORDER_V2,phase:'accepted',quote,sourceStockpileId:source.id,targetStockpileId:buyer.id,cargoStockpileId:cargo.id,paymentStockpileId:payment.id,freightStockpileId:freight.id,carrierId:quote.carrierId,accessVersion:ORDER_V2_ACCESS,acceptedTick:s.worldTick,chargedSegments:0,routeTravelTicks:[],travelId:null,deadlineClockVersion:'passable-window:v1',passableTicks:0,pausedTicks:0,pauseSpans:[],lastDeadlineTick:s.worldTick};
   s.srEconomy.orders[id]=o;s.reservationsById[ORDER_V2_RESERVATION]={id:ORDER_V2_RESERVATION,kind:'sr-market-order-v2',orderId:id,cargoStockpileId:cargo.id,paymentStockpileId:payment.id,freightStockpileId:freight.id};
   ledger(s,`fact:order-v2:accept:${id}`,{operation:'order-reserve',orderId:id,cargo:copy(quote.cargo),payment:copy(quote.payment),food:quote.foodCost,sourceStockpileId:source.id,paymentSourceStockpileId:buyer.id,freightSourceStockpileId:freightSource.id});
   return copy(o);
@@ -271,7 +293,7 @@ function marketOrderV2(s,id,choice,options){
   return {recovered:true,targetStockpileId:cargo.id,cargo:goods,food};
  }
  if(['completed','declined','cancelled'].includes(o.phase))fail('此订单已经结束。');
- orderV2Sync(s,o);
+ orderV2Sync(s,o);advanceOrderV2Deadline(s,o);
  if(choice==='pickup-v2'){
   if(o.pickupTick!==undefined)fail('货物已由承运人取走。');
   if(o.phase!=='accepted'||s.master.activityId||s.srWorld.activeTravelId||s.master.lifeStatus==='dead')fail('掌门当前不能取货。');
@@ -321,10 +343,46 @@ function marketOrderV2(s,id,choice,options){
   }
   const unpaid=payment.resources.jade;if(unpaid!==o.quote.payment.jade)fail('商人付款预留不完整。');if(total(buyer)+unpaid<=buyer.capacity){payment.resources.jade=0;buyer.resources.jade+=unpaid;o.paymentReturnStockpileId=buyer.id;}else o.paymentReturnStockpileId=payment.id;
   o.phase='cancelled';o.cancelledTick=s.worldTick;o.cancelledAfterPickup=!beforePickup;o.cancelledCargo=copy(cargo.resources);o.cancelledFreight=freight.resources.food;delete s.reservationsById[ORDER_V2_RESERVATION];
+  closeOrderV2Pause(o);
   ledger(s,`fact:order-v2:cancel:${id}`,{operation:'order-v2-cancel',orderId:id,afterPickup:!beforePickup,cargoStockpileId:cargo.id,cargo:copy(o.cancelledCargo),cargoRetainedAtSource:!!o.cancelledAtSourceRetained,paymentReturnedTo:o.paymentReturnStockpileId,freightStockpileId:freight.id,unspentFreight:o.cancelledFreight,freightRefundStockpileId:o.freightRefundStockpileId||null,travelId:o.travelId});
   return copy(o);
  }
  fail('订单动作无效。');
+}
+const ORDER_V2_WINDOW=1200;
+function closeOrderV2Pause(o){const span=o.pauseSpans?.at(-1);if(span&&!Number.isSafeInteger(span.endTick))span.endTick=o.lastDeadlineTick;}
+function orderV2PauseReasons(s,o){
+ const reasons=[];
+ for(const id of o.quote.routeIds)if(s.routesById?.[id]?.condition==='blocked')reasons.push(`road:${id}`);
+ const buyer=s.personsById[o.quote.buyerId];
+ if(!buyer||buyer.lifeStatus==='dead'||buyer.wound>20||buyer.energy<10)reasons.push('merchant:incapacitated');
+ else if(buyer.position?.kind!=='scene'||buyer.position.sceneId!=='scene:market')reasons.push('merchant:away');
+ const warehouse=stock(s,o.targetStockpileId),cargoCount=Object.values(o.quote.cargo).reduce((n,v)=>n+v,0);
+ if(position(s,warehouse)?.sceneId!=='scene:market'||total(warehouse)+cargoCount>warehouse.capacity)reasons.push('warehouse:unavailable');
+ return reasons;
+}
+function advanceOrderV2Deadline(s,o){
+ // Earlier v2 saves had no running clock. Their already accepted terms remain
+ // payable without a newly imposed retroactive breach.
+ if(o.deadlineClockVersion!=='passable-window:v1'||o.breachTick!==undefined)return;
+ if(s.worldTick<=o.lastDeadlineTick||s.worldTick<=o.quote.earliestDeliverTick)return;
+ for(let tick=Math.max(o.lastDeadlineTick+1,o.quote.earliestDeliverTick+1);tick<=s.worldTick;tick++){
+  const reasons=orderV2PauseReasons(s,o),key=reasons.join('|'),open=o.pauseSpans.at(-1);
+  if(reasons.length){
+   if(open&&!Number.isSafeInteger(open.endTick)&&open.reasons.join('|')!==key)closeOrderV2Pause(o);
+   if(!o.pauseSpans.length||Number.isSafeInteger(o.pauseSpans.at(-1).endTick))o.pauseSpans.push({startTick:tick,reasons,pausedTicks:0});
+   o.pauseSpans.at(-1).pausedTicks++;o.pausedTicks++;
+  }else{
+   if(open&&!Number.isSafeInteger(open.endTick))closeOrderV2Pause(o);
+   o.passableTicks++;
+   if(o.passableTicks>ORDER_V2_WINDOW){
+    o.breachTick=tick;
+    ledger(s,`fact:order-v2:breach:${o.id}`,{operation:'order-v2-seller-breach',orderId:o.id,sellerId:o.quote.sellerId,buyerId:o.quote.buyerId,earliestDeliverTick:o.quote.earliestDeliverTick,passableTicks:o.passableTicks,pausedTicks:o.pausedTicks,pausedReasons:copy(o.pauseSpans),source:'accepted quoted delivery window elapsed while road, merchant and warehouse were available'});
+   }
+  }
+  o.lastDeadlineTick=tick;
+  if(o.breachTick!==undefined)break;
+ }
 }
 function marketRouteOpen(s){const routes=s.srWorld?.routes;return !routes||Object.values(routes).every(r=>!r.id?.includes('bridge')||!['closed','blocked','damaged'].includes(r.condition));}
 function prepareMerchantCollection(s,b,order,payment){const p=s.personsById['person:merchant-qingxi'],id=`work:merchant-collection:${b.instanceId}:${order.batch}`,prior=s.workOrdersById[id],target=stockAccess(s,stock(s,`stockpile:${b.instanceId}`));if(prior?.phase==='waiting-for-goods'&&target&&atHome(s,p)&&close(s,p.mind.scenic,target)&&s.activitiesById[p.activityId]?.workOrderId===id)return true;if(prior&&!['cancelled','delivered'].includes(prior.phase)||prior?.phase==='cancelled'&&prior.cancelledVisitTick===s.srEconomy.merchantArrivalTick)return false;if(!workshopBuyerAvailable(s)||p.activityId||p.wound>20||p.energy<10)return false;if(!target)return false;const path=scenicFindPath(s,p.mind.scenic,target,{maxSnap:0});if(path===null)return false;const aid=`activity:merchant-collection:${s.srEconomy.nextId++}`;s.workOrdersById[id]={id,kind:'sr-merchant-collection',carrierId:p.personId,targetId:b.instanceId,sourceStockpileId:`stockpile:${b.instanceId}`,productionWorkOrderId:order.id,productionBatch:order.batch,productionSnapshot:{id:order.id,batch:order.batch,buildingId:b.instanceId,recipeId:`recipe:${b.type}:v1`,sourceStockpileId:`stockpile:${b.instanceId}`},activityId:aid,phase:'to-source',startedTick:s.worldTick,expectedPayment:payment,reason:'商人先沿院中实际路径到工坊取货。'};s.activitiesById[aid]={id:aid,kind:'sr-merchant-collection',personId:p.personId,workOrderId:id,phase:'moving',reason:'实际步行到工坊验货付款。'};p.activityId=aid;p.mind.scenic.path=path;p.mind.scenic.goal=copy(target);p.mind.scenic.revision=geometryRevision(s);return false;}
@@ -353,7 +411,7 @@ function settleWholesale(s){const e=s.srEconomy,w=e.wholesale,m=stock(s,'stockpi
  if(payment>0){customer.resources.jade-=payment;m.resources.jade+=payment;w.windowSpent+=payment;w.spentLifetime+=payment;const id=`fact:wholesale:${s.worldTick}`;ledger(s,id,{operation:'wholesale-delivery',actorId:'person:merchant-qingxi',buyerId:'person:wholesale-buyer',sourceStockpileId:m.id,paymentSourceStockpileId:customer.id,payment,cargo,toolkitIds:toolkits,source:'finite regional customer treasury; actual consumed/delivered goods'});for(const[k,v]of Object.entries(cargo))customer.resources[k]+=v;}
  w.nextMarketTick=s.worldTick+WHOLESALE_DEFINITION.periodTicks;
 }
-function advanceMarketOrdersV2(s){for(const o of Object.values(s.srEconomy.orders))if(o.version===ORDER_V2&&!['completed','cancelled','declined'].includes(o.phase))orderV2Sync(s,o);}
+function advanceMarketOrdersV2(s){for(const o of Object.values(s.srEconomy.orders))if(o.version===ORDER_V2&&!['completed','cancelled','declined'].includes(o.phase)){orderV2Sync(s,o);advanceOrderV2Deadline(s,o);}}
 export function tickEconomy(s){if(!s.srEconomy||s.srEconomy.updatedThroughTick>=s.worldTick)return;const e=s.srEconomy;e.updatedThroughTick=s.worldTick;initEconomy(s);advanceFarmCrops(s);advanceMerchant(s);advanceMasterHarvest(s);advanceReplenish(s);advanceCraft(s);settleWholesale(s);advanceMarketOrdersV2(s);
  for(const w of Object.values(s.workOrdersById))if(w.kind==='transport'&&!['delivered','cancelled'].includes(w.phase)){const p=s.personsById[w.carrierId],o=p&&body(s,p);if(!p||!atHome(s,p)||o.scenic?.spatialEvacuationOrderId||p.wound>(Object.keys(w.cargo).every(pillId)?85:20)||p.energy<5||o.away||o.journey){w.reason='搬运者外出、受伤或精力不足；货物保留在预约或本人身上。';continue;}const endpoint=stock(s,w.phase==='to-source'?w.sourceStockpileId:w.targetStockpileId);if(endpoint.buildingId&&s.buildingsById[endpoint.buildingId]?.spatialLock){w.reason='源或目的设施正迁建，保持预约/携带等待或取消。';continue;}const target=stockAccess(s,endpoint);if(!target){w.reason='仓储接触范围没有合法脚点，货物保留，可清出通路或取消。';o.scenic.path=[];o.scenic.goal=null;continue;}if(!close(s,o.scenic,target)){if(o.scenic.revision!==geometryRevision(s)||!o.scenic.path.length||!o.scenic.goal||scenicDistance(o.scenic.goal,target)>.01){const path=scenicFindPath(s,o.scenic,target,{maxSnap:0});if(path===null){w.reason='道路不通，货物与进度保留。';o.scenic.path=[];o.scenic.goal=null;o.scenic.revision=geometryRevision(s);continue;}o.scenic.path=path;o.scenic.goal=copy(target);o.scenic.revision=geometryRevision(s);}advanceScenic(o.scenic,4.6,s);syncScenicPosition(s,p);p.energy=Math.max(0,p.energy-.01);continue;}
  if(w.phase==='to-source'){w.phase='carrying';w.reason='已实际取料，携带前往交付地点。';o.scenic.path=[];continue;}const targetStock=stock(s,w.targetStockpileId);if(total(targetStock)+Object.values(w.cargo).reduce((a,b)=>a+b,0)>targetStock.capacity){w.reason='目的仓储已满，保持携带。';continue;}for(const[k,v]of Object.entries(w.cargo))changeCargo(targetStock,k,v);w.phase='delivered';w.reason='已到场交付，可供目的工序使用。';releaseTransport(s,w);ledger(s,`fact:transport:${w.id}`,{operation:'delivery',sourceStockpileId:w.sourceStockpileId,targetStockpileId:w.targetStockpileId,quantities:copy(w.cargo)});}
@@ -398,7 +456,7 @@ export function viewInventorySummary(s){
  for(const b of Object.values(s.buildingsById||{})){
   const st=s.stockpilesById?.[`stockpile:${b.instanceId}`],order=s.workOrdersById?.[`work:production:${b.instanceId}`];
   if(!BUILDINGS[b.type]?.work||b.enabled===false||b.condition<=0||b.constructionWorkOrderId||!st||scope(st)!=='public'||order&&order.phase!=='completed')continue;
-  const need=b.type==='farm'?FARM_CROP_RECIPE.seedCost:BUILDINGS[b.type].input||{};
+  const need=b.type==='farm'?FARM_CROP_RECIPE.seedCost:productionRecipeDefinition(PRODUCTION_RECIPE_VERSION,b.type)?.inputCost||{};
   for(const[k,v]of Object.entries(need)){const missing=Math.max(0,v-(st.resources?.[k]||0));if(missing){add('public',k,'shortage',missing);groups.public.shortageReasons.push({targetId:b.instanceId,targetName:BUILDINGS[b.type].name,resource:k,quantity:missing,reason:'下一批需先将材料实际搬到工位。'});}}
  }
  return Object.values(groups).map(g=>({...g,amounts:Object.fromEntries(Object.entries(g.amounts).map(([k,a])=>[k,{...a,total:a.available+a.reserved+a.inTransit}]))}));
@@ -408,6 +466,17 @@ export function viewEconomy(s){if(!s.srEconomy)return {enabled:false};return {en
 function validateMarketOrderV2(s,id,o){
  const q=o.quote,active=!['completed','cancelled','declined'].includes(o.phase);
  if(id!==ORDER_V2_ID||o.id!==id||q?.version!==ORDER_V2||q.priceVersion!=='artisan-tools:home-market:v1'||q.orderId!==id||q.sellerId!=='person:master'||q.buyerId!=='person:merchant-qingxi'||q.carrierId!=='person:master'||q.sourceStockpileId!==ORDER_V2_SOURCE||q.deliveryCostStockpileId!==ORDER_V2_SOURCE||q.targetStockpileId!==ORDER_V2_DESTINATION||JSON.stringify(q.cargo)!==JSON.stringify(ORDER_DEFINITIONS[id].cost)||q.payment?.jade!==30||q.reputation!==2||q.foodCost!==2||JSON.stringify(q.routeIds)!==JSON.stringify(['route:home-valley','route:valley-market'])||!Array.isArray(q.routeFoodBySegment)||q.routeFoodBySegment.length!==2||q.routeFoodBySegment.some(v=>!Number.isSafeInteger(v)||v<0)||q.routeFoodBySegment.reduce((n,v)=>n+v,0)!==q.foodCost||!['accepted','in_transit','blocked','delivered','completed','declined','cancelled'].includes(o.phase))fail('跨场景商单报价或阶段异常。');
+ if(o.deadlineClockVersion!==undefined){
+  if(o.deadlineClockVersion!=='passable-window:v1'||q.deadlineTick!==q.earliestDeliverTick+ORDER_V2_WINDOW||!Number.isSafeInteger(o.lastDeadlineTick)||o.lastDeadlineTick<o.acceptedTick||o.lastDeadlineTick>s.worldTick||!Number.isSafeInteger(o.passableTicks)||!Number.isSafeInteger(o.pausedTicks)||o.passableTicks<0||o.pausedTicks<0||o.passableTicks+o.pausedTicks!==Math.max(0,o.lastDeadlineTick-q.earliestDeliverTick)||!Array.isArray(o.pauseSpans))fail('商单交付时钟异常。');
+  let paused=0,lastEnd=q.earliestDeliverTick;
+  for(const [index,span] of o.pauseSpans.entries()){
+   const end=span.endTick??o.lastDeadlineTick;
+   if(!Number.isSafeInteger(span.startTick)||!Number.isSafeInteger(end)||span.startTick<=lastEnd||end<span.startTick||end>o.lastDeadlineTick||!Number.isSafeInteger(span.pausedTicks)||span.pausedTicks!==end-span.startTick+1||!Array.isArray(span.reasons)||!span.reasons.length||span.reasons.some(reason=>typeof reason!=='string'||!reason)||span.endTick===undefined&&(index!==o.pauseSpans.length-1||!active||o.breachTick!==undefined))fail('商单停表分段异常。');
+   paused+=span.pausedTicks;lastEnd=end;
+  }
+  const breach=s.factsById[`fact:order-v2:breach:${id}`];
+  if(paused!==o.pausedTicks||o.breachTick!==undefined&&(!Number.isSafeInteger(o.breachTick)||o.breachTick!==o.lastDeadlineTick||o.passableTicks!==ORDER_V2_WINDOW+1||breach?.atTick!==o.breachTick||breach.operation!=='order-v2-seller-breach'||breach.orderId!==id||breach.sellerId!==q.sellerId||breach.buyerId!==q.buyerId||breach.passableTicks!==o.passableTicks||breach.pausedTicks!==o.pausedTicks||JSON.stringify(breach.pausedReasons)!==JSON.stringify(o.pauseSpans))||o.breachTick===undefined&&(breach||o.passableTicks>ORDER_V2_WINDOW))fail('商单交付期限或失约事实异常。');
+ }
  if(o.phase==='declined'){if(s.reservationsById[ORDER_V2_RESERVATION]||s.stockpilesById[ORDER_V2_CARGO]||s.stockpilesById[ORDER_V2_PAYMENT]||s.stockpilesById[ORDER_V2_FREIGHT])fail('拒单后不能存在预留货位。');return;}
  if(o.sourceStockpileId!==q.sourceStockpileId||o.targetStockpileId!==q.targetStockpileId||o.carrierId!==q.carrierId||o.cargoStockpileId!==ORDER_V2_CARGO||o.paymentStockpileId!==ORDER_V2_PAYMENT||o.freightStockpileId!==ORDER_V2_FREIGHT)fail('订单来源、目的地或承运引用异常。');
  const cargo=s.stockpilesById[o.cargoStockpileId],payment=s.stockpilesById[o.paymentStockpileId],freight=s.stockpilesById[o.freightStockpileId];

@@ -18,8 +18,9 @@ if (!source) {
   test('material reserved by a real transport order cannot also begin workshop production', () => {
     assert.equal(source.provenance?.kind, 'normal-public-command-checkpoint');
     assert.equal(source.provenance?.label, 'physical workshop built');
-    const state = SIM.validateSave(source.state);
-    assert.equal(JSON.stringify(state), JSON.stringify(source.state));
+    const rawSource = JSON.stringify(source.state), state = SIM.validateSave(source.state);
+    assert.equal(JSON.stringify(source.state), rawSource, 'validation keeps the earned source intact');
+    assert.equal(JSON.stringify(SIM.validateSave(state)), JSON.stringify(state), 'migration applies once');
     const h = harness(state);
     const b = h.s.buildings.find(b => b.type === 'workshop');
     assert.equal(b?.instanceId, 'building:yunxiu:6');

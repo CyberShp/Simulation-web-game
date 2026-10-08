@@ -23,8 +23,9 @@ function resultCount(s){return Object.values(s.factsById).filter(f=>f.operation=
 function earned(){
  assert.equal(source?.provenance?.kind,'normal-public-command-checkpoint');
  assert.equal(source.provenance.label,'physical workshop built');
- const state=S.validateSave(source.state);
- assert.equal(JSON.stringify(state),JSON.stringify(source.state),'source must be a canonical save');
+ const raw=JSON.stringify(source.state),state=S.validateSave(source.state);
+ assert.equal(JSON.stringify(source.state),raw,'validation must not mutate the earned source');
+ assert.equal(JSON.stringify(S.validateSave(state)),JSON.stringify(state),'compatible save is canonical after one migration');
  assert.equal(source.provenance.counts.worldTick,state.worldTick);
  assert.equal(state.buildingsById[buildingId]?.type,'workshop');
  assert.equal(state.workOrdersById[workOrderId],undefined);
@@ -60,6 +61,15 @@ if(!source){
   const order=h.s.workOrdersById[workOrderId];
   assert.equal(order.batch,1);
   assert.equal(order.phase,'active');
+  assert.equal(order.recipeSnapshot.recipeVersion,'supply-recipes:yunxiu:v2');
+  assert.deepEqual(order.recipeSnapshot.inputCost,{wood:3,stone:2});
+  assert.deepEqual(order.recipeSnapshot.outputDefinition,{jade:24});
+  assert.equal(order.recipeSnapshot.durationUnit,'contribution');
+  assert.equal(order.recipeSnapshot.durationValue,order.durationTicks);
+  const forged=structuredClone(h.s),beforeForgery=JSON.stringify(h.s);
+  forged.workOrdersById[workOrderId].recipeSnapshot.inputCost.wood=4;
+  assert.throws(()=>S.validateSave(forged),/生产批次引用异常/);
+  assert.equal(JSON.stringify(h.s),beforeForgery,'rejected snapshot does not alter the paid batch');
   assert.deepEqual(h.s.reservationsById[order.reservationId]?.cost,recipe,'input is reserved once for the shared batch');
   assert.equal(h.s.stockpilesById[siteId].resources.wood,0);
   assert.equal(h.s.stockpilesById[siteId].resources.stone,0);

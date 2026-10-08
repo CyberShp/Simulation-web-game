@@ -19,7 +19,7 @@ export const WORLD_CONTENT_CARDS=deepFreeze([
  row('bill-correction','路税账误纠正','person:zhou-an','scene:market',{food:2,insight:1},{jade:8},'执事愿承担自己账错的修正成本，非替任何宗门洗罪'),
  row('artisan-crates','匠人分装材料','person:luo-ming','scene:market',{herb:4,food:2},{wood:8},'罗铭出售已加工的有限干木，保留自己维修所需'),
  row('guard-clothes','护送者补衣','person:wei-qingshu','scene:market',{wood:4,herb:2},{jade:7},'剑修魏青书珍视衣食与承诺，非只争强斗狠'),
- row('priority-price','苗圃先供附约','person:gu-shoulin','scene:market',{wood:4,food:2},{herb:8},'顾守林为个人分账隐瞒额外优先费，与顾婉仪保救急的利益不同',{jade:6},true),
+ row('priority-price','苗圃先供附约','person:gu-shoulin','scene:market',{wood:4,food:2},{herb:8},'顾守林为个人分账隐瞒额外优先费，与顾婉仪保救急的利益不同',{jade:6},true,'顾守林托来的口信说：苗圃可把这一批灵草优先供给山院，木架与行粮送到后交货；完整原单可当面查验。'),
  row('false-carriage','护送凭条日期','person:wei-jing','scene:market',{herb:3,food:2},{insight:4},'剑修魏靖以过期签收追加登记费；同剑道不决定是否守信',{jade:5},true),
  row('rain-omission','药商雨后附费','person:yao-zhong','scene:market',{jade:8,food:1},{herb:6},'姚仲在真实药材交易中隐瞒仓位附费，须为已知欺瞒付纠正成本',{jade:4},true),
  row('knife-contract','外务通路附单','person:duan-jin','scene:quarry',{wood:4,herb:2},{stone:8},'段谨保存本堂收入，隐瞒一次通路费；不因此自动全宗敌对',{jade:6},true),
