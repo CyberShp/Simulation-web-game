@@ -26,7 +26,7 @@
 
 已有自主行为、意愿和工位等候基础。
 
-完整候选效用、日程、承诺、职责、记忆更新及规模参数需补齐。
+v2 日相位已随唯一世界时钟更新且不打断有效工作承诺；完整候选效用、日程活动切换、职责、记忆更新及 3–5/24–32 人规模参数仍需补齐。
 
 现状是适用旧能力的基线，不表示该SR完整目标已通过。
 
@@ -79,7 +79,7 @@ SR-XF-008-D01证据：docs/requirements/design/SR-XF-007-011-019-026-027.md; 202
 
 SR-XF-008-D02证据：docs/requirements/design/SR-XF-007-011-019-026-027.md; independent reviewer report 2026-10-08
 
-SR-XF-008-I01证据：qa/ea-sr-008-invite-public-acceptance.mjs；dist/ea-sr-persons.mjs；dist/ea-sr-ui.mjs；docs/design/STATUS.md；docs/requirements/design/SR-XF-007-011-019-026-027.md；2026-10-08 r14 在正式schema6/content v1.2 每日供给已结算时，按人物/日号登记唯一来源事实，再一次更新信任；旧关系为既有基线，不反推旧日事实，坏来源拒载。正常公开有粮与缺粮链35命令/25次精确存读，新专项2/2，旧重复邀请和五人两工位2/2、世界21/21。源码307894b、Pages f3e0d63 built，162文本blob匹配。完整自主日程v2的迁移、承诺生命周期和正式决策尚未发布，I01继续；原AC与V/R状态不变。；2026-10-08 r15 有界 autonomy:v2 准备能力：从正常公开邀请原生档先验证原档，克隆迁移并保留旧承诺剩余期限和本人来源事实；到原截止世界步转 completed、设施停用或公开出行转 interrupted，逐阶段可精确存读；非法 speed=3 原档迁移前拒绝，低信任为可做但不愿做，设施不可用为硬阻塞。迁移专项正常来源37命令/24次存读，根合入后新增3/3、旧邀请/五人2/2、世界21/21、产权6/6；独立复核5/5，旧AC03三项缺外部来源检查点跳过。源码effc917、Pages a90fda6 built，162文本blob匹配。当前正式 tick/邀请仍走v1；v2其他活动、职责、意愿平衡、浏览器与目标设备未验，I01及整项V/R继续。；2026-10-08 r18：正常来源92条公开命令、隔离迁移后10条邀请与至少66次精确存读；两名42分自愿到不同真实伐木工位，27分拒绝与身体硬阻塞、承诺到期、停用中断及150/300/600退避均复核。主线6/6，源码a7326da9b73f331567dbaa4fa6cfaba932f18a5d，Pages656f4b026bb917c54c070436218ecbbd39cc1981 built，162文本blob一致；浏览器、设备及完整v2未验。；2026-10-08 r19: mutual facility-route wait after the SR009 opening timing change was resolved with physical side-step; qa/ea-sr-008-v2-work-public-acceptance.mjs 1/1, two real stations before the original 240-tick commitment expiry, exact-save yielding route; adjacent facility/door 17/17; source c9be1d476311a558e7a37a4e0305e5086b71a369
+SR-XF-008-I01证据：qa/ea-sr-008-invite-public-acceptance.mjs；dist/ea-sr-persons.mjs；dist/ea-sr-ui.mjs；docs/design/STATUS.md；docs/requirements/design/SR-XF-007-011-019-026-027.md；2026-10-08 r14 在正式schema6/content v1.2 每日供给已结算时，按人物/日号登记唯一来源事实，再一次更新信任；旧关系为既有基线，不反推旧日事实，坏来源拒载。正常公开有粮与缺粮链35命令/25次精确存读，新专项2/2，旧重复邀请和五人两工位2/2、世界21/21。源码307894b、Pages f3e0d63 built，162文本blob匹配。完整自主日程v2的迁移、承诺生命周期和正式决策尚未发布，I01继续；原AC与V/R状态不变。；2026-10-08 r15 有界 autonomy:v2 准备能力：从正常公开邀请原生档先验证原档，克隆迁移并保留旧承诺剩余期限和本人来源事实；到原截止世界步转 completed、设施停用或公开出行转 interrupted，逐阶段可精确存读；非法 speed=3 原档迁移前拒绝，低信任为可做但不愿做，设施不可用为硬阻塞。迁移专项正常来源37命令/24次存读，根合入后新增3/3、旧邀请/五人2/2、世界21/21、产权6/6；独立复核5/5，旧AC03三项缺外部来源检查点跳过。源码effc917、Pages a90fda6 built，162文本blob匹配。当前正式 tick/邀请仍走v1；v2其他活动、职责、意愿平衡、浏览器与目标设备未验，I01及整项V/R继续。；2026-10-08 r18：正常来源92条公开命令、隔离迁移后10条邀请与至少66次精确存读；两名42分自愿到不同真实伐木工位，27分拒绝与身体硬阻塞、承诺到期、停用中断及150/300/600退避均复核。主线6/6，源码a7326da9b73f331567dbaa4fa6cfaba932f18a5d，Pages656f4b026bb917c54c070436218ecbbd39cc1981 built，162文本blob一致；浏览器、设备及完整v2未验。；2026-10-08 r19: mutual facility-route wait after the SR009 opening timing change was resolved with physical side-step; qa/ea-sr-008-v2-work-public-acceptance.mjs 1/1, two real stations before the original 240-tick commitment expiry, exact-save yielding route; adjacent facility/door 17/17; source c9be1d476311a558e7a37a4e0305e5086b71a369；2026-10-08 M2 r32 v2 日相位子批：正常五人/两真实伐木工位来源链107+6公开命令、67次精确存读；两位自愿门人跨休整→生产偏好时保留原240步承诺、岗位和不同实际工位，停用营造后才中断。schedule.phase 在迁移、每世界步和只读人物页用同一 worldTick；不改生产结算或另建身体。根与独立新专项1/1、迁移1/1，旧邀请1/1、UI契约17通过/4待设备。旧v2-work硬编码缺失人物及旧five-workers精确小数坐标断言，在本提交父版本原样失败，不计回归通过；伤病/生产专项缺来源档跳过。源码2455d0b、Pages8c5621e built，162文本blob及公网入口/人物模块字节一致；r32未做浏览器游戏内交互和真机。完整v2/I/V/R继续。
 
 SR-XF-008-V01证据：qa/ea-sr-008-invite-public-acceptance.mjs；dist/ea-sr-persons.mjs；dist/ea-sr-ui.mjs；docs/design/STATUS.md
 
@@ -116,6 +116,7 @@ SR-XF-008-V01证据：qa/ea-sr-008-invite-public-acceptance.mjs；dist/ea-sr-per
 - qa/ea-sr-008-daily-relation-public-acceptance.mjs
 - dist/ea-sr-persons.mjs
 - qa/ea-sr-008-v2-migration-acceptance.mjs
+- 2026-10-08 M2 r32 v2 日相位子批：正常五人/两真实伐木工位来源链107+6公开命令、67次精确存读；两位自愿门人跨休整→生产偏好时保留原240步承诺、岗位和不同实际工位，停用营造后才中断。schedule.phase 在迁移、每世界步和只读人物页用同一 worldTick；不改生产结算或另建身体。根与独立新专项1/1、迁移1/1，旧邀请1/1、UI契约17通过/4待设备。旧v2-work硬编码缺失人物及旧five-workers精确小数坐标断言，在本提交父版本原样失败，不计回归通过；伤病/生产专项缺来源档跳过。源码2455d0b、Pages8c5621e built，162文本blob及公网入口/人物模块字节一致；r32未做浏览器游戏内交互和真机。完整v2/I/V/R继续。
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
@@ -129,5 +130,6 @@ SR-XF-008-V01证据：qa/ea-sr-008-invite-public-acceptance.mjs；dist/ea-sr-per
 - 2026-10-08：I01 有界 v2 工作邀请候选批：正常新档92条公开命令取得五人、居所和伐木两工位来源，隔离迁移后10条正式邀请命令与66次精确存读；两人42分接受并到不同实体工位，一人27分可做但不愿做，另两人被正在执行的身体工序阻塞。承诺经真实世界步到原240步截止，停用设施中断并释放预约，条件变化的连续拒绝按150/300/600步退避。该批仍待主线独立复核与发布；v1仍为默认，v2其余候选/职责/关系事实及完整I/V/R继续。
 - 2026-10-08：r18 有界 v2 公开工作邀请子批经独立复核、主线 6/6 定向回归并发布；正式新档仍默认 v1，其他候选、职责与整项 I/V/R 继续。
 - 2026-10-08：opt-in v2 work invitations are implemented in a bounded public chain; other v2 activities, responsibilities and full acceptance remain open
+- 2026-10-08：r32 v2 日相位随世界时钟更新，在有效工作承诺下仅改变偏好展示；根与独立复核后发布，完整自主日程继续。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。

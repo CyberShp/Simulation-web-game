@@ -1,5 +1,7 @@
 # M0→M1 交付接续 · 2026-10-08
 
+当前最新 M2 r32 已发布门人 v2 日相位子批：正常五人/两真实工位 107+6 公开命令、67 次精确存读，跨相位后原工作承诺、岗位及两处实际工位保留，停用后才中断；根与独立新专项、迁移各1/1，旧邀请1/1、UI17通过/4待设备。旧两脚本的 ID 与坐标失败在父版本相同，不计通过；完整 v2 仍待。源码 `main` `2455d0bc1a62ee6963c2d843e968fb8d68182213`，网页 `gh-pages` `8c5621ee7aeb67c1b6ab1dd2d85bc58745576caf`，标记 `ea-160-courtyard-20261008-r32`，Pages `built`、162文本blob及公网入口/人物模块一致；r32 未验浏览器游戏内交互或真机。**39 passed、80 not_run、1 blocked**。详见 [STATUS](design/STATUS.md) 与 [台账](requirements/registry.json)。
+
 当前最新 M2 r31 已发布青溪实体补给承运中断恢复：正常流程逐阶段存读后，独立复核三处同地伤停各经429世界步续运且钱货、产权、已付费用不变；出程/回程原旅队静养、断路等待、身死保货与旅途遗物真实位置通过。专项及相邻商单12/12、事后10/10、运输6/6、世界21/21；公开 Chromium 首屏加载，公网游戏内交互与真机未验。源码 `main` `b79b62bf739c961100081fef5b9da475dea3d60b`，网页 `gh-pages` `3a73c02d1cde0b31cf2975c704844102c5e4ee48`，标记 `ea-160-courtyard-20261008-r31`，Pages `built`、162文本blob及公网入口/经营/危机模块一致。合法继任、取回、取消、改道和完整 SR011 继续；**39 passed、80 not_run、1 blocked**。详见 [STATUS](design/STATUS.md) 与 [台账](requirements/registry.json)。
 
 当前最新 M1 r30 已发布寻路碰撞查询减负：独立复核发现半径0边界反例，根修复后空间36/36、门道2/2、建筑网格6/6；合法40建筑/30人档540路线+540扫掠及400世界步终态一致。Chromium两轮世界步内部耗时下降，但12秒页面帧间隔未改善，整体卡顿继续。源码 `main` `4f68da8730bf278180e9e4644dd6968b1e12fe50`，网页 `gh-pages` `726726a726bc8eb4f4d5c99cf714872ccff40b66`，标记 `ea-160-courtyard-20261008-r30`，Pages `built`、162文本blob及公网入口/空间模块匹配。r29合法密集档另发现主殿扩地撤离与施工队互堵，正在单独修复；**39 passed、80 not_run、1 blocked**。详见 [STATUS](design/STATUS.md) 与 [台账](requirements/registry.json)。
