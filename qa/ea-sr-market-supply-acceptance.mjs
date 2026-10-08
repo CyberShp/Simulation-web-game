@@ -1,8 +1,9 @@
-/** SR-XF-011-AC02: normal public supply and local fallback. No state injections. */
+/** SR-XF-011-AC02: normal public supply with labeled interruption fixtures. */
 import assert from 'node:assert/strict';
 import {mkdirSync,readFileSync,writeFileSync} from 'node:fs';
 import {resolve,join} from 'node:path';
 import * as S from '../dist/ea-opening-sim.mjs';
+import {recordPermanentDeathSR} from '../dist/ea-sr-crises.mjs';
 import {harness} from './ea-sr-integration-acceptance.mjs';
 const checkpointOption=process.argv.indexOf('--checkpoint-dir'),checkpointDir=checkpointOption<0?null:resolve(process.argv[checkpointOption+1]);
 const legacyOption=process.argv.indexOf('--legacy-save');
@@ -13,6 +14,7 @@ function start(){
  h.act('acknowledgeIntro');h.act('masterAction','heal');h.until(s=>s.master.wound===0,'opening healing');h.act('advanceStory');
  return h;
 }
+const earnedSupplyStages={};
 
 {
  const h=start(),source=()=>h.s.stockpilesById['stockpile:qingxi-supplier'],shop=()=>h.s.stockpilesById['stockpile:qingxi'];
@@ -32,7 +34,7 @@ function start(){
  const regional=k=>Object.entries(h.s.stockpilesById).filter(([id])=>['stockpile:qingxi','stockpile:qingxi-supplier','stockpile:qingxi-supplier-wallet','stockpile:chizhang-market-toll'].includes(id)||id.startsWith('stockpile:market-supply:')).reduce((sum,[,st])=>sum+(st.resources[k]||0),0);
  const beforeRun={food:regional('food'),jade:regional('jade')};
  const phase=name=>h.until(s=>Object.values(s.srEconomy.marketSupply.runs).some(r=>r.phase===name),`supplier ${name}`,4500);
- for(const name of ['outbound','at-source','purchased','returning','awaiting-delivery','completed']){phase(name);h.save();if(name==='returning')writeCheckpoint(h,'normal-supply-in-transit');}
+ for(const name of ['outbound','at-source','purchased','returning','awaiting-delivery','completed']){phase(name);h.save();if(name!=='completed')earnedSupplyStages[name]=JSON.stringify(h.s);if(name==='returning')writeCheckpoint(h,'normal-supply-in-transit');}
  const run=Object.values(h.s.srEconomy.marketSupply.runs)[0];
  assert.equal(source().resources.food,140);
  assert.equal(shop().resources.food,24);
@@ -50,6 +52,99 @@ function start(){
  for(let n=0;n<10;n++)S.tick(h.s,.1);
  assert.equal(Object.keys(h.s.factsById).filter(id=>id===run.settlementFactId).length,factCount);
  console.log('PASS normal public shortage → actual harvest → market sale → funded physical supplier run → purchase; staged exact reload',h.counts);
+}
+
+{
+ // A one-time injury at each real same-scene handoff must recover on the world clock.
+ for(const stage of ['at-source','purchased','awaiting-delivery']){
+  let s=S.validateSave(JSON.parse(earnedSupplyStages[stage]));
+  const run=s.srEconomy.marketSupply.runs[s.srEconomy.marketSupply.activeRunId],carrier=s.personsById[run.carrierId];
+  const fund=s.stockpilesById[run.fundStockpileId],cargo=s.stockpilesById[run.cargoStockpileId||run.sourceReserveId];
+  const holdings=JSON.stringify({fund:fund.resources,cargo:cargo.resources,fundPosition:fund.position,cargoPosition:cargo.position,fundOwner:fund.ownerId,cargoOwner:cargo.ownerId,paid:run.paidGoodsJade,road:run.consumedFood});
+  assert.equal(carrier.position.sceneId,stage==='awaiting-delivery'?'scene:market':'scene:supply');
+  carrier.wound=35;
+  for(let n=0;n<80;n++)S.tick(s,.1);
+  assert.equal(run.phase,stage);assert(carrier.wound<35&&carrier.wound>20);
+  assert.equal(JSON.stringify({fund:fund.resources,cargo:cargo.resources,fundPosition:fund.position,cargoPosition:cargo.position,fundOwner:fund.ownerId,cargoOwner:cargo.ownerId,paid:run.paidGoodsJade,road:run.consumedFood}),holdings);
+  let raw=JSON.stringify(s);s=S.validateSave(JSON.parse(raw));assert.equal(JSON.stringify(s),raw);
+  for(let n=0;n<2400&&s.srEconomy.marketSupply.runs[run.id].phase!=='completed';n++)S.tick(s,.1);
+  assert.equal(s.srEconomy.marketSupply.runs[run.id].phase,'completed',`${stage} injury should recover and finish the same run`);
+  assert.equal(Object.keys(s.factsById).filter(id=>id===`fact:supply-purchase:${run.id}`).length,1);
+  assert.equal(Object.keys(s.factsById).filter(id=>id===`fact:supply-delivery:${run.id}`).length,1);
+  raw=JSON.stringify(s);s=S.validateSave(JSON.parse(raw));assert.equal(JSON.stringify(s),raw);
+ }
+ console.log('PASS normal-origin source, purchased and destination injuries rest in place and finish one paid shipment; exact reload');
+}
+
+{
+ // Both interruptions begin from the normal public sale and the same paid, physical run.
+ for(const stage of ['outbound','returning']){
+  let s=S.validateSave(JSON.parse(earnedSupplyStages[stage]));
+  const run=s.srEconomy.marketSupply.runs[s.srEconomy.marketSupply.activeRunId],trip=s.travelsById[run.travelId],carrier=s.personsById[run.carrierId];
+  const fund=s.stockpilesById[run.fundStockpileId],cargo=s.stockpilesById[run.cargoStockpileId||run.sourceReserveId],holdings=JSON.stringify({fund:fund.resources,cargo:cargo.resources,fundPosition:fund.position,cargoPosition:cargo.position,fundOwner:fund.ownerId,cargoOwner:cargo.ownerId,fundCustodian:fund.custodianId,cargoCustodian:cargo.custodianId,road:run.consumedFood,paid:run.paidGoodsJade});
+  carrier.wound=35;
+  const progress=trip.segmentWork,segment=trip.segmentIndex;
+  for(let n=0;n<80;n++)S.tick(s,.1);
+  assert.equal(trip.status,'blocked');assert.equal(trip.segmentWork,progress);assert.equal(trip.segmentIndex,segment);
+  assert.equal(JSON.stringify({fund:fund.resources,cargo:cargo.resources,fundPosition:fund.position,cargoPosition:cargo.position,fundOwner:fund.ownerId,cargoOwner:cargo.ownerId,fundCustodian:fund.custodianId,cargoCustodian:cargo.custodianId,road:run.consumedFood,paid:run.paidGoodsJade}),holdings);
+  assert.match(S.viewEconomy(s).market.supply.active.reason,/受伤/);
+  let raw=JSON.stringify(s);s=S.validateSave(JSON.parse(raw));assert.equal(JSON.stringify(s),raw);
+  assert(s.personsById[run.carrierId].wound<35&&s.personsById[run.carrierId].wound>20);
+  let restingTicks=0;
+  while(s.personsById[run.carrierId].wound>20&&restingTicks++<600){S.tick(s,.1);assert.equal(s.travelsById[run.travelId].status,'blocked');}
+  assert(restingTicks>300&&restingTicks<600,'normal rest must consume hundreds of world ticks');
+  assert.equal(s.travelsById[run.travelId].segmentWork,progress);
+  const heldRun=s.srEconomy.marketSupply.runs[run.id],heldFund=s.stockpilesById[heldRun.fundStockpileId],heldCargo=s.stockpilesById[heldRun.cargoStockpileId||heldRun.sourceReserveId];
+  assert.equal(JSON.stringify({fund:heldFund.resources,cargo:heldCargo.resources,fundPosition:heldFund.position,cargoPosition:heldCargo.position,fundOwner:heldFund.ownerId,cargoOwner:heldCargo.ownerId,fundCustodian:heldFund.custodianId,cargoCustodian:heldCargo.custodianId,road:heldRun.consumedFood,paid:heldRun.paidGoodsJade}),holdings);
+  raw=JSON.stringify(s);s=S.validateSave(JSON.parse(raw));assert.equal(JSON.stringify(s),raw);
+  S.tick(s,.1);
+  assert.equal(s.travelsById[run.travelId].status,'traveling');assert(s.travelsById[run.travelId].segmentWork>progress);
+  assert.equal(s.personsById[run.carrierId].mind.activity,'travel');
+  assert.match(S.viewEconomy(s).market.supply.active.reason,/阻碍已解除/);
+  let segmentMarker='',routeCheckpoints=0;
+  for(let n=0;n<2000&&s.srEconomy.marketSupply.runs[run.id].phase!=='completed';n++){
+   S.tick(s,.1);
+   const current=s.srEconomy.marketSupply.runs[run.id],currentTravel=s.travelsById[current.travelId],marker=`${current.phase}:${currentTravel?.segmentIndex??'scene'}`;
+   if(marker!==segmentMarker){raw=JSON.stringify(s);s=S.validateSave(JSON.parse(raw));assert.equal(JSON.stringify(s),raw);segmentMarker=marker;routeCheckpoints++;}
+  }
+  assert.equal(s.srEconomy.marketSupply.runs[run.id].phase,'completed');
+  assert(routeCheckpoints>=5,'outbound and returning segments must survive exact reload');
+  raw=JSON.stringify(s);s=S.validateSave(JSON.parse(raw));assert.equal(JSON.stringify(s),raw);
+ }
+ console.log('PASS normal-origin outbound and returning injury fixtures pause one freight holding and resume the same route; exact reload');
+}
+
+{
+ let s=S.validateSave(JSON.parse(earnedSupplyStages.outbound));
+ const run=s.srEconomy.marketSupply.runs[s.srEconomy.marketSupply.activeRunId],carrier=s.personsById[run.carrierId],trip=s.travelsById[run.travelId],progress=trip.segmentWork;
+ carrier.energy=2;
+ for(let n=0;n<5;n++)S.tick(s,.1);
+ assert.equal(trip.status,'blocked');assert.equal(trip.segmentWork,progress);assert(carrier.energy>2&&carrier.energy<5);
+ let raw=JSON.stringify(s);s=S.validateSave(JSON.parse(raw));assert.equal(JSON.stringify(s),raw);
+ for(let n=0;n<20&&s.travelsById[run.travelId].status==='blocked';n++)S.tick(s,.1);
+ assert.equal(s.travelsById[run.travelId].status,'traveling');assert(s.personsById[run.carrierId].energy>=5);
+ raw=JSON.stringify(s);s=S.validateSave(JSON.parse(raw));assert.equal(JSON.stringify(s),raw);
+ console.log('PASS normal-origin exhausted carrier rests at one travel position and resumes on the same world clock; exact reload');
+}
+
+{
+ // Permanent death uses the shared world death hook on a normal-origin physical trip.
+ for(const stage of ['outbound','returning']){
+  let s=S.validateSave(JSON.parse(earnedSupplyStages[stage]));
+  const run=s.srEconomy.marketSupply.runs[s.srEconomy.marketSupply.activeRunId],trip=s.travelsById[run.travelId],fund=s.stockpilesById[run.fundStockpileId],cargo=s.stockpilesById[run.cargoStockpileId||run.sourceReserveId];
+  const holdings=JSON.stringify({fund:fund.resources,cargo:cargo.resources,fundPosition:fund.position,cargoPosition:cargo.position,fundOwner:fund.ownerId,cargoOwner:cargo.ownerId,fundCustodian:fund.custodianId,cargoCustodian:cargo.custodianId,road:run.consumedFood,paid:run.paidGoodsJade});
+  const progress=trip.segmentWork,segment=trip.segmentIndex;
+  recordPermanentDeathSR(s,run.carrierId,{cause:'受控承运事故'});
+  assert.equal(s.personsById[run.carrierId].lifeStatus,'dead');assert.equal(trip.status,'blocked');
+  assert.match(run.reason,/身死/);assert(s.deathRecordsByPersonId[run.carrierId]);
+  assert.deepEqual(s.itemsById[`item:relic:${run.carrierId}`].location,{kind:'travel',id:run.travelId});
+  for(let n=0;n<80;n++)S.tick(s,.1);
+  assert.equal(trip.segmentWork,progress);assert.equal(trip.segmentIndex,segment);
+  assert.equal(JSON.stringify({fund:fund.resources,cargo:cargo.resources,fundPosition:fund.position,cargoPosition:cargo.position,fundOwner:fund.ownerId,cargoOwner:cargo.ownerId,fundCustodian:fund.custodianId,cargoCustodian:cargo.custodianId,road:run.consumedFood,paid:run.paidGoodsJade}),holdings);
+  assert.equal(s.factsById[`fact:supply-delivery:${run.id}`],undefined);
+  const raw=JSON.stringify(s);s=S.validateSave(JSON.parse(raw));assert.equal(JSON.stringify(s),raw);
+ }
+ console.log('PASS normal-origin pre- and post-purchase carrier death leaves paid money and goods in one last physical holding; exact reload');
 }
 
 {
