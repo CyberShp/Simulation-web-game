@@ -5,41 +5,42 @@
   "updated": "2026-10-08",
   "authoritative": "registry.json for requirement records and task states; derived Markdown rendered by qa/sr-manager.py refresh",
   "source_runtime": {
-    "main": "4f68da8730bf278180e9e4644dd6968b1e12fe50",
-    "runtime_source": "4f68da8730bf278180e9e4644dd6968b1e12fe50",
-    "pages": "726726a726bc8eb4f4d5c99cf714872ccff40b66",
+    "main": "b79b62bf739c961100081fef5b9da475dea3d60b",
+    "runtime_source": "b79b62bf739c961100081fef5b9da475dea3d60b",
+    "pages": "3a73c02d1cde0b31cf2975c704844102c5e4ee48",
     "game_version": "1.6.0-dev",
     "schema_version": 6,
-    "preview_pages": "726726a726bc8eb4f4d5c99cf714872ccff40b66",
+    "preview_pages": "3a73c02d1cde0b31cf2975c704844102c5e4ee48",
     "preview_deployment": null,
     "working_game_version": "1.6.0-dev",
     "official_game_version": "1.6.0-dev",
-    "version_note": "M1 r30: conservative spatial obstacle bounding-box rejection reduces path collision work while preserving existing 1e-10 boundary tolerance. Full running-scene frame-rate target remains open.",
+    "version_note": "M2 r31: a physical Qingxi supply carrier rests at the actual travel or same-scene holding after injury/fatigue; death retains freight and the true travel relic location. SR011 remains open.",
     "main_record_type": "runtime source commit; release metadata commit is a descendant",
-    "working_release_note": "Independent review found a zero-radius near-boundary mismatch and root fixed it before release. Spatial 36/36, door 2/2, building-grid 6/6; 540 routes and 540 sweeps plus complete 400-tick 40-building/30-person state match baseline. Two headed Chromium 400-tick runs reduced world-step mean 7.90/9.49 to 6.49/8.14 ms; 12-second real page rAF P95 25.1 vs 25.4 ms and long tasks 3 vs 4 do not establish overall FPS benefit. Pages built, 162 text blobs and public spatial module match. Device FPS remains open.",
-    "previous_pages": "e2e29cb332e9bbac64477f1532da28847966484a",
+    "working_release_note": "Normal public supplier run with staged exact reload; controlled injuries at three same-scene handoffs and two travel phases recover the same run. Independent review measured 429 world ticks to recover wound 35 in each same-scene phase, unique purchase/toll/delivery facts, death and broken-road precedence. Supply suite and adjacent order 12/12, aftermath 10/10, transport 6/6, world 21/21 passed. Pages built, 162 packaged text blobs and public entry/economy/crisis bytes match. Public browser opened the new-world picker; in-sim public interaction and device tests remain open.",
+    "previous_pages": "726726a726bc8eb4f4d5c99cf714872ccff40b66",
     "pages_deployment_status": "built",
-    "working_release_tag": "ea-160-courtyard-20261008-r30",
-    "official_release_tag": "ea-160-courtyard-20261008-r30",
-    "official_url": "https://cybershp.github.io/Simulation-web-game/?v=ea-160-courtyard-20261008-r30",
+    "working_release_tag": "ea-160-courtyard-20261008-r31",
+    "official_release_tag": "ea-160-courtyard-20261008-r31",
+    "official_url": "https://cybershp.github.io/Simulation-web-game/?v=ea-160-courtyard-20261008-r31",
     "deployed_tree_verification": {
       "published_tree_blobs": 235,
       "packaged_text_blobs_checked": 162,
       "source_and_pages_commits_verified": true,
       "verified_files": [
         "index.html",
-        "ea-sr-spatial.mjs"
+        "ea-sr-economy.mjs",
+        "ea-sr-crises.mjs"
       ],
-      "verification": "GitHub API confirms runtime main 4f68da8730bf278180e9e4644dd6968b1e12fe50, gh-pages 726726a726bc8eb4f4d5c99cf714872ccff40b66 and Pages built. All 162 packaged text blobs match remote tree; public entry and changed spatial module HTTP 200 and match package bytes. Public browser interaction not verified.",
+      "verification": "GitHub API confirms runtime main b79b62bf739c961100081fef5b9da475dea3d60b, gh-pages 3a73c02d1cde0b31cf2975c704844102c5e4ee48 and Pages built. All 162 packaged text blobs match remote tree; public entry and changed economy/crisis modules HTTP 200 and match package bytes. Public browser new-world picker loaded; in-sim public interaction not verified.",
       "mismatches": 0
     },
-    "previous_main": "441fd614ea96129542f14135e2e19dec7325fcf4",
+    "previous_main": "4f68da8730bf278180e9e4644dd6968b1e12fe50",
     "browser_verification": {
-      "viewport": "independent local headed Chromium, 1366x900 DPR1",
-      "scope": "Baseline and candidate each ran two 400-tick simulations from the same legal v5 40-building/30-person save; full end-state SHA matched. Candidate world-step mean/P95 improved, but 12-second page rAF P95 25.1 vs 25.4 ms and 3 vs 4 long tasks do not prove visible smoothness. Fixed point selects the same main hall; static background pixels match. No public browser interaction.",
+      "viewport": "public headed Chromium, default desktop viewport",
+      "scope": "Opened the r31 public URL and observed the title, opening map and new-world picker. No in-sim public interaction or imported-save check this batch; normal and controlled supply behavior verified in Node with exact reload.",
       "real_devices": false,
       "fps_measured": false,
-      "acceptance_namespace": "qa-pathfinding-r30"
+      "acceptance_namespace": "qa-market-supply-r31"
     },
     "working_source_base": "1b28260007c3049d077dfce424d0db2c6e8cbd60",
     "working_validation": {
@@ -2870,7 +2871,7 @@
         "docs/design/14-EARLY-GAME-DETAILED-DESIGN.md"
       ],
       "baseline": "已有买卖与资源交换基础。",
-      "design_gap": "D01/D02 已完成；r22 公物跨场景百工订单及显式划拨、r23 报价期限/有效时刻停表/一次失约事实、r29 有限实体补货基础（报价、预留、具名承运、断桥暂停、到店结算及本地采粮）已发布。改道、承运伤亡后的接续与取消、其他订单、地方收费、公器销售、旧订单全矩阵及完整 AC/I/V/R 仍待。",
+      "design_gap": "D01/D02 已完成；r22 公物跨场景百工订单与显式划拨、r23 报价期限、r29 有限实体补货基础、r31 承运人旅途及同地伤疲静养与身死货位保护已发布。合法继任或取回、取消权限、改道、其他订单、公器销售、旧订单全矩阵及完整 AC/I/V/R 仍待。",
       "design_deliverables": [
         "普通材料药物/装备的可靠来源、价格依据、商人本金与有限库存。",
         "补货来源、运输和周期；订单报价、同意、预留、付款、交付、违约流程。",
@@ -2901,7 +2902,8 @@
           "expected": "补货受实际供给影响，仍有已设计基础替代来源。",
           "status": "not_run",
           "evidence": [
-            "局部：2026-10-08 M2 r29 有界实体补货：青溪商人粮、木、石、草、晶在源仓有限货位按真实报价、预留、关口付费、六段路粮、买货、承运与到店结算；第二/三批真实排队时源预约仓留在 scene:supply，跨场景普通赠予/搬运明确拒绝。正常公开链首批11命令/14次精确存读，排队10/10，雨天断桥本地采粮6/4；受控堵路恢复、damaged慢行及旧版原生存档一次迁移通过，篡改源头/钱货/购买、交付和路粮事实拒载。根相邻商单12/12、产权6/6、搬运6/6、世界21/21、UI17通过/4待设备；独立复核漏洞与坏档。Chromium有来源在途档导入，供货卡显示源仓/在途/现货，自动保存刷新后同场续玩并见到店实物，控制台0错误警告。完整改道、承运伤亡、取消及多订单/公器销售仍未验，AC02与整项I/V/R保持原状态。"
+            "局部：2026-10-08 M2 r29 有界实体补货：青溪商人粮、木、石、草、晶在源仓有限货位按真实报价、预留、关口付费、六段路粮、买货、承运与到店结算；第二/三批真实排队时源预约仓留在 scene:supply，跨场景普通赠予/搬运明确拒绝。正常公开链首批11命令/14次精确存读，排队10/10，雨天断桥本地采粮6/4；受控堵路恢复、damaged慢行及旧版原生存档一次迁移通过，篡改源头/钱货/购买、交付和路粮事实拒载。根相邻商单12/12、产权6/6、搬运6/6、世界21/21、UI17通过/4待设备；独立复核漏洞与坏档。Chromium有来源在途档导入，供货卡显示源仓/在途/现货，自动保存刷新后同场续玩并见到店实物，控制台0错误警告。完整改道、承运伤亡、取消及多订单/公器销售仍未验，AC02与整项I/V/R保持原状态。",
+            "局部：2026-10-08 M2 r31 承运中断恢复：从正常公开补货各阶段存档出发，受控伤势35在出程/回程及供货仓验货、购货后、坊市交付前三处原位静养；三处同地阶段独立复核各经429个世界步复工，同一运单货位/产权/已付费用不变，购买/关口/交付事实各唯一。返程伤愈断路仍等待修路；已购货后死亡停止静养，旅途遗物指向真实travelId，500步不再收费交货。专项全过，旧商单12/12、危机21/21、根相邻事后10/10、运输6/6、世界21/21。源码b79b62b、Pages3a73c02 built；162文本blob及公网入口/经营/危机模块字节一致，公开Chromium仅首屏加载。合法继任/取回、取消与改道及目标设备仍未验，AC02和整项状态不变。"
           ]
         },
         {
@@ -2927,7 +2929,8 @@
         "dist/ea-sr-ui.mjs",
         "2026-10-08 r23 商单期限子批：报价后最早可交付时起算1200个可通行世界步；道路封闭、商人不可用或受伤、收货库不可用有来源停表，1201步仅记一次失约事实。旧活跃v2订单不倒追计时，取消仍保持产权与退款。正常公开期限专项2/2、相邻商单12/12；独立本地Chromium导入有来源档、原生保存刷新后订单卡仍显示1201/1200、停表1499与失约入账，控制台0错误/0警告。此为AC01有界子链；其他订单、补货和承运未验，AC01-03继续not_run。 证据 qa/ea-sr-011-order-deadline-public-acceptance.mjs；/tmp/immortal-sr011-deadline-ui/.playwright-cli/element-2026-10-08T10-45-30-827Z.png。",
         "2026-10-08 r24 局部失约回应：商人按可见货及有限木石库存继续、原价改约300可履约步或拒收；明示理由和成本，当面同意才延时。根新3/3、旧期限2/2、商单12/12；独立3/3和本地Chromium实点。其他订单/补货/NPC承运未验，AC01-03及整项不提升。",
-        "qa/ea-sr-market-supply-acceptance.mjs"
+        "qa/ea-sr-market-supply-acceptance.mjs",
+        "局部：2026-10-08 M2 r31 承运中断恢复：从正常公开补货各阶段存档出发，受控伤势35在出程/回程及供货仓验货、购货后、坊市交付前三处原位静养；三处同地阶段独立复核各经429个世界步复工，同一运单货位/产权/已付费用不变，购买/关口/交付事实各唯一。返程伤愈断路仍等待修路；已购货后死亡停止静养，旅途遗物指向真实travelId，500步不再收费交货。专项全过，旧商单12/12、危机21/21、根相邻事后10/10、运输6/6、世界21/21。源码b79b62b、Pages3a73c02 built；162文本blob及公网入口/经营/危机模块字节一致，公开Chromium仅首屏加载。合法继任/取回、取消与改道及目标设备仍未验，AC02和整项状态不变。"
       ],
       "change_log": [
         {
@@ -2973,6 +2976,10 @@
         {
           "date": "2026-10-08",
           "reason": "r29 实体补货有界链经正常公开命令、独立复核、根相邻回归及本地浏览器续档后发布；SR011 AC02及完整 I/V/R 继续。"
+        },
+        {
+          "date": "2026-10-08",
+          "reason": "r31 承运伤疲在原旅程或同地货位按世界步静养续约，身死保留钱货及真实旅途遗物；独立复核后发布，完整 AC/I/V/R 状态不提升。"
         }
       ],
       "tasks": [

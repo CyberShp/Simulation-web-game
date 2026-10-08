@@ -1,5 +1,7 @@
 # Codex 接手指南 · 2026-10-08
 
+当前最新 M2 r31 已发布青溪实体补给承运中断恢复：正常公开链各阶段精确存读后，独立复核三处同地伤停各429世界步续运、钱货产权和费用不变、结算唯一；旅队伤疲、断路与身死货位通过。专项及相邻商单12/12、事后10/10、运输6/6、世界21/21。源码 `main` `b79b62bf739c961100081fef5b9da475dea3d60b`，网页 `gh-pages` `3a73c02d1cde0b31cf2975c704844102c5e4ee48`，标记 `ea-160-courtyard-20261008-r31`，Pages `built`、162文本blob及公网入口/经营/危机模块一致。公网 Chromium 首屏已加载，游戏内交互与真机未验；合法继任/取回、取消、改道及完整 SR011 继续。**39 passed、80 not_run、1 blocked**。详见 [STATUS](design/STATUS.md) 与 [台账](requirements/registry.json)。
+
 当前最新 M1 r30 已发布寻路碰撞查询减负：独立复核发现半径0边界反例，根修复后空间36/36、门道2/2、建筑网格6/6；合法40建筑/30人档540路线+540扫掠及400世界步终态一致。Chromium两轮世界步内部耗时下降，但12秒页面帧间隔未改善，整体卡顿继续。源码 `main` `4f68da8730bf278180e9e4644dd6968b1e12fe50`，网页 `gh-pages` `726726a726bc8eb4f4d5c99cf714872ccff40b66`，标记 `ea-160-courtyard-20261008-r30`，Pages `built`、162文本blob及公网入口/空间模块匹配。r29合法密集档另发现主殿扩地撤离与施工队互堵，正在单独修复；**39 passed、80 not_run、1 blocked**。详见 [STATUS](design/STATUS.md) 与 [台账](requirements/registry.json)。
 
 当前最新 M2 r29 已发布青溪有限实体补货：正常公开首批 11 命令/14 次精确存读、第二/三批排队 10/10，断桥本地采粮和坏档拒载通过；内部预约仓不可普通赠运，独立复核及根相邻商单/产权/搬运/世界回归通过。本地 Chromium 导入在途档并刷新后见货到店，控制台零错误。源码 `main` `441fd614ea96129542f14135e2e19dec7325fcf4`，网页 `gh-pages` `e2e29cb332e9bbac64477f1532da28847966484a`，标记 `ea-160-courtyard-20261008-r29`，Pages `built`，162 文本 blob 和公网入口/经营/界面模块匹配。改道、承运伤亡、取消等完整 SR011 分支继续；**39 passed、80 not_run、1 blocked**。详见 [STATUS](design/STATUS.md) 与 [台账](requirements/registry.json)。
