@@ -1,8 +1,8 @@
-import { rng, day, log, pay, canPay, grant, capacity } from './ea-data.mjs?v=ea-160-courtyard-20261008-r9';
-import { EXPEDITIONS as LEGACY_ROUTES } from './world.mjs?v=ea-160-courtyard-20261008-r9';
-import { combatField, combatGeometryId, combatCanStand, combatClearLine, combatPath, moveCombatActor, dodgeEndpoint } from './ea-combat-geometry.mjs?v=ea-160-courtyard-20261008-r9';
-import { appearance } from './ea-scenic.mjs?v=ea-160-courtyard-20261008-r9';
-import {beginCombatSession,endCombatSession,initSRCombat,projectedCombatHp,setCombatActorHp,syncCombatBodyProjection} from './ea-sr-combat.mjs?v=ea-160-courtyard-20261008-r9';
+import { rng, day, log, pay, canPay, grant, capacity } from './ea-data.mjs?v=ea-160-courtyard-20261008-r10';
+import { EXPEDITIONS as LEGACY_ROUTES } from './world.mjs?v=ea-160-courtyard-20261008-r10';
+import { combatField, combatGeometryId, combatCanStand, combatClearLine, combatPath, moveCombatActor, dodgeEndpoint } from './ea-combat-geometry.mjs?v=ea-160-courtyard-20261008-r10';
+import { appearance } from './ea-scenic.mjs?v=ea-160-courtyard-20261008-r10';
+import {beginCombatSession,endCombatSession,initSRCombat,projectedCombatHp,setCombatActorHp,syncCombatBodyProjection} from './ea-sr-combat.mjs?v=ea-160-courtyard-20261008-r10';
 
 // Campaign state is deliberately plain data. Every choice, weather roll and reward
 // is committed to the save before the next tick; loading never repeats a roll.
