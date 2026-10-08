@@ -1,5 +1,7 @@
 # M0→M1 交付接续 · 2026-10-08
 
+当前最新 M2 r26 已发布装备制作配方快照：七件新单冻结投入/工时/槽位/来源与关键物品凭据，旧活跃已付费单一次迁移；有来源百工坊的行山轻衣公开链专项 1/1、6 次精确存读，UI 17 通过/4 待设备。本地 Chromium 试读在制订单、实点零进度取消返还灵石与灵木，零错误/警告。SR009 整项仍待施工配方、跨仓实物流、七件各自全链及完整新档解锁；门道候位读档旧问题另批处理。源码 `main` `94986d3c14b3ea67859fe652ead39a1b70a2abd4`，网页 `gh-pages` `fa17a3b1df447d87d027cfca4d72ae5735835783`，标记 `ea-160-courtyard-20261008-r26`，Pages `built`，162 文本 blob 及两个公网模块匹配，公开入口 HTTP 200；公网浏览器交互未验。**39 passed、80 not_run、1 blocked**。详见 [STATUS](design/STATUS.md) 与 [台账](requirements/registry.json)。
+
 当前最新 M2 r25 已发布 SR020 商人口信与现场核实：正常雨天收到姚仲原话，掌门到侧洞查验、再与青萝交谈后，纪事分别显示来源和时刻，未核实药量及救急效果仍保留为推测。正常公开链 **30 命令 / 23 次精确存读**，相邻回归及本地 Chromium 导入、刷新续读通过，**SR020-AC01 改为 `passed`**；整项 CONTENT-05/INTRO-03、设备及 V/R 继续。源码 `main` `12335f4112fa3d6c637125ac8dff080a7b3bd284`，网页 `gh-pages` `ff263c5785129cb0f32261931417423404011b73`，标记 `ea-160-courtyard-20261008-r25`，Pages `built`，162 文本 blob 及两个公网模块匹配，公开入口 HTTP 200；公网浏览器交互未验。**39 passed、80 not_run、1 blocked**。详见 [STATUS](design/STATUS.md) 与 [台账](requirements/registry.json)。
 
 当前最新 M2 r24 已发布丹炉冻结配方、旧炉次兼容及满仓同地退料，周行舟失约后有来源地继续、原价改约或拒收；改约需玩家当面同意。完成/取消与改约事实校验已补。SR020-AC03 重复阅读、传播、读档不重结，经正常公开链及本地 Chromium 实点改为 `passed`。SR017 拒单/再合作链已验，改名仅受控兼容夹具，AC03 仍待；运行卡顿、完整 SR009/011、目标设备和公网浏览器操作继续。运行源码 `main` `6f372f6ec6099e5936f6b867c4d7ca059a2775ca`，网页 `gh-pages` `910526ee7bb90e559d86b5dfa41273cfdb951572`，标记 `ea-160-courtyard-20261008-r24`，Pages `built`、162 文本 blob 匹配，公开入口 HTTP 200 且三个改动模块字节一致。**38 passed、81 not_run、1 blocked**。详见 [STATUS](design/STATUS.md) 与 [台账](requirements/registry.json)。
