@@ -5,44 +5,41 @@
   "updated": "2026-10-08",
   "authoritative": "registry.json for requirement records and task states; derived Markdown rendered by qa/sr-manager.py refresh",
   "source_runtime": {
-    "main": "b661f15b7ad06b622bf56b5f0a1ab6abc71ab292",
-    "runtime_source": "b661f15b7ad06b622bf56b5f0a1ab6abc71ab292",
-    "pages": "5cf58022ef328a6a7d9bb32ea384533f192e71f3",
+    "main": "976619f2486328de1d4f8b64d7c1a3dfeaad7d05",
+    "runtime_source": "976619f2486328de1d4f8b64d7c1a3dfeaad7d05",
+    "pages": "39ad10e34c6afa44821745cf6d7433ee4ebaedf7",
     "game_version": "1.6.0-dev",
     "schema_version": 6,
-    "preview_pages": "5cf58022ef328a6a7d9bb32ea384533f192e71f3",
+    "preview_pages": "39ad10e34c6afa44821745cf6d7433ee4ebaedf7",
     "preview_deployment": null,
     "working_game_version": "1.6.0-dev",
     "official_game_version": "1.6.0-dev",
-    "version_note": "M1 r8 SR003 bounded pedestrian doorway queue and real movement avoidance; SR006 construction cancellation return and route replan; full SR gates retain their prior state.",
+    "version_note": "M1 r9 SR007 scoped three-person current-action and identity projection, with no simulated activity or save-schema change; full AC01 and SR gates remain open.",
     "main_record_type": "runtime source commit; release metadata commit is a descendant",
-    "working_release_note": "2026-10-08 r8 scoped public-command/exact-save 16/16 and adjacent 57/57, independent read-only reviews passed. Public first load, isolated new/save/reload/continue, legal closed-roof and exposed-worker picking passed; 198 HTTP requests all 200, console 0. Dense-scene trial click wait hit 5s timeout before successful interaction. Local r7 frozen baseline failed to load, so no valid performance A/B; target devices, sustained dense-scene responsiveness and browser door-queue readback remain unverified.",
-    "previous_pages": "c6dab928a8ae50c7f750a3cafa6c729723e85ef9",
+    "working_release_note": "2026-10-08 r9 normal public opening 37 commands/24 exact saves, Canvas three-person selection 1/1, independent UI/atlas tests 17/17 and local Chromium first load/selection/list/dossier/save-reload passed. Independent public Pages first load, isolated new/save/reload/continue, and memory-only sourced three-person selection passed; four public scripts matched gh-pages Git blobs, 198 requests all 200, console 0. Human blind identification, real iPadOS and full action progression remain unverified. Dense-scene sampling did not identify overall lag root cause; paused static screen still repaints every frame.",
+    "previous_pages": "5cf58022ef328a6a7d9bb32ea384533f192e71f3",
     "pages_deployment_status": "built",
-    "working_release_tag": "ea-160-courtyard-20261008-r8",
-    "official_release_tag": "ea-160-courtyard-20261008-r8",
-    "official_url": "https://cybershp.github.io/Simulation-web-game/?v=ea-160-courtyard-20261008-r8",
+    "working_release_tag": "ea-160-courtyard-20261008-r9",
+    "official_release_tag": "ea-160-courtyard-20261008-r9",
+    "official_url": "https://cybershp.github.io/Simulation-web-game/?v=ea-160-courtyard-20261008-r9",
     "deployed_tree_verification": {
+      "published_tree_blobs": 235,
       "source_and_pages_commits_verified": true,
       "verified_files": [
-        "index.html",
-        "ea-game.mjs",
         "ea-courtyard-renderer.mjs",
-        "ea-estate-ground-art.mjs",
-        "ea-facility-activities.mjs",
-        "ea-scenic.mjs",
-        "ea-sr-spatial.mjs"
+        "ea-ui.mjs",
+        "ea-game.mjs",
+        "ea-persistence.mjs"
       ],
-      "verification": "Independent public HTTP 200 responses for seven files exactly match gh-pages Git blobs; published Pages tree has 235 blobs and latest build is built.",
-      "published_tree_blobs": 235
+      "verification": "Independent public HTTP 200 responses for four scripts exactly match gh-pages Git blobs; source dist matches after removing r9 import query. Pages tree 235 blobs and latest build built."
     },
-    "previous_main": "024898c4a6290d138eb428c0139ca7b2d8fcb781",
+    "previous_main": "b661f15b7ad06b622bf56b5f0a1ab6abc71ab292",
     "browser_verification": {
-      "viewport": "1366x900 independent public Chromium; 1200x849 local Chromium DPR1 on legal 40-building/30-person save",
-      "scope": "Public first load succeeded; isolated new/save/reload/continue passed. Legal day-55 30-person save memory-only view selected closed main-hall roof and exposed herb-field worker. 198 requests all HTTP 200, console 0. Dense-scene trial click timed out after 5s while scene subsequently loaded and worked. Local candidate-only short 180-frame pause/run samples 60.0/59.0 FPS; r7 frozen baseline failed to load, so no A/B conclusion.",
+      "viewport": "independent public Chromium; 1200x849 independent local Chromium",
+      "scope": "Public first load succeeded. Isolated new/save/reload/continue passed; legal day-5 two-disciple source was read only into memory and master plus both outdoor workers were selected with correct current actions/slots. 198 public requests all 200, console 0 errors/0 warnings. Local sourced three-person/save-reload also passed with 196 requests all 200. Full movement progression and target devices remain unverified.",
       "real_devices": false,
-      "fps_measured": true,
-      "acceptance_namespace": "qa-r8-public-20261008; local r8 browser"
+      "fps_measured": false,
+      "acceptance_namespace": "qa-sr007-r9-public-20261008; qa-sr007-r9-20261008 local"
     },
     "working_source_base": "1b28260007c3049d077dfce424d0db2c6e8cbd60",
     "working_validation": {
@@ -886,7 +883,7 @@
         "SAVE-01"
       ],
       "blockers": [],
-      "acceptance_notes": "2026-10-07本地小院批次：成人家具/单位格/空间定向检查48/48（8/6/34），正常公开命令接受/拒绝邀请两路完成营造、产出搬运、研习、到床休息与迁建取消/续建；分别60命令/36次精确存读和61命令/37次精确存读。六身份卧姿与预约前提2/2，生产Canvas卧姿加载/只读/身体点选/缺图回退4/4，已读图。旧v5完成档40建筑30门人保留资源、时间和return结局，全部入口可达，二次存读一致。各SR仅登记适用子情景；完整AC、真机触摸/FPS和真人首次体验状态分别保留。 浏览器DPR1鼠标在1366×900、1180×820、820×1180点选床上掌门通过；正常推荐营造经Enter和鼠标确认、实际施工落成。一次动态模块加载失败经页面重载恢复同档，原因待定位。I/V证据为沿既有可用契约实施的本批子范围；完整D01/D02及I/V关闭门槛保持原状态。\n\n2026-10-07 M0/M1 接续批：03 §3 的双指手势中心及滚轮当前指针锚点已接入统一米制镜头，输入13/13、空间生产Canvas34/34通过；非法焦点不再污染镜头。浏览器鼠标自由营造镜头已复验，真机双指/完整近景总览玩家链未做，AC02仍 not_run。\n\n2026-10-07 M1 门道与绕行：新档公开命令疗伤后在(26,16)建成门人居，存读后穿真实门道到床位、退到左侧；在门口重叠营造灵草田被原子拒绝，随后向右沿合法路径绕墙，二次存读位置/原建筑保持。6条成功公开命令、1条拒绝、2次精确重载；定向1/1，已有窄缝/墙体和生产Canvas空间34/34。根执行者复读用例并复跑通过，AC01按Node公开命令/组件环境通过；未据此声称真实网页或目标设备已验，AC02及整项门槛保持。\n\n2026-10-07 M1 第六批镜头子情景：隔离浏览器 qa-sr003-camera-20261007 从有来源的第584日五人/十设施返院档导入第二档位，暂停状态在 820×1180 和 1200×843 画面点选门人居，总览→按钮放大保持建筑可见和详情对应；在画布角落残留悬停后再放大复验通过。浏览器合成双触点缩放时，锚点和选择未丢；这是 CDP 合成触控而非 iPadOS 真机。首轮发现总览按钮放大落到空地，后经修复及独立复核；同号建筑/门人聚焦及标签歧义也已修复。生产 Canvas 定向34/34、输入13/13，镜头前后序列化世界状态不变。仍缺真机双指与逐建筑人物/门视觉比例、详情遮挡核对，故 AC02 保持 not_run，完整 D/I/V/R 保持原状态。\n2026-10-08 U-101 背层版独立隔离浏览器复核 AC02 子范围：有来源第584日五人十设施档，在 1200×843 和 820×1180 视口点选主屋、门人居及掌门，切总览/近景、滚轮、平移和合成双指后，同一对象与详情仍对应；背层不挡点击，相关定向47/47。人物/门比例未见明显跳变，但未逐类审查，竖屏详情覆盖选中建筑局部；合成触控非 iPadOS 真机，故 AC02 继续 not_run。截图 /tmp/immortal-sr003-ac02-portrait-{near,overview}.png。\n\n2026-10-08 M1 竖屏 UI 子批：820×1180 合法旧 v5 完成档 40 建筑/30 人，真实浏览器完整画稿加载、控制台零错误；选中宗门正殿与 (350,500) 滚轮放大后屋脊/屋檐/台阶/入口均完整在详情之外。生产 renderer 定向覆盖连续触点缩放、极端边缘限幅、地形边界、状态只读，合并空间相关 46/46；独立复核通过该交互窄项。门人居/藏经阁门洞画稿比例、真 iPadOS 触控与全部逐类视觉仍未验，AC02 保持 not_run，I/V/R 不关闭。\n\n2026-10-08 M1 山外局部镜头子批：64×48 米、45°/0.65 镜头，四角物件占地、投影逆变换及限幅；封闭驻棚隐藏占地内人物画面，屋顶点选建筑，地点卡具名打开邢烈；露天谷地青萝保持可见可点。正常公开命令链生成 ward 档且逐次 validateSave；独立代码专项 5/5、相邻 SR003 3/3、输入 13/13、世界 21/21、SR UI 17 pass/4 pending。独立 Chromium 在 1200×849、820×1180 实点屋顶、姓名入口及谷地露天青萝通过，控制台 0 ERROR；试读仅内存，HUD 资源在点选前后相同；冻结版浏览器未专项核对 worldTick 数值。真 iPadOS、全建筑人物/门比例和显式总览按钮本进度仍待；AC02 not_run，I01 in_progress、V/R todo。\n2026-10-08 r6 发布：运行源码 main 6617b8670fd396a488469a864ba170b4f2681425，Pages a6fd4838ff0ba998a7f1bb20b97016aa298ddf37，构建 built；四个公开脚本与发布树一致。独立公网 Chromium 首载 ea-persistence.mjs HTTP 503 导致页面未展开及 2 条控制台 ERROR；一次重载后隔离档新建/保存/刷新续档与合法 ward 试读屋顶、邢烈入口通过，之后 0 新 ERROR；再次刷新原档仍在。首载可用性未通过，真机和完整 AC02 仍待。公网报告 /private/tmp/immortal-sr003-r6-public-smoke.json。\n2026-10-08 M1 r8 门道与避让子批：同 tick 候选下一步按(首达世界步,人物ID)授予单人过门，失效活动放锁；身体避让不穿墙，持货路线被新建筑截断时复核剩余全路并重求原目标。普通公开命令/精确存读 7/7，施工物流 7/7、相关串行 2/2，空间/施工人员/地图输入 57/57，独立只读复核室内精确脚点不变。浏览器旧档外观与露天人物点选通过，门道浏览器逐步读回/真机拥挤布局与 AC02 完整门槛未验；AC 状态不变。"
+      "acceptance_notes": "2026-10-07本地小院批次：成人家具/单位格/空间定向检查48/48（8/6/34），正常公开命令接受/拒绝邀请两路完成营造、产出搬运、研习、到床休息与迁建取消/续建；分别60命令/36次精确存读和61命令/37次精确存读。六身份卧姿与预约前提2/2，生产Canvas卧姿加载/只读/身体点选/缺图回退4/4，已读图。旧v5完成档40建筑30门人保留资源、时间和return结局，全部入口可达，二次存读一致。各SR仅登记适用子情景；完整AC、真机触摸/FPS和真人首次体验状态分别保留。 浏览器DPR1鼠标在1366×900、1180×820、820×1180点选床上掌门通过；正常推荐营造经Enter和鼠标确认、实际施工落成。一次动态模块加载失败经页面重载恢复同档，原因待定位。I/V证据为沿既有可用契约实施的本批子范围；完整D01/D02及I/V关闭门槛保持原状态。\n\n2026-10-07 M0/M1 接续批：03 §3 的双指手势中心及滚轮当前指针锚点已接入统一米制镜头，输入13/13、空间生产Canvas34/34通过；非法焦点不再污染镜头。浏览器鼠标自由营造镜头已复验，真机双指/完整近景总览玩家链未做，AC02仍 not_run。\n\n2026-10-07 M1 门道与绕行：新档公开命令疗伤后在(26,16)建成门人居，存读后穿真实门道到床位、退到左侧；在门口重叠营造灵草田被原子拒绝，随后向右沿合法路径绕墙，二次存读位置/原建筑保持。6条成功公开命令、1条拒绝、2次精确重载；定向1/1，已有窄缝/墙体和生产Canvas空间34/34。根执行者复读用例并复跑通过，AC01按Node公开命令/组件环境通过；未据此声称真实网页或目标设备已验，AC02及整项门槛保持。\n\n2026-10-07 M1 第六批镜头子情景：隔离浏览器 qa-sr003-camera-20261007 从有来源的第584日五人/十设施返院档导入第二档位，暂停状态在 820×1180 和 1200×843 画面点选门人居，总览→按钮放大保持建筑可见和详情对应；在画布角落残留悬停后再放大复验通过。浏览器合成双触点缩放时，锚点和选择未丢；这是 CDP 合成触控而非 iPadOS 真机。首轮发现总览按钮放大落到空地，后经修复及独立复核；同号建筑/门人聚焦及标签歧义也已修复。生产 Canvas 定向34/34、输入13/13，镜头前后序列化世界状态不变。仍缺真机双指与逐建筑人物/门视觉比例、详情遮挡核对，故 AC02 保持 not_run，完整 D/I/V/R 保持原状态。\n2026-10-08 U-101 背层版独立隔离浏览器复核 AC02 子范围：有来源第584日五人十设施档，在 1200×843 和 820×1180 视口点选主屋、门人居及掌门，切总览/近景、滚轮、平移和合成双指后，同一对象与详情仍对应；背层不挡点击，相关定向47/47。人物/门比例未见明显跳变，但未逐类审查，竖屏详情覆盖选中建筑局部；合成触控非 iPadOS 真机，故 AC02 继续 not_run。截图 /tmp/immortal-sr003-ac02-portrait-{near,overview}.png。\n\n2026-10-08 M1 竖屏 UI 子批：820×1180 合法旧 v5 完成档 40 建筑/30 人，真实浏览器完整画稿加载、控制台零错误；选中宗门正殿与 (350,500) 滚轮放大后屋脊/屋檐/台阶/入口均完整在详情之外。生产 renderer 定向覆盖连续触点缩放、极端边缘限幅、地形边界、状态只读，合并空间相关 46/46；独立复核通过该交互窄项。门人居/藏经阁门洞画稿比例、真 iPadOS 触控与全部逐类视觉仍未验，AC02 保持 not_run，I/V/R 不关闭。\n\n2026-10-08 M1 山外局部镜头子批：64×48 米、45°/0.65 镜头，四角物件占地、投影逆变换及限幅；封闭驻棚隐藏占地内人物画面，屋顶点选建筑，地点卡具名打开邢烈；露天谷地青萝保持可见可点。正常公开命令链生成 ward 档且逐次 validateSave；独立代码专项 5/5、相邻 SR003 3/3、输入 13/13、世界 21/21、SR UI 17 pass/4 pending。独立 Chromium 在 1200×849、820×1180 实点屋顶、姓名入口及谷地露天青萝通过，控制台 0 ERROR；试读仅内存，HUD 资源在点选前后相同；冻结版浏览器未专项核对 worldTick 数值。真 iPadOS、全建筑人物/门比例和显式总览按钮本进度仍待；AC02 not_run，I01 in_progress、V/R todo。\n2026-10-08 r6 发布：运行源码 main 6617b8670fd396a488469a864ba170b4f2681425，Pages a6fd4838ff0ba998a7f1bb20b97016aa298ddf37，构建 built；四个公开脚本与发布树一致。独立公网 Chromium 首载 ea-persistence.mjs HTTP 503 导致页面未展开及 2 条控制台 ERROR；一次重载后隔离档新建/保存/刷新续档与合法 ward 试读屋顶、邢烈入口通过，之后 0 新 ERROR；再次刷新原档仍在。首载可用性未通过，真机和完整 AC02 仍待。公网报告 /private/tmp/immortal-sr003-r6-public-smoke.json。\n2026-10-08 M1 r8 门道与避让子批：同 tick 候选下一步按(首达世界步,人物ID)授予单人过门，失效活动放锁；身体避让不穿墙，持货路线被新建筑截断时复核剩余全路并重求原目标。普通公开命令/精确存读 7/7，施工物流 7/7、相关串行 2/2，空间/施工人员/地图输入 57/57，独立只读复核室内精确脚点不变。浏览器旧档外观与露天人物点选通过，门道浏览器逐步读回/真机拥挤布局与 AC02 完整门槛未验；AC 状态不变。\n2026-10-08 门人居门洞画稿对位只读量测：一级完工图可见门槛相对 spatialPrefab(b).door 投影估计偏横向 0.85 米、纵深 1.27 米，超过现行 0.35/0.25 米容差；试修未满足门槛，生产素材和元数据未改。其余六阶段、藏经阁/其他建筑、浏览器逐类与真机触控均未验，AC02 继续 not_run。仓库外量测 /private/tmp/immortal-r10-door-art-trial.json。"
     },
     {
       "id": "SR-XF-004",
@@ -1803,7 +1800,11 @@
           "scenario": "三名以上同场角色指定点选",
           "expected": "可凭外观和肖像对应身份，能说出当前活动。",
           "status": "not_run",
-          "evidence": []
+          "evidence": [
+            "局部：qa/ea-person-three-selection-acceptance.mjs（同场三人公开命令、精确存读、生产Canvas脚点）",
+            "局部：tests/ea-scene-ui.test.mjs（肖像与当前动作只读点选）",
+            "局部：docs/design/STATUS.md（独立本地浏览器三人、重叠候选与续档；真人/真机仍待）"
+          ]
         },
         {
           "id": "SR-XF-007-AC-02",
@@ -1863,7 +1864,8 @@
         "qa/ea-person-activity-switch-acceptance.mjs",
         "qa/ea-person-equipment-battle-acceptance.mjs",
         "qa/ea-person-equipment-art-acceptance.mjs",
-        "dist/ea-ui.mjs"
+        "dist/ea-ui.mjs",
+        "qa/ea-person-three-selection-acceptance.mjs"
       ],
       "change_log": [
         {
@@ -1913,6 +1915,10 @@
         {
           "date": "2026-10-08",
           "reason": "M1 第十批 SR-XF-007-AC-02 独立复核通过：同一掌门以正式公开命令换衣、制作并装备护持小印、真实实战、结算返院，五阶段精确存读，装备实例与身份稳定；生产 Canvas 及隔离桌面浏览器复验。实战活动提示修正为临敌交锋。战场远景法器细节须结合来源档和生产画布核对；AC01、完整连续动作、真机/真人及整项 D/I/V/R 仍未关闭。"
+        },
+        {
+          "date": "2026-10-08",
+          "reason": "M1 r9 SR007-AC01 三人身份、肖像与实时动作窄批：同一权威投影用于列表/档案/侧卡/重叠候选，模拟和存档不变。公开开局 37 命令/24 次精确存读、生产 Canvas 1/1、界面与人物图集 17/17；独立本地 Chromium 三人实点与刷新续档通过，196 请求全 200。真人盲辨、真 iPadOS 与完整动作仍待，AC01 和 I/V/R 不提级。"
         }
       ],
       "tasks": [
@@ -1964,7 +1970,10 @@
             "dist/ea-sr-equipment.mjs",
             "qa/ea-sr-integration-acceptance.mjs",
             "qa/ea-person-equipment-battle-acceptance.mjs",
-            "qa/ea-person-equipment-art-acceptance.mjs"
+            "qa/ea-person-equipment-art-acceptance.mjs",
+            "dist/ea-ui.mjs",
+            "tests/ea-scene-ui.test.mjs",
+            "qa/ea-person-three-selection-acceptance.mjs"
           ],
           "blocked_reason": null
         },
@@ -1991,7 +2000,9 @@
             "dist/ea-sr-equipment.mjs",
             "qa/ea-sr-integration-acceptance.mjs",
             "qa/ea-person-equipment-battle-acceptance.mjs",
-            "qa/ea-person-equipment-art-acceptance.mjs"
+            "qa/ea-person-equipment-art-acceptance.mjs",
+            "tests/ea-scene-ui.test.mjs",
+            "qa/ea-person-three-selection-acceptance.mjs"
           ],
           "blocked_reason": null
         },
@@ -2027,7 +2038,7 @@
         "ACT-01"
       ],
       "blockers": [],
-      "acceptance_notes": "2026-10-07本地小院批次：成人家具/单位格/空间定向检查48/48（8/6/34），正常公开命令接受/拒绝邀请两路完成营造、产出搬运、研习、到床休息与迁建取消/续建；分别60命令/36次精确存读和61命令/37次精确存读。六身份卧姿与预约前提2/2，生产Canvas卧姿加载/只读/身体点选/缺图回退4/4，已读图。旧v5完成档40建筑30门人保留资源、时间和return结局，全部入口可达，二次存读一致。各SR仅登记适用子情景；完整AC、真机触摸/FPS和真人首次体验状态分别保留。 浏览器DPR1鼠标在1366×900、1180×820、820×1180点选床上掌门通过；正常推荐营造经Enter和鼠标确认、实际施工落成。一次动态模块加载失败经页面重载恢复同档，原因待定位。I/V证据为沿既有可用契约实施的本批子范围；完整D01/D02及I/V关闭门槛保持原状态。 2026-10-07活动事实局部修正：采集/补种因受伤、离位、低精力暂停时阶段记paused，画面为等候，不推进；自然采集第四批包裹满也暂停且不扣来源。定向测试覆盖伤势、低精力、包裹满、存读与恢复3/3，离位未逐项注入验收。人物投影asset限定为身份基础云岫画稿，卧床只列sceneAssetCandidate；实际床几何、脚点与加载由渲染决定，完整动作标记false。人物与卧姿11/11、空间34/34、经济52/52通过；三人辨识、全套动作、触屏及整项AC仍未通过。\n\n2026-10-07 M1 首批人物画稿：沿既有六身份图集新增各自等待立姿与持书研习坐姿；沿权威活动与原 personId 选图，缺图回退原身份画稿。定向资产/人物/卧姿/界面 21/21；六身份静态图集已读图。疗伤、劳动、施法、受击和战斗连续动作、三人真人辨识及换装往返仍未验，AC 与 D/I/V/R 保持原状态。\n独立只读复核已确认首批三项房屋接缝修复：显示与点选同阶段、迁建旧址不误显升级、错尺寸图集回退；定向重跑 22/22，仍不等于完整 AC。\n2026-10-07 独立浏览器仅内存试读五人正常档：暂停同一第62日场景，画布分别点选程问舟、温南星、林长风三名门人，侧卡身份与休憩/候位等当前活动一致，主屋床位列表列出实际预约者。此为指定点选与事实标签子范围；尚无真人盲辨外观/肖像，也未核对三人全动作和换装实战，因此AC01–03均保持not_run。\n2026-10-07 M1 第七批研习子情景：sr-cultivation 订单执行时取真实身体活动/书案/进度驱动姿态、掌门状态及详情，旧休憩字段不再覆盖；到位前显示前往研习位置。公开命令 + 精确存读的生产 Canvas 及桌面浏览器画面/点选通过，scene UI 9/9。等待、睡眠、专用完整动作和回退矩阵未由本批覆盖，AC03 仍 not_run，整项 SR007 不提升。\n2026-10-08 M1 第十批：AC02 由独立只读复核按原文通过。五份公开命令来源档精确存读，同一掌门换衣、真实制作装备法器、实战及返院；生产画布和隔离桌面浏览器核对身份与实际实例挂点，战斗活动提示按真实状态显示。战场远景法器细节需结合生产画布与状态；真机/真人及整项仍未关闭。"
+      "acceptance_notes": "2026-10-07本地小院批次：成人家具/单位格/空间定向检查48/48（8/6/34），正常公开命令接受/拒绝邀请两路完成营造、产出搬运、研习、到床休息与迁建取消/续建；分别60命令/36次精确存读和61命令/37次精确存读。六身份卧姿与预约前提2/2，生产Canvas卧姿加载/只读/身体点选/缺图回退4/4，已读图。旧v5完成档40建筑30门人保留资源、时间和return结局，全部入口可达，二次存读一致。各SR仅登记适用子情景；完整AC、真机触摸/FPS和真人首次体验状态分别保留。 浏览器DPR1鼠标在1366×900、1180×820、820×1180点选床上掌门通过；正常推荐营造经Enter和鼠标确认、实际施工落成。一次动态模块加载失败经页面重载恢复同档，原因待定位。I/V证据为沿既有可用契约实施的本批子范围；完整D01/D02及I/V关闭门槛保持原状态。 2026-10-07活动事实局部修正：采集/补种因受伤、离位、低精力暂停时阶段记paused，画面为等候，不推进；自然采集第四批包裹满也暂停且不扣来源。定向测试覆盖伤势、低精力、包裹满、存读与恢复3/3，离位未逐项注入验收。人物投影asset限定为身份基础云岫画稿，卧床只列sceneAssetCandidate；实际床几何、脚点与加载由渲染决定，完整动作标记false。人物与卧姿11/11、空间34/34、经济52/52通过；三人辨识、全套动作、触屏及整项AC仍未通过。\n\n2026-10-07 M1 首批人物画稿：沿既有六身份图集新增各自等待立姿与持书研习坐姿；沿权威活动与原 personId 选图，缺图回退原身份画稿。定向资产/人物/卧姿/界面 21/21；六身份静态图集已读图。疗伤、劳动、施法、受击和战斗连续动作、三人真人辨识及换装往返仍未验，AC 与 D/I/V/R 保持原状态。\n独立只读复核已确认首批三项房屋接缝修复：显示与点选同阶段、迁建旧址不误显升级、错尺寸图集回退；定向重跑 22/22，仍不等于完整 AC。\n2026-10-07 独立浏览器仅内存试读五人正常档：暂停同一第62日场景，画布分别点选程问舟、温南星、林长风三名门人，侧卡身份与休憩/候位等当前活动一致，主屋床位列表列出实际预约者。此为指定点选与事实标签子范围；尚无真人盲辨外观/肖像，也未核对三人全动作和换装实战，因此AC01–03均保持not_run。\n2026-10-07 M1 第七批研习子情景：sr-cultivation 订单执行时取真实身体活动/书案/进度驱动姿态、掌门状态及详情，旧休憩字段不再覆盖；到位前显示前往研习位置。公开命令 + 精确存读的生产 Canvas 及桌面浏览器画面/点选通过，scene UI 9/9。等待、睡眠、专用完整动作和回退矩阵未由本批覆盖，AC03 仍 not_run，整项 SR007 不提升。\n2026-10-08 M1 第十批：AC02 由独立只读复核按原文通过。五份公开命令来源档精确存读，同一掌门换衣、真实制作装备法器、实战及返院；生产画布和隔离桌面浏览器核对身份与实际实例挂点，战斗活动提示按真实状态显示。战场远景法器细节需结合生产画布与状态；真机/真人及整项仍未关闭。\n2026-10-08 M1 r9 AC01 三人点选窄批：掌门、陆知微、林长风由正式公开开局 37 命令、24 次精确存读得到，生产 Canvas 真脚点 1/1；人物列表、档案、侧卡及重叠候选显示相同身份肖像与权威当前动作，不回写模拟。根独立复跑 scene UI 11/11、人物图集 6/6、Canvas 1/1。独立本地 Chromium 首载、三人实点、伐木工位1/2、掌门返床途中行走、保存刷新续档通过；196 请求全 200、控制台 0 错误/0 警告，报告 /private/tmp/immortal-sr007-r9-browser-review.json。公开网页验收另记。真人外观盲辨、真机触控和恢复世界步后的完整动作未验，AC01 not_run、I/V/R 原状态不变。\n2026-10-08 r9 公网独立验收：Pages 39ad10e34c6afa44821745cf6d7433ee4ebaedf7 built，四脚本 HTTP 200 且与发布树 blob 一致。隔离命名空间新档保存刷新续玩；合法第5日两门人来源档仅内存试读，实际点中陆知微采集/伐木工位1、林长风采集/工位2、重叠候选中掌门行走/前往主屋床位1，列表一致。198 请求全 200、控制台 0 消息，报告 /private/tmp/immortal-r9-public-review.json。来源档未写本机，也未验证其刷新；真人盲辨、真 iPadOS、全部动作分支仍待，AC01 not_run。"
     },
     {
       "id": "SR-XF-008",

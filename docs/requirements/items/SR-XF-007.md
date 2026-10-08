@@ -53,6 +53,8 @@ SR-XF-007-REQ-03：远景不破坏人类尺度；近景可区分至少三名人�
 | SR-XF-007-AC-02 | 换装备和切到战斗再返回 | 身份特征稳定，武器/法器外观与实际实例对应。 | passed |
 | SR-XF-007-AC-03 | 等待、睡眠和研习切换 | 动作/工具/标签与权威状态一致，回退不冒充完整动作。 | passed |
 
+SR-XF-007-AC-01证据：局部：qa/ea-person-three-selection-acceptance.mjs（同场三人公开命令、精确存读、生产Canvas脚点）；局部：tests/ea-scene-ui.test.mjs（肖像与当前动作只读点选）；局部：docs/design/STATUS.md（独立本地浏览器三人、重叠候选与续档；真人/真机仍待）
+
 SR-XF-007-AC-02证据：qa/ea-person-equipment-battle-acceptance.mjs；qa/ea-person-equipment-art-acceptance.mjs；dist/ea-life.mjs；dist/ea-ui.mjs；docs/design/STATUS.md
 
 SR-XF-007-AC-03证据：qa/ea-person-activity-switch-acceptance.mjs；tests/ea-scene-ui.test.mjs；qa/ea-courtyard-rest-render-acceptance.mjs；docs/design/STATUS.md
@@ -64,6 +66,8 @@ SR-XF-007-AC-03证据：qa/ea-person-activity-switch-acceptance.mjs；tests/ea-s
 2026-10-07 独立浏览器仅内存试读五人正常档：暂停同一第62日场景，画布分别点选程问舟、温南星、林长风三名门人，侧卡身份与休憩/候位等当前活动一致，主屋床位列表列出实际预约者。此为指定点选与事实标签子范围；尚无真人盲辨外观/肖像，也未核对三人全动作和换装实战，因此AC01–03均保持not_run。
 2026-10-07 M1 第七批研习子情景：sr-cultivation 订单执行时取真实身体活动/书案/进度驱动姿态、掌门状态及详情，旧休憩字段不再覆盖；到位前显示前往研习位置。公开命令 + 精确存读的生产 Canvas 及桌面浏览器画面/点选通过，scene UI 9/9。等待、睡眠、专用完整动作和回退矩阵未由本批覆盖，AC03 仍 not_run，整项 SR007 不提升。
 2026-10-08 M1 第十批：AC02 由独立只读复核按原文通过。五份公开命令来源档精确存读，同一掌门换衣、真实制作装备法器、实战及返院；生产画布和隔离桌面浏览器核对身份与实际实例挂点，战斗活动提示按真实状态显示。战场远景法器细节需结合生产画布与状态；真机/真人及整项仍未关闭。
+2026-10-08 M1 r9 AC01 三人点选窄批：掌门、陆知微、林长风由正式公开开局 37 命令、24 次精确存读得到，生产 Canvas 真脚点 1/1；人物列表、档案、侧卡及重叠候选显示相同身份肖像与权威当前动作，不回写模拟。根独立复跑 scene UI 11/11、人物图集 6/6、Canvas 1/1。独立本地 Chromium 首载、三人实点、伐木工位1/2、掌门返床途中行走、保存刷新续档通过；196 请求全 200、控制台 0 错误/0 警告，报告 /private/tmp/immortal-sr007-r9-browser-review.json。公开网页验收另记。真人外观盲辨、真机触控和恢复世界步后的完整动作未验，AC01 not_run、I/V/R 原状态不变。
+2026-10-08 r9 公网独立验收：Pages 39ad10e34c6afa44821745cf6d7433ee4ebaedf7 built，四脚本 HTTP 200 且与发布树 blob 一致。隔离命名空间新档保存刷新续玩；合法第5日两门人来源档仅内存试读，实际点中陆知微采集/伐木工位1、林长风采集/工位2、重叠候选中掌门行走/前往主屋床位1，列表一致。198 请求全 200、控制台 0 消息，报告 /private/tmp/immortal-r9-public-review.json。来源档未写本机，也未验证其刷新；真人盲辨、真 iPadOS、全部动作分支仍待，AC01 not_run。
 
 ## 开发任务
 
@@ -75,9 +79,9 @@ SR-XF-007-AC-03证据：qa/ea-person-activity-switch-acceptance.mjs；tests/ea-s
 | SR-XF-007-V01 | 验收与兼容：执行SR-XF-007-AC-01至AC-03及OPEN-02、ACT-01；登记实际结果、兼容和设备证据边界。 | todo | SR-XF-007-I01 | Codex/courtyard-acceptance |
 | SR-XF-007-R01 | 发布与关闭：完成所需源码/运行时发布核对、交接和未覆盖说明；本轮用户不要求上传QA过程产物。 | todo | SR-XF-007-V01 | 待分配 |
 
-SR-XF-007-I01证据：dist/ea-character-art.mjs；dist/ea-courtyard-renderer.mjs；dist/assets/estate-v1/characters-rest-v1.png；docs/design/STATUS.md；asset-manifest.json；dist/ea-sr-persons.mjs；dist/ea-sr-economy.mjs；tests/ea-activity-truth.test.mjs；qa/ea-sr-economy-acceptance.mjs；qa/ea-sr-spatial-acceptance.mjs；dist/ea-sr-equipment.mjs；qa/ea-sr-integration-acceptance.mjs；qa/ea-person-equipment-battle-acceptance.mjs；qa/ea-person-equipment-art-acceptance.mjs
+SR-XF-007-I01证据：dist/ea-character-art.mjs；dist/ea-courtyard-renderer.mjs；dist/assets/estate-v1/characters-rest-v1.png；docs/design/STATUS.md；asset-manifest.json；dist/ea-sr-persons.mjs；dist/ea-sr-economy.mjs；tests/ea-activity-truth.test.mjs；qa/ea-sr-economy-acceptance.mjs；qa/ea-sr-spatial-acceptance.mjs；dist/ea-sr-equipment.mjs；qa/ea-sr-integration-acceptance.mjs；qa/ea-person-equipment-battle-acceptance.mjs；qa/ea-person-equipment-art-acceptance.mjs；dist/ea-ui.mjs；tests/ea-scene-ui.test.mjs；qa/ea-person-three-selection-acceptance.mjs
 
-SR-XF-007-V01证据：qa/ea-courtyard-rest-render-acceptance.mjs；tests/ea-rest-pose.test.mjs；qa/ea-courtyard-life-acceptance.mjs；docs/design/STATUS.md；dist/ea-sr-persons.mjs；dist/ea-sr-economy.mjs；tests/ea-activity-truth.test.mjs；qa/ea-sr-economy-acceptance.mjs；qa/ea-sr-spatial-acceptance.mjs；dist/ea-sr-equipment.mjs；qa/ea-sr-integration-acceptance.mjs；qa/ea-person-equipment-battle-acceptance.mjs；qa/ea-person-equipment-art-acceptance.mjs
+SR-XF-007-V01证据：qa/ea-courtyard-rest-render-acceptance.mjs；tests/ea-rest-pose.test.mjs；qa/ea-courtyard-life-acceptance.mjs；docs/design/STATUS.md；dist/ea-sr-persons.mjs；dist/ea-sr-economy.mjs；tests/ea-activity-truth.test.mjs；qa/ea-sr-economy-acceptance.mjs；qa/ea-sr-spatial-acceptance.mjs；dist/ea-sr-equipment.mjs；qa/ea-sr-integration-acceptance.mjs；qa/ea-person-equipment-battle-acceptance.mjs；qa/ea-person-equipment-art-acceptance.mjs；tests/ea-scene-ui.test.mjs；qa/ea-person-three-selection-acceptance.mjs
 
 ## 可进入开发的条件
 
@@ -128,6 +132,7 @@ SR-XF-007-V01证据：qa/ea-courtyard-rest-render-acceptance.mjs；tests/ea-rest
 - qa/ea-person-equipment-battle-acceptance.mjs
 - qa/ea-person-equipment-art-acceptance.mjs
 - dist/ea-ui.mjs
+- qa/ea-person-three-selection-acceptance.mjs
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
@@ -141,5 +146,6 @@ SR-XF-007-V01证据：qa/ea-courtyard-rest-render-acceptance.mjs；tests/ea-rest
 - 2026-10-07：M1 第七批修复实际研习与旧休憩字段冲突、到位前地点误述，并以公开命令和浏览器核对研习姿态/标签子范围；AC03 仍待完整动作/回退验收。
 - 2026-10-08：M1 第九批按原文通过 SR-XF-007-AC-03：同一掌门公开命令依次休憩、研习、满包等候，34/22/3660、37/23/3833、43/24/4416 三态各自精确存读；桌面浏览器画布点选、活动图集缺失回退及生产 Canvas 独立只读复核通过，定向 25/25。只证实静态姿态、工具、标签和回退真实；AC01/02、完整连续动作、真机/真人与整项 D/I/V/R 均未关闭。
 - 2026-10-08：M1 第十批 SR-XF-007-AC-02 独立复核通过：同一掌门以正式公开命令换衣、制作并装备护持小印、真实实战、结算返院，五阶段精确存读，装备实例与身份稳定；生产 Canvas 及隔离桌面浏览器复验。实战活动提示修正为临敌交锋。战场远景法器细节须结合来源档和生产画布核对；AC01、完整连续动作、真机/真人及整项 D/I/V/R 仍未关闭。
+- 2026-10-08：M1 r9 SR007-AC01 三人身份、肖像与实时动作窄批：同一权威投影用于列表/档案/侧卡/重叠候选，模拟和存档不变。公开开局 37 命令/24 次精确存读、生产 Canvas 1/1、界面与人物图集 17/17；独立本地 Chromium 三人实点与刷新续档通过，196 请求全 200。真人盲辨、真 iPadOS 与完整动作仍待，AC01 和 I/V/R 不提级。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。
