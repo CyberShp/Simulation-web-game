@@ -1,22 +1,22 @@
-import {drawCultivator,restRenderAnchor,registerCultivatorAtlas,hasCultivatorAtlas,CULTIVATOR_REST_ATLAS,registerCultivatorRestAtlas,hasCultivatorRestAtlas,drawRestingCultivator,CULTIVATOR_ACTIVITY_ATLAS,registerCultivatorActivityAtlas} from './ea-character-art.mjs?v=ea-160-courtyard-20261008-r15';
-import {drawEstateGround,drawEstateField,drawEstateOutdoorFallback} from './ea-estate-ground-art.mjs?v=ea-160-courtyard-20261008-r15';
-import {ESTATE_ART_URLS,createEstateExteriorRasterCache,drawEstateExterior,estateSpriteBounds,estateSpriteContains,estateStageImageReady} from './ea-estate-assets.mjs?v=ea-160-courtyard-20261008-r15';
-import {drawLocalSceneGround,drawLocalSceneObject,worldObjectContains,worldObjectFootprint,worldObjectApproach} from './ea-world-scene-art.mjs?v=ea-160-courtyard-20261008-r15';
-import {BUILDINGS} from './ea-data.mjs?v=ea-160-courtyard-20261008-r15';
-import {BUILDING_GRID,buildingGridEnabled,buildingCellLabel,snapBuildingPoint} from './ea-building-grid.mjs?v=ea-160-courtyard-20261008-r15';
-import {spatialEnabled,spatialProject,spatialUnproject,spatialPrefab,spatialTransform,spatialAccess,spatialFootprint,polygonContains,SPATIAL_TERRAIN,placementIssue,viewSpatial,spatialRevision,SPATIAL_SCENE} from './ea-sr-spatial.mjs?v=ea-160-courtyard-20261008-r15';
-import {hallInterior,indoorBuildingAt} from './ea-hall-interior.mjs?v=ea-160-courtyard-20261008-r15';
-import {constructionView} from './ea-construction-view.mjs?v=ea-160-courtyard-20261008-r15';
-import {personHitCandidates} from './ea-scene-picking.mjs?v=ea-160-courtyard-20261008-r15';
-import {createWorldRenderer as createPlanRenderer} from './ea-renderer.mjs?v=ea-160-courtyard-20261008-r15';
-import {WIDTH,HEIGHT,point,LANDMARKS,inPolygon} from './yunxiu-courtyard/navigation.mjs?v=ea-160-courtyard-20261008-r15';
-import {foreground} from './ea-foreground.mjs?v=ea-160-courtyard-20261008-r15';
-import {appearance,scenicPosition,advanceScenic,repairScenicActor} from './ea-scenic.mjs?v=ea-160-courtyard-20261008-r15';
-import {facilityRecords,courtyardDestination,scenicHomeActors} from './ea-scene-state.mjs?v=ea-160-courtyard-20261008-r15';
-import {SCENIC_PLOTS,SCENE_ROADS,scenicPoint,scenicInverse,scenicNearest,scenicFindPath,scenicDistance,scenicCanStand,geometryRevision,facilityHit,plotPolygon,buildingVisual,buildingAccess} from './ea-scene-geometry.mjs?v=ea-160-courtyard-20261008-r15';
-import {createAssetLoader} from './ea-runtime.mjs?v=ea-160-courtyard-20261008-r15';
-import fallbackMeta from './ea-character-frames.mjs?v=ea-160-courtyard-20261008-r15';
-import {equippedAppearanceMounts,viewEquipment} from './ea-sr-equipment.mjs?v=ea-160-courtyard-20261008-r15';
+import {drawCultivator,restRenderAnchor,registerCultivatorAtlas,hasCultivatorAtlas,CULTIVATOR_REST_ATLAS,registerCultivatorRestAtlas,hasCultivatorRestAtlas,drawRestingCultivator,CULTIVATOR_ACTIVITY_ATLAS,registerCultivatorActivityAtlas} from './ea-character-art.mjs?v=ea-160-courtyard-20261008-r16';
+import {drawEstateGround,drawEstateField,drawEstateOutdoorFallback} from './ea-estate-ground-art.mjs?v=ea-160-courtyard-20261008-r16';
+import {ESTATE_ART_URLS,createEstateExteriorRasterCache,drawEstateExterior,estateSpriteBounds,estateSpriteContains,estateStageImageReady} from './ea-estate-assets.mjs?v=ea-160-courtyard-20261008-r16';
+import {drawLocalSceneGround,drawLocalSceneObject,worldObjectContains,worldObjectFootprint,worldObjectApproach} from './ea-world-scene-art.mjs?v=ea-160-courtyard-20261008-r16';
+import {BUILDINGS} from './ea-data.mjs?v=ea-160-courtyard-20261008-r16';
+import {BUILDING_GRID,buildingGridEnabled,buildingCellLabel,snapBuildingPoint} from './ea-building-grid.mjs?v=ea-160-courtyard-20261008-r16';
+import {spatialEnabled,spatialProject,spatialUnproject,spatialPrefab,spatialTransform,spatialAccess,spatialFootprint,polygonContains,SPATIAL_TERRAIN,placementIssue,viewSpatial,spatialRevision,SPATIAL_SCENE} from './ea-sr-spatial.mjs?v=ea-160-courtyard-20261008-r16';
+import {hallInterior,indoorBuildingAt} from './ea-hall-interior.mjs?v=ea-160-courtyard-20261008-r16';
+import {constructionView} from './ea-construction-view.mjs?v=ea-160-courtyard-20261008-r16';
+import {personHitCandidates} from './ea-scene-picking.mjs?v=ea-160-courtyard-20261008-r16';
+import {createWorldRenderer as createPlanRenderer} from './ea-renderer.mjs?v=ea-160-courtyard-20261008-r16';
+import {WIDTH,HEIGHT,point,LANDMARKS,inPolygon} from './yunxiu-courtyard/navigation.mjs?v=ea-160-courtyard-20261008-r16';
+import {foreground} from './ea-foreground.mjs?v=ea-160-courtyard-20261008-r16';
+import {appearance,scenicPosition,advanceScenic,repairScenicActor} from './ea-scenic.mjs?v=ea-160-courtyard-20261008-r16';
+import {facilityRecords,courtyardDestination,scenicHomeActors} from './ea-scene-state.mjs?v=ea-160-courtyard-20261008-r16';
+import {SCENIC_PLOTS,SCENE_ROADS,scenicPoint,scenicInverse,scenicNearest,scenicFindPath,scenicDistance,scenicCanStand,geometryRevision,facilityHit,plotPolygon,buildingVisual,buildingAccess} from './ea-scene-geometry.mjs?v=ea-160-courtyard-20261008-r16';
+import {createAssetLoader} from './ea-runtime.mjs?v=ea-160-courtyard-20261008-r16';
+import fallbackMeta from './ea-character-frames.mjs?v=ea-160-courtyard-20261008-r16';
+import {equippedAppearanceMounts,viewEquipment} from './ea-sr-equipment.mjs?v=ea-160-courtyard-20261008-r16';
 
 export function estateBuildingVisualStage(s,b){
  if(!['house','hall','clinic','library','farm','lumber','quarry','meditation','alchemy','well','granary','kitchen','workshop','watchtower'].includes(b.type))return null;
@@ -154,7 +154,7 @@ function createMetreRenderer(canvas,options){
  if(groundCtx){groundCanvas.setAttribute('aria-hidden','true');groundCanvas.style.cssText='position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;';canvas.parentElement.insertBefore(groundCanvas,canvas);canvas.style.background='transparent';}
  let groundViewKey=null,estateArtRevision=0,lastPausedFrame=null;
  const exteriorRasterCache=createEstateExteriorRasterCache();
- const rasterCacheForView=()=>!overview&&Math.abs(zoom-1)<1e-6?exteriorRasterCache:null;
+ const rasterCacheForView=()=>!overview?exteriorRasterCache:null;
  const estateImages={};
  const loadImage=src=>({signal}={})=>new Promise((resolve,reject)=>{const im=new Image();im.onload=()=>resolve(im);im.onerror=()=>reject(Error('山院素材加载失败'));signal?.addEventListener('abort',()=>reject(Error('山院素材加载超时')),{once:true});im.src=new URL(src,import.meta.url).href;});
  const assets=createAssetLoader({loaders:{people:loadImage('./yunxiu-courtyard/assets/characters.webp'),restPeople:loadImage(CULTIVATOR_REST_ATLAS.source),activityPeople:loadImage(CULTIVATOR_ACTIVITY_ATLAS.source),...Object.fromEntries(Object.entries(ESTATE_ART_URLS).map(([id,src])=>[id,loadImage(src)]))},onChange:status=>{atlas=assets.get('people');registerCultivatorAtlas(atlas);registerCultivatorRestAtlas(assets.get('restPeople'));registerCultivatorActivityAtlas(assets.get('activityPeople'));for(const id of Object.keys(ESTATE_ART_URLS))estateImages[id]=assets.get(id);exteriorRasterCache.clear();estateArtRevision++;onLoad(status.failed.map(f=>f.id));}});
