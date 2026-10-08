@@ -55,7 +55,7 @@ SR-XF-003-REQ-03：镜头切换、缩放和进入营造保持选中身份及合�
 
 SR-XF-003-AC-01证据：tests/ea-sr-spatial-door-replan.test.mjs；qa/ea-sr-spatial-acceptance.mjs；docs/design/STATUS.md
 
-SR-XF-003-AC-02证据：局部：qa/ea-sr-spatial-acceptance.mjs（生产Canvas：总览按钮聚焦、同号对象与标签、显式触点逆投影及状态只读）；局部：tests/map-input.test.mjs（双触点中点与取消）；局部：docs/design/STATUS.md（隔离真实浏览器鼠标/合成触控步骤、截图路径及未覆盖范围）
+SR-XF-003-AC-02证据：局部：qa/ea-sr-spatial-acceptance.mjs（生产Canvas：总览按钮聚焦、同号对象与标签、显式触点逆投影及状态只读）；局部：tests/map-input.test.mjs（双触点中点与取消）；局部：docs/design/STATUS.md（隔离真实浏览器鼠标/合成触控步骤、截图路径及未覆盖范围）；局部：qa/ea-sr003-outer-camera-acceptance.mjs；局部：qa/ea-sr-ui-acceptance.mjs
 
 SR-XF-003-AC-03证据：qa/ea-sr-spatial-acceptance.mjs；docs/requirements/IMPLEMENTATION-2026-10-06.md；qa/ea-indoor-furniture-acceptance.mjs
 
@@ -70,13 +70,15 @@ SR-XF-003-AC-03证据：qa/ea-sr-spatial-acceptance.mjs；docs/requirements/IMPL
 
 2026-10-08 M1 竖屏 UI 子批：820×1180 合法旧 v5 完成档 40 建筑/30 人，真实浏览器完整画稿加载、控制台零错误；选中宗门正殿与 (350,500) 滚轮放大后屋脊/屋檐/台阶/入口均完整在详情之外。生产 renderer 定向覆盖连续触点缩放、极端边缘限幅、地形边界、状态只读，合并空间相关 46/46；独立复核通过该交互窄项。门人居/藏经阁门洞画稿比例、真 iPadOS 触控与全部逐类视觉仍未验，AC02 保持 not_run，I/V/R 不关闭。
 
+2026-10-08 M1 山外局部镜头子批：64×48 米、45°/0.65 镜头，四角物件占地、投影逆变换及限幅；封闭驻棚隐藏占地内人物画面，屋顶点选建筑，地点卡具名打开邢烈；露天谷地青萝保持可见可点。正常公开命令链生成 ward 档且逐次 validateSave；独立代码专项 5/5、相邻 SR003 3/3、输入 13/13、世界 21/21、SR UI 17 pass/4 pending。独立 Chromium 在 1200×849、820×1180 实点屋顶、姓名入口及谷地露天青萝通过，控制台 0 ERROR；试读仅内存，HUD 资源在点选前后相同；冻结版浏览器未专项核对 worldTick 数值。真 iPadOS、全建筑人物/门比例和显式总览按钮本进度仍待；AC02 not_run，I01 in_progress、V/R todo。
+
 ## 开发任务
 
 | 任务 | 工作 | 状态 | 前置 | 责任人 |
 | --- | --- | --- | --- | --- |
 | SR-XF-003-D01 | 设计补齐：交付：世界坐标、投影、场景边界和默认近景比例正式表。；导航网格、人物体积、门道、动态阻挡与局部重算规则。；旧像素坐标到米制坐标的映射、精度与合法位置修复方案。；填实必需参数并标记U/R/T来源。 | done | 无 | Codex/root |
 | SR-XF-003-D02 | 契约与内容审阅：审阅统一米制空间、导航与镜头与依赖契约（SR-XF-002）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。 | done | SR-XF-003-D01 | Codex/sr010_contract_validation |
-| SR-XF-003-I01 | 开发与集成：在空间模块实现统一米制空间、导航与镜头；交付SR-XF-003-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。 | todo | SR-XF-003-D02 | Codex/courtyard-integration |
+| SR-XF-003-I01 | 开发与集成：在空间模块实现统一米制空间、导航与镜头；交付SR-XF-003-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。 | in_progress | SR-XF-003-D02 | Codex/courtyard-integration |
 | SR-XF-003-V01 | 验收与兼容：执行SR-XF-003-AC-01至AC-03及PATH-01、SCENE-02、SAVE-01；登记实际结果、兼容和设备证据边界。 | todo | SR-XF-003-I01 | Codex/courtyard-acceptance |
 | SR-XF-003-R01 | 发布与关闭：完成所需源码/运行时发布核对、交接和未覆盖说明；本轮用户不要求上传QA过程产物。 | todo | SR-XF-003-V01 | 待分配 |
 
@@ -84,7 +86,7 @@ SR-XF-003-D01证据：docs/requirements/design/SR-XF-003-006.md
 
 SR-XF-003-D02证据：docs/requirements/design/SR-XF-003-006.md
 
-SR-XF-003-I01证据：dist/ea-sr-spatial.mjs；docs/design/STATUS.md；dist/map-input.mjs；dist/ea-game.mjs；dist/ea-courtyard-renderer.mjs
+SR-XF-003-I01证据：dist/ea-sr-spatial.mjs；docs/design/STATUS.md；dist/map-input.mjs；dist/ea-game.mjs；dist/ea-courtyard-renderer.mjs；dist/ea-world-scene-art.mjs；dist/ea-sr-ui.mjs；qa/ea-sr003-outer-camera-acceptance.mjs
 
 SR-XF-003-V01证据：qa/ea-indoor-furniture-acceptance.mjs；qa/ea-courtyard-life-acceptance.mjs；docs/design/STATUS.md；tests/map-input.test.mjs；qa/ea-sr-spatial-acceptance.mjs
 
@@ -138,5 +140,6 @@ SR-XF-003-V01证据：qa/ea-indoor-furniture-acceptance.mjs；qa/ea-courtyard-li
 - 2026-10-08：SR-XF-003-D01更新为done；任务状态不自动改变SR整体状态。
 - 2026-10-08：SR-XF-003-D02更新为done；任务状态不自动改变SR整体状态。
 - 2026-10-08：2026-10-08 M1 竖屏 UI 子批：820×1180 合法旧 v5 完成档 40 建筑/30 人，真实浏览器完整画稿加载、控制台零错误；选中宗门正殿与 (350,500) 滚轮放大后屋脊/屋檐/台阶/入口均完整在详情之外。生产 renderer 定向覆盖连续触点缩放、极端边缘限幅、地形边界、状态只读，合并空间相关 46/46；独立复核通过该交互窄项。门人居/藏经阁门洞画稿比例、真 iPadOS 触控与全部逐类视觉仍未验，AC02 保持 not_run，I/V/R 不关闭。
+- 2026-10-08：M1 山外局部 45° 镜头与四角物件绘制接入；封闭屋顶遮挡室内人物并保持具名详情入口，露天人物正常可见。独立代码专项及两视口浏览器局部通过；I01 进入进行中，AC02 与 V/R 仍按完整门槛。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。

@@ -27,24 +27,36 @@ export function drawLocalSceneGround(ctx,scene,c,project){
  return p;
 }
 export function drawLocalSceneObject(ctx,o,scene,c,project){
- const p=LOCAL_SCENE_PALETTES[scene.id]||fallback,b=worldObjectFootprint(o),a=project({x:b.left,y:b.top},c),z=project({x:b.right,y:b.bottom},c),q=project(o,c),u=c.scale;
+ const p=LOCAL_SCENE_PALETTES[scene.id]||fallback,b=worldObjectFootprint(o),corners=[{x:b.left,y:b.top},{x:b.right,y:b.top},{x:b.right,y:b.bottom},{x:b.left,y:b.bottom}].map(point=>project(point,c)),a={x:Math.min(...corners.map(point=>point.x)),y:Math.min(...corners.map(point=>point.y))},z={x:Math.max(...corners.map(point=>point.x)),y:Math.max(...corners.map(point=>point.y))},q=project(o,c),u=c.scale;
  const polygon=(points,fill,stroke=p.edge)=>{ctx.beginPath();points.forEach(([x,y],i)=>i?ctx.lineTo(x,y):ctx.moveTo(x,y));ctx.closePath();ctx.fillStyle=fill;ctx.fill();ctx.strokeStyle=stroke;ctx.lineWidth=Math.max(1,u*.025);ctx.stroke();};
  const line=(x1,y1,x2,y2,color,width=.045)=>{ctx.strokeStyle=color;ctx.lineWidth=u*width;ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();};
  ctx.save();
- polygon([[a.x,a.y],[z.x,a.y],[z.x,z.y],[a.x,z.y]],p.stone+'a0');
+ polygon(corners.map(point=>[point.x,point.y]),p.stone+'a0');
  if(['library','shop','warehouse','house','gate'].includes(o.kind)){
-  const h=o.kind==='gate'?2.3:1.8,wallTop=z.y-h*u,mid=(a.x+z.x)/2;
-  polygon([[a.x,wallTop],[z.x,wallTop],[z.x,z.y],[a.x,z.y]],'#b1a383');
-  polygon([[a.x-.2*u,wallTop],[mid,a.y-(h+.45)*u],[z.x+.2*u,wallTop],[z.x,wallTop+.14*u],[a.x,wallTop+.14*u]],p.roof);
-  for(let x=a.x+.3*u;x<z.x;x+=.65*u)line(x,wallTop,x+(x-mid)*.08,wallTop+.12*u,'#acb49a',.025);
-  polygon([[mid-.55*u,z.y-1.25*u],[mid+.55*u,z.y-1.25*u],[mid+.55*u,z.y],[mid-.55*u,z.y]],'#596458');
-  if(o.kind==='shop'){polygon([[a.x-.15*u,z.y-.9*u],[z.x+.15*u,z.y-.9*u],[z.x+.35*u,z.y-.4*u],[a.x-.35*u,z.y-.4*u]],'#a99063');for(let x=a.x+.3*u;x<z.x;x+=.7*u)line(x,z.y-.85*u,x,z.y-.45*u,'#cab98c',.12);}
-  if(o.kind==='warehouse')for(let i=0;i<3;i++)polygon([[a.x+.3*u+i*.6*u,z.y-.45*u],[a.x+.8*u+i*.6*u,z.y-.45*u],[a.x+.8*u+i*.6*u,z.y-.05*u],[a.x+.3*u+i*.6*u,z.y-.05*u]],'#8e7958');
-  if(o.kind==='gate')polygon([[mid-.65*u,z.y-1.65*u],[mid+.65*u,z.y-1.65*u],[mid+.65*u,z.y],[mid-.65*u,z.y]],'#49574d');
+  const h=o.kind==='gate'?2.3:1.8;
+  if(c.rotation){
+   const eaves=corners.map(point=>[point.x,point.y-h*u]);
+   polygon([eaves[1],eaves[2],[corners[2].x,corners[2].y],[corners[1].x,corners[1].y]],'#b1a383');
+   polygon([eaves[2],eaves[3],[corners[3].x,corners[3].y],[corners[2].x,corners[2].y]],'#998b70');
+   polygon(eaves,p.roof);
+   const front={x:(corners[2].x+corners[3].x)/2,y:(corners[2].y+corners[3].y)/2},edge={x:corners[2].x-corners[3].x,y:corners[2].y-corners[3].y},length=Math.hypot(edge.x,edge.y),dx=edge.x/length*.5*u,dy=edge.y/length*.5*u,doorHeight=(o.kind==='gate'?1.65:1.25)*u;
+   polygon([[front.x-dx,front.y-dy-doorHeight],[front.x+dx,front.y+dy-doorHeight],[front.x+dx,front.y+dy],[front.x-dx,front.y-dy]],'#596458');
+   if(o.kind==='shop')polygon([[front.x-dx*2,front.y-dy*2-.9*u],[front.x+dx*2,front.y+dy*2-.9*u],[front.x+dx*2,front.y+dy*2-.55*u],[front.x-dx*2,front.y-dy*2-.55*u]],'#a99063');
+   if(o.kind==='warehouse')for(let i=0;i<3;i++){const t=(i-1)*.9,base={x:front.x+t*dx*2,y:front.y+t*dy*2};polygon([[base.x-.18*u,base.y-.38*u],[base.x+.18*u,base.y-.38*u],[base.x+.18*u,base.y],[base.x-.18*u,base.y]],'#8e7958');}
+  }else{
+   const wallTop=z.y-h*u,mid=(a.x+z.x)/2;
+   polygon([[a.x,wallTop],[z.x,wallTop],[z.x,z.y],[a.x,z.y]],'#b1a383');
+   polygon([[a.x-.2*u,wallTop],[mid,a.y-(h+.45)*u],[z.x+.2*u,wallTop],[z.x,wallTop+.14*u],[a.x,wallTop+.14*u]],p.roof);
+   for(let x=a.x+.3*u;x<z.x;x+=.65*u)line(x,wallTop,x+(x-mid)*.08,wallTop+.12*u,'#acb49a',.025);
+   polygon([[mid-.55*u,z.y-1.25*u],[mid+.55*u,z.y-1.25*u],[mid+.55*u,z.y],[mid-.55*u,z.y]],'#596458');
+   if(o.kind==='shop'){polygon([[a.x-.15*u,z.y-.9*u],[z.x+.15*u,z.y-.9*u],[z.x+.35*u,z.y-.4*u],[a.x-.35*u,z.y-.4*u]],'#a99063');for(let x=a.x+.3*u;x<z.x;x+=.7*u)line(x,z.y-.85*u,x,z.y-.45*u,'#cab98c',.12);}
+   if(o.kind==='warehouse')for(let i=0;i<3;i++)polygon([[a.x+.3*u+i*.6*u,z.y-.45*u],[a.x+.8*u+i*.6*u,z.y-.45*u],[a.x+.8*u+i*.6*u,z.y-.05*u],[a.x+.3*u+i*.6*u,z.y-.05*u]],'#8e7958');
+   if(o.kind==='gate')polygon([[mid-.65*u,z.y-1.65*u],[mid+.65*u,z.y-1.65*u],[mid+.65*u,z.y],[mid-.65*u,z.y]],'#49574d');
+  }
  }else if(o.kind==='bridge'){
-  polygon([[a.x,a.y-.15*u],[z.x,a.y-.15*u],[z.x,z.y],[a.x,z.y]],scene.bridgeCondition==='blocked'?'#8a8e77':p.stone);
-  for(let i=0;i<5;i++){const x=a.x+(z.x-a.x)*i/4;line(x,a.y-.4*u,x,z.y-.4*u,'#657762',.07);}
-  line(a.x,a.y-.4*u,z.x,a.y-.4*u,'#d0c8ae',.09);line(a.x,z.y-.4*u,z.x,z.y-.4*u,'#d0c8ae',.09);
+  polygon(corners.map(point=>[point.x,point.y-.15*u]),scene.bridgeCondition==='blocked'?'#8a8e77':p.stone);
+  for(let i=0;i<5;i++){const t=i/4,near=project({x:b.left+t*b.width,y:b.top},c),far=project({x:b.left+t*b.width,y:b.bottom},c);line(near.x,near.y-.4*u,far.x,far.y-.4*u,'#657762',.07);}
+  for(const y of[b.top,b.bottom]){const left=project({x:b.left,y},c),right=project({x:b.right,y},c);line(left.x,left.y-.4*u,right.x,right.y-.4*u,'#d0c8ae',.09);}
  }else if(o.kind==='array'){
   const r=Math.min(b.width,b.height)*u*.36;ctx.strokeStyle='#698f82';ctx.lineWidth=.07*u;ctx.beginPath();ctx.ellipse(q.x,q.y,r,r*c.depth,0,0,Math.PI*2);ctx.stroke();
   for(let i=0;i<6;i++){const t=i*Math.PI/3;line(q.x,q.y,q.x+Math.cos(t)*r,q.y+Math.sin(t)*r*c.depth,'#91aa92',.035);}
@@ -53,10 +65,10 @@ export function drawLocalSceneObject(ctx,o,scene,c,project){
   polygon([[a.x,z.y],[a.x+.2*u,a.y-.9*u],[q.x,a.y-1.6*u],[z.x,a.y-.5*u],[z.x,z.y]],'#83917c');
   polygon([[q.x-.8*u,z.y],[q.x-.65*u,z.y-1.2*u],[q.x,z.y-1.6*u],[q.x+.65*u,z.y-1.2*u],[q.x+.8*u,z.y]],'#435b4b');
  }else if(o.kind==='resource'){
-  for(let i=0;i<7;i++){const x=a.x+(z.x-a.x)*(i+.5)/7,y=q.y+(i%3-1)*.15*u;ctx.fillStyle='#6f8d68';ctx.beginPath();ctx.ellipse(x,y,.27*u,.16*u,-.3,0,Math.PI*2);ctx.fill();line(x,y,x+.06*u,y-.4*u,'#9cab77',.045);}
+  for(let i=0;i<7;i++){const point=project({x:b.left+b.width*(i+.5)/7,y:o.y+(i%3-1)*.15},c),x=point.x,y=point.y;ctx.fillStyle='#6f8d68';ctx.beginPath();ctx.ellipse(x,y,.27*u,.16*u,-.3,0,Math.PI*2);ctx.fill();line(x,y,x+.06*u,y-.4*u,'#9cab77',.045);}
  }else if(o.kind==='dock'){
-  for(let i=0;i<6;i++)line(a.x,a.y+(z.y-a.y)*i/5,z.x,a.y+(z.y-a.y)*i/5,'#9c8b66',.2);
-  for(const x of[a.x,z.x])line(x,z.y,x,z.y-.65*u,'#5e7265',.12);
+  for(let i=0;i<6;i++){const y=b.top+b.height*i/5,left=project({x:b.left,y},c),right=project({x:b.right,y},c);line(left.x,left.y,right.x,right.y,'#9c8b66',.2);}
+  for(const point of[corners[2],corners[3]])line(point.x,point.y,point.x,point.y-.65*u,'#5e7265',.12);
  }else if(o.kind==='memorial'){
   for(const x of[q.x-.65*u,q.x+.65*u]){polygon([[x-.35*u,q.y-1.3*u],[x+.35*u,q.y-1.3*u],[x+.35*u,q.y],[x-.35*u,q.y]],'#bfc0aa');line(x,q.y-1.1*u,x,q.y-.4*u,'#687967',.07);}
  }else if(o.kind==='person'){
