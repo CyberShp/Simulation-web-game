@@ -562,3 +562,30 @@ test('acceptance worlds have independent slots, locks and recovery from producti
   assert.notEqual(locks.calls[0].name,locks.calls[1].name);
   prod.close();preview.close();
 });
+
+test('cached exact backup bytes still detect later damage and preserve recoverable copies', async () => {
+  const {p, storage, make} = setup();
+  const keys = slotKeys(1);
+  await p.open(1);
+  assert.equal(p.save(world(11)).ok, true);
+  assert.equal(p.save(world(22)).ok, true);
+  const index = JSON.parse(storage.getItem(keys.backups));
+  assert.equal(index.entries.length, 1);
+  index.entries[0].raw = '{changed damaged backup';
+  storage.setItem(keys.backups, JSON.stringify(index));
+  assert.equal(p.save(world(33)).ok, true);
+  const view = p.inspect(1);
+  assert.equal(view.state.resources.jade, 33);
+  const broken = view.preserved.find(entry => !entry.valid);
+  assert(broken);
+  assert.equal(p.exportSlot(1, {source: broken.id}), '{changed damaged backup');
+  assert.equal(p.parseImport(p.exportSlot(1, {source: view.backups[0].id})).state.resources.jade, 22);
+  storage.setItem(keys.primary, '{externally changed primary');
+  assert.equal(p.save(world(44)).ok, false);
+  assert.equal(storage.getItem(keys.primary), '{externally changed primary');
+  p.close(); await flush();
+  const next = make(), opened = await next.open(1);
+  assert.equal(opened.status, 'recovery-required');
+  assert.equal((await next.recover(1, opened.backups[0].id)).state.resources.jade, 22);
+  next.close();
+});

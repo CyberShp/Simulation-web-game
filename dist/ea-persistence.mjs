@@ -97,6 +97,25 @@ export function createEAPersistence(options = {}) {
   let generation = 0, held = false, heldRelease = null, heldPromise = Promise.resolve();
   let channel = null, preserveCounter = 0;
   const takeoverWaiters = new Map();
+  // A previous save has already checked these exact immutable bytes. Keep
+  // only the revision needed by commit; the new primary is always validated.
+  const verifiedRaw = new Map();
+  function checkedExisting(raw) {
+    const cached = verifiedRaw.get(raw);
+    if (cached) {
+      verifiedRaw.delete(raw);
+      verifiedRaw.set(raw, cached);
+      return cached;
+    }
+    const decoded = tryDecode(raw, {nativeOnly: true});
+    if (decoded.valid) {
+      const audit = {valid: true, meta: {revision: decoded.meta.revision}};
+      verifiedRaw.set(raw, audit);
+      if (verifiedRaw.size > 6) verifiedRaw.delete(verifiedRaw.keys().next().value);
+      return audit;
+    }
+    return decoded;
+  }
 
   function emit() {
     const event = {slot: activeSlot, mode, blocked, status, savedAt, result: lastResult};
@@ -304,13 +323,13 @@ export function createEAPersistence(options = {}) {
   function commit(input, {allowBlocked = false, reason = null, checkpoint = null, expectedSlot = activeSlot} = {}) {
     try {
       const store = checkWriter(expectedSlot, allowBlocked), keys = scopedKeys(activeSlot), state = validState(input);
-      const current = known === null ? null : tryDecode(known, {nativeOnly: true});
+      const current = known === null ? null : checkedExisting(known);
       const backupsRaw = store.getItem(keys.backups), backupIndex = readIndex(backupsRaw, BACKUP_FORMAT);
       const validBackups = [], invalidBackups = [];
       for (const entry of backupIndex.entries) {
-        (tryDecode(entry.raw, {nativeOnly: true}).valid ? validBackups : invalidBackups).push(entry);
+        (checkedExisting(entry.raw).valid ? validBackups : invalidBackups).push(entry);
       }
-      const revisions = validBackups.map(entry => decode(entry.raw, {nativeOnly: true}).meta.revision);
+      const revisions = validBackups.map(entry => checkedExisting(entry.raw).meta.revision);
       const revision = Math.max(0, current?.valid ? current.meta.revision : 0, ...revisions) + 1;
       if (!Number.isSafeInteger(revision)) throw failure('invalid-revision', '档案修订号超出允许范围。');
       const payload = envelope(state, activeSlot, revision, checkpoint);
