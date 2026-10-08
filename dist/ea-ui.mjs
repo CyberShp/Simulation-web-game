@@ -294,7 +294,12 @@ export function createEAUI(api) {
     const sceneView=scenePresentation(s,api.getScene?.());
     $('#stage-label').textContent=sceneView.subtitle;
     $('#scene-title').textContent=sceneView.title;
-    const placeButton=$('#scene-nav [data-scene="map"] span');if(placeButton)placeButton.textContent=sceneView.sceneId&&sceneView.sceneId!=='scene:yunxiu-courtyard'?'此地':'山院';
+    const isOuterLocal=sceneView.sceneId&&sceneView.sceneId!=='scene:yunxiu-courtyard';
+    const placeButton=$('#scene-nav [data-scene="map"] span');if(placeButton)placeButton.textContent=isOuterLocal?'此地':'山院';
+    const overviewButton=$('#estate-overview');if(overviewButton){
+      overviewButton.setAttribute('aria-label',isOuterLocal?'此地总览':'山势总览');
+      const overviewLabel=overviewButton.querySelector('span');if(overviewLabel)overviewLabel.textContent=isOuterLocal?'总览':'山势';
+    }
     $('#game-date').textContent=`第 ${Math.floor(s.time/120)+1} 日 · ${['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'][Math.floor(s.time%120/10)]}时`;
     $('#scene-weather').textContent=sceneView.weather;
     $('#disciple-count').textContent=String(v.disciples.length);
