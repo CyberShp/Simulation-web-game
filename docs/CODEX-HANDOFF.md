@@ -1,5 +1,7 @@
 # Codex 接手指南 · 2026-10-08
 
+最新 M1 r21 已发布山外“此地总览”交互标签。公开来源档在本地 Chromium 的青溪坊市与驻棚实点总览、建筑点选和近景返回，坊市保存刷新续读保持场景与资源；根复跑镜头 **5/5**、界面 **17/17**。源码 `main` `050a78fa3fd33d73478401a4a733373cd8870cc1`，网页 `gh-pages` `679dab3b53c8571807f84cda36ac9b3edc6ce695`，Pages `built`、162 文本 blob 匹配。门位画稿、真机触控和真人辨识待验，SR003-AC02 保持 `not_run`；40 SR/120 AC 为 **36 passed、83 not_run、1 blocked**。最新状态见 [STATUS](design/STATUS.md) 和 [台账](requirements/registry.json)。
+
 最新 M2 r12 已发布“百工用材”同院订单账本：正常新档真实采料入库，接单一次预留木 20、石 10，商人实际到院且掌门近身后交付，灵石 30、名声 2 仅结算一次；账本可见货、款、名声。根执行者独立重跑专项 1/1、界面 17 pass / 4 pending、顾氏相邻 1/1，本地浏览器有来源原生档保存刷新保持订单与账本。源码 `main` `833415505f4620ad23206ebb24fe261d3520be1c`，网页 `gh-pages` `016b0653ae7673c01e524eeb339532f4105a003d`，标记 `ea-160-courtyard-20261008-r12`，Pages `built`，162 个打包文本 blob 与发布树一致。公开网页浏览器因应用安全策略验证不可用未验；跨场景订单 `market-order:v2` 及 SR011 完整 AC 待实现/验收。旧经济综合脚本的旧初始化档版本失败已在合入前主线复现，见 [STATUS](design/STATUS.md) 首节。40 SR/120 AC 为 **35 passed、84 not_run、1 blocked**。
 
 最新 M2 r11 顾氏药材互助子情景已发布：公开口信说明木架与行粮补给，玩家正常开局到青溪坊市见顾婉仪、核原单、用真实木粮换取有限 8 份灵草。根执行者独立复跑专项 1/1、相邻世界内容 9/9、地方产业 8/8、界面 17 pass / 4 pending；本地浏览器实点到人、核单、交货，294 请求全 200，控制台无错误。源码 `main` `0d6df5037c394cf0c1fa2a59df32b8704df2b716`，网页 `gh-pages` `18d8bf4e9ed8d1f8c29f8f919bcf32342918acab`，标记 `ea-160-courtyard-20261008-r11`，Pages `built`，162 个打包文本 blob 与发布树一致。公开网页浏览器因应用安全策略验证不可用未验；完整七组织 AC、目标设备和真人仍待，SR017-AC01 保持 `not_run`。下一批 SR011 同地订单在独立工作树推进，见 [STATUS](design/STATUS.md) 首节；40 SR/120 AC 为 **35 passed、84 not_run、1 blocked**。
