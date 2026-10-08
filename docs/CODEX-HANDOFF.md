@@ -1,5 +1,7 @@
 # Codex 接手指南 · 2026-10-08
 
+当前最新 r34 已发布 SR007 人物外观/动作 D01/D02 设计、SR011 现行订单唯一结算 AC01 验收与修行工位扫描减负。顾氏/安息同院链 34 条公开命令、26 次精确存读，百工同院与跨场景相邻专项通过；独立九类预约同态、真实筑基 212 世界步与原生读档、空间 Canvas 36/36。局部修行耗时下降，页面 P95 未稳定改善，整体卡顿继续。源码 `main` `48df7dcb3da9870f6d7c07bb0b66d12aaf1227f1`，网页 `gh-pages` `fe3c99cddba020f02c74bd317334a4d7b99fc699`，标记 `ea-160-courtyard-20261008-r34`，Pages `built`；162 文本 blob 与公网入口/人物/工位模块字节一致。页面内交互、真机、真人及 SR007/011 整项继续；**40 passed、79 not_run、1 blocked**。详见 [STATUS](design/STATUS.md) 与 [台账](requirements/registry.json)。
+
 当前最新 M1 r33 已发布主殿扩大施工通路修复：正常新档升级 1/1、45 公开命令/33 次精确存读，原卡住档世界步 7450→7585 完工；合法 40 建筑/30 人旧档升级及三阶段封闭外观、空间 36/36、补给和取消返料独立复核通过。源码 `main` `846ff85dbc305e6b95c4f5f9d2901edd9c3e9cf9`，网页 `gh-pages` `5a408f253a2b17194e8b0167ad9d91e480794fa0`，标记 `ea-160-courtyard-20261008-r33`，Pages `built`；162 文本 blob 与公网入口/空间/经营模块字节一致。页面内交互、真机及整体卡顿继续；**39 passed、80 not_run、1 blocked**。详见 [STATUS](design/STATUS.md) 与 [台账](requirements/registry.json)。
 
 当前最新 M2 r32 已发布门人 v2 日相位子批：正常五人/两真实工位 107+6 公开命令、67 次精确存读，跨相位后原工作承诺和不同实际工位不变，停用营造才中断；根与独立新专项、迁移各1/1，旧邀请1/1、UI17通过/4待设备。旧两脚本失败在本批父版本相同，不计通过。源码 `main` `2455d0bc1a62ee6963c2d843e968fb8d68182213`，网页 `gh-pages` `8c5621ee7aeb67c1b6ab1dd2d85bc58745576caf`，标记 `ea-160-courtyard-20261008-r32`，Pages `built`、162文本blob及公网入口/人物模块一致；浏览器游戏内和真机未验，完整 v2 继续。**39 passed、80 not_run、1 blocked**。详见 [STATUS](design/STATUS.md) 与 [台账](requirements/registry.json)。
