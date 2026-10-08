@@ -14,6 +14,7 @@ import {BUILDING_GRID,buildingGridEnabled} from './ea-building-grid.mjs';
 import {advanceSRStory} from './ea-sr-story.mjs';
 import {tickCampaignCombat,settleCombatBodyProjection} from './ea-campaign.mjs';
 import {teachingQualificationSR} from './ea-sr-cultivation.mjs';
+import {prepareAutonomyV2 as prepareAutonomyV2Checked,reconcileAutonomyV2Commitments} from './ea-sr-persons.mjs';
 export * from './ea-sr-equipment.mjs';
 export * from './ea-sr-cultivation.mjs';
 export * from './ea-sr-combat.mjs';
@@ -87,6 +88,8 @@ export function validateSave(input,{upgrade=false}={}){
  upgradeConstructionRecords(s);validateConstruction(s);validateFacilityActivities(s);validateRainArtisan(s);
  if(upgrade){initSR(s);return validateSave(s);}return hydrateState(s);
 }
+
+export function prepareAutonomyV2(input){return prepareAutonomyV2Checked(input,validateSave);}
 
 export function advanceStory(s,choice){
  if(srEnabled(s)&&s.story.step>=3)return advanceSRStory(s,choice);
@@ -225,7 +228,7 @@ export function dispatchCommand(s,{name,args=[],id=`command:${s.transactions.nex
    if(command==='build'){const lock=base.buildingLock(next,values[0]);if(lock)throw Error(lock);}
    const fn=command==='advanceStory'?advanceStory:SR_HANDLERS[command]||({setSpeed,offerArtisanCare,cancelArtisanCare,declineArtisanCare,cancelProduction}[command])||base[command];
    if(typeof fn!=='function')throw Error('操作尚未接入。');
-   const result=fn(next,...values);reconcileActivities(next);return result;
+   const result=fn(next,...values);reconcileActivities(next);reconcileAutonomyV2Commitments(next);return result;
   }]));
   const committed=executeContractCommand(s,{name,args,id,expectedRevision},{handlers,clone:value=>initSR(cloneState(value)),validate:validateSave});
   if(committed.status==='rejected')throw Error(committed.message);return committed;

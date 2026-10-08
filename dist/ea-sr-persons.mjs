@@ -2,6 +2,7 @@
 import {beginPersonBreakthrough,breakthroughView} from './ea-sr-cultivation.mjs';
 import {BUILDINGS} from './ea-data.mjs';
 import {workOpportunity} from './ea-life.mjs';
+import {cloneState} from './ea-state-v6.mjs';
 import {releaseBodyActivity} from './ea-facility-activities.mjs';
 import {equippedAppearanceMounts} from './ea-sr-equipment.mjs';
 import {initAftermath,tickAftermath,validateAftermath,aftermathDecision,aftermathAction,viewAftermath} from './ea-sr-aftermath.mjs';
@@ -10,7 +11,66 @@ const mind=p=>p.mind||p,clone=v=>structuredClone(v),hash=s=>[...s].reduce((n,c)=
 export const APPEARANCE_CATALOG={id:'appearance:yunxiu:v1',body:['slim','regular','broad'],face:['oval','angular','round'],hair:['topknot','half-tied','braid','loose'],outfit:['traveller','herbalist','artisan','disciple'],source:'U-63/R-25',slots:['weapon','armor','artifact','accessory']};
 export const ACTION_FRAMES={stand:{pose:'upright',tool:null,asset:'yunxiu-courtyard:characters:v1'},walk:{pose:'walk',tool:null,asset:'yunxiu-courtyard:characters:v1'},work:{pose:'working',tool:'facility-specific',asset:'yunxiu-courtyard:characters:v1'},plant:{pose:'stoop',tool:'hoe',asset:'yunxiu-courtyard:characters:v1'},gather:{pose:'reach',tool:'basket',asset:'yunxiu-courtyard:characters:v1'},study:{pose:'seated',tool:'book',asset:'yunxiu-courtyard:characters:v1'},rest:{pose:'recline',tool:null,asset:'yunxiu-courtyard:characters:v1'},heal:{pose:'seated',tool:'bandage',asset:'yunxiu-courtyard:characters:v1'},cast:{pose:'cast',tool:'equipped-focus',asset:'yunxiu-courtyard:characters:v1'},hit:{pose:'recoil',tool:null,asset:'yunxiu-courtyard:characters:v1'},transport:{pose:'walk',tool:'bundle',asset:'yunxiu-courtyard:characters:v1'},waiting:{pose:'upright',tool:null,asset:'yunxiu-courtyard:characters:v1'},groundRest:{pose:'ground-rest',tool:null,asset:'yunxiu-courtyard:characters:v1'},cultivate:{pose:'seated',tool:null,asset:'yunxiu-courtyard:characters:v1'},teach:{pose:'gesture',tool:'book',asset:'yunxiu-courtyard:characters:v1'},down:{pose:'ground-rest',tool:null,asset:'yunxiu-courtyard:characters:v1'}};
 export const AUTONOMY={version:'autonomy:yunxiu:v1',source:'U-63/R-25/T-03',commitTicks:240,retryTicks:120,switchThreshold:12,injuryInterrupt:20,energyMin:22,trustMin:15,dayPhases:[{from:0,to:.2,activity:'rest'},{from:.2,to:.55,activity:'work'},{from:.55,to:.8,activity:'study'},{from:.8,to:1,activity:'rest'}]};
+export const AUTONOMY_V2={version:'autonomy:yunxiu:v2',source:'U-63/R-25/T-03',commitTicks:240,switchThreshold:15,retryTicks:[150,300,600],invitationThreshold:42};
 export function initPersons(s){initAftermath(s);for(const p of Object.values(s.personsById)){const seed=hash(p.personId);p.appearance??={spriteIndex:seed%6,accent:'#91a9ce'};p.appearance.recipe??={id:`appearance:${p.personId}:v1`,body:APPEARANCE_CATALOG.body[seed%3],face:APPEARANCE_CATALOG.face[(seed>>>2)%3],hair:APPEARANCE_CATALOG.hair[(seed>>>4)%4],outfit:p.personId==='person:lu-zhiwei'?'herbalist':p.personId==='person:cheng-wenzhou'?'artisan':p.personId==='person:master'?'traveller':'disciple',faceMark:(seed>>>7)%5,height:1.65+(seed%20)/100};p.schedule??={definitionId:AUTONOMY.version,commitUntilTick:s.worldTick,updatedThroughTick:s.worldTick,lastReason:'自行权衡生活与修行。',invitations:{},phase:'rest',responsibilitySlots:[],privateMotives:[]};}return s;}
+/** Prepare a v2 candidate save on an isolated copy; the live v1 decision owner remains unchanged. */
+export function prepareAutonomyV2(input,validateSource){
+ if(input.schemaVersion!==6||input.contentVersion!=='sr-content-v1.2')throw Error('自主日程迁移需要正式 SR 存档。');
+ if(typeof validateSource!=='function')throw Error('自主日程迁移需要先校验原存档。');
+ const s=cloneState(validateSource(input));initPersons(s);
+ for(const p of Object.values(s.personsById)){
+  if(!s.homeMemberIds.includes(p.personId)||p.compatibilityMode==='historical-only'||p.recordScope==='historical-only')continue;
+  const schedule=p.schedule;if(schedule.definitionId===AUTONOMY_V2.version)continue;
+  if(schedule.definitionId!==AUTONOMY.version)throw Error('自主日程定义版本未知。');
+  const goal=typeof p.mind?.goal==='string'&&p.mind.goal?p.mind.goal:null;
+  const goalFactId=goal?`fact:autonomy:legacy-goal:${p.personId}`:null;
+  if(goalFactId){const existing=s.factsById[goalFactId];if(existing&&(existing.kind!=='autonomy-legacy-goal'||existing.personId!==p.personId||existing.goal!==goal))throw Error('人物目标迁移来源冲突。');s.factsById[goalFactId]??={id:goalFactId,kind:'autonomy-legacy-goal',personId:p.personId,goal,atTick:s.worldTick,source:'person.mind.goal'};}
+  const commitmentsById={};
+  for(const [key,receipt]of Object.entries(schedule.invitations||{})){
+   if(!key.startsWith('work:')||!receipt?.accepted||!Number.isSafeInteger(receipt.atTick)||receipt.atTick>s.worldTick)continue;
+   const building=s.buildings.find(b=>b.instanceId===key.slice(5)),body=s.activitiesById[p.activityId];
+   if(!building||p.job!==building.id||p.mind?.activity!=='work'||schedule.commitUntilTick<=s.worldTick||body&&(body.kind!=='facility'||body.targetId!==building.instanceId))continue;
+   const sourceFactId=`fact:autonomy:legacy-invitation:${p.personId}:${building.instanceId}:${receipt.atTick}`;
+   const existing=s.factsById[sourceFactId];if(existing&&(existing.kind!=='autonomy-legacy-invitation'||existing.personId!==p.personId||existing.targetId!==building.instanceId||existing.accepted!==true))throw Error('工作承诺迁移来源冲突。');
+   s.factsById[sourceFactId]??={id:sourceFactId,kind:'autonomy-legacy-invitation',personId:p.personId,targetId:building.instanceId,accepted:true,originalAtTick:receipt.atTick,atTick:s.worldTick,signature:receipt.signature,source:'schedule.invitations'};
+   const id=`commitment:autonomy:work:${p.personId}:${building.instanceId}:${receipt.atTick}`;
+   commitmentsById[id]={id,sourceFactId,activity:'work',targetId:building.instanceId,startTick:receipt.atTick,endTick:schedule.commitUntilTick,accepted:true,status:'active'};
+  }
+  const commitmentIds=Object.keys(commitmentsById).sort();
+  p.lifePlan={id:`plan:autonomy:${p.personId}`,goalId:goalFactId,sourceFactId:goalFactId,createdAtTick:s.worldTick,currentStepId:commitmentIds[0]||null,dependencyIds:[],commitmentIds,reviewAtTick:Math.max(s.worldTick,schedule.commitUntilTick),status:goal?'active':'unplanned'};
+  schedule.definitionId=AUTONOMY_V2.version;schedule.commitmentsById=commitmentsById;schedule.responsibilitySlots??=[];schedule.retriesByTarget={};schedule.privateMotives??=[];
+ }
+ return s;
+}
+/** Deterministic work candidate for a v2 plan; this read does not choose or execute an activity. */
+export function workCandidateV2(s,personId,buildingId){
+ const p=s.personsById[personId],b=s.buildingsById[buildingId];
+ if(!p||!b||p.schedule?.definitionId!==AUTONOMY_V2.version)throw Error('自主日程候选需已迁移的人物和真实营造。');
+ const id=`candidate:autonomy:work:${personId}:${buildingId}`,m=mind(p);
+ const blocked=reason=>({id,activity:'work',targetId:buildingId,available:false,willing:false,score:null,reason});
+ if(p.lifeStatus==='dead'||!s.homeMemberIds.includes(personId))return blocked('本人已不在院内可接受差事的身份。');
+ if(p.position?.kind!=='scene'||p.position.sceneId!=='scene:yunxiu-courtyard'||p.location?.sceneId&&p.location.sceneId!=='scene:yunxiu-courtyard')return blocked('本人尚未真实返回山院。');
+ if(m.scenic?.spatialEvacuationOrderId||p.schedule?.aftermath?.untilTick>s.worldTick)return blocked('当前已有优先处理的撤离或身后事务。');
+ const opportunity=workOpportunity(s,p,b);
+ const personalRefusal=!opportunity.available&&['先前分歧仍未缓和，暂不接差事。','对掌门缺乏信任，暂不愿响应差事。'].includes(opportunity.reason);
+ if(!opportunity.available&&!personalRefusal)return blocked(opportunity.reason);
+ const otherBody=s.activitiesById[p.activityId];if(otherBody&&otherBody.kind!=='facility')return blocked('本人正承担另一项身体活动。');
+ if(otherBody?.kind==='facility'&&otherBody.targetId!==buildingId&&otherBody.phase==='executing')return blocked('正在执行当前工序，先安全结束或中断。');
+ const commitments=Object.values(p.schedule.commitmentsById||{});
+ if(commitments.some(c=>c.status==='active'&&c.targetId!==buildingId&&c.endTick>s.worldTick))return blocked('本人已有尚未到期的差事承诺。');
+ const supply=s.factsById[`fact:person-daily-supply:${personId}:${s.society.lastDay}`],goal=s.factsById[p.lifePlan?.goalId]?.goal||'';
+ const need=supply?.kind==='daily-supply-relation'&&!supply.supplied?80:50;
+ const aspiration=goal.includes('草木')&&b.type==='farm'||goal.includes('护道')&&b.type==='quarry'?80:50;
+ const skillKey=b.type==='farm'?'plant':b.type==='library'?'learning':b.type==='clinic'?'medicine':b.type==='well'?'array':'industry';
+ const ability=Math.max(0,Math.min(100,m.skills?.[skillKey]??0));
+ const relation=Math.max(0,Math.min(100,((m.relationships?.master?.trust??50)+(m.relationships?.master?.respect??50))/2));
+ const responsibility=commitments.some(c=>c.status==='active'&&c.targetId===buildingId&&c.endTick>s.worldTick)?80:0;
+ const dayFraction=(s.worldTick%s.ticksPerDay)/s.ticksPerDay,timeMatch=dayFraction>=.2&&dayFraction<.55?80:50;
+ const risk=Math.max(0,Math.min(100,p.wound||0)),switchCost=m.activity==='work'&&p.job===b.id?0:15;
+ const score=Math.max(0,Math.min(100,Math.round(need*.24+aspiration*.18+ability*.16+relation*.16+responsibility*.16+timeMatch*.10-risk*.20-switchCost)));
+ const willing=!personalRefusal&&score>=AUTONOMY_V2.invitationThreshold;
+ return {id,activity:'work',targetId:buildingId,available:true,willing,score,reason:personalRefusal?opportunity.reason:willing?'我愿在现有承诺与体力允许时考虑这份差事。':'我更想先顾及自己的修行与生活。',inputs:{need,aspiration,ability,relation,responsibility,timeMatch,risk,switchCost}};
+}
 export function appearanceView(s,personId){const p=s.personsById[personId];if(!p)return null;const a=p.appearance||{},m=mind(p),activity=s.activitiesById[p.activityId];let action=m.activity||p.action||'stand';
  if(activity?.kind==='sr-harvest')action=activity.phase==='moving'?'walk':activity.phase==='working'?'gather':'waiting';
  else if(activity?.kind==='sr-replenish')action=activity.phase==='moving'?'walk':activity.phase==='working'?(activity.resource==='herb'||activity.resource==='food'||activity.resource==='wood'?'plant':'work'):'waiting';
@@ -35,7 +95,33 @@ export function inviteWork(s,personId,buildingId){initPersons(s);const p=s.perso
 export function npcScheduleDecision(s,p){if(aftermathDecision(s,p))return true;if(!p.schedule)return false;const m=mind(p),a=s.activitiesById[p.activityId];if(m.scenic?.spatialEvacuationOrderId)return true;if(a?.kind?.startsWith('sr-'))return true;if(m.away||m.journey)return false;if(s.srCultivation&&(m.traits?.[1]??50)>=30){const v=breakthroughView(s,p.personId);if(!v.locks.length&&Object.entries(v.cost).every(([k,v])=>s.resources[k]>=v)){releaseBodyActivity(s,p);beginPersonBreakthrough(s,p.personId,{autonomous:true});m.reason='积累与材料已足，我愿到静修位置按阶段突破。';return true;}}if(p.wound>AUTONOMY.injuryInterrupt||p.energy<8){releaseBodyActivity(s,p);m.activity=p.wound>20?'heal':'rest';p.job=null;p.schedule.commitUntilTick=s.worldTick;return false;}if(s.worldTick<p.schedule.commitUntilTick)return true;
  const phase=(s.worldTick%s.ticksPerDay)/s.ticksPerDay,wanted=AUTONOMY.dayPhases.find(q=>phase>=q.from&&phase<q.to).activity;p.schedule.phase=wanted;
  if(wanted==='rest'&&p.energy<92&&m.satiety>=22){releaseBodyActivity(s,p);m.activity='rest';p.job=null;m.reason='夜间休整，白日再权衡工作与研习。';m.commitUntil=s.time+12;p.schedule.commitUntilTick=s.worldTick+120;return true;}return false;}
-export function tickPersons(s){initPersons(s);tickAftermath(s);for(const p of Object.values(s.personsById)){if(!p.schedule)continue;p.schedule.updatedThroughTick=s.worldTick;const a=s.activitiesById[p.activityId];p.schedule.lastReason=a?.reason||mind(p).reason||'按本人选择继续。';}}
+export function reconcileAutonomyV2Commitments(s){
+ for(const p of Object.values(s.personsById)){
+  if(p.schedule?.definitionId!==AUTONOMY_V2.version)continue;
+  for(const c of Object.values(p.schedule.commitmentsById||{})){
+   if(c.status!=='active')continue;
+   const b=s.buildingsById[c.targetId],body=s.activitiesById[p.activityId];
+   const interrupted=p.lifeStatus==='dead'||!s.homeMemberIds.includes(p.personId)||p.position?.kind!=='scene'||p.position.sceneId!=='scene:yunxiu-courtyard'||p.wound>AUTONOMY.injuryInterrupt||!b||b.enabled===false||b.condition<=0||!!b.spatialLock||p.job!==b.id||mind(p).activity!=='work'||body&&(body.kind!=='facility'||body.targetId!==c.targetId);
+   if(c.endTick<=s.worldTick)c.status='completed';
+   else if(interrupted)c.status='interrupted';
+   else continue;
+   if(p.lifePlan?.currentStepId===c.id)p.lifePlan.currentStepId=null;
+  }
+ }
+}
+export function tickPersons(s){initPersons(s);tickAftermath(s);reconcileAutonomyV2Commitments(s);for(const p of Object.values(s.personsById)){if(!p.schedule)continue;p.schedule.updatedThroughTick=s.worldTick;const a=s.activitiesById[p.activityId];p.schedule.lastReason=a?.reason||mind(p).reason||'按本人选择继续。';}}
 export function viewPersons(s){const reactions=viewAftermath(s).reactions;return Object.values(s.personsById).filter(p=>p===s.master||s.homeMemberIds.includes(p.personId)).map(p=>{const m=mind(p),a=s.activitiesById[p.activityId],schedule=p.schedule;const visibleUntil=m.away||m.journey||!(m.commitUntil>0)?s.worldTick:schedule?.commitUntilTick;return {personId:p.personId,name:p.name,appearance:appearanceView(s,p.personId),schedule:schedule?{phase:schedule.phase,commitUntilTick:visibleUntil,reason:a?.reason||m.reason||schedule.lastReason,aftermath:reactions.filter(r=>r.observerId===p.personId).map(clone),invitations:Object.values(schedule.invitations).map(i=>({accepted:i.accepted,available:i.available,atTick:i.atTick,reason:i.publicReason}))}:null,activityId:p.activityId,office:m.office||null};});}
-export function validatePersons(s){validateAftermath(s);for(const p of Object.values(s.personsById)){if(!p.schedule)continue;const r=p.appearance?.recipe;if(!r||!APPEARANCE_CATALOG.body.includes(r.body)||!APPEARANCE_CATALOG.face.includes(r.face)||!APPEARANCE_CATALOG.hair.includes(r.hair)||!APPEARANCE_CATALOG.outfit.includes(r.outfit)||r.height<1.6||r.height>1.9||!Number.isSafeInteger(p.schedule.commitUntilTick)||p.schedule.commitUntilTick<0||p.schedule.updatedThroughTick>s.worldTick)throw Error('人物外观配方或自主日程异常。');}return true;}
+function validateAutonomyV2(s,p){
+ const schedule=p.schedule,plan=p.lifePlan,validTick=n=>Number.isSafeInteger(n)&&n>=0;
+ if(!plan||plan.id!==`plan:autonomy:${p.personId}`||!validTick(plan.createdAtTick)||plan.createdAtTick>s.worldTick||!validTick(plan.reviewAtTick)||plan.reviewAtTick<plan.createdAtTick||!['active','unplanned'].includes(plan.status)||!Array.isArray(plan.dependencyIds)||!Array.isArray(plan.commitmentIds)||new Set(plan.dependencyIds).size!==plan.dependencyIds.length||new Set(plan.commitmentIds).size!==plan.commitmentIds.length)throw Error('人物阶段计划异常。');
+ if(plan.goalId!==plan.sourceFactId||plan.goalId!==null&&(!s.factsById?.[plan.goalId]||s.factsById[plan.goalId].kind!=='autonomy-legacy-goal'||s.factsById[plan.goalId].personId!==p.personId)||plan.dependencyIds.some(id=>!s.factsById?.[id]))throw Error('人物阶段计划来源异常。');
+ if(!schedule.commitmentsById||Array.isArray(schedule.commitmentsById)||!schedule.retriesByTarget||Array.isArray(schedule.retriesByTarget)||!Array.isArray(schedule.responsibilitySlots)||!Array.isArray(schedule.privateMotives))throw Error('人物承诺与退避字段异常。');
+ for(const [id,c]of Object.entries(schedule.commitmentsById)){
+  const fact=s.factsById?.[c.sourceFactId];
+  if(c.id!==id||!fact||fact.personId!==p.personId||fact.kind!=='autonomy-legacy-invitation'||fact.targetId!==c.targetId||fact.originalAtTick!==c.startTick||c.activity!=='work'||c.accepted!==true||!validTick(c.startTick)||!validTick(c.endTick)||c.endTick<c.startTick||!['active','interrupted','completed'].includes(c.status)||c.status==='completed'&&c.endTick>s.worldTick||c.status==='active'&&(!s.buildingsById?.[c.targetId]||p.job!==s.buildingsById[c.targetId].id||p.mind?.activity!=='work'||c.endTick<=s.worldTick))throw Error('人物承诺来源或当前活动异常。');
+ }
+ if(plan.commitmentIds.some(id=>!schedule.commitmentsById[id])||plan.currentStepId!==null&&schedule.commitmentsById[plan.currentStepId]?.status!=='active')throw Error('人物阶段计划承诺引用异常。');
+ for(const retry of Object.values(schedule.retriesByTarget))if(!retry||typeof retry.signature!=='string'||!validTick(retry.consecutiveFailures)||!validTick(retry.nextReviewTick))throw Error('人物失败退避记录异常。');
+}
+export function validatePersons(s){validateAftermath(s);for(const p of Object.values(s.personsById)){if(!p.schedule)continue;const r=p.appearance?.recipe;if(!r||!APPEARANCE_CATALOG.body.includes(r.body)||!APPEARANCE_CATALOG.face.includes(r.face)||!APPEARANCE_CATALOG.hair.includes(r.hair)||!APPEARANCE_CATALOG.outfit.includes(r.outfit)||r.height<1.6||r.height>1.9||!Number.isSafeInteger(p.schedule.commitUntilTick)||p.schedule.commitUntilTick<0||p.schedule.updatedThroughTick>s.worldTick||![AUTONOMY.version,AUTONOMY_V2.version].includes(p.schedule.definitionId))throw Error('人物外观配方或自主日程异常。');if(p.schedule.definitionId===AUTONOMY_V2.version)validateAutonomyV2(s,p);}return true;}
 export const personsHandlers={inviteWork,aftermathAction};
