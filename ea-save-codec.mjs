@@ -1,6 +1,6 @@
 // Local storage uses a compact envelope; downloaded saves stay ordinary JSON.
 // Pako 1.0.11 is bundled in vendor/ under its MIT license for synchronous saves.
-import './vendor/pako.mjs?v=ea-160-courtyard-20261008-r17';
+import './vendor/pako.mjs?v=ea-160-courtyard-20261008-r18';
 
 export const PACKED_SAVE_FORMAT = 'xianfu-ea-storage-deflate';
 const codec = globalThis.pako;

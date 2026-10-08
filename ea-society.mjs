@@ -1,14 +1,14 @@
-import {npcScheduleDecision} from './ea-sr-persons.mjs?v=ea-160-courtyard-20261008-r17';
-import {hallInteriorEnabled} from './ea-hall-interior.mjs?v=ea-160-courtyard-20261008-r17';
-import {prepareFacilityActivity,releaseBodyActivity,contributeProduction} from './ea-facility-activities.mjs?v=ea-160-courtyard-20261008-r17';
-import {sceneUnits} from './ea-sr-spatial.mjs?v=ea-160-courtyard-20261008-r17';
-import {consumeHarvest,availablePills,ownAvailablePills,preparePillUse,consumeAccessiblePill} from './ea-sr-economy.mjs?v=ea-160-courtyard-20261008-r17';
+import {AUTONOMY_V2,npcScheduleDecision} from './ea-sr-persons.mjs?v=ea-160-courtyard-20261008-r18';
+import {hallInteriorEnabled} from './ea-hall-interior.mjs?v=ea-160-courtyard-20261008-r18';
+import {prepareFacilityActivity,releaseBodyActivity,contributeProduction} from './ea-facility-activities.mjs?v=ea-160-courtyard-20261008-r18';
+import {sceneUnits} from './ea-sr-spatial.mjs?v=ea-160-courtyard-20261008-r18';
+import {consumeHarvest,availablePills,ownAvailablePills,preparePillUse,consumeAccessiblePill} from './ea-sr-economy.mjs?v=ea-160-courtyard-20261008-r18';
 import {BUILDINGS, TECHNIQUES, RECIPES, ROUTES, CELLS, RESOURCES, TRAIT_NAMES,
-  rng, day, log, pay, canPay, grant, capacity, xpNeed, clamp} from './ea-data.mjs?v=ea-160-courtyard-20261008-r17';
+  rng, day, log, pay, canPay, grant, capacity, xpNeed, clamp} from './ea-data.mjs?v=ea-160-courtyard-20261008-r18';
 
-import {routeDiscovered} from './ea-scene-state.mjs?v=ea-160-courtyard-20261008-r17';
-import {lifeFacility,lifeActivityLock,lifePath,lifeScenePath,actorScenePosition,personLifeSummary,workOpportunity,teachingPresent} from './ea-life.mjs?v=ea-160-courtyard-20261008-r17';
-import {advanceScenic,repairScenicActor,validateScenic,SCENE_GEOMETRY,buildingAccess,scenicDistance,geometryRevision,syncScenicPosition} from './ea-scenic.mjs?v=ea-160-courtyard-20261008-r17';
+import {routeDiscovered} from './ea-scene-state.mjs?v=ea-160-courtyard-20261008-r18';
+import {lifeFacility,lifeActivityLock,lifePath,lifeScenePath,actorScenePosition,personLifeSummary,workOpportunity,teachingPresent} from './ea-life.mjs?v=ea-160-courtyard-20261008-r18';
+import {advanceScenic,repairScenicActor,validateScenic,SCENE_GEOMETRY,buildingAccess,scenicDistance,geometryRevision,syncScenicPosition} from './ea-scenic.mjs?v=ea-160-courtyard-20261008-r18';
 
 /** Society owns every NPC action. The main loop owns time, meals, upkeep and the master's actions. */
 export const SOCIETY_ROLES = {
@@ -361,6 +361,9 @@ function decide(s,d,hooks) {
         if(!p.main||d.xp>=xpNeed(d.realm))continue;
         choices.push({activity:'cultivate',job:b.id,score:22+ambition*.45+(d.job===b.id?9:0),reason:'希望精进境界，选择静心修炼。'});
       } else {
+        // A migrated v2 member takes production work through a sourced invite;
+        // the legacy scorer cannot silently replace that person's answer.
+        if(p.schedule?.definitionId===AUTONOMY_V2.version)continue;
         if(!workOpportunity(s,d,b,{checkPath:false}).available)continue;
         const output=Object.keys(t.out)[0];if(!output)continue;
         const target={food:Math.max(35,s.disciples.length*7),jade:100,wood:90,stone:75,herb:Math.max(45,s.disciples.length*8),crystal:15,insight:30}[output]||50;
