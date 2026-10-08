@@ -761,10 +761,14 @@ function daily(s) {
   for(const d of [...s.disciples]) {
     if(d.lifeStatus==='dead')continue;
     const p=d.mind,r=relation(d);
+    const dayIndex=day(s),factId=s.schemaVersion===6&&s.contentVersion==='sr-content-v1.2'&&s.economy?.lastSupplyDay===dayIndex&&d.personId&&s.factsById?`fact:person-daily-supply:${d.personId}:${dayIndex}`:null;
+    if(factId&&s.factsById[factId])continue;
     const supplied=s.economy?.lastSupplyDay===day(s)?s.economy.starvation===0:s.resources.food>=Math.max(1,s.disciples.length);
+    const trustBefore=r.trust;
     p.satiety=clamp(p.satiety+(supplied?22:-32),0,100);
     if(!supplied){p.mood=clamp(p.mood-7,0,100);r.trust=clamp(r.trust-2,0,100);}
     else {p.mood=clamp(p.mood+3,0,100);if(r.trust<45)r.trust=clamp(r.trust+.8,0,100);}
+    if(factId)s.factsById[factId]={id:factId,kind:'daily-supply-relation',personId:d.personId,dayIndex,atTick:s.worldTick,source:'economy.daily-supply',sourceDay:s.economy.lastSupplyDay,starvation:s.economy.starvation,supplied,trustBefore,trustAfter:r.trust,deltaTrust:r.trust-trustBefore};
     if(p.satiety<15&&r.trust<15)p.neglectDays++;else p.neglectDays=Math.max(0,p.neglectDays-1);
     if(p.neglectDays>=4&&s.disciples.length>1&&!p.away&&!s.activitiesById?.[d.activityId]?.kind?.startsWith('sr-')){depart(s,d,'长期缺乏供给且信任耗尽，决定另寻安身之地。');continue;}
     createPersonalQuest(s,d);
@@ -897,6 +901,11 @@ export function validateSociety(s,{canonical=false}={}) {
   for(const[k,list]of Object.entries(SOCIETY_RULE_OPTIONS))if(!list.some(x=>x.id===s.doctrine[k]))bad('规则');
   const unique=(arr,key)=>{const all=arr.map(x=>x[key]);return new Set(all).size===all.length;};
   if(!unique(sc.secrets,'id')||!unique(sc.peaks,'id')||!unique(sc.quests,'id')||!unique(sc.visitors,'id'))bad('事件编号重复');
+  if(canonical)for(const [id,f]of Object.entries(s.factsById||{}))if(id.startsWith('fact:person-daily-supply:')||f?.kind==='daily-supply-relation'){
+    if(f.kind!=='daily-supply-relation'||!str(f.personId,100)||id!==`fact:person-daily-supply:${f.personId}:${f.dayIndex}`||f.id!==id||!s.personsById?.[f.personId]||!int(f.dayIndex,0,day(s))||!int(f.atTick,0,s.worldTick)||f.source!=='economy.daily-supply'||f.sourceDay!==f.dayIndex||!int(f.starvation)||f.supplied!==(f.starvation===0)||!num(f.trustBefore,0,100)||!num(f.trustAfter,0,100)||!num(f.deltaTrust,-100,100))bad('每日供给关系来源');
+    const delta=f.supplied?(f.trustBefore<45?.8:0):-2;
+    if(Math.abs(f.trustAfter-clamp(f.trustBefore+delta,0,100))>1e-8||Math.abs(f.deltaTrust-(f.trustAfter-f.trustBefore))>1e-8)bad('每日供给关系变化');
+  }
   for(const e of sc.secrets)if(!int(e.id,1,sc.nextIncidentId-1)||!historic.has(e.discipleId)||!['pill','book','outing'].includes(e.kind)||!num(e.time)||!num(e.evidenceProgress,0,100)||typeof e.discovered!=='boolean'||typeof e.handled!=='boolean'||e.handled&&!e.discovered||!str(e.motive)||!num(e.restitution)||e.outcome!==null&&!str(e.outcome)||(e.discovered?!num(e.discoveredAt):e.discoveredAt!==null))bad('秘密或证据');
   for(const e of sc.secrets)if(e.kind==='book'&&!TECHNIQUES[e.subject]||e.kind==='pill'&&!RECIPES[e.subject]||e.kind==='outing'&&!ROUTES[e.subject])bad('秘密对象');
   for(const role of Object.keys(SOCIETY_ROLES))if(sc.officers[role]!==null&&!ids.has(sc.officers[role]))bad('执事不存在');

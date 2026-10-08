@@ -18,7 +18,8 @@ function exactSave(s,label){
 function openingGift(){
  const h=harness();h.act('acknowledgeIntro');h.act('masterAction','heal');
  h.until(s=>s.master.wound===0,'public healing',500);
- h.act('advanceStory');h.walk(27.25,13.432692307692308);
+ // Stand within 1.5 metres of both the public stockpile and Lu's handoff point.
+ h.act('advanceStory');h.walk(28,13);
  h.act('advanceStory','gift');
  assert.equal(h.s.factsById['fact:opening:gift'].recipientId,luId);
  assert.equal(h.s.stockpilesById[luStockId].resources.herb,10);
