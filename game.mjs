@@ -1,10 +1,10 @@
-import{attachMapInput}from'./map-input.mjs?v=ea-160-courtyard-20261008-r12';
-import{TYPES,RESOURCE,CELLS,initial,canPay,capacity,upgradeCost,build,assign,upgrade,recruit,breakthrough,tick,rates,QUESTS,claim,validateSave,addLog,buildingLock,isAway,demolish}from'./sect-sim.mjs?v=ea-160-courtyard-20261008-r12';
-import{createExpansion}from'./expansion.mjs?v=ea-160-courtyard-20261008-r12';
-import{createPersistence}from'./persistence.mjs?v=ea-160-courtyard-20261008-r12';
-import{renderCommunity}from'./community.mjs?v=ea-160-courtyard-20261008-r12';
-import{createSectUI}from'./sect-ui.mjs?v=ea-160-courtyard-20261008-r12';
-import{moveMaster}from'./sect-sim.mjs?v=ea-160-courtyard-20261008-r12';
+import{attachMapInput}from'./map-input.mjs?v=ea-160-courtyard-20261008-r13';
+import{TYPES,RESOURCE,CELLS,initial,canPay,capacity,upgradeCost,build,assign,upgrade,recruit,breakthrough,tick,rates,QUESTS,claim,validateSave,addLog,buildingLock,isAway,demolish}from'./sect-sim.mjs?v=ea-160-courtyard-20261008-r13';
+import{createExpansion}from'./expansion.mjs?v=ea-160-courtyard-20261008-r13';
+import{createPersistence}from'./persistence.mjs?v=ea-160-courtyard-20261008-r13';
+import{renderCommunity}from'./community.mjs?v=ea-160-courtyard-20261008-r13';
+import{createSectUI}from'./sect-ui.mjs?v=ea-160-courtyard-20261008-r13';
+import{moveMaster}from'./sect-sim.mjs?v=ea-160-courtyard-20261008-r13';
 const persistence=createPersistence(()=>localStorage,validateSave);
 const restored=persistence.load();
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
