@@ -5,43 +5,46 @@
   "updated": "2026-10-08",
   "authoritative": "registry.json for requirement records and task states; derived Markdown rendered by qa/sr-manager.py refresh",
   "source_runtime": {
-    "main": "6617b8670fd396a488469a864ba170b4f2681425",
-    "runtime_source": "6617b8670fd396a488469a864ba170b4f2681425",
-    "pages": "a6fd4838ff0ba998a7f1bb20b97016aa298ddf37",
+    "main": "024898c4a6290d138eb428c0139ca7b2d8fcb781",
+    "runtime_source": "024898c4a6290d138eb428c0139ca7b2d8fcb781",
+    "pages": "c6dab928a8ae50c7f750a3cafa6c729723e85ef9",
     "game_version": "1.6.0-dev",
     "schema_version": 6,
-    "preview_pages": "a6fd4838ff0ba998a7f1bb20b97016aa298ddf37",
+    "preview_pages": "c6dab928a8ae50c7f750a3cafa6c729723e85ef9",
     "preview_deployment": null,
     "working_game_version": "1.6.0-dev",
     "official_game_version": "1.6.0-dev",
-    "version_note": "M1 SR003 scoped outer-local camera and roof selection batch; full SR remains in progress.",
+    "version_note": "M1 r7 estate field painting cache and SR006 normal serial completion evidence; all remaining SR gates retain their prior state.",
     "main_record_type": "runtime source commit; release metadata commit is a descendant",
-    "working_release_note": "2026-10-08 SR003 local and retried public Chromium scoped acceptance passed. Public first load had one ea-persistence.mjs HTTP 503 and required reload; target devices remain unverified.",
-    "previous_pages": "62605de80065fafcef99d084dcdac2e6ae2d28e7",
+    "working_release_note": "2026-10-08 r7 local paired Chromium shows partial field paint relief but no stable whole-frame P95 improvement. Public isolated new/save/reload and legal field picking passed on first load; target devices and live dense-scene duration remain unverified.",
+    "previous_pages": "a6fd4838ff0ba998a7f1bb20b97016aa298ddf37",
     "pages_deployment_status": "built",
-    "working_release_tag": "ea-160-courtyard-20261008-r6",
-    "official_release_tag": "ea-160-courtyard-20261008-r6",
-    "official_url": "https://cybershp.github.io/Simulation-web-game/?v=ea-160-courtyard-20261008-r6",
+    "working_release_tag": "ea-160-courtyard-20261008-r7",
+    "official_release_tag": "ea-160-courtyard-20261008-r7",
+    "official_url": "https://cybershp.github.io/Simulation-web-game/?v=ea-160-courtyard-20261008-r7",
     "deployed_tree_verification": {
       "packaged_files": 162,
-      "text_cache_changes": 120,
+      "text_cache_changes": 118,
       "static_art_changes": 0,
       "sample_asset_sha256_match": true,
-      "sample_path": "ea-courtyard-renderer.mjs",
+      "sample_path": "ea-estate-ground-art.mjs",
       "verified_files": [
-        "ea-courtyard-renderer.mjs",
-        "ea-world-scene-art.mjs",
-        "ea-sr-ui.mjs",
-        "ea-game.mjs"
-      ]
+        "index.html",
+        "ea-game.mjs",
+        "ea-estate-ground-art.mjs",
+        "ea-facility-activities.mjs",
+        "ea-scenic.mjs",
+        "ea-sr-spatial.mjs"
+      ],
+      "verification": "Public HTTP 200 response Git blobs match gh-pages tree; packaged query tags make dist source blobs intentionally differ."
     },
-    "previous_main": "d4bd7483b1e03adb0fedd9982a9f50fc348bb6e3",
+    "previous_main": "6617b8670fd396a488469a864ba170b4f2681425",
     "browser_verification": {
-      "viewport": "1200x849 and 820x1180 independent local Chromium; 1200x849 independent public Chromium",
-      "scope": "Local legal ward and valley trial saves: roof selects closed object, named entry opens hidden actor, exposed actor remains visible/selectable. Public first load ea-persistence.mjs HTTP 503; reload recovered. Public isolated new/save/reload and legal ward trial roof/person checks passed after reload; no additional console errors. Trial remained memory-only. Four public files matched Pages tree.",
+      "viewport": "1366x900 independent public Chromium; local paired dense-scene Chromium at DPR 1.75 and 2",
+      "scope": "First public load and all 198 recorded requests returned HTTP 200; isolated new/save/reload/continue passed. Memory-only legal 40-building/30-person trial read selected herb and rice fields and exposed worker. Console 0 errors/0 warnings. Three local frozen cache/direct A/B pairs show partial FPS and processing benefit without stable frame-P95 improvement.",
       "real_devices": false,
-      "fps_measured": false,
-      "acceptance_namespace": "qa-sr003-outer-final-20261008; public qa-sr003-r6-20261008"
+      "fps_measured": true,
+      "acceptance_namespace": "qa-r7-public-20261008; local frozen paired AB"
     },
     "working_source_base": "1b28260007c3049d077dfce424d0db2c6e8cbd60",
     "working_validation": {
@@ -1581,7 +1584,8 @@
         "dist/ea-sr-ui.mjs",
         "dist/ea.css",
         "qa/ea-sr-integration-acceptance.mjs",
-        "qa/ea-sr-spatial-acceptance.mjs"
+        "qa/ea-sr-spatial-acceptance.mjs",
+        "qa/ea-sr006-serial-public-acceptance.mjs"
       ],
       "change_log": [
         {
@@ -1619,6 +1623,10 @@
         {
           "date": "2026-10-08",
           "reason": "SR006 升级/迁建/拆除状态、工时费用、人物撤离、物流返料、失败与存读设计完成并经独立 D02 复核；迁建网页改为选址后显式确认、拆除确认显示具名影响、升级预查扩地。公开命令 4/4、空间 36/36、室内 8/8、界面 17/17；隔离 Chromium 在合法占床住宅档通过升级/迁建工单提交与保存重载、具名拆除预览、候选取消和浮条遮挡修复。实际完工/拆除执行和目标设备仍待，I/V/R 不关闭。"
+        },
+        {
+          "date": "2026-10-08",
+          "reason": "2026-10-08 M1 r7 同一座伐木场正常公开串行：建造、升级扩大占地、迁建、拆除 93 命令/62 次精确存读/世界步 15911；真实药田草药搬入设施仓且各阶段存量守恒；完工账单、建筑唯一身份、施工材料位置和拆除一次返料均逐阶段核对。独立专项 1/1，来源 qa/ea-sr006-serial-public-acceptance.mjs。此证据限正常 Node 公开命令链；取消/目标失效、浏览器完整串行、真机/真人及整项 I/V/R 仍待。"
         }
       ],
       "tasks": [
@@ -1666,7 +1674,8 @@
           "evidence": [
             "dist/ea-sr-spatial.mjs",
             "docs/design/STATUS.md",
-            "qa/ea-sr-building-change-public-acceptance.mjs"
+            "qa/ea-sr-building-change-public-acceptance.mjs",
+            "qa/ea-sr006-serial-public-acceptance.mjs"
           ],
           "blocked_reason": null
         },
@@ -1684,7 +1693,8 @@
             "qa/ea-indoor-furniture-acceptance.mjs",
             "qa/ea-courtyard-life-acceptance.mjs",
             "docs/design/STATUS.md",
-            "qa/ea-sr-building-change-public-acceptance.mjs"
+            "qa/ea-sr-building-change-public-acceptance.mjs",
+            "qa/ea-sr006-serial-public-acceptance.mjs"
           ],
           "blocked_reason": null
         },
@@ -1720,7 +1730,7 @@
         "SAVE-01"
       ],
       "blockers": [],
-      "acceptance_notes": "2026-10-07本地小院批次：成人家具/单位格/空间定向检查48/48（8/6/34），正常公开命令接受/拒绝邀请两路完成营造、产出搬运、研习、到床休息与迁建取消/续建；分别60命令/36次精确存读和61命令/37次精确存读。六身份卧姿与预约前提2/2，生产Canvas卧姿加载/只读/身体点选/缺图回退4/4，已读图。旧v5完成档40建筑30门人保留资源、时间和return结局，全部入口可达，二次存读一致。各SR仅登记适用子情景；完整AC、真机触摸/FPS和真人首次体验状态分别保留。 浏览器DPR1鼠标在1366×900、1180×820、820×1180点选床上掌门通过；正常推荐营造经Enter和鼠标确认、实际施工落成。一次动态模块加载失败经页面重载恢复同档，原因待定位。I/V证据为沿既有可用契约实施的本批子范围；完整D01/D02及I/V关闭门槛保持原状态。\n2026-10-08 M1 第十批：补验占床升级、劳动中拆除、足迹内携货原子拒绝/取消一次退款、足迹外在途货物迁建后送达，正式公开操作4/4、相关空间家具42/42。独立只读复核同意原三条AC继续passed；扩大升级占地和真机仍未覆盖。\n2026-10-08 SR006 设计补齐与局部实现：独立 D02 按设计 171-230 行及 SR004/005/010 接缝复审通过；公开命令 4/4、空间 36/36、室内 8/8、SR UI 17 pass/4 pending，现行浏览器串行和设备结果另记。\n独立 1200×849 Chromium：正常公开来源住宅档仅将 speed 1→0 暂停并通过校验；陆知微实际占床、林长风趋向床位。升级一次扣 45/30/20，原建筑与 0/240 工单保存刷新一致；迁建候选和取消不扣费，确认一次扣 10/8/0，0/180 工单保存刷新一致；拆除弹窗列两人、床位/生产/仓/入口/剧情。原求助浮条遮挡确认按钮中心，选址时暂隐并退出后恢复，普通点击复验通过；最终浏览器控制台 0 error/0 warning。施工完工、拆除执行、真机/真人未验。仓库外报告 /private/tmp/immortal-sr006-player-review.json。"
+      "acceptance_notes": "2026-10-07本地小院批次：成人家具/单位格/空间定向检查48/48（8/6/34），正常公开命令接受/拒绝邀请两路完成营造、产出搬运、研习、到床休息与迁建取消/续建；分别60命令/36次精确存读和61命令/37次精确存读。六身份卧姿与预约前提2/2，生产Canvas卧姿加载/只读/身体点选/缺图回退4/4，已读图。旧v5完成档40建筑30门人保留资源、时间和return结局，全部入口可达，二次存读一致。各SR仅登记适用子情景；完整AC、真机触摸/FPS和真人首次体验状态分别保留。 浏览器DPR1鼠标在1366×900、1180×820、820×1180点选床上掌门通过；正常推荐营造经Enter和鼠标确认、实际施工落成。一次动态模块加载失败经页面重载恢复同档，原因待定位。I/V证据为沿既有可用契约实施的本批子范围；完整D01/D02及I/V关闭门槛保持原状态。\n2026-10-08 M1 第十批：补验占床升级、劳动中拆除、足迹内携货原子拒绝/取消一次退款、足迹外在途货物迁建后送达，正式公开操作4/4、相关空间家具42/42。独立只读复核同意原三条AC继续passed；扩大升级占地和真机仍未覆盖。\n2026-10-08 SR006 设计补齐与局部实现：独立 D02 按设计 171-230 行及 SR004/005/010 接缝复审通过；公开命令 4/4、空间 36/36、室内 8/8、SR UI 17 pass/4 pending，现行浏览器串行和设备结果另记。\n独立 1200×849 Chromium：正常公开来源住宅档仅将 speed 1→0 暂停并通过校验；陆知微实际占床、林长风趋向床位。升级一次扣 45/30/20，原建筑与 0/240 工单保存刷新一致；迁建候选和取消不扣费，确认一次扣 10/8/0，0/180 工单保存刷新一致；拆除弹窗列两人、床位/生产/仓/入口/剧情。原求助浮条遮挡确认按钮中心，选址时暂隐并退出后恢复，普通点击复验通过；最终浏览器控制台 0 error/0 warning。施工完工、拆除执行、真机/真人未验。仓库外报告 /private/tmp/immortal-sr006-player-review.json。\n2026-10-08 M1 r7 同一座伐木场正常公开串行：建造、升级扩大占地、迁建、拆除 93 命令/62 次精确存读/世界步 15911；真实药田草药搬入设施仓且各阶段存量守恒；完工账单、建筑唯一身份、施工材料位置和拆除一次返料均逐阶段核对。独立专项 1/1，来源 qa/ea-sr006-serial-public-acceptance.mjs。此证据限正常 Node 公开命令链；取消/目标失效、浏览器完整串行、真机/真人及整项 I/V/R 仍待。"
     },
     {
       "id": "SR-XF-007",
