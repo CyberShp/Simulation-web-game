@@ -3,6 +3,12 @@ import assert from 'node:assert/strict';
 import * as SIM from '../dist/ea-opening-sim.mjs';
 import {meterCanStand,meterFindPath,meterSweep,spatialAccess,spatialSlots} from '../dist/ea-sr-spatial.mjs';
 
+test('near-boundary sweep keeps the existing zero-radius collision tolerance',()=>{
+ const s=SIM.initial({sr:true,seed:618033}),y=1+5e-12;
+ assert.equal(meterSweep(s,{x:2,y},{x:3,y},0).blocked,true);
+ assert.equal(meterSweep(s,{x:2,y:1.2},{x:3,y:1.2},0).blocked,false);
+});
+
 test('SR-XF-003-AC-01: completed construction keeps the door open and replans around its new walls',()=>{
  let s=SIM.initial({sr:true,seed:618033}),commands=0,reloads=0;
  const act=(name,...args)=>{const result=SIM.dispatchCommand(s,{name,args});s=result.state;commands++;return result.result;};
