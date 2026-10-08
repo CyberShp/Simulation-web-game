@@ -1,5 +1,5 @@
-import * as prior from './living-world.mjs?v=ea-160-courtyard-20261008-r3';
-export * from './living-world.mjs?v=ea-160-courtyard-20261008-r3';
+import * as prior from './living-world.mjs?v=ea-160-courtyard-20261008-r4';
+export * from './living-world.mjs?v=ea-160-courtyard-20261008-r4';
 const {TYPES,RESOURCE,CELLS,addLog,pay,canPay,capacity,EXPEDITIONS,RECIPES}=prior;
 
 export const TECHNIQUES={

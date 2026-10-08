@@ -145,11 +145,47 @@ export function executeContractCommand(s,command,{handlers={},clone=x=>structure
   return{state:committedState,status:'committed',commandId:command.id,revision:next.revision,reasonCodes:[],transactionId:`transaction:${command.id}`,changedIds:[],result,saveStatus:'not-yet-saved',replayed:false};
  }catch(error){return reject(error.code??CONTRACT_ERRORS.shape,error.path??'command',error.message);}
 }
+/** A delivered account of a fact is not itself first-hand knowledge of that fact. */
+export function knownFactForObserver(s,observerId,factId){
+ const person=s.personsById?.[observerId],fact=s.factsById?.[factId];
+ if(!person||!fact||typeof fact.kind==='string'&&fact.kind.startsWith('author-'))return false;
+ if(fact.public===true||person.knownFacts?.includes(factId)||fact.knownByPersonIds?.includes(observerId)||fact.observerId===observerId||fact.actorId===observerId)return true;
+ const direct=s.claimsById?.[`claim:fact:${factId}:${observerId}`];
+ if(!direct||direct.verification!=='corroborated'||!direct.evidenceFactIds?.includes(factId)||!direct.recipients?.includes(observerId))return false;
+ return direct.receiptFormatVersion===1?!!(direct.initialRecipientIds?.includes(observerId)||direct.legacyRecipientIds?.includes(observerId)):direct.receiptFormatVersion===undefined;
+}
+function originalClaimRecipient(claim,observerId){
+ if(claim.receiptFormatVersion===1)return !!(claim.initialRecipientIds?.includes(observerId)||claim.legacyRecipientIds?.includes(observerId));
+ return claim.receiptFormatVersion===undefined&&!!claim.recipients?.includes(observerId);
+}
+function claimSourcePersonId(s,claim,observerId){
+ let sourceId=claim.sourcePersonId??claim.speakerId??null;
+ if(claim.receiptFormatVersion===1&&claim.recipients?.includes(observerId)&&!originalClaimRecipient(claim,observerId)){
+  const delivered=claim.deliveryFactIds?.map(id=>s.factsById?.[id]).find(f=>f?.personId===observerId);
+  sourceId=delivered?.actorId??null;
+ }
+ return sourceId&&s.personsById?.[sourceId]?.visibility!=='author-private'&&s.personsById[sourceId]?sourceId:null;
+}
+function claimLocationHint(s,claim,observerId){
+ const hint=claim.locationHint;
+ if(!record(hint)||typeof hint.sceneId!=='string')return null;
+ const sourceIds=hint.factId?[hint.factId]:claim.evidenceFactIds??[];
+ const sourceId=sourceIds.find(id=>knownFactForObserver(s,observerId,id)&&s.factsById[id]?.sceneId===hint.sceneId);
+ if(!sourceId)return null;
+ const fact=s.factsById[sourceId];
+ return {sceneId:hint.sceneId,observedTick:fact.observedTick??fact.atTick??null};
+}
 /** Player knowledge only. Never exposes author truth or real remote coordinates. */
 export function knowledgeView(s,{observerId='person:master'}={}){
  const observer=s.personsById[observerId];if(!observer)fail(CONTRACT_ERRORS.reference,'observerId','观察者不存在');
  const known=new Set(observer.knownClaimIds??[]);
- return Object.values(s.claimsById??{}).filter(c=>c.public===true||known.has(c.id)||(c.knownByIds??[]).includes(observerId)||(c.recipients??[]).includes(observerId)).map(c=>structuredClone({id:c.id,text:c.text,sourcePersonId:c.sourcePersonId??c.speakerId??null,observedAtTick:c.observedAtTick??c.observedTick??null,receivedAtTick:c.receivedTickByPersonId?.[observerId]??null,locationHint:c.locationHint??null,certainty:c.certainty??c.verification??'unverified'}));
+ return Object.values(s.claimsById??{}).filter(c=>c.public===true||known.has(c.id)||(c.knownByIds??[]).includes(observerId)||(c.recipients??[]).includes(observerId)).map(c=>{
+  const supported=(c.evidenceFactIds??[]).some(id=>knownFactForObserver(s,observerId,id));
+  const reported=c.certainty??c.verification??'unverified';
+  const certainty=['corroborated','confirmed','verified','supported','certain'].includes(reported)&&!supported?'unverified':reported;
+  const sourcePersonId=claimSourcePersonId(s,c,observerId);
+  return structuredClone({id:c.id,text:c.text,sourcePersonId,observedAtTick:c.observedAtTick??c.observedTick??null,receivedAtTick:c.receivedTickByPersonId?.[observerId]??null,locationHint:claimLocationHint(s,c,observerId),certainty});
+ });
 }
 /** Isolation + original text retention; storage changes only after backup succeeds. */
 export function prepareMigration(raw,{validateLegacy,migrate,validate}={}){

@@ -1,11 +1,11 @@
 /** SR-XF-007/008. Persistent identity recipes, semantic action fallback and deterministic voluntary invitations. */
-import {beginPersonBreakthrough,breakthroughView} from './ea-sr-cultivation.mjs?v=ea-160-courtyard-20261008-r3';
-import {BUILDINGS} from './ea-data.mjs?v=ea-160-courtyard-20261008-r3';
-import {workOpportunity} from './ea-life.mjs?v=ea-160-courtyard-20261008-r3';
-import {releaseBodyActivity} from './ea-facility-activities.mjs?v=ea-160-courtyard-20261008-r3';
-import {equippedAppearanceMounts} from './ea-sr-equipment.mjs?v=ea-160-courtyard-20261008-r3';
-import {initAftermath,tickAftermath,validateAftermath,aftermathDecision,aftermathAction,viewAftermath} from './ea-sr-aftermath.mjs?v=ea-160-courtyard-20261008-r3';
-export {viewAftermath,AFTERMATH_RULES} from './ea-sr-aftermath.mjs?v=ea-160-courtyard-20261008-r3';
+import {beginPersonBreakthrough,breakthroughView} from './ea-sr-cultivation.mjs?v=ea-160-courtyard-20261008-r4';
+import {BUILDINGS} from './ea-data.mjs?v=ea-160-courtyard-20261008-r4';
+import {workOpportunity} from './ea-life.mjs?v=ea-160-courtyard-20261008-r4';
+import {releaseBodyActivity} from './ea-facility-activities.mjs?v=ea-160-courtyard-20261008-r4';
+import {equippedAppearanceMounts} from './ea-sr-equipment.mjs?v=ea-160-courtyard-20261008-r4';
+import {initAftermath,tickAftermath,validateAftermath,aftermathDecision,aftermathAction,viewAftermath} from './ea-sr-aftermath.mjs?v=ea-160-courtyard-20261008-r4';
+export {viewAftermath,AFTERMATH_RULES} from './ea-sr-aftermath.mjs?v=ea-160-courtyard-20261008-r4';
 const mind=p=>p.mind||p,clone=v=>structuredClone(v),hash=s=>[...s].reduce((n,c)=>(Math.imul(n,31)+c.charCodeAt(0))>>>0,7);
 export const APPEARANCE_CATALOG={id:'appearance:yunxiu:v1',body:['slim','regular','broad'],face:['oval','angular','round'],hair:['topknot','half-tied','braid','loose'],outfit:['traveller','herbalist','artisan','disciple'],source:'U-63/R-25',slots:['weapon','armor','artifact','accessory']};
 export const ACTION_FRAMES={stand:{pose:'upright',tool:null,asset:'yunxiu-courtyard:characters:v1'},walk:{pose:'walk',tool:null,asset:'yunxiu-courtyard:characters:v1'},work:{pose:'working',tool:'facility-specific',asset:'yunxiu-courtyard:characters:v1'},plant:{pose:'stoop',tool:'hoe',asset:'yunxiu-courtyard:characters:v1'},gather:{pose:'reach',tool:'basket',asset:'yunxiu-courtyard:characters:v1'},study:{pose:'seated',tool:'book',asset:'yunxiu-courtyard:characters:v1'},rest:{pose:'recline',tool:null,asset:'yunxiu-courtyard:characters:v1'},heal:{pose:'seated',tool:'bandage',asset:'yunxiu-courtyard:characters:v1'},cast:{pose:'cast',tool:'equipped-focus',asset:'yunxiu-courtyard:characters:v1'},hit:{pose:'recoil',tool:null,asset:'yunxiu-courtyard:characters:v1'},transport:{pose:'walk',tool:'bundle',asset:'yunxiu-courtyard:characters:v1'},waiting:{pose:'upright',tool:null,asset:'yunxiu-courtyard:characters:v1'},groundRest:{pose:'ground-rest',tool:null,asset:'yunxiu-courtyard:characters:v1'},cultivate:{pose:'seated',tool:null,asset:'yunxiu-courtyard:characters:v1'},teach:{pose:'gesture',tool:'book',asset:'yunxiu-courtyard:characters:v1'},down:{pose:'ground-rest',tool:null,asset:'yunxiu-courtyard:characters:v1'}};

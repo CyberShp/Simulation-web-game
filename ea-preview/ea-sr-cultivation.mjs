@@ -1,9 +1,9 @@
 /** SR-XF-014/038/040. Extends known arts, wraps breakthrough; no second xp loop. */
-import {TECHNIQUES,RECIPES,xpNeed,grant} from './ea-data.mjs?v=ea-160-courtyard-20261008-r3';
-import {avatarRoutePlanSR,avatarObservationPlanSR,WORLD_SCENES,recordFactSR,publishFactSR} from './ea-sr-world.mjs?v=ea-160-courtyard-20261008-r3';
-import {availablePills,reserveAccessiblePills,consumePillAllocation,refundPillAllocation,grantPills,carriedStockpile,craftSR,merchantPresent,initPillInventory} from './ea-sr-economy.mjs?v=ea-160-courtyard-20261008-r3';
-import {sceneUnits} from './ea-sr-spatial.mjs?v=ea-160-courtyard-20261008-r3';
-import {requirePerson,requirePlayer,reserveBody,ownedActivity,releaseSRBody,readyAtWorkstation,spendResources,refundResources,personMind,isLivingPerson} from './ea-sr-equipment.mjs?v=ea-160-courtyard-20261008-r3';
+import {TECHNIQUES,RECIPES,xpNeed,grant} from './ea-data.mjs?v=ea-160-courtyard-20261008-r4';
+import {avatarRoutePlanSR,avatarObservationPlanSR,WORLD_SCENES,recordFactSR,publishFactSR} from './ea-sr-world.mjs?v=ea-160-courtyard-20261008-r4';
+import {availablePills,reserveAccessiblePills,consumePillAllocation,refundPillAllocation,grantPills,carriedStockpile,craftSR,merchantPresent,initPillInventory} from './ea-sr-economy.mjs?v=ea-160-courtyard-20261008-r4';
+import {sceneUnits} from './ea-sr-spatial.mjs?v=ea-160-courtyard-20261008-r4';
+import {requirePerson,requirePlayer,reserveBody,ownedActivity,releaseSRBody,readyAtWorkstation,spendResources,refundResources,personMind,isLivingPerson} from './ea-sr-equipment.mjs?v=ea-160-courtyard-20261008-r4';
 let hooks={};
 export function configureCultivation(next={}){hooks={...hooks,...next};}
 export const CULTIVATION_LIMIT=30;

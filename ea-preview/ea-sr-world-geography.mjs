@@ -1,5 +1,5 @@
 /** U-63 author geography; confirmed topology is distinct from authored names and local history. */
-import {RESOURCES} from './ea-data.mjs?v=ea-160-courtyard-20261008-r3';
+import {RESOURCES} from './ea-data.mjs?v=ea-160-courtyard-20261008-r4';
 const MASTER='person:master',clone=structuredClone,zero=()=>Object.fromEntries(Object.keys(RESOURCES).map(k=>[k,0]));
 const object=(id,name,kind,x,y,w=5,h=4)=>({id,name,kind,x,y,width:w,height:h,interactionRadius:2.4,choices:[]});
 const site=(key,name,continent,authority,peoples,terrain,resource,history,parent,ticks)=>({id:`region:geo:${key}`,sceneId:`scene:geo-${key}`,key,name,continentId:`continent:${continent}`,authorityId:authority,peoples,terrain,resource,historyId:`history:geo:${key}`,history,parent,ticks,sourceStatus:'U-63-author-default',confirmedFields:['continent-layout','multi-species-interleaving']});

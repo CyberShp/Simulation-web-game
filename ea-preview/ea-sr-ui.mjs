@@ -1,5 +1,5 @@
 /** Player-facing projections only. Does not advance clocks or write world state. */
-import {BUILDING_GRID,buildingGridEnabled,buildingCellLabel} from './ea-building-grid.mjs?v=ea-160-courtyard-20261008-r3';
+import {BUILDING_GRID,buildingGridEnabled,buildingCellLabel} from './ea-building-grid.mjs?v=ea-160-courtyard-20261008-r4';
 const E=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const list=v=>Array.isArray(v)?v:[];
 const names={wood:'灵木',stone:'青石',herb:'灵草',food:'口粮',jade:'灵石',crystal:'灵晶',insight:'道韵',weapon:'兵器',armor:'衣甲',artifact:'法器',accessory:'饰物','pill:heal':'回春散','pill:qi':'聚气丹','pill:spirit':'灵息丹','pill:foundation':'筑基丹'};
@@ -89,7 +89,7 @@ function divination(s,sim,world){
  if(['divine','counter-divination'].includes(world?.activity?.kind))html+=C('当前卜算与反制',S(`${phase(world.activity.kind)} · ${Math.ceil(world.activity.progressTicks/10)}/${Math.ceil((world.activity.durationTicks||0)/10)}秒`)+B('中止，保留已耗成本','srWorldCommand',[{action:'cancel'}]));return html;
 }
 function journal(s,sim){const v=call(sim,'viewSRWorld',s);let html='';const localRecipients=list(v?.scene?.actors).map(p=>({id:p.personId,name:p.name}));
- html+=list(v?.messages).map(m=>{const source=list(v?.scene?.objects).find(o=>o.id===m.sourceId);return C(m.title||'江湖消息',P(m.text||m.statement||m.claim?.text)+P(`来源：${m.speakerName||m.sourceName||'见闻与记录'} · 获知世界刻${m.observedTick??m.issuedTick??'未知'} · ${phase(m.verification||m.status||'unverified')}`)+(source?B('走近当前来源','srWorldCommand',[{action:'move',x:source.x,y:source.y+source.height/2+1}]):'')+B('循来源到场调查','srWorldCommand',[{action:'investigate',sourceId:m.sourceId||m.id}],source?'':'需先到来源所在地点；掌门记忆与口信须寻独立物证')+(localRecipients.length?F('srWorldCommand',`<input type="hidden" name="action" value="share"><input type="hidden" name="claimId" value="${E(m.id)}">`+select('recipientId','向身边人说明所闻',localRecipients),P('须实际会面，耗5秒交流；重复来源不等于独立证据。'),'当面分享消息'):''),'claim-'+m.id);}).join('');
+ html+=list(v?.messages).map(m=>{const source=list(v?.scene?.objects).find(o=>o.id===m.sourceId),observed=Number.isSafeInteger(m.observedTick)&&m.observedTick>=0?m.observedTick:'未知',received=Number.isSafeInteger(m.receivedAtTick)&&m.receivedAtTick>=0?m.receivedAtTick:'未知';return C(m.title||'江湖消息',P(m.text||m.statement||m.claim?.text)+P(`来源：${m.speakerName||m.sourceName||'见闻与记录'} · 观察世界刻${observed} · 收到世界刻${received} · ${phase(m.certainty||m.verification||m.status||'unverified')}`)+(source?B('走近当前来源','srWorldCommand',[{action:'move',x:source.x,y:source.y+source.height/2+1}]):'')+B('循来源到场调查','srWorldCommand',[{action:'investigate',sourceId:m.sourceId||m.id}],source?'':'需先到来源所在地点；掌门记忆与口信须寻独立物证')+(m.canShare===true&&localRecipients.length?F('srWorldCommand',`<input type="hidden" name="action" value="share"><input type="hidden" name="claimId" value="${E(m.id)}">`+select('recipientId','向身边人说明所闻',localRecipients),P('须实际会面，耗5秒交流；重复来源不等于独立证据。'),'当面分享消息'):''),'claim-'+m.id);}).join('');
  html+=list(v?.investigations).map(i=>C(i.title||'调查记录',S(i.reason||phase(i.status)||'已保留获知结果'),'investigation-'+i.id)).join('');
  html+=divination(s,sim,v);
 
