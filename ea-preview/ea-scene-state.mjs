@@ -1,10 +1,10 @@
-import {artisanPresent} from './ea-rain-artisan.mjs?v=ea-160-courtyard-20261008-r11';
-import {facilitySlotView} from './ea-facility-slots.mjs?v=ea-160-courtyard-20261008-r11';
-import {productionOrder} from './ea-facility-activities.mjs?v=ea-160-courtyard-20261008-r11';
-import {BUILDINGS,ROUTES,RESOURCES,stage} from './ea-data.mjs?v=ea-160-courtyard-20261008-r11';
-import {scenicPoint,buildingAccess,buildingSize,buildingFootprint} from './ea-scene-geometry.mjs?v=ea-160-courtyard-20261008-r11';
-import {lifeFacility} from './ea-life.mjs?v=ea-160-courtyard-20261008-r11';
-import {recoveryObjective} from './ea-onboarding.mjs?v=ea-160-courtyard-20261008-r11';
+import {artisanPresent} from './ea-rain-artisan.mjs?v=ea-160-courtyard-20261008-r12';
+import {facilitySlotView} from './ea-facility-slots.mjs?v=ea-160-courtyard-20261008-r12';
+import {productionOrder} from './ea-facility-activities.mjs?v=ea-160-courtyard-20261008-r12';
+import {BUILDINGS,ROUTES,RESOURCES,stage} from './ea-data.mjs?v=ea-160-courtyard-20261008-r12';
+import {scenicPoint,buildingAccess,buildingSize,buildingFootprint} from './ea-scene-geometry.mjs?v=ea-160-courtyard-20261008-r12';
+import {lifeFacility} from './ea-life.mjs?v=ea-160-courtyard-20261008-r12';
+import {recoveryObjective} from './ea-onboarding.mjs?v=ea-160-courtyard-20261008-r12';
 
 export const facilityActive=b=>!!b&&b.enabled!==false&&b.condition>0;
 export function facilityRecords(s){

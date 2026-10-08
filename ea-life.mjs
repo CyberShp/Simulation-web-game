@@ -1,9 +1,9 @@
-import {productionAvailability,productionInputAvailable} from './ea-sr-economy.mjs?v=ea-160-courtyard-20261008-r11';
+import {productionAvailability,productionInputAvailable} from './ea-sr-economy.mjs?v=ea-160-courtyard-20261008-r12';
 const units=(s,pixels)=>s.spatial?.version==='spatial-metres-1'?pixels/32:pixels;
-import {hallInteriorEnabled} from './ea-hall-interior.mjs?v=ea-160-courtyard-20261008-r11';
-import {facilitySlots,slotById} from './ea-facility-slots.mjs?v=ea-160-courtyard-20261008-r11';
-import {BUILDINGS, TECHNIQUES, RESOURCES, CELLS, canPay, xpNeed} from './ea-data.mjs?v=ea-160-courtyard-20261008-r11';
-import {buildingAccess,scenicFindPath,scenicDistance,scenicSweep,geometryRevision} from './ea-scene-geometry.mjs?v=ea-160-courtyard-20261008-r11';
+import {hallInteriorEnabled} from './ea-hall-interior.mjs?v=ea-160-courtyard-20261008-r12';
+import {facilitySlots,slotById} from './ea-facility-slots.mjs?v=ea-160-courtyard-20261008-r12';
+import {BUILDINGS, TECHNIQUES, RESOURCES, CELLS, canPay, xpNeed} from './ea-data.mjs?v=ea-160-courtyard-20261008-r12';
+import {buildingAccess,scenicFindPath,scenicDistance,scenicSweep,geometryRevision} from './ea-scene-geometry.mjs?v=ea-160-courtyard-20261008-r12';
 
 // Read-only projections. These never schedule an NPC, spend resources or reveal a private manual.
 export const lifeBuildingActive = b => !!b && !b.disabled && b.enabled!==false && (b.condition??100)>0;
