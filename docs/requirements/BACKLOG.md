@@ -16,7 +16,7 @@
 
 | SR | 名称 | 优先级 | 设计 | 开发 | 验收 | 依赖 |
 | --- | --- | --- | --- | --- | --- | --- |
-| [SR-XF-002](items/SR-XF-002.md) | 共同实体、动作与内容定义契约补齐 | P0 | draft | in_progress | in_progress | SR-XF-001 |
+| [SR-XF-002](items/SR-XF-002.md) | 共同实体、动作与内容定义契约补齐 | P0 | ready | in_progress | in_progress | SR-XF-001 |
 | [SR-XF-003](items/SR-XF-003.md) | 统一米制空间、导航与镜头 | P0 | ready | in_progress | in_progress | SR-XF-002 |
 | [SR-XF-004](items/SR-XF-004.md) | 建筑预制件、室内与分层素材目录 | P0 | ready | in_progress | in_progress | SR-XF-003 |
 | [SR-XF-005](items/SR-XF-005.md) | 自由选址、施工与入口安全 | P0 | ready | in_progress | in_progress | SR-XF-003, SR-XF-004 |

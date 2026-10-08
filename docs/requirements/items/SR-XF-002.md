@@ -6,9 +6,9 @@
 | --- | --- |
 | 范围 / 模块 | 前期必需 / 底层 |
 | 优先级 / 计划 | P0 / I1 |
-| 设计 / 开发 | draft / in_progress |
+| 设计 / 开发 | ready / in_progress |
 | 验收 / 发布 | in_progress / not_released_for_this_sr |
-| 责任人 / 复核人 | Codex/contracts_save / Codex/root（集成） |
+| 责任人 / 复核人 | Codex/contracts_save / Codex/sr010_contract_validation（独立设计审阅） |
 
 ## 来源、依赖与范围
 
@@ -66,17 +66,21 @@ SR-XF-002-AC-03证据：qa/ea-sr-contracts-acceptance.mjs；docs/requirements/IM
 
 2026-10-07 M1 第五批：从 /tmp/immortal-m1-well-realm11-earned.json（seed 618033、有来源山院第11境有效存档）继续，以公开命令到第12境、调查、三场实战及三名固定责任人死亡结算，并分别完成 return/rebuild 结局和重复访问。SR002-AC01 同一链逐点存读档保存在仓库外 /tmp/immortal-m1-sr002-ac01-audit/：出发前/在途世界步698140，抵达698340，首战698952，受伤战斗699701，返程在途699980，返院700505。独立只读复核18个阶段档精确重载不变：唯一 person:master、单一身体活动、铁剑 item:sr-equipment:1 与法袍 item:sr-equipment:5 的归属/槽位连续；受伤档人物伤势23.5602与战场HP 146/191投影一致，时钟单调。319条公开命令、80次精确存读，两个结局均至世界步703301。真实浏览器用同源首战档验证可导入、实战界面、保存和刷新续玩；AC01按其公开命令/运行时要求登记 passed。该长链从有来源的正常存档续跑，另一次独立新档采购路径至第7境时耗尽当前可用原料，未据其判定玩法死锁。完整SR002的 D/I/V/R、触控/实机与发布门槛继续保持原状态。
 
+2026-10-08 M1 设计批：D01 字段级共同实体/命令事务/世界步/知识投影/作者卡编译及主子版本兼容矩阵补齐；D02 独立复核 PASS。现行兼容字段不一致可能使旧离宗历史人获得院内脚点，版本组合门禁和知识送达时刻仍属 I01 代码缺口；D01/D02 完成不提升 I/V/R、旧档全兼容或浏览器验收。
+
 ## 开发任务
 
 | 任务 | 工作 | 状态 | 前置 | 责任人 |
 | --- | --- | --- | --- | --- |
-| SR-XF-002-D01 | 设计补齐：交付：对persons/items/scenes/routes/claims/crises及活动的必填、空值、范围与引用编制契约表。；补齐命令前置、结果事务、错误码、世界步效果优先层和知识投影接口。；定义作者卡到运行内容的编译/校验输入，以及各模块版本兼容矩阵。；填实必需参数并标记U/R/T来源。 | in_progress | 无 | Codex/contracts_save |
-| SR-XF-002-D02 | 契约与内容审阅：审阅共同实体、动作与内容定义契约补齐与依赖契约（SR-XF-001）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。 | todo | SR-XF-002-D01 | 待分配 |
+| SR-XF-002-D01 | 设计补齐：交付：对persons/items/scenes/routes/claims/crises及活动的必填、空值、范围与引用编制契约表。；补齐命令前置、结果事务、错误码、世界步效果优先层和知识投影接口。；定义作者卡到运行内容的编译/校验输入，以及各模块版本兼容矩阵。；填实必需参数并标记U/R/T来源。 | done | 无 | Codex/root |
+| SR-XF-002-D02 | 契约与内容审阅：审阅共同实体、动作与内容定义契约补齐与依赖契约（SR-XF-001）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。 | done | SR-XF-002-D01 | Codex/sr010_contract_validation |
 | SR-XF-002-I01 | 开发与集成：在底层模块实现共同实体、动作与内容定义契约补齐；交付SR-XF-002-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。 | todo | SR-XF-002-D02 | 待分配 |
 | SR-XF-002-V01 | 验收与兼容：执行SR-XF-002-AC-01至AC-03及PERSIST-03、CHAIN-02；登记实际结果、兼容和设备证据边界。 | todo | SR-XF-002-I01 | 待分配 |
 | SR-XF-002-R01 | 发布与关闭：完成所需源码/运行时发布核对、交接和未覆盖说明；本轮用户不要求上传QA过程产物。 | todo | SR-XF-002-V01 | 待分配 |
 
-SR-XF-002-D01证据：docs/requirements/design/SR-XF-002-030.md
+SR-XF-002-D01证据：docs/requirements/design/SR-XF-002-030.md；docs/requirements/design/SR-XF-002-030.md
+
+SR-XF-002-D02证据：docs/requirements/design/SR-XF-002-030.md
 
 SR-XF-002-V01证据：qa/ea-sr-contracts-acceptance.mjs；docs/design/STATUS.md；qa/ea-sr-integration-acceptance.mjs
 
@@ -117,5 +121,8 @@ SR-XF-002-V01证据：qa/ea-sr-contracts-acceptance.mjs；docs/design/STATUS.md�
 - 2026-10-07：M1 战斗共同身体或房屋/人物画稿首批局部实现与独立验收；整项原门槛未关闭。
 - 2026-10-07：M1 正常筑基资源子链：由有来源匠人档公开营造采石场，实产并搬运青石；补足五名门人后世界步439776正式建灵泉。独立只读复核核对两笔石料交付和65造价，并从该档公开邀请、生产、搬运6晶到公库，三次精确存读通过。完整山院→旅行→实战→返院尚未完成，AC01与D/I/V/R不提升。
 - 2026-10-07：M1 第五批以有来源的正常公开命令链逐点验收山院、在途、抵达、受伤战斗与返院；独立复核确认 SR002-AC01 passed，整项门槛继续。
+- 2026-10-08：字段级契约、命令事务与知识投影、作者卡编译及版本矩阵已补齐；I01代码差距单列
+- 2026-10-08：独立逐段核对旧离宗例外、主子版本矩阵、条件模块与I01接缝，结论PASS
+- 2026-10-08：SR002 D01/D02 设计与独立审阅完成；将历史离宗人兼容、版本门禁及知识送达时刻列入 I01，不宣称实现。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。
