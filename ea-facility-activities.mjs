@@ -1,12 +1,12 @@
 /** Body activities and exclusive work stations, called only by the world owner. */
-import {BUILDINGS,canPay,pay,grant} from './ea-data.mjs?v=ea-160-courtyard-20261008-r22';
-import {productionAvailability,settleFiniteProduction,initEconomy,productionInputAvailable,reserveProductionInput,refundProductionInput,cancelMerchantCollection,farmWaterlogged,FARM_CROP_RECIPE,FARM_V1_RECIPE} from './ea-sr-economy.mjs?v=ea-160-courtyard-20261008-r22';
+import {BUILDINGS,canPay,pay,grant} from './ea-data.mjs?v=ea-160-courtyard-20261008-r23';
+import {productionAvailability,settleFiniteProduction,initEconomy,productionInputAvailable,reserveProductionInput,refundProductionInput,cancelMerchantCollection,farmWaterlogged,FARM_CROP_RECIPE,FARM_V1_RECIPE,PRODUCTION_RECIPE_VERSION,productionRecipeDefinition,productionRecipeSnapshot} from './ea-sr-economy.mjs?v=ea-160-courtyard-20261008-r23';
 const units=(s,pixels)=>s.spatial?.version==='spatial-metres-1'?pixels/32:pixels;
 const spacing=s=>s.spatial?.version==='spatial-metres-1'?.5:8;
 const arrival=s=>s.spatial?.version==='spatial-metres-1'?.04:.5;
-import {facilitySlots,slotById,slotReservation,facilityBodyKinds} from './ea-facility-slots.mjs?v=ea-160-courtyard-20261008-r22';
-import {geometryRevision,buildingAccess,scenicFindPath,scenicDistance,scenicSweep,scenicNearest} from './ea-scene-geometry.mjs?v=ea-160-courtyard-20261008-r22';
-import {advanceScenic,syncScenicPosition} from './ea-scenic.mjs?v=ea-160-courtyard-20261008-r22';
+import {facilitySlots,slotById,slotReservation,facilityBodyKinds} from './ea-facility-slots.mjs?v=ea-160-courtyard-20261008-r23';
+import {geometryRevision,buildingAccess,scenicFindPath,scenicDistance,scenicSweep,scenicNearest} from './ea-scene-geometry.mjs?v=ea-160-courtyard-20261008-r23';
+import {advanceScenic,syncScenicPosition} from './ea-scenic.mjs?v=ea-160-courtyard-20261008-r23';
 const owner=(s,p)=>p===s.master?p:p.mind;
 export function bodyActivity(s,p){const a=s.activitiesById?.[p.activityId];return a?.kind==='facility'?a:null;}
 export function releaseBodyActivity(s,p){
@@ -70,6 +70,23 @@ export function prepareFacilityActivity(s,p,b,action,budget=46){
  position.path=[];position.goal={...slot.position};a.phase='executing';a.reason='正在使用'+slot.label+'。';return true;
 }
 export function productionOrder(s,b){return s.workOrdersById?.[`work:production:${b.instanceId}`]||null;}
+const ordinaryRecipe=(b,version=PRODUCTION_RECIPE_VERSION)=>productionRecipeDefinition(version,b.type);
+function snapshotOrdinaryBatch(s,b,order){
+ if(b.type==='farm'||!s.srEconomy)return;
+ order.recipeSnapshot=productionRecipeSnapshot(s,b);
+ order.participantSkills={};
+}
+// Called after the original save has passed validation on a clone. No goods,
+// progress, wages or results are created by the compatibility step.
+export function upgradeProductionRecipeSnapshots(s){
+ for(const order of Object.values(s.workOrdersById||{})){
+  if(order.kind!=='production'||order.phase==='completed'||order.recipeSnapshot)continue;
+  const b=s.buildingsById[order.targetId],recipe=b&&ordinaryRecipe(b,'economy:yunxiu:v1');
+  if(!recipe||b.type==='farm')continue;
+  order.recipeSnapshot={...productionRecipeSnapshot(s,b,'economy:yunxiu:v1'),createdTick:0};
+ }
+ return s;
+}
 function nextFarmBatch(s,b){const prefixes=[`fact:crop:sow:${b.instanceId}:`,`fact:production:${b.instanceId}:`],numbers=Object.keys(s.factsById||{}).flatMap(id=>prefixes.filter(prefix=>id.startsWith(prefix)).map(prefix=>Number(id.slice(prefix.length)))).filter(Number.isSafeInteger);return Math.max(0,...numbers)+1;}
 function startFarmCrop(s,b,order,p){
  const siteId=`stockpile:${b.instanceId}`,site=s.stockpilesById?.[siteId],cost=FARM_CROP_RECIPE.seedCost;
@@ -91,28 +108,31 @@ export function contributeProduction(s,p,b,settle){
  const newFarm=s.srEconomy&&b.type==='farm'&&(!order||order.phase==='completed'),cropBatch=order?.recipeSnapshot?.recipeVersion===FARM_CROP_RECIPE.recipeVersion;
  if(!newFarm&&!cropBatch){const availability=productionAvailability(s,b);if(!availability.available){a.reason=availability.reason;return false;}}
  if(!order){
-  const cost=newFarm?FARM_CROP_RECIPE.seedCost:BUILDINGS[b.type].input||{};if(!productionInputAvailable(s,b,cost)){a.reason=newFarm?'药田缺少现场灵草2份种苗；先实际搬入。':s.srEconomy?'工位尚未收到原料；先从府库实际搬入。':'生产原料不足。';return false;}
+  const cost=newFarm?FARM_CROP_RECIPE.seedCost:s.srEconomy?ordinaryRecipe(b)?.inputCost||{}:BUILDINGS[b.type].input||{};if(!productionInputAvailable(s,b,cost)){a.reason=newFarm?'药田缺少现场灵草2份种苗；先实际搬入。':s.srEconomy?'工位尚未收到原料；先从府库实际搬入。':'生产原料不足。';return false;}
   const id=`work:production:${b.instanceId}`,reservationId=`reservation:input:${b.instanceId}`;
   if(!newFarm)reserveProductionInput(s,b,cost);s.reservationsById[reservationId]={id:reservationId,kind:'materials',workOrderId:id,cost:{...cost}};
-  order={id,kind:'production',targetId:b.instanceId,phase:'active',batch:newFarm?nextFarmBatch(s,b):1,inheritedTicks:Math.min(BUILDINGS[b.type].duration*10-1,Math.round((b.progress||0)*10)),progressTicks:Math.min(BUILDINGS[b.type].duration*10-1,Math.round((b.progress||0)*10)),durationTicks:BUILDINGS[b.type].duration*10,reservationId,contributions:{},resultTransactionId:null};
+  const duration=s.srEconomy?(newFarm?FARM_CROP_RECIPE.careRequired:ordinaryRecipe(b).durationValue):BUILDINGS[b.type].duration*10;
+  order={id,kind:'production',targetId:b.instanceId,phase:'active',batch:newFarm?nextFarmBatch(s,b):1,inheritedTicks:Math.min(duration-1,Math.round((b.progress||0)*10)),progressTicks:Math.min(duration-1,Math.round((b.progress||0)*10)),durationTicks:duration,reservationId,contributions:{},resultTransactionId:null};
+  if(!newFarm)snapshotOrdinaryBatch(s,b,order);
   if(newFarm&&!startFarmCrop(s,b,order,p)){delete s.reservationsById[reservationId];a.reason='药田种苗须来自田边公有库存。';return false;}
   s.workOrdersById[id]=order;b.progress=0;
  }
  if(order.phase==='completed'){
   if(newFarm&&s.worldTick<(order.crop?.fallowUntilTick??0)){a.reason='药田刚收获，下一世界步方可播种。';return false;}
-  const cost=newFarm?FARM_CROP_RECIPE.seedCost:BUILDINGS[b.type].input||{};if(!productionInputAvailable(s,b,cost)){a.reason=newFarm?'下一批药田缺少现场灵草2份种苗；先实际搬入。':s.srEconomy?'下一批工位原料不足，先实际搬入。':'下一批原料不足。';return false;}
+  const cost=newFarm?FARM_CROP_RECIPE.seedCost:s.srEconomy?ordinaryRecipe(b)?.inputCost||{}:BUILDINGS[b.type].input||{};if(!productionInputAvailable(s,b,cost)){a.reason=newFarm?'下一批药田缺少现场灵草2份种苗；先实际搬入。':s.srEconomy?'下一批工位原料不足，先实际搬入。':'下一批原料不足。';return false;}
   if(!newFarm)reserveProductionInput(s,b,cost);s.reservationsById[order.reservationId]={id:order.reservationId,kind:'materials',workOrderId:order.id,cost:{...cost}};
   order.phase='active';order.batch++;order.progressTicks=0;order.inheritedTicks=0;order.contributions={};order.resultTransactionId=null;
+  if(!newFarm)snapshotOrdinaryBatch(s,b,order);
   if(newFarm&&!startFarmCrop(s,b,order,p)){delete s.reservationsById[order.reservationId];order.phase='completed';order.batch--;a.reason='药田种苗须来自田边公有库存。';return false;}
  }
  a.workOrderId=order.id;order.phase='active';
  if(order.crop){if(farmWaterlogged(s)){order.crop.phase='paused:waterlogged';order.crop.weatherPauseReason='waterlogged';a.reason='药田积水，成长与照料暂停。';order.phase='waiting';return false;}if(order.crop.maturedAtTick===null&&order.progressTicks>=order.durationTicks){a.reason='照料已满，等待灵草成熟。';order.phase='waiting';return false;}}
- const contribution=Math.min(10,order.durationTicks-order.progressTicks);order.progressTicks+=contribution;if(contribution){order.contributions[p.personId]=(order.contributions[p.personId]||0)+contribution;if(order.crop)order.participantSkills[p.personId]??=p.mind?.skills?.plant||0;}
+ const contribution=Math.min(10,order.durationTicks-order.progressTicks);order.progressTicks+=contribution;if(contribution){order.contributions[p.personId]=(order.contributions[p.personId]||0)+contribution;if(order.crop)order.participantSkills[p.personId]??=p.mind?.skills?.plant||0;else if(order.recipeSnapshot?.recipeVersion===PRODUCTION_RECIPE_VERSION)order.participantSkills[p.personId]??=p.mind?.skills?.[order.recipeSnapshot.skillKey]||0;}
  if(order.crop)order.crop.careContribution=order.progressTicks;
  if(order.progressTicks<order.durationTicks)return true;
  if(order.crop&&order.crop.maturedAtTick===null){order.phase='waiting';order.crop.phase='growing';a.reason='照料已满，等待灵草成熟。';return false;}
- const participants=Object.entries(order.contributions).map(([id,ticks])=>({person:s.personsById[id],share:ticks/order.durationTicks,...(order.crop?{skillAtFirstContribution:order.participantSkills[id]}:{})})).sort((a,b)=>b.share-a.share||a.person.id-b.person.id);
- if(!settleFiniteProduction(s,b,settle,participants)){if(!order.crop){order.progressTicks-=contribution;order.contributions[p.personId]-=contribution;if(!order.contributions[p.personId])delete order.contributions[p.personId];}else{order.phase='waiting';order.crop.phase='ripe/waiting';}a.reason='整批成品容量或来源不足，保留投入等待；不会截断产物。';return false;}
+ const participants=Object.entries(order.contributions).map(([id,ticks])=>({person:s.personsById[id],share:ticks/order.durationTicks,...(order.crop||order.recipeSnapshot?.recipeVersion===PRODUCTION_RECIPE_VERSION?{skillAtFirstContribution:order.participantSkills[id]}:{})})).sort((a,b)=>b.share-a.share||a.person.id-b.person.id);
+ if(!settleFiniteProduction(s,b,settle,participants)){if(!order.crop){order.progressTicks-=contribution;order.contributions[p.personId]-=contribution;if(!order.contributions[p.personId]){delete order.contributions[p.personId];if(order.participantSkills)delete order.participantSkills[p.personId];}}else{order.phase='waiting';order.crop.phase='ripe/waiting';}a.reason='整批成品容量或来源不足，保留投入等待；不会截断产物。';return false;}
  if(order.crop){const factId=`fact:production:${b.instanceId}:${order.batch}`,harvestFactId=`fact:crop:harvest:${b.instanceId}:${order.batch}`;order.crop.harvestedAtTick=s.worldTick;order.crop.fallowUntilTick=s.worldTick+1;order.crop.phase='harvested';s.factsById[harvestFactId]={id:harvestFactId,kind:'crop-harvest',atTick:s.worldTick,buildingId:b.instanceId,workOrderId:order.id,batch:order.batch,sowFactId:order.crop.sowFactId,productionFactId:factId,quantity:s.factsById[factId]?.quantities?.herb||0,recipeVersion:FARM_CROP_RECIPE.recipeVersion};}
  order.phase='completed';order.resultTransactionId=`result:${order.id}:${order.batch}`;delete s.reservationsById[order.reservationId];return true;
 }
@@ -166,9 +186,14 @@ export function validateFacilityActivities(s){
  }
  for(const [id,r]of Object.entries(s.reservationsById))if(r.kind==='slot'&&(r.id!==id||s.activitiesById[r.activityId]?.reservationId!==id))fail();
  for(const [id,o]of Object.entries(s.workOrdersById)){
-  if(!o)fail();if(o.kind==='construction'||o.kind==='treatment'||o.kind==='transport'||o.kind?.startsWith('sr-'))continue;const b=s.buildingsById[o.targetId],newFarm=b?.type==='farm'&&o.recipeSnapshot?.recipeVersion===FARM_CROP_RECIPE.recipeVersion,cost=newFarm?FARM_CROP_RECIPE.seedCost:b?.type==='farm'?FARM_V1_RECIPE.inputCost:BUILDINGS[b?.type]?.input||{},r=s.reservationsById[o.reservationId];
-  if(o.kind!=='production'||o.id!==id||id!==`work:production:${o.targetId}`||!b||!BUILDINGS[b.type].work||b.progress!==0||!['active','waiting','completed'].includes(o.phase)||!Number.isSafeInteger(o.batch)||o.batch<1||o.durationTicks!==(newFarm?FARM_CROP_RECIPE.careRequired:b.type==='farm'?FARM_V1_RECIPE.durationValue:BUILDINGS[b.type].duration*10)||!Number.isSafeInteger(o.progressTicks)||o.progressTicks<0||o.progressTicks>o.durationTicks||!o.contributions||Array.isArray(o.contributions)||!Object.entries(o.contributions).every(([pid,t])=>s.personsById[pid]&&Number.isSafeInteger(t)&&t>0)||!Number.isSafeInteger(o.inheritedTicks)||o.inheritedTicks<0||o.inheritedTicks>=o.durationTicks||Object.values(o.contributions).reduce((n,v)=>n+v,0)+o.inheritedTicks!==o.progressTicks)fail();
+  if(!o)fail();if(o.kind==='construction'||o.kind==='treatment'||o.kind==='transport'||o.kind?.startsWith('sr-'))continue;const b=s.buildingsById[o.targetId],newFarm=b?.type==='farm'&&o.recipeSnapshot?.recipeVersion===FARM_CROP_RECIPE.recipeVersion,recipe=b&&ordinaryRecipe(b,o.recipeSnapshot?.recipeVersion||'economy:yunxiu:v1'),cost=newFarm?FARM_CROP_RECIPE.seedCost:b?.type==='farm'?FARM_V1_RECIPE.inputCost:o.recipeSnapshot?.inputCost||recipe?.inputCost||{},r=s.reservationsById[o.reservationId];
+  if(o.kind!=='production'||o.id!==id||id!==`work:production:${o.targetId}`||!b||!BUILDINGS[b.type].work||b.progress!==0||!['active','waiting','completed'].includes(o.phase)||!Number.isSafeInteger(o.batch)||o.batch<1||o.durationTicks!==(newFarm?FARM_CROP_RECIPE.careRequired:recipe?.durationValue)||!Number.isSafeInteger(o.progressTicks)||o.progressTicks<0||o.progressTicks>o.durationTicks||!o.contributions||Array.isArray(o.contributions)||!Object.entries(o.contributions).every(([pid,t])=>s.personsById[pid]&&Number.isSafeInteger(t)&&t>0)||!Number.isSafeInteger(o.inheritedTicks)||o.inheritedTicks<0||o.inheritedTicks>=o.durationTicks||Object.values(o.contributions).reduce((n,v)=>n+v,0)+o.inheritedTicks!==o.progressTicks)fail();
   if(b.type==='farm'&&o.recipeSnapshot&&!newFarm)fail();
+  if(b.type!=='farm'&&o.recipeSnapshot){
+   const snap=o.recipeSnapshot,expected=recipe&&productionRecipeSnapshot(s,b,snap.recipeVersion);
+   if(!expected||snap.recipeId!==expected.recipeId||JSON.stringify(snap.inputCost)!==JSON.stringify(expected.inputCost)||snap.durationUnit!=='contribution'||snap.durationValue!==recipe.durationValue||JSON.stringify(snap.outputDefinition)!==JSON.stringify(expected.outputDefinition)||snap.outputRuleVersion!==expected.outputRuleVersion||snap.skillRuleVersion!==expected.skillRuleVersion||snap.skillKey!==expected.skillKey||snap.skillGate!==0||snap.workstationRule!==expected.workstationRule||JSON.stringify(snap.sourceStockpileIds)!==JSON.stringify(expected.sourceStockpileIds)||snap.ownerId!==expected.ownerId||!Number.isSafeInteger(snap.createdTick)||snap.createdTick<0||snap.createdTick>s.worldTick)fail();
+   if(snap.recipeVersion===PRODUCTION_RECIPE_VERSION&&(!o.participantSkills||Object.keys(o.participantSkills).length!==Object.keys(o.contributions).length||!Object.entries(o.participantSkills).every(([pid,v])=>o.contributions[pid]>0&&Number.isFinite(v)&&v>=0&&v<=100)))fail();
+  }
   if(newFarm)validateFarmCrop(s,o,b,r,fail);
   if(o.phase==='completed'){if(o.progressTicks!==o.durationTicks||r||o.resultTransactionId!==`result:${id}:${o.batch}`)fail();}
   else if(o.progressTicks===o.durationTicks&&!newFarm||o.resultTransactionId!==null||!r||r.id!==o.reservationId||r.kind!=='materials'||r.workOrderId!==id||!r.cost||Object.keys(r.cost).length!==Object.keys(cost).length||!Object.entries(cost).every(([k,v])=>r.cost[k]===v))fail();

@@ -1,8 +1,8 @@
 /** SR017/020/021: fixed author cards, actual local exchange and pressure-limited root director. */
-import {RESOURCES} from './ea-data.mjs?v=ea-160-courtyard-20261008-r22';
-import {stampInitialClaimReceipts} from './ea-sr-contracts.mjs?v=ea-160-courtyard-20261008-r22';
-import {initLocalIndustrySR,tickLocalIndustrySR,startLocalIndustrySR,finishLocalIndustrySR,cancelLocalIndustrySR,viewLocalIndustrySR,validateLocalIndustrySR} from './ea-sr-local-industry.mjs?v=ea-160-courtyard-20261008-r22';
-export {localIndustryCombatDamageSR,LOCAL_INDUSTRY_DEFINITIONS,LOCAL_INDUSTRY_ORGANIZATIONS,LOCAL_INDUSTRY_OFFERS} from './ea-sr-local-industry.mjs?v=ea-160-courtyard-20261008-r22';
+import {RESOURCES} from './ea-data.mjs?v=ea-160-courtyard-20261008-r23';
+import {stampInitialClaimReceipts} from './ea-sr-contracts.mjs?v=ea-160-courtyard-20261008-r23';
+import {initLocalIndustrySR,tickLocalIndustrySR,startLocalIndustrySR,finishLocalIndustrySR,cancelLocalIndustrySR,viewLocalIndustrySR,validateLocalIndustrySR} from './ea-sr-local-industry.mjs?v=ea-160-courtyard-20261008-r23';
+export {localIndustryCombatDamageSR,LOCAL_INDUSTRY_DEFINITIONS,LOCAL_INDUSTRY_ORGANIZATIONS,LOCAL_INDUSTRY_OFFERS} from './ea-sr-local-industry.mjs?v=ea-160-courtyard-20261008-r23';
 const MASTER='person:master',zero=()=>Object.fromEntries(Object.keys(RESOURCES).map(k=>[k,0]));
 const row=(key,title,personId,sceneId,cost,reward,motive,terms={},manipulation=false,publicRequest=null)=>({id:`card:local:${key}:v1`,rootId:`root:local:${key}:v1`,title,personId,sceneId,cost,reward,motive,terms,publicRequest,manipulationTag:manipulation,manipulationReasonIds:manipulation?['consequential-deception']:[],durationTicks:60,verificationTicks:35,verificationCost:{food:1},negotiationTicks:40,sourceStatus:'U-63/R-26-author-default',authorTruth:manipulation?'实物与报价真实，但受益者刻意隐瞒附加条款；附费与用途在登记前固定，不按后续选择翻转':'双方有限物资与既有用途真实，守约后实际交付；不存在临时追加骗局',clue:manipulation?'原单边角有未随口信说明的附条和不同日期，先核对可知完整约定':'原单列明本批用途与交付数量，可与接洽人携带实物核对',counter:manipulation?'本人到场查原单，明确只按主约交易；已收附费可凭文书要求从对方实际余款纠正':'查验后仍按原有守约流程交付，不把可信互助改成骗局',aftermath:'人物、库存、文书与已发生得失保留；看菜单、传闻转述与重载不重复奖惩'});
 function deepFreeze(value){if(value&&typeof value==='object'){for(const child of Object.values(value))deepFreeze(child);Object.freeze(value);}return value;}
@@ -19,7 +19,7 @@ export const WORLD_CONTENT_CARDS=deepFreeze([
  row('bill-correction','路税账误纠正','person:zhou-an','scene:market',{food:2,insight:1},{jade:8},'执事愿承担自己账错的修正成本，非替任何宗门洗罪'),
  row('artisan-crates','匠人分装材料','person:luo-ming','scene:market',{herb:4,food:2},{wood:8},'罗铭出售已加工的有限干木，保留自己维修所需'),
  row('guard-clothes','护送者补衣','person:wei-qingshu','scene:market',{wood:4,herb:2},{jade:7},'剑修魏青书珍视衣食与承诺，非只争强斗狠'),
- row('priority-price','苗圃先供附约','person:gu-shoulin','scene:market',{wood:4,food:2},{herb:8},'顾守林为个人分账隐瞒额外优先费，与顾婉仪保救急的利益不同',{jade:6},true),
+ row('priority-price','苗圃先供附约','person:gu-shoulin','scene:market',{wood:4,food:2},{herb:8},'顾守林为个人分账隐瞒额外优先费，与顾婉仪保救急的利益不同',{jade:6},true,'顾守林托来的口信说：苗圃可把这一批灵草优先供给山院，木架与行粮送到后交货；完整原单可当面查验。'),
  row('false-carriage','护送凭条日期','person:wei-jing','scene:market',{herb:3,food:2},{insight:4},'剑修魏靖以过期签收追加登记费；同剑道不决定是否守信',{jade:5},true),
  row('rain-omission','药商雨后附费','person:yao-zhong','scene:market',{jade:8,food:1},{herb:6},'姚仲在真实药材交易中隐瞒仓位附费，须为已知欺瞒付纠正成本',{jade:4},true),
  row('knife-contract','外务通路附单','person:duan-jin','scene:quarry',{wood:4,herb:2},{stone:8},'段谨保存本堂收入，隐瞒一次通路费；不因此自动全宗敌对',{jade:6},true),

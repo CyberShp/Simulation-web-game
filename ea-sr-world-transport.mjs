@@ -1,5 +1,5 @@
 /** SR039: persisted schedules, finite operator cargo, tickets and acquired local travel capabilities. */
-import {RESOURCES} from './ea-data.mjs?v=ea-160-courtyard-20261008-r22';
+import {RESOURCES} from './ea-data.mjs?v=ea-160-courtyard-20261008-r23';
 const MASTER='person:master',zero=()=>Object.fromEntries(Object.keys(RESOURCES).map(k=>[k,0]));
 export const TRANSPORT_MODES=Object.freeze([
  {id:'walk',name:'自行赶路',sourceStatus:'existing',minimumRealm:0,speedFactor:1,additionalCost:{},energyFactor:1,scope:'现有道路；远海仍须实际公共运具'},
