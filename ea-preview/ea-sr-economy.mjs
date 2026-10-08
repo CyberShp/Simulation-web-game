@@ -1,11 +1,11 @@
 /** SR-XF-009/010/011. U-63 author defaults (R/T), one world clock and one resource authority. */
-import {RESOURCES,GOODS,BUILDINGS,RECIPES,TECHNIQUES} from './ea-data.mjs?v=ea-160-courtyard-20261008-r32';
-import {buildingAccess,scenicFindPath,scenicDistance,geometryRevision,scenicNearest} from './ea-scene-geometry.mjs?v=ea-160-courtyard-20261008-r32';
-import {advanceScenic,syncScenicPosition} from './ea-scenic.mjs?v=ea-160-courtyard-20261008-r32';
-import {facilitySlots,slotReservation} from './ea-facility-slots.mjs?v=ea-160-courtyard-20261008-r32';
-import {cloneState,hydrateState} from './ea-state-v6.mjs?v=ea-160-courtyard-20261008-r32';
-import {CLIMATE,weatherModifiers} from './ea-sr-weather.mjs?v=ea-160-courtyard-20261008-r32';
-import {travelPreviewSR,travelSR} from './ea-sr-world.mjs?v=ea-160-courtyard-20261008-r32';
+import {RESOURCES,GOODS,BUILDINGS,RECIPES,TECHNIQUES} from './ea-data.mjs?v=ea-160-courtyard-20261008-r33';
+import {buildingAccess,scenicFindPath,scenicDistance,geometryRevision,scenicNearest} from './ea-scene-geometry.mjs?v=ea-160-courtyard-20261008-r33';
+import {advanceScenic,syncScenicPosition} from './ea-scenic.mjs?v=ea-160-courtyard-20261008-r33';
+import {facilitySlots,slotReservation} from './ea-facility-slots.mjs?v=ea-160-courtyard-20261008-r33';
+import {cloneState,hydrateState} from './ea-state-v6.mjs?v=ea-160-courtyard-20261008-r33';
+import {CLIMATE,weatherModifiers} from './ea-sr-weather.mjs?v=ea-160-courtyard-20261008-r33';
+import {travelPreviewSR,travelSR} from './ea-sr-world.mjs?v=ea-160-courtyard-20261008-r33';
 const zeros=()=>Object.fromEntries(Object.keys(RESOURCES).map(k=>[k,0]));
 const MARKET_SUPPLY_VERSION='market-supply:physical:v1',MARKET_SUPPLIER='person:qingxi-supply-clerk',MARKET_CARRIER='person:qingxi-hauler';
 const MARKET_SUPPLIER_STOCK='stockpile:qingxi-supplier',MARKET_SUPPLIER_WALLET='stockpile:qingxi-supplier-wallet',MARKET_TOLL_STOCK='stockpile:chizhang-market-toll';
@@ -599,7 +599,11 @@ function advanceMerchant(s){
  const arriving=e.merchantSchedulePhase==='arriving';s.travelsById??={};if(!e.merchantJourneyId){const begin=arriving?Math.max(0,e.merchantArrivalTick-300):s.worldTick;e.merchantJourneyId=`travel:merchant:${arriving?'in':'out'}:${begin}`;s.travelsById[e.merchantJourneyId]={id:e.merchantJourneyId,kind:'merchant-travel',participantIds:[p.personId],sourceSceneId:arriving?'scene:market':'scene:yunxiu-courtyard',destinationSceneId:arriving?'scene:yunxiu-courtyard':'scene:market',startedTick:begin,durationTicks:300,progressTicks:0,cargoStockpileId:st.id,status:'traveling',lastStepTick:begin};}
  const t=s.travelsById[e.merchantJourneyId];p.position={kind:'worldTravel',travelId:t.id};st.position={kind:'travel',travelId:t.id};if(!marketRouteOpen(s)){t.status='blocked';t.lastStepTick=s.worldTick;return;}t.status='traveling';if(t.lastStepTick<s.worldTick){t.progressTicks=Math.min(t.durationTicks,t.progressTicks+1);t.lastStepTick=s.worldTick;}if(t.progressTicks<t.durationTicks)return;t.status='completed';t.completedTick=s.worldTick;e.merchantJourneyId=null;
  if(arriving){e.merchantSchedulePhase='home';e.merchantArrivalTick=s.worldTick;e.merchantVisitEndsTick=s.worldTick+900;ledger(s,`fact:merchant-arrival:${t.id}`,{operation:'merchant-arrival',actorId:p.personId,targetStockpileId:st.id});}else e.merchantSchedulePhase='market';}
- if(e.merchantSchedulePhase==='home'){const hall=buildingAccess(s,s.buildings.find(b=>b.type==='hall')),q=scenicNearest(s,{x:hall.x+(s.spatial?.version==='spatial-metres-1'?2:64),y:hall.y});p.position={kind:'scene',sceneId:'scene:yunxiu-courtyard',x:q?.x??hall.x,y:q?.y??hall.y};if(p.mind?.scenic)Object.assign(p.mind.scenic,{x:p.position.x,y:p.position.y,path:[],goal:null});st.position={sceneId:'scene:yunxiu-courtyard',x:p.position.x,y:p.position.y};if(idleSceneId===p.position.sceneId)p.energy=Math.min(100,p.energy+.3);return;}
+ if(e.merchantSchedulePhase==='home'){const hallBuilding=s.buildings.find(b=>b.type==='hall'),hall=buildingAccess(s,hallBuilding),sc=p.mind?.scenic,upgrade=s.workOrdersById?.[hallBuilding?.spatialLock];
+  // Keep the visitor and their stockpile at the feet actually reached during an active hall expansion.
+  if(upgrade?.operation==='upgrade'&&sc&&p.position?.sceneId==='scene:yunxiu-courtyard')p.position={kind:'scene',sceneId:'scene:yunxiu-courtyard',x:sc.x,y:sc.y};
+  else{const q=scenicNearest(s,{x:hall.x+(s.spatial?.version==='spatial-metres-1'?2:64),y:hall.y});p.position={kind:'scene',sceneId:'scene:yunxiu-courtyard',x:q?.x??hall.x,y:q?.y??hall.y};if(sc)Object.assign(sc,{x:p.position.x,y:p.position.y,path:[],goal:null});}
+  st.position={sceneId:'scene:yunxiu-courtyard',x:p.position.x,y:p.position.y};if(idleSceneId===p.position.sceneId)p.energy=Math.min(100,p.energy+.3);return;}
  p.position={kind:'scene',sceneId:'scene:market',x:37,y:25};st.position={sceneId:'scene:market',x:37,y:25};if(idleSceneId===p.position.sceneId)p.energy=Math.min(100,p.energy+.3);
 }
 /** External cash is a persistent finite customer's payment for actual resold cargo, never a periodic grant. */

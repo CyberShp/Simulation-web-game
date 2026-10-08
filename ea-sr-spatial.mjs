@@ -1,8 +1,8 @@
-import {finalizeBuildingChange,releaseBodyActivity} from './ea-facility-activities.mjs?v=ea-160-courtyard-20261008-r32';
+import {finalizeBuildingChange,releaseBodyActivity} from './ea-facility-activities.mjs?v=ea-160-courtyard-20261008-r33';
 /** SR-XF-003–006: metre space and persistent, on-site construction transactions. */
-import {scenicPoint} from './ea-scene-geometry.mjs?v=ea-160-courtyard-20261008-r32';
-import {BUILDINGS,RESOURCES,log as gameLog} from './ea-data.mjs?v=ea-160-courtyard-20261008-r32';
-import {BUILDING_GRID,buildingGridEnabled,buildingCellSize,onBuildingGrid} from './ea-building-grid.mjs?v=ea-160-courtyard-20261008-r32';
+import {scenicPoint} from './ea-scene-geometry.mjs?v=ea-160-courtyard-20261008-r33';
+import {BUILDINGS,RESOURCES,log as gameLog} from './ea-data.mjs?v=ea-160-courtyard-20261008-r33';
+import {BUILDING_GRID,buildingGridEnabled,buildingCellSize,onBuildingGrid} from './ea-building-grid.mjs?v=ea-160-courtyard-20261008-r33';
 export const SPATIAL_VERSION='spatial-metres-1';
 export const SPATIAL_EXTENT_VERSION='courtyard-96-1';
 export const INTERIOR_LAYOUT_VERSION='adult-furniture-1';
@@ -446,7 +446,7 @@ function moveActor(s,a,budget){
  }
  let detours=0;while(a.path?.length&&budget>.001){const q=a.path[0],d=distance(a,q);if(d<.001){a.path.shift();continue;}const n=Math.min(d,budget),to={x:a.x+(q.x-a.x)*n/d,y:a.y+(q.y-a.y)*n/d},r=meterSweep(s,a,to);if(r.blocked){a.path=[];return false;}if(!meterDoorPermit(s,a,a,a.path,to))return false;const blocker=meterBodyBlocker(s,a,a,to);if(blocker){const detour=detours<2&&meterLocalBodyDetour(s,a,a,a.path);if(detour){a.path=detour;detours++;continue;}requestBodyYield(s,a,blocker,a.path);a.waitingForPersonId=blocker.personId;return false;}delete a.waitingForPersonId;a.facing=to.x<a.x?-1:1;a.back=to.y<a.y;a.x=r.x;a.y=r.y;a.steps=(a.steps||0)+n;budget-=n;if(n>=d-.001)a.path.shift();meterDoorMoved(s,a);}return !a.path?.length;
 }
-function pruneBodyYields(s){for(const p of Object.values(s.personsById||{})){const a=personPosition(s,p),yielding=a?.bodyYield;if(!yielding)continue;const local=people(s).includes(p),queue=yielding.kind==='door-wait'&&doorRecord(s,p),activity=s.activitiesById[p.activityId],canPause=yielding.kind==='mutual-corridor'&&activity?.kind==='facility'&&['waiting','navigating'].includes(activity.phase);if(!local||!s.personsById[yielding.requestedBy]||yielding.kind==='door-wait'&&!queue?.waiting.some(w=>w.personId===p.personId)||yielding.kind!=='door-wait'&&p.activityId&&!canPause)delete a.bodyYield;}}
+function pruneBodyYields(s){for(const p of Object.values(s.personsById||{})){const a=personPosition(s,p),yielding=a?.bodyYield;if(!yielding)continue;const local=people(s).includes(p),queue=yielding.kind==='door-wait'&&doorRecord(s,p),activity=s.activitiesById[p.activityId],canPause=yielding.kind==='mutual-corridor'&&activity?.kind==='facility'&&['waiting','navigating'].includes(activity.phase);if(!local||a.spatialEvacuationOrderId||!s.personsById[yielding.requestedBy]||yielding.kind==='door-wait'&&!queue?.waiting.some(w=>w.personId===p.personId)||yielding.kind!=='door-wait'&&p.activityId&&!canPause)delete a.bodyYield;}}
 function tickBodyYields(s){pruneBodyYields(s);for(const p of people(s)){const a=personPosition(s,p),yielding=a?.bodyYield;if(!yielding)continue;const next=yielding.path[0];if(!next){delete a.bodyYield;continue;}const d=distance(a,next);if(d<.001){yielding.path.shift();if(!yielding.path.length)delete a.bodyYield;continue;}const n=Math.min(.13,d),to={x:a.x+(next.x-a.x)*n/d,y:a.y+(next.y-a.y)*n/d};if(!meterSweep(s,a,to).blocked&&!meterBodyBlocker(s,a,a,to)){a.facing=to.x<a.x?-1:1;a.back=to.y<a.y;a.x=to.x;a.y=to.y;a.steps=(a.steps||0)+n;if(n>=d-.001)yielding.path.shift();syncPosition(s,p);if(p.location?.kind==='local'&&p.location.sceneId===SPATIAL_SCENE.id){p.location.x=a.x;p.location.y=a.y;}if(a.goal&&a.path?.length&&meterSweep(s,a,a.path[0]).blocked)a.path=meterFindPath(s,a,a.goal,{maxSnap:0})||[];}if(!yielding.path.length)delete a.bodyYield;}}
 const materialTotal=resources=>Object.values(resources).reduce((sum,quantity)=>sum+quantity,0);
 function constructionRefund(o,r){return Object.fromEntries(Object.entries(r.cost).map(([k,v])=>[k,v-(o.usedCost[k]||0)]));}
@@ -518,11 +518,11 @@ function evacuationDestination(s,p,q,b,o,poly){
 }
 function evacuate(s,b,o){
  delete o.waitingReason;const sourcePoly=spatialFootprint(b),poly=o.operation==='upgrade'?spatialFootprint(layoutBuilding(s,{type:b.type,level:o.targetLevel,transform:o.targetTransform})):sourcePoly;let waiting=false;
- for(const p of people(s)){if(p===s.master)continue;const q=personPosition(s,p),a=s.activitiesById[p.activityId],inUse=a?.targetId===b.instanceId;
+ for(const p of people(s)){if(p===s.master)continue;const q=personPosition(s,p);let a=s.activitiesById[p.activityId];const inUse=a?.targetId===b.instanceId;
   if(!q||!polygonContains(q,poly,.26)&&!inUse){if(q?.spatialEvacuationOrderId===o.id)delete q.spatialEvacuationOrderId;continue;}
   // Domain-owned jobs retain materials, items and orders until their owner has
   // completed or explicitly cancelled them. Construction cannot discard cargo.
-  if(a?.kind==='sr-construction'&&a.workOrderId===o.id)continue;
+  if(a?.kind==='sr-construction'&&a.workOrderId===o.id){releaseConstructionHelper(s,o,a);a=null;}
   if(a&&a.kind!=='facility'){waiting=true;o.waitingReason=`等待${p.name||p.personId}结束当前事务；其材料与进度保持。`;continue;}
   let evacuation=o.evacuations.find(e=>e.personId===p.personId);
   if(!evacuation){evacuation={personId:p.personId,activityId:p.activityId||null,action:a?.action||null,reason:'建筑改动，安全结束当前使用并沿门道撤离'};o.evacuations.push(evacuation);releaseBodyActivity(s,p);p.activityId=null;if(p.mind){p.mind.activity='rest';p.mind.reason='正在撤离改动中的设施，原任务进度保留。';p.mind.commitUntil=0;}delete q.activitySlotId;}
@@ -537,25 +537,40 @@ function constructionVolunteer(s,p){
  if(!s.homeMemberIds?.includes(p.personId)||p.lifeStatus==='dead'||p.activityId||p.job!=null||m?.activity!=='rest'||m?.away||m?.journey||sc?.spatialEvacuationOrderId||!sc||(p.location?.sceneId??p.position?.sceneId??SPATIAL_SCENE.id)!==SPATIAL_SCENE.id||p.wound>CONSTRUCTION_INJURY_LIMIT||p.energy<CONSTRUCTION_ENERGY_MIN||m.satiety<22||trust<15||p.schedule?.aftermath?.untilTick>s.worldTick)return false;
  return (m.traits?.[3]??60)*.3+(m.traits?.[0]??55)*.1+trust*.4>=42;
 }
-function recruitConstructionHelpers(s,a,o){
+function constructionEntry(s,a,o){return o.operation==='upgrade'?spatialAccess(layoutBuilding(s,{type:o.buildingType,level:o.targetLevel,transform:o.targetTransform})):a.target;}
+function constructionApproachSlot(s,o,activity,masterAvailable=true){
+ if(o.operation!=='upgrade'||!activity)return null;
+ const waiting=o.activityIds.map(id=>s.activitiesById[id]).filter(participant=>participant&&!participant.slotId&&(participant.personId!=='person:master'||masterAvailable));
+ if(!waiting.some(participant=>participant.id===activity.id))waiting.push(activity);
+ const reserved=new Set(),bodies=people(s);
+ for(const participant of waiting){
+  const slot=o.workSlots.find(slot=>!slot.occupantId&&!reserved.has(slot.id)&&!bodies.some(other=>other.personId!==participant.personId&&personPosition(s,other)&&distance(personPosition(s,other),slot.position)<.53));
+  if(slot)reserved.add(slot.id);
+  if(participant.id===activity.id)return slot||null;
+ }
+ return null;
+}
+function recruitConstructionHelpers(s,a,o,masterAvailable){
  if(o.materialFlow?.cancelRequested)return;
  const source=s.buildingsById?.[o.targetId],future=layoutBuilding(s,{type:o.buildingType,level:o.targetLevel,transform:o.targetTransform}),evacuationFootprint=o.operation==='upgrade'?spatialFootprint(future):source&&o.operation!=='build'?spatialFootprint(source):null;
  let helpers=o.activityIds.filter(id=>s.activitiesById[id]?.kind==='sr-construction').length;
  for(const p of people(s).filter(p=>p!==s.master).sort((x,y)=>x.personId.localeCompare(y.personId))){
-  if(helpers>=o.workSlots.length)break;
+  if(o.operation==='upgrade'?o.activityIds.length>=o.workSlots.length:helpers>=o.workSlots.length)break;
   if(evacuationFootprint&&personPosition(s,p)&&polygonContains(personPosition(s,p),evacuationFootprint,.26))continue;
   if(!constructionVolunteer(s,p))continue;
-  const sc=personPosition(s,p),route=meterFindPath(s,sc,a.target,{maxSnap:0});if(route===null)continue;
   const id=`activity:construction:${a.buildingId}:${p.personId}`;
   if(s.activitiesById[id])continue;
+  const sc=personPosition(s,p),entry=constructionEntry(s,a,o),approach=constructionApproachSlot(s,o,{id,personId:p.personId,slotId:null},masterAvailable),target=approach?.position||entry;
+  if(o.operation==='upgrade'&&!approach)continue;
+  const route=meterFindPath(s,sc,target,{maxSnap:0});if(route===null)continue;
   s.activitiesById[id]={id,kind:'sr-construction',personId:p.personId,workOrderId:o.id,instanceId:o.targetId,buildingId:a.buildingId,phase:'moving',slotId:null,firstArrivalTick:null,originalMindActivity:p.mind.activity,startedTick:s.worldTick,reason:'自愿前往工地施工。'};
-  o.activityIds.push(id);p.activityId=id;p.mind.reason='自愿参与当前工地，须实际到达排他施工位。';sc.path=route;sc.goal={...a.target};helpers++;
+  o.activityIds.push(id);p.activityId=id;p.mind.reason='自愿参与当前工地，须实际到达排他施工位。';sc.path=route;sc.goal={...target};helpers++;
  }
 }
-function constructionParticipantReady(s,p,activity,a){
+function constructionParticipantReady(s,p,activity,a,approach=null){
  const sc=personPosition(s,p);if(!sc)return false;
- const entry=activity.slotId?null:a.target,slot=activity.slotId&&s.workOrdersById[activity.workOrderId]?.workSlots?.find(x=>x.id===activity.slotId),target=slot?.position||entry;
- if(!target)return false;
+ const order=s.workOrdersById[activity.workOrderId],entry=activity.slotId?null:constructionEntry(s,a,order),slot=activity.slotId&&order?.workSlots?.find(x=>x.id===activity.slotId),target=slot?.position||approach?.position||entry;
+ if(!target||order.operation==='upgrade'&&!activity.slotId&&!approach){activity.phase='blocked';activity.reason='等待空闲施工位。';sc.path=[];sc.goal=null;return false;}
  if(slot){const blocker=people(s).find(other=>other!==p&&personPosition(s,other)&&distance(personPosition(s,other),slot.position)<.53);if(blocker){activity.phase='blocked';activity.reason=`${blocker.name||blocker.personId}暂占施工位，等待其离开。`;s.workOrdersById[activity.workOrderId].waitingReason=activity.reason;sc.path=[];sc.goal=null;return false;}}
  if(distance(sc,target)>.1){
   if(!sc.goal||distance(sc.goal,target)>.01||!sc.path?.length){const route=meterFindPath(s,sc,target,{maxSnap:0});if(route===null){activity.phase='blocked';activity.reason='施工位通路受阻，等待通路恢复。';sc.path=[];sc.goal=null;return false;}sc.path=route;sc.goal={...target};}
@@ -566,7 +581,16 @@ function constructionParticipantReady(s,p,activity,a){
  sc.path=[];sc.goal={...target};if(activity.firstArrivalTick===null||activity.firstArrivalTick===undefined)activity.firstArrivalTick=s.worldTick;
  return true;
 }
-function tickConstructionCrew(s,a,o,r,{masterAvailable,canWork}){
+function tickConstructionCrew(s,a,o,r,{masterAvailable,canWork,siteClear}){
+ if(!siteClear){
+  const sc=s.master.scenic;
+  const waitingAt=constructionEntry(s,a,o);
+  if(masterAvailable&&distance(sc,waitingAt)>.1){
+   if(!sc.goal||distance(sc.goal,waitingAt)>.01||!sc.path?.length){const route=meterFindPath(s,sc,waitingAt,{maxSnap:0});if(route!==null){sc.path=route;sc.goal={...waitingAt};}}
+   if(sc.path?.length){moveActor(s,sc,.144);syncPosition(s,s.master);s.master.action='walk';}
+  }
+  return;
+ }
  if(canWork)delete o.waitingReason;
  if(o.workSlotGeometryRevision!==s.spatial.geometryRevision){
   const planned=layoutBuilding(s,{type:o.buildingType,level:o.targetLevel,transform:o.targetTransform}),slots=constructionWorkSlots(s,o.id,planned);
@@ -576,12 +600,23 @@ function tickConstructionCrew(s,a,o,r,{masterAvailable,canWork}){
  const masterSlot=o.workSlots.find(q=>q.id===a.slotId),masterPosition=personPosition(s,s.master);
  if(a.slotArrived&&(!masterSlot||!masterPosition||distance(masterPosition,masterSlot.position)>.53)){if(masterSlot?.occupantId==='person:master'){masterSlot.occupantId=null;masterSlot.firstArrivalTick=null;}a.slotId=null;a.slotArrived=false;a.firstArrivalTick=null;}
  for(const id of [...o.activityIds]){const activity=s.activitiesById[id];if(activity?.kind!=='sr-construction')continue;const p=s.personsById[activity.personId],slot=o.workSlots.find(q=>q.id===activity.slotId),sc=p&&personPosition(s,p);if(!p||p.activityId!==id||p.lifeStatus==='dead'||p.left||p.job!=null||p.mind?.activity!==activity.originalMindActivity||p.mind?.away||p.mind?.journey||(p.location?.sceneId??p.position?.sceneId??SPATIAL_SCENE.id)!==SPATIAL_SCENE.id||p.wound>CONSTRUCTION_INJURY_LIMIT||p.energy<8||activity.slotArrived&&(!slot||!sc||distance(sc,slot.position)>.53)){releaseConstructionHelper(s,o,activity);}}
+ if(o.operation==='upgrade'){
+  let excess=o.activityIds.length-o.workSlots.length;
+  for(const id of [...o.activityIds].slice(1).reverse()){
+   if(excess<=0)break;
+   const activity=s.activitiesById[id];
+   if(activity?.kind==='sr-construction'&&!activity.slotId){releaseConstructionHelper(s,o,activity);excess--;}
+  }
+ }
  if(masterAvailable&&(s.master.wound>CONSTRUCTION_INJURY_LIMIT||s.master.energy<5)){const slot=o.workSlots.find(q=>q.occupantId==='person:master');if(slot){slot.occupantId=null;slot.firstArrivalTick=null;}a.slotId=null;a.slotArrived=false;a.firstArrivalTick=null;a.phase='blocked';a.reason='掌门受伤或精力不足，原地休整；施工进度保留。';s.master.action='rest';s.master.energy=Math.min(100,s.master.energy+.3);s.master.wound=Math.max(0,s.master.wound-.035);masterAvailable=false;}
- recruitConstructionHelpers(s,a,o);
+ recruitConstructionHelpers(s,a,o,masterAvailable);
  const participants=o.activityIds.map(id=>s.activitiesById[id]).filter(Boolean);
- for(const activity of participants)if((activity===a?masterAvailable:true)&&!activity.slotId)constructionParticipantReady(s,s.personsById[activity.personId],activity,a);
+ for(const activity of participants)if((activity===a?masterAvailable:true)&&!activity.slotId){
+  if(o.operation==='upgrade'&&activity.firstArrivalTick!==null&&activity.firstArrivalTick!==undefined){const position=personPosition(s,s.personsById[activity.personId]);if(!position||!o.workSlots.some(slot=>distance(position,slot.position)<=.1))activity.firstArrivalTick=null;}
+  constructionParticipantReady(s,s.personsById[activity.personId],activity,a,constructionApproachSlot(s,o,activity,masterAvailable));
+ }
  const arrivals=participants.filter(activity=>(activity===a?masterAvailable:true)&&!activity.slotId&&activity.firstArrivalTick!==null&&activity.firstArrivalTick!==undefined).sort((x,y)=>x.firstArrivalTick-y.firstArrivalTick||x.personId.localeCompare(y.personId));
- for(const activity of arrivals){const slot=o.workSlots.find(q=>!q.occupantId&&!people(s).some(p=>p.personId!==activity.personId&&personPosition(s,p)&&distance(personPosition(s,p),q.position)<.53));if(!slot){activity.phase='blocked';activity.reason='等待空闲施工位，保留到达顺序。';continue;}slot.occupantId=activity.personId;slot.firstArrivalTick=activity.firstArrivalTick;activity.slotId=slot.id;activity.slotArrived=false;activity.phase='moving';}
+ for(const activity of arrivals){const position=personPosition(s,s.personsById[activity.personId]),slot=o.workSlots.find(q=>!q.occupantId&&(o.operation!=='upgrade'||position&&distance(position,q.position)<=.1)&&!people(s).some(p=>p.personId!==activity.personId&&personPosition(s,p)&&distance(personPosition(s,p),q.position)<.53));if(!slot){activity.phase='blocked';activity.reason='等待空闲施工位，保留到达顺序。';continue;}slot.occupantId=activity.personId;slot.firstArrivalTick=activity.firstArrivalTick;activity.slotId=slot.id;activity.slotArrived=false;activity.phase='moving';}
  for(const activity of participants)if((activity===a?masterAvailable:true)&&activity.slotId&&constructionParticipantReady(s,s.personsById[activity.personId],activity,a))activity.slotArrived=true;
  if(!canWork||o.workSlotGeometryRevision!==s.spatial.geometryRevision)return;
  const site=o.materialFlow&&s.stockpilesById[o.materialFlow.siteStockpileId];
@@ -598,7 +633,7 @@ function tickConstructionCrew(s,a,o,r,{masterAvailable,canWork}){
 }
 export function tickSpatial(s){
  if(!spatialEnabled(s)||s.speed===0)return;pruneDoorQueues(s);tickBodyYields(s);const a=spatialConstruction(s);if(!a)return;const o=s.workOrdersById[a.workOrderId],r=s.reservationsById[a.reservationId],source=s.buildingsById?.[a.instanceId]||s.buildings.find(b=>b.id===a.buildingId);
- if(o.workSlots){const carrying=carryConstructionMaterials(s,a,o);if(!s.workOrdersById[o.id]||o.materialFlow?.cancelRequested)return;if(o.progressTicks<o.durationTicks){const safe=!carrying&&(!source||evacuate(s,source,o));tickConstructionCrew(s,a,o,r,{masterAvailable:!carrying,canWork:safe});if(!safe&&!carrying){a.phase='blocked';a.reason=o.waitingReason||'等待使用者沿门道撤离到新占地之外。';}if(o.progressTicks<o.durationTicks)return;}}
+ if(o.workSlots){const carrying=carryConstructionMaterials(s,a,o);if(!s.workOrdersById[o.id]||o.materialFlow?.cancelRequested)return;if(o.progressTicks<o.durationTicks){const siteClear=!source||((!carrying||o.operation==='upgrade')&&evacuate(s,source,o)),canWork=!carrying&&siteClear;tickConstructionCrew(s,a,o,r,{masterAvailable:!carrying,canWork,siteClear});if(!siteClear&&!carrying){a.phase='blocked';a.reason=o.waitingReason||'等待使用者沿门道撤离到新占地之外。';}if(o.progressTicks<o.durationTicks)return;}}
  else{
  if(carryConstructionMaterials(s,a,o))return;
  if(a.phase==='moving'){const arrived=moveActor(s,s.master.scenic,.144);syncPosition(s,s.master);if(!arrived)return;if(distance(s.master.scenic,a.target)>.1){s.master.scenic.path=meterFindPath(s,s.master.scenic,a.target,{maxSnap:0})||[];a.phase='blocked';a.reason='通往工地的路径受阻，等待安全路线。';return;}a.phase='working';s.master.action='rest';}
