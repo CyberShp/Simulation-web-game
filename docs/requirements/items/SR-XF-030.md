@@ -69,6 +69,8 @@ SR-XF-030-AC-03证据：qa/ea-sr-contracts-acceptance.mjs；docs/requirements/IM
 
 2026-10-08 M1 版本迁移窄项：prepareMigration 要求调用方提供返回已校验结构6状态的完整加载器，并在隔离初始化前后各校验一次。合法 v1–v4 生成器、真实 qa/prototype-worlds/legacy-v4.json 与 qa/ea-reference-world.json 的旧档均迁至 opening-runtime-2 + legacy-ea-1.4.2，原文保留、离线推进为0、存读稳定；已登记 opening/runtime 和 SR v6 来源仍可读。混搭主版本、未知内容或子版本、缺失 SR 核心模块拒载且不改输入。证据：qa/ea-sr-version-gate-acceptance.mjs 9/9、qa/ea-sr-contracts-acceptance.mjs 24/24，以及独立同源复验。浏览器存储、目标设备、旧可选模块来源全矩阵和完整 I/V/R 尚未由本窄项覆盖。
 
+2026-10-08 M1 r28 持久层减顿窄项：仅已完整校验过且原始文本未变化的旧主档/备份，可在滚动备份和历史显示时复用校验结果，最多缓存6份；新状态、新封装和变更文本仍完整校验。持久层36/36；本地 Chromium 导入合法 v5 40建筑/30人档，自动保存得3份可用备份，刷新后同一世界续玩，控制台0错误。独立同一 Chromium DPR2 A/B 三轮自动存档旧150/193/373ms、新124/123/118ms，历史校验旧67/110/274ms、新57/43/54ms；有限样本，不代表持续帧率达标。Pages built，162文本 blob 与公网入口/持久层模块字节一致；200ms以上寻路长帧、目标设备和完整 SR030 验收仍待。
+
 ## 开发任务
 
 | 任务 | 工作 | 状态 | 前置 | 责任人 |

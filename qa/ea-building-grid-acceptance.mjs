@@ -45,9 +45,9 @@ test('U-99: real renderer keeps 2m cell selection and 0.5m walking distinct thro
  globalThis.fetch=async()=>({ok:false});globalThis.devicePixelRatio=1;
  let r;
  try{
-  const s=fixture(),before=JSON.stringify(s);let mode='inspect',away=null,battle=null;
+  const s=fixture(),before=JSON.stringify(s);let sceneState=s,mode='inspect',away=null,battle=null;
   const canvas={width:900,height:600,clientWidth:900,clientHeight:600,getContext:()=>ctx,getBoundingClientRect:()=>({left:7,top:13})};
-  r=createWorldRenderer(canvas,{getState:()=>s,getMode:()=>mode,getSelection:()=>null,getLocalScene:()=>away,getCampaignScene:()=>battle});await r.ready;
+  r=createWorldRenderer(canvas,{getState:()=>sceneState,getMode:()=>mode,getSelection:()=>null,getLocalScene:()=>away,getCampaignScene:()=>battle});await r.ready;
   const screen=p=>{const q=r.projectPoint(p);return{clientX:q.x+7,clientY:q.y+13};};
   for(const delta of [0,.65,-1,.8]){
    r.setZoom(delta);r.pan.x+=13;r.pan.y-=7;
@@ -58,9 +58,13 @@ test('U-99: real renderer keeps 2m cell selection and 0.5m walking distinct thro
     mode='inspect';const raw=r.screenPoint(event);assert(Math.hypot(raw.x-p.x,raw.y-p.y)<1e-9);
    }
   }
-  const p={x:9.173,y:12.327};away={scene:{id:'scene:market',objects:[]},actors:[]};
+  const p={x:9.173,y:12.327};sceneState=S.validateSave(JSON.parse(before));
+  sceneState.master.location={kind:'local',sceneId:'scene:market',...p};
+  sceneState.master.position={kind:'scene',sceneId:'scene:market',...p};
+  away={scene:{id:'scene:market',objects:[]},actors:[]};const awayBefore=JSON.stringify(sceneState);
   let q=r.walkPoint(screen(p));assert(Math.hypot(q.x-p.x,q.y-p.y)<1e-9);
-  away=null;battle={type:'combat',player:{x:3,y:4},enemies:[],allies:[],effects:[],obstacles:[]};
+  assert.equal(JSON.stringify(sceneState),awayBefore);
+  sceneState=s;away=null;battle={type:'combat',player:{x:3,y:4},enemies:[],allies:[],effects:[],obstacles:[]};
   q=r.walkPoint(screen(p));assert(Math.hypot(q.x-p.x,q.y-p.y)<1e-9);assert.equal(JSON.stringify(s),before);
  }finally{r?.destroy();globalThis.Image=oldImage;globalThis.devicePixelRatio=oldDPR;globalThis.fetch=oldFetch;}
 });
@@ -106,18 +110,31 @@ function legacyWorkingWell(){
 
 test('U-99: old well work:2 waits safely; production inputs/progress and identities survive an immutable, idempotent load',()=>{
  const {s,b,workers}=legacyWorkingWell(),source=JSON.stringify(s),second={...s.activitiesById[workers[1].activityId]},firstId=workers[0].activityId;
- const before={resources:structuredClone(s.resources),orders:structuredClone(s.workOrdersById),materials:structuredClone(Object.values(s.reservationsById).filter(r=>r.kind==='materials')),stocks:Object.values(s.stockpilesById).map(st=>[st.id,{...st.resources},{...st.pills}]),worldTick:s.worldTick,time:s.time,seed:s.sim.seed,persons:Object.values(s.personsById).map(p=>[p.personId,p.name,p.appearance])};
+ const before={resources:structuredClone(s.resources),orders:structuredClone(s.workOrdersById),materials:structuredClone(Object.values(s.reservationsById).filter(r=>r.kind==='materials')),stocks:Object.values(s.stockpilesById).map(st=>[st.id,{...st.resources},{...st.pills}]),facts:structuredClone(s.factsById),worldTick:s.worldTick,time:s.time,seed:s.sim.seed,persons:Object.values(s.personsById).map(p=>[p.personId,p.name,p.appearance])};
  assert(second.slotId.endsWith('work:2'));assert(before.materials.some(r=>Object.values(r.cost).some(n=>n>0)));
  const migrated=S.validateSave(s);assert.equal(JSON.stringify(s),source);validateFacilityActivities(migrated);validateSpatial(migrated);
  const a=migrated.activitiesById[second.id],p=migrated.personsById[second.personId];
  assert.equal(a.id,second.id);assert.equal(a.workOrderId,second.workOrderId);assert.equal(a.phase,'waiting');assert(!a.slotId&&!a.reservationId);
  assert(!migrated.reservationsById[second.reservationId]);assert(!p.mind.scenic.goal&&!p.mind.scenic.activitySlotId);assert(meterCanStand(migrated,p.mind.scenic));
- assert(migrated.spatial.migrations.some(m=>m.entityId===a.id&&m.kind==='activity-unit-grid-wait'&&m.releasedReservationId===second.reservationId));
+ assert.equal(migrated.spatial.migrations.filter(m=>m.entityId===a.id&&m.kind==='activity-unit-grid-wait'&&m.releasedReservationId===second.reservationId).length,1);
  const first=migrated.activitiesById[firstId],slot=spatialSlots(migrated.buildingsById[b.instanceId],'work')[0],feet=migrated.personsById[first.personId].mind.scenic;
  assert.equal(first.phase,'executing');assert(Math.hypot(feet.x-slot.position.x,feet.y-slot.position.y)<.04);assert.equal(feet.path.length,0);
- assert.deepEqual(migrated.resources,before.resources);assert.deepEqual(migrated.workOrdersById,before.orders);
+ assert.deepEqual(migrated.resources,before.resources);
+ assert.deepEqual(Object.keys(migrated.workOrdersById),Object.keys(before.orders));
+ for(const [id,oldOrder] of Object.entries(before.orders)){
+  const order=migrated.workOrdersById[id],siteId=`stockpile:${oldOrder.targetId}`,inputCost=before.materials.find(r=>r.workOrderId===id).cost;
+  const {recipeSnapshot,...retained}=order;
+  assert.deepEqual(retained,oldOrder,`${id}: paid work and progress survive`);
+  assert.equal(recipeSnapshot.recipeVersion,'economy:yunxiu:v1');
+  assert.equal(recipeSnapshot.durationValue,oldOrder.durationTicks);
+  assert.deepEqual(recipeSnapshot.inputCost,inputCost);
+  assert.deepEqual(recipeSnapshot.sourceStockpileIds,Object.fromEntries(Object.keys(inputCost).map(key=>[key,siteId])));
+  assert.equal(recipeSnapshot.ownerId,'person:master');
+  assert.equal(recipeSnapshot.createdTick,0);
+ }
  assert.deepEqual(Object.values(migrated.reservationsById).filter(r=>r.kind==='materials'),before.materials);
  assert.deepEqual(Object.values(migrated.stockpilesById).map(st=>[st.id,{...st.resources},{...st.pills}]),before.stocks);
+ assert.deepEqual(migrated.factsById,before.facts);
  assert.equal(migrated.worldTick,before.worldTick);assert.equal(migrated.time,before.time);assert.equal(migrated.sim.seed,before.seed);
  assert.deepEqual(Object.values(migrated.personsById).map(p=>[p.personId,p.name,p.appearance]),before.persons);
  const saved=JSON.stringify(migrated);assert.equal(JSON.stringify(S.validateSave(JSON.parse(saved))),saved);assert.equal(JSON.stringify(S.validateSave(s)),saved);

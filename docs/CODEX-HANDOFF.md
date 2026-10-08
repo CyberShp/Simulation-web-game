@@ -1,5 +1,7 @@
 # Codex 接手指南 · 2026-10-08
 
+当前最新 M1 r28 已发布自动存档与备份校验减顿：仅复用已校验且文本未变的旧档，新/变化内容照常验证；持久层 36/36，本地 Chromium 合法 40 建筑/30 人档自动保存三份可用备份、刷新续玩且零错误。独立同浏览器 A/B 见 [STATUS](design/STATUS.md)；运行中寻路长帧和整体卡顿仍待。建筑网格旧 QA 断言校正后 6/6，不作为门位画稿验收。源码 `main` `4e84fd2ec4291fc034c0feea56e6b4d3470ca740`，网页 `gh-pages` `fd97c76977ad267c15f0906fd2d0668d8bfbf34e`，标记 `ea-160-courtyard-20261008-r28`，Pages `built`，162 文本 blob 及公网入口/存档模块匹配；**39 passed、80 not_run、1 blocked**。详见 [台账](requirements/registry.json)。
+
 最新 M1 r27 已发布门道候位存读修复：施工完工清人物路线后同步清掉失效候位，正常住宅→招三人→百工坊精确存读 1/1、门道改路 1/1、空间 36/36；两项建筑网格宽测旧失败在原基线相同。林长风原床位活动保留。源码 `main` `c8f71b8a803ab5a0292392194ab97c40b1e4bf7e`，网页 `gh-pages` `944f0720f5d01f374b1a403985a935a8ca0a24ff`，Pages `built`，162 文本 blob、公网空间模块匹配；本批未另做浏览器实点。SR003-AC02 门位画稿/触控及整项 I/V/R 继续；**39 passed、80 not_run、1 blocked**。详见 [STATUS](design/STATUS.md) 与 [台账](requirements/registry.json)。
 
 最新 M2 r26 已发布 SR009 装备制作配方冻结与旧活跃已付费单迁移：七件新单固定原料、工时、槽位、来源仓、产权及唯一结算凭据。根复跑有来源百工坊行山轻衣公开链 1/1、6 次精确存读、UI 17 通过/4 待设备；本地 Chromium 导入在制档、实点零进度取消返款，零错误/警告。完整七配方、施工快照、跨仓实物、完整新档解锁及目标设备继续，SR009 不关闭。基线建坊门道候位读档差异另案。源码 `main` `94986d3c14b3ea67859fe652ead39a1b70a2abd4`，网页 `gh-pages` `fa17a3b1df447d87d027cfca4d72ae5735835783`，Pages `built`，162 文本 blob、两个公网模块匹配；公网浏览器交互未验。**39 passed、80 not_run、1 blocked**。详见 [STATUS](design/STATUS.md) 与 [台账](requirements/registry.json)。
