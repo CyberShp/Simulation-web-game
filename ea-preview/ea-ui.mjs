@@ -1,13 +1,13 @@
-import {appearanceActionLabel,portraitDataURL} from './ea-courtyard-renderer.mjs?v=ea-160-courtyard-20261008-r21';
-import {renderSRPanel,dialogueSettings,srFormArguments} from './ea-sr-ui.mjs?v=ea-160-courtyard-20261008-r21';
-import {createDialogueAI} from './ea-sr-ai.mjs?v=ea-160-courtyard-20261008-r21';
-import {REGION_ART} from './ea-region-art.mjs?v=ea-160-courtyard-20261008-r21';
-import {appearance} from './ea-scenic.mjs?v=ea-160-courtyard-20261008-r21';
-import {facilityRecords,nextObjective,routeDiscovered} from './ea-scene-state.mjs?v=ea-160-courtyard-20261008-r21';
-import {sceneInteractionOptions,sceneInteractionTarget} from './ea-interactions.mjs?v=ea-160-courtyard-20261008-r21';
-import {narrativeForState,sceneDialogue,regionInteractions,homeInteractions} from './ea-narrative.mjs?v=ea-160-courtyard-20261008-r21';
-import * as SIM from './ea-opening-sim.mjs?v=ea-160-courtyard-20261008-r21';
-import {onboardingView,availableSystems,resourceReserve,resumeSummary} from './ea-onboarding.mjs?v=ea-160-courtyard-20261008-r21';
+import {appearanceActionLabel,portraitDataURL} from './ea-courtyard-renderer.mjs?v=ea-160-courtyard-20261008-r22';
+import {renderSRPanel,dialogueSettings,srFormArguments} from './ea-sr-ui.mjs?v=ea-160-courtyard-20261008-r22';
+import {createDialogueAI} from './ea-sr-ai.mjs?v=ea-160-courtyard-20261008-r22';
+import {REGION_ART} from './ea-region-art.mjs?v=ea-160-courtyard-20261008-r22';
+import {appearance} from './ea-scenic.mjs?v=ea-160-courtyard-20261008-r22';
+import {facilityRecords,nextObjective,routeDiscovered} from './ea-scene-state.mjs?v=ea-160-courtyard-20261008-r22';
+import {sceneInteractionOptions,sceneInteractionTarget} from './ea-interactions.mjs?v=ea-160-courtyard-20261008-r22';
+import {narrativeForState,sceneDialogue,regionInteractions,homeInteractions} from './ea-narrative.mjs?v=ea-160-courtyard-20261008-r22';
+import * as SIM from './ea-opening-sim.mjs?v=ea-160-courtyard-20261008-r22';
+import {onboardingView,availableSystems,resourceReserve,resumeSummary} from './ea-onboarding.mjs?v=ea-160-courtyard-20261008-r22';
 
 const E = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
 const n = value => Number.isFinite(Number(value)) ? Number(value) : 0;

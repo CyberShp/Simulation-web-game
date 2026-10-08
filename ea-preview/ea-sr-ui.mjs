@@ -1,5 +1,5 @@
 /** Player-facing projections only. Does not advance clocks or write world state. */
-import {BUILDING_GRID,buildingGridEnabled,buildingCellLabel} from './ea-building-grid.mjs?v=ea-160-courtyard-20261008-r21';
+import {BUILDING_GRID,buildingGridEnabled,buildingCellLabel} from './ea-building-grid.mjs?v=ea-160-courtyard-20261008-r22';
 const E=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const list=v=>Array.isArray(v)?v:[];
 const names={wood:'灵木',stone:'青石',herb:'灵草',food:'口粮',jade:'灵石',crystal:'灵晶',insight:'道韵',weapon:'兵器',armor:'衣甲',artifact:'法器',accessory:'饰物','pill:heal':'回春散','pill:qi':'聚气丹','pill:spirit':'灵息丹','pill:foundation':'筑基丹'};
@@ -28,10 +28,15 @@ function equipment(s,sim){
  cards.push(C('雨后伤匠',S(phase(v.artisan?.phase))+B('提出共同制器','artisanCooperate',[true])+B('暂缓合作','artisanCooperate',[false])+['robe','seal','pendant'].map(role=>B('获取'+({robe:'护脉衣图谱',seal:'阵印部件',pendant:'遗坠拓录'}[role]),'artisanAcquirePart',[role])).join('')+B('请教制器','artisanLearn')));
  cards.push(...list(v.orders).map(o=>C('匠作进度',S(`${phase(o.phase)} · ${Math.ceil(o.progressTicks/10)}/${Math.ceil(o.durationTicks/10)}游戏秒 · ${o.reason||'按世界时间推进'}`)+B('取消并保留已发生消耗','cancelEquipmentOrder',[o.id]),'equip-order-'+o.id)));return cards.join('');
 }
-function marketOrderCard(o,s){
+function marketOrderCard(o,s,stockpiles){
  const state=o.state||{phase:'available'},v2=o.id==='artisan_tools'&&(state.version==='market-order:v2'||state.phase==='available');
  if(!v2)return C(o.name,P(`交付 ${cost(o.cost)}；酬谢 ${cost(o.reward)}`)+S(phase(state.phase||state))+`<div class="button-row">${B('接下委托','marketOrder',[o.id,'accept'])}${B('当面交付','marketOrder',[o.id,'deliver'])}${B('拒绝/取消','marketOrder',[o.id,'decline'])}</div>`,'market-order-'+o.id);
- const q=o.quoteV2,stage=state.phase,buttons=[];
+ const q=o.quoteV2,stage=state.phase,buttons=[],publicCargo=state.accessVersion==='source-access:v1';
+ const cargo=stockpiles.find(p=>p.id===state.cargoStockpileId),party=stockpiles.find(p=>p.id==='stockpile:sr-party'),feet=s.master.location?.sceneId==='scene:yunxiu-courtyard'?{...s.master.location,x:s.master.scenic?.x,y:s.master.scenic?.y}:s.master.location;
+ const near=p=>p?.position?.sceneId===feet?.sceneId&&Number.isFinite(feet.x)&&Number.isFinite(feet.y)&&Math.hypot(p.position.x-feet.x,p.position.y-feet.y)<=1.5;
+ const partyRoom=party?party.capacity-Object.values(party.resources).reduce((n,v)=>n+v,0)-Object.values(party.pills||{}).reduce((n,v)=>n+v,0):0;
+ const transferable=stage==='completed'&&publicCargo&&cargo?.access==='public'&&cargo.ownerId==='person:master'&&!cargo.orderReserved&&party?.access==='private'&&party.ownerId==='person:master'&&feet?.kind==='local'&&near(cargo)&&near(party)?Math.min(cargo.resources.jade||0,partyRoom):0;
+ const withdraw=transferable>0?F('transferProperty',`<input type="hidden" name="sourceId" value="${E(cargo.id)}"><input type="hidden" name="targetId" value="${E(party.id)}"><input type="hidden" name="resource" value="jade">`+input('quantity','转入私人行囊的灵石',{type:'number',value:Math.min(10,transferable),min:0,max:transferable,step:'any'}),P('本次公款转入掌门私人行囊后，该数额变为掌门私物；请确认划拨数量。'),'确认划拨公款'):'';
  if(stage==='available'){
   buttons.push(B('接下跨场景委托','marketOrder',[o.id,'accept-v2'],q?'':'须在云岫别院且通往青溪的约定道路可用'));
   buttons.push(B('拒绝委托','marketOrder',[o.id,'decline-v2'],q?'':'先返回云岫别院查看报价'));
@@ -42,12 +47,12 @@ function marketOrderCard(o,s){
   buttons.push(B('当面验货收款','marketOrder',[o.id,'deliver-v2']));
   buttons.push(B('取消并保留物资','marketOrder',[o.id,'cancel-v2']));
  }else if(stage==='blocked')buttons.push(B('到合法落点后取消','marketOrder',[o.id,'cancel-v2']));
- else if(stage==='cancelled'&&state.cancelledAfterPickup&&!s.factsById?.[`fact:order-v2:recover:${o.id}`])buttons.push(B('取回本人货物','marketOrder',[o.id,'recover-v2']));
+ else if(stage==='cancelled'&&state.cancelledAfterPickup&&!s.factsById?.[`fact:order-v2:recover:${o.id}`])buttons.push(B('整理随行公用物资','marketOrder',[o.id,'recover-v2']));
  const offer=q?P(`云岫公库交付 ${cost(q.cargo)}；青溪商人预留 ${cost(q.payment)}；掌门承运 ${q.routeIds.length} 段，预留口粮 ${q.foodCost}。`):P('从云岫公库到青溪坊市的报价须在原地查看；道路变化后保留已接约定，等待处理。');
- return C(o.name,offer+S(`${phase(stage)}${state.blockedReason?' · '+state.blockedReason:''}`)+(stage==='accepted'&&state.pickupTick===undefined?P('先走到院中公库取货。'):stage==='accepted'?P('货物和路粮已由掌门实际保管；出发不会重复装入随行物资。'):stage==='in_transit'?P('掌门携货按世界行程前往青溪；途中可从行旅页查看路况。'):stage==='cancelled'&&state.cancelledAtSourceRetained?P('原公库容量不足，货物留在院中原位，可通过实际搬运取回。'):stage==='cancelled'&&state.cancelledAfterPickup?P(s.factsById?.[`fact:order-v2:recover:${o.id}`]?'本人货物已取回行囊。':'货物仍在本人实际位置；行囊有容量且同场近处时可取回。'):'')+`<div class="button-row">${buttons.join('')}</div>`,'market-order-'+o.id);
+ return C(o.name,offer+S(`${phase(stage)}${state.blockedReason?' · '+state.blockedReason:''}`)+(stage==='accepted'&&state.pickupTick===undefined?P('先走到院中公库取货。'):stage==='accepted'?P('货物和路粮已由掌门实际保管；出发不会重复装入随行物资。'):stage==='in_transit'?P('掌门携货按世界行程前往青溪；途中可从行旅页查看路况。'):stage==='cancelled'&&state.cancelledAtSourceRetained?P('原公库容量不足，货物留在院中原位，可通过实际搬运取回。'):stage==='cancelled'&&state.cancelledAfterPickup?P(publicCargo?(s.factsById?.[`fact:order-v2:recover:${o.id}`]?'公用货物与剩余口粮已整理到同一随行货位。':'公用货物仍在承运人实际位置；可同场整理剩余口粮。'):(s.factsById?.[`fact:order-v2:recover:${o.id}`]?'货物已取回原行囊。':'货物仍在承运人实际位置。')):'')+`<div class="button-row">${buttons.join('')}</div>`+withdraw,'market-order-'+o.id);
 }
 function inventorySummary(groups){
- const labels={public:'院中公用财物',personal:'掌门私物',merchant:'商人物资'};
+ const labels={public:'公用财物',personal:'掌门私物',merchant:'商人物资'};
  const shown=n=>E(Number(n.toPrecision(12)));
  return list(groups).map(g=>{
   const rows=Object.entries(g.amounts||{}).filter(([,a])=>a.total||a.shortage).map(([key,a])=>`<p class="inventory-summary-row" data-ledger-resource="${E(key)}"><strong>${E(names[key]||key)}</strong> · 总量 ${shown(a.total)} · 可用 ${shown(a.available)} · 预留 ${shown(a.reserved)} · 在途 ${shown(a.inTransit)} · 已知缺口 ${shown(a.shortage)}</p>`).join('');
@@ -68,7 +73,7 @@ function economy(s,sim){
   ?`订单交付 · ${v.market?.orders?.find(o=>o.id===f.orderId)?.name||'已知委托'} · 交付 ${cost(f.cargo)} · 收款 ${cost(f.payment)} · 名声+${f.reputation} · 世界刻${f.atTick??f.createdTick??'已记录'}`
   :`${phase(f.operation)} · ${cost(f.quantities||f.cost||f.reward)} · 世界刻${f.atTick??f.createdTick??'已记录'}`)).join('')||P('尚无物资交易记录。'));
  const merchant=stockpiles.find(p=>p.id==='stockpile:qingxi'),tradeLock=v.market?.merchantPresent?'':'需到坊市，或等待商队真实抵院并走近';let market=C('青溪现货交易',P('每组10份，买卖以实际现货与本金结算。补货受道路与有限来源限制，反复开菜单不补货。')+Object.entries(v.market?.goods||{}).map(([id,g])=>P(`${g.name} · 现货${merchant?.resources[id]??0}份 · 买${g.buy}/卖${g.sell}灵石每组`)+`<div class="button-row">${B('买入一组','marketTrade',[id,'buy',1],tradeLock)}${B('卖出一组','marketTrade',[id,'sell',1],tradeLock)}</div>`).join(''));
- market+=list(v.market?.orders).map(o=>marketOrderCard(o,s)).join('');
+ market+=list(v.market?.orders).map(o=>marketOrderCard(o,s,stockpiles)).join('');
  return `<div data-sr-production="inventory">${inventory}</div><div data-sr-production="market" id="sr-market-section">${market}</div>`;
 }
 function travelCargoFields(s){if(s.master.location?.sceneId!=='scene:yunxiu-courtyard')return '';const defaults={jade:30,herb:12,food:12,wood:10,stone:10,crystal:2};return '<details class="sr-travel-cargo"><summary>随行物资：从公库实际装入行囊</summary><p>总量不超过400份；先支付行程费用，再装入你确认的份额。已有行囊物资保留，院外无法使用远方公库。</p>'+Object.entries(defaults).map(([id,n])=>input('cargo_'+id,names[id]||id,{type:'number',value:Math.min(n,Math.floor(s.resources[id]||0)),min:0,max:400,step:1})).join('')+'</details>';}
