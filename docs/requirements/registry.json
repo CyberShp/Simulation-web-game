@@ -5,42 +5,41 @@
   "updated": "2026-10-08",
   "authoritative": "registry.json for requirement records and task states; derived Markdown rendered by qa/sr-manager.py refresh",
   "source_runtime": {
-    "main": "94986d3c14b3ea67859fe652ead39a1b70a2abd4",
-    "runtime_source": "94986d3c14b3ea67859fe652ead39a1b70a2abd4",
-    "pages": "fa17a3b1df447d87d027cfca4d72ae5735835783",
+    "main": "c8f71b8a803ab5a0292392194ab97c40b1e4bf7e",
+    "runtime_source": "c8f71b8a803ab5a0292392194ab97c40b1e4bf7e",
+    "pages": "944f0720f5d01f374b1a403985a935a8ca0a24ff",
     "game_version": "1.6.0-dev",
     "schema_version": 6,
-    "preview_pages": "fa17a3b1df447d87d027cfca4d72ae5735835783",
+    "preview_pages": "944f0720f5d01f374b1a403985a935a8ca0a24ff",
     "preview_deployment": null,
     "working_game_version": "1.6.0-dev",
     "official_game_version": "1.6.0-dev",
-    "version_note": "M2 r26: equipment crafting freezes v1 recipe terms and preserves paid old active orders with sourced unique settlement. Full SR009 remains open.",
+    "version_note": "M1 r27: construction geometry updates prune stale door waiters before saving, preserving exact native reload. SR003 AC02 and full I/V/R remain open.",
     "main_record_type": "runtime source commit; release metadata commit is a descendant",
-    "working_release_note": "Seven equipment recipe entries freeze input, duration, slot, claim, source and owner; normal public workshop chain tested travel robe creation/cancel/reload and old paid migration, 1/1. Local Chromium imported native active save and clicked zero-progress cancel; UI 17 passed/4 device pending, zero errors/warnings. Pages built, 162 text blobs and two changed public modules match. Full seven-recipe chains, construction snapshots, cross-warehouse transport, full new-game unlock, device and public-browser interaction remain open.",
-    "previous_pages": "ff263c5785129cb0f32261931417423404011b73",
+    "working_release_note": "Normal public house/three recruit/workshop chain exact reload 1/1, adjacent door replan 1/1, spatial 36/36 with Canvas runtime path. Wider building-grid suite 4/6, two same failures on earlier unchanged branch. Pages built, 162 text blobs and changed spatial module match. Browser interaction not rerun for this nonvisual fix; target device and full SR003 remain open.",
+    "previous_pages": "fa17a3b1df447d87d027cfca4d72ae5735835783",
     "pages_deployment_status": "built",
-    "working_release_tag": "ea-160-courtyard-20261008-r26",
-    "official_release_tag": "ea-160-courtyard-20261008-r26",
-    "official_url": "https://cybershp.github.io/Simulation-web-game/?v=ea-160-courtyard-20261008-r26",
+    "working_release_tag": "ea-160-courtyard-20261008-r27",
+    "official_release_tag": "ea-160-courtyard-20261008-r27",
+    "official_url": "https://cybershp.github.io/Simulation-web-game/?v=ea-160-courtyard-20261008-r27",
     "deployed_tree_verification": {
       "published_tree_blobs": 235,
       "packaged_text_blobs_checked": 162,
       "source_and_pages_commits_verified": true,
       "verified_files": [
         "index.html",
-        "ea-opening-sim.mjs",
-        "ea-sr-equipment.mjs"
+        "ea-sr-spatial.mjs"
       ],
-      "verification": "GitHub API confirms runtime main 94986d3c14b3ea67859fe652ead39a1b70a2abd4, gh-pages fa17a3b1df447d87d027cfca4d72ae5735835783, Pages built; all 162 packaged text blobs match. Public entry HTTP 200 and two changed runtime modules match manifest bytes. Public browser interaction not verified.",
+      "verification": "GitHub API confirms runtime main c8f71b8a803ab5a0292392194ab97c40b1e4bf7e, gh-pages 944f0720f5d01f374b1a403985a935a8ca0a24ff, Pages built; all 162 packaged text blobs match. Public entry HTTP 200 and changed spatial module matches manifest bytes. Public browser interaction not verified.",
       "mismatches": 0
     },
-    "previous_main": "12335f4112fa3d6c637125ac8dff080a7b3bd284",
+    "previous_main": "94986d3c14b3ea67859fe652ead39a1b70a2abd4",
     "browser_verification": {
-      "viewport": "local Chromium, isolated SR009 equipment acceptance",
-      "scope": "Native active equipment save imported; seven offers, active progress and cancel control shown; clicked zero-progress cancellation, visible jade and wood returned. Console 0 errors/0 warnings, 1 Chromium autocomplete verbose message. Public HTTP bytes verified; public-browser interaction and target devices not.",
+      "viewport": "not repeated in r27; normal public simulation and spatial renderer Node tests",
+      "scope": "Exact native save reload after real workshop completion and relevant spatial tests; no local or public browser interaction for this nonvisual batch.",
       "real_devices": false,
       "fps_measured": false,
-      "acceptance_namespace": "qa-sr009-equip-r26"
+      "acceptance_namespace": "qa-sr003-door-queue-r27"
     },
     "working_source_base": "1b28260007c3049d077dfce424d0db2c6e8cbd60",
     "working_validation": {
@@ -682,7 +681,8 @@
           "evidence": [
             "qa/ea-sr-spatial-acceptance.mjs",
             "docs/requirements/IMPLEMENTATION-2026-10-06.md",
-            "qa/ea-indoor-furniture-acceptance.mjs"
+            "qa/ea-indoor-furniture-acceptance.mjs",
+            "2026-10-08 r27 门道候位存读修复：正常公开新档建住宅、招三人、落成百工坊，完工后人物路线随几何更新被清空时，同步清理已失效候位，不再等加载才改变存档；林长风床位活动和真实脚步保留。根正常链1/1、原门道改路1/1、空间36/36，坏旧候位下一真实世界步清理、失效记录不留、精确存读。建筑网格宽测4/6，两失败（缩放选点、旧生产快照断言）在此前独立基线相同；首次空间宽测因本机缺Canvas依赖失败一项，按既有NODE_PATH重跑36/36。源码c8f71b8、Pages944f072 built，162文本blob及公网空间模块一致；本批未实点浏览器或目标设备。SR003-AC02门位画稿/触控与整项I/V/R继续。证据 qa/ea-sr003-door-queue-reload-acceptance.mjs。"
           ]
         }
       ],
@@ -710,7 +710,8 @@
         "qa/ea-paused-courtyard-render-acceptance.mjs",
         "dist/ea-estate-assets.mjs",
         "qa/ea-building-raster-cache-acceptance.mjs",
-        "dist/ea-ui.mjs"
+        "dist/ea-ui.mjs",
+        "2026-10-08 r27 门道候位存读修复：正常公开新档建住宅、招三人、落成百工坊，完工后人物路线随几何更新被清空时，同步清理已失效候位，不再等加载才改变存档；林长风床位活动和真实脚步保留。根正常链1/1、原门道改路1/1、空间36/36，坏旧候位下一真实世界步清理、失效记录不留、精确存读。建筑网格宽测4/6，两失败（缩放选点、旧生产快照断言）在此前独立基线相同；首次空间宽测因本机缺Canvas依赖失败一项，按既有NODE_PATH重跑36/36。源码c8f71b8、Pages944f072 built，162文本blob及公网空间模块一致；本批未实点浏览器或目标设备。SR003-AC02门位画稿/触控与整项I/V/R继续。证据 qa/ea-sr003-door-queue-reload-acceptance.mjs。"
       ],
       "change_log": [
         {
@@ -792,6 +793,10 @@
         {
           "date": "2026-10-08",
           "reason": "M1 r21 山外总览按钮按当前地点显示，青溪坊市和驻棚独立浏览器实点总览、选中建筑与返回近景，坊市保存刷新续读。根复跑镜头5/5、UI17/17；源码050a78f、Pages679dab3 built且162文本blob匹配。门位画稿和目标设备未验，AC02及整项状态不变。"
+        },
+        {
+          "date": "2026-10-08",
+          "reason": "2026-10-08 r27 门道候位存读修复：正常公开新档建住宅、招三人、落成百工坊，完工后人物路线随几何更新被清空时，同步清理已失效候位，不再等加载才改变存档；林长风床位活动和真实脚步保留。根正常链1/1、原门道改路1/1、空间36/36，坏旧候位下一真实世界步清理、失效记录不留、精确存读。建筑网格宽测4/6，两失败（缩放选点、旧生产快照断言）在此前独立基线相同；首次空间宽测因本机缺Canvas依赖失败一项，按既有NODE_PATH重跑36/36。源码c8f71b8、Pages944f072 built，162文本blob及公网空间模块一致；本批未实点浏览器或目标设备。SR003-AC02门位画稿/触控与整项I/V/R继续。证据 qa/ea-sr003-door-queue-reload-acceptance.mjs。"
         }
       ],
       "tasks": [
@@ -846,7 +851,8 @@
             "dist/ea-scenic.mjs",
             "dist/ea-facility-activities.mjs",
             "qa/ea-paused-courtyard-render-acceptance.mjs",
-            "2026-10-08 r14 默认倍率密集山院局部减负：已验收来源档40建筑/30人、1200x849/DPR2，独立本地Chromium两次各6秒热身后对照，rAF回调约34.8/s→56.7/s、间隔P95 50→16.8ms；候选最长166.7ms且主线程累计任务时间更高，不等于实际显示FPS或整幅卡顿修复。32MiB LRU、每帧最多新建1幅、素材/销毁清空、无OffscreenCanvas直绘降级；像素专项均差0.11/255、强差0.07%，主殿外观/门位/人物遮挡与点选保持。缓存专项1/1、暂停/田地2/2、三人点选及封闭建筑回归通过；相邻4项旧断言在未改空间/场景逻辑失败。源码307894b、Pages f3e0d63 built，162文本blob匹配。缩放长帧、首次导入、公开浏览器、真机和完整AC02/I/V/R继续。"
+            "2026-10-08 r14 默认倍率密集山院局部减负：已验收来源档40建筑/30人、1200x849/DPR2，独立本地Chromium两次各6秒热身后对照，rAF回调约34.8/s→56.7/s、间隔P95 50→16.8ms；候选最长166.7ms且主线程累计任务时间更高，不等于实际显示FPS或整幅卡顿修复。32MiB LRU、每帧最多新建1幅、素材/销毁清空、无OffscreenCanvas直绘降级；像素专项均差0.11/255、强差0.07%，主殿外观/门位/人物遮挡与点选保持。缓存专项1/1、暂停/田地2/2、三人点选及封闭建筑回归通过；相邻4项旧断言在未改空间/场景逻辑失败。源码307894b、Pages f3e0d63 built，162文本blob匹配。缩放长帧、首次导入、公开浏览器、真机和完整AC02/I/V/R继续。",
+            "2026-10-08 r27 门道候位存读修复：正常公开新档建住宅、招三人、落成百工坊，完工后人物路线随几何更新被清空时，同步清理已失效候位，不再等加载才改变存档；林长风床位活动和真实脚步保留。根正常链1/1、原门道改路1/1、空间36/36，坏旧候位下一真实世界步清理、失效记录不留、精确存读。建筑网格宽测4/6，两失败（缩放选点、旧生产快照断言）在此前独立基线相同；首次空间宽测因本机缺Canvas依赖失败一项，按既有NODE_PATH重跑36/36。源码c8f71b8、Pages944f072 built，162文本blob及公网空间模块一致；本批未实点浏览器或目标设备。SR003-AC02门位画稿/触控与整项I/V/R继续。证据 qa/ea-sr003-door-queue-reload-acceptance.mjs。"
           ],
           "blocked_reason": null
         },
@@ -868,7 +874,8 @@
             "qa/ea-sr-spatial-acceptance.mjs",
             "qa/ea-sr003-pedestrian-occupancy-acceptance.mjs",
             "qa/ea-paused-courtyard-render-acceptance.mjs",
-            "2026-10-08 r14 默认倍率密集山院局部减负：已验收来源档40建筑/30人、1200x849/DPR2，独立本地Chromium两次各6秒热身后对照，rAF回调约34.8/s→56.7/s、间隔P95 50→16.8ms；候选最长166.7ms且主线程累计任务时间更高，不等于实际显示FPS或整幅卡顿修复。32MiB LRU、每帧最多新建1幅、素材/销毁清空、无OffscreenCanvas直绘降级；像素专项均差0.11/255、强差0.07%，主殿外观/门位/人物遮挡与点选保持。缓存专项1/1、暂停/田地2/2、三人点选及封闭建筑回归通过；相邻4项旧断言在未改空间/场景逻辑失败。源码307894b、Pages f3e0d63 built，162文本blob匹配。缩放长帧、首次导入、公开浏览器、真机和完整AC02/I/V/R继续。"
+            "2026-10-08 r14 默认倍率密集山院局部减负：已验收来源档40建筑/30人、1200x849/DPR2，独立本地Chromium两次各6秒热身后对照，rAF回调约34.8/s→56.7/s、间隔P95 50→16.8ms；候选最长166.7ms且主线程累计任务时间更高，不等于实际显示FPS或整幅卡顿修复。32MiB LRU、每帧最多新建1幅、素材/销毁清空、无OffscreenCanvas直绘降级；像素专项均差0.11/255、强差0.07%，主殿外观/门位/人物遮挡与点选保持。缓存专项1/1、暂停/田地2/2、三人点选及封闭建筑回归通过；相邻4项旧断言在未改空间/场景逻辑失败。源码307894b、Pages f3e0d63 built，162文本blob匹配。缩放长帧、首次导入、公开浏览器、真机和完整AC02/I/V/R继续。",
+            "2026-10-08 r27 门道候位存读修复：正常公开新档建住宅、招三人、落成百工坊，完工后人物路线随几何更新被清空时，同步清理已失效候位，不再等加载才改变存档；林长风床位活动和真实脚步保留。根正常链1/1、原门道改路1/1、空间36/36，坏旧候位下一真实世界步清理、失效记录不留、精确存读。建筑网格宽测4/6，两失败（缩放选点、旧生产快照断言）在此前独立基线相同；首次空间宽测因本机缺Canvas依赖失败一项，按既有NODE_PATH重跑36/36。源码c8f71b8、Pages944f072 built，162文本blob及公网空间模块一致；本批未实点浏览器或目标设备。SR003-AC02门位画稿/触控与整项I/V/R继续。证据 qa/ea-sr003-door-queue-reload-acceptance.mjs。"
           ],
           "blocked_reason": null
         },

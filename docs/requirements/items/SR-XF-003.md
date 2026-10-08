@@ -57,7 +57,7 @@ SR-XF-003-AC-01证据：tests/ea-sr-spatial-door-replan.test.mjs；qa/ea-sr-spat
 
 SR-XF-003-AC-02证据：局部：qa/ea-sr-spatial-acceptance.mjs（生产Canvas：总览按钮聚焦、同号对象与标签、显式触点逆投影及状态只读）；局部：tests/map-input.test.mjs（双触点中点与取消）；局部：docs/design/STATUS.md（隔离真实浏览器鼠标/合成触控步骤、截图路径及未覆盖范围）；局部：qa/ea-sr003-outer-camera-acceptance.mjs；局部：qa/ea-sr-ui-acceptance.mjs；局部：2026-10-08 r21 青溪坊市与驻棚真实浏览器显式总览→选中建筑→回近景；坊市保存刷新续读，根复跑镜头5/5与UI17/17；门位画稿、目标设备未覆盖。
 
-SR-XF-003-AC-03证据：qa/ea-sr-spatial-acceptance.mjs；docs/requirements/IMPLEMENTATION-2026-10-06.md；qa/ea-indoor-furniture-acceptance.mjs
+SR-XF-003-AC-03证据：qa/ea-sr-spatial-acceptance.mjs；docs/requirements/IMPLEMENTATION-2026-10-06.md；qa/ea-indoor-furniture-acceptance.mjs；2026-10-08 r27 门道候位存读修复：正常公开新档建住宅、招三人、落成百工坊，完工后人物路线随几何更新被清空时，同步清理已失效候位，不再等加载才改变存档；林长风床位活动和真实脚步保留。根正常链1/1、原门道改路1/1、空间36/36，坏旧候位下一真实世界步清理、失效记录不留、精确存读。建筑网格宽测4/6，两失败（缩放选点、旧生产快照断言）在此前独立基线相同；首次空间宽测因本机缺Canvas依赖失败一项，按既有NODE_PATH重跑36/36。源码c8f71b8、Pages944f072 built，162文本blob及公网空间模块一致；本批未实点浏览器或目标设备。SR003-AC02门位画稿/触控与整项I/V/R继续。证据 qa/ea-sr003-door-queue-reload-acceptance.mjs。
 
 2026-10-07本地小院批次：成人家具/单位格/空间定向检查48/48（8/6/34），正常公开命令接受/拒绝邀请两路完成营造、产出搬运、研习、到床休息与迁建取消/续建；分别60命令/36次精确存读和61命令/37次精确存读。六身份卧姿与预约前提2/2，生产Canvas卧姿加载/只读/身体点选/缺图回退4/4，已读图。旧v5完成档40建筑30门人保留资源、时间和return结局，全部入口可达，二次存读一致。各SR仅登记适用子情景；完整AC、真机触摸/FPS和真人首次体验状态分别保留。 浏览器DPR1鼠标在1366×900、1180×820、820×1180点选床上掌门通过；正常推荐营造经Enter和鼠标确认、实际施工落成。一次动态模块加载失败经页面重载恢复同档，原因待定位。I/V证据为沿既有可用契约实施的本批子范围；完整D01/D02及I/V关闭门槛保持原状态。
 
@@ -92,9 +92,9 @@ SR-XF-003-D01证据：docs/requirements/design/SR-XF-003-006.md
 
 SR-XF-003-D02证据：docs/requirements/design/SR-XF-003-006.md
 
-SR-XF-003-I01证据：dist/ea-sr-spatial.mjs；docs/design/STATUS.md；dist/map-input.mjs；dist/ea-game.mjs；dist/ea-courtyard-renderer.mjs；dist/ea-world-scene-art.mjs；dist/ea-sr-ui.mjs；qa/ea-sr003-outer-camera-acceptance.mjs；qa/ea-sr003-pedestrian-occupancy-acceptance.mjs；dist/ea-scenic.mjs；dist/ea-facility-activities.mjs；qa/ea-paused-courtyard-render-acceptance.mjs；2026-10-08 r14 默认倍率密集山院局部减负：已验收来源档40建筑/30人、1200x849/DPR2，独立本地Chromium两次各6秒热身后对照，rAF回调约34.8/s→56.7/s、间隔P95 50→16.8ms；候选最长166.7ms且主线程累计任务时间更高，不等于实际显示FPS或整幅卡顿修复。32MiB LRU、每帧最多新建1幅、素材/销毁清空、无OffscreenCanvas直绘降级；像素专项均差0.11/255、强差0.07%，主殿外观/门位/人物遮挡与点选保持。缓存专项1/1、暂停/田地2/2、三人点选及封闭建筑回归通过；相邻4项旧断言在未改空间/场景逻辑失败。源码307894b、Pages f3e0d63 built，162文本blob匹配。缩放长帧、首次导入、公开浏览器、真机和完整AC02/I/V/R继续。
+SR-XF-003-I01证据：dist/ea-sr-spatial.mjs；docs/design/STATUS.md；dist/map-input.mjs；dist/ea-game.mjs；dist/ea-courtyard-renderer.mjs；dist/ea-world-scene-art.mjs；dist/ea-sr-ui.mjs；qa/ea-sr003-outer-camera-acceptance.mjs；qa/ea-sr003-pedestrian-occupancy-acceptance.mjs；dist/ea-scenic.mjs；dist/ea-facility-activities.mjs；qa/ea-paused-courtyard-render-acceptance.mjs；2026-10-08 r14 默认倍率密集山院局部减负：已验收来源档40建筑/30人、1200x849/DPR2，独立本地Chromium两次各6秒热身后对照，rAF回调约34.8/s→56.7/s、间隔P95 50→16.8ms；候选最长166.7ms且主线程累计任务时间更高，不等于实际显示FPS或整幅卡顿修复。32MiB LRU、每帧最多新建1幅、素材/销毁清空、无OffscreenCanvas直绘降级；像素专项均差0.11/255、强差0.07%，主殿外观/门位/人物遮挡与点选保持。缓存专项1/1、暂停/田地2/2、三人点选及封闭建筑回归通过；相邻4项旧断言在未改空间/场景逻辑失败。源码307894b、Pages f3e0d63 built，162文本blob匹配。缩放长帧、首次导入、公开浏览器、真机和完整AC02/I/V/R继续。；2026-10-08 r27 门道候位存读修复：正常公开新档建住宅、招三人、落成百工坊，完工后人物路线随几何更新被清空时，同步清理已失效候位，不再等加载才改变存档；林长风床位活动和真实脚步保留。根正常链1/1、原门道改路1/1、空间36/36，坏旧候位下一真实世界步清理、失效记录不留、精确存读。建筑网格宽测4/6，两失败（缩放选点、旧生产快照断言）在此前独立基线相同；首次空间宽测因本机缺Canvas依赖失败一项，按既有NODE_PATH重跑36/36。源码c8f71b8、Pages944f072 built，162文本blob及公网空间模块一致；本批未实点浏览器或目标设备。SR003-AC02门位画稿/触控与整项I/V/R继续。证据 qa/ea-sr003-door-queue-reload-acceptance.mjs。
 
-SR-XF-003-V01证据：qa/ea-indoor-furniture-acceptance.mjs；qa/ea-courtyard-life-acceptance.mjs；docs/design/STATUS.md；tests/map-input.test.mjs；qa/ea-sr-spatial-acceptance.mjs；qa/ea-sr003-pedestrian-occupancy-acceptance.mjs；qa/ea-paused-courtyard-render-acceptance.mjs；2026-10-08 r14 默认倍率密集山院局部减负：已验收来源档40建筑/30人、1200x849/DPR2，独立本地Chromium两次各6秒热身后对照，rAF回调约34.8/s→56.7/s、间隔P95 50→16.8ms；候选最长166.7ms且主线程累计任务时间更高，不等于实际显示FPS或整幅卡顿修复。32MiB LRU、每帧最多新建1幅、素材/销毁清空、无OffscreenCanvas直绘降级；像素专项均差0.11/255、强差0.07%，主殿外观/门位/人物遮挡与点选保持。缓存专项1/1、暂停/田地2/2、三人点选及封闭建筑回归通过；相邻4项旧断言在未改空间/场景逻辑失败。源码307894b、Pages f3e0d63 built，162文本blob匹配。缩放长帧、首次导入、公开浏览器、真机和完整AC02/I/V/R继续。
+SR-XF-003-V01证据：qa/ea-indoor-furniture-acceptance.mjs；qa/ea-courtyard-life-acceptance.mjs；docs/design/STATUS.md；tests/map-input.test.mjs；qa/ea-sr-spatial-acceptance.mjs；qa/ea-sr003-pedestrian-occupancy-acceptance.mjs；qa/ea-paused-courtyard-render-acceptance.mjs；2026-10-08 r14 默认倍率密集山院局部减负：已验收来源档40建筑/30人、1200x849/DPR2，独立本地Chromium两次各6秒热身后对照，rAF回调约34.8/s→56.7/s、间隔P95 50→16.8ms；候选最长166.7ms且主线程累计任务时间更高，不等于实际显示FPS或整幅卡顿修复。32MiB LRU、每帧最多新建1幅、素材/销毁清空、无OffscreenCanvas直绘降级；像素专项均差0.11/255、强差0.07%，主殿外观/门位/人物遮挡与点选保持。缓存专项1/1、暂停/田地2/2、三人点选及封闭建筑回归通过；相邻4项旧断言在未改空间/场景逻辑失败。源码307894b、Pages f3e0d63 built，162文本blob匹配。缩放长帧、首次导入、公开浏览器、真机和完整AC02/I/V/R继续。；2026-10-08 r27 门道候位存读修复：正常公开新档建住宅、招三人、落成百工坊，完工后人物路线随几何更新被清空时，同步清理已失效候位，不再等加载才改变存档；林长风床位活动和真实脚步保留。根正常链1/1、原门道改路1/1、空间36/36，坏旧候位下一真实世界步清理、失效记录不留、精确存读。建筑网格宽测4/6，两失败（缩放选点、旧生产快照断言）在此前独立基线相同；首次空间宽测因本机缺Canvas依赖失败一项，按既有NODE_PATH重跑36/36。源码c8f71b8、Pages944f072 built，162文本blob及公网空间模块一致；本批未实点浏览器或目标设备。SR003-AC02门位画稿/触控与整项I/V/R继续。证据 qa/ea-sr003-door-queue-reload-acceptance.mjs。
 
 ## 可进入开发的条件
 
@@ -137,6 +137,7 @@ SR-XF-003-V01证据：qa/ea-indoor-furniture-acceptance.mjs；qa/ea-courtyard-li
 - dist/ea-estate-assets.mjs
 - qa/ea-building-raster-cache-acceptance.mjs
 - dist/ea-ui.mjs
+- 2026-10-08 r27 门道候位存读修复：正常公开新档建住宅、招三人、落成百工坊，完工后人物路线随几何更新被清空时，同步清理已失效候位，不再等加载才改变存档；林长风床位活动和真实脚步保留。根正常链1/1、原门道改路1/1、空间36/36，坏旧候位下一真实世界步清理、失效记录不留、精确存读。建筑网格宽测4/6，两失败（缩放选点、旧生产快照断言）在此前独立基线相同；首次空间宽测因本机缺Canvas依赖失败一项，按既有NODE_PATH重跑36/36。源码c8f71b8、Pages944f072 built，162文本blob及公网空间模块一致；本批未实点浏览器或目标设备。SR003-AC02门位画稿/触控与整项I/V/R继续。证据 qa/ea-sr003-door-queue-reload-acceptance.mjs。
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
@@ -158,5 +159,6 @@ SR-XF-003-V01证据：qa/ea-indoor-furniture-acceptance.mjs；qa/ea-courtyard-li
 - 2026-10-08：M1 r10 暂停静止山院帧跳过整幅重绘；可见状态原地变化、点选/镜头/视口/素材/规划均失效重画，运行态继续绘制。合法密集档冻结对照 180→0 次清画、10440→0 次 drawImage，像素与主殿点选一致；独立定向 1/1、相邻 16/16。运行卡顿根因、真机及 AC02/I/V/R 门槛未关闭，公网浏览器受应用安全策略验证不可用限制未验。
 - 2026-10-08：r14 默认倍率建筑缓存有界子批独立验收并发布；密集档画面回调改善但长帧与完整 SR003 继续。
 - 2026-10-08：M1 r21 山外总览按钮按当前地点显示，青溪坊市和驻棚独立浏览器实点总览、选中建筑与返回近景，坊市保存刷新续读。根复跑镜头5/5、UI17/17；源码050a78f、Pages679dab3 built且162文本blob匹配。门位画稿和目标设备未验，AC02及整项状态不变。
+- 2026-10-08：2026-10-08 r27 门道候位存读修复：正常公开新档建住宅、招三人、落成百工坊，完工后人物路线随几何更新被清空时，同步清理已失效候位，不再等加载才改变存档；林长风床位活动和真实脚步保留。根正常链1/1、原门道改路1/1、空间36/36，坏旧候位下一真实世界步清理、失效记录不留、精确存读。建筑网格宽测4/6，两失败（缩放选点、旧生产快照断言）在此前独立基线相同；首次空间宽测因本机缺Canvas依赖失败一项，按既有NODE_PATH重跑36/36。源码c8f71b8、Pages944f072 built，162文本blob及公网空间模块一致；本批未实点浏览器或目标设备。SR003-AC02门位画稿/触控与整项I/V/R继续。证据 qa/ea-sr003-door-queue-reload-acceptance.mjs。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。

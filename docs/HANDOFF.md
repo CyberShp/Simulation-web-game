@@ -1,5 +1,7 @@
 # M0→M1 交付接续 · 2026-10-08
 
+当前最新 M1 r27 已发布施工完工门道候位存读修复：正常新档建住宅、招三人、落成百工坊后，清路线时同步清掉失效排队，原床位活动保留。根正常链 1/1、门道改路 1/1、空间 36/36；建筑网格宽测 4/6 的两项旧失败在原基线相同。源码 `main` `c8f71b8a803ab5a0292392194ab97c40b1e4bf7e`，网页 `gh-pages` `944f0720f5d01f374b1a403985a935a8ca0a24ff`，标记 `ea-160-courtyard-20261008-r27`，Pages `built`，162 文本 blob 与公网空间模块匹配，入口 HTTP 200。本批未另做浏览器实点，门位画稿/触控和整项 SR003 继续；**39 passed、80 not_run、1 blocked**。详见 [STATUS](design/STATUS.md) 与 [台账](requirements/registry.json)。
+
 当前最新 M2 r26 已发布装备制作配方快照：七件新单冻结投入/工时/槽位/来源与关键物品凭据，旧活跃已付费单一次迁移；有来源百工坊的行山轻衣公开链专项 1/1、6 次精确存读，UI 17 通过/4 待设备。本地 Chromium 试读在制订单、实点零进度取消返还灵石与灵木，零错误/警告。SR009 整项仍待施工配方、跨仓实物流、七件各自全链及完整新档解锁；门道候位读档旧问题另批处理。源码 `main` `94986d3c14b3ea67859fe652ead39a1b70a2abd4`，网页 `gh-pages` `fa17a3b1df447d87d027cfca4d72ae5735835783`，标记 `ea-160-courtyard-20261008-r26`，Pages `built`，162 文本 blob 及两个公网模块匹配，公开入口 HTTP 200；公网浏览器交互未验。**39 passed、80 not_run、1 blocked**。详见 [STATUS](design/STATUS.md) 与 [台账](requirements/registry.json)。
 
 当前最新 M2 r25 已发布 SR020 商人口信与现场核实：正常雨天收到姚仲原话，掌门到侧洞查验、再与青萝交谈后，纪事分别显示来源和时刻，未核实药量及救急效果仍保留为推测。正常公开链 **30 命令 / 23 次精确存读**，相邻回归及本地 Chromium 导入、刷新续读通过，**SR020-AC01 改为 `passed`**；整项 CONTENT-05/INTRO-03、设备及 V/R 继续。源码 `main` `12335f4112fa3d6c637125ac8dff080a7b3bd284`，网页 `gh-pages` `ff263c5785129cb0f32261931417423404011b73`，标记 `ea-160-courtyard-20261008-r25`，Pages `built`，162 文本 blob 及两个公网模块匹配，公开入口 HTTP 200；公网浏览器交互未验。**39 passed、80 not_run、1 blocked**。详见 [STATUS](design/STATUS.md) 与 [台账](requirements/registry.json)。

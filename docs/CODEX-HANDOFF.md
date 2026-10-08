@@ -1,5 +1,7 @@
 # Codex 接手指南 · 2026-10-08
 
+最新 M1 r27 已发布门道候位存读修复：施工完工清人物路线后同步清掉失效候位，正常住宅→招三人→百工坊精确存读 1/1、门道改路 1/1、空间 36/36；两项建筑网格宽测旧失败在原基线相同。林长风原床位活动保留。源码 `main` `c8f71b8a803ab5a0292392194ab97c40b1e4bf7e`，网页 `gh-pages` `944f0720f5d01f374b1a403985a935a8ca0a24ff`，Pages `built`，162 文本 blob、公网空间模块匹配；本批未另做浏览器实点。SR003-AC02 门位画稿/触控及整项 I/V/R 继续；**39 passed、80 not_run、1 blocked**。详见 [STATUS](design/STATUS.md) 与 [台账](requirements/registry.json)。
+
 最新 M2 r26 已发布 SR009 装备制作配方冻结与旧活跃已付费单迁移：七件新单固定原料、工时、槽位、来源仓、产权及唯一结算凭据。根复跑有来源百工坊行山轻衣公开链 1/1、6 次精确存读、UI 17 通过/4 待设备；本地 Chromium 导入在制档、实点零进度取消返款，零错误/警告。完整七配方、施工快照、跨仓实物、完整新档解锁及目标设备继续，SR009 不关闭。基线建坊门道候位读档差异另案。源码 `main` `94986d3c14b3ea67859fe652ead39a1b70a2abd4`，网页 `gh-pages` `fa17a3b1df447d87d027cfca4d72ae5735835783`，Pages `built`，162 文本 blob、两个公网模块匹配；公网浏览器交互未验。**39 passed、80 not_run、1 blocked**。详见 [STATUS](design/STATUS.md) 与 [台账](requirements/registry.json)。
 
 最新 M2 r25 已发布 SR020 混合商人口信：原话、观察/送达时刻、掌门实际查验侧洞及与青萝当面交谈所得的现场记录分开展示，药量和救急效果仍标为推测。正常公开链 30 命令/23 次精确存读、消息相邻 1/1、世界 21/21、SR002 玩家投影 7/7；本地 Chromium 导入初闻与最终档、刷新续读纪事，控制台零错误/警告。SR020-AC01 按原文 `passed`，CONTENT-05/INTRO-03、设备与整项 V/R 继续。源码 `main` `12335f4112fa3d6c637125ac8dff080a7b3bd284`，网页 `gh-pages` `ff263c5785129cb0f32261931417423404011b73`，标记 `ea-160-courtyard-20261008-r25`，Pages `built`，162 文本 blob 及两个公网模块与发布包匹配；公网浏览器交互未验。**39 passed、80 not_run、1 blocked**。详见 [STATUS](design/STATUS.md) 与 [台账](requirements/registry.json)。
