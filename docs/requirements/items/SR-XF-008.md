@@ -6,7 +6,7 @@
 | --- | --- |
 | 范围 / 模块 | 前期必需 / 人物 |
 | 优先级 / 计划 | P1 / I1 |
-| 设计 / 开发 | draft / in_progress |
+| 设计 / 开发 | ready / in_progress |
 | 验收 / 发布 | in_progress / not_released_for_this_sr |
 | 责任人 / 复核人 | Codex/economy_people / Codex/root（集成） |
 
@@ -67,13 +67,17 @@ SR-XF-008-AC-03证据：qa/ea-sr-008-travel-interrupt-public-acceptance.mjs；qa
 
 | 任务 | 工作 | 状态 | 前置 | 责任人 |
 | --- | --- | --- | --- | --- |
-| SR-XF-008-D01 | 设计补齐：交付：需要/志向/能力/关系/风险的候选过滤与效用参数表，保留不能做与不愿做区别。；承诺期限、改意阈值、重试退避、活动中断和恢复规则。；关键人物日程、岗位可用时间、关系记忆影响和隐私投影。；填实必需参数并标记U/R/T来源。 | in_progress | 无 | Codex/economy_people |
-| SR-XF-008-D02 | 契约与内容审阅：审阅NPC日程、自主选择与职责参数与依赖契约（SR-XF-002、SR-XF-003）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。 | todo | SR-XF-008-D01 | 待分配 |
-| SR-XF-008-I01 | 开发与集成：在人物模块实现NPC日程、自主选择与职责参数；交付SR-XF-008-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。 | todo | SR-XF-008-D02 | 待分配 |
+| SR-XF-008-D01 | 设计补齐：交付：需要/志向/能力/关系/风险的候选过滤与效用参数表，保留不能做与不愿做区别。；承诺期限、改意阈值、重试退避、活动中断和恢复规则。；关键人物日程、岗位可用时间、关系记忆影响和隐私投影。；填实必需参数并标记U/R/T来源。 | done | 无 | Codex/root |
+| SR-XF-008-D02 | 契约与内容审阅：审阅NPC日程、自主选择与职责参数与依赖契约（SR-XF-002、SR-XF-003）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。 | done | SR-XF-008-D01 | Codex/sr008_d02_review |
+| SR-XF-008-I01 | 开发与集成：在人物模块实现NPC日程、自主选择与职责参数；交付SR-XF-008-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。 | in_progress | SR-XF-008-D02 | Codex/sr008_schedule_v2 |
 | SR-XF-008-V01 | 验收与兼容：执行SR-XF-008-AC-01至AC-03及SLOT-01、ECON-04；登记实际结果、兼容和设备证据边界。 | todo | SR-XF-008-I01 | 待分配 |
 | SR-XF-008-R01 | 发布与关闭：完成所需源码/运行时发布核对、交接和未覆盖说明；本轮用户不要求上传QA过程产物。 | todo | SR-XF-008-V01 | 待分配 |
 
-SR-XF-008-I01证据：qa/ea-sr-008-invite-public-acceptance.mjs；dist/ea-sr-persons.mjs；dist/ea-sr-ui.mjs；docs/design/STATUS.md
+SR-XF-008-D01证据：docs/requirements/design/SR-XF-007-011-019-026-027.md; 2026-10-08 design revisions and independent D02 reviewer pass
+
+SR-XF-008-D02证据：docs/requirements/design/SR-XF-007-011-019-026-027.md; independent reviewer report 2026-10-08
+
+SR-XF-008-I01证据：qa/ea-sr-008-invite-public-acceptance.mjs；dist/ea-sr-persons.mjs；dist/ea-sr-ui.mjs；docs/design/STATUS.md；docs/requirements/design/SR-XF-007-011-019-026-027.md
 
 SR-XF-008-V01证据：qa/ea-sr-008-invite-public-acceptance.mjs；dist/ea-sr-persons.mjs；dist/ea-sr-ui.mjs；docs/design/STATUS.md
 
@@ -111,5 +115,8 @@ SR-XF-008-V01证据：qa/ea-sr-008-invite-public-acceptance.mjs；dist/ea-sr-per
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
 - 2026-10-08：M2 首批按原文通过 SR-XF-008-AC-01：正常开局公开邀请、同条件重复不重掷、停用后拒绝、恢复后重评估与实际工位执行；五阶段 33–41 正式命令、22–26 次精确存读。修正管理页同世界步旧日程理由/承诺计时误报，独立根 Agent 复跑公开链、审读实现及隔离桌面浏览器接受/停用页面。AC02/03、完整日程职责设计与整项 D/I/V/R 未关闭。
 - 2026-10-08：2026-10-08 M2 五人两工位验收：正常新档 128 条公开命令招至五人、建居舍并三趟搬运腾出木材缓存；五人分别获邀，两人实际占独立伐木工位，两人各在门外独立点等候，一人自主休憩；第28批仅两名执行者记贡献、只一条产出事实且库存增量等于产量。根 Agent 复跑1/1并看隔离桌面浏览器的执行者、等候者、建筑2/2三张截图；修正侧卡从投影人物误读旧休憩为真实身体活动。AC02 passed，真iPadOS/真人、AC03和整项门槛未关闭。
+- 2026-10-08：2026-10-08 M2 自主日程候选、效用、承诺、中断、人物计划及隐私字段完成设计；D02 独立复核指出的知识来源与旧档关系迁移边界已修正。此项仅为设计，I/V/R 继续。
+- 2026-10-08：2026-10-08 独立契约复核 PASS：逐项核对知识可见范围、关系事实来源、身体工位、岗位、出行与 SR008 REQ/AC；两项初审阻断修正后复审通过。仅关闭设计审阅。
+- 2026-10-08：2026-10-08 D01/D02 通过后进入 v2 实现；现有 v1 验收证据保留，尚未关闭完整 I01。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。
