@@ -5,23 +5,23 @@
   "updated": "2026-10-08",
   "authoritative": "registry.json for requirement records and task states; derived Markdown rendered by qa/sr-manager.py refresh",
   "source_runtime": {
-    "main": "0d6df5037c394cf0c1fa2a59df32b8704df2b716",
-    "runtime_source": "0d6df5037c394cf0c1fa2a59df32b8704df2b716",
-    "pages": "18d8bf4e9ed8d1f8c29f8f919bcf32342918acab",
+    "main": "833415505f4620ad23206ebb24fe261d3520be1c",
+    "runtime_source": "833415505f4620ad23206ebb24fe261d3520be1c",
+    "pages": "016b0653ae7673c01e524eeb339532f4105a003d",
     "game_version": "1.6.0-dev",
     "schema_version": 6,
-    "preview_pages": "18d8bf4e9ed8d1f8c29f8f919bcf32342918acab",
+    "preview_pages": "016b0653ae7673c01e524eeb339532f4105a003d",
     "preview_deployment": null,
     "working_game_version": "1.6.0-dev",
     "official_game_version": "1.6.0-dev",
-    "version_note": "M2 r11 exposes Gu Wanyi’s attributed request for one finite medicinal exchange; SR017 full acceptance remains open.",
+    "version_note": "M2 r12 shows the actual cargo, payment and reputation on the settled same-yard artisan order ledger; cross-scene market-order:v2 is in progress.",
     "main_record_type": "runtime source commit; release metadata commit is a descendant",
-    "working_release_note": "2026-10-08 r11 fresh public opening reached Gu Wanyi at the market, verified the original order and exchanged actual wood and food for her finite eight herbs. Independent merged target 1/1, adjacent world content 9/9, local industry 8/8 and SR UI 17 pass / 4 pending. Local browser clicked the contact, verification and delivery on an isolated earned checkpoint; 294 HTTP requests returned 200 and console had no errors or warnings. Pages built and 162 packaged text blobs match the published tree. Public browser smoke could not run because the app could not verify an admin-enforced browser security policy for the site. Full seven-organization AC, target devices and human experience remain unverified.",
-    "previous_pages": "f57c25079de2693e3625fce136f170b1de306042",
+    "working_release_note": "2026-10-08 r12 fresh public opening supplied wood and stone, accepted one artisan order, physically met the visiting merchant and delivered wood 20/stone 10 for jade 30/reputation 2. Repeated acceptance, early/repeated delivery and decline refund behaved once; 41 successful public commands/30 exact save reads on the main branch, 2/3 on decline branch. Independent local browser imported earned native checkpoints and saved/refreshed both accepted and completed states with visible ledger. Merged target 1/1, adjacent UI 17 pass / 4 pending, prior Gu target 1/1. Pages built and 162 packaged text blobs match the published tree. Public browser smoke could not run because the app could not verify an admin-enforced browser security policy. Legacy economy composite QA fails on an unsupported old fixture at r11 before this change. Cross-scene market-order:v2 and full SR011 AC remain open.",
+    "previous_pages": "18d8bf4e9ed8d1f8c29f8f919bcf32342918acab",
     "pages_deployment_status": "built",
-    "working_release_tag": "ea-160-courtyard-20261008-r11",
-    "official_release_tag": "ea-160-courtyard-20261008-r11",
-    "official_url": "https://cybershp.github.io/Simulation-web-game/?v=ea-160-courtyard-20261008-r11",
+    "working_release_tag": "ea-160-courtyard-20261008-r12",
+    "official_release_tag": "ea-160-courtyard-20261008-r12",
+    "official_url": "https://cybershp.github.io/Simulation-web-game/?v=ea-160-courtyard-20261008-r12",
     "deployed_tree_verification": {
       "published_tree_blobs": 235,
       "packaged_text_blobs_checked": 162,
@@ -29,18 +29,17 @@
       "verified_files": [
         "index.html",
         "ea-game.mjs",
-        "ea-sr-world-content.mjs",
         "ea-sr-ui.mjs"
       ],
-      "verification": "GitHub API confirms gh-pages head 18d8bf4 and Pages built; all 162 packaged text Git blob hashes match the published tree. Public HTTP/browser response was not checked because browser security policy verification failed."
+      "verification": "GitHub API confirms gh-pages head 016b065 and Pages built; all 162 packaged text Git blob hashes match the published tree. Public HTTP/browser response was not checked because browser security policy verification failed."
     },
-    "previous_main": "542b3502bd33055d62ac963f7ae1c06bdd6b4707",
+    "previous_main": "0d6df5037c394cf0c1fa2a59df32b8704df2b716",
     "browser_verification": {
-      "viewport": "local Chromium on isolated earned Gu market checkpoint; public browser unavailable",
-      "scope": "Local browser clicked walk to Gu Wanyi, verify original order and deliver; completed state visible and final public request copy visible after reload. 294 HTTP requests all 200; zero console errors or warnings. Persistent slot reload after these actions was not covered. Public Pages first load/save/reload not verified due browser security policy check failure.",
+      "viewport": "local Chromium on earned SR011 native import checkpoints; public browser unavailable",
+      "scope": "Local browser imported accepted and completed native order saves, saved to isolated slots and refreshed; order, stock and completed ledger remained visible. Public Pages first load/save/reload not verified due browser security policy check failure.",
       "real_devices": false,
       "fps_measured": false,
-      "acceptance_namespace": "local qa-sr017-gu-r10; public r11 browser check unavailable"
+      "acceptance_namespace": "local sr011 accepted/completed; public r12 browser check unavailable"
     },
     "working_source_base": "1b28260007c3049d077dfce424d0db2c6e8cbd60",
     "working_validation": {
@@ -2783,7 +2782,9 @@
           "scenario": "同一订单重复交付并读档",
           "expected": "货物、付款和声誉一次结算，无复制奖励。",
           "status": "not_run",
-          "evidence": []
+          "evidence": [
+            "2026-10-08 r12 同院百工用材订单子情景：正常新档实际采料入库，接单一次预留灵木20/青石10；商人实际到院且掌门近身后交付，灵石30/名声2与唯一结算事实一致。正常链41条公开命令/30次精确存读，拒单链2命令/3次精确存读；提前/重复交付拒绝、重复接单不重复预留、取消返料一次。本地主线独立专项1/1、UI17 pass/4 pending、顾氏相邻1/1；本地浏览器有来源原生档导入、保存刷新后订单与完整账本可见。源码8334155、Pages016b065 built，162文本blob匹配发布树；公网浏览器安全策略校验不可用。market-order:v2跨场景货位/承运/付款预留未实施，完整AC01与整项验收仍待。旧经济综合脚本的旧初始化档版本错误已在合入前r11复现。"
+          ]
         },
         {
           "id": "SR-XF-011-AC-02",
@@ -2808,7 +2809,8 @@
         "docs/requirements/design/SR-XF-007-011-019-026-027.md",
         "docs/requirements/IMPLEMENTATION-2026-10-06.md",
         "dist/ea-sr-economy.mjs",
-        "tests/ea-merchant-idle-recovery.test.mjs"
+        "tests/ea-merchant-idle-recovery.test.mjs",
+        "2026-10-08 r12 同院百工用材订单子情景：正常新档实际采料入库，接单一次预留灵木20/青石10；商人实际到院且掌门近身后交付，灵石30/名声2与唯一结算事实一致。正常链41条公开命令/30次精确存读，拒单链2命令/3次精确存读；提前/重复交付拒绝、重复接单不重复预留、取消返料一次。本地主线独立专项1/1、UI17 pass/4 pending、顾氏相邻1/1；本地浏览器有来源原生档导入、保存刷新后订单与完整账本可见。源码8334155、Pages016b065 built，162文本blob匹配发布树；公网浏览器安全策略校验不可用。market-order:v2跨场景货位/承运/付款预留未实施，完整AC01与整项验收仍待。旧经济综合脚本的旧初始化档版本错误已在合入前r11复现。"
       ],
       "change_log": [
         {
@@ -2830,6 +2832,10 @@
         {
           "date": "2026-10-08",
           "reason": "SR-XF-011-D02更新为done；任务状态不自动改变SR整体状态。"
+        },
+        {
+          "date": "2026-10-08",
+          "reason": "r12 同院订单账本及有来源交付子情景已独立复核并发布；I01继续跨场景market-order:v2，AC01与整项V/R尚未完成。"
         }
       ],
       "tasks": [
@@ -2866,12 +2872,14 @@
           "phase": "I01",
           "title": "开发与集成",
           "description": "在经营模块实现有限交易、补货与地方订单；交付SR-XF-011-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。",
-          "status": "todo",
-          "owner": null,
+          "status": "in_progress",
+          "owner": "Codex/economy_people",
           "depends_on": [
             "SR-XF-011-D02"
           ],
-          "evidence": [],
+          "evidence": [
+            "2026-10-08 r12 同院百工用材订单子情景：正常新档实际采料入库，接单一次预留灵木20/青石10；商人实际到院且掌门近身后交付，灵石30/名声2与唯一结算事实一致。正常链41条公开命令/30次精确存读，拒单链2命令/3次精确存读；提前/重复交付拒绝、重复接单不重复预留、取消返料一次。本地主线独立专项1/1、UI17 pass/4 pending、顾氏相邻1/1；本地浏览器有来源原生档导入、保存刷新后订单与完整账本可见。源码8334155、Pages016b065 built，162文本blob匹配发布树；公网浏览器安全策略校验不可用。market-order:v2跨场景货位/承运/付款预留未实施，完整AC01与整项验收仍待。旧经济综合脚本的旧初始化档版本错误已在合入前r11复现。"
+          ],
           "blocked_reason": null
         },
         {
