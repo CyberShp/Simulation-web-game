@@ -5,23 +5,23 @@
   "updated": "2026-10-08",
   "authoritative": "registry.json for requirement records and task states; derived Markdown rendered by qa/sr-manager.py refresh",
   "source_runtime": {
-    "main": "307894b942aa8bbec7fe445ab650f1faf9397547",
-    "runtime_source": "307894b942aa8bbec7fe445ab650f1faf9397547",
-    "pages": "f3e0d632061e107c64b40dae4d224a4f6024eabf",
+    "main": "effc917907c49f215890f1f4b7c95df3b7ac2471",
+    "runtime_source": "effc917907c49f215890f1f4b7c95df3b7ac2471",
+    "pages": "a90fda6bad12d9e562bc0d71ed19393734f6cdad",
     "game_version": "1.6.0-dev",
     "schema_version": 6,
-    "preview_pages": "f3e0d632061e107c64b40dae4d224a4f6024eabf",
+    "preview_pages": "a90fda6bad12d9e562bc0d71ed19393734f6cdad",
     "preview_deployment": null,
     "working_game_version": "1.6.0-dev",
     "official_game_version": "1.6.0-dev",
-    "version_note": "M2 r14 records each person/day supply-derived trust change once and reuses finished building art at default view with a bounded raster cache; full autonomy v2 and whole-scene lag remain open.",
+    "version_note": "M2 r15 prepares sourced autonomy v2 plan candidates and preserves old invitation deadlines on an isolated validated copy; live decisions remain v1.",
     "main_record_type": "runtime source commit; release metadata commit is a descendant",
-    "working_release_note": "2026-10-08 r14 daily supply records one sourced relationship fact per person/day; normal public food and shortage path 35 commands/25 exact saves, new target 2/2, prior invitation/five-worker 2/2, world 21/21. The SR010 property fixture now stands within the existing 1.5m handoff range and all 6 cases pass; production transfer rule is unchanged. Default-zoom building art uses a 32MiB bounded cache, at most one new raster per frame, with asset/destroy invalidation and direct-draw fallback. Raster QA 1/1, paused/field QA 2/2, three-person Canvas and closed-building fallback pass, UI 17 passed/4 device-oriented pending. Independent same-save Chromium 40-building/30-person DPR2 A/B, 6s each: rAF callbacks about 34.8/s to 56.7/s, interval P95 50ms to 16.8ms; candidate max gap 166.7ms and higher TaskDuration, so this is only default-view scheduling relief, not a whole-lag or zoom fix. Four adjacent assertions in untouched space/scene paths fail on the old baseline. Pages built, 162 packaged text blobs equal the published tree. Public browser was unavailable due app security-policy verification; real devices and first-import performance remain unverified. SR003/008 full I/V/R status unchanged.",
-    "previous_pages": "5260563e5585b065d2a0764f6c2371f83c43d2c1",
+    "working_release_note": "2026-10-08 r15 adds an opt-in read-only autonomy:v2 migration/candidate helper, not the live decision path. It validates the original save first, preserves v1 invitation remainder and unique source facts, closes a migrated commitment at its original deadline and interrupts on facility stop or public travel. Low trust remains a valid opportunity with unwillingness, while unavailable facilities hard block. Normal public invitation source 37 commands/24 exact saves and migration/end/interruption exact-save checks pass; root merged target 3/3, prior invitation/five workers 2/2, world 21/21, property 6/6. Independent reviewer reproduced deadline, interruption, invalid original save and unwillingness paths with 5/5 direct/adjacent tests; three older AC03 scripts need external checkpoints and were skipped. Pages built, 162 packaged text blobs match its tree. No new browser interaction was claimed because this helper has no player UI; public browser security-policy check remains unavailable and target devices unverified. Full v2 tick decision, responsibility, other candidates, balance and SR008 I/V/R remain open.",
+    "previous_pages": "f3e0d632061e107c64b40dae4d224a4f6024eabf",
     "pages_deployment_status": "built",
-    "working_release_tag": "ea-160-courtyard-20261008-r14",
-    "official_release_tag": "ea-160-courtyard-20261008-r14",
-    "official_url": "https://cybershp.github.io/Simulation-web-game/?v=ea-160-courtyard-20261008-r14",
+    "working_release_tag": "ea-160-courtyard-20261008-r15",
+    "official_release_tag": "ea-160-courtyard-20261008-r15",
+    "official_url": "https://cybershp.github.io/Simulation-web-game/?v=ea-160-courtyard-20261008-r15",
     "deployed_tree_verification": {
       "published_tree_blobs": 235,
       "packaged_text_blobs_checked": 162,
@@ -29,20 +29,20 @@
       "verified_files": [
         "index.html",
         "ea-game.mjs",
-        "ea-courtyard-renderer.mjs",
-        "ea-estate-assets.mjs",
+        "ea-opening-sim.mjs",
+        "ea-sr-persons.mjs",
         "ea-society.mjs"
       ],
-      "verification": "GitHub API confirms main 307894b, gh-pages f3e0d63 and Pages built; all 162 packaged text Git blob hashes match the published tree. Public HTTP/browser response was not checked because browser security policy verification failed.",
+      "verification": "GitHub API confirms main effc917, gh-pages a90fda6 and Pages built; all 162 packaged text Git blob hashes match the published tree. Public HTTP/browser response was not checked because browser security policy verification failed.",
       "mismatches": 0
     },
-    "previous_main": "6e81238c1c44689adda7cdf2329930f9491c66d2",
+    "previous_main": "307894b942aa8bbec7fe445ab650f1faf9397547",
     "browser_verification": {
-      "viewport": "local Chromium 1200x849 CSS at DPR2, sourced 40-building/30-person save; public browser unavailable",
-      "scope": "Independent paired 6-second rAF/LongTask samples after 700ms warmup, same save and viewport; building roof and entrance visual/picking checked locally. Public Pages first load/save/reload not verified due browser security policy check failure.",
+      "viewport": "no new browser interaction for read-only migration helper; prior r14 local Chromium 1200x849 DPR2",
+      "scope": "r15 has direct Node public-command and exact native save acceptance plus independent read-only review; live player UI remains v1. Public Pages first load/save/reload not verified due browser security policy check failure.",
       "real_devices": false,
       "fps_measured": false,
-      "acceptance_namespace": "local r14 dense save A/B; public r14 browser check unavailable"
+      "acceptance_namespace": "r15 Node source-backed checkpoints; public r15 browser check unavailable"
     },
     "working_source_base": "1b28260007c3049d077dfce424d0db2c6e8cbd60",
     "working_validation": {
@@ -2154,7 +2154,9 @@
         "qa/ea-sr-008-five-workers-public-acceptance.mjs",
         "dist/ea-ui.mjs",
         "dist/ea-society.mjs",
-        "qa/ea-sr-008-daily-relation-public-acceptance.mjs"
+        "qa/ea-sr-008-daily-relation-public-acceptance.mjs",
+        "dist/ea-sr-persons.mjs",
+        "qa/ea-sr-008-v2-migration-acceptance.mjs"
       ],
       "change_log": [
         {
@@ -2188,6 +2190,10 @@
         {
           "date": "2026-10-08",
           "reason": "r14 每日供给关系来源事实子批独立复核、主线回归并发布；I01 继续 v2 决策路径。"
+        },
+        {
+          "date": "2026-10-08",
+          "reason": "r15 v2 日程克隆迁移、承诺到期/中断和只读意愿候选经独立复核及主线回归发布；正式决策仍为 v1，I01 继续。"
         }
       ],
       "tasks": [
@@ -2235,7 +2241,8 @@
             "dist/ea-sr-ui.mjs",
             "docs/design/STATUS.md",
             "docs/requirements/design/SR-XF-007-011-019-026-027.md",
-            "2026-10-08 r14 在正式schema6/content v1.2 每日供给已结算时，按人物/日号登记唯一来源事实，再一次更新信任；旧关系为既有基线，不反推旧日事实，坏来源拒载。正常公开有粮与缺粮链35命令/25次精确存读，新专项2/2，旧重复邀请和五人两工位2/2、世界21/21。源码307894b、Pages f3e0d63 built，162文本blob匹配。完整自主日程v2的迁移、承诺生命周期和正式决策尚未发布，I01继续；原AC与V/R状态不变。"
+            "2026-10-08 r14 在正式schema6/content v1.2 每日供给已结算时，按人物/日号登记唯一来源事实，再一次更新信任；旧关系为既有基线，不反推旧日事实，坏来源拒载。正常公开有粮与缺粮链35命令/25次精确存读，新专项2/2，旧重复邀请和五人两工位2/2、世界21/21。源码307894b、Pages f3e0d63 built，162文本blob匹配。完整自主日程v2的迁移、承诺生命周期和正式决策尚未发布，I01继续；原AC与V/R状态不变。",
+            "2026-10-08 r15 有界 autonomy:v2 准备能力：从正常公开邀请原生档先验证原档，克隆迁移并保留旧承诺剩余期限和本人来源事实；到原截止世界步转 completed、设施停用或公开出行转 interrupted，逐阶段可精确存读；非法 speed=3 原档迁移前拒绝，低信任为可做但不愿做，设施不可用为硬阻塞。迁移专项正常来源37命令/24次存读，根合入后新增3/3、旧邀请/五人2/2、世界21/21、产权6/6；独立复核5/5，旧AC03三项缺外部来源检查点跳过。源码effc917、Pages a90fda6 built，162文本blob匹配。当前正式 tick/邀请仍走v1；v2其他活动、职责、意愿平衡、浏览器与目标设备未验，I01及整项V/R继续。"
           ],
           "blocked_reason": null
         },
@@ -2289,7 +2296,7 @@
         "ECON-04"
       ],
       "blockers": [],
-      "acceptance_notes": "\n2026-10-08 M2 首批：SR008-AC01 公开命令五阶段 accepted/repeated/unavailable/renewed/working 精确存读与原生导入一致；管理页在接受和停用同 tick 显示当前公开原因与有效承诺，浏览器独立只读导入核对。根 Agent 复跑 1/1，相关界面10/10、经济52/52。AC02/03和整项门槛仍未完成。\n2026-10-08 M2 五人两工位验收：正常新档 128 条公开命令招至五人、建居舍并三趟搬运腾出木材缓存；五人分别获邀，两人实际占独立伐木工位，两人各在门外独立点等候，一人自主休憩；第28批仅两名执行者记贡献、只一条产出事实且库存增量等于产量。根 Agent 复跑1/1并看隔离桌面浏览器的执行者、等候者、建筑2/2三张截图；修正侧卡从投影人物误读旧休憩为真实身体活动。AC02 passed，真iPadOS/真人、AC03和整项门槛未关闭。\n2026-10-08 r14 在正式schema6/content v1.2 每日供给已结算时，按人物/日号登记唯一来源事实，再一次更新信任；旧关系为既有基线，不反推旧日事实，坏来源拒载。正常公开有粮与缺粮链35命令/25次精确存读，新专项2/2，旧重复邀请和五人两工位2/2、世界21/21。源码307894b、Pages f3e0d63 built，162文本blob匹配。完整自主日程v2的迁移、承诺生命周期和正式决策尚未发布，I01继续；原AC与V/R状态不变。"
+      "acceptance_notes": "\n2026-10-08 M2 首批：SR008-AC01 公开命令五阶段 accepted/repeated/unavailable/renewed/working 精确存读与原生导入一致；管理页在接受和停用同 tick 显示当前公开原因与有效承诺，浏览器独立只读导入核对。根 Agent 复跑 1/1，相关界面10/10、经济52/52。AC02/03和整项门槛仍未完成。\n2026-10-08 M2 五人两工位验收：正常新档 128 条公开命令招至五人、建居舍并三趟搬运腾出木材缓存；五人分别获邀，两人实际占独立伐木工位，两人各在门外独立点等候，一人自主休憩；第28批仅两名执行者记贡献、只一条产出事实且库存增量等于产量。根 Agent 复跑1/1并看隔离桌面浏览器的执行者、等候者、建筑2/2三张截图；修正侧卡从投影人物误读旧休憩为真实身体活动。AC02 passed，真iPadOS/真人、AC03和整项门槛未关闭。\n2026-10-08 r14 在正式schema6/content v1.2 每日供给已结算时，按人物/日号登记唯一来源事实，再一次更新信任；旧关系为既有基线，不反推旧日事实，坏来源拒载。正常公开有粮与缺粮链35命令/25次精确存读，新专项2/2，旧重复邀请和五人两工位2/2、世界21/21。源码307894b、Pages f3e0d63 built，162文本blob匹配。完整自主日程v2的迁移、承诺生命周期和正式决策尚未发布，I01继续；原AC与V/R状态不变。\n2026-10-08 r15 有界 autonomy:v2 准备能力：从正常公开邀请原生档先验证原档，克隆迁移并保留旧承诺剩余期限和本人来源事实；到原截止世界步转 completed、设施停用或公开出行转 interrupted，逐阶段可精确存读；非法 speed=3 原档迁移前拒绝，低信任为可做但不愿做，设施不可用为硬阻塞。迁移专项正常来源37命令/24次存读，根合入后新增3/3、旧邀请/五人2/2、世界21/21、产权6/6；独立复核5/5，旧AC03三项缺外部来源检查点跳过。源码effc917、Pages a90fda6 built，162文本blob匹配。当前正式 tick/邀请仍走v1；v2其他活动、职责、意愿平衡、浏览器与目标设备未验，I01及整项V/R继续。"
     },
     {
       "id": "SR-XF-009",
