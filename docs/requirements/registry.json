@@ -5,23 +5,23 @@
   "updated": "2026-10-08",
   "authoritative": "registry.json for requirement records and task states; derived Markdown rendered by qa/sr-manager.py refresh",
   "source_runtime": {
-    "main": "542b3502bd33055d62ac963f7ae1c06bdd6b4707",
-    "runtime_source": "542b3502bd33055d62ac963f7ae1c06bdd6b4707",
-    "pages": "f57c25079de2693e3625fce136f170b1de306042",
+    "main": "0d6df5037c394cf0c1fa2a59df32b8704df2b716",
+    "runtime_source": "0d6df5037c394cf0c1fa2a59df32b8704df2b716",
+    "pages": "18d8bf4e9ed8d1f8c29f8f919bcf32342918acab",
     "game_version": "1.6.0-dev",
     "schema_version": 6,
-    "preview_pages": "f57c25079de2693e3625fce136f170b1de306042",
+    "preview_pages": "18d8bf4e9ed8d1f8c29f8f919bcf32342918acab",
     "preview_deployment": null,
     "working_game_version": "1.6.0-dev",
     "official_game_version": "1.6.0-dev",
-    "version_note": "M1 r10 skips unchanged paused home-courtyard frames while preserving interaction and visible-world invalidation; full-screen running lag and SR gates remain open.",
+    "version_note": "M2 r11 exposes Gu Wanyi’s attributed request for one finite medicinal exchange; SR017 full acceptance remains open.",
     "main_record_type": "runtime source commit; release metadata commit is a descendant",
-    "working_release_note": "2026-10-08 r10 legal 40-building/30-person paused frozen A/B shows 180 to 0 full clears and 10440 to 0 drawImage calls over about 3s, identical world-canvas pixels and main-hall picking; running frames still draw. Independent target 1/1 and adjacent 16/16 passed; separate developer adjacent 53/53. Pages built and 162 packaged text blobs match published tree. Public browser smoke could not run because the app could not verify an admin-enforced browser security policy for the site. Running-scene lag root cause and target-device results remain unverified.",
-    "previous_pages": "39ad10e34c6afa44821745cf6d7433ee4ebaedf7",
+    "working_release_note": "2026-10-08 r11 fresh public opening reached Gu Wanyi at the market, verified the original order and exchanged actual wood and food for her finite eight herbs. Independent merged target 1/1, adjacent world content 9/9, local industry 8/8 and SR UI 17 pass / 4 pending. Local browser clicked the contact, verification and delivery on an isolated earned checkpoint; 294 HTTP requests returned 200 and console had no errors or warnings. Pages built and 162 packaged text blobs match the published tree. Public browser smoke could not run because the app could not verify an admin-enforced browser security policy for the site. Full seven-organization AC, target devices and human experience remain unverified.",
+    "previous_pages": "f57c25079de2693e3625fce136f170b1de306042",
     "pages_deployment_status": "built",
-    "working_release_tag": "ea-160-courtyard-20261008-r10",
-    "official_release_tag": "ea-160-courtyard-20261008-r10",
-    "official_url": "https://cybershp.github.io/Simulation-web-game/?v=ea-160-courtyard-20261008-r10",
+    "working_release_tag": "ea-160-courtyard-20261008-r11",
+    "official_release_tag": "ea-160-courtyard-20261008-r11",
+    "official_url": "https://cybershp.github.io/Simulation-web-game/?v=ea-160-courtyard-20261008-r11",
     "deployed_tree_verification": {
       "published_tree_blobs": 235,
       "packaged_text_blobs_checked": 162,
@@ -29,18 +29,18 @@
       "verified_files": [
         "index.html",
         "ea-game.mjs",
-        "ea-courtyard-renderer.mjs",
-        "ea-sr-spatial.mjs"
+        "ea-sr-world-content.mjs",
+        "ea-sr-ui.mjs"
       ],
-      "verification": "GitHub API confirms gh-pages head f57c250 and Pages built; all 162 packaged text Git blob hashes match published tree. Public HTTP/browser response was not checked because browser security policy verification failed."
+      "verification": "GitHub API confirms gh-pages head 18d8bf4 and Pages built; all 162 packaged text Git blob hashes match the published tree. Public HTTP/browser response was not checked because browser security policy verification failed."
     },
-    "previous_main": "976619f2486328de1d4f8b64d7c1a3dfeaad7d05",
+    "previous_main": "542b3502bd33055d62ac963f7ae1c06bdd6b4707",
     "browser_verification": {
-      "viewport": "1200x849 local Chromium DPR1 on legal 40-building/30-person save; public browser unavailable",
-      "scope": "Frozen r8 versus r10 local candidate: paused about 3s world clearRect 180 to 0, drawImage 10440 to 0; world canvas SHA-256 identical and main-hall picking identical. Running candidate draws 139/139 frames. Public Pages first load/save/reload not verified due browser security policy check failure.",
+      "viewport": "local Chromium on isolated earned Gu market checkpoint; public browser unavailable",
+      "scope": "Local browser clicked walk to Gu Wanyi, verify original order and deliver; completed state visible and final public request copy visible after reload. 294 HTTP requests all 200; zero console errors or warnings. Persistent slot reload after these actions was not covered. Public Pages first load/save/reload not verified due browser security policy check failure.",
       "real_devices": false,
       "fps_measured": false,
-      "acceptance_namespace": "local frozen r8/r10 comparison; public qa-r10-public-20261008 blocked before page access"
+      "acceptance_namespace": "local qa-sr017-gu-r10; public r11 browser check unavailable"
     },
     "working_source_base": "1b28260007c3049d077dfce424d0db2c6e8cbd60",
     "working_validation": {
@@ -3857,7 +3857,8 @@
           "expected": "有可理解诉求、有限资源和具名人员，不能无来源无限交易。",
           "status": "not_run",
           "evidence": [
-            "2026-10-06部分证据：ea-sr-local-industry/world-content：百机山两具有限傀儡、实际晶芯作用和维修；玄阴谷铜铃/阴材、场务及具名维护分账。新增8项＋既有内容9项通过；正常新档19请求/1446刻/6次重载，HTML payload另列。 本条完整必需覆盖仍待逐项复核，状态未据总数量提升。"
+            "2026-10-06部分证据：ea-sr-local-industry/world-content：百机山两具有限傀儡、实际晶芯作用和维修；玄阴谷铜铃/阴材、场务及具名维护分账。新增8项＋既有内容9项通过；正常新档19请求/1446刻/6次重载，HTML payload另列。 本条完整必需覆盖仍待逐项复核，状态未据总数量提升。",
+            "2026-10-08 r11 顾氏首次接触子情景：正常新档疗伤→发现青溪坊市→带真实木粮见顾婉仪→35步核单→60步交货；顾氏8份灵草有限库存清零，物资守恒。公开命令17提交/3同ID重发/4拒绝，13次逐阶段精确存读；远距/缺料拒绝、取消恢复通过。主线独立专项1/1、世界内容9/9、地方产业8/8、界面17 pass/4 pending；本地浏览器实点接洽/核单/交货，294请求全200/控制台零错误。源码0d6df503，Pages18d8bf4 built，发布树162文本blob相符；公网浏览器安全策略验证不可用未验。仅顾氏子情景，七组织完整AC01及设备/真人待验，状态保留not_run。"
           ]
         },
         {
@@ -3888,7 +3889,8 @@
         "docs/requirements/IMPLEMENTATION-2026-10-06.md",
         "docs/requirements/TAKEOVER-2026-10-06.md",
         "2026-10-06接续：ea-sr-local-industry/world-content：百机山两具有限傀儡、实际晶芯作用和维修；玄阴谷铜铃/阴材、场务及具名维护分账。新增8项＋既有内容9项通过；正常新档19请求/1446刻/6次重载，HTML payload另列。 专项证据不自动关闭全部AC；平台/正常整链不足继续明列。",
-        "2026-10-06运行时部分已发布 Pages 7d16d54 / workflow 37453110511 success；release_status 仍表示整项 SR 验收/关闭门槛，未因开发版部署提升。"
+        "2026-10-06运行时部分已发布 Pages 7d16d54 / workflow 37453110511 success；release_status 仍表示整项 SR 验收/关闭门槛，未因开发版部署提升。",
+        "2026-10-08 r11 顾氏首次接触子情景：正常新档疗伤→发现青溪坊市→带真实木粮见顾婉仪→35步核单→60步交货；顾氏8份灵草有限库存清零，物资守恒。公开命令17提交/3同ID重发/4拒绝，13次逐阶段精确存读；远距/缺料拒绝、取消恢复通过。主线独立专项1/1、世界内容9/9、地方产业8/8、界面17 pass/4 pending；本地浏览器实点接洽/核单/交货，294请求全200/控制台零错误。源码0d6df503，Pages18d8bf4 built，发布树162文本blob相符；公网浏览器安全策略验证不可用未验。仅顾氏子情景，七组织完整AC01及设备/真人待验，状态保留not_run。"
       ],
       "change_log": [
         {
@@ -3902,6 +3904,10 @@
         {
           "date": "2026-10-06",
           "reason": "接续具体设计及运行时集成完成，D01/D02/I01据源码与作者配置更新；V01继续，未据局部检查宣布SR验收或发布关闭。"
+        },
+        {
+          "date": "2026-10-08",
+          "reason": "r11 顾氏有限药材互助首次接触子情景已发布并独立复核；完整七组织验收和整项发布关闭门槛仍未满足。"
         }
       ],
       "tasks": [
@@ -3959,7 +3965,8 @@
             "SR-XF-017-I01"
           ],
           "evidence": [
-            "2026-10-06：定向脚本与回归结果见接续实施记录；不能以组件或人工边界替代正常全程/设备证据。"
+            "2026-10-06：定向脚本与回归结果见接续实施记录；不能以组件或人工边界替代正常全程/设备证据。",
+            "2026-10-08 r11 顾氏首次接触子情景：正常新档疗伤→发现青溪坊市→带真实木粮见顾婉仪→35步核单→60步交货；顾氏8份灵草有限库存清零，物资守恒。公开命令17提交/3同ID重发/4拒绝，13次逐阶段精确存读；远距/缺料拒绝、取消恢复通过。主线独立专项1/1、世界内容9/9、地方产业8/8、界面17 pass/4 pending；本地浏览器实点接洽/核单/交货，294请求全200/控制台零错误。源码0d6df503，Pages18d8bf4 built，发布树162文本blob相符；公网浏览器安全策略验证不可用未验。仅顾氏子情景，七组织完整AC01及设备/真人待验，状态保留not_run。"
           ],
           "blocked_reason": null
         },
