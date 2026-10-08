@@ -1,7 +1,7 @@
 /** SR-XF-028: objective clauses; magic never produces inventory or NPC commands. */
-import {RESOURCES,canPay} from './ea-data.mjs?v=ea-160-courtyard-20261008-r14';
-import {requirePerson,reserveBody,ownedActivity,releaseSRBody,spendResources,refundResources,personMind,isLivingPerson} from './ea-sr-equipment.mjs?v=ea-160-courtyard-20261008-r14';
-import {sceneUnits} from './ea-sr-spatial.mjs?v=ea-160-courtyard-20261008-r14';
+import {RESOURCES,canPay} from './ea-data.mjs?v=ea-160-courtyard-20261008-r15';
+import {requirePerson,reserveBody,ownedActivity,releaseSRBody,spendResources,refundResources,personMind,isLivingPerson} from './ea-sr-equipment.mjs?v=ea-160-courtyard-20261008-r15';
+import {sceneUnits} from './ea-sr-spatial.mjs?v=ea-160-courtyard-20261008-r15';
 let hooks={};
 export function configureCovenants(next={}){hooks={...hooks,...next};}
 export const COVENANT_MODES=Object.freeze({oral:{name:'口头承诺',cost:{},signTicks:10,backlashWound:0,recoveryTicks:0},contract:{name:'修真合约',cost:{jade:12,crystal:1},signTicks:50,backlashWound:8,recoveryTicks:80},oath:{name:'天道誓言',cost:{crystal:2,herb:6},signTicks:80,backlashWound:18,recoveryTicks:140}});
