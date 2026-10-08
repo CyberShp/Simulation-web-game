@@ -1,5 +1,6 @@
 /** SR-XF-017-AC-01/03. U-63/R-26/T author defaults; ordinary finite commerce, not new intrigue roots. */
-import {RESOURCES} from './ea-data.mjs?v=ea-160-courtyard-20261008-r2';
+import {RESOURCES} from './ea-data.mjs?v=ea-160-courtyard-20261008-r3';
+import {stampInitialClaimReceipts} from './ea-sr-contracts.mjs?v=ea-160-courtyard-20261008-r3';
 const MASTER='person:master', clone=x=>structuredClone(x);
 const zero=()=>Object.fromEntries(Object.keys(RESOURCES).map(k=>[k,0]));
 const sum=x=>Object.values(x||{}).reduce((a,b)=>a+b,0);
@@ -27,7 +28,7 @@ const body=(s,id)=>s.activitiesById[s.personsById[id]?.activityId];
 const living=p=>p&&p.lifeStatus==='alive'&&!p.historicalOnly;
 function here(s,id,sceneId,max=3.1){const p=s.personsById[id],l=p?.location,m=s.master.location;return living(p)&&l?.kind==='local'&&m?.kind==='local'&&m.sceneId===sceneId&&l.sceneId===sceneId&&Math.hypot(m.x-l.x,m.y-l.y)<=max;}
 function stockId(o){return `stockpile:content:industry-${o.id.replaceAll(':','-')}`;}
-function fact(s,id,data,publish=true){if(s.factsById[id])return s.factsById[id];const f={id,atTick:s.worldTick,...clone(data)};s.factsById[id]=f;if(publish){const cid=`claim:fact:${id}:${MASTER}`;s.claimsById[cid]={id:cid,topic:'local-industry',text:f.text,speakerId:f.personId||MASTER,sourceId:id,rootSourceId:f.sourceId||id,issuedTick:s.worldTick,observedTick:s.worldTick,recipients:[MASTER],evidenceFactIds:[id],verification:'corroborated',truthType:'truth'};}return f;}
+function fact(s,id,data,publish=true){if(s.factsById[id])return s.factsById[id];const f={id,atTick:s.worldTick,...clone(data)};s.factsById[id]=f;if(publish){const cid=`claim:fact:${id}:${MASTER}`;s.claimsById[cid]=stampInitialClaimReceipts(s,{id:cid,topic:'local-industry',text:f.text,speakerId:f.personId||MASTER,sourceId:id,rootSourceId:f.sourceId||id,issuedTick:s.worldTick,observedTick:s.worldTick,recipients:[MASTER],evidenceFactIds:[id],verification:'corroborated',truthType:'truth'});}return f;}
 function newStock(s,id,ownerId,position,label){return s.stockpilesById[id]??={id,ownerId,custodianId:ownerId,access:'private',capacity:2000,position:clone(position),resources:zero(),label};}
 export function initLocalIndustrySR(s){
  const d=s.srWorldContent;if(!d)return;

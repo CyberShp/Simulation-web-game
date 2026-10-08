@@ -1,22 +1,22 @@
-import {drawCultivator,restRenderAnchor,registerCultivatorAtlas,hasCultivatorAtlas,CULTIVATOR_REST_ATLAS,registerCultivatorRestAtlas,hasCultivatorRestAtlas,drawRestingCultivator,CULTIVATOR_ACTIVITY_ATLAS,registerCultivatorActivityAtlas} from './ea-character-art.mjs?v=ea-160-courtyard-20261008-r2';
-import {drawEstateGround,drawEstateField,drawEstateOutdoorFallback} from './ea-estate-ground-art.mjs?v=ea-160-courtyard-20261008-r2';
-import {ESTATE_ART_URLS,drawEstateExterior,estateSpriteBounds,estateSpriteContains,estateStageImageReady} from './ea-estate-assets.mjs?v=ea-160-courtyard-20261008-r2';
-import {drawLocalSceneGround,drawLocalSceneObject,worldObjectContains,worldObjectApproach} from './ea-world-scene-art.mjs?v=ea-160-courtyard-20261008-r2';
-import {BUILDINGS} from './ea-data.mjs?v=ea-160-courtyard-20261008-r2';
-import {BUILDING_GRID,buildingGridEnabled,buildingCellLabel,snapBuildingPoint} from './ea-building-grid.mjs?v=ea-160-courtyard-20261008-r2';
-import {spatialEnabled,spatialProject,spatialUnproject,spatialPrefab,spatialTransform,spatialAccess,spatialFootprint,polygonContains,SPATIAL_TERRAIN,placementIssue,viewSpatial,spatialRevision,SPATIAL_SCENE} from './ea-sr-spatial.mjs?v=ea-160-courtyard-20261008-r2';
-import {hallInterior,indoorBuildingAt} from './ea-hall-interior.mjs?v=ea-160-courtyard-20261008-r2';
-import {constructionView} from './ea-construction-view.mjs?v=ea-160-courtyard-20261008-r2';
-import {personHitCandidates} from './ea-scene-picking.mjs?v=ea-160-courtyard-20261008-r2';
-import {createWorldRenderer as createPlanRenderer} from './ea-renderer.mjs?v=ea-160-courtyard-20261008-r2';
-import {WIDTH,HEIGHT,point,LANDMARKS,inPolygon} from '../yunxiu-courtyard/navigation.mjs?v=ea-160-courtyard-20261008-r2';
-import {foreground} from './ea-foreground.mjs?v=ea-160-courtyard-20261008-r2';
-import {appearance,scenicPosition,advanceScenic,repairScenicActor} from './ea-scenic.mjs?v=ea-160-courtyard-20261008-r2';
-import {facilityRecords,courtyardDestination,scenicHomeActors} from './ea-scene-state.mjs?v=ea-160-courtyard-20261008-r2';
-import {SCENIC_PLOTS,SCENE_ROADS,scenicPoint,scenicInverse,scenicNearest,scenicFindPath,scenicDistance,scenicCanStand,geometryRevision,facilityHit,plotPolygon,buildingVisual,buildingAccess} from './ea-scene-geometry.mjs?v=ea-160-courtyard-20261008-r2';
-import {createAssetLoader} from './ea-runtime.mjs?v=ea-160-courtyard-20261008-r2';
-import fallbackMeta from './ea-character-frames.mjs?v=ea-160-courtyard-20261008-r2';
-import {equippedAppearanceMounts,viewEquipment} from './ea-sr-equipment.mjs?v=ea-160-courtyard-20261008-r2';
+import {drawCultivator,restRenderAnchor,registerCultivatorAtlas,hasCultivatorAtlas,CULTIVATOR_REST_ATLAS,registerCultivatorRestAtlas,hasCultivatorRestAtlas,drawRestingCultivator,CULTIVATOR_ACTIVITY_ATLAS,registerCultivatorActivityAtlas} from './ea-character-art.mjs?v=ea-160-courtyard-20261008-r3';
+import {drawEstateGround,drawEstateField,drawEstateOutdoorFallback} from './ea-estate-ground-art.mjs?v=ea-160-courtyard-20261008-r3';
+import {ESTATE_ART_URLS,drawEstateExterior,estateSpriteBounds,estateSpriteContains,estateStageImageReady} from './ea-estate-assets.mjs?v=ea-160-courtyard-20261008-r3';
+import {drawLocalSceneGround,drawLocalSceneObject,worldObjectContains,worldObjectApproach} from './ea-world-scene-art.mjs?v=ea-160-courtyard-20261008-r3';
+import {BUILDINGS} from './ea-data.mjs?v=ea-160-courtyard-20261008-r3';
+import {BUILDING_GRID,buildingGridEnabled,buildingCellLabel,snapBuildingPoint} from './ea-building-grid.mjs?v=ea-160-courtyard-20261008-r3';
+import {spatialEnabled,spatialProject,spatialUnproject,spatialPrefab,spatialTransform,spatialAccess,spatialFootprint,polygonContains,SPATIAL_TERRAIN,placementIssue,viewSpatial,spatialRevision,SPATIAL_SCENE} from './ea-sr-spatial.mjs?v=ea-160-courtyard-20261008-r3';
+import {hallInterior,indoorBuildingAt} from './ea-hall-interior.mjs?v=ea-160-courtyard-20261008-r3';
+import {constructionView} from './ea-construction-view.mjs?v=ea-160-courtyard-20261008-r3';
+import {personHitCandidates} from './ea-scene-picking.mjs?v=ea-160-courtyard-20261008-r3';
+import {createWorldRenderer as createPlanRenderer} from './ea-renderer.mjs?v=ea-160-courtyard-20261008-r3';
+import {WIDTH,HEIGHT,point,LANDMARKS,inPolygon} from '../yunxiu-courtyard/navigation.mjs?v=ea-160-courtyard-20261008-r3';
+import {foreground} from './ea-foreground.mjs?v=ea-160-courtyard-20261008-r3';
+import {appearance,scenicPosition,advanceScenic,repairScenicActor} from './ea-scenic.mjs?v=ea-160-courtyard-20261008-r3';
+import {facilityRecords,courtyardDestination,scenicHomeActors} from './ea-scene-state.mjs?v=ea-160-courtyard-20261008-r3';
+import {SCENIC_PLOTS,SCENE_ROADS,scenicPoint,scenicInverse,scenicNearest,scenicFindPath,scenicDistance,scenicCanStand,geometryRevision,facilityHit,plotPolygon,buildingVisual,buildingAccess} from './ea-scene-geometry.mjs?v=ea-160-courtyard-20261008-r3';
+import {createAssetLoader} from './ea-runtime.mjs?v=ea-160-courtyard-20261008-r3';
+import fallbackMeta from './ea-character-frames.mjs?v=ea-160-courtyard-20261008-r3';
+import {equippedAppearanceMounts,viewEquipment} from './ea-sr-equipment.mjs?v=ea-160-courtyard-20261008-r3';
 
 export function estateBuildingVisualStage(s,b){
  if(!['house','hall','clinic','library','farm','lumber','quarry','meditation','alchemy','well','granary','kitchen','workshop','watchtower'].includes(b.type))return null;
@@ -329,7 +329,7 @@ function createMetreRenderer(canvas,options){
   const selected=occupants.find(a=>getSelection()?.kind==='person'&&getSelection().id===a.id&&visiblePerson(a,closedRooms));
   if(selected){const rest=hasCultivatorRestAtlas()&&restRenderAnchor(s,selected.person,{...artOptions,camera:c});const q=rest?.poseVariant==='bed-rest'?rest:spatialProject(selected.position,c);ctx.strokeStyle='#f1d29a';ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(q.x,q.y,.35*c.scale,.18*c.scale,0,0,Math.PI*2);ctx.stroke();}
   const path=s.master.scenic?.path;if(path?.length){ctx.strokeStyle='#f4e2b18c';ctx.lineWidth=2;ctx.setLineDash([4,6]);ctx.beginPath();[s.master.scenic,...path].forEach((p,i)=>{const q=spatialProject(p,c);i?ctx.lineTo(q.x,q.y):ctx.moveTo(q.x,q.y);});ctx.stroke();ctx.setLineDash([]);const q=spatialProject(path[path.length-1],c);ctx.strokeStyle='#f4e2b1';ctx.beginPath();ctx.ellipse(q.x,q.y,9,5,0,0,Math.PI*2);ctx.stroke();}
-  const info=getPreview();if(info&&hover){const b={type:info.type,level:info.level||1,...(buildingGridEnabled(s)?{buildingGridVersion:BUILDING_GRID.version,interiorLayoutVersion:s.spatial?.interiorLayoutVersion}:{}),transform:{...snapBuildingPoint(s,hover),orientation:'south'}},issue=info.lock||placementIssue(s,b.type,b.transform.x,b.transform.y,{ignoreId:info.buildingId||info.id||null,level:b.level});floor(b,.5);roof(b,.4,'preview');unitCells(b,issue?'#b9684b40':'#c2d99544',issue?'#f2a38c':'#ecdeb0');label(`${buildingGridEnabled(s)?buildingCellLabel(b.type,b.level)+' · ':''}${issue||'入口连通 · 点击确认'}`,spatialAccess(b),issue?'#6e4035e8':'#254936e8');}
+  const info=getPreview();if(info&&hover){const b={type:info.type,level:info.level||1,...(buildingGridEnabled(s)?{buildingGridVersion:BUILDING_GRID.version,interiorLayoutVersion:s.spatial?.interiorLayoutVersion}:{}),transform:{...snapBuildingPoint(s,hover),orientation:'south'}},issue=info.lock||placementIssue(s,b.type,b.transform.x,b.transform.y,{ignoreId:info.buildingId||info.id||null,level:b.level});floor(b,.5);roof(b,.4,'preview');unitCells(b,issue?'#b9684b40':'#c2d99544',issue?'#f2a38c':'#ecdeb0');label(`${buildingGridEnabled(s)?buildingCellLabel(b.type,b.level)+' · ':''}${issue||'入口连通 · '+(info.selected?'待确认':'点地选定')}`,spatialAccess(b),issue?'#6e4035e8':'#254936e8');}
   const work=viewSpatial(s);if(work){const b=work.building;unitCells(b,'#b0986c55','#ead2a4');const stageImage=estateImages[`${b.type}Stages`],stage=work.operation==='upgrade'?'upgrade':work.operation==='demolish'?'damaged':work.stage;const stageArt=estateStageImageReady(b.type,stageImage)&&drawEstateExterior(ctx,b,c,estateImages,{...artOptions,alpha:.85,visualStage:stage});if(!stageArt){if(spatialPrefab(b).indoor)closedBuildingFallback(b,stage);else if(work.stage==='foundation'){for(const [x,y]of work.footprint){const p=spatialProject({x,y},c);ctx.fillStyle='#8d7655';ctx.fillRect(p.x-2,p.y-12,4,12);}}else if(work.stage==='structure'){const t=spatialTransform(b),d=spatialPrefab(b);for(const [x,y]of work.footprint){const p=spatialProject({x,y},c);ctx.strokeStyle='#95724f';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(p.x,p.y-1.8*c.scale);ctx.stroke();}rectangle(t.x,t.y,d.width,d.height,'#c7b88522','#b59a69');}else{floor(b,.7);roof(b,.6);}}label(`${work.label} · ${Math.floor(work.progress*100)}%`,work.position);}
   for(const object of getHomeInteractions(s)){const p=occupants.find(a=>a.person?.personId===object.personId)?.position||s.buildings.find(b=>b.id===object.buildingId)&&spatialAccess(s.buildings.find(b=>b.id===object.buildingId));if(p){const q=spatialProject(p,c);ctx.fillStyle='#ddbc74';ctx.beginPath();ctx.arc(q.x+22,q.y-34,12,0,Math.PI*2);ctx.fill();}}
   return true;

@@ -1,13 +1,13 @@
-import {portraitDataURL} from './ea-courtyard-renderer.mjs?v=ea-160-courtyard-20261008-r2';
-import {renderSRPanel,dialogueSettings,srFormArguments} from './ea-sr-ui.mjs?v=ea-160-courtyard-20261008-r2';
-import {createDialogueAI} from './ea-sr-ai.mjs?v=ea-160-courtyard-20261008-r2';
-import {REGION_ART} from './ea-region-art.mjs?v=ea-160-courtyard-20261008-r2';
-import {appearance} from './ea-scenic.mjs?v=ea-160-courtyard-20261008-r2';
-import {facilityRecords,nextObjective,routeDiscovered} from './ea-scene-state.mjs?v=ea-160-courtyard-20261008-r2';
-import {sceneInteractionOptions,sceneInteractionTarget} from './ea-interactions.mjs?v=ea-160-courtyard-20261008-r2';
-import {narrativeForState,sceneDialogue,regionInteractions,homeInteractions} from './ea-narrative.mjs?v=ea-160-courtyard-20261008-r2';
-import * as SIM from './ea-opening-sim.mjs?v=ea-160-courtyard-20261008-r2';
-import {onboardingView,availableSystems,resourceReserve,resumeSummary} from './ea-onboarding.mjs?v=ea-160-courtyard-20261008-r2';
+import {portraitDataURL} from './ea-courtyard-renderer.mjs?v=ea-160-courtyard-20261008-r3';
+import {renderSRPanel,dialogueSettings,srFormArguments} from './ea-sr-ui.mjs?v=ea-160-courtyard-20261008-r3';
+import {createDialogueAI} from './ea-sr-ai.mjs?v=ea-160-courtyard-20261008-r3';
+import {REGION_ART} from './ea-region-art.mjs?v=ea-160-courtyard-20261008-r3';
+import {appearance} from './ea-scenic.mjs?v=ea-160-courtyard-20261008-r3';
+import {facilityRecords,nextObjective,routeDiscovered} from './ea-scene-state.mjs?v=ea-160-courtyard-20261008-r3';
+import {sceneInteractionOptions,sceneInteractionTarget} from './ea-interactions.mjs?v=ea-160-courtyard-20261008-r3';
+import {narrativeForState,sceneDialogue,regionInteractions,homeInteractions} from './ea-narrative.mjs?v=ea-160-courtyard-20261008-r3';
+import * as SIM from './ea-opening-sim.mjs?v=ea-160-courtyard-20261008-r3';
+import {onboardingView,availableSystems,resourceReserve,resumeSummary} from './ea-onboarding.mjs?v=ea-160-courtyard-20261008-r3';
 
 const E = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
 const n = value => Number.isFinite(Number(value)) ? Number(value) : 0;
@@ -60,7 +60,7 @@ export const EA_SHELL = `
   <div class="map-bottom"><div class="time-controls paper" aria-label="时序控制"><button id="pause" type="button" aria-label="暂停游戏">Ⅱ</button><button type="button" data-speed="1" class="active" aria-label="一倍速度">1×</button><button type="button" data-speed="2" aria-label="二倍速度">2×</button><button type="button" data-speed="4" aria-label="四倍速度">4×</button></div><div class="mode-chip" id="mode-label">观山 · 拖动画卷平移</div></div>
   <button type="button" id="expedition-banner" class="expedition-banner hidden" data-ui-action="tab" data-ui-args='["explore"]'></button>
   <section id="combat-hud" class="combat-hud hidden" aria-label="战斗控制"></section>
-  <div id="placement-bar" class="placement-bar" hidden role="status"><span id="placement-text"></span><button type="button" id="placement-confirm" class="primary" hidden>建在推荐位置</button><button type="button" id="cancel-build" class="secondary">取消 <kbd>Esc</kbd></button></div>
+  <div id="placement-bar" class="placement-bar" hidden role="status"><span id="placement-text"></span><button type="button" id="placement-confirm" class="primary" disabled>确认营造</button><button type="button" id="cancel-build" class="secondary">取消 <kbd>Esc</kbd></button></div>
   <div id="scene-intent" class="scene-intent paper hidden" role="status"></div>
   <div id="toast" role="status" aria-live="polite" class="toast hidden"></div>
   <section id="bottom-panel" class="bottom-panel paper" aria-label="仙府管理">

@@ -1,7 +1,8 @@
 /** SR017/020/021: fixed author cards, actual local exchange and pressure-limited root director. */
-import {RESOURCES} from './ea-data.mjs?v=ea-160-courtyard-20261008-r2';
-import {initLocalIndustrySR,tickLocalIndustrySR,startLocalIndustrySR,finishLocalIndustrySR,cancelLocalIndustrySR,viewLocalIndustrySR,validateLocalIndustrySR} from './ea-sr-local-industry.mjs?v=ea-160-courtyard-20261008-r2';
-export {localIndustryCombatDamageSR,LOCAL_INDUSTRY_DEFINITIONS,LOCAL_INDUSTRY_ORGANIZATIONS,LOCAL_INDUSTRY_OFFERS} from './ea-sr-local-industry.mjs?v=ea-160-courtyard-20261008-r2';
+import {RESOURCES} from './ea-data.mjs?v=ea-160-courtyard-20261008-r3';
+import {stampInitialClaimReceipts} from './ea-sr-contracts.mjs?v=ea-160-courtyard-20261008-r3';
+import {initLocalIndustrySR,tickLocalIndustrySR,startLocalIndustrySR,finishLocalIndustrySR,cancelLocalIndustrySR,viewLocalIndustrySR,validateLocalIndustrySR} from './ea-sr-local-industry.mjs?v=ea-160-courtyard-20261008-r3';
+export {localIndustryCombatDamageSR,LOCAL_INDUSTRY_DEFINITIONS,LOCAL_INDUSTRY_ORGANIZATIONS,LOCAL_INDUSTRY_OFFERS} from './ea-sr-local-industry.mjs?v=ea-160-courtyard-20261008-r3';
 const MASTER='person:master',zero=()=>Object.fromEntries(Object.keys(RESOURCES).map(k=>[k,0]));
 const row=(key,title,personId,sceneId,cost,reward,motive,terms={},manipulation=false)=>({id:`card:local:${key}:v1`,rootId:`root:local:${key}:v1`,title,personId,sceneId,cost,reward,motive,terms,manipulationTag:manipulation,manipulationReasonIds:manipulation?['consequential-deception']:[],durationTicks:60,verificationTicks:35,verificationCost:{food:1},negotiationTicks:40,sourceStatus:'U-63/R-26-author-default',authorTruth:manipulation?'实物与报价真实，但受益者刻意隐瞒附加条款；附费与用途在登记前固定，不按后续选择翻转':'双方有限物资与既有用途真实，守约后实际交付；不存在临时追加骗局',clue:manipulation?'原单边角有未随口信说明的附条和不同日期，先核对可知完整约定':'原单列明本批用途与交付数量，可与接洽人携带实物核对',counter:manipulation?'本人到场查原单，明确只按主约交易；已收附费可凭文书要求从对方实际余款纠正':'查验后仍按原有守约流程交付，不把可信互助改成骗局',aftermath:'人物、库存、文书与已发生得失保留；看菜单、传闻转述与重载不重复奖惩'});
 function deepFreeze(value){if(value&&typeof value==='object'){for(const child of Object.values(value))deepFreeze(child);Object.freeze(value);}return value;}
@@ -32,7 +33,7 @@ const EXTRA_PEOPLE=[['person:gu-shoulin','顾守林','scene:market',31,29,'灵�
 const resourceText=values=>Object.entries(values).filter(([,v])=>v>0).map(([k,v])=>`${v}${RESOURCES[k]}`).join('、')||'无';
 const terminal=new Set(['completed','declined','cancelled']);
 function record(s,id,data){return s.factsById[id]??={id,atTick:s.worldTick,...structuredClone(data)};}
-function publish(s,f){const id=`claim:fact:${f.id}:${MASTER}`;s.claimsById[id]??={id,topic:f.topic||'local-contract',text:f.text,sourceId:f.id,rootSourceId:f.sourceId||f.id,speakerId:f.personId||MASTER,issuedTick:s.worldTick,observedTick:f.atTick,recipients:[MASTER],evidenceFactIds:[f.id],verification:'corroborated',truthType:'truth'};}
+function publish(s,f){const id=`claim:fact:${f.id}:${MASTER}`;s.claimsById[id]??=stampInitialClaimReceipts(s,{id,topic:f.topic||'local-contract',text:f.text,sourceId:f.id,rootSourceId:f.sourceId||f.id,speakerId:f.personId||MASTER,issuedTick:s.worldTick,observedTick:f.atTick,recipients:[MASTER],evidenceFactIds:[f.id],verification:'corroborated',truthType:'truth'});}
 function bankId(c){return `stockpile:content:${c.id.replaceAll(':','-')}`;}
 export function initWorldContentSR(s,makePerson){
  s.srWorldContent??={version:1,lastTick:s.worldTick,nextActivity:1,records:{},completedOrder:[],nextOfferTick:s.worldTick,publicNotices:[]};
@@ -50,7 +51,7 @@ export function tickWorldContentSR(s,activateRoot){
  const available=WORLD_CONTENT_CARDS.filter(c=>d.records[c.id].status==='dormant'&&s.master.location.sceneId===c.sceneId&&s.personsById[c.personId]?.lifeStatus!=='dead'&&s.personsById[c.personId]?.location?.sceneId===c.sceneId&&(!c.manipulationTag||pressure<3&&s.story.step>=3));
  available.sort((a,b)=>{const preferScheme=window.length>=5&&schemes/window.length<.4&&pressure===0;const score=c=>c.manipulationTag===preferScheme?0:1;return score(a)-score(b)||WORLD_CONTENT_CARDS.indexOf(a)-WORLD_CONTENT_CARDS.indexOf(b);});
  const c=available[0];if(!c)return;const r=d.records[c.id];r.status='offered';r.offeredTick=s.worldTick;activateRoot(c);d.nextOfferTick=s.worldTick+120;
- const claimId=`claim:offer:${c.id}`;s.claimsById[claimId]??={id:claimId,topic:'local-contract',text:`${s.personsById[c.personId].name}提出「${c.title}」：主单${resourceText(c.cost)}换${resourceText(c.reward)}；原单可当面查验。`,speakerId:c.personId,sourceId:`source:${c.id}`,rootSourceId:`source:${c.id}`,issuedTick:s.worldTick,observedTick:s.worldTick,recipients:[MASTER],evidenceFactIds:[],verification:'unverified',truthType:c.manipulationTag?'omission':'truth'};
+ const claimId=`claim:offer:${c.id}`;s.claimsById[claimId]??=stampInitialClaimReceipts(s,{id:claimId,topic:'local-contract',text:`${s.personsById[c.personId].name}提出「${c.title}」：主单${resourceText(c.cost)}换${resourceText(c.reward)}；原单可当面查验。`,speakerId:c.personId,sourceId:`source:${c.id}`,rootSourceId:`source:${c.id}`,issuedTick:s.worldTick,observedTick:s.worldTick,recipients:[MASTER],evidenceFactIds:[],verification:'unverified',truthType:c.manipulationTag?'omission':'truth'});
 }
 function capacityFits(st,cost,reward){return Object.values(st.resources).reduce((a,b)=>a+b,0)-Object.values(cost).reduce((a,b)=>a+b,0)+Object.values(reward).reduce((a,b)=>a+b,0)<=st.capacity;}
 export function startWorldContentSR(s,payload={},ops){

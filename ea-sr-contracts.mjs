@@ -7,6 +7,17 @@ export const CONTRACT_TABLES={
 };
 export const EFFECT_ORDER=Object.freeze(['protection','stabilization','contact-damage','ongoing-loss','recovery','death','observation']);
 export const CONTRACT_ERRORS=Object.freeze({version:'unsupported-version',reference:'invalid-reference',stale:'stale-revision',identity:'invalid-identity',permission:'not-authorized',duplicate:'command-id-conflict',shape:'invalid-contract',placement:'pending-placement',save:'save-failed'});
+/** A claim created in the current world step has known receipt times for its initial audience. */
+export function stampInitialClaimReceipts(s,claim){
+ claim.receiptFormatVersion=1;
+ claim.receiptOrigin='created';
+ claim.createdTick=s.worldTick;
+ claim.initialRecipientIds=[...claim.recipients];
+ claim.legacyRecipientIds=[];
+ claim.deliveryFactIds=[];
+ claim.receivedTickByPersonId=Object.fromEntries(claim.recipients.map(personId=>[personId,s.worldTick]));
+ return claim;
+}
 const record=x=>!!x&&typeof x==='object'&&!Array.isArray(x);
 const integer=x=>Number.isSafeInteger(x)&&x>=0;
 const finite=x=>typeof x==='number'&&Number.isFinite(x);
@@ -138,14 +149,21 @@ export function executeContractCommand(s,command,{handlers={},clone=x=>structure
 export function knowledgeView(s,{observerId='person:master'}={}){
  const observer=s.personsById[observerId];if(!observer)fail(CONTRACT_ERRORS.reference,'observerId','观察者不存在');
  const known=new Set(observer.knownClaimIds??[]);
- return Object.values(s.claimsById??{}).filter(c=>c.public===true||known.has(c.id)||(c.knownByIds??[]).includes(observerId)||(c.recipients??[]).includes(observerId)).map(c=>structuredClone({id:c.id,text:c.text,sourcePersonId:c.sourcePersonId??c.speakerId??null,observedAtTick:c.observedAtTick??c.observedTick??null,receivedAtTick:c.receivedAtTick??c.issuedTick??null,locationHint:c.locationHint??null,certainty:c.certainty??c.verification??'unverified'}));
+ return Object.values(s.claimsById??{}).filter(c=>c.public===true||known.has(c.id)||(c.knownByIds??[]).includes(observerId)||(c.recipients??[]).includes(observerId)).map(c=>structuredClone({id:c.id,text:c.text,sourcePersonId:c.sourcePersonId??c.speakerId??null,observedAtTick:c.observedAtTick??c.observedTick??null,receivedAtTick:c.receivedTickByPersonId?.[observerId]??null,locationHint:c.locationHint??null,certainty:c.certainty??c.verification??'unverified'}));
 }
 /** Isolation + original text retention; storage changes only after backup succeeds. */
-export function prepareMigration(raw,{validateLegacy,migrate,validate=validateContracts}={}){
+export function prepareMigration(raw,{validateLegacy,migrate,validate}={}){
  const source=typeof raw==='string'?JSON.parse(raw):structuredClone(raw);const originalRaw=typeof raw==='string'?raw:JSON.stringify(raw);
  if(source.schemaVersion!==undefined&&source.schemaVersion!==6||source.schemaVersion===undefined&&(!Number.isSafeInteger(source.version)||source.version<1||source.version>5))fail(CONTRACT_ERRORS.version,'schemaVersion/version','未知存档版本，原档保留');
- const state=source.schemaVersion===6?structuredClone(source):migrate(validateLegacy(structuredClone(source)),{sourceVersion:source.version});
- initContracts(state);validate(state);return{state,originalRaw,fromVersion:source.schemaVersion??source.version,atTick:state.worldTick,offlineTicksApplied:0};
+ if(typeof validate!=='function')fail(CONTRACT_ERRORS.shape,'validate','迁移入口需要完整的存档版本与引用校验器');
+ if(source.schemaVersion===undefined&&(typeof validateLegacy!=='function'||typeof migrate!=='function'))fail(CONTRACT_ERRORS.shape,'validateLegacy/migrate','旧档迁移需要原版校验与迁移函数');
+ const candidate=source.schemaVersion===6?structuredClone(source):migrate(validateLegacy(structuredClone(source)),{sourceVersion:source.version});
+ const checked=validate(candidate);
+ if(!checked||typeof checked!=='object'||checked.schemaVersion!==6)fail(CONTRACT_ERRORS.shape,'validate','完整校验器须返回已迁移的结构 6 存档');
+ if(source.schemaVersion===undefined&&(checked.rulesetVersion!=='opening-runtime-2'||checked.contentVersion!=='legacy-ea-1.4.2'))fail(CONTRACT_ERRORS.version,'rulesetVersion+contentVersion','旧档尚未迁至已登记规则组合');
+ initContracts(checked);const state=validate(checked);
+ if(!state||typeof state!=='object'||state.schemaVersion!==6)fail(CONTRACT_ERRORS.shape,'validate','完整校验器须返回可读回的结构 6 存档');
+ return{state,originalRaw,fromVersion:source.schemaVersion??source.version,atTick:state.worldTick,offlineTicksApplied:0};
 }
 export function commitMigration(prepared,{backup,write}={}){
  try{backup(prepared.originalRaw);write(JSON.stringify(prepared.state));return{ok:true,state:prepared.state,saveStatus:'saved'};}
