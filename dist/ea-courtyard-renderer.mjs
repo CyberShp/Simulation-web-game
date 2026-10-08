@@ -154,7 +154,7 @@ function createMetreRenderer(canvas,options){
  if(groundCtx){groundCanvas.setAttribute('aria-hidden','true');groundCanvas.style.cssText='position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;';canvas.parentElement.insertBefore(groundCanvas,canvas);canvas.style.background='transparent';}
  let groundViewKey=null,estateArtRevision=0,lastPausedFrame=null;
  const exteriorRasterCache=createEstateExteriorRasterCache();
- const rasterCacheForView=()=>!overview&&Math.abs(zoom-1)<1e-6?exteriorRasterCache:null;
+ const rasterCacheForView=()=>!overview?exteriorRasterCache:null;
  const estateImages={};
  const loadImage=src=>({signal}={})=>new Promise((resolve,reject)=>{const im=new Image();im.onload=()=>resolve(im);im.onerror=()=>reject(Error('山院素材加载失败'));signal?.addEventListener('abort',()=>reject(Error('山院素材加载超时')),{once:true});im.src=new URL(src,import.meta.url).href;});
  const assets=createAssetLoader({loaders:{people:loadImage('./yunxiu-courtyard/assets/characters.webp'),restPeople:loadImage(CULTIVATOR_REST_ATLAS.source),activityPeople:loadImage(CULTIVATOR_ACTIVITY_ATLAS.source),...Object.fromEntries(Object.entries(ESTATE_ART_URLS).map(([id,src])=>[id,loadImage(src)]))},onChange:status=>{atlas=assets.get('people');registerCultivatorAtlas(atlas);registerCultivatorRestAtlas(assets.get('restPeople'));registerCultivatorActivityAtlas(assets.get('activityPeople'));for(const id of Object.keys(ESTATE_ART_URLS))estateImages[id]=assets.get(id);exteriorRasterCache.clear();estateArtRevision++;onLoad(status.failed.map(f=>f.id));}});
