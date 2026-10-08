@@ -1,9 +1,9 @@
-import {descentEffectiveRealmSR} from './ea-sr-descent.mjs?v=ea-160-courtyard-20261008-r27';
+import {descentEffectiveRealmSR} from './ea-sr-descent.mjs?v=ea-160-courtyard-20261008-r28';
 /** SR-XF-013. Timed commands replace instant UI actions; campaign owns damage. */
-import {combatCanStand,combatPath,combatClearLine,combatGeometryId,moveCombatActor} from './ea-combat-geometry.mjs?v=ea-160-courtyard-20261008-r27';
-import {requirePerson,reserveBody,ownedActivity,releaseSRBody,equippedItems,EQUIPMENT_DEFINITIONS,equipmentThemeView,EQUIPMENT_THEME,activateEquipmentTheme,equipmentCombatBenefits,recordBindingPractice,resourceSource,spendResources} from './ea-sr-equipment.mjs?v=ea-160-courtyard-20261008-r27';
-import {availablePills,consumeAccessiblePill} from './ea-sr-economy.mjs?v=ea-160-courtyard-20261008-r27';
-import {recordArtPractice,chapterKnown,realmTier} from './ea-sr-cultivation.mjs?v=ea-160-courtyard-20261008-r27';
+import {combatCanStand,combatPath,combatClearLine,combatGeometryId,moveCombatActor} from './ea-combat-geometry.mjs?v=ea-160-courtyard-20261008-r28';
+import {requirePerson,reserveBody,ownedActivity,releaseSRBody,equippedItems,EQUIPMENT_DEFINITIONS,equipmentThemeView,EQUIPMENT_THEME,activateEquipmentTheme,equipmentCombatBenefits,recordBindingPractice,resourceSource,spendResources} from './ea-sr-equipment.mjs?v=ea-160-courtyard-20261008-r28';
+import {availablePills,consumeAccessiblePill} from './ea-sr-economy.mjs?v=ea-160-courtyard-20261008-r28';
+import {recordArtPractice,chapterKnown,realmTier} from './ea-sr-cultivation.mjs?v=ea-160-courtyard-20261008-r28';
 let hooks={};
 export function configureSRCombat(next={}){hooks={...hooks,...next};}
 export const COMBAT_ACTIONS=Object.freeze({

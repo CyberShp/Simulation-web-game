@@ -1,5 +1,5 @@
-import {spatialEnabled,viewSpatial} from './ea-sr-spatial.mjs?v=ea-160-courtyard-20261008-r27';
-import {buildingVisual,buildingAccess} from './ea-scene-geometry.mjs?v=ea-160-courtyard-20261008-r27';
+import {spatialEnabled,viewSpatial} from './ea-sr-spatial.mjs?v=ea-160-courtyard-20261008-r28';
+import {buildingVisual,buildingAccess} from './ea-scene-geometry.mjs?v=ea-160-courtyard-20261008-r28';
 
 /** Read-only projection; never completes work or reserves another material. */
 export function constructionView(s){if(spatialEnabled(s))return viewSpatial(s);
