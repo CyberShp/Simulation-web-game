@@ -5,23 +5,23 @@
   "updated": "2026-10-08",
   "authoritative": "registry.json for requirement records and task states; derived Markdown rendered by qa/sr-manager.py refresh",
   "source_runtime": {
-    "main": "c9be1d476311a558e7a37a4e0305e5086b71a369",
-    "runtime_source": "c9be1d476311a558e7a37a4e0305e5086b71a369",
-    "pages": "15ec91db21b8f4b37f30accdd5ac643e024a160d",
+    "main": "f8b8912244d05a7c101d5dc8b81dc2502d41d5d4",
+    "runtime_source": "f8b8912244d05a7c101d5dc8b81dc2502d41d5d4",
+    "pages": "098cc0511096de37b5da79cf01cceb65e68e7727",
     "game_version": "1.6.0-dev",
     "schema_version": 6,
-    "preview_pages": "15ec91db21b8f4b37f30accdd5ac643e024a160d",
+    "preview_pages": "098cc0511096de37b5da79cf01cceb65e68e7727",
     "preview_deployment": null,
     "working_game_version": "1.6.0-dev",
     "official_game_version": "1.6.0-dev",
-    "version_note": "M2 r19 adds seeded herb crop batches and real mutual-corridor yielding for opt-in v2 work routes; other recipe versions and full SR008/009 acceptance remain open.",
+    "version_note": "M2 r20 shows read-only located inventory totals, available, reserved, in-transit and known onsite shortages by public, master-private and merchant scopes; full SR010/011 acceptance remains open.",
     "main_record_type": "runtime source commit; release metadata commit is a descendant",
-    "working_release_note": "2026-10-08 r19: seeded farm batches consume two onsite herbs, mature over ten world ticks, pause in flooded weather, and settle actual finite yield once. A real v2 mutual corridor side-step preserves both work commitments and station reservations. Source-backed crop 5/5, adjacent workshop 5/5, facility/door 17/17 and opt-in v2 work route 1/1 pass; local Chromium memory import showed crop progress and cancellation. Pages built and all 162 packaged text Git blobs match its tree. Full versioned recipes, target devices and public browser interaction remain open.",
-    "previous_pages": "656f4b026bb917c54c070436218ecbbd39cc1981",
+    "working_release_note": "2026-10-08 r20: inventory summary derives five visible quantities from the existing physical stockpiles and work-order reservations without writing the save. Source-backed construction, private gift, market order and farm shortage acceptance 4/4; adjacent SR010 25/25, market order 7/7 and UI contracts 17/17. Local Chromium memory import showed all three ownership cards and the five quantities. Existing SR011 cancellation can leave formerly public goods in a private order stockpile, so complete ownership recovery is not claimed. Pages built and 162 packaged text Git blobs match its tree. Target devices and public browser interaction remain open.",
+    "previous_pages": "15ec91db21b8f4b37f30accdd5ac643e024a160d",
     "pages_deployment_status": "built",
-    "working_release_tag": "ea-160-courtyard-20261008-r19",
-    "official_release_tag": "ea-160-courtyard-20261008-r19",
-    "official_url": "https://cybershp.github.io/Simulation-web-game/?v=ea-160-courtyard-20261008-r19",
+    "working_release_tag": "ea-160-courtyard-20261008-r20",
+    "official_release_tag": "ea-160-courtyard-20261008-r20",
+    "official_url": "https://cybershp.github.io/Simulation-web-game/?v=ea-160-courtyard-20261008-r20",
     "deployed_tree_verification": {
       "published_tree_blobs": 235,
       "packaged_text_blobs_checked": 162,
@@ -30,21 +30,19 @@
         "index.html",
         "ea-game.mjs",
         "ea-opening-sim.mjs",
-        "ea-facility-activities.mjs",
         "ea-sr-economy.mjs",
-        "ea-sr-spatial.mjs",
         "ea-sr-ui.mjs"
       ],
-      "verification": "GitHub API confirms main c9be1d476311a558e7a37a4e0305e5086b71a369, gh-pages 15ec91db21b8f4b37f30accdd5ac643e024a160d and Pages built; all 162 packaged text Git blob hashes match the published tree. Public HTTP/browser interaction was not verified.",
+      "verification": "GitHub API confirms main f8b8912244d05a7c101d5dc8b81dc2502d41d5d4, gh-pages 098cc0511096de37b5da79cf01cceb65e68e7727 and Pages built; all 162 packaged text Git blob hashes match the published tree. Public HTTP/browser interaction was not verified.",
       "mismatches": 0
     },
-    "previous_main": "a49c56c3bac88c3e87152fe42c35cb062c6da5a9",
+    "previous_main": "722aeaf9f8a20151bc509802dc0046e1dde94fa3",
     "browser_verification": {
       "viewport": "local Chromium, isolated memory import at 127.0.0.1:8081",
-      "scope": "r19 source-backed seeded crop was imported without writing a save slot; production page showed batch progress and onsite seed use, and its cancel button worked. First local module load had transient connection resets and succeeded on reload. Public Pages interaction and target devices were not verified.",
+      "scope": "r20 local memory import displayed public, master-private and merchant cards with five quantities. The temporary Python static server with default backlog reset connections on first loads; an isolated server with request_queue_size 128 had two clean fresh loads. Public Pages interaction and target devices were not verified.",
       "real_devices": false,
       "fps_measured": false,
-      "acceptance_namespace": "qa-sr009-r19"
+      "acceptance_namespace": "qa-sr010-r20"
     },
     "working_source_base": "1b28260007c3049d077dfce424d0db2c6e8cbd60",
     "working_validation": {
@@ -2599,7 +2597,7 @@
         "docs/design/14-EARLY-GAME-DETAILED-DESIGN.md"
       ],
       "baseline": "已有公库/个人赠药及共享工作单预留的局部事实。",
-      "design_gap": "材料仍缺完整仓储位置、运输批次和保管/所有权守恒设计。",
+      "design_gap": "D01/D02 已复核；r20 局部实现公库、掌门私物和商人库存的五数只读汇总。完整 ECON-02/03、跨订单取消后的产权恢复、所有中断工单状态及目标设备仍待验收。",
       "design_deliverables": [
         "stockpile位置、容量、拥有者/保管者和资源最小单位表。",
         "取料、携带、在途、交付、损失与归还的运输状态机及批量。",
@@ -2700,6 +2698,10 @@
         {
           "date": "2026-10-08",
           "reason": "独立跨规格复核完成：道韵预算与运输边界、施工取消返料、仓位归属位置校验和公库容量结算已统一；旧档保留原值与在途单。"
+        },
+        {
+          "date": "2026-10-08",
+          "reason": "r20 ships read-only five-number inventory summaries by public, master-private and merchant ownership; full ECON-02/03 and cancellation property paths remain open"
         }
       ],
       "tasks": [
@@ -2743,14 +2745,15 @@
           "phase": "I01",
           "title": "开发与集成",
           "description": "在经营模块实现位置库存、搬运与公私账本；交付SR-XF-010-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。",
-          "status": "todo",
+          "status": "in_progress",
           "owner": null,
           "depends_on": [
             "SR-XF-010-D02"
           ],
           "evidence": [
             "dist/ea-sr-economy.mjs",
-            "qa/ea-sr-economy-acceptance.mjs"
+            "qa/ea-sr-economy-acceptance.mjs",
+            "2026-10-08 r20: qa/ea-sr-010-inventory-summary-acceptance.mjs 4/4, adjacent SR010 25/25, market-order 7/7, UI 17/17; local Chromium isolated import showed public/private/merchant five-number cards; source f8b8912244d05a7c101d5dc8b81dc2502d41d5d4 and Pages 098cc0511096de37b5da79cf01cceb65e68e7727 built, all 162 packaged text blobs matched"
           ],
           "blocked_reason": null
         },
@@ -2836,7 +2839,7 @@
         "docs/design/14-EARLY-GAME-DETAILED-DESIGN.md"
       ],
       "baseline": "已有买卖与资源交换基础。",
-      "design_gap": "D01/D02 已完成；上游实体补货、改道/关口费用、药物及器物订单、旧已接订单迁移与完整 AC 仍待实现或复验。",
+      "design_gap": "D01/D02 已完成；现有跨场景百工订单仅为有界子链。取消/取回后的公物权限保持、上游实体补货、改道/关口费用、药物及器物订单、旧已接订单迁移与完整 AC 仍待实现或复验。",
       "design_deliverables": [
         "普通材料药物/装备的可靠来源、价格依据、商人本金与有限库存。",
         "补货来源、运输和周期；订单报价、同意、预留、付款、交付、违约流程。",

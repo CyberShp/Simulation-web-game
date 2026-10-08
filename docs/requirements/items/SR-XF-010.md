@@ -26,7 +26,7 @@
 
 已有公库/个人赠药及共享工作单预留的局部事实。
 
-材料仍缺完整仓储位置、运输批次和保管/所有权守恒设计。
+D01/D02 已复核；r20 局部实现公库、掌门私物和商人库存的五数只读汇总。完整 ECON-02/03、跨订单取消后的产权恢复、所有中断工单状态及目标设备仍待验收。
 
 现状是适用旧能力的基线，不表示该SR完整目标已通过。
 
@@ -70,7 +70,7 @@ SR-XF-010-AC-03证据：qa/ea-sr-010-property-public-acceptance.mjs；qa/ea-sr-g
 | --- | --- | --- | --- | --- |
 | SR-XF-010-D01 | 设计补齐：交付：stockpile位置、容量、拥有者/保管者和资源最小单位表。；取料、携带、在途、交付、损失与归还的运输状态机及批量。；与施工/生产预约接口、公私账本、取消与迁建中的库存恢复。；填实必需参数并标记U/R/T来源。 | done | 无 | Codex/economy_people |
 | SR-XF-010-D02 | 契约与内容审阅：审阅位置库存、搬运与公私账本与依赖契约（SR-XF-002、SR-XF-003、SR-XF-009）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。 | done | SR-XF-010-D01 | Codex/root |
-| SR-XF-010-I01 | 开发与集成：在经营模块实现位置库存、搬运与公私账本；交付SR-XF-010-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。 | todo | SR-XF-010-D02 | 待分配 |
+| SR-XF-010-I01 | 开发与集成：在经营模块实现位置库存、搬运与公私账本；交付SR-XF-010-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。 | in_progress | SR-XF-010-D02 | 待分配 |
 | SR-XF-010-V01 | 验收与兼容：执行SR-XF-010-AC-01至AC-03及ECON-02、ECON-03；登记实际结果、兼容和设备证据边界。 | todo | SR-XF-010-I01 | 待分配 |
 | SR-XF-010-R01 | 发布与关闭：完成所需源码/运行时发布核对、交接和未覆盖说明；本轮用户不要求上传QA过程产物。 | todo | SR-XF-010-V01 | 待分配 |
 
@@ -78,7 +78,7 @@ SR-XF-010-D01证据：docs/requirements/design/SR-XF-007-011-019-026-027.md；do
 
 SR-XF-010-D02证据：docs/requirements/design/SR-XF-007-011-019-026-027.md；qa/ea-sr-010-study-budget-contract-acceptance.mjs；qa/ea-sr-010-construction-logistics-public-acceptance.mjs；dist/ea-sr-economy.mjs
 
-SR-XF-010-I01证据：dist/ea-sr-economy.mjs；qa/ea-sr-economy-acceptance.mjs
+SR-XF-010-I01证据：dist/ea-sr-economy.mjs；qa/ea-sr-economy-acceptance.mjs；2026-10-08 r20: qa/ea-sr-010-inventory-summary-acceptance.mjs 4/4, adjacent SR010 25/25, market-order 7/7, UI 17/17; local Chromium isolated import showed public/private/merchant five-number cards; source f8b8912244d05a7c101d5dc8b81dc2502d41d5d4 and Pages 098cc0511096de37b5da79cf01cceb65e68e7727 built, all 162 packaged text blobs matched
 
 SR-XF-010-V01证据：dist/ea-sr-economy.mjs；qa/ea-sr-economy-acceptance.mjs
 
@@ -124,5 +124,6 @@ SR-XF-010-V01证据：dist/ea-sr-economy.mjs；qa/ea-sr-economy-acceptance.mjs
 - 2026-10-08：M2 第八批：公开赠药、同所有者搬运、跨所有者私财拒绝、内部自主取公药、实际步行归还原借剑及公库末批竞争按 AC03 原文复验；公开权限 6/6，装备成长 45/45，精确存读通过。AC03 passed；完整 D/I/V/R 与网页真机仍待。
 - 2026-10-08：SR010-D01 仓位/容量/归属与最小计量、搬运状态和失败恢复、施工四处守恒、生产/迁建及公私权限已写入当前设计小节，根 Agent 对照原 D01 交付项与当前配置独立审阅，记 D01 done。D02 跨规格差异另行处理，设计整体仍 draft。
 - 2026-10-08：独立跨规格复核完成：道韵预算与运输边界、施工取消返料、仓位归属位置校验和公库容量结算已统一；旧档保留原值与在途单。
+- 2026-10-08：r20 ships read-only five-number inventory summaries by public, master-private and merchant ownership; full ECON-02/03 and cancellation property paths remain open
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。
