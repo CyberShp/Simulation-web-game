@@ -36,7 +36,7 @@ export function initContracts(s,{activate=false}={}){
  // A default scene identity does not change spatial transforms or generate facilities.
  s.scenesById['scene:yunxiu-courtyard']??={id:'scene:yunxiu-courtyard',name:'云岫别院',regionId:'region:yunxiu',coordinateUnit:'metre'};
  for(const [id,p]of Object.entries(s.personsById)){
-  if(activate||s.contentVersion===SR_CONTENT_VERSION)p.lifeStatus??='alive';
+  if((activate||s.contentVersion===SR_CONTENT_VERSION)&&p.compatibilityMode!=='historical-only'&&p.recordScope!=='historical-only')p.lifeStatus??='alive';
   const knowledge=id==='person:master'?p.knowledge:p.mind?.knowledge;
   s.migrationLedger.identityMap[id]??=id;
   for(const [art,n]of Object.entries(knowledge||{})){
@@ -77,7 +77,8 @@ export function validateContracts(s){
   }
  }
  for(const[id,p]of Object.entries(s.personsById)){
-  if(!(p.lifeStatus===undefined&&s.contentVersion!==SR_CONTENT_VERSION)&&!['alive','dead'].includes(p.lifeStatus))fail(CONTRACT_ERRORS.shape,`personsById.${id}.lifeStatus`,'生命周期无效');
+  const historicalOnly=p.compatibilityMode==='historical-only'||p.recordScope==='historical-only';
+  if(!(p.lifeStatus===undefined&&(historicalOnly||s.contentVersion!==SR_CONTENT_VERSION))&&!['alive','dead'].includes(p.lifeStatus))fail(CONTRACT_ERRORS.shape,`personsById.${id}.lifeStatus`,'生命周期无效');
   if(p.lifeStatus==='dead'&&!s.deathRecordsByPersonId[id])fail(CONTRACT_ERRORS.reference,`personsById.${id}.lifeStatus`,'身死缺唯一记录');
   if(p.lifeStatus==='alive'&&s.deathRecordsByPersonId[id])fail(CONTRACT_ERRORS.shape,`deathRecordsByPersonId.${id}`,'活人已有身死记录');
   if(p.position?.kind){if(!['scene','worldTravel','contained'].includes(p.position.kind))fail(CONTRACT_ERRORS.shape,`personsById.${id}.position.kind`,'位置枚举无效');if(p.position.kind==='scene'){checkReference(s,'scenesById',p.position.sceneId,`personsById.${id}.position.sceneId`);if(!finite(p.position.x)||!finite(p.position.y))fail(CONTRACT_ERRORS.shape,`personsById.${id}.position`,'坐标须为有限逻辑米');}if(p.position.kind==='worldTravel'){checkReference(s,'travelsById',p.position.travelId,`personsById.${id}.position.travelId`);const body=s.activitiesById[p.activityId];if(body&&!['travel','sr-travel'].includes(body.kind)&&!historicalPhases.has(body.phase))fail(CONTRACT_ERRORS.shape,`personsById.${id}.activityId`,'在途身体不能同时在本地执行另一活动');}}

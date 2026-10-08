@@ -16,7 +16,7 @@ export function appearanceView(s,personId){const p=s.personsById[personId];if(!p
  else if(activity?.kind==='sr-replenish')action=activity.phase==='moving'?'walk':activity.phase==='working'?(activity.resource==='herb'||activity.resource==='food'||activity.resource==='wood'?'plant':'work'):'waiting';
  else if(activity?.kind==='sr-craft')action=activity.phase==='moving'?'walk':activity.phase==='working'?'work':'waiting';
  else if(activity?.kind==='sr-drainage')action=activity.phase==='working'?'work':'waiting';
- else if(activity?.kind==='construction')action=activity.phase==='moving'?'walk':activity.phase==='blocked'?'waiting':'work';
+ else if(['construction','sr-construction'].includes(activity?.kind))action=activity.phase==='moving'?'walk':activity.phase==='blocked'?'waiting':'work';
  else if(activity?.kind==='sr-merchant-collection')action=activity.phase==='carrying'?'transport':activity.phase==='moving'?'walk':'waiting';
  else if(activity?.kind==='sr-cultivation'&&s.srCultivation?.orders?.[activity.orderId]?.kind==='study')action=activity.phase==='executing'?'study':activity.phase==='moving'||activity.phase==='navigating'?'walk':'waiting';
  else if(activity?.kind==='sr-transport'){const order=s.workOrdersById[activity.workOrderId];action=order?.phase==='carrying'?'transport':order?.phase==='to-source'?'walk':'waiting';}

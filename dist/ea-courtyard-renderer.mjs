@@ -144,7 +144,7 @@ export function createWorldRenderer(canvas,options){
 /** Real metre scene, using one projection for terrain, prefabs, people and input. */
 function createMetreRenderer(canvas,options){
  const {getState,getMode,getSelection,getPrefs=()=>({}),getPreview=()=>null,getHomeInteractions=()=>[],getLocalScene=()=>null,getAppearance=()=>null,onLoad=()=>{}}=options;
- const ctx=canvas.getContext('2d'),pan={x:0,y:0};let zoom=1,overview=false,planning=false,hover=null,anchor=null,scene='map',atlas=null,destroyed=false,frameNpcEquipment=[];const initial=getState().master.scenic||{x:27,y:10},centre={x:initial.x,y:initial.y};
+ const ctx=canvas.getContext('2d'),pan={x:0,y:0},touchAnchorShift={x:0,y:0};let zoom=1,overview=false,planning=false,hover=null,anchor=null,scene='map',atlas=null,destroyed=false,frameNpcEquipment=[],detailInset=0,detailSelection=null;const initial=getState().master.scenic||{x:27,y:10},centre={x:initial.x,y:initial.y};
  // The mountain and estate ground change only with camera/terrain/resource state.
  // Keep them in a separate retained bitmap so dense high-DPR scenes do not
  // repaint two full-screen images beneath every actor on every frame.
@@ -164,7 +164,7 @@ function createMetreRenderer(canvas,options){
   const worldWidth=home?SPATIAL_SCENE.width:64,worldHeight=home?SPATIAL_SCENE.height:64;
   const scale=overview?Math.min(w/(worldWidth*co+worldHeight*si),h/((worldWidth*si+worldHeight*co)*depth))*.88:32*zoom;
   const focus=overview&&home?{x:worldWidth/2,y:worldHeight/2}:centre;
-  let ox=w/2-(focus.x*co-focus.y*si)*scale+pan.x,oy=h/2-(focus.x*si+focus.y*co)*scale*depth+pan.y;if(home){const left=-worldHeight*si*scale,right=worldWidth*co*scale,bottom=(worldWidth*si+worldHeight*co)*scale*depth;ox=right-left>=w?Math.min(-left,Math.max(w-right,ox)):(w-left-right)/2;oy=bottom>=h?Math.min(0,Math.max(h-bottom,oy)):(h-bottom)/2;}return{w,h,scale,depth,rotation,ox,oy};
+  let ox=w/2-(focus.x*co-focus.y*si)*scale+pan.x,oy=h/2-(focus.x*si+focus.y*co)*scale*depth+pan.y;if(home){const left=-worldHeight*si*scale,right=worldWidth*co*scale,bottom=(worldWidth*si+worldHeight*co)*scale*depth,visibleRight=w-detailInset;ox=right-left>=visibleRight?Math.min(-left,Math.max(visibleRight-right,ox)):(visibleRight-left-right)/2;oy=bottom>=h?Math.min(0,Math.max(h-bottom,oy)):(h-bottom)/2;}return{w,h,scale,depth,rotation,ox:ox+touchAnchorShift.x,oy:oy+touchAnchorShift.y};
  };
  function syncBitmap(){const {w,h}=camera(),dpr=Math.max(1,Math.min(Number(globalThis.devicePixelRatio)||1,1.75)),width=Math.max(1,Math.round(w*dpr)),height=Math.max(1,Math.round(h*dpr));if(canvas.width!==width)canvas.width=width;if(canvas.height!==height)canvas.height=height;if(groundCtx&&(groundCanvas.width!==width||groundCanvas.height!==height)){groundCanvas.width=width;groundCanvas.height=height;groundCtx.imageSmoothingEnabled=true;groundCtx.imageSmoothingQuality='high';groundViewKey=null;}ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';}
  function resize(){syncBitmap();return render(0,true);}
@@ -179,6 +179,46 @@ function createMetreRenderer(canvas,options){
  const rectangle=(x,y,w,h,fill,stroke)=>poly([[x,y],[x+w,y],[x+w,y+h],[x,y+h]],{fill,stroke});
  function label(text,p,color='#213d33e8'){const q=spatialProject(p,camera());ctx.font='13px serif';ctx.textAlign='center';const w=ctx.measureText(text).width+14;ctx.fillStyle=color;ctx.beginPath();ctx.roundRect(q.x-w/2,q.y+8,w,23,4);ctx.fill();ctx.fillStyle='#f1deb1';ctx.fillText(text,q.x,q.y+24);}
  const artOptions={project:spatialProject,prefab:spatialPrefab,transform:spatialTransform};
+ function exteriorBounds(b,s,c){
+  const stage=estateBuildingVisualStage(s,b),image=estateImages[`${b.type}Stages`],box=estateSpriteBounds(b,c,{...artOptions,visualStage:stage,stageImageAvailable:estateStageImageReady(b.type,image)});
+  if(box)return{left:box.x,top:box.y,right:box.x+box.width,bottom:box.y+box.height};
+  const points=spatialFootprint(b).map(([x,y])=>spatialProject({x,y},c));
+  return{left:Math.min(...points.map(p=>p.x)),top:Math.min(...points.map(p=>p.y))-2.4*c.scale,right:Math.max(...points.map(p=>p.x)),bottom:Math.max(...points.map(p=>p.y))};
+ }
+ // A selected building is framed against the actual detail panel, using the
+ // same exterior bounds as drawing. This changes only the view, never its footpoint.
+ function keepSelectedBuildingVisible(panel,{preserveAnchor=false}={}){
+  const selection=getSelection(),s=getState(),home=!campaign()&&!awayScene();
+  if(!home||selection?.kind!=='building'||!panel){detailInset=0;detailSelection=null;if(panel?.parentElement?.dataset)delete panel.parentElement.dataset.detailDock;return false;}
+  if(detailSelection!==selection.id){detailInset=0;detailSelection=selection.id;if(panel.parentElement?.dataset)delete panel.parentElement.dataset.detailDock;}
+  const b=s.buildings.find(b=>b.id===selection.id),view=canvas.getBoundingClientRect(),raw=panel.getBoundingClientRect();
+  if(!b||raw.width<=0||raw.height<=0){detailInset=0;if(panel.parentElement?.dataset)delete panel.parentElement.dataset.detailDock;return false;}
+  const obstacle={left:raw.left-view.left,top:raw.top-view.top,right:raw.right-view.left,bottom:raw.bottom-view.top};
+  const exterior=()=>exteriorBounds(b,s,camera());
+  const area=(a,d)=>Math.max(0,Math.min(a.right,d.right)-Math.max(a.left,d.left))*Math.max(0,Math.min(a.bottom,d.bottom)-Math.max(a.top,d.top));
+  const c=camera(),initial=exterior(),viewport={left:8,top:8,right:c.w-8,bottom:c.h-8};
+  if(!area(initial,obstacle))return false;
+  const dock=panel.parentElement?.dataset;
+  if(preserveAnchor||dock?.detailDock){
+   if(!dock)return false;
+   const previous=dock.detailDock||'',placements=['','bottom-right','top-left','bottom-left'];
+   let best=null;
+   for(const placement of placements){if(placement)dock.detailDock=placement;else delete dock.detailDock;const r=panel.getBoundingClientRect(),rect={left:r.left-view.left,top:r.top-view.top,right:r.right-view.left,bottom:r.bottom-view.top},covered=area(initial,rect),outside=(rect.right-rect.left)*(rect.bottom-rect.top)-area(rect,viewport);if(r.width>0&&r.height>0&&outside<1&&(!best||covered<best.covered))best={placement,covered};if(best?.covered===0)break;}
+   if(best?.placement)dock.detailDock=best.placement;else if(best)delete dock.detailDock;else if(previous)dock.detailDock=previous;
+   return !!best&&best.covered===0;
+  }
+  const original={...pan},inset=detailInset;
+  // The right-hand panel covers the part of the world allowed behind it;
+  // the remaining visible canvas still obeys the terrain-edge clamp.
+  detailInset=obstacle.left>c.w/2?Math.max(0,c.w-Math.max(0,obstacle.left-12)):0;
+  const candidates=[{x:0,y:0},{x:obstacle.left-initial.right-12,y:0},{x:obstacle.right-initial.left+12,y:0},{x:0,y:obstacle.top-initial.bottom-12},{x:0,y:obstacle.bottom-initial.top+12}];
+  let best=null;
+  for(const move of candidates){pan.x=original.x+move.x;pan.y=original.y+move.y;const box=exterior(),outside=(box.right-box.left)*(box.bottom-box.top)-area(box,viewport),covered=area(box,obstacle),distance=Math.hypot(camera().ox-c.ox,camera().oy-c.oy),score=covered*100+outside*10+distance;if(!best||score<best.score)best={score,covered,outside,pan:{...pan}};}
+  pan.x=original.x;pan.y=original.y;
+  const before=area(initial,obstacle);
+  if(!best||best.covered>=before||best.outside>1){detailInset=inset;return false;}
+  Object.assign(pan,best.pan);return true;
+ }
  const depthAt=p=>{const c=camera();return p.x*Math.sin(c.rotation)+p.y*Math.cos(c.rotation);};
  function floor(b,alpha=1){
   const d=spatialPrefab(b);ctx.save();ctx.globalAlpha=alpha;
@@ -295,10 +335,45 @@ function createMetreRenderer(canvas,options){
   return true;
  }
  function pick(e){const p=screenPoint(e),s=getState(),c=camera();const battle=campaign();if(battle){const q=css(e),enemy=(battle.enemies||[]).find(a=>{const v=spatialProject(a.position||a,c);return a.hp>0&&Math.abs(q.x-v.x)<=22&&q.y>=v.y-1.8*c.scale&&q.y<=v.y+6;}),landmark=(battle.landmarks||[]).find(a=>Math.hypot(a.x-p.x,a.y-p.y)<(a.radius||1));return{...p,kind:enemy?'enemy':landmark?'landmark':'ground',id:enemy?.id||landmark?.id,scenic:true};}if(['build','move'].includes(getMode()))return{...snapBuildingPoint(s,p),kind:'ground',scenic:false,worldX:p.x,worldY:p.y};const q=css(e),away=awayScene(),closedRooms=away?[]:sceneFootprints(s),hits=people().filter(r=>away||visiblePerson(r,closedRooms)).filter(r=>{const rest=hasCultivatorRestAtlas()&&restRenderAnchor(s,r.person,{...artOptions,camera:c});if(rest?.poseVariant==='bed-rest'){const b=rest.bounds,cx=(b.left+b.right)/2,cy=(b.top+b.bottom)/2;return Math.abs(q.x-cx)<=Math.max(44,b.right-b.left)/2&&Math.abs(q.y-cy)<=Math.max(44,b.bottom-b.top)/2;}const foot=spatialProject(r.position,c),height=1.8*c.scale,width=Math.max(44,.9*c.scale);return Math.abs(q.x-foot.x)<=width/2&&q.y>=foot.y-Math.max(44,height)&&q.y<=foot.y+6&&(away||!s.buildings.some(b=>b!==outdoorWorksiteAt(r.position)&&buildingDepth(b)>depthAt(r.position)&&estateSpriteContains(q,b,c,estateImages,{...artOptions,visualStage:estateBuildingVisualStage(s,b)})));}).sort((a,b)=>depthAt(b.position)-depthAt(a.position)).map(r=>({id:r.id,name:r.name,activity:r.person?.mind?.activity||r.person?.action||'rest',x:r.position.x,y:r.position.y}));if(hits.length)return{...p,kind:hits.length>1?'people':'person',id:hits[0].id,candidates:hits,scenic:true};if(away){const object=(away.scene.objects||away.objects||[]).find(o=>worldObjectContains(o,p));return{...p,kind:object?'world-object':'ground',id:object?.id,approachPoint:object?worldObjectApproach(object):null,scenic:true};}for(const object of getHomeInteractions(s)){const at=people().find(a=>a.person?.personId===object.personId)?.position||s.buildings.find(b=>b.id===object.buildingId)&&spatialAccess(s.buildings.find(b=>b.id===object.buildingId));if(at){const q=spatialProject(at,c);if(Math.hypot(css(e).x-q.x-22,css(e).y-q.y+34)<=22)return{...p,kind:'story-object',id:object.id,buildingId:object.buildingId,scenic:true};}}const b=s.buildings.slice().sort((a,b)=>buildingDepth(b)-buildingDepth(a)).find(b=>polygonContains(p,spatialFootprint(b))||estateSpriteContains(q,b,c,estateImages,{...artOptions,visualStage:estateBuildingVisualStage(s,b)}));return{...p,kind:b?'building':'ground',id:b?.id,scenic:true};}
- function focusPoint(p){if(!p||!Number.isFinite(p.x)||!Number.isFinite(p.y))return;centre.x=p.x;centre.y=p.y;pan.x=pan.y=0;}
+ function focusPoint(p){if(!p||!Number.isFinite(p.x)||!Number.isFinite(p.y))return;centre.x=p.x;centre.y=p.y;pan.x=pan.y=touchAnchorShift.x=touchAnchorShift.y=0;}
  function selectionPoint(){const selection=getSelection();if(selection?.kind==='person')return people().find(p=>p.id===selection.id)?.position||null;if(selection?.kind==='building'){const b=getState().buildings.find(b=>b.id===selection.id);return b?spatialAccess(b):null;}return null;}
+ function setZoom(d,atClient){
+  const beforeCamera=camera(),fromOverview=overview&&!atClient,at=atClient?css(atClient):fromOverview?{x:beforeCamera.w/2,y:beforeCamera.h/2}:anchor||{x:beforeCamera.w/2,y:beforeCamera.h/2};
+  const target=selectionPoint()||getState().master.scenic,worldPoint=fromOverview&&target?target:spatialUnproject(at,beforeCamera),startZoom=zoom,nextZoom=Math.max(.35,Math.min(2.5,zoom+d)),startShift={...touchAnchorShift};
+  const home=!campaign()&&!awayScene(),s=home?getState():null,selection=home&&getSelection(),building=selection?.kind==='building'?s.buildings.find(b=>b.id===selection.id):null;
+  const within=(box,c,margin=0)=>box.left>=margin-1e-5&&box.top>=margin-1e-5&&box.right<=c.w-margin+1e-5&&box.bottom<=c.h-margin+1e-5;
+  const initialExterior=building&&!overview?exteriorBounds(building,s,beforeCamera):null,keepExterior=initialExterior&&within(initialExterior,beforeCamera,8);
+  overview=false;
+  const apply=value=>{
+   zoom=value;
+   if(atClient){touchAnchorShift.x=startShift.x;touchAnchorShift.y=startShift.y;}
+   const projected=spatialProject(worldPoint,camera());
+   if(atClient){touchAnchorShift.x=startShift.x+at.x-projected.x;touchAnchorShift.y=startShift.y+at.y-projected.y;}
+   else{pan.x+=at.x-projected.x;pan.y+=at.y-projected.y;}
+  };
+  // A touch remains fixed only when the resulting camera still obeys the
+  // terrain edges and keeps an already visible selected exterior on screen.
+  const valid=()=>{
+   const c=camera();
+   if(home){
+    const si=Math.sin(c.rotation),co=Math.cos(c.rotation),left=c.ox-SPATIAL_SCENE.height*si*c.scale,right=c.ox+SPATIAL_SCENE.width*co*c.scale,top=c.oy,bottom=c.oy+(SPATIAL_SCENE.width*si+SPATIAL_SCENE.height*co)*c.scale*c.depth,visibleRight=c.w-detailInset;
+    if(right-left>=visibleRight){if(left>1e-4||right<visibleRight-1e-4)return false;}
+    else if(Math.abs(left+right-visibleRight)>1e-4)return false;
+    if(bottom-top>=c.h){if(top>1e-4||bottom<c.h-1e-4)return false;}
+    else if(Math.abs(top+bottom-c.h)>1e-4)return false;
+   }
+   return !keepExterior||within(exteriorBounds(building,s,c),c,8);
+  };
+  apply(nextZoom);
+  if(atClient&&home&&!overview&&!valid()){
+   let low=0,high=1;
+   for(let i=0;i<18;i++){const fraction=(low+high)/2;apply(startZoom+(nextZoom-startZoom)*fraction);if(valid())low=fraction;else high=fraction;}
+   apply(startZoom+(nextZoom-startZoom)*low);
+  }
+  return zoom;
+ }
  syncBitmap();
- return {pan,ready,render,pick,screenPoint,walkPoint,projectPoint:p=>spatialProject(p,camera()),getCamera:()=>({...camera()}),mapPoint:e=>{const p=screenPoint(e);return planning||['build','move'].includes(getMode())?snapBuildingPoint(getState(),p):p;},resize,setHover:e=>{anchor=e?css(e):null;hover=e?screenPoint(e):null;},getHover:()=>hover,setHoverPlot:p=>{hover=p?{x:p.x,y:p.y}:null;},focusScenic:(x,y)=>focusPoint({x,y}),setGrid:v=>{planning=v??!planning;return planning;},setZoom:(d,atClient)=>{const c=camera(),buttonFromOverview=overview&&!atClient,at=atClient?css(atClient):buttonFromOverview?{x:c.w/2,y:c.h/2}:anchor||{x:c.w/2,y:c.h/2},target=selectionPoint()||getState().master.scenic,before=buttonFromOverview&&target?target:spatialUnproject(at,c);overview=false;zoom=Math.max(.35,Math.min(2.5,zoom+d));const after=spatialProject(before,camera());pan.x+=at.x-after.x;pan.y+=at.y-after.y;return zoom;},recenter:()=>{zoom=1;overview=false;focusPoint(getState().master.scenic);},focus:(x,y)=>focusPoint(selectionPoint()||{x,y}),getPersonPosition:id=>people().find(p=>p.id===id)?.position||null,retryAssets:()=>assets.retry(),loadingState:()=>assets.snapshot(),setOverview:v=>{overview=v??!overview;return overview;},setScene:id=>{scene=id;const l=awayScene();if(l)focusPoint(people()[0]?.position||{x:32,y:24});},getScene:()=>scene,isPlanning:()=>planning||['build','move'].includes(getMode()),destroy:()=>{destroyed=true;if(groundCtx){groundCanvas.remove();canvas.style.background=originalCanvasBackground;}},point:(x,y)=>({x,y})};
+ return {pan,ready,render,pick,screenPoint,walkPoint,projectPoint:p=>spatialProject(p,camera()),getCamera:()=>({...camera()}),keepSelectedBuildingVisible,mapPoint:e=>{const p=screenPoint(e);return planning||['build','move'].includes(getMode())?snapBuildingPoint(getState(),p):p;},resize,setHover:e=>{anchor=e?css(e):null;hover=e?screenPoint(e):null;},getHover:()=>hover,setHoverPlot:p=>{hover=p?{x:p.x,y:p.y}:null;},focusScenic:(x,y)=>focusPoint({x,y}),setGrid:v=>{planning=v??!planning;return planning;},setZoom,recenter:()=>{zoom=1;overview=false;focusPoint(getState().master.scenic);},focus:(x,y)=>focusPoint(selectionPoint()||{x,y}),getPersonPosition:id=>people().find(p=>p.id===id)?.position||null,retryAssets:()=>assets.retry(),loadingState:()=>assets.snapshot(),setOverview:v=>{overview=v??!overview;if(overview)touchAnchorShift.x=touchAnchorShift.y=0;return overview;},setScene:id=>{scene=id;const l=awayScene();if(l)focusPoint(people()[0]?.position||{x:32,y:24});},getScene:()=>scene,isPlanning:()=>planning||['build','move'].includes(getMode()),destroy:()=>{destroyed=true;if(groundCtx){groundCanvas.remove();canvas.style.background=originalCanvasBackground;}},point:(x,y)=>({x,y})};
 }
 const snapMetre=n=>Math.round(n/SPATIAL_SCENE.grid)*SPATIAL_SCENE.grid;
 
