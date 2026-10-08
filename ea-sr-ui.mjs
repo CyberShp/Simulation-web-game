@@ -1,5 +1,5 @@
 /** Player-facing projections only. Does not advance clocks or write world state. */
-import {BUILDING_GRID,buildingGridEnabled,buildingCellLabel} from './ea-building-grid.mjs?v=ea-160-courtyard-20261008-r36';
+import {BUILDING_GRID,buildingGridEnabled,buildingCellLabel} from './ea-building-grid.mjs?v=ea-160-courtyard-20261009-r37';
 const E=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const list=v=>Array.isArray(v)?v:[];
 const names={wood:'灵木',stone:'青石',herb:'灵草',food:'口粮',jade:'灵石',crystal:'灵晶',insight:'道韵',weapon:'兵器',armor:'衣甲',artifact:'法器',accessory:'饰物','pill:heal':'回春散','pill:qi':'聚气丹','pill:spirit':'灵息丹','pill:foundation':'筑基丹'};
