@@ -4,7 +4,7 @@
  * neither creates occupants nor changes work, inventory, reservations or time.
  * Draw floor before actors, furniture in the depth pass, then the low front wall.
  */
-import {spatialPrefab,spatialTransform} from './ea-sr-spatial.mjs?v=ea-160-courtyard-20261008-r10';
+import {spatialPrefab,spatialTransform} from './ea-sr-spatial.mjs?v=ea-160-courtyard-20261008-r11';
 
 const TAU=Math.PI*2;
 const box=(x,y,w,h)=>[[x,y],[x+w,y],[x+w,y+h],[x,y+h]];
