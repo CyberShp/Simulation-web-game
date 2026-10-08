@@ -1,4 +1,4 @@
-import {npcScheduleDecision} from './ea-sr-persons.mjs';
+import {AUTONOMY_V2,npcScheduleDecision} from './ea-sr-persons.mjs';
 import {hallInteriorEnabled} from './ea-hall-interior.mjs';
 import {prepareFacilityActivity,releaseBodyActivity,contributeProduction} from './ea-facility-activities.mjs';
 import {sceneUnits} from './ea-sr-spatial.mjs';
@@ -361,6 +361,9 @@ function decide(s,d,hooks) {
         if(!p.main||d.xp>=xpNeed(d.realm))continue;
         choices.push({activity:'cultivate',job:b.id,score:22+ambition*.45+(d.job===b.id?9:0),reason:'希望精进境界，选择静心修炼。'});
       } else {
+        // A migrated v2 member takes production work through a sourced invite;
+        // the legacy scorer cannot silently replace that person's answer.
+        if(p.schedule?.definitionId===AUTONOMY_V2.version)continue;
         if(!workOpportunity(s,d,b,{checkPath:false}).available)continue;
         const output=Object.keys(t.out)[0];if(!output)continue;
         const target={food:Math.max(35,s.disciples.length*7),jade:100,wood:90,stone:75,herb:Math.max(45,s.disciples.length*8),crystal:15,insight:30}[output]||50;
