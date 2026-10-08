@@ -1,0 +1,190 @@
+/** SR-XF-009: continue an earned, public-command courtyard save through a seeded crop. */
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import * as SIM from '../dist/ea-opening-sim.mjs';
+import {renderSRPanel} from '../dist/ea-sr-ui.mjs';
+import {harness} from './ea-sr-integration-acceptance.mjs';
+
+const sourcePath=process.env.SR009_FARM_SOURCE;
+const source=sourcePath?JSON.parse(readFileSync(sourcePath,'utf8')):null;
+const activePath=process.env.SR009_ACTIVE_FARM_SOURCE;
+const activeSource=activePath?JSON.parse(readFileSync(activePath,'utf8')):null;
+const depletedPath=process.env.SR009_DEPLETED_FARM_SOURCE;
+const depletedSource=depletedPath?JSON.parse(readFileSync(depletedPath,'utf8')):null;
+const farmId='building:yunxiu:2',orderId=`work:production:${farmId}`,siteId=`stockpile:${farmId}`;
+const cropFact=batch=>`fact:crop:sow:${farmId}:${batch}`;
+const harvestFact=batch=>`fact:crop:harvest:${farmId}:${batch}`;
+const productionFact=batch=>`fact:production:${farmId}:${batch}`;
+const wet=s=>s.ecologiesBySceneId['scene:yunxiu-courtyard'].surfaceZones['zone:yard-path'].wetness;
+function invite(h){for(const id of h.s.homeMemberIds){const result=h.act('inviteWork',id,farmId);if(result.accepted)return id;}assert.fail('one real home member must accept farm care');}
+function exact(h,label){const before=JSON.stringify(h.s);h.save();assert.equal(JSON.stringify(h.s),before,label);}
+
+if(!source){test('earned herb-crop source',{skip:'Set SR009_FARM_SOURCE to a normal public-command checkpoint with a completed farm batch.'},()=>{});}
+else test('seeded crop matures, pauses in water, and settles once beside a legacy batch',()=>{
+ assert.equal(source.provenance?.kind,'normal-public-command-checkpoint');
+ const original=SIM.validateSave(source.state),legacy=original.workOrdersById[orderId];
+ assert.equal(legacy?.phase,'completed');assert.equal(legacy.crop,undefined);
+ const legacyBatch=legacy.batch,originalFact=JSON.stringify(original.factsById[productionFact(legacyBatch)]);
+ const h=harness(original,'sr009-herb-crop'),farm=h.s.buildingsById[farmId];
+ assert.equal(farm.type,'farm');assert.equal(farm.enabled,true);
+ const beforeSeed=h.s.stockpilesById[siteId].resources.herb;
+ h.until(s=>!!s.workOrdersById[orderId]?.crop,'real worker sows from the field store',300);
+ const first=h.s.workOrdersById[orderId],batch=first.batch;
+ assert.equal(first.recipeSnapshot.recipeVersion,'herb-crop:yunxiu:v1');
+ assert.equal(first.crop.sownAtTick,h.s.factsById[cropFact(batch)].atTick);
+ assert.equal(h.s.stockpilesById[siteId].resources.herb,beforeSeed-2);
+ assert.equal(h.s.factsById[cropFact(batch)].sourceStockpileId,siteId);
+ const tickBeforeView=h.s.worldTick;
+ assert.match(renderSRPanel(h.s,SIM,'production'),/灵草田第2批/);
+ assert.equal(h.s.worldTick,tickBeforeView,'viewing crop progress does not advance the world');
+ const altered=structuredClone(h.s),unaltered=JSON.stringify(h.s);
+ altered.workOrdersById[orderId].crop.seedUsed=3;
+ assert.throws(()=>SIM.validateSave(altered),/生产批次引用异常/);
+ assert.equal(JSON.stringify(h.s),unaltered,'invalid crop cannot mutate the valid source');
+ exact(h,'seed and crop state survive reload');
+ // Capacity is a controlled boundary fixture derived from the earned sow state.
+ const capacityFixture=structuredClone(h.s),fixtureSite=capacityFixture.stockpilesById[siteId];
+ fixtureSite.capacity=Object.values(fixtureSite.resources).reduce((n,v)=>n+v,0)+.01;
+ const bounded=harness(SIM.validateSave(capacityFixture),'sr009-capacity-boundary'),boundedPatch=bounded.s.srEconomy.patches.herb.remaining;
+ bounded.until(s=>s.workOrdersById[orderId]?.crop?.careContribution===200,'onsite care reaches a full warehouse boundary',600);
+ const boundedOrder=bounded.s.workOrdersById[orderId];
+ assert.equal(boundedOrder.crop.phase,'ripe/waiting');
+ assert.equal(bounded.s.srEconomy.patches.herb.remaining,boundedPatch);
+ assert.equal(bounded.s.factsById[productionFact(batch)],undefined);
+ exact(bounded,'full crop waits without truncating output at capacity boundary');
+ // This controlled boundary keeps the earned sow and workers while checking
+ // the actual yield against both finite source and available field storage.
+ const yieldFixture=structuredClone(h.s);
+ yieldFixture.buildingsById[farmId].condition=40;
+ yieldFixture.srEconomy.patches.herb.remaining=11;
+ const yieldSite=yieldFixture.stockpilesById[siteId];
+ yieldSite.capacity=Object.values(yieldSite.resources).reduce((n,v)=>n+v,0)+11;
+ const yielding=harness(SIM.validateSave(yieldFixture),'sr009-actual-yield-boundary');
+ const onsiteBefore=yielding.s.stockpilesById[siteId].resources.herb;
+ yielding.until(s=>!!s.factsById[harvestFact(batch)],'actual yield fits finite source below base output',900);
+ const actual=yielding.s.factsById[productionFact(batch)].grossOutput.herb;
+ assert(actual>0&&actual<11&&actual<12,`actual harvest ${actual} fits source 11 below recipe base 12`);
+ assert(Math.abs(actual-8.31430656)<1e-6);
+ assert(Math.abs(yielding.s.srEconomy.patches.herb.remaining-(11-actual))<1e-8);
+ assert(Math.abs(yielding.s.stockpilesById[siteId].resources.herb-(onsiteBefore+actual))<1e-8);
+ assert.equal(yielding.s.factsById[harvestFact(batch)].quantity,actual);
+ exact(yielding,'actual yield and finite source survive reload');
+ const patchBefore=h.s.srEconomy.patches.herb.remaining;
+ h.until(s=>!!s.factsById[harvestFact(batch)],'actual workers complete the mature crop',900);
+ const finished=h.s.workOrdersById[orderId],result=h.s.factsById[productionFact(batch)],harvest=h.s.factsById[harvestFact(batch)];
+ assert.equal(finished.progressTicks,200);assert.equal(finished.crop.growthElapsedTicks,10);
+ assert.equal(finished.crop.careContribution,200);assert.equal(harvest.productionFactId,result.id);
+ assert.equal(harvest.quantity,result.quantities.herb);
+ assert(Math.abs(patchBefore-h.s.srEconomy.patches.herb.remaining-result.grossOutput.herb)<1e-8);
+ assert.equal(finished.crop.fallowUntilTick,finished.crop.harvestedAtTick+1);
+ assert.equal(JSON.stringify(h.s.factsById[productionFact(legacyBatch)]),originalFact);
+ exact(h,'one harvest and legacy result survive reload');
+ h.act('toggleBuilding',farm.id);
+ h.until(s=>s.weatherByRegionId['region:yunxiu'].phase==='rain'&&wet(s)>.60&&wet(s)<.61,'natural rain approaches waterlogging',5000);
+ h.act('toggleBuilding',farm.id);invite(h);
+ h.until(s=>s.workOrdersById[orderId]?.crop?.sownAtTick>finished.crop.sownAtTick,'next crop is actually sown',300);
+ const second=h.s.workOrdersById[orderId],secondBatch=second.batch;
+ h.until(s=>wet(s)>.78,'real weather floods the field',100);
+ const beforePause={growth:second.crop.growthElapsedTicks,care:second.crop.careContribution,patch:h.s.srEconomy.patches.herb.remaining};
+ assert(beforePause.growth>0&&beforePause.care>0,`growth and onsite care are already underway before flooding: ${JSON.stringify(beforePause)}`);
+ for(let i=0;i<20;i++)SIM.tick(h.s,.1);
+ assert.equal(second.crop.phase,'paused:waterlogged');assert.equal(second.crop.weatherPauseReason,'waterlogged');
+ assert.match(renderSRPanel(h.s,SIM,'production'),/积水暂停/);
+ assert.equal(second.crop.growthElapsedTicks,beforePause.growth);assert.equal(second.crop.careContribution,beforePause.care);
+ assert.equal(h.s.factsById[harvestFact(secondBatch)],undefined);
+ exact(h,'flooded crop and labor remain exact after reload');
+ h.until(s=>wet(s)<=.78,'natural drying resumes growth',4000);
+ const worker=invite(h);assert(h.s.personsById[worker]);
+ h.until(s=>!!s.factsById[harvestFact(secondBatch)],'resumed worker finishes once',1500);
+ assert.equal(h.s.factsById[harvestFact(secondBatch)].productionFactId,productionFact(secondBatch));
+ assert.equal(h.s.factsById[cropFact(secondBatch)].quantity,2);
+ exact(h,'resumed harvest survives reload');
+ console.log(JSON.stringify({source:sourcePath,firstBatch:batch,secondBatch,firstOutput:result.quantities.herb,boundaryOutput:actual,pausedAt:beforePause,counts:h.counts}));
+});
+
+if(source)test('field seed must arrive physically before a new crop can start',()=>{
+ const h=harness(SIM.validateSave(source.state),'sr009-seed-gate'),farm=h.s.buildingsById[farmId];
+ h.act('toggleBuilding',farm.id);
+ h.until(s=>!s.master.activityId,'existing public transport finishes',1000);
+ const quantity=h.s.stockpilesById[siteId].resources.herb;
+ const outgoing=h.act('startTransport',siteId,'stockpile:yunxiu','person:master',{herb:quantity});
+ h.until(s=>s.workOrdersById[outgoing.id].phase==='delivered','field stock physically leaves',1000);
+ assert.equal(h.s.stockpilesById[siteId].resources.herb,0);
+ h.act('toggleBuilding',farm.id);
+ const seedOffer=h.act('inviteWork',h.s.homeMemberIds[0],farmId);
+ assert.equal(seedOffer.accepted,false);assert.match(seedOffer.publicReason,/田边灵草2份种苗/);
+ for(let i=0;i<300;i++)SIM.tick(h.s,.1);
+ assert.equal(h.s.workOrdersById[orderId].phase,'completed');
+ assert.equal(h.s.workOrdersById[orderId].crop,undefined);
+ assert.equal(h.s.factsById[cropFact(2)],undefined);
+ exact(h,'missing seed has no crop or debit after reload');
+ const incoming=h.act('startTransport','stockpile:yunxiu',siteId,'person:master',{herb:2});
+ h.until(s=>s.workOrdersById[incoming.id].phase==='delivered','seed is physically delivered',1000);
+ invite(h);h.until(s=>!!s.workOrdersById[orderId]?.crop,'real worker can now sow',600);
+ assert.equal(h.s.factsById[cropFact(2)].quantity,2);
+ assert.equal(h.s.stockpilesById[siteId].resources.herb,0);
+ exact(h,'delivered seed was spent exactly once');
+});
+
+if(source)test('cancelled planted seed stays spent and the next batch has a new fact identity',()=>{
+ const h=harness(SIM.validateSave(source.state),'sr009-crop-cancel'),farm=h.s.buildingsById[farmId];
+ const before=h.s.stockpilesById[siteId].resources.herb;
+ h.until(s=>!!s.workOrdersById[orderId]?.crop,'worker actually plants seed',300);
+ const batch=h.s.workOrdersById[orderId].batch;
+ assert.equal(h.s.stockpilesById[siteId].resources.herb,before-2);
+ const refund=h.act('cancelProduction',farm.id);
+ assert.deepEqual(refund,{herb:0});
+ assert.equal(h.s.stockpilesById[siteId].resources.herb,before-2);
+ assert.equal(h.s.factsById[`fact:crop:cancel:${farmId}:${batch}`].seedUsed,2);
+ assert.equal(h.s.factsById[harvestFact(batch)],undefined);
+ exact(h,'cancelled seed remains spent and identifiable');
+ const previous=JSON.stringify(h.s);
+ assert.throws(()=>h.act('cancelProduction',farm.id),/当前没有未完成的生产批次/);
+ assert.equal(JSON.stringify(h.s),previous);
+ h.until(s=>!s.master.activityId,'source transport finishes before seed delivery',1000);
+ const delivery=h.act('startTransport','stockpile:yunxiu',siteId,'person:master',{herb:2});
+ h.until(s=>s.workOrdersById[delivery.id].phase==='delivered','new seed reaches field',1000);
+ invite(h);h.until(s=>!!s.workOrdersById[orderId]?.crop,'next batch plants new seed',600);
+ const next=h.s.workOrdersById[orderId];assert.equal(next.batch,batch+1);
+ assert(h.s.factsById[cropFact(batch)]&&h.s.factsById[cropFact(next.batch)]);
+ exact(h,'both sow facts and only one active batch survive reload');
+});
+
+if(!activeSource)test('legacy active farm source',{skip:'Set SR009_ACTIVE_FARM_SOURCE to a valid pre-crop active farm save.'},()=>{});
+else test('an active v1 farm batch completes under its original no-seed terms',()=>{
+ const state=SIM.validateSave(activeSource.state||activeSource),before=JSON.stringify(state),h=harness(state,'sr009-legacy-active');
+ assert.equal(JSON.stringify(h.s),before);
+ const order=h.s.workOrdersById[orderId],batch=order.batch,site=h.s.stockpilesById[siteId];
+ assert(order.phase!=='completed'&&order.progressTicks>0);
+ assert.equal(order.crop,undefined);assert.deepEqual(h.s.reservationsById[order.reservationId].cost,{});
+ const seedBefore=site.resources.herb;
+ exact(h,'old active contribution and inventory survive reload');
+ h.until(s=>!!s.factsById[productionFact(batch)],'old real worker completes existing batch',500);
+ assert.equal(h.s.factsById[cropFact(batch)],undefined);
+ assert.equal(h.s.factsById[harvestFact(batch)],undefined);
+ assert(h.s.stockpilesById[siteId].resources.herb>seedBefore);
+ assert.equal(h.s.workOrdersById[orderId].recipeSnapshot,undefined);
+ exact(h,'old settled batch remains a single result');
+});
+
+if(!depletedSource)test('depleted herb source',{skip:'Set SR009_DEPLETED_FARM_SOURCE to a normal public-command checkpoint with a depleted herb patch.'},()=>{});
+else test('a mature and fully cared crop waits without draining a depleted source',()=>{
+ assert.equal(depletedSource.provenance?.kind,'normal-public-command-checkpoint');
+ const h=harness(SIM.validateSave(depletedSource.state),'sr009-depleted-source'),farm=h.s.buildingsById[farmId];
+ assert.equal(h.s.srEconomy.patches.herb.remaining,0);
+ if(h.s.speed===0)h.act('setSpeed',1);
+ if(h.s.workOrdersById[orderId]?.phase!=='completed')h.act('cancelProduction',farm.id);
+ if(!farm.enabled)h.act('toggleBuilding',farm.id);
+ invite(h);h.until(s=>!!s.workOrdersById[orderId]?.crop,'worker sows from existing field seed',600);
+ const batch=h.s.workOrdersById[orderId].batch,seeded=h.s.stockpilesById[siteId].resources.herb;
+ h.until(s=>s.workOrdersById[orderId]?.crop?.careContribution===200,'real work reaches full care while source is empty',2000);
+ const order=h.s.workOrdersById[orderId];
+ assert.equal(order.crop.growthElapsedTicks,10);
+ assert.equal(order.crop.phase,'ripe/waiting');
+ assert.equal(h.s.srEconomy.patches.herb.remaining,0);
+ assert.equal(h.s.stockpilesById[siteId].resources.herb,seeded);
+ assert.equal(h.s.factsById[productionFact(batch)],undefined);
+ assert.equal(h.s.factsById[harvestFact(batch)],undefined);
+ exact(h,'full care and depleted source remain a waiting crop after reload');
+});

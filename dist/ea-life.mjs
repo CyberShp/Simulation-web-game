@@ -1,4 +1,4 @@
-import {productionAvailability,productionInputAvailable} from './ea-sr-economy.mjs';
+import {productionAvailability,productionInputAvailable,FARM_CROP_RECIPE} from './ea-sr-economy.mjs';
 const units=(s,pixels)=>s.spatial?.version==='spatial-metres-1'?pixels/32:pixels;
 import {hallInteriorEnabled} from './ea-hall-interior.mjs';
 import {facilitySlots,slotById} from './ea-facility-slots.mjs';
@@ -73,14 +73,15 @@ export function workOpportunity(s,person,buildingOrId,{checkPath=true}={}) {
   const no=reason=>({available:false,willing:false,reason});
   if(!b||!BUILDINGS[b.type]?.work)return no('此设施没有生产差事。');
   if(b.spatialLock)return no('设施正在迁建或拆除，暂停接新差事。');
-  const availability=productionAvailability(s,b);if(!availability.available)return no(availability.reason);
+  const order=s.workOrdersById?.[`work:production:${b.instanceId}`],farmCrop=s.srEconomy&&b.type==='farm'&&(!order||order.phase==='completed'||order.crop);
+  if(!farmCrop){const availability=productionAvailability(s,b);if(!availability.available)return no(availability.reason);}
   if(person.activityId&&s.activitiesById?.[person.activityId]?.kind?.startsWith('sr-'))return no('正在履行另一项身体活动。');
   if(away(s,person))return no('正在山外，归院后再权衡差事。');
   if(!lifeBuildingActive(b))return no(b.enabled===false?'设施停用，先恢复运行。':'设施损坏，先修缮。');
   if(checkPath&&lifeScenePath(s,person,b)===null)return no('建筑入口不通，先留出连通道路。');
   if(s.schemaVersion!==6&&s.disciples.some(d=>d.id!==person.id&&d.job===b.id&&!d.mind?.away))return no('已有同门接下此处差事。');
   if(s.schemaVersion===6&&!facilitySlots(s,b,'work').length)return no('没有可达的生产工位。');
-  const input=BUILDINGS[b.type].input;if(input&&!productionInputAvailable(s,b)&&!Object.values(s.workOrdersById||{}).some(o=>o.kind==='production'&&o.targetId===b.instanceId&&o.phase!=='completed'))return no('生产原料不足，补足原料后再考虑。');
+  const input=farmCrop&&(!order||order.phase==='completed')?FARM_CROP_RECIPE.seedCost:BUILDINGS[b.type].input;if(input&&!productionInputAvailable(s,b,input)&&!Object.values(s.workOrdersById||{}).some(o=>o.kind==='production'&&o.targetId===b.instanceId&&o.phase!=='completed'))return no(farmCrop?'药田缺少田边灵草2份种苗，先实际搬入。':'生产原料不足，补足原料后再考虑。');
   if(p.satiety<22)return no('口粮不足，优先采食。');
   if(person.wound>20)return no('伤势未愈，优先调养。');
   if(person.energy<22)return no('精力不足，先休息。');

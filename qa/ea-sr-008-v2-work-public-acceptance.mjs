@@ -51,7 +51,34 @@ test('SR-XF-008-I01: five voluntary v2 offers share two physical lumber stations
   assert.equal(promise?.endTick,inviteTick+240,'a sourced promise lasts 240 world ticks');
  }
  const slots=spatialSlots(lumber,'work');assert.equal(slots.length,2);
- h.until(s=>s.homeMemberIds.filter(id=>s.activitiesById[s.personsById[id].activityId]?.targetId===lumber.instanceId&&s.activitiesById[s.personsById[id].activityId]?.phase==='executing').length===2,'two willing people reach distinct work slots',300);
+ const unwilling=offers.find(x=>x.candidate.available&&!x.candidate.willing);
+ assert(unwilling,'the public source also contains a feasible refusal');
+ const refusal=harness(SIM.validateSave(h.s)),refusedKey=`work:${lumber.instanceId}`;
+ refusal.act('toggleBuilding',lumber.id);refusal.save();
+ const closedOffer=refusal.act('inviteWork',unwilling.personId,lumber.instanceId);refusal.save();
+ assert.equal(closedOffer.available,false,'facility closure is a hard blocker');
+ assert.equal(refusal.s.personsById[unwilling.personId].schedule.retriesByTarget[refusedKey].consecutiveFailures,2);
+ assert.equal(closedOffer.retryAfterTick,refusal.s.worldTick+300,'changed conditions advance the backoff');
+ refusal.act('toggleBuilding',lumber.id);refusal.save();
+ const reopenedOffer=refusal.act('inviteWork',unwilling.personId,lumber.instanceId);refusal.save();
+ assert.equal(reopenedOffer.available,true,'reopened facility is feasible again');
+ assert.equal(reopenedOffer.accepted,false,'the same person still decides under the same world conditions');
+ assert.equal(refusal.s.personsById[unwilling.personId].schedule.retriesByTarget[refusedKey].consecutiveFailures,3);
+ assert.equal(reopenedOffer.retryAfterTick,refusal.s.worldTick+600,'third refusal reaches the capped backoff');
+ assert.deepEqual(refusal.act('inviteWork',unwilling.personId,lumber.instanceId),reopenedOffer,'a repeated offer cannot extend the cap');
+ h.until(s=>Object.values(s.personsById).some(p=>p.mind?.scenic?.bodyYield?.kind==='mutual-corridor'),'mutual corridor yields to a real waiting person',60);
+ const yielding=Object.values(h.s.personsById).find(p=>p.mind?.scenic?.bodyYield?.kind==='mutual-corridor');
+ const yieldingActivity=h.s.activitiesById[yielding.activityId],yieldingSlot=yieldingActivity.slotId;
+ assert.equal(yieldingActivity.phase,'waiting');
+ h.save();
+ assert.equal(h.s.personsById[yielding.personId].mind.scenic.bodyYield.kind,'mutual-corridor','the exact save retains the real yielding route');
+ assert.equal(h.s.activitiesById[yielding.activityId].slotId,yieldingSlot,'yielding retains the original workstation reservation');
+ h.until(s=>{
+  const first=s.personsById['person:lin-changfeng'].mind.scenic,second=s.personsById[yielding.personId].mind.scenic;
+  assert(Math.hypot(first.x-second.x,first.y-second.y)>=.53-1e-7,'the two bodies remain separate during the real side-step');
+  return s.homeMemberIds.filter(id=>s.activitiesById[s.personsById[id].activityId]?.targetId===lumber.instanceId&&s.activitiesById[s.personsById[id].activityId]?.phase==='executing').length===2;
+ },'two willing people reach distinct work slots',300);
+ assert(h.s.worldTick<inviteTick+240,'both stations are reached before the sourced promises expire');
  const workers=h.s.homeMemberIds.map(id=>({id,body:h.s.activitiesById[h.s.personsById[id].activityId]})).filter(x=>x.body?.targetId===lumber.instanceId&&x.body.phase==='executing');
  assert.equal(new Set(workers.map(x=>x.body.slotId)).size,2);
  for(const {id,body} of workers)assert.equal(h.s.reservationsById[body.reservationId]?.personId,id);
@@ -64,20 +91,6 @@ test('SR-XF-008-I01: five voluntary v2 offers share two physical lumber stations
   assert.notEqual(interrupted.s.activitiesById[p.activityId]?.phase,'executing','a closed facility cannot keep executing');
   assert.equal(interrupted.s.reservationsById[body.reservationId],undefined,'interrupting work releases its physical station');
  }
- const unwilling=offers.find(x=>x.candidate.available&&!x.candidate.willing);
- assert(unwilling,'the public source also contains a feasible refusal');
- const refusedKey=`work:${lumber.instanceId}`;
- const closedOffer=interrupted.act('inviteWork',unwilling.personId,lumber.instanceId);interrupted.save();
- assert.equal(closedOffer.available,false,'facility closure is a hard blocker');
- assert.equal(interrupted.s.personsById[unwilling.personId].schedule.retriesByTarget[refusedKey].consecutiveFailures,2);
- assert.equal(closedOffer.retryAfterTick,interrupted.s.worldTick+300,'changed conditions advance the backoff');
- interrupted.act('toggleBuilding',lumber.id);interrupted.save();
- const reopenedOffer=interrupted.act('inviteWork',unwilling.personId,lumber.instanceId);interrupted.save();
- assert.equal(reopenedOffer.available,true,'reopened facility is feasible again');
- assert.equal(reopenedOffer.accepted,false,'the same person still decides');
- assert.equal(interrupted.s.personsById[unwilling.personId].schedule.retriesByTarget[refusedKey].consecutiveFailures,3);
- assert.equal(reopenedOffer.retryAfterTick,interrupted.s.worldTick+600,'third refusal reaches the capped backoff');
- assert.deepEqual(interrupted.act('inviteWork',unwilling.personId,lumber.instanceId),reopenedOffer,'a repeated offer cannot extend the cap');
  h.until(s=>workers.every(({id})=>Object.values(s.personsById[id].schedule.commitmentsById).every(c=>c.status!=='active')),'promises reach their original deadlines',300);
  h.save();
  const relationChanges=h.s.homeMemberIds.filter(id=>JSON.stringify(h.s.personsById[id].mind.relationships)!==relationBaseline[id]);
