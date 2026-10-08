@@ -33,13 +33,13 @@
         "ea-opening-sim.mjs",
         "ea-sr-economy.mjs"
       ],
-      "verification": "GitHub API confirms main 050a78fa3fd33d73478401a4a733373cd8870cc1, gh-pages 679dab3b53c8571807f84cda36ac9b3edc6ce695 and Pages built; all 162 packaged text Git blob hashes match the published tree. Public HTTP/browser interaction was not verified.",
+      "verification": "GitHub API confirms main 050a78fa3fd33d73478401a4a733373cd8870cc1, gh-pages 679dab3b53c8571807f84cda36ac9b3edc6ce695 and Pages built; all 162 packaged text Git blob hashes match the published tree. Public entry returned HTTP 200 and published ea-ui.mjs bytes match the release manifest; public browser interaction was not verified.",
       "mismatches": 0
     },
     "previous_main": "850cc4599dc2e245117920725df449fd03ac4323",
     "browser_verification": {
       "viewport": "local Chromium, Qingxi market and ward outer scenes",
-      "scope": "Independent real-browser clicks used source-backed public travel saves: overview, building selection and return to near view worked in both scenes; market save and refresh preserved scene and displayed resources. Public Pages interaction and target devices were not verified.",
+      "scope": "Independent real-browser clicks used source-backed public travel saves on local Chromium: overview, building selection and return to near view worked in both scenes; market save and refresh preserved scene and displayed resources. Public entry returned HTTP 200 and published ea-ui.mjs bytes match the release manifest; public browser interaction and target devices were not verified.",
       "real_devices": false,
       "fps_measured": false,
       "acceptance_namespace": "qa-sr003-outer-overview-r21"
