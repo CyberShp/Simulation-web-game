@@ -1,5 +1,7 @@
 # M0→M1 交付接续 · 2026-10-08
 
+当前最新 M2 r29 已发布青溪有限实体补货：正常公开首批 11 命令/14 次精确存读、第二/三批排队 10/10，断桥本地采粮和坏档拒载通过；内部预约仓不可普通赠运，独立复核及根相邻商单/产权/搬运/世界回归通过。本地 Chromium 导入在途档并刷新后见货到店，控制台零错误。源码 `main` `441fd614ea96129542f14135e2e19dec7325fcf4`，网页 `gh-pages` `e2e29cb332e9bbac64477f1532da28847966484a`，标记 `ea-160-courtyard-20261008-r29`，Pages `built`，162 文本 blob 和公网入口/经营/界面模块匹配。改道、承运伤亡、取消等完整 SR011 分支继续；**39 passed、80 not_run、1 blocked**。详见 [STATUS](design/STATUS.md) 与 [台账](requirements/registry.json)。
+
 当前最新 M1 r28 已发布自动存档与备份校验减顿：仅复用已校验且文本未变的旧档，新/变化内容照常验证；持久层 36/36，本地 Chromium 合法 40 建筑/30 人档自动保存三份可用备份、刷新续玩且零错误。独立同浏览器 A/B 见 [STATUS](design/STATUS.md)；运行中寻路长帧和整体卡顿仍待。建筑网格旧 QA 断言校正后 6/6，不作为门位画稿验收。源码 `main` `4e84fd2ec4291fc034c0feea56e6b4d3470ca740`，网页 `gh-pages` `fd97c76977ad267c15f0906fd2d0668d8bfbf34e`，标记 `ea-160-courtyard-20261008-r28`，Pages `built`，162 文本 blob 及公网入口/存档模块匹配；**39 passed、80 not_run、1 blocked**。详见 [台账](requirements/registry.json)。
 
 当前最新 M1 r27 已发布施工完工门道候位存读修复：正常新档建住宅、招三人、落成百工坊后，清路线时同步清掉失效排队，原床位活动保留。根正常链 1/1、门道改路 1/1、空间 36/36；建筑网格宽测 4/6 的两项旧失败在原基线相同。源码 `main` `c8f71b8a803ab5a0292392194ab97c40b1e4bf7e`，网页 `gh-pages` `944f0720f5d01f374b1a403985a935a8ca0a24ff`，标记 `ea-160-courtyard-20261008-r27`，Pages `built`，162 文本 blob 与公网空间模块匹配，入口 HTTP 200。本批未另做浏览器实点，门位画稿/触控和整项 SR003 继续；**39 passed、80 not_run、1 blocked**。详见 [STATUS](design/STATUS.md) 与 [台账](requirements/registry.json)。
