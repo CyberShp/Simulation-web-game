@@ -249,6 +249,23 @@
       "source_sync_error": null,
       "previous_source_sync_error": "GitHub HTTPS receive timeout; remote verification connection timeout; bounded retry exceeded 40 seconds.",
       "source_sync_confirmed_by": "52349a064ed79771e522e62c878dac1b85522e70"
+    },
+    "mountain_domain_trial": {
+      "decision": "U-107",
+      "version": "mountain-domain-v2",
+      "status": "local-headless-verified-browser-in-progress",
+      "evidence": "docs/art/MOUNTAIN-DOMAIN-2026-10-09.md",
+      "build_manifest": "docs/art/mountain-domain-build.json",
+      "mainPack": "scene-d28daeedaaa0.pck",
+      "user_art_approved": false,
+      "real_devices_tested": false,
+      "published": false,
+      "full_requirement_status_changed": false,
+      "headless": {
+        "actor": 43,
+        "courtyard": 193,
+        "domain": 20
+      }
     }
   },
   "enums": {

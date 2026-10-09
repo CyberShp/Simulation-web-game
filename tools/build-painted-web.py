@@ -14,9 +14,9 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def run_godot(command):
     result = subprocess.run(command, text=True, stdout=subprocess.PIPE,
-                            stderr=subprocess.STDOUT, check=True)
+                            stderr=subprocess.STDOUT, check=False)
     print(result.stdout, end='')
-    if 'SCRIPT ERROR:' in result.stdout or '\nERROR:' in result.stdout:
+    if result.returncode or 'SCRIPT ERROR:' in result.stdout or '\nERROR:' in result.stdout:
         raise SystemExit('Godot reported an error; see the diagnostic above.')
 
 
@@ -30,7 +30,8 @@ def main():
     if not version.startswith('4.6.3.stable.'):
         raise SystemExit(f'Expected Godot 4.6.3; found {version}')
     assets = ROOT / 'godot/painted_courtyard/assets'
-    for name in ['founding-ground-v2.png', 'characters-v2.png', 'characters.json', 'layout.json']:
+    for name in ['founding-ground-v3.png', 'characters-v2.png', 'characters.json', 'layout.json',
+                 'domain-overview-v1.png', 'domain-layout.json']:
         if not (assets / name).is_file():
             raise SystemExit(f'Missing painted courtyard asset: {name}')
     args.output.parent.mkdir(parents=True, exist_ok=True)
@@ -38,9 +39,15 @@ def main():
         stage = Path(folder)
         shutil.copytree(ROOT / 'godot/painted_courtyard', stage / 'painted_courtyard',
                         ignore=shutil.ignore_patterns('*.import', '.DS_Store', '*.blend', '*.glb'))
+        # Export only active trial assets; source history remains in the workspace.
+        active_assets = {'founding-ground-v3.png', 'characters-v2.png', 'characters.json',
+                         'layout.json', 'domain-overview-v1.png', 'domain-layout.json'}
+        for candidate in (stage / 'painted_courtyard/assets').iterdir():
+            if candidate.is_file() and candidate.name not in active_assets:
+                candidate.unlink()
         (stage / 'project.godot').write_text('''config_version=5
 [application]
-config/name="云岫山院 · 绘画小院"
+config/name="云岫群山 · 开山与远行"
 run/main_scene="res://painted_courtyard/courtyard.tscn"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 run/max_fps=60
@@ -78,7 +85,7 @@ progressive_web_app/enabled=false
         run_godot([args.godot, '--headless', '--path', str(stage), '--editor', '--import'])
         run_godot([args.godot, '--headless', '--path', str(stage), '--quit-after', '2'])
         if args.check:
-            for name in ['painted-actor-check.gd', 'painted-courtyard-check.gd']:
+            for name in ['painted-actor-check.gd', 'painted-courtyard-check.gd', 'painted-domain-check.gd']:
                 shutil.copy2(ROOT / 'qa' / name, stage / name)
                 run_godot([args.godot, '--headless', '--path', str(stage), '--script', name])
                 (stage / name).unlink()
@@ -100,7 +107,7 @@ progressive_web_app/enabled=false
         sizes[pack_name] = sizes.pop(args.output.stem + '.pck', (exported / pack_name).stat().st_size)
         html = html[:match.start(1)] + json.dumps(configuration, ensure_ascii=False) + html[match.end(1):]
         html_path.write_text(html, encoding='utf-8')
-        manifest = {'build': 'founding-courtyard-v2', 'godot': version, 'mainPack': pack_name,
+        manifest = {'build': 'mountain-domain-v2', 'godot': version, 'mainPack': pack_name,
                     'files': {file.name: hashlib.sha256(file.read_bytes()).hexdigest()
                               for file in sorted(exported.iterdir()) if file.is_file()}}
         (exported / 'build.json').write_text(json.dumps(manifest, indent=2) + '\n', encoding='utf-8')

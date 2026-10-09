@@ -2,6 +2,7 @@ extends Node2D
 
 # ART-2D-01..07: the independent courtyard uses image pixels as its local space.
 const ACTOR = preload("res://painted_courtyard/actor_2d.gd")
+const DOMAIN = preload("res://painted_courtyard/mountain_domain.gd")
 const CELL := 6.0
 const CLEARANCE := 6.0
 const WALK_SPEED := 112.0
@@ -49,6 +50,10 @@ var frame_samples: Array[float] = []
 var message := "点选院地，让掌门沿石路行走"
 var js_callback: JavaScriptObject
 var native_label: Label
+var domain: Node2D
+var ground_painting: Sprite2D
+var follow_master := false
+var overview_mode := false
 
 func _ready() -> void:
 	var file := FileAccess.open("res://painted_courtyard/assets/layout.json", FileAccess.READ)
@@ -73,6 +78,9 @@ func _ready() -> void:
 	door = _vector(hall_data.get("door", [768, 530]))
 	for point in layout.get("work_points", [[1110, 720], [1160, 760]]):
 		work_points.append(_vector(point))
+	domain = DOMAIN.new()
+	domain.name = "MountainDomain"
+	add_child(domain)
 	_build_images(hall_data)
 	_build_navigation()
 	var sorted := Node2D.new()
@@ -130,6 +138,7 @@ func _polygon(values: Array) -> PackedVector2Array:
 
 func _build_images(hall_data: Dictionary) -> void:
 	var ground := Sprite2D.new()
+	ground_painting = ground
 	ground.name = "GroundPainting"
 	ground.texture = load("res://painted_courtyard/assets/" + str(layout.get("ground_texture", "ground.png")))
 	ground.centered = false
@@ -179,6 +188,9 @@ func _build_images(hall_data: Dictionary) -> void:
 		hall_image.decompress()
 
 func _is_walkable(point: Vector2) -> bool:
+	return _local_walkable(point) or (domain != null and bool(domain.definition.get("external_trail_navigation", false)) and domain.contains(point, CLEARANCE))
+
+func _local_walkable(point: Vector2) -> bool:
 	for offset in [Vector2.ZERO, Vector2(CLEARANCE, 0), Vector2(-CLEARANCE, 0), Vector2(0, CLEARANCE), Vector2(0, -CLEARANCE)]:
 		var sample: Vector2 = point + offset
 		var on_ground := false
@@ -200,7 +212,7 @@ func _build_navigation() -> void:
 	navigation.update()
 	for x in navigation.region.size.x:
 		for y in navigation.region.size.y:
-			navigation.set_point_solid(Vector2i(x, y), not _is_walkable(Vector2(x * CELL, y * CELL)))
+			navigation.set_point_solid(Vector2i(x, y), not _local_walkable(Vector2(x * CELL, y * CELL)))
 
 func _grid(point: Vector2) -> Vector2i:
 	return Vector2i(roundi(point.x / CELL), roundi(point.y / CELL))
@@ -228,6 +240,29 @@ func _clear_segment(a: Vector2, b: Vector2) -> bool:
 	return true
 
 func _path(from: Vector2, destination: Vector2) -> Array[Vector2]:
+	var start_local := _local_walkable(from)
+	var end_local := _local_walkable(destination)
+	if start_local and end_local:
+		return _local_path(from, destination)
+	var planned: Array[Vector2] = []
+	if not _is_walkable(from) or not _is_walkable(destination):
+		return planned
+	if start_local:
+		planned = _local_path(from, domain.gateway)
+		if planned.is_empty():
+			return []
+		planned.append_array(domain.path(domain.gateway, destination))
+	elif end_local:
+		planned = domain.path(from, domain.gateway)
+		var remainder := _local_path(domain.gateway, destination)
+		if planned.is_empty() or remainder.is_empty():
+			return []
+		planned.append_array(remainder)
+	else:
+		planned = domain.path(from, destination)
+	return planned
+
+func _local_path(from: Vector2, destination: Vector2) -> Array[Vector2]:
 	var result: Array[Vector2] = []
 	if not _is_walkable(from) or not _is_walkable(destination):
 		return result
@@ -264,7 +299,7 @@ func _walk_to(destination: Vector2, next_mode: String = "walk") -> bool:
 	var start := door if indoor else master.position
 	var planned := _path(start, destination)
 	if planned.is_empty():
-		message = "此处无法通行，请点选院地或石路"
+		message = "此处无法通行 · 请沿庭院、台阶和石桥行走"
 		_publish_state()
 		return false
 	if indoor:
@@ -276,13 +311,13 @@ func _walk_to(destination: Vector2, next_mode: String = "walk") -> bool:
 	selected = "master"
 	target = destination
 	target_visible = true
-	message = "掌门正在前往药田" if next_mode == "work" else "掌门正在沿院路行走"
+	message = "掌门正在前往药田" if next_mode == "work" else "掌门正在沿山路行走"
 	master.set_motion(true, false, 0.0)
 	_publish_state()
 	return true
 
 func _move_actor(actor: Node2D, points: Array[Vector2], speed: float, delta: float) -> bool:
-	var remaining := speed * delta
+	var remaining: float = speed * delta * actor.visual_height / 68.0
 	var travelled := 0.0
 	var moved := false
 	while not points.is_empty() and remaining > 0.0:
@@ -357,6 +392,9 @@ func _process(raw_delta: float) -> void:
 			if worker_working:
 				worker.set_facing(Vector2(-0.7, -0.3), 1.0)
 		worker.set_motion(not worker_route.is_empty(), worker_working, delta)
+	if follow_master and not overview_mode:
+		focus = focus.lerp(master.position + Vector2(0, -100), 1.0 - exp(-raw_delta * 5.0))
+		_update_camera()
 	metrics_timer += minf(raw_delta, 0.1)
 	if metrics_timer >= 0.2:
 		metrics_timer = 0.0
@@ -389,17 +427,33 @@ func _update_camera() -> void:
 	if OS.has_feature("web"):
 		pointer_scale = maxf(1.0, float(JavaScriptBridge.eval("window.devicePixelRatio || 1", true)))
 	var viewport := get_viewport_rect().size
-	var is_portrait := viewport.x < viewport.y
-	if is_portrait != portrait_view:
-		portrait_view = is_portrait
-		focus = _home_focus()
-	var cover := maxf(viewport.x / canvas_size.x, viewport.y / canvas_size.y)
+	portrait_view = viewport.x < viewport.y
+	var cover := minf(viewport.x / canvas_size.x, viewport.y / canvas_size.y)
+	zoom_factor = clampf(zoom_factor, _minimum_zoom(), _minimum_zoom() * 2.2 if overview_mode else 2.6)
 	camera.zoom = Vector2.ONE * cover * zoom_factor
 	var half := viewport / camera.zoom / 2.0
-	focus.x = clampf(focus.x, half.x, maxf(half.x, canvas_size.x - half.x))
-	focus.y = clampf(focus.y, half.y, maxf(half.y, canvas_size.y - half.y))
+	var bounds: Rect2 = domain.world_rect if overview_mode else domain.detail_rect
+	for axis in range(2):
+		if half[axis] * 2.0 >= bounds.size[axis]:
+			focus[axis] = bounds.get_center()[axis]
+		else:
+			focus[axis] = clampf(focus[axis], bounds.position[axis] + half[axis], bounds.end[axis] - half[axis])
 	camera.position = focus
 	camera.force_update_scroll()
+	domain.set_view(overview_mode)
+	ground_painting.visible = not overview_mode
+	ground_painting.modulate.a = 1.0
+	for layer in painted_layers:
+		layer.node.visible = ground_painting.visible
+		layer.node.modulate.a = ground_painting.modulate.a
+
+func _minimum_zoom() -> float:
+	var viewport := get_viewport_rect().size
+	var cover := minf(viewport.x / canvas_size.x, viewport.y / canvas_size.y)
+	if overview_mode:
+		return minf(viewport.x / domain.world_rect.size.x, viewport.y / domain.world_rect.size.y) / cover
+	var size: Vector2 = domain.detail_rect.size
+	return minf(viewport.x / size.x, viewport.y / size.y) / cover
 
 func _home_focus() -> Vector2:
 	if get_viewport_rect().size.x < get_viewport_rect().size.y:
@@ -407,9 +461,22 @@ func _home_focus() -> Vector2:
 	return _vector(layout.get("camera_focus", [805, 480]))
 
 func _zoom(multiplier: float, screen_anchor: Vector2 = Vector2(-1, -1)) -> void:
+	var proposed := zoom_factor * multiplier
+	if not overview_mode and multiplier < 1.0 and proposed < _minimum_zoom() * 0.98:
+		_command("overview")
+		return
+	if overview_mode and multiplier > 1.0 and proposed > _minimum_zoom() * 2.2:
+		overview_mode = false
+		focus = _home_focus()
+		zoom_factor = _minimum_zoom()
+		_update_camera()
+		message = "开山院与观瀑步道 · 继续放大可近观人物"
+		_publish_state()
+		return
 	var anchored := screen_anchor.x >= 0
 	var before := get_canvas_transform().affine_inverse() * screen_anchor
-	zoom_factor = clampf(zoom_factor * multiplier, 1.0, 2.6)
+	follow_master = false
+	zoom_factor = clampf(proposed, _minimum_zoom(), _minimum_zoom() * 2.2 if overview_mode else 2.6)
 	_update_camera()
 	if anchored:
 		var after := get_canvas_transform().affine_inverse() * screen_anchor
@@ -444,11 +511,13 @@ func _unhandled_input(event: InputEvent) -> void:
 		last_pointer_position = event.position
 		drag_distance += pointer_delta.length()
 		if drag_distance >= _drag_threshold():
+			follow_master = false
 			focus -= pointer_delta / camera.zoom
 			_update_camera()
 	elif event is InputEventMagnifyGesture:
 		_zoom(event.factor, event.position)
 	elif event is InputEventPanGesture:
+		follow_master = false
 		focus += event.delta * 12.0 / camera.zoom
 		_update_camera()
 	elif event is InputEventKey and event.pressed and not event.echo:
@@ -488,6 +557,10 @@ func _occluded(actor: Node2D, point: Vector2) -> bool:
 
 func _click(screen: Vector2) -> void:
 	var point := get_canvas_transform().affine_inverse() * screen
+	if overview_mode:
+		message = "山域地形总览 · 点“近观小院”或“跟随掌门”回到可游历庭院"
+		_publish_state()
+		return
 	var candidates: Array[Dictionary] = []
 	if painted_layers.is_empty() and _hall_hit(point):
 		candidates.append({"kind": "hall", "depth": hall.position.y, "order": hall.get_index()})
@@ -552,6 +625,8 @@ func _reset() -> void:
 	mode = "idle"
 	selected = "master"
 	target_visible = false
+	follow_master = false
+	overview_mode = false
 	trial_time = 0.0
 	portrait_view = get_viewport_rect().size.x < get_viewport_rect().size.y
 	focus = _home_focus()
@@ -561,9 +636,52 @@ func _reset() -> void:
 	_sync_animation_pause()
 
 func _command(command: String) -> void:
-	if command in ["tour", "enter", "work"] and not _movement_allowed():
+	if command in ["tour", "enter", "work", "explore", "return"] and not _movement_allowed():
+		return
+	if command.begins_with("place:"):
+		for place in domain.places:
+			if command == "place:" + str(place.id):
+				message = str(place.label) + " · " + str(place.description)
+				_publish_state()
 		return
 	match command:
+		"overview":
+			follow_master = false
+			overview_mode = true
+			focus = domain.world_rect.get_center()
+			zoom_factor = _minimum_zoom()
+			_update_camera()
+			message = "云岫山域 · 约六公里见方的地形规划，开山院与观瀑步道可近观游历"
+		"home":
+			follow_master = false
+			overview_mode = false
+			focus = _home_focus()
+			zoom_factor = 1.0
+			_update_camera()
+			message = "开山旧院 · 主殿、古松、山门与灵泉"
+		"follow":
+			follow_master = true
+			overview_mode = false
+			focus = master.position + Vector2(0, -100)
+			zoom_factor = 1.55
+			_update_camera()
+			message = "镜头跟随掌门 · 拖动可自由查看"
+		"explore":
+			tour_queue.clear()
+			if _walk_to(domain.destination, "walk"):
+				follow_master = true
+				overview_mode = false
+				zoom_factor = 1.55
+				_update_camera()
+				message = "掌门正在穿过前庭与石桥，前往观瀑台"
+		"return":
+			tour_queue.clear()
+			if _walk_to(_vector(layout.master_start), "walk"):
+				follow_master = true
+				overview_mode = false
+				zoom_factor = 1.55
+				_update_camera()
+				message = "掌门正在沿山路返回开山院"
 		"tour":
 			tour_queue.clear()
 			for point in layout.get("tour_points", [[1060, 580], [1110, 780], [700, 850], [460, 600], [460, 270], [1060, 270], [1060, 580], [768, 670]]):
@@ -626,7 +744,7 @@ func _publish_state() -> void:
 	var positions := {"master": _xy(master.position), "worker": _xy(worker.position), "hall": _xy(hall.position), "door": _xy(door)}
 	var projected := {"master": _screen(master.position - Vector2(0, height * 0.5)), "worker": _screen(worker.position - Vector2(0, height * 0.5)), "masterFeet": _screen(master.position), "workerFeet": _screen(worker.position), "hall": _screen(hall.position - Vector2(0, 150)), "door": _screen(door), "work": _screen(_vector(layout.get("master_work_point", [work_points[0].x - 60, work_points[0].y + 28])))}
 	var state := {
-		"ready": true, "scope": "painted-courtyard", "build": "founding-courtyard-v2", "message": message,
+		"ready": true, "scope": "painted-courtyard", "build": "mountain-domain-v2", "message": message,
 		"mode": mode, "selected": selected, "paused": paused, "backgrounded": backgrounded,
 		"indoor": indoor, "masterVisible": master.visible, "workerWorking": worker_working,
 		"positions": positions, "projectedScreen": projected, "viewport": _xy(viewport),
@@ -639,6 +757,10 @@ func _publish_state() -> void:
 		"drawCalls": Performance.get_monitor(Performance.RENDER_TOTAL_DRAW_CALLS_IN_FRAME)
 	}
 	state["landmarks"] = layout.get("landmarks", {})
+	var places: Array[Dictionary] = []
+	for place in domain.places:
+		places.append({"id": place.id, "label": place.label, "screen": _screen(domain.place_position(place))})
+	state["domain"] = {"overview": overview_mode, "planningExtentKm": [6, 6], "follow": follow_master, "gateway": _xy(domain.gateway), "destination": _xy(domain.destination), "trailLengthPixels": domain.trail_length, "places": places, "location": "开山院" if _local_walkable(master.position) else "松溪山路", "minimumZoom": _minimum_zoom()}
 	state["actorHeight"] = height
 	state["animations"] = {"master": master._displayed_animation, "masterFrame": master._displayed_index, "worker": worker._displayed_animation, "workerFrame": worker._displayed_index}
 	state["bodyOccluded"] = {"master": _occluded(master, master.position - Vector2(0, height * 0.5)), "worker": _occluded(worker, worker.position - Vector2(0, height * 0.5))}

@@ -108,11 +108,12 @@ func _run() -> void:
 		cursor = destination
 	_check_path(courtyard.work_points[0], courtyard.work_points[1], "Disciple first work leg")
 	_check_path(courtyard.work_points[1], courtyard.work_points[0], "Disciple return work leg")
-	for blocked in [{"name": "closed hall", "point": Vector2(752, 308)}, {"name": "spring water", "point": Vector2(1090, 647)}, {"name": "pine roots and rock", "point": Vector2(522, 269)}, {"name": "foreground cliff", "point": Vector2(780, 803)}, {"name": "left gate pier", "point": Vector2(737, 607)}, {"name": "right gate pier", "point": Vector2(826, 599)}]:
-		_check(not courtyard._is_walkable(blocked.point), str(blocked.name) + " blocks walking")
-		_check(courtyard._path(start, blocked.point).is_empty(), str(blocked.name) + " rejects a route")
+	for blocked in courtyard.layout.validation.blocked_points:
+		var blocked_point: Vector2 = courtyard._vector(blocked.point)
+		_check(not courtyard._is_walkable(blocked_point), str(blocked.name) + " blocks walking")
+		_check(courtyard._path(start, blocked_point).is_empty(), str(blocked.name) + " rejects a route")
 		courtyard._reset()
-		_check(not courtyard._walk_to(blocked.point) and courtyard.route.is_empty() and courtyard.master.position == start, str(blocked.name) + " does not move the player")
+		_check(not courtyard._walk_to(blocked_point) and courtyard.route.is_empty() and courtyard.master.position == start, str(blocked.name) + " does not move the player")
 	# Button sequences run scene logic through arrival, including indoor exit.
 	courtyard._reset()
 	courtyard._command("enter")
@@ -143,8 +144,8 @@ func _run() -> void:
 	var gate: Dictionary = _layer("gate")
 	_check(not gate.is_empty(), "Mountain gate has a painted depth layer")
 	if not gate.is_empty():
-		_check(not courtyard._layer_hit(gate, Vector2(783, 589)), "Gate opening keeps its visible ground clear")
-		courtyard.master.position = Vector2(784, 568)
+		_check(not courtyard._layer_hit(gate, courtyard._vector(courtyard.layout.validation.gate_opening)), "Gate opening keeps its visible ground clear")
+		courtyard.master.position = courtyard._vector(courtyard.layout.validation.gate_rear)
 		var covered := _solid_pixel(courtyard.master, gate, true)
 		_check(covered.is_finite(), "Rear-gate fixture has a real character pixel behind the roof")
 		if covered.is_finite():
@@ -156,7 +157,7 @@ func _run() -> void:
 		if exposed.is_finite():
 			_click_world(exposed)
 			_check(courtyard.selected == "master", "Visible character pixel at the gate remains selectable")
-		courtyard.master.position = Vector2(812, 650)
+		courtyard.master.position = courtyard._vector(courtyard.layout.validation.gate_front)
 		_check(courtyard._is_walkable(courtyard.master.position), "Front-gate selection fixture stands on real path")
 		var foreground := _solid_pixel(courtyard.master, gate, true)
 		_check(foreground.is_finite(), "Front-gate fixture overlaps a painted pier with a real body pixel")
@@ -164,7 +165,7 @@ func _run() -> void:
 			_check(not courtyard._occluded(courtyard.master, foreground), "Character in front of gate is not hidden")
 			_click_world(foreground)
 			_check(courtyard.selected == "master", "Foreground character wins selection over gate")
-		courtyard.master.position = Vector2(812, float(gate.depth))
+		courtyard.master.position = courtyard._vector(courtyard.layout.validation.gate_equal_depth)
 		_check(courtyard._is_walkable(courtyard.master.position), "Equal-depth fixture stands on the gate path")
 		var equal_depth := _solid_pixel(courtyard.master, gate, true)
 		_check(equal_depth.is_finite(), "Equal-depth fixture has a painted character pixel over the gate")
@@ -172,7 +173,7 @@ func _run() -> void:
 			_check(courtyard.master.get_index() > gate.node.get_index(), "Equal-depth character is drawn after the gate in scene order")
 			_click_world(equal_depth)
 			_check(courtyard.selected == "master", "Equal-depth selection follows the character drawn in front")
-	_click_world(Vector2(754, 300))
+	_click_world(courtyard._vector(courtyard.layout.validation.hall_hit))
 	_check(courtyard.selected == "hall", "Main hall painted facade is selectable")
 	courtyard._reset()
 	var worker_pixel := _solid_pixel(courtyard.worker, _layer("hall"), false)

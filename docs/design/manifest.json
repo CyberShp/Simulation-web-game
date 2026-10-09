@@ -29,6 +29,7 @@
   "requiredRead": [
     "AGENTS.md",
     "docs/SECT-GROWTH-PLAN.md",
+    "docs/MOUNTAIN-DOMAIN.md",
     "docs/PAINTED-COURTYARD.md",
     "docs/GODOT-MIGRATION.md",
     "docs/design/README.md",
@@ -1247,7 +1248,7 @@
     "approvedConcept": "docs/art/reference/mountain-courtyard.png",
     "modelPolicy": "3d-model-production-and-expansion-stopped",
     "preserveExistingAssetsAndEvidence": true,
-    "runtimeEvidence": "docs/art/FOUNDING-COURTYARD-2026-10-09.md",
+    "runtimeEvidence": "docs/art/MOUNTAIN-DOMAIN-2026-10-09.md",
     "closesWholeRequirements": false,
     "rendering": "godot-2d",
     "view": "fixed-oblique",
@@ -1259,7 +1260,7 @@
     "assetDirectory": "godot/painted_courtyard/assets",
     "buildScript": "tools/build-painted-web.py",
     "generatedPreviewEntry": "dist/painted-courtyard/index.html",
-    "acceptanceChecklist": "ART-2D-01–08",
+    "acceptanceChecklist": "DOMAIN-01–06 and related ART-2D regressions",
     "userRealtimeApproval": "pending",
     "batchArtExpansionGate": "user-approval-of-actual-painted-web-trial",
     "writesFormalSaveSlots": false,
@@ -1286,10 +1287,13 @@
         "backgroundRocks": "non-walkable"
       }
     },
-    "alignmentDecisionId": "U-106",
-    "currentPrototype": "docs/art/sect-growth-20261009-v2/stage-01-5.png",
+    "alignmentDecisionId": "U-107",
+    "currentPrototype": "godot/painted_courtyard/assets/founding-ground-v3.png",
     "publicPreviewURL": "https://cybershp.github.io/Simulation-web-game/painted-courtyard/?v=134122ff64e2",
-    "publicationStatus": "published-trial-user-art-review-pending"
+    "publicationStatus": "local-development",
+    "currentSpatialDecisionId": "U-107",
+    "currentSpatialReference": "docs/MOUNTAIN-DOMAIN.md",
+    "historicalAlignmentDecisionId": "U-106"
   },
   "currentHandoff": {
     "updatedAt": "2026-10-09",
@@ -1318,7 +1322,9 @@
     "sectGrowthPlan": "docs/SECT-GROWTH-PLAN.md",
     "currentLayoutDecisionId": "U-105",
     "layoutRefinementId": "R-32",
-    "currentAlignmentDecisionId": "U-106"
+    "currentAlignmentDecisionId": "U-107",
+    "mountainDomain": "docs/MOUNTAIN-DOMAIN.md",
+    "currentSpatialDecisionId": "U-107"
   },
   "historicalDevelopmentSnapshots": [
     {

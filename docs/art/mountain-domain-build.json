@@ -1,0 +1,48 @@
+{
+  "build": "mountain-domain-v2",
+  "godot": "4.6.3.stable.official.7d41c59c4",
+  "mainPack": "scene-d28daeedaaa0.pck",
+  "files": {
+    "index.audio.position.worklet.js": "be33985bc7160d6bf9646f259cd86b259cd67b02ccb297ee5c44f8ac84327bc8",
+    "index.audio.worklet.js": "5b476a9c9ce642c0ee4256436d1bc31d9c38f868aca0f9a8e2a57c18d2dec2a3",
+    "index.html": "1a87b50c134b66ebaa962ac118b8d273f59d71ab6365c702907002fa6c7bb757",
+    "index.js": "e3f56ee40e6f84371053db06692cfac15e2c8659547b11c6b2dfa1996dabd981",
+    "index.png": "3cb4495c0b98dfbe4b663cbf2b6836473572339beb66d902367893162a70be0e",
+    "index.wasm": "26b61ce95247012ab3dca3ff51e96d1cdbff44ee91a8c20a83e150afca83f1b6",
+    "scene-d28daeedaaa0.pck": "d28daeedaaa04a91a191f6d24717d9c9c25cb90657466698fa9667756221ce4b"
+  },
+  "decision": "U-107",
+  "scope": "independent-art-trial",
+  "source_base": "769c9f4",
+  "built_at": "2026-10-09T23:59:18.830725+08:00",
+  "headless": {
+    "actor": 43,
+    "courtyard": 193,
+    "domain": 20
+  },
+  "sources": {
+    "godot/painted_courtyard/courtyard.gd": "4ca351cc2e1ed97d5bf4fd7545286e1374428b45a37f5663a94c6bd617317f9a",
+    "godot/painted_courtyard/mountain_domain.gd": "aed5c587f3a006d0879e919055d4b093cbf2858bc236d02cd554c55f0b345100",
+    "godot/painted_courtyard/web/shell.html": "93c147b1bb474f3046c1760b5e23b3e755b97b0efc8d5946fd8f65168dadc11b",
+    "godot/painted_courtyard/assets/layout.json": "d6e1eeb99b849e6b62774f44d2fa3347647a1183aeacb01d1bfbe54b47b5b72c",
+    "godot/painted_courtyard/assets/domain-layout.json": "5d7ae32d5c1664534b68c1486611de1ba96ef9b70148dac69a3ac6b3f836e993",
+    "godot/painted_courtyard/assets/founding-ground-v3.png": "e33f79f9c27741902bbb82d963653400c7e20e58a8241f66d1ba35cc02d4231e",
+    "godot/painted_courtyard/assets/domain-overview-v1.png": "4d00641c229e28ae8ff335a73ab0b7376041891e155db373af4a10b44e2d0014",
+    "tools/build-painted-web.py": "5ebe0097a9f4cefdb2cf3814ae09d288a3e1786e3aa0c058f03f683059251115",
+    "qa/painted-courtyard-check.gd": "0c030dc89e922150267d5504bd896ca12a09ef28777bf173c9bfc4b817878541",
+    "qa/painted-domain-check.gd": "9b5e3d6cc147c0dfe8055a88261771ab810e78b47a02c561b5b9715db93b0393"
+  },
+  "user_art_approved": false,
+  "real_devices_tested": false,
+  "publication": {
+    "status": "local-verification"
+  },
+  "independent_review": {
+    "code_assets_scope": "passed",
+    "active_textures": 3,
+    "active_configs": 3,
+    "layout_copies_identical": true,
+    "formal_runtime_changed": false,
+    "route_wording_corrected": true
+  }
+}
