@@ -35,7 +35,37 @@
   "user_art_approved": false,
   "real_devices_tested": false,
   "publication": {
-    "status": "local-verification"
+    "source": "2ea41759944a229e0f6b6c2233cf4224c70aae34",
+    "pages": "32d2c270010a3a325b70de75ac0f3f89d88f7f2f",
+    "previous_pages": "f97d990b4142b761c1335eb2e3f0376122e9689f",
+    "homepage_blob": "350e2e5e463ece24d89668babd6dbdb86a35cc65",
+    "changed_files": [
+      "painted-courtyard/build.json",
+      "painted-courtyard/index.html",
+      "painted-courtyard/scene-d28daeedaaa0.pck"
+    ],
+    "public_url": "https://cybershp.github.io/Simulation-web-game/painted-courtyard/?v=d28daeedaaa0",
+    "status": "published-and-public-browser-verified",
+    "pages_status": "built",
+    "verified_files": 8,
+    "files_verified_at": "2026-10-09T16:19:34.483998+00:00",
+    "public_browser": {
+      "checks": {
+        "pack": true,
+        "viewSwitch": true,
+        "arrived": true,
+        "pause": true,
+        "noErrors": true
+      },
+      "console_errors": 0,
+      "request_failures": 0,
+      "storage": {
+        "local": {},
+        "session": {}
+      },
+      "evidence": "output/playwright/mountain-domain/public-short.json",
+      "screenshot": "output/playwright/mountain-domain/public-home.png"
+    }
   },
   "independent_review": {
     "code_assets_scope": "passed",
@@ -44,5 +74,55 @@
     "layout_copies_identical": true,
     "formal_runtime_changed": false,
     "route_wording_corrected": true
+  },
+  "browser": {
+    "status": "scoped-local-verified",
+    "engine": "Chromium 154",
+    "viewports": [
+      {
+        "css": [
+          1440,
+          900
+        ],
+        "dpr": 1,
+        "input": "mouse"
+      },
+      {
+        "css": [
+          1024,
+          768
+        ],
+        "dpr": 2,
+        "input": "CDP touch emulation"
+      },
+      {
+        "css": [
+          768,
+          1024
+        ],
+        "dpr": 2,
+        "input": "CDP touch emulation"
+      }
+    ],
+    "checks": [
+      "two-level camera",
+      "person and visible hall picking",
+      "drag and pinch",
+      "outbound ground click and return",
+      "gate and bridge tour",
+      "blockers",
+      "stable work",
+      "enter and exit",
+      "pause and resume",
+      "refresh reset",
+      "empty storage"
+    ],
+    "fps_observed": 60,
+    "frame_p95_ms": 16.7,
+    "sample_window_frames": 300,
+    "console_errors": 0,
+    "console_warnings": 0,
+    "real_background_visibility": "not-verified-document-hidden-remained-false",
+    "real_devices": false
   }
 }

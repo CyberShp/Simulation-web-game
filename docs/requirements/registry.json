@@ -253,18 +253,89 @@
     "mountain_domain_trial": {
       "decision": "U-107",
       "version": "mountain-domain-v2",
-      "status": "local-headless-verified-browser-in-progress",
+      "status": "published-and-public-browser-verified",
       "evidence": "docs/art/MOUNTAIN-DOMAIN-2026-10-09.md",
       "build_manifest": "docs/art/mountain-domain-build.json",
       "mainPack": "scene-d28daeedaaa0.pck",
       "user_art_approved": false,
       "real_devices_tested": false,
-      "published": false,
+      "published": true,
       "full_requirement_status_changed": false,
       "headless": {
         "actor": 43,
         "courtyard": 193,
         "domain": 20
+      },
+      "source": "2ea41759944a229e0f6b6c2233cf4224c70aae34",
+      "pages": "32d2c270010a3a325b70de75ac0f3f89d88f7f2f",
+      "public_url": "https://cybershp.github.io/Simulation-web-game/painted-courtyard/?v=d28daeedaaa0",
+      "public_files_verified": 8,
+      "browser": {
+        "status": "scoped-local-verified",
+        "engine": "Chromium 154",
+        "viewports": [
+          {
+            "css": [
+              1440,
+              900
+            ],
+            "dpr": 1,
+            "input": "mouse"
+          },
+          {
+            "css": [
+              1024,
+              768
+            ],
+            "dpr": 2,
+            "input": "CDP touch emulation"
+          },
+          {
+            "css": [
+              768,
+              1024
+            ],
+            "dpr": 2,
+            "input": "CDP touch emulation"
+          }
+        ],
+        "checks": [
+          "two-level camera",
+          "person and visible hall picking",
+          "drag and pinch",
+          "outbound ground click and return",
+          "gate and bridge tour",
+          "blockers",
+          "stable work",
+          "enter and exit",
+          "pause and resume",
+          "refresh reset",
+          "empty storage"
+        ],
+        "fps_observed": 60,
+        "frame_p95_ms": 16.7,
+        "sample_window_frames": 300,
+        "console_errors": 0,
+        "console_warnings": 0,
+        "real_background_visibility": "not-verified-document-hidden-remained-false",
+        "real_devices": false
+      },
+      "public_browser": {
+        "checks": {
+          "pack": true,
+          "viewSwitch": true,
+          "arrived": true,
+          "pause": true,
+          "noErrors": true
+        },
+        "console_errors": 0,
+        "request_failures": 0,
+        "storage": {
+          "local": {},
+          "session": {}
+        },
+        "evidence": "output/playwright/mountain-domain/public-short.json",
+        "screenshot": "output/playwright/mountain-domain/public-home.png"
       }
     }
   },

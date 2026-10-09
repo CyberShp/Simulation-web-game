@@ -1289,14 +1289,14 @@
     },
     "alignmentDecisionId": "U-107",
     "currentPrototype": "godot/painted_courtyard/assets/founding-ground-v3.png",
-    "publicPreviewURL": "https://cybershp.github.io/Simulation-web-game/painted-courtyard/?v=134122ff64e2",
-    "publicationStatus": "local-development",
+    "publicPreviewURL": "https://cybershp.github.io/Simulation-web-game/painted-courtyard/?v=d28daeedaaa0",
+    "publicationStatus": "published-and-public-browser-verified",
     "currentSpatialDecisionId": "U-107",
     "currentSpatialReference": "docs/MOUNTAIN-DOMAIN.md",
     "historicalAlignmentDecisionId": "U-106"
   },
   "currentHandoff": {
-    "updatedAt": "2026-10-09",
+    "updatedAt": "2026-10-10",
     "entry": "AGENTS.md",
     "handoff": "docs/CODEX-HANDOFF.md",
     "deliveryPlan": "docs/DELIVERY-PLAN.md",
@@ -1324,7 +1324,8 @@
     "layoutRefinementId": "R-32",
     "currentAlignmentDecisionId": "U-107",
     "mountainDomain": "docs/MOUNTAIN-DOMAIN.md",
-    "currentSpatialDecisionId": "U-107"
+    "currentSpatialDecisionId": "U-107",
+    "currentSpatialSourceCommit": "2ea41759944a229e0f6b6c2233cf4224c70aae34"
   },
   "historicalDevelopmentSnapshots": [
     {
