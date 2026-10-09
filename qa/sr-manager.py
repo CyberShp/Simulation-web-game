@@ -189,7 +189,7 @@ def render(data):
         s += ['']
     first = next(r for r in data['requirements'] if r['id']=='SR-XF-001')
     checkpoint = 'SR-XF-001已完成需求管理及文档一致性验收。' if first['acceptance_status']=='passed' else '先完成SR-XF-001。'
-    s += ['## 当前接续', '', checkpoint+'下一迭代按I1集中补齐共同契约、空间、预制件、自由营造、人物活动、生产物流、触控和迁移。设计输出与实现同SR跟踪，跨模块依赖不按文件独立完成判断。', '',
+    s += ['## 当前接续', '', checkpoint+'下一迭代按I1集中补齐共同契约、空间、预制件、预设建位与阶段营造、人物活动、生产物流、触控和迁移。设计输出与实现同SR跟踪，跨模块依赖不按文件独立完成判断。', '',
           '远期或条件项不进入前期关键依赖；范围改变时登记决策与影响，再重新排期。', '']
     (BASE/'BACKLOG.md').write_text('\n'.join(s))
 

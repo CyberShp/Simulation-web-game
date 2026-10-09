@@ -14,13 +14,13 @@
 
 纳入云岫前期，按依赖推进。
 
-决策来源：U-63, U-93, R-25, U-94。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
+决策来源：U-63, U-93, R-25, U-94, U-105, R-32。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
 
-规格：[05-RUNTIME-CONTRACTS.md](../../../docs/design/05-RUNTIME-CONTRACTS.md)、[07-ECONOMY-ORGANIZATION.md](../../../docs/design/07-ECONOMY-ORGANIZATION.md)、[14-EARLY-GAME-DETAILED-DESIGN.md](../../../docs/design/14-EARLY-GAME-DETAILED-DESIGN.md)。
+规格：[05-RUNTIME-CONTRACTS.md](../../../docs/design/05-RUNTIME-CONTRACTS.md)、[07-ECONOMY-ORGANIZATION.md](../../../docs/design/07-ECONOMY-ORGANIZATION.md)、[14-EARLY-GAME-DETAILED-DESIGN.md](../../../docs/design/14-EARLY-GAME-DETAILED-DESIGN.md)、[SECT-GROWTH-PLAN.md](../../../docs/SECT-GROWTH-PLAN.md)。
 
 依赖：[SR-XF-002](SR-XF-002.md)、[SR-XF-003](SR-XF-003.md)、[SR-XF-009](SR-XF-009.md)。
 
-关联既有验收：ECON-02, ECON-03；本SR的AC细化这些目标，不代表旧版本已经通过。
+关联既有验收：ECON-02, ECON-03, GROWTH-03, GROWTH-04, GROWTH-06, GROWTH-08, GROWTH-11；本SR的AC细化这些目标，不代表旧版本已经通过。
 
 ## 现状与设计缺口
 
@@ -59,11 +59,12 @@ SR-XF-010-AC-02证据：qa/ea-sr-010-transport-interrupt-public-acceptance.mjs�
 
 SR-XF-010-AC-03证据：qa/ea-sr-010-property-public-acceptance.mjs；qa/ea-sr-growth-acceptance.mjs；dist/ea-sr-economy.mjs；dist/ea-sr-equipment.mjs；docs/design/STATUS.md
 
-
 2026-10-08 M2 工地物流缺口复现：正常公开疗伤后在世界步200营造灵草田，下单同刻公库木65→40、石45→35，有逻辑材料预约但无工地位置库存或搬运批次；前后精确存读档在 /tmp/immortal-m2-sr010-gap。SR010-AC01 保持 not_run，待补材料实际到场/逐段守恒并复核现有营造与旧档。
 2026-10-08 M2 AC01：正常公开灵草田档在主屋预留、掌门携料、工地交付、安装和完工各阶段木石数量守恒；交付前进度0，取消后材料实际返仓才一次退款，旧无材料流在建档保留原结算。定向7/7、空间34/34、相关场景UI10/10、升级/迁建/拆除公开回归4/4；独立只读复核施工条真实阶段/百分比。隔离桌面浏览器另确认建成和在途取消返仓。受伤/断路仅故障注入，AC02/03和整项仍未完成。
 2026-10-08 M2 AC03：公开命令来源的赠药与入宗、同所有者私仓搬运、远程赠物绕行拒绝；隔离医疗触发后内部只取公药一剂，公开命令不可伪造。原借剑由借物人实际走到主屋公库，抵达后 30 世界步完成同一实例归还；公库末 40 木只准一单预约。各阶段精确存读，权限专项6/6、装备成长回归45/45；医药伤势为标注的注入，网页真机未验，整项 D/I/V/R 不关闭。
 2026-10-08 r22 相邻物权复验：公库百工单预留/取货/取消/返院保留公共权限，只有玩家明确划拨才转掌门私物；位置库存4/4、产权6/6根复跑。SR010完整I/V/R与目标设备仍待。
+
+2026-10-09 U-105 / R-32：山域成长的迁居、外谷/分峰配送、货位、所有权与预约继续使用本SR已有实体搬运及守恒契约，关联 docs/SECT-GROWTH-PLAN.md 的 GROWTH-03/04/06/08/11。本批仅补设计来源与接缝，原AC文案、状态、证据及D/I/V/R保持；新山域实际流程与负载仍待对应GROWTH验证。
 
 ## 开发任务
 
@@ -126,5 +127,6 @@ SR-XF-010-V01证据：dist/ea-sr-economy.mjs；qa/ea-sr-economy-acceptance.mjs
 - 2026-10-08：SR010-D01 仓位/容量/归属与最小计量、搬运状态和失败恢复、施工四处守恒、生产/迁建及公私权限已写入当前设计小节，根 Agent 对照原 D01 交付项与当前配置独立审阅，记 D01 done。D02 跨规格差异另行处理，设计整体仍 draft。
 - 2026-10-08：独立跨规格复核完成：道韵预算与运输边界、施工取消返料、仓位归属位置校验和公库容量结算已统一；旧档保留原值与在途单。
 - 2026-10-08：r20 ships read-only five-number inventory summaries by public, master-private and merchant ownership; full ECON-02/03 and cancellation property paths remain open
+- 2026-10-09：2026-10-09 U-105 / R-32：山域成长的迁居、外谷/分峰配送、货位、所有权与预约继续使用本SR已有实体搬运及守恒契约，关联 docs/SECT-GROWTH-PLAN.md 的 GROWTH-03/04/06/08/11。本批仅补设计来源与接缝，原AC文案、状态、证据及D/I/V/R保持；新山域实际流程与负载仍待对应GROWTH验证。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。

@@ -1,12 +1,12 @@
 # SR-XF-029 · 统一操作流程、窄屏与人物触控
 
-来源：DB-2026-10-05 v1.2；需求版本：1.1；建档日期：2026-10-06。
+来源：DB-2026-10-05 v1.2；需求版本：1.2；建档日期：2026-10-06。
 
 | 字段 | 值 |
 | --- | --- |
 | 范围 / 模块 | 前期必需 / 体验 |
 | 优先级 / 计划 | P0 / I1 |
-| 设计 / 开发 | ready / in_progress |
+| 设计 / 开发 | draft / in_progress |
 | 验收 / 发布 | in_progress / not_released_for_this_sr |
 | 责任人 / 复核人 | Codex/ui_acceptance / Codex/root（集成） |
 
@@ -14,42 +14,42 @@
 
 纳入云岫前期，按依赖推进。
 
-决策来源：U-63, U-93, R-25, U-94, U-95, U-96, U-97, R-27, U-100, R-29, R-30。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
+决策来源：U-63, U-93, R-25, U-94, U-95, U-96, U-97, R-27, U-100, R-29, R-30, U-102, U-103, U-104, U-105, R-32。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
 
-规格：[01-CHARACTERS.md](../../../docs/design/01-CHARACTERS.md)、[03-SPATIAL-ART.md](../../../docs/design/03-SPATIAL-ART.md)、[06-OPENING-ACCEPTANCE.md](../../../docs/design/06-OPENING-ACCEPTANCE.md)、[14-EARLY-GAME-DETAILED-DESIGN.md](../../../docs/design/14-EARLY-GAME-DETAILED-DESIGN.md)。
+规格：[01-CHARACTERS.md](../../../docs/design/01-CHARACTERS.md)、[03-SPATIAL-ART.md](../../../docs/design/03-SPATIAL-ART.md)、[06-OPENING-ACCEPTANCE.md](../../../docs/design/06-OPENING-ACCEPTANCE.md)、[14-EARLY-GAME-DETAILED-DESIGN.md](../../../docs/design/14-EARLY-GAME-DETAILED-DESIGN.md)、[GODOT-MIGRATION.md](../../../docs/GODOT-MIGRATION.md)、[ART-REALTIME-TRIAL.md](../../../docs/ART-REALTIME-TRIAL.md)、[SECT-GROWTH-PLAN.md](../../../docs/SECT-GROWTH-PLAN.md)。
 
 依赖：[SR-XF-003](SR-XF-003.md)、[SR-XF-004](SR-XF-004.md)、[SR-XF-005](SR-XF-005.md)、[SR-XF-007](SR-XF-007.md)。
 
-关联既有验收：INPUT-01, INPUT-02, OPEN-10；本SR的AC细化这些目标，不代表旧版本已经通过。
+关联既有验收：INPUT-01, INPUT-02, OPEN-10, GROWTH-10, GROWTH-12；本SR的AC细化这些目标，不代表旧版本已经通过。
 
 ## 现状与设计缺口
 
-建筑侧卡按预制件显示床位、作业位、研习位及当前占用；现场及重叠人物使用同身份头像入口。pointerup补验移动距离，拖动放开保持拖动语义；推荐营造确认消费正式返回字段。推荐营造说明使用稳定布局，指针离开画布后确认按钮仍可点击。
+既有 JS 运行基线：建筑侧卡按预制件显示床位、作业位、研习位及当前占用；现场及重叠人物使用同身份头像入口。pointerup补验移动距离，拖动放开保持拖动语义；推荐营造确认消费正式返回字段。推荐营造说明使用稳定布局，指针离开画布后确认按钮仍可点击。 U-105 山域成长方案见 docs/SECT-GROWTH-PLAN.md；本批只登记设计与阶段原型，正式运行版本保持。
 
-D01/D02 已形成可执行的统一输入、开局赠药/暂居/正式入宗独立决定、八页操作流程、U-95 适配与依赖/REQ/AC 核对；I01 仍需分立现行开局两段决策、修正实际位图 DPR、44 CSS px 控件及完整操作路径，V01 尚缺真 iPadOS、Windows/macOS 设备和各 AC 整链证据。
+既有统一输入与DPR局部实现保留；U-105 的地域总览、预设建位项目卡、迁居/供给状态和失败恢复流程待详细交互设计及桌面/iPad视口和真机验证。
 
 现状是适用旧能力的基线，不表示该SR完整目标已通过。
 
 ## 必须补齐的设计交付物
 
-1. 掌门移动/点选/重叠/遮挡/营造的统一鼠标触控语义与防误操作。
-2. 每个新系统的主目标、条件、确认、取消、等待、失败、恢复和帮助流程。
-3. iPadOS横竖网页视口与Windows/macOS窗口、DPR的信息布局，标题/正文/状态可读和低动态回退。
+1. 掌门移动、点选、遮挡和预设建位项目选择的统一鼠标/触控语义与防误操作。
+2. 地域总览、项目资格、施工容量、迁居进度、供给缺口的查看/确认/取消/恢复流程。
+3. iPadOS横竖与Windows/macOS窗口、DPR的信息布局；五种规模的真实负载和设备结果分列。
 
 ## 需求行为
 
-SR-XF-029-REQ-01：可见人物触控命中至少44CSS像素；缩放不让按钮/角色无法选取。
+SR-XF-029-REQ-01：可见人物触控命中至少44CSS像素；从山域总览进入分区后保持同一人物/建筑选择及合理视点。
 
-SR-XF-029-REQ-02：一项当前主目标和前情可回看；已读不自动替玩家赠药、入宗或出发。
+SR-XF-029-REQ-02：项目卡分别显示资格、实际工程、容量、迁居和供给；查看及阶段切换不替玩家确认建设、迁居或交易。
 
-SR-XF-029-REQ-03：拖拽和手势不劫持侧栏/输入/弹窗，错误提示提供具体继续方法。
+SR-XF-029-REQ-03：拖拽与手势不劫持侧栏/输入/弹窗；未开放、缺料、断路、满床/满仓分别提供具体恢复方法。
 
 
 ## 验收标准
 
 | ID | 情景 / 操作 | 必须看到的结果 | 状态 |
 | --- | --- | --- | --- |
-| SR-XF-029-AC-01 | 鼠标与触控完成移动、选择和建造 | 语义一致，遮挡/重叠均可选指定人，辅助预览不挡关键控制。 | not_run |
+| SR-XF-029-AC-01 | 鼠标与触控从山域总览进入分区并完成移动、选择和预设建位营造 | 两种输入语义一致，同一人物/建筑可定位；项目状态与实际资格和工程对应，遮挡/重叠选择及辅助预览不挡关键控制。 | not_run |
 | SR-XF-029-AC-02 | iPadOS横竖网页视口与Windows/macOS窗口缩放操作新系统 | 画布位图与实际CSS容器/DPR匹配，投影和命中保持；关键文本/按钮不被覆盖截断，可取消恢复；浏览器与三平台实机结果分列。 | not_run |
 | SR-XF-029-AC-03 | 关闭帮助/拒绝操作/保存失败 | 不会自动扣费或丢关键线索，能明确找到继续与恢复路径。 | not_run |
 
@@ -61,19 +61,19 @@ SR-XF-029-REQ-03：拖拽和手势不劫持侧栏/输入/弹窗，错误提示�
 
 2026-10-09 M1 r37：真实 DPR 2 的主画布与地面底图按 CSS 容器精确分配位图；窄屏帮助入口恢复可点击。空间 Canvas 36/36、输入点选 13/13；本地 Chromium 834×1194 与1194×834 DPR2、820×1180 DPR1 点选/帮助及 QA 档存读通过。四组5秒前后浏览器样本约60帧/秒、P95约16.7ms，DPR2两画布位图估算多约7.11MiB；不作为整体卡顿改善或真机证据。完整输入、设备/真人 AC 继续 not_run。 公网 r37 隔离 Chromium 模拟 iPad Pro 11 竖屏 834×1194/DPR2：两画布均 1668×2388，44×44 帮助可实点，Canvas 实点选中陆知微；QA 档暂停手存、刷新续玩保留时刻/伤势/口粮，随后时间继续，控制台零错误/警告。此非真机证据。
 
+2026-10-09 U-105 / R-32：当前需求更新为 1.2，山域设计关联 GROWTH-10、GROWTH-12。旧版 1.1 的标题、需求、AC原文/证据及D/I任务完成范围保存在 registry.json 的 version_history；本SR未重置任何已通过AC。 当前D01继续补实施参数，D02及本版本I01待前置完成；development_status保留既有运行实现基线。未改变的已通过AC只沿用原行为及原运行环境证据，新增地域、布局与迁移流程按GROWTH另验。本批未执行运行时验收，未修改正式运行版本或发布状态。
+
 ## 开发任务
 
 | 任务 | 工作 | 状态 | 前置 | 责任人 |
 | --- | --- | --- | --- | --- |
-| SR-XF-029-D01 | 设计补齐：交付：掌门移动/点选/重叠/遮挡/营造的统一鼠标触控语义与防误操作。；每个新系统的主目标、条件、确认、取消、等待、失败、恢复和帮助流程。；iPadOS横竖网页视口与Windows/macOS窗口、DPR的信息布局，标题/正文/状态可读和低动态回退。；填实必需参数并标记U/R/T来源。 | done | 无 | Codex/r35-input-design |
-| SR-XF-029-D02 | 契约与内容审阅：审阅统一操作流程、窄屏与人物触控与依赖契约（SR-XF-003、SR-XF-004、SR-XF-005、SR-XF-007）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。 | done | SR-XF-029-D01 | Codex/r35-input-design |
-| SR-XF-029-I01 | 开发与集成：在体验模块实现统一操作流程、窄屏与人物触控；交付SR-XF-029-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。 | todo | SR-XF-029-D02 | Codex/courtyard-integration |
-| SR-XF-029-V01 | 验收与兼容：执行SR-XF-029-AC-01至AC-03及INPUT-01、INPUT-02、OPEN-10；登记实际结果、兼容和设备证据边界。 | todo | SR-XF-029-I01 | Codex/courtyard-acceptance |
+| SR-XF-029-D01 | 设计补齐：当前版本设计补齐：补齐地域总览、预设项目、迁居和供给状态的逐页交互，保留现有输入原则与设备门槛。 原版本已完成范围和证据保存在 version_history。 | in_progress | 无 | Codex/r35-input-design |
+| SR-XF-029-D02 | 契约与内容审阅：在当前版本D01完成后，审阅统一操作流程、窄屏与人物触控与依赖契约的字段、时序、失败及恢复；核对本SR的REQ/AC和GROWTH-10、GROWTH-12。旧版审阅完成事实保存在 version_history。 | todo | SR-XF-029-D01 | Codex/r35-input-design |
+| SR-XF-029-I01 | 开发与集成：按当前版本设计在相关模块集成统一操作流程、窄屏与人物触控，接入真实数据、行为、素材、界面和存读。既有实现保留为运行基线；本版本在D02完成后进入集成。 | todo | SR-XF-029-D02 | Codex/courtyard-integration |
+| SR-XF-029-V01 | 验收与兼容：执行本SR的AC-01至AC-03及GROWTH-10、GROWTH-12；分别记录正常、失败、存读、网页视口和适用真机证据。 | todo | SR-XF-029-I01 | Codex/courtyard-acceptance |
 | SR-XF-029-R01 | 发布与关闭：完成所需源码/运行时发布核对、交接和未覆盖说明；本轮用户不要求上传QA过程产物。 | todo | SR-XF-029-V01 | 待分配 |
 
-SR-XF-029-D01证据：docs/requirements/design/SR-XF-029-INPUT-FLOW.md
-
-SR-XF-029-D02证据：docs/requirements/design/SR-XF-029-INPUT-FLOW.md
+SR-XF-029-D01证据：docs/SECT-GROWTH-PLAN.md
 
 SR-XF-029-I01证据：dist/ea-ui.mjs；dist/map-input.mjs；dist/ea-game.mjs；docs/design/STATUS.md；dist/ea.css；dist/ea-courtyard-renderer.mjs
 
@@ -85,6 +85,7 @@ SR-XF-029-V01证据：tests/ea-scene-ui.test.mjs；tests/map-input.test.mjs；qa
 - 所有行为、失败、取消、恢复和存档影响可执行；未定必需参数已填入配置。
 - 依赖契约已可使用；涉及身份、风险、真相与来源的作者卡固定。
 - 验收步骤、预期、数据/设备和结果守恒条件可检查。
+- U-105 对应的建位/布局、容量或供给、迁居及存档字段已按本SR补齐；成长原型审阅不能代替实施参数与契约审阅。
 
 ## 关闭条件
 
@@ -115,6 +116,12 @@ SR-XF-029-V01证据：tests/ea-scene-ui.test.mjs；tests/map-input.test.mjs；qa
 - dist/ea.css
 - dist/ea-courtyard-renderer.mjs
 - qa/ea-sr-spatial-acceptance.mjs
+- docs/art/REALTIME-TRIAL-2026-10-09.md
+- godot/art/art_courtyard.gd
+- godot/art/actor_3d.gd
+- tools/build-art-web.py
+- docs/art/PAINTED-COURTYARD-2026-10-09.md
+- docs/SECT-GROWTH-PLAN.md；2026-10-09 山域总图、五阶段迁移及统一原型的设计来源；当前运行验收待补。
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
@@ -128,5 +135,9 @@ SR-XF-029-V01证据：tests/ea-scene-ui.test.mjs；tests/map-input.test.mjs；qa
 - 2026-10-08：SR-XF-029-D02：对照 SR003/004/005/007、05/06 逐项核对字段、时序、失败恢复和 029-REQ/AC；设计契约可用于 I01，实际网页与设备仍待验收。
 - 2026-10-08：SR-XF-029 D01/D02 细化开局结缘的赠药、暂居与正式入宗三次独立确认；新流程本人拒绝单独留痕，旧档 declined 保留掌门让陆知微回家照应家人的选择与赠药善缘；OPEN-04/REQ-02 步骤可核对。设计 ready，运行实现与设备验收状态不变。
 - 2026-10-09：M1 r37 局部实现实际 DPR 位图与窄屏帮助入口；本地与公开浏览器定向验证单独登记，不提升 SR029 整项或三条 AC。
+- 2026-10-09：U-103：用户批准真实Godot 3D美术小院，一栋主殿、山石道路、两名人物已在本地WebKit实机运行，基础点选/行走/入殿后劳动/暂停/刷新及三个DPR1视口取得局部证据，独立Godot复核暂停骨骼和隐藏人物点选修复。地表/岩石/屋瓦质感仍有差距，用户实机美术确认、目标设备及正式玩法集成待完成。证据详见 docs/art/REALTIME-TRIAL-2026-10-09.md；本批未发布，完整AC及D/I/V/R状态保持。
+- 2026-10-09：U-104：用户明确停止3D模型路线以控制制作工作量和网页性能预算。保留U-103试验工程及历史证据；Godot/Web方向保持，Godot 2D绘画素材与二维动画候选方案待确认。此次只同步约束，运行代码及完整SR/AC状态不变。
+- 2026-10-09：U-104用户确认Godot 2D制作；绘画小院本地构建与WebKit鼠标操作、三视口DPR1局部复核完成。暂停出殿/双指锚点/拖动输入修复，最终拖动实点通过；人物辨识、动作观感、用户美术认可、殿后完整浏览器遮挡、真机/DPR2/真实触摸继续。正式SR/AC状态保持，未发布。证据 docs/art/PAINTED-COURTYARD-2026-10-09.md。
+- 2026-10-09：2026-10-09 U-105 / R-32：当前需求更新为 1.2，山域设计关联 GROWTH-10、GROWTH-12。旧版 1.1 的标题、需求、AC原文/证据及D/I任务完成范围保存在 registry.json 的 version_history；本SR未重置任何已通过AC。 当前D01继续补实施参数，D02及本版本I01待前置完成；development_status保留既有运行实现基线。未改变的已通过AC只沿用原行为及原运行环境证据，新增地域、布局与迁移流程按GROWTH另验。本批未执行运行时验收，未修改正式运行版本或发布状态。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。

@@ -1,0 +1,83 @@
+{
+  "title": "宗门山域五阶段原型",
+  "version": "2026-10-09-v2",
+  "generator": "built-in image_gen",
+  "status": "concept-prototypes-user-review-pending",
+  "specification": "../../SECT-GROWTH-PLAN.md",
+  "master_plan": "master-plan.svg",
+  "layout_basis": "U-105 / R-32",
+  "scope": "Concepts establish functional grouping, materials and atmosphere. Precise landmarks and building coordinates require a shared 2D base map.",
+  "population_examples_are_unlock_thresholds": false,
+  "stages": [
+    {
+      "stage": 1,
+      "population_example": 5,
+      "title": "开山小院",
+      "file": "stage-01-5.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: Chinese xianxia sect-management game environment concept prototype, one complete high-resolution landscape illustration, 16:9.\nArt direction: exquisite hand-painted 2D game background, fixed elevated oblique view around 40 degrees, crisp legible architecture and warm human-scale activities, intricate yet restrained brushwork, polished Chinese landscape painting fused with readable game environment design. Physically coherent buildings with closed roofs and walls, plausible human-sized doors and stairs. Warm timber, ivory plaster, desaturated celadon slate roofs, pale weathered stone, rich pine and bamboo. All architecture rooted on continuous natural rocky mountain terraces with walkable stone paths. The scene is designed for a management game; believable housing, food, farming, study, work and outdoor cultivation spaces matter. Prioritize elegant coherent shapes over microdetail clutter.\nGeographic identity for the five-stage series: a small founder courtyard in the lower-central mountain saddle; a distinctive old windswept pine just left of its main hall; a small crescent-shaped turquoise spring below-right of the courtyard, draining through a rocky watercourse toward the bottom-left; a modest roofed timber entrance gate south of the founder courtyard; eastward stepped residential terraces (image right); westward fertile production valley (image left); four tall natural ridges in the distance arranged around the central valley. Preserve these landmarks through growth. Later architecture extends into neighboring terraces and peaks while the original courtyard stays recognizable.\nLighting: clear luminous daylight, natural directional shadows, clear walkable ground, layered mountains and atmospheric depth; restrained spiritual radiance and increasing cloud-sea majesty across later stages.\nPresentation: landscape painting fills the frame, no panels, text, labels, numbers, diagrams, UI, grid, watermark or logo. This is a concept prototype, not a claimed engine screenshot. No floating islands; terrain, bridges and paths stay physically connected. No roof cutaways, no giant people, no giant empty ceremonial squares.\nInput reference: the supplied image is a reference for painterly craft, materials, friendly human scale and architectural detailing; compose a new larger mountain estate scene, not a copy of the close-up.\nStage 1 of 5: a newly founded sect of approximately five residents, quiet and intimate, “清幽小院”. One small main hall, one shared dormitory wing, one tiny kitchen/store annex, two tended medicinal and rice plots, a modest outdoor practice patch, the old pine and clear spring. Five small robed people visibly live and work here: garden tending, carrying a basket, walking, and quiet practice; integrate each naturally at human scale. The founder courtyard and its immediate terrain occupy roughly half the picture so the buildings and people can be appreciated; generous untouched green terraces and distant rugged peaks surround it. Restrained comfortable prosperity; no palace scale yet. Soft mist lingers only deep in distant ravines; most of the foreground is fresh green daylight with clean air. The mood is a hidden mountain retreat with the first trace of spiritual grace. Show how this same terrain can grow into a much larger sect later. One beautifully composed standalone image.",
+      "provenance": "Existing founder concept, preserved unchanged in this series.",
+      "reference_description": "山院概念稿，见 ../reference/mountain-courtyard.png",
+      "sha256": "31723fc8f2e7b16f7c5b84e582b6b480126b1f534f14b3341cb417f82f99f106",
+      "size_px": [
+        1672,
+        941
+      ]
+    },
+    {
+      "stage": 2,
+      "population_example": 20,
+      "title": "东扩与外谷起建",
+      "file": "stage-02-20.png",
+      "prompt": "Use case: precise-object-edit / stylized-concept. Create Stage 2 of a unified five-stage Chinese xianxia sect growth series, approximately 20 inhabitants, a refined but modest mountain manor. One complete 16:9 painted 2D concept.\nINPUT image is the reference for this SAME founder courtyard, ancient pine, gate, spring, wooden bridge, mountains and eastward residential expansion. Preserve the artistically warm green/wood/gray-celadon palette and readable elevated oblique perspective.\nThe developing manor contains a compact founder hall/courtyard at center-left, a growing eastern residential cluster on image right, common kitchen/dining courtyards and an outdoor practice terrace. Roughly eight useful buildings, enclosed walls and full roofs, plausible communal capacity for 20. Keep the founder complex and its pine/spring/gate recognizable.\nShow the BEGINNING of the separate productive valley: pull the camera slightly wider on the LEFT edge to reveal a lower natural OUTER valley across a forested ravine, connected by a small grounded stone bridge and footpath. In that outer valley, show a few freshly cultivated rice/herb terraces and one practical storage shed, modest early development. The little initial household herb/rice plots immediately near the founder courtyard may remain in use during this transition, occupying only a small part of its west edge; they are no longer the principal future production area. Much of the outer valley is still untouched bamboo and forest.\nThis image must communicate actual staged expansion: a new eastern living precinct and a small external valley being brought into use while the old courtyard still functions. High ridges remain mostly natural and unbuilt, future four-peak land reserved as woodland.\nBeauty level 2 of 5: clear spring water, delicate bamboo, carved stone steps, tasteful flowering trees, soft mist low in ravines, elegant intimate courtyards. Healthy well-tended mountain life. The lavish celestial palace belongs to a later stage. Tiny residents working and walking, no unrealistic crowds. Shared material/rendering grammar with detailed 2D Chinese mountain-management game art. No labels, text, UI, legends, panels, floating islands or roof cutaways. Natural connected mountain paths and full-bleed composition.",
+      "reference_description": "Earlier concept of the founder courtyard and eastward residence expansion.",
+      "output_source": "exec-7a8a2153-0697-45f3-9d5a-1bd5a96ef705.png",
+      "sha256": "d4e5d2ad1dadb3565515a46625764963f328b994f61bdbdda12d10cf791581ae",
+      "size_px": [
+        1672,
+        941
+      ]
+    },
+    {
+      "stage": 3,
+      "population_example": 50,
+      "title": "公共生活与外谷成形",
+      "file": "stage-03-50.png",
+      "prompt": "Use case: precise-object-edit / stylized-concept. Create Stage 3 of a unified five-stage Chinese xianxia sect growth series, approximately 50 inhabitants, a flourishing well-organized mountain sect. One complete 16:9 hand-painted 2D environment concept.\nINPUT image gives exact founder courtyard, ancient pine, original gate/spring, central hall and eastern residences to recognize. Use the same elevated oblique camera and mountainous geographic identity.\nBy this stage the geography has THREE CLEAR FUNCTIONS:\n- Main central foreground mountain: founder memorial courtyard, substantial two-eave public/teaching hall, compact scripture library and medical courtyard, cultivation platforms, elegant ornamental gardens and quiet reflecting spring pools. Materials are carved pale stone, richly finished timber and refined celadon tiles with modest bronze details. The original pine, original founder rooflines and original gateway remain clear. The central mountain has completed conversion of early productive land into gardens and circulation terraces.\n- East side on image right: clearly grouped communal residential courtyards, dining/kitchen and nearby study/practice spaces, five or six medium courtyard buildings with believable shared capacity. Connected by short walkable stairs.\n- West OUTER valley at far LEFT, across a conspicuous forested ravine from the main mountain: well-established terraced rice and medicinal plots, compact practical workshops/storage and agriculture-related buildings. This separate valley is linked by a stone bridge and winding road. Keep it subordinate but readable, around 15 percent of the panorama.\nPrecise transformation from the input: all large rice fields in the left foreground of the MAIN mountain become ornamental garden terraces with scholar rocks, irregular planting, a crescent lotus pool and pale stone paths. All little grid/row crop beds near the founder or public hall become ornamental gardens; the tall furnace/chimney courtyard on the main flank becomes a normal enclosed library/teaching court. Agricultural rows and industrial production buildings are found ONLY in the visibly separate outer valley. The main peak has no crop farming.\nHigh rear peaks remain naturally forested and mostly unbuilt, leaving clear room for later two-peak and four-peak communities. Main hall and private residences are more refined and grander than the 20-person manor but retain warm human proportions; lavish gold/jade multi-tier palaces are for the mature stage. Around 16 useful buildings in the current inhabited area, distinct functional grouping. Strong stage-3 spiritual mood: calm layered clouds below the terrace, clear jade pools, silver waterfall ribbons, graceful pines, increasing vertical mountain depth and warm sunlight. Tiny people walking/studying/cultivating, no giant figures.\nHigh craft Chinese fantasy game environment painting, crisp readable pathways and architecture, fixed elevated oblique view, natural grounded land and bridges. No labels, words, UI, panels, watermark, interior cutaways or floating islands.",
+      "reference_description": "Earlier concept with the founder courtyard, central hall and eastern residences.",
+      "output_source": "exec-c96da049-75e2-439b-9024-02694013afd5.png",
+      "sha256": "ea03c7a8a9b03dad228b5227e0280295dcd58996c08d82da2ea6c071d08e5beb",
+      "size_px": [
+        1672,
+        941
+      ]
+    },
+    {
+      "stage": 4,
+      "population_example": 100,
+      "title": "双峰仙府",
+      "file": "stage-04-100.png",
+      "prompt": "Edit the reference into the 100-person stage of this SAME Chinese xianxia sect mountain domain, a polished detailed painterly game environment concept, widescreen 16:9. Keep the fixed high oblique camera and geography: main peak in foreground center, four distinct subsidiary peak locations behind it (two nearer, two farther), productive valley at far left outside the main peak separated by ravine and physically bridged paths, common residence district on the eastern/right shoulder of the main peak. Depict exactly TWO DEVELOPED branch peak communities at the nearer left and nearer right locations. Each has several coherent residences, dining and cultivation halls plus paths, not just one isolated temple. The TWO FARTHER branch summits must be entirely natural forested rock, with NO buildings on those two summits. The foreground main peak is now a majestic classical Chinese immortal palace precinct: a great teal glazed roof hall, white stone terrace, restrained gold details, ornamental gardens, lotus pools, a recognisable old pine at the lower-left gate, curved bridges and fine colonnades. Lavishness is substantial but around two thirds of the reference's final stage: reduce the giant stacked gold palace and the extremely dense golden ornament; leave generous usable paved courtyards and coherent human-scale doors and paths. The main peak has only civic, teaching, worship, reception and cultivation gardens. All crop fields, medicinal plantation rows, lumber/stone workshops, bulk storage and work yards are in the far-left exterior valley. Show this valley as subordinate but readable. Eastern common residences remain on the right shoulder, with small domestic courtyards and dining facilities, architecturally related to the main palace. Keep stable mountain arrangement, no detached floating islands, linked stone bridges across misty ravines. The sky and cloud sea lend growing immortal-realm magnificence. Main palace and near branch precincts have complete enclosed roofs. White-robed and blue-robed people are small but visible. No labels, no lettering, no numbers, no interface. Preserve the reference's luminous sophisticated painted finish and daytime colors, with clear depth and identifiable functional groups.",
+      "reference_description": "Mature palace visual reference from the existing 150-person concept.",
+      "output_source": "exec-48a2b7e5-09f8-4cdb-8d83-0890377a5d8f.png",
+      "sha256": "680dab9518a492ad95b0aba9c97a38528f7c2f7f52241cb39a58df42e9fd1b42",
+      "size_px": [
+        1672,
+        941
+      ]
+    },
+    {
+      "stage": 5,
+      "population_example": 150,
+      "title": "四峰仙宫",
+      "file": "stage-05-150.png",
+      "prompt": "Refine this mature 150-resident Chinese immortal sect concept for spatial consistency. The FIRST reference is the full visual target: keep its magnificent extravagant central WHITE JADE, TEAL GLAZE and GOLD palace, tiered lotus pools, deep pearl cloud sea, four developed branch peak palace communities behind it, and peripheral agricultural valley at far left. Keep the 16:9 elevated oblique view, high-fidelity hand-painted style and its powerful sense of luxurious celestial paradise. The SECOND reference (100-resident stage) demonstrates only the desired clear eastern residential grouping.\nMake one precise, substantial layout addition to the FIRST reference: extend the natural RIGHT/EAST shoulder of the FOREGROUND MAIN PEAK into a readable residential terrace, visually distinct from the nearer-right upper branch peak. On this right shoulder place a complete COMMON RESIDENTIAL PRECINCT with six to eight modestly scaled but highly refined jade-and-teal courtyard residences, a slightly larger shared dining building with dining courtyard, a medical/rest courtyard, and small inhabited garden paths. The precinct must be an unmistakable group, roughly matching the position and footprint of the lower-right residences in reference two. It lies BELOW the near-right branch peak and BESIDE the grand main palace, physically on connected natural rock terraces. Doors, stairs, galleries and walking people read coherently. Use lower layered roofs, not huge monumental halls, to distinguish residence from the central palace. Add an elegant stone connection into the central main-peak forecourt. Keep a visible ravine between this shoulder and the near-right branch peak so these two districts do not merge. You may pull the camera back 5% to comfortably fit the foreground main palace AND the right residence group, preserving the full palace crown and lower gardens.\nMain palace and all four branch peaks remain supremely lavish and carefully crafted. Keep the oldest large windswept pine at the lower-left entrance garden and a recognisable southern gate in the lower-middle main axis, connected to the blue-green spring garden. Preserve the far-left external agricultural valley across a ravine with working bridges; all resource fields and bulk work yards remain in that external valley. Closed roofs and walls throughout. Tiny white/blue-robed people outdoors. Do not reduce the central palace grandeur. No text, labels, icons, interface, grid or watermark.",
+      "reference_description": "Existing mature 150-person palace reference plus stage-04-100.png for the eastern residential grouping.",
+      "output_source": "exec-d56253fb-1f51-4da0-afbd-e4f60b5e49f4.png",
+      "sha256": "b923764fc22113205b4eb3c22a11f4b7af2eb65714e9e0dd6864eed5c6200d0e",
+      "size_px": [
+        1672,
+        941
+      ]
+    }
+  ]
+}

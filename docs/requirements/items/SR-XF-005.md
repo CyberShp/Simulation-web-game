@@ -1,12 +1,12 @@
-# SR-XF-005 · 自由选址、施工与入口安全
+# SR-XF-005 · 预设建位、施工与入口安全
 
-来源：DB-2026-10-05 v1.2；需求版本：1.0；建档日期：2026-10-06。
+来源：DB-2026-10-05 v1.2；需求版本：1.1；建档日期：2026-10-06。
 
 | 字段 | 值 |
 | --- | --- |
 | 范围 / 模块 | 前期必需 / 营造 |
 | 优先级 / 计划 | P0 / I1 |
-| 设计 / 开发 | ready / in_progress |
+| 设计 / 开发 | draft / in_progress |
 | 验收 / 发布 | in_progress / not_released_for_this_sr |
 | 责任人 / 复核人 | Codex/space_construction / Codex/root（集成） |
 
@@ -14,48 +14,44 @@
 
 纳入云岫前期，按依赖推进。
 
-决策来源：U-63, U-93, R-25, U-94, U-96, U-97, R-27, U-98, U-99, R-28, U-100, R-29, R-30。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
+决策来源：U-63, U-93, R-25, U-94, U-96, U-97, R-27, U-98, U-99, R-28, U-100, R-29, R-30, U-105, R-32。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
 
-规格：[03-SPATIAL-ART.md](../../../docs/design/03-SPATIAL-ART.md)、[05-RUNTIME-CONTRACTS.md](../../../docs/design/05-RUNTIME-CONTRACTS.md)、[07-ECONOMY-ORGANIZATION.md](../../../docs/design/07-ECONOMY-ORGANIZATION.md)、[18-SPATIAL-CONTINUITY-IMPLEMENTATION.md](../../../docs/design/18-SPATIAL-CONTINUITY-IMPLEMENTATION.md)、[06-OPENING-ACCEPTANCE.md](../../../docs/design/06-OPENING-ACCEPTANCE.md)。
+规格：[03-SPATIAL-ART.md](../../../docs/design/03-SPATIAL-ART.md)、[05-RUNTIME-CONTRACTS.md](../../../docs/design/05-RUNTIME-CONTRACTS.md)、[07-ECONOMY-ORGANIZATION.md](../../../docs/design/07-ECONOMY-ORGANIZATION.md)、[18-SPATIAL-CONTINUITY-IMPLEMENTATION.md](../../../docs/design/18-SPATIAL-CONTINUITY-IMPLEMENTATION.md)、[06-OPENING-ACCEPTANCE.md](../../../docs/design/06-OPENING-ACCEPTANCE.md)、[SECT-GROWTH-PLAN.md](../../../docs/SECT-GROWTH-PLAN.md)。
 
 依赖：[SR-XF-003](SR-XF-003.md)、[SR-XF-004](SR-XF-004.md)。
 
-关联既有验收：BUILD-01, BUILD-02, BUILD-03, OPEN-05；本SR的AC细化这些目标，不代表旧版本已经通过。
+关联既有验收：BUILD-01, BUILD-02, BUILD-03, OPEN-05, GROWTH-02, GROWTH-06, GROWTH-10；本SR的AC细化这些目标，不代表旧版本已经通过。
 
 ## 现状与设计缺口
 
-自由选址、材料预留和到场施工沿用单位格事务。本批推荐营造确认按返回的transform与选中建筑类型显示镜头及反馈；建筑卡读取真实可用容量和工位状态。推荐营造说明使用稳定布局，指针离开画布后确认按钮仍可点击。
+既有 JS 运行基线：自由选址、材料预留和到场施工沿用单位格事务。本批推荐营造确认按返回的transform与选中建筑类型显示镜头及反馈；建筑卡读取真实可用容量和工位状态。推荐营造说明使用稳定布局，指针离开画布后确认按钮仍可点击。 U-105 山域成长方案见 docs/SECT-GROWTH-PLAN.md；本批只登记设计与阶段原型，正式运行版本保持。
 
-正常营造及暂停/取消/存读已有局部复验；完整鼠标与iPad触控选址、预览、确认、施工安全仍须结合实际网页流程验收。
+U-105 已确定建筑预设位置和资格—投入—施工流程；建位允许项目、资格条件、占地/门道与工单字段需补齐后接入实际营造。旧版自由选址证据保留原版本。
 
 现状是适用旧能力的基线，不表示该SR完整目标已通过。
 
 ## 必须补齐的设计交付物
 
-1. 可建地形、水面/陡坡/剧情保护区规则与入口连通条件。
-2. 鼠标与触控的选址、预览、支持朝向、确认、取消流程。
-3. 施工材料预留、分阶段投入、到场贡献和安全完工状态图。
+1. Z-01–07 建位目录：稳定建位ID、允许项目、解锁前置、占地、入口及连通条件；人数样例不写成固定阈值。
+2. 鼠标与触控的项目选择、建位预览、资格/缺料说明、确认和取消流程。
+3. 施工材料预留、分阶段投入、到场贡献、完工容量与资格变化的安全状态图。
 
 ## 需求行为
 
-SR-XF-005-REQ-01：默认画面不显示永久地块框，规划只显示当前预览和必要辅助。
+SR-XF-005-REQ-01：建筑在已开放的预设建位施工；资格只开放可选项目，玩家选择并确认后才创建工程，规划显示实形与必要辅助。
 
-SR-XF-005-REQ-02：确认前不扣费；一次确认生成一个工作单；未完工不提前提供容量。
+SR-XF-005-REQ-02：确认前不扣费；一次确认生成一个工作单；实际投入和到场施工后才推进，未完工不提前提供容量。
 
-SR-XF-005-REQ-03：放置和完工均检查通行/人物安全，不强行挪走门人或来客。
+SR-XF-005-REQ-03：确认及完工均检查建位允许类型、占用、真实通路和人物安全；未开放或受阻时说明原因并保留世界状态。
 
 
 ## 验收标准
 
 | ID | 情景 / 操作 | 必须看到的结果 | 状态 |
 | --- | --- | --- | --- |
-| SR-XF-005-AC-01 | 在任意合法空地放置并施工 | 可完成自由选址；到场后才贡献，完成后场景与容量一致。 | passed |
-| SR-XF-005-AC-02 | 阻挡入口或人物占位后确认 | 具名/具体现象提示，费用和人物位置不变；等待后可合法继续。 | passed |
+| SR-XF-005-AC-01 | 在已开放的预设建位选择项目、确认并完成施工 | 资格达成只开放项目；玩家确认后才产生一次预留和工单，人员实际到场贡献，完工后场景与真实容量一致。 | not_run |
+| SR-XF-005-AC-02 | 在未开放、已预约或阻挡通路/人物的建位尝试确认 | 明确说明资格或占用原因；费用、人物位置和原工程保持，条件恢复后可在合法建位继续。 | not_run |
 | SR-XF-005-AC-03 | 反复确认、取消、存读档和暂停 | 任务/材料至多登记一次，暂停不推进，取消按已发生投入结算。 | passed |
-
-SR-XF-005-AC-01证据：qa/ea-sr-integration-acceptance.mjs；docs/requirements/IMPLEMENTATION-2026-10-06.md；qa/ea-courtyard-life-acceptance.mjs
-
-SR-XF-005-AC-02证据：qa/ea-sr-spatial-acceptance.mjs；docs/requirements/IMPLEMENTATION-2026-10-06.md
 
 SR-XF-005-AC-03证据：qa/ea-sr-spatial-acceptance.mjs；docs/requirements/IMPLEMENTATION-2026-10-06.md；qa/ea-courtyard-life-acceptance.mjs
 
@@ -67,19 +63,19 @@ SR-XF-005-AC-03证据：qa/ea-sr-spatial-acceptance.mjs；docs/requirements/IMPL
 
 2026-10-08 M1 双工位后端独立补证：qa/ea-sr005-crew-acceptance.mjs 8/8 覆盖双排他施工位、自愿到场、共用进度/材料、受伤或离院释放、动态占位、伪造到位拒载和旧单人单据存读；qa/ea-sr-spatial-acceptance.mjs 的 BUILD/SR005/006 相关 13/13。此次证据限运行时后端和 Node 存读；显式选址界面、iPadOS 实机和完整 I/V/R 继续。
 
+2026-10-09 U-105 / R-32：当前需求更新为 1.1，山域设计关联 GROWTH-02、GROWTH-06、GROWTH-10。旧版 1.0 的标题、需求、AC原文/证据及D/I任务完成范围保存在 registry.json 的 version_history；当前重新记 not_run：SR-XF-005-AC-01、SR-XF-005-AC-02。 当前D01继续补实施参数，D02及本版本I01待前置完成；development_status保留既有运行实现基线。未改变的已通过AC只沿用原行为及原运行环境证据，新增地域、布局与迁移流程按GROWTH另验。本批未执行运行时验收，未修改正式运行版本或发布状态。
+
 ## 开发任务
 
 | 任务 | 工作 | 状态 | 前置 | 责任人 |
 | --- | --- | --- | --- | --- |
-| SR-XF-005-D01 | 设计补齐：交付：可建地形、水面/陡坡/剧情保护区规则与入口连通条件。；鼠标与触控的选址、预览、支持朝向、确认、取消流程。；施工材料预留、分阶段投入、到场贡献和安全完工状态图。；填实必需参数并标记U/R/T来源。 | done | 无 | Codex/root |
-| SR-XF-005-D02 | 契约与内容审阅：审阅自由选址、施工与入口安全与依赖契约（SR-XF-003、SR-XF-004）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。 | done | SR-XF-005-D01 | Codex/sr010_contract_validation |
-| SR-XF-005-I01 | 开发与集成：在营造模块实现自由选址、施工与入口安全；交付SR-XF-005-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。 | todo | SR-XF-005-D02 | Codex/courtyard-integration |
-| SR-XF-005-V01 | 验收与兼容：执行SR-XF-005-AC-01至AC-03及BUILD-01、BUILD-02、BUILD-03、OPEN-05；登记实际结果、兼容和设备证据边界。 | todo | SR-XF-005-I01 | Codex/courtyard-acceptance |
+| SR-XF-005-D01 | 设计补齐：当前版本设计补齐：建立预设建位与项目资格目录，补齐选择/确认/拒绝及完工检查；旧版自由选址设计记录在 version_history。 原版本已完成范围和证据保存在 version_history。 | in_progress | 无 | Codex/root |
+| SR-XF-005-D02 | 契约与内容审阅：在当前版本D01完成后，审阅预设建位、施工与入口安全与依赖契约的字段、时序、失败及恢复；核对本SR的REQ/AC和GROWTH-02、GROWTH-06、GROWTH-10。旧版审阅完成事实保存在 version_history。 | todo | SR-XF-005-D01 | Codex/sr010_contract_validation |
+| SR-XF-005-I01 | 开发与集成：按当前版本设计在相关模块集成预设建位、施工与入口安全，接入真实数据、行为、素材、界面和存读。既有实现保留为运行基线；本版本在D02完成后进入集成。 | todo | SR-XF-005-D02 | Codex/courtyard-integration |
+| SR-XF-005-V01 | 验收与兼容：执行本SR的AC-01至AC-03及GROWTH-02、GROWTH-06、GROWTH-10；分别记录正常、失败、存读、网页视口和适用真机证据。 | todo | SR-XF-005-I01 | Codex/courtyard-acceptance |
 | SR-XF-005-R01 | 发布与关闭：完成所需源码/运行时发布核对、交接和未覆盖说明；本轮用户不要求上传QA过程产物。 | todo | SR-XF-005-V01 | 待分配 |
 
-SR-XF-005-D01证据：docs/requirements/design/SR-XF-003-006.md
-
-SR-XF-005-D02证据：docs/requirements/design/SR-XF-003-006.md
+SR-XF-005-D01证据：docs/SECT-GROWTH-PLAN.md
 
 SR-XF-005-I01证据：dist/ea-game.mjs；dist/ea-ui.mjs；docs/design/STATUS.md；dist/ea.css；dist/ea-courtyard-renderer.mjs
 
@@ -91,6 +87,7 @@ SR-XF-005-V01证据：qa/ea-courtyard-life-acceptance.mjs；tests/ea-scene-ui.te
 - 所有行为、失败、取消、恢复和存档影响可执行；未定必需参数已填入配置。
 - 依赖契约已可使用；涉及身份、风险、真相与来源的作者卡固定。
 - 验收步骤、预期、数据/设备和结果守恒条件可检查。
+- U-105 对应的建位/布局、容量或供给、迁居及存档字段已按本SR补齐；成长原型审阅不能代替实施参数与契约审阅。
 
 ## 关闭条件
 
@@ -117,6 +114,7 @@ SR-XF-005-V01证据：qa/ea-courtyard-life-acceptance.mjs；tests/ea-scene-ui.te
 - docs/CODEX-HANDOFF.md
 - dist/ea.css
 - dist/ea-courtyard-renderer.mjs
+- docs/SECT-GROWTH-PLAN.md；2026-10-09 山域总图、五阶段迁移及统一原型的设计来源；当前运行验收待补。
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
@@ -132,5 +130,6 @@ SR-XF-005-V01证据：qa/ea-courtyard-life-acceptance.mjs；tests/ea-scene-ui.te
 - 2026-10-08：独立复核 SR005-D01 与 SR003/004/010 接缝通过；I/V/R 和真机验收继续。
 - 2026-10-08：2026-10-08 M1 双工位施工后端子批：工单保存最多两个排他脚点，掌门和自愿门人实际到场共享材料/进度，真实受伤/改派/离院/临时占位会停止该人贡献并安全释放或等待；读档拒绝伪造到位脚点，旧无 workSlots 单人单据继续执行。独立专项 8/8，相关 BUILD/SR006 13/13，合并空间/历史 46/46；仅后端子范围可发布。前端显式预览/确认、实际 iPadOS 选址及完整 I/V/R 继续。
 - 2026-10-08：2026-10-08 M1 双工位后端独立补证：qa/ea-sr005-crew-acceptance.mjs 8/8 覆盖双排他施工位、自愿到场、共用进度/材料、受伤或离院释放、动态占位、伪造到位拒载和旧单人单据存读；qa/ea-sr-spatial-acceptance.mjs 的 BUILD/SR005/006 相关 13/13。此次证据限运行时后端和 Node 存读；显式选址界面、iPadOS 实机和完整 I/V/R 继续。
+- 2026-10-09：2026-10-09 U-105 / R-32：当前需求更新为 1.1，山域设计关联 GROWTH-02、GROWTH-06、GROWTH-10。旧版 1.0 的标题、需求、AC原文/证据及D/I任务完成范围保存在 registry.json 的 version_history；当前重新记 not_run：SR-XF-005-AC-01、SR-XF-005-AC-02。 当前D01继续补实施参数，D02及本版本I01待前置完成；development_status保留既有运行实现基线。未改变的已通过AC只沿用原行为及原运行环境证据，新增地域、布局与迁移流程按GROWTH另验。本批未执行运行时验收，未修改正式运行版本或发布状态。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。

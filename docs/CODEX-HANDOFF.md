@@ -1,5 +1,52 @@
 # Codex 接手指南 · 2026-10-09
 
+## U-105 山域成长设计接续
+
+当前空间目标见[成长章程](SECT-GROWTH-PLAN.md)：预设建造点、同一山域七区、五阶段建设迁移与仙宫美术。[总图](art/sect-growth-20261009-v2/master-plan.svg)定义相对地域和连接；阶段图表达功能、材质与意境，不能直接当作建筑坐标表。
+
+本批是设计和原型交付。下一步先收口 U-104 小院的实际 Web 美术、人物动作与交互；用户认可后，以本章程细化预设点、容量、通路、成本与迁移配置，再按 SR 逐项接入玩法。96 米山院为 Z-01 的既有运行基线，全山域尺寸待配置。
+
+受新定义影响的9条AC已保留旧版原文和证据后重开：003-03、004-01、005-01/02、006-01/02、009-01、030-01/02。当前 **31 passed、88 not_run、1 blocked**；其余历史验收保留适用版本。GROWTH-01–12 尚未通过完整验收，设计、原型审阅与实际行为需分别核对。以下 U-104 记录保留实际网页边界，后面的 r37 等数字为对应历史快照。
+
+> **当前美术方案 · 2026-10-09 · [U-104](design/DECISIONS.md)：** 用户已确认 Godot 2D、固定斜俯视、统一绘画素材、二维人物动画与连续移动。先按[二维绘画小院](PAINTED-COURTYARD.md)制作一殿、一道、两人的实际 Web 场景；网页美术效果须另行验收，用户认可后再批量扩展。
+
+## U-104 二维小院接续
+
+用户已确认 Godot 2D、固定斜俯视、统一绘画素材、二维人物动画与连续移动。本批先做一殿、一道、两人的实际 Web 小院。内置 imagegen 生成绘画素材，由 Godot 二维图层直接使用；连续位置、行走/转向/劳动动画、点选、缩放和遮挡逐项检查。范围与 ART-2D-01–08 见[二维绘画小院](PAINTED-COURTYARD.md)。网页实机美术认可后才批量扩展。
+
+源场景 `godot/painted_courtyard/courtyard.tscn`，素材 `godot/painted_courtyard/assets/`。在仓库根目录执行：
+
+```bash
+python3 tools/build-painted-web.py
+python3 -m http.server 8080 --directory dist --bind 127.0.0.1
+```
+
+独立输出 `dist/painted-courtyard/index.html`；打开[二维绘画小院](http://127.0.0.1:8080/painted-courtyard/)。本批只使用美术交互临时状态，原游戏规则、三个正式档位和现有未提交成果保持。实际构建、网页检查、用户美术确认与发布分别查[STATUS](design/STATUS.md)，不以制作批准代替实机证据。
+
+## U-103 实机小院接续记录（历史）
+
+U-103 当时批准制作一殿、一道、两人的 Godot 3D 试验，已形成的工程、素材、网页和技术证据保留。U-104 已停止此路线的继续制作；下列命令仅用于追溯已有试验。[历史范围与检查项](ART-REALTIME-TRIAL.md)不能替代当前二维小院的验收。
+
+源场景为 `godot/art/art_courtyard.tscn`，资源在 `godot/art/assets/`。在仓库根目录执行：
+
+```bash
+python3 tools/build-art-web.py
+python3 -m http.server 8080 --directory dist --bind 127.0.0.1
+```
+
+构建脚本使用单独的临时 Godot 项目，只打包本批 `art`，导出 `dist/art-courtyard/index.html`；本地查看入口为 [实机小院](http://127.0.0.1:8080/art-courtyard/)。需要直接运行源场景时执行：
+
+```bash
+/Applications/Godot.app/Contents/MacOS/Godot --headless --path godot --editor --import
+/Applications/Godot.app/Contents/MacOS/Godot --path godot res://art/art_courtyard.tscn
+```
+
+原 Godot 主场景、已有2D桥接和正式 JS 玩法保留现状。样板独立验证美术与交互，不读取或写入正式三个档位、不结算经营资源；后续接入玩法时仍遵守同一身份、空间和模拟时钟。构建、网页操作、用户确认和发布分别按 [STATUS](design/STATUS.md) 的实际证据登记；本段只保留历史复现入口。
+
+## 既有 JS 发布与开发记录
+
+以下记录保留各批次形成时的版本、成果和未覆盖范围。涉及旧2.5D画稿及当时下一步的叙述属于对应版本；当前美术任务由上方 U-104 接续。
+
 最新 r37 运行版本已发布：SR029 局部修正窄屏帮助和真实 DPR 画布位图，源码 `main` `7d27532bf22e8c6064281e12b390edb8370abce9`，网页 `gh-pages` `acb40955ded401e6e2c5225c463d3e0a380ae6a2`，标记 `ea-160-courtyard-20261009-r37`，Pages `built`。空间 Canvas 36/36、输入 13/13；公网隔离 Chromium 模拟 iPad Pro 11 竖屏完成两画布 1668×2388、44×44 帮助、陆知微点选及 QA 档暂停手存刷新续玩，控制台零错误/警告。162 文本 blob 与公网树一致，正式/预览入口和改动模块 HTTP 200、字节相符。短样本未见明显帧率回退，DPR2 两画布位图估算增加 7.11 MiB；完整卡顿、真机、SR029 整项和暂居流程继续。台账 **40 passed、79 not_run、1 blocked，整项仅 SR001 关闭**；详见 [STATUS](design/STATUS.md)。
 
 当前最新 r36 已发布门队列清理减负：同一次清理复用门和在院人物集合，真实移动与排队语义不变。独立合法密集档 400 世界步终态、逐步门队列和存读与 r35 一致，门道人流 7/7、空间 Canvas 36/36；旧世界步 P95 两轮 28.01→24.35ms、27.23→23.80ms。本地 Chromium rAF P95 没有稳定改善，整体卡顿继续；公开 r36 完整旧档导入、运行、暂停保存与刷新续玩通过，控制台无错误。源码 `main` `74e135d78a594303d9bac805f95d9a7d87897630`，网页 `gh-pages` `47d435295a62f1b626df1299b4bc94132c6b2fd3`，标记 `ea-160-courtyard-20261008-r36`，Pages `built`；162 文本 blob 和公网正式/预览入口及改动模块字节一致。门位画稿仍未达容差，SR029 三步关系链与 DPR2/窄屏缺口、完整动作、真机和真人验收继续；**40 passed、79 not_run、1 blocked，整项仅 SR001 关闭**。详见 [STATUS](design/STATUS.md) 与 [台账](requirements/registry.json)。
@@ -90,9 +137,9 @@ M1 第十批：SR007-AC02 的同一掌门换衣、真实制作法器、三场战
 
 用户已要求继续开发及验收。本文是导航和接续检查点；详细规则与权威任务状态仍归各设计文档和 SR 台账。此前成人家具、静态卧姿、现场交互及活动中断画面修正已本地实现，发布状态与已验证范围分别记录于 [STATUS](design/STATUS.md)：采集／来源恢复暂停时不再显示劳动，当前人物画稿不再被标为完整动画；伤势／低精力／包裹满、存读与恢复 3/3，离位仍待单独验收，SR-XF-007/009 仍未整项通过。
 
-仓库：`CyberShp/Simulation-web-game`。当前在 `/Volumes/Media/immortal` 的 **main** 工作区继续，先读取并保留全部已存在的未提交增量；远端 main 尚不包含本地最新一批。需要迁移到其他工作区时，先明确保存并带上这些源文件、美术、文档和测试。源码在 `dist/`，`gh-pages` 是独立发布产物分支。
+仓库：`CyberShp/Simulation-web-game`。当前在 `/Volumes/Media/immortal` 的 **main** 工作区继续，先读取并保留全部已存在的未提交增量；远端 main 尚不包含本地最新一批。需要迁移到其他工作区时，先明确保存并带上这些源文件、美术、文档和测试。正式 JS 源码在 `dist/`，当前二维小院源文件在 `godot/painted_courtyard/`，`gh-pages` 是独立发布产物分支。
 
-全量执行顺序见 [40项SR交付计划](DELIVERY-PLAN.md)：M0接续、M1完整小院，随后按依赖完成经营、成长、世界与分支、前期验收及其余8项，最后做40项总交付。该计划的第5节是Sol首批任务，第9节可直接用作执行指令；实际状态继续查SR台账。
+全量执行顺序见 [40项SR交付计划](DELIVERY-PLAN.md)。当前先收口 U-104 二维绘画小院，用户确认后再批量扩展美术并按 Godot 路线接入玩法；M0–M8 继续安排40项 SR 的需求收口。该计划第5节保留原 JS 首批任务，第9节是当前执行指令；实际状态继续查 SR 台账。
 
 ## Sol 高／极高接续执行约定
 
@@ -113,7 +160,7 @@ M1 第十批：SR007-AC02 的同一掌门换衣、真实制作法器、三场战
 
 | 约束 | 接续要求 | 权威来源 |
 | --- | --- | --- |
-| 体验重点与美术 | 优先经营、人物成长、场景交互；固定正交2.5D，沿用云岫绘画素材，标题与正文均须可辨认 | U-95–100；[03](design/03-SPATIAL-ART.md) |
+| 体验重点与美术 | 优先经营、人物成长、场景交互；当前按 U-104 制作二维绘画小院，用户确认网页实机后批量扩展；标题与正文均须可辨认 | U-96、U-102/104；[03](design/03-SPATIAL-ART.md)、[小院范围](PAINTED-COURTYARD.md) |
 | 统一空间 | 96×96米山院，2米营造格、0.5米导航；成人床0.9×2.2米；预览/工地/成品/入口/工位/碰撞/命中来自同一空间定义 | R-27–30；[03](design/03-SPATIAL-ART.md) |
 | 人物自主与身份 | 仅直接控制掌门；门人根据意愿、材料、路程和空位行动；地图、肖像、成长、装备、出行使用同一持久人物 | U-02；[01](design/01-CHARACTERS.md)、[05](design/05-RUNTIME-CONTRACTS.md) |
 | 时钟与结算 | 单一模拟时钟，暂停/后台/关闭不推进；UI与渲染只读；到场、有效预约和材料齐备才执行，扣费/退款/产出结算一次 | [05](design/05-RUNTIME-CONTRACTS.md) §§4–8、13 |
@@ -122,15 +169,15 @@ M1 第十批：SR007-AC02 的同一掌门换衣、真实制作法器、三场战
 | 运行时AI | 可选、默认关闭，不能裁定世界真相、伤害、奖励或生死；无API仍能完整玩已实现内容 | [11](design/11-AI-CONTENT-CONTRACT.md) |
 | 证据与完成 | 正常链不注资或改境界；组件、Canvas、浏览器视口、真机、真人、FPS分别记；SR全部必需AC满足后才宣告整项验收通过 | [06](design/06-OPENING-ACCEPTANCE.md)、[需求门槛](requirements/README.md) |
 
-先按下文“已知差距及下一步”继续完整小院，再推进供给、成长和分支；该顺序不是缩减U-94的40项总目标。接手第一步是读取现有差异、把本批剩余AC与实现逐一对应，不重新开发已经通过且仍有效的成人家具/静态卧姿链。偶发启动加载失败保留待定位，不能把重载成功当作根因已修复。
+当前先按 U-104 和 ART-2D 检查项收口二维绘画小院；其余素材的批量制作等待用户确认该网页效果。后续玩法仍按下文缺口和40项 SR 依赖接续。接手第一步是读取现有差异，将本批实际检查与实现逐一对应；保留已经有效的成人家具、旧档和正式玩法证据。偶发启动加载失败保留待定位，不能把重载成功当作根因已修复。
 
 交付前另一个 Agent 按上述依据只读复核实际差异和证据；主 Agent 处理发现的问题、确认公共命令与模块接缝，再更新各项状态。复核无法独立完成时明确记录，不用“高/极高”设置或自评代替验收。
 
-## 版本检查点
+## 旧 JS 版本检查点（2026-10-07）
 
 | 项目 | 已核实基点 |
 | --- | --- |
-| 设计 | DB-2026-10-05 v1.2；最新方向 U-100，单位格 U-99/R-28，扩容 R-29，成人家具 R-30 |
+| 设计 | DB-2026-10-05 v1.2；该检查点方向 U-100，单位格 U-99/R-28，扩容 R-29，成人家具 R-30 |
 | 运行时 | EA 1.6.0-dev / schema 6 |
 | 已发布游戏源码提交 | `eb5cca59b226c49c184a2082bcdda5ebd64de3fb` |
 | 本批本地接续基点 | `1b28260007c3049d077dfce424d0db2c6e8cbd60` |
@@ -143,7 +190,7 @@ M1 第十批：SR007-AC02 的同一掌门换衣、真实制作法器、三场战
 
 ## 必读与权威来源
 
-1. 根目录 `AGENTS.md`。
+1. 根目录 `AGENTS.md`；当前美术任务连同 `docs/PAINTED-COURTYARD.md`、`docs/GODOT-MIGRATION.md` 和 `godot/README.md` 读取。
 2. `docs/design/README.md`、`00-BASELINE.md`、`DECISIONS.md`、`STATUS.md`。
 3. `docs/design/05-RUNTIME-CONTRACTS.md`、`06-OPENING-ACCEPTANCE.md`、`14-EARLY-GAME-DETAILED-DESIGN.md`，再按任务读对应分系统规格。
 4. `docs/requirements/README.md`、`BACKLOG.md`、`registry.json` 和对应 `items/SR-XF-xxx.md`。
@@ -153,7 +200,7 @@ M1 第十批：SR007-AC02 的同一掌门换衣、真实制作法器、三场战
 
 按问题选择权威：用户指令与决策登记确定方向，分系统规格及05确定行为契约，当前源码与STATUS最新证据确定实际实现，registry确定SR状态。本文和README负责导航，不能覆盖上述领域依据。05中的目标字段与历史迁移说明须对照当前加载器，保持现有兼容；不能根据局部示例另建平行状态或重做已经有效的实现。
 
-## 已实现与真实进度
+## 旧 JS 实现与证据快照（2026-10-07）
 
 - 正式主线此前已通过正常公开命令贯通开局经营、伤匠装备、筑基三层、固定三人复仇、双结局和返院继续经营；不需要重做开局，也不能据此宣称所有系统完整验收。
 - 固定正交 2.5D，沿用原 12 类独立建筑外观及 6 列精细人物图集。人物身份、spriteIndex、配色和外观配方稳定，地图/肖像/斗法同源。新增草地与透明竹松山石沿用旧画风。
@@ -170,13 +217,17 @@ UI、路径、占地、工位、命中与投影使用同源事实；新可见障
 
 ## 关键代码与美术位置
 
+- 当前二维小院：`godot/painted_courtyard/courtyard.tscn`、`godot/painted_courtyard/assets/`；构建 `tools/build-painted-web.py`，独立输出 `dist/painted-courtyard/index.html`。
+- 历史3D美术试验：`godot/art/art_courtyard.tscn`、`godot/art/art_courtyard.gd`、`godot/art/actor_3d.gd`、`godot/art/assets/`、`godot/art/web/shell.html`；构建 `tools/build-art-web.py`。
+- 已有 Godot 2D 桥接：`godot/project.godot`、`godot/scripts/`、`dist/ea-godot-bridge.mjs`、`dist/ea-godot-host.mjs`；构建 `tools/build-godot-web.py`。主场景继续保留，独立于本批样板入口。
+- 以下为正式 JS 主线与其历史素材入口。
 - 启动与主循环：`dist/ea-game.mjs`、`ea-opening-sim.mjs`、`ea-sr-runtime.mjs`。
 - 空间/导航/存档范围：`dist/ea-sr-spatial.mjs`、`ea-scene-geometry.mjs`、`ea-building-grid.mjs`。
 - 场景/人物/UI：`dist/ea-courtyard-renderer.mjs`、`ea-character-art.mjs`、`ea-ui.mjs`。
 - 地形与资产注册：`dist/ea-estate-ground-art.mjs`、`ea-estate-assets.mjs`、`asset-manifest.json`。
 - 原人物：`dist/yunxiu-courtyard/assets/characters.webp`；静态卧姿：`dist/assets/estate-v1/characters-rest-v1.png`；原远景：`dist/assets/map.webp`；建筑及草地/植被：`dist/assets/estate-v1/`。
 
-## 已有证据与复验
+## 既有 JS 证据与复验
 
 本批本地：成人家具/单位格/空间定向检查48/48（8/6/34），六身份卧姿与预约前提2/2；正常公开命令接受/拒绝邀请两路通过（60命令/36次精确存读与61命令/37次精确存读）；覆盖营造、生产搬运、研习、到床休息、暂停与迁建取消/续建。生产Canvas4/4覆盖8项素材加载、身体点选、暂停帧/存档只读和真实缺图回退。旧v5完整档40建筑/30门人保留资产、时间和return结局，全入口可达、二次存读一致。独立验收档在1366×900、1180×820、820×1180三个DPR1鼠标视口均通过实际卧床人物点选；推荐营造经Enter及鼠标确认、扣除木石、实际施工落成。指针离开画布挤移营造按钮的问题已修复。一次动态模块加载失败经页面重载恢复同档，原因待定位，随后流程无新增错误。相关组件59项通过，发布打包使用既有python3临时入口重跑1/1，开局引导12/12。当前完整记录见 [STATUS](design/STATUS.md) 首段。
 
@@ -205,6 +256,8 @@ node --test qa/ea-courtyard-rest-render-acceptance.mjs tests/ea-rest-pose.test.m
 本机已有Canvas依赖位于 `/Users/shepard/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules`，运行Canvas测试时可设置 `NODE_PATH` 指向该目录；其他环境按实际依赖路径配置。依赖缺失应明确报环境阻塞，不跳过后宣称通过。浏览器使用 `?acceptance=qa-codex-handoff` 等独立验收空间，不能覆盖正式三个档位。测试日志/截图/新测试存档留在仓库外，不提交。
 
 ## 已知差距及下一步
+
+当前先完成 [U-104 二维绘画小院](PAINTED-COURTYARD.md) 的网页检查与具体问题修正，并交由用户确认美术效果。以下保留正式玩法的待办；样板检查不直接关闭这些 SR，也不在用户实机确认前扩展其余美术。
 
 1. **完整小院：SR003–007/029。** 优先收口营造、工位、室内、遮挡与实际交互；旧建筑屋外精细，室内仍有代码绘制风格差异。成人床及六身份静态卧姿已本地实现；完整坐姿、劳动、疗伤、斗法动作及服饰装备完整分层仍待补。地形仍偏重复草地与边缘植被，旧水面形状规则，不能称最终美术验收完成。
 2. **自主经营：SR008–011。** 围绕真实供给、搬运、预约和工作位做连续正常经营验收，补齐短缺、堵路、暂停/重载和设施变化后的恢复。

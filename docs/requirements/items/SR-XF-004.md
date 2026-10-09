@@ -1,12 +1,12 @@
 # SR-XF-004 · 建筑预制件、室内与分层素材目录
 
-来源：DB-2026-10-05 v1.2；需求版本：1.0；建档日期：2026-10-06。
+来源：DB-2026-10-05 v1.2；需求版本：1.1；建档日期：2026-10-06。
 
 | 字段 | 值 |
 | --- | --- |
 | 范围 / 模块 | 前期必需 / 空间 |
 | 优先级 / 计划 | P0 / I1 |
-| 设计 / 开发 | ready / in_progress |
+| 设计 / 开发 | draft / in_progress |
 | 验收 / 发布 | in_progress / not_released_for_this_sr |
 | 责任人 / 复核人 | Codex/space_construction / Codex/root（集成） |
 
@@ -14,46 +14,44 @@
 
 纳入云岫前期，按依赖推进。
 
-决策来源：U-63, U-93, R-25, U-94, U-96, U-97, R-27, U-98, U-99, R-28, U-100, R-29, R-30, U-101。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
+决策来源：U-63, U-93, R-25, U-94, U-96, U-97, R-27, U-98, U-99, R-28, U-100, R-29, R-30, U-101, U-102, U-103, U-104, U-105, R-32。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
 
-规格：[03-SPATIAL-ART.md](../../../docs/design/03-SPATIAL-ART.md)、[01-CHARACTERS.md](../../../docs/design/01-CHARACTERS.md)、[14-EARLY-GAME-DETAILED-DESIGN.md](../../../docs/design/14-EARLY-GAME-DETAILED-DESIGN.md)、[17-INDOOR-LIFE-IMPLEMENTATION.md](../../../docs/design/17-INDOOR-LIFE-IMPLEMENTATION.md)、[18-SPATIAL-CONTINUITY-IMPLEMENTATION.md](../../../docs/design/18-SPATIAL-CONTINUITY-IMPLEMENTATION.md)。
+规格：[03-SPATIAL-ART.md](../../../docs/design/03-SPATIAL-ART.md)、[01-CHARACTERS.md](../../../docs/design/01-CHARACTERS.md)、[14-EARLY-GAME-DETAILED-DESIGN.md](../../../docs/design/14-EARLY-GAME-DETAILED-DESIGN.md)、[17-INDOOR-LIFE-IMPLEMENTATION.md](../../../docs/design/17-INDOOR-LIFE-IMPLEMENTATION.md)、[18-SPATIAL-CONTINUITY-IMPLEMENTATION.md](../../../docs/design/18-SPATIAL-CONTINUITY-IMPLEMENTATION.md)、[GODOT-MIGRATION.md](../../../docs/GODOT-MIGRATION.md)、[ART-REALTIME-TRIAL.md](../../../docs/ART-REALTIME-TRIAL.md)、[SECT-GROWTH-PLAN.md](../../../docs/SECT-GROWTH-PLAN.md)。
 
 依赖：[SR-XF-003](SR-XF-003.md)。
 
-关联既有验收：SCENE-01, SCENE-03；本SR的AC细化这些目标，不代表旧版本已经通过。
+关联既有验收：SCENE-01, SCENE-03, GROWTH-01, GROWTH-02, GROWTH-05；本SR的AC细化这些目标，不代表旧版本已经通过。
 
 ## 现状与设计缺口
 
-主屋、居舍、医庐采用0.9×2.2米成人床，书案与工作台按统一室内布局放置。相同预制件服务家具、工位、通行与营造；床位及卧姿仍保存在真实活动中。按U-101，院景中封闭建筑保持完整外观，不绘制室内家具与人物；容量和活动由人物/建筑管理查看。
+既有 JS 运行基线：主屋、居舍、医庐采用0.9×2.2米成人床，书案与工作台按统一室内布局放置。相同预制件服务家具、工位、通行与营造；床位及卧姿仍保存在真实活动中。按U-101，院景中封闭建筑保持完整外观，不绘制室内家具与人物；容量和活动由人物/建筑管理查看。 U-105 山域成长方案见 docs/SECT-GROWTH-PLAN.md；本批只登记设计与阶段原型，正式运行版本保持。
 
-已登记14类当前资产—米制预制件、阶段、锚点和门/工位对照表；14类七阶段图集已接入，但逐类正常施工、视觉门对齐、缺图回退与目标设备浏览器验收仍缺。U-101的封闭外观和露天作业显示需独立网页及性能复核。
+U-105 五阶段建筑用途、主峰仙宫和分峰生活容量方向已登记；分阶段预制件尺寸、真实工位容量与素材目录仍待冻结，并须在 U-104 Godot 二维场景逐项验证。
 
 现状是适用旧能力的基线，不表示该SR完整目标已通过。
 
 ## 必须补齐的设计交付物
 
-1. 首轮全部可用建筑/设施目录及最终尺寸、锚点、朝向、门、家具、工位、等待位。
-2. 预览/工地/成品/升级/损坏的分层资产规范与资产版本表。
-3. 占地、内部通行、封闭外观遮挡、露天人物显示和点击区域各自用途及同源生成规则。
+1. 五阶段各地域的建筑/设施目录，逐类定义尺寸、锚点、入口、真实床位/工位及等待位。
+2. 预览、施工、成品、升级、损坏与阶段外观的素材版本及同源几何表；主峰和四峰维持统一绘画比例。
+3. 封闭建筑外观、露天作业显示、容量启用和点击区域规则；升级/迁建与新建替代的身份关系分列。
 
 ## 需求行为
 
-SR-XF-004-REQ-01：容量对应真实床位/工位；封闭建筑在管理页显示容量与占用，露天工位在院景可见；经营对象独立于地面背景。
+SR-XF-004-REQ-01：建筑与设施作为独立经营对象提供真实床位/工位；预设建位和阶段外观不直接增加容量，完工及可用条件成立后启用。
 
-SR-XF-004-REQ-02：人物进入封闭建筑后院景保持完整外观，不绘制室内家具或身体；人物按真实位置和活动运行，可通过人物/建筑管理选择与理解。露天到场作业人物按实际脚点显示和点选。
+SR-XF-004-REQ-02：人物进入封闭建筑后按真实活动运行，院景保持完整外观；人物/建筑管理显示真实容量和占用，露天作业者按实际脚点显示和点选。
 
-SR-XF-004-REQ-03：合法朝向仅使用支持的素材，升级不改变建筑身份。
+SR-XF-004-REQ-03：五阶段外观使用受支持素材和同一空间定义；升级、迁建保持原建筑身份，新设施接替旧用途时记录新旧关联。
 
 
 ## 验收标准
 
 | ID | 情景 / 操作 | 必须看到的结果 | 状态 |
 | --- | --- | --- | --- |
-| SR-XF-004-AC-01 | 比较同建筑预览、工地、成品 | 尺寸和锚点一致，无跳位；管理页容量对应真实家具/工位，封闭外观不露出内部结构。 | passed |
+| SR-XF-004-AC-01 | 对五阶段对应建筑比较预览、工地、成品与升级形态 | 各阶段尺寸、锚点、入口和真实容量同源；施工不提前提供容量，封闭外观完整，主峰与分峰的建筑/人物比例一致。 | not_run |
 | SR-XF-004-AC-02 | 屋内睡眠、研习和疗伤 | 人物实际到达床位/书案，封闭建筑保持完整外观；管理页可选择真实人物和活动，门道不作为执行工位。 | passed |
 | SR-XF-004-AC-03 | 缺失/旧版资产 | 缺失或旧版素材回退为封闭建筑外观或真实露天工位，不出现假容量或更换人物身份。 | passed |
-
-SR-XF-004-AC-01证据：qa/ea-sr004-stage-browser-source.mjs；dist/ea-courtyard-renderer.mjs；dist/ea-estate-assets.mjs；dist/ea-facility-slots.mjs；asset-manifest.json；docs/design/STATUS.md
 
 SR-XF-004-AC-02证据：qa/ea-indoor-activities-acceptance.mjs；qa/ea-courtyard-rest-render-acceptance.mjs；qa/ea-courtyard-visibility-acceptance.mjs；dist/ea-facility-slots.mjs；docs/design/STATUS.md
 
@@ -75,19 +73,19 @@ SR-XF-004-AC-03证据：dist/ea-estate-assets.mjs；dist/ea-courtyard-renderer.m
 2026-10-08 U-101 AC03 新口径独立验收：合法旧 v5 40建筑30人档 SHA256 b0522b6f15cbd5e9fdada0ae312cc782a99611cca66238f385c1e554785b8215；七类封闭建筑正常、缺图、错尺寸、同尺寸旧 v1 浏览器矩阵均保持封闭几何/外观、原身份/容量和点选；六类露天缺图真实工位仍绘制。五情形导出后新页试读再导出精确一致。最终背层版同源桌面 Chromium 快速复验地表/屋体叠层、缩放/平移、主屋和伐木场点选及存读，结论维持。QA 报告 /tmp/immortal-sr004-ac03-independent/report.json 与 /tmp/immortal-sr004-ac03-final-backlayer/report.json；定向9/9，相关回归40/40。选址预览保留半透明只读 ghost，不画内部。DPR1 桌面证据不等于目标真机；AC01 及整项仍待。
 2026-10-08 M1 r33：合法 v5 40 建筑/30 人档公开主殿升级产生预览、施工、升级后三态，生产 Canvas 保持封闭外观，阶段档精确存读；正常新档与原堵门快照另经独立复核。空间36/36、补给专项通过。网页本批实际交互及目标设备未验，整项 I/V/R 不关闭。
 
+2026-10-09 U-105 / R-32：当前需求更新为 1.1，山域设计关联 GROWTH-01、GROWTH-02、GROWTH-05。旧版 1.0 的标题、需求、AC原文/证据及D/I任务完成范围保存在 registry.json 的 version_history；当前重新记 not_run：SR-XF-004-AC-01。 当前D01继续补实施参数，D02及本版本I01待前置完成；development_status保留既有运行实现基线。未改变的已通过AC只沿用原行为及原运行环境证据，新增地域、布局与迁移流程按GROWTH另验。本批未执行运行时验收，未修改正式运行版本或发布状态。
+
 ## 开发任务
 
 | 任务 | 工作 | 状态 | 前置 | 责任人 |
 | --- | --- | --- | --- | --- |
-| SR-XF-004-D01 | 设计补齐：交付：首轮全部可用建筑/设施目录及最终尺寸、锚点、朝向、门、家具、工位、等待位。；预览/工地/成品/升级/损坏的分层资产规范与资产版本表。；占地、内部通行、屋顶遮挡和点击区域各自用途及同源生成规则。；填实必需参数并标记U/R/T来源。 | done | 无 | Codex/root |
-| SR-XF-004-D02 | 契约与内容审阅：审阅建筑预制件、室内与分层素材目录与依赖契约（SR-XF-003）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。 | done | SR-XF-004-D01 | Codex/sr010_contract_validation |
-| SR-XF-004-I01 | 开发与集成：在空间模块实现建筑预制件、室内与分层素材目录；交付SR-XF-004-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。 | todo | SR-XF-004-D02 | Codex/courtyard-integration |
-| SR-XF-004-V01 | 验收与兼容：执行SR-XF-004-AC-01至AC-03及SCENE-01、SCENE-03；登记实际结果、兼容和设备证据边界。 | todo | SR-XF-004-I01 | Codex/courtyard-acceptance |
+| SR-XF-004-D01 | 设计补齐：当前版本设计补齐：补齐五阶段预制件、真实容量、资产版本及锚点表；成长原型只提供用途和外观方向。 原版本已完成范围和证据保存在 version_history。 | in_progress | 无 | Codex/root |
+| SR-XF-004-D02 | 契约与内容审阅：在当前版本D01完成后，审阅建筑预制件、室内与分层素材目录与依赖契约的字段、时序、失败及恢复；核对本SR的REQ/AC和GROWTH-01、GROWTH-02、GROWTH-05。旧版审阅完成事实保存在 version_history。 | todo | SR-XF-004-D01 | Codex/sr010_contract_validation |
+| SR-XF-004-I01 | 开发与集成：按当前版本设计在相关模块集成建筑预制件、室内与分层素材目录，接入真实数据、行为、素材、界面和存读。既有实现保留为运行基线；本版本在D02完成后进入集成。 | todo | SR-XF-004-D02 | Codex/courtyard-integration |
+| SR-XF-004-V01 | 验收与兼容：执行本SR的AC-01至AC-03及GROWTH-01、GROWTH-02、GROWTH-05；分别记录正常、失败、存读、网页视口和适用真机证据。 | todo | SR-XF-004-I01 | Codex/courtyard-acceptance |
 | SR-XF-004-R01 | 发布与关闭：完成所需源码/运行时发布核对、交接和未覆盖说明；本轮用户不要求上传QA过程产物。 | todo | SR-XF-004-V01 | 待分配 |
 
-SR-XF-004-D01证据：docs/requirements/design/SR-XF-003-006.md
-
-SR-XF-004-D02证据：docs/requirements/design/SR-XF-003-006.md
+SR-XF-004-D01证据：docs/SECT-GROWTH-PLAN.md
 
 SR-XF-004-I01证据：dist/ea-sr-spatial.mjs；dist/ea-character-art.mjs；dist/ea-courtyard-renderer.mjs；dist/assets/estate-v1/characters-rest-v1.png；docs/design/STATUS.md；asset-manifest.json；dist/assets/estate-v1/hall-stages-v1.png；dist/assets/estate-v1/clinic-stages-v1.png；dist/assets/estate-v1/library-stages-v1.png；tests/ea-hall-stage-art.test.mjs；dist/assets/estate-v1/farm-stages-v1.png；dist/assets/estate-v1/lumber-stages-v1.png；dist/assets/estate-v1/quarry-stages-v1.png；dist/assets/estate-v1/meditation-stages-v1.png；tests/ea-outdoor-stage-art.test.mjs
 
@@ -99,6 +97,7 @@ SR-XF-004-V01证据：qa/ea-indoor-furniture-acceptance.mjs；qa/ea-courtyard-re
 - 所有行为、失败、取消、恢复和存档影响可执行；未定必需参数已填入配置。
 - 依赖契约已可使用；涉及身份、风险、真相与来源的作者卡固定。
 - 验收步骤、预期、数据/设备和结果守恒条件可检查。
+- U-105 对应的建位/布局、容量或供给、迁居及存档字段已按本SR补齐；成长原型审阅不能代替实施参数与契约审阅。
 
 ## 关闭条件
 
@@ -148,6 +147,12 @@ SR-XF-004-V01证据：qa/ea-indoor-furniture-acceptance.mjs；qa/ea-courtyard-re
 - tests/ea-estate-remaining-stage-art.test.mjs
 - qa/ea-courtyard-visibility-acceptance.mjs
 - tests/ea-closed-stage-fallback.test.mjs
+- docs/art/REALTIME-TRIAL-2026-10-09.md
+- godot/art/art_courtyard.gd
+- godot/art/actor_3d.gd
+- tools/build-art-web.py
+- docs/art/PAINTED-COURTYARD-2026-10-09.md
+- docs/SECT-GROWTH-PLAN.md；2026-10-09 山域总图、五阶段迁移及统一原型的设计来源；当前运行验收待补。
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
@@ -170,5 +175,9 @@ SR-XF-004-V01证据：qa/ea-indoor-furniture-acceptance.mjs；qa/ea-courtyard-re
 - 2026-10-08：SR-XF-004-D01更新为done；任务状态不自动改变SR整体状态。
 - 2026-10-08：SR-XF-004-D02更新为done；任务状态不自动改变SR整体状态。
 - 2026-10-08：M1 r33：合法 v5 40 建筑/30 人档公开主殿升级产生预览、施工、升级后三态，生产 Canvas 保持封闭外观，阶段档精确存读；正常新档与原堵门快照另经独立复核。空间36/36、补给专项通过。网页本批实际交互及目标设备未验，整项 I/V/R 不关闭。
+- 2026-10-09：U-103：用户批准真实Godot 3D美术小院，一栋主殿、山石道路、两名人物已在本地WebKit实机运行，基础点选/行走/入殿后劳动/暂停/刷新及三个DPR1视口取得局部证据，独立Godot复核暂停骨骼和隐藏人物点选修复。地表/岩石/屋瓦质感仍有差距，用户实机美术确认、目标设备及正式玩法集成待完成。证据详见 docs/art/REALTIME-TRIAL-2026-10-09.md；本批未发布，完整AC及D/I/V/R状态保持。
+- 2026-10-09：U-104：用户明确停止3D模型路线以控制制作工作量和网页性能预算。保留U-103试验工程及历史证据；Godot/Web方向保持，Godot 2D绘画素材与二维动画候选方案待确认。此次只同步约束，运行代码及完整SR/AC状态不变。
+- 2026-10-09：U-104用户确认Godot 2D制作；绘画小院本地构建与WebKit鼠标操作、三视口DPR1局部复核完成。暂停出殿/双指锚点/拖动输入修复，最终拖动实点通过；人物辨识、动作观感、用户美术认可、殿后完整浏览器遮挡、真机/DPR2/真实触摸继续。正式SR/AC状态保持，未发布。证据 docs/art/PAINTED-COURTYARD-2026-10-09.md。
+- 2026-10-09：2026-10-09 U-105 / R-32：当前需求更新为 1.1，山域设计关联 GROWTH-01、GROWTH-02、GROWTH-05。旧版 1.0 的标题、需求、AC原文/证据及D/I任务完成范围保存在 registry.json 的 version_history；当前重新记 not_run：SR-XF-004-AC-01。 当前D01继续补实施参数，D02及本版本I01待前置完成；development_status保留既有运行实现基线。未改变的已通过AC只沿用原行为及原运行环境证据，新增地域、布局与迁移流程按GROWTH另验。本批未执行运行时验收，未修改正式运行版本或发布状态。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。

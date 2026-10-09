@@ -1,12 +1,12 @@
 # SR-XF-006 · 升级、迁建与拆除的安全任务
 
-来源：DB-2026-10-05 v1.2；需求版本：1.0；建档日期：2026-10-06。
+来源：DB-2026-10-05 v1.2；需求版本：1.1；建档日期：2026-10-06。
 
 | 字段 | 值 |
 | --- | --- |
 | 范围 / 模块 | 前期必需 / 营造 |
 | 优先级 / 计划 | P1 / I1 |
-| 设计 / 开发 | ready / in_progress |
+| 设计 / 开发 | draft / in_progress |
 | 验收 / 发布 | in_progress / not_released_for_this_sr |
 | 责任人 / 复核人 | Codex/space_construction / Codex/sr002_version_gate（独立设计复核） |
 
@@ -14,48 +14,44 @@
 
 纳入云岫前期，按依赖推进。
 
-决策来源：U-63, U-93, R-25, U-94, U-96, U-97, R-27, U-99, R-28, U-100, R-29, R-30。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
+决策来源：U-63, U-93, R-25, U-94, U-96, U-97, R-27, U-99, R-28, U-100, R-29, R-30, U-105, R-32。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
 
-规格：[03-SPATIAL-ART.md](../../../docs/design/03-SPATIAL-ART.md)、[05-RUNTIME-CONTRACTS.md](../../../docs/design/05-RUNTIME-CONTRACTS.md)、[07-ECONOMY-ORGANIZATION.md](../../../docs/design/07-ECONOMY-ORGANIZATION.md)、[18-SPATIAL-CONTINUITY-IMPLEMENTATION.md](../../../docs/design/18-SPATIAL-CONTINUITY-IMPLEMENTATION.md)。
+规格：[03-SPATIAL-ART.md](../../../docs/design/03-SPATIAL-ART.md)、[05-RUNTIME-CONTRACTS.md](../../../docs/design/05-RUNTIME-CONTRACTS.md)、[07-ECONOMY-ORGANIZATION.md](../../../docs/design/07-ECONOMY-ORGANIZATION.md)、[18-SPATIAL-CONTINUITY-IMPLEMENTATION.md](../../../docs/design/18-SPATIAL-CONTINUITY-IMPLEMENTATION.md)、[SECT-GROWTH-PLAN.md](../../../docs/SECT-GROWTH-PLAN.md)。
 
 依赖：[SR-XF-004](SR-XF-004.md)、[SR-XF-005](SR-XF-005.md)。
 
-关联既有验收：BUILD-04, SAVE-01；本SR的AC细化这些目标，不代表旧版本已经通过。
+关联既有验收：BUILD-04, SAVE-01, GROWTH-03, GROWTH-04, GROWTH-06, GROWTH-07, GROWTH-08；本SR的AC细化这些目标，不代表旧版本已经通过。
 
 ## 现状与设计缺口
 
-升级、迁建、拆除继续保留同一建筑身份。本批成人床占用者可按实际步长撤离；正常迁建取消、暂停续建和旧在建进度加载保留材料与唯一实体。
+既有 JS 运行基线：升级、迁建、拆除继续保留同一建筑身份。本批成人床占用者可按实际步长撤离；正常迁建取消、暂停续建和旧在建进度加载保留材料与唯一实体。 U-105 山域成长方案见 docs/SECT-GROWTH-PLAN.md；本批只登记设计与阶段原型，正式运行版本保持。
 
-D01/D02 已按现行代码和 SR004/005/010 接缝独立复核；完整玩家串行、取消/存读分支、目标设备与真人体验仍属 I/V。
+U-105 已规定先形成可用新产能与供给，再真实迁居和退出旧生产；服务余量、分段工程状态及跨区取消/恢复字段待实施设计和正常玩家路径验收。
 
 现状是适用旧能力的基线，不表示该SR完整目标已通过。
 
 ## 必须补齐的设计交付物
 
-1. 升级占地冲突、迁建源/目标预约、拆除与材料回收的任务状态图。
-2. 人物活动中断、等待、临时撤离/安置和重新预约策略。
-3. 各取消阶段的已用成本、余料、进度和身份保留表。
+1. 同建筑升级、整设施迁建、新设施接替旧功能的状态图及身份/接替关系。
+2. 新住居/休养/供给就绪、人物同意、真实迁居与搬运、旧产能退出和旧址改造条件表。
+3. 各阶段缺料、断路、伤者、满床/满仓、取消和存读后的投入/服务/库存恢复表。
 
 ## 需求行为
 
-SR-XF-006-REQ-01：被使用建筑不得瞬间消失或隔空复制；改动有实际时间与劳动成本。
+SR-XF-006-REQ-01：升级、迁建和拆除使用真实工时与劳动；新容量、运输和供给验证可用后才退出必要旧服务，人物和库存按实际过程转移。
 
-SR-XF-006-REQ-02：迁建保留buildingId及槽位关联，活动重验后恢复或说明失效原因。
+SR-XF-006-REQ-02：升级和迁建保留 buildingId 及工位身份，位置路径由布局层解析；新建替代设施使用新ID并记录接替关系，不能复制旧产出。
 
-SR-XF-006-REQ-03：目标地被占或取消时保留原实体，失败不困人不重退资源。
+SR-XF-006-REQ-03：活动中人员安全结束或中断后再迁居；无安全去处、目标失效或取消时保留可恢复实体、已用投入和必要服务，返料至多一次。
 
 
 ## 验收标准
 
 | ID | 情景 / 操作 | 必须看到的结果 | 状态 |
 | --- | --- | --- | --- |
-| SR-XF-006-AC-01 | 占床/劳动时发起迁建或拆除 | 按明确策略等待或安全结束活动，人物有可达去处。 | passed |
-| SR-XF-006-AC-02 | 目标地失效、途中取消并重载 | 原建筑和已用投入可追溯，退款一次，无复制建筑。 | passed |
+| SR-XF-006-AC-01 | 新区域建设后，对占床、生产或受伤中的人物发起迁居与旧址改造 | 目的地容量、路线和必要供给已可用且人物接受；人员及携带物真实到达后才释放旧占用，无安全去处时等待并保留必要服务。 | not_run |
+| SR-XF-006-AC-02 | 跨区迁建/功能接替中目标失效、断路、取消并重载 | 原建筑身份、工位引用、已用投入与货物位置可追溯；旧必要服务可恢复，退款一次，无复制建筑或生产批次。 | not_run |
 | SR-XF-006-AC-03 | 升级扩大占地 | 合法扩大才能完成；通路/容量/UI使用新统一定义。 | passed |
-
-SR-XF-006-AC-01证据：qa/ea-sr-spatial-acceptance.mjs；docs/requirements/IMPLEMENTATION-2026-10-06.md；qa/ea-indoor-furniture-acceptance.mjs
-
-SR-XF-006-AC-02证据：qa/ea-sr-spatial-acceptance.mjs；docs/requirements/IMPLEMENTATION-2026-10-06.md；qa/ea-indoor-furniture-acceptance.mjs；qa/ea-courtyard-life-acceptance.mjs
 
 SR-XF-006-AC-03证据：qa/ea-sr-spatial-acceptance.mjs；docs/requirements/IMPLEMENTATION-2026-10-06.md；qa/ea-indoor-furniture-acceptance.mjs
 
@@ -67,19 +63,19 @@ SR-XF-006-AC-03证据：qa/ea-sr-spatial-acceptance.mjs；docs/requirements/IMPL
 2026-10-08 M1 r8 升级施工中取消与重试：独立公开链 1/1，已发生实际施工进度后取消，余料实物到仓才只返灵石40、木27、石18；重复确认不再返，保存/重载及原建筑重试仍保持身份和工单。新建筑截断在途搬运路线的相邻物流专项 7/7；更多失败/取消阶段、浏览器完整串行及目标设备仍待，I/V/R 与整项状态不变。
 2026-10-08 M1 r33：正常新档主殿升级45条公开命令/33次精确存读、2人撤离，原卡住档7450→7460开始施工→7585完工；40建筑/30人旧档升级、独立全额/部分退料和重复取消通过。既有门道时间断言和二次迁建玉石不足在父版本同样失败。页面内完整串行和真机仍待，整项 I/V/R 不关闭。
 
+2026-10-09 U-105 / R-32：当前需求更新为 1.1，山域设计关联 GROWTH-03、GROWTH-04、GROWTH-06、GROWTH-07、GROWTH-08。旧版 1.0 的标题、需求、AC原文/证据及D/I任务完成范围保存在 registry.json 的 version_history；当前重新记 not_run：SR-XF-006-AC-01、SR-XF-006-AC-02。 当前D01继续补实施参数，D02及本版本I01待前置完成；development_status保留既有运行实现基线。未改变的已通过AC只沿用原行为及原运行环境证据，新增地域、布局与迁移流程按GROWTH另验。本批未执行运行时验收，未修改正式运行版本或发布状态。
+
 ## 开发任务
 
 | 任务 | 工作 | 状态 | 前置 | 责任人 |
 | --- | --- | --- | --- | --- |
-| SR-XF-006-D01 | 设计补齐：交付：升级占地冲突、迁建源/目标预约、拆除与材料回收的任务状态图。；人物活动中断、等待、临时撤离/安置和重新预约策略。；各取消阶段的已用成本、余料、进度和身份保留表。；填实必需参数并标记U/R/T来源。 | done | 无 | Codex/space_construction |
-| SR-XF-006-D02 | 契约与内容审阅：审阅升级、迁建与拆除的安全任务与依赖契约（SR-XF-004、SR-XF-005）的字段、时序、失败及恢复；逐项核对本SR的REQ/AC。 | done | SR-XF-006-D01 | Codex/sr002_version_gate |
-| SR-XF-006-I01 | 开发与集成：在营造模块实现升级、迁建与拆除的安全任务；交付SR-XF-006-REQ-01至REQ-03，接入相关数据、行为、素材、UI和恢复，提交关联SR。 | in_progress | SR-XF-006-D02 | Codex/courtyard-integration |
-| SR-XF-006-V01 | 验收与兼容：执行SR-XF-006-AC-01至AC-03及BUILD-04、SAVE-01；登记实际结果、兼容和设备证据边界。 | todo | SR-XF-006-I01 | Codex/courtyard-acceptance |
+| SR-XF-006-D01 | 设计补齐：当前版本设计补齐：细化新供给启用、实际迁居、旧服务退出的执行状态和失败恢复；冻结安全余量及存档字段。 原版本已完成范围和证据保存在 version_history。 | in_progress | 无 | Codex/space_construction |
+| SR-XF-006-D02 | 契约与内容审阅：在当前版本D01完成后，审阅升级、迁建与拆除的安全任务与依赖契约的字段、时序、失败及恢复；核对本SR的REQ/AC和GROWTH-03、GROWTH-04、GROWTH-06、GROWTH-07、GROWTH-08。旧版审阅完成事实保存在 version_history。 | todo | SR-XF-006-D01 | Codex/sr002_version_gate |
+| SR-XF-006-I01 | 开发与集成：按当前版本设计在相关模块集成升级、迁建与拆除的安全任务，接入真实数据、行为、素材、界面和存读。既有实现保留为运行基线；本版本在D02完成后进入集成。 | todo | SR-XF-006-D02 | Codex/courtyard-integration |
+| SR-XF-006-V01 | 验收与兼容：执行本SR的AC-01至AC-03及GROWTH-03、GROWTH-04、GROWTH-06、GROWTH-07、GROWTH-08；分别记录正常、失败、存读、网页视口和适用真机证据。 | todo | SR-XF-006-I01 | Codex/courtyard-acceptance |
 | SR-XF-006-R01 | 发布与关闭：完成所需源码/运行时发布核对、交接和未覆盖说明；本轮用户不要求上传QA过程产物。 | todo | SR-XF-006-V01 | 待分配 |
 
-SR-XF-006-D01证据：docs/requirements/design/SR-XF-003-006.md
-
-SR-XF-006-D02证据：docs/requirements/design/SR-XF-003-006.md；dist/ea-sr-spatial.mjs；dist/ea-game.mjs；dist/ea-ui.mjs
+SR-XF-006-D01证据：docs/SECT-GROWTH-PLAN.md
 
 SR-XF-006-I01证据：dist/ea-sr-spatial.mjs；docs/design/STATUS.md；qa/ea-sr-building-change-public-acceptance.mjs；qa/ea-sr006-serial-public-acceptance.mjs；qa/ea-sr006-upgrade-cancel-recovery-public-acceptance.mjs
 
@@ -91,6 +87,7 @@ SR-XF-006-V01证据：qa/ea-indoor-furniture-acceptance.mjs；qa/ea-courtyard-li
 - 所有行为、失败、取消、恢复和存档影响可执行；未定必需参数已填入配置。
 - 依赖契约已可使用；涉及身份、风险、真相与来源的作者卡固定。
 - 验收步骤、预期、数据/设备和结果守恒条件可检查。
+- U-105 对应的建位/布局、容量或供给、迁居及存档字段已按本SR补齐；成长原型审阅不能代替实施参数与契约审阅。
 
 ## 关闭条件
 
@@ -123,6 +120,7 @@ SR-XF-006-V01证据：qa/ea-indoor-furniture-acceptance.mjs；qa/ea-courtyard-li
 - qa/ea-sr-spatial-acceptance.mjs
 - qa/ea-sr006-serial-public-acceptance.mjs
 - qa/ea-sr006-upgrade-cancel-recovery-public-acceptance.mjs
+- docs/SECT-GROWTH-PLAN.md；2026-10-09 山域总图、五阶段迁移及统一原型的设计来源；当前运行验收待补。
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
@@ -136,5 +134,6 @@ SR-XF-006-V01证据：qa/ea-indoor-furniture-acceptance.mjs；qa/ea-courtyard-li
 - 2026-10-08：2026-10-08 M1 r7 同一座伐木场正常公开串行：建造、升级扩大占地、迁建、拆除 93 命令/62 次精确存读/世界步 15911；真实药田草药搬入设施仓且各阶段存量守恒；完工账单、建筑唯一身份、施工材料位置和拆除一次返料均逐阶段核对。独立专项 1/1，来源 qa/ea-sr006-serial-public-acceptance.mjs。此证据限正常 Node 公开命令链；取消/目标失效、浏览器完整串行、真机/真人及整项 I/V/R 仍待。
 - 2026-10-08：M1 r8 升级施工中取消专项核对真实返料到仓后一次退款，灵石40木27石18；返料、保存重载和同建筑重试通过。相邻施工物流新建筑断路会重求或保留货物与工单。完整取消分支、浏览器串行与真机/真人仍待，AC 和 I/V/R 状态不提升。
 - 2026-10-08：M1 r33：正常新档主殿升级45条公开命令/33次精确存读、2人撤离，原卡住档7450→7460开始施工→7585完工；40建筑/30人旧档升级、独立全额/部分退料和重复取消通过。既有门道时间断言和二次迁建玉石不足在父版本同样失败。页面内完整串行和真机仍待，整项 I/V/R 不关闭。
+- 2026-10-09：2026-10-09 U-105 / R-32：当前需求更新为 1.1，山域设计关联 GROWTH-03、GROWTH-04、GROWTH-06、GROWTH-07、GROWTH-08。旧版 1.0 的标题、需求、AC原文/证据及D/I任务完成范围保存在 registry.json 的 version_history；当前重新记 not_run：SR-XF-006-AC-01、SR-XF-006-AC-02。 当前D01继续补实施参数，D02及本版本I01待前置完成；development_status保留既有运行实现基线。未改变的已通过AC只沿用原行为及原运行环境证据，新增地域、布局与迁移流程按GROWTH另验。本批未执行运行时验收，未修改正式运行版本或发布状态。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。

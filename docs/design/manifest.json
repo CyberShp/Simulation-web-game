@@ -28,6 +28,9 @@
   ],
   "requiredRead": [
     "AGENTS.md",
+    "docs/SECT-GROWTH-PLAN.md",
+    "docs/PAINTED-COURTYARD.md",
+    "docs/GODOT-MIGRATION.md",
     "docs/design/README.md",
     "docs/design/00-BASELINE.md",
     "docs/design/DECISIONS.md",
@@ -129,6 +132,18 @@
       "role": "spatial-continuity-implementation-and-evidence-boundaries"
     },
     {
+      "path": "docs/GODOT-MIGRATION.md",
+      "role": "godot-web-implementation-stages-and-exit-gates"
+    },
+    {
+      "path": "docs/PAINTED-COURTYARD.md",
+      "role": "current-painted-2d-courtyard-scope-and-web-acceptance"
+    },
+    {
+      "path": "docs/ART-REALTIME-TRIAL.md",
+      "role": "historical-U-103-art-trial-scope-and-evidence-boundary"
+    },
+    {
       "path": "docs/requirements/README.md",
       "role": "sr-management-entry"
     },
@@ -139,6 +154,10 @@
     {
       "path": "docs/requirements/registry.json",
       "role": "authoritative-sr-and-task-registry"
+    },
+    {
+      "path": "docs/SECT-GROWTH-PLAN.md",
+      "role": "same-mountain-staged-growth-and-migration"
     }
   ],
   "taskRead": {
@@ -167,6 +186,8 @@
       "14-EARLY-GAME-DETAILED-DESIGN.md"
     ],
     "space_art_input": [
+      "../PAINTED-COURTYARD.md",
+      "../GODOT-MIGRATION.md",
       "01-CHARACTERS.md",
       "03-SPATIAL-ART.md",
       "05-RUNTIME-CONTRACTS.md",
@@ -364,7 +385,8 @@
       "R-27",
       "R-28",
       "R-29",
-      "R-30"
+      "R-30",
+      "R-31"
     ],
     "actualSaveVersionAtAudit": 5,
     "targetSaveSchemaVersion": 6,
@@ -851,14 +873,14 @@
     "rulesetVersion": "opening-runtime-3",
     "reference": "docs/CODEX-HANDOFF.md",
     "evidence": "docs/design/STATUS.md",
-    "sourceBaseCommit": "1b28260007c3049d077dfce424d0db2c6e8cbd60",
-    "scope": "adult-furniture-static-rest-and-scene-interaction-local-increment",
+    "sourceBaseCommit": "87a15dbf6b3f784f61ddfbf06de2fe23d0a31f9a",
+    "scope": "godot-2d-painted-courtyard-local-art-review",
     "sourceStatus": "uncommitted-local-changes",
     "deploymentStatus": "local-increment-not-deployed",
     "lastPublishedCheckpoint": {
-      "runtimeSourceCommit": "eb5cca59b226c49c184a2082bcdda5ebd64de3fb",
-      "pagesCommit": "809d5bb8aecfbfc2a4681fd706e6597ed62297b3",
-      "releaseTag": "ea-160-yunxiu-2d-20261007-r1",
+      "runtimeSourceCommit": "7d27532bf22e8c6064281e12b390edb8370abce9",
+      "pagesCommit": "acb40955ded401e6e2c5225c463d3e0a380ae6a2",
+      "releaseTag": "ea-160-courtyard-20261009-r37",
       "evidence": "docs/design/STATUS.md"
     },
     "scene": {
@@ -870,8 +892,9 @@
       "buildingGridVersion": "building-units-1",
       "interiorLayoutVersion": "adult-furniture-1"
     },
-    "nextWorkSource": "docs/CODEX-HANDOFF.md#已知差距及下一步",
-    "fullDesignVerified": false
+    "nextWorkSource": "docs/design/DECISIONS.md",
+    "fullDesignVerified": false,
+    "versionAppliesTo": "existing formal JS game; art trial has independent local state"
   },
   "requirementsManagement": {
     "registryId": "SR-XF-2026-10-06",
@@ -1193,18 +1216,92 @@
       }
     }
   },
+  "engineMigration": {
+    "decisionId": "U-102",
+    "artDirectionDecisionId": "U-104",
+    "implementationChoiceId": "R-31",
+    "route": "docs/GODOT-MIGRATION.md",
+    "platform": "web",
+    "stages": [
+      "G0",
+      "G1",
+      "G2",
+      "G3"
+    ],
+    "sourceProject": "godot/project.godot",
+    "bridge": "dist/ea-godot-bridge.mjs",
+    "buildScript": "tools/build-godot-web.py",
+    "generatedPreviewEntry": "dist/godot/index.html",
+    "previewSaveNamespace": "godot-preview",
+    "currentRulesAuthorityDuringG0": "existing-js-simulation",
+    "formalEntrySwitchGate": "corresponding-function-and-save-acceptance"
+  },
+  "currentArtDirection": {
+    "decisionId": "U-104",
+    "decisionStatus": "user-confirmed",
+    "updatedAt": "2026-10-09",
+    "reference": "docs/PAINTED-COURTYARD.md",
+    "engine": "Godot",
+    "delivery": "Web",
+    "styleReference": "山门与幻境",
+    "approvedConcept": "docs/art/reference/mountain-courtyard.png",
+    "modelPolicy": "3d-model-production-and-expansion-stopped",
+    "preserveExistingAssetsAndEvidence": true,
+    "runtimeEvidence": "docs/art/PAINTED-COURTYARD-2026-10-09.md",
+    "closesWholeRequirements": false,
+    "rendering": "godot-2d",
+    "view": "fixed-oblique",
+    "assets": "coherent-painted-assets-and-2d-character-animation",
+    "assetProduction": "built-in-imagegen-to-godot-2d-layers",
+    "productionPlanStatus": "user-confirmed",
+    "continuousCharacterMovement": true,
+    "sourceScene": "godot/painted_courtyard/courtyard.tscn",
+    "assetDirectory": "godot/painted_courtyard/assets",
+    "buildScript": "tools/build-painted-web.py",
+    "generatedPreviewEntry": "dist/painted-courtyard/index.html",
+    "acceptanceChecklist": "ART-2D-01–08",
+    "userRealtimeApproval": "pending",
+    "batchArtExpansionGate": "user-approval-of-actual-painted-web-trial",
+    "writesFormalSaveSlots": false,
+    "settlesEconomy": false,
+    "sampleScope": {
+      "mainHallCount": 1,
+      "mountainStoneRoadSectionCount": 1,
+      "characterCount": 2,
+      "interactions": [
+        "zoom",
+        "selection",
+        "walking",
+        "turning",
+        "working",
+        "occlusion"
+      ],
+      "closedBuildingPresentation": "complete-exterior",
+      "assetStructure": {
+        "background": "painted-ground-road-rocks-and-vegetation",
+        "independentAssets": [
+          "main-hall-png",
+          "two-character-animation-atlas"
+        ],
+        "backgroundRocks": "non-interactive-and-non-walkable"
+      }
+    }
+  },
   "currentHandoff": {
-    "updatedAt": "2026-10-07",
+    "updatedAt": "2026-10-09",
     "entry": "AGENTS.md",
     "handoff": "docs/CODEX-HANDOFF.md",
     "deliveryPlan": "docs/DELIVERY-PLAN.md",
+    "engineMigration": "docs/GODOT-MIGRATION.md",
+    "artTrial": "docs/PAINTED-COURTYARD.md",
+    "currentArtDecisionId": "U-104",
     "actualStatus": "docs/design/STATUS.md",
     "requirements": "docs/requirements/registry.json",
     "decisionLedger": "docs/design/DECISIONS.md",
     "appliesTo": "all agents, including Sol high and extra-high reasoning settings",
     "workingTree": "/Volumes/Media/immortal",
     "preserveUncommittedChanges": true,
-    "sourceBaseCommit": "1b28260007c3049d077dfce424d0db2c6e8cbd60",
+    "sourceBaseCommit": "87a15dbf6b3f784f61ddfbf06de2fe23d0a31f9a",
     "scopePerBatch": [
       "SR and AC",
       "design clause and U/R/T",
@@ -1212,6 +1309,120 @@
       "normal failure reload and UI evidence"
     ],
     "independentDesignReviewRequired": true,
-    "historicalRecordsPolicy": "Versioned snapshots retain their original evidence scope; current state comes from actualStatus and requirements, verified against the working tree."
+    "historicalRecordsPolicy": "Versioned snapshots retain their original evidence scope; current state comes from actualStatus and requirements, verified against the working tree.",
+    "historicalArtTrial": "docs/ART-REALTIME-TRIAL.md",
+    "sectGrowthPlan": "docs/SECT-GROWTH-PLAN.md",
+    "currentLayoutDecisionId": "U-105",
+    "layoutRefinementId": "R-32"
+  },
+  "historicalDevelopmentSnapshots": [
+    {
+      "version": "1.6.0-dev",
+      "schemaVersion": 6,
+      "contentVersion": "sr-content-v1.2",
+      "rulesetVersion": "opening-runtime-3",
+      "reference": "docs/CODEX-HANDOFF.md",
+      "evidence": "docs/design/STATUS.md",
+      "sourceBaseCommit": "1b28260007c3049d077dfce424d0db2c6e8cbd60",
+      "scope": "adult-furniture-static-rest-and-scene-interaction-local-increment",
+      "sourceStatus": "uncommitted-local-changes",
+      "deploymentStatus": "local-increment-not-deployed",
+      "lastPublishedCheckpoint": {
+        "runtimeSourceCommit": "eb5cca59b226c49c184a2082bcdda5ebd64de3fb",
+        "pagesCommit": "809d5bb8aecfbfc2a4681fd706e6597ed62297b3",
+        "releaseTag": "ea-160-yunxiu-2d-20261007-r1",
+        "evidence": "docs/design/STATUS.md"
+      },
+      "scene": {
+        "widthMetres": 96,
+        "heightMetres": 96,
+        "buildingUnitMetres": 2,
+        "navigationMetres": 0.5,
+        "extentVersion": "courtyard-96-1",
+        "buildingGridVersion": "building-units-1",
+        "interiorLayoutVersion": "adult-furniture-1"
+      },
+      "nextWorkSource": "docs/CODEX-HANDOFF.md#已知差距及下一步",
+      "fullDesignVerified": false
+    }
+  ],
+  "historicalArtTrials": [
+    {
+      "decisionId": "U-103",
+      "decisionStatus": "user-confirmed",
+      "updatedAt": "2026-10-09",
+      "reference": "docs/ART-REALTIME-TRIAL.md",
+      "styleReference": "山门与幻境",
+      "approvedConcept": "docs/art/reference/mountain-courtyard.png",
+      "conceptApproval": "user-approved-direction",
+      "rendering": "godot-realtime-3d",
+      "supersededArtDirectionIds": [
+        "U-100",
+        "R-01",
+        "R-27"
+      ],
+      "preserveExistingAssetsAndEvidence": true,
+      "sampleScope": {
+        "mainHallCount": 1,
+        "mountainStoneRoadSectionCount": 1,
+        "characterCount": 2,
+        "interactions": [
+          "zoom",
+          "selection",
+          "walking",
+          "turning",
+          "working",
+          "occlusion"
+        ],
+        "closedBuildingPresentation": "complete-exterior"
+      },
+      "sourceScene": "godot/art/art_courtyard.tscn",
+      "assetDirectory": "godot/art/assets",
+      "buildScript": "tools/build-art-web.py",
+      "generatedPreviewEntry": "dist/art-courtyard/index.html",
+      "runtimeEvidence": "docs/art/REALTIME-TRIAL-2026-10-09.md",
+      "userRealtimeApproval": "not-obtained-before-production-stopped",
+      "batchArtExpansionGate": "user-approval-of-actual-web-trial",
+      "rulesIntegrationGate": "original-SR-AC-and-single-authority-contracts",
+      "writesFormalSaveSlots": false,
+      "settlesEconomy": false,
+      "closesWholeRequirements": false,
+      "runtimeStatus": "preserved-historical-trial-production-stopped-by-U-104"
+    }
+  ],
+  "sectGrowthPlan": {
+    "decisionId": "U-105",
+    "refinementId": "R-32",
+    "updatedAt": "2026-10-09",
+    "reference": "docs/SECT-GROWTH-PLAN.md",
+    "masterPlan": "docs/art/sect-growth-20261009-v2/master-plan.svg",
+    "prototypeDirectory": "docs/art/sect-growth-20261009-v2",
+    "status": "design-and-concept-prototypes",
+    "placement": "preset-building-sites",
+    "populationExamples": [
+      5,
+      20,
+      50,
+      100,
+      150
+    ],
+    "minimumPlannedCapacity": 150,
+    "populationValuesAreUnlockThresholds": false,
+    "regions": [
+      "Z-01",
+      "Z-02",
+      "Z-03",
+      "Z-04",
+      "Z-05",
+      "Z-06",
+      "Z-07"
+    ],
+    "existingCourtyardBaselineRegion": "Z-01",
+    "wholeDomainDimensionsMetres": null,
+    "userPrototypeApproval": "pending",
+    "runtimeImplementation": "not-implemented",
+    "runtimeAcceptance": "not_run",
+    "strictGeographicContinuity": "requires-shared-base-map-and-landmark-anchors",
+    "acceptance": "docs/SECT-GROWTH-PLAN.md#6-正常失败存读与界面验收"
   }
 }

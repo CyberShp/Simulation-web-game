@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1140" viewBox="0 0 1600 1140" role="img" aria-labelledby="title desc">
+<title id="title">一域五阶：宗门山域总图</title>
+<desc id="desc">主峰居中，东侧公共住居，西侧隔谷生产，近侧两峰与远侧两峰围合主峰。以五阶段展示分期建设。此图仅表达空间关系，米制尺寸和建筑坐标待配置。</desc>
+<defs>
+  <linearGradient id="paper" x2="0" y2="1"><stop stop-color="#f7f5ed"/><stop offset="1" stop-color="#eaf0ec"/></linearGradient>
+  <linearGradient id="stone" x2="0" y2="1"><stop stop-color="#91aaa4" stop-opacity=".38"/><stop offset="1" stop-color="#d9e3dc" stop-opacity=".2"/></linearGradient>
+  <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="5" stdDeviation="8" flood-color="#243f3a" flood-opacity=".1"/></filter>
+  <style>
+    text{font-family:'PingFang SC','Noto Sans CJK SC',sans-serif;fill:#203e38}
+    .eyebrow{font-size:15px;letter-spacing:3px;fill:#6b8179}.title{font-size:42px;font-weight:650;letter-spacing:3px}
+    .sub{font-size:19px;fill:#657b71}.name{font-size:24px;font-weight:600}.small{font-size:17px;fill:#59736b}.tag{font-size:15px;fill:#886d3e}
+    .card{fill:#fcfcf7;stroke:#9fb5a7;stroke-width:1.5;filter:url(#shadow)}
+    .route{fill:none;stroke:#ac976e;stroke-width:6;stroke-linecap:round}.future{stroke-dasharray:9 10;stroke-width:4}
+  </style>
+</defs>
+<rect width="1600" height="1140" fill="url(#paper)"/>
+<text x="60" y="55" class="eyebrow">模拟仙府 / 山域成长设计 / U-105 · R-32</text>
+<text x="60" y="115" class="title">一域五阶 · 宗门山域总图</text>
+<text x="60" y="151" class="sub">固定地域，分期营造；每次扩建都接续住居、供给与实际行程。</text>
+<text x="1540" y="72" text-anchor="end" class="tag">空间关系示意 · 2026.10.09</text>
+<text x="1540" y="102" text-anchor="end" class="small">5 / 20 / 50 / 100 / 150 为构图样例</text>
+<text x="1540" y="132" text-anchor="end" class="small">全山域尺寸与建造点坐标待实施配置</text>
+<path d="M110 798 Q250 654 350 538 L477 271 568 178 678 324 772 500 894 559 979 349 1108 165 1234 322 1314 555 1520 798Z" fill="url(#stone)"/>
+<path d="M445 520 L557 361 657 521M1004 532L1155 352 1292 551M628 839L862 570 1090 839" fill="none" stroke="#92ada2" stroke-width="2" opacity=".5"/>
+<path d="M55 595 C214 546 298 566 371 672 S459 807 572 852" fill="none" stroke="#c4dedc" stroke-width="55" opacity=".7"/>
+<path d="M65 595 C214 546 298 566 371 672 S459 807 572 852" fill="none" stroke="#a3c5c4" stroke-width="2" stroke-dasharray="4 9"/>
+<text x="383" y="816" class="small" transform="rotate(31 383 816)">西侧山谷</text>
+<!-- 通路表示连接关系；桥与山路均需真实建设后使用。 -->
+<path class="route future" d="M570 319 L560 427 M1110 319 L1150 427"/>
+<path class="route" d="M582 547 Q674 595 768 671 M1130 547 Q1045 598 952 671"/>
+<path class="route" d="M396 678 Q549 628 690 716 M1030 736 L1230 749"/>
+<path class="route" d="M402 698 Q548 648 690 736" stroke-width="2"/>
+<text x="456" y="623" class="tag">跨谷桥与储运通路</text>
+<text x="1000" y="623" class="tag">分峰往返与配送</text>
+<text x="1155" y="707" class="tag">公共生活通路</text>
+<g transform="translate(430 202)">
+ <rect class="card" width="280" height="116" rx="16"/>
+ <text x="20" y="29" class="tag">Z-06 · S5 建设</text><text x="20" y="62" class="name">远左分峰</text>
+ <text x="20" y="94" class="small">住居 · 膳食 · 休养 · 研修</text>
+</g>
+<g transform="translate(970 202)">
+ <rect class="card" width="280" height="116" rx="16"/>
+ <text x="20" y="29" class="tag">Z-07 · S5 建设</text><text x="20" y="62" class="name">远右分峰</text>
+ <text x="20" y="94" class="small">住居 · 膳食 · 休养 · 研修</text>
+</g>
+<g transform="translate(420 430)">
+ <rect class="card" width="280" height="116" rx="16"/>
+ <text x="20" y="29" class="tag">Z-04 · S4 建设</text><text x="20" y="62" class="name">近左分峰</text>
+ <text x="20" y="94" class="small">完整生活圈与传承场所</text>
+</g>
+<g transform="translate(1010 430)">
+ <rect class="card" width="280" height="116" rx="16"/>
+ <text x="20" y="29" class="tag">Z-05 · S4 建设</text><text x="20" y="62" class="name">近右分峰</text>
+ <text x="20" y="94" class="small">完整生活圈与传承场所</text>
+</g>
+<text x="839" y="365" text-anchor="middle" class="sub">四峰环抱</text>
+<text x="839" y="394" text-anchor="middle" class="small">未建区域保持自然山体</text>
+<g transform="translate(60 620)">
+ <rect class="card" width="336" height="144" rx="16" style="fill:#fcf5e8;stroke:#c4aa7a"/>
+ <text x="22" y="30" class="tag">Z-03 · S2 起建，S3 形成供给</text>
+ <text x="22" y="67" class="name">西侧外围生产谷</text>
+ <text x="22" y="100" class="small">灵田 · 药圃 · 采集加工</text><text x="22" y="126" class="small">生产设施 · 储运 · 实际配送</text>
+</g>
+<g transform="translate(690 664)">
+ <rect width="340" height="176" rx="18" fill="#fffdf4" stroke="#ae8d4f" stroke-width="2.5" filter="url(#shadow)"/>
+ <text x="24" y="31" class="tag">Z-01 · S1–S5 持续成长</text><text x="24" y="69" class="name">主峰 · 开山旧院</text>
+ <text x="24" y="103" class="small">中枢 · 传承 · 接待 · 核心修行</text>
+ <text x="24" y="130" class="small">白玉宫苑 · 琉璃金铜 · 层叠仙池</text>
+ <text x="24" y="157" class="tag">地标延续：古松 / 山门 / 灵泉</text>
+</g>
+<g transform="translate(1230 714)">
+ <rect class="card" width="310" height="126" rx="16"/>
+ <text x="20" y="29" class="tag">Z-02 · S2 起建，持续服务</text><text x="20" y="65" class="name">东侧公共住居</text>
+ <text x="20" y="97" class="small">住居 · 膳房 · 医庐 · 日常研习</text>
+</g>
+<path d="M60 890H1540" stroke="#bdc9ba"/>
+<g transform="translate(60 919)">
+ <text y="0" class="tag">S1 / 5 人样例</text><text y="34" class="name">紧凑开山院</text><text y="65" class="small">生活、修行与小田集中</text>
+</g>
+<g transform="translate(360 919)">
+ <text y="0" class="tag">S2 / 20 人样例</text><text y="34" class="name">东扩，外谷起建</text><text y="65" class="small">新旧供给共同维持过渡</text>
+</g>
+<g transform="translate(660 919)">
+ <text y="0" class="tag">S3 / 50 人样例</text><text y="34" class="name">生产接替，主峰成苑</text><text y="65" class="small">外谷实产实送，旧址改园林</text>
+</g>
+<g transform="translate(960 919)">
+ <text y="0" class="tag">S4 / 100 人样例</text><text y="34" class="name">双峰生活圈</text><text y="65" class="small">近侧两峰具备完整配套</text>
+</g>
+<g transform="translate(1260 919)">
+ <text y="0" class="tag">S5 / 150 人样例</text><text y="34" class="name">四峰仙宫</text><text y="65" class="small">宏阔宫苑与云海仙境</text>
+</g>
+<rect x="60" y="1020" width="1480" height="60" rx="12" fill="#dbe6dd"/>
+<text x="800" y="1058" text-anchor="middle" font-size="20">资格 → 项目投入 → 通路与施工 → 容量可用 → 真实迁居与搬运 → 供给核对 → 旧址改造</text>
+<text x="60" y="1113" class="small">至少 150 人的成长空间；解锁资格、容量、成本与运输预算须由实际设施及世界状态验算。</text>
+<text x="1540" y="1113" text-anchor="end" class="tag">详细契约见《宗门山域成长章程》</text>
+</svg>

@@ -1,10 +1,16 @@
 # 设计入口 · DB-2026-10-05 v1.2
 
+> **当前空间成长 · U-105 / R-32：** [宗门山域成长章程](../SECT-GROWTH-PLAN.md)统一山域总图、七区职能和五阶段建设迁移。当前采用预设建筑位置，按实际建设、容量和供给推进成长；原型、运行实现与用户美术认可分别记录。
+
+> **当前美术方案 · 2026-10-09 · [U-104](DECISIONS.md)：** 用户已确认 Godot 2D、固定斜俯视、统一绘画素材、二维人物动画与连续移动。先按[二维绘画小院](../PAINTED-COURTYARD.md)制作一殿、一道、两人的实际 Web 场景；网页美术效果须另行验收，用户认可后再批量扩展。
+
 这套文档用于后续所有会话和模型接续同一项目。它把已确认方向、推荐方案、数据边界、验收和实现状态分开，不依赖模型记得聊天记录。
+
+当前美术按 **U-104** 已确认的二维方案执行，直接接续[二维绘画小院](../PAINTED-COURTYARD.md)的素材、场景和实际网页检查。旧试验的制作与证据见 [历史美术试验](../ART-REALTIME-TRIAL.md)。
 
 ## 首次接管的读取顺序
 
-1. 仓库根目录 [AGENTS.md](../../AGENTS.md)。
+1. 仓库根目录 [AGENTS.md](../../AGENTS.md)，当前空间／美术任务连同 [宗门山域成长章程](../SECT-GROWTH-PLAN.md)、[二维绘画小院](../PAINTED-COURTYARD.md) 与 [Godot 实施路线](../GODOT-MIGRATION.md) 读取。
 2. [00-BASELINE.md](00-BASELINE.md)：产品定位与跨系统约束。
 3. [DECISIONS.md](DECISIONS.md)：哪些用户已确定，哪些只是建议，哪些可调或后置。
 4. [STATUS.md](STATUS.md)：当前实际上有哪些、哪些尚未实现。
@@ -24,6 +30,10 @@
 | 文档 | 主要问题 |
 | --- | --- |
 | [统一基准](00-BASELINE.md) | 我们究竟要做哪种游戏？哪些体验不能失去？ |
+| [宗门山域成长章程](../SECT-GROWTH-PLAN.md) | 同一山域如何从开山小院成长为四峰仙宫，怎样建设、接替供给和迁居？ |
+| [二维绘画小院](../PAINTED-COURTYARD.md) | U-104已确认的素材、场景范围与直接验收步骤是什么？ |
+| [历史美术试验](../ART-REALTIME-TRIAL.md) | U-103试验范围及局部证据怎样保留？ |
+| [Godot 实施路线](../GODOT-MIGRATION.md) | 美术样板与规则迁移怎样分别接续和验收？ |
 | [人物与关系](01-CHARACTERS.md) | 人是谁、为何行动、怎样成长、怎样相处？ |
 | [装备与武学](02-EQUIPMENT-ARTS.md) | 物品属于谁、怎样获得、学什么、搭配怎样改变玩法？ |
 | [空间与美术](03-SPATIAL-ART.md) | 真实营造、人物占位、室内与遮挡如何共同成立？ |
@@ -52,11 +62,11 @@ v1.1新增的世界任务需联合读取08–12与05：NPC永久死亡覆盖v1.0
 
 下面这段可用于任何模型、任何新会话。仓库支持读取AGENTS.md的工具会自动获得入口；其他工具需显式附上本提示词。任何文件都不能保证未获得仓库内容的模型自动知晓设计。
 
-> 接续 CyberShp/Simulation-web-game。先读取仓库AGENTS.md与docs/CODEX-HANDOFF.md，核对当前工作区并保留未提交增量；再读取docs/design/README.md、00-BASELINE.md、DECISIONS.md、STATUS.md、05-RUNTIME-CONTRACTS.md，以及任务相关规格和06-OPENING-ACCEPTANCE.md。当前设计为DB-2026-10-05 v1.2；先读14收束前期，不继续主动追问远期世界观。无论Sol高、极高或其他模型，每批都按SR/AC、设计条款、修改文件和实际验证建立对应关系。保留固定2.5D与云岫美术、仅直接控制掌门、NPC自主、复仇篇章收束、统一场景实体、稳定身份、单一时钟和旧档保护。遵守user-confirmed与recommended的区分。按现有优先顺序完成已授权40项总目标，逐项独立复核与回填；局部成果准确登记为局部成果。若新用户指令改变设计，同步决策及所有受影响文档。
+> 接续 CyberShp/Simulation-web-game。先读取仓库AGENTS.md与docs/CODEX-HANDOFF.md，核对当前工作区并保留未提交增量；再读取docs/design/README.md、00-BASELINE.md、DECISIONS.md、STATUS.md、05-RUNTIME-CONTRACTS.md，以及任务相关规格和06-OPENING-ACCEPTANCE.md。当前设计为DB-2026-10-05 v1.2；先读14收束前期，不继续主动追问远期世界观。无论Sol高、极高或其他模型，每批都按SR/AC、设计条款、修改文件和实际验证建立对应关系。美术先按U-104及docs/PAINTED-COURTYARD.md制作Godot二维绘画小院，待用户认可网页实机效果后批量扩展。保留仅直接控制掌门、NPC自主、复仇篇章收束、统一场景实体、稳定身份、单一时钟和旧档保护。遵守user-confirmed与recommended的区分。按现有优先顺序完成已授权40项总目标，逐项独立复核与回填；局部成果准确登记为局部成果。若新用户指令改变设计，同步决策及所有受影响文档。
 
 ## 本地开发增量
 
-当前运行时为 EA 1.6.0-dev / schema 6，U-100 固定 2.5D、沿用旧云岫素材并扩大山院；当前发布、实际证据和未覆盖范围以 [STATUS](STATUS.md) 首段及 [Codex 接手指南](../CODEX-HANDOFF.md) 为准。[18](18-SPATIAL-CONTINUITY-IMPLEMENTATION.md)、[17](17-INDOOR-LIFE-IMPLEMENTATION.md)、[16](16-WORKSTATIONS-ARTISAN-IMPLEMENTATION.md)、[15](15-OPENING-IMPLEMENTATION.md) 是各批历史实施记录，不是当前总进度。不能把首批开局或历史局部通过数当成完整 v1.2 验收。
+正式 JS 运行时为 EA 1.6.0-dev / schema 6，保留 U-100 时期的 2.5D 画面和既有存档；后续引擎按 U-102、美术按 U-104 推进。当前发布、实际证据和未覆盖范围以 [STATUS](STATUS.md) 首段及 [Codex 接手指南](../CODEX-HANDOFF.md) 为准。[18](18-SPATIAL-CONTINUITY-IMPLEMENTATION.md)、[17](17-INDOOR-LIFE-IMPLEMENTATION.md)、[16](16-WORKSTATIONS-ARTISAN-IMPLEMENTATION.md)、[15](15-OPENING-IMPLEMENTATION.md) 是各批历史实施记录，不是当前总进度。不能把首批开局或历史局部通过数当成完整 v1.2 验收。
 
 ## 变更与交接方法
 

@@ -1,0 +1,65 @@
+{
+  "recorded": "2026-10-09",
+  "build_time": "2026-10-09 07:24:02 CST",
+  "godot": "4.6.3.stable.official.7d41c59c4",
+  "renderer": "gl_compatibility",
+  "threads": false,
+  "files": {
+    "godot/painted_courtyard/actor_2d.gd": {
+      "bytes": 5393,
+      "sha256": "fe8d0dc8cb1f9157fd8f03e1db099055be055825d04a74a4f5b2430a6ef006e2"
+    },
+    "godot/painted_courtyard/courtyard.tscn": {
+      "bytes": 186,
+      "sha256": "a9f80df4eac452f0b676b46dc17f4c3677e95c941f3dae28bb172f649623cfb3"
+    },
+    "godot/painted_courtyard/courtyard.gd": {
+      "bytes": 20751,
+      "sha256": "91c699d27870f93b327c4848296d86bc8ea0c97eaa462faedb4182203cbb28b9"
+    },
+    "godot/painted_courtyard/web/shell.html": {
+      "bytes": 7208,
+      "sha256": "8dc9e19e1a8fef6b57984c00107eadbf549c73bb46da7207581af716ba90170f"
+    },
+    "godot/painted_courtyard/assets/characters.json": {
+      "bytes": 13747,
+      "sha256": "3c27391399e6a0d6d110c7b40cc900ef72cf71e3d5183940ec3748b83f2edb0f"
+    },
+    "godot/painted_courtyard/assets/characters.png": {
+      "bytes": 1339968,
+      "sha256": "577465185213cd6503ecfd6e9a065d4fbe54ad762b6b924d6a47d9e8f2c8a4a1"
+    },
+    "godot/painted_courtyard/assets/hall.png": {
+      "bytes": 2458886,
+      "sha256": "2f7aba7ac6f4f539bd9d71b1c0344d400bbafcb094a01d3db51b7248b19cbde4"
+    },
+    "godot/painted_courtyard/assets/layout.json": {
+      "bytes": 3902,
+      "sha256": "c6cdc7c16e049538351cb563dc219b5677aa71bf6dfa5f3a173f9cd1be1114db"
+    },
+    "godot/painted_courtyard/assets/ground.png": {
+      "bytes": 3761316,
+      "sha256": "6e9933da372f54503f5fba3c6df6239d76d2a585afbc12fa70555dd7278ae2cf"
+    },
+    "tools/build-painted-web.py": {
+      "bytes": 3541,
+      "sha256": "ace78d8780dd1d4b7e7c0f7c06f1374645f9b8a2abbb8a18f10940b081d2bad9"
+    },
+    "dist/painted-courtyard/index.html": {
+      "bytes": 7431,
+      "sha256": "7423a175bb669334b3cfc453fa2412a99cee36b15983936dae981d902ba69b6c"
+    },
+    "dist/painted-courtyard/index.js": {
+      "bytes": 315759,
+      "sha256": "e3f56ee40e6f84371053db06692cfac15e2c8659547b11c6b2dfa1996dabd981"
+    },
+    "dist/painted-courtyard/index.pck": {
+      "bytes": 5191048,
+      "sha256": "1cc62b65a0851956524c8faf94ecbd961ca1856310eb31e9a1cd5ccb89c2bfde"
+    },
+    "dist/painted-courtyard/index.wasm": {
+      "bytes": 37700666,
+      "sha256": "26b61ce95247012ab3dca3ff51e96d1cdbff44ee91a8c20a83e150afca83f1b6"
+    }
+  }
+}
