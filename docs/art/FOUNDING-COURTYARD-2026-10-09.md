@@ -54,4 +54,6 @@ python3 -m http.server 8080 --directory dist --bind 127.0.0.1
 
 ## 发布记录
 
-本地构建和独立检查已完成。源码同步、公开子路径部署和公网读回按实际结果补记；正式首页沿用r37。
+[打开公开试游](https://cybershp.github.io/Simulation-web-game/painted-courtyard/?v=134122ff64e2)。源码`main`提交`e0eca1cbb5c1d62f21ca08390e67633f65a35e2e`已推送，`gh-pages`提交`f97d990b4142b761c1335eb2e3f0376122e9689f`已部署，Pages状态`built`。
+
+发布仅增加`painted-courtyard/`的8个文件，正式首页及其他既有路径保持原树内容。8个公网文件HTTP 200，SHA256全部与受验导出相同。隔离Chromium实际加载`scene-134122ff64e2.pck`，点击照料药田后走到621,482并劳动、入殿隐藏、出殿、暂停位置和动作冻结通过；本域存储为空，控制台0错误/0警告。公网证据`public-core.json`与`public-desktop.png`留在本地验收目录。

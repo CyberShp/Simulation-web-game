@@ -182,5 +182,29 @@
       "bytes": 786,
       "sha256": "a4970ca85eabac1bc1640dd9e35f19bff52e08c34262c9a1ed85d8c11d9c183b"
     }
+  },
+  "publication": {
+    "source_commit": "e0eca1cbb5c1d62f21ca08390e67633f65a35e2e",
+    "pages_commit": "f97d990b4142b761c1335eb2e3f0376122e9689f",
+    "previous_pages": "acb40955ded401e6e2c5225c463d3e0a380ae6a2",
+    "pages_status": "built",
+    "url": "https://cybershp.github.io/Simulation-web-game/painted-courtyard/?v=134122ff64e2",
+    "mainPack": "scene-134122ff64e2.pck",
+    "verified_public_files": 8,
+    "all_public_hashes_match": true,
+    "homepage_blob_preserved": true,
+    "browser": "isolated Chromium 1440x900 DPR1",
+    "browser_operations": [
+      "load current content-addressed pack",
+      "walk to work point and animate",
+      "enter hall and hide",
+      "exit hall",
+      "pause positions and animation frames",
+      "verify empty localStorage and sessionStorage"
+    ],
+    "console_errors": 0,
+    "console_warnings": 0,
+    "real_devices": false,
+    "evidence_local": "output/playwright/painted-courtyard-aligned/public-core.json"
   }
 }

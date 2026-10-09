@@ -126,7 +126,7 @@
     },
     "current_art_plan": {
       "decision": "U-104",
-      "status": "confirmed-2d-local-trial",
+      "status": "confirmed-2d-published-trial",
       "engine": "Godot 2D",
       "delivery": "Web",
       "preserve_previous_trial": true,
@@ -136,7 +136,7 @@
     "painted_courtyard_trial": {
       "decision": "U-104",
       "date": "2026-10-09",
-      "status": "local-interaction-verified-art-review-pending",
+      "status": "published-interaction-verified-art-review-pending",
       "scene": "godot/painted_courtyard/courtyard.tscn",
       "build": "tools/build-painted-web.py",
       "local_url": "http://127.0.0.1:8080/painted-courtyard/",
@@ -144,7 +144,7 @@
       "user_plan_approved": true,
       "user_art_approved": false,
       "real_devices_tested": false,
-      "published": false,
+      "published": true,
       "full_requirement_status_changed": false,
       "build_time": "2026-10-09 22:20:31 CST",
       "build_manifest": "docs/art/painted-courtyard-build.json",
@@ -173,7 +173,35 @@
         "browser_layout_touch": 40,
         "independent_review": true
       },
-      "public_build_manifest": "dist/painted-courtyard/build.json"
+      "public_build_manifest": "dist/painted-courtyard/build.json",
+      "source_commit": "e0eca1cbb5c1d62f21ca08390e67633f65a35e2e",
+      "pages_commit": "f97d990b4142b761c1335eb2e3f0376122e9689f",
+      "public_url": "https://cybershp.github.io/Simulation-web-game/painted-courtyard/?v=134122ff64e2",
+      "pages_status": "built",
+      "public_verification": {
+        "source_commit": "e0eca1cbb5c1d62f21ca08390e67633f65a35e2e",
+        "pages_commit": "f97d990b4142b761c1335eb2e3f0376122e9689f",
+        "previous_pages": "acb40955ded401e6e2c5225c463d3e0a380ae6a2",
+        "pages_status": "built",
+        "url": "https://cybershp.github.io/Simulation-web-game/painted-courtyard/?v=134122ff64e2",
+        "mainPack": "scene-134122ff64e2.pck",
+        "verified_public_files": 8,
+        "all_public_hashes_match": true,
+        "homepage_blob_preserved": true,
+        "browser": "isolated Chromium 1440x900 DPR1",
+        "browser_operations": [
+          "load current content-addressed pack",
+          "walk to work point and animate",
+          "enter hall and hide",
+          "exit hall",
+          "pause positions and animation frames",
+          "verify empty localStorage and sessionStorage"
+        ],
+        "console_errors": 0,
+        "console_warnings": 0,
+        "real_devices": false,
+        "evidence_local": "output/playwright/painted-courtyard-aligned/public-core.json"
+      }
     },
     "playground_handoff": {
       "date": "2026-10-09",

@@ -1287,7 +1287,9 @@
       }
     },
     "alignmentDecisionId": "U-106",
-    "currentPrototype": "docs/art/sect-growth-20261009-v2/stage-01-5.png"
+    "currentPrototype": "docs/art/sect-growth-20261009-v2/stage-01-5.png",
+    "publicPreviewURL": "https://cybershp.github.io/Simulation-web-game/painted-courtyard/?v=134122ff64e2",
+    "publicationStatus": "published-trial-user-art-review-pending"
   },
   "currentHandoff": {
     "updatedAt": "2026-10-09",
