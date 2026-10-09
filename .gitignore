@@ -6,3 +6,7 @@ node_modules/
 *.tar.gz
 .openai/
 .sites-runtime/
+dist/painted-courtyard/
+output/playwright/painted-courtyard/
+output/playwright/painted-courtyard-aligned/
+output/painted-courtyard-v2-build.log

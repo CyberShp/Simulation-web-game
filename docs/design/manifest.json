@@ -1247,7 +1247,7 @@
     "approvedConcept": "docs/art/reference/mountain-courtyard.png",
     "modelPolicy": "3d-model-production-and-expansion-stopped",
     "preserveExistingAssetsAndEvidence": true,
-    "runtimeEvidence": "docs/art/PAINTED-COURTYARD-2026-10-09.md",
+    "runtimeEvidence": "docs/art/FOUNDING-COURTYARD-2026-10-09.md",
     "closesWholeRequirements": false,
     "rendering": "godot-2d",
     "view": "fixed-oblique",
@@ -1278,14 +1278,16 @@
       ],
       "closedBuildingPresentation": "complete-exterior",
       "assetStructure": {
-        "background": "painted-ground-road-rocks-and-vegetation",
+        "background": "founding-courtyard-shared-environment-painting",
         "independentAssets": [
-          "main-hall-png",
-          "two-character-animation-atlas"
+          "same-coordinate-building-occlusion-layers",
+          "two-character-64-frame-atlas"
         ],
-        "backgroundRocks": "non-interactive-and-non-walkable"
+        "backgroundRocks": "non-walkable"
       }
-    }
+    },
+    "alignmentDecisionId": "U-106",
+    "currentPrototype": "docs/art/sect-growth-20261009-v2/stage-01-5.png"
   },
   "currentHandoff": {
     "updatedAt": "2026-10-09",
@@ -1313,7 +1315,8 @@
     "historicalArtTrial": "docs/ART-REALTIME-TRIAL.md",
     "sectGrowthPlan": "docs/SECT-GROWTH-PLAN.md",
     "currentLayoutDecisionId": "U-105",
-    "layoutRefinementId": "R-32"
+    "layoutRefinementId": "R-32",
+    "currentAlignmentDecisionId": "U-106"
   },
   "historicalDevelopmentSnapshots": [
     {

@@ -1,29 +1,110 @@
 {
   "recorded": "2026-10-09",
-  "build_time": "2026-10-09 07:24:02 CST",
+  "build_time": "2026-10-09 22:20:31 CST",
+  "version": "founding-courtyard-v2",
   "godot": "4.6.3.stable.official.7d41c59c4",
   "renderer": "gl_compatibility",
   "threads": false,
+  "mainPack": "scene-134122ff64e2.pck",
+  "checks": {
+    "actor": 43,
+    "scene": 142,
+    "browser_layout_touch": 40,
+    "independent_review": true
+  },
+  "previous_build": {
+    "recorded": "2026-10-09",
+    "build_time": "2026-10-09 07:24:02 CST",
+    "godot": "4.6.3.stable.official.7d41c59c4",
+    "renderer": "gl_compatibility",
+    "threads": false,
+    "files": {
+      "godot/painted_courtyard/actor_2d.gd": {
+        "bytes": 5393,
+        "sha256": "fe8d0dc8cb1f9157fd8f03e1db099055be055825d04a74a4f5b2430a6ef006e2"
+      },
+      "godot/painted_courtyard/courtyard.tscn": {
+        "bytes": 186,
+        "sha256": "a9f80df4eac452f0b676b46dc17f4c3677e95c941f3dae28bb172f649623cfb3"
+      },
+      "godot/painted_courtyard/courtyard.gd": {
+        "bytes": 20751,
+        "sha256": "91c699d27870f93b327c4848296d86bc8ea0c97eaa462faedb4182203cbb28b9"
+      },
+      "godot/painted_courtyard/web/shell.html": {
+        "bytes": 7208,
+        "sha256": "8dc9e19e1a8fef6b57984c00107eadbf549c73bb46da7207581af716ba90170f"
+      },
+      "godot/painted_courtyard/assets/characters.json": {
+        "bytes": 13747,
+        "sha256": "3c27391399e6a0d6d110c7b40cc900ef72cf71e3d5183940ec3748b83f2edb0f"
+      },
+      "godot/painted_courtyard/assets/characters.png": {
+        "bytes": 1339968,
+        "sha256": "577465185213cd6503ecfd6e9a065d4fbe54ad762b6b924d6a47d9e8f2c8a4a1"
+      },
+      "godot/painted_courtyard/assets/hall.png": {
+        "bytes": 2458886,
+        "sha256": "2f7aba7ac6f4f539bd9d71b1c0344d400bbafcb094a01d3db51b7248b19cbde4"
+      },
+      "godot/painted_courtyard/assets/layout.json": {
+        "bytes": 3902,
+        "sha256": "c6cdc7c16e049538351cb563dc219b5677aa71bf6dfa5f3a173f9cd1be1114db"
+      },
+      "godot/painted_courtyard/assets/ground.png": {
+        "bytes": 3761316,
+        "sha256": "6e9933da372f54503f5fba3c6df6239d76d2a585afbc12fa70555dd7278ae2cf"
+      },
+      "tools/build-painted-web.py": {
+        "bytes": 3541,
+        "sha256": "ace78d8780dd1d4b7e7c0f7c06f1374645f9b8a2abbb8a18f10940b081d2bad9"
+      },
+      "dist/painted-courtyard/index.html": {
+        "bytes": 7431,
+        "sha256": "7423a175bb669334b3cfc453fa2412a99cee36b15983936dae981d902ba69b6c"
+      },
+      "dist/painted-courtyard/index.js": {
+        "bytes": 315759,
+        "sha256": "e3f56ee40e6f84371053db06692cfac15e2c8659547b11c6b2dfa1996dabd981"
+      },
+      "dist/painted-courtyard/index.pck": {
+        "bytes": 5191048,
+        "sha256": "1cc62b65a0851956524c8faf94ecbd961ca1856310eb31e9a1cd5ccb89c2bfde"
+      },
+      "dist/painted-courtyard/index.wasm": {
+        "bytes": 37700666,
+        "sha256": "26b61ce95247012ab3dca3ff51e96d1cdbff44ee91a8c20a83e150afca83f1b6"
+      }
+    }
+  },
   "files": {
     "godot/painted_courtyard/actor_2d.gd": {
-      "bytes": 5393,
-      "sha256": "fe8d0dc8cb1f9157fd8f03e1db099055be055825d04a74a4f5b2430a6ef006e2"
+      "bytes": 10638,
+      "sha256": "aa757303ea808ad693b790a9db1e05161bbb9170c60ddf8f2f31af678af067ea"
     },
     "godot/painted_courtyard/courtyard.tscn": {
       "bytes": 186,
       "sha256": "a9f80df4eac452f0b676b46dc17f4c3677e95c941f3dae28bb172f649623cfb3"
     },
     "godot/painted_courtyard/courtyard.gd": {
-      "bytes": 20751,
-      "sha256": "91c699d27870f93b327c4848296d86bc8ea0c97eaa462faedb4182203cbb28b9"
+      "bytes": 24388,
+      "sha256": "3aaabdd14c8350c4386b2d1fbd6188cd160441ac17be91146757ac5fcd930a9d"
     },
     "godot/painted_courtyard/web/shell.html": {
-      "bytes": 7208,
-      "sha256": "8dc9e19e1a8fef6b57984c00107eadbf549c73bb46da7207581af716ba90170f"
+      "bytes": 7339,
+      "sha256": "6cc1af9906a3b7fa11a5c4eff35200d8b99928caf3eae8170e48ea71e0fc314d"
     },
-    "godot/painted_courtyard/assets/characters.json": {
+    "godot/painted_courtyard/assets/characters-v1.json": {
       "bytes": 13747,
       "sha256": "3c27391399e6a0d6d110c7b40cc900ef72cf71e3d5183940ec3748b83f2edb0f"
+    },
+    "godot/painted_courtyard/assets/characters.json": {
+      "bytes": 28772,
+      "sha256": "a93ab991ed21effc89fac58d7362c7937c1341f9c2b8da16885a903a2a1d0948"
+    },
+    "godot/painted_courtyard/assets/founding-ground-v2.png": {
+      "bytes": 3783282,
+      "sha256": "f753b5f9fb1eb216ab49711f16e995562c1d62d39311191c797ecc4616c2c46b"
     },
     "godot/painted_courtyard/assets/characters.png": {
       "bytes": 1339968,
@@ -33,7 +114,15 @@
       "bytes": 2458886,
       "sha256": "2f7aba7ac6f4f539bd9d71b1c0344d400bbafcb094a01d3db51b7248b19cbde4"
     },
+    "godot/painted_courtyard/assets/production-v2.json": {
+      "bytes": 4562,
+      "sha256": "5ee808a344c8c4567a15c89c3320c20ea2b1bdfeee15cd6b8faab0e4f885a5c4"
+    },
     "godot/painted_courtyard/assets/layout.json": {
+      "bytes": 14075,
+      "sha256": "ea3eef6b1b1a41afab8e0800352a357cde9ed4bdae872b4827b12d08897491b2"
+    },
+    "godot/painted_courtyard/assets/layout-v1.json": {
       "bytes": 3902,
       "sha256": "c6cdc7c16e049538351cb563dc219b5677aa71bf6dfa5f3a173f9cd1be1114db"
     },
@@ -41,25 +130,57 @@
       "bytes": 3761316,
       "sha256": "6e9933da372f54503f5fba3c6df6239d76d2a585afbc12fa70555dd7278ae2cf"
     },
+    "godot/painted_courtyard/assets/characters-v2.json": {
+      "bytes": 28772,
+      "sha256": "a93ab991ed21effc89fac58d7362c7937c1341f9c2b8da16885a903a2a1d0948"
+    },
+    "godot/painted_courtyard/assets/characters-v2.png": {
+      "bytes": 1562721,
+      "sha256": "f15613c21e332612874282e64484c09b039baa31e73a9493aff20895333cfb3f"
+    },
     "tools/build-painted-web.py": {
-      "bytes": 3541,
-      "sha256": "ace78d8780dd1d4b7e7c0f7c06f1374645f9b8a2abbb8a18f10940b081d2bad9"
+      "bytes": 5252,
+      "sha256": "ce9827604264843c7814667ebc175a59551c93d9bc697c7bdc40eddce78ce279"
+    },
+    "qa/painted-actor-check.gd": {
+      "bytes": 8257,
+      "sha256": "37ce3e9ce1fa18bb45b5a8ee9d42ec76878177575485fda10d01363386e52728"
+    },
+    "qa/painted-courtyard-check.gd": {
+      "bytes": 12444,
+      "sha256": "947f38314bd55c4f19922e993124e0ea7aa2587886e5bab9ff9ef432b07d3083"
+    },
+    "dist/painted-courtyard/index.audio.position.worklet.js": {
+      "bytes": 2973,
+      "sha256": "be33985bc7160d6bf9646f259cd86b259cd67b02ccb297ee5c44f8ac84327bc8"
+    },
+    "dist/painted-courtyard/index.audio.worklet.js": {
+      "bytes": 7298,
+      "sha256": "5b476a9c9ce642c0ee4256436d1bc31d9c38f868aca0f9a8e2a57c18d2dec2a3"
     },
     "dist/painted-courtyard/index.html": {
-      "bytes": 7431,
-      "sha256": "7423a175bb669334b3cfc453fa2412a99cee36b15983936dae981d902ba69b6c"
+      "bytes": 7635,
+      "sha256": "6b9129cecb93d813f315670660e8a91d9e5816bfce7b2212bc4728e853fe23fd"
     },
     "dist/painted-courtyard/index.js": {
       "bytes": 315759,
       "sha256": "e3f56ee40e6f84371053db06692cfac15e2c8659547b11c6b2dfa1996dabd981"
     },
-    "dist/painted-courtyard/index.pck": {
-      "bytes": 5191048,
-      "sha256": "1cc62b65a0851956524c8faf94ecbd961ca1856310eb31e9a1cd5ccb89c2bfde"
+    "dist/painted-courtyard/index.png": {
+      "bytes": 21443,
+      "sha256": "3cb4495c0b98dfbe4b663cbf2b6836473572339beb66d902367893162a70be0e"
     },
     "dist/painted-courtyard/index.wasm": {
       "bytes": 37700666,
       "sha256": "26b61ce95247012ab3dca3ff51e96d1cdbff44ee91a8c20a83e150afca83f1b6"
+    },
+    "dist/painted-courtyard/scene-134122ff64e2.pck": {
+      "bytes": 8954852,
+      "sha256": "134122ff64e20454f6810cede2496c2dd0b5799d7d8c83980f75779faa176a47"
+    },
+    "dist/painted-courtyard/build.json": {
+      "bytes": 786,
+      "sha256": "a4970ca85eabac1bc1640dd9e35f19bff52e08c34262c9a1ed85d8c11d9c183b"
     }
   }
 }

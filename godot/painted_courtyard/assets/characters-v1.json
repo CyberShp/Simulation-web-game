@@ -1,0 +1,761 @@
+{
+  "version": "painted-courtyard-characters-1",
+  "texture": "res://painted_courtyard/assets/characters.png",
+  "sha256": "577465185213cd6503ecfd6e9a065d4fbe54ad762b6b924d6a47d9e8f2c8a4a1",
+  "size": [
+    1254,
+    1254
+  ],
+  "grid": [
+    6,
+    6
+  ],
+  "cell_size": [
+    209,
+    209
+  ],
+  "alpha": true,
+  "generation": "builtin-image_gen",
+  "row_order": [
+    "shen_yan_walk_front",
+    "shen_yan_walk_back",
+    "shen_yan_work",
+    "lu_zhiwei_walk_front",
+    "lu_zhiwei_walk_back",
+    "lu_zhiwei_work"
+  ],
+  "characters": {
+    "shen_yan": {
+      "name": "沈砚",
+      "reference_height": 165,
+      "frames": [
+        {
+          "animation": "walk_front",
+          "frame": 0,
+          "region": [
+            0,
+            0,
+            209,
+            209
+          ],
+          "foot_anchor": [
+            122.0,
+            204
+          ],
+          "visible_bounds": [
+            71,
+            40,
+            88,
+            165
+          ]
+        },
+        {
+          "animation": "walk_front",
+          "frame": 1,
+          "region": [
+            209,
+            0,
+            209,
+            209
+          ],
+          "foot_anchor": [
+            123.5,
+            204
+          ],
+          "visible_bounds": [
+            64,
+            40,
+            94,
+            165
+          ]
+        },
+        {
+          "animation": "walk_front",
+          "frame": 2,
+          "region": [
+            418,
+            0,
+            209,
+            209
+          ],
+          "foot_anchor": [
+            109.5,
+            202
+          ],
+          "visible_bounds": [
+            63,
+            40,
+            93,
+            163
+          ]
+        },
+        {
+          "animation": "walk_front",
+          "frame": 3,
+          "region": [
+            627,
+            0,
+            209,
+            209
+          ],
+          "foot_anchor": [
+            104.0,
+            203
+          ],
+          "visible_bounds": [
+            55,
+            44,
+            87,
+            160
+          ]
+        },
+        {
+          "animation": "walk_front",
+          "frame": 4,
+          "region": [
+            836,
+            0,
+            209,
+            209
+          ],
+          "foot_anchor": [
+            114.0,
+            204
+          ],
+          "visible_bounds": [
+            58,
+            40,
+            87,
+            165
+          ]
+        },
+        {
+          "animation": "walk_front",
+          "frame": 5,
+          "region": [
+            1045,
+            0,
+            209,
+            209
+          ],
+          "foot_anchor": [
+            100.5,
+            202
+          ],
+          "visible_bounds": [
+            46,
+            41,
+            93,
+            162
+          ]
+        },
+        {
+          "animation": "walk_back",
+          "frame": 0,
+          "region": [
+            0,
+            209,
+            209,
+            209
+          ],
+          "foot_anchor": [
+            113.5,
+            202
+          ],
+          "visible_bounds": [
+            65,
+            44,
+            97,
+            159
+          ]
+        },
+        {
+          "animation": "walk_back",
+          "frame": 1,
+          "region": [
+            209,
+            209,
+            209,
+            209
+          ],
+          "foot_anchor": [
+            113.5,
+            202
+          ],
+          "visible_bounds": [
+            61,
+            45,
+            103,
+            158
+          ]
+        },
+        {
+          "animation": "walk_back",
+          "frame": 2,
+          "region": [
+            418,
+            209,
+            209,
+            209
+          ],
+          "foot_anchor": [
+            109.5,
+            203
+          ],
+          "visible_bounds": [
+            61,
+            44,
+            99,
+            160
+          ]
+        },
+        {
+          "animation": "walk_back",
+          "frame": 3,
+          "region": [
+            627,
+            209,
+            209,
+            209
+          ],
+          "foot_anchor": [
+            106.5,
+            203
+          ],
+          "visible_bounds": [
+            56,
+            44,
+            100,
+            160
+          ]
+        },
+        {
+          "animation": "walk_back",
+          "frame": 4,
+          "region": [
+            836,
+            209,
+            209,
+            209
+          ],
+          "foot_anchor": [
+            107.5,
+            203
+          ],
+          "visible_bounds": [
+            57,
+            46,
+            102,
+            158
+          ]
+        },
+        {
+          "animation": "walk_back",
+          "frame": 5,
+          "region": [
+            1045,
+            209,
+            209,
+            209
+          ],
+          "foot_anchor": [
+            100.0,
+            203
+          ],
+          "visible_bounds": [
+            49,
+            44,
+            100,
+            160
+          ]
+        },
+        {
+          "animation": "work",
+          "frame": 0,
+          "region": [
+            0,
+            418,
+            209,
+            209
+          ],
+          "foot_anchor": [
+            120.5,
+            201
+          ],
+          "visible_bounds": [
+            50,
+            33,
+            113,
+            169
+          ]
+        },
+        {
+          "animation": "work",
+          "frame": 1,
+          "region": [
+            209,
+            418,
+            209,
+            209
+          ],
+          "foot_anchor": [
+            108.5,
+            195
+          ],
+          "visible_bounds": [
+            51,
+            50,
+            147,
+            155
+          ]
+        },
+        {
+          "animation": "work",
+          "frame": 2,
+          "region": [
+            418,
+            418,
+            209,
+            209
+          ],
+          "foot_anchor": [
+            98.0,
+            195
+          ],
+          "visible_bounds": [
+            50,
+            58,
+            141,
+            147
+          ]
+        },
+        {
+          "animation": "work",
+          "frame": 3,
+          "region": [
+            627,
+            418,
+            209,
+            209
+          ],
+          "foot_anchor": [
+            98.0,
+            194
+          ],
+          "visible_bounds": [
+            50,
+            60,
+            134,
+            147
+          ]
+        },
+        {
+          "animation": "work",
+          "frame": 4,
+          "region": [
+            836,
+            418,
+            209,
+            209
+          ],
+          "foot_anchor": [
+            99.0,
+            195
+          ],
+          "visible_bounds": [
+            51,
+            58,
+            126,
+            146
+          ]
+        },
+        {
+          "animation": "work",
+          "frame": 5,
+          "region": [
+            1045,
+            418,
+            209,
+            209
+          ],
+          "foot_anchor": [
+            99.0,
+            194
+          ],
+          "visible_bounds": [
+            45,
+            50,
+            124,
+            149
+          ]
+        }
+      ]
+    },
+    "lu_zhiwei": {
+      "name": "陆知微",
+      "reference_height": 170,
+      "frames": [
+        {
+          "animation": "walk_front",
+          "frame": 0,
+          "region": [
+            0,
+            627,
+            209,
+            209
+          ],
+          "foot_anchor": [
+            125.0,
+            202
+          ],
+          "visible_bounds": [
+            70,
+            32,
+            92,
+            171
+          ]
+        },
+        {
+          "animation": "walk_front",
+          "frame": 1,
+          "region": [
+            209,
+            627,
+            209,
+            209
+          ],
+          "foot_anchor": [
+            119.0,
+            203
+          ],
+          "visible_bounds": [
+            63,
+            33,
+            96,
+            171
+          ]
+        },
+        {
+          "animation": "walk_front",
+          "frame": 2,
+          "region": [
+            418,
+            627,
+            209,
+            209
+          ],
+          "foot_anchor": [
+            116.5,
+            202
+          ],
+          "visible_bounds": [
+            61,
+            34,
+            97,
+            169
+          ]
+        },
+        {
+          "animation": "walk_front",
+          "frame": 3,
+          "region": [
+            627,
+            627,
+            209,
+            209
+          ],
+          "foot_anchor": [
+            111.0,
+            202
+          ],
+          "visible_bounds": [
+            61,
+            35,
+            92,
+            168
+          ]
+        },
+        {
+          "animation": "walk_front",
+          "frame": 4,
+          "region": [
+            836,
+            627,
+            209,
+            209
+          ],
+          "foot_anchor": [
+            115.5,
+            202
+          ],
+          "visible_bounds": [
+            62,
+            33,
+            89,
+            170
+          ]
+        },
+        {
+          "animation": "walk_front",
+          "frame": 5,
+          "region": [
+            1045,
+            627,
+            209,
+            209
+          ],
+          "foot_anchor": [
+            102.5,
+            202
+          ],
+          "visible_bounds": [
+            50,
+            35,
+            94,
+            168
+          ]
+        },
+        {
+          "animation": "walk_back",
+          "frame": 0,
+          "region": [
+            0,
+            836,
+            209,
+            209
+          ],
+          "foot_anchor": [
+            118.5,
+            197
+          ],
+          "visible_bounds": [
+            63,
+            34,
+            107,
+            164
+          ]
+        },
+        {
+          "animation": "walk_back",
+          "frame": 1,
+          "region": [
+            209,
+            836,
+            209,
+            209
+          ],
+          "foot_anchor": [
+            114.0,
+            196
+          ],
+          "visible_bounds": [
+            61,
+            37,
+            108,
+            160
+          ]
+        },
+        {
+          "animation": "walk_back",
+          "frame": 2,
+          "region": [
+            418,
+            836,
+            209,
+            209
+          ],
+          "foot_anchor": [
+            109.0,
+            198
+          ],
+          "visible_bounds": [
+            56,
+            36,
+            107,
+            163
+          ]
+        },
+        {
+          "animation": "walk_back",
+          "frame": 3,
+          "region": [
+            627,
+            836,
+            209,
+            209
+          ],
+          "foot_anchor": [
+            107.5,
+            198
+          ],
+          "visible_bounds": [
+            53,
+            36,
+            107,
+            163
+          ]
+        },
+        {
+          "animation": "walk_back",
+          "frame": 4,
+          "region": [
+            836,
+            836,
+            209,
+            209
+          ],
+          "foot_anchor": [
+            111.0,
+            197
+          ],
+          "visible_bounds": [
+            55,
+            35,
+            110,
+            163
+          ]
+        },
+        {
+          "animation": "walk_back",
+          "frame": 5,
+          "region": [
+            1045,
+            836,
+            209,
+            209
+          ],
+          "foot_anchor": [
+            99.0,
+            198
+          ],
+          "visible_bounds": [
+            44,
+            36,
+            112,
+            163
+          ]
+        },
+        {
+          "animation": "work",
+          "frame": 0,
+          "region": [
+            0,
+            1045,
+            209,
+            209
+          ],
+          "foot_anchor": [
+            122.0,
+            182
+          ],
+          "visible_bounds": [
+            47,
+            17,
+            119,
+            166
+          ]
+        },
+        {
+          "animation": "work",
+          "frame": 1,
+          "region": [
+            209,
+            1045,
+            209,
+            209
+          ],
+          "foot_anchor": [
+            108.0,
+            175
+          ],
+          "visible_bounds": [
+            57,
+            38,
+            141,
+            146
+          ]
+        },
+        {
+          "animation": "work",
+          "frame": 2,
+          "region": [
+            418,
+            1045,
+            209,
+            209
+          ],
+          "foot_anchor": [
+            104.5,
+            177
+          ],
+          "visible_bounds": [
+            54,
+            39,
+            147,
+            149
+          ]
+        },
+        {
+          "animation": "work",
+          "frame": 3,
+          "region": [
+            627,
+            1045,
+            209,
+            209
+          ],
+          "foot_anchor": [
+            100.5,
+            178
+          ],
+          "visible_bounds": [
+            52,
+            43,
+            138,
+            145
+          ]
+        },
+        {
+          "animation": "work",
+          "frame": 4,
+          "region": [
+            836,
+            1045,
+            209,
+            209
+          ],
+          "foot_anchor": [
+            108.5,
+            177
+          ],
+          "visible_bounds": [
+            61,
+            36,
+            131,
+            150
+          ]
+        },
+        {
+          "animation": "work",
+          "frame": 5,
+          "region": [
+            1045,
+            1045,
+            209,
+            209
+          ],
+          "foot_anchor": [
+            97.5,
+            176
+          ],
+          "visible_bounds": [
+            49,
+            36,
+            120,
+            141
+          ]
+        }
+      ]
+    }
+  }
+}

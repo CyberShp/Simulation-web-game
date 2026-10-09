@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#334b3c">
+  <link rel="icon" href="data:,">
+  <title>云岫山院 · 绘画小院</title>
+  <style>
+    *{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#9ba990;color:#f6efdf;font-family:system-ui,-apple-system,"PingFang SC",sans-serif}
+    /* Keep Godot's inline display size from widening the mobile viewport after rotation. */
+    #canvas{display:block;width:100%!important;height:100%!important;outline:none;touch-action:none}
+    header,footer{position:fixed;z-index:2;left:max(16px,env(safe-area-inset-left));right:max(16px,env(safe-area-inset-right));display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
+    header{top:max(12px,env(safe-area-inset-top));pointer-events:none}.identity,nav,footer{padding:10px 12px;background:rgba(31,49,38,.92);border:1px solid #b4b48a66;border-radius:8px;box-shadow:0 5px 22px #26362624;pointer-events:auto;touch-action:none}.identity{flex-shrink:0}footer{bottom:max(12px,env(safe-area-inset-bottom));font-size:13px;line-height:1.6;align-items:center}
+    h1{font-family:"Kaiti SC","STKaiti",serif;font-size:23px;letter-spacing:.15em;margin:0 0 3px;font-weight:600}small{color:#c5ccb8;font-size:11px;letter-spacing:.08em}
+    nav{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end;max-width:365px}button{font:inherit;font-size:13px;min-height:44px;min-width:44px;padding:8px 14px;border-radius:5px;border:1px solid #adb58b66;background:#f5ebd710;color:#f1e7d0;cursor:pointer}button:hover{background:#d1c9a42b}button:focus-visible{outline:2px solid #dfc887;outline-offset:2px}button:disabled{opacity:.4;cursor:wait}.zoom{padding:8px}
+    #performance{font-variant-numeric:tabular-nums;white-space:nowrap;color:#c4ccb9;font-size:12px}#hint{display:block;color:#c4ccb9;font-size:11px}
+    #loading{position:fixed;inset:0;z-index:4;display:grid;place-content:center;text-align:center;background:#2b4133;gap:18px;padding:24px}#loading[hidden]{display:none}progress{width:min(360px,80vw);accent-color:#b4bf8a}#error{white-space:pre-wrap;color:#f3b5a2;max-width:45em}
+    @media(max-width:1000px){header{gap:8px}h1{font-size:19px}nav{gap:4px;max-width:355px;padding:6px}button{font-size:12px;padding:7px 10px}footer{padding:8px 10px;gap:6px}#performance{font-size:10px}}
+    @media(max-width:540px){header{left:10px;right:10px;flex-wrap:wrap}.identity{padding:7px 10px}nav{justify-content:flex-start;margin-left:auto;max-width:290px}footer{left:10px;right:10px}#hint{max-width:240px;font-size:10px}#performance{align-self:flex-end}small{font-size:10px}}
+  </style>
+  $GODOT_HEAD_INCLUDE
+</head>
+<body>
+  <canvas id="canvas" tabindex="0" aria-label="绘画小院：点选人物或主殿，点地面行走，拖动和缩放镜头"></canvas>
+  <header>
+    <div class="identity"><h1>云岫山院</h1><small>山中日常 · 小院试游</small></div>
+    <nav aria-label="小院操作">
+      <button data-command="tour" disabled>走一圈</button>
+      <button data-command="enter" id="enter" disabled>入殿</button>
+      <button data-command="work" disabled>照料药田</button>
+      <button data-command="pause" id="pause" disabled>暂停</button>
+      <button data-command="reset" disabled>复位</button>
+      <button data-command="zoom_out" class="zoom" aria-label="缩小" disabled>−</button>
+      <button data-command="zoom_in" class="zoom" aria-label="放大" disabled>＋</button>
+    </nav>
+  </header>
+  <footer><div><span id="message" aria-live="polite">正在打开小院</span><span id="hint">点地行走 · 点选人物与主殿 · 拖动镜头 · 滚轮或双指缩放 · 刷新复位</span></div><span id="performance"></span></footer>
+  <section id="loading" aria-live="polite"><h1>云岫山院</h1><span>正在准备山院与人物</span><progress id="progress"></progress><span id="error"></span></section>
+  <script src="$GODOT_URL"></script>
+  <script>
+    const configuration=$GODOT_CONFIG;
+    const loading=document.querySelector('#loading');
+    const progress=document.querySelector('#progress');
+    const canvas=document.querySelector('#canvas');
+    const send=(command,...args)=>{if(typeof window.paintedCourtyardCommand==='function')window.paintedCourtyardCommand(command,...args)};
+    document.querySelectorAll('[data-command]').forEach(button=>button.addEventListener('click',()=>send(button.dataset.command)));
+    document.addEventListener('visibilitychange',()=>send(document.hidden?'background':'foreground'));
+    window.addEventListener('pagehide',()=>send('background'));
+    window.addEventListener('pageshow',()=>send(document.hidden?'background':'foreground'));
+    window.addEventListener('painted-courtyard-state',()=>{
+      const state=window.paintedCourtyardState;
+      document.querySelector('#message').textContent=state.message;
+      document.querySelector('#pause').textContent=state.paused?'继续':'暂停';
+      document.querySelector('#pause').setAttribute('aria-pressed',String(state.paused));
+      document.querySelector('#enter').textContent=state.indoor?'出殿':'入殿';
+      document.querySelector('#performance').textContent=`${state.fps} FPS · ${state.frameP95Ms} ms`;
+      document.querySelectorAll('[data-command]').forEach(button=>button.disabled=false);
+    });
+    // Safari touch events reach Godot as mouse input; two fingers adjust the camera.
+    let pinchDistance=0,pinchActive=false;
+    const pinchSpan=touches=>Math.hypot(touches[0].clientX-touches[1].clientX,touches[0].clientY-touches[1].clientY);
+    canvas.addEventListener('touchstart',event=>{if(event.touches.length>=2){pinchActive=true;send('gesture_start');pinchDistance=pinchSpan(event.touches);event.preventDefault()}},{passive:false});
+    canvas.addEventListener('touchmove',event=>{
+      if(!pinchActive)return;
+      event.preventDefault();
+      if(event.touches.length!==2)return;
+      const distance=pinchSpan(event.touches),rect=canvas.getBoundingClientRect();
+      const x=((event.touches[0].clientX+event.touches[1].clientX)/2-rect.left)/rect.width;
+      const y=((event.touches[0].clientY+event.touches[1].clientY)/2-rect.top)/rect.height;
+      if(pinchDistance>0)send('gesture_zoom',distance/pinchDistance,x,y);
+      pinchDistance=distance;
+    },{passive:false});
+    canvas.addEventListener('touchend',event=>{if(pinchActive){event.preventDefault();if(event.touches.length===0){pinchActive=false;pinchDistance=0;send('gesture_end')}}},{passive:false});
+    canvas.addEventListener('touchcancel',()=>{pinchActive=false;pinchDistance=0;send('gesture_end')});
+    (async()=>{
+      try{
+        const missing=Engine.getMissingFeatures({threads:false});
+        if(missing.length)throw Error('浏览器缺少小院运行支持：'+missing.join('、'));
+        const engine=new Engine(configuration);
+        await engine.startGame({canvas,onProgress(current,total){if(total>0){progress.max=total;progress.value=current}}});
+        loading.hidden=true;
+        canvas.focus();
+        if(document.hidden)send('background');
+      }catch(error){document.querySelector('#error').textContent=error.message;console.error(error)}
+    })();
+  </script>
+</body>
+</html>

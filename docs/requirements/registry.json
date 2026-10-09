@@ -130,7 +130,7 @@
       "engine": "Godot 2D",
       "delivery": "Web",
       "preserve_previous_trial": true,
-      "scope": "One painted hall, one stone courtyard/path and two animated people.",
+      "scope": "Founding courtyard prototype alignment, four fixed landmarks, two animated identities and Web interaction review.",
       "specification": "docs/PAINTED-COURTYARD.md"
     },
     "painted_courtyard_trial": {
@@ -140,21 +140,40 @@
       "scene": "godot/painted_courtyard/courtyard.tscn",
       "build": "tools/build-painted-web.py",
       "local_url": "http://127.0.0.1:8080/painted-courtyard/",
-      "evidence": "docs/art/PAINTED-COURTYARD-2026-10-09.md",
+      "evidence": "docs/art/FOUNDING-COURTYARD-2026-10-09.md",
       "user_plan_approved": true,
       "user_art_approved": false,
       "real_devices_tested": false,
       "published": false,
       "full_requirement_status_changed": false,
-      "build_time": "2026-10-09 07:24:02 CST",
+      "build_time": "2026-10-09 22:20:31 CST",
       "build_manifest": "docs/art/painted-courtyard-build.json",
-      "browser": "macOS Playwright WebKit 26.6; 1440x900 / 834x1194 / 1194x834; DPR1",
+      "browser": "macOS Chromium desktop 1440x900 DPR1; simulated iPad 1024x768 / 768x1024 DPR2 touch; WebKit Safari 26.6 UA basic interactions",
       "remaining": [
         "User visual approval",
-        "Character distinction and motion quality",
-        "Browser rear-hall occlusion path",
-        "Real devices, DPR2 and real touch"
-      ]
+        "Actual iPadOS and Windows devices",
+        "Formal gameplay and full SR acceptance"
+      ],
+      "previous_local_evidence": {
+        "evidence": "docs/art/PAINTED-COURTYARD-2026-10-09.md",
+        "build_time": "2026-10-09 07:24:02 CST",
+        "browser": "macOS Playwright WebKit 26.6; 1440x900 / 834x1194 / 1194x834; DPR1",
+        "remaining": [
+          "User visual approval",
+          "Character distinction and motion quality",
+          "Browser rear-hall occlusion path",
+          "Real devices, DPR2 and real touch"
+        ]
+      },
+      "alignment_decision": "U-106",
+      "version": "founding-courtyard-v2",
+      "checks": {
+        "actor": 43,
+        "scene": 142,
+        "browser_layout_touch": 40,
+        "independent_review": true
+      },
+      "public_build_manifest": "dist/painted-courtyard/build.json"
     },
     "playground_handoff": {
       "date": "2026-10-09",
