@@ -181,7 +181,9 @@
       "historical_ac_policy": "Changed criteria preserve original wording and evidence in each requirement version_history; unchanged criteria keep their original evidence scope.",
       "strict_geographic_continuity": "requires-shared-base-map-and-landmark-anchors",
       "publication_scope": "design-source-only",
-      "source_publication": "pending-source-sync"
+      "source_publication": "failed-network-timeout",
+      "source_commit": "1219e5859feb8fba99385cda90aa868cda615ba5",
+      "source_sync_error": "GitHub HTTPS receive timeout; remote verification connection timeout; bounded retry exceeded 40 seconds."
     }
   },
   "enums": {
