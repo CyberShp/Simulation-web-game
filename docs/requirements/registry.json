@@ -167,7 +167,9 @@
       "prototype_parameters": "P values are proposed defaults for the new prototype, distinct from confirmed rules and current runtime configuration.",
       "runtime_implemented": false,
       "playground_generation_run": false,
-      "full_requirement_status_changed": false
+      "full_requirement_status_changed": false,
+      "source_commit": "52349a064ed79771e522e62c878dac1b85522e70",
+      "source_publication": "pushed-to-main"
     },
     "sect_growth_plan": {
       "decision": "U-105",
@@ -194,9 +196,11 @@
       "historical_ac_policy": "Changed criteria preserve original wording and evidence in each requirement version_history; unchanged criteria keep their original evidence scope.",
       "strict_geographic_continuity": "requires-shared-base-map-and-landmark-anchors",
       "publication_scope": "design-source-only",
-      "source_publication": "failed-network-timeout",
+      "source_publication": "pushed-to-main",
       "source_commit": "1219e5859feb8fba99385cda90aa868cda615ba5",
-      "source_sync_error": "GitHub HTTPS receive timeout; remote verification connection timeout; bounded retry exceeded 40 seconds."
+      "source_sync_error": null,
+      "previous_source_sync_error": "GitHub HTTPS receive timeout; remote verification connection timeout; bounded retry exceeded 40 seconds.",
+      "source_sync_confirmed_by": "52349a064ed79771e522e62c878dac1b85522e70"
     }
   },
   "enums": {
