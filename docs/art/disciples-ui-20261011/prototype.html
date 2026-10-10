@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>余烬立山 · 门人系统原型</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="./prototype.css">
+</head>
+<body>
+  <main class="screen" id="screen" aria-label="余烬立山门人系统游戏界面原型">
+    <div class="world" aria-hidden="true"><img class="ruined-hall" src="../../../godot/estate_2d/assets/hall-damaged-v2.png" alt=""></div>
+    <header class="game-logo"><strong>余烬立山</strong><span>云岫旧院 · 道火不熄</span></header>
+    <div class="resource-bar"><b>三月初八 · 卯时</b><span><img src="../../../godot/estate_3d/web/resource-jade.png" alt="">110</span><span><img src="../../../godot/estate_3d/web/resource-wood.png" alt="">65</span><span><img src="../../../godot/estate_3d/web/resource-stone.png" alt="">45</span></div>
+    <nav class="game-rail" aria-label="游戏功能">
+      <button type="button" data-go="overview"><b>山</b><span>山院</span></button>
+      <button type="button" data-go="overview" class="active"><b>人</b><span>门人</span></button>
+      <button type="button" data-go="roster-large"><b>峰</b><span>各峰</span></button>
+      <button type="button" data-go="cultivation"><b>经</b><span>功法</span></button>
+    </nav>
+    <div class="scene-plaque">云岫旧院 · 门人系统</div>
+    <div class="ledger" id="ledger">
+      <div class="portrait-picker" id="portrait-picker"></div>
+      <div class="left-page" id="left-page"></div>
+      <div class="right-page" id="right-page"></div>
+      <nav class="page-slips" id="page-slips" aria-label="卷册分页"></nav>
+    </div>
+    <div class="scene-actions"><button type="button" data-go="petition">山门求见 <i>一</i></button><button type="button" data-go="roster-large">分峰名册</button></div>
+    <div class="prototype-mark">游戏界面原型 · 人物和数值为内容示例</div>
+  </main>
+  <script src="./prototype.js"></script>
+</body>
+</html>
