@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#172b28">
+  <link rel="icon" href="data:,">
+  <title>余烬立山 · 门人志游戏界面稿</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <main class="game" aria-label="余烬立山门人系统游戏界面稿">
+    <div class="world" aria-hidden="true">
+      <img class="hall" src="../../../godot/estate_2d/assets/hall-damaged-v2.png" alt="">
+    </div>
+    <header class="game-logo"><strong>余烬立山</strong><small>道火不熄 · 云岫旧院</small></header>
+    <div class="game-resources" aria-label="演示时辰和资源">
+      <span class="clock">卯时 · 三月初八</span>
+      <span><img src="../../../godot/estate_3d/web/resource-jade.png" alt="">110</span>
+      <span><img src="../../../godot/estate_3d/web/resource-wood.png" alt="">65</span>
+      <span><img src="../../../godot/estate_3d/web/resource-stone.png" alt="">45</span>
+    </div>
+    <nav class="game-rail" aria-label="游戏功能">
+      <button type="button" data-rail="home"><b>⌂</b><span>山院</span></button>
+      <button type="button" data-rail="people" aria-current="page"><b>人</b><span>门人</span></button>
+      <button type="button" data-rail="arts"><b>卷</b><span>功法</span></button>
+      <button type="button" data-rail="bag"><b>囊</b><span>行囊</span></button>
+    </nav>
+    <div class="world-label">云岫旧别院 · 画面与人物为界面演示</div>
+    <div class="world-people" aria-label="场景人物">
+      <button type="button" class="world-person marker-master" data-person="master" style="--sx:0%;--sy:0%"><span aria-hidden="true"></span><small>沈砚</small></button>
+      <button type="button" class="world-person marker-lu" data-person="lu" style="--sx:0%;--sy:57.143%"><span aria-hidden="true"></span><small>陆知微</small></button>
+      <button type="button" class="world-person marker-lin" data-person="lin" style="--sx:14.286%;--sy:0%"><span aria-hidden="true"></span><small>林长风</small></button>
+      <button type="button" class="world-person marker-wen peak-only" data-person="wen" style="--sx:28.571%;--sy:0%"><span aria-hidden="true"></span><small>温照雪</small></button>
+      <button type="button" class="world-person marker-gu peak-only" data-person="gu" style="--sx:14.286%;--sy:57.143%"><span aria-hidden="true"></span><small>顾闻舟</small></button>
+    </div>
+    <button type="button" class="gate-notice" data-view="petition"><span class="wax-dot">见</span><span><b>山门求见</b><small>秦溪候在石阶 · 1</small></span><i>›</i></button>
+    <div class="stage-plaque" aria-label="切换界面演示阶段"><span>演示阶段</span><button type="button" data-stage="opening" aria-pressed="true">开山旧院</button><button type="button" data-stage="peaks" aria-pressed="false">分峰之后</button></div>
+    <aside class="scroll-panel" id="scroll-panel" aria-label="门人志卷册">
+      <span class="scroll-title">门人志</span>
+      <button type="button" class="scroll-close" aria-label="收起门人志" data-action="close">×</button>
+      <div class="scroll-body"><div id="scroll-content"></div></div>
+    </aside>
+    <div class="scene-controls" aria-label="场景按钮示意"><button type="button" data-action="scene" aria-label="场景总览">⌖</button><button type="button" data-action="scene" aria-label="暂停">Ⅱ</button></div>
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <div id="modal-root"></div>
+  </main>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>

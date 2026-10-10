@@ -1,5 +1,9 @@
 # Codex 接手指南 · 2026-10-10
 
+## U-111 门人志游戏画面稿接续
+
+用户已确认[门人收录原则](design/DECISIONS.md)：山门求见后正式收录即定外门、内门或亲传，后期各峰分别管理三级门籍；收徒权、收徒令、择徒判断和统一门籍结算共同约束扩招。本轮仅制作[可评看的游戏画面稿](art/DISCIPLES-UI-2026-10-10.md)：`docs/art/disciples-ui-20261010/`，沿 U-108 雕纹导航与场景卷册方向，在场景中打开门籍、山门求见和收徒令，开山／分峰两阶段可切换。示例人物和数值不写入存档；下一步将真实山门事件、人物身份与门籍命令接入唯一模拟。当前源码检查点 `808ee022` 已推送 `main`，本稿的新提交及可评看地址须以本轮最终交付核对。
+
 ## U-110 分层绘画旧别院接续
 
 用户确认保留旧别院开局，并用固定斜俯视 Godot 2D 绘画重画：残败主屋、四处荒地预留位、独立建筑与阴影、人物和前景遮挡。当前源场景 `godot/estate_2d/estate.tscn`、素材 `godot/estate_2d/assets/`、点位 `godot/estate_2d/estate-sites.json`；`python3 tools/build-estate-painted-web.py` 输出 `dist/painted-game/`。人物位置和营造阶段继续读取唯一 JS 模拟与 `estate-game` 独立预览档，主角自由行走每 0.1 秒推进。浏览器视觉及交互范围和未验内容见 [STATUS](design/STATUS.md) 首段；门人、功法规则继续待用户讨论。
