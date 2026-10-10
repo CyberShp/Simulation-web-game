@@ -24,8 +24,11 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--godot', default='/Applications/Godot.app/Contents/MacOS/Godot')
     parser.add_argument('--output', type=Path, default=ROOT / 'dist/painted-courtyard/index.html')
+    parser.add_argument('--game', action='store_true', help='Export the latest painted courtyard with the shared simulation and game HUD.')
     parser.add_argument('--check', action='store_true', help='Run the focused actor and courtyard checks before export.')
     args = parser.parse_args()
+    if args.game and args.output == ROOT / 'dist/painted-courtyard/index.html':
+        args.output = ROOT / 'dist/painted-game/index.html'
     version = subprocess.check_output([args.godot, '--version'], text=True).strip()
     if not version.startswith('4.6.3.stable.'):
         raise SystemExit(f'Expected Godot 4.6.3; found {version}')
@@ -77,7 +80,7 @@ variant/thread_support=false
 vram_texture_compression/for_desktop=false
 vram_texture_compression/for_mobile=false
 html/export_icon=false
-html/custom_html_shell="res://painted_courtyard/web/shell.html"
+html/custom_html_shell="res://painted_courtyard/web/''' + ('game-shell.html' if args.game else 'shell.html') + '''"
 html/canvas_resize_policy=2
 html/focus_canvas_on_start=true
 progressive_web_app/enabled=false
@@ -113,6 +116,36 @@ progressive_web_app/enabled=false
         (exported / 'build.json').write_text(json.dumps(manifest, indent=2) + '\n', encoding='utf-8')
         for artifact in exported.iterdir():
             shutil.copy2(artifact, args.output.parent / artifact.name)
+        if args.game:
+            for obsolete_pack in args.output.parent.glob('scene-*.pck'):
+                if obsolete_pack.name != pack_name:
+                    obsolete_pack.unlink()
+            web = ROOT / 'godot/painted_courtyard/web'
+            for name in ['game-ui.css', 'game-ui.mjs']:
+                shutil.copy2(web / name, args.output.parent / name)
+            shutil.copy2(ROOT / 'dist/assets/fonts/xianfu-brush.woff2', args.output.parent / 'xianfu-brush.woff2')
+            shutil.copy2(ROOT / 'dist/assets/ea-portraits.jpg', args.output.parent / 'ea-portraits.jpg')
+            runtime = args.output.parent / 'runtime'
+            runtime.mkdir(exist_ok=True)
+            pending, copied = ['ea-godot-host.mjs'], set()
+            while pending:
+                relative = pending.pop()
+                if relative in copied:
+                    continue
+                source = ROOT / 'dist' / relative
+                content = source.read_text(encoding='utf-8')
+                target = runtime / relative
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_text(content, encoding='utf-8')
+                copied.add(relative)
+                for dependency in re.findall(r'''["']\./([^"']+\.mjs)["']''', content):
+                    pending.append(str(Path(relative).parent / dependency))
+            files = {file.relative_to(args.output.parent).as_posix(): hashlib.sha256(file.read_bytes()).hexdigest()
+                     for file in args.output.parent.rglob('*') if file.is_file() and file.name != 'build.json'}
+            (args.output.parent / 'build.json').write_text(json.dumps({
+                'build': 'painted-game-system-preview-v1', 'godot': version, 'mainPack': pack_name,
+                'files': files}, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+            print(f'Packaged {len(copied)} shared-rule modules for the painted game preview', flush=True)
     print(f'Painted courtyard: {args.output.resolve()}')
 
 

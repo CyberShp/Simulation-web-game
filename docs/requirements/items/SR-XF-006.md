@@ -14,7 +14,7 @@
 
 纳入云岫前期，按依赖推进。
 
-决策来源：U-63, U-93, R-25, U-94, U-96, U-97, R-27, U-99, R-28, U-100, R-29, R-30, U-105, R-32。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
+决策来源：U-63, U-93, R-25, U-94, U-96, U-97, R-27, U-99, R-28, U-100, R-29, R-30, U-105, R-32, U-109。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
 
 规格：[03-SPATIAL-ART.md](../../../docs/design/03-SPATIAL-ART.md)、[05-RUNTIME-CONTRACTS.md](../../../docs/design/05-RUNTIME-CONTRACTS.md)、[07-ECONOMY-ORGANIZATION.md](../../../docs/design/07-ECONOMY-ORGANIZATION.md)、[18-SPATIAL-CONTINUITY-IMPLEMENTATION.md](../../../docs/design/18-SPATIAL-CONTINUITY-IMPLEMENTATION.md)、[SECT-GROWTH-PLAN.md](../../../docs/SECT-GROWTH-PLAN.md)。
 
@@ -121,6 +121,7 @@ SR-XF-006-V01证据：qa/ea-indoor-furniture-acceptance.mjs；qa/ea-courtyard-li
 - qa/ea-sr006-serial-public-acceptance.mjs
 - qa/ea-sr006-upgrade-cancel-recovery-public-acceptance.mjs
 - docs/SECT-GROWTH-PLAN.md；2026-10-09 山域总图、五阶段迁移及统一原型的设计来源；当前运行验收待补。
+- docs/design/STATUS.md；2026-10-10 U-109 旧别院 3D 本地预览局部网页证据；完整 AC 状态不变。
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
@@ -135,5 +136,6 @@ SR-XF-006-V01证据：qa/ea-indoor-furniture-acceptance.mjs；qa/ea-courtyard-li
 - 2026-10-08：M1 r8 升级施工中取消专项核对真实返料到仓后一次退款，灵石40木27石18；返料、保存重载和同建筑重试通过。相邻施工物流新建筑断路会重求或保留货物与工单。完整取消分支、浏览器串行与真机/真人仍待，AC 和 I/V/R 状态不提升。
 - 2026-10-08：M1 r33：正常新档主殿升级45条公开命令/33次精确存读、2人撤离，原卡住档7450→7460开始施工→7585完工；40建筑/30人旧档升级、独立全额/部分退料和重复取消通过。既有门道时间断言和二次迁建玉石不足在父版本同样失败。页面内完整串行和真机仍待，整项 I/V/R 不关闭。
 - 2026-10-09：2026-10-09 U-105 / R-32：当前需求更新为 1.1，山域设计关联 GROWTH-03、GROWTH-04、GROWTH-06、GROWTH-07、GROWTH-08。旧版 1.0 的标题、需求、AC原文/证据及D/I任务完成范围保存在 registry.json 的 version_history；当前重新记 not_run：SR-XF-006-AC-01、SR-XF-006-AC-02。 当前D01继续补实施参数，D02及本版本I01待前置完成；development_status保留既有运行实现基线。未改变的已通过AC只沿用原行为及原运行环境证据，新增地域、布局与迁移流程按GROWTH另验。本批未执行运行时验收，未修改正式运行版本或发布状态。
+- 2026-10-10：U-109 第一批本地预览：主屋修缮在伤愈和材料满足后即时完成；建筑升级沿原有世界步施工，后续迁建与阶段成长仍待验。此为局部证据，不提升完整 AC/SR 状态。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。

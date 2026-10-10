@@ -1219,7 +1219,7 @@
   },
   "engineMigration": {
     "decisionId": "U-102",
-    "artDirectionDecisionId": "U-104",
+    "artDirectionDecisionId": "U-110",
     "implementationChoiceId": "R-31",
     "route": "docs/GODOT-MIGRATION.md",
     "platform": "web",
@@ -1238,62 +1238,29 @@
     "formalEntrySwitchGate": "corresponding-function-and-save-acceptance"
   },
   "currentArtDirection": {
-    "decisionId": "U-104",
+    "decisionId": "U-110",
     "decisionStatus": "user-confirmed",
-    "updatedAt": "2026-10-09",
-    "reference": "docs/PAINTED-COURTYARD.md",
+    "updatedAt": "2026-10-10",
+    "reference": "docs/design/DECISIONS.md",
     "engine": "Godot",
     "delivery": "Web",
-    "styleReference": "山门与幻境",
-    "approvedConcept": "docs/art/reference/mountain-courtyard.png",
-    "modelPolicy": "3d-model-production-and-expansion-stopped",
-    "preserveExistingAssetsAndEvidence": true,
-    "runtimeEvidence": "docs/art/MOUNTAIN-DOMAIN-2026-10-09.md",
-    "closesWholeRequirements": false,
-    "rendering": "godot-2d",
+    "rendering": "godot-2d-layered-painting",
     "view": "fixed-oblique",
-    "assets": "coherent-painted-assets-and-2d-character-animation",
-    "assetProduction": "built-in-imagegen-to-godot-2d-layers",
-    "productionPlanStatus": "user-confirmed",
-    "continuousCharacterMovement": true,
-    "sourceScene": "godot/painted_courtyard/courtyard.tscn",
-    "assetDirectory": "godot/painted_courtyard/assets",
-    "buildScript": "tools/build-painted-web.py",
-    "generatedPreviewEntry": "dist/painted-courtyard/index.html",
-    "acceptanceChecklist": "DOMAIN-01–06 and related ART-2D regressions",
+    "sourceScene": "godot/estate_2d/estate.tscn",
+    "siteLayout": "godot/estate_2d/estate-sites.json",
+    "buildScript": "tools/build-estate-painted-web.py",
+    "generatedPreviewEntry": "dist/painted-game/index.html",
+    "previewSaveNamespace": "estate-game",
+    "runtimeEvidence": "docs/design/STATUS.md",
+    "publicationStatus": "local-preview",
     "userRealtimeApproval": "pending",
-    "batchArtExpansionGate": "user-approval-of-actual-painted-web-trial",
-    "writesFormalSaveSlots": false,
-    "settlesEconomy": false,
-    "sampleScope": {
-      "mainHallCount": 1,
-      "mountainStoneRoadSectionCount": 1,
-      "characterCount": 2,
-      "interactions": [
-        "zoom",
-        "selection",
-        "walking",
-        "turning",
-        "working",
-        "occlusion"
-      ],
-      "closedBuildingPresentation": "complete-exterior",
-      "assetStructure": {
-        "background": "founding-courtyard-shared-environment-painting",
-        "independentAssets": [
-          "same-coordinate-building-occlusion-layers",
-          "two-character-64-frame-atlas"
-        ],
-        "backgroundRocks": "non-walkable"
-      }
-    },
-    "alignmentDecisionId": "U-107",
-    "currentPrototype": "godot/painted_courtyard/assets/founding-ground-v3.png",
-    "publicPreviewURL": "https://cybershp.github.io/Simulation-web-game/painted-courtyard/?v=d28daeedaaa0",
-    "publicationStatus": "published-and-public-browser-verified",
-    "currentSpatialDecisionId": "U-107",
-    "currentSpatialReference": "docs/MOUNTAIN-DOMAIN.md",
-    "historicalAlignmentDecisionId": "U-106"
+    "simulatedSpatialCollisionStatus": "retained-and-locally-checked",
+    "preserveExistingAssetsAndEvidence": true,
+    "closesWholeRequirements": false,
+    "currentSpatialDecisionId": "U-110",
+    "historicalEstateRenderingDecisionId": "U-109",
+    "historicalPaintedTrialDecisionId": "U-104",
+    "historicalMountainTrialDecisionId": "U-107"
   },
   "currentHandoff": {
     "updatedAt": "2026-10-10",
@@ -1302,7 +1269,7 @@
     "deliveryPlan": "docs/DELIVERY-PLAN.md",
     "engineMigration": "docs/GODOT-MIGRATION.md",
     "artTrial": "docs/PAINTED-COURTYARD.md",
-    "currentArtDecisionId": "U-104",
+    "currentArtDecisionId": "U-110",
     "actualStatus": "docs/design/STATUS.md",
     "requirements": "docs/requirements/registry.json",
     "decisionLedger": "docs/design/DECISIONS.md",
@@ -1324,8 +1291,12 @@
     "layoutRefinementId": "R-32",
     "currentAlignmentDecisionId": "U-107",
     "mountainDomain": "docs/MOUNTAIN-DOMAIN.md",
-    "currentSpatialDecisionId": "U-107",
-    "currentSpatialSourceCommit": "2ea41759944a229e0f6b6c2233cf4224c70aae34"
+    "currentSpatialDecisionId": "U-110",
+    "currentSpatialSourceCommit": "2ea41759944a229e0f6b6c2233cf4224c70aae34",
+    "currentSpatialReference": "docs/design/03-SPATIAL-ART.md",
+    "estateSourceScene": "godot/estate_2d/estate.tscn",
+    "estateSiteLayout": "godot/estate_2d/estate-sites.json",
+    "estatePreview": "dist/painted-game/index.html"
   },
   "historicalDevelopmentSnapshots": [
     {
@@ -1436,5 +1407,63 @@
     "runtimeAcceptance": "not_run",
     "strictGeographicContinuity": "requires-shared-base-map-and-landmark-anchors",
     "acceptance": "docs/SECT-GROWTH-PLAN.md#6-正常失败存读与界面验收"
+  },
+  "historicalPaintedArtDirection": {
+    "decisionId": "U-104",
+    "decisionStatus": "user-confirmed",
+    "updatedAt": "2026-10-09",
+    "reference": "docs/PAINTED-COURTYARD.md",
+    "engine": "Godot",
+    "delivery": "Web",
+    "styleReference": "山门与幻境",
+    "approvedConcept": "docs/art/reference/mountain-courtyard.png",
+    "modelPolicy": "3d-model-production-and-expansion-stopped",
+    "preserveExistingAssetsAndEvidence": true,
+    "runtimeEvidence": "docs/art/MOUNTAIN-DOMAIN-2026-10-09.md",
+    "closesWholeRequirements": false,
+    "rendering": "godot-2d",
+    "view": "fixed-oblique",
+    "assets": "coherent-painted-assets-and-2d-character-animation",
+    "assetProduction": "built-in-imagegen-to-godot-2d-layers",
+    "productionPlanStatus": "user-confirmed",
+    "continuousCharacterMovement": true,
+    "sourceScene": "godot/painted_courtyard/courtyard.tscn",
+    "assetDirectory": "godot/painted_courtyard/assets",
+    "buildScript": "tools/build-painted-web.py",
+    "generatedPreviewEntry": "dist/painted-courtyard/index.html",
+    "acceptanceChecklist": "DOMAIN-01–06 and related ART-2D regressions",
+    "userRealtimeApproval": "pending",
+    "batchArtExpansionGate": "user-approval-of-actual-painted-web-trial",
+    "writesFormalSaveSlots": false,
+    "settlesEconomy": false,
+    "sampleScope": {
+      "mainHallCount": 1,
+      "mountainStoneRoadSectionCount": 1,
+      "characterCount": 2,
+      "interactions": [
+        "zoom",
+        "selection",
+        "walking",
+        "turning",
+        "working",
+        "occlusion"
+      ],
+      "closedBuildingPresentation": "complete-exterior",
+      "assetStructure": {
+        "background": "founding-courtyard-shared-environment-painting",
+        "independentAssets": [
+          "same-coordinate-building-occlusion-layers",
+          "two-character-64-frame-atlas"
+        ],
+        "backgroundRocks": "non-walkable"
+      }
+    },
+    "alignmentDecisionId": "U-107",
+    "currentPrototype": "godot/painted_courtyard/assets/founding-ground-v3.png",
+    "publicPreviewURL": "https://cybershp.github.io/Simulation-web-game/painted-courtyard/?v=d28daeedaaa0",
+    "publicationStatus": "published-and-public-browser-verified",
+    "currentSpatialDecisionId": "U-107",
+    "currentSpatialReference": "docs/MOUNTAIN-DOMAIN.md",
+    "historicalAlignmentDecisionId": "U-106"
   }
 }

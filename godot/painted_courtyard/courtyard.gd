@@ -54,6 +54,10 @@ var domain: Node2D
 var ground_painting: Sprite2D
 var follow_master := false
 var overview_mode := false
+var game_mode := false
+var game_poll := 0.0
+var game_tick := 0
+var game_hall_id := ""
 
 func _ready() -> void:
 	var file := FileAccess.open("res://painted_courtyard/assets/layout.json", FileAccess.READ)
@@ -108,6 +112,10 @@ func _ready() -> void:
 	get_viewport().size_changed.connect(_update_camera)
 	_reset()
 	if OS.has_feature("web"):
+		game_mode = bool(JavaScriptBridge.eval("window.__paintedGameMode === true", true))
+		if game_mode:
+			_update_camera()
+			_sync_game_state(0.0)
 		js_callback = JavaScriptBridge.create_callback(_on_browser_command)
 		var window := JavaScriptBridge.get_interface("window")
 		window.paintedCourtyardCommand = js_callback
@@ -371,7 +379,12 @@ func _process(raw_delta: float) -> void:
 	if suppress_next_delta:
 		delta = 0.0
 		suppress_next_delta = false
-	if not paused and not backgrounded:
+	if game_mode:
+		game_poll += raw_delta
+		if game_poll >= 0.08:
+			game_poll = 0.0
+			_sync_game_state(delta)
+	elif not paused and not backgrounded:
 		trial_time += delta
 		var was_walking := not route.is_empty()
 		var moving := _move_actor(master, route, WALK_SPEED, delta) if not indoor else false
@@ -401,6 +414,60 @@ func _process(raw_delta: float) -> void:
 		_publish_state()
 	queue_redraw()
 
+func _game_position(person: Dictionary) -> Vector2:
+	# This preview aligns the formal hall and entrance with the wide painted courtyard.
+	# The full 96 m scene needs further authored terrain before it can be shown here.
+	return Vector2(float(person.get("x", 0.0)) * 25.6, float(person.get("y", 0.0)) * 9.25 + 134.0)
+
+func _sync_game_state(delta: float) -> void:
+	if not OS.has_feature("web"):
+		return
+	var raw: Variant = JavaScriptBridge.eval("window.xianfuGodot ? window.xianfuGodot.snapshot_json() : ''", true)
+	if not raw is String or raw.is_empty():
+		return
+	var parsed: Variant = JSON.parse_string(raw)
+	if not parsed is Dictionary:
+		return
+	var view: Dictionary = parsed
+	game_tick = int(view.get("tick", 0))
+	for building in view.get("buildings", []):
+		if building.get("type", "") == "hall":
+			game_hall_id = str(building.get("id", ""))
+			break
+	var found_master := false
+	var found_worker := false
+	var show_master := false
+	var show_worker := false
+	for person in view.get("people", []):
+		var actor: Node2D = null
+		if str(person.get("id", "")) == str(view.get("masterId", "")):
+			actor = master
+			found_master = true
+		elif str(person.get("id", "")) == "person:lu-zhiwei":
+			actor = worker
+			found_worker = true
+		if actor == null:
+			continue
+		var next_position := _game_position(person)
+		var travelled := actor.position.distance_to(next_position)
+		if travelled > 0.01 and travelled < 150.0:
+			actor.set_facing(next_position - actor.position, delta)
+			actor.set_travel_distance(travelled)
+		actor.position = next_position
+		var visible_here := not bool(person.get("indoor", false)) and Rect2(Vector2.ZERO, canvas_size).has_point(next_position)
+		if actor == master:
+			show_master = visible_here
+		else:
+			show_worker = visible_here
+		actor.set_motion(bool(person.get("moving", false)), str(person.get("activity", "")) == "work", delta)
+	master.visible = found_master and show_master
+	worker.visible = found_worker and show_worker
+	var next_paused: bool = bool(view.get("paused", false))
+	if paused != next_paused:
+		paused = next_paused
+		_sync_animation_pause()
+	message = str(view.get("message", ""))
+
 func _draw() -> void:
 	if master == null:
 		return
@@ -428,8 +495,8 @@ func _update_camera() -> void:
 		pointer_scale = maxf(1.0, float(JavaScriptBridge.eval("window.devicePixelRatio || 1", true)))
 	var viewport := get_viewport_rect().size
 	portrait_view = viewport.x < viewport.y
-	var cover := minf(viewport.x / canvas_size.x, viewport.y / canvas_size.y)
-	zoom_factor = clampf(zoom_factor, _minimum_zoom(), _minimum_zoom() * 2.2 if overview_mode else 2.6)
+	var cover := maxf(viewport.x / canvas_size.x, viewport.y / canvas_size.y) if game_mode and portrait_view and not overview_mode else minf(viewport.x / canvas_size.x, viewport.y / canvas_size.y)
+	zoom_factor = clampf(zoom_factor, maxf(1.0, _minimum_zoom()) if game_mode and portrait_view and not overview_mode else _minimum_zoom(), _minimum_zoom() * 2.2 if overview_mode else 2.6)
 	camera.zoom = Vector2.ONE * cover * zoom_factor
 	var half := viewport / camera.zoom / 2.0
 	var bounds: Rect2 = domain.world_rect if overview_mode else domain.detail_rect
@@ -449,7 +516,7 @@ func _update_camera() -> void:
 
 func _minimum_zoom() -> float:
 	var viewport := get_viewport_rect().size
-	var cover := minf(viewport.x / canvas_size.x, viewport.y / canvas_size.y)
+	var cover := maxf(viewport.x / canvas_size.x, viewport.y / canvas_size.y) if game_mode and portrait_view and not overview_mode else minf(viewport.x / canvas_size.x, viewport.y / canvas_size.y)
 	if overview_mode:
 		return minf(viewport.x / domain.world_rect.size.x, viewport.y / domain.world_rect.size.y) / cover
 	var size: Vector2 = domain.detail_rect.size
@@ -577,12 +644,30 @@ func _click(screen: Vector2) -> void:
 		return a.depth > b.depth)
 	if not candidates.is_empty():
 		selected = candidates[0].kind
+		if game_mode:
+			if selected == "master":
+				JavaScriptBridge.eval("window.paintedGameSelect('person','person:master')", true)
+			elif selected == "worker":
+				JavaScriptBridge.eval("window.paintedGameSelect('person','person:lu-zhiwei')", true)
+			elif selected == "hall" and not game_hall_id.is_empty():
+				JavaScriptBridge.eval("window.paintedGameSelect('building'," + JSON.stringify(game_hall_id) + ")", true)
+			_publish_state()
+			return
 		var labels := {"master": "沈砚 · 掌门 · 点选院地行走", "worker": "陆知微 · 照料药田" if worker_working else "陆知微 · 沿药田行走", "hall": "主殿 · 青瓦木构，石阶入殿"}
 		for layer in painted_layers:
 			if not labels.has(layer.id):
 				labels[layer.id] = layer.label
 		message = str(labels.get(selected, "云岫山院"))
 	else:
+		if game_mode:
+			if not Rect2(Vector2.ZERO, canvas_size).has_point(point):
+				message = "当前庭院预览只覆盖画中的院地"
+				JavaScriptBridge.eval("window.paintedGameNotice(" + JSON.stringify(message) + ")", true)
+				_publish_state()
+				return
+			JavaScriptBridge.eval("window.paintedGameMove(" + str(point.x / 25.6) + "," + str((point.y - 134.0) / 9.25) + ")", true)
+			_publish_state()
+			return
 		if _movement_allowed():
 			tour_queue.clear()
 			_walk_to(point)
@@ -636,6 +721,11 @@ func _reset() -> void:
 	_sync_animation_pause()
 
 func _command(command: String) -> void:
+	if game_mode and command == "pause":
+		JavaScriptBridge.eval("window.paintedGamePause()", true)
+		return
+	if game_mode and command in ["tour", "enter", "work", "explore", "return", "reset"]:
+		return
 	if command in ["tour", "enter", "work", "explore", "return"] and not _movement_allowed():
 		return
 	if command.begins_with("place:"):

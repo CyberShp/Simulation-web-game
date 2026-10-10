@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 940" preserveAspectRatio="none">
+  <defs>
+    <linearGradient id="paper" x2="1" y2=".08"><stop stop-color="#9b8060"/><stop offset=".07" stop-color="#e0d1b3"/><stop offset=".24" stop-color="#f2e8cf"/><stop offset=".76" stop-color="#efe3c9"/><stop offset=".94" stop-color="#d2be99"/><stop offset="1" stop-color="#987b5c"/></linearGradient>
+    <linearGradient id="bronze" x2="0" y2="1"><stop stop-color="#ead291"/><stop offset=".22" stop-color="#856037"/><stop offset=".55" stop-color="#d2ad67"/><stop offset="1" stop-color="#523922"/></linearGradient>
+    <pattern id="grain" width="38" height="46" patternUnits="userSpaceOnUse"><path d="M2 7q5-4 8 1m19 24q4-3 7 1M1 43q8-2 13 1" fill="none" stroke="#9e8965" stroke-width=".6" opacity=".27"/></pattern>
+  </defs>
+  <rect x="5" y="5" width="430" height="930" rx="15" fill="#172b27" stroke="#091815" stroke-width="8"/>
+  <rect x="13" y="13" width="414" height="914" rx="9" fill="url(#paper)" stroke="url(#bronze)" stroke-width="9"/>
+  <rect x="24" y="26" width="392" height="887" rx="3" fill="url(#grain)" stroke="#a28a61" stroke-width="1"/>
+  <path d="M22 75h33q14 0 14-17V20M418 75h-33q-14 0-14-17V20M22 864h33q14 0 14 17v39M418 864h-33q-14 0-14 17v39" fill="none" stroke="#6c522f" stroke-width="7"/>
+  <path d="M25 72h31q11 0 11-15V23M415 72h-31q-11 0-11-15V23M25 867h31q11 0 11 15v35M415 867h-31q-11 0-11 15v35" fill="none" stroke="#d5b36c" stroke-width="2"/>
+  <path d="M44 175q24 8 18 45q-6 30-23 41m6-53q26-19 31-39m-9 47q20-5 28-24M396 655q-24 8-18 45q6 30 23 41m-6-53q-26-19-31-39m9 47q-20-5-28-24" fill="none" stroke="#60715d" stroke-width="3" opacity=".18"/>
+  <path d="M15 146h8m-8 649h8M417 146h8m-8 649h8" stroke="#bd9557" stroke-width="5"/>
+</svg>

@@ -257,9 +257,18 @@ function supplyStep(s){
  if(s.economy.lastSupplyDay===day(s))return;
  const e=s.economy;e.previous={income:{...e.income},expense:{...e.expense}};e.income=resourceZero();e.expense=resourceZero();e.day=day(s);e.lastSupplyDay=day(s);e.shortages=[];
  const food=foodDemand(s);if(canPay(s,{food})){pay(s,{food});e.starvation=0;}else{if(s.resources.food>0)pay(s,{food:s.resources.food});e.starvation++;e.shortages.push('口粮不足：工作与修炼效率降低，可采食或购粮');log(s,'口粮供给不足。掌门可亲自采食，或以灵石购粮恢复生活。');}
- for(const b of s.buildings){if(b.enabled===false)continue;const cost=Object.fromEntries(Object.entries(BUILDINGS[b.type].upkeep).map(([k,v])=>[k,v*b.level]));if(canPay(s,cost)){pay(s,cost);b.condition=Math.min(100,b.condition+8);if(s.world?.weather?.id==='wind'&&!s.buildings.some(x=>x.type==='watchtower'&&active(x)))b.condition=Math.max(15,b.condition-3);}else{b.condition=Math.max(15,b.condition-15);e.shortages.push(`${BUILDINGS[b.type].name}维护不足，效率下降`);}}
+ for(const b of s.buildings){if(b.enabled===false)continue;const cost=Object.fromEntries(Object.entries(BUILDINGS[b.type].upkeep).map(([k,v])=>[k,v*b.level]));if(canPay(s,cost)){pay(s,cost);if(!(s.spatial?.estateCollisionVersion==='estate-gate-1'&&b.type==='hall'&&b.condition<100))b.condition=Math.min(100,b.condition+8);if(s.world?.weather?.id==='wind'&&!s.buildings.some(x=>x.type==='watchtower'&&active(x)))b.condition=Math.max(15,b.condition-3);}else{b.condition=Math.max(15,b.condition-15);e.shortages.push(`${BUILDINGS[b.type].name}维护不足，效率下降`);}}
 }
-function masterStep(s){
+/** Schema-6 free walking uses the same 100ms world steps as other spatial activity. */
+export function advanceMasterFreeWalk(s,budget=4.6){
+ const m=s.master;
+ if(trip(s)||srBodyBusy(s,m)||m.activityId||m.learning||m.action!=='walk'||!m.scenic?.path.length)return 0;
+ const moved=advanceScenic(m.scenic,budget,s);
+ syncScenicPosition(s,m);
+ if(!m.scenic.path.length)m.action='rest';
+ return moved;
+}
+function masterStep(s,{advanceFreeWalk=true}={}){
  const m=s.master;if(trip(s)||srBodyBusy(s,m))return;
  if(s.schemaVersion===6&&s.activitiesById[m.activityId]?.kind==='construction')return;
  if(s.schemaVersion===6&&s.activitiesById[m.activityId]?.action==='care')return;
@@ -272,7 +281,10 @@ function masterStep(s){
   }else releaseBodyActivity(s,m);
  }
  const clinic=localLifeFacility(s,m,['clinic']);
- if(m.action==='walk'&&m.scenic?.path.length){advanceScenic(m.scenic,46,s);syncScenicPosition(s,m);if(!m.scenic.path.length)m.action='rest';return;}
+ if(m.action==='walk'&&m.scenic?.path.length){
+  if(!advanceFreeWalk&&!m.activityId&&!m.learning)return;
+  advanceScenic(m.scenic,46,s);syncScenicPosition(s,m);if(!m.scenic.path.length)m.action='rest';return;
+ }
  if(m.action==='walk'){const next=m.path.shift();if(next&&!at(s,next.x,next.y))m.position=next;else m.path=[];if(!m.path.length)m.action='rest';return;}
  if(m.action==='heal'){m.wound=Math.max(0,m.wound-(clinic?3:2));m.energy=Math.min(100,m.energy+.5);if(!m.wound){m.action='rest';log(s,'伤势已愈，逃亡并未永久损伤天资。');}return;}
  if(m.action==='rest'){m.energy=Math.min(100,m.energy+restRecovery(s,m));if(m.wound>0)m.wound=Math.max(0,m.wound-.035);return;}
@@ -285,10 +297,10 @@ function masterStep(s){
 }
 const hooks={studyLock,compatible,learnTechnique,xpNeed,cultivationRate,buildingYield,onProduction:recordFirstProduction,breakthroughLock,breakthroughPerson,consumePill,capacity,stage,teachers,supportLimit,restRecovery,addDisciple,grant,pay,canPay,rng,day,log};
 if(campaign.configureCampaign)campaign.configureCampaign({...hooks,canAccompany:society.canAccompany,campaignOutcome:society.campaignOutcome});
-function step(s,{advanceCombat=true}={}){
+function step(s,{advanceCombat=true,advanceFreeWalk=true}={}){
  if(s.schemaVersion!==6)s.time++;renewMarket(s);supplyStep(s);
  const h=s.buildings.find(b=>b.type==='hall');if(h&&active(h)&&!['opening-v1.2','sr-content-v1.2'].includes(s.contentVersion)){h.progress++;if(h.progress>=BUILDINGS.hall.duration){h.progress-=BUILDINGS.hall.duration;grant(s,buildingYield(s,h));}}
- society.tickSociety(s,1,hooks);campaign.tickCampaign(s,1,hooks,{advanceCombat});masterStep(s);
+ society.tickSociety(s,1,hooks);campaign.tickCampaign(s,1,hooks,{advanceCombat});masterStep(s,{advanceFreeWalk});
  if(!s.srEconomy&&s.crafting&&s.buildings.some(b=>b.type==='alchemy'&&active(b))){s.crafting.remaining=Math.max(0,s.crafting.remaining-1);if(s.crafting.remaining===0){const id=s.crafting.recipeId,count=s.crafting.yield;s.pills[id]+=count;s.stats.crafted++;s.crafting=null;log(s,`${RECIPES[id].name}炼成${count}份，已收入府库。`);}}
 }
 export function tick(s,dt){if(!finite(dt,0,86400)||dt===0||s.speed===0)return;s.sim.carry+=dt*s.speed;while(s.sim.carry+1e-10>=1){s.sim.carry-=1;if(s.sim.carry<0)s.sim.carry=0;step(s);}}

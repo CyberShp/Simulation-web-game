@@ -2,7 +2,7 @@
   "schema_version": 1,
   "registry_id": "SR-XF-2026-10-06",
   "design_baseline": "DB-2026-10-05 v1.2",
-  "updated": "2026-10-09",
+  "updated": "2026-10-10",
   "authoritative": "registry.json for requirement records and task states; derived Markdown rendered by qa/sr-manager.py refresh",
   "source_runtime": {
     "main": "7d27532bf22e8c6064281e12b390edb8370abce9",
@@ -866,7 +866,8 @@
         "U-103",
         "U-104",
         "U-105",
-        "R-32"
+        "R-32",
+        "U-109"
       ],
       "source_specs": [
         "docs/design/03-SPATIAL-ART.md",
@@ -958,7 +959,8 @@
         "godot/art/actor_3d.gd",
         "tools/build-art-web.py",
         "docs/art/PAINTED-COURTYARD-2026-10-09.md",
-        "docs/SECT-GROWTH-PLAN.md；2026-10-09 山域总图、五阶段迁移及统一原型的设计来源；当前运行验收待补。"
+        "docs/SECT-GROWTH-PLAN.md；2026-10-09 山域总图、五阶段迁移及统一原型的设计来源；当前运行验收待补。",
+        "docs/design/STATUS.md；2026-10-10 U-109 旧别院 3D 本地预览局部网页证据；完整 AC 状态不变。"
       ],
       "change_log": [
         {
@@ -1064,6 +1066,10 @@
         {
           "date": "2026-10-09",
           "reason": "2026-10-09 U-105 / R-32：当前需求更新为 1.2，山域设计关联 GROWTH-01、GROWTH-02、GROWTH-09、GROWTH-10。旧版 1.1 的标题、需求、AC原文/证据及D/I任务完成范围保存在 registry.json 的 version_history；当前重新记 not_run：SR-XF-003-AC-03。 当前D01继续补实施参数，D02及本版本I01待前置完成；development_status保留既有运行实现基线。未改变的已通过AC只沿用原行为及原运行环境证据，新增地域、布局与迁移流程按GROWTH另验。本批未执行运行时验收，未修改正式运行版本或发布状态。"
+        },
+        {
+          "date": "2026-10-10",
+          "reason": "U-109 第一批本地预览：旧别院 3D 地形、镜头、建筑与地块点选已形成局部网页预览；装饰地标与人物导航体积碰撞仍待逐一对齐。此为局部证据，不提升完整 AC/SR 状态。"
         }
       ],
       "tasks": [
@@ -1424,7 +1430,8 @@
         "U-103",
         "U-104",
         "U-105",
-        "R-32"
+        "R-32",
+        "U-109"
       ],
       "source_specs": [
         "docs/design/03-SPATIAL-ART.md",
@@ -1538,7 +1545,8 @@
         "godot/art/actor_3d.gd",
         "tools/build-art-web.py",
         "docs/art/PAINTED-COURTYARD-2026-10-09.md",
-        "docs/SECT-GROWTH-PLAN.md；2026-10-09 山域总图、五阶段迁移及统一原型的设计来源；当前运行验收待补。"
+        "docs/SECT-GROWTH-PLAN.md；2026-10-09 山域总图、五阶段迁移及统一原型的设计来源；当前运行验收待补。",
+        "docs/design/STATUS.md；2026-10-10 U-109 旧别院 3D 本地预览局部网页证据；完整 AC 状态不变。"
       ],
       "change_log": [
         {
@@ -1640,6 +1648,10 @@
         {
           "date": "2026-10-09",
           "reason": "2026-10-09 U-105 / R-32：当前需求更新为 1.1，山域设计关联 GROWTH-01、GROWTH-02、GROWTH-05。旧版 1.0 的标题、需求、AC原文/证据及D/I任务完成范围保存在 registry.json 的 version_history；当前重新记 not_run：SR-XF-004-AC-01。 当前D01继续补实施参数，D02及本版本I01待前置完成；development_status保留既有运行实现基线。未改变的已通过AC只沿用原行为及原运行环境证据，新增地域、布局与迁移流程按GROWTH另验。本批未执行运行时验收，未修改正式运行版本或发布状态。"
+        },
+        {
+          "date": "2026-10-10",
+          "reason": "U-109 第一批本地预览：残败主屋、预留荒地、田地与伐木场及建筑级别从同一持久状态显示；完整容量和后续阶段外观仍待验。此为局部证据，不提升完整 AC/SR 状态。"
         }
       ],
       "tasks": [
@@ -2011,7 +2023,8 @@
         "R-29",
         "R-30",
         "U-105",
-        "R-32"
+        "R-32",
+        "U-109"
       ],
       "source_specs": [
         "docs/design/03-SPATIAL-ART.md",
@@ -2080,7 +2093,8 @@
         "docs/CODEX-HANDOFF.md",
         "dist/ea.css",
         "dist/ea-courtyard-renderer.mjs",
-        "docs/SECT-GROWTH-PLAN.md；2026-10-09 山域总图、五阶段迁移及统一原型的设计来源；当前运行验收待补。"
+        "docs/SECT-GROWTH-PLAN.md；2026-10-09 山域总图、五阶段迁移及统一原型的设计来源；当前运行验收待补。",
+        "docs/design/STATUS.md；2026-10-10 U-109 旧别院 3D 本地预览局部网页证据；完整 AC 状态不变。"
       ],
       "change_log": [
         {
@@ -2142,6 +2156,10 @@
         {
           "date": "2026-10-09",
           "reason": "2026-10-09 U-105 / R-32：当前需求更新为 1.1，山域设计关联 GROWTH-02、GROWTH-06、GROWTH-10。旧版 1.0 的标题、需求、AC原文/证据及D/I任务完成范围保存在 registry.json 的 version_history；当前重新记 not_run：SR-XF-005-AC-01、SR-XF-005-AC-02。 当前D01继续补实施参数，D02及本版本I01待前置完成；development_status保留既有运行实现基线。未改变的已通过AC只沿用原行为及原运行环境证据，新增地域、布局与迁移流程按GROWTH另验。本批未执行运行时验收，未修改正式运行版本或发布状态。"
+        },
+        {
+          "date": "2026-10-10",
+          "reason": "U-109 第一批本地预览：旧别院五处固定建位已接入本地预览；灵草田、伐木场从零营造，非法坐标拒绝，施工期存读局部通过。此为局部证据，不提升完整 AC/SR 状态。"
         }
       ],
       "tasks": [
@@ -2459,7 +2477,8 @@
         "R-29",
         "R-30",
         "U-105",
-        "R-32"
+        "R-32",
+        "U-109"
       ],
       "source_specs": [
         "docs/design/03-SPATIAL-ART.md",
@@ -2533,7 +2552,8 @@
         "qa/ea-sr-spatial-acceptance.mjs",
         "qa/ea-sr006-serial-public-acceptance.mjs",
         "qa/ea-sr006-upgrade-cancel-recovery-public-acceptance.mjs",
-        "docs/SECT-GROWTH-PLAN.md；2026-10-09 山域总图、五阶段迁移及统一原型的设计来源；当前运行验收待补。"
+        "docs/SECT-GROWTH-PLAN.md；2026-10-09 山域总图、五阶段迁移及统一原型的设计来源；当前运行验收待补。",
+        "docs/design/STATUS.md；2026-10-10 U-109 旧别院 3D 本地预览局部网页证据；完整 AC 状态不变。"
       ],
       "change_log": [
         {
@@ -2587,6 +2607,10 @@
         {
           "date": "2026-10-09",
           "reason": "2026-10-09 U-105 / R-32：当前需求更新为 1.1，山域设计关联 GROWTH-03、GROWTH-04、GROWTH-06、GROWTH-07、GROWTH-08。旧版 1.0 的标题、需求、AC原文/证据及D/I任务完成范围保存在 registry.json 的 version_history；当前重新记 not_run：SR-XF-006-AC-01、SR-XF-006-AC-02。 当前D01继续补实施参数，D02及本版本I01待前置完成；development_status保留既有运行实现基线。未改变的已通过AC只沿用原行为及原运行环境证据，新增地域、布局与迁移流程按GROWTH另验。本批未执行运行时验收，未修改正式运行版本或发布状态。"
+        },
+        {
+          "date": "2026-10-10",
+          "reason": "U-109 第一批本地预览：主屋修缮在伤愈和材料满足后即时完成；建筑升级沿原有世界步施工，后续迁建与阶段成长仍待验。此为局部证据，不提升完整 AC/SR 状态。"
         }
       ],
       "tasks": [
@@ -2943,7 +2967,8 @@
           "evidence": [
             "局部：qa/ea-person-three-selection-acceptance.mjs（同场三人公开命令、精确存读、生产Canvas脚点）",
             "局部：tests/ea-scene-ui.test.mjs（肖像与当前动作只读点选）",
-            "局部：docs/design/STATUS.md（独立本地浏览器三人、重叠候选与续档；真人/真机仍待）"
+            "局部：docs/design/STATUS.md（独立本地浏览器三人、重叠候选与续档；真人/真机仍待）",
+            "局部：docs/art/SYSTEM-UI-2026-10-10.md（宽庭院人物卷册读取正式身份、外观和活动；同场三人场景动作未验）"
           ]
         },
         {
@@ -5035,7 +5060,9 @@
           "scenario": "授课、低难重复练习和转修",
           "expected": "资格真实、无空转成长，无限自伤治疗/重复换装不刷满熟练。",
           "status": "not_run",
-          "evidence": []
+          "evidence": [
+            "局部：docs/art/SYSTEM-UI-2026-10-10.md（真实研习、拒绝授业、暂停取消与资源回退；转修和熟练收益仍待）"
+          ]
         }
       ],
       "excluded": [
@@ -7892,7 +7919,8 @@
         "U-103",
         "U-104",
         "U-105",
-        "R-32"
+        "R-32",
+        "U-109"
       ],
       "source_specs": [
         "docs/design/01-CHARACTERS.md",
@@ -7963,7 +7991,8 @@
         "godot/art/actor_3d.gd",
         "tools/build-art-web.py",
         "docs/art/PAINTED-COURTYARD-2026-10-09.md",
-        "docs/SECT-GROWTH-PLAN.md；2026-10-09 山域总图、五阶段迁移及统一原型的设计来源；当前运行验收待补。"
+        "docs/SECT-GROWTH-PLAN.md；2026-10-09 山域总图、五阶段迁移及统一原型的设计来源；当前运行验收待补。",
+        "docs/design/STATUS.md；2026-10-10 U-109 旧别院 3D 本地预览局部网页证据；完整 AC 状态不变。"
       ],
       "change_log": [
         {
@@ -8029,6 +8058,10 @@
         {
           "date": "2026-10-09",
           "reason": "2026-10-09 U-105 / R-32：当前需求更新为 1.2，山域设计关联 GROWTH-10、GROWTH-12。旧版 1.1 的标题、需求、AC原文/证据及D/I任务完成范围保存在 registry.json 的 version_history；本SR未重置任何已通过AC。 当前D01继续补实施参数，D02及本版本I01待前置完成；development_status保留既有运行实现基线。未改变的已通过AC只沿用原行为及原运行环境证据，新增地域、布局与迁移流程按GROWTH另验。本批未执行运行时验收，未修改正式运行版本或发布状态。"
+        },
+        {
+          "date": "2026-10-10",
+          "reason": "U-109 第一批本地预览：旧别院本地 3D 预览已在桌面和横竖浏览器视口检查建筑与地块选择；目标设备触摸未验。此为局部证据，不提升完整 AC/SR 状态。"
         }
       ],
       "tasks": [

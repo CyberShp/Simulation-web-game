@@ -12,7 +12,7 @@ export function runOpening({seed=618033,invitation='invite'}={}){
  function act(name,...args){const result=sim.dispatchCommand(state,{name,args});state=result.state;commands++;return result.result;}
  function check(label){const saved=JSON.stringify(state);state=sim.validateSave(JSON.parse(saved));assert.equal(JSON.stringify(state),saved);checks++;events.push({label,worldTick:state.worldTick,gameSeconds:state.time});}
  function until(predicate,limit=600){const deadline=state.time+limit;while(!predicate()){assert.ok(state.time<deadline,'No progress within '+limit+' seconds: '+JSON.stringify(state.disciples.map(p=>({name:p.name,job:p.job,energy:p.energy,activity:p.mind.activity,reason:p.mind.reason,scenic:p.mind.scenic,body:state.activitiesById[p.activityId]}))));sim.tick(state,1);}}
- function walkTo(type){const b=state.buildings.find(b=>b.type===type),target=buildingAccess(state,b);act('moveScenicMaster',target.x,target.y);until(()=>state.master.action!=='walk');}
+ function walkTo(type){const b=state.buildings.find(b=>b.type===type),target=buildingAccess(state,b);act('moveScenicMaster',target.x,target.y);const deadline=state.time+600;while(state.master.action==='walk'&&state.time<deadline)sim.tick(state,.1);assert.notEqual(state.master.action,'walk');assert.ok(Math.hypot(state.master.scenic.x-target.x,state.master.scenic.y-target.y)<.05);}
  function resources(cost){
   for(const [key,amount]of Object.entries(cost)){
    while(state.resources[key]<amount){

@@ -1,0 +1,13 @@
+{
+  "version": "yunxiu-old-estate-v1",
+  "worldAnchor": {"x": 28, "y": 8},
+  "metresToScene": 0.7,
+  "sceneOffset": {"x": 0, "z": -13},
+  "sites": [
+    {"id": "site:main-house", "name": "别院主屋", "type": "hall", "x": 24, "y": 4, "reserveWidth": 12, "reserveHeight": 12, "opening": true},
+    {"id": "site:west-residence", "name": "西侧居舍旧址", "type": "house", "x": 10, "y": 18, "reserveWidth": 10, "reserveHeight": 10, "opening": true},
+    {"id": "site:east-kitchen", "name": "东侧膳房旧址", "type": "kitchen", "x": 42, "y": 18, "reserveWidth": 10, "reserveHeight": 10, "opening": true},
+    {"id": "site:herb-terrace", "name": "西南荒圃", "type": "farm", "x": 12, "y": 40, "reserveWidth": 8, "reserveHeight": 8, "opening": true},
+    {"id": "site:timber-grove", "name": "东南松林", "type": "lumber", "x": 44, "y": 40, "reserveWidth": 8, "reserveHeight": 8, "opening": true}
+  ]
+}

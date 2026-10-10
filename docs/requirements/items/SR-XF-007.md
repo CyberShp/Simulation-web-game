@@ -53,7 +53,7 @@ SR-XF-007-REQ-03：远景不破坏人类尺度；近景可区分至少三名人�
 | SR-XF-007-AC-02 | 换装备和切到战斗再返回 | 身份特征稳定，武器/法器外观与实际实例对应。 | passed |
 | SR-XF-007-AC-03 | 等待、睡眠和研习切换 | 动作/工具/标签与权威状态一致，回退不冒充完整动作。 | passed |
 
-SR-XF-007-AC-01证据：局部：qa/ea-person-three-selection-acceptance.mjs（同场三人公开命令、精确存读、生产Canvas脚点）；局部：tests/ea-scene-ui.test.mjs（肖像与当前动作只读点选）；局部：docs/design/STATUS.md（独立本地浏览器三人、重叠候选与续档；真人/真机仍待）
+SR-XF-007-AC-01证据：局部：qa/ea-person-three-selection-acceptance.mjs（同场三人公开命令、精确存读、生产Canvas脚点）；局部：tests/ea-scene-ui.test.mjs（肖像与当前动作只读点选）；局部：docs/design/STATUS.md（独立本地浏览器三人、重叠候选与续档；真人/真机仍待）；局部：docs/art/SYSTEM-UI-2026-10-10.md（宽庭院人物卷册读取正式身份、外观和活动；同场三人场景动作未验）
 
 SR-XF-007-AC-02证据：qa/ea-person-equipment-battle-acceptance.mjs；qa/ea-person-equipment-art-acceptance.mjs；dist/ea-life.mjs；dist/ea-ui.mjs；docs/design/STATUS.md
 

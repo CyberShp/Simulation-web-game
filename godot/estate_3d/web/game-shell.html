@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#17251f">
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="game-ui.css">
+  <title>余烬立山 · 云岫旧别院</title>
+  $GODOT_HEAD_INCLUDE
+</head>
+<body>
+  <canvas id="canvas" tabindex="0" aria-label="云岫旧别院：点人物或地块查看，点院地移动掌门，拖动和滚轮调整镜头"></canvas>
+  <main id="game-ui" aria-label="云岫旧别院游戏界面">
+    <div class="crest" aria-hidden="true"><span>岚</span></div>
+    <div class="nameplate"><strong>余烬立山</strong><small>逃出生天 · 云岫旧院</small></div>
+    <div class="skyline"><span class="time" id="time">第 1 日</span><span class="season">旧院初春</span><span class="resources" id="resources"></span></div>
+    <nav class="rail" aria-label="山院功能">
+      <button class="rail-item" data-tab="home"><b aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M7 19 24 8l17 11M10 20v20h28V20M17 40V26h14v14M9 19h30M17 16V7h14v9"/></svg></b><span>山院</span></button>
+      <button class="rail-item" data-tab="disciples"><b aria-hidden="true"><svg viewBox="0 0 48 48"><circle cx="24" cy="14" r="7"/><path d="M14 40c0-10 2-17 10-17s10 7 10 17M8 42h32M17 26l-6 5m20-5 6 5"/></svg></b><span>门人</span></button>
+      <button class="rail-item" data-tab="arts"><b aria-hidden="true"><svg viewBox="0 0 48 48"><path d="m9 7 26 4 4 30-26-4zM9 7l-3 4 4 30 3-4M13 37l26 4M18 15l12 2m-14 6 15 2m-17 6 14 2"/></svg></b><span>功法</span></button>
+      <button class="rail-item" data-tab="archive"><b aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M18 15c-4-4-3-8-1-10 3 3 5 5 7 9 2-4 4-6 7-9 2 2 3 6-1 10M13 19c-5 8-5 19 11 22 16-3 16-14 11-22-5-3-17-3-22 0ZM16 24c6 3 10 3 16 0M24 18v19"/></svg></b><span>行囊</span></button>
+    </nav>
+    <section class="dossier" id="dossier" aria-label="当前卷册" hidden>
+      <button class="close" id="close-panel" aria-label="收起卷册">×</button>
+      <div class="dossier-inner">
+        <div class="dossier-header"><h2 id="panel-title">别院旧志</h2></div>
+        <div id="panel-content"></div>
+      </div>
+    </section>
+    <section class="dossier estate-panel" id="estate-panel" aria-label="营造地与建筑" hidden>
+      <button class="close" id="close-estate-panel" aria-label="收起营造卷册">×</button>
+      <div class="dossier-inner">
+        <div class="dossier-header"><h2>营造录</h2></div>
+        <div id="estate-content"></div>
+      </div>
+    </section>
+    <div class="opening-goal" id="opening-goal"><span class="goal-kicker">眼前之事</span><strong id="goal-title">先在旧院安身</strong><p id="goal-copy">看看主屋与荒地，养好伤势后再动工。</p><button id="goal-action" hidden>用灵草调息</button></div>
+    <div class="corner-controls" aria-label="场景控制">
+      <div class="compass" aria-hidden="true"><span class="compass-n">北</span><span class="compass-west">西</span><i></i><span class="compass-east">东</span><span class="compass-s">南</span></div>
+      <button id="zoom-out" aria-label="缩小镜头">−</button><button id="zoom-in" aria-label="放大镜头">＋</button>
+      <button id="follow" aria-label="跟随掌门">⌖</button><button id="pause" aria-label="暂停或继续">Ⅱ</button>
+    </div>
+    <div class="notice" id="notice" role="status">点主屋或旧址查看 · 点院地行走</div>
+  </main>
+  <section class="loading" id="loading" aria-live="polite"><div class="loading-seal">岚</div><h1>余烬立山</h1><p>正在打开云岫山院</p><progress id="progress"></progress><p id="error"></p></section>
+  <script>window.__paintedGameMode = true;</script>
+  <script src="$GODOT_URL"></script>
+  <script type="module">
+    import {bootGodotHost} from './runtime/ea-godot-host.mjs';
+    import {startEstateGameUI} from './game-ui.mjs';
+    const configuration=$GODOT_CONFIG;
+    const loading=document.getElementById('loading'), progress=document.getElementById('progress');
+    try {
+      const missing=Engine.getMissingFeatures({threads:false});
+      if(missing.length)throw Error('浏览器暂时无法运行山院：'+missing.join('、'));
+      const siteLayout=await fetch('./estate-sites.json').then(response=>{if(!response.ok)throw Error('别院营造地未能载入');return response.json()});
+      const host=await bootGodotHost({preview:'estate-game',siteLayout});
+      startEstateGameUI(host,siteLayout);
+      const engine=new Engine(configuration);
+      await engine.startGame({canvas:document.getElementById('canvas'),onProgress(current,total){if(total>0){progress.max=total;progress.value=current}}});
+      loading.hidden=true;
+      host.start();
+    } catch(failure) {
+      progress.hidden=true;
+      document.getElementById('error').textContent=failure.message||String(failure);
+      console.error(failure);
+    }
+  </script>
+</body>
+</html>

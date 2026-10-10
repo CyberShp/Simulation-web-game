@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>$GODOT_PROJECT_NAME · 开发预览</title>
+  <style>
+    html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#26382f;color:#f1e5c7;font-family:system-ui,sans-serif}
+    #canvas{display:block;width:100%;height:100%;touch-action:none;outline:none}
+    #loading{position:fixed;inset:0;display:grid;place-content:center;text-align:center;background:#26382f;padding:24px;gap:16px}
+    #loading[hidden]{display:none}h1{font-size:30px;margin:0}p{margin:0;line-height:1.7}progress{width:min(340px,80vw);margin:auto;accent-color:#c9b583}
+    #error{white-space:pre-wrap;color:#f2c9ad;max-width:40em}a{color:inherit}
+  </style>
+  $GODOT_HEAD_INCLUDE
+</head>
+<body>
+  <canvas id="canvas" tabindex="0" aria-label="云岫山院"></canvas>
+  <section id="loading" aria-live="polite">
+    <h1>模拟仙府 · 余烬立山</h1>
+    <p>正在打开云岫别院</p>
+    <progress id="progress"></progress>
+    <p id="error"></p>
+    <p><a href="../">返回游戏首页</a></p>
+  </section>
+  <script src="$GODOT_URL"></script>
+  <script type="module">
+    import {bootGodotHost} from './runtime/ea-godot-host.mjs';
+    const config = $GODOT_CONFIG;
+    const loading = document.getElementById('loading');
+    const progress = document.getElementById('progress');
+    const error = document.getElementById('error');
+    try {
+      const missing = Engine.getMissingFeatures({threads:false});
+      if (missing.length) throw Error('此浏览器暂时无法运行院景：'+missing.join('、'));
+      await bootGodotHost();
+      const engine = new Engine(config);
+      await engine.startGame({canvas:document.getElementById('canvas'),onProgress(current,total){if(total>0){progress.max=total;progress.value=current;}}});
+      loading.hidden = true;
+      document.getElementById('canvas').focus();
+    } catch (failure) {
+      progress.hidden = true;
+      error.textContent = failure.message || String(failure);
+      console.error(failure);
+    }
+  </script>
+</body>
+</html>

@@ -206,8 +206,9 @@ export function tick(s,dt){
   if(s.speed===0)break;
   s.worldTick++;s.revision++;
   if(srEnabled(s))beforeSRSecond(s);
-  if((s.worldTick-s.schemaMigration.clockOriginTick)%10===0)base.advanceWorldSecond(s,{advanceCombat:!srEnabled(s)});
+  if((s.worldTick-s.schemaMigration.clockOriginTick)%10===0)base.advanceWorldSecond(s,{advanceCombat:!srEnabled(s),advanceFreeWalk:false});
   if(srEnabled(s)){tickCampaignCombat(s,.1);tickSR(s);}else advanceConstruction(s);
+  base.advanceMasterFreeWalk(s,4.6);
   advanceRainArtisan(s);
   if(srEnabled(s))settleCombatBodyProjection(s);
   reconcileActivities(s);

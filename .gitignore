@@ -6,6 +6,11 @@ node_modules/
 *.tar.gz
 .openai/
 .sites-runtime/
+godot/.godot/
+godot/assets/
+dist/godot/
+dist/art-courtyard/
+output/playwright/art-courtyard/
 dist/painted-courtyard/
 output/playwright/painted-courtyard/
 output/playwright/painted-courtyard-aligned/

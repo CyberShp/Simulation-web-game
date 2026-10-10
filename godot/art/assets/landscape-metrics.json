@@ -1,0 +1,34 @@
+{
+  "asset": "landscape.glb",
+  "triangles": 132438,
+  "vertices": 111360,
+  "material_surfaces": 3,
+  "seed": 10309,
+  "shape_seed": 10310,
+  "terrain_colour": "continuous world-space vertex pigment",
+  "foreground_pine_xz": [
+    14.8,
+    10.2
+  ],
+  "boundary": "rock shelf skirt below perimeter",
+  "nodes": [
+    {
+      "node": "TerrainSurface",
+      "triangles": 8960,
+      "vertices": 4615,
+      "material_surfaces": 1
+    },
+    {
+      "node": "CourtyardPaving",
+      "triangles": 7656,
+      "vertices": 4176,
+      "material_surfaces": 1
+    },
+    {
+      "node": "LandscapeDetails",
+      "triangles": 115822,
+      "vertices": 102569,
+      "material_surfaces": 1
+    }
+  ]
+}

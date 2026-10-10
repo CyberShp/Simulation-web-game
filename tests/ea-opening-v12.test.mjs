@@ -43,6 +43,22 @@ test('world tick subdivision, save boundaries and pause preserve deterministic r
  loaded.speed=0;const before=JSON.stringify(loaded);w.tick(loaded,10000);assert.equal(JSON.stringify(loaded),before);
 });
 
+test('free courtyard walk advances every world step and resumes from an in-motion save',()=>{
+ let s=act(w.initial({sr:true}),'moveScenicMaster',35,28);
+ const start={x:s.master.scenic.x,y:s.master.scenic.y};
+ const steps=[];
+ for(let i=0;i<10;i++){
+  w.tick(s,.1);
+  steps.push(Math.hypot(s.master.scenic.x-start.x,s.master.scenic.y-start.y));
+ }
+ assert(steps.every((distance,i)=>distance>0&&(i===0||distance>steps[i-1])));
+ assert(Math.abs(steps[9]-1.4375)<1e-6,'ten small steps retain the old one-second walking speed');
+ const loaded=w.validateSave(JSON.parse(JSON.stringify(s)));
+ w.tick(s,2.3);w.tick(loaded,2.3);
+ assert.deepEqual(s,loaded);
+ s.speed=0;const held=JSON.stringify(s);w.tick(s,10);assert.equal(JSON.stringify(s),held);
+});
+
 test('gift, voluntary membership and companion invitation are distinct persistent facts',()=>{
  let s=healed(),herbs=s.resources.herb;
  s=act(s,'advanceStory','gift');

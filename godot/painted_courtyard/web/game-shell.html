@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#17251f">
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="game-ui.css">
+  <title>余烬立山 · 门人与功法</title>
+  $GODOT_HEAD_INCLUDE
+</head>
+<body>
+  <canvas id="canvas" tabindex="0" aria-label="云岫宽庭院：点击人物查看，点院地移动掌门，拖动和滚轮调整镜头"></canvas>
+  <main id="game-ui" aria-label="云岫山院游戏界面">
+    <div class="crest" aria-hidden="true">岚</div>
+    <div class="nameplate"><strong>余烬立山</strong><small>云岫 · 系统预览</small></div>
+    <div class="skyline"><span class="time" id="time">第 1 日</span><span class="resources" id="resources"></span></div>
+    <nav class="rail" aria-label="山院功能">
+      <button class="rail-item" data-tab="home"><b>山</b><span>山院</span></button>
+      <button class="rail-item" data-tab="disciples"><b>人</b><span>门人</span></button>
+      <button class="rail-item" data-tab="arts"><b>卷</b><span>功法</span></button>
+      <button class="rail-item" data-tab="archive"><b>简</b><span>档案</span></button>
+    </nav>
+    <section class="dossier" id="dossier" aria-label="当前卷册" hidden>
+      <div class="dossier-inner">
+        <div class="dossier-header"><span class="seal">云岫</span><h2 id="panel-title">门人志</h2><button class="close" id="close-panel" aria-label="收起卷册">×</button></div>
+        <div id="panel-content"></div>
+      </div>
+    </section>
+    <div class="corner-controls" aria-label="场景控制">
+      <button id="zoom-out" aria-label="缩小镜头">−</button><button id="zoom-in" aria-label="放大镜头">＋</button>
+      <button id="follow" aria-label="跟随掌门">⌖</button><button id="pause" aria-label="暂停或继续">Ⅱ</button>
+    </div>
+    <div class="notice" id="notice" role="status">点选人物，查阅门人与功法</div>
+  </main>
+  <section class="loading" id="loading" aria-live="polite"><div class="loading-seal">岚</div><h1>余烬立山</h1><p>正在打开云岫山院</p><progress id="progress"></progress><p id="error"></p></section>
+  <script>window.__paintedGameMode = true;</script>
+  <script src="$GODOT_URL"></script>
+  <script type="module">
+    import {bootGodotHost} from './runtime/ea-godot-host.mjs';
+    import {startPaintedGameUI} from './game-ui.mjs';
+    const configuration=$GODOT_CONFIG;
+    const loading=document.getElementById('loading'), progress=document.getElementById('progress');
+    try {
+      const missing=Engine.getMissingFeatures({threads:false});
+      if(missing.length)throw Error('浏览器暂时无法运行山院：'+missing.join('、'));
+      const host=await bootGodotHost({preview:'painted-game'});
+      startPaintedGameUI(host);
+      const engine=new Engine(configuration);
+      await engine.startGame({canvas:document.getElementById('canvas'),onProgress(current,total){if(total>0){progress.max=total;progress.value=current}}});
+      loading.hidden=true;
+      host.start();
+    } catch(failure) {
+      progress.hidden=true;
+      document.getElementById('error').textContent=failure.message||String(failure);
+      console.error(failure);
+    }
+  </script>
+</body>
+</html>

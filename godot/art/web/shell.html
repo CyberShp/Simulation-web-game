@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>云岫山院 · 美术实机小院</title>
+  <style>
+    *{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#baccc6;color:#f4eddd;font-family:system-ui,-apple-system,"PingFang SC",sans-serif}
+    #canvas{display:block;width:100%;height:100%;outline:none;touch-action:none}
+    header,footer{position:fixed;z-index:2;left:max(16px,env(safe-area-inset-left));right:max(16px,env(safe-area-inset-right));display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 16px;background:rgba(26,47,39,.90);border:1px solid #a8ad8660;border-radius:8px;box-shadow:0 5px 22px #1d34251c}
+    header{top:max(12px,env(safe-area-inset-top))}footer{bottom:max(12px,env(safe-area-inset-bottom));font-size:13px;line-height:1.6;pointer-events:none}
+    h1{font-size:19px;letter-spacing:.15em;margin:0 0 3px;font-weight:600}small{color:#c1c9b6;font-size:11px;letter-spacing:.08em}
+    nav{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}button{font:inherit;font-size:13px;min-height:44px;padding:8px 14px;border-radius:5px;border:1px solid #aab18b66;background:#f5ebd70d;color:#f1e7d0;cursor:pointer}button:hover{background:#d1c9a42b}button:focus-visible{outline:2px solid #dfc887;outline-offset:2px}button:disabled{opacity:.4;cursor:wait}.zoom{min-width:44px;padding:8px}
+    #performance{font-variant-numeric:tabular-nums;white-space:nowrap;color:#bdc7b5;font-size:12px}#hint{display:block;color:#bdc7b5;font-size:11px}
+    #loading{position:fixed;inset:0;z-index:4;display:grid;place-content:center;text-align:center;background:#263c32;gap:18px;padding:24px}#loading[hidden]{display:none}progress{width:min(360px,80vw);accent-color:#b4bf8a}#error{white-space:pre-wrap;color:#f3b5a2;max-width:45em}
+    @media(max-width:700px){header{align-items:flex-start;gap:8px;padding:10px;flex-wrap:wrap}h1{font-size:16px}nav{gap:4px}button{min-height:44px;font-size:12px;padding:7px 10px}footer{padding:8px 10px;gap:6px}#performance{font-size:10px}#hint{max-width:230px}}
+  </style>
+  $GODOT_HEAD_INCLUDE
+</head>
+<body>
+  <canvas id="canvas" tabindex="0" aria-label="可操作的三维山院：点击人物或建筑选择，点击地面行走，拖动和滚轮调整镜头"></canvas>
+  <header>
+    <div><h1>云岫山院</h1><small>美术实机小院 · GODOT 3D</small></div>
+    <nav aria-label="小院操作">
+      <button data-command="tour" disabled>走一圈</button>
+      <button data-command="enter" id="enter" disabled>入殿</button>
+      <button data-command="work" disabled>照料药田</button>
+      <button data-command="pause" id="pause" disabled>暂停</button>
+      <button data-command="reset" disabled>复位</button>
+      <button data-command="zoom_out" class="zoom" aria-label="缩小" disabled>−</button>
+      <button data-command="zoom_in" class="zoom" aria-label="放大" disabled>＋</button>
+    </nav>
+  </header>
+  <footer><div><span id="message">正在打开小院</span><span id="hint">点地面行走 · 点选人物与主殿 · 拖动镜头 · 滚轮缩放</span></div><span id="performance"></span></footer>
+  <section id="loading" aria-live="polite"><h1>云岫山院</h1><span>正在准备山院与人物</span><progress id="progress"></progress><span id="error"></span></section>
+  <script src="$GODOT_URL"></script>
+  <script>
+    const configuration=$GODOT_CONFIG;
+    const loading=document.querySelector('#loading');
+    const progress=document.querySelector('#progress');
+    const send=command=>{if(typeof window.artTrialCommand==='function')window.artTrialCommand(command)};
+    document.querySelectorAll('[data-command]').forEach(button=>button.addEventListener('click',()=>send(button.dataset.command)));
+    document.addEventListener('visibilitychange',()=>send(document.hidden?'background':'foreground'));
+    window.addEventListener('art-trial-state',()=>{
+      const state=window.artTrialState;
+      document.querySelector('#message').textContent=state.message;
+      document.querySelector('#pause').textContent=state.paused?'继续':'暂停';
+      document.querySelector('#enter').textContent=state.indoor?'出殿':'入殿';
+      document.querySelector('#performance').textContent=`${state.fps} FPS · ${state.frameP95Ms} ms`;
+      document.querySelectorAll('[data-command]').forEach(button=>button.disabled=false);
+    });
+    (async()=>{
+      try{
+        const missing=Engine.getMissingFeatures({threads:false});
+        if(missing.length)throw Error('浏览器缺少小院运行支持：'+missing.join('、'));
+        const engine=new Engine(configuration);
+        await engine.startGame({canvas:document.querySelector('#canvas'),onProgress(current,total){if(total>0){progress.max=total;progress.value=current}}});
+        loading.hidden=true;
+        document.querySelector('#canvas').focus();
+      }catch(error){document.querySelector('#error').textContent=error.message;console.error(error)}
+    })();
+  </script>
+</body>
+</html>
