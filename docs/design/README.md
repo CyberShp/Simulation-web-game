@@ -2,7 +2,7 @@
 
 > **门人志 · U-111：** [游戏画面稿](../art/DISCIPLES-UI-2026-10-10.md)可评看门籍、山门求见与分峰卷册。已确认收徒原则见 [DECISIONS](DECISIONS.md)，实际接入与验收见 [STATUS](STATUS.md)。
 
-> **五洲功法谱 · U-112：** 主世界按约七百部独立传承规划具名目录；[云岫首批四十部](19-FIVE-CONTINENT-ARTS.md)先写来源、用途和代价，实际可玩范围与验证仍按 [STATUS](STATUS.md)。
+> **五洲修行谱 · U-113：** 主世界按约四千九百种可独立学习的心法、武学、术法、身法、神通与百艺规划；[云岫首批五十五种](19-FIVE-CONTINENT-ARTS.md)先写来源、用途和代价，实际可玩范围与验证仍按 [STATUS](STATUS.md)。
 
 > **当前实施 · U-110：** [旧别院开局](DECISIONS.md)从一座残败主屋与四处预留荒地开始，以固定斜俯视 Godot 2D 分层绘画表现营造、人物与成长。实际范围、验证和缺口见 [STATUS](STATUS.md) 首段。
 
@@ -57,7 +57,7 @@ U-107 的建筑间距与山域试游保留为后续成长和历史原型依据�
 | [内容创作规范](12-CONTENT-AUTHORING.md) | 每条重要内容怎样提交真相卡、线索图、时间预算和持续后果？ |
 | [世界观问答记录](13-WORLDVIEW-DISCUSSION.md) | 多方势力与修行规则的确认来源、撤回方案及暂存远期问题 |
 | [前期详细设计](14-EARLY-GAME-DETAILED-DESIGN.md) | 前期范围、地方内容、固定责任链、成长与迁移怎样具体落实？ |
-| [五洲功法谱](19-FIVE-CONTINENT-ARTS.md) | 七百部的计数与分配、云岫首批及后续逐部写作怎样衔接？ |
+| [五洲修行谱](19-FIVE-CONTINENT-ARTS.md) | 四千九百种的计数、类型与大道交融、云岫首批怎样衔接？ |
 | [第四批实施](18-SPATIAL-CONTINUITY-IMPLEMENTATION.md) | 营造场景联动修正、完工占位安全与当前真实差距 |
 | [第三批实施](17-INDOOR-LIFE-IMPLEMENTATION.md) | 主屋床位、门道、屋顶与旧预约迁移，以及尚未完成的空间目标 |
 | [第二批实施](16-WORKSTATIONS-ARTISAN-IMPLEMENTATION.md) | 独立工位、共享批次、伤匠照料与当前未覆盖范围 |

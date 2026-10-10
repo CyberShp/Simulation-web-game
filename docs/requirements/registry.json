@@ -5020,8 +5020,8 @@
         "R-25",
         "R-26",
         "U-94",
-        "U-112",
-        "R-35"
+        "U-113",
+        "R-36"
       ],
       "source_specs": [
         "docs/design/01-CHARACTERS.md",
@@ -5075,7 +5075,7 @@
       "evidence": [
         "docs/requirements/design/SR-XF-012-014-018-024-028-033.md",
         "docs/requirements/IMPLEMENTATION-2026-10-06.md",
-        "docs/design/19-FIVE-CONTINENT-ARTS.md（七百部目录规划与云岫四十部机制初稿；D01未完成）"
+        "docs/design/19-FIVE-CONTINENT-ARTS.md（四千九百种分类规划与云岫五十五种机制初稿；D01未完成）"
       ],
       "change_log": [
         {
@@ -5089,6 +5089,10 @@
         {
           "date": "2026-10-11",
           "reason": "按U-112建立约七百部五洲功法目录规划，补云岫首批四十部机制初稿；SR-XF-014其余设计交付物及实现验收继续。"
+        },
+        {
+          "date": "2026-10-11",
+          "reason": "按U-113重定为约四千九百种独立可学项目，区分心法、武学、术法、身法、神通和百艺；扩展云岫首批至五十五种并补青岚攻伐关系，D01保持进行中。"
         }
       ],
       "tasks": [
@@ -5101,7 +5105,7 @@
           "owner": "Codex/equipment_growth",
           "depends_on": [],
           "evidence": [
-            "docs/design/19-FIVE-CONTINENT-ARTS.md（目录规模与云岫首批机制初稿，章节数值等继续）"
+            "docs/design/19-FIVE-CONTINENT-ARTS.md（分类与五洲规模、云岫首批机制初稿，章节数值等继续）"
           ],
           "blocked_reason": null
         },
