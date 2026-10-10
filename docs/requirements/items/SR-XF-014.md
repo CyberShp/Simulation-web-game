@@ -14,9 +14,9 @@
 
 纳入云岫前期，按依赖推进。
 
-决策来源：U-63, U-65, U-73, R-25, R-26, U-94。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
+决策来源：U-63, U-65, U-73, R-25, R-26, U-94, U-112, R-35。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
 
-规格：[01-CHARACTERS.md](../../../docs/design/01-CHARACTERS.md)、[02-EQUIPMENT-ARTS.md](../../../docs/design/02-EQUIPMENT-ARTS.md)、[05-RUNTIME-CONTRACTS.md](../../../docs/design/05-RUNTIME-CONTRACTS.md)、[14-EARLY-GAME-DETAILED-DESIGN.md](../../../docs/design/14-EARLY-GAME-DETAILED-DESIGN.md)、[06-OPENING-ACCEPTANCE.md](../../../docs/design/06-OPENING-ACCEPTANCE.md)。
+规格：[01-CHARACTERS.md](../../../docs/design/01-CHARACTERS.md)、[02-EQUIPMENT-ARTS.md](../../../docs/design/02-EQUIPMENT-ARTS.md)、[05-RUNTIME-CONTRACTS.md](../../../docs/design/05-RUNTIME-CONTRACTS.md)、[14-EARLY-GAME-DETAILED-DESIGN.md](../../../docs/design/14-EARLY-GAME-DETAILED-DESIGN.md)、[06-OPENING-ACCEPTANCE.md](../../../docs/design/06-OPENING-ACCEPTANCE.md)、[19-FIVE-CONTINENT-ARTS.md](../../../docs/design/19-FIVE-CONTINENT-ARTS.md)。
 
 依赖：[SR-XF-002](SR-XF-002.md)、[SR-XF-009](SR-XF-009.md)、[SR-XF-012](SR-XF-012.md)。
 
@@ -67,6 +67,8 @@ SR-XF-014-AC-03证据：局部：docs/art/SYSTEM-UI-2026-10-10.md（真实研习
 | SR-XF-014-V01 | 验收与兼容：执行SR-XF-014-AC-01至AC-03及EARLY-02、CHAIN-02；登记实际结果、兼容和设备证据边界。 | todo | SR-XF-014-I01 | 待分配 |
 | SR-XF-014-R01 | 发布与关闭：完成所需源码/运行时发布核对、交接和未覆盖说明；本轮用户不要求上传QA过程产物。 | todo | SR-XF-014-V01 | 待分配 |
 
+SR-XF-014-D01证据：docs/design/19-FIVE-CONTINENT-ARTS.md（目录规模与云岫首批机制初稿，章节数值等继续）
+
 ## 可进入开发的条件
 
 - 设计交付物存在且版本/引用正确。
@@ -90,8 +92,10 @@ SR-XF-014-AC-03证据：局部：docs/art/SYSTEM-UI-2026-10-10.md（真实研习
 
 - docs/requirements/design/SR-XF-012-014-018-024-028-033.md
 - docs/requirements/IMPLEMENTATION-2026-10-06.md
+- docs/design/19-FIVE-CONTINENT-ARTS.md（七百部目录规划与云岫四十部机制初稿；D01未完成）
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
+- 2026-10-11：按U-112建立约七百部五洲功法目录规划，补云岫首批四十部机制初稿；SR-XF-014其余设计交付物及实现验收继续。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。

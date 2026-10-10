@@ -117,6 +117,10 @@
       "role": "early-game-scope-content-growth-migration-and-design-readiness"
     },
     {
+      "path": "docs/design/19-FIVE-CONTINENT-ARTS.md",
+      "role": "five-continent-arts-catalogue-and-yunxiu-first-batch"
+    },
+    {
       "path": "docs/design/15-OPENING-IMPLEMENTATION.md",
       "role": "opening-development-slice-and-evidence"
     },
@@ -184,7 +188,8 @@
       "10-CRISES-RESCUE-DEATH.md",
       "12-CONTENT-AUTHORING.md",
       "13-WORLDVIEW-DISCUSSION.md",
-      "14-EARLY-GAME-DETAILED-DESIGN.md"
+      "14-EARLY-GAME-DETAILED-DESIGN.md",
+      "19-FIVE-CONTINENT-ARTS.md"
     ],
     "space_art_input": [
       "../PAINTED-COURTYARD.md",
@@ -1263,7 +1268,7 @@
     "historicalMountainTrialDecisionId": "U-107"
   },
   "currentHandoff": {
-    "updatedAt": "2026-10-10",
+    "updatedAt": "2026-10-11",
     "entry": "AGENTS.md",
     "handoff": "docs/CODEX-HANDOFF.md",
     "deliveryPlan": "docs/DELIVERY-PLAN.md",
