@@ -121,6 +121,10 @@
       "role": "five-continent-learnable-arts-taxonomy-and-yunxiu-first-batch"
     },
     {
+      "path": "docs/design/20-ARTS-GROWTH-COMBAT.md",
+      "role": "cultivation-quality-defense-status-and-combat-balance-proposal"
+    },
+    {
       "path": "docs/design/15-OPENING-IMPLEMENTATION.md",
       "role": "opening-development-slice-and-evidence"
     },
@@ -1299,8 +1303,9 @@
     "currentSpatialDecisionId": "U-110",
     "currentSpatialSourceCommit": "2ea41759944a229e0f6b6c2233cf4224c70aae34",
     "currentSpatialReference": "docs/design/03-SPATIAL-ART.md",
-    "currentArtsDecisionId": "U-113",
+    "currentArtsDecisionId": "U-114",
     "currentArtsReference": "docs/design/19-FIVE-CONTINENT-ARTS.md",
+    "currentArtsBalanceReference": "docs/design/20-ARTS-GROWTH-COMBAT.md",
     "estateSourceScene": "godot/estate_2d/estate.tscn",
     "estateSiteLayout": "godot/estate_2d/estate-sites.json",
     "estatePreview": "dist/painted-game/index.html"

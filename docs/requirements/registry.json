@@ -4848,14 +4848,17 @@
         "U-66",
         "R-25",
         "R-26",
-        "U-94"
+        "U-94",
+        "U-114",
+        "R-37"
       ],
       "source_specs": [
         "docs/design/02-EQUIPMENT-ARTS.md",
         "docs/design/05-RUNTIME-CONTRACTS.md",
         "docs/design/10-CRISES-RESCUE-DEATH.md",
         "docs/design/14-EARLY-GAME-DETAILED-DESIGN.md",
-        "docs/design/06-OPENING-ACCEPTANCE.md"
+        "docs/design/06-OPENING-ACCEPTANCE.md",
+        "docs/design/20-ARTS-GROWTH-COMBAT.md"
       ],
       "baseline": "已有固定攻击、青岚术、闪避与守御的旧战斗。",
       "design_gap": "三路动作空间差异、NPC战术、boss配置及伤害预算待详细定义。",
@@ -4898,7 +4901,8 @@
       ],
       "evidence": [
         "docs/requirements/design/SR-XF-012-014-018-024-028-033.md",
-        "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+        "docs/requirements/IMPLEMENTATION-2026-10-06.md",
+        "docs/design/20-ARTS-GROWTH-COMBAT.md（物抗法抗、异常积累与同境平衡首稿；D01动作和敌人配置继续）"
       ],
       "change_log": [
         {
@@ -4908,6 +4912,10 @@
         {
           "date": "2026-10-06",
           "reason": "用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。"
+        },
+        {
+          "date": "2026-10-11",
+          "reason": "按U-114/R-37补物抗法抗、异常积累、条件克制和复合动作预算首稿；具体敌人及逐招动作仍待设计和实战验证。"
         }
       ],
       "tasks": [
@@ -4919,7 +4927,9 @@
           "status": "in_progress",
           "owner": "Codex/equipment_growth",
           "depends_on": [],
-          "evidence": [],
+          "evidence": [
+            "docs/design/20-ARTS-GROWTH-COMBAT.md（抗性与平衡首稿，逐招配置继续）"
+          ],
           "blocked_reason": null
         },
         {
@@ -5020,8 +5030,8 @@
         "R-25",
         "R-26",
         "U-94",
-        "U-113",
-        "R-36"
+        "U-114",
+        "R-37"
       ],
       "source_specs": [
         "docs/design/01-CHARACTERS.md",
@@ -5029,7 +5039,8 @@
         "docs/design/05-RUNTIME-CONTRACTS.md",
         "docs/design/14-EARLY-GAME-DETAILED-DESIGN.md",
         "docs/design/06-OPENING-ACCEPTANCE.md",
-        "docs/design/19-FIVE-CONTINENT-ARTS.md"
+        "docs/design/19-FIVE-CONTINENT-ARTS.md",
+        "docs/design/20-ARTS-GROWTH-COMBAT.md"
       ],
       "baseline": "已有功法、主辅修、导师及旧筑基来源。",
       "design_gap": "理解/熟练分离、成长曲线、转修和突破阶段配置未完整。",
@@ -5075,7 +5086,8 @@
       "evidence": [
         "docs/requirements/design/SR-XF-012-014-018-024-028-033.md",
         "docs/requirements/IMPLEMENTATION-2026-10-06.md",
-        "docs/design/19-FIVE-CONTINENT-ARTS.md（四千九百种分类规划与云岫五十五种机制初稿；D01未完成）"
+        "docs/design/19-FIVE-CONTINENT-ARTS.md（四千九百种分类规划与云岫六十七种机制初稿；D01未完成）",
+        "docs/design/20-ARTS-GROWTH-COMBAT.md（修炼收益、品质与抗性数值首稿；D01仍未完成）"
       ],
       "change_log": [
         {
@@ -5093,6 +5105,10 @@
         {
           "date": "2026-10-11",
           "reason": "按U-113重定为约四千九百种独立可学项目，区分心法、武学、术法、身法、神通和百艺；扩展云岫首批至五十五种并补青岚攻伐关系，D01保持进行中。"
+        },
+        {
+          "date": "2026-10-11",
+          "reason": "按U-114/R-37扩充魔道、妖道、毒道及复合分支，重排类型预算并写出六十七种；补六类修炼收益和品质、抗性方案，D01继续。"
         }
       ],
       "tasks": [
@@ -5105,7 +5121,8 @@
           "owner": "Codex/equipment_growth",
           "depends_on": [],
           "evidence": [
-            "docs/design/19-FIVE-CONTINENT-ARTS.md（分类与五洲规模、云岫首批机制初稿，章节数值等继续）"
+            "docs/design/19-FIVE-CONTINENT-ARTS.md（分类与云岫首批机制初稿，章节等继续）",
+            "docs/design/20-ARTS-GROWTH-COMBAT.md（成长与数值首稿，实机调校继续）"
           ],
           "blocked_reason": null
         },

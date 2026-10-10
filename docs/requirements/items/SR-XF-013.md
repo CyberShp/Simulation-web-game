@@ -14,9 +14,9 @@
 
 纳入云岫前期，按依赖推进。
 
-决策来源：U-63, U-66, R-25, R-26, U-94。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
+决策来源：U-63, U-66, R-25, R-26, U-94, U-114, R-37。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
 
-规格：[02-EQUIPMENT-ARTS.md](../../../docs/design/02-EQUIPMENT-ARTS.md)、[05-RUNTIME-CONTRACTS.md](../../../docs/design/05-RUNTIME-CONTRACTS.md)、[10-CRISES-RESCUE-DEATH.md](../../../docs/design/10-CRISES-RESCUE-DEATH.md)、[14-EARLY-GAME-DETAILED-DESIGN.md](../../../docs/design/14-EARLY-GAME-DETAILED-DESIGN.md)、[06-OPENING-ACCEPTANCE.md](../../../docs/design/06-OPENING-ACCEPTANCE.md)。
+规格：[02-EQUIPMENT-ARTS.md](../../../docs/design/02-EQUIPMENT-ARTS.md)、[05-RUNTIME-CONTRACTS.md](../../../docs/design/05-RUNTIME-CONTRACTS.md)、[10-CRISES-RESCUE-DEATH.md](../../../docs/design/10-CRISES-RESCUE-DEATH.md)、[14-EARLY-GAME-DETAILED-DESIGN.md](../../../docs/design/14-EARLY-GAME-DETAILED-DESIGN.md)、[06-OPENING-ACCEPTANCE.md](../../../docs/design/06-OPENING-ACCEPTANCE.md)、[20-ARTS-GROWTH-COMBAT.md](../../../docs/design/20-ARTS-GROWTH-COMBAT.md)。
 
 依赖：[SR-XF-002](SR-XF-002.md)、[SR-XF-003](SR-XF-003.md)、[SR-XF-007](SR-XF-007.md)、[SR-XF-012](SR-XF-012.md)。
 
@@ -65,6 +65,8 @@ SR-XF-013-REQ-03：各动作空间条件合法，同行者自主执行约定战�
 | SR-XF-013-V01 | 验收与兼容：执行SR-XF-013-AC-01至AC-03及CHAIN-04、INTRO-01；登记实际结果、兼容和设备证据边界。 | todo | SR-XF-013-I01 | 待分配 |
 | SR-XF-013-R01 | 发布与关闭：完成所需源码/运行时发布核对、交接和未覆盖说明；本轮用户不要求上传QA过程产物。 | todo | SR-XF-013-V01 | 待分配 |
 
+SR-XF-013-D01证据：docs/design/20-ARTS-GROWTH-COMBAT.md（抗性与平衡首稿，逐招配置继续）
+
 ## 可进入开发的条件
 
 - 设计交付物存在且版本/引用正确。
@@ -88,8 +90,10 @@ SR-XF-013-REQ-03：各动作空间条件合法，同行者自主执行约定战�
 
 - docs/requirements/design/SR-XF-012-014-018-024-028-033.md
 - docs/requirements/IMPLEMENTATION-2026-10-06.md
+- docs/design/20-ARTS-GROWTH-COMBAT.md（物抗法抗、异常积累与同境平衡首稿；D01动作和敌人配置继续）
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
+- 2026-10-11：按U-114/R-37补物抗法抗、异常积累、条件克制和复合动作预算首稿；具体敌人及逐招动作仍待设计和实战验证。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。
