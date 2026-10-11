@@ -1,0 +1,82 @@
+.system-sect{height:100%;min-height:0;display:flex;flex-direction:column;color:var(--ink);font-family:var(--font)}
+.sect-ledger-tabs{display:flex;gap:9px;flex:none;height:54px;padding:0 7px 8px;border-bottom:1px solid #9fad89}
+.sect-ledger-tabs button{display:flex;align-items:center;gap:8px;min-width:137px;padding:4px 14px;border-bottom:2px solid transparent;color:#71836d;font:22px YunxiuBrush,var(--font)}
+.sect-ledger-tabs button.active{color:#395e43;border-bottom-color:#a89158;background:linear-gradient(90deg,#b9caa44a,transparent)}
+.sect-ledger-tabs .game-icon{width:27px;height:27px}
+.system-sect .pane{min-height:0;overflow:hidden}
+.system-sect .pane-title{margin:0 0 14px;font:23px YunxiuBrush,var(--font);letter-spacing:2px}
+.system-sect .pane-title h3{font:inherit}
+.system-sect .pane-title small{font:11px var(--font);letter-spacing:0}
+.system-sect .game-button{font:17px YunxiuBrush,var(--font);min-height:34px;padding:6px 12px}
+.sect-work-layout,.sect-market-layout{display:grid;grid-template-columns:209px minmax(0,1fr) 260px;gap:12px;flex:1;min-height:0;padding-top:10px}
+.sect-source-list,.sect-merchant{padding:15px 12px;background:linear-gradient(90deg,#c2cba877,#d1d7b76b);border-right:1px solid #9da981}
+.sect-source-choice{display:flex;align-items:center;gap:10px;width:100%;min-height:80px;text-align:left;padding:10px 8px;border-bottom:1px solid #acb899}
+.sect-source-choice.active{background:linear-gradient(90deg,#a9bd9188,#d1dcba44);box-shadow:inset 3px 0 #a58c53}
+.sect-source-choice .icon-slot{width:42px;height:44px}
+.sect-source-choice .icon-slot svg{width:31px;height:31px}
+.sect-source-choice strong{display:block;font:21px YunxiuBrush,var(--font)}
+.sect-source-choice small{font:11px var(--font);color:#78856e}
+.sect-source-detail{display:flex;flex-direction:column;padding:15px 21px;border-top:1px solid #afbc9899;background:radial-gradient(ellipse at 50% 41%,#edf0d37a,transparent 65%)}
+.sect-calligraphy{text-align:center;font:17px YunxiuBrush,var(--font);letter-spacing:4px;color:#83936d;padding:6px 0 12px;border-bottom:1px solid #b7c39f88}
+.sect-source-hero{display:flex;align-items:center;justify-content:center;gap:23px;flex:1;min-height:190px}
+.sect-source-emblem{position:relative;display:grid;place-items:center;width:148px;height:148px;flex:none;border:1px solid #97a777;border-radius:50%;background:radial-gradient(#e4e9c8,#b9cda681 65%,transparent 70%);box-shadow:0 0 0 8px #b6c39a32,inset 0 0 0 7px #f3eec55c;color:#577458}
+.sect-source-emblem:before,.sect-source-emblem:after{content:'◇';position:absolute;top:50%;transform:translateY(-50%);color:#a48d58}
+.sect-source-emblem:before{left:-21px}.sect-source-emblem:after{right:-21px}
+.sect-source-emblem .game-icon{width:91px;height:91px;stroke-width:1.3}
+.sect-source-hero small{font:12px var(--font);letter-spacing:3px;color:#7e906f}
+.sect-source-hero h2{font:42px YunxiuBrush,var(--font);margin:7px 0}
+.sect-source-hero p{font:15px/1.6 var(--font);color:#788671}
+.sect-supply-ledger{display:grid;grid-template-columns:repeat(3,1fr);border-block:1px solid #a5b390;padding:15px 0;margin-bottom:13px}
+.sect-supply-ledger>div{text-align:center;border-right:1px solid #adbb9b}
+.sect-supply-ledger>div:last-child{border-right:0}
+.sect-supply-ledger small{display:block;color:#819071;font:13px var(--font)}
+.sect-supply-ledger strong{display:block;font:27px YunxiuBrush,var(--font);color:#4e7151;margin-top:3px}
+.sect-active-work,.sect-harvest-action{min-height:117px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:8px}
+.sect-active-work h3{font:23px YunxiuBrush,var(--font)}
+.sect-active-work .system-meter{width:100%;margin:2px 0}
+.sect-active-work p,.sect-harvest-action p{font:13px/1.5 var(--font);color:#75826e}
+.sect-active-work p.danger,.sect-harvest-action p.danger{color:#946b50}
+.sect-harvest-action .game-button{font-size:23px;min-height:45px}
+.sect-source-side,.sect-market-deal{display:flex;flex-direction:column;padding:15px 13px;background:linear-gradient(90deg,#cbd3b34d,#e2e5c533);border-left:1px solid #aab694}
+.sect-source-side>p{font:13px/1.8 var(--font);color:#788671;margin:8px 0 17px}
+.sect-source-side>.game-button{align-self:stretch}
+.sect-source-side>.game-button:last-child{margin-top:auto}
+.sect-transit,.sect-supply-summary{border-top:1px solid #a7b493;margin-top:23px;padding-top:12px}
+.sect-transit h4,.sect-supply-summary h4{font:20px YunxiuBrush,var(--font);margin:0 0 8px}
+.sect-transit>div,.sect-supply-summary>div{display:flex;justify-content:space-between;gap:10px;font:13px var(--font);padding:8px 2px;border-bottom:1px solid #b2bd9f77}
+.sect-transit span{color:#78866c}
+.sect-supply-summary strong{font:17px YunxiuBrush,var(--font)}
+.sect-merchant{display:flex;flex-direction:column;align-items:center;text-align:center}
+.sect-merchant .pane-title{width:100%}
+.sect-merchant-portrait{display:grid;place-items:center;width:100%;height:252px;background:radial-gradient(ellipse at center,#b5caa288,transparent 69%);color:#668763}
+.sect-merchant-portrait>.game-icon{width:130px;height:130px}
+.sect-merchant-portrait .system-portrait-large{width:170px;height:240px}
+.sect-merchant h2{font:31px YunxiuBrush,var(--font);margin:4px 0 12px}
+.sect-merchant p{font:13px/1.8 var(--font);color:#72836d}
+.sect-merchant-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:19px}
+.sect-market-goods{display:flex;flex-direction:column;padding:15px 17px;border-top:1px solid #afbc9899}
+.sect-goods-list{min-height:0;flex:1}
+.sect-good-choice{display:flex;align-items:center;gap:10px;width:100%;min-height:68px;text-align:left;padding:8px 10px;border-bottom:1px solid #b1bd9f}
+.sect-good-choice.active{background:linear-gradient(90deg,#a9bd9188,#d1dcba44);box-shadow:inset 3px 0 #a58c53}
+.sect-good-choice .icon-slot{width:42px;height:42px}
+.sect-good-choice .icon-slot svg{width:30px;height:30px}
+.sect-good-choice>span:nth-child(2){flex:1;min-width:0}
+.sect-good-choice strong{display:block;font:21px YunxiuBrush,var(--font)}
+.sect-good-choice small{font:11px var(--font);color:#74856d}
+.sect-good-choice i{font:12px var(--font);color:#8a7547;white-space:nowrap}
+.sect-market-deal{text-align:center}
+.sect-deal-symbol{display:grid;place-items:center;width:95px;height:95px;align-self:center;margin:4px 0 5px;border:1px solid #a39166;border-radius:50%;background:radial-gradient(#f3edc8,#cad3a3);color:#6e835e}
+.sect-deal-symbol .game-icon{width:57px;height:57px}
+.sect-market-deal h2{font:32px YunxiuBrush,var(--font)}
+.sect-market-deal>p{font:12px var(--font);color:#7b896d;margin:3px 0 15px}
+.sect-deal-count{display:flex;align-items:center;justify-content:center;gap:10px;border-block:1px solid #a9b592;padding:9px 0;font:15px var(--font)}
+.sect-deal-count strong{min-width:20px;font:25px YunxiuBrush,var(--font)}
+.sect-deal-count .game-button{font-size:20px;min-width:29px;min-height:27px;padding:1px 5px}
+.sect-deal-ledger{margin:14px 0;flex:1}
+.sect-deal-ledger>div{display:flex;justify-content:space-between;gap:6px;padding:8px 0;border-bottom:1px solid #b2bd9f88;font:12px var(--font)}
+.sect-deal-ledger strong{font:17px YunxiuBrush,var(--font)}
+.sect-deal-actions{display:flex;flex-direction:column;gap:8px}
+.sect-deal-actions .game-button{font-size:20px;min-height:38px}
+@media(max-width:1100px){.sect-work-layout,.sect-market-layout{grid-template-columns:176px minmax(0,1fr) 214px;gap:8px}.sect-source-list,.sect-merchant,.sect-source-side,.sect-market-deal{padding-inline:8px}.sect-source-detail{padding-inline:13px}.sect-source-emblem{width:113px;height:113px}.sect-source-emblem .game-icon{width:69px;height:69px}.sect-source-hero{gap:14px}.sect-source-hero h2{font-size:34px}.sect-good-choice i{font-size:10px}.sect-good-choice .icon-slot{width:33px;height:35px}.sect-good-choice .icon-slot svg{width:25px;height:25px}}
+@media(max-width:850px) and (orientation:portrait){.system-sect{overflow:auto}.sect-work-layout,.sect-market-layout{grid-template-columns:185px minmax(0,1fr);grid-template-rows:minmax(550px,1fr) auto;flex:none;min-height:800px}.sect-source-side,.sect-market-deal{grid-column:1/3;min-height:230px;border-left:0;border-top:1px solid #aab694}.sect-source-side{display:grid;grid-template-columns:1fr 1fr;column-gap:22px}.sect-source-side .pane-title{grid-column:1/3}.sect-source-side>p{margin:0}.sect-source-side>.game-button:last-child{margin:0}.sect-supply-summary{grid-column:2;grid-row:2/5;margin:0}.sect-market-deal{display:grid;grid-template-columns:150px 1fr;gap:4px 15px;text-align:left}.sect-market-deal .pane-title{grid-column:1/3}.sect-deal-symbol{grid-column:1;grid-row:2/5}.sect-deal-count,.sect-deal-ledger,.sect-deal-actions{grid-column:2}.sect-deal-ledger{margin:0}.sect-deal-actions{flex-direction:row}}
+@media(max-width:620px){.sect-ledger-tabs{height:47px}.sect-ledger-tabs button{font-size:18px;min-width:0;padding-inline:8px}.sect-ledger-tabs .game-icon{width:21px;height:21px}.sect-work-layout,.sect-market-layout{display:block;overflow:auto;padding-top:4px}.sect-source-list{display:flex;align-items:center;gap:5px;overflow:auto;padding:6px}.sect-source-list .pane-title{display:none}.sect-source-choice{min-width:105px;width:105px;min-height:53px;padding:4px}.sect-source-choice .icon-slot{display:none}.sect-source-choice strong{font-size:17px}.sect-source-choice small{font-size:10px}.sect-source-detail{min-height:440px}.sect-source-hero{min-height:150px}.sect-source-emblem{width:100px;height:100px}.sect-source-hero h2{font-size:30px}.sect-source-hero p{font-size:12px}.sect-source-side{display:block;min-height:220px}.sect-source-side .pane-title{display:flex}.sect-source-side>p{margin:8px 0}.sect-supply-summary{margin-top:15px}.sect-merchant-portrait{height:150px}.sect-merchant-portrait .system-portrait-large{height:145px;width:110px}.sect-merchant{min-height:280px}.sect-market-goods{min-height:350px}.sect-market-deal{display:block;min-height:350px;text-align:center}.sect-deal-symbol{width:64px;height:64px}.sect-deal-symbol .game-icon{width:42px;height:42px}.sect-deal-ledger{margin:10px 0}.sect-deal-actions{display:flex}}

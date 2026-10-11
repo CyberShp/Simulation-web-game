@@ -14,9 +14,9 @@
 
 纳入云岫前期，按依赖推进。
 
-决策来源：U-63, U-93, R-25, U-94, U-95, U-96, U-97, R-27, U-98, U-99, R-28, U-100, R-29, R-30, U-102, U-103, U-104, U-105, R-32, U-109, U-118。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
+决策来源：U-63, U-93, R-25, U-94, U-95, U-96, U-97, R-27, U-98, U-99, R-28, U-100, R-29, R-30, U-102, U-103, U-104, U-105, R-32, U-109, U-118, U-123。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
 
-规格：[03-SPATIAL-ART.md](../../../docs/design/03-SPATIAL-ART.md)、[05-RUNTIME-CONTRACTS.md](../../../docs/design/05-RUNTIME-CONTRACTS.md)、[14-EARLY-GAME-DETAILED-DESIGN.md](../../../docs/design/14-EARLY-GAME-DETAILED-DESIGN.md)、[18-SPATIAL-CONTINUITY-IMPLEMENTATION.md](../../../docs/design/18-SPATIAL-CONTINUITY-IMPLEMENTATION.md)、[GODOT-MIGRATION.md](../../../docs/GODOT-MIGRATION.md)、[ART-REALTIME-TRIAL.md](../../../docs/ART-REALTIME-TRIAL.md)、[SECT-GROWTH-PLAN.md](../../../docs/SECT-GROWTH-PLAN.md)。
+规格：[03-SPATIAL-ART.md](../../../docs/design/03-SPATIAL-ART.md)、[05-RUNTIME-CONTRACTS.md](../../../docs/design/05-RUNTIME-CONTRACTS.md)、[14-EARLY-GAME-DETAILED-DESIGN.md](../../../docs/design/14-EARLY-GAME-DETAILED-DESIGN.md)、[18-SPATIAL-CONTINUITY-IMPLEMENTATION.md](../../../docs/design/18-SPATIAL-CONTINUITY-IMPLEMENTATION.md)、[GODOT-MIGRATION.md](../../../docs/GODOT-MIGRATION.md)、[ART-REALTIME-TRIAL.md](../../../docs/ART-REALTIME-TRIAL.md)、[SECT-GROWTH-PLAN.md](../../../docs/SECT-GROWTH-PLAN.md)、[41-COURTYARD-VALLEY-IMPLEMENTATION.md](../../../docs/design/41-COURTYARD-VALLEY-IMPLEMENTATION.md)。
 
 依赖：[SR-XF-002](SR-XF-002.md)。
 
@@ -83,6 +83,10 @@ SR-XF-003-AC-02证据：局部：qa/ea-sr-spatial-acceptance.mjs（生产Canvas�
 2026-10-08 r36 门队列清理减负：单次调用共享门与在院人物集合，空队列早返回并避免重复识别行走者；逐人移动、候位与门独占规则未变。独立合法 40 建筑／30 人档 400 世界步终态 768336 字节、100/200/400 检查点、逐步门队列及读档与 r35 一致（345 步非空），门道人流 7/7、空间 Canvas 36/36。旧世界步 P95 两轮 28.01→24.35ms、27.23→23.80ms；本地 Chromium rAF P95 6.2/6.0→6.1/6.1ms 无稳定改善，整体卡顿继续。公开 r36 同档导入、运行、保存刷新续玩且控制台零错误；main 74e135d、Pages 47d4352 built、162 文本 blob 相符。门位画稿、完整 AC02 和真机仍未验，状态不提升。
 
 2026-10-09 U-105 / R-32：当前需求更新为 1.2，山域设计关联 GROWTH-01、GROWTH-02、GROWTH-09、GROWTH-10。旧版 1.1 的标题、需求、AC原文/证据及D/I任务完成范围保存在 registry.json 的 version_history；当前重新记 not_run：SR-XF-003-AC-03。 当前D01继续补实施参数，D02及本版本I01待前置完成；development_status保留既有运行实现基线。未改变的已通过AC只沿用原行为及原运行环境证据，新增地域、布局与迁移流程按GROWTH另验。本批未执行运行时验收，未修改正式运行版本或发布状态。
+
+2026-10-12 U-123：山谷场景50米赴山门、8秒旅行、谷内行走与返院已在1440×960网页实走；山谷及场景投影定向5／5、5／5，目标设备及整项空间验收继续。 局部证据见 docs/art/COURTYARD-VALLEY-2026-10-12.md；整项 D/I/V/R 与 AC 状态不变。
+
+2026-10-12 U-123 首战本地网页：最终本地战斗网页实走闪避脚点 y 4→1.2、撤退后谷内脚点（21.9332，35.7668）及返院路径；同一世界位置继续存档。完整空间与目标设备验收仍按原状态。 证据见 docs/art/COURTYARD-VALLEY-2026-10-12.md；整项 D/I/V/R 与 AC 状态不变。
 
 ## 开发任务
 
@@ -155,6 +159,9 @@ SR-XF-003-V01证据：qa/ea-indoor-furniture-acceptance.mjs；qa/ea-courtyard-li
 - 2026-10-11 U-118 局部：米制山院自由行走约 3.16 米／秒；qa/ea-sr-spatial-acceptance.mjs 36／36，tests/ea-godot-bridge.test.mjs 的步速与存读用例通过；隔离 Chromium 连续五秒行走及暂停重载见 STATUS。完整七区与目标设备 AC 继续按原门槛。
 - qa/estate-motion-check.gd
 - 2026-10-11 U-118 转向校准：Godot 路径交界 4／4；本地 Chromium 两段路线及中途改道累计 5 次转向，行走中站立转身帧 0、移动停帧最长 0 毫秒；暂停存读一致。完整地域及目标设备 AC 状态不变。
+- docs/art/COURTYARD-VALLEY-2026-10-12.md
+- tests/ea-mountain-valley.test.mjs
+- tests/ea-godot-valley-projection.test.mjs
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
@@ -185,5 +192,7 @@ SR-XF-003-V01证据：qa/ea-indoor-furniture-acceptance.mjs；qa/ea-courtyard-li
 - 2026-10-10：U-109 第一批本地预览：旧别院 3D 地形、镜头、建筑与地块点选已形成局部网页预览；装饰地标与人物导航体积碰撞仍待逐一对齐。此为局部证据，不提升完整 AC/SR 状态。
 - 2026-10-11：2026-10-11 U-118 局部：米制山院自由行走约 3.16 米／秒；qa/ea-sr-spatial-acceptance.mjs 36／36，tests/ea-godot-bridge.test.mjs 的步速与存读用例通过；隔离 Chromium 连续五秒行走及暂停重载见 STATUS。完整七区与目标设备 AC 继续按原门槛。
 - 2026-10-11：2026-10-11 U-118 转向校准：Godot 路径交界 4／4；本地 Chromium 两段路线及中途改道累计 5 次转向，行走中站立转身帧 0、移动停帧最长 0 毫秒；暂停存读一致。完整地域及目标设备 AC 状态不变。
+- 2026-10-12：2026-10-12 U-123：山谷场景50米赴山门、8秒旅行、谷内行走与返院已在1440×960网页实走；山谷及场景投影定向5／5、5／5，目标设备及整项空间验收继续。 局部证据见 docs/art/COURTYARD-VALLEY-2026-10-12.md；整项 D/I/V/R 与 AC 状态不变。
+- 2026-10-12：2026-10-12 U-123 首战本地网页：最终本地战斗网页实走闪避脚点 y 4→1.2、撤退后谷内脚点（21.9332，35.7668）及返院路径；同一世界位置继续存档。完整空间与目标设备验收仍按原状态。 证据见 docs/art/COURTYARD-VALLEY-2026-10-12.md；整项 D/I/V/R 与 AC 状态不变。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。

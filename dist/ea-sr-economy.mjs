@@ -216,7 +216,7 @@ export function initEconomy(s){
  }
  initMarketSupply(s);initPillInventory(s);upgradeMarketOrderAccessV2(s);upgradePillRecipeSnapshots(s);if(s.crafting&&!s.activitiesById[s.master.activityId]?.kind?.startsWith('sr-'))resumeLegacyCraft(s);return s;
 }
-const HARVEST_BATCH={wood:12,stone:10,herb:10,food:16};
+export const HARVEST_BATCH={wood:12,stone:10,herb:10,food:16};
 function reservedHarvest(s,resource,exceptActivityId){return Object.values(s.activitiesById||{}).filter(a=>a.kind==='sr-harvest'&&a.resource===resource&&a.id!==exceptActivityId).reduce((n,a)=>n+(a.reservedQuantity||0),0);}
 export function harvestAvailable(s,resource,amount=1,exceptActivityId=null){return !s.srEconomy||!s.srEconomy.patches[resource]||s.srEconomy.patches[resource].remaining-reservedHarvest(s,resource,exceptActivityId)+1e-9>=amount;}
 export function consumeHarvest(s,resource,amount,exceptActivityId=null){if(!s.srEconomy)return true;const patch=s.srEconomy.patches[resource];if(!patch)return true;if(!harvestAvailable(s,resource,amount,exceptActivityId))return false;patch.remaining=Math.max(0,patch.remaining-amount);return true;}

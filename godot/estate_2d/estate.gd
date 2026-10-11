@@ -1,6 +1,10 @@
 extends Node2D
 
 const ACTOR = preload("res://painted_courtyard/actor_2d.gd")
+const STANDING_PERSON = preload("res://estate_2d/standing_person.gd")
+const VALLEY_SCENE = preload("res://estate_2d/valley_scene.gd")
+const SCENE_FONT = preload("res://estate_2d/assets/scene-labels.ttf")
+const BATTLE_VIEW = preload("res://estate_2d/battle_view.gd")
 const SHADOW = preload("res://estate_2d/shadow_layer.gd")
 const PACKAGE_SCENE = preload("res://estate_2d/opening_inheritance_scene.gd")
 const SITES_FILE = "res://estate_2d/estate-sites.json"
@@ -12,6 +16,7 @@ const BUILDING_ART := {
 	"hall": {"shelter": "opening-shelter-v1.png", "foundation": "mountain-main-hall-foundation-v1.png", "structure": "mountain-main-hall-structure-v1.png", "finishing": "mountain-main-hall-finishing-v1.png", "complete": "mountain-main-hall-v1.png", "level2": "mountain-main-hall-v1.png", "width": 380.0},
 	"house": {"complete": "residence-v1.png", "width": 265.0},
 	"kitchen": {"complete": "kitchen-v1.png", "width": 265.0},
+	"alchemy": {"complete": "mountain-alchemy-house-v1.png", "width": 230.0},
 	"farm": {"foundation": "mountain-herb-terrace-foundation-v1.png", "structure": "mountain-herb-terrace-structure-v1.png", "finishing": "mountain-herb-terrace-finishing-v1.png", "complete": "mountain-herb-terrace-empty-v1.png", "growing": "mountain-herb-terrace-growing-v1.png", "ripe": "mountain-herb-terrace-ripe-v1.png", "width": 126.0},
 	"lumber": {"complete": "lumber-v1.png", "width": 265.0},
 }
@@ -51,6 +56,11 @@ var scene_click_block_until := 0
 var suppress_pointer_release := false
 var js_callback: JavaScriptObject
 var package_scene: CanvasLayer
+var ground: Sprite2D
+var valley_scene: Node2D
+var battle_view: Node2D
+var home_foreground: Array[Node2D] = []
+var active_scene := "scene:yunxiu-courtyard"
 
 func _ready() -> void:
 	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(SITES_FILE))
@@ -61,7 +71,7 @@ func _ready() -> void:
 		if item is Dictionary:
 			sites.append(item)
 			site_by_id[str(item.id)] = item
-	var ground := Sprite2D.new()
+	ground = Sprite2D.new()
 	ground.name = "MountainCourtyardTerrain"
 	ground.centered = false
 	ground.texture = load(ART_ROOT + "mountain-courtyard-ground-v1.png")
@@ -77,6 +87,12 @@ func _ready() -> void:
 	sorted.y_sort_enabled = true
 	add_child(sorted)
 	_make_foreground(ground.texture)
+	valley_scene = VALLEY_SCENE.new()
+	valley_scene.z_index = -40
+	add_child(valley_scene)
+	battle_view = BATTLE_VIEW.new()
+	battle_view.z_index = 8
+	add_child(battle_view)
 	selection_overlay = Node2D.new()
 	selection_overlay.name = "SelectionOverlay"
 	selection_overlay.z_index = 10
@@ -100,9 +116,13 @@ func _ready() -> void:
 	print("MOUNTAIN_COURTYARD_READY")
 
 func _to_screen(world_x: float, world_y: float) -> Vector2:
+	if active_scene == "scene:valley" and valley_scene != null:
+		return valley_scene.to_screen(world_x, world_y)
 	return Vector2(768.0 + (world_x - 30.0) * 28.0, 180.0 + world_y * 10.5)
 
 func _to_world(point: Vector2) -> Vector2:
+	if active_scene == "scene:valley" and valley_scene != null:
+		return valley_scene.to_world(point)
 	return Vector2(30.0 + (point.x - 768.0) / 28.0, (point.y - 180.0) / 10.5)
 
 func _site_for(building: Dictionary) -> Dictionary:
@@ -134,6 +154,7 @@ func _make_foreground(texture: Texture2D) -> void:
 		var layer := Node2D.new()
 		layer.name = "ForegroundPaintedSilhouette"
 		layer.position.y = float(definition.depth)
+		home_foreground.append(layer)
 		sorted.add_child(layer)
 		var patch := Polygon2D.new()
 		var points := PackedVector2Array()
@@ -242,6 +263,15 @@ func _sync_buildings(view: Dictionary) -> void:
 		selection_overlay.queue_redraw()
 
 func _new_actor(id: String, master: bool, position: Vector2) -> Node2D:
+	if id in ["person:merchant-qingxi", "person:qing-luo", "person:valley-shanxiao"]:
+		var visitor := STANDING_PERSON.new() as Node2D
+		visitor.name = "Person_" + id.replace(":", "_")
+		visitor.visual_height = 92.0 if id == "person:valley-shanxiao" else 72.0
+		var artwork: String = {"person:merchant-qingxi": "merchant-qingxi-v1.png", "person:qing-luo": "qing-luo-v1.png", "person:valley-shanxiao": "valley-shanxiao-v1.png"}[id]
+		visitor.setup(ART_ROOT + artwork)
+		visitor.position = position
+		sorted.add_child(visitor)
+		return visitor
 	var actor := ACTOR.new() as Node2D
 	actor.name = "Person_" + id.replace(":", "_")
 	actor.visual_height = 65.0
@@ -263,8 +293,8 @@ func _sync_people(view: Dictionary) -> void:
 			continue
 		var person: Dictionary = item
 		var id := str(person.get("id", ""))
-		# Current authored atlas covers these two persistent opening identities.
-		if id != str(view.get("masterId", "person:master")) and id != "person:lu-zhiwei":
+		# The public scene projection supplies visible people at their real feet.
+		if id.is_empty():
 			continue
 		live[id] = true
 		var desired := _to_screen(float(person.get("x", 0)), float(person.get("y", 0)))
@@ -318,8 +348,34 @@ func _sync_state() -> void:
 		return
 	last_snapshot_json = raw
 	state = parsed
-	_sync_buildings(state)
+	var next_scene := str(state.get("sceneId", "scene:yunxiu-courtyard"))
+	var changed_scene := next_scene != active_scene
+	if changed_scene:
+		active_scene = next_scene
+		for actor in actors.values():
+			actor.queue_free()
+		actors.clear()
+		actor_samples.clear()
+		snapshot_tick = -1
+		render_tick = -1.0
+		selected_kind = ""
+		selected_id = ""
+		focus = Vector2(768, 512)
+		_update_camera()
+	var in_home := active_scene == "scene:yunxiu-courtyard"
+	if changed_scene:
+		ground.texture = load(ART_ROOT + ("valley-ground-v1.png" if active_scene == "scene:travel" else "mountain-courtyard-ground-v1.png"))
+	ground.visible = active_scene != "scene:valley"
+	shadows.visible = in_home
+	for layer in home_foreground:
+		layer.visible = in_home
+	_sync_buildings(state if in_home else {"buildings": []})
+	var world: Variant = state.get("world", {})
+	valley_scene.update_world(world if world is Dictionary else {})
 	_sync_people(state)
+	var combat: Variant = state.get("combat", null)
+	battle_view.update_battle(combat if combat is Dictionary else {})
+	selection_overlay.queue_redraw()
 	var inheritance: Variant = state.get("openingInheritance", null)
 	if inheritance is Dictionary and inheritance.get("status", "") == "pending":
 		package_scene.show_choice(inheritance)
@@ -396,6 +452,20 @@ func _sprite_hit(visual: Dictionary, point: Vector2) -> bool:
 	return image.get_pixelv(pixel).a > 0.12
 
 func _click(point: Vector2) -> void:
+	if active_scene == "scene:travel":
+		return
+	if active_scene == "scene:valley":
+		var hit: Dictionary = valley_scene.hit_test(point)
+		if not hit.is_empty() and not state.get("combat", null) is Dictionary:
+			valley_scene.set_highlight(str(hit.id))
+			JavaScriptBridge.eval("window.estateWorldSelect && window.estateWorldSelect(" + JSON.stringify(hit.kind) + "," + JSON.stringify(hit.id) + ")", true)
+			return
+	if active_scene == "scene:yunxiu-courtyard":
+		for route in state.get("world", {}).get("exits", []):
+			var foot := _to_screen(float(route.x), float(route.y))
+			if Rect2(foot - Vector2(48, 70), Vector2(96, 90)).has_point(point):
+				JavaScriptBridge.eval("window.estateWorldSelect && window.estateWorldSelect('exit'," + JSON.stringify(route.id) + ")", true)
+				return
 	var candidates: Array[Dictionary] = []
 	for id in actors.keys():
 		var actor: Node2D = actors[id]
@@ -412,7 +482,7 @@ func _click(point: Vector2) -> void:
 		JavaScriptBridge.eval("window.estateGameSelect && window.estateGameSelect(" + JSON.stringify(selected_kind) + "," + JSON.stringify(selected_id) + ")", true)
 		selection_overlay.queue_redraw()
 		return
-	for site in sites:
+	for site in (sites if active_scene == "scene:yunxiu-courtyard" else []):
 		var anchor := _site_anchor(site)
 		if Rect2(anchor - Vector2(140, 76), Vector2(280, 152)).has_point(point):
 			selected_kind = "site"
@@ -425,6 +495,11 @@ func _click(point: Vector2) -> void:
 		JavaScriptBridge.eval("window.estateGameMove && window.estateGameMove(" + str(target.x) + "," + str(target.y) + ")", true)
 
 func _draw_selection() -> void:
+	if active_scene == "scene:yunxiu-courtyard":
+		for route in state.get("world", {}).get("exits", []):
+			var foot := _to_screen(float(route.x), float(route.y))
+			selection_overlay.draw_line(foot, foot - Vector2(0, 56), Color("6d5940"), 5.0, true)
+			selection_overlay.draw_string(SCENE_FONT, foot - Vector2(39, 59), "山外", HORIZONTAL_ALIGNMENT_CENTER, 78, 22, Color("e5ddc6"))
 	var centre := Vector2.ZERO
 	if selected_kind == "person" and actors.has(selected_id):
 		centre = actors[selected_id].position

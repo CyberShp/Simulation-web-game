@@ -4,6 +4,22 @@ import {createEAPersistence, MAX_IMPORT_BYTES} from './ea-persistence.mjs';
 import {initial, validateSave, SCHEMA_VERSION, GAME_VERSION} from './ea-opening-sim.mjs';
 import {createRuntimeClock, createFrameDiagnostics} from './ea-runtime.mjs';
 
+const LOCAL_PREVIEW_SCENES = new Set(['scene:yunxiu-courtyard', 'scene:valley']);
+
+/** Presentation support check; the persistence parser validates the save first. */
+export function supportsGodotLocalJourney(state) {
+  if (state.combat?.status === 'active' && !(state.combat.localEncounter === true &&
+    state.combat.encounterId === 'valley-shanxiao' &&
+    state.combat.sceneFrame?.sceneId === 'scene:valley')) return false;
+  const position = state.master?.position;
+  if (position?.kind === 'scene') return LOCAL_PREVIEW_SCENES.has(position.sceneId);
+  if (position?.kind !== 'worldTravel') return false;
+  const travel = state.travelsById?.[position.travelId];
+  return !!(travel && state.srWorld?.activeTravelId === travel.id &&
+    travel.participantIds?.includes(state.master.personId) &&
+    LOCAL_PREVIEW_SCENES.has(travel.from) && LOCAL_PREVIEW_SCENES.has(travel.destination));
+}
+
 export async function bootGodotHost({preview = 'godot-preview', siteLayout = null} = {}) {
   if (!['godot-preview', 'painted-game', 'estate-game'].includes(preview)) throw Error('未知的预览档位');
   const openingState = preview === 'estate-game' ? initial({sr:true,mountainOpening:true}) : undefined;
@@ -157,8 +173,7 @@ export async function bootGodotHost({preview = 'godot-preview', siteLayout = nul
           const text = await file.text();
           const parsed = persistence.parseImport(text);
           if (!parsed.ok) throw Error(parsed.error);
-          const preview = createGodotBridge({state:parsed.state,sites:siteLayout?.sites}).snapshot();
-          if (!preview.people.some(person => person.id === preview.masterId)) throw Error('此预览支持山院存档，请先在游戏首页归院后导出');
+          if (!supportsGodotLocalJourney(parsed.state)) throw Error('此预览可导入山院、云岫山谷、两地行程及山谷首战；请先离开其他地点后导出');
           if (!window.confirm('将此档案导入当前预览？当前预览档会保留备份。')) return;
           if (recoveryOnly) throw Error('请先导出保留进度，再刷新读取最新档案');
           if (changed) {

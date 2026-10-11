@@ -1,5 +1,9 @@
 # Codex 接手指南 · 2026-10-12
 
+## 当前批次 · 炼丹、山谷与首战（2026-10-12）
+
+U-123 三段本地流程已完成：山院种收与第一炉、云岫山谷采集会面往返、首战受伤撤退与返院服药。定向检查 18／18，真实 Godot 网页已验证搬运、成丹、攻防、场景往返及战斗／归院存读。实现与复验入口见 [41 号实施记录](design/41-COURTYARD-VALLEY-IMPLEMENTATION.md)和[实玩记录](art/COURTYARD-VALLEY-2026-10-12.md)。构建命令 `python3 tools/build-estate-painted-web.py --output output/u123-integrated-preview/index.html`；实际发布状态见 [STATUS](design/STATUS.md)。目标真机、玩家美术评看与完整 SR 验收继续分别登记。
+
 ## U-120 · 系统界面真实数据接入 · 2026-10-12
 
 本地山院已按用户认可的[原型](art/system-ui-20261012/README.md)接入共同大窗口、七导航和真实门人／掌门／行囊。[运行记录](art/system-ui-20261012/RUNTIME.md)是本批源码、命令、复验与待验入口。`godot/estate_3d/web/base-ui.mjs` 管共同窗口、跨页对象和更新；`system-people.mjs` 管名册／人物，`system-inventory.mjs` 管装备／位置库存，`system-ui.css` 与两个模块样式复用原型视觉。场景剧情和营造入口仍在 `game-ui.mjs`；`estate.gd` 的 `focus_person` 按真实 ID 定位。

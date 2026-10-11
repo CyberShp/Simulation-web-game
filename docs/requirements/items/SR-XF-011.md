@@ -14,9 +14,9 @@
 
 纳入云岫前期，按依赖推进。
 
-决策来源：U-63, U-93, R-25, U-94, U-105, R-32。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
+决策来源：U-63, U-93, R-25, U-94, U-105, R-32, U-123。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
 
-规格：[02-EQUIPMENT-ARTS.md](../../../docs/design/02-EQUIPMENT-ARTS.md)、[04-WORLD-STORY.md](../../../docs/design/04-WORLD-STORY.md)、[07-ECONOMY-ORGANIZATION.md](../../../docs/design/07-ECONOMY-ORGANIZATION.md)、[14-EARLY-GAME-DETAILED-DESIGN.md](../../../docs/design/14-EARLY-GAME-DETAILED-DESIGN.md)、[SECT-GROWTH-PLAN.md](../../../docs/SECT-GROWTH-PLAN.md)。
+规格：[02-EQUIPMENT-ARTS.md](../../../docs/design/02-EQUIPMENT-ARTS.md)、[04-WORLD-STORY.md](../../../docs/design/04-WORLD-STORY.md)、[07-ECONOMY-ORGANIZATION.md](../../../docs/design/07-ECONOMY-ORGANIZATION.md)、[14-EARLY-GAME-DETAILED-DESIGN.md](../../../docs/design/14-EARLY-GAME-DETAILED-DESIGN.md)、[SECT-GROWTH-PLAN.md](../../../docs/SECT-GROWTH-PLAN.md)、[41-COURTYARD-VALLEY-IMPLEMENTATION.md](../../../docs/design/41-COURTYARD-VALLEY-IMPLEMENTATION.md)。
 
 依赖：[SR-XF-009](SR-XF-009.md)、[SR-XF-010](SR-XF-010.md)、[SR-XF-017](SR-XF-017.md)。
 
@@ -66,6 +66,8 @@ SR-XF-011-AC-02证据：局部：2026-10-08 M2 r29 有界实体补货：青溪�
 2026-10-08 M2 AC01 完整一次结算补验：正常开局顾氏供药与安息院灯火两笔同院订单共34条公开命令、26次精确存读，固定设计货量/付款/名声，重复接受不重复预留，交付后重复交付不再改变货、款或名声；既有百工同院链1/1和跨场景 v2 专项12/12通过。独立复核原 AC01 的三笔现行订单与原生导出导入证据，判 passed。顾氏/安息仍用同院旧约，其他跨场景订单与旧活跃单迁移继续归 I01/V01，SR011 整项不关闭。
 
 2026-10-09 U-105 / R-32：当前需求更新为 1.1，山域设计关联 GROWTH-04、GROWTH-06。旧版 1.0 的标题、需求、AC原文/证据及D/I任务完成范围保存在 registry.json 的 version_history；本SR未重置任何已通过AC。 当前D01继续补实施参数，D02及本版本I01待前置完成；development_status保留既有运行实现基线。未改变的已通过AC只沿用原行为及原运行环境证据，新增地域、布局与迁移流程按GROWTH另验。本批未执行运行时验收，未修改正式运行版本或发布状态。
+
+2026-10-12 U-123：宗务已有山院取材与在场商客交易入口；第一炉网页通过田边材料完成，炼药定向2／2。本批未把商客交易的完整网页链记为通过。 局部证据见 docs/art/COURTYARD-VALLEY-2026-10-12.md；整项 D/I/V/R 与 AC 状态不变。
 
 ## 开发任务
 
@@ -118,6 +120,8 @@ SR-XF-011-V01证据：2026-10-08 r24 局部失约回应：商人按可见货及�
 - qa/ea-sr-market-supply-acceptance.mjs
 - 局部：2026-10-08 M2 r31 承运中断恢复：从正常公开补货各阶段存档出发，受控伤势35在出程/回程及供货仓验货、购货后、坊市交付前三处原位静养；三处同地阶段独立复核各经429个世界步复工，同一运单货位/产权/已付费用不变，购买/关口/交付事实各唯一。返程伤愈断路仍等待修路；已购货后死亡停止静养，旅途遗物指向真实travelId，500步不再收费交货。专项全过，旧商单12/12、危机21/21、根相邻事后10/10、运输6/6、世界21/21。源码b79b62b、Pages3a73c02 built；162文本blob及公网入口/经营/危机模块字节一致，公开Chromium仅首屏加载。合法继任/取回、取消与改道及目标设备仍未验，AC02和整项状态不变。
 - docs/SECT-GROWTH-PLAN.md；2026-10-09 山域总图、五阶段迁移及统一原型的设计来源；当前运行验收待补。
+- docs/art/COURTYARD-VALLEY-2026-10-12.md
+- tests/ea-mountain-alchemy.test.mjs
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
@@ -133,5 +137,6 @@ SR-XF-011-V01证据：2026-10-08 r24 局部失约回应：商人按可见货及�
 - 2026-10-08：r31 承运伤疲在原旅程或同地货位按世界步静养续约，身死保留钱货及真实旅途遗物；独立复核后发布，完整 AC/I/V/R 状态不提升。
 - 2026-10-08：SR-XF-011-AC-01 三笔现行订单一次结算及原生读档经独立验收通过；其余跨场景订单能力仍归 I01/V01。
 - 2026-10-09：2026-10-09 U-105 / R-32：当前需求更新为 1.1，山域设计关联 GROWTH-04、GROWTH-06。旧版 1.0 的标题、需求、AC原文/证据及D/I任务完成范围保存在 registry.json 的 version_history；本SR未重置任何已通过AC。 当前D01继续补实施参数，D02及本版本I01待前置完成；development_status保留既有运行实现基线。未改变的已通过AC只沿用原行为及原运行环境证据，新增地域、布局与迁移流程按GROWTH另验。本批未执行运行时验收，未修改正式运行版本或发布状态。
+- 2026-10-12：2026-10-12 U-123：宗务已有山院取材与在场商客交易入口；第一炉网页通过田边材料完成，炼药定向2／2。本批未把商客交易的完整网页链记为通过。 局部证据见 docs/art/COURTYARD-VALLEY-2026-10-12.md；整项 D/I/V/R 与 AC 状态不变。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。

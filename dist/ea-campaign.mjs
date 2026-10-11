@@ -4,6 +4,7 @@ import { combatField, combatGeometryId, combatCanStand, combatClearLine, combatP
 import { appearance } from './ea-scenic.mjs';
 import {beginCombatSession,endCombatSession,initSRCombat,projectedCombatHp,setCombatActorHp,syncCombatBodyProjection} from './ea-sr-combat.mjs';
 import {openingCombatProfile} from './ea-opening-inheritance.mjs';
+import {recordPermanentDeathSR} from './ea-sr-crises.mjs';
 
 // Campaign state is deliberately plain data. Every choice, weather roll and reward
 // is committed to the save before the next tick; loading never repeats a roll.
@@ -315,7 +316,11 @@ export function leaveRegion(s) {
   log(s, `掌门从${REGIONS[e.regionId].name}归来。已取得的证据与收获均保留。`);
 }
 
+// Author-tunable first encounter on the valley's actual metre grid.
+export function valleyEncounterDefinition(){return {id:'valley-shanxiao',objectId:'object:valley:shanxiao',personId:'person:valley-shanxiao',name:'伤人山魈',sceneId:'scene:valley',x:27,y:36,radius:3,realm:2,origin:Object.freeze({x:21,y:32}),safePoint:Object.freeze({x:21.7,y:36})};}
+export const VALLEY_ENCOUNTER=Object.freeze(valleyEncounterDefinition());
 const ENCOUNTERS = {
+  'valley-shanxiao':{name:'伤人山魈',hp:160,damage:10,count:1,personId:VALLEY_ENCOUNTER.personId,localEncounter:true},
   defend:{ name:'石桥追兵', hp:88, damage:13, count:1, clue:'testimony' },
   rescue:{ name:'守牢者', hp:115, damage:16, count:2, preparation:'witness' },
   intercept:{ name:'押运执事', hp:135, damage:18, count:1, preparation:'supply' },
@@ -348,13 +353,43 @@ function startCombat(s, encounterId) {
 export function startSRCombat(s,encounterId,{sceneId,companions=[]}={}){
  const def=ENCOUNTERS[encounterId];if(!def)throw Error('战斗定义不存在');
  const regionId=sceneId?.replace('scene:','');if(!REGIONS[regionId])throw Error('此地未交付战斗空间');
- if(s.master.realm<10)throw Error('已知筑基责任人的差距明确，先完成可靠筑基准备');
- const pid=def.personId;if(pid&&s.personsById?.[pid]?.lifeStatus==='dead')throw Error('责任人已实际身死，不重开战斗');
+ if(!def.localEncounter&&s.master.realm<10)throw Error('已知筑基责任人的差距明确，先完成可靠筑基准备');
+ const pid=def.personId;if(pid&&s.personsById?.[pid]?.lifeStatus==='dead')throw Error(def.localEncounter?'这只山魈已身死，林间战果保留':'责任人已实际身死，不重开战斗');
+ if(def.localEncounter){
+  const loc=s.master.location,foe=s.personsById[pid];
+  if(sceneId!==VALLEY_ENCOUNTER.sceneId||loc?.kind!=='local'||loc.sceneId!==sceneId||foe?.location?.sceneId!==sceneId||distance(loc,foe.location)>VALLEY_ENCOUNTER.radius)throw Error('先走近山魈所在的林间空地，再决定应战');
+  if(s.srWorld?.activeTravelId||s.srWorld?.interaction||s.srCrises?.activeTreatment||s.master.activityId||s.combat?.status==='active')throw Error('先结束当前身体活动');
+  if(s.master.wound>=100)throw Error('伤势过重，先服药或回院疗伤');
+  if(s.story.opening?.inheritance&&s.story.opening.inheritance.status!=='chosen')throw Error('先研读母亲遗卷，掌握入门攻守法');
+  const feet={x:loc.x-VALLEY_ENCOUNTER.origin.x,y:loc.y-VALLEY_ENCOUNTER.origin.y};
+  if(!combatCanStand(feet,'legacy'))throw Error('先走入山魈附近的林间空地');
+ }
  const companionIds=companions.map(id=>s.personsById[id]?.id).filter(id=>s.disciples.some(p=>p.id===id));
  s.world.exploration={id:s.world.nextJourneyId++,regionId,status:'exploring',total:1,remaining:0,position:{x:1.3,y:4},target:null,eventId:'mission',visit:s.world.visits[regionId]||0,resolved:false,companionIds,companionInjuries:{},weather:s.world.weather.id,outcome:null,srOwned:true};
  s.master.journey={kind:'campaign',routeId:regionId,status:'exploring',total:1,remaining:0};
  for(const id of companionIds){const p=s.disciples.find(p=>p.id===id);p.mind.away={kind:'campaign',id:regionId};}
- return startCombat(s,encounterId);
+ const c=startCombat(s,encounterId);
+ if(def.localEncounter){
+  c.localEncounter=true;c.sceneFrame={sceneId,...structuredClone({origin:VALLEY_ENCOUNTER.origin,safePoint:VALLEY_ENCOUNTER.safePoint})};
+  delete c.geometryVersion;
+  for(const actor of [c.player,...c.allies,...c.enemies]){
+   const loc=actor.personId&&s.personsById[actor.personId]?.location;
+   if(loc?.kind==='local'&&loc.sceneId===sceneId){actor.x=loc.x-c.sceneFrame.origin.x;actor.y=loc.y-c.sceneFrame.origin.y;}
+  }
+  s.world.exploration.position={x:c.player.x,y:c.player.y};
+  c.message='山魈抬臂时会留下落点预警；移动或短步闪避，护持可减轻一击。西侧林间小径可撤离。';
+ }
+ return c;
+}
+
+function syncLocalCombatPositions(s,c=s.combat){
+ if(!c?.localEncounter||!c.sceneFrame)return;
+ const {sceneId,origin}=c.sceneFrame;
+ for(const actor of [c.player,...c.allies,...c.enemies]){
+  const person=actor.personId&&s.personsById[actor.personId];if(!person)continue;
+  person.location={kind:'local',sceneId,x:origin.x+actor.x,y:origin.y+actor.y};
+ }
+ const cargo=s.stockpilesById?.['stockpile:sr-party'];if(cargo)cargo.position={sceneId,x:origin.x+c.player.x,y:origin.y+c.player.y};
 }
 
 function nearestEnemy(c, target) {
@@ -426,7 +461,8 @@ export function combatAction(s, kind, target) {
     p.x=end.x;p.y=end.y;effect(c,'dodge',from,p);
     p.target = null; p.evade = .65; p.cooldowns.dodge = 3.2; c.message = '闪避展开，短暂避开伤害。';
   }
-  if (kind === 'retreat') { c.retreatRequested = true; p.target = {x:.7,y:4}; c.message = '正沿左侧退路撤离，抵达出口后回山。'; }
+  if (kind === 'retreat') { c.retreatRequested = true; p.target = {x:.7,y:4}; c.message = c.localEncounter?'正沿西侧林间小径撤离，脱战后可循山道归院。':'正沿左侧退路撤离，抵达出口后回山。'; }
+  syncLocalCombatPositions(s,c);
   if (c.enemies.every(e => e.hp <= 0)) finishCombat(s, 'won');
   return true;
 }
@@ -447,6 +483,23 @@ function finishCombat(s, status, {settle=false}={}) {
   for(const ally of c.allies) e.companionInjuries[ally.id]=Math.max(e.companionInjuries[ally.id]||0,ally.knockedOut?20:ally.hp<ally.maxHp*.5?8:0);
   const def = ENCOUNTERS[c.encounterId];
   const session=c.sessionId&&s.combatSessionsById?.[c.sessionId];
+  if(c.localEncounter){
+    syncLocalCombatPositions(s,c);
+    const injury=session?Math.max(0,Math.round(s.master.wound-(session.startingWounds['person:master']||0))):0;
+    const text=status==='won'?'伤人山魈已身死，林间战果已记录。所受伤势仍需用药或归院疗治。':status==='retreated'?'已沿林间小径脱战。伤势与随身物资保留，可循山道归院。':'掌门伤重倒下，根基尚存。当前伤势保留，先服药或循山道归院疗治。';
+    if(status==='won'){
+      once(s,`battle:${c.encounterId}`,()=>recordPermanentDeathSR(s,def.personId,{cause:'云岫山谷实际斗法身死',sceneId:c.sceneFrame.sceneId}));
+      c.rewardApplied=true;
+    }
+    c.result={title:status==='won'?'山道肃清':status==='retreated'?'退至林间':'伤重暂退',text,injury};
+    const factId=`fact:${c.sessionId}:result`;
+    s.factsById[factId]??={id:factId,kind:'combat-result',actorId:'person:master',personId:def.personId,encounterId:c.encounterId,sessionId:c.sessionId,sceneId:c.sceneFrame.sceneId,result:status,atTick:s.worldTick,text};
+    c.result.factId=factId;
+    s.world.exploration=null;s.master.journey={kind:'sr',routeId:c.sceneFrame.sceneId,status:'exploring',remaining:0,total:1};s.master.action='rest';
+    s.master.energy=Math.max(5,s.master.energy-(status==='lost'?18:8));
+    if(session)endCombatSession(s,c);
+    log(s,text);return;
+  }
   if (status === 'won') {
     const key = `battle:${c.encounterId}`;
     once(s, key, () => {
@@ -491,6 +544,7 @@ export function tickCampaignCombat(s, dt=.1) {
   p.guard = Math.max(0,p.guard-dt); p.evade = Math.max(0,p.evade-dt); p.qi = Math.min(p.maxQi,p.qi + dt * 3.2);
   const geometryId=combatGeometryId(c);
   if (p.target && moveCombatActor(p,p.target,3.3,dt,geometryId)) p.target = null;
+  syncLocalCombatPositions(s,c);
   if (c.retreatRequested && p.x <= 1 && Math.abs(p.y-4) < .5) return finishCombat(s,'retreated');
   for (const enemy of c.enemies.filter(e => e.hp > 0)) {
     enemy.cooldown = Math.max(0,enemy.cooldown-dt);
@@ -529,6 +583,7 @@ export function tickCampaignCombat(s, dt=.1) {
     else if (distance(ally,target)>2||!combatClearLine(ally,target,geometryId)) moveCombatActor(ally,target,2,dt,geometryId);
     else if (ally.cooldown<=.001) { damageActor(s,c,ally,target,ally.damage,'attack'); ally.cooldown = 2.1; }
   }
+  syncLocalCombatPositions(s,c);
   if (p.hp <= 0) finishCombat(s,'lost');
   else if (c.enemies.every(e=>e.hp<=0)) finishCombat(s,'won');
 }
@@ -624,7 +679,7 @@ export function tickCampaign(s, dt = 1, runtimeHooks = {}, {advanceCombat=true}=
 }
 export function getCampaignScene(s) {
   const c=s.combat,e=s.world.exploration;
-  if(c?.status==='active'||c?.status==='won'&&e) {const geometryId=combatGeometryId(c),arena=combatField(geometryId);return {type:'combat',status:c.status,interactive:c.status==='active',name:ENCOUNTERS[c.encounterId].name,regionId:c.regionId,geometryId,background:c.geometryVersion===1?'region':'arena',width:12,height:8,arena,player:{...c.player,id:'master',appearance:appearance('master')},enemies:c.enemies.map(v=>({...v,appearance:4})),allies:c.allies.map(a=>({...a,appearance:appearance(a.id)})),effects:c.effects||[],actionRanges:combatOptions(s).filter(a=>a.range).map(a=>({id:a.id,range:a.range,available:!a.disabled})),obstacles:arena.obstacles,landmarks:[{id:'exit',name:'撤离出口',x:.7,y:4,radius:.7}],weather:e?.weather||s.world.weather.id};}
+  if(c?.status==='active'||c?.localEncounter||c?.status==='won'&&e) {const geometryId=combatGeometryId(c),arena=combatField(geometryId);return {type:'combat',status:c.status,sessionId:c.sessionId||null,encounterId:c.encounterId,sceneFrame:c.sceneFrame?structuredClone(c.sceneFrame):null,result:c.result?structuredClone(c.result):null,interactive:c.status==='active',name:ENCOUNTERS[c.encounterId].name,regionId:c.regionId,geometryId,background:c.geometryVersion===1?'region':'arena',width:12,height:8,arena,player:{...c.player,id:'master',appearance:appearance('master')},enemies:c.enemies.map(v=>({...v,entityKind:s.personsById?.[v.personId]?.entityKind||'person',appearance:4})),allies:c.allies.map(a=>({...a,appearance:appearance(a.id)})),effects:c.effects||[],actionRanges:combatOptions(s).filter(a=>a.range).map(a=>({id:a.id,range:a.range,available:!a.disabled})),obstacles:arena.obstacles,landmarks:[{id:'exit',name:'撤离出口',x:.7,y:4,radius:.7}],weather:e?.weather||s.world.weather.id};}
   if(!e || e.status==='traveling') return null;
   return {type:'region',name:REGIONS[e.regionId].name,regionId:e.regionId,background:e.regionId==='ruins'?'lake':e.regionId==='qixia'?'map':'valley',width:12,height:8,player:{...e.position,id:'master',appearance:appearance('master'),target:e.target},enemies:[],allies:e.companionIds.map((id,i)=>({id,appearance:appearance(id),name:s.disciples.find(d=>d.id===id)?.name||'同行者',x:Math.max(.2,e.position.x-.45*(i+1)),y:e.position.y})),obstacles:[],landmarks:[{id:'objective',name:REGIONS[e.regionId].landmark,x:8,y:4,radius:2.2},{id:'exit',name:'归山路',x:.7,y:4,radius:.7}],weather:e.weather};
 }
@@ -652,6 +707,7 @@ export function validateCampaign(s) {
   if(c!==null) {
     if(!c||!ENCOUNTERS[c.encounterId]||!REGIONS[c.regionId]||!['active','won','lost','retreated'].includes(c.status)||!int(c.journeyId,1)||c.arena?.width!==12||c.arena?.height!==8||!num(c.elapsed)||typeof c.retreatRequested!=='boolean'||typeof c.rewardApplied!=='boolean'||!str(c.message)||!c.prepared||!Object.keys(PREPARATIONS).every(k=>typeof c.prepared[k]==='boolean'))bad('战斗结构');
     if(c.geometryVersion!==undefined&&c.geometryVersion!==1)bad('战场版本');
+    if(c.localEncounter!==undefined&&(c.localEncounter!==true||c.encounterId!==VALLEY_ENCOUNTER.id||c.sceneFrame?.sceneId!==VALLEY_ENCOUNTER.sceneId||c.sceneFrame?.origin?.x!==VALLEY_ENCOUNTER.origin.x||c.sceneFrame?.origin?.y!==VALLEY_ENCOUNTER.origin.y||c.sceneFrame?.safePoint?.x!==VALLEY_ENCOUNTER.safePoint.x||c.sceneFrame?.safePoint?.y!==VALLEY_ENCOUNTER.safePoint.y))bad('林间战场与山谷位置');
     const p=c.player;
     if(!point(p)||(p.target!==null&&!point(p.target))||!num(p.maxHp,1,1000)||!num(p.hp,0,p.maxHp)||!num(p.maxQi,1,1000)||!num(p.qi,0,p.maxQi)||!num(p.guard,0,3)||!num(p.evade,0,1)||!p.cooldowns||!['attack','spell','dodge','guard'].every(k=>num(p.cooldowns[k],0,6))||!num(p.facing?.x,-1,1)||!num(p.facing?.y,-1,1))bad('掌门战斗状态');
     if(!Array.isArray(c.enemies)||c.enemies.length<1||c.enemies.length>3||!unique(c.enemies.map(e=>e.id)))bad('敌方人数');
@@ -660,6 +716,7 @@ export function validateCampaign(s) {
     if([...c.allies,...c.enemies].some(a=>a.facing!==undefined&&(!num(a.facing?.x,-1,1)||!num(a.facing?.y,-1,1))))bad('人物战斗朝向');
     if(c.allies.some(a=>a.knockedOut!==(a.hp===0)))bad('同行者倒地状态');
     if(c.geometryVersion===1&&[p,...c.allies,...c.enemies].some(actor=>!combatCanStand(actor,c.regionId)))bad('人物越过战场通行边界');
+    if(c.localEncounter&&[p,...c.allies,...c.enemies].some(actor=>!combatCanStand(actor,'legacy')))bad('林间人物越过战场通行边界');
     if(c.effects!==undefined&&(!Array.isArray(c.effects)||c.effects.length>24||!int(c.nextEffectId,1)||!unique(c.effects.map(v=>v.id))||!c.effects.every(v=>int(v.id,1,c.nextEffectId-1)&&['attack','spell','guard','dodge','impact','strike','hit','down'].includes(v.kind)&&['master',...c.enemies.map(v=>v.id),...c.allies.map(v=>v.id)].includes(v.sourceId)&&['master',...c.enemies.map(v=>v.id),...c.allies.map(v=>v.id)].includes(v.targetId)&&point(v.from)&&point(v.to)&&num(v.amount,0,s.contentVersion==='sr-content-v1.2'?10000:150)&&num(v.total,.1,1.2)&&num(v.remaining,0,v.total))))bad('战斗表现事件');
     if(c.status==='active'&&(!e||e.status!=='combat'||e.id!==c.journeyId||e.regionId!==c.regionId||c.rewardApplied||c.result!==null||p.hp<=0||c.allies.length!==e.companionIds.length||c.allies.some((a,i)=>a.id!==e.companionIds[i])))bad('战斗与探索关联');
     if(c.status!=='active'&&(!c.result||!str(c.result.title,40)||!str(c.result.text)||!num(c.result.injury,0,100)))bad('战斗结果');

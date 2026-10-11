@@ -14,9 +14,9 @@
 
 纳入云岫前期，按依赖推进。
 
-决策来源：U-63, U-75, R-25, U-94。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
+决策来源：U-63, U-75, R-25, U-94, U-123。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
 
-规格：[04-WORLD-STORY.md](../../../docs/design/04-WORLD-STORY.md)、[05-RUNTIME-CONTRACTS.md](../../../docs/design/05-RUNTIME-CONTRACTS.md)、[08-LIVING-WORLD.md](../../../docs/design/08-LIVING-WORLD.md)、[10-CRISES-RESCUE-DEATH.md](../../../docs/design/10-CRISES-RESCUE-DEATH.md)、[14-EARLY-GAME-DETAILED-DESIGN.md](../../../docs/design/14-EARLY-GAME-DETAILED-DESIGN.md)、[03-SPATIAL-ART.md](../../../docs/design/03-SPATIAL-ART.md)、[06-OPENING-ACCEPTANCE.md](../../../docs/design/06-OPENING-ACCEPTANCE.md)。
+规格：[04-WORLD-STORY.md](../../../docs/design/04-WORLD-STORY.md)、[05-RUNTIME-CONTRACTS.md](../../../docs/design/05-RUNTIME-CONTRACTS.md)、[08-LIVING-WORLD.md](../../../docs/design/08-LIVING-WORLD.md)、[10-CRISES-RESCUE-DEATH.md](../../../docs/design/10-CRISES-RESCUE-DEATH.md)、[14-EARLY-GAME-DETAILED-DESIGN.md](../../../docs/design/14-EARLY-GAME-DETAILED-DESIGN.md)、[03-SPATIAL-ART.md](../../../docs/design/03-SPATIAL-ART.md)、[06-OPENING-ACCEPTANCE.md](../../../docs/design/06-OPENING-ACCEPTANCE.md)、[41-COURTYARD-VALLEY-IMPLEMENTATION.md](../../../docs/design/41-COURTYARD-VALLEY-IMPLEMENTATION.md)。
 
 依赖：[SR-XF-002](SR-XF-002.md)、[SR-XF-003](SR-XF-003.md)、[SR-XF-010](SR-XF-010.md)。
 
@@ -53,7 +53,9 @@ SR-XF-015-REQ-03：断路和拒绝同行有可行替代，关闭/后台不补算
 | SR-XF-015-AC-02 | 桥断选择修复/绕行/返回 | 预告并实际结算对应时间与成本，路线状态持久。 | not_run |
 | SR-XF-015-AC-03 | 未知外出者查询人物栏 | 只展示已知最后消息，不泄露实时坐标或未知死亡。 | not_run |
 
-每条AC至少覆盖相关数据、真实行为、UI解释和保存恢复；需要设备或真人证据时单独列出，不以旧测试数量替代。
+2026-10-12 U-123：正式界面山院赴山门、8秒入谷、34米返程出口及8秒返院已实走；谷内存读保同一人物和地点，山谷定向5／5。 局部证据见 docs/art/COURTYARD-VALLEY-2026-10-12.md；整项 D/I/V/R 与 AC 状态不变。
+
+2026-10-12 U-123 首战本地网页：最终本地战斗网页撤退保留谷内同一掌门脚点，确认战报后实走17.3米至归院道，按当时天气约9秒返院；完整旅行定位 AC 状态保持。 证据见 docs/art/COURTYARD-VALLEY-2026-10-12.md；整项 D/I/V/R 与 AC 状态不变。
 
 ## 开发任务
 
@@ -88,8 +90,13 @@ SR-XF-015-REQ-03：断路和拒绝同行有可行替代，关闭/后台不补算
 
 - docs/requirements/design/SR-XF-015-017-020-025-035-037-039.md
 - docs/requirements/IMPLEMENTATION-2026-10-06.md
+- docs/art/COURTYARD-VALLEY-2026-10-12.md
+- tests/ea-mountain-valley.test.mjs
+- tests/ea-godot-valley-projection.test.mjs
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
+- 2026-10-12：2026-10-12 U-123：正式界面山院赴山门、8秒入谷、34米返程出口及8秒返院已实走；谷内存读保同一人物和地点，山谷定向5／5。 局部证据见 docs/art/COURTYARD-VALLEY-2026-10-12.md；整项 D/I/V/R 与 AC 状态不变。
+- 2026-10-12：2026-10-12 U-123 首战本地网页：最终本地战斗网页撤退保留谷内同一掌门脚点，确认战报后实走17.3米至归院道，按当时天气约9秒返院；完整旅行定位 AC 状态保持。 证据见 docs/art/COURTYARD-VALLEY-2026-10-12.md；整项 D/I/V/R 与 AC 状态不变。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。

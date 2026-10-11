@@ -40,6 +40,16 @@ export function startEstateGameUI(host, layout) {
     const title=document.getElementById('goal-title');
     const copy=document.getElementById('goal-copy');
     const action=document.getElementById('goal-action');
+    document.getElementById('build-tool').hidden=state.sceneId!=='scene:yunxiu-courtyard';
+    if(state.sceneId==='scene:travel'){
+      title.textContent='行在山间';copy.textContent='沿山道而行。';
+      action.hidden=false;action.textContent='查看行程';action.dataset.goal='world';return;
+    }
+    if(state.sceneId==='scene:valley'){
+      title.textContent=state.combat?'谷中交锋':'云岫山谷';
+      copy.textContent=state.combat?'留意山魈的蓄势。':'山中药草未尽，桥旁似有人迹。';
+      action.hidden=!!state.combat;action.textContent='查看山谷';action.dataset.goal='world';return;
+    }
     if ((master?.wound||0)>0) {
       title.textContent='先稳住伤势';
       copy.textContent='一路风霜，伤口仍在作痛。先取灵草调息。';
@@ -88,6 +98,14 @@ export function startEstateGameUI(host, layout) {
       title.textContent='请陆知微照看药圃';
       copy.textContent='种苗已到田边，可以问她愿否照料这片新田。';
       action.hidden=false;action.textContent='查看药圃';action.dataset.goal='site:herb-terrace';
+    } else if (!state.crafting?.workstation) {
+      title.textContent='筑炉炼药';
+      copy.textContent='药圃初成，可在东台建一处丹房。';
+      action.hidden=false;action.textContent='查看丹房';action.dataset.goal='site:alchemy-court';
+    } else if (!state.crafting.orders.some(order=>order.phase==='completed')) {
+      title.textContent='开第一炉回春散';
+      copy.textContent='备好灵草，试炼一炉疗伤丹药。';
+      action.hidden=false;action.textContent='查看丹方';action.dataset.goal='crafts';
     } else if (!lumber||lumber.stage!=='complete') {
       title.textContent=lumber?'林缘工棚在建':'筹建林缘伐木场';
       copy.textContent=lumber?'棚架立好，便可在松林边备木。':'松林在山道东侧，立一座工棚便能就近取材。';
@@ -169,6 +187,7 @@ export function startEstateGameUI(host, layout) {
     const description=type==='hall'?(hallPhase==='shelter'?'松坡小篷暂可遮雨。殿址已择在山前平地。':hallPhase==='building'?'立柱承梁，山风从尚未合拢的檐下穿过。':damaged?'殿宇受损，木石尚可修整。':'新殿立在山脊上，门前石路通向各处院地。'):
       site?.id==='site:herb-terrace'?(building?farmDescription:'近泉的山坡土色深润，可辟成灵草田。'):
       site?.id==='site:timber-grove'?(building?(progressing?'松林边的棚架渐渐立起。':'工棚已成，林边有了备木之所。'):'松林沿山道向东伸展，可在此立伐木工棚。'):
+      type==='alchemy'?(building?(progressing?'药炉的烟道渐渐立起。':'炉火藏在青瓦之下，檐边飘着淡淡药香。'):'东台背风，可筑丹房、安炉炼药。'):
       building&&!progressing?'屋舍已成，院路从门前经过。':'这片山地已留作营造之用。';
     let action='';
     if (progressing) {
@@ -214,7 +233,7 @@ export function startEstateGameUI(host, layout) {
       (building&&stage==='complete'&&hallPhase!=='shelter'&&hallPhase!=='building'?'<div><span>'+safe(type==='farm'?'田畦完好':type==='lumber'?'工棚完好':'屋舍完好')+'</span><b>'+Math.ceil(condition)+'%</b></div>':'')+
       (building&&stage==='complete'&&building.workSlots?'<div><span>作业位</span><b>'+safe(building.workSlots)+' 处</b></div>':'')+
       (building&&stage==='complete'&&building.capacity?'<div><span>床位</span><b>'+safe(building.capacity)+' 处</b></div>':'')+'</div>'+
-      farmMarkup(state,building)+action;
+      farmMarkup(state,building)+(type==='alchemy'&&building&&stage==='complete'?'<button class="primary-action" data-estate-alchemy>入丹房</button>':'')+action;
   }
 
   function render(force=false) {
@@ -253,6 +272,9 @@ export function startEstateGameUI(host, layout) {
       openSite(sites.find(site=>building&&site.type===building.type&&site.x===building.x&&site.y===building.y)?.id||null,id);
     } else if (kind==='person') {
       panel.hidden=true;
+      const object=snapshot().world?.objects.find(item=>item.personId===id);
+      if(object){if(!snapshot().combat)window.estateWorldSelect?.('world-object',object.id);return;}
+      if(id===snapshot().market?.merchant.id){systemUI.open('sect',{section:'market'});return;}
       originalSelect('person',id);
     }
   };
@@ -266,12 +288,15 @@ export function startEstateGameUI(host, layout) {
     if (target==='heal') send({name:'masterAction',args:['heal']});
     else if (target==='clues') send({name:'advanceStory',args:[]});
     else if (target==='story') openStory();
+    else if (target==='crafts') systemUI.open('crafts');
+    else if (target==='world') systemUI.open('world');
     else {openSite(target);window.estateSceneCommand?.('focus_site',target)}
   });
   content.addEventListener('click',event=>{
     const button=event.target.closest('button');
     if (!button) return;
-    if (button.dataset.storyChoice) send({name:'advanceStory',args:[button.dataset.storyChoice]});
+    if (button.hasAttribute('data-estate-alchemy')) systemUI.open('crafts');
+    else if (button.dataset.storyChoice) send({name:'advanceStory',args:[button.dataset.storyChoice]});
     else if (button.hasAttribute('data-story-visit')) {
       const state=snapshot();
       const visitor=state.openingStory?.visitor;

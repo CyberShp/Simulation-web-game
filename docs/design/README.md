@@ -1,5 +1,7 @@
 # 设计入口 · DB-2026-10-05 v1.2
 
+- [云岫炼丹与山谷实玩](41-COURTYARD-VALLEY-IMPLEMENTATION.md)：U-123，丹房闭环、近山往返和第一场山谷斗法的当前实施安排。
+
 > **系统界面 · U-120：** 用户已认可 [系统界面原型](../art/system-ui-20261012/README.md)。源码、素材、字体许可与验证范围已归档；正式接入进度见 [STATUS](STATUS.md)。
 
 > **门人志 · U-111：** [游戏画面稿](../art/DISCIPLES-UI-2026-10-10.md)可评看门籍、山门求见与分峰卷册。已确认收徒原则见 [DECISIONS](DECISIONS.md)，实际接入与验收见 [STATUS](STATUS.md)。

@@ -14,9 +14,9 @@
 
 纳入云岫前期，按依赖推进。
 
-决策来源：U-63, U-93, R-25, U-94。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
+决策来源：U-63, U-93, R-25, U-94, U-123。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
 
-规格：[03-SPATIAL-ART.md](../../../docs/design/03-SPATIAL-ART.md)、[04-WORLD-STORY.md](../../../docs/design/04-WORLD-STORY.md)、[12-CONTENT-AUTHORING.md](../../../docs/design/12-CONTENT-AUTHORING.md)、[14-EARLY-GAME-DETAILED-DESIGN.md](../../../docs/design/14-EARLY-GAME-DETAILED-DESIGN.md)、[TAKEOVER-2026-10-06.md](../../../docs/requirements/TAKEOVER-2026-10-06.md)。
+规格：[03-SPATIAL-ART.md](../../../docs/design/03-SPATIAL-ART.md)、[04-WORLD-STORY.md](../../../docs/design/04-WORLD-STORY.md)、[12-CONTENT-AUTHORING.md](../../../docs/design/12-CONTENT-AUTHORING.md)、[14-EARLY-GAME-DETAILED-DESIGN.md](../../../docs/design/14-EARLY-GAME-DETAILED-DESIGN.md)、[TAKEOVER-2026-10-06.md](../../../docs/requirements/TAKEOVER-2026-10-06.md)、[41-COURTYARD-VALLEY-IMPLEMENTATION.md](../../../docs/design/41-COURTYARD-VALLEY-IMPLEMENTATION.md)。
 
 依赖：[SR-XF-003](SR-XF-003.md)、[SR-XF-004](SR-XF-004.md)、[SR-XF-015](SR-XF-015.md)。
 
@@ -59,7 +59,9 @@ SR-XF-016-AC-02证据：2026-10-06部分证据：七类前期场景及22对象�
 
 SR-XF-016-AC-03证据：2026-10-06部分证据：七类前期场景及22对象生产renderer：中心脚点、真实公开路径、只读投影、旧ID与地方状态；qa/ea-sr-scene-art-acceptance.mjs，7场景通过。 本条完整必需覆盖仍待逐项复核，状态未据总数量提升。
 
-每条AC至少覆盖相关数据、真实行为、UI解释和保存恢复；需要设备或真人证据时单独列出，不以旧测试数量替代。
+2026-10-12 U-123：云岫山谷已在1440×960网页实走有限采集、青萝近处会面及返院，控制台0错误／0警告；七类场景完整 AC 继续。 局部证据见 docs/art/COURTYARD-VALLEY-2026-10-12.md；整项 D/I/V/R 与 AC 状态不变。
+
+2026-10-12 U-123 首战本地网页：最终场景包的谷内战斗在1440×960及820×1180网页可见，山魈与掌门实际脚点、动作反馈和返院场景连续；完整七类地点 AC 状态保持。 证据见 docs/art/COURTYARD-VALLEY-2026-10-12.md；整项 D/I/V/R 与 AC 状态不变。
 
 ## 开发任务
 
@@ -105,9 +107,14 @@ SR-XF-016-V01证据：2026-10-06：定向脚本与回归结果见接续实施记
 - docs/requirements/TAKEOVER-2026-10-06.md
 - 2026-10-06接续：七类前期场景及22对象生产renderer：中心脚点、真实公开路径、只读投影、旧ID与地方状态；qa/ea-sr-scene-art-acceptance.mjs，7场景通过。 专项证据不自动关闭全部AC；平台/正常整链不足继续明列。
 - 2026-10-06运行时部分已发布 Pages 7d16d54 / workflow 37453110511 success；release_status 仍表示整项 SR 验收/关闭门槛，未因开发版部署提升。
+- docs/art/COURTYARD-VALLEY-2026-10-12.md
+- tests/ea-mountain-valley.test.mjs
+- tests/ea-godot-valley-projection.test.mjs
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
 - 2026-10-06：接续具体设计及运行时集成完成，D01/D02/I01据源码与作者配置更新；V01继续，未据局部检查宣布SR验收或发布关闭。
+- 2026-10-12：2026-10-12 U-123：云岫山谷已在1440×960网页实走有限采集、青萝近处会面及返院，控制台0错误／0警告；七类场景完整 AC 继续。 局部证据见 docs/art/COURTYARD-VALLEY-2026-10-12.md；整项 D/I/V/R 与 AC 状态不变。
+- 2026-10-12：2026-10-12 U-123 首战本地网页：最终场景包的谷内战斗在1440×960及820×1180网页可见，山魈与掌门实际脚点、动作反馈和返院场景连续；完整七类地点 AC 状态保持。 证据见 docs/art/COURTYARD-VALLEY-2026-10-12.md；整项 D/I/V/R 与 AC 状态不变。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。

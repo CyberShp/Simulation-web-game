@@ -9,6 +9,10 @@
   <link rel="stylesheet" href="system-ui.css">
   <link rel="stylesheet" href="system-people.css">
   <link rel="stylesheet" href="system-inventory.css">
+  <link rel="stylesheet" href="system-crafting.css">
+  <link rel="stylesheet" href="system-sect.css">
+  <link rel="stylesheet" href="system-world.css">
+  <link rel="stylesheet" href="battle-ui.css">
   <title>余烬立山 · 云岫山院</title>
   $GODOT_HEAD_INCLUDE
 </head>
@@ -49,6 +53,8 @@
       <button id="follow" aria-label="跟随掌门">⌖</button><button id="pause" aria-label="暂停或继续">Ⅱ</button>
     </div>
     <div class="notice" id="notice" role="status">点落脚处或营造地查看 · 点院地行走</div>
+    <section id="battle-hud" aria-label="斗法操作" hidden></section>
+    <section id="travel-veil" aria-label="山间行程" hidden><span aria-hidden="true">行</span><h2>云岫山道</h2><p>松风入袖，山路渐远</p><strong id="travel-remaining"></strong><button class="game-button" data-tab="world">查看行程</button></section>
   </main>
   <section class="loading" id="loading" aria-live="polite"><div class="loading-seal">岚</div><h1>余烬立山</h1><p>正在打开云岫山院</p><progress id="progress"></progress><p id="error"></p></section>
   <script>window.__paintedGameMode = true;</script>

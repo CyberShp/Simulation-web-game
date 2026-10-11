@@ -1,16 +1,17 @@
 /** Godot Web presentation bridge: SR-XF-002/003/007/030, U-101 and runtime §4–11. */
-import {initial, tick, dispatchCommand, validateSave, COMMAND_NAMES, appearanceView} from './ea-opening-sim.mjs';
-import {BUILDINGS, day, stage, realmName, xpNeed} from './ea-data.mjs';
+import {initial, tick, dispatchCommand, validateSave, COMMAND_NAMES, appearanceView, getCampaignScene, viewSRCombat} from './ea-opening-sim.mjs';
+import {BUILDINGS, RECIPES, RESOURCES, day, stage, realmName, xpNeed} from './ea-data.mjs';
 import {facilitySlots} from './ea-facility-slots.mjs';
 import {scenicHomeActors, nextObjective} from './ea-scene-state.mjs';
 import {SPATIAL_SCENE, spatialTerrain, spatialRoom, spatialPrefab, spatialTransform, polygonContains, viewSpatial, sceneUnits} from './ea-sr-spatial.mjs';
 import {artView, teachingQualificationSR} from './ea-sr-cultivation.mjs';
 import {openingInheritanceView} from './ea-opening-inheritance.mjs';
-import {FARM_CROP_RECIPE, viewEconomy} from './ea-sr-economy.mjs';
+import {FARM_CROP_RECIPE, HARVEST_BATCH, harvestAvailable, viewEconomy} from './ea-sr-economy.mjs';
 import {viewPersons} from './ea-sr-persons.mjs';
 import {personLifeSummary, workOpportunity} from './ea-life.mjs';
 import {viewPublicDiscipleLearning} from './ea-society.mjs';
 import {EQUIPMENT_SLOTS, viewEquipment, equipmentCombatBenefits} from './ea-sr-equipment.mjs';
+import {godotMoveCommand, projectGodotScene} from './ea-godot-world.mjs';
 
 const publicCommands = new Set(COMMAND_NAMES);
 const isRecord = value => value !== null && typeof value === 'object' && !Array.isArray(value);
@@ -182,8 +183,7 @@ function projectSystemPeople(state, equipment) {
   return {persons, workplaces};
 }
 
-function projectInventory(state, equipment) {
-  const economy = viewEconomy(state);
+function projectInventory(state, equipment, economy) {
   const visibleStockpiles = new Set((economy.stockpiles || []).map(stockpile => stockpile.id));
   const equipmentItems = new Map([...equipment.items, ...equipment.visibleNpcItems]
     .map(item => [item.id, item]));
@@ -216,11 +216,92 @@ function projectInventory(state, equipment) {
   };
 }
 
+function projectCrafting(state, economy) {
+  const furnace = state.buildings.find(building => building.type === 'alchemy') || null;
+  const stockpile = furnace && state.stockpilesById?.[`stockpile:${furnace.instanceId}`];
+  const orders = Object.values(state.workOrdersById || {}).filter(order => order.kind === 'sr-crafting')
+    .map(order => {
+      const activity = state.activitiesById?.[order.activityId];
+      return {id: order.id, recipeId: order.recipeId, recipeName: RECIPES[order.recipeId]?.name || order.recipeId,
+        phase: order.phase, activityPhase: activity?.phase || null, reason: activity?.reason || order.reason || '',
+        personId: order.personId, buildingId: order.targetId, stockpileId: `stockpile:${order.targetId}`,
+        progressTicks: order.progressTicks, durationTicks: order.durationTicks, yield: order.yield,
+        cost: {...order.cost}, sourceStockpileIds: {...order.sourceStockpileIds},
+        startedTick: order.startedTick, finishedTick: order.finishedTick ?? null,
+        resultFactId: order.resultFactId || null};
+    });
+  return {
+    workstation: furnace ? {buildingId: furnace.instanceId, stockpileId: stockpile?.id || null,
+      name: BUILDINGS.alchemy.name, level: furnace.level, condition: furnace.condition,
+      enabled: furnace.enabled !== false && !furnace.spatialLock,
+      workSlots: facilitySlots(state, furnace, 'work').length,
+      resources: stockpile ? {...stockpile.resources} : null, pills: stockpile ? {...stockpile.pills} : null} : null,
+    recipes: (economy.craftRecipes || []).map(recipe => ({id: recipe.id, name: recipe.name,
+      description: RECIPES[recipe.id]?.description || '', available: recipe.available,
+      reasons: [...recipe.reasons], cost: {...recipe.cost}, durationTicks: recipe.durationTicks,
+      yield: recipe.yield, buildingId: recipe.buildingId,
+      physicalStockpileId: recipe.physicalStockpileId, effect: {...(RECIPES[recipe.id]?.effect || {})}})),
+    orders,
+  };
+}
+
+function projectHarvest(state, economy) {
+  const activity = state.activitiesById?.[state.master.activityId];
+  const current = activity?.kind === 'sr-harvest' ? {id: activity.id, resource: activity.resource,
+    phase: activity.phase, reason: activity.reason || '', progressTicks: activity.progressTicks,
+    durationTicks: activity.durationTicks} : null;
+  return {
+    activity: current,
+    sources: ['wood', 'stone', 'herb'].map(id => {
+      const patch = economy.patches?.[id];
+      const reason = !atHome(state.master) || state.master.journey || state.world?.exploration ||
+          state.combat?.status === 'active' ? '先归院再亲自采集。' :
+        state.master.activityId ? '先完成或取消当前身体活动。' :
+        state.master.wound > 20 || state.master.energy < 15 ? '先恢复身体与精力。' :
+        !patch || !harvestAvailable(state, id, HARVEST_BATCH[id]) ? '此处整批来源不足，需实际恢复或采购。' : '';
+      return {id, name: RESOURCES[id], position: patch?.position ? {...patch.position} : null,
+        remaining: patch?.remaining ?? 0, batchSize: HARVEST_BATCH[id],
+        available: !reason, reason};
+    }),
+  };
+}
+
+function projectMarket(state, economy) {
+  const merchant = state.personsById?.['person:merchant-qingxi'];
+  const position = merchant?.position;
+  const atCourtyard = position?.kind === 'scene' && position.sceneId === SPATIAL_SCENE.id;
+  const merchantStock = state.stockpilesById?.['stockpile:qingxi'];
+  const publicStock = state.stockpilesById?.['stockpile:yunxiu'];
+  return {
+    merchant: {id: merchant?.personId || null, name: merchant?.name || '',
+      position: atCourtyard ? {x: position.x, y: position.y} : null,
+      atCourtyard, canTrade: !!economy.market?.merchantPresent},
+    goods: Object.entries(economy.market?.goods || {}).map(([id, definition]) => ({
+      id, name: definition.name, buy: definition.buy, sell: definition.sell,
+      merchantStock: merchantStock?.resources?.[id] ?? 0,
+      publicStock: publicStock?.resources?.[id] ?? 0,
+    })),
+    publicJade: publicStock?.resources?.jade ?? 0,
+    merchantJade: merchantStock?.resources?.jade ?? 0,
+    unitsPerBatch: 10, maxBatchesPerCommand: 8,
+    arrivalTick: economy.market?.arrivalTick ?? null,
+    departureTick: economy.market?.departureTick ?? null,
+  };
+}
+
+function projectLocalCombat(state, sceneId) {
+  if (!state.combat?.localEncounter || sceneId !== 'scene:valley' || state.combat.sceneFrame?.sceneId !== sceneId) return null;
+  const scene = getCampaignScene(state);
+  return scene?.type === 'combat' ? {...structuredClone(scene), controls: structuredClone(viewSRCombat(state))} : null;
+}
+
 /** Copy public courtyard facts. Foot positions and room floors decide indoor visibility. */
 export function projectGodotWorld(state, selection = null, sites = null) {
   const rooms = state.buildings.map(spatialRoom).filter(Boolean);
   const homePeople = scenicHomeActors(state).filter(atHome);
-  if (atHome(state.master) && !state.master.journey && !state.world?.exploration && !state.combat) homePeople.unshift(state.master);
+  const merchant = state.personsById?.['person:merchant-qingxi'];
+  if (merchant && atHome(merchant) && merchant.lifeStatus !== 'dead') homePeople.push(merchant);
+  if (atHome(state.master) && !state.master.journey && !state.world?.exploration && state.combat?.status !== 'active') homePeople.unshift(state.master);
   const people = [...new Map(homePeople.map(person => [person.personId, person])).values()].map(person => {
     const position = person === state.master ? person.scenic : person.mind.scenic;
     const appearance = appearanceView(state, person.personId);
@@ -269,16 +350,24 @@ export function projectGodotWorld(state, selection = null, sites = null) {
     }));
   const equipment = viewEquipment(state);
   const systemPeople = projectSystemPeople(state, equipment);
-  const inventory = projectInventory(state, equipment);
+  const economy = viewEconomy(state);
+  const inventory = projectInventory(state, equipment, economy);
+  const crafting = projectCrafting(state, economy);
+  const harvest = projectHarvest(state, economy);
+  const market = projectMarket(state, economy);
+  const scene = projectGodotScene(state, {homePeople: people,
+    homeMasterPath: atHome(state.master) ? state.master.scenic.path || [] : []});
+  const courtyard = scene.sceneId === SPATIAL_SCENE.id;
   const snapshot = {
     version: 1, tick: state.worldTick, revision: state.revision, nextCommandId: state.transactions.nextCommandId, paused: state.speed === 0,
-    width: SPATIAL_SCENE.width, height: SPATIAL_SCENE.height, sceneId: SPATIAL_SCENE.id,
+    width: scene.width, height: scene.height, sceneId: scene.sceneId,
     masterId: state.master.personId, timeLabel: `第 ${day(state) + 1} 日`,
     message: !state.story.intro
       ? `${state.master.name}携家传逃至云岫山院，先在落脚处养伤。${objective.text}`
       : objective.text,
-    resources: {...state.resources}, people, buildings, roster, arts, cultivationOrders,
-    systemPeople, inventory,
+    resources: {...state.resources}, people: scene.people, buildings: courtyard ? buildings : [], roster, arts, cultivationOrders,
+    systemPeople, inventory, crafting, harvest, market,
+    world: scene.world, combat: projectLocalCombat(state, scene.sceneId),
     openingInheritance: openingInheritanceView(state),
     openingStory: projectOpeningStory(state),
     openingHallPhase: state.story?.opening?.hallPhase || 'complete',
@@ -286,11 +375,11 @@ export function projectGodotWorld(state, selection = null, sites = null) {
     estateStage: stage(state),
     construction: construction ? {buildingId:String(construction.building.id),operation:construction.operation,
       progress:construction.progress,stage:construction.stage,label:construction.label} : null,
-    terrain: spatialTerrain(state).map(({id, kind, polygon}) => ({id, kind, polygon: polygon.map(point => [...point])})),
-    masterPath: atHome(state.master) ? (state.master.scenic.path || []).map(({x, y}) => ({x, y})) : [],
+    terrain: courtyard ? spatialTerrain(state).map(({id, kind, polygon}) => ({id, kind, polygon: polygon.map(point => [...point])})) : [],
+    masterPath: scene.masterPath,
   };
   if (selection) {
-    const collection = selection.kind === 'person' ? people : buildings;
+    const collection = selection.kind === 'person' ? snapshot.people : snapshot.buildings;
     if (collection.some(entity => entity.id === selection.id)) snapshot.selection = {...selection};
   }
   return readonly(snapshot);
@@ -337,8 +426,18 @@ export function createGodotBridge({state: source, sites = null} = {}) {
       }
       let name, args;
       if (type === 'move') {
-        if (!Number.isFinite(request.x) || !Number.isFinite(request.y) || request.x < 0 || request.y < 0 || request.x > SPATIAL_SCENE.width || request.y > SPATIAL_SCENE.height) throw Error('请在山院范围内选择位置。');
-        name = 'moveScenicMaster'; args = [request.x, request.y];
+        const frame = state.combat?.status === 'active' && state.combat.localEncounter ? state.combat.sceneFrame : null;
+        if (frame?.sceneId === 'scene:valley') {
+          if (!Number.isFinite(request.x) || !Number.isFinite(request.y)) throw Error('位置无效。');
+          const local = {x: request.x - frame.origin.x, y: request.y - frame.origin.y};
+          const arena = getCampaignScene(state);
+          if (local.x < 0 || local.y < 0 || local.x > arena.width || local.y > arena.height)
+            throw Error('请在林间战场内选择落点。');
+          name = 'combatAction';
+          args = ['move', local];
+        } else {
+          ({name, args} = godotMoveCommand(state, request.x, request.y));
+        }
       } else if (type === 'pause') {
         if (typeof request.paused !== 'boolean') throw Error('暂停状态须为布尔值。');
         name = 'setSpeed'; args = [request.paused ? 0 : 1];

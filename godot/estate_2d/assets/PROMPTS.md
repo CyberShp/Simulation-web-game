@@ -1,4 +1,4 @@
-# 云岫旧别院绘画素材
+# 云岫山院与山谷绘画素材
 
 本目录 PNG 使用内置 `image_gen` 制作。统一要求：1536×1024、固定斜俯视、精致仙侠手绘游戏画面、同一春季光线和人物比例。建筑、田地与工位单独透明出图，保持封闭建筑外观；地面画稿不预先画出尚未营造的设施。
 
@@ -15,3 +15,27 @@
 | `opening-bundle-wide.png` / `opening-bundle-portrait.png` | 独立开局传承场景的横竖屏画稿：雨中的新山院，檐下石案、油灯、打开的旧布包，包中只有一卷封好的传承。右侧或下方留出游戏选项的可读空间；不绘文字和按钮。 |
 
 `estate-ground-v1.png` 与 `hall-damaged-v1.png` 保存首轮画稿；当前场景使用两个 `v2` 文件。上述要点是可复用的最终提示词规格，原始逐字提示词保留在制作会话中。
+
+## 云岫东台丹房 · 2026-10-12
+
+`mountain-alchemy-house-v1.png`：由内置 imagegen 参照 `kitchen-v1.png` 生成，透明背景，固定斜俯视、可见正面和右墙，青灰瓦、木门与浅色灰墙，独立小型封闭丹房。门上为药纹圆章，侧檐晾药、后部细烟囱、浅石阶；柔和日光与现有山院建筑相配。完整外观遮住室内，建筑轮廓完整，周边留透明边。生成原件：`/Users/shepard/.codex/generated_images/01a12626-6d90-7722-966a-f67bb975b381/exec-06aa033f-42e4-4390-9561-c5a3f890ee6d.png`；源资产按原样复制，场景宽度 230。
+
+## 山客与云岫山谷 · 2026-10-12
+
+以下均由内置 imagegen 生成，按原样复制。采用低饱和青绿淡彩、固定斜俯视和柔和春日光；地面与可交互物各成一层。源文件目录同上。
+
+| 素材 | 最终画稿规格 | 生成原件 |
+| --- | --- | --- |
+| `merchant-qingxi-v1.png` | 透明背景，山客立姿，褐绿长袍，药篓与手杖，完整脚点，适合山院人物比例。 | `exec-97e4c134-582b-4354-b9f0-a46676303b63.png` |
+| `valley-ground-v1.png` | 1536×1024 连续谷地，开阔草甸、土路、外围山岩与溪水，中央留作实际行走与交锋空间。 | `exec-75e512cb-4c75-4027-b54d-6ec231016043.png` |
+| `valley-bridge-v1.png` | 透明背景，低矮石拱桥，苔痕与旧石纹，固定斜俯视，完整轮廓。 | `exec-3ecda59f-2231-4bb7-8fda-c6fe85883ab1.png` |
+| `valley-cave-v1.png` | 透明背景，岩壁与幽暗侧洞，轻苔与稀疏草木，洞口可读。 | `exec-a913cdf1-9926-4452-b928-0e91429462b1.png` |
+| `qing-luo-v1.png` | 透明背景，灰紫衣女修，发辫与完整立姿，春日山谷用色。 | `exec-a64678c8-463e-4265-8eb2-9f22d01b80dd.png` |
+| `valley-shanxiao-v1.png` | 透明背景，灰褐毛色低阶山魈，蹲伏猿形、四肢和脚点清楚。 | `exec-5f7d3e58-ceaf-49e2-90de-9b0abf53af30.png` |
+| `valley-herb-patch-v1.png` | 以 `valley-ground-v1.png` 为风格参考，透明背景；低矮、自然成簇的野生灵草，宽窄叶、细茎、浅色花蕾及少量带根土石，底部中央脚点清晰，适合 72×76 的场景物件。 | `/Users/shepard/.codex/generated_images/01a12abe-ff87-7761-9354-ca652fa80383/exec-077b0d62-bed6-49f5-8e88-6a2d029c3168.png` |
+
+`resource-herb.png` 保留为系统图标。百艺丹炉沿用 `docs/art/system-ui-20261012/alchemy-cauldron.png`。
+
+## 场景字形 · 2026-10-12
+
+`scene-labels.ttf` 取自已采用的 `docs/art/system-ui-20261012/fonts/LXGWWenKai-Regular.ttf`，按场景源码所需 1130 字符生成子集，保留完整数字与标点。许可见同目录 `OFL-LXGWWenKai.txt`。场景标牌与战斗浮字共用此字体；Godot 导入及最终网页字形已经检查。

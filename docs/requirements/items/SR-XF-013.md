@@ -14,9 +14,9 @@
 
 纳入云岫前期，按依赖推进。
 
-决策来源：U-63, U-66, R-25, R-26, U-94, U-114, R-37。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
+决策来源：U-63, U-66, R-25, R-26, U-94, U-114, R-37, U-123。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
 
-规格：[02-EQUIPMENT-ARTS.md](../../../docs/design/02-EQUIPMENT-ARTS.md)、[05-RUNTIME-CONTRACTS.md](../../../docs/design/05-RUNTIME-CONTRACTS.md)、[10-CRISES-RESCUE-DEATH.md](../../../docs/design/10-CRISES-RESCUE-DEATH.md)、[14-EARLY-GAME-DETAILED-DESIGN.md](../../../docs/design/14-EARLY-GAME-DETAILED-DESIGN.md)、[06-OPENING-ACCEPTANCE.md](../../../docs/design/06-OPENING-ACCEPTANCE.md)、[20-ARTS-GROWTH-COMBAT.md](../../../docs/design/20-ARTS-GROWTH-COMBAT.md)。
+规格：[02-EQUIPMENT-ARTS.md](../../../docs/design/02-EQUIPMENT-ARTS.md)、[05-RUNTIME-CONTRACTS.md](../../../docs/design/05-RUNTIME-CONTRACTS.md)、[10-CRISES-RESCUE-DEATH.md](../../../docs/design/10-CRISES-RESCUE-DEATH.md)、[14-EARLY-GAME-DETAILED-DESIGN.md](../../../docs/design/14-EARLY-GAME-DETAILED-DESIGN.md)、[06-OPENING-ACCEPTANCE.md](../../../docs/design/06-OPENING-ACCEPTANCE.md)、[20-ARTS-GROWTH-COMBAT.md](../../../docs/design/20-ARTS-GROWTH-COMBAT.md)、[41-COURTYARD-VALLEY-IMPLEMENTATION.md](../../../docs/design/41-COURTYARD-VALLEY-IMPLEMENTATION.md)。
 
 依赖：[SR-XF-002](SR-XF-002.md)、[SR-XF-003](SR-XF-003.md)、[SR-XF-007](SR-XF-007.md)、[SR-XF-012](SR-XF-012.md)。
 
@@ -53,7 +53,9 @@ SR-XF-013-REQ-03：各动作空间条件合法，同行者自主执行约定战�
 | SR-XF-013-AC-02 | 暂停连续点击服药/部署并恢复 | 动作依阶段执行，耗用/冷却一次，不能暂停无敌。 | not_run |
 | SR-XF-013-AC-03 | 障碍、撤退、击倒或装备损坏 | 距离与视线条件有效，身体/物品结果返回山院仍一致。 | not_run |
 
-每条AC至少覆盖相关数据、真实行为、UI解释和保存恢复；需要设备或真人证据时单独列出，不以旧测试数量替代。
+2026-10-12 U-123：谷内山魈、攻击／护持／躲避／撤退及伤势结算的正式规则定向6／6；实际战斗网页链仍在核验，整项 AC 状态保持。 局部证据见 docs/art/COURTYARD-VALLEY-2026-10-12.md；整项 D/I/V/R 与 AC 状态不变。
+
+2026-10-12 U-123 首战本地网页：最终本地网页近山魈应战；青岚术敌血160→123、护息承伤掌门血143→140、剑式敌血123→98、闪避维持血140；撤退后retreated、伤14.6853。活动战斗存读保持双方血灵和脚点；完整三路战斗 AC 状态保持。 证据见 docs/art/COURTYARD-VALLEY-2026-10-12.md；整项 D/I/V/R 与 AC 状态不变。
 
 ## 开发任务
 
@@ -93,11 +95,16 @@ SR-XF-013-D01证据：docs/design/20-ARTS-GROWTH-COMBAT.md（抗性与平衡首�
 - docs/design/20-ARTS-GROWTH-COMBAT.md（物抗法抗、异常积累与同境平衡首稿；D01动作和敌人配置继续）
 - docs/design/31-ARTS-SAMPLE-COFORMATION-DIVINE.md（Y-201护撤与Y-144行动权的动作、反制和存读试算；三路及敌人配置继续）
 - docs/design/33-ARTS-INITIAL-CALIBRATION.md（Y-001–067逐项反制校准；未实战定标）
+- docs/art/COURTYARD-VALLEY-2026-10-12.md
+- tests/ea-mountain-first-combat.test.mjs
+- tests/ea-godot-valley-projection.test.mjs
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
 - 2026-10-11：按U-114/R-37补物抗法抗、异常积累、条件克制和复合动作预算首稿；具体敌人及逐招动作仍待设计和实战验证。
 - 2026-10-11：补Y-201多人阵与Y-144神通动作过程试算；D01、动作定标、敌人配置和实机验证仍未完成。
 - 2026-10-11：Y-001–067逐项复评神通、复合技与失效条件；五套开局攻守仅接既有战斗预算，物抗法抗、异常与同境平衡仍待实现和实战验证。
+- 2026-10-12：2026-10-12 U-123：谷内山魈、攻击／护持／躲避／撤退及伤势结算的正式规则定向6／6；实际战斗网页链仍在核验，整项 AC 状态保持。 局部证据见 docs/art/COURTYARD-VALLEY-2026-10-12.md；整项 D/I/V/R 与 AC 状态不变。
+- 2026-10-12：2026-10-12 U-123 首战本地网页：最终本地网页近山魈应战；青岚术敌血160→123、护息承伤掌门血143→140、剑式敌血123→98、闪避维持血140；撤退后retreated、伤14.6853。活动战斗存读保持双方血灵和脚点；完整三路战斗 AC 状态保持。 证据见 docs/art/COURTYARD-VALLEY-2026-10-12.md；整项 D/I/V/R 与 AC 状态不变。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。
