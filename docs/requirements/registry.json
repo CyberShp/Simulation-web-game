@@ -4902,7 +4902,8 @@
       "evidence": [
         "docs/requirements/design/SR-XF-012-014-018-024-028-033.md",
         "docs/requirements/IMPLEMENTATION-2026-10-06.md",
-        "docs/design/20-ARTS-GROWTH-COMBAT.md（物抗法抗、异常积累与同境平衡首稿；D01动作和敌人配置继续）"
+        "docs/design/20-ARTS-GROWTH-COMBAT.md（物抗法抗、异常积累与同境平衡首稿；D01动作和敌人配置继续）",
+        "docs/design/31-ARTS-SAMPLE-COFORMATION-DIVINE.md（Y-201护撤与Y-144行动权的动作、反制和存读试算；三路及敌人配置继续）"
       ],
       "change_log": [
         {
@@ -4916,6 +4917,10 @@
         {
           "date": "2026-10-11",
           "reason": "按U-114/R-37补物抗法抗、异常积累、条件克制和复合动作预算首稿；具体敌人及逐招动作仍待设计和实战验证。"
+        },
+        {
+          "date": "2026-10-11",
+          "reason": "补Y-201多人阵与Y-144神通动作过程试算；D01、动作定标、敌人配置和实机验证仍未完成。"
         }
       ],
       "tasks": [
@@ -4928,7 +4933,8 @@
           "owner": "Codex/equipment_growth",
           "depends_on": [],
           "evidence": [
-            "docs/design/20-ARTS-GROWTH-COMBAT.md（抗性与平衡首稿，逐招配置继续）"
+            "docs/design/20-ARTS-GROWTH-COMBAT.md（抗性与平衡首稿，逐招配置继续）",
+            "docs/design/31-ARTS-SAMPLE-COFORMATION-DIVINE.md（局部动作与时序试算，非完整D01）"
           ],
           "blocked_reason": null
         },
@@ -5087,7 +5093,9 @@
         "docs/requirements/design/SR-XF-012-014-018-024-028-033.md",
         "docs/requirements/IMPLEMENTATION-2026-10-06.md",
         "docs/design/19-FIVE-CONTINENT-ARTS.md（四千九百种分类规划与云岫六十七种机制初稿；D01未完成）",
-        "docs/design/20-ARTS-GROWTH-COMBAT.md（修炼收益、品质与抗性数值首稿；D01仍未完成）"
+        "docs/design/20-ARTS-GROWTH-COMBAT.md（修炼收益、品质与抗性数值首稿；D01仍未完成）",
+        "docs/design/29-ARTS-SAMPLE-QINGLAN-REALM-STOP.md（青岚与筑基止步心法的取得、供给和转修试算；D01仍未完成）",
+        "docs/design/30-ARTS-SAMPLE-LINEAGE-PERSONAL-ARRAY.md（跨境传承与个人阵的取得、供给和存读试算；D01仍未完成）"
       ],
       "change_log": [
         {
@@ -5109,6 +5117,10 @@
         {
           "date": "2026-10-11",
           "reason": "按U-114/R-37扩充魔道、妖道、毒道及复合分支，重排类型预算并写出六十七种；补六类修炼收益和品质、抗性方案，D01继续。"
+        },
+        {
+          "date": "2026-10-11",
+          "reason": "补Y-001/041/068/107/007的完整评看样例；旧档映射、三路章节、筑基丹两条路径和定标仍缺，D01继续。"
         }
       ],
       "tasks": [
@@ -5122,7 +5134,9 @@
           "depends_on": [],
           "evidence": [
             "docs/design/19-FIVE-CONTINENT-ARTS.md（分类与云岫首批机制初稿，章节等继续）",
-            "docs/design/20-ARTS-GROWTH-COMBAT.md（成长与数值首稿，实机调校继续）"
+            "docs/design/20-ARTS-GROWTH-COMBAT.md（成长与数值首稿，实机调校继续）",
+            "docs/design/29-ARTS-SAMPLE-QINGLAN-REALM-STOP.md（青岚与止步心法样例，非完整D01）",
+            "docs/design/30-ARTS-SAMPLE-LINEAGE-PERSONAL-ARRAY.md（跨境传承与个人阵样例，非完整D01）"
           ],
           "blocked_reason": null
         },

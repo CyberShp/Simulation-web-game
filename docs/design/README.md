@@ -2,7 +2,7 @@
 
 > **门人志 · U-111：** [游戏画面稿](../art/DISCIPLES-UI-2026-10-10.md)可评看门籍、山门求见与分峰卷册。已确认收徒原则见 [DECISIONS](DECISIONS.md)，实际接入与验收见 [STATUS](STATUS.md)。
 
-> **五洲修行谱 · U-114：** 主世界按约四千九百种可独立学习的心法、武学、术法、身法、神通与百艺规划，含魔道、妖道、毒道及复合分支；[云岫首批六十七种](19-FIVE-CONTINENT-ARTS.md)与[成长斗法数值](20-ARTS-GROWTH-COMBAT.md)为设计稿，[扩写总账](28-FIVE-CONTINENT-ARTS-LEDGER.md)索引目前 227 项首稿／草稿。实际可玩范围与验证仍按 [STATUS](STATUS.md)。
+> **五洲修行谱 · U-114：** 主世界按约四千九百种可独立学习的心法、武学、术法、身法、神通与百艺规划，含魔道、妖道、毒道及复合分支；[云岫首批六十七种](19-FIVE-CONTINENT-ARTS.md)与[成长斗法数值](20-ARTS-GROWTH-COMBAT.md)为设计稿，[扩写总账](28-FIVE-CONTINENT-ARTS-LEDGER.md)索引目前 227 项首稿／草稿及[六类校验样例](28-FIVE-CONTINENT-ARTS-LEDGER.md#六例校验)。实际可玩范围与验证仍按 [STATUS](STATUS.md)。
 
 > **当前实施 · U-110：** [旧别院开局](DECISIONS.md)从一座残败主屋与四处预留荒地开始，以固定斜俯视 Godot 2D 分层绘画表现营造、人物与成长。实际范围、验证和缺口见 [STATUS](STATUS.md) 首段。
 

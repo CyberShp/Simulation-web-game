@@ -65,7 +65,7 @@ SR-XF-013-REQ-03：各动作空间条件合法，同行者自主执行约定战�
 | SR-XF-013-V01 | 验收与兼容：执行SR-XF-013-AC-01至AC-03及CHAIN-04、INTRO-01；登记实际结果、兼容和设备证据边界。 | todo | SR-XF-013-I01 | 待分配 |
 | SR-XF-013-R01 | 发布与关闭：完成所需源码/运行时发布核对、交接和未覆盖说明；本轮用户不要求上传QA过程产物。 | todo | SR-XF-013-V01 | 待分配 |
 
-SR-XF-013-D01证据：docs/design/20-ARTS-GROWTH-COMBAT.md（抗性与平衡首稿，逐招配置继续）
+SR-XF-013-D01证据：docs/design/20-ARTS-GROWTH-COMBAT.md（抗性与平衡首稿，逐招配置继续）；docs/design/31-ARTS-SAMPLE-COFORMATION-DIVINE.md（局部动作与时序试算，非完整D01）
 
 ## 可进入开发的条件
 
@@ -91,9 +91,11 @@ SR-XF-013-D01证据：docs/design/20-ARTS-GROWTH-COMBAT.md（抗性与平衡首�
 - docs/requirements/design/SR-XF-012-014-018-024-028-033.md
 - docs/requirements/IMPLEMENTATION-2026-10-06.md
 - docs/design/20-ARTS-GROWTH-COMBAT.md（物抗法抗、异常积累与同境平衡首稿；D01动作和敌人配置继续）
+- docs/design/31-ARTS-SAMPLE-COFORMATION-DIVINE.md（Y-201护撤与Y-144行动权的动作、反制和存读试算；三路及敌人配置继续）
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
 - 2026-10-11：按U-114/R-37补物抗法抗、异常积累、条件克制和复合动作预算首稿；具体敌人及逐招动作仍待设计和实战验证。
+- 2026-10-11：补Y-201多人阵与Y-144神通动作过程试算；D01、动作定标、敌人配置和实机验证仍未完成。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。

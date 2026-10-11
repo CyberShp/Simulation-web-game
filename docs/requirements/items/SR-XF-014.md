@@ -67,7 +67,7 @@ SR-XF-014-AC-03证据：局部：docs/art/SYSTEM-UI-2026-10-10.md（真实研习
 | SR-XF-014-V01 | 验收与兼容：执行SR-XF-014-AC-01至AC-03及EARLY-02、CHAIN-02；登记实际结果、兼容和设备证据边界。 | todo | SR-XF-014-I01 | 待分配 |
 | SR-XF-014-R01 | 发布与关闭：完成所需源码/运行时发布核对、交接和未覆盖说明；本轮用户不要求上传QA过程产物。 | todo | SR-XF-014-V01 | 待分配 |
 
-SR-XF-014-D01证据：docs/design/19-FIVE-CONTINENT-ARTS.md（分类与云岫首批机制初稿，章节等继续）；docs/design/20-ARTS-GROWTH-COMBAT.md（成长与数值首稿，实机调校继续）
+SR-XF-014-D01证据：docs/design/19-FIVE-CONTINENT-ARTS.md（分类与云岫首批机制初稿，章节等继续）；docs/design/20-ARTS-GROWTH-COMBAT.md（成长与数值首稿，实机调校继续）；docs/design/29-ARTS-SAMPLE-QINGLAN-REALM-STOP.md（青岚与止步心法样例，非完整D01）；docs/design/30-ARTS-SAMPLE-LINEAGE-PERSONAL-ARRAY.md（跨境传承与个人阵样例，非完整D01）
 
 ## 可进入开发的条件
 
@@ -94,11 +94,14 @@ SR-XF-014-D01证据：docs/design/19-FIVE-CONTINENT-ARTS.md（分类与云岫首
 - docs/requirements/IMPLEMENTATION-2026-10-06.md
 - docs/design/19-FIVE-CONTINENT-ARTS.md（四千九百种分类规划与云岫六十七种机制初稿；D01未完成）
 - docs/design/20-ARTS-GROWTH-COMBAT.md（修炼收益、品质与抗性数值首稿；D01仍未完成）
+- docs/design/29-ARTS-SAMPLE-QINGLAN-REALM-STOP.md（青岚与筑基止步心法的取得、供给和转修试算；D01仍未完成）
+- docs/design/30-ARTS-SAMPLE-LINEAGE-PERSONAL-ARRAY.md（跨境传承与个人阵的取得、供给和存读试算；D01仍未完成）
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
 - 2026-10-11：按U-112建立约七百部五洲功法目录规划，补云岫首批四十部机制初稿；SR-XF-014其余设计交付物及实现验收继续。
 - 2026-10-11：按U-113重定为约四千九百种独立可学项目，区分心法、武学、术法、身法、神通和百艺；扩展云岫首批至五十五种并补青岚攻伐关系，D01保持进行中。
 - 2026-10-11：按U-114/R-37扩充魔道、妖道、毒道及复合分支，重排类型预算并写出六十七种；补六类修炼收益和品质、抗性方案，D01继续。
+- 2026-10-11：补Y-001/041/068/107/007的完整评看样例；旧档映射、三路章节、筑基丹两条路径和定标仍缺，D01继续。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。

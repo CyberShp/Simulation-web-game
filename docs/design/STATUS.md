@@ -2,6 +2,8 @@
 
 ## 功法与修炼地 · 本地评看增量
 
+[六类完整样例](28-FIVE-CONTINENT-ARTS-LEDGER.md#六例校验)已分别写入[青岚与筑基止步](29-ARTS-SAMPLE-QINGLAN-REALM-STOP.md)、[跨境传承与个人阵](30-ARTS-SAMPLE-LINEAGE-PERSONAL-ARRAY.md)、[多人阵与严格神通](31-ARTS-SAMPLE-COFORMATION-DIVINE.md)。样例把取得篇章、场地供给、同境结算、反制、伤势及取消／存读连成过程；新增数值是作者试算，后续高境持卷人、地图点位、动作时序和旧档映射仍待定标。已写目录仍为 227／4900；本批只增加评看内容，没有完成运行接入、平衡实测或 SR/AC 验收。
+
 [修行体系评看稿](21-CULTIVATION-SYSTEM-REVIEW.md)将品相、境界跨度、篇章完整度、契合代价与稀度分开，并按用户确认的严格神通边界讨论神意、个人布阵和多人结阵。[五洲修炼地评看稿](22-WORLD-CULTIVATION-SITES-REVIEW.md)覆盖五行、鬼、妖、煞与古战道痕；资源设施可分期升级，容量同时受真实练位、天然可持续供给、维护和通路限制。[云岫联动样例](23-CULTIVATION-SITE-ART-SAMPLES.md)把地火初建两位、扩建六位但源头仍为三单位的试算写清。[第一批扩写](24-FIVE-CONTINENT-ARTS-EXPANSION-01.md)写 Y-068–107；本轮多 agent 分别写[青衡洲 Y-108–147](25-FIVE-CONTINENT-ARTS-EXPANSION-02-QINGHENG.md)、[炎荒与玄朔 Y-148–187](26-FIVE-CONTINENT-ARTS-EXPANSION-03-YANHUANG-XUANSHUO.md)、[中天与沧流 Y-188–227](27-FIVE-CONTINENT-ARTS-EXPANSION-04-ZHONGTIAN-CANGLIU.md)。[扩写总账](28-FIVE-CONTINENT-ARTS-LEDGER.md)核算连续 227 项、尚余 4673 项；新增 120 项含四／五品 12 项与两张真相卡草案。高品比例、品相及暗线具体内容均属作者评看建议。相关小说参考已查阅开篇、中段与后段选定章节，不据此声称通读全书。扩写尚未并入十九号正式目录首稿，亦未接入游戏、地图、存档或 SR/AC。
 
 ## U-114 五洲修行目录 · 道路与数值首稿
