@@ -41,7 +41,7 @@ func select_index(index: int) -> void:
  error_text = ""
  painter.queue_redraw()
 
-func choose_selected() -> void:
+func choose_selected(via_pointer := false) -> void:
  if not OS.has_feature("web") or selected_index >= options.size():
   return
  var id := str(options[selected_index].get("id", ""))
@@ -49,6 +49,8 @@ func choose_selected() -> void:
  var raw: Variant = JavaScriptBridge.eval(call, true)
  var response: Variant = JSON.parse_string(str(raw))
  if response is Dictionary and bool(response.get("ok", false)):
+  if via_pointer:
+   get_parent().suppress_next_scene_click()
   hide_choice()
  else:
   error_text = str(response.get("error", "择卷未成，请再试。")) if response is Dictionary else "择卷未成，请再试。"

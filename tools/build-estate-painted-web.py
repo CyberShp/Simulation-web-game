@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Export the layered 2D old estate preview with the shared simulation."""
+"""Export the layered 2D mountain courtyard with the shared simulation."""
 
 import argparse
 import hashlib
@@ -34,7 +34,11 @@ def main():
         stage = Path(folder)
         shutil.copytree(ROOT / 'godot/estate_2d', stage / 'estate_2d',
                         ignore=shutil.ignore_patterns('*.import', '.DS_Store',
-                                                      'estate-ground-v1.png', 'hall-damaged-v1.png', 'PROMPTS.md'))
+                                                      'estate-ground-v1.png', 'estate-ground-v2.png',
+                                                      'hall-damaged-v1.png', 'hall-damaged-v2.png',
+                                                      'hall-repaired-v1.png', 'hall-level2-v1.png',
+                                                      'opening-rain-*.png', 'opening-scroll-*.png',
+                                                      'PROMPTS.md'))
         # HUD bitmaps are copied beside the exported page below; Godot does not use them in the scene pack.
         shutil.copytree(ROOT / 'godot/estate_3d/web', stage / 'estate_2d/web',
                         ignore=shutil.ignore_patterns('*.png'))
@@ -45,7 +49,7 @@ def main():
             shutil.copy2(ROOT / 'godot/painted_courtyard/assets' / name, character / 'assets' / name)
         (stage / 'project.godot').write_text('''config_version=5
 [application]
-config/name="余烬立山 · 绘画旧别院"
+config/name="余烬立山 · 云岫山院"
 run/main_scene="res://estate_2d/estate.tscn"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 run/max_fps=60
@@ -98,7 +102,7 @@ progressive_web_app/enabled=false
         sizes = configuration.get('fileSizes', {})
         sizes[pack_name] = sizes.pop(args.output.stem + '.pck', (exported / pack_name).stat().st_size)
         html = html[:match.start(1)] + json.dumps(configuration, ensure_ascii=False) + html[match.end(1):]
-        html_path.write_text(html, encoding='utf-8')
+        html_path.write_text('\n'.join(line.rstrip() for line in html.splitlines()).rstrip() + '\n', encoding='utf-8')
         for artifact in exported.iterdir():
             shutil.copy2(artifact, args.output.parent / artifact.name)
         for obsolete_pack in args.output.parent.glob('scene-*.pck'):
@@ -132,10 +136,10 @@ progressive_web_app/enabled=false
         files = {file.relative_to(args.output.parent).as_posix(): hashlib.sha256(file.read_bytes()).hexdigest()
                  for file in args.output.parent.rglob('*') if file.is_file() and file.name != 'build.json'}
         (args.output.parent / 'build.json').write_text(json.dumps({
-            'build': 'yunxiu-old-estate-painted-v1', 'godot': version, 'mainPack': pack_name,
+            'build': 'yunxiu-mountain-courtyard-v1', 'godot': version, 'mainPack': pack_name,
             'files': files}, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
         print(f'Packaged {len(copied)} shared-rule modules for the estate preview', flush=True)
-    print(f'Painted old estate preview: {args.output.resolve()}')
+    print(f'Mountain courtyard preview: {args.output.resolve()}')
 
 
 if __name__ == '__main__':

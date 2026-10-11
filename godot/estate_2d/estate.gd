@@ -9,7 +9,7 @@ const TICKS_PER_SECOND := 10.0
 const VISUAL_DELAY_TICKS := 2.0
 const ART_ROOT := "res://estate_2d/assets/"
 const BUILDING_ART := {
-	"hall": {"damaged": "hall-damaged-v2.png", "complete": "hall-repaired-v1.png", "level2": "hall-level2-v1.png", "width": 380.0},
+	"hall": {"shelter": "opening-shelter-v1.png", "foundation": "mountain-main-hall-foundation-v1.png", "structure": "mountain-main-hall-structure-v1.png", "finishing": "mountain-main-hall-finishing-v1.png", "complete": "mountain-main-hall-v1.png", "level2": "mountain-main-hall-v1.png", "width": 380.0},
 	"house": {"complete": "residence-v1.png", "width": 265.0},
 	"kitchen": {"complete": "kitchen-v1.png", "width": 265.0},
 	"farm": {"complete": "farm-v1.png", "width": 255.0},
@@ -30,12 +30,14 @@ var sorted: Node2D
 var shadows: Node2D
 var selected_kind := ""
 var selected_id := ""
-var focus := Vector2(768, 460)
+var focus := Vector2(768, 385)
 var zoom_factor := 1.06
 var dragging := false
 var drag_distance := 0.0
 var pinching := false
 var backgrounded := false
+var scene_click_block_until := 0
+var suppress_pointer_release := false
 var js_callback: JavaScriptObject
 var package_scene: CanvasLayer
 
@@ -49,9 +51,9 @@ func _ready() -> void:
 			sites.append(item)
 			site_by_id[str(item.id)] = item
 	var ground := Sprite2D.new()
-	ground.name = "BareEstateTerrain"
+	ground.name = "MountainCourtyardTerrain"
 	ground.centered = false
-	ground.texture = load(ART_ROOT + "estate-ground-v2.png")
+	ground.texture = load(ART_ROOT + "mountain-courtyard-ground-v1.png")
 	ground.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
 	ground.z_index = -100
 	add_child(ground)
@@ -78,13 +80,13 @@ func _ready() -> void:
 		JavaScriptBridge.get_interface("window").estateSceneCommand = js_callback
 		backgrounded = bool(JavaScriptBridge.eval("document.hidden", true))
 	_sync_state()
-	print("PAINTED_ESTATE_READY")
+	print("MOUNTAIN_COURTYARD_READY")
 
 func _to_screen(world_x: float, world_y: float) -> Vector2:
-	return Vector2(768.0 + (world_x - 30.0) * 28.0, 230.0 + world_y * 10.5)
+	return Vector2(768.0 + (world_x - 30.0) * 28.0, 180.0 + world_y * 10.5)
 
 func _to_world(point: Vector2) -> Vector2:
-	return Vector2(30.0 + (point.x - 768.0) / 28.0, (point.y - 230.0) / 10.5)
+	return Vector2(30.0 + (point.x - 768.0) / 28.0, (point.y - 180.0) / 10.5)
 
 func _site_for(building: Dictionary) -> Dictionary:
 	for site in sites:
@@ -93,14 +95,14 @@ func _site_for(building: Dictionary) -> Dictionary:
 	return {}
 
 func _site_anchor(site: Dictionary) -> Vector2:
-	return _to_screen(float(site.x) + float(site.reserveWidth) * 0.5, float(site.y) + float(site.reserveHeight) * 0.5)
+	return _to_screen(float(site.x) + float(site.get("footprintWidth", site.reserveWidth)) * 0.5, float(site.y) + float(site.get("footprintHeight", site.reserveHeight)) * 0.5)
 
 func _make_foreground(texture: Texture2D) -> void:
 	# These painted silhouettes sample the same terrain pixels but sort in front of
 	# a person standing behind them; editable buildings remain separate sprites.
 	var outlines := [
-		{"depth": 260.0, "points": [[276, 48], [478, 18], [626, 73], [555, 189], [395, 232], [301, 169]]},
-		{"depth": 486.0, "points": [[1353, 283], [1519, 261], [1535, 476], [1412, 492], [1332, 409]]},
+		{"depth": 302.0, "points": [[0, 0], [359, 0], [352, 204], [187, 351], [0, 370]]},
+		{"depth": 390.0, "points": [[1295, 0], [1535, 0], [1535, 530], [1409, 488], [1280, 295]]},
 	]
 	for definition in outlines:
 		var layer := Node2D.new()
@@ -148,16 +150,17 @@ func _make_building(building: Dictionary, site: Dictionary) -> Dictionary:
 	var stage := str(building.get("stage", "complete"))
 	var node := Node2D.new()
 	node.name = "Building_" + str(building.get("id", "")).replace(":", "_")
-	node.position = _site_anchor(site) if not site.is_empty() else _to_screen(float(building.get("x", 0)) + float(building.get("width", 0)) * 0.5, float(building.get("y", 0)) + float(building.get("height", 0)) * 0.5)
+	node.position = _to_screen(float(building.get("x", 0)) + float(building.get("width", 0)) * 0.5, float(building.get("y", 0)) + float(building.get("height", 0)))
 	sorted.add_child(node)
 	var sprite: Sprite2D = null
 	var image: Image = null
 	var level := int(building.get("level", 1))
-	var width := float(art.width) * (1.0 + 0.06 * float(maxi(level - 1, 0)))
-	if stage in ["foundation", "structure"]:
+	var width := (310.0 if kind == "hall" and stage == "shelter" else float(art.width)) * (1.0 + 0.06 * float(maxi(level - 1, 0)))
+	var painted_construction := kind == "hall" and stage in ["foundation", "structure", "finishing"]
+	if stage in ["foundation", "structure"] and not painted_construction:
 		_make_construction(node, stage, width)
 	else:
-		var file := str(art.get("damaged", art.complete)) if stage == "damaged" else str(art.get("level2", art.complete)) if kind == "hall" and level >= 2 and stage == "complete" else str(art.complete)
+		var file := str(art.get(stage, art.complete)) if painted_construction or stage in ["shelter", "damaged"] else str(art.get("level2", art.complete)) if kind == "hall" and level >= 2 and stage == "complete" else str(art.complete)
 		var texture := load(ART_ROOT + file) as Texture2D
 		if texture != null:
 			sprite = Sprite2D.new()
@@ -165,15 +168,16 @@ func _make_building(building: Dictionary, site: Dictionary) -> Dictionary:
 			sprite.texture = texture
 			sprite.centered = false
 			sprite.scale = Vector2.ONE * (width / texture.get_width())
-			sprite.position = Vector2(-width * 0.5, -float(texture.get_height()) * sprite.scale.y)
+			var stage_offset := {"shelter": 16.0, "foundation": 32.0, "structure": 13.0, "finishing": 7.0}
+			sprite.position = Vector2(-width * 0.5, -float(texture.get_height()) * sprite.scale.y + float(stage_offset.get(stage, 0.0)))
 			sprite.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
-			if stage in ["finishing", "upgrade"]:
+			if stage in ["finishing", "upgrade"] and not painted_construction:
 				sprite.modulate.a = 0.70
 			node.add_child(sprite)
 			image = texture.get_image()
 			if image.is_compressed():
 				image.decompress()
-		if stage in ["finishing", "upgrade"]:
+		if stage in ["finishing", "upgrade"] and not painted_construction:
 			_make_construction(node, stage, width)
 	return {"node": node, "sprite": sprite, "image": image, "width": width, "stage": stage, "signature": _building_signature(building), "id": str(building.get("id", "")), "site_id": str(site.get("id", ""))}
 
@@ -194,7 +198,7 @@ func _sync_buildings(view: Dictionary) -> void:
 				buildings[id].node.queue_free()
 			buildings[id] = _make_building(building, _site_for(building))
 		var visual: Dictionary = buildings[id]
-		footprints.append({"center": visual.node.position, "width": visual.width, "length": 17.0 if visual.stage in ["foundation", "structure"] else 30.0})
+		footprints.append({"center": _to_screen(float(building.get("x", 0)) + float(building.get("width", 0)) * 0.5, float(building.get("y", 0)) + float(building.get("height", 0)) * 0.5), "width": visual.width, "length": 17.0 if visual.stage in ["foundation", "structure"] else 30.0})
 	for id in buildings.keys():
 		if not live.has(id):
 			changed = true
@@ -368,7 +372,19 @@ func _draw() -> void:
 		var b := TAU * float(index + 1) / 32.0
 		draw_line(centre + Vector2(cos(a) * 31, sin(a) * 13), centre + Vector2(cos(b) * 31, sin(b) * 13), Color(0.37, 0.93, 0.75, 0.85), 3.0, true)
 
+func suppress_next_scene_click() -> void:
+	scene_click_block_until = Time.get_ticks_msec() + 500
+	suppress_pointer_release = true
+	dragging = false
+
 func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and not event.pressed and suppress_pointer_release:
+		suppress_pointer_release = false
+		dragging = false
+		return
+	if package_scene.active or Time.get_ticks_msec() < scene_click_block_until:
+		dragging = false
+		return
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_WHEEL_UP and event.pressed:
 			zoom_factor = clampf(zoom_factor * 1.10, 0.66, 1.65)

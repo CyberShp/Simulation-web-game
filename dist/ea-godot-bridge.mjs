@@ -1,6 +1,6 @@
 /** Godot Web presentation bridge: SR-XF-002/003/007/030, U-101 and runtime §4–11. */
 import {initial, tick, dispatchCommand, validateSave, COMMAND_NAMES, appearanceView} from './ea-opening-sim.mjs';
-import {BUILDINGS, day, stage} from './ea-data.mjs';
+import {BUILDINGS, day} from './ea-data.mjs';
 import {scenicHomeActors, nextObjective} from './ea-scene-state.mjs';
 import {SPATIAL_SCENE, spatialTerrain, spatialRoom, spatialPrefab, spatialTransform, polygonContains, viewSpatial} from './ea-sr-spatial.mjs';
 import {artView, teachingQualificationSR} from './ea-sr-cultivation.mjs';
@@ -21,12 +21,13 @@ function readonly(value) {
 function projectBuilding(state, building, visualStage) {
   const prefab = spatialPrefab(building), position = spatialTransform(building);
   const operation = building.spatialLock && state.workOrdersById[building.spatialLock]?.operation;
+  const hallPhase = state.story?.opening?.hallPhase || 'complete';
   return {
     id: String(building.id), type: building.type,
-    name: building.type === 'hall' && stage(state) >= 3 ? '宗门正殿' : BUILDINGS[building.type].name,
+    name: building.type === 'hall' ? hallPhase === 'shelter' ? '临时落脚处' : '山院主殿' : BUILDINGS[building.type].name,
     x: position.x, y: position.y, width: prefab.width, height: prefab.height,
     indoor: prefab.indoor, level: building.level, condition: building.condition,
-    stage: visualStage || (operation === 'upgrade' ? 'upgrade' :
+    stage: visualStage || (building.type === 'hall' && hallPhase === 'shelter' ? 'shelter' : operation === 'upgrade' ? 'upgrade' :
       building.type === 'hall' && state.spatial?.estateCollisionVersion === 'estate-gate-1' && building.condition < 100 ? 'damaged' :
       building.condition < 50 ? 'damaged' : 'complete'),
   };
@@ -46,8 +47,10 @@ export function projectGodotWorld(state, selection = null) {
       indoor: rooms.some(room => polygonContains(position, room.floor)), moving: !!position.path?.length,
     };
   });
-  const buildings = state.buildings.map(building => projectBuilding(state, building));
   const construction = viewSpatial(state);
+  const buildings = state.buildings.map(building => projectBuilding(state, building,
+    building.type === 'hall' && construction?.operation === 'establish' && String(construction.building.id) === String(building.id)
+      ? construction.stage : null));
   if (construction && construction.operation === 'build' && !buildings.some(building => building.id === String(construction.building.id))) {
     buildings.push(projectBuilding(state, construction.building, construction.stage));
   }
@@ -82,10 +85,11 @@ export function projectGodotWorld(state, selection = null) {
     width: SPATIAL_SCENE.width, height: SPATIAL_SCENE.height, sceneId: SPATIAL_SCENE.id,
     masterId: state.master.personId, timeLabel: `第 ${day(state) + 1} 日`,
     message: !state.story.intro
-      ? `${state.master.name}携家传逃至云岫旧居，先安顿伤势，再恢复山院。${objective.text}`
+      ? `${state.master.name}携家传逃至云岫山院，先在落脚处养伤。${objective.text}`
       : objective.text,
     resources: {...state.resources}, people, buildings, roster, arts, cultivationOrders,
     openingInheritance: openingInheritanceView(state),
+    openingHallPhase: state.story?.opening?.hallPhase || 'complete',
     construction: construction ? {buildingId:String(construction.building.id),operation:construction.operation,
       progress:construction.progress,stage:construction.stage,label:construction.label} : null,
     terrain: spatialTerrain(state).map(({id, kind, polygon}) => ({id, kind, polygon: polygon.map(point => [...point])})),
@@ -143,7 +147,7 @@ export function createGodotBridge({state: source, sites = null} = {}) {
           throw Error('掌门尚有伤势，先调息疗伤。');
         if (fixedSites && name === 'build' && !fixedSites.some(site =>
           site.type === args[0] && site.x === args[1] && site.y === args[2]
-        )) throw Error('请在别院已规划的营造地选择项目。');
+        )) throw Error('请在山院已选定的营造地动工。');
         if (fixedSites && name === 'relocate') {
           const building = state.buildings.find(item => item.id === args[0]);
           if (!building || !fixedSites.some(site =>

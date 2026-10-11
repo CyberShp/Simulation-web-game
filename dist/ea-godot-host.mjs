@@ -6,8 +6,7 @@ import {createRuntimeClock, createFrameDiagnostics} from './ea-runtime.mjs';
 
 export async function bootGodotHost({preview = 'godot-preview', siteLayout = null} = {}) {
   if (!['godot-preview', 'painted-game', 'estate-game'].includes(preview)) throw Error('未知的预览档位');
-  const openingState = preview === 'estate-game' ? initial({sr:true}) : undefined;
-  if (openingState) openingState.buildings.find(building => building.type === 'hall').condition = 35;
+  const openingState = preview === 'estate-game' ? initial({sr:true,mountainOpening:true}) : undefined;
   const world = createGodotBridge({state:openingState,sites:siteLayout?.sites});
   const clock = createRuntimeClock();
   const metrics = createFrameDiagnostics({sampleLimit: 600});

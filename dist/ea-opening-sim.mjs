@@ -10,6 +10,7 @@ export * from './ea-sim.mjs';
 import {srEnabled,initSR,validateSR,beforeSRSecond,tickSR,SR_HANDLERS,SR_BODY_COMMANDS} from './ea-sr-runtime.mjs';
 import {executeContractCommand} from './ea-sr-contracts.mjs';
 import {sceneUnits,placementIssue,initBuildingGrid,spatialPrefab,SPATIAL_SCENE} from './ea-sr-spatial.mjs';
+export {HALL_ESTABLISH_COST} from './ea-sr-spatial.mjs';
 import {BUILDING_GRID,buildingGridEnabled} from './ea-building-grid.mjs';
 import {advanceSRStory} from './ea-sr-story.mjs';
 import {tickCampaignCombat,settleCombatBodyProjection} from './ea-campaign.mjs';
@@ -36,7 +37,7 @@ export {srEnabled,initSR};
 export {cloneState,SCHEMA_VERSION,CONTENT_VERSION};
 const LEGACY_COMMAND_NAMES=['recoverOpeningInheritance','chooseOpeningInheritance','setSpeed','setIntroPage','acknowledgeOnboarding','requestSceneInteraction','cancelSceneInteraction','setNarrativePage','acknowledgeNarrative','acknowledgeIntro','advanceStory','build','cancelConstruction','cancelProduction','offerArtisanCare','cancelArtisanCare','declineArtisanCare','upgrade','toggleBuilding','repairBuilding','relocate','demolish','recruit','obtainBook','sealBook','masterStudy','forgetSupport','returnToBasics','masterBreakthrough','masterRiskBreakthrough','masterPill','masterAction','masterTeach','moveMaster','moveScenicMaster','craft','trade','fulfill','claim','setPolicy','offerRoute','upgradeSect','societyCommand','foundSect','inviteOffice','foundPeak','inviteMentor','setSocietyPolicy','settleIncident','resolvePersonalQuest','resolveWorldVisitor','resolveSocietyVisitor','startExploration','moveExploration','resolveExploration','leaveRegion','combatAction','acknowledgeCombat','startMasterTravel','resolveMasterEncounter','cancelMasterTravel'];
 export const COMMAND_NAMES=[...new Set([...LEGACY_COMMAND_NAMES,...Object.keys(SR_HANDLERS)])];
-const bodyCommands=new Set(['build','upgrade','repairBuilding','relocate','demolish','masterStudy','masterAction','masterTeach','masterBreakthrough','masterRiskBreakthrough','masterPill','moveMaster','moveScenicMaster','requestSceneInteraction','startExploration','startMasterTravel','craft','advanceStory','offerArtisanCare','declineArtisanCare']);
+const bodyCommands=new Set(['build','establishHall','upgrade','repairBuilding','relocate','demolish','masterStudy','masterAction','masterTeach','masterBreakthrough','masterRiskBreakthrough','masterPill','moveMaster','moveScenicMaster','requestSceneInteraction','startExploration','startMasterTravel','craft','advanceStory','offerArtisanCare','declineArtisanCare']);
 
 export function initial(options={}){
  const s=migrateState(base.initial(options),{newGame:true});
@@ -49,16 +50,23 @@ export function initial(options={}){
  second.mind.reason='正在寻找安身与求道的地方，想先了解山院能提供的生活。';
  const hall=buildingAccess(s,s.buildings.find(b=>b.type==='hall'));
  for(const [person,offset]of [[visitor,-22],[second,22]]){const p=scenicNearest(s,{x:hall.x+offset,y:hall.y+8});if(p){person.mind.scenic.x=p.x;person.mind.scenic.y=p.y;}}
- s.story.opening={visitorId:visitor.personId,secondVisitorId:second.personId,gifted:false,invitation:'unasked',inheritance:{status:'sealed',selected:null}};
+ s.story.opening={visitorId:visitor.personId,secondVisitorId:second.personId,gifted:false,invitation:'unasked',hallPhase:options.sr&&options.mountainOpening?'shelter':'complete',inheritance:{status:'sealed',selected:null}};
  s.master.main=null;s.master.knowledge={};s.master.artsById={};s.doctrine.books=[];
  s.stockpilesById['stockpile:lu-zhiwei']={id:'stockpile:lu-zhiwei',ownerId:visitor.personId,resources:Object.fromEntries(Object.keys(base.RESOURCES).map(k=>[k,0]))};
  initRainArtisan(s,base.addDisciple);s.rulesetVersion='opening-runtime-3';repairScenicState(s);if(options.sr)initSR(s,{newGame:true});return s;
+}
+
+function normalizeOpeningHallPhase(s){
+ // Saves created before the new mountain opening already own a finished hall.
+ if(s.story?.opening&&!Object.hasOwn(s.story.opening,'hallPhase'))s.story.opening.hallPhase='complete';
 }
 
 function validateOpeningRecords(s){
  validateOpeningInheritance(s);
  const opening=s.story.opening;
  if(opening){
+  const establishing=s.workOrdersById?.['work:construction:1']?.operation==='establish';
+  if(!['shelter','building','complete'].includes(opening.hallPhase)||(opening.hallPhase==='building')!==establishing)throw Error('存档校验失败：主殿营造阶段异常');
   if(opening.visitorId!=='person:lu-zhiwei'||opening.secondVisitorId!=='person:lin-changfeng'||!s.personsById[opening.visitorId]||!s.personsById[opening.secondVisitorId]||typeof opening.gifted!=='boolean'||!['unasked','joined','declined'].includes(opening.invitation)||!opening.gifted&&opening.invitation!=='unasked')throw Error('存档校验失败：赠药与入院记录异常');
   if(opening.invitation==='joined'&&!s.homeMemberIds.includes(opening.visitorId)&&!s.society.departed.some(p=>p.id===s.personsById[opening.visitorId].id))throw Error('存档校验失败：入院人物引用异常');
   const gift=s.factsById['fact:opening:gift'];
@@ -67,7 +75,7 @@ function validateOpeningRecords(s){
 }
 
 export function validateSave(input,{upgrade=false}={}){
- if(srEnabled(input)){validateV6Shape(input);const s=cloneState(input);base.validateSave(legacyProjection(s),{canonical:true});validateOpeningRecords(s);validateFacilityActivities(s);validateRainArtisan(s);upgradeEquipmentRecipeSnapshots(s);validateSR(s);initBuildingGrid(s);validateFacilityActivities(s);upgradeProductionRecipeSnapshots(s);validateFacilityActivities(s);return hydrateState(validateSR(s));}
+ if(srEnabled(input)){validateV6Shape(input);const s=cloneState(input);normalizeOpeningHallPhase(s);base.validateSave(legacyProjection(s),{canonical:true});validateOpeningRecords(s);validateFacilityActivities(s);validateRainArtisan(s);upgradeEquipmentRecipeSnapshots(s);validateSR(s);initBuildingGrid(s);validateFacilityActivities(s);upgradeProductionRecipeSnapshots(s);validateFacilityActivities(s);return hydrateState(validateSR(s));}
  if(input?.schemaVersion===undefined){
   const old=base.validateSave(input);
   const migrated=migrateState(old,{sourceVersion:input.version});migrated.rulesetVersion='opening-runtime-2';return validateSave(migrated,{upgrade});
@@ -77,7 +85,7 @@ export function validateSave(input,{upgrade=false}={}){
  const s=cloneState(input),checked=base.validateSave(legacyProjection(s));
  s.personsById['person:master']=checked.master;
  s.disciples=checked.disciples;s.buildings=checked.buildings;
- s.story=checked.story;
+ s.story=checked.story;normalizeOpeningHallPhase(s);
  validateOpeningRecords(s);
  if(s.rulesetVersion==='opening-runtime-1'){
   if(s.contentVersion==='opening-v1.2'&&!s.story.completed&&!s.story.artisan){if(s.personsById['person:cheng-wenzhou'])throw Error('存档校验失败：伤匠身份缺少事件');initRainArtisan(s,base.addDisciple);}
@@ -99,6 +107,7 @@ export function prepareAutonomyV2(input){return prepareAutonomyV2Checked(input,v
 export function advanceStory(s,choice){
  if(srEnabled(s)&&s.story.step>=3)return advanceSRStory(s,choice);
  if(s.story.opening&&s.story.step===2){
+  if(s.story.opening.hallPhase!=='complete')throw Error('先营造主殿，再商议入院。');
   if(!base.storyReady(s))throw Error('先恢复可运行的药田与伐木场，并准备可用居所。');
   const visitor=s.personsById[s.story.opening.secondVisitorId],position=visitor.mind.scenic;
   if(s.world.exploration||s.master.journey||Math.hypot(s.master.scenic.x-position.x,s.master.scenic.y-position.y)>sceneUnits(s,48))throw Error('先到林长风身边，再商议入院。');
@@ -121,6 +130,7 @@ export function advanceStory(s,choice){
  }
  if(!['invite','decline'].includes(choice))throw Error('请选择商议入院，或让她先回去照应家人。');
  if(choice==='invite'){
+  if(o.hallPhase!=='complete')throw Error('先营造主殿，才能请她安心入院。');
   if(s.disciples.length>=base.capacity(s))throw Error('居所不足，赠药仍已送达，可营造居所后再商议。');
   s.homeMemberIds.push(visitor.personId);o.invitation='joined';visitor.mind.reason='药材已备好，山院提供药理与住处，我愿留下求道；同行仍另作决定。';
   base.rememberPerson(s,visitor,visitor.mind.reason,{important:true,key:'opening:voluntary-join'});
@@ -240,6 +250,7 @@ export function dispatchCommand(s,{name,args=[],id=`command:${s.transactions.nex
     if(a&&a.kind!=='facility'&&!cancelling&&!currentCombatAction&&!command.startsWith('cancel')&&!['srCrisisCommand','srWorldCommand','srStoryCommand'].includes(command))throw Error('掌门已有身体活动，先完成或中止。');
    }
    if(command==='build'){const lock=base.buildingLock(next,values[0]);if(lock)throw Error(lock);}
+   if(['build','upgrade','recruit'].includes(command)&&next.story?.opening&&next.story.opening.hallPhase!=='complete')throw Error('先营造主殿，再安排其他院务。');
    const fn=command==='recoverOpeningInheritance'?recoverOpeningInheritance:command==='chooseOpeningInheritance'?chooseOpeningInheritance:command==='masterAction'?openingMasterAction:command==='advanceStory'?advanceStory:SR_HANDLERS[command]||({setSpeed,offerArtisanCare,cancelArtisanCare,declineArtisanCare,cancelProduction}[command])||base[command];
    if(typeof fn!=='function')throw Error('操作尚未接入。');
    const result=fn(next,...values);reconcileActivities(next);reconcileAutonomyV2Commitments(next);return result;

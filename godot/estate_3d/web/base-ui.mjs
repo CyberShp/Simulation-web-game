@@ -62,7 +62,7 @@ export function startPaintedGameUI(host) {
       <h3 class="person-name">${esc(person.name)}</h3><p class="subline">${role} · ${person.atHome?'在院':'外出'} · ${esc(action)}</p>
       <div class="information"><div>境界<b>${person.realm==null?'尚未入宗':`炼气 ${esc(person.realm)} 层`}</b></div><div>当前状态<b>${person.wound>0?`伤势 ${Math.ceil(person.wound)}`:esc(action)}</b></div></div>
       <h4 class="section-label">修习</h4>${personArts(person,state)}
-      ${person.role==='visitor'?'<p class="lore">陆知微尚未入宗，去留仍由她自己决定。</p>':''}
+      ${person.role==='visitor'?'<p class="lore">陆知微仍在院中作客。</p>':''}
       ${person.role!=='visitor'&&person.mainArtId&&person.arts?.some(art=>art.id===person.mainArtId)?`<button class="primary-action" data-open-art="${esc(person.mainArtId)}">查看所习功法</button>`:''}`;
   }
   function arts(state) {
@@ -78,13 +78,13 @@ export function startPaintedGameUI(host) {
       <p class="art-kind">${esc(artKinds[art.kind]||art.kind)} · 已获典籍</p><h3 class="art-name">${esc(art.name)}</h3><p class="art-source">${esc(art.source)}</p>
       <div class="art-stages" aria-label="功法修习阶段"><span class="${art.access?'done':''}"><i>✓</i>得书</span><span class="${art.understanding>0?'current':''}"><i>✦</i>参悟</span><span class="${art.mastery>0?'done':''}"><i>✧</i>练成</span></div>
       ${meter('理解',art.understanding)}${meter('熟练',art.mastery,'mastery')}
-      <p class="lore">典籍已在山院，可安排掌门实际研习。<br>${art.teaching?.qualified?'掌门已具备授业资格。':'授业条件：'+esc(art.teaching?.reason||'尚未满足')}</p>
+      <p class="lore">${art.teaching?.qualified?'此卷可授门人。':'尚难授业：'+esc(art.teaching?.reason||'需再研习')}</p>
       ${active.map(o=>`<div class="order">${o.kind==='study'?'掌门研习':o.kind==='teach'?'门人授业':'转修'} · ${esc(orderPhases[o.phase]||o.phase)} · ${esc(o.progressTicks||0)} / ${esc(o.durationTicks||0)}${o.reason?`<br>${esc(o.reason)}`:''}<button class="secondary-action" data-cancel="${esc(o.id)}">中止安排</button></div>`).join('')}
       <button class="primary-action" data-study="${esc(art.id)}" ${canStudy?'':'disabled'}>安排研习</button>
-      ${students.length?`<h4 class="section-label">门人授业</h4><p class="quiet">授业会核对掌门的理解、熟练、门人状态与意愿。</p>${students.map(p=>`<button class="secondary-action" data-teach="${esc(art.id)}" data-student="${esc(p.id)}">邀请 ${esc(p.name)} 研习</button>`).join('')}`:''}`;
+      ${students.length?`<h4 class="section-label">门人授业</h4>${students.map(p=>`<button class="secondary-action" data-teach="${esc(art.id)}" data-student="${esc(p.id)}">邀请 ${esc(p.name)} 研习</button>`).join('')}`:''}`;
   }
   function archive(state) {
-    return `<h3 class="art-name">山院行囊</h3><div class="information inventory">${Object.entries(labels).map(([id,[,name]])=>`<div><span><i class="resource-icon resource-${id}" aria-hidden="true"></i>${name}</span><b>${esc(state.resources[id]??0)}</b></div>`).join('')}</div><p class="quiet">旧院所余，尽在此处。</p><h4 class="section-label">存读</h4><button class="primary-action" data-save>保存进度</button><button class="secondary-action" data-reload>读取预览档</button><button class="secondary-action" data-export>导出存档</button><button class="secondary-action" data-import>导入存档</button>`;
+    return `<h3 class="art-name">山院行囊</h3><div class="information inventory">${Object.entries(labels).map(([id,[,name]])=>`<div><span><i class="resource-icon resource-${id}" aria-hidden="true"></i>${name}</span><b>${esc(state.resources[id]??0)}</b></div>`).join('')}</div><h4 class="section-label">存读</h4><button class="primary-action" data-save>保存进度</button><button class="secondary-action" data-reload>读取档案</button><button class="secondary-action" data-export>导出存档</button><button class="secondary-action" data-import>导入存档</button>`;
   }
   document.addEventListener('click',event => {
     const button=event.target.closest('button');
@@ -98,7 +98,7 @@ export function startPaintedGameUI(host) {
     else if (button.dataset.teach) send({name:'teachArt',args:[button.dataset.teach,button.dataset.student]});
     else if (button.dataset.cancel) send({name:'cancelCultivationOrder',args:[button.dataset.cancel]});
     else if (button.hasAttribute('data-save')) {const result=JSON.parse(host.save_slot());tell(result.message||'当前进度已保存',!result.ok)}
-    else if (button.hasAttribute('data-reload')) {host.reload_slot();tell('正在读取预览档')}
+    else if (button.hasAttribute('data-reload')) {host.reload_slot();tell('正在读取档案')}
     else if (button.hasAttribute('data-export')) host.download_save();
     else if (button.hasAttribute('data-import')) host.import_save();
   });

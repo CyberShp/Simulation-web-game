@@ -136,7 +136,7 @@ func _gui_input(event: InputEvent) -> void:
    accept_event()
    return
   if Rect2(332, 1431, 360, 72).has_point(at):
-   scene.choose_selected()
+   scene.choose_selected(true)
  else:
   var at := Vector2(position.x * 1536.0 / size.x, position.y * 1024.0 / size.y)
   if Rect2(909, 327, 88, 88).has_point(at):
@@ -148,5 +148,5 @@ func _gui_input(event: InputEvent) -> void:
    accept_event()
    return
   if Rect2(974, 783, 370, 79).has_point(at):
-   scene.choose_selected()
+   scene.choose_selected(true)
  accept_event()
