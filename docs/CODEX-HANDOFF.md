@@ -2,7 +2,7 @@
 
 ## U-115 / U-116 当前接续
 
-开局第一笔六份灵草疗伤会暂停世界并进入独立雨夜包裹场景。五选一各得心法、攻击、护持三项；未选原本在坊市或听雨遗址，旧档沿用已学内容。共享规则见 `dist/ea-opening-inheritance.mjs`，正式入口画面见 `dist/ea-package-scene.mjs`，Godot 画面见 `godot/estate_2d/opening_inheritance_canvas.gd`；雨夜及卷册素材见两者各自的 `assets/opening-*`。当前旧别院运行稿只供规则接线，新的山院视觉另行接续。浏览器定向新档、待选存读、横竖屏与选印已验，具体边界见 [STATUS](design/STATUS.md) 首段。
+开局第一笔六份灵草疗伤会暂停世界并进入独立雨夜包裹场景。剧情中包裹只有一卷；游戏界面逐项展示五种可选开局，确定一条后取得心法、攻击、护持三项。未选原本在坊市或听雨遗址，旧档沿用已学内容。共享规则见 `dist/ea-opening-inheritance.mjs`，正式入口画面见 `dist/ea-package-scene.mjs`，Godot 画面见 `godot/estate_2d/opening_inheritance_canvas.gd`；本批单卷雨夜素材为各自 `assets/opening-bundle-*`。包裹场景已用新山院背景，可行走山院仍待替换。隔离 Godot Web 与正式入口均已实点疗伤、切换及确认；前批存读等验证及本批实测边界见 [STATUS](design/STATUS.md) 首段。
 
 功法目录先复评 Y-001–067，再由多 agent 扩写至连续 Y-347／4900，尚余 4553。规格与校准见 [32](design/32-OPENING-INHERITANCE.md)、[33](design/33-ARTS-INITIAL-CALIBRATION.md)，新增批次见 [34](design/34-FIVE-CONTINENT-ARTS-EXPANSION-05.md)、[35](design/35-FIVE-CONTINENT-ARTS-EXPANSION-06.md)、[36](design/36-FIVE-CONTINENT-ARTS-EXPANSION-07.md) 和 [总账](design/28-FIVE-CONTINENT-ARTS-LEDGER.md)。四条非青岚的筑基续篇、金锋持剑校验和元素异常尚待落实；勿将目录草稿当作运行内容。
 

@@ -33,13 +33,13 @@ export function beginOpeningInheritance(s){
  const record=s.story?.opening?.inheritance;
  if(!record||record.status!=='sealed')return;
  record.status='pending';record.openedTick=s.worldTick;record.resumeSpeed=s.speed;s.speed=0;
- log(s,'灵草药力入脉。你解开母亲逃亡时塞来的旧布包，五道封印在掌心显现。');
+ log(s,'灵草药力入脉。你解开母亲逃亡时塞来的旧布包，摸到一卷封好的传承。');
 }
 
 export function chooseOpeningInheritance(s,id){
  const record=s.story?.opening?.inheritance,kit=OPENING_INHERITANCES[id];
  if(!record||record.status!=='pending')throw Error('此刻没有待择的传承。');
- if(!kit)throw Error('包裹中没有这条传承线索。');
+ if(!kit)throw Error('此处没有这条传承。');
  const p=s.master;
  p.main=kit.heart;p.knowledge={};p.artsById??={};
  for(const artId of [kit.heart,kit.attack,kit.guard]){
@@ -49,7 +49,7 @@ export function chooseOpeningInheritance(s,id){
  }
  record.status='chosen';record.selected=id;record.chosenTick=s.worldTick;record.recovered=[];
  s.speed=record.resumeSpeed;delete record.resumeSpeed;
- log(s,`你启开${kit.name}封印，得见《${TECHNIQUES[kit.heart].name}》与两式护身法。余下墨记仍收在布角。`);
+ log(s,`你启开卷上的封缄，得见《${TECHNIQUES[kit.heart].name}》与两式攻守法。`);
  return {selected:id,heart:kit.heart,attack:kit.attack,guard:kit.guard};
 }
 

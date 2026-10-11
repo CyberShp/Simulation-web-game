@@ -435,7 +435,7 @@ export function createEAUI(api) {
     else setTab(next.kind);
   }
   function openGuide(){open('初到云岫 · 游玩指引',`<div class="guide-intro"><span class="empty-seal">山</span><h3>先安身，再与人同修。</h3><p>你只直接控制掌门。门人各有志向，会根据精力、制度、关系与机会决定去处。</p></div><div class="guide-grid"><section><h4>① 治伤与结缘</h4><p>掌门面板选择疗养伤势。按主线赠药救人，再营造灵田与伐木场。</p></section><section><h4>② 经营与传承</h4><p>营造生活、生产与学习设施。留意口粮、维护和门人的理由，向他们提供合适机会。</p></section><section><h4>③ 亲往与调查</h4><p>山外页面选择路线。移动掌门走近交互点，调查线索、削弱敌方，准备筑基与复仇。</p></section><section><h4>④ 建立共同事业</h4><p>有了人数、修为与成熟传承即可立派。邀请执事、设立分峰，归属与任职仍需要意愿。</p></section></div><div class="settings-note"><strong>地图操作</strong><p>拖动平移 · 滚轮或 + / − 缩放<br>行走模式点击目的地 · WASD / 方向键移动<br>空格暂停 · Esc 取消放置 / 关闭弹窗<br>点击左侧系统图标打开管理页，右上角箭头可收起。地块按钮切换营造视图。</p></div><p class="ui-note">存档与设置可手动保存、管理 3 个世界档及导入导出。离开网页期间，山院不会推进时间。</p>${btn('回到山院','closeModal',[],{className:'primary',full:true})}`);}
-  function biography(){open('余烬立山 · 掌门身世',`<div class="biography-lead">雨夜之后，尚有一盏灯。</div><p>你出身栖霞沈氏，天资卓绝，年纪轻轻已至炼气六层。赤嶂门门主韩厉川觊觎沈家灵脉与护脉阵术，收买阵匠，于迁族前夜破开山门。</p><p>父亲逆转残阵挡住追兵，母亲耗尽修为发动遁符。你带着幸存的传承，来到她早年在云岫山使用的采药别院。</p><div class="settings-note">母亲留下的布包里藏着五道寻法的墨记。先养伤、立足，再查清栖霞旧事。</div><p>愿意留下的人，各有自己的志向。你可以争取理解与同行，也要容得下对复仇的不同想法。</p>${btn('查看当前主线','storyFromModal',[],{className:'primary',full:true})}`);}
+  function biography(){open('余烬立山 · 掌门身世',`<div class="biography-lead">雨夜之后，尚有一盏灯。</div><p>你出身栖霞沈氏，天资卓绝，年纪轻轻已至炼气六层。赤嶂门门主韩厉川觊觎沈家灵脉与护脉阵术，收买阵匠，于迁族前夜破开山门。</p><p>父亲逆转残阵挡住追兵，母亲耗尽修为发动遁符。你带着幸存的传承，来到她早年在云岫山使用的采药别院。</p><div class="settings-note">母亲留下的布包里，只有一卷传承。</div><p>愿意留下的人，各有自己的志向。你可以争取理解与同行，也要容得下对复仇的不同想法。</p>${btn('查看当前主线','storyFromModal',[],{className:'primary',full:true})}`);}
 
   function riskBreakthroughDialog(){
     const s=getState(),info=call('riskBreakthroughInfo',s);
