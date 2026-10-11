@@ -5,10 +5,14 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#17251f">
   <link rel="icon" href="data:,">
-  <link rel="stylesheet" href="game-ui.css?v=6aa875f1c3b9">
-  <link rel="stylesheet" href="system-ui.css?v=6aa875f1c3b9">
-  <link rel="stylesheet" href="system-people.css?v=6aa875f1c3b9">
-  <link rel="stylesheet" href="system-inventory.css?v=6aa875f1c3b9">
+  <link rel="stylesheet" href="game-ui.css?v=c69084c118cd">
+  <link rel="stylesheet" href="system-ui.css?v=c69084c118cd">
+  <link rel="stylesheet" href="system-people.css?v=c69084c118cd">
+  <link rel="stylesheet" href="system-inventory.css?v=c69084c118cd">
+  <link rel="stylesheet" href="system-crafting.css?v=c69084c118cd">
+  <link rel="stylesheet" href="system-sect.css?v=c69084c118cd">
+  <link rel="stylesheet" href="system-world.css?v=c69084c118cd">
+  <link rel="stylesheet" href="battle-ui.css?v=c69084c118cd">
   <title>余烬立山 · 云岫山院</title>
 
 </head>
@@ -49,14 +53,17 @@
       <button id="follow" aria-label="跟随掌门">⌖</button><button id="pause" aria-label="暂停或继续">Ⅱ</button>
     </div>
     <div class="notice" id="notice" role="status">点落脚处或营造地查看 · 点院地行走</div>
+    <section id="battle-hud" aria-label="斗法操作" hidden></section>
+    <section id="travel-veil" aria-label="山间行程" hidden><span aria-hidden="true">行</span><h2>云岫山道</h2><p>松风入袖，山路渐远</p><strong id="travel-remaining"></strong><button class="game-button" data-tab="world">查看行程</button></section>
   </main>
   <section class="loading" id="loading" aria-live="polite"><div class="loading-seal">岚</div><h1>余烬立山</h1><p>正在打开云岫山院</p><progress id="progress"></progress><p id="error"></p></section>
   <script>window.__paintedGameMode = true;</script>
   <script src="index.js"></script>
   <script type="module">
-    import {bootGodotHost} from './runtime/ea-godot-host.mjs?v=6aa875f1c3b9';
-    import {startEstateGameUI} from './game-ui.mjs?v=6aa875f1c3b9';
-    const configuration={"args": [], "canvasResizePolicy": 2, "emscriptenPoolSize": 8, "ensureCrossOriginIsolationHeaders": true, "executable": "index", "experimentalVK": false, "fileSizes": {"index.wasm": 37700666, "scene-5406c89be643.pck": 31352456}, "focusCanvas": true, "gdextensionLibs": [], "godotPoolSize": 4, "mainPack": "scene-5406c89be643.pck"};
+    import {bootGodotHost} from './runtime/ea-godot-host.mjs?v=c69084c118cd';
+    import {startEstateGameUI} from './game-ui.mjs?v=c69084c118cd';
+    import {installScenePackLoader} from './scene-pack-loader.mjs?v=c69084c118cd';
+    const configuration={"args": [], "canvasResizePolicy": 2, "emscriptenPoolSize": 8, "ensureCrossOriginIsolationHeaders": true, "executable": "index", "experimentalVK": false, "fileSizes": {"index.wasm": 37700666, "scene-772e4d90182e.pck": 42643972}, "focusCanvas": true, "gdextensionLibs": [], "godotPoolSize": 4, "mainPack": "scene-772e4d90182e.pck", "scenePack": {"byteLength": 42643972, "sha256": "772e4d90182ed29edba4cab77c8b76f8fea7ef74acf289611696d13639519d30", "parts": [{"url": "scene-772e4d90182e.pck.part0", "byteLength": 16777216, "sha256": "b87ff13734fa0f7b54a278ba354d843b8e1c06f7e5dfbf5857f3f30de2ce3d54"}, {"url": "scene-772e4d90182e.pck.part1", "byteLength": 16777216, "sha256": "a8e5695003fc11d78bd94b04ad3192c58d13aa982898494bfed6110fa30bf841"}, {"url": "scene-772e4d90182e.pck.part2", "byteLength": 9089540, "sha256": "eb021280a072d4f3a800b7b62fe4b962bc5121e4a40117af828f66036fe92229"}]}};
     const loading=document.getElementById('loading'), progress=document.getElementById('progress');
     try {
       const missing=Engine.getMissingFeatures({threads:false});
@@ -65,6 +72,7 @@
       const host=await bootGodotHost({preview:'estate-game',siteLayout});
       startEstateGameUI(host,siteLayout);
       const engine=new Engine(configuration);
+      installScenePackLoader(engine,configuration,(current,total)=>{progress.max=total;progress.value=current});
       await engine.startGame({canvas:document.getElementById('canvas'),onProgress(current,total){if(total>0){progress.max=total;progress.value=current}}});
       loading.hidden=true;
       host.start();

@@ -1,27 +1,27 @@
-import {hallInteriorEnabled} from './ea-hall-interior.mjs?v=6aa875f1c3b9';
-import {sceneUnits} from './ea-sr-spatial.mjs?v=6aa875f1c3b9';
-import {motherBenefit} from './ea-sr-mother-chain.mjs?v=6aa875f1c3b9';
-import * as srEconomy from './ea-sr-economy.mjs?v=6aa875f1c3b9';
-import {prepareFacilityActivity,releaseBodyActivity} from './ea-facility-activities.mjs?v=6aa875f1c3b9';
-import {startScenicWalk,advanceScenic,validateScenic,repairScenicState,syncScenicPosition,buildingAccess,scenicDistance,scenicCanStand,scenicFindPath} from './ea-scenic.mjs?v=6aa875f1c3b9';
-import {lifeActivityLock,lifeFacility,personLifeSummary,actorScenePosition,localLifeFacility} from './ea-life.mjs?v=6aa875f1c3b9';
-import {validateSceneIntent,cancelSceneInteraction} from './ea-interactions.mjs?v=6aa875f1c3b9';
-import {initNarrative,validateNarrative} from './ea-narrative.mjs?v=6aa875f1c3b9';
-import {routeDiscovered,scenicHomeActors} from './ea-scene-state.mjs?v=6aa875f1c3b9';
-import {initOnboarding,validateOnboarding,recordFirstProduction} from './ea-onboarding.mjs?v=6aa875f1c3b9';
-export {setIntroPage,acknowledgeOnboarding} from './ea-onboarding.mjs?v=6aa875f1c3b9';
-import * as legacy from './sect-sim.mjs?v=6aa875f1c3b9';
-import * as data from './ea-data.mjs?v=6aa875f1c3b9';
-import * as society from './ea-society.mjs?v=6aa875f1c3b9';
-import * as campaign from './ea-campaign.mjs?v=6aa875f1c3b9';
-export * from './ea-data.mjs?v=6aa875f1c3b9';
-export * from './ea-society.mjs?v=6aa875f1c3b9';
-export * from './ea-campaign.mjs?v=6aa875f1c3b9';
-export * from './ea-life.mjs?v=6aa875f1c3b9';
-export * from './ea-narrative.mjs?v=6aa875f1c3b9';
-export {requestSceneInteraction,cancelSceneInteraction} from './ea-interactions.mjs?v=6aa875f1c3b9';
-export {resolveVisitor,resolveVisitor as resolveWorldVisitor} from './ea-campaign.mjs?v=6aa875f1c3b9';
-export {resolveVisitor as resolveSocietyVisitor} from './ea-society.mjs?v=6aa875f1c3b9';
+import {hallInteriorEnabled} from './ea-hall-interior.mjs?v=c69084c118cd';
+import {sceneUnits} from './ea-sr-spatial.mjs?v=c69084c118cd';
+import {motherBenefit} from './ea-sr-mother-chain.mjs?v=c69084c118cd';
+import * as srEconomy from './ea-sr-economy.mjs?v=c69084c118cd';
+import {prepareFacilityActivity,releaseBodyActivity} from './ea-facility-activities.mjs?v=c69084c118cd';
+import {startScenicWalk,advanceScenic,validateScenic,repairScenicState,syncScenicPosition,buildingAccess,scenicDistance,scenicCanStand,scenicFindPath} from './ea-scenic.mjs?v=c69084c118cd';
+import {lifeActivityLock,lifeFacility,personLifeSummary,actorScenePosition,localLifeFacility} from './ea-life.mjs?v=c69084c118cd';
+import {validateSceneIntent,cancelSceneInteraction} from './ea-interactions.mjs?v=c69084c118cd';
+import {initNarrative,validateNarrative} from './ea-narrative.mjs?v=c69084c118cd';
+import {routeDiscovered,scenicHomeActors} from './ea-scene-state.mjs?v=c69084c118cd';
+import {initOnboarding,validateOnboarding,recordFirstProduction} from './ea-onboarding.mjs?v=c69084c118cd';
+export {setIntroPage,acknowledgeOnboarding} from './ea-onboarding.mjs?v=c69084c118cd';
+import * as legacy from './sect-sim.mjs?v=c69084c118cd';
+import * as data from './ea-data.mjs?v=c69084c118cd';
+import * as society from './ea-society.mjs?v=c69084c118cd';
+import * as campaign from './ea-campaign.mjs?v=c69084c118cd';
+export * from './ea-data.mjs?v=c69084c118cd';
+export * from './ea-society.mjs?v=c69084c118cd';
+export * from './ea-campaign.mjs?v=c69084c118cd';
+export * from './ea-life.mjs?v=c69084c118cd';
+export * from './ea-narrative.mjs?v=c69084c118cd';
+export {requestSceneInteraction,cancelSceneInteraction} from './ea-interactions.mjs?v=c69084c118cd';
+export {resolveVisitor,resolveVisitor as resolveWorldVisitor} from './ea-campaign.mjs?v=c69084c118cd';
+export {resolveVisitor as resolveSocietyVisitor} from './ea-society.mjs?v=c69084c118cd';
 const {RESOURCES,BUILDINGS,TECHNIQUES,RECIPES,ROUTES,GOODS,CELLS,NAMES,TRAIT_NAMES,day,xpNeed,realmName,rng,log,canPay,pay,grant,clamp,capacity,stage,finite,integer}=data;
 const resourceZero=()=>Object.fromEntries(Object.keys(RESOURCES).map(k=>[k,0]));
 const own=(o,k)=>Object.hasOwn(o,k);
@@ -199,7 +199,7 @@ export function masterRiskBreakthrough(s){
  const text=success?`掌门提前冲关成功，突破至${realmName(m.realm)}；此次公示成功率${Math.round(info.chance*100)}%。`:`掌门提前冲关未成，仍是${realmName(m.realm)}；损失当前修为15%、受轻伤12，需调息60秒，投入物资已消耗。`;
  m.memories.unshift({time:s.time,text});log(s,text);return result;
 }
-export function consumePill(s,id,person,{silent=false}={}){const r=RECIPES[id];if(!r||id==='foundation'||(s.srEconomy?srEconomy.availablePills(s,person.personId,id):s.pills[id])<1)throw Error('丹药不可直接服用，或库存不足。');const xp=r.effect.xp*(person.realm>=10?.5:1);if(person.xp>=xpNeed(person.realm)&&(!r.effect.energy||person.energy>=100)&&(!r.effect.wound||!person.wound))throw Error('此时服丹没有收益。');if(s.srEconomy)srEconomy.consumeAccessiblePill(s,person.personId,id);else s.pills[id]--;person.xp=Math.min(xpNeed(person.realm),person.xp+xp);person.energy=Math.min(100,person.energy+r.effect.energy);if(person.wound!==undefined)person.wound=Math.max(0,person.wound-r.effect.wound);s.stats.consumed++;if(!silent)log(s,`${person.name}服用${r.name}，调息养脉。`);}
+export function consumePill(s,id,person,{silent=false}={}){const r=RECIPES[id];if(!r||id==='foundation'||(s.srEconomy?srEconomy.availablePills(s,person.personId,id):s.pills[id])<1)throw Error('丹药不可直接服用，或库存不足。');const xp=r.effect.xp*(person.realm>=10?.5:1);if(!(xp>0&&person.xp<xpNeed(person.realm)||r.effect.energy>0&&person.energy<100||r.effect.wound>0&&person.wound>0))throw Error('此时服丹没有收益。');if(s.srEconomy)srEconomy.consumeAccessiblePill(s,person.personId,id);else s.pills[id]--;person.xp=Math.min(xpNeed(person.realm),person.xp+xp);person.energy=Math.min(100,person.energy+r.effect.energy);if(person.wound!==undefined)person.wound=Math.max(0,person.wound-r.effect.wound);s.stats.consumed++;if(!silent)log(s,`${person.name}服用${r.name}，调息养脉。`);}
 export function masterPill(s,id){if(s.srEconomy?s.combat?.status==='active':trip(s))throw Error(s.srEconomy?'斗法中须使用有起手与收势的实际服药动作。':'归院后再服用府库丹药。');return consumePill(s,id,s.master);}
 export function masterAction(s,action){
  const m=s.master;if(trip(s))throw Error('先结束山外行程或战斗。');if(!['rest','heal','cultivate','wood','stone','herb','food','teach'].includes(action))throw Error('行动无效。');

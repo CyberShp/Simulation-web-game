@@ -93,3 +93,6 @@
 body.opening-inheritance-active #game-ui{visibility:hidden;pointer-events:none}
 @media(max-height:800px) and (min-width:901px){.portrait,.portrait.has-art{height:192px}.person-name{font-size:29px}.information{margin:6px 0}.information div{padding:3px 4px}.section-label{margin:9px 0 5px}}
 @media(max-width:760px), (max-width:900px) and (orientation:portrait){.portrait,.portrait.has-art{height:215px}.manual-cover-title{height:80px}}
+
+/* U-123: the road reads the same journey clock as the local scene. */
+#travel-veil[hidden]{display:none}#travel-veil{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:linear-gradient(90deg,#143d3677,#163d3266,#143d3677);color:#eee9ca;pointer-events:none}#travel-veil>span{font:96px YunxiuBrush,var(--font);color:#cdddc9;text-shadow:0 5px 14px #102b24}#travel-veil h2{font:42px YunxiuBrush,var(--font);letter-spacing:12px;margin:0}#travel-veil p{font:18px var(--font);letter-spacing:6px;margin:0}#travel-veil strong{font:19px var(--font);font-weight:normal;margin:10px}#travel-veil button{pointer-events:auto;background:#294c3f;color:#ece6c5;border-color:#b4aa7a}.on-mountain-road #canvas{filter:blur(2px)}.on-mountain-road .opening-goal{display:none}.system-panel-open #travel-veil{visibility:hidden}

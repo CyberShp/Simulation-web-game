@@ -1,0 +1,84 @@
+.system-crafting{height:100%;min-height:0;display:grid;grid-template-columns:212px minmax(0,1fr) 246px;gap:12px;font-family:var(--font);color:var(--ink)}
+.system-crafting .pane{min-height:0;overflow:hidden}
+.system-crafting .pane-title{margin:0 0 12px;font:23px YunxiuBrush,var(--font);letter-spacing:2px}
+.system-crafting .pane-title h3{font:inherit}
+.system-crafting .game-button{font-family:YunxiuBrush,var(--font);font-size:17px;letter-spacing:1px;padding:6px 12px;min-height:34px}
+.alchemy-catalog,.alchemy-side{display:flex;flex-direction:column;padding:15px 12px;background:linear-gradient(90deg,#c2cba877,#d1d7b76b)}
+.alchemy-catalog{border-right:1px solid #9da981}
+.alchemy-side{border-left:1px solid #aab694;background:linear-gradient(90deg,#cbd3b34d,#e2e5c533)}
+.alchemy-catalog-mark{display:flex;align-items:center;justify-content:center;gap:12px;color:#83946e;font:22px YunxiuBrush,var(--font);height:73px;border-bottom:1px solid #aab89c88;margin-bottom:6px}
+.alchemy-catalog-mark svg{width:41px;height:41px}
+.alchemy-recipe-list{flex:1;min-height:0}
+.alchemy-recipe-choice{display:flex;align-items:center;gap:8px;width:100%;min-height:76px;padding:9px 7px;text-align:left;border-bottom:1px solid #acb899;background:none}
+.alchemy-recipe-choice.active{background:linear-gradient(90deg,#a9bd9188,#d1dcba44);box-shadow:inset 3px 0 #a58c53}
+.alchemy-recipe-choice .icon-slot{width:37px;height:39px}
+.alchemy-recipe-choice .icon-slot svg{width:29px;height:29px}
+.alchemy-recipe-choice>span:nth-child(2){min-width:0;flex:1}
+.alchemy-recipe-choice strong{display:block;font:21px YunxiuBrush,var(--font);white-space:nowrap}
+.alchemy-recipe-choice small{display:block;margin-top:4px;font:11px var(--font);color:#77836b;white-space:nowrap}
+.alchemy-recipe-choice i{font:11px var(--font);color:#52724e;white-space:nowrap}
+.alchemy-catalog>.game-button{margin-top:12px}
+.alchemy-recipe{display:flex;flex-direction:column;padding:17px 21px;border-top:1px solid #afbc9899;background:radial-gradient(ellipse at 50% 41%,#edf0d37a,transparent 62%)}
+.alchemy-heading{display:flex;align-items:center;gap:12px;flex:none}
+.alchemy-heading>.icon-slot{width:51px;height:55px;border-color:#a39b71}
+.alchemy-heading>.icon-slot svg{width:37px;height:37px}
+.alchemy-heading small{font:12px var(--font);color:#819070;letter-spacing:2px}
+.alchemy-heading h2{font:34px YunxiuBrush,var(--font);letter-spacing:2px;margin:2px 0}
+.alchemy-heading p{font:13px var(--font);color:#806d48}
+.alchemy-lore{font:13px/1.65 var(--font);color:#77836e;margin:11px 0 0}
+.alchemy-flow{position:relative;display:grid;grid-template-columns:minmax(127px,1fr) minmax(168px,1.3fr) minmax(88px,.65fr);align-items:center;gap:8px;flex:1;min-height:220px;margin:13px 0;background:radial-gradient(ellipse at 52% 70%,#b9c99b77,transparent 68%)}
+.alchemy-ingredients h3{font:16px YunxiuBrush,var(--font);color:#728463;margin-bottom:10px}
+.alchemy-material{display:grid;grid-template-columns:34px minmax(0,1fr);gap:3px 7px;align-items:center;padding:7px 0;border-bottom:1px solid #b2bc9d77}
+.alchemy-material .icon-slot{width:32px;height:33px;grid-row:1/3}
+.alchemy-material .icon-slot svg{width:25px;height:25px}
+.alchemy-material strong{display:block;font:16px YunxiuBrush,var(--font);line-height:1.1}
+.alchemy-material small{display:block;font:10px var(--font);color:#768469;line-height:1.45;margin-top:3px}
+.alchemy-source-label{display:block;margin-top:5px;font:10px var(--font);color:#65785e}
+.alchemy-source-label select{display:block;max-width:100%;width:100%;margin-top:3px;padding:3px 4px;color:var(--ink);background:#e7eace;border:1px solid #9ba98b;border-radius:3px;font:11px var(--font)}
+.alchemy-material.shortage small{color:#946a4f}
+.alchemy-material .game-button{grid-column:2;justify-self:start;font:13px var(--font);padding:3px 7px;min-height:24px;margin:2px 0 1px}
+.alchemy-vessel{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:0;min-height:220px}
+.alchemy-vessel:after{content:'';width:min(78%,180px);height:31px;position:absolute;bottom:29px;border:1px solid #9da98488;border-radius:50%;transform:rotate(-6deg);z-index:0}
+.alchemy-vessel img{position:relative;z-index:1;display:block;width:100%;height:224px;object-fit:contain;filter:drop-shadow(0 10px 6px #536b4455)}
+.alchemy-vessel span{font:13px YunxiuBrush,var(--font);color:#667d5b;margin-top:3px;z-index:1}
+.alchemy-output{display:flex;flex-direction:column;align-items:center;gap:7px;text-align:center;padding:5px 0;border-left:1px solid #a9b49077;min-width:0}
+.alchemy-output .icon-slot{width:50px;height:54px;background:radial-gradient(#f3edc8,#cad3a3);border-color:#a6965e}
+.alchemy-output .icon-slot svg{width:33px;height:33px}
+.alchemy-output strong{font:19px YunxiuBrush,var(--font)}
+.alchemy-output small{font:11px var(--font);color:#977b47}
+.alchemy-output b{font:11px var(--font);color:#67805e}
+.alchemy-workplace{display:flex;align-items:center;gap:9px;min-height:43px;padding:8px 0;border-top:1px solid #aab59599;border-bottom:1px solid #aab59599;font:13px var(--font)}
+.alchemy-workplace>span{color:#859173}
+.alchemy-workplace strong{font:17px YunxiuBrush,var(--font);margin-right:8px}
+.alchemy-workplace .game-button{margin-left:auto}
+.alchemy-submit{display:flex;align-items:end;justify-content:space-between;gap:14px;min-height:75px;padding:11px 0 1px}
+.alchemy-submit>div{min-width:0;max-height:88px;overflow:auto}
+.alchemy-submit p{font:12px/1.5 var(--font)}
+.alchemy-reasons{display:flex;flex-wrap:wrap;gap:5px 12px;color:#93664f}
+.alchemy-reasons span{display:inline-block}
+.alchemy-reasons span:before{content:'◇';margin-right:4px;color:#a49164}
+.alchemy-submit .game-button{font-size:23px;min-height:43px;white-space:nowrap}
+.alchemy-orders{flex:1;min-height:0}
+.alchemy-order{padding:12px 1px;border-bottom:1px solid #aeb99a}
+.alchemy-order.current{background:linear-gradient(90deg,#c9d6ad66,transparent)}
+.alchemy-order-head{display:flex;align-items:center;gap:8px}
+.alchemy-order-head .icon-slot{width:32px;height:35px}
+.alchemy-order-head .icon-slot svg{width:25px;height:25px}
+.alchemy-order-head strong{display:block;font:19px YunxiuBrush,var(--font)}
+.alchemy-order-head small,.alchemy-order>small{font:11px var(--font);color:#75836b}
+.alchemy-order>small{display:block;margin:8px 0}
+.alchemy-order .system-meter{margin:9px 2px}
+.alchemy-order>p{font:11px/1.5 var(--font)}
+.alchemy-order-actions{display:flex;gap:8px;margin-top:8px}
+.alchemy-order-actions .game-button{font-size:15px;padding:4px 7px;min-height:28px}
+.alchemy-medicine{padding:12px 0;border-top:1px solid #9fab8c}
+.alchemy-medicine h4,.alchemy-transports h4{font:19px YunxiuBrush,var(--font);margin:0 0 6px}
+.alchemy-medicine p{font:12px/1.6 var(--font);color:#72806b}
+.alchemy-medicine-actions{display:flex;gap:5px;flex-wrap:wrap;margin-top:9px}
+.alchemy-medicine-actions .game-button{font-size:14px;min-height:28px;padding:4px 6px}
+.alchemy-transports{padding-top:10px;border-top:1px solid #aab595}
+.alchemy-transport{display:flex;justify-content:space-between;gap:5px;font:11px/1.5 var(--font);padding:3px 0}
+.alchemy-transport small{color:#6a845d}
+@media(max-width:1060px){.system-crafting{grid-template-columns:176px minmax(0,1fr) 208px;gap:8px}.alchemy-catalog,.alchemy-side{padding-inline:8px}.alchemy-recipe{padding-inline:12px}.alchemy-flow{grid-template-columns:112px minmax(140px,1.2fr) 74px;gap:4px}.alchemy-vessel img{height:195px}.alchemy-recipe-choice strong{font-size:18px}.alchemy-recipe-choice .icon-slot{display:none}.alchemy-material small{font-size:9px}.alchemy-output strong{font-size:16px}.alchemy-workplace{gap:5px}.alchemy-workplace strong{font-size:15px}}
+@media(max-width:850px) and (orientation:portrait){.system-crafting{overflow:auto;grid-template-columns:190px minmax(0,1fr);grid-template-rows:minmax(570px,1fr) auto;height:100%}.alchemy-side{grid-column:1/3;min-height:225px;max-height:330px;border-left:0;border-top:1px solid #aab694}.alchemy-orders{max-height:185px}.alchemy-flow{grid-template-columns:125px minmax(150px,1.2fr) 86px}.alchemy-vessel img{height:215px}}
+@media(max-width:620px){.system-crafting{display:block;overflow:auto;height:100%}.alchemy-catalog{min-height:0;border-right:0;border-bottom:1px solid #aab694}.alchemy-catalog-mark{display:none}.alchemy-recipe-list{display:flex;overflow:auto;gap:4px}.alchemy-recipe-choice{min-width:134px;width:134px;min-height:62px;padding:5px}.alchemy-recipe-choice i{display:none}.alchemy-catalog>.game-button{margin:7px 0 0}.alchemy-recipe{min-height:505px;padding:12px}.alchemy-flow{grid-template-columns:102px minmax(120px,1fr) 73px;gap:2px;min-height:195px}.alchemy-vessel img{height:177px}.alchemy-vessel{min-height:180px}.alchemy-ingredients h3{font-size:13px}.alchemy-material .icon-slot{display:none}.alchemy-material{display:block}.alchemy-material strong{font-size:14px}.alchemy-material .game-button{font-size:11px}.alchemy-output .icon-slot{width:40px;height:42px}.alchemy-output strong{font-size:14px}.alchemy-output small,.alchemy-output b{font-size:10px}.alchemy-workplace{flex-wrap:wrap}.alchemy-submit{align-items:center}.alchemy-submit .game-button{font-size:17px}.alchemy-side{max-height:none;min-height:300px}}

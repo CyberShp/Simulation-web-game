@@ -1,9 +1,9 @@
 /** SR-XF-012/018/033. One item location, one body activity, worldTick only. */
-import {canPay,pay,grant,RESOURCES} from './ea-data.mjs?v=6aa875f1c3b9';
-import {buildingAccess,scenicFindPath,scenicNearest,geometryRevision,scenicDistance} from './ea-scene-geometry.mjs?v=6aa875f1c3b9';
-import {advanceScenic,syncScenicPosition} from './ea-scenic.mjs?v=6aa875f1c3b9';
-import {sceneUnits} from './ea-sr-spatial.mjs?v=6aa875f1c3b9';
-import {facilitySlots,slotReservation,slotById} from './ea-facility-slots.mjs?v=6aa875f1c3b9';
+import {canPay,pay,grant,RESOURCES} from './ea-data.mjs?v=c69084c118cd';
+import {buildingAccess,scenicFindPath,scenicNearest,geometryRevision,scenicDistance} from './ea-scene-geometry.mjs?v=c69084c118cd';
+import {advanceScenic,syncScenicPosition} from './ea-scenic.mjs?v=c69084c118cd';
+import {sceneUnits} from './ea-sr-spatial.mjs?v=c69084c118cd';
+import {facilitySlots,slotReservation,slotById} from './ea-facility-slots.mjs?v=c69084c118cd';
 
 let hooks={};
 export function configureEquipment(next={}){hooks={...hooks,...next};}

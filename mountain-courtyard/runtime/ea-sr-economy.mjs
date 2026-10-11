@@ -1,11 +1,11 @@
 /** SR-XF-009/010/011. U-63 author defaults (R/T), one world clock and one resource authority. */
-import {RESOURCES,GOODS,BUILDINGS,RECIPES,TECHNIQUES} from './ea-data.mjs?v=6aa875f1c3b9';
-import {buildingAccess,scenicFindPath,scenicDistance,geometryRevision,scenicNearest} from './ea-scene-geometry.mjs?v=6aa875f1c3b9';
-import {advanceScenic,syncScenicPosition} from './ea-scenic.mjs?v=6aa875f1c3b9';
-import {facilitySlots,slotReservation} from './ea-facility-slots.mjs?v=6aa875f1c3b9';
-import {cloneState,hydrateState} from './ea-state-v6.mjs?v=6aa875f1c3b9';
-import {CLIMATE,weatherModifiers} from './ea-sr-weather.mjs?v=6aa875f1c3b9';
-import {travelPreviewSR,travelSR} from './ea-sr-world.mjs?v=6aa875f1c3b9';
+import {RESOURCES,GOODS,BUILDINGS,RECIPES,TECHNIQUES} from './ea-data.mjs?v=c69084c118cd';
+import {buildingAccess,scenicFindPath,scenicDistance,geometryRevision,scenicNearest} from './ea-scene-geometry.mjs?v=c69084c118cd';
+import {advanceScenic,syncScenicPosition} from './ea-scenic.mjs?v=c69084c118cd';
+import {facilitySlots,slotReservation} from './ea-facility-slots.mjs?v=c69084c118cd';
+import {cloneState,hydrateState} from './ea-state-v6.mjs?v=c69084c118cd';
+import {CLIMATE,weatherModifiers} from './ea-sr-weather.mjs?v=c69084c118cd';
+import {travelPreviewSR,travelSR} from './ea-sr-world.mjs?v=c69084c118cd';
 const zeros=()=>Object.fromEntries(Object.keys(RESOURCES).map(k=>[k,0]));
 const MARKET_SUPPLY_VERSION='market-supply:physical:v1',MARKET_SUPPLIER='person:qingxi-supply-clerk',MARKET_CARRIER='person:qingxi-hauler';
 const MARKET_SUPPLIER_STOCK='stockpile:qingxi-supplier',MARKET_SUPPLIER_WALLET='stockpile:qingxi-supplier-wallet',MARKET_TOLL_STOCK='stockpile:chizhang-market-toll';
@@ -216,7 +216,7 @@ export function initEconomy(s){
  }
  initMarketSupply(s);initPillInventory(s);upgradeMarketOrderAccessV2(s);upgradePillRecipeSnapshots(s);if(s.crafting&&!s.activitiesById[s.master.activityId]?.kind?.startsWith('sr-'))resumeLegacyCraft(s);return s;
 }
-const HARVEST_BATCH={wood:12,stone:10,herb:10,food:16};
+export const HARVEST_BATCH={wood:12,stone:10,herb:10,food:16};
 function reservedHarvest(s,resource,exceptActivityId){return Object.values(s.activitiesById||{}).filter(a=>a.kind==='sr-harvest'&&a.resource===resource&&a.id!==exceptActivityId).reduce((n,a)=>n+(a.reservedQuantity||0),0);}
 export function harvestAvailable(s,resource,amount=1,exceptActivityId=null){return !s.srEconomy||!s.srEconomy.patches[resource]||s.srEconomy.patches[resource].remaining-reservedHarvest(s,resource,exceptActivityId)+1e-9>=amount;}
 export function consumeHarvest(s,resource,amount,exceptActivityId=null){if(!s.srEconomy)return true;const patch=s.srEconomy.patches[resource];if(!patch)return true;if(!harvestAvailable(s,resource,amount,exceptActivityId))return false;patch.remaining=Math.max(0,patch.remaining-amount);return true;}

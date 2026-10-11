@@ -1,9 +1,9 @@
 /** SR-XF-014/038/040. Extends known arts, wraps breakthrough; no second xp loop. */
-import {TECHNIQUES,RECIPES,xpNeed,grant} from './ea-data.mjs?v=6aa875f1c3b9';
-import {avatarRoutePlanSR,avatarObservationPlanSR,WORLD_SCENES,recordFactSR,publishFactSR} from './ea-sr-world.mjs?v=6aa875f1c3b9';
-import {availablePills,reserveAccessiblePills,consumePillAllocation,refundPillAllocation,grantPills,carriedStockpile,craftSR,merchantPresent,initPillInventory} from './ea-sr-economy.mjs?v=6aa875f1c3b9';
-import {sceneUnits} from './ea-sr-spatial.mjs?v=6aa875f1c3b9';
-import {requirePerson,requirePlayer,reserveBody,ownedActivity,releaseSRBody,readyAtWorkstation,spendResources,refundResources,personMind,isLivingPerson} from './ea-sr-equipment.mjs?v=6aa875f1c3b9';
+import {TECHNIQUES,RECIPES,xpNeed,grant} from './ea-data.mjs?v=c69084c118cd';
+import {avatarRoutePlanSR,avatarObservationPlanSR,WORLD_SCENES,recordFactSR,publishFactSR} from './ea-sr-world.mjs?v=c69084c118cd';
+import {availablePills,reserveAccessiblePills,consumePillAllocation,refundPillAllocation,grantPills,carriedStockpile,craftSR,merchantPresent,initPillInventory} from './ea-sr-economy.mjs?v=c69084c118cd';
+import {sceneUnits} from './ea-sr-spatial.mjs?v=c69084c118cd';
+import {requirePerson,requirePlayer,reserveBody,ownedActivity,releaseSRBody,readyAtWorkstation,spendResources,refundResources,personMind,isLivingPerson} from './ea-sr-equipment.mjs?v=c69084c118cd';
 let hooks={};
 export function configureCultivation(next={}){hooks={...hooks,...next};}
 export const CULTIVATION_LIMIT=30;

@@ -1,7 +1,11 @@
 /** U-120: system windows read the shared simulation and issue its public commands. */
-import {createPeoplePanels} from './system-people.mjs?v=6aa875f1c3b9';
-import {createInventoryPanel} from './system-inventory.mjs?v=6aa875f1c3b9';
-import {escape as esc, amount, icon, portrait, bar} from './system-ui-helpers.mjs?v=6aa875f1c3b9';
+import {createPeoplePanels} from './system-people.mjs?v=c69084c118cd';
+import {createInventoryPanel} from './system-inventory.mjs?v=c69084c118cd';
+import {createCraftingPanel} from './system-crafting.mjs?v=c69084c118cd';
+import {createSectPanel} from './system-sect.mjs?v=c69084c118cd';
+import {createWorldPanel} from './system-world.mjs?v=c69084c118cd';
+import {createBattleUI} from './battle-ui.mjs?v=c69084c118cd';
+import {escape as esc, amount, icon, portrait, bar} from './system-ui-helpers.mjs?v=c69084c118cd';
 
 export function startPaintedGameUI(host) {
   const $ = selector => document.querySelector(selector);
@@ -29,8 +33,9 @@ export function startPaintedGameUI(host) {
     if(view().people.some(p=>p.id===id)) return send({type:'select',kind:'person',id});
     return {ok:true};
   };
-  const context={getState:view,send,open,selectPerson,escape:esc,icon,portrait,bar};
-  const people=createPeoplePanels(context), bag=createInventoryPanel(context);
+  const context={getState:view,send,open,close,selectPerson,escape:esc,icon,portrait,bar};
+  const people=createPeoplePanels(context), bag=createInventoryPanel(context), crafting=createCraftingPanel(context), sect=createSectPanel(context);
+  const world=createWorldPanel(context), battle=createBattleUI(context);
   function close() {
     tab='home';panel.hidden=true;$('#system-shade').hidden=true;document.body.classList.remove('system-panel-open');
     document.querySelectorAll('#system-nav [data-tab]').forEach(b=>{b.classList.remove('active');b.setAttribute('aria-pressed','false')});
@@ -44,6 +49,9 @@ export function startPaintedGameUI(host) {
     document.getElementById('estate-panel').hidden=true;
     if(page==='disciples'||page==='master')people.enter?.(page,{...params,person:params.person||params.personId});
     if(page==='bag')bag.enter?.(params);
+    if(page==='crafts')crafting.enter?.(params);
+    if(page==='sect')sect.enter?.(params);
+    if(page==='world')world.enter?.(params);
     if(page==='arts'){artId=params.art||params.artId||artId;artSource=params.from?params:null}
     panel.hidden=false;$('#system-shade').hidden=false;document.body.classList.add('system-panel-open');
     update(true);
@@ -78,16 +86,24 @@ export function startPaintedGameUI(host) {
     $('#master-hud-realm').textContent=master?.realmLabel||`炼气 ${master?.realm??''} 层`;
     const face=portrait(master);if($('#master-hud-portrait').innerHTML!==face)$('#master-hud-portrait').innerHTML=face;
     $('#pause').textContent=state.paused?'▶':'Ⅱ';$('#pause').setAttribute('aria-pressed',String(state.paused));
+    document.querySelector('.nameplate small').textContent=state.world?.scene?.name|| (state.sceneId==='scene:travel'?'云岫山道':'云岫山院');
+    document.body.classList.toggle('in-battle',!!state.combat);
+    document.body.classList.toggle('on-mountain-road',state.sceneId==='scene:travel');
+    $('#travel-veil').hidden=state.sceneId!=='scene:travel';
+    $('#travel-remaining').textContent=`尚余 ${Math.ceil((state.world?.travel?.remainingTicks||0)/10)} 息`;
+    $('#battle-hud').hidden=!state.combat;
+    const combatMarkup=document.createElement('template');combatMarkup.innerHTML=battle.render();
+    patchChildren($('#battle-hud'),combatMarkup.content);
     if(tab==='home')return;
     if(pointerHeld&&!force)return;
-    const signature=JSON.stringify({tab,people:state.systemPeople,inventory:state.inventory,arts:state.arts,orders:state.cultivationOrders,buildings:state.buildings,message:state.message,story:state.openingStory,resources:state.resources,goal:tab==='tasks'?[$('#goal-title').textContent,$('#goal-copy').textContent,$('#goal-action').textContent,$('#goal-action').hidden]:null});
+    const signature=JSON.stringify({tab,people:state.systemPeople,inventory:state.inventory,crafting:state.crafting,harvest:state.harvest,market:state.market,world:state.world,combat:state.combat,arts:state.arts,orders:state.cultivationOrders,buildings:state.buildings,message:state.message,story:state.openingStory,resources:state.resources,goal:tab==='tasks'?[$('#goal-title').textContent,$('#goal-copy').textContent,$('#goal-action').textContent,$('#goal-action').hidden]:null});
     if(!force&&signature===lastBody)return;
     lastBody=signature;
     const focus=document.activeElement,field=focus?.dataset.systemField,start=focus?.selectionStart,end=focus?.selectionEnd;
     const scroll=[...content.querySelectorAll('[data-scroll-key]')].map(el=>[el.dataset.scrollKey,el.scrollTop]);
     const top=content.scrollTop;
     rendered=true;
-    const markup=tab==='disciples'||tab==='master'?people.render(tab):tab==='bag'?bag.render():tab==='arts'?arts(state):tab==='archive'?archive():overview(state);
+    const markup=tab==='disciples'||tab==='master'?people.render(tab):tab==='bag'?bag.render():tab==='crafts'?crafting.render():tab==='sect'?sect.render():tab==='world'?world.render():tab==='arts'?arts(state):tab==='archive'?archive():overview(state);
     const next=document.createElement('template');next.innerHTML=markup;
     patchChildren(content,next.content);
     rendered=false;
@@ -116,10 +132,11 @@ export function startPaintedGameUI(host) {
   document.querySelectorAll('[data-icon]').forEach(el=>el.innerHTML=icon(el.dataset.icon));
   document.addEventListener('click',event=>{
     const button=event.target.closest('button');if(!button||button.disabled)return;
+    if(button.hasAttribute('data-battle-action')){if(battle.click(button))update(true);return;}
     if(button.dataset.tab&&!button.hasAttribute('data-system-action')){open(button.dataset.tab);return}
     if(button.id==='close-panel'){close();return}
     if(button.hasAttribute('data-system-action')){
-      const handled=(tab==='disciples'||tab==='master')?people.click(button):tab==='bag'?bag.click(button):false;
+      const handled=(tab==='disciples'||tab==='master')?people.click(button):tab==='bag'?bag.click(button):tab==='crafts'?crafting.click(button):tab==='sect'?sect.click(button):tab==='world'?world.click(button):false;
       if(handled)update(true);return;
     }
     if(button.dataset.art){artId=button.dataset.art;update(true)}
@@ -139,7 +156,7 @@ export function startPaintedGameUI(host) {
   });
   for(const eventType of ['input','change'])content.addEventListener(eventType,event=>{
     if(rendered)return;const input=event.target;if(!input.dataset.systemField)return;
-    const handled=(tab==='disciples'||tab==='master')?people.input(input,eventType):tab==='bag'?bag.input(input,eventType):false;
+    const handled=(tab==='disciples'||tab==='master')?people.input(input,eventType):tab==='bag'?bag.input(input,eventType):tab==='crafts'?crafting.input(input,eventType):tab==='sect'?sect.input(input,eventType):tab==='world'?world.input(input,eventType):false;
     if(handled)update(true);
   });
   document.addEventListener('pointerdown',event=>{if(panel.contains(event.target))pointerHeld=true});
@@ -157,6 +174,7 @@ export function startPaintedGameUI(host) {
   $('#pause').addEventListener('click',()=>send({type:'pause',paused:!view().paused}));
   window.paintedGameSelect=(kind,id)=>{send({type:'select',kind,id});if(kind==='person')open(id===view().masterId?'master':'disciples',{personId:id,person:id})};
   window.paintedGameMove=(x,y)=>send({type:'move',x,y});
+  window.estateWorldSelect=(kind,id)=>open('world',{kind,id});
   window.paintedGamePause=()=>send({type:'pause',paused:!view().paused});
   window.paintedGameNotice=message=>tell(message,true);
   document.addEventListener('visibilitychange',()=>window.paintedCourtyardCommand?.(document.hidden?'background':'foreground'));

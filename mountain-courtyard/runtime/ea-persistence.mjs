@@ -10,7 +10,7 @@
  * is only an extra conflict check, NOT a substitute for an atomic lock. Without
  * a lock provider, reads/exports work but writes are explicitly unavailable.
  */
-import {PACKED_SAVE_FORMAT,packSave,unpackSave} from './ea-save-codec.mjs?v=6aa875f1c3b9';
+import {PACKED_SAVE_FORMAT,packSave,unpackSave} from './ea-save-codec.mjs?v=c69084c118cd';
 
 export const EA_SAVE_PREFIX = 'xianfu:simulation-web-game:ea:';
 export const LEGACY_SAVE_KEY = 'xianfu:simulation-web-game:save';

@@ -1,6 +1,6 @@
 /** SR-XF-017-AC-01/03. U-63/R-26/T author defaults; ordinary finite commerce, not new intrigue roots. */
-import {RESOURCES} from './ea-data.mjs?v=6aa875f1c3b9';
-import {stampInitialClaimReceipts} from './ea-sr-contracts.mjs?v=6aa875f1c3b9';
+import {RESOURCES} from './ea-data.mjs?v=c69084c118cd';
+import {stampInitialClaimReceipts} from './ea-sr-contracts.mjs?v=c69084c118cd';
 const MASTER='person:master', clone=x=>structuredClone(x);
 const zero=()=>Object.fromEntries(Object.keys(RESOURCES).map(k=>[k,0]));
 const sum=x=>Object.values(x||{}).reduce((a,b)=>a+b,0);

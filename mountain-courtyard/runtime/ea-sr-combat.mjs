@@ -1,10 +1,10 @@
-import {descentEffectiveRealmSR} from './ea-sr-descent.mjs?v=6aa875f1c3b9';
+import {descentEffectiveRealmSR} from './ea-sr-descent.mjs?v=c69084c118cd';
 /** SR-XF-013. Timed commands replace instant UI actions; campaign owns damage. */
-import {combatCanStand,combatPath,combatClearLine,combatGeometryId,moveCombatActor} from './ea-combat-geometry.mjs?v=6aa875f1c3b9';
-import {requirePerson,reserveBody,ownedActivity,releaseSRBody,equippedItems,EQUIPMENT_DEFINITIONS,equipmentThemeView,EQUIPMENT_THEME,activateEquipmentTheme,equipmentCombatBenefits,recordBindingPractice,resourceSource,spendResources} from './ea-sr-equipment.mjs?v=6aa875f1c3b9';
-import {availablePills,consumeAccessiblePill} from './ea-sr-economy.mjs?v=6aa875f1c3b9';
-import {recordArtPractice,chapterKnown,realmTier} from './ea-sr-cultivation.mjs?v=6aa875f1c3b9';
-import {openingCombatProfile} from './ea-opening-inheritance.mjs?v=6aa875f1c3b9';
+import {combatCanStand,combatPath,combatClearLine,combatGeometryId,moveCombatActor} from './ea-combat-geometry.mjs?v=c69084c118cd';
+import {requirePerson,reserveBody,ownedActivity,releaseSRBody,equippedItems,EQUIPMENT_DEFINITIONS,equipmentThemeView,EQUIPMENT_THEME,activateEquipmentTheme,equipmentCombatBenefits,recordBindingPractice,resourceSource,spendResources} from './ea-sr-equipment.mjs?v=c69084c118cd';
+import {availablePills,consumeAccessiblePill} from './ea-sr-economy.mjs?v=c69084c118cd';
+import {recordArtPractice,chapterKnown,realmTier} from './ea-sr-cultivation.mjs?v=c69084c118cd';
+import {openingCombatProfile} from './ea-opening-inheritance.mjs?v=c69084c118cd';
 let hooks={};
 export function configureSRCombat(next={}){hooks={...hooks,...next};}
 export const COMBAT_ACTIONS=Object.freeze({
@@ -24,6 +24,7 @@ export const COMBAT_ACTIONS=Object.freeze({
  'ward-node':{name:'护持节点',windup:10,execute:1,recovery:6,range:2.5,qi:12,cooldown:70,art:'array',understanding:20,role:'耗青石2；范围2.6米，持续80tick，承伤减25%'}
 });
 export const ENEMY_COMBAT_CONFIG=Object.freeze({
+ 'person:valley-shanxiao':{realm:2,style:'抬臂拍击',windupTicks:18,reach:1.8,recoveryTicks:20,damage:10,counter:'抬臂后避开落点，或展开短时护持'},
  'person:han-lichuan':{realm:12,style:'赤嶂重刀',windupTicks:18,reach:2.2,recoveryTicks:22,damage:36,counter:'绕开正面落点，趁收势追击'},
  'person:xing-lie':{realm:12,style:'煞炼刀法',windupTicks:13,reach:2.5,recoveryTicks:18,damage:30,counter:'切断补给，短护持化解一击'},
  'person:shao-heng':{realm:11,style:'护库刀阵',windupTicks:16,reach:1.8,recoveryTicks:20,damage:27,counter:'牵离固定守位，养脉保持持续战力'}
@@ -138,6 +139,7 @@ export function validateSRCombat(s){
   if(id!==`combat:campaign:${c.journeyId}`||c.player.personId!=='person:master'||!session||session.phase!=='active'||JSON.stringify(session.participantIds)!==JSON.stringify(ids))throw Error('战斗会话引用异常：'+id);
   for(const actor of actors){const person=s.personsById[actor.personId],activity=ownedActivity(s,person);
    if(!person||person.combatSessionId!==id||!activity||activity.kind!=='sr-combat'||activity.orderId!==id||person.activityId!==activity.id||actor.hp!==projectedCombatHp(person,actor.maxHp))throw Error('战斗人物身体/伤势引用异常：'+actor.personId);
+   if(c.localEncounter){const loc=person.location,frame=c.sceneFrame;if(loc?.kind!=='local'||loc.sceneId!==frame?.sceneId||Math.abs(loc.x-frame.origin.x-actor.x)>1e-8||Math.abs(loc.y-frame.origin.y-actor.y)>1e-8)throw Error('林间斗法与人物实际脚点不一致：'+actor.personId);}
   }
   if(r.pending&&ownedActivity(s,s.master)?.actionId!==r.pending.id)throw Error('战斗招式与身体活动引用异常');
  }
