@@ -3,9 +3,10 @@ import {initial, tick, dispatchCommand, validateSave, COMMAND_NAMES, appearanceV
 import {BUILDINGS, day, stage} from './ea-data.mjs';
 import {facilitySlots} from './ea-facility-slots.mjs';
 import {scenicHomeActors, nextObjective} from './ea-scene-state.mjs';
-import {SPATIAL_SCENE, spatialTerrain, spatialRoom, spatialPrefab, spatialTransform, polygonContains, viewSpatial} from './ea-sr-spatial.mjs';
+import {SPATIAL_SCENE, spatialTerrain, spatialRoom, spatialPrefab, spatialTransform, polygonContains, viewSpatial, sceneUnits} from './ea-sr-spatial.mjs';
 import {artView, teachingQualificationSR} from './ea-sr-cultivation.mjs';
 import {openingInheritanceView} from './ea-opening-inheritance.mjs';
+import {FARM_CROP_RECIPE} from './ea-sr-economy.mjs';
 
 const publicCommands = new Set(COMMAND_NAMES);
 const isRecord = value => value !== null && typeof value === 'object' && !Array.isArray(value);
@@ -17,6 +18,68 @@ function readonly(value) {
     Object.freeze(value);
   }
   return value;
+}
+
+function projectOpeningStory(state) {
+  const opening = state.story?.opening;
+  const visitor = opening && state.personsById?.[opening.visitorId];
+  const position = visitor?.mind?.scenic || visitor?.scenic;
+  const master = state.master?.scenic;
+  const canTalk = !!(visitor && position && master && atHome(state.master) && atHome(visitor) &&
+    !state.world?.exploration && !state.master.journey && state.combat?.status !== 'active' &&
+    Math.hypot(master.x - position.x, master.y - position.y) <= sceneUnits(state, 48));
+  return {
+    step: state.story?.step ?? 0,
+    gifted: !!opening?.gifted,
+    invitation: opening?.invitation ?? 'unasked',
+    visitor: visitor ? {id: visitor.personId, name: visitor.name,
+      x: position?.x ?? null, y: position?.y ?? null, canTalk} : null,
+  };
+}
+
+function farmCropVisual(state, building) {
+  if (building.type !== 'farm') return null;
+  const order = state.workOrdersById?.[`work:production:${building.instanceId}`];
+  const crop = order?.crop;
+  if (!crop || ['completed', 'cancelled'].includes(order.phase) || crop.harvestedAtTick != null) return 'empty';
+  return crop.maturedAtTick != null || ['mature', 'ripe/waiting'].includes(crop.phase) ? 'ripe' : 'growing';
+}
+
+function projectHerbTerrace(state, construction, sites) {
+  const site = sites?.find(item => item.id === 'site:herb-terrace');
+  const candidates = [...state.buildings];
+  if (construction?.operation === 'build' && construction.building?.type === 'farm') candidates.push(construction.building);
+  const farm = candidates.find(building => building.type === 'farm' && (!site ||
+    (spatialTransform(building).x === site.x && spatialTransform(building).y === site.y)));
+  const instanceId = farm?.instanceId || null;
+  const stockpile = instanceId && state.stockpilesById?.[`stockpile:${instanceId}`];
+  const order = instanceId && state.workOrdersById?.[`work:production:${instanceId}`];
+  const crop = order?.crop;
+  const harvest = instanceId ? Object.values(state.factsById || {})
+    .filter(fact => fact.kind === 'crop-harvest' && fact.buildingId === instanceId)
+    .sort((a, b) => b.atTick - a.atTick || b.batch - a.batch)[0] : null;
+  const transports = stockpile ? Object.values(state.workOrdersById || {})
+    .filter(work => work.kind === 'transport' && work.targetStockpileId === stockpile.id && (work.cargo?.herb || 0) > 0)
+    .sort((a, b) => a.startedTick - b.startedTick) : [];
+  const activeTransports = transports.filter(work => !['delivered', 'cancelled'].includes(work.phase));
+  const latestFinished = transports.filter(work => ['delivered', 'cancelled'].includes(work.phase)).slice(-1);
+  return {
+    buildingId: farm ? String(farm.id) : null,
+    instanceId,
+    stockpileId: stockpile?.id || null,
+    herbOnSite: stockpile ? (stockpile.resources?.herb ?? 0) : null,
+    seedNeeded: FARM_CROP_RECIPE.seedCost.herb,
+    seedTransports: [...activeTransports, ...latestFinished].map(work => ({
+      id: work.id, phase: work.phase, herb: work.cargo.herb, reason: work.reason || '',
+    })),
+    crop: crop ? {
+      batch: order.batch, phase: crop.phase, growthTicks: crop.growthElapsedTicks,
+      maturityTicks: crop.maturityRequiredTicks, careContribution: crop.careContribution,
+      careRequired: order.durationTicks, sownAtTick: crop.sownAtTick,
+      harvestedAtTick: crop.harvestedAtTick, sowFactId: crop.sowFactId || null,
+    } : null,
+    lastHarvest: harvest ? {factId: harvest.id, quantity: harvest.quantity, atTick: harvest.atTick} : null,
+  };
 }
 
 function projectBuilding(state, building, visualStage) {
@@ -31,6 +94,7 @@ function projectBuilding(state, building, visualStage) {
     indoor: prefab.indoor, level: building.level, condition: building.condition,
     capacity: established ? (BUILDINGS[building.type].capacity || 0) * building.level : 0,
     workSlots: established ? facilitySlots(state, building, 'work').length : 0,
+    ...(building.type === 'farm' ? {cropVisual: farmCropVisual(state, building)} : {}),
     stage: visualStage || (building.type === 'hall' && hallPhase === 'shelter' ? 'shelter' : operation === 'upgrade' ? 'upgrade' :
       building.type === 'hall' && state.spatial?.estateCollisionVersion === 'estate-gate-1' && building.condition < 100 ? 'damaged' :
       building.condition < 50 ? 'damaged' : 'complete'),
@@ -38,7 +102,7 @@ function projectBuilding(state, building, visualStage) {
 }
 
 /** Copy public courtyard facts. Foot positions and room floors decide indoor visibility. */
-export function projectGodotWorld(state, selection = null) {
+export function projectGodotWorld(state, selection = null, sites = null) {
   const rooms = state.buildings.map(spatialRoom).filter(Boolean);
   const homePeople = scenicHomeActors(state).filter(atHome);
   if (atHome(state.master) && !state.master.journey && !state.world?.exploration && !state.combat) homePeople.unshift(state.master);
@@ -94,7 +158,9 @@ export function projectGodotWorld(state, selection = null) {
       : objective.text,
     resources: {...state.resources}, people, buildings, roster, arts, cultivationOrders,
     openingInheritance: openingInheritanceView(state),
+    openingStory: projectOpeningStory(state),
     openingHallPhase: state.story?.opening?.hallPhase || 'complete',
+    herbTerrace: projectHerbTerrace(state, construction, sites),
     estateStage: stage(state),
     construction: construction ? {buildingId:String(construction.building.id),operation:construction.operation,
       progress:construction.progress,stage:construction.stage,label:construction.label} : null,
@@ -124,7 +190,7 @@ export function createGodotBridge({state: source, sites = null} = {}) {
   const snapshot = () => {
     const key = selection ? `${selection.kind}:${selection.id}` : '';
     if (projected && projectedRevision === state.revision && projectedSelection === key) return projected;
-    projected = projectGodotWorld(state, selection);
+    projected = projectGodotWorld(state, selection, fixedSites);
     projectedRevision = state.revision;
     projectedSelection = key;
     return projected;
