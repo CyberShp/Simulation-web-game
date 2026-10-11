@@ -1,0 +1,203 @@
+/* U-120: the roster and character sheets share the approved system panel layout. */
+.system-people { height:100%; min-height:0; color:#52644c; }
+.system-people .people-layout { height:100%;display:grid;grid-template-columns:139px minmax(0,1fr) 282px;gap:12px }
+.system-people .people-peaks { padding:0 11px;background:#d5ddbf99;display:flex;flex-direction:column }
+.system-people .people-peaks .pane-title { font-size:16px;margin-bottom:6px }
+.system-people .people-peak { display:flex;justify-content:space-between;gap:5px;padding:13px 7px;border-bottom:1px solid #bac5a4;text-align:left;font:14px var(--font) }
+.system-people .people-peak.active { background:#4d6b53;color:#f3e8bf;box-shadow:inset 0 0 0 2px #81957055 }
+.system-people .people-peak b { font:14px Georgia }
+.system-people .people-peak-note { margin-top:auto;margin-bottom:20px;display:flex;flex-direction:column;gap:8px;font-size:10px;color:#819170 }
+.system-people .people-peak-note strong { font:20px var(--font);color:#63774c }
+.system-people .people-roster { display:flex;flex-direction:column;padding:0 14px 13px }
+.system-people .people-roster>.pane-title { margin-bottom:12px }
+.system-people .people-roster>.pane-title h3 { font:18px var(--font) }
+.system-people .people-search { flex-wrap:nowrap;margin-bottom:8px }
+.system-people .people-search input { width:100%;min-width:80px }
+.system-people .people-search select { max-width:98px;font-size:11px;padding:8px 2px }
+.system-people .people-filter { justify-content:space-between;gap:3px;flex-wrap:nowrap;padding-bottom:8px }
+.system-people .people-filter .tab-row { gap:0 }
+.system-people .people-filter .tab-row button { padding:8px;font-size:12px }
+.system-people .people-filter select { font-size:11px;padding:5px;max-width:101px }
+.system-people .people-table { width:100%;border-collapse:collapse;table-layout:fixed }
+.system-people .people-table th { height:34px;background:#d5ddc3;border-bottom:1px solid #b5c29f;font:11px var(--ui);text-align:left;color:#788368 }
+.system-people .people-table th:first-child { width:29%;padding-left:8px }
+.system-people .people-table th:nth-child(2) { width:20% }
+.system-people .people-table th:nth-child(3) { width:30% }
+.system-people .people-table th:last-child { width:21% }
+.system-people .people-table td { border-bottom:1px solid #bac6a455;padding:8px 2px;font-size:12px }
+.system-people .people-table tr.selected { background:#c6d4b782;box-shadow:inset 3px 0 #5e7f4e }
+.system-people .people-table td small { display:block;font-size:10px;color:#879177;line-height:1.6;margin-top:5px }
+.system-people .people-person-button { display:flex;align-items:center;text-align:left;width:100%;padding:0;gap:2px }
+.system-people .people-person-button strong { font:15px var(--font);white-space:nowrap }
+.system-people .people-person-button small { font-size:9px }
+.system-people .people-pagination { display:flex;gap:15px;justify-content:center;align-items:center;margin-top:auto;padding-top:12px;color:#7c866b;font-size:11px }
+.system-people .people-pagination .game-button { padding:6px 12px;font-size:12px;min-height:28px }
+.system-people .people-summary { padding:15px;overflow:auto }
+.system-people .people-summary-head { display:flex;gap:8px;align-items:center }
+.system-people .people-summary-head h3 { font:25px var(--font);letter-spacing:2px }
+.system-people .people-summary-head .subtle { font-size:11px;margin:6px 0 }
+.system-people .people-summary-head strong { font-size:12px }
+.system-people .people-current { display:flex;gap:5px;flex-direction:column;background:#d6dec280;padding:10px 12px;margin:15px 0 10px;border-left:2px solid #8c9d72 }
+.system-people .people-current>span:first-child { font-size:10px }
+.system-people .people-current strong { font:16px var(--font) }
+.system-people .people-current>span:last-child { font-size:11px;color:#81916f }
+.system-people .people-facts { margin:16px 0;font-size:12px }
+.system-people .people-facts>div { display:grid;grid-template-columns:55px 1fr;gap:8px;line-height:1.8;margin:8px 0 }
+.system-people .people-facts dt { color:#818b73 }
+.system-people .people-facts dd { margin:0;text-align:right;color:#52644c }
+.system-people .people-attention { font-size:11px;line-height:1.7;color:#a08042;margin:8px 0 13px }
+.system-people .people-summary>.toolbar { flex-wrap:nowrap;gap:6px }
+.system-people .people-summary .game-button { font-size:12px;padding:8px 10px }
+.system-people .people-invitation { border-top:1px solid #b9c6a7;padding-top:10px;margin-top:18px;font-size:11px }
+.system-people .people-invitation h4 { margin:3px 0 10px;font:16px var(--font) }
+.system-people .people-invitation label { display:block;margin:7px 0 }
+.system-people .people-invitation select { width:100%;margin:0 0 8px;font-size:12px }
+.system-people .people-invitation p { font-size:11px;line-height:1.7;margin:7px 0 }
+.system-people .people-invitation .game-button { width:100% }
+.system-people .people-detail { height:100%;display:flex;flex-direction:column;gap:12px }
+.system-people .people-detail-nav { display:flex;align-items:center;gap:15px;flex:none }
+.system-people .people-detail-nav>.toolbar { margin-left:auto }
+.system-people .people-detail-nav>.subtle { font-size:12px }
+.system-people .people-detail-nav .game-button { padding:7px 12px;font-size:12px }
+.system-people .people-detail-layout { display:grid;grid-template-columns:245px minmax(0,1fr) 280px;gap:13px;flex:1;min-height:0 }
+.system-people .people-detail-content { overflow:auto }
+.system-people .people-detail-content .panel-tabs { padding:0 12px }
+.system-people .people-detail-body { padding:10px 25px 25px }
+.system-people .people-detail-body .pane-title { margin-top:8px }
+.system-people .profile-person-portrait { height:242px;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse,#c0d0b060,transparent 72%) }
+.system-people .people-detail .profile-person { padding:12px 18px;text-align:center;overflow:auto }
+.system-people .people-detail .profile-person h2 { margin:5px 0 10px }
+.system-people .people-detail .profile-person>p { font-size:12px;margin:7px }
+.system-people .people-detail .people-current { text-align:left }
+.system-people .people-detail .profile-person>.game-button { width:100%;margin-top:16px;font-size:12px }
+.system-people .profile-art-focus { display:flex;align-items:center;gap:12px;margin:18px 0 }
+.system-people .profile-art-focus h3 { font:20px var(--font);margin-bottom:6px }
+.system-people .profile-art-focus .subtle { font-size:11px }
+.system-people .profile-equipment-list .data-row { justify-content:start;gap:15px;padding:15px 0 }
+.system-people .profile-equipment-list strong { display:block;font:17px var(--font);margin-top:5px }
+.system-people .profile-equipment-list>.data-row>span:last-child { margin-left:auto }
+.system-people .profile-relation { display:flex;gap:15px;margin:20px 0 }
+.system-people .profile-relation p { font:14px/1.9 var(--font);color:#7b8971;margin-top:8px }
+.system-people .profile-layout { display:grid;grid-template-columns:270px minmax(280px,1fr) 320px;height:100%;gap:15px }
+.system-people .profile-vitals,
+.system-people .profile-cultivation { padding:7px 21px;overflow:auto }
+.system-people .profile-vitals .meter { margin:22px 0 }
+.system-people .profile-condition { border-left:2px solid #a49a69;padding:10px 14px;background:#e1dfc35c;margin:25px 0 }
+.system-people .profile-condition strong { font:17px var(--font);color:#8f7850 }
+.system-people .profile-condition p { font:13px/1.8 var(--font);color:#7f886b;margin-top:9px }
+.system-people .profile-stat-grid { display:grid;grid-template-columns:1fr 1fr;gap:18px 20px;margin:26px 0 35px;font-size:12px }
+.system-people .profile-stat-grid strong { color:#5d764f;font:18px Georgia,var(--font) }
+.system-people .profile-vitals>.toolbar { justify-content:center;gap:7px;flex-wrap:nowrap }
+.system-people .profile-vitals .game-button { font-size:12px;padding:8px 12px }
+.system-people .profile-activity { text-align:center;font-size:11px;margin-top:19px }
+.system-people .profile-person { position:relative;background:radial-gradient(ellipse at 50% 35%,#f1eace,#ccd5b277);min-height:0 }
+.system-people .profile-heading { text-align:center;padding-top:22px;position:relative;z-index:1 }
+.system-people .profile-heading span { display:block;font-size:12px;color:#7c8b6e;margin-top:8px }
+.system-people .profile-equipment-body { position:relative;min-height:355px;height:calc(100% - 136px) }
+.system-people .profile-body-portrait { position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:flex;align-items:center;justify-content:center;width:205px;height:315px;background:radial-gradient(ellipse,#a6b98644 0,transparent 70%) }
+.system-people .profile-body-portrait:after { content:'';position:absolute;inset:5% 5% 0;border:1px solid #b8c69a66;border-radius:50%;transform:rotate(13deg);z-index:-1 }
+.system-people .profile-equip-slot { position:absolute;display:flex;flex-direction:column;align-items:center;gap:5px;width:78px;z-index:2;padding:0 }
+.system-people .profile-equip-slot>.subtle { font-size:10px }
+.system-people .profile-equip-slot strong { font-size:10px;font-weight:400;color:#647253;white-space:nowrap }
+.system-people .profile-equip-slot .icon-slot { width:49px;height:49px }
+.system-people .profile-slot-weapon { right:12px;top:5% }
+.system-people .profile-equipment-footer { display:flex;align-items:center;justify-content:space-between;padding:12px 20px;border-top:1px solid #b7c29e;font-size:11px }
+.system-people .profile-equipment-footer .game-button { font-size:12px;padding:7px 12px }
+.system-people .profile-realm { display:flex;flex-direction:column;gap:8px;font-size:11px;margin:18px 0 25px }
+.system-people .profile-realm strong { font:21px var(--font) }
+.system-people .profile-config { display:flex;flex-direction:column;gap:9px }
+.system-people .profile-art-slot { display:flex;align-items:center;gap:11px;text-align:left;padding:11px 5px;border-top:1px solid #bec6a5;width:100% }
+.system-people .profile-art-slot>span:nth-child(2) { display:flex;flex-direction:column;gap:5px }
+.system-people .profile-art-slot small { font-size:10px;color:#899275 }
+.system-people .profile-art-slot strong { font:18px var(--font) }
+.system-people .profile-art-slot .subtle { font-size:11px }
+.system-people .profile-art-slot b { margin-left:auto;font:23px Georgia;color:#93a178 }
+.system-people .profile-practice { margin:25px 0 10px }
+.system-people .profile-practice p { font-size:11px;color:#7a886b;margin-bottom:12px }
+.system-people .profile-practice .game-button { width:100% }
+.system-people .people-detail-body .profile-config>div { padding:15px 0;border-top:1px solid #b7c19f }
+.system-people .people-detail-body .profile-config span { font-size:11px;color:#818d70;display:block;margin-bottom:8px }
+.system-people .people-detail-body .profile-config p { font:14px/1.8 var(--font);color:#5e7356 }
+
+.system-people .people-table-wrap { flex:1; min-height:100px; }
+.system-people .people-person-button { gap:7px; min-height:52px; }
+.system-people .people-person-button .system-portrait { flex:none; width:36px; height:48px; }
+.system-people .people-summary-head .system-portrait { flex:none; width:66px; height:88px; }
+.system-people .profile-person-portrait .system-portrait { width:164px; height:220px; }
+.system-people .profile-body-portrait .system-portrait { width:184px; height:248px; box-shadow:0 7px 20px #71825c24; }
+.system-people .profile-slot-weapon { left:10px; right:auto; top:14%; }
+.system-people .profile-slot-armor { right:10px; top:14%; }
+.system-people .profile-slot-artifact { left:10px; top:67%; }
+.system-people .profile-slot-accessory { right:10px; top:67%; }
+.system-people .profile-equip-slot small { color:#879177; font-size:10px; }
+.system-people .profile-equip-slot strong { max-width:110px; white-space:normal; text-align:center; }
+.system-people .profile-equipment-body { min-height:370px; }
+.system-people .profile-heading h2 { font:30px var(--font); margin:0; }
+.system-people .profile-cultivation { padding-bottom:20px; }
+.system-people .profile-vitals>.game-button { width:100%; margin-top:12px; }
+.system-people .profile-person { overflow:auto; }
+.system-people .profile-activity { font-size:12px; }
+.system-people .people-current p { font-size:12px; line-height:1.7; margin:5px 0 0; }
+.system-people .people-response { padding:9px 10px; background:#c8d6b566; border-left:2px solid currentColor; font-size:12px; line-height:1.7; overflow-wrap:anywhere; }
+.system-people .people-well { font-size:12px; margin:12px 0; }
+.system-people .people-location-note { font-size:11px; line-height:1.7; }
+.system-people .people-art-entry { border-top:1px solid #b6c4a365; padding-bottom:15px; }
+.system-people .people-art-entry .profile-art-focus { margin:16px 0 12px; }
+.system-people .people-art-entry .profile-art-focus>.game-button { margin-left:auto; font-size:12px; padding:6px 10px; }
+.system-people .people-filter .tab-row { flex-wrap:wrap; }
+.system-people .people-filter .tab-row button { padding:7px 6px; white-space:nowrap; }
+.system-people .people-facts dd { overflow-wrap:anywhere; }
+.system-people .people-detail-body .profile-equipment-list .data-row>div { flex:1; }
+.system-people .people-detail-body .profile-equipment-list .data-row>span:last-child { white-space:nowrap; }
+.system-people .people-invitation select { min-height:36px; }
+.system-people .profile-relation p { margin:8px 0 0; }
+@media (max-width:1100px) {
+  .system-people .people-layout { grid-template-columns:115px minmax(0,1fr) 236px; gap:9px; }
+  .system-people .people-summary { padding:12px; }
+  .system-people .people-summary-head h3 { font-size:23px; }
+  .system-people .people-roster { padding:0 10px 12px; }
+  .system-people .people-detail-layout { grid-template-columns:190px minmax(240px,1fr) 230px; gap:10px; }
+  .system-people .people-detail-body { padding:10px 16px 20px; }
+  .system-people .profile-layout { grid-template-columns:210px minmax(245px,1fr) 245px; gap:10px; }
+  .system-people .profile-vitals,.system-people .profile-cultivation { padding-left:15px; padding-right:15px; }
+  .system-people .profile-body-portrait .system-portrait { width:150px; height:205px; }
+  .system-people .profile-equip-slot { width:68px; }
+  .system-people .profile-equip-slot .icon-slot { width:43px; height:43px; }
+}
+@media (max-width:850px) {
+  .system-people { overflow:auto; }
+  .system-people .people-layout { min-height:100%; height:auto; grid-template-columns:minmax(0,1fr) 240px; }
+  .system-people .people-peaks { grid-column:1/-1; flex-direction:row; align-items:center; gap:8px; padding:6px 12px; flex-wrap:wrap; }
+  .system-people .people-peaks .pane-title { margin:0; font-size:15px; }
+  .system-people .people-peak { border:0; padding:9px 10px; gap:12px; }
+  .system-people .people-peak-note { display:none; }
+  .system-people .people-roster { min-height:510px; }
+  .system-people .people-table th:nth-child(2) { width:23%; }
+  .system-people .people-table th:nth-child(3) { width:25%; }
+  .system-people .people-table td { font-size:11px; }
+  .system-people .people-person-button { flex-direction:column; align-items:flex-start; }
+  .system-people .people-person-button .system-portrait { display:none; }
+  .system-people .people-summary { overflow:visible; }
+  .system-people .people-detail { height:auto; }
+  .system-people .people-detail-layout { grid-template-columns:190px minmax(0,1fr); }
+  .system-people .people-detail-content { min-height:500px; }
+  .system-people .people-detail-layout>.people-summary { grid-column:1/-1; display:grid; grid-template-columns:1fr 1fr; column-gap:24px; }
+  .system-people .people-detail-layout>.people-summary>.people-invitation { grid-column:2; grid-row:1/8; }
+  .system-people .people-detail-nav { flex-wrap:wrap; gap:8px; }
+  .system-people .people-detail-nav>.subtle { display:none; }
+  .system-people .profile-layout { height:auto; grid-template-columns:minmax(190px, .85fr) minmax(270px,1fr); }
+  .system-people .profile-layout>.profile-cultivation { grid-column:1/-1; overflow:visible; }
+  .system-people .profile-layout>.profile-cultivation>.profile-config { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); column-gap:16px; }
+  .system-people .profile-equipment-body { height:370px; }
+  .system-people .profile-vitals { overflow:visible; }
+}
+@media (max-width:600px) {
+  .system-people .people-layout,.system-people .people-detail-layout,.system-people .profile-layout { display:flex; flex-direction:column; }
+  .system-people .people-roster { min-height:440px; }
+  .system-people .people-summary,.system-people .profile-vitals { overflow:visible; }
+  .system-people .people-detail-layout>.people-summary { display:block; }
+  .system-people .people-detail-layout>.profile-person { display:none; }
+  .system-people .profile-layout>.profile-person { order:-1; }
+  .system-people .profile-layout>.profile-cultivation>.profile-config { display:block; }
+  .system-people .profile-equipment-body { height:330px; min-height:330px; }
+}

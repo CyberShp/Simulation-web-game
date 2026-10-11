@@ -109,12 +109,18 @@ progressive_web_app/enabled=false
             if obsolete_pack.name != pack_name:
                 obsolete_pack.unlink()
         web = ROOT / 'godot/estate_3d/web'
-        for name in ['game-ui.css', 'game-ui.mjs', 'base-ui.mjs', 'plaque-frame.svg',
+        for name in ['game-ui.css', 'game-ui.mjs', 'base-ui.mjs',
+                     'system-ui.css', 'system-ui-helpers.mjs',
+                     'system-people.mjs', 'system-people.css',
+                     'system-inventory.mjs', 'system-inventory.css', 'plaque-frame.svg',
                      'scroll-panel.svg', 'crest.svg', 'title-painted.png', 'topbar-painted.png',
                      'rail-painted.png', 'scroll-painted.png', 'manual-painted.png',
                      'resource-jade.png', 'resource-wood.png', 'resource-stone.png',
                      'resource-herb.png', 'resource-food.png']:
             shutil.copy2(web / name, args.output.parent / name)
+        approved_ui = ROOT / 'docs/art/system-ui-20261012'
+        shutil.copy2(approved_ui / 'jade-cloud-frame.png', args.output.parent / 'jade-cloud-frame.png')
+        shutil.copytree(approved_ui / 'fonts', args.output.parent / 'fonts', dirs_exist_ok=True)
         shutil.copy2(ROOT / 'godot/estate_2d/estate-sites.json', args.output.parent / 'estate-sites.json')
         shutil.copy2(ROOT / 'dist/assets/fonts/xianfu-brush.woff2', args.output.parent / 'xianfu-brush.woff2')
         shutil.copy2(ROOT / 'dist/assets/ea-portraits.jpg', args.output.parent / 'ea-portraits.jpg')
@@ -133,6 +139,15 @@ progressive_web_app/enabled=false
             copied.add(relative)
             for dependency in re.findall(r'''["']\./([^"']+\.mjs)["']''', content):
                 pending.append(str(Path(relative).parent / dependency))
+        # One release tag keeps an existing browser's UI and rule modules on the same build.
+        text_files = sorted(file for file in args.output.parent.rglob('*')
+                            if file.is_file() and file.suffix in {'.mjs', '.css', '.html'})
+        release_tag = hashlib.sha256(b''.join(file.read_bytes() for file in text_files)).hexdigest()[:12]
+        reference = re.compile(r"([\"'])([^\"'\s]+\.(?:mjs|css))(?:\?v=[^\"']*)?\1")
+        for file in text_files:
+            content = file.read_text(encoding='utf-8')
+            content = reference.sub(lambda match: match[1] + match[2] + '?v=' + release_tag + match[1], content)
+            file.write_text(content, encoding='utf-8')
         files = {file.relative_to(args.output.parent).as_posix(): hashlib.sha256(file.read_bytes()).hexdigest()
                  for file in args.output.parent.rglob('*') if file.is_file() and file.name != 'build.json'}
         (args.output.parent / 'build.json').write_text(json.dumps({

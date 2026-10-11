@@ -148,6 +148,16 @@ function syncPublicIncidents(s) {
 function hiddenBook(s,d,id) {
   return !!d.mind.hiddenKnowledge[id]&&s.society.secrets.some(e=>e.id===d.mind.hiddenKnowledge[id]&&!e.discovered);
 }
+export function viewPublicDiscipleLearning(s,dOrId) {
+  const d=npc(s,dOrId);
+  if(!d)return null;
+  const p=d.mind;
+  const hidden=new Set(Object.keys(p.hiddenKnowledge).filter(id=>hiddenBook(s,d,id)));
+  return {
+    main:hidden.has(p.main)?p.publicMain:p.main,
+    knowledge:Object.fromEntries(Object.entries(p.knowledge).filter(([id])=>!hidden.has(id))),
+  };
+}
 function addSecret(s,d,kind,subject,motive) {
   const existing=s.society.secrets.find(e=>e.discipleId===d.id&&e.kind===kind&&!e.handled);
   if(existing)return existing;

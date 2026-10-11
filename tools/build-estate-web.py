@@ -101,12 +101,18 @@ progressive_web_app/enabled=false
             if obsolete_pack.name != pack_name:
                 obsolete_pack.unlink()
         web = ROOT / 'godot/estate_3d/web'
-        for name in ['game-ui.css', 'game-ui.mjs', 'base-ui.mjs', 'plaque-frame.svg',
+        for name in ['game-ui.css', 'game-ui.mjs', 'base-ui.mjs',
+                     'system-ui.css', 'system-ui-helpers.mjs',
+                     'system-people.mjs', 'system-people.css',
+                     'system-inventory.mjs', 'system-inventory.css', 'plaque-frame.svg',
                      'scroll-panel.svg', 'crest.svg', 'title-painted.png', 'topbar-painted.png',
                      'rail-painted.png', 'scroll-painted.png', 'manual-painted.png',
                      'resource-jade.png', 'resource-wood.png', 'resource-stone.png',
                      'resource-herb.png', 'resource-food.png']:
             shutil.copy2(web / name, args.output.parent / name)
+        approved_ui = ROOT / 'docs/art/system-ui-20261012'
+        shutil.copy2(approved_ui / 'jade-cloud-frame.png', args.output.parent / 'jade-cloud-frame.png')
+        shutil.copytree(approved_ui / 'fonts', args.output.parent / 'fonts', dirs_exist_ok=True)
         shutil.copy2(ROOT / 'godot/estate_3d/estate-sites.json', args.output.parent / 'estate-sites.json')
         shutil.copy2(ROOT / 'dist/assets/fonts/xianfu-brush.woff2', args.output.parent / 'xianfu-brush.woff2')
         shutil.copy2(ROOT / 'dist/assets/ea-portraits.jpg', args.output.parent / 'ea-portraits.jpg')

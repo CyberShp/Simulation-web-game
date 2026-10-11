@@ -1,113 +1,161 @@
-/** Painted courtyard game HUD. All displayed progression comes from the shared simulation host. */
+/** U-120: system windows read the shared simulation and issue its public commands. */
+import {createPeoplePanels} from './system-people.mjs';
+import {createInventoryPanel} from './system-inventory.mjs';
+import {escape as esc, amount, icon, portrait, bar} from './system-ui-helpers.mjs';
+
 export function startPaintedGameUI(host) {
   const $ = selector => document.querySelector(selector);
-  const panel = $('#dossier'), content = $('#panel-content'), notice = $('#notice');
-  const labels = {jade:['💠','灵石'],wood:['🪵','木料'],stone:['🪨','石料'],herb:['🌿','灵草'],food:['🌾','食粮']};
-  const activities = {groundRest:'休憩',rest:'休息',heal:'疗伤',walk:'行走',study:'研习',work:'劳作',cultivate:'修炼',construct:'营造',carry:'搬运',wait:'等候',idle:'在院'};
-  const artKinds = {main:'主修心法',support:'辅修法门',spell:'术法',martial:'武学',movement:'身法',production:'生产技艺'};
-  const orderPhases = {proposed:'待安排',reserved:'已预约',navigating:'前往书案',preparing:'准备研习',executing:'正在研习',waiting:'等待条件',interrupted:'已中断'};
-  let tab = 'home', personId = 'person:master', artId = 'qingyuan', lastBody = '', lastSelection = '';
-  const esc = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
-  const amount = value => Number.isFinite(Number(value)) ? String(Number(Number(value).toFixed(2))) : '0';
-  const view = () => JSON.parse(host.snapshot_json());
-  const send = command => {
-    const payload = command.type === 'select' ? command : {...JSON.parse(host.command_context()),...command};
-    const result = JSON.parse(host.command(JSON.stringify(payload)));
-    if (!result.ok) tell(result.error, true);
-    else if (result.result?.accepted === false) tell(result.result.reason, true);
-    else tell(host.notice() || '操作已记录');
-    update(true);
-    return result;
+  const panel=$('#dossier'), content=$('#panel-content'), notice=$('#notice');
+  const labels={jade:'灵石',wood:'木料',stone:'石料',herb:'灵草',food:'食粮'};
+  const titles={disciples:'门人',master:'掌门',arts:'功法',bag:'行囊',crafts:'百艺',tasks:'任务',world:'山外',sect:'宗务',archive:'存档'};
+  const artKinds={main:'主修心法',support:'辅修法门',spell:'术法',martial:'武学',movement:'身法',production:'百艺'};
+  const orderPhases={proposed:'待安排',reserved:'已预约',navigating:'前往书案',preparing:'准备研习',executing:'正在研习',waiting:'等待条件',interrupted:'已中断'};
+  let tab='home', artId='qingyuan', artSource=null, lastBody='', rendered=false, pointerHeld=false, noticeTimer;
+  const view=()=>JSON.parse(host.snapshot_json());
+  const tell=(message,error=false)=>{
+    const text=String(message||'此事暂未办成').replace(/^command[:：]\s*/,'');
+    notice.textContent=text; notice.dataset.error=String(error); notice.dataset.active='true';
+    $('#panel-feedback').textContent=text; $('#panel-feedback').classList.toggle('danger',error);
+    clearTimeout(noticeTimer);noticeTimer=setTimeout(()=>notice.dataset.active='false',4500);
   };
-  const tell = (message, error = false) => {notice.textContent=String(message||'操作未完成').replace(/^command[:：]\s*/, '');notice.dataset.error=String(error)};
-  function update(force = false) {
-    const state = view();
+  const send=command=>{
+    const payload=command.type==='select'?command:{...JSON.parse(host.command_context()),...command};
+    const result=JSON.parse(host.command(JSON.stringify(payload)));
+    const rejected=!result.ok||result.result===false||result.result?.accepted===false;
+    tell(!result.ok?result.error:result.result?.publicReason||result.result?.reason||(result.result===false?'此时无法办理':command.type==='select'?host.notice():'已记下这项安排'),rejected);
+    update(true); return result;
+  };
+  const selectPerson=id=>{
+    if(view().people.some(p=>p.id===id)) return send({type:'select',kind:'person',id});
+    return {ok:true};
+  };
+  const context={getState:view,send,open,selectPerson,escape:esc,icon,portrait,bar};
+  const people=createPeoplePanels(context), bag=createInventoryPanel(context);
+  function close() {
+    tab='home';panel.hidden=true;$('#system-shade').hidden=true;document.body.classList.remove('system-panel-open');
+    document.querySelectorAll('#system-nav [data-tab]').forEach(b=>{b.classList.remove('active');b.setAttribute('aria-pressed','false')});
+    $('#canvas').focus({preventScroll:true});lastBody='';
+  }
+  function open(page,params={}) {
+    if(page==='scene'||page==='home'){close();if(params.person)window.paintedCourtyardCommand?.('focus_person',params.person);return}
+    if(page==='archive'&&params.inventory)page='bag';
+    if(!titles[page])return;
+    tab=page;lastBody='';$('#panel-feedback').textContent='';
+    document.getElementById('estate-panel').hidden=true;
+    if(page==='disciples'||page==='master')people.enter?.(page,{...params,person:params.person||params.personId});
+    if(page==='bag')bag.enter?.(params);
+    if(page==='arts'){artId=params.art||params.artId||artId;artSource=params.from?params:null}
+    panel.hidden=false;$('#system-shade').hidden=false;document.body.classList.add('system-panel-open');
+    update(true);
+    $('#close-panel').focus({preventScroll:true});
+  }
+  // Keep controls in place while live values change, including a pointer already over a button.
+  function patchChildren(parent, next) {
+    const count=Math.max(parent.childNodes.length,next.childNodes.length);
+    for(let i=0;i<count;i++) {
+      const current=parent.childNodes[i],incoming=next.childNodes[i];
+      if(!incoming){while(parent.childNodes.length>i)parent.lastChild.remove();break}
+      if(!current){parent.append(incoming.cloneNode(true));continue}
+      if(current.nodeType!==incoming.nodeType||current.nodeName!==incoming.nodeName){current.replaceWith(incoming.cloneNode(true));continue}
+      if(current.nodeType===Node.TEXT_NODE){if(current.data!==incoming.data)current.data=incoming.data;continue}
+      if(current.nodeType!==Node.ELEMENT_NODE)continue;
+      for(const attr of [...current.attributes])if(!incoming.hasAttribute(attr.name))current.removeAttribute(attr.name);
+      for(const attr of incoming.attributes)if(current.getAttribute(attr.name)!==attr.value)current.setAttribute(attr.name,attr.value);
+      patchChildren(current,incoming);
+      if(current.nodeName==='INPUT'&&incoming.hasAttribute('value')&&current.value!==incoming.value)current.value=incoming.value;
+      if(current.nodeName==='OPTION'&&current.selected!==incoming.selected)current.selected=incoming.selected;
+    }
+  }
+  function update(force=false) {
+    const state=view();
     document.body.classList.toggle('opening-inheritance-active',state.openingInheritance?.status==='pending');
+    if(state.openingInheritance?.status==='pending'&&tab!=='home')close();
     $('#time').textContent=state.timeLabel;
-    $('#resources').innerHTML=Object.entries(labels).map(([id,[,title]]) => `<span class="resource" title="${title}"><i class="resource-icon resource-${id}" aria-hidden="true"></i>${amount(state.resources[id] ?? 0)}</span>`).join('');
-    $('#pause').textContent=state.paused?'▶':'Ⅱ';
-    $('#pause').setAttribute('aria-pressed',String(state.paused));
-    document.querySelectorAll('.rail-item').forEach(button => button.setAttribute('aria-pressed',String(button.dataset.tab===tab)));
-    panel.hidden=tab==='home';
-    if (tab==='home') return;
-    const body=JSON.stringify(tab==='disciples'?{tab,personId,
-      roster:state.roster.map(({wound,energy,...person})=>({...person,wound:Math.ceil(wound||0)})),
-      people:state.people.map(({id,name,appearance,activity})=>({id,name,appearance,activity})),
-      arts:state.arts.map(({id,name})=>({id,name}))}:
-      tab==='arts'?{tab,artId,arts:state.arts,
-        students:state.roster.filter(p=>p.role==='disciple').map(({id,name,atHome})=>({id,name,atHome})),
-        orders:state.cultivationOrders.map(({progressTicks,...order})=>({...order,progressTicks:Math.floor((progressTicks||0)/10)*10}))}:
-      {tab,message:state.message,rosterLength:state.roster.length,buildingsLength:state.buildings.length});
-    if (!force && body===lastBody) return;
-    lastBody=body;
-    $('#panel-title').textContent={disciples:'门人志',arts:'功法谱',archive:'行囊'}[tab];
-    content.innerHTML=tab==='disciples'?disciples(state):tab==='arts'?arts(state):archive(state);
+    const resourceHTML=Object.entries(labels).map(([id,name])=>`<span class="resource" title="公库 · ${name}">${icon(id)}${amount(state.resources[id]??0)}</span>`).join('');
+    if($('#resources').innerHTML!==resourceHTML)$('#resources').innerHTML=resourceHTML;
+    const master=state.systemPeople?.persons.find(p=>p.id===state.masterId)||state.roster.find(p=>p.id===state.masterId);
+    $('#master-hud-name').textContent=master?.name||'掌门';
+    $('#master-hud-realm').textContent=master?.realmLabel||`炼气 ${master?.realm??''} 层`;
+    const face=portrait(master);if($('#master-hud-portrait').innerHTML!==face)$('#master-hud-portrait').innerHTML=face;
+    $('#pause').textContent=state.paused?'▶':'Ⅱ';$('#pause').setAttribute('aria-pressed',String(state.paused));
+    if(tab==='home')return;
+    if(pointerHeld&&!force)return;
+    const signature=JSON.stringify({tab,people:state.systemPeople,inventory:state.inventory,arts:state.arts,orders:state.cultivationOrders,buildings:state.buildings,message:state.message,story:state.openingStory,resources:state.resources,goal:tab==='tasks'?[$('#goal-title').textContent,$('#goal-copy').textContent,$('#goal-action').textContent,$('#goal-action').hidden]:null});
+    if(!force&&signature===lastBody)return;
+    lastBody=signature;
+    const focus=document.activeElement,field=focus?.dataset.systemField,start=focus?.selectionStart,end=focus?.selectionEnd;
+    const scroll=[...content.querySelectorAll('[data-scroll-key]')].map(el=>[el.dataset.scrollKey,el.scrollTop]);
+    const top=content.scrollTop;
+    rendered=true;
+    const markup=tab==='disciples'||tab==='master'?people.render(tab):tab==='bag'?bag.render():tab==='arts'?arts(state):tab==='archive'?archive():overview(state);
+    const next=document.createElement('template');next.innerHTML=markup;
+    patchChildren(content,next.content);
+    rendered=false;
+    content.dataset.page=tab;$('#panel-title').textContent=titles[tab];content.scrollTop=top;
+    for(const [key,y] of scroll){const el=[...content.querySelectorAll('[data-scroll-key]')].find(el=>el.dataset.scrollKey===key);if(el)el.scrollTop=y}
+    if(field){const next=[...content.querySelectorAll('[data-system-field]')].find(el=>el.dataset.systemField===field);next?.focus({preventScroll:true});if(next?.setSelectionRange&&typeof start==='number'&&['text','search','textarea'].includes(next.type||next.localName))next.setSelectionRange(start,end)}
+    document.querySelectorAll('#system-nav [data-tab]').forEach(b=>{const active=b.dataset.tab===tab;b.classList.toggle('active',active);b.setAttribute('aria-pressed',String(active))});
   }
-  const meter = (name,value,extra='') => `<div class="meter-row"><span>${name}</span><div class="meter ${extra}"><span style="width:${Math.max(0,Math.min(100,Number(value)||0))}%"></span></div><b>${esc(value)}%</b></div>`;
-  const personArts = (person,state) => (person.arts||[]).length
-    ? (person.arts||[]).map(a => `<div class="person-study"><h5>${esc(state.arts.find(art=>art.id===a.id)?.name||a.id)}</h5>${meter('理解',a.understanding??0)}${meter('熟练',a.mastery??0,'mastery')}</div>`).join('')
-    : '<p class="quiet">尚无可见修习记录</p>';
-  function disciples(state) {
-    const visitor=state.people.find(p=>p.id==='person:lu-zhiwei'&&!state.roster.some(r=>r.id===p.id));
-    const candidates=[...state.roster,...(visitor?[{id:visitor.id,name:visitor.name,role:'visitor',realm:null,action:visitor.activity,atHome:true,appearance:visitor.appearance,arts:[]}]:[])];
-    if (!candidates.some(p=>p.id===personId)) personId=candidates[0]?.id;
-    const person=candidates.find(p=>p.id===personId);
-    if (!person) return '<p class="empty">当前没有可查看的人物。</p>';
-    const role=person.role==='master'?'掌门':person.role==='visitor'?'来访者':'门人';
-    const action=activities[person.action]||person.action||'在院';
-    const tabs=`<div class="person-tabs">${candidates.map(p=>`<button class="person-tab" data-person="${esc(p.id)}" aria-pressed="${p.id===personId}">${esc(p.name)}</button>`).join('')}</div>`;
-    const portraitIndex=Number.isInteger(person.appearance)&&person.appearance>=0&&person.appearance<6?person.appearance:null;
-    const portrait=portraitIndex===null?`<div class="portrait" aria-label="${esc(person.name)}名牌">${esc(person.name.slice(-1))}</div>`:
-      `<div class="portrait has-art" style="--portrait-x:${portraitIndex%3*50}%;--portrait-y:${Math.floor(portraitIndex/3)*100}%" aria-label="${esc(person.name)}肖像"></div>`;
-    return `${tabs}${portrait}
-      <h3 class="person-name">${esc(person.name)}</h3><p class="subline">${role} · ${person.atHome?'在院':'外出'} · ${esc(action)}${person.role==='master'?' · '+(person.controlMode==='auto'?'自理':'亲控'):''}</p>
-      <div class="information"><div>境界<b>${person.realm==null?'尚未入宗':`炼气 ${esc(person.realm)} 层`}</b></div><div>当前状态<b>${person.wound>0?`伤势 ${Math.ceil(person.wound)}`:esc(action)}</b></div></div>
-      <h4 class="section-label">修习</h4>${personArts(person,state)}
-      ${person.role==='visitor'?'<p class="lore">陆知微仍在院中作客。</p>':''}
-      ${person.role!=='visitor'&&person.mainArtId&&person.arts?.some(art=>art.id===person.mainArtId)?`<button class="primary-action" data-open-art="${esc(person.mainArtId)}">查看所习功法</button>`:''}`;
-  }
+  const meter=(name,value)=>bar(name,value,100);
   function arts(state) {
     const available=state.arts.filter(a=>a.access);
-    if (!available.some(a=>a.id===artId)) artId=available[0]?.id;
+    if(!available.some(a=>a.id===artId))artId=available[0]?.id;
     const art=available.find(a=>a.id===artId);
-    if (!art) return '<p class="empty">山院目前没有已取得的功法典籍。</p>';
-    const active=state.cultivationOrders.filter(o=>o.artId===art.id);
-    const students=state.roster.filter(p=>p.role==='disciple'&&p.atHome);
-    const canStudy=art.access&&!state.cultivationOrders.some(o=>o.kind==='study');
-    return `${available.length>1?`<div class="art-list">${available.map(a=>`<button class="art-tab" data-art="${esc(a.id)}" aria-pressed="${a.id===artId}">${esc(a.name)}</button>`).join('')}</div>`:''}
-      <div class="manual-art" role="img" aria-label="${esc(art.name)}典籍"><span class="manual-cover-title">${esc(art.name)}</span></div>
-      <p class="art-kind">${esc(artKinds[art.kind]||art.kind)} · 已获典籍</p><h3 class="art-name">${esc(art.name)}</h3><p class="art-source">${esc(art.source)}</p>
-      <div class="art-stages" aria-label="功法修习阶段"><span class="${art.access?'done':''}"><i>✓</i>得书</span><span class="${art.understanding>0?'current':''}"><i>✦</i>参悟</span><span class="${art.mastery>0?'done':''}"><i>✧</i>练成</span></div>
-      ${meter('理解',art.understanding)}${meter('熟练',art.mastery,'mastery')}
-      <p class="lore">${art.teaching?.qualified?'此卷可授门人。':'尚难授业：'+esc(art.teaching?.reason||'需再研习')}</p>
-      ${active.map(o=>`<div class="order">${o.kind==='study'?'掌门研习':o.kind==='teach'?'门人授业':'转修'} · ${esc(orderPhases[o.phase]||o.phase)} · ${esc(o.progressTicks||0)} / ${esc(o.durationTicks||0)}${o.reason?`<br>${esc(o.reason)}`:''}<button class="secondary-action" data-cancel="${esc(o.id)}">中止安排</button></div>`).join('')}
-      <button class="primary-action" data-study="${esc(art.id)}" ${canStudy?'':'disabled'}>安排研习</button>
-      ${students.length?`<h4 class="section-label">门人授业</h4>${students.map(p=>`<button class="secondary-action" data-teach="${esc(art.id)}" data-student="${esc(p.id)}">邀请 ${esc(p.name)} 研习</button>`).join('')}`:''}`;
+    if(!art)return `<div class="live-overview"><section class="pane">${icon('book')}<h3>藏经</h3><p>尚未取得典籍。</p><button class="game-button" data-tab="master">查看掌门</button></section></div>`;
+    const active=state.cultivationOrders.filter(o=>o.artId===art.id),students=state.roster.filter(p=>p.role==='disciple'&&p.atHome);
+    return `<div class="live-arts"><aside class="pane"><h3 class="pane-title">本门藏经</h3>${available.map(a=>`<button class="art-tab" data-art="${esc(a.id)}" aria-pressed="${a.id===artId}">${esc(a.name)}</button>`).join('')}${artSource?'<button class="game-button" data-art-return>返回人物</button>':''}</aside><article class="pane"><div class="manual-art"><span class="manual-cover-title">${esc(art.name)}</span></div><h2>${esc(art.name)}</h2><p class="art-kind">${esc(artKinds[art.kind]||art.kind)}</p><p class="art-source">${esc(art.source)}</p>${meter('理解',art.understanding)}${meter('熟练',art.mastery)}<p class="subtle">${art.teaching?.qualified?'此卷可授门人。':esc(art.teaching?.reason||'尚待研习')}</p><button class="primary-action" data-study="${esc(art.id)}" ${state.cultivationOrders.some(o=>o.kind==='study')?'disabled':''}>掌门研习</button></article><aside class="pane"><h3 class="pane-title">修习事务</h3>${active.map(o=>`<div class="order">${o.kind==='study'?'掌门研习':o.kind==='teach'?'门人授业':'转修'} · ${esc(orderPhases[o.phase]||o.phase)}${bar('进度',o.progressTicks||0,o.durationTicks||1)}<p>${esc(o.reason||'')}</p><button class="secondary-action" data-cancel="${esc(o.id)}">中止安排</button></div>`).join('')||'<p class="subtle">当前无修习安排。</p>'}${students.length?`<h3 class="pane-title">门人授业</h3>${students.map(p=>`<button class="secondary-action" data-teach="${esc(art.id)}" data-student="${esc(p.id)}">邀请 ${esc(p.name)} 研习</button>`).join('')}`:''}</aside></div>`;
   }
-  function archive(state) {
-    return `<h3 class="art-name">山院行囊</h3><div class="information inventory">${Object.entries(labels).map(([id,[,name]])=>`<div><span><i class="resource-icon resource-${id}" aria-hidden="true"></i>${name}</span><b>${amount(state.resources[id]??0)}</b></div>`).join('')}</div><h4 class="section-label">存读</h4><button class="primary-action" data-save>保存进度</button><button class="secondary-action" data-reload>读取档案</button><button class="secondary-action" data-export>导出存档</button><button class="secondary-action" data-import>导入存档</button>`;
+  function archive(){return `<div class="live-archive"><button class="game-button primary" data-save>保存进度</button><button class="game-button" data-reload>读取档案</button><button class="game-button" data-export>导出存档</button><button class="game-button" data-import>导入存档</button></div>`}
+  function overview(state){
+    const siteButton=b=>`<button class="game-button" data-live-building="${esc(b.id)}">查看${esc(b.name)}</button>`;
+    if(tab==='tasks')return `<div class="live-overview"><section class="pane">${icon('scroll')}<h3>${esc($('#goal-title').textContent)}</h3><p>${esc($('#goal-copy').textContent)}</p>${!$('#goal-action').hidden?`<button class="game-button primary" data-current-goal>${esc($('#goal-action').textContent)}</button>`:''}</section><section class="pane"><h3>山院近况</h3>${state.construction?bar('工程',Math.round(state.construction.progress*100),100):'<p class="subtle">目前没有营造中的工程。</p>'}${state.buildings.map(b=>`<div class="data-row"><span>${esc(b.name)}</span>${siteButton(b)}</div>`).join('')}</section></div>`;
+    if(tab==='crafts'){const facilities=state.buildings.filter(b=>['alchemy','workshop','forge'].includes(b.type));return `<div class="live-overview"><section class="pane">${icon('cauldron')}<h3>丹房</h3>${facilities.filter(b=>b.type==='alchemy').map(siteButton).join('')||'<p class="subtle">院中尚无丹房。</p>'}<button class="game-button" data-live-build>查看营造地</button></section><section class="pane">${icon('forge')}<h3>百工坊</h3>${facilities.filter(b=>b.type!=='alchemy').map(siteButton).join('')||'<p class="subtle">院中尚无百工坊。</p>'}<button class="game-button" data-tab="bag">查看用料</button></section></div>`}
+    if(tab==='world')return `<div class="live-overview"><section class="pane">${icon('mountain')}<h3>云岫山院</h3><p>群峰环抱，山道从院前延伸。</p><button class="game-button primary" data-live-home>回望山院</button></section><section class="pane"><h3>在外门人</h3>${state.roster.filter(p=>!p.atHome).map(p=>`<div class="data-row"><span>${esc(p.name)}</span><button class="game-button" data-live-person="${esc(p.id)}">查看近况</button></div>`).join('')||'<p class="subtle">门人皆在院中。</p>'}</section></div>`;
+    return `<div class="live-overview"><section class="pane"><h3>院中事务</h3>${state.buildings.map(b=>`<div class="data-row"><span>${esc(b.name)}</span>${siteButton(b)}</div>`).join('')}<button class="game-button" data-tab="disciples">查看门人</button></section><section class="pane"><h3>公库</h3>${Object.entries(labels).map(([id,name])=>`<div class="data-row"><span>${name}</span><b>${amount(state.resources[id]||0)}</b></div>`).join('')}<button class="game-button" data-tab="bag">查看物资</button></section></div>`;
   }
-  document.addEventListener('click',event => {
-    const button=event.target.closest('button');
-    if (!button) return;
-    if (button.dataset.tab) {tab=button.dataset.tab;lastBody='';update(true)}
-    else if (button.id==='close-panel') {tab='home';update(true)}
-    else if (button.dataset.person) {personId=button.dataset.person;send({type:'select',kind:'person',id:personId})}
-    else if (button.dataset.openArt) {artId=button.dataset.openArt;tab='arts';update(true)}
-    else if (button.dataset.art) {artId=button.dataset.art;update(true)}
-    else if (button.dataset.study) send({name:'studyArt',args:[button.dataset.study]});
-    else if (button.dataset.teach) send({name:'teachArt',args:[button.dataset.teach,button.dataset.student]});
-    else if (button.dataset.cancel) send({name:'cancelCultivationOrder',args:[button.dataset.cancel]});
-    else if (button.hasAttribute('data-save')) {const result=JSON.parse(host.save_slot());tell(result.message||'当前进度已保存',!result.ok)}
-    else if (button.hasAttribute('data-reload')) {host.reload_slot();tell('正在读取档案')}
-    else if (button.hasAttribute('data-export')) host.download_save();
-    else if (button.hasAttribute('data-import')) host.import_save();
+  document.querySelectorAll('[data-icon]').forEach(el=>el.innerHTML=icon(el.dataset.icon));
+  document.addEventListener('click',event=>{
+    const button=event.target.closest('button');if(!button||button.disabled)return;
+    if(button.dataset.tab&&!button.hasAttribute('data-system-action')){open(button.dataset.tab);return}
+    if(button.id==='close-panel'){close();return}
+    if(button.hasAttribute('data-system-action')){
+      const handled=(tab==='disciples'||tab==='master')?people.click(button):tab==='bag'?bag.click(button):false;
+      if(handled)update(true);return;
+    }
+    if(button.dataset.art){artId=button.dataset.art;update(true)}
+    else if(button.hasAttribute('data-art-return'))open(artSource?.from||'disciples',{person:artSource?.person,personId:artSource?.person});
+    else if(button.dataset.study)send({name:'studyArt',args:[button.dataset.study]});
+    else if(button.dataset.teach)send({name:'teachArt',args:[button.dataset.teach,button.dataset.student]});
+    else if(button.dataset.cancel)send({name:'cancelCultivationOrder',args:[button.dataset.cancel]});
+    else if(button.hasAttribute('data-save')){const r=JSON.parse(host.save_slot());tell(r.message||'进度已保存',!r.ok)}
+    else if(button.hasAttribute('data-reload')){Promise.resolve(host.reload_slot()).then(()=>{update(true);tell(host.notice()||'档案已读取')}).catch(e=>tell(e.message,true))}
+    else if(button.hasAttribute('data-export')){host.download_save();tell(host.notice())}
+    else if(button.hasAttribute('data-import'))host.import_save();
+    else if(button.hasAttribute('data-current-goal')){close();$('#goal-action').click()}
+    else if(button.hasAttribute('data-live-building')){close();window.estateGameSelect?.('building',button.dataset.liveBuilding)}
+    else if(button.hasAttribute('data-live-person'))open('disciples',{personId:button.dataset.livePerson});
+    else if(button.hasAttribute('data-live-build')||button.id==='build-tool'){close();window.estateGameOpenSite?.()}
+    else if(button.hasAttribute('data-live-home')){close();window.paintedCourtyardCommand?.('follow')}
+  });
+  for(const eventType of ['input','change'])content.addEventListener(eventType,event=>{
+    if(rendered)return;const input=event.target;if(!input.dataset.systemField)return;
+    const handled=(tab==='disciples'||tab==='master')?people.input(input,eventType):tab==='bag'?bag.input(input,eventType):false;
+    if(handled)update(true);
+  });
+  document.addEventListener('pointerdown',event=>{if(panel.contains(event.target))pointerHeld=true});
+  document.addEventListener('pointerup',()=>{pointerHeld=false});
+  document.addEventListener('pointercancel',()=>{pointerHeld=false});
+  $('#system-shade').addEventListener('click',close);
+  document.addEventListener('keydown',event=>{
+    if(event.key==='Escape'){close();$('#estate-panel').hidden=true;return}
+    if(['INPUT','SELECT','TEXTAREA'].includes(event.target.tagName))return;
+    const pages=['disciples','arts','bag','crafts','tasks','world','sect'];if(/^[1-7]$/.test(event.key))open(pages[Number(event.key)-1]);
   });
   $('#zoom-out').addEventListener('click',()=>window.paintedCourtyardCommand?.('zoom_out'));
   $('#zoom-in').addEventListener('click',()=>window.paintedCourtyardCommand?.('zoom_in'));
   $('#follow').addEventListener('click',()=>window.paintedCourtyardCommand?.('follow'));
   $('#pause').addEventListener('click',()=>send({type:'pause',paused:!view().paused}));
-  window.paintedGameSelect=(kind,id)=>{send({type:'select',kind,id});if(kind==='person'){personId=id;tab='disciples';update(true)}};
+  window.paintedGameSelect=(kind,id)=>{send({type:'select',kind,id});if(kind==='person')open(id===view().masterId?'master':'disciples',{personId:id,person:id})};
   window.paintedGameMove=(x,y)=>send({type:'move',x,y});
   window.paintedGamePause=()=>send({type:'pause',paused:!view().paused});
   window.paintedGameNotice=message=>tell(message,true);
@@ -122,4 +170,5 @@ export function startPaintedGameUI(host) {
   canvas.addEventListener('touchend',e=>{if(e.touches.length<2&&pinch){pinch=0;window.paintedCourtyardCommand?.('gesture_end')}},{passive:false});
   update(true);
   setInterval(()=>update(),220);
+  return {open,close,tell};
 }

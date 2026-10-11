@@ -516,6 +516,13 @@ func _on_browser_command(arguments: Array) -> void:
 				focus = _site_anchor(site_by_id[selected_id])
 				_update_camera()
 				selection_overlay.queue_redraw()
+		"focus_person":
+			if arguments.size() > 1 and actors.has(str(arguments[1])):
+				selected_kind = "person"
+				selected_id = str(arguments[1])
+				focus = actors[selected_id].position
+				_update_camera()
+				selection_overlay.queue_redraw()
 		"background":
 			backgrounded = true
 		"foreground":

@@ -1,10 +1,10 @@
-import {startPaintedGameUI} from './base-ui.mjs?v=m1-herb-2';
+import {startPaintedGameUI} from './base-ui.mjs?v=u120-live-1';
 import {BUILDINGS, STAGE_NAMES} from './runtime/ea-data.mjs';
 import {HALL_ESTABLISH_COST} from './runtime/ea-sr-spatial.mjs';
 
 /** Mountain courtyard construction surface. Character and art rules stay in base-ui. */
 export function startEstateGameUI(host, layout) {
-  startPaintedGameUI(host);
+  const systemUI=startPaintedGameUI(host);
   const panel=document.getElementById('estate-panel');
   const content=document.getElementById('estate-content');
   const notice=document.getElementById('notice');
@@ -23,8 +23,8 @@ export function startEstateGameUI(host, layout) {
   function send(command) {
     const payload={...JSON.parse(host.command_context()),...command};
     const result=JSON.parse(host.command(JSON.stringify(payload)));
-    notice.textContent=result.ok?(result.result?.accepted===false?String(result.result.publicReason||result.result.reason||'此事暂未应下'):result.result?.publicReason||host.notice()||'此事已记下'):String(result.error||'此事暂未办成');
-    notice.dataset.error=String(!result.ok||result.result?.accepted===false);
+    const message=result.ok?(result.result?.accepted===false?String(result.result.publicReason||result.result.reason||'此事暂未应下'):result.result?.publicReason||host.notice()||'此事已记下'):String(result.error||'此事暂未办成');
+    systemUI.tell(message,!result.ok||result.result===false||result.result?.accepted===false);
     render(true);
     return result;
   }
@@ -232,14 +232,14 @@ export function startEstateGameUI(host, layout) {
     selectedSite=id;
     selectedBuilding=buildingId;
     selectedStory=false;
-    document.querySelector('.rail-item[data-tab="home"]').click();
+    systemUI.close();
     panel.hidden=false;
     render(true);
   }
 
   function openStory() {
     selectedStory=true;
-    document.querySelector('.rail-item[data-tab="home"]').click();
+    systemUI.close();
     panel.hidden=false;
     render(true);
   }
@@ -258,7 +258,8 @@ export function startEstateGameUI(host, layout) {
   };
   window.estateGameMove=(x,y)=>window.paintedGameMove(x,y);
   window.paintedCourtyardCommand=(command,...args)=>window.estateSceneCommand?.(command,...args);
-  document.querySelectorAll('.rail-item').forEach(button=>button.addEventListener('click',()=>{panel.hidden=true}));
+  window.estateGameOpenSite=(id='site:main-house')=>openSite(id);
+  document.querySelectorAll('[data-tab]').forEach(button=>button.addEventListener('click',()=>{panel.hidden=true}));
   document.getElementById('close-estate-panel').addEventListener('click',()=>{panel.hidden=true});
   document.getElementById('goal-action').addEventListener('click',event=>{
     const target=event.currentTarget.dataset.goal;

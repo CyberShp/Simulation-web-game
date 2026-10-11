@@ -107,7 +107,7 @@ export async function bootGodotHost({preview = 'godot-preview', siteLayout = nul
       else if (command.type === 'select') {
         const values = command.kind === 'person' ? refresh().people : refresh().buildings;
         const entity = values.find(item => item.id === String(command.id));
-        const activities = {idle:'休憩',walk:'行走',heal:'疗伤',rest:'休息',groundRest:'就地休息',study:'研习',work:'劳作',cultivate:'修炼',construct:'营造',carry:'搬运',wait:'等候'};
+        const activities = {idle:'休憩',walk:'行走',heal:'疗伤',rest:'休息',groundRest:'就地休息',study:'研习',work:'劳作',plant:'种植',harvest:'采收',cultivate:'修炼',construct:'营造',carry:'搬运',wait:'等候'};
         message = entity ? `${entity.name} · ${entity.indoor && command.kind === 'person' ? '屋内活动' : activities[entity.activity] || (entity.type ? '营造' : entity.activity) || '在院'}` : '未找到此对象';
       } else {
         changed = true;
