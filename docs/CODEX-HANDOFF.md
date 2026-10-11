@@ -1,8 +1,14 @@
 # Codex 接手指南 · 2026-10-11
 
+## U-117 当前接续
+
+用户确认原逃亡剧情进入新云岫山院：开局为临时落脚处，伤愈后由玩家营造主殿。`godot/estate_2d/estate.gd` 与 `estate-sites.json` 使用新地形、篷屋和主殿四阶段画稿；`dist/ea-opening-sim.mjs`、`ea-sr-spatial.mjs`、`ea-godot-bridge.mjs` 和 `godot/estate_3d/web/game-ui.mjs` 连接立殿命令、工地和存读。Godot `estate-game` 预览新档进入暂栖，正式首页新档维持现行可玩起点，旧档缺字段时维持已落成；材料与工时为 R-38 试算。导出 `python3 tools/build-estate-painted-web.py --output output/mountain-courtyard-preview/index.html`，浏览器已走疗伤至落成，定向测试见 [STATUS](design/STATUS.md) 首段。接续仍需逐项核对正式入口、目标设备、美术评看和完整 SR/AC。
+
+本批源码 `main` `3a930ea55d66244cb24cfcfef52cbc3e6d1b8b88` 已推送；公开独立入口为 [云岫山院](https://cybershp.github.io/Simulation-web-game/mountain-courtyard/)，`gh-pages` `2e7f5ecb5e1fa4ff0f311fca827e62530ff40af9` 构建 `built`。公开 Chromium 已加载场景并在疗伤后进入包裹；主殿完工完整路径在本地隔离档实走。
+
 ## U-115 / U-116 当前接续
 
-开局第一笔六份灵草疗伤会暂停世界并进入独立雨夜包裹场景。剧情中包裹只有一卷；游戏界面逐项展示五种可选开局，确定一条后取得心法、攻击、护持三项。未选原本在坊市或听雨遗址，旧档沿用已学内容。共享规则见 `dist/ea-opening-inheritance.mjs`，正式入口画面见 `dist/ea-package-scene.mjs`，Godot 画面见 `godot/estate_2d/opening_inheritance_canvas.gd`；本批单卷雨夜素材为各自 `assets/opening-bundle-*`。包裹场景已用新山院背景，可行走山院仍待替换。隔离 Godot Web 与正式入口均已实点疗伤、切换及确认；前批存读等验证及本批实测边界见 [STATUS](design/STATUS.md) 首段。
+开局第一笔六份灵草疗伤会暂停世界并进入独立雨夜包裹场景。剧情中包裹只有一卷；游戏界面逐项展示五种可选开局，确定一条后取得心法、攻击、护持三项。未选原本在坊市或听雨遗址，旧档沿用已学内容。共享规则见 `dist/ea-opening-inheritance.mjs`，正式入口画面见 `dist/ea-package-scene.mjs`，Godot 画面见 `godot/estate_2d/opening_inheritance_canvas.gd`；本批单卷雨夜素材为各自 `assets/opening-bundle-*`。可行走山院现按 U-117 接续。隔离 Godot Web 与正式入口均已实点疗伤、切换及确认；前批存读等验证及本批实测边界见 [STATUS](design/STATUS.md) 首段。
 
 本批源码已推送 `main` `7dc3ec6`；`gh-pages` 仍停在此前公开版本，开局传承规则与画面须连同版本发布验证后再同步，不能只换画稿。
 
@@ -16,9 +22,9 @@
 
 用户已确认[门人收录原则](design/DECISIONS.md)：山门求见后正式收录即定外门、内门或亲传，后期各峰分别管理三级门籍并可有收徒权限，扩招受硬容量限制。峰内主持、择徒和结算细则仍待评看 R-34。本轮仅制作[可评看的游戏画面稿](art/DISCIPLES-UI-2026-10-10.md)：`docs/art/disciples-ui-20261010/`，沿 U-108 雕纹导航与场景卷册方向，在场景中打开门籍和山门求见，开山／分峰两阶段可切换。大人数门人志的补充评看图位于 `docs/art/disciples-ui-20261011/roster-large.png`。示例人物和数值不写入存档；规则接入须以用户定稿为准。当前源码检查点 `808ee022` 已推送 `main`，本稿的新提交及可评看地址须以本轮最终交付核对。
 
-## U-110 分层绘画旧别院接续
+## U-110 分层绘画旧别院记录
 
-用户确认保留旧别院开局，并用固定斜俯视 Godot 2D 绘画重画：残败主屋、四处荒地预留位、独立建筑与阴影、人物和前景遮挡。当前源场景 `godot/estate_2d/estate.tscn`、素材 `godot/estate_2d/assets/`、点位 `godot/estate_2d/estate-sites.json`；`python3 tools/build-estate-painted-web.py` 输出 `dist/painted-game/`。人物位置和营造阶段继续读取唯一 JS 模拟与 `estate-game` 独立预览档，主角自由行走每 0.1 秒推进。浏览器视觉及交互范围和未验内容见 [STATUS](design/STATUS.md) 首段；门人、功法规则继续待用户讨论。
+用户当时确认旧别院开局，并用固定斜俯视 Godot 2D 绘画重画：残败主屋、四处荒地预留位、独立建筑与阴影、人物和前景遮挡。当时的源场景 `godot/estate_2d/estate.tscn`、素材 `godot/estate_2d/assets/`、点位 `godot/estate_2d/estate-sites.json`；`python3 tools/build-estate-painted-web.py` 输出 `dist/painted-game/`。人物位置和营造阶段继续读取唯一 JS 模拟与 `estate-game` 独立预览档，主角自由行走每 0.1 秒推进。浏览器视觉及交互范围和未验内容见 [STATUS](design/STATUS.md) 的 U-110 记录。
 
 用户指出当前 UI 与 U-108 两张确认稿不符；本地已用绘画 UI 素材替换简化 CSS 边框和文字图标，门人志改大肖像及实际修习条、功法谱改典籍卷册及已取得典籍投影。共用源在 `godot/estate_3d/web/`，2D 构建从那里取网页界面，输出旁置十张透明 UI 画稿。桌面 1440×900、横屏 1194×834、竖屏 834×1194 的浏览器实截图在 `output/playwright/u108-ui-*`；用户美术验收、iPad 真机及门人／功法细则仍待。此批不发布正式页、不推进完整 SR 状态。
 
@@ -93,7 +99,7 @@ python3 -m http.server 8080 --directory dist --bind 127.0.0.1
 
 ## 既有 JS 发布与开发记录
 
-以下记录保留各批次形成时的版本、成果和未覆盖范围。涉及旧2.5D画稿及当时下一步的叙述属于对应版本；当前旧别院任务由首段 U-110 接续。
+以下记录保留各批次形成时的版本、成果和未覆盖范围。涉及旧2.5D画稿及当时下一步的叙述属于对应版本；当前山院任务由首段 U-117 接续。
 
 最新 r37 运行版本已发布：SR029 局部修正窄屏帮助和真实 DPR 画布位图，源码 `main` `7d27532bf22e8c6064281e12b390edb8370abce9`，网页 `gh-pages` `acb40955ded401e6e2c5225c463d3e0a380ae6a2`，标记 `ea-160-courtyard-20261009-r37`，Pages `built`。空间 Canvas 36/36、输入 13/13；公网隔离 Chromium 模拟 iPad Pro 11 竖屏完成两画布 1668×2388、44×44 帮助、陆知微点选及 QA 档暂停手存刷新续玩，控制台零错误/警告。162 文本 blob 与公网树一致，正式/预览入口和改动模块 HTTP 200、字节相符。短样本未见明显帧率回退，DPR2 两画布位图估算增加 7.11 MiB；完整卡顿、真机、SR029 整项和暂居流程继续。台账 **40 passed、79 not_run、1 blocked，整项仅 SR001 关闭**；详见 [STATUS](design/STATUS.md)。
 
@@ -185,9 +191,9 @@ M1 第十批：SR007-AC02 的同一掌门换衣、真实制作法器、三场战
 
 用户已要求继续开发及验收。本文是导航和接续检查点；详细规则与权威任务状态仍归各设计文档和 SR 台账。此前成人家具、静态卧姿、现场交互及活动中断画面修正已本地实现，发布状态与已验证范围分别记录于 [STATUS](design/STATUS.md)：采集／来源恢复暂停时不再显示劳动，当前人物画稿不再被标为完整动画；伤势／低精力／包裹满、存读与恢复 3/3，离位仍待单独验收，SR-XF-007/009 仍未整项通过。
 
-仓库：`CyberShp/Simulation-web-game`。当前在 `/Volumes/Media/immortal` 的 **main** 工作区继续，先读取并保留全部已存在的未提交增量；远端 main 尚不包含本地最新一批。需要迁移到其他工作区时，先明确保存并带上这些源文件、美术、文档和测试。正式 JS 源码在 `dist/`，当前旧别院源文件在 `godot/estate_2d/`，`gh-pages` 是独立发布产物分支。
+仓库：`CyberShp/Simulation-web-game`。当前在 `/Volumes/Media/immortal` 的 **main** 工作区继续，先读取并保留全部已存在的未提交增量；需要迁移到其他工作区时，先明确保存并带上这些源文件、美术、文档和测试。正式 JS 源码在 `dist/`，当前山院源文件在 `godot/estate_2d/`，`gh-pages` 是独立发布产物分支。
 
-全量执行顺序见 [40项SR交付计划](DELIVERY-PLAN.md)。当前先收口 U-110 旧别院二维绘画网页实机，用户审看后再批量扩展；仍沿 Godot 路线接入玩法；M0–M8 继续安排40项 SR 的需求收口。该计划第5节保留原 JS 首批任务，第9节是当前执行指令；实际状态继续查 SR 台账。
+全量执行顺序见 [40项SR交付计划](DELIVERY-PLAN.md)。当前先由用户审看 U-117 新山院实机，再按反馈和 SR 依赖接续；仍沿 Godot 路线接入玩法。该计划第5节保留原 JS 首批任务，第9节是执行指令；实际状态继续查 SR 台账。
 
 ## Sol 高／极高接续执行约定
 
@@ -208,7 +214,7 @@ M1 第十批：SR007-AC02 的同一掌门换衣、真实制作法器、三场战
 
 | 约束 | 接续要求 | 权威来源 |
 | --- | --- | --- |
-| 体验重点与美术 | 优先经营、人物成长、场景交互；当前按 U-110 制作旧别院分层绘画实机，用户审看网页后批量扩展；标题与正文均须可辨认 | U-96、U-102/109/110；[03](design/03-SPATIAL-ART.md)、[旧别院点位](../godot/estate_2d/estate-sites.json) |
+| 体验重点与美术 | 优先经营、人物成长、场景交互；当前按 U-117 制作云岫山院分层绘画实机，用户审看游戏画面后批量扩展；标题与正文均须可辨认 | U-96、U-102/115/116/117；[03](design/03-SPATIAL-ART.md)、[山院点位](../godot/estate_2d/estate-sites.json) |
 | 统一空间 | 96×96米山院，2米营造格、0.5米导航；成人床0.9×2.2米；预览/工地/成品/入口/工位/碰撞/命中来自同一空间定义 | R-27–30；[03](design/03-SPATIAL-ART.md) |
 | 人物自主与身份 | 仅直接控制掌门；门人根据意愿、材料、路程和空位行动；地图、肖像、成长、装备、出行使用同一持久人物 | U-02；[01](design/01-CHARACTERS.md)、[05](design/05-RUNTIME-CONTRACTS.md) |
 | 时钟与结算 | 单一模拟时钟，暂停/后台/关闭不推进；UI与渲染只读；到场、有效预约和材料齐备才执行，扣费/退款/产出结算一次 | [05](design/05-RUNTIME-CONTRACTS.md) §§4–8、13 |
@@ -217,7 +223,7 @@ M1 第十批：SR007-AC02 的同一掌门换衣、真实制作法器、三场战
 | 运行时AI | 可选、默认关闭，不能裁定世界真相、伤害、奖励或生死；无API仍能完整玩已实现内容 | [11](design/11-AI-CONTENT-CONTRACT.md) |
 | 证据与完成 | 正常链不注资或改境界；组件、Canvas、浏览器视口、真机、真人、FPS分别记；SR全部必需AC满足后才宣告整项验收通过 | [06](design/06-OPENING-ACCEPTANCE.md)、[需求门槛](requirements/README.md) |
 
-当前先按 U-110 检查旧别院二维开局、营造和实机交互；其余素材的批量制作等待用户审看该网页效果。后续玩法仍按下文缺口和40项 SR 依赖接续。接手第一步是读取现有差异，将本批实际检查与实现逐一对应；保留已经有效的成人家具、旧档和正式玩法证据。偶发启动加载失败保留待定位，不能把重载成功当作根因已修复。
+当前先按 U-117 检查云岫山院二维开局、营造和实机交互；其余素材的批量制作等待用户审看游戏画面。后续玩法仍按下文缺口和40项 SR 依赖接续。接手第一步是读取现有差异，将本批实际检查与实现逐一对应；保留已经有效的成人家具、旧档和正式玩法证据。偶发启动加载失败保留待定位，不能把重载成功当作根因已修复。
 
 交付前另一个 Agent 按上述依据只读复核实际差异和证据；主 Agent 处理发现的问题、确认公共命令与模块接缝，再更新各项状态。复核无法独立完成时明确记录，不用“高/极高”设置或自评代替验收。
 
@@ -265,7 +271,7 @@ UI、路径、占地、工位、命中与投影使用同源事实；新可见障
 
 ## 关键代码与美术位置
 
-- 当前旧别院：`godot/estate_2d/estate.tscn`、`godot/estate_2d/estate-sites.json`；构建 `tools/build-estate-painted-web.py`，本地预览 `dist/painted-game/index.html`。
+- 当前山院：`godot/estate_2d/estate.tscn`、`godot/estate_2d/estate-sites.json`；构建 `tools/build-estate-painted-web.py`，独立预览 `/mountain-courtyard/`。
 - 历史二维小院：`godot/painted_courtyard/courtyard.tscn`、`godot/painted_courtyard/assets/`；构建 `tools/build-painted-web.py`，独立输出 `dist/painted-courtyard/index.html`。
 - 历史3D美术试验：`godot/art/art_courtyard.tscn`、`godot/art/art_courtyard.gd`、`godot/art/actor_3d.gd`、`godot/art/assets/`、`godot/art/web/shell.html`；构建 `tools/build-art-web.py`。
 - 已有 Godot 2D 桥接：`godot/project.godot`、`godot/scripts/`、`dist/ea-godot-bridge.mjs`、`dist/ea-godot-host.mjs`；构建 `tools/build-godot-web.py`。主场景继续保留，独立于本批样板入口。
@@ -306,7 +312,7 @@ node --test qa/ea-courtyard-rest-render-acceptance.mjs tests/ea-rest-pose.test.m
 
 ## 已知差距及下一步
 
-当前先完成 [U-110 旧别院](design/DECISIONS.md)的网页检查与具体问题修正，并交由用户审看美术效果。以下保留正式玩法的待办；样板检查不直接关闭这些 SR，也不在用户实机确认前扩展其余美术。
+当前先完成 [U-117 云岫山院](design/DECISIONS.md)的游戏画面检查与具体问题修正，并交由用户审看美术效果。以下保留正式玩法的待办；样板检查不直接关闭这些 SR，也不在用户实机确认前扩展其余美术。
 
 1. **完整小院：SR003–007/029。** 优先收口营造、工位、室内、遮挡与实际交互；旧建筑屋外精细，室内仍有代码绘制风格差异。成人床及六身份静态卧姿已本地实现；完整坐姿、劳动、疗伤、斗法动作及服饰装备完整分层仍待补。地形仍偏重复草地与边缘植被，旧水面形状规则，不能称最终美术验收完成。
 2. **自主经营：SR008–011。** 围绕真实供给、搬运、预约和工作位做连续正常经营验收，补齐短缺、堵路、暂停/重载和设施变化后的恢复。

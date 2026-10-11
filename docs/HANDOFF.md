@@ -1,8 +1,14 @@
 # 项目交付接续 · 2026-10-11
 
+## U-117 当前可行走山院
+
+Godot `estate-game` 预览新档在临时落脚处疗伤，包裹选择沿 U-115 / U-116，伤愈后在山院殿址营造主殿。Godot 2D 场景现用山院地形、篷屋和主殿各施工阶段画稿；隔离预览档继续连接唯一模拟、世界时钟及存档。主殿工程的扣料、运送、取消与旧档迁移见 [STATUS](design/STATUS.md) 首段和 [U-117 / R-38](design/DECISIONS.md)。构建 `python3 tools/build-estate-painted-web.py --output output/mountain-courtyard-preview/index.html`；本地浏览器已实走至主殿落成。正式入口维持可玩，目标设备和整项 SR 验收仍按台账逐项核对。
+
+源码 `main` `3a930ea55d66244cb24cfcfef52cbc3e6d1b8b88`，独立预览 [云岫山院](https://cybershp.github.io/Simulation-web-game/mountain-courtyard/) 对应 `gh-pages` `2e7f5ecb5e1fa4ff0f311fca827e62530ff40af9`；Pages `built`，公开 Chromium 已走首屏与首次疗伤进入包裹。
+
 ## U-115 / U-116 当前批次
 
-新档首次使用六份灵草疗伤时，独立雨夜包裹画面开启五条入门传承；一条取得心法与攻守两技，其余原本有可追寻的坊市／低级遗址来源。待选状态可存读，旧档延续原已学内容。画面、规则、已核验路径和剩余风险见 [STATUS](design/STATUS.md) 与 [开局五线](design/32-OPENING-INHERITANCE.md)。当前旧别院绘景仅是既有规则接线的运行稿，后续山院视觉另行接续。
+新档首次使用六份灵草疗伤时，独立雨夜包裹画面开启五条入门传承；一条取得心法与攻守两技，其余原本有可追寻的坊市／低级遗址来源。待选状态可存读，旧档延续原已学内容。画面、规则、已核验路径和剩余风险见 [STATUS](design/STATUS.md) 与 [开局五线](design/32-OPENING-INHERITANCE.md)。可行走山院画面按上方 U-117 接续。
 
 云岫 Y-001–067 已逐条复评，多 agent 新批次 Y-235–347 并入[扩写总账](design/28-FIVE-CONTINENT-ARTS-LEDGER.md)，当前连续 347／4900 项，余 4553。目录是设计稿，五条筑基延续、持剑约束与高境结算仍待实现。
 
@@ -20,11 +26,11 @@
 
 用户确认门人正式收录、分峰三级门籍、各峰可有收徒权限与扩招硬边界，见 [U-111](design/DECISIONS.md)。峰内主持与正式收录执行细则仍待评看 [R-34](design/DECISIONS.md)。先交[游戏画面稿](art/DISCIPLES-UI-2026-10-10.md)：旧别院场景、左侧雕纹功能牌、门人志卷册和山门求见；大人数索引补图见[分峰名册](art/disciples-ui-20261011/roster-large.png)。示例数据只供评看，规则与存档接入在下一步。此前 U-110 等本地成果源码已以 `808ee022` 推送 `main`；本稿提交和评看入口按本轮交付核对。
 
-## U-110 分层二维旧别院接续
+## U-110 分层二维旧别院记录
 
-当前本地 `dist/painted-game/` 使用 `godot/estate_2d/estate.tscn`，构建命令 `python3 tools/build-estate-painted-web.py`。U-109 的残败主屋及四处荒地建位继续成立；地面、建筑阴影、建筑、人物和前景分别成层，修缮、建成及升级读取同一存档。掌门自由行走按 0.1 秒世界步平滑推进，浏览器点地移动与定向开局／桥接／门道用例已验证，视觉效果待用户审看。完整证据和剩余边界见 [STATUS](design/STATUS.md) 首段。素材在 `godot/estate_2d/assets/`，构建产物使用独立 `estate-game` QA 存档；正式首页未切换。
+当时本地 `dist/painted-game/` 使用 `godot/estate_2d/estate.tscn`，构建命令 `python3 tools/build-estate-painted-web.py`。U-109 的残败主屋及四处荒地建位继续成立；地面、建筑阴影、建筑、人物和前景分别成层，修缮、建成及升级读取同一存档。掌门自由行走按 0.1 秒世界步平滑推进，浏览器点地移动与定向开局／桥接／门道用例已验证，视觉效果待用户审看。完整证据和剩余边界见 [STATUS](design/STATUS.md) 的 U-110 记录。素材在 `godot/estate_2d/assets/`，构建产物使用独立 `estate-game` QA 存档；正式首页未切换。
 
-U-108 已确认的 UI 视觉在当前 2D 旧别院做了本地纠偏：`godot/estate_3d/web/` 是两种旧别院导出的共用界面源，现有绘画木牌、资源顶栏、人物志大肖像与功法谱卷册在 `dist/painted-game/` 实际运行。数字、人物及功法状态读取预览档；规则不在此批调整。桌面与 iPad 横竖浏览器视口的截图在 `output/playwright/u108-ui-*`，实际点击范围见 [STATUS](design/STATUS.md) 首段。美术结果仍待用户审看，预览未发布 Pages；旧 `tools/build-estate-web.py` 的界面素材拷贝清单同步更新以保证历史导出可用。
+U-108 已确认的 UI 视觉在当时的 2D 旧别院做了本地纠偏：`godot/estate_3d/web/` 是两种旧别院导出的共用界面源，绘画木牌、资源顶栏、人物志大肖像与功法谱卷册在当时的 `dist/painted-game/` 实际运行。数字、人物及功法状态读取预览档；规则不在此批调整。桌面与 iPad 横竖浏览器视口的截图在 `output/playwright/u108-ui-*`，实际点击范围见 [STATUS](design/STATUS.md) 的 U-108 记录。旧 `tools/build-estate-web.py` 的界面素材拷贝清单同步更新以保证历史导出可用。
 
 ## U-109 云岫旧别院第一批（历史预览）
 
