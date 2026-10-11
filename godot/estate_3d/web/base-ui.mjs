@@ -59,7 +59,7 @@ export function startPaintedGameUI(host) {
     const portrait=portraitIndex===null?`<div class="portrait" aria-label="${esc(person.name)}名牌">${esc(person.name.slice(-1))}</div>`:
       `<div class="portrait has-art" style="--portrait-x:${portraitIndex%3*50}%;--portrait-y:${Math.floor(portraitIndex/3)*100}%" aria-label="${esc(person.name)}肖像"></div>`;
     return `${tabs}${portrait}
-      <h3 class="person-name">${esc(person.name)}</h3><p class="subline">${role} · ${person.atHome?'在院':'外出'} · ${esc(action)}</p>
+      <h3 class="person-name">${esc(person.name)}</h3><p class="subline">${role} · ${person.atHome?'在院':'外出'} · ${esc(action)}${person.role==='master'?' · '+(person.controlMode==='auto'?'自理':'亲控'):''}</p>
       <div class="information"><div>境界<b>${person.realm==null?'尚未入宗':`炼气 ${esc(person.realm)} 层`}</b></div><div>当前状态<b>${person.wound>0?`伤势 ${Math.ceil(person.wound)}`:esc(action)}</b></div></div>
       <h4 class="section-label">修习</h4>${personArts(person,state)}
       ${person.role==='visitor'?'<p class="lore">陆知微仍在院中作客。</p>':''}

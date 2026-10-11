@@ -274,7 +274,7 @@ function masterStep(s,{advanceFreeWalk=true}={}){
  if(s.schemaVersion===6&&s.activitiesById[m.activityId]?.action==='care')return;
  if(s.schemaVersion===6){
   const action=m.learning&&m.action==='walk'?'study':m.action;
-  if(['study','teach','cultivate'].includes(action)||hallInteriorEnabled(s)&&['rest','heal'].includes(action)){
+  if(['study','teach','cultivate'].includes(action)||hallInteriorEnabled(s)&&(action==='heal'||action==='rest'&&s.masterControl?.mode!=='manual')){
    const facility=lifeFacility(s,m,action,m.learning?.id);
    if(!prepareFacilityActivity(s,m,facility,action)){if(hallInteriorEnabled(s)&&action==='rest'&&(!facility||s.activitiesById[m.activityId]?.phase==='waiting'))m.energy=Math.min(100,m.energy+.3);if(m.learning)m.learning.waitingForArrival=true;return;}
    if(m.learning){m.learning.waitingForArrival=false;m.action='study';}

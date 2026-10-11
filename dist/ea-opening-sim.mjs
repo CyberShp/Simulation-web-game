@@ -38,6 +38,23 @@ export {cloneState,SCHEMA_VERSION,CONTENT_VERSION};
 const LEGACY_COMMAND_NAMES=['recoverOpeningInheritance','chooseOpeningInheritance','setSpeed','setIntroPage','acknowledgeOnboarding','requestSceneInteraction','cancelSceneInteraction','setNarrativePage','acknowledgeNarrative','acknowledgeIntro','advanceStory','build','cancelConstruction','cancelProduction','offerArtisanCare','cancelArtisanCare','declineArtisanCare','upgrade','toggleBuilding','repairBuilding','relocate','demolish','recruit','obtainBook','sealBook','masterStudy','forgetSupport','returnToBasics','masterBreakthrough','masterRiskBreakthrough','masterPill','masterAction','masterTeach','moveMaster','moveScenicMaster','craft','trade','fulfill','claim','setPolicy','offerRoute','upgradeSect','societyCommand','foundSect','inviteOffice','foundPeak','inviteMentor','setSocietyPolicy','settleIncident','resolvePersonalQuest','resolveWorldVisitor','resolveSocietyVisitor','startExploration','moveExploration','resolveExploration','leaveRegion','combatAction','acknowledgeCombat','startMasterTravel','resolveMasterEncounter','cancelMasterTravel'];
 export const COMMAND_NAMES=[...new Set([...LEGACY_COMMAND_NAMES,...Object.keys(SR_HANDLERS)])];
 const bodyCommands=new Set(['build','establishHall','upgrade','repairBuilding','relocate','demolish','masterStudy','masterAction','masterTeach','masterBreakthrough','masterRiskBreakthrough','masterPill','moveMaster','moveScenicMaster','requestSceneInteraction','startExploration','startMasterTravel','craft','advanceStory','offerArtisanCare','declineArtisanCare']);
+const MASTER_AUTO_DELAY_MS=30000;
+const directMasterCommands=new Set([...bodyCommands,...SR_BODY_COMMANDS,'chooseOpeningInheritance','cancelConstruction','cancelSceneInteraction','cancelArtisanCare','cancelProduction','cancelMasterTravel']);
+function resetMasterControl(s){s.masterControl={mode:'manual',idleMs:0};}
+function advanceMasterControl(s){
+ if(!s.masterControl)resetMasterControl(s);
+ const control=s.masterControl;
+ control.idleMs=Math.min(MASTER_AUTO_DELAY_MS,control.idleMs+100/s.speed);
+ if(control.idleMs===MASTER_AUTO_DELAY_MS)control.mode='auto';
+ if(control.mode!=='auto')return;
+ const m=s.master,activity=s.activitiesById[m.activityId];
+ if(m.action==='cultivate'&&m.xp>=base.xpNeed(m.realm)){
+  releaseBodyActivity(s,m);m.action='rest';
+ }
+ if(m.action!=='rest'||activity&&!(activity.kind==='facility'&&activity.action==='rest')||m.sceneIntent||m.learning||m.teaching||!m.main||m.wound>0||m.energy<60||m.xp>=base.xpNeed(m.realm)||m.journey||s.world.exploration||s.combat?.status==='active'||s.srWorld?.localSceneId&&s.srWorld.localSceneId!=='scene:yunxiu-courtyard')return;
+ releaseBodyActivity(s,m);
+ base.masterAction(s,'cultivate');
+}
 
 export function initial(options={}){
  const s=migrateState(base.initial(options),{newGame:true});
@@ -51,6 +68,7 @@ export function initial(options={}){
  const hall=buildingAccess(s,s.buildings.find(b=>b.type==='hall'));
  for(const [person,offset]of [[visitor,-22],[second,22]]){const p=scenicNearest(s,{x:hall.x+offset,y:hall.y+8});if(p){person.mind.scenic.x=p.x;person.mind.scenic.y=p.y;}}
  s.story.opening={visitorId:visitor.personId,secondVisitorId:second.personId,gifted:false,invitation:'unasked',hallPhase:options.sr&&options.mountainOpening?'shelter':'complete',inheritance:{status:'sealed',selected:null}};
+ resetMasterControl(s);
  s.master.main=null;s.master.knowledge={};s.master.artsById={};s.doctrine.books=[];
  s.stockpilesById['stockpile:lu-zhiwei']={id:'stockpile:lu-zhiwei',ownerId:visitor.personId,resources:Object.fromEntries(Object.keys(base.RESOURCES).map(k=>[k,0]))};
  initRainArtisan(s,base.addDisciple);s.rulesetVersion='opening-runtime-3';repairScenicState(s);if(options.sr)initSR(s,{newGame:true});return s;
@@ -75,7 +93,7 @@ function validateOpeningRecords(s){
 }
 
 export function validateSave(input,{upgrade=false}={}){
- if(srEnabled(input)){validateV6Shape(input);const s=cloneState(input);normalizeOpeningHallPhase(s);base.validateSave(legacyProjection(s),{canonical:true});validateOpeningRecords(s);validateFacilityActivities(s);validateRainArtisan(s);upgradeEquipmentRecipeSnapshots(s);validateSR(s);initBuildingGrid(s);validateFacilityActivities(s);upgradeProductionRecipeSnapshots(s);validateFacilityActivities(s);return hydrateState(validateSR(s));}
+ if(srEnabled(input)){validateV6Shape(input);const s=cloneState(input);normalizeOpeningHallPhase(s);s.masterControl??={mode:'manual',idleMs:0};validateMasterControl(s);base.validateSave(legacyProjection(s),{canonical:true});validateOpeningRecords(s);validateFacilityActivities(s);validateRainArtisan(s);upgradeEquipmentRecipeSnapshots(s);validateSR(s);initBuildingGrid(s);validateFacilityActivities(s);upgradeProductionRecipeSnapshots(s);validateFacilityActivities(s);return hydrateState(validateSR(s));}
  if(input?.schemaVersion===undefined){
   const old=base.validateSave(input);
   const migrated=migrateState(old,{sourceVersion:input.version});migrated.rulesetVersion='opening-runtime-2';return validateSave(migrated,{upgrade});
@@ -83,6 +101,7 @@ export function validateSave(input,{upgrade=false}={}){
  // Base validation checks all legacy domain fields without mutating input.
  validateV6Shape(input);
  const s=cloneState(input),checked=base.validateSave(legacyProjection(s));
+ s.masterControl??={mode:'manual',idleMs:0};validateMasterControl(s);
  s.personsById['person:master']=checked.master;
  s.disciples=checked.disciples;s.buildings=checked.buildings;
  s.story=checked.story;normalizeOpeningHallPhase(s);
@@ -100,6 +119,10 @@ export function validateSave(input,{upgrade=false}={}){
  }
  upgradeConstructionRecords(s);validateConstruction(s);validateFacilityActivities(s);validateRainArtisan(s);
  if(upgrade){initSR(s);return validateSave(s);}return hydrateState(s);
+}
+function validateMasterControl(s){
+ const c=s.masterControl;
+ if(!c||!['manual','auto'].includes(c.mode)||!Number.isSafeInteger(c.idleMs)||c.idleMs<0||c.idleMs>MASTER_AUTO_DELAY_MS||c.mode==='manual'&&c.idleMs===MASTER_AUTO_DELAY_MS||c.mode==='auto'&&c.idleMs!==MASTER_AUTO_DELAY_MS)throw Error('存档校验失败：掌门控制状态异常');
 }
 
 export function prepareAutonomyV2(input){return prepareAutonomyV2Checked(input,validateSave);}
@@ -226,6 +249,7 @@ export function tick(s,dt){
  for(let n=0;n<count;n++){
   if(s.speed===0)break;
   s.worldTick++;s.revision++;
+  advanceMasterControl(s);
   if(srEnabled(s))beforeSRSecond(s);
   if((s.worldTick-s.schemaMigration.clockOriginTick)%10===0)base.advanceWorldSecond(s,{advanceCombat:!srEnabled(s),advanceFreeWalk:false});
   if(srEnabled(s)){tickCampaignCombat(s,.1);tickSR(s);}else advanceConstruction(s);
@@ -253,7 +277,7 @@ export function dispatchCommand(s,{name,args=[],id=`command:${s.transactions.nex
    if(['build','upgrade','recruit'].includes(command)&&next.story?.opening&&next.story.opening.hallPhase!=='complete')throw Error('先营造主殿，再安排其他院务。');
    const fn=command==='recoverOpeningInheritance'?recoverOpeningInheritance:command==='chooseOpeningInheritance'?chooseOpeningInheritance:command==='masterAction'?openingMasterAction:command==='advanceStory'?advanceStory:SR_HANDLERS[command]||({setSpeed,offerArtisanCare,cancelArtisanCare,declineArtisanCare,cancelProduction}[command])||base[command];
    if(typeof fn!=='function')throw Error('操作尚未接入。');
-   const result=fn(next,...values);reconcileActivities(next);reconcileAutonomyV2Commitments(next);return result;
+   const result=fn(next,...values);if(result!==false&&directMasterCommands.has(command))resetMasterControl(next);reconcileActivities(next);reconcileAutonomyV2Commitments(next);return result;
   }]));
   const committed=executeContractCommand(s,{name,args,id,expectedRevision},{handlers,clone:value=>initSR(cloneState(value)),validate:validateSave});
   if(committed.status==='rejected')throw Error(committed.message);return committed;
@@ -270,6 +294,7 @@ export function dispatchCommand(s,{name,args=[],id=`command:${s.transactions.nex
  const fn=name==='recoverOpeningInheritance'?recoverOpeningInheritance:name==='chooseOpeningInheritance'?chooseOpeningInheritance:name==='masterAction'?openingMasterAction:name==='offerArtisanCare'?offerArtisanCare:name==='cancelArtisanCare'?cancelArtisanCare:name==='declineArtisanCare'?declineArtisanCare:name==='cancelProduction'?cancelProduction:name==='setSpeed'?setSpeed:name==='advanceStory'?advanceStory:name==='build'?build:name==='cancelConstruction'?cancelConstruction:name==='masterStudy'?masterStudy:base[name];
  if(['demolish','relocate'].includes(name)){const b=next.buildings.find(b=>b.id===args[0]),o=b&&next.workOrdersById[`work:production:${b.instanceId}`];if(o){if(o.phase!=='completed')cancelProduction(next,b.id);else delete next.workOrdersById[o.id];}}
  const value=fn(next,...args),result=value===undefined?true:structuredClone(value);
+ if(result!==false&&directMasterCommands.has(name))resetMasterControl(next);
  reconcileActivities(next);
  next.revision++;next.transactions.nextCommandId++;
  next.transactions.receipts.push({id,signature,result,revision:next.revision});next.transactions.receipts=next.transactions.receipts.slice(-128);

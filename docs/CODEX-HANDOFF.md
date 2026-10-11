@@ -1,5 +1,9 @@
 # Codex 接手指南 · 2026-10-11
 
+## U-119 掌门自主交接
+
+`dist/ea-opening-sim.mjs` 在唯一模拟中保存掌门控制状态与前台运行计时；玩家指令后到点停留，三十秒后续办已安排事务，空闲时按现有场地规则修炼。`dist/ea-sim.mjs` 阻止手动期休息安排提前把人带回落脚处；`dist/ea-godot-bridge.mjs` 与山院门人志显示「亲控／自理」。旧档缺控制字段时从手动期开始。直接验证见 `tests/ea-master-control.test.mjs` 与 [STATUS](design/STATUS.md) 首段；本地 Godot Web 已点地实走并观察计时后返程。正式入口与三档沿用共用模拟，山院独立预览待本批发布核对。
+
 ## U-118 人物移动接续
 
 转向校准已在 Godot 山院场景接入：每帧检查共享视图，路径拐点立即采用下一段方向，行走中维持步态，站定后才展示站立转身帧。`qa/estate-motion-check.gd` 与 `qa/painted-actor-check.gd` 已覆盖拐点和动作切换；本地 Chromium 两段路线及中途改道观测详见 [STATUS](design/STATUS.md)。
