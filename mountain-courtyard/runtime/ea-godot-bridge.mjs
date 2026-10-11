@@ -64,6 +64,7 @@ export function projectGodotWorld(state, selection = null) {
       appearance: appearance.spriteIndex,
       realm: person.realm, root: person.root, energy: person.energy, wound: person.wound,
       action: appearance.action, atHome: atHome(person) && !person.journey && !mind.away,
+      ...(person === state.master ? {controlMode: state.masterControl?.mode || 'manual'} : {}),
       mainArtId: mind.main || null,
       arts: Object.entries(person.artsById || {}).filter(([, value]) => value?.understanding > 0 || value?.mastery > 0)
         .map(([id, value]) => ({id, understanding: value.understanding || 0, mastery: value.mastery || 0})),
