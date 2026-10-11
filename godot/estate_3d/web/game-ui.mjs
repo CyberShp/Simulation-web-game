@@ -1,5 +1,5 @@
 import {startPaintedGameUI} from './base-ui.mjs';
-import {BUILDINGS} from './runtime/ea-data.mjs';
+import {BUILDINGS, STAGE_NAMES} from './runtime/ea-data.mjs';
 import {HALL_ESTABLISH_COST} from './runtime/ea-sr-spatial.mjs';
 
 /** Mountain courtyard construction surface. Character and art rules stay in base-ui. */
@@ -84,15 +84,15 @@ export function startEstateGameUI(host, layout) {
     const name=type==='hall'?(hallPhase==='shelter'?'临时落脚处':hallPhase==='building'?'山院主殿工地':'山院主殿'):(building?.name||site?.name||definition.name||'山院空地');
     const condition=building?.condition??100;
     const master=state.roster.find(person=>person.role==='master');
-    const blocked=(master?.wound||0)>0?'掌门尚有伤势，先调息疗伤。':'';
+    const blocked=(master?.wound||0)>0?'掌门尚有伤势，先调息疗伤。':(master?.energy??100)<15?'掌门精力不足，先歇息一阵。':'';
     const description=type==='hall'?(hallPhase==='shelter'?'松坡小篷暂可遮雨。殿址已择在山前平地。':hallPhase==='building'?'立柱承梁，山风从尚未合拢的檐下穿过。':damaged?'殿宇受损，木石尚可修整。':'新殿立在山脊上，门前石路通向各处院地。'):
-      site?.id==='site:herb-terrace'?(building?(progressing?'清石引水，田畦渐露。':'灵草田已开垦，可继续照料。'):'近泉的山坡土色深润，可辟成灵草田。'):
+      site?.id==='site:herb-terrace'?(building?(progressing?'清石引水，田畦渐露。':'田畦已齐，待运来种苗下种。'):'近泉的山坡土色深润，可辟成灵草田。'):
       site?.id==='site:timber-grove'?(building?(progressing?'松林边的棚架渐渐立起。':'工棚已成，林边有了备木之所。'):'松林沿山道向东伸展，可在此立伐木工棚。'):
       building&&!progressing?'屋舍已成，院路从门前经过。':'这片山地已留作营造之用。';
     let action='';
     if (progressing) {
       const progress=Math.round(Math.max(0,Math.min(1,construction?.progress||0))*100);
-      const workNote=type==='hall'?({foundation:'石料与木料陆续上山，殿基渐渐铺开。',structure:'木柱与横梁正在立起。',finishing:'屋檐将合，殿前石阶也渐渐齐整。',upgrade:'殿宇正在扩建。'})[stage]:({foundation:'地基正在整平。',structure:'木石正在成架。',finishing:'屋檐将合，工地渐有模样。',upgrade:'屋舍正在扩建。'})[stage];
+      const workNote=type==='hall'?({foundation:'石料与木料陆续上山，殿基渐渐铺开。',structure:'木柱与横梁正在立起。',finishing:'屋檐将合，殿前石阶也渐渐齐整。',upgrade:'殿宇正在扩建。'})[stage]:type==='farm'?({foundation:'清去山石，翻出田土。',structure:'木边围起田畦，泉水引入沟中。',finishing:'田垄渐齐，等着下种。',upgrade:'旧畦旁正添新田。'})[stage]:({foundation:'地基正在整平。',structure:'木石正在成架。',finishing:'工地渐有模样。',upgrade:'屋舍正在扩建。'})[stage];
       action='<div class="estate-progress"><span>工程进度</span><b>'+progress+'%</b><div class="meter"><span style="width:'+progress+'%"></span></div></div>'+
         '<p class="estate-note">'+safe(workNote||'山上正忙着施工。')+'</p><button class="secondary-action" data-estate-cancel>停下工程</button>';
     } else if (type==='hall'&&hallPhase==='shelter') {
@@ -104,9 +104,12 @@ export function startEstateGameUI(host, layout) {
       action='<p class="estate-note">木石已入场，殿宇尚在营造。</p>';
     } else if (!building) {
       const shortage=missingCost(state,definition.cost);
+      const siteLock=state.openingHallPhase!=='complete'?'主殿立稳后再动工。':
+        state.construction?'先等眼前这处工程完工。':
+        (state.estateStage??0)<(definition.stage??0)?`待${STAGE_NAMES[definition.stage]||'山院成长'}后再营造。`:'';
       action='<p class="estate-cost">营造所需　'+safe(costText(definition.cost))+'</p>'+
-        (blocked||shortage.length?'<p class="estate-lock">'+safe(blocked||'尚缺'+shortage.join('、'))+'</p>':'')+
-        '<button class="primary-action" data-estate-build="'+safe(site?.id||'')+'" '+(blocked||shortage.length?'disabled':'')+'>在此营造'+safe(definition.name||'设施')+'</button>';
+        (blocked||siteLock||shortage.length?'<p class="estate-lock">'+safe(blocked||siteLock||'尚缺'+shortage.join('、'))+'</p>':'')+
+        '<button class="primary-action" data-estate-build="'+safe(site?.id||'')+'" '+(blocked||siteLock||shortage.length?'disabled':'')+'>在此营造'+safe(definition.name||'设施')+'</button>';
     } else if (damaged) {
       const repair={wood:Math.ceil((100-condition)/5),stone:Math.ceil((100-condition)/8)};
       const shortage=missingCost(state,repair);
@@ -126,7 +129,9 @@ export function startEstateGameUI(host, layout) {
       '<p class="estate-kicker">云岫山院 · '+safe(stageLabel)+'</p>'+
       '<h3 class="estate-name">'+safe(name)+'</h3><p class="estate-story">'+safe(description)+'</p>'+
       '<div class="estate-facts"><div><span>进展</span><b>'+safe(current)+'</b></div>'+
-      (building&&hallPhase!=='shelter'&&hallPhase!=='building'?'<div><span>屋况</span><b>'+Math.ceil(condition)+'%</b></div>':'')+'</div>'+
+      (building&&stage==='complete'&&hallPhase!=='shelter'&&hallPhase!=='building'?'<div><span>'+safe(type==='farm'?'田况':type==='lumber'?'林况':'屋况')+'</span><b>'+Math.ceil(condition)+'%</b></div>':'')+
+      (building&&stage==='complete'&&building.workSlots?'<div><span>作业位</span><b>'+safe(building.workSlots)+' 处</b></div>':'')+
+      (building&&stage==='complete'&&building.capacity?'<div><span>床位</span><b>'+safe(building.capacity)+' 处</b></div>':'')+'</div>'+
       action;
   }
 
@@ -134,7 +139,7 @@ export function startEstateGameUI(host, layout) {
     const state=snapshot();
     goal(state);
     if (panel.hidden) return;
-    const next=JSON.stringify({selectedSite,selectedBuilding,hallPhase:state.openingHallPhase,buildings:state.buildings,construction:state.construction,resources:state.resources,wound:state.roster.find(person=>person.role==='master')?.wound});
+    const next=JSON.stringify({selectedSite,selectedBuilding,hallPhase:state.openingHallPhase,estateStage:state.estateStage,buildings:state.buildings,construction:state.construction,resources:state.resources,wound:state.roster.find(person=>person.role==='master')?.wound});
     if (!force&&next===body) return;
     body=next;
     content.innerHTML=siteMarkup(state);

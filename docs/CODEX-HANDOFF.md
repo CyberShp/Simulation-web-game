@@ -1,5 +1,9 @@
 # Codex 接手指南 · 2026-10-11
 
+## M1 云岫首座灵草田
+
+新山院已接入首座灵草田的定点营造。药圃建位在 `godot/estate_2d/estate-sites.json`；`estate.gd` 负责建位轮廓、施工三阶段与落成画面；`dist/ea-godot-bridge.mjs` 投影阶段和真实作业位；`godot/estate_3d/web/game-ui.mjs` 提供营造卷册。规则仍来自唯一 JS 模拟，不另计施工与资源。定向检查 `node --test tests/ea-mountain-herb-site.test.mjs`，本地 Web 构建命令 `python3 tools/build-estate-painted-web.py --output output/mountain-courtyard-preview/index.html`。本地 Chromium 已由新档实点疗伤、择卷、立殿、药圃营造至落成；详细证据与限制见 [STATUS](design/STATUS.md) 首段。后续接田边种苗、门人劳作与收获时，应沿已有实物搬运和作物工单，不从顶部公库数字直接生长。
+
 ## U-119 掌门自主交接
 
 `dist/ea-opening-sim.mjs` 在唯一模拟中保存掌门控制状态与前台运行计时；玩家指令后到点停留，三十秒后续办已安排事务，空闲时按现有场地规则修炼。`dist/ea-sim.mjs` 阻止手动期休息安排提前把人带回落脚处；`dist/ea-godot-bridge.mjs` 与山院门人志显示「亲控／自理」。旧档缺控制字段时从手动期开始。直接验证见 `tests/ea-master-control.test.mjs` 与 [STATUS](design/STATUS.md) 首段；本地 Godot Web 已点地实走并观察计时后返程。源码 `main` `a133c7cf69e811a6e58800b30e3d7adb00636a13` 与[公开山院试玩](https://cybershp.github.io/Simulation-web-game/mountain-courtyard/) `gh-pages` `1849607e60c903d0f552c1c023f01c41e8b72db6` 已推送并构建；公开文件字节及点地停留已复核。正式入口与三档沿用共用模拟，山院独立预览仍单独验收。

@@ -12,7 +12,7 @@ const BUILDING_ART := {
 	"hall": {"shelter": "opening-shelter-v1.png", "foundation": "mountain-main-hall-foundation-v1.png", "structure": "mountain-main-hall-structure-v1.png", "finishing": "mountain-main-hall-finishing-v1.png", "complete": "mountain-main-hall-v1.png", "level2": "mountain-main-hall-v1.png", "width": 380.0},
 	"house": {"complete": "residence-v1.png", "width": 265.0},
 	"kitchen": {"complete": "kitchen-v1.png", "width": 265.0},
-	"farm": {"complete": "farm-v1.png", "width": 255.0},
+	"farm": {"foundation": "mountain-herb-terrace-foundation-v1.png", "structure": "mountain-herb-terrace-structure-v1.png", "finishing": "mountain-herb-terrace-finishing-v1.png", "complete": "mountain-herb-terrace-empty-v1.png", "width": 126.0},
 	"lumber": {"complete": "lumber-v1.png", "width": 265.0},
 }
 
@@ -38,6 +38,7 @@ var qa_max_hold := 0.0
 var camera: Camera2D
 var sorted: Node2D
 var shadows: Node2D
+var selection_overlay: Node2D
 var selected_kind := ""
 var selected_id := ""
 var focus := Vector2(768, 385)
@@ -76,6 +77,11 @@ func _ready() -> void:
 	sorted.y_sort_enabled = true
 	add_child(sorted)
 	_make_foreground(ground.texture)
+	selection_overlay = Node2D.new()
+	selection_overlay.name = "SelectionOverlay"
+	selection_overlay.z_index = 10
+	selection_overlay.draw.connect(_draw_selection)
+	add_child(selection_overlay)
 	camera = Camera2D.new()
 	camera.name = "FixedObliquePaintedCamera"
 	add_child(camera)
@@ -107,6 +113,15 @@ func _site_for(building: Dictionary) -> Dictionary:
 
 func _site_anchor(site: Dictionary) -> Vector2:
 	return _to_screen(float(site.x) + float(site.get("footprintWidth", site.reserveWidth)) * 0.5, float(site.y) + float(site.get("footprintHeight", site.reserveHeight)) * 0.5)
+
+func _site_has_building(site: Dictionary) -> bool:
+	for item in state.get("buildings", []):
+		if not item is Dictionary:
+			continue
+		var building: Dictionary = item
+		if str(building.get("type", "")) == str(site.type) and is_equal_approx(float(building.get("x", -100)), float(site.x)) and is_equal_approx(float(building.get("y", -100)), float(site.y)):
+			return true
+	return false
 
 func _make_foreground(texture: Texture2D) -> void:
 	# These painted silhouettes sample the same terrain pixels but sort in front of
@@ -167,12 +182,17 @@ func _make_building(building: Dictionary, site: Dictionary) -> Dictionary:
 	var image: Image = null
 	var level := int(building.get("level", 1))
 	var width := (310.0 if kind == "hall" and stage == "shelter" else float(art.width)) * (1.0 + 0.06 * float(maxi(level - 1, 0)))
-	var painted_construction := kind == "hall" and stage in ["foundation", "structure", "finishing"]
+	var construction_stage := stage in ["foundation", "structure", "finishing"]
+	var stage_art := str(art.get(stage, ""))
+	var farm_stage_texture: Texture2D = null
+	if kind == "farm" and construction_stage and not stage_art.is_empty() and ResourceLoader.exists(ART_ROOT + stage_art):
+		farm_stage_texture = load(ART_ROOT + stage_art) as Texture2D
+	var painted_construction := construction_stage and (kind == "hall" or farm_stage_texture != null)
 	if stage in ["foundation", "structure"] and not painted_construction:
 		_make_construction(node, stage, width)
 	else:
 		var file := str(art.get(stage, art.complete)) if painted_construction or stage in ["shelter", "damaged"] else str(art.get("level2", art.complete)) if kind == "hall" and level >= 2 and stage == "complete" else str(art.complete)
-		var texture := load(ART_ROOT + file) as Texture2D
+		var texture := farm_stage_texture if farm_stage_texture != null else load(ART_ROOT + file) as Texture2D
 		if texture != null:
 			sprite = Sprite2D.new()
 			sprite.name = "ClosedBuildingPainting"
@@ -217,6 +237,7 @@ func _sync_buildings(view: Dictionary) -> void:
 			buildings.erase(id)
 	if changed:
 		shadows.set_footprints(footprints)
+		selection_overlay.queue_redraw()
 
 func _new_actor(id: String, master: bool, position: Vector2) -> Node2D:
 	var actor := ACTOR.new() as Node2D
@@ -348,7 +369,7 @@ func _process(delta: float) -> void:
 			qa_turn_rest_frames = 0
 			qa_max_hold = 0.0
 	if selected_kind == "person" and actors.has(selected_id):
-		queue_redraw()
+		selection_overlay.queue_redraw()
 
 func _update_camera() -> void:
 	if camera == null:
@@ -387,7 +408,7 @@ func _click(point: Vector2) -> void:
 		selected_kind = str(candidates[0].kind)
 		selected_id = str(candidates[0].id)
 		JavaScriptBridge.eval("window.estateGameSelect && window.estateGameSelect(" + JSON.stringify(selected_kind) + "," + JSON.stringify(selected_id) + ")", true)
-		queue_redraw()
+		selection_overlay.queue_redraw()
 		return
 	for site in sites:
 		var anchor := _site_anchor(site)
@@ -395,26 +416,37 @@ func _click(point: Vector2) -> void:
 			selected_kind = "site"
 			selected_id = str(site.id)
 			JavaScriptBridge.eval("window.estateGameSelect && window.estateGameSelect('site'," + JSON.stringify(selected_id) + ")", true)
-			queue_redraw()
+			selection_overlay.queue_redraw()
 			return
 	var target := _to_world(point)
 	if target.x >= 0.0 and target.x <= float(state.get("width", 96)) and target.y >= 0.0 and target.y <= float(state.get("height", 96)):
 		JavaScriptBridge.eval("window.estateGameMove && window.estateGameMove(" + str(target.x) + "," + str(target.y) + ")", true)
 
-func _draw() -> void:
+func _draw_selection() -> void:
 	var centre := Vector2.ZERO
 	if selected_kind == "person" and actors.has(selected_id):
 		centre = actors[selected_id].position
 	elif selected_kind == "building" and buildings.has(selected_id):
 		centre = buildings[selected_id].node.position
 	elif selected_kind == "site" and site_by_id.has(selected_id):
-		centre = _site_anchor(site_by_id[selected_id])
+		var site: Dictionary = site_by_id[selected_id]
+		if selected_id == "site:herb-terrace" and not _site_has_building(site):
+			var north_west := _to_screen(float(site.x), float(site.y))
+			var south_east := _to_screen(float(site.x) + float(site.footprintWidth), float(site.y) + float(site.footprintHeight))
+			var outline := Rect2(north_west, south_east - north_west)
+			selection_overlay.draw_rect(outline, Color(0.37, 0.93, 0.75, 0.85), false, 3.0, true)
+			var entrance := Vector2((north_west.x + south_east.x) * 0.5, south_east.y)
+			selection_overlay.draw_line(entrance, entrance + Vector2(0, 18), Color(0.37, 0.93, 0.75, 0.85), 3.0, true)
+			selection_overlay.draw_line(entrance + Vector2(0, 18), entrance + Vector2(-7, 10), Color(0.37, 0.93, 0.75, 0.85), 3.0, true)
+			selection_overlay.draw_line(entrance + Vector2(0, 18), entrance + Vector2(7, 10), Color(0.37, 0.93, 0.75, 0.85), 3.0, true)
+			return
+		centre = _site_anchor(site)
 	else:
 		return
 	for index in range(32):
 		var a := TAU * float(index) / 32.0
 		var b := TAU * float(index + 1) / 32.0
-		draw_line(centre + Vector2(cos(a) * 31, sin(a) * 13), centre + Vector2(cos(b) * 31, sin(b) * 13), Color(0.37, 0.93, 0.75, 0.85), 3.0, true)
+		selection_overlay.draw_line(centre + Vector2(cos(a) * 31, sin(a) * 13), centre + Vector2(cos(b) * 31, sin(b) * 13), Color(0.37, 0.93, 0.75, 0.85), 3.0, true)
 
 func suppress_next_scene_click() -> void:
 	scene_click_block_until = Time.get_ticks_msec() + 500
@@ -477,8 +509,11 @@ func _on_browser_command(arguments: Array) -> void:
 				_update_camera()
 		"focus_site":
 			if arguments.size() > 1 and site_by_id.has(str(arguments[1])):
-				focus = _site_anchor(site_by_id[str(arguments[1])])
+				selected_kind = "site"
+				selected_id = str(arguments[1])
+				focus = _site_anchor(site_by_id[selected_id])
 				_update_camera()
+				selection_overlay.queue_redraw()
 		"background":
 			backgrounded = true
 		"foreground":
