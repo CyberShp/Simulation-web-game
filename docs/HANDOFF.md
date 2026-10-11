@@ -1,5 +1,9 @@
 # 项目交付接续 · 2026-10-11
 
+## U-118 云岫山院人物移动
+
+用户要求山院人物移动轻快且画面连贯。共享米制步速现按 R-39 试算为原步距 2.2 倍，掌门自由行走约 3.16 米／秒；Godot 画面按逻辑米驱动步态，缩短插值延迟，并跳过重复快照处理。代码在 `dist/ea-scenic.mjs`、`dist/ea-sr-spatial.mjs`、`dist/ea-godot-bridge.mjs`、`dist/ea-godot-host.mjs` 与 `godot/estate_2d/estate.gd`。本地浏览器实际行走、FPS／图集切换、暂停存读和定向空间检查见 [STATUS](design/STATUS.md) 首段。目标设备与玩家手感继续评看。
+
 ## U-117 当前可行走山院
 
 Godot `estate-game` 预览新档在临时落脚处疗伤，包裹选择沿 U-115 / U-116，伤愈后在山院殿址营造主殿。Godot 2D 场景现用山院地形、篷屋和主殿各施工阶段画稿；隔离预览档继续连接唯一模拟、世界时钟及存档。主殿工程的扣料、运送、取消与旧档迁移见 [STATUS](design/STATUS.md) 首段和 [U-117 / R-38](design/DECISIONS.md)。构建 `python3 tools/build-estate-painted-web.py --output output/mountain-courtyard-preview/index.html`；本地浏览器已实走至主殿落成。正式入口维持可玩，目标设备和整项 SR 验收仍按台账逐项核对。

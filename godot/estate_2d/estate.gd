@@ -6,7 +6,7 @@ const PACKAGE_SCENE = preload("res://estate_2d/opening_inheritance_scene.gd")
 const SITES_FILE = "res://estate_2d/estate-sites.json"
 const SCENE_SIZE := Vector2(1536, 1024)
 const TICKS_PER_SECOND := 10.0
-const VISUAL_DELAY_TICKS := 2.0
+const VISUAL_DELAY_TICKS := 1.0
 const ART_ROOT := "res://estate_2d/assets/"
 const BUILDING_ART := {
 	"hall": {"shelter": "opening-shelter-v1.png", "foundation": "mountain-main-hall-foundation-v1.png", "structure": "mountain-main-hall-structure-v1.png", "finishing": "mountain-main-hall-finishing-v1.png", "complete": "mountain-main-hall-v1.png", "level2": "mountain-main-hall-v1.png", "width": 380.0},
@@ -25,6 +25,12 @@ var state: Dictionary = {}
 var snapshot_tick := -1
 var render_tick := -1.0
 var poll_elapsed := 0.0
+var last_snapshot_json := ""
+var qa_motion_enabled := false
+var qa_motion_elapsed := 0.0
+var qa_motion_distance := 0.0
+var qa_frame_changes := 0
+var qa_last_frame := -1
 var camera: Camera2D
 var sorted: Node2D
 var shadows: Node2D
@@ -79,6 +85,7 @@ func _ready() -> void:
 		js_callback = JavaScriptBridge.create_callback(_on_browser_command)
 		JavaScriptBridge.get_interface("window").estateSceneCommand = js_callback
 		backgrounded = bool(JavaScriptBridge.eval("document.hidden", true))
+		qa_motion_enabled = bool(JavaScriptBridge.eval("new URLSearchParams(location.search).has('acceptance')", true))
 	_sync_state()
 	print("MOUNTAIN_COURTYARD_READY")
 
@@ -272,9 +279,12 @@ func _sync_state() -> void:
 	var raw: Variant = JavaScriptBridge.eval("window.xianfuGodot ? window.xianfuGodot.snapshot_json() : ''", true)
 	if not raw is String or raw.is_empty():
 		return
+	if raw == last_snapshot_json:
+		return
 	var parsed: Variant = JSON.parse_string(raw)
 	if not parsed is Dictionary:
 		return
+	last_snapshot_json = raw
 	state = parsed
 	_sync_buildings(state)
 	_sync_people(state)
@@ -291,18 +301,32 @@ func _process(delta: float) -> void:
 		_sync_state()
 	var paused := bool(state.get("paused", false)) or backgrounded
 	if not paused and snapshot_tick >= 0:
-		render_tick = minf(render_tick + minf(delta, 0.05) * TICKS_PER_SECOND, float(snapshot_tick))
+		render_tick = minf(render_tick + minf(delta, 0.25) * TICKS_PER_SECOND, float(snapshot_tick))
 	for id in actors.keys():
 		var actor: Node2D = actors[id]
 		var pose := _actor_pose(actor_samples[id])
 		if not paused:
-			var distance: float = actor.position.distance_to(pose.position)
+			var world_distance: float = _to_world(actor.position).distance_to(_to_world(pose.position))
 			actor.position = pose.position
-			actor.set_travel_distance(distance)
+			actor.set_travel_distance(world_distance * 28.0)
 			if pose.moving:
 				actor.set_facing(pose.direction, delta)
 			actor.set_motion(pose.moving, str(actor.get_meta("activity", "")) == "work", delta)
+			if qa_motion_enabled and id == str(state.get("masterId", "person:master")):
+				qa_motion_distance += world_distance
+				var frame_index := int(actor.get("_displayed_index"))
+				if qa_last_frame >= 0 and frame_index != qa_last_frame:
+					qa_frame_changes += 1
+				qa_last_frame = frame_index
 		actor.set_process(not paused)
+	if qa_motion_enabled:
+		qa_motion_elapsed += delta
+		if qa_motion_elapsed >= 1.0:
+			var stats := {"fps": Engine.get_frames_per_second(), "masterMetres": qa_motion_distance, "walkFrameChanges": qa_frame_changes}
+			JavaScriptBridge.eval("window.xianfuSceneStats = " + JSON.stringify(stats), true)
+			qa_motion_elapsed = 0.0
+			qa_motion_distance = 0.0
+			qa_frame_changes = 0
 	if selected_kind == "person" and actors.has(selected_id):
 		queue_redraw()
 

@@ -1,5 +1,9 @@
 # Codex 接手指南 · 2026-10-11
 
+## U-118 人物移动接续
+
+山院预览的人物米制步速按 R-39 试调为原步距 2.2 倍，掌门自由行走约 3.16 米／秒；自由移动、现场事务、让路与撤离共用该速率。Godot 步态按逻辑米距离推进，逐帧插值延迟为一个世界步；桥接按世界版本复用视图，宿主缓存序列化结果。隔离浏览器已点地实走并在连续五秒窗口观察 Godot 60 FPS、图集每秒切换 9–11 帧，暂停存读一致；目标设备和用户手感见 [STATUS](design/STATUS.md) 最新段。
+
 ## U-117 当前接续
 
 用户确认原逃亡剧情进入新云岫山院：开局为临时落脚处，伤愈后由玩家营造主殿。`godot/estate_2d/estate.gd` 与 `estate-sites.json` 使用新地形、篷屋和主殿四阶段画稿；`dist/ea-opening-sim.mjs`、`ea-sr-spatial.mjs`、`ea-godot-bridge.mjs` 和 `godot/estate_3d/web/game-ui.mjs` 连接立殿命令、工地和存读。Godot `estate-game` 预览新档进入暂栖，正式首页新档维持现行可玩起点，旧档缺字段时维持已落成；材料与工时为 R-38 试算。导出 `python3 tools/build-estate-painted-web.py --output output/mountain-courtyard-preview/index.html`，浏览器已走疗伤至落成，定向测试见 [STATUS](design/STATUS.md) 首段。接续仍需逐项核对正式入口、目标设备、美术评看和完整 SR/AC。

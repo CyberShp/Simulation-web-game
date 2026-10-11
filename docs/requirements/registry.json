@@ -867,7 +867,8 @@
         "U-104",
         "U-105",
         "R-32",
-        "U-109"
+        "U-109",
+        "U-118"
       ],
       "source_specs": [
         "docs/design/03-SPATIAL-ART.md",
@@ -960,7 +961,10 @@
         "tools/build-art-web.py",
         "docs/art/PAINTED-COURTYARD-2026-10-09.md",
         "docs/SECT-GROWTH-PLAN.md；2026-10-09 山域总图、五阶段迁移及统一原型的设计来源；当前运行验收待补。",
-        "docs/design/STATUS.md；2026-10-10 U-109 旧别院 3D 本地预览局部网页证据；完整 AC 状态不变。"
+        "docs/design/STATUS.md；2026-10-10 U-109 旧别院 3D 本地预览局部网页证据；完整 AC 状态不变。",
+        "godot/estate_2d/estate.gd",
+        "tests/ea-godot-bridge.test.mjs",
+        "2026-10-11 U-118 局部：米制山院自由行走约 3.16 米／秒；qa/ea-sr-spatial-acceptance.mjs 36／36，tests/ea-godot-bridge.test.mjs 的步速与存读用例通过；隔离 Chromium 连续五秒行走及暂停重载见 STATUS。完整七区与目标设备 AC 继续按原门槛。"
       ],
       "change_log": [
         {
@@ -1070,6 +1074,10 @@
         {
           "date": "2026-10-10",
           "reason": "U-109 第一批本地预览：旧别院 3D 地形、镜头、建筑与地块点选已形成局部网页预览；装饰地标与人物导航体积碰撞仍待逐一对齐。此为局部证据，不提升完整 AC/SR 状态。"
+        },
+        {
+          "date": "2026-10-11",
+          "reason": "2026-10-11 U-118 局部：米制山院自由行走约 3.16 米／秒；qa/ea-sr-spatial-acceptance.mjs 36／36，tests/ea-godot-bridge.test.mjs 的步速与存读用例通过；隔离 Chromium 连续五秒行走及暂停重载见 STATUS。完整七区与目标设备 AC 继续按原门槛。"
         }
       ],
       "tasks": [
@@ -2935,7 +2943,8 @@
         "U-101",
         "U-102",
         "U-103",
-        "U-104"
+        "U-104",
+        "U-118"
       ],
       "source_specs": [
         "docs/design/01-CHARACTERS.md",
@@ -3036,7 +3045,9 @@
         "godot/art/art_courtyard.gd",
         "godot/art/actor_3d.gd",
         "tools/build-art-web.py",
-        "docs/art/PAINTED-COURTYARD-2026-10-09.md"
+        "docs/art/PAINTED-COURTYARD-2026-10-09.md",
+        "godot/estate_2d/estate.gd",
+        "2026-10-11 U-118 局部：Godot 2D 图集按逻辑米位移推进；隔离 Chromium 行走五秒窗口观测每秒切换 9–11 帧，实际目标设备与三人以上辨识仍待验，AC 状态不变。"
       ],
       "change_log": [
         {
@@ -3118,6 +3129,10 @@
         {
           "date": "2026-10-09",
           "reason": "U-104用户确认Godot 2D制作；绘画小院本地构建与WebKit鼠标操作、三视口DPR1局部复核完成。暂停出殿/双指锚点/拖动输入修复，最终拖动实点通过；人物辨识、动作观感、用户美术认可、殿后完整浏览器遮挡、真机/DPR2/真实触摸继续。正式SR/AC状态保持，未发布。证据 docs/art/PAINTED-COURTYARD-2026-10-09.md。"
+        },
+        {
+          "date": "2026-10-11",
+          "reason": "2026-10-11 U-118 局部：Godot 2D 图集按逻辑米位移推进；隔离 Chromium 行走五秒窗口观测每秒切换 9–11 帧，实际目标设备与三人以上辨识仍待验，AC 状态不变。"
         }
       ],
       "tasks": [

@@ -57,6 +57,34 @@ test('SR002/003: public master movement and elapsed seconds match the sole simul
   assert.equal(bridge.snapshot().tick, 70);
 });
 
+test('SR003: courtyard walking covers ground promptly and survives exact save and load', () => {
+  const bridge = createGodotBridge({state: SIM.initial({sr: true, mountainOpening: true})});
+  const start = master(bridge);
+  accepted(bridge, {type: 'move', x: 42, y: 43});
+  for (let n = 0; n < 10; n++) bridge.advance(.1);
+  const end = master(bridge);
+  const travelled = Math.hypot(end.x - start.x, end.y - start.y);
+  assert.ok(travelled > 3 && travelled < 3.3, `travelled ${travelled} metres in one second`);
+  const saved = bridge.save();
+  assert.equal(bridge.load(saved).ok, true);
+  assert.equal(bridge.save(), saved);
+});
+
+test('Godot world projection is reused between world steps and refreshed on selection or load', () => {
+  const bridge = createGodotBridge();
+  const first = bridge.snapshot();
+  bridge.advance(.05);
+  assert.strictEqual(bridge.snapshot(), first);
+  bridge.advance(.05);
+  const stepped = bridge.snapshot();
+  assert.notStrictEqual(stepped, first);
+  accepted(bridge, {type: 'select', kind: 'person', id: stepped.masterId});
+  assert.notStrictEqual(bridge.snapshot(), stepped);
+  const saved = bridge.save(), selected = bridge.snapshot();
+  assert.equal(bridge.load(saved).ok, true);
+  assert.notStrictEqual(bridge.snapshot(), selected);
+});
+
 test('SR002: pause preserves carry, positions, resources, and the world clock until resumed', () => {
   const bridge = createGodotBridge();
   accepted(bridge, {type: 'move', x: 32, y: 38});
