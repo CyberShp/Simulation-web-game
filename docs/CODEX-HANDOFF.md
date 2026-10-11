@@ -3,6 +3,7 @@
 ## U-118 人物移动接续
 
 山院预览的人物米制步速按 R-39 试调为原步距 2.2 倍，掌门自由行走约 3.16 米／秒；自由移动、现场事务、让路与撤离共用该速率。Godot 步态按逻辑米距离推进，逐帧插值延迟为一个世界步；桥接按世界版本复用视图，宿主缓存序列化结果。隔离浏览器已点地实走并在连续五秒窗口观察 Godot 60 FPS、图集每秒切换 9–11 帧，暂停存读一致；目标设备和用户手感见 [STATUS](design/STATUS.md) 最新段。
+源码 `main` `48d81df0c1bce7a739a6922bad3c97ee80822fc6` 已推送；[公开山院试玩](https://cybershp.github.io/Simulation-web-game/mountain-courtyard/) 的 `gh-pages` `e8606c7b2e40be8915899d02bddfcf8534aa7ebc` 已构建。公开 Chromium 行走、步态、文件字节和控制台已复核，详见 STATUS。
 
 ## U-117 当前接续
 
