@@ -71,6 +71,8 @@ SR-XF-029-REQ-03：拖拽与手势不劫持侧栏/输入/弹窗；未开放、�
 
 2026-10-12 U-123 首战本地网页：最终本地战斗网页1440×960及820×1180已目视，字体完整、无横向溢出；攻击／护持／闪避／撤退及战斗页存档按钮实点，控制台0 error。目标设备与完整输入 AC 状态保持。 证据见 docs/art/COURTYARD-VALLEY-2026-10-12.md；整项 D/I/V/R 与 AC 状态不变。
 
+2026-10-12 U-123 发布核验：运行源码 main 836ccb605a42e7c21c2aae8c5e2c4eee7e55c03e；gh-pages 4d6786da521f1ab92818c20f67c036a829469e6e；GitHub API Pages build=built。公开 mountain-courtyard 的14个交付文件（release/build/index、界面与加载模块、桥接及世界／战斗规则、三片场景包）HTTP 200，SHA与本地导出一致。公开浏览器百艺、导档、实际行走旅行与采集的操作证据见 docs/art/COURTYARD-VALLEY-2026-10-12.md；本记录仅是U-123局部发布证据，整项 D/I/V/R 与 AC 状态不变。
+
 ## 开发任务
 
 | 任务 | 工作 | 状态 | 前置 | 责任人 |
@@ -138,6 +140,7 @@ SR-XF-029-V01证据：tests/ea-scene-ui.test.mjs；tests/map-input.test.mjs；qa
 - docs/art/COURTYARD-VALLEY-2026-10-12.md
 - tests/ea-mountain-alchemy.test.mjs
 - tests/ea-mountain-valley.test.mjs
+- 2026-10-12 U-123 发布核验：运行源码 main 836ccb605a42e7c21c2aae8c5e2c4eee7e55c03e；gh-pages 4d6786da521f1ab92818c20f67c036a829469e6e；GitHub API Pages build=built。公开 mountain-courtyard 的14个交付文件（release/build/index、界面与加载模块、桥接及世界／战斗规则、三片场景包）HTTP 200，SHA与本地导出一致。公开浏览器百艺、导档、实际行走旅行与采集的操作证据见 docs/art/COURTYARD-VALLEY-2026-10-12.md；本记录仅是U-123局部发布证据，整项 D/I/V/R 与 AC 状态不变。
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
@@ -160,5 +163,6 @@ SR-XF-029-V01证据：tests/ea-scene-ui.test.mjs；tests/map-input.test.mjs；qa
 - 2026-10-12：2026-10-12 U-120：共同大窗口、七导航、真实门人／掌门／行囊已接入；本地 1440×960 实点导航、详情、邀约、换装、搬运、存读与定位。820×1180 行囊可滚动至取物操作，按钮在窗口内、页面无横向溢出，并实点服丹。任务目标延迟已修正；增量更新保留按钮及滚动。目标真机、用户对接入画面评看及完整 SR/AC 状态保持。
 - 2026-10-12：2026-10-12 U-123：百艺桌面1200×855及窄屏820×1180已实点第一炉；山外1440×960实走谷内互动及送库按钮禁重复。首战 UI 与目标设备继续核验。 局部证据见 docs/art/COURTYARD-VALLEY-2026-10-12.md；整项 D/I/V/R 与 AC 状态不变。
 - 2026-10-12：2026-10-12 U-123 首战本地网页：最终本地战斗网页1440×960及820×1180已目视，字体完整、无横向溢出；攻击／护持／闪避／撤退及战斗页存档按钮实点，控制台0 error。目标设备与完整输入 AC 状态保持。 证据见 docs/art/COURTYARD-VALLEY-2026-10-12.md；整项 D/I/V/R 与 AC 状态不变。
+- 2026-10-12：2026-10-12 U-123 发布核验：运行源码 main 836ccb605a42e7c21c2aae8c5e2c4eee7e55c03e；gh-pages 4d6786da521f1ab92818c20f67c036a829469e6e；GitHub API Pages build=built。公开 mountain-courtyard 的14个交付文件（release/build/index、界面与加载模块、桥接及世界／战斗规则、三片场景包）HTTP 200，SHA与本地导出一致。公开浏览器百艺、导档、实际行走旅行与采集的操作证据见 docs/art/COURTYARD-VALLEY-2026-10-12.md；本记录仅是U-123局部发布证据，整项 D/I/V/R 与 AC 状态不变。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。

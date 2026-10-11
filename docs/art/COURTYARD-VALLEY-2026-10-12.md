@@ -1,6 +1,6 @@
-# 云岫山院与山谷 · U-123 本地实玩记录
+# 云岫山院与山谷 · U-123 实玩记录
 
-日期：2026-10-12。实施顺序与玩法范围见[41 号实施记录](../design/41-COURTYARD-VALLEY-IMPLEMENTATION.md)。本页保存美术、界面和玩家操作的本地证据；素材进入源码不等于玩家已认可画面，也不等于公开版本已更新。
+日期：2026-10-12。实施顺序与玩法范围见[41 号实施记录](../design/41-COURTYARD-VALLEY-IMPLEMENTATION.md)。本页记录美术、界面、玩家操作及发布核对证据；目标设备和玩家美术评看分别登记。
 
 ## 三段画面与操作入口
 
@@ -42,7 +42,7 @@
 
 ## 交付边界
 
-三段本地操作证据与局部自动检查见[实施记录](../design/41-COURTYARD-VALLEY-IMPLEMENTATION.md)；完整 SR/AC 状态仍由[状态台账](../design/STATUS.md)核对。源码提交 SHA、公开 Pages 版本及公开页面实测待发布后填写。
+三段本地操作证据与局部自动检查见[实施记录](../design/41-COURTYARD-VALLEY-IMPLEMENTATION.md)；完整 SR/AC 状态仍由[状态台账](../design/STATUS.md)核对。源码与 Pages 发布记录见下方；公开操作与本地完整操作链分别记录。
 
 ## 在院人物一致性
 
@@ -51,3 +51,11 @@
 ## 发布加载
 
 网页导出将原场景包按 16 MiB 分段，逐片核对长度与 SHA-256，合并后再次校验整包，再经 Godot 的 `preloadFile(ArrayBuffer, path)` 启动。加载失败时显示重试提示，世界时钟尚未启动。`tests/ea-scene-pack-loader.test.mjs` 3／3 覆盖完整重组、缺片与损坏拒绝、普通导出兼容；本地实际浏览器已下载三个分片、正常进入山院并显示字体，控制台零错误。该检查追加于玩法 18 项之外。
+
+## 公开版本
+
+运行源码 `main` `836ccb605a42e7c21c2aae8c5e2c4eee7e55c03e` 已推送；[公开山院试玩](https://cybershp.github.io/Simulation-web-game/mountain-courtyard/) 的 `gh-pages` 为 `4d6786da521f1ab92818c20f67c036a829469e6e`，Pages 构建为 `built`。公开入口、版本记录、构建清单、八个界面／规则模块与三个场景分片共 **14 个文件**均返回 HTTP 200，SHA-256 与最终本地导出一致。发布场景包为 `scene-772e4d90182e.pck`，按三个分片加载，构建清单 SHA-256 为 `111069c4fdec82d0428621e85d3a74e83101735ed999b741db56597fac30851d`。
+
+公开 Chromium 独立 QA 档（1440×960）已实际启动新山院、打开百艺，并经正式存档界面导入合法丹房档。掌门实走约 **35.5 米**至出口，途中保持山院行走状态；随后 `travel:sr:1` 剩余 79 步并最终抵达山谷，人物仍为 `person:master`。直接点击谷内药丛、走近并采集后，药丛 **18→12**、随行灵草 **0→6**、公库灵草维持 **4**。三个场景分片均成功加载；该次运行控制台 **0 error／0 warning**。首访 `base-ui.mjs` 曾返回一次 HTTP 503，正常刷新恢复，随后上述操作完成。
+
+公开实机截图已目视：`output/playwright/u123-public-crafting.png`、`u123-public-valley-scene.png`、`u123-public-gathered.png`；图片保留在本地 QA 目录。公开复核覆盖启动、百艺入口、导档、实际出谷旅行与采集；炼丹、首战、撤退、返院服药和对应存读的完整操作证据见上文本地记录。
