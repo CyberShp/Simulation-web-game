@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 470 126" preserveAspectRatio="none">
+  <defs>
+    <linearGradient id="wood" x2="0" y2="1"><stop stop-color="#624122"/><stop offset=".19" stop-color="#2c241b"/><stop offset=".68" stop-color="#182b26"/><stop offset="1" stop-color="#4f3421"/></linearGradient>
+    <linearGradient id="metal" x2="0" y2="1"><stop stop-color="#f5d996"/><stop offset=".34" stop-color="#9b7037"/><stop offset=".72" stop-color="#dbba73"/><stop offset="1" stop-color="#594022"/></linearGradient>
+    <radialGradient id="jade"><stop stop-color="#6fa997"/><stop offset=".58" stop-color="#315f54"/><stop offset="1" stop-color="#173a34"/></radialGradient>
+  </defs>
+  <path d="M25 8Q12 8 12 21V96Q12 111 28 111H433Q453 111 455 91L460 33Q462 9 437 9Z" fill="#0c1917" stroke="#17201a" stroke-width="9"/>
+  <path d="M25 8Q12 8 12 21V96Q12 111 28 111H433Q453 111 455 91L460 33Q462 9 437 9Z" fill="url(#wood)" stroke="url(#metal)" stroke-width="5"/>
+  <path d="M33 20H428Q444 20 445 35L441 90Q440 100 428 100H33Q25 100 25 92V29Q25 20 33 20Z" fill="none" stroke="#d3ae67" stroke-width="1.5" opacity=".67"/>
+  <path d="M35 25q16 0 17 16q-17-9-20 8q14-9 24 4m367-28q-16 0-17 16q17-9 20 8q-14-9-24 4M36 91q16 0 18-15q-18 8-20-9q15 9 24-5m365 29q-16 0-18-15q18 8 20-9q-15 9-24-5" fill="none" stroke="#cda261" stroke-width="2" stroke-linecap="round"/>
+  <path d="M81 25V96M399 25V96" stroke="#977445" stroke-width="1" opacity=".55"/>
+  <path d="M102 16q16 7 22 0q8 10 18 2m183-2q16 7 22 0q8 10 18 2M102 103q16-7 22 0q8-10 18-2m183 2q16-7 22 0q8-10 18-2" fill="none" stroke="#b18c56" opacity=".6"/>
+  <circle cx="18" cy="17" r="4" fill="#e4bd73"/><circle cx="446" cy="18" r="4" fill="#e4bd73"/><circle cx="19" cy="101" r="4" fill="#e4bd73"/><circle cx="442" cy="100" r="4" fill="#e4bd73"/>
+  <path d="M9 58l10-8l11 8l-11 8zM447 59l10-8l11 8l-11 8z" fill="url(#jade)" stroke="#d6bb7a" stroke-width="2"/>
+</svg>
