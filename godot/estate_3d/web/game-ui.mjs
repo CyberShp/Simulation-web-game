@@ -82,7 +82,7 @@ export function startEstateGameUI(host, layout) {
     if (progressing) {
       const progress=Math.round(Math.max(0,Math.min(1,construction?.progress||0))*100);
       action='<div class="estate-progress"><span>工程进度</span><b>'+progress+'%</b><div class="meter"><span style="width:'+progress+'%"></span></div></div>'+
-        '<p class="estate-note">'+safe(String(construction?.label||'材料搬运与施工按世界时间推进').replace(/[。；]+$/,''))+'；存档后可接着做。</p><button class="secondary-action" data-estate-cancel>取消当前工程</button>';
+        '<p class="estate-note">'+safe(String(construction?.label||'材料搬运与施工按世界时间推进').replace(/[。；]+$/,''))+'。</p><button class="secondary-action" data-estate-cancel>取消当前工程</button>';
     } else if (!building) {
       const shortage=missingCost(state,definition.cost);
       action='<p class="estate-cost">营造所需　'+safe(costText(definition.cost))+'</p>'+

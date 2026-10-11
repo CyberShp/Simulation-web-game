@@ -59,6 +59,12 @@ U-107 的建筑间距与山域试游保留为后续成长和历史原型依据�
 | [前期详细设计](14-EARLY-GAME-DETAILED-DESIGN.md) | 前期范围、地方内容、固定责任链、成长与迁移怎样具体落实？ |
 | [五洲修行谱](19-FIVE-CONTINENT-ARTS.md) | 四千九百种的计数、类型与大道交融、云岫首批怎样衔接？ |
 | [修行成长与斗法数值](20-ARTS-GROWTH-COMBAT.md) | 品质、六类修炼收益、物抗法抗、异常抗性和克制怎样计算？ |
+| [逃亡包裹与五条传承](32-OPENING-INHERITANCE.md) | 首次疗伤怎样择法，五套攻守与未选原本怎样取得？ |
+| [云岫首批逐项复评](33-ARTS-INITIAL-CALIBRATION.md) | Y-001–067 的品相、独立用途与失效条件怎样校准？ |
+| [五洲修行谱扩写总账](28-FIVE-CONTINENT-ARTS-LEDGER.md) | 已写编号、类型和品相余额怎样计算？ |
+| [扩写第五批](34-FIVE-CONTINENT-ARTS-EXPANSION-05.md) | Y-235–272 的五行与兵器交融有哪些？ |
+| [扩写第六批](35-FIVE-CONTINENT-ARTS-EXPANSION-06.md) | Y-273–309 的魔、妖、毒与心灵交融有哪些？ |
+| [扩写第七批](36-FIVE-CONTINENT-ARTS-EXPANSION-07.md) | Y-310–347 的兵家、阵法与古道痕有哪些？ |
 | [第四批实施](18-SPATIAL-CONTINUITY-IMPLEMENTATION.md) | 营造场景联动修正、完工占位安全与当前真实差距 |
 | [第三批实施](17-INDOOR-LIFE-IMPLEMENTATION.md) | 主屋床位、门道、屋顶与旧预约迁移，以及尚未完成的空间目标 |
 | [第二批实施](16-WORKSTATIONS-ARTISAN-IMPLEMENTATION.md) | 独立工位、共享批次、伤匠照料与当前未覆盖范围 |

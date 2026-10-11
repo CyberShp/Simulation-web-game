@@ -16,6 +16,8 @@ import {tickCampaignCombat,settleCombatBodyProjection} from './ea-campaign.mjs';
 import {teachingQualificationSR} from './ea-sr-cultivation.mjs';
 import {prepareAutonomyV2 as prepareAutonomyV2Checked,reconcileAutonomyV2Commitments} from './ea-sr-persons.mjs';
 import {upgradeEquipmentRecipeSnapshots} from './ea-sr-equipment.mjs';
+import {beginOpeningInheritance,chooseOpeningInheritance,recoverOpeningInheritance,validateOpeningInheritance} from './ea-opening-inheritance.mjs';
+export {openingInheritanceView,openingRecoveryOptions} from './ea-opening-inheritance.mjs';
 export * from './ea-sr-equipment.mjs';
 export * from './ea-sr-cultivation.mjs';
 export * from './ea-sr-combat.mjs';
@@ -32,7 +34,7 @@ export * from './ea-sr-descent.mjs';
 export * from './ea-sr-late-economy.mjs';
 export {srEnabled,initSR};
 export {cloneState,SCHEMA_VERSION,CONTENT_VERSION};
-const LEGACY_COMMAND_NAMES=['setSpeed','setIntroPage','acknowledgeOnboarding','requestSceneInteraction','cancelSceneInteraction','setNarrativePage','acknowledgeNarrative','acknowledgeIntro','advanceStory','build','cancelConstruction','cancelProduction','offerArtisanCare','cancelArtisanCare','declineArtisanCare','upgrade','toggleBuilding','repairBuilding','relocate','demolish','recruit','obtainBook','sealBook','masterStudy','forgetSupport','returnToBasics','masterBreakthrough','masterRiskBreakthrough','masterPill','masterAction','masterTeach','moveMaster','moveScenicMaster','craft','trade','fulfill','claim','setPolicy','offerRoute','upgradeSect','societyCommand','foundSect','inviteOffice','foundPeak','inviteMentor','setSocietyPolicy','settleIncident','resolvePersonalQuest','resolveWorldVisitor','resolveSocietyVisitor','startExploration','moveExploration','resolveExploration','leaveRegion','combatAction','acknowledgeCombat','startMasterTravel','resolveMasterEncounter','cancelMasterTravel'];
+const LEGACY_COMMAND_NAMES=['recoverOpeningInheritance','chooseOpeningInheritance','setSpeed','setIntroPage','acknowledgeOnboarding','requestSceneInteraction','cancelSceneInteraction','setNarrativePage','acknowledgeNarrative','acknowledgeIntro','advanceStory','build','cancelConstruction','cancelProduction','offerArtisanCare','cancelArtisanCare','declineArtisanCare','upgrade','toggleBuilding','repairBuilding','relocate','demolish','recruit','obtainBook','sealBook','masterStudy','forgetSupport','returnToBasics','masterBreakthrough','masterRiskBreakthrough','masterPill','masterAction','masterTeach','moveMaster','moveScenicMaster','craft','trade','fulfill','claim','setPolicy','offerRoute','upgradeSect','societyCommand','foundSect','inviteOffice','foundPeak','inviteMentor','setSocietyPolicy','settleIncident','resolvePersonalQuest','resolveWorldVisitor','resolveSocietyVisitor','startExploration','moveExploration','resolveExploration','leaveRegion','combatAction','acknowledgeCombat','startMasterTravel','resolveMasterEncounter','cancelMasterTravel'];
 export const COMMAND_NAMES=[...new Set([...LEGACY_COMMAND_NAMES,...Object.keys(SR_HANDLERS)])];
 const bodyCommands=new Set(['build','upgrade','repairBuilding','relocate','demolish','masterStudy','masterAction','masterTeach','masterBreakthrough','masterRiskBreakthrough','masterPill','moveMaster','moveScenicMaster','requestSceneInteraction','startExploration','startMasterTravel','craft','advanceStory','offerArtisanCare','declineArtisanCare']);
 
@@ -47,12 +49,14 @@ export function initial(options={}){
  second.mind.reason='正在寻找安身与求道的地方，想先了解山院能提供的生活。';
  const hall=buildingAccess(s,s.buildings.find(b=>b.type==='hall'));
  for(const [person,offset]of [[visitor,-22],[second,22]]){const p=scenicNearest(s,{x:hall.x+offset,y:hall.y+8});if(p){person.mind.scenic.x=p.x;person.mind.scenic.y=p.y;}}
- s.story.opening={visitorId:visitor.personId,secondVisitorId:second.personId,gifted:false,invitation:'unasked'};
+ s.story.opening={visitorId:visitor.personId,secondVisitorId:second.personId,gifted:false,invitation:'unasked',inheritance:{status:'sealed',selected:null}};
+ s.master.main=null;s.master.knowledge={};s.master.artsById={};s.doctrine.books=[];
  s.stockpilesById['stockpile:lu-zhiwei']={id:'stockpile:lu-zhiwei',ownerId:visitor.personId,resources:Object.fromEntries(Object.keys(base.RESOURCES).map(k=>[k,0]))};
  initRainArtisan(s,base.addDisciple);s.rulesetVersion='opening-runtime-3';repairScenicState(s);if(options.sr)initSR(s,{newGame:true});return s;
 }
 
 function validateOpeningRecords(s){
+ validateOpeningInheritance(s);
  const opening=s.story.opening;
  if(opening){
   if(opening.visitorId!=='person:lu-zhiwei'||opening.secondVisitorId!=='person:lin-changfeng'||!s.personsById[opening.visitorId]||!s.personsById[opening.secondVisitorId]||typeof opening.gifted!=='boolean'||!['unasked','joined','declined'].includes(opening.invitation)||!opening.gifted&&opening.invitation!=='unasked')throw Error('存档校验失败：赠药与入院记录异常');
@@ -197,9 +201,16 @@ function validateConstruction(s){
  for(const [id,r]of Object.entries(s.reservationsById))if(!r.kind&&id!==a.reservationId)throw Error('存档校验失败：未知材料预约');
 }
 
+function openingMasterAction(s,action){
+ const wasSealed=s.story?.opening?.inheritance?.status==='sealed';
+ const result=base.masterAction(s,action);
+ if(wasSealed&&action==='heal')beginOpeningInheritance(s);
+ return result;
+}
+
 /** The only simulation owner: 100ms ticks; existing economy updates each second. */
 export function tick(s,dt){
- if(!Number.isFinite(dt)||dt<=0||dt>86400||s.speed===0)return;
+ if(!Number.isFinite(dt)||dt<=0||dt>86400||s.speed===0||s.story?.opening?.inheritance?.status==='pending')return;
  const total=s.sim.carry+dt*s.speed,count=Math.floor(total*10+1e-8);
  s.sim.carry=Math.max(0,Math.round((total-count/10)*1e10)/1e10);
  for(let n=0;n<count;n++){
@@ -217,6 +228,7 @@ export function tick(s,dt){
 
 /** Atomic, revision-checked, retry-safe command gateway used by the browser. */
 export function dispatchCommand(s,{name,args=[],id=`command:${s.transactions.nextCommandId}`,expectedRevision=s.revision}={}){
+ if(s.story?.opening?.inheritance?.status==='pending'&&name!=='chooseOpeningInheritance')throw Error('先在包裹中择定一条传承。');
  if(srEnabled(s)){
   const handlers=Object.fromEntries(COMMAND_NAMES.map(command=>[command,(next,...values)=>{
    if(next.master.sceneIntent&&!['requestSceneInteraction','cancelSceneInteraction','setNarrativePage','acknowledgeNarrative','acknowledgeIntro'].includes(command))base.cancelSceneInteraction(next);
@@ -228,7 +240,7 @@ export function dispatchCommand(s,{name,args=[],id=`command:${s.transactions.nex
     if(a&&a.kind!=='facility'&&!cancelling&&!currentCombatAction&&!command.startsWith('cancel')&&!['srCrisisCommand','srWorldCommand','srStoryCommand'].includes(command))throw Error('掌门已有身体活动，先完成或中止。');
    }
    if(command==='build'){const lock=base.buildingLock(next,values[0]);if(lock)throw Error(lock);}
-   const fn=command==='advanceStory'?advanceStory:SR_HANDLERS[command]||({setSpeed,offerArtisanCare,cancelArtisanCare,declineArtisanCare,cancelProduction}[command])||base[command];
+   const fn=command==='recoverOpeningInheritance'?recoverOpeningInheritance:command==='chooseOpeningInheritance'?chooseOpeningInheritance:command==='masterAction'?openingMasterAction:command==='advanceStory'?advanceStory:SR_HANDLERS[command]||({setSpeed,offerArtisanCare,cancelArtisanCare,declineArtisanCare,cancelProduction}[command])||base[command];
    if(typeof fn!=='function')throw Error('操作尚未接入。');
    const result=fn(next,...values);reconcileActivities(next);reconcileAutonomyV2Commitments(next);return result;
   }]));
@@ -244,7 +256,7 @@ export function dispatchCommand(s,{name,args=[],id=`command:${s.transactions.nex
  const next=cloneState(s);
  if(next.master.sceneIntent&&!['requestSceneInteraction','setNarrativePage','acknowledgeNarrative','acknowledgeIntro'].includes(name))base.cancelSceneInteraction(next);
  if(bodyCommands.has(name)&&!constructionStatus(next))releaseBodyActivity(next,next.master);
- const fn=name==='offerArtisanCare'?offerArtisanCare:name==='cancelArtisanCare'?cancelArtisanCare:name==='declineArtisanCare'?declineArtisanCare:name==='cancelProduction'?cancelProduction:name==='setSpeed'?setSpeed:name==='advanceStory'?advanceStory:name==='build'?build:name==='cancelConstruction'?cancelConstruction:name==='masterStudy'?masterStudy:base[name];
+ const fn=name==='recoverOpeningInheritance'?recoverOpeningInheritance:name==='chooseOpeningInheritance'?chooseOpeningInheritance:name==='masterAction'?openingMasterAction:name==='offerArtisanCare'?offerArtisanCare:name==='cancelArtisanCare'?cancelArtisanCare:name==='declineArtisanCare'?declineArtisanCare:name==='cancelProduction'?cancelProduction:name==='setSpeed'?setSpeed:name==='advanceStory'?advanceStory:name==='build'?build:name==='cancelConstruction'?cancelConstruction:name==='masterStudy'?masterStudy:base[name];
  if(['demolish','relocate'].includes(name)){const b=next.buildings.find(b=>b.id===args[0]),o=b&&next.workOrdersById[`work:production:${b.instanceId}`];if(o){if(o.phase!=='completed')cancelProduction(next,b.id);else delete next.workOrdersById[o.id];}}
  const value=fn(next,...args),result=value===undefined?true:structuredClone(value);
  reconcileActivities(next);

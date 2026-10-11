@@ -92,10 +92,12 @@ SR-XF-013-D01证据：docs/design/20-ARTS-GROWTH-COMBAT.md（抗性与平衡首�
 - docs/requirements/IMPLEMENTATION-2026-10-06.md
 - docs/design/20-ARTS-GROWTH-COMBAT.md（物抗法抗、异常积累与同境平衡首稿；D01动作和敌人配置继续）
 - docs/design/31-ARTS-SAMPLE-COFORMATION-DIVINE.md（Y-201护撤与Y-144行动权的动作、反制和存读试算；三路及敌人配置继续）
+- docs/design/33-ARTS-INITIAL-CALIBRATION.md（Y-001–067逐项反制校准；未实战定标）
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
 - 2026-10-11：按U-114/R-37补物抗法抗、异常积累、条件克制和复合动作预算首稿；具体敌人及逐招动作仍待设计和实战验证。
 - 2026-10-11：补Y-201多人阵与Y-144神通动作过程试算；D01、动作定标、敌人配置和实机验证仍未完成。
+- 2026-10-11：Y-001–067逐项复评神通、复合技与失效条件；五套开局攻守仅接既有战斗预算，物抗法抗、异常与同境平衡仍待实现和实战验证。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。

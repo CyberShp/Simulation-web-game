@@ -90,5 +90,6 @@
 .portrait,.portrait.has-art{width:100%;height:275px;margin:0 auto -5px;border:0;border-radius:0;box-shadow:none;mask-image:linear-gradient(#000 0%,#000 75%,transparent 100%)}
 .portrait.has-art{background-size:300% 200%;background-position:var(--portrait-x) var(--portrait-y)}
 .person-name{font-size:35px;line-height:1.1;margin:0 0 4px}.person-study h5{text-align:center;margin:4px 0;font:21px "Xianfu Brush","STKaiti",serif;color:#355b4e}.person-study{border-block:1px solid #b3a181;margin:6px 0;padding:3px 0}.person-study .meter-row{margin:5px 0}
+body.opening-inheritance-active #game-ui{visibility:hidden;pointer-events:none}
 @media(max-height:800px) and (min-width:901px){.portrait,.portrait.has-art{height:192px}.person-name{font-size:29px}.information{margin:6px 0}.information div{padding:3px 4px}.section-label{margin:9px 0 5px}}
 @media(max-width:760px), (max-width:900px) and (orientation:portrait){.portrait,.portrait.has-art{height:215px}.manual-cover-title{height:80px}}

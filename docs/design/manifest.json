@@ -125,6 +125,26 @@
       "role": "cultivation-quality-defense-status-and-combat-balance-proposal"
     },
     {
+      "path": "docs/design/32-OPENING-INHERITANCE.md",
+      "role": "opening-package-five-inheritance-choice-and-runtime-boundary"
+    },
+    {
+      "path": "docs/design/33-ARTS-INITIAL-CALIBRATION.md",
+      "role": "yunxiu-first-67-arts-individual-calibration"
+    },
+    {
+      "path": "docs/design/34-FIVE-CONTINENT-ARTS-EXPANSION-05.md",
+      "role": "arts-catalogue-Y235-Y272"
+    },
+    {
+      "path": "docs/design/35-FIVE-CONTINENT-ARTS-EXPANSION-06.md",
+      "role": "arts-catalogue-Y273-Y309"
+    },
+    {
+      "path": "docs/design/36-FIVE-CONTINENT-ARTS-EXPANSION-07.md",
+      "role": "arts-catalogue-Y310-Y347"
+    },
+    {
       "path": "docs/design/15-OPENING-IMPLEMENTATION.md",
       "role": "opening-development-slice-and-evidence"
     },
@@ -1303,9 +1323,11 @@
     "currentSpatialDecisionId": "U-110",
     "currentSpatialSourceCommit": "2ea41759944a229e0f6b6c2233cf4224c70aae34",
     "currentSpatialReference": "docs/design/03-SPATIAL-ART.md",
-    "currentArtsDecisionId": "U-114",
+    "currentArtsDecisionId": "U-115",
     "currentArtsReference": "docs/design/19-FIVE-CONTINENT-ARTS.md",
     "currentArtsBalanceReference": "docs/design/20-ARTS-GROWTH-COMBAT.md",
+    "currentOpeningInheritance": "docs/design/32-OPENING-INHERITANCE.md",
+    "currentArtsLedger": "docs/design/28-FIVE-CONTINENT-ARTS-LEDGER.md",
     "estateSourceScene": "godot/estate_2d/estate.tscn",
     "estateSiteLayout": "godot/estate_2d/estate-sites.json",
     "estatePreview": "dist/painted-game/index.html"

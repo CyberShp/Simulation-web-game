@@ -1,12 +1,18 @@
 # 项目交付接续 · 2026-10-11
 
-## 功法与修炼地评看稿接续
+## U-115 / U-116 当前批次
+
+新档首次使用六份灵草疗伤时，独立雨夜包裹画面开启五条入门传承；一条取得心法与攻守两技，其余原本有可追寻的坊市／低级遗址来源。待选状态可存读，旧档延续原已学内容。画面、规则、已核验路径和剩余风险见 [STATUS](design/STATUS.md) 与 [开局五线](design/32-OPENING-INHERITANCE.md)。当前旧别院绘景仅是既有规则接线的运行稿，后续山院视觉另行接续。
+
+云岫 Y-001–067 已逐条复评，多 agent 新批次 Y-235–347 并入[扩写总账](design/28-FIVE-CONTINENT-ARTS-LEDGER.md)，当前连续 347／4900 项，余 4553。目录是设计稿，五条筑基延续、持剑约束与高境结算仍待实现。
+
+## 功法与修炼地前批评看记录
 
 [六类校验样例](design/28-FIVE-CONTINENT-ARTS-LEDGER.md#六例校验)见[青岚与筑基止步](design/29-ARTS-SAMPLE-QINGLAN-REALM-STOP.md)、[跨境传承与个人阵](design/30-ARTS-SAMPLE-LINEAGE-PERSONAL-ARRAY.md)、[多人阵与严格神通](design/31-ARTS-SAMPLE-COFORMATION-DIVINE.md)。审阅时先检查独立取得篇章与实际资源、同境反制及伤势／存读边界；新增数值仅为试算。待定的是具体地图和持有人、神通同一步顺序、旧档映射与实机平衡。总数维持 227／4900，SR/AC 与运行状态未因样例改变。
 
 [体系评看](design/21-CULTIVATION-SYSTEM-REVIEW.md)、[世界修炼地](design/22-WORLD-CULTIVATION-SITES-REVIEW.md)和[云岫联动样例](design/23-CULTIVATION-SITE-ART-SAMPLES.md)继续作为设计参考。资源设施可在预设点分期升级；练位与天然源头流量分开记账，地火样例为初建两位、扩建六位，源头仍为三单位火力。[扩写总账](design/28-FIVE-CONTINENT-ARTS-LEDGER.md)索引[第一批 Y-068–107](design/24-FIVE-CONTINENT-ARTS-EXPANSION-01.md)、[青衡 Y-108–147](design/25-FIVE-CONTINENT-ARTS-EXPANSION-02-QINGHENG.md)、[炎荒玄朔 Y-148–187](design/26-FIVE-CONTINENT-ARTS-EXPANSION-03-YANHUANG-XUANSHUO.md)与[中天沧流 Y-188–227](design/27-FIVE-CONTINENT-ARTS-EXPANSION-04-ZHONGTIAN-CANGLIU.md)。累计 227 项首稿／草稿，余 4673 项；前三份新批次 120 项有四／五品 12 项、两张新真相卡。参考小说只阅读了选定章节。扩写仍待评看与样例校准，未改变正式六十七项目录、20号数值、决策状态、游戏、地图或 SR/AC。后续先核对早期条目的类型与品相，再按总账余额逐项扩写。
 
-## U-114 五洲修行与斗法设计接续
+## U-114 五洲修行与斗法前批设计
 
 [五洲修行谱](design/19-FIVE-CONTINENT-ARTS.md)按可独立学习项目规划四千九百种，云岫六十七种已写来源、用途与限制；魔道、妖道、毒及武学／术法、多术法复合有独立分支。百艺四百种、合欢跨目录最多二十四种是 R-37 建议配额。[修行成长与斗法数值](design/20-ARTS-GROWTH-COMBAT.md)给出六类修炼收益、品质、物抗法抗、六组异常抗性与条件克制的首轮参数。现行战斗和旧档未接入此方案；SR-XF-013/014 的设计任务仍进行中，实际状态见 [STATUS](design/STATUS.md)。
 

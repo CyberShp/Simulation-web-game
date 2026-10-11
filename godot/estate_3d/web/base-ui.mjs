@@ -4,7 +4,7 @@ export function startPaintedGameUI(host) {
   const panel = $('#dossier'), content = $('#panel-content'), notice = $('#notice');
   const labels = {jade:['💠','灵石'],wood:['🪵','木料'],stone:['🪨','石料'],herb:['🌿','灵草'],food:['🌾','食粮']};
   const activities = {groundRest:'休憩',rest:'休息',heal:'疗伤',walk:'行走',study:'研习',work:'劳作',cultivate:'修炼',construct:'营造',carry:'搬运',wait:'等候',idle:'在院'};
-  const artKinds = {main:'主修心法',support:'辅修法门',spell:'术法',movement:'身法',production:'生产技艺'};
+  const artKinds = {main:'主修心法',support:'辅修法门',spell:'术法',martial:'武学',movement:'身法',production:'生产技艺'};
   const orderPhases = {proposed:'待安排',reserved:'已预约',navigating:'前往书案',preparing:'准备研习',executing:'正在研习',waiting:'等待条件',interrupted:'已中断'};
   let tab = 'home', personId = 'person:master', artId = 'qingyuan', lastBody = '', lastSelection = '';
   const esc = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
@@ -21,6 +21,7 @@ export function startPaintedGameUI(host) {
   const tell = (message, error = false) => {notice.textContent=String(message||'操作未完成').replace(/^command[:：]\s*/, '');notice.dataset.error=String(error)};
   function update(force = false) {
     const state = view();
+    document.body.classList.toggle('opening-inheritance-active',state.openingInheritance?.status==='pending');
     $('#time').textContent=state.timeLabel;
     $('#resources').innerHTML=Object.entries(labels).map(([id,[,title]]) => `<span class="resource" title="${title}"><i class="resource-icon resource-${id}" aria-hidden="true"></i>${esc(state.resources[id] ?? 0)}</span>`).join('');
     $('#pause').textContent=state.paused?'▶':'Ⅱ';
@@ -61,7 +62,7 @@ export function startPaintedGameUI(host) {
       <h3 class="person-name">${esc(person.name)}</h3><p class="subline">${role} · ${person.atHome?'在院':'外出'} · ${esc(action)}</p>
       <div class="information"><div>境界<b>${person.realm==null?'尚未入宗':`炼气 ${esc(person.realm)} 层`}</b></div><div>当前状态<b>${person.wound>0?`伤势 ${Math.ceil(person.wound)}`:esc(action)}</b></div></div>
       <h4 class="section-label">修习</h4>${personArts(person,state)}
-      ${person.role==='visitor'?'<p class="lore">陆知微仍是来访者；是否入宗由正式剧情决定。</p>':''}
+      ${person.role==='visitor'?'<p class="lore">陆知微尚未入宗，去留仍由她自己决定。</p>':''}
       ${person.role!=='visitor'&&person.mainArtId&&person.arts?.some(art=>art.id===person.mainArtId)?`<button class="primary-action" data-open-art="${esc(person.mainArtId)}">查看所习功法</button>`:''}`;
   }
   function arts(state) {
@@ -83,7 +84,7 @@ export function startPaintedGameUI(host) {
       ${students.length?`<h4 class="section-label">门人授业</h4><p class="quiet">授业会核对掌门的理解、熟练、门人状态与意愿。</p>${students.map(p=>`<button class="secondary-action" data-teach="${esc(art.id)}" data-student="${esc(p.id)}">邀请 ${esc(p.name)} 研习</button>`).join('')}`:''}`;
   }
   function archive(state) {
-    return `<h3 class="art-name">山院行囊</h3><div class="information inventory">${Object.entries(labels).map(([id,[,name]])=>`<div><span><i class="resource-icon resource-${id}" aria-hidden="true"></i>${name}</span><b>${esc(state.resources[id]??0)}</b></div>`).join('')}</div><p class="quiet">当前库存来自山院存档。</p><h4 class="section-label">存读</h4><button class="primary-action" data-save>保存进度</button><button class="secondary-action" data-reload>读取预览档</button><button class="secondary-action" data-export>导出存档</button><button class="secondary-action" data-import>导入存档</button>`;
+    return `<h3 class="art-name">山院行囊</h3><div class="information inventory">${Object.entries(labels).map(([id,[,name]])=>`<div><span><i class="resource-icon resource-${id}" aria-hidden="true"></i>${name}</span><b>${esc(state.resources[id]??0)}</b></div>`).join('')}</div><p class="quiet">旧院所余，尽在此处。</p><h4 class="section-label">存读</h4><button class="primary-action" data-save>保存进度</button><button class="secondary-action" data-reload>读取预览档</button><button class="secondary-action" data-export>导出存档</button><button class="secondary-action" data-import>导入存档</button>`;
   }
   document.addEventListener('click',event => {
     const button=event.target.closest('button');

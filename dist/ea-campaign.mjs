@@ -3,6 +3,7 @@ import { EXPEDITIONS as LEGACY_ROUTES } from './world.mjs';
 import { combatField, combatGeometryId, combatCanStand, combatClearLine, combatPath, moveCombatActor, dodgeEndpoint } from './ea-combat-geometry.mjs';
 import { appearance } from './ea-scenic.mjs';
 import {beginCombatSession,endCombatSession,initSRCombat,projectedCombatHp,setCombatActorHp,syncCombatBodyProjection} from './ea-sr-combat.mjs';
+import {openingCombatProfile} from './ea-opening-inheritance.mjs';
 
 // Campaign state is deliberately plain data. Every choice, weather roll and reward
 // is committed to the save before the next tick; loading never repeats a roll.
@@ -15,7 +16,7 @@ const book = (s, id) => { if (!s.doctrine.books.includes(id)) s.doctrine.books.p
 const xpLimit = m => m.realm <= 9 ? m.realm * 100 : 1200 + (m.realm - 10) * 600;
 
 export const STORY = [
-  { title:'雨夜余烬', text:'双亲护你逃出栖霞。先在母亲的旧别院治好逃亡伤势，根骨与天资不会因此受损。', action:'确认伤势已愈' },
+  { title:'雨夜余烬', text:'双亲护你逃出栖霞。云岫旧院还留着母亲采来的灵草，先养好逃亡伤势。', action:'确认伤势已愈' },
   { title:'一剂生机', text:'采药人陆知微为家人求药。赠出十份灵草，结下一段有来由的善缘。', action:'赠药救人' },
   { title:'孤客来投', text:'恢复灵草田与伐木场，让愿意留下的人有自己的生活。林长风正寻找安身和求道之处。', action:'接纳来客' },
   { title:'旧卷余温', text:'建成藏经阁，整理母亲的药理札记与旧商路信笺。往来账册与被收买的阵匠，是两条可靠线索。', action:'整理遗卷' },
@@ -377,9 +378,10 @@ export function combatOptions(s) {
   const c = s.combat;
   if (!c || c.status !== 'active') return [];
   const p = c.player, enemy = nearestEnemy(c);
+  const art=openingCombatProfile(s);
   return [
-    {id:'attack',label:'攻击',range:1.9,cost:0}, {id:'spell',label:'青岚术',range:6,cost:16},
-    {id:'dodge',label:'闪避',cost:8}, {id:'guard',label:'守御',cost:4}, {id:'retreat',label:'沿退路撤离',cost:0}
+    {id:'attack',label:'攻击',range:1.9,cost:0}, {id:'spell',label:art.attackName,range:art.range,cost:art.cost},
+    {id:'dodge',label:'闪避',cost:8}, {id:'guard',label:art.guardName,cost:4}, {id:'retreat',label:'沿退路撤离',cost:0}
   ].map(a => {
     const cooldown = p.cooldowns[a.id] || 0;
     const reason = cooldown > .001 ? `调息 ${cooldown.toFixed(1)} 秒` : p.qi < a.cost ? `需灵力 ${a.cost}` : a.range && (!enemy || distance(p, enemy) > a.range) ? `需目标在 ${a.range} 步内` : a.range&&!combatClearLine(p,enemy,combatGeometryId(c))?'目标被货箱或碎石遮挡，请绕行':'';
@@ -413,8 +415,8 @@ export function combatAction(s, kind, target) {
   p.qi -= option.cost;
   if(['attack','spell'].includes(kind)){const length=distance(p,enemy);if(length>.001)p.facing={x:(enemy.x-p.x)/length,y:(enemy.y-p.y)/length};}
   if (kind === 'attack') { damageActor(s,c,p,enemy,13 + s.master.realm * 2,'attack'); p.cooldowns.attack = 1.15; c.message = `攻击命中${enemy.name}。`; }
-  if (kind === 'spell') { damageActor(s,c,p,enemy,25 + s.master.realm * 2 + (s.master.knowledge.sword || 0) * .1,'spell'); p.cooldowns.spell = 4.5; c.message = `青岚术命中${enemy.name}。`; }
-  if (kind === 'guard') { p.guard = 2.2; p.cooldowns.guard = 5; effect(c,'guard',p,p);c.message = '守御两秒，伤害减少七成。'; }
+  if (kind === 'spell') {const art=openingCombatProfile(s);damageActor(s,c,p,enemy,art.damage + s.master.realm * 2 + (s.master.knowledge.sword || 0) * .1,'spell'); p.cooldowns.spell = 4.5; c.message = `${art.attackName}命中${enemy.name}。`; }
+  if (kind === 'guard') {const art=openingCombatProfile(s);p.guard = art.guardSeconds; p.cooldowns.guard = 5; effect(c,'guard',p,p);c.message = `${art.guardName}展开护持。`; }
   if (kind === 'dodge') {
     let dx = target && Number.isFinite(target.x) ? target.x - p.x : -p.facing.x;
     let dy = target && Number.isFinite(target.y) ? target.y - p.y : -p.facing.y;

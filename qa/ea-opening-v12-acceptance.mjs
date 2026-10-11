@@ -11,7 +11,7 @@ export function runOpening({seed=618033,invitation='invite'}={}){
  const events=[];
  function act(name,...args){const result=sim.dispatchCommand(state,{name,args});state=result.state;commands++;return result.result;}
  function check(label){const saved=JSON.stringify(state);state=sim.validateSave(JSON.parse(saved));assert.equal(JSON.stringify(state),saved);checks++;events.push({label,worldTick:state.worldTick,gameSeconds:state.time});}
- function until(predicate,limit=600){const deadline=state.time+limit;while(!predicate()){assert.ok(state.time<deadline,'No progress within '+limit+' seconds: '+JSON.stringify(state.disciples.map(p=>({name:p.name,job:p.job,energy:p.energy,activity:p.mind.activity,reason:p.mind.reason,scenic:p.mind.scenic,body:state.activitiesById[p.activityId]}))));sim.tick(state,1);}}
+ function until(predicate,limit=600){const deadline=state.time+limit;while(!predicate()){assert.notEqual(state.story?.opening?.inheritance?.status,'pending','Choose the opening inheritance before advancing world time');assert.ok(state.time<deadline,'No progress within '+limit+' seconds: '+JSON.stringify(state.disciples.map(p=>({name:p.name,job:p.job,energy:p.energy,activity:p.mind.activity,reason:p.mind.reason,scenic:p.mind.scenic,body:state.activitiesById[p.activityId]}))));sim.tick(state,1);}}
  function walkTo(type){const b=state.buildings.find(b=>b.type===type),target=buildingAccess(state,b);act('moveScenicMaster',target.x,target.y);const deadline=state.time+600;while(state.master.action==='walk'&&state.time<deadline)sim.tick(state,.1);assert.notEqual(state.master.action,'walk');assert.ok(Math.hypot(state.master.scenic.x-target.x,state.master.scenic.y-target.y)<.05);}
  function resources(cost){
   for(const [key,amount]of Object.entries(cost)){
@@ -26,7 +26,7 @@ export function runOpening({seed=618033,invitation='invite'}={}){
  }
  function build(type){resources(sim.BUILDINGS[type].cost);const p=recommendedPlot(state,type,sim.placementLock)||sim.CELLS.find(c=>!sim.placementLock(state,type,c.x,c.y));assert.ok(p);act('build',type,p.x,p.y);until(()=>!sim.constructionStatus(state));}
 
- act('masterAction','heal');until(()=>state.master.wound===0);walkTo('hall');act('advanceStory');
+ act('masterAction','heal');assert.equal(state.story.opening.inheritance.status,'pending');check('five-seals-opened');act('chooseOpeningInheritance','qinglan');until(()=>state.master.wound===0);walkTo('hall');act('advanceStory');
  act('advanceStory','gift');check('gifted-without-membership');act('advanceStory',invitation);
  assert.equal(state.disciples.length,invitation==='invite'?1:0);
  build('farm');build('lumber');walkTo('hall');act('advanceStory');check('voluntary-people-and-production-facilities');

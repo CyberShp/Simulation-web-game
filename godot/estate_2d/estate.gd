@@ -2,6 +2,7 @@ extends Node2D
 
 const ACTOR = preload("res://painted_courtyard/actor_2d.gd")
 const SHADOW = preload("res://estate_2d/shadow_layer.gd")
+const PACKAGE_SCENE = preload("res://estate_2d/opening_inheritance_scene.gd")
 const SITES_FILE = "res://estate_2d/estate-sites.json"
 const SCENE_SIZE := Vector2(1536, 1024)
 const TICKS_PER_SECOND := 10.0
@@ -36,6 +37,7 @@ var drag_distance := 0.0
 var pinching := false
 var backgrounded := false
 var js_callback: JavaScriptObject
+var package_scene: CanvasLayer
 
 func _ready() -> void:
 	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(SITES_FILE))
@@ -68,6 +70,9 @@ func _ready() -> void:
 	camera.make_current()
 	get_viewport().size_changed.connect(_update_camera)
 	_update_camera()
+	package_scene = PACKAGE_SCENE.new()
+	package_scene.name = "OpeningInheritanceScene"
+	add_child(package_scene)
 	if OS.has_feature("web"):
 		js_callback = JavaScriptBridge.create_callback(_on_browser_command)
 		JavaScriptBridge.get_interface("window").estateSceneCommand = js_callback
@@ -269,6 +274,11 @@ func _sync_state() -> void:
 	state = parsed
 	_sync_buildings(state)
 	_sync_people(state)
+	var inheritance: Variant = state.get("openingInheritance", null)
+	if inheritance is Dictionary and inheritance.get("status", "") == "pending":
+		package_scene.show_choice(inheritance)
+	else:
+		package_scene.hide_choice()
 
 func _process(delta: float) -> void:
 	poll_elapsed += delta

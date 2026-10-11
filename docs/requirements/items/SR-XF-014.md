@@ -96,6 +96,9 @@ SR-XF-014-D01证据：docs/design/19-FIVE-CONTINENT-ARTS.md（分类与云岫首
 - docs/design/20-ARTS-GROWTH-COMBAT.md（修炼收益、品质与抗性数值首稿；D01仍未完成）
 - docs/design/29-ARTS-SAMPLE-QINGLAN-REALM-STOP.md（青岚与筑基止步心法的取得、供给和转修试算；D01仍未完成）
 - docs/design/30-ARTS-SAMPLE-LINEAGE-PERSONAL-ARRAY.md（跨境传承与个人阵的取得、供给和存读试算；D01仍未完成）
+- docs/design/32-OPENING-INHERITANCE.md（五选一开局局部实现；四条非青岚筑基续篇未通）
+- docs/design/33-ARTS-INITIAL-CALIBRATION.md（Y-001–067逐项品相与机制复评）
+- docs/design/28-FIVE-CONTINENT-ARTS-LEDGER.md（目录草稿更新至Y-347；运行实装另计）
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
@@ -103,5 +106,6 @@ SR-XF-014-D01证据：docs/design/19-FIVE-CONTINENT-ARTS.md（分类与云岫首
 - 2026-10-11：按U-113重定为约四千九百种独立可学项目，区分心法、武学、术法、身法、神通和百艺；扩展云岫首批至五十五种并补青岚攻伐关系，D01保持进行中。
 - 2026-10-11：按U-114/R-37扩充魔道、妖道、毒道及复合分支，重排类型预算并写出六十七种；补六类修炼收益和品质、抗性方案，D01继续。
 - 2026-10-11：补Y-001/041/068/107/007的完整评看样例；旧档映射、三路章节、筑基丹两条路径和定标仍缺，D01继续。
+- 2026-10-11：U-115五条入门线索接入新档疗伤、暂停、选法、攻守与存读；旧档保留。校准前67项后用三agent写至Y-347。四条非青岚筑基续篇、独立授业、同境平衡及完整SR验收继续待办。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。

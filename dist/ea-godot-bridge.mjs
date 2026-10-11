@@ -4,6 +4,7 @@ import {BUILDINGS, day, stage} from './ea-data.mjs';
 import {scenicHomeActors, nextObjective} from './ea-scene-state.mjs';
 import {SPATIAL_SCENE, spatialTerrain, spatialRoom, spatialPrefab, spatialTransform, polygonContains, viewSpatial} from './ea-sr-spatial.mjs';
 import {artView, teachingQualificationSR} from './ea-sr-cultivation.mjs';
+import {openingInheritanceView} from './ea-opening-inheritance.mjs';
 
 const publicCommands = new Set(COMMAND_NAMES);
 const isRecord = value => value !== null && typeof value === 'object' && !Array.isArray(value);
@@ -84,6 +85,7 @@ export function projectGodotWorld(state, selection = null) {
       ? `${state.master.name}携家传逃至云岫旧居，先安顿伤势，再恢复山院。${objective.text}`
       : objective.text,
     resources: {...state.resources}, people, buildings, roster, arts, cultivationOrders,
+    openingInheritance: openingInheritanceView(state),
     construction: construction ? {buildingId:String(construction.building.id),operation:construction.operation,
       progress:construction.progress,stage:construction.stage,label:construction.label} : null,
     terrain: spatialTerrain(state).map(({id, kind, polygon}) => ({id, kind, polygon: polygon.map(point => [...point])})),

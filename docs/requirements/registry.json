@@ -4903,7 +4903,8 @@
         "docs/requirements/design/SR-XF-012-014-018-024-028-033.md",
         "docs/requirements/IMPLEMENTATION-2026-10-06.md",
         "docs/design/20-ARTS-GROWTH-COMBAT.md（物抗法抗、异常积累与同境平衡首稿；D01动作和敌人配置继续）",
-        "docs/design/31-ARTS-SAMPLE-COFORMATION-DIVINE.md（Y-201护撤与Y-144行动权的动作、反制和存读试算；三路及敌人配置继续）"
+        "docs/design/31-ARTS-SAMPLE-COFORMATION-DIVINE.md（Y-201护撤与Y-144行动权的动作、反制和存读试算；三路及敌人配置继续）",
+        "docs/design/33-ARTS-INITIAL-CALIBRATION.md（Y-001–067逐项反制校准；未实战定标）"
       ],
       "change_log": [
         {
@@ -4921,6 +4922,10 @@
         {
           "date": "2026-10-11",
           "reason": "补Y-201多人阵与Y-144神通动作过程试算；D01、动作定标、敌人配置和实机验证仍未完成。"
+        },
+        {
+          "date": "2026-10-11",
+          "reason": "Y-001–067逐项复评神通、复合技与失效条件；五套开局攻守仅接既有战斗预算，物抗法抗、异常与同境平衡仍待实现和实战验证。"
         }
       ],
       "tasks": [
@@ -5095,7 +5100,10 @@
         "docs/design/19-FIVE-CONTINENT-ARTS.md（四千九百种分类规划与云岫六十七种机制初稿；D01未完成）",
         "docs/design/20-ARTS-GROWTH-COMBAT.md（修炼收益、品质与抗性数值首稿；D01仍未完成）",
         "docs/design/29-ARTS-SAMPLE-QINGLAN-REALM-STOP.md（青岚与筑基止步心法的取得、供给和转修试算；D01仍未完成）",
-        "docs/design/30-ARTS-SAMPLE-LINEAGE-PERSONAL-ARRAY.md（跨境传承与个人阵的取得、供给和存读试算；D01仍未完成）"
+        "docs/design/30-ARTS-SAMPLE-LINEAGE-PERSONAL-ARRAY.md（跨境传承与个人阵的取得、供给和存读试算；D01仍未完成）",
+        "docs/design/32-OPENING-INHERITANCE.md（五选一开局局部实现；四条非青岚筑基续篇未通）",
+        "docs/design/33-ARTS-INITIAL-CALIBRATION.md（Y-001–067逐项品相与机制复评）",
+        "docs/design/28-FIVE-CONTINENT-ARTS-LEDGER.md（目录草稿更新至Y-347；运行实装另计）"
       ],
       "change_log": [
         {
@@ -5121,6 +5129,10 @@
         {
           "date": "2026-10-11",
           "reason": "补Y-001/041/068/107/007的完整评看样例；旧档映射、三路章节、筑基丹两条路径和定标仍缺，D01继续。"
+        },
+        {
+          "date": "2026-10-11",
+          "reason": "U-115五条入门线索接入新档疗伤、暂停、选法、攻守与存读；旧档保留。校准前67项后用三agent写至Y-347。四条非青岚筑基续篇、独立授业、同境平衡及完整SR验收继续待办。"
         }
       ],
       "tasks": [
