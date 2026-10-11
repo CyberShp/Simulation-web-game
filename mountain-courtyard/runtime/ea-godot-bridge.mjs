@@ -1,6 +1,7 @@
 /** Godot Web presentation bridge: SR-XF-002/003/007/030, U-101 and runtime §4–11. */
 import {initial, tick, dispatchCommand, validateSave, COMMAND_NAMES, appearanceView} from './ea-opening-sim.mjs';
-import {BUILDINGS, day} from './ea-data.mjs';
+import {BUILDINGS, day, stage} from './ea-data.mjs';
+import {facilitySlots} from './ea-facility-slots.mjs';
 import {scenicHomeActors, nextObjective} from './ea-scene-state.mjs';
 import {SPATIAL_SCENE, spatialTerrain, spatialRoom, spatialPrefab, spatialTransform, polygonContains, viewSpatial} from './ea-sr-spatial.mjs';
 import {artView, teachingQualificationSR} from './ea-sr-cultivation.mjs';
@@ -22,11 +23,14 @@ function projectBuilding(state, building, visualStage) {
   const prefab = spatialPrefab(building), position = spatialTransform(building);
   const operation = building.spatialLock && state.workOrdersById[building.spatialLock]?.operation;
   const hallPhase = state.story?.opening?.hallPhase || 'complete';
+  const established = state.buildings.includes(building);
   return {
     id: String(building.id), type: building.type,
     name: building.type === 'hall' ? hallPhase === 'shelter' ? '临时落脚处' : '山院主殿' : BUILDINGS[building.type].name,
     x: position.x, y: position.y, width: prefab.width, height: prefab.height,
     indoor: prefab.indoor, level: building.level, condition: building.condition,
+    capacity: established ? (BUILDINGS[building.type].capacity || 0) * building.level : 0,
+    workSlots: established ? facilitySlots(state, building, 'work').length : 0,
     stage: visualStage || (building.type === 'hall' && hallPhase === 'shelter' ? 'shelter' : operation === 'upgrade' ? 'upgrade' :
       building.type === 'hall' && state.spatial?.estateCollisionVersion === 'estate-gate-1' && building.condition < 100 ? 'damaged' :
       building.condition < 50 ? 'damaged' : 'complete'),
@@ -91,6 +95,7 @@ export function projectGodotWorld(state, selection = null) {
     resources: {...state.resources}, people, buildings, roster, arts, cultivationOrders,
     openingInheritance: openingInheritanceView(state),
     openingHallPhase: state.story?.opening?.hallPhase || 'complete',
+    estateStage: stage(state),
     construction: construction ? {buildingId:String(construction.building.id),operation:construction.operation,
       progress:construction.progress,stage:construction.stage,label:construction.label} : null,
     terrain: spatialTerrain(state).map(({id, kind, polygon}) => ({id, kind, polygon: polygon.map(point => [...point])})),
