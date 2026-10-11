@@ -1,0 +1,33 @@
+/* U-120: four true equipment slots and physical inventory details. */
+.system-inventory .profile-slot-weapon{right:3px;top:7%}
+.system-inventory .profile-slot-armor{left:3px;top:27%}
+.system-inventory .profile-slot-artifact{right:3px;top:49%}
+.system-inventory .profile-slot-accessory{left:3px;top:71%}
+.system-inventory .profile-body-portrait .system-portrait-large{width:150px;height:205px}
+.system-inventory .bag-grid{align-content:start;max-height:calc(100% - 178px);overflow:auto;padding:3px}
+.system-inventory .bag-slot{min-height:92px;aspect-ratio:auto;padding:7px 3px 5px}
+.system-inventory .bag-slot-icon svg{width:31px;height:31px}
+.system-inventory .bag-slot-name{max-width:100%;overflow:hidden;text-overflow:ellipsis}
+.system-inventory .bag-slot small{display:block;max-width:100%;margin-top:5px;padding:0 2px;color:#677862;font:10px/1.25 var(--font);text-align:center;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.system-inventory .bag-detail{display:block;overflow:auto}
+.system-inventory .bag-detail .people-facts{display:block;margin:17px 0}
+.system-inventory .bag-detail .people-facts>div{grid-template-columns:72px 1fr}
+.system-inventory .bag-detail .people-facts dd{overflow-wrap:anywhere}
+.system-inventory .bag-detail .bag-item-actions{display:flex;flex-direction:column;gap:8px;margin:15px 0}
+.system-inventory .bag-detail .bag-item-actions .game-button{white-space:normal}
+.system-inventory .bag-transfer{border-top:1px solid #b9c4a6;padding-top:14px}
+.system-inventory .bag-transfer>label{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:13px}
+.system-inventory .bag-transfer input{width:70px;border:1px solid #a5ad92;background:#f0edd6;padding:5px 7px;text-align:right}
+.system-inventory .bag-transfer>.game-button{width:100%;white-space:normal}
+.system-inventory .bag-orders{border-top:1px solid #b7c29f;margin-top:18px;padding-top:10px}
+.system-inventory .bag-orders h4{font:19px YunxiuBrush,var(--font);margin:0 0 7px}
+.system-inventory .bag-orders p{padding:7px 0;border-bottom:1px solid #c4caaa;line-height:1.5;font-size:12px}
+.system-inventory .bag-orders small{display:block;color:#777f69}
+@media(max-width:850px) and (orientation:portrait){
+  .system-inventory .bag-grid{max-height:450px}
+  .system-inventory .bag-detail{display:block}
+}
+@media(max-width:600px){
+  .system-inventory .bag-grid{max-height:none}
+  .system-inventory .bag-slot{min-height:83px}
+}

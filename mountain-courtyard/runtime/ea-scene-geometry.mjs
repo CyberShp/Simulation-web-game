@@ -1,7 +1,7 @@
-import {spatialEnabled,spatialPrefab,spatialTransform,spatialAccess,spatialFootprint,spatialRoom,spatialRevision,meterCanStand,meterSweep,meterNearest,meterFindPath,polygonContains} from './ea-sr-spatial.mjs';
-import {hallInterior} from './ea-hall-interior.mjs';
-import {CELLS} from './ea-data.mjs';
-import {WIDTH,HEIGHT,NODES,EDGES,LANDMARKS,distance,inPolygon,nearest} from './yunxiu-courtyard/navigation.mjs';
+import {spatialEnabled,spatialPrefab,spatialTransform,spatialAccess,spatialFootprint,spatialRoom,spatialRevision,meterCanStand,meterSweep,meterNearest,meterFindPath,polygonContains} from './ea-sr-spatial.mjs?v=6aa875f1c3b9';
+import {hallInterior} from './ea-hall-interior.mjs?v=6aa875f1c3b9';
+import {CELLS} from './ea-data.mjs?v=6aa875f1c3b9';
+import {WIDTH,HEIGHT,NODES,EDGES,LANDMARKS,distance,inPolygon,nearest} from './yunxiu-courtyard/navigation.mjs?v=6aa875f1c3b9';
 
 export const SCENE_GEOMETRY='plots-v1';
 export {WIDTH,HEIGHT,distance as scenicDistance};

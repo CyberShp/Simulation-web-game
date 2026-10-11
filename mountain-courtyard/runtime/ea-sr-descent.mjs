@@ -2,10 +2,10 @@
  * U-22/U-23/U-63/U-94; names, costs and windows below are author R/T defaults.
  * One persistent upper body, a separate finite avatar body, real lower positions and world ticks.
  */
-import {RESOURCES} from './ea-data.mjs';
-import {makeWorldPerson,avatarObservationPlanSR,recordFactSR,publishFactSR,WORLD_SCENES} from './ea-sr-world.mjs';
-import {recordPermanentDeathSR} from './ea-sr-crises.mjs';
-import {requirePerson,isLivingPerson,reserveBody,ownedActivity,releaseSRBody,spendResources,resourceSource} from './ea-sr-equipment.mjs';
+import {RESOURCES} from './ea-data.mjs?v=6aa875f1c3b9';
+import {makeWorldPerson,avatarObservationPlanSR,recordFactSR,publishFactSR,WORLD_SCENES} from './ea-sr-world.mjs?v=6aa875f1c3b9';
+import {recordPermanentDeathSR} from './ea-sr-crises.mjs?v=6aa875f1c3b9';
+import {requirePerson,isLivingPerson,reserveBody,ownedActivity,releaseSRBody,spendResources,resourceSource} from './ea-sr-equipment.mjs?v=6aa875f1c3b9';
 
 const MASTER='person:master',ENVOY='person:immortal:yunhe-envoy';
 const ORIGIN='scene:immortal-origin',SITE='scene:immortal-descent-outpost';

@@ -1,8 +1,8 @@
 /** Canonical identity tables. Legacy modules use non-serialized live adapters. */
-import {appearance} from './ea-scenic.mjs';
-import {RESOURCES} from './ea-data.mjs';
-import {hydratePillTotals} from './ea-sr-economy.mjs';
-import {ContractError,initContracts,validateContracts,SR_CONTENT_VERSION,SR_RULESET_VERSION} from './ea-sr-contracts.mjs';
+import {appearance} from './ea-scenic.mjs?v=6aa875f1c3b9';
+import {RESOURCES} from './ea-data.mjs?v=6aa875f1c3b9';
+import {hydratePillTotals} from './ea-sr-economy.mjs?v=6aa875f1c3b9';
+import {ContractError,initContracts,validateContracts,SR_CONTENT_VERSION,SR_RULESET_VERSION} from './ea-sr-contracts.mjs?v=6aa875f1c3b9';
 
 export const SCHEMA_VERSION=6;
 export const CONTENT_VERSION='opening-v1.2';

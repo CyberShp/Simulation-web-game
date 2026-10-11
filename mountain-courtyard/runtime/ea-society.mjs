@@ -1,14 +1,14 @@
-import {AUTONOMY_V2,npcScheduleDecision} from './ea-sr-persons.mjs';
-import {hallInteriorEnabled} from './ea-hall-interior.mjs';
-import {prepareFacilityActivity,releaseBodyActivity,contributeProduction} from './ea-facility-activities.mjs';
-import {sceneUnits} from './ea-sr-spatial.mjs';
-import {consumeHarvest,availablePills,ownAvailablePills,preparePillUse,consumeAccessiblePill} from './ea-sr-economy.mjs';
+import {AUTONOMY_V2,npcScheduleDecision} from './ea-sr-persons.mjs?v=6aa875f1c3b9';
+import {hallInteriorEnabled} from './ea-hall-interior.mjs?v=6aa875f1c3b9';
+import {prepareFacilityActivity,releaseBodyActivity,contributeProduction} from './ea-facility-activities.mjs?v=6aa875f1c3b9';
+import {sceneUnits} from './ea-sr-spatial.mjs?v=6aa875f1c3b9';
+import {consumeHarvest,availablePills,ownAvailablePills,preparePillUse,consumeAccessiblePill} from './ea-sr-economy.mjs?v=6aa875f1c3b9';
 import {BUILDINGS, TECHNIQUES, RECIPES, ROUTES, CELLS, RESOURCES, TRAIT_NAMES,
-  rng, day, log, pay, canPay, grant, capacity, xpNeed, clamp} from './ea-data.mjs';
+  rng, day, log, pay, canPay, grant, capacity, xpNeed, clamp} from './ea-data.mjs?v=6aa875f1c3b9';
 
-import {routeDiscovered} from './ea-scene-state.mjs';
-import {lifeFacility,lifeActivityLock,lifePath,lifeScenePath,actorScenePosition,personLifeSummary,workOpportunity,teachingPresent} from './ea-life.mjs';
-import {advanceScenic,repairScenicActor,validateScenic,SCENE_GEOMETRY,buildingAccess,scenicDistance,geometryRevision,syncScenicPosition} from './ea-scenic.mjs';
+import {routeDiscovered} from './ea-scene-state.mjs?v=6aa875f1c3b9';
+import {lifeFacility,lifeActivityLock,lifePath,lifeScenePath,actorScenePosition,personLifeSummary,workOpportunity,teachingPresent} from './ea-life.mjs?v=6aa875f1c3b9';
+import {advanceScenic,repairScenicActor,validateScenic,SCENE_GEOMETRY,buildingAccess,scenicDistance,geometryRevision,syncScenicPosition} from './ea-scenic.mjs?v=6aa875f1c3b9';
 
 /** Society owns every NPC action. The main loop owns time, meals, upkeep and the master's actions. */
 export const SOCIETY_ROLES = {
@@ -147,6 +147,16 @@ function syncPublicIncidents(s) {
 }
 function hiddenBook(s,d,id) {
   return !!d.mind.hiddenKnowledge[id]&&s.society.secrets.some(e=>e.id===d.mind.hiddenKnowledge[id]&&!e.discovered);
+}
+export function viewPublicDiscipleLearning(s,dOrId) {
+  const d=npc(s,dOrId);
+  if(!d)return null;
+  const p=d.mind;
+  const hidden=new Set(Object.keys(p.hiddenKnowledge).filter(id=>hiddenBook(s,d,id)));
+  return {
+    main:hidden.has(p.main)?p.publicMain:p.main,
+    knowledge:Object.fromEntries(Object.entries(p.knowledge).filter(([id])=>!hidden.has(id))),
+  };
 }
 function addSecret(s,d,kind,subject,motive) {
   const existing=s.society.secrets.find(e=>e.discipleId===d.id&&e.kind===kind&&!e.handled);

@@ -1,10 +1,10 @@
-import {artisanPresent} from './ea-rain-artisan.mjs';
-import {facilitySlotView} from './ea-facility-slots.mjs';
-import {productionOrder} from './ea-facility-activities.mjs';
-import {BUILDINGS,ROUTES,RESOURCES,stage} from './ea-data.mjs';
-import {scenicPoint,buildingAccess,buildingSize,buildingFootprint} from './ea-scene-geometry.mjs';
-import {lifeFacility} from './ea-life.mjs';
-import {recoveryObjective} from './ea-onboarding.mjs';
+import {artisanPresent} from './ea-rain-artisan.mjs?v=6aa875f1c3b9';
+import {facilitySlotView} from './ea-facility-slots.mjs?v=6aa875f1c3b9';
+import {productionOrder} from './ea-facility-activities.mjs?v=6aa875f1c3b9';
+import {BUILDINGS,ROUTES,RESOURCES,stage} from './ea-data.mjs?v=6aa875f1c3b9';
+import {scenicPoint,buildingAccess,buildingSize,buildingFootprint} from './ea-scene-geometry.mjs?v=6aa875f1c3b9';
+import {lifeFacility} from './ea-life.mjs?v=6aa875f1c3b9';
+import {recoveryObjective} from './ea-onboarding.mjs?v=6aa875f1c3b9';
 
 export const facilityActive=b=>!!b&&b.enabled!==false&&b.condition>0;
 export function facilityRecords(s){

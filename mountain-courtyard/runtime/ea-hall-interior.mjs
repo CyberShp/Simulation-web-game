@@ -1,4 +1,4 @@
-import {spatialEnabled,spatialRoom,spatialSlots} from './ea-sr-spatial.mjs';
+import {spatialEnabled,spatialRoom,spatialSlots} from './ea-sr-spatial.mjs?v=6aa875f1c3b9';
 /** A bounded first indoor prefab. Coordinates remain in the legacy scene plane.
  * This does not claim the complete metre/free-placement migration in spec 03. */
 export const HALL_INTERIOR_VERSION='hall-interior-1';

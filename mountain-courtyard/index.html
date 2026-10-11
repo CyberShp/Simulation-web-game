@@ -5,7 +5,10 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#17251f">
   <link rel="icon" href="data:,">
-  <link rel="stylesheet" href="game-ui.css">
+  <link rel="stylesheet" href="game-ui.css?v=6aa875f1c3b9">
+  <link rel="stylesheet" href="system-ui.css?v=6aa875f1c3b9">
+  <link rel="stylesheet" href="system-people.css?v=6aa875f1c3b9">
+  <link rel="stylesheet" href="system-inventory.css?v=6aa875f1c3b9">
   <title>余烬立山 · 云岫山院</title>
 
 </head>
@@ -15,18 +18,22 @@
     <div class="crest" aria-hidden="true"><span>岚</span></div>
     <div class="nameplate"><strong>余烬立山</strong><small>逃出生天 · 云岫山院</small></div>
     <div class="skyline"><span class="time" id="time">第 1 日</span><span class="season">云岫初春</span><span class="resources" id="resources"></span></div>
-    <nav class="rail" aria-label="山院功能">
-      <button class="rail-item" data-tab="home"><b aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M7 19 24 8l17 11M10 20v20h28V20M17 40V26h14v14M9 19h30M17 16V7h14v9"/></svg></b><span>山院</span></button>
-      <button class="rail-item" data-tab="disciples"><b aria-hidden="true"><svg viewBox="0 0 48 48"><circle cx="24" cy="14" r="7"/><path d="M14 40c0-10 2-17 10-17s10 7 10 17M8 42h32M17 26l-6 5m20-5 6 5"/></svg></b><span>门人</span></button>
-      <button class="rail-item" data-tab="arts"><b aria-hidden="true"><svg viewBox="0 0 48 48"><path d="m9 7 26 4 4 30-26-4zM9 7l-3 4 4 30 3-4M13 37l26 4M18 15l12 2m-14 6 15 2m-17 6 14 2"/></svg></b><span>功法</span></button>
-      <button class="rail-item" data-tab="archive"><b aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M18 15c-4-4-3-8-1-10 3 3 5 5 7 9 2-4 4-6 7-9 2 2 3 6-1 10M13 19c-5 8-5 19 11 22 16-3 16-14 11-22-5-3-17-3-22 0ZM16 24c6 3 10 3 16 0M24 18v19"/></svg></b><span>行囊</span></button>
+    <div class="system-shade" id="system-shade" hidden></div>
+    <button class="master-hud" data-tab="master" aria-label="查看掌门"><span id="master-hud-portrait"></span><span><strong id="master-hud-name"></strong><small id="master-hud-realm"></small></span></button>
+    <nav class="rail" id="system-nav" aria-label="宗门系统">
+      <button data-tab="disciples"><i data-icon="person"></i><b>门人</b><small>1</small></button>
+      <button data-tab="arts"><i data-icon="book"></i><b>功法</b><small>2</small></button>
+      <button data-tab="bag"><i data-icon="jade"></i><b>行囊</b><small>3</small></button>
+      <button data-tab="crafts"><i data-icon="cauldron"></i><b>百艺</b><small>4</small></button>
+      <button data-tab="tasks"><i data-icon="scroll"></i><b>任务</b><small>5</small></button>
+      <button data-tab="world"><i data-icon="mountain"></i><b>山外</b><small>6</small></button>
+      <button data-tab="sect"><i data-icon="flag"></i><b>宗务</b><small>7</small></button>
     </nav>
-    <section class="dossier" id="dossier" aria-label="当前卷册" hidden>
-      <button class="close" id="close-panel" aria-label="收起卷册">×</button>
-      <div class="dossier-inner">
-        <div class="dossier-header"><h2 id="panel-title">山院记事</h2></div>
-        <div id="panel-content"></div>
-      </div>
+    <button class="scene-tool" id="build-tool"><i data-icon="build"></i>营造</button>
+    <section class="dossier system-window" id="dossier" aria-label="宗门系统卷册" hidden>
+      <header class="window-head"><span class="title-flourish" aria-hidden="true">◇</span><h1 id="panel-title">门人</h1><i class="head-line" aria-hidden="true"></i><button class="close-window" id="close-panel" aria-label="返回山院">×</button></header>
+      <div id="panel-content"></div>
+      <footer class="window-foot"><span>云岫山院</span><i></i><span id="panel-feedback" role="status"></span><i></i><button data-tab="archive">存档</button><span>Esc 返回山院</span></footer>
     </section>
     <section class="dossier estate-panel" id="estate-panel" aria-label="山院卷册" hidden>
       <button class="close" id="close-estate-panel" aria-label="收起卷册">×</button>
@@ -47,9 +54,9 @@
   <script>window.__paintedGameMode = true;</script>
   <script src="index.js"></script>
   <script type="module">
-    import {bootGodotHost} from './runtime/ea-godot-host.mjs';
-    import {startEstateGameUI} from './game-ui.mjs?v=m1-herb-2';
-    const configuration={"args": [], "canvasResizePolicy": 2, "emscriptenPoolSize": 8, "ensureCrossOriginIsolationHeaders": true, "executable": "index", "experimentalVK": false, "fileSizes": {"index.wasm": 37700666, "scene-d20e93f46b74.pck": 31352248}, "focusCanvas": true, "gdextensionLibs": [], "godotPoolSize": 4, "mainPack": "scene-d20e93f46b74.pck"};
+    import {bootGodotHost} from './runtime/ea-godot-host.mjs?v=6aa875f1c3b9';
+    import {startEstateGameUI} from './game-ui.mjs?v=6aa875f1c3b9';
+    const configuration={"args": [], "canvasResizePolicy": 2, "emscriptenPoolSize": 8, "ensureCrossOriginIsolationHeaders": true, "executable": "index", "experimentalVK": false, "fileSizes": {"index.wasm": 37700666, "scene-5406c89be643.pck": 31352456}, "focusCanvas": true, "gdextensionLibs": [], "godotPoolSize": 4, "mainPack": "scene-5406c89be643.pck"};
     const loading=document.getElementById('loading'), progress=document.getElementById('progress');
     try {
       const missing=Engine.getMissingFeatures({threads:false});

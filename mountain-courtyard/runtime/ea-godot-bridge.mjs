@@ -1,12 +1,16 @@
 /** Godot Web presentation bridge: SR-XF-002/003/007/030, U-101 and runtime §4–11. */
-import {initial, tick, dispatchCommand, validateSave, COMMAND_NAMES, appearanceView} from './ea-opening-sim.mjs';
-import {BUILDINGS, day, stage} from './ea-data.mjs';
-import {facilitySlots} from './ea-facility-slots.mjs';
-import {scenicHomeActors, nextObjective} from './ea-scene-state.mjs';
-import {SPATIAL_SCENE, spatialTerrain, spatialRoom, spatialPrefab, spatialTransform, polygonContains, viewSpatial, sceneUnits} from './ea-sr-spatial.mjs';
-import {artView, teachingQualificationSR} from './ea-sr-cultivation.mjs';
-import {openingInheritanceView} from './ea-opening-inheritance.mjs';
-import {FARM_CROP_RECIPE} from './ea-sr-economy.mjs';
+import {initial, tick, dispatchCommand, validateSave, COMMAND_NAMES, appearanceView} from './ea-opening-sim.mjs?v=6aa875f1c3b9';
+import {BUILDINGS, day, stage, realmName, xpNeed} from './ea-data.mjs?v=6aa875f1c3b9';
+import {facilitySlots} from './ea-facility-slots.mjs?v=6aa875f1c3b9';
+import {scenicHomeActors, nextObjective} from './ea-scene-state.mjs?v=6aa875f1c3b9';
+import {SPATIAL_SCENE, spatialTerrain, spatialRoom, spatialPrefab, spatialTransform, polygonContains, viewSpatial, sceneUnits} from './ea-sr-spatial.mjs?v=6aa875f1c3b9';
+import {artView, teachingQualificationSR} from './ea-sr-cultivation.mjs?v=6aa875f1c3b9';
+import {openingInheritanceView} from './ea-opening-inheritance.mjs?v=6aa875f1c3b9';
+import {FARM_CROP_RECIPE, viewEconomy} from './ea-sr-economy.mjs?v=6aa875f1c3b9';
+import {viewPersons} from './ea-sr-persons.mjs?v=6aa875f1c3b9';
+import {personLifeSummary, workOpportunity} from './ea-life.mjs?v=6aa875f1c3b9';
+import {viewPublicDiscipleLearning} from './ea-society.mjs?v=6aa875f1c3b9';
+import {EQUIPMENT_SLOTS, viewEquipment, equipmentCombatBenefits} from './ea-sr-equipment.mjs?v=6aa875f1c3b9';
 
 const publicCommands = new Set(COMMAND_NAMES);
 const isRecord = value => value !== null && typeof value === 'object' && !Array.isArray(value);
@@ -101,6 +105,117 @@ function projectBuilding(state, building, visualStage) {
   };
 }
 
+function projectSystemPeople(state, equipment) {
+  const publicPersons = new Map(viewPersons(state).map(person => [person.personId, person]));
+  const societyPersons = new Map((state.society ? state.disciples : [])
+    .map(person => [person.id, viewPublicDiscipleLearning(state, person)]));
+  const peaks = new Map((state.society?.peaks || []).map(peak => [peak.id, peak]));
+  const equipmentItems = [...equipment.items, ...equipment.visibleNpcItems];
+  const workplaces = state.buildings.filter(building => BUILDINGS[building.type]?.work).map(building => {
+    const available = building.enabled !== false && building.condition > 0 && !building.spatialLock &&
+      facilitySlots(state, building, 'work').length > 0;
+    return {id: String(building.id), instanceId: building.instanceId, name: BUILDINGS[building.type].name,
+      type: building.type, available,
+      reason: available ? '' : building.spatialLock ? '设施正在施工或迁建。' :
+        building.enabled === false ? '设施已停用。' : building.condition <= 0 ? '设施需要修缮。' : '暂无可用工位。'};
+  });
+  const memberIds = new Set(state.homeMemberIds || []);
+  const persons = [state.master.personId, ...memberIds].map(id => state.personsById[id]).filter(Boolean).map(person => {
+    const id = person.personId, mind = person.mind || person, publicPerson = publicPersons.get(id);
+    const publicSociety = societyPersons.get(person.id);
+    const life = personLifeSummary(state, person);
+    const privateActivity = life.reason === '独处参悟，暂不愿详谈。';
+    const activity = state.activitiesById?.[person.activityId];
+    const activityOrder = state.srEquipment?.orders?.[activity?.orderId] ||
+      state.srCultivation?.orders?.[activity?.orderId] || state.workOrdersById?.[activity?.workOrderId];
+    const schedule = publicPerson?.schedule;
+    const peak = peaks.get(mind.peakId);
+    const equipmentSlots = Object.fromEntries(EQUIPMENT_SLOTS.map(slot => [slot, null]));
+    for (const item of equipmentItems) {
+      if (item.location?.kind === 'person' && item.location.id === id &&
+          EQUIPMENT_SLOTS.includes(item.location.slot)) equipmentSlots[item.location.slot] = item.id;
+    }
+    const mentorId = mind.mentorId;
+    const mentor = mentorId === 'master' ? state.master : state.disciples?.find(item => item.id === mentorId);
+    const relations = mentor && mentor.personId !== id ? [{personId: mentor.personId, name: mentor.name,
+      label: '师承', description: `${person.name}的师父`}] : [];
+    const workChoices = id === state.master.personId ? [] : workplaces.map(place => {
+      const building = state.buildingsById[place.instanceId];
+      // Full path and commitment checks belong to the invitation command. A
+      // dense roster must not run a path search for every person and workplace
+      // on every visual snapshot.
+      const choice = workOpportunity(state, person, building || place.id, {checkPath:false});
+      return {id: place.id, instanceId: place.instanceId, name: place.name,
+        available: choice.available,
+        reason: choice.available ? '可发出邀约；本人将在实际条件下答复。' : choice.reason};
+    });
+    return {
+      id, name: person.name, role: id === state.master.personId ? 'master' : 'disciple',
+      appearance: publicPerson?.appearance?.spriteIndex ?? appearanceView(state, id).spriteIndex,
+      action: publicPerson?.appearance?.action ?? appearanceView(state, id).action,
+      ...(id === state.master.personId ? {controlMode: state.masterControl?.mode || 'manual'} : {}),
+      realm: person.realm, realmLabel: realmName(person.realm), xp: person.xp, xpNeed: xpNeed(person.realm),
+      root: person.root ?? null, energy: person.energy, wound: person.wound,
+      status: person.lifeStatus || person.life?.status || 'alive', satiety: mind.satiety ?? null,
+      atHome: atHome(person) && !person.journey && !mind.away,
+      peak: peak ? {id: peak.id, name: peak.name} : null,
+      office: publicPerson?.office || null,
+      mainArtId: publicSociety?.main ?? (id === state.master.personId ? mind.main || null : null),
+      arts: id === state.master.personId ? Object.entries(person.artsById || {})
+        .filter(([, value]) => value?.understanding > 0 || value?.mastery > 0)
+        .map(([artId, value]) => ({id: artId, understanding: value.understanding || 0, mastery: value.mastery || 0})) :
+        Object.entries(publicSociety?.knowledge || {}).filter(([, value]) => value > 0)
+          .map(([artId, value]) => ({id: artId, understanding: value, mastery: null})),
+      currentActivity: {id: activity?.id || null, kind: life.activity, label: life.label,
+        phase: privateActivity ? life.status : activity?.phase || life.status, reason: life.reason,
+        progressTicks: privateActivity ? null : activity?.progressTicks ?? activityOrder?.progressTicks ?? null,
+        durationTicks: privateActivity ? null : activity?.durationTicks ?? activityOrder?.durationTicks ?? null},
+      schedule: schedule ? {phase: schedule.phase, reason: privateActivity ? life.reason : schedule.reason,
+        commitUntilTick: schedule.commitUntilTick ?? null,
+        invitations: Object.entries(person.schedule?.invitations || {}).filter(([key]) => key.startsWith('work:'))
+          .map(([key, result]) => ({targetId: key.slice(5), accepted: !!result.accepted,
+            available: !!result.available, atTick: result.atTick ?? null,
+            reason: result.publicReason || '', retryAfterTick: result.retryAfterTick ?? null}))} : null,
+      relations, equipmentSlots, equipmentEffects: equipmentCombatBenefits(state, id), workChoices,
+    };
+  });
+  return {persons, workplaces};
+}
+
+function projectInventory(state, equipment) {
+  const economy = viewEconomy(state);
+  const visibleStockpiles = new Set((economy.stockpiles || []).map(stockpile => stockpile.id));
+  const equipmentItems = new Map([...equipment.items, ...equipment.visibleNpcItems]
+    .map(item => [item.id, item]));
+  const equipmentDefinitions = ['guard', 'heal', 'reach', 'node', 'themeRole'];
+  return {
+    slots: [...EQUIPMENT_SLOTS],
+    equipment: [...equipmentItems.values()].map(item => {
+      const definition = item.definition;
+      return {id: item.id, definitionId: item.definitionId, name: definition.name,
+        slot: definition.slot, condition: item.condition, ownerId: item.ownerId,
+        location: {...item.location}, loan: item.loan ? {borrowerId: item.loan.borrowerId,
+          dueTick: item.loan.dueTick, status: item.loan.status} : null,
+        quality: definition.quality, realm: definition.realm, weight: definition.weight,
+        effects: Object.fromEntries(equipmentDefinitions.filter(key => definition[key] !== undefined)
+          .map(key => [key, definition[key]])), description: definition.description || null};
+    }),
+    equipmentOrders: equipment.orders.map(order => ({id: order.id, operation: order.operation,
+      phase: order.phase, personId: order.personId, itemId: order.parameters?.itemId || null,
+      progressTicks: order.progressTicks, durationTicks: order.durationTicks,
+      reason: order.reason || ''})),
+    stockpiles: (economy.stockpiles || []).map(stockpile => ({id: stockpile.id,
+      label: stockpile.label, ownerId: stockpile.ownerId, access: stockpile.access,
+      position: stockpile.position, resources: stockpile.resources, pills: stockpile.pills,
+      orderReserved: stockpile.orderReserved})),
+    summary: economy.inventorySummary || [], pillAccess: economy.pillAccess || [],
+    transports: (economy.transports || []).filter(order => visibleStockpiles.has(order.sourceStockpileId) &&
+      visibleStockpiles.has(order.targetStockpileId)).map(order => ({id: order.id, phase: order.phase,
+      carrierId: order.carrierId, sourceStockpileId: order.sourceStockpileId,
+      targetStockpileId: order.targetStockpileId, cargo: order.cargo, reason: order.reason || ''})),
+  };
+}
+
 /** Copy public courtyard facts. Foot positions and room floors decide indoor visibility. */
 export function projectGodotWorld(state, selection = null, sites = null) {
   const rooms = state.buildings.map(spatialRoom).filter(Boolean);
@@ -127,15 +242,18 @@ export function projectGodotWorld(state, selection = null, sites = null) {
   const roster = [state.master.personId, ...memberIds].map(id => state.personsById[id]).filter(Boolean).map(person => {
     const appearance = appearanceView(state, person.personId);
     const mind = person.mind || person;
+    const publicLearning = person === state.master || !state.society ? null : viewPublicDiscipleLearning(state, person);
     return {
       id: person.personId, name: person.name, role: person === state.master ? 'master' : 'disciple',
       appearance: appearance.spriteIndex,
       realm: person.realm, root: person.root, energy: person.energy, wound: person.wound,
       action: appearance.action, atHome: atHome(person) && !person.journey && !mind.away,
       ...(person === state.master ? {controlMode: state.masterControl?.mode || 'manual'} : {}),
-      mainArtId: mind.main || null,
-      arts: Object.entries(person.artsById || {}).filter(([, value]) => value?.understanding > 0 || value?.mastery > 0)
-        .map(([id, value]) => ({id, understanding: value.understanding || 0, mastery: value.mastery || 0})),
+      mainArtId: publicLearning ? publicLearning.main : mind.main || null,
+      arts: publicLearning ? Object.entries(publicLearning.knowledge).filter(([, value]) => value > 0)
+        .map(([id, value]) => ({id, understanding: value, mastery: null})) :
+        Object.entries(person.artsById || {}).filter(([, value]) => value?.understanding > 0 || value?.mastery > 0)
+          .map(([id, value]) => ({id, understanding: value.understanding || 0, mastery: value.mastery || 0})),
     };
   });
   const arts = artView(state).map(art => ({
@@ -149,6 +267,9 @@ export function projectGodotWorld(state, selection = null, sites = null) {
       artId: order.parameters.artId || order.parameters.to || null,
       studentId: order.parameters.studentId || null,
     }));
+  const equipment = viewEquipment(state);
+  const systemPeople = projectSystemPeople(state, equipment);
+  const inventory = projectInventory(state, equipment);
   const snapshot = {
     version: 1, tick: state.worldTick, revision: state.revision, nextCommandId: state.transactions.nextCommandId, paused: state.speed === 0,
     width: SPATIAL_SCENE.width, height: SPATIAL_SCENE.height, sceneId: SPATIAL_SCENE.id,
@@ -157,6 +278,7 @@ export function projectGodotWorld(state, selection = null, sites = null) {
       ? `${state.master.name}携家传逃至云岫山院，先在落脚处养伤。${objective.text}`
       : objective.text,
     resources: {...state.resources}, people, buildings, roster, arts, cultivationOrders,
+    systemPeople, inventory,
     openingInheritance: openingInheritanceView(state),
     openingStory: projectOpeningStory(state),
     openingHallPhase: state.story?.opening?.hallPhase || 'complete',

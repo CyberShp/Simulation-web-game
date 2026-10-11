@@ -1,9 +1,9 @@
-import {productionAvailability,productionInputAvailable,FARM_CROP_RECIPE,PRODUCTION_RECIPE_VERSION,productionRecipeDefinition} from './ea-sr-economy.mjs';
+import {productionAvailability,productionInputAvailable,FARM_CROP_RECIPE,PRODUCTION_RECIPE_VERSION,productionRecipeDefinition} from './ea-sr-economy.mjs?v=6aa875f1c3b9';
 const units=(s,pixels)=>s.spatial?.version==='spatial-metres-1'?pixels/32:pixels;
-import {hallInteriorEnabled} from './ea-hall-interior.mjs';
-import {facilitySlots,slotById} from './ea-facility-slots.mjs';
-import {BUILDINGS, TECHNIQUES, RESOURCES, CELLS, canPay, xpNeed} from './ea-data.mjs';
-import {buildingAccess,scenicFindPath,scenicDistance,scenicSweep,geometryRevision} from './ea-scene-geometry.mjs';
+import {hallInteriorEnabled} from './ea-hall-interior.mjs?v=6aa875f1c3b9';
+import {facilitySlots,slotById} from './ea-facility-slots.mjs?v=6aa875f1c3b9';
+import {BUILDINGS, TECHNIQUES, RESOURCES, CELLS, canPay, xpNeed} from './ea-data.mjs?v=6aa875f1c3b9';
+import {buildingAccess,scenicFindPath,scenicDistance,scenicSweep,geometryRevision} from './ea-scene-geometry.mjs?v=6aa875f1c3b9';
 
 // Read-only projections. These never schedule an NPC, spend resources or reveal a private manual.
 export const lifeBuildingActive = b => !!b && !b.disabled && b.enabled!==false && (b.condition??100)>0;

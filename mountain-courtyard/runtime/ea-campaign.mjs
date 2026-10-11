@@ -1,9 +1,9 @@
-import { rng, day, log, pay, canPay, grant, capacity } from './ea-data.mjs';
-import { EXPEDITIONS as LEGACY_ROUTES } from './world.mjs';
-import { combatField, combatGeometryId, combatCanStand, combatClearLine, combatPath, moveCombatActor, dodgeEndpoint } from './ea-combat-geometry.mjs';
-import { appearance } from './ea-scenic.mjs';
-import {beginCombatSession,endCombatSession,initSRCombat,projectedCombatHp,setCombatActorHp,syncCombatBodyProjection} from './ea-sr-combat.mjs';
-import {openingCombatProfile} from './ea-opening-inheritance.mjs';
+import { rng, day, log, pay, canPay, grant, capacity } from './ea-data.mjs?v=6aa875f1c3b9';
+import { EXPEDITIONS as LEGACY_ROUTES } from './world.mjs?v=6aa875f1c3b9';
+import { combatField, combatGeometryId, combatCanStand, combatClearLine, combatPath, moveCombatActor, dodgeEndpoint } from './ea-combat-geometry.mjs?v=6aa875f1c3b9';
+import { appearance } from './ea-scenic.mjs?v=6aa875f1c3b9';
+import {beginCombatSession,endCombatSession,initSRCombat,projectedCombatHp,setCombatActorHp,syncCombatBodyProjection} from './ea-sr-combat.mjs?v=6aa875f1c3b9';
+import {openingCombatProfile} from './ea-opening-inheritance.mjs?v=6aa875f1c3b9';
 
 // Campaign state is deliberately plain data. Every choice, weather roll and reward
 // is committed to the save before the next tick; loading never repeats a roll.
