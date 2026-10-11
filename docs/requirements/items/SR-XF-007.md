@@ -145,6 +145,9 @@ SR-XF-007-V01证据：qa/ea-courtyard-rest-render-acceptance.mjs；tests/ea-rest
 - docs/art/PAINTED-COURTYARD-2026-10-09.md
 - godot/estate_2d/estate.gd
 - 2026-10-11 U-118 局部：Godot 2D 图集按逻辑米位移推进；隔离 Chromium 行走五秒窗口观测每秒切换 9–11 帧，实际目标设备与三人以上辨识仍待验，AC 状态不变。
+- godot/painted_courtyard/actor_2d.gd
+- qa/painted-actor-check.gd
+- 2026-10-11 U-118 转向校准：人物动作 45／45，行走跨越转向时持续使用行走帧；本地 Chromium 行走中站立转身帧 0。角色辨识与目标设备 AC 状态不变。
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
@@ -167,5 +170,6 @@ SR-XF-007-V01证据：qa/ea-courtyard-rest-render-acceptance.mjs；tests/ea-rest
 - 2026-10-09：U-104：用户明确停止3D模型路线以控制制作工作量和网页性能预算。保留U-103试验工程及历史证据；Godot/Web方向保持，Godot 2D绘画素材与二维动画候选方案待确认。此次只同步约束，运行代码及完整SR/AC状态不变。
 - 2026-10-09：U-104用户确认Godot 2D制作；绘画小院本地构建与WebKit鼠标操作、三视口DPR1局部复核完成。暂停出殿/双指锚点/拖动输入修复，最终拖动实点通过；人物辨识、动作观感、用户美术认可、殿后完整浏览器遮挡、真机/DPR2/真实触摸继续。正式SR/AC状态保持，未发布。证据 docs/art/PAINTED-COURTYARD-2026-10-09.md。
 - 2026-10-11：2026-10-11 U-118 局部：Godot 2D 图集按逻辑米位移推进；隔离 Chromium 行走五秒窗口观测每秒切换 9–11 帧，实际目标设备与三人以上辨识仍待验，AC 状态不变。
+- 2026-10-11：2026-10-11 U-118 转向校准：人物动作 45／45，行走跨越转向时持续使用行走帧；本地 Chromium 行走中站立转身帧 0。角色辨识与目标设备 AC 状态不变。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。

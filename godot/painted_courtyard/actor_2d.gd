@@ -230,11 +230,11 @@ func _update_frame() -> void:
 	if _working:
 		animation = "work"
 		column = int(_work_phase * _clip_size(animation))
+	elif _moving or _settling:
+		column = int(_phase * _clip_size(animation))
 	elif _turning and _animations.has("turn_rest"):
 		animation = "turn_rest"
 		column = _turn_column()
-	elif _moving or _settling:
-		column = int(_phase * _clip_size(animation))
 	elif _animations.has("turn_rest"):
 		animation = "turn_rest"
 		# Authored stable poses: front-right 0, side 2, back-right 4.

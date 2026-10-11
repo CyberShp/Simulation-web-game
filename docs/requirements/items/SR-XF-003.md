@@ -153,6 +153,8 @@ SR-XF-003-V01证据：qa/ea-indoor-furniture-acceptance.mjs；qa/ea-courtyard-li
 - godot/estate_2d/estate.gd
 - tests/ea-godot-bridge.test.mjs
 - 2026-10-11 U-118 局部：米制山院自由行走约 3.16 米／秒；qa/ea-sr-spatial-acceptance.mjs 36／36，tests/ea-godot-bridge.test.mjs 的步速与存读用例通过；隔离 Chromium 连续五秒行走及暂停重载见 STATUS。完整七区与目标设备 AC 继续按原门槛。
+- qa/estate-motion-check.gd
+- 2026-10-11 U-118 转向校准：Godot 路径交界 4／4；本地 Chromium 两段路线及中途改道累计 5 次转向，行走中站立转身帧 0、移动停帧最长 0 毫秒；暂停存读一致。完整地域及目标设备 AC 状态不变。
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
@@ -182,5 +184,6 @@ SR-XF-003-V01证据：qa/ea-indoor-furniture-acceptance.mjs；qa/ea-courtyard-li
 - 2026-10-09：2026-10-09 U-105 / R-32：当前需求更新为 1.2，山域设计关联 GROWTH-01、GROWTH-02、GROWTH-09、GROWTH-10。旧版 1.1 的标题、需求、AC原文/证据及D/I任务完成范围保存在 registry.json 的 version_history；当前重新记 not_run：SR-XF-003-AC-03。 当前D01继续补实施参数，D02及本版本I01待前置完成；development_status保留既有运行实现基线。未改变的已通过AC只沿用原行为及原运行环境证据，新增地域、布局与迁移流程按GROWTH另验。本批未执行运行时验收，未修改正式运行版本或发布状态。
 - 2026-10-10：U-109 第一批本地预览：旧别院 3D 地形、镜头、建筑与地块点选已形成局部网页预览；装饰地标与人物导航体积碰撞仍待逐一对齐。此为局部证据，不提升完整 AC/SR 状态。
 - 2026-10-11：2026-10-11 U-118 局部：米制山院自由行走约 3.16 米／秒；qa/ea-sr-spatial-acceptance.mjs 36／36，tests/ea-godot-bridge.test.mjs 的步速与存读用例通过；隔离 Chromium 连续五秒行走及暂停重载见 STATUS。完整七区与目标设备 AC 继续按原门槛。
+- 2026-10-11：2026-10-11 U-118 转向校准：Godot 路径交界 4／4；本地 Chromium 两段路线及中途改道累计 5 次转向，行走中站立转身帧 0、移动停帧最长 0 毫秒；暂停存读一致。完整地域及目标设备 AC 状态不变。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。

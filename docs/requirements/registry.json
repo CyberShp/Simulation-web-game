@@ -964,7 +964,9 @@
         "docs/design/STATUS.md；2026-10-10 U-109 旧别院 3D 本地预览局部网页证据；完整 AC 状态不变。",
         "godot/estate_2d/estate.gd",
         "tests/ea-godot-bridge.test.mjs",
-        "2026-10-11 U-118 局部：米制山院自由行走约 3.16 米／秒；qa/ea-sr-spatial-acceptance.mjs 36／36，tests/ea-godot-bridge.test.mjs 的步速与存读用例通过；隔离 Chromium 连续五秒行走及暂停重载见 STATUS。完整七区与目标设备 AC 继续按原门槛。"
+        "2026-10-11 U-118 局部：米制山院自由行走约 3.16 米／秒；qa/ea-sr-spatial-acceptance.mjs 36／36，tests/ea-godot-bridge.test.mjs 的步速与存读用例通过；隔离 Chromium 连续五秒行走及暂停重载见 STATUS。完整七区与目标设备 AC 继续按原门槛。",
+        "qa/estate-motion-check.gd",
+        "2026-10-11 U-118 转向校准：Godot 路径交界 4／4；本地 Chromium 两段路线及中途改道累计 5 次转向，行走中站立转身帧 0、移动停帧最长 0 毫秒；暂停存读一致。完整地域及目标设备 AC 状态不变。"
       ],
       "change_log": [
         {
@@ -1078,6 +1080,10 @@
         {
           "date": "2026-10-11",
           "reason": "2026-10-11 U-118 局部：米制山院自由行走约 3.16 米／秒；qa/ea-sr-spatial-acceptance.mjs 36／36，tests/ea-godot-bridge.test.mjs 的步速与存读用例通过；隔离 Chromium 连续五秒行走及暂停重载见 STATUS。完整七区与目标设备 AC 继续按原门槛。"
+        },
+        {
+          "date": "2026-10-11",
+          "reason": "2026-10-11 U-118 转向校准：Godot 路径交界 4／4；本地 Chromium 两段路线及中途改道累计 5 次转向，行走中站立转身帧 0、移动停帧最长 0 毫秒；暂停存读一致。完整地域及目标设备 AC 状态不变。"
         }
       ],
       "tasks": [
@@ -3047,7 +3053,10 @@
         "tools/build-art-web.py",
         "docs/art/PAINTED-COURTYARD-2026-10-09.md",
         "godot/estate_2d/estate.gd",
-        "2026-10-11 U-118 局部：Godot 2D 图集按逻辑米位移推进；隔离 Chromium 行走五秒窗口观测每秒切换 9–11 帧，实际目标设备与三人以上辨识仍待验，AC 状态不变。"
+        "2026-10-11 U-118 局部：Godot 2D 图集按逻辑米位移推进；隔离 Chromium 行走五秒窗口观测每秒切换 9–11 帧，实际目标设备与三人以上辨识仍待验，AC 状态不变。",
+        "godot/painted_courtyard/actor_2d.gd",
+        "qa/painted-actor-check.gd",
+        "2026-10-11 U-118 转向校准：人物动作 45／45，行走跨越转向时持续使用行走帧；本地 Chromium 行走中站立转身帧 0。角色辨识与目标设备 AC 状态不变。"
       ],
       "change_log": [
         {
@@ -3133,6 +3142,10 @@
         {
           "date": "2026-10-11",
           "reason": "2026-10-11 U-118 局部：Godot 2D 图集按逻辑米位移推进；隔离 Chromium 行走五秒窗口观测每秒切换 9–11 帧，实际目标设备与三人以上辨识仍待验，AC 状态不变。"
+        },
+        {
+          "date": "2026-10-11",
+          "reason": "2026-10-11 U-118 转向校准：人物动作 45／45，行走跨越转向时持续使用行走帧；本地 Chromium 行走中站立转身帧 0。角色辨识与目标设备 AC 状态不变。"
         }
       ],
       "tasks": [

@@ -24,13 +24,17 @@ var actor_samples: Dictionary = {}
 var state: Dictionary = {}
 var snapshot_tick := -1
 var render_tick := -1.0
-var poll_elapsed := 0.0
 var last_snapshot_json := ""
 var qa_motion_enabled := false
 var qa_motion_elapsed := 0.0
 var qa_motion_distance := 0.0
 var qa_frame_changes := 0
 var qa_last_frame := -1
+var qa_turn_rest_frames := 0
+var qa_total_turns := 0
+var qa_last_direction := Vector2.ZERO
+var qa_current_hold := 0.0
+var qa_max_hold := 0.0
 var camera: Camera2D
 var sorted: Node2D
 var shadows: Node2D
@@ -218,6 +222,7 @@ func _new_actor(id: String, master: bool, position: Vector2) -> Node2D:
 	var actor := ACTOR.new() as Node2D
 	actor.name = "Person_" + id.replace(":", "_")
 	actor.visual_height = 65.0
+	actor.turn_speed = 36.0
 	sorted.add_child(actor)
 	actor.setup(master)
 	actor.position = position
@@ -252,6 +257,7 @@ func _sync_people(view: Dictionary) -> void:
 			while samples.size() > 2 and float(samples[1].tick) < render_tick - 1.0:
 				samples.remove_at(0)
 		actors[id].set_meta("activity", str(person.get("activity", "")))
+		actors[id].set_meta("still_walking", bool(person.get("moving", false)))
 	for id in actors.keys():
 		if not live.has(id):
 			actors[id].queue_free()
@@ -259,19 +265,22 @@ func _sync_people(view: Dictionary) -> void:
 			actor_samples.erase(id)
 	snapshot_tick = tick
 
-func _actor_pose(samples: Array) -> Dictionary:
+func _actor_pose(samples: Array, still_walking: bool) -> Dictionary:
 	var first: Dictionary = samples[0]
-	if render_tick <= float(first.tick):
+	if render_tick < float(first.tick):
 		return {"position": first.position, "moving": false, "direction": Vector2.ZERO}
 	for index in range(1, samples.size()):
 		var before: Dictionary = samples[index - 1]
 		var after: Dictionary = samples[index]
-		if render_tick <= float(after.tick):
+		if render_tick < float(after.tick):
 			var direction: Vector2 = after.position - before.position
 			var fraction := clampf((render_tick - float(before.tick)) / maxf(float(after.tick) - float(before.tick), 1.0), 0.0, 1.0)
 			return {"position": before.position.lerp(after.position, fraction), "moving": direction.length() > 0.01, "direction": direction}
 	var last: Dictionary = samples.back()
-	return {"position": last.position, "moving": false, "direction": Vector2.ZERO}
+	var last_direction := Vector2.ZERO
+	if samples.size() > 1:
+		last_direction = last.position - samples[samples.size() - 2].position
+	return {"position": last.position, "moving": still_walking and last_direction.length() > 0.01, "direction": last_direction}
 
 func _sync_state() -> void:
 	if not OS.has_feature("web"):
@@ -295,16 +304,13 @@ func _sync_state() -> void:
 		package_scene.hide_choice()
 
 func _process(delta: float) -> void:
-	poll_elapsed += delta
-	if poll_elapsed >= 0.05:
-		poll_elapsed = 0.0
-		_sync_state()
+	_sync_state()
 	var paused := bool(state.get("paused", false)) or backgrounded
 	if not paused and snapshot_tick >= 0:
 		render_tick = minf(render_tick + minf(delta, 0.25) * TICKS_PER_SECOND, float(snapshot_tick))
 	for id in actors.keys():
 		var actor: Node2D = actors[id]
-		var pose := _actor_pose(actor_samples[id])
+		var pose := _actor_pose(actor_samples[id], bool(actor.get_meta("still_walking", false)))
 		if not paused:
 			var world_distance: float = _to_world(actor.position).distance_to(_to_world(pose.position))
 			actor.position = pose.position
@@ -314,19 +320,33 @@ func _process(delta: float) -> void:
 			actor.set_motion(pose.moving, str(actor.get_meta("activity", "")) == "work", delta)
 			if qa_motion_enabled and id == str(state.get("masterId", "person:master")):
 				qa_motion_distance += world_distance
+				if pose.moving and world_distance < 0.0001:
+					qa_current_hold += delta
+					qa_max_hold = maxf(qa_max_hold, qa_current_hold)
+				else:
+					qa_current_hold = 0.0
 				var frame_index := int(actor.get("_displayed_index"))
 				if qa_last_frame >= 0 and frame_index != qa_last_frame:
 					qa_frame_changes += 1
 				qa_last_frame = frame_index
+				if pose.moving and str(actor.get("_displayed_animation")) == "turn_rest":
+					qa_turn_rest_frames += 1
+				if pose.moving and pose.direction.length_squared() > 0.01:
+					var direction: Vector2 = pose.direction.normalized()
+					if qa_last_direction.length_squared() > 0.01 and qa_last_direction.dot(direction) < 0.92:
+						qa_total_turns += 1
+					qa_last_direction = direction
 		actor.set_process(not paused)
 	if qa_motion_enabled:
 		qa_motion_elapsed += delta
 		if qa_motion_elapsed >= 1.0:
-			var stats := {"fps": Engine.get_frames_per_second(), "masterMetres": qa_motion_distance, "walkFrameChanges": qa_frame_changes}
+			var stats := {"fps": Engine.get_frames_per_second(), "masterMetres": qa_motion_distance, "walkFrameChanges": qa_frame_changes, "turnRestDuringMove": qa_turn_rest_frames, "totalTurns": qa_total_turns, "maxMovingHoldMs": roundi(qa_max_hold * 1000.0)}
 			JavaScriptBridge.eval("window.xianfuSceneStats = " + JSON.stringify(stats), true)
 			qa_motion_elapsed = 0.0
 			qa_motion_distance = 0.0
 			qa_frame_changes = 0
+			qa_turn_rest_frames = 0
+			qa_max_hold = 0.0
 	if selected_kind == "person" and actors.has(selected_id):
 		queue_redraw()
 
