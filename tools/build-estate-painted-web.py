@@ -101,15 +101,25 @@ progressive_web_app/enabled=false
         configuration['mainPack'] = pack_name
         sizes = configuration.get('fileSizes', {})
         sizes[pack_name] = sizes.pop(args.output.stem + '.pck', (exported / pack_name).stat().st_size)
+        pack_bytes = (exported / pack_name).read_bytes()
+        parts = []
+        for index, offset in enumerate(range(0, len(pack_bytes), 16 * 1024 * 1024)):
+            chunk = pack_bytes[offset:offset + 16 * 1024 * 1024]
+            name = f'{pack_name}.part{index}'
+            (exported / name).write_bytes(chunk)
+            parts.append({'url': name, 'byteLength': len(chunk), 'sha256': hashlib.sha256(chunk).hexdigest()})
+        configuration['scenePack'] = {'byteLength': len(pack_bytes), 'sha256': hashlib.sha256(pack_bytes).hexdigest(), 'parts': parts}
+        (exported / pack_name).unlink()
         html = html[:match.start(1)] + json.dumps(configuration, ensure_ascii=False) + html[match.end(1):]
         html_path.write_text('\n'.join(line.rstrip() for line in html.splitlines()).rstrip() + '\n', encoding='utf-8')
         for artifact in exported.iterdir():
             shutil.copy2(artifact, args.output.parent / artifact.name)
-        for obsolete_pack in args.output.parent.glob('scene-*.pck'):
-            if obsolete_pack.name != pack_name:
+        part_names = {part['url'] for part in parts}
+        for obsolete_pack in args.output.parent.glob('scene-*.pck*'):
+            if obsolete_pack.name not in part_names:
                 obsolete_pack.unlink()
         web = ROOT / 'godot/estate_3d/web'
-        for name in ['game-ui.css', 'game-ui.mjs', 'base-ui.mjs',
+        for name in ['game-ui.css', 'game-ui.mjs', 'base-ui.mjs', 'scene-pack-loader.mjs',
                      'system-ui.css', 'system-ui-helpers.mjs',
                      'system-people.mjs', 'system-people.css',
                      'system-crafting.mjs', 'system-crafting.css', 'alchemy-cauldron.png',
@@ -155,7 +165,7 @@ progressive_web_app/enabled=false
                  for file in args.output.parent.rglob('*') if file.is_file() and file.name != 'build.json'}
         (args.output.parent / 'build.json').write_text(json.dumps({
             'build': 'yunxiu-mountain-courtyard-v1', 'godot': version, 'mainPack': pack_name,
-            'files': files}, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+            'scenePack': configuration['scenePack'], 'files': files}, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
         print(f'Packaged {len(copied)} shared-rule modules for the estate preview', flush=True)
     print(f'Mountain courtyard preview: {args.output.resolve()}')
 

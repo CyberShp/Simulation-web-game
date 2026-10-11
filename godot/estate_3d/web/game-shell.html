@@ -62,6 +62,7 @@
   <script type="module">
     import {bootGodotHost} from './runtime/ea-godot-host.mjs';
     import {startEstateGameUI} from './game-ui.mjs?v=u120-live-1';
+    import {installScenePackLoader} from './scene-pack-loader.mjs';
     const configuration=$GODOT_CONFIG;
     const loading=document.getElementById('loading'), progress=document.getElementById('progress');
     try {
@@ -71,6 +72,7 @@
       const host=await bootGodotHost({preview:'estate-game',siteLayout});
       startEstateGameUI(host,siteLayout);
       const engine=new Engine(configuration);
+      installScenePackLoader(engine,configuration,(current,total)=>{progress.max=total;progress.value=current});
       await engine.startGame({canvas:document.getElementById('canvas'),onProgress(current,total){if(total>0){progress.max=total;progress.value=current}}});
       loading.hidden=true;
       host.start();

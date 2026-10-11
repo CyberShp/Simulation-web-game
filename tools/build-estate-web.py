@@ -106,7 +106,7 @@ progressive_web_app/enabled=false
                      'system-people.mjs', 'system-people.css',
                      'system-crafting.mjs', 'system-crafting.css', 'alchemy-cauldron.png',
                      'system-sect.mjs', 'system-sect.css',
-                     'system-world.mjs', 'system-world.css', 'battle-ui.mjs', 'battle-ui.css',
+                     'system-world.mjs', 'system-world.css', 'battle-ui.mjs', 'battle-ui.css', 'scene-pack-loader.mjs',
                      'system-inventory.mjs', 'system-inventory.css', 'plaque-frame.svg',
                      'scroll-panel.svg', 'crest.svg', 'title-painted.png', 'topbar-painted.png',
                      'rail-painted.png', 'scroll-painted.png', 'manual-painted.png',
