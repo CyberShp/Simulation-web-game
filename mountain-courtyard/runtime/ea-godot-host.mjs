@@ -16,6 +16,7 @@ export async function bootGodotHost({preview = 'godot-preview', siteLayout = nul
   let running = false, changed = false, frame = 0, lastSave = 0, parked = null, recoveryOnly = false, archiveRecovery = false;
   let message = '点地面行走 · 点人物或建筑查看 · 拖动与滚轮调整视野';
   let readout = world.snapshot();
+  let serializedReadout = null, serializedView = '';
   const state = () => JSON.parse(world.save());
   const persistence = createEAPersistence({
     namespace, validate: raw => validateSave(raw, {upgrade: true}),
@@ -81,7 +82,13 @@ export async function bootGodotHost({preview = 'godot-preview', siteLayout = nul
       if (!document.hidden) clock.resume(performance.now());
       frame = requestAnimationFrame(loop);
     },
-    snapshot_json() { return JSON.stringify(readout); },
+    snapshot_json() {
+      if (serializedReadout !== readout) {
+        serializedReadout = readout;
+        serializedView = JSON.stringify(readout);
+      }
+      return serializedView;
+    },
     command_context() { const view = world.snapshot(); return JSON.stringify({id:`command:${view.nextCommandId}`,expectedRevision:view.revision}); },
     notice() { return message; },
     command(payload) {

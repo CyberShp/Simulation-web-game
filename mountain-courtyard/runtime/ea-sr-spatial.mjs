@@ -7,6 +7,9 @@ export const SPATIAL_VERSION='spatial-metres-1';
 export const SPATIAL_EXTENT_VERSION='courtyard-96-1';
 export const INTERIOR_LAYOUT_VERSION='adult-furniture-1';
 export const SPATIAL_SCENE=Object.freeze({id:'scene:yunxiu-courtyard',width:96,height:96,grid:.5,personRadius:.26,pixelsPerMetre:32,depth:.65});
+// Courtyard movement is measured in metres per 100 ms world step. Keep the
+// walking pace shared by free movement, work travel and body detours.
+export const COURTYARD_WALK_RATE=2.2;
 // Unmarked metre saves must first pass their original 64m boundary. This is a
 // content extent marker within schema 6, not a coordinate or identity migration.
 const LEGACY_SPATIAL_BOUNDS=Object.freeze({width:64,height:64});
@@ -455,6 +458,7 @@ function releaseConstructionHelper(s,o,activity){
 }
 function cleanup(s,a){const o=s.workOrdersById[a.workOrderId],flow=o?.materialFlow;for(const id of [...(o?.activityIds||[])]){const helper=s.activitiesById[id];if(helper?.kind==='sr-construction')releaseConstructionHelper(s,o,helper);}for(const p of people(s)){const q=personPosition(s,p);if(q?.spatialEvacuationOrderId===a.workOrderId){delete q.spatialEvacuationOrderId;q.path=[];q.goal=null;}}if(flow){delete s.stockpilesById[flow.sourceStockpileId];delete s.stockpilesById[flow.siteStockpileId];}delete s.reservationsById[a.reservationId];delete s.workOrdersById[a.workOrderId];delete s.activitiesById[a.id];s.master.activityId=null;s.master.action='rest';s.master.scenic.path=[];s.master.scenic.goal=null;s.spatial.completedOrders=s.spatial.completedOrders.slice(-128);}
 function moveActor(s,a,budget){
+ budget*=COURTYARD_WALK_RATE;
  const revision=spatialRevision(s);
  if(a.path?.length&&a.revision!==revision){
   if(!routeStillClear(s,a,a.path))a.path=meterFindPath(s,a,a.goal||a.path.at(-1),{maxSnap:0})||[];
@@ -464,7 +468,7 @@ function moveActor(s,a,budget){
  let detours=0;while(a.path?.length&&budget>.001){const q=a.path[0],d=distance(a,q);if(d<.001){a.path.shift();continue;}const n=Math.min(d,budget),to={x:a.x+(q.x-a.x)*n/d,y:a.y+(q.y-a.y)*n/d},r=meterSweep(s,a,to);if(r.blocked){a.path=[];return false;}if(!meterDoorPermit(s,a,a,a.path,to))return false;const blocker=meterBodyBlocker(s,a,a,to);if(blocker){const detour=detours<2&&meterLocalBodyDetour(s,a,a,a.path);if(detour){a.path=detour;detours++;continue;}requestBodyYield(s,a,blocker,a.path);a.waitingForPersonId=blocker.personId;return false;}delete a.waitingForPersonId;a.facing=to.x<a.x?-1:1;a.back=to.y<a.y;a.x=r.x;a.y=r.y;a.steps=(a.steps||0)+n;budget-=n;if(n>=d-.001)a.path.shift();meterDoorMoved(s,a);}return !a.path?.length;
 }
 function pruneBodyYields(s){for(const p of Object.values(s.personsById||{})){const a=personPosition(s,p),yielding=a?.bodyYield;if(!yielding)continue;const local=people(s).includes(p),queue=yielding.kind==='door-wait'&&doorRecord(s,p),activity=s.activitiesById[p.activityId],canPause=yielding.kind==='mutual-corridor'&&activity?.kind==='facility'&&['waiting','navigating'].includes(activity.phase);if(!local||a.spatialEvacuationOrderId||!s.personsById[yielding.requestedBy]||yielding.kind==='door-wait'&&!queue?.waiting.some(w=>w.personId===p.personId)||yielding.kind!=='door-wait'&&p.activityId&&!canPause)delete a.bodyYield;}}
-function tickBodyYields(s){pruneBodyYields(s);for(const p of people(s)){const a=personPosition(s,p),yielding=a?.bodyYield;if(!yielding)continue;const next=yielding.path[0];if(!next){delete a.bodyYield;continue;}const d=distance(a,next);if(d<.001){yielding.path.shift();if(!yielding.path.length)delete a.bodyYield;continue;}const n=Math.min(.13,d),to={x:a.x+(next.x-a.x)*n/d,y:a.y+(next.y-a.y)*n/d};if(!meterSweep(s,a,to).blocked&&!meterBodyBlocker(s,a,a,to)){a.facing=to.x<a.x?-1:1;a.back=to.y<a.y;a.x=to.x;a.y=to.y;a.steps=(a.steps||0)+n;if(n>=d-.001)yielding.path.shift();syncPosition(s,p);if(p.location?.kind==='local'&&p.location.sceneId===SPATIAL_SCENE.id){p.location.x=a.x;p.location.y=a.y;}if(a.goal&&a.path?.length&&meterSweep(s,a,a.path[0]).blocked)a.path=meterFindPath(s,a,a.goal,{maxSnap:0})||[];}if(!yielding.path.length)delete a.bodyYield;}}
+function tickBodyYields(s){pruneBodyYields(s);for(const p of people(s)){const a=personPosition(s,p),yielding=a?.bodyYield;if(!yielding)continue;const next=yielding.path[0];if(!next){delete a.bodyYield;continue;}const d=distance(a,next);if(d<.001){yielding.path.shift();if(!yielding.path.length)delete a.bodyYield;continue;}const n=Math.min(.13*COURTYARD_WALK_RATE,d),to={x:a.x+(next.x-a.x)*n/d,y:a.y+(next.y-a.y)*n/d};if(!meterSweep(s,a,to).blocked&&!meterBodyBlocker(s,a,a,to)){a.facing=to.x<a.x?-1:1;a.back=to.y<a.y;a.x=to.x;a.y=to.y;a.steps=(a.steps||0)+n;if(n>=d-.001)yielding.path.shift();syncPosition(s,p);if(p.location?.kind==='local'&&p.location.sceneId===SPATIAL_SCENE.id){p.location.x=a.x;p.location.y=a.y;}if(a.goal&&a.path?.length&&meterSweep(s,a,a.path[0]).blocked)a.path=meterFindPath(s,a,a.goal,{maxSnap:0})||[];}if(!yielding.path.length)delete a.bodyYield;}}
 const materialTotal=resources=>Object.values(resources).reduce((sum,quantity)=>sum+quantity,0);
 function constructionRefund(o,r){return Object.fromEntries(Object.entries(r.cost).map(([k,v])=>[k,v-(o.usedCost[k]||0)]));}
 function finishConstructionCancellation(s,a,o){

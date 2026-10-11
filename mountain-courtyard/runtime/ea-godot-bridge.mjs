@@ -110,11 +110,19 @@ export function projectGodotWorld(state, selection = null) {
 export function createGodotBridge({state: source, sites = null} = {}) {
   let state = validateSave(source ?? initial({sr: true}), {upgrade: true});
   let selection = null;
+  let projected = null, projectedRevision = -1, projectedSelection = '';
   const fixedSites = Array.isArray(sites) ? sites.filter(site =>
     site && typeof site.type === 'string' && Number.isFinite(site.x) && Number.isFinite(site.y)
   ) : null;
   if (fixedSites) state.spatial.estateCollisionVersion = 'estate-gate-1';
-  const snapshot = () => projectGodotWorld(state, selection);
+  const snapshot = () => {
+    const key = selection ? `${selection.kind}:${selection.id}` : '';
+    if (projected && projectedRevision === state.revision && projectedSelection === key) return projected;
+    projected = projectGodotWorld(state, selection);
+    projectedRevision = state.revision;
+    projectedSelection = key;
+    return projected;
+  };
   const failure = error => ({ok: false, error: error instanceof Error ? error.message : String(error), tick: state.worldTick, revision: state.revision});
 
   function command(input) {
@@ -178,6 +186,7 @@ export function createGodotBridge({state: source, sites = null} = {}) {
         if (typeof text !== 'string') throw Error('存档须为 JSON 文本。');
         const next = validateSave(JSON.parse(text), {upgrade: true});
         state = next;
+        projected = null;
         if (fixedSites) state.spatial.estateCollisionVersion = 'estate-gate-1';
         selection = null;
         return {ok: true, tick: state.worldTick, revision: state.revision};

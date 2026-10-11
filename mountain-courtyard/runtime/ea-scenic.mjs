@@ -1,4 +1,4 @@
-import {spatialEnabled,sceneUnits,spatialAccess,SPATIAL_VERSION,meterBodyBlocker,meterLocalBodyDetour,metreWalkTarget,requestBodyYield,meterDoorPermit,meterDoorMoved} from './ea-sr-spatial.mjs';
+import {spatialEnabled,sceneUnits,spatialAccess,SPATIAL_VERSION,COURTYARD_WALK_RATE,meterBodyBlocker,meterLocalBodyDetour,metreWalkTarget,requestBodyYield,meterDoorPermit,meterDoorMoved} from './ea-sr-spatial.mjs';
 import {slotById} from './ea-facility-slots.mjs';
 import {point,findPath,sweep,canStand,distance,LANDMARKS} from './yunxiu-courtyard/navigation.mjs';
 import {SCENE_GEOMETRY,SCENIC_PLOTS,scenicCanStand,scenicFindPath,scenicSweep,scenicNearest,buildingAccess,geometryRevision,scenicDistance} from './ea-scene-geometry.mjs';
@@ -12,7 +12,7 @@ export function startScenicWalk(master,goal,s){
  const a=scenicPosition(master),target=s&&spatialEnabled(s)?metreWalkTarget(s,a,goal):goal,path=s?scenicFindPath(s,a,target):findPath(a,target);if(!path)return false;
  master.scenic={...a,path,...(s?{geometry:spatialEnabled(s)?SPATIAL_VERSION:SCENE_GEOMETRY,revision:geometryRevision(s),goal:path.at(-1)||{x:a.x,y:a.y}}:{})};master.path=[];master.action=path.length?'walk':'rest';master.learning=null;master.teaching=null;return true;
 }
-export function advanceScenic(actor,budget,s){budget=sceneUnits(s,budget);
+export function advanceScenic(actor,budget,s){budget=sceneUnits(s,budget)*(spatialEnabled(s)?COURTYARD_WALK_RATE:1);
  if(s&&actor.revision!==geometryRevision(s)){repairScenicActor(actor,s);}
  let used=0,detours=0;while(actor.path.length&&budget>.001){const target=actor.path[0],d=distance(actor,target);if(d<.001){actor.path.shift();continue;}
  const step=Math.min(budget,d),next={x:actor.x+(target.x-actor.x)*step/d,y:actor.y+(target.y-actor.y)*step/d},moved=s?scenicSweep(s,actor,next):sweep(actor,next);
