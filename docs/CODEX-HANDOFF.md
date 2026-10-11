@@ -1,5 +1,11 @@
 # Codex 接手指南 · 2026-10-11
 
+## U-120 · 系统界面原型确认 · 2026-10-12
+
+用户已认可 [系统界面原型](art/system-ui-20261012/README.md)并授权推送。构建与预览命令、素材许可、模块接口、交互检查及正式接入边界均在该目录。此批为原型源码归档，正式游戏入口继续沿用现有模拟。
+
+下一批建议将门人、掌门和行囊接入 `dist/ea-godot-bridge.mjs` 与 `godot/estate_3d/web/`：真实人物 ID、当前位置/活动、装备实例、随身物品与公库保管；通过已有邀约、换装、服丹、搬运命令回读状态。换装存在待执行过程，公库保管不自动改变所有权；原型示例不可直接替代运行规则。SR-XF-007/010/012/029/030 的实际验证在实施后登记。
+
 ## M1 云岫首畦种收
 
 首座灵草田完工后的开局链已在新山院预览接通：`dist/ea-godot-bridge.mjs` 只读投影陆知微会面条件、田边库存、真实搬运与作物事实；`godot/estate_3d/web/game-ui.mjs` 接整理旧卷、走近赠药、邀约、送苗与照料操作；`godot/estate_2d/estate.gd` 根据作物状态绘出空畦、出苗和成熟图。画稿在 `godot/estate_2d/assets/mountain-herb-terrace-*.png`。模拟仍以原剧情、搬运和作物工单为准。`node --test tests/ea-mountain-herb-site.test.mjs tests/ea-mountain-herb-crop.test.mjs` 覆盖定向存读与守恒；本地浏览器已实际点击至首收，刷新后续档可见收成和后续林地目标，细节见 [STATUS](design/STATUS.md) 首段。后续仍按 SR/AC 单独核对完整开局、目标设备和更长经营链。

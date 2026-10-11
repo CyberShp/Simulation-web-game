@@ -1,5 +1,7 @@
 # 设计入口 · DB-2026-10-05 v1.2
 
+> **系统界面 · U-120：** 用户已认可 [系统界面原型](../art/system-ui-20261012/README.md)。源码、素材、字体许可与验证范围已归档；正式接入进度见 [STATUS](STATUS.md)。
+
 > **门人志 · U-111：** [游戏画面稿](../art/DISCIPLES-UI-2026-10-10.md)可评看门籍、山门求见与分峰卷册。已确认收徒原则见 [DECISIONS](DECISIONS.md)，实际接入与验收见 [STATUS](STATUS.md)。
 
 > **五洲修行谱 · U-114：** 主世界按约四千九百种可独立学习的心法、武学、术法、身法、神通与百艺规划，含魔道、妖道、毒道及复合分支；[云岫首批六十七种](19-FIVE-CONTINENT-ARTS.md)与[成长斗法数值](20-ARTS-GROWTH-COMBAT.md)为设计稿，[扩写总账](28-FIVE-CONTINENT-ARTS-LEDGER.md)索引目前 227 项首稿／草稿及[六类校验样例](28-FIVE-CONTINENT-ARTS-LEDGER.md#六例校验)。实际可玩范围与验证仍按 [STATUS](STATUS.md)。

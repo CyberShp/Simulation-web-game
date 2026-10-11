@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="data:,"><title>云岫山院 · 系统界面原型</title><style>/* STYLES */</style></head>
+<body class="panel-open">
+<main id="game-stage">
+<div class="scene-world"><div class="scene-ground"></div><img class="scene-shelter" src="shelter-concept.png" alt="山院临时落脚处"><div class="scene-person" aria-hidden="true"></div></div>
+<div class="scene-location"><span class="compass"><i>岫</i></span><div><strong>云岫山院</strong><small>初春 · 辰时</small></div></div>
+<div class="resources"><span data-resource="wood"></span><span data-resource="stone"></span><span data-resource="herb"></span><span data-resource="jade"></span></div>
+<button class="master-hud" data-nav="master" title="掌门详情"><span class="master-face"></span><span>沈照<small>炼气 · 六层</small></span><i>人物</i></button>
+<button id="build-tool" class="scene-tool" data-nav="build"><span class="tool-icon"></span>营造</button>
+<div id="scene-pin" hidden></div><div class="scene-shade"></div>
+<section id="game-window" aria-label="宗门系统"><header class="window-head"><div class="title-flourish">◇</div><h1 id="screen-title">门人</h1><div class="head-line"></div><button class="close-window" data-close aria-label="返回山院">×</button></header><div id="screen-content"></div><footer class="window-foot"><span>云岫山院</span><i></i><span>Esc 返回山院</span></footer></section>
+<nav id="game-nav" aria-label="系统导航"></nav><div id="toast" role="status" aria-live="polite"></div>
+</main>
+<script>/* SCRIPTS */</script></body></html>
