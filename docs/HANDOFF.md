@@ -3,6 +3,7 @@
 ## U-118 云岫山院人物移动
 
 转向校准已在 Godot 山院场景接入：每帧检查共享视图，路径拐点立即采用下一段方向，行走中维持步态，站定后才展示站立转身帧。`qa/estate-motion-check.gd` 与 `qa/painted-actor-check.gd` 已覆盖拐点和动作切换；本地 Chromium 两段路线及中途改道观测详见 [STATUS](design/STATUS.md)。
+源码 `main` `c88b919a60b5af5f9e1be1925a0cbc5381b2b714` 与[公开山院试玩](https://cybershp.github.io/Simulation-web-game/mountain-courtyard/) `gh-pages` `f871d1ff823c9a3f07f5903b92ca93f692015bc9` 已推送；Pages 构建为 `built`，公开浏览器拐点实走及场景包字节核对见 STATUS。
 
 用户要求山院人物移动轻快且画面连贯。共享米制步速现按 R-39 试算为原步距 2.2 倍，掌门自由行走约 3.16 米／秒；Godot 画面按逻辑米驱动步态，缩短插值延迟，并跳过重复快照处理。代码在 `dist/ea-scenic.mjs`、`dist/ea-sr-spatial.mjs`、`dist/ea-godot-bridge.mjs`、`dist/ea-godot-host.mjs` 与 `godot/estate_2d/estate.gd`。本地浏览器实际行走、FPS／图集切换、暂停存读和定向空间检查见 [STATUS](design/STATUS.md) 首段。目标设备与玩家手感继续评看。
 源码 `main` `48d81df0c1bce7a739a6922bad3c97ee80822fc6` 已推送；[公开山院试玩](https://cybershp.github.io/Simulation-web-game/mountain-courtyard/) 的 `gh-pages` `e8606c7b2e40be8915899d02bddfcf8534aa7ebc` 已构建。公开 Chromium 行走、步态、文件字节和控制台已复核，详见 STATUS。
