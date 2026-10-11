@@ -14,7 +14,7 @@
 
 纳入云岫前期，按依赖推进。
 
-决策来源：U-63, U-93, R-25, U-94, U-96, U-97, R-27, U-100, R-29, R-30, U-101, U-102, U-103, U-104, U-118。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
+决策来源：U-63, U-93, R-25, U-94, U-96, U-97, R-27, U-100, R-29, R-30, U-101, U-102, U-103, U-104, U-118, U-120。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
 
 规格：[01-CHARACTERS.md](../../../docs/design/01-CHARACTERS.md)、[02-EQUIPMENT-ARTS.md](../../../docs/design/02-EQUIPMENT-ARTS.md)、[03-SPATIAL-ART.md](../../../docs/design/03-SPATIAL-ART.md)、[14-EARLY-GAME-DETAILED-DESIGN.md](../../../docs/design/14-EARLY-GAME-DETAILED-DESIGN.md)、[06-OPENING-ACCEPTANCE.md](../../../docs/design/06-OPENING-ACCEPTANCE.md)、[GODOT-MIGRATION.md](../../../docs/GODOT-MIGRATION.md)、[ART-REALTIME-TRIAL.md](../../../docs/ART-REALTIME-TRIAL.md)。
 
@@ -148,6 +148,9 @@ SR-XF-007-V01证据：qa/ea-courtyard-rest-render-acceptance.mjs；tests/ea-rest
 - godot/painted_courtyard/actor_2d.gd
 - qa/painted-actor-check.gd
 - 2026-10-11 U-118 转向校准：人物动作 45／45，行走跨越转向时持续使用行走帧；本地 Chromium 行走中站立转身帧 0。角色辨识与目标设备 AC 状态不变。
+- docs/art/system-ui-20261012/RUNTIME.md
+- tests/ea-system-ui-projection.test.mjs
+- 2026-10-12 U-120：真实人物 ID、外观和公开修习接入名册／详情／掌门页；30 门人五页名册及人物功法往返通过模块检查，浏览器实点四页详情并定位同一场景人物。场景定位后继续行走的短样本仅覆盖本机 Chromium。完整人物动作、辨识及目标设备 AC 状态保持。
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
@@ -171,5 +174,6 @@ SR-XF-007-V01证据：qa/ea-courtyard-rest-render-acceptance.mjs；tests/ea-rest
 - 2026-10-09：U-104用户确认Godot 2D制作；绘画小院本地构建与WebKit鼠标操作、三视口DPR1局部复核完成。暂停出殿/双指锚点/拖动输入修复，最终拖动实点通过；人物辨识、动作观感、用户美术认可、殿后完整浏览器遮挡、真机/DPR2/真实触摸继续。正式SR/AC状态保持，未发布。证据 docs/art/PAINTED-COURTYARD-2026-10-09.md。
 - 2026-10-11：2026-10-11 U-118 局部：Godot 2D 图集按逻辑米位移推进；隔离 Chromium 行走五秒窗口观测每秒切换 9–11 帧，实际目标设备与三人以上辨识仍待验，AC 状态不变。
 - 2026-10-11：2026-10-11 U-118 转向校准：人物动作 45／45，行走跨越转向时持续使用行走帧；本地 Chromium 行走中站立转身帧 0。角色辨识与目标设备 AC 状态不变。
+- 2026-10-12：2026-10-12 U-120：真实人物 ID、外观和公开修习接入名册／详情／掌门页；30 门人五页名册及人物功法往返通过模块检查，浏览器实点四页详情并定位同一场景人物。场景定位后继续行走的短样本仅覆盖本机 Chromium。完整人物动作、辨识及目标设备 AC 状态保持。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。

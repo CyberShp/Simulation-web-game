@@ -14,7 +14,7 @@
 
 纳入云岫前期，按依赖推进。
 
-决策来源：U-63, U-93, R-25, U-94, U-105, R-32。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
+决策来源：U-63, U-93, R-25, U-94, U-105, R-32, U-120。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
 
 规格：[05-RUNTIME-CONTRACTS.md](../../../docs/design/05-RUNTIME-CONTRACTS.md)、[07-ECONOMY-ORGANIZATION.md](../../../docs/design/07-ECONOMY-ORGANIZATION.md)、[14-EARLY-GAME-DETAILED-DESIGN.md](../../../docs/design/14-EARLY-GAME-DETAILED-DESIGN.md)、[SECT-GROWTH-PLAN.md](../../../docs/SECT-GROWTH-PLAN.md)。
 
@@ -119,6 +119,9 @@ SR-XF-010-V01证据：dist/ea-sr-economy.mjs；qa/ea-sr-economy-acceptance.mjs
 - qa/ea-sr-growth-acceptance.mjs
 - dist/ea-sr-equipment.mjs
 - qa/ea-sr-010-study-budget-contract-acceptance.mjs
+- docs/art/system-ui-20261012/RUNTIME.md
+- tests/ea-system-ui-projection.test.mjs
+- 2026-10-12 U-120：行囊读取真实位置库存与所有权；Node 专项验证只读、非法数量拒绝、实际搬运和存读守恒。本地 Chromium 公库 16 份灵草取 3 份后为公库 13／随身 3，送回公库 16，保存刷新保持。丹药使用采用明确人工库存边界 QA，未覆盖生产取得链；完整 SR/AC 状态保持。
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
@@ -130,5 +133,6 @@ SR-XF-010-V01证据：dist/ea-sr-economy.mjs；qa/ea-sr-economy-acceptance.mjs
 - 2026-10-08：独立跨规格复核完成：道韵预算与运输边界、施工取消返料、仓位归属位置校验和公库容量结算已统一；旧档保留原值与在途单。
 - 2026-10-08：r20 ships read-only five-number inventory summaries by public, master-private and merchant ownership; full ECON-02/03 and cancellation property paths remain open
 - 2026-10-09：2026-10-09 U-105 / R-32：山域成长的迁居、外谷/分峰配送、货位、所有权与预约继续使用本SR已有实体搬运及守恒契约，关联 docs/SECT-GROWTH-PLAN.md 的 GROWTH-03/04/06/08/11。本批仅补设计来源与接缝，原AC文案、状态、证据及D/I/V/R保持；新山域实际流程与负载仍待对应GROWTH验证。
+- 2026-10-12：2026-10-12 U-120：行囊读取真实位置库存与所有权；Node 专项验证只读、非法数量拒绝、实际搬运和存读守恒。本地 Chromium 公库 16 份灵草取 3 份后为公库 13／随身 3，送回公库 16，保存刷新保持。丹药使用采用明确人工库存边界 QA，未覆盖生产取得链；完整 SR/AC 状态保持。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。

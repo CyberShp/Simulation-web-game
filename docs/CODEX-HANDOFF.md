@@ -1,10 +1,14 @@
-# Codex 接手指南 · 2026-10-11
+# Codex 接手指南 · 2026-10-12
 
-## U-120 · 系统界面原型确认 · 2026-10-12
+## U-120 · 系统界面真实数据接入 · 2026-10-12
 
-用户已认可 [系统界面原型](art/system-ui-20261012/README.md)并授权推送。构建与预览命令、素材许可、模块接口、交互检查及正式接入边界均在该目录。此批为原型源码归档，正式游戏入口继续沿用现有模拟。
+本地山院已按用户认可的[原型](art/system-ui-20261012/README.md)接入共同大窗口、七导航和真实门人／掌门／行囊。[运行记录](art/system-ui-20261012/RUNTIME.md)是本批源码、命令、复验与待验入口。`godot/estate_3d/web/base-ui.mjs` 管共同窗口、跨页对象和更新；`system-people.mjs` 管名册／人物，`system-inventory.mjs` 管装备／位置库存，`system-ui.css` 与两个模块样式复用原型视觉。场景剧情和营造入口仍在 `game-ui.mjs`；`estate.gd` 的 `focus_person` 按真实 ID 定位。
 
-下一批建议将门人、掌门和行囊接入 `dist/ea-godot-bridge.mjs` 与 `godot/estate_3d/web/`：真实人物 ID、当前位置/活动、装备实例、随身物品与公库保管；通过已有邀约、换装、服丹、搬运命令回读状态。换装存在待执行过程，公库保管不自动改变所有权；原型示例不可直接替代运行规则。SR-XF-007/010/012/029/030 的实际验证在实施后登记。
+`dist/ea-godot-bridge.mjs` 新增只读 `systemPeople` 和 `inventory` 投影。装备槽保存装备实例 ID；人物修习用公开学习视图；工作候选只表示可以发出邀约，最终接受／等待／拒绝以 `inviteWork` 结果为准。`ea-godot-host.mjs` 沿原命令上下文派发。换装预约、位置搬运、所有权与保管权继续按现行规则结算；UI 搜索、页签和分页只存界面状态。共同窗口增量更新保留按钮节点，用 `data-scroll-key` 恢复滚动，人物往返功法保留原名册筛选。
+
+复验命令：`node --test tests/ea-system-ui-projection.test.mjs tests/ea-mountain-herb-crop.test.mjs tests/ea-master-control.test.mjs`，本批 9／9。浏览器已实走七导航、新档疗伤／取卷、青溪铁剑实际佩用、3 份灵草公库往返和刷新续档；另从界面导入正式命令生成的 QA 档并发出陆知微工作邀约，检查四页详情和真实人物定位。30 门人分页为模块检查；30 人投影 33.69→18.28 毫秒为 Node 耗时。820×1180 行囊滚动后按钮完整、无横向溢出；使用经 `validateSave` 的人工随身库存 QA 实点服用聚气丹，数量 1→0、修为 0→70，制丹取得链另验。目标真机及用户美术评看仍待完成。
+
+百艺、任务、山外和宗务目前接实际状态入口；后续逐项完成原型所示的配方工单等完整流程。完整门籍规则另按 U-111 接续。运行源码 `main` `34a2b3ad2cb1f2c48cc17d417b0a7960d53c772c` 已同步；[公开山院试玩](https://cybershp.github.io/Simulation-web-game/mountain-courtyard/) 的 `gh-pages` 为 `607efe9ce9905c052cc1099ee84019f8f9bab993`，Pages 构建为 `built`。公开 Chromium 独立 QA 档实点掌门、行囊和门人，并将青溪铁剑实际佩入同一装备槽，控制台 0 错误。公开入口、清单及五个界面／规则模块共七个文件与本地导出字节一致。公开检查覆盖上述路径，完整长链沿本地证据。 五项相关 SR 仅补证据，完整 D/I/V/R、AC 和发布状态保持。
 
 ## M1 云岫首畦种收
 
