@@ -8,6 +8,7 @@ export function startPaintedGameUI(host) {
   const orderPhases = {proposed:'待安排',reserved:'已预约',navigating:'前往书案',preparing:'准备研习',executing:'正在研习',waiting:'等待条件',interrupted:'已中断'};
   let tab = 'home', personId = 'person:master', artId = 'qingyuan', lastBody = '', lastSelection = '';
   const esc = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+  const amount = value => Number.isFinite(Number(value)) ? String(Number(Number(value).toFixed(2))) : '0';
   const view = () => JSON.parse(host.snapshot_json());
   const send = command => {
     const payload = command.type === 'select' ? command : {...JSON.parse(host.command_context()),...command};
@@ -23,7 +24,7 @@ export function startPaintedGameUI(host) {
     const state = view();
     document.body.classList.toggle('opening-inheritance-active',state.openingInheritance?.status==='pending');
     $('#time').textContent=state.timeLabel;
-    $('#resources').innerHTML=Object.entries(labels).map(([id,[,title]]) => `<span class="resource" title="${title}"><i class="resource-icon resource-${id}" aria-hidden="true"></i>${esc(state.resources[id] ?? 0)}</span>`).join('');
+    $('#resources').innerHTML=Object.entries(labels).map(([id,[,title]]) => `<span class="resource" title="${title}"><i class="resource-icon resource-${id}" aria-hidden="true"></i>${amount(state.resources[id] ?? 0)}</span>`).join('');
     $('#pause').textContent=state.paused?'▶':'Ⅱ';
     $('#pause').setAttribute('aria-pressed',String(state.paused));
     document.querySelectorAll('.rail-item').forEach(button => button.setAttribute('aria-pressed',String(button.dataset.tab===tab)));
@@ -84,7 +85,7 @@ export function startPaintedGameUI(host) {
       ${students.length?`<h4 class="section-label">门人授业</h4>${students.map(p=>`<button class="secondary-action" data-teach="${esc(art.id)}" data-student="${esc(p.id)}">邀请 ${esc(p.name)} 研习</button>`).join('')}`:''}`;
   }
   function archive(state) {
-    return `<h3 class="art-name">山院行囊</h3><div class="information inventory">${Object.entries(labels).map(([id,[,name]])=>`<div><span><i class="resource-icon resource-${id}" aria-hidden="true"></i>${name}</span><b>${esc(state.resources[id]??0)}</b></div>`).join('')}</div><h4 class="section-label">存读</h4><button class="primary-action" data-save>保存进度</button><button class="secondary-action" data-reload>读取档案</button><button class="secondary-action" data-export>导出存档</button><button class="secondary-action" data-import>导入存档</button>`;
+    return `<h3 class="art-name">山院行囊</h3><div class="information inventory">${Object.entries(labels).map(([id,[,name]])=>`<div><span><i class="resource-icon resource-${id}" aria-hidden="true"></i>${name}</span><b>${amount(state.resources[id]??0)}</b></div>`).join('')}</div><h4 class="section-label">存读</h4><button class="primary-action" data-save>保存进度</button><button class="secondary-action" data-reload>读取档案</button><button class="secondary-action" data-export>导出存档</button><button class="secondary-action" data-import>导入存档</button>`;
   }
   document.addEventListener('click',event => {
     const button=event.target.closest('button');

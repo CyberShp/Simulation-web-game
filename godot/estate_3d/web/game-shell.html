@@ -28,10 +28,10 @@
         <div id="panel-content"></div>
       </div>
     </section>
-    <section class="dossier estate-panel" id="estate-panel" aria-label="营造地与建筑" hidden>
-      <button class="close" id="close-estate-panel" aria-label="收起营造卷册">×</button>
+    <section class="dossier estate-panel" id="estate-panel" aria-label="山院卷册" hidden>
+      <button class="close" id="close-estate-panel" aria-label="收起卷册">×</button>
       <div class="dossier-inner">
-        <div class="dossier-header"><h2>营造录</h2></div>
+        <div class="dossier-header"><h2 id="estate-side-title">山院</h2></div>
         <div id="estate-content"></div>
       </div>
     </section>
@@ -48,7 +48,7 @@
   <script src="$GODOT_URL"></script>
   <script type="module">
     import {bootGodotHost} from './runtime/ea-godot-host.mjs';
-    import {startEstateGameUI} from './game-ui.mjs';
+    import {startEstateGameUI} from './game-ui.mjs?v=m1-herb-2';
     const configuration=$GODOT_CONFIG;
     const loading=document.getElementById('loading'), progress=document.getElementById('progress');
     try {

@@ -1,5 +1,9 @@
 # Codex 接手指南 · 2026-10-11
 
+## M1 云岫首畦种收
+
+首座灵草田完工后的开局链已在新山院预览接通：`dist/ea-godot-bridge.mjs` 只读投影陆知微会面条件、田边库存、真实搬运与作物事实；`godot/estate_3d/web/game-ui.mjs` 接整理旧卷、走近赠药、邀约、送苗与照料操作；`godot/estate_2d/estate.gd` 根据作物状态绘出空畦、出苗和成熟图。画稿在 `godot/estate_2d/assets/mountain-herb-terrace-*.png`。模拟仍以原剧情、搬运和作物工单为准。`node --test tests/ea-mountain-herb-site.test.mjs tests/ea-mountain-herb-crop.test.mjs` 覆盖定向存读与守恒；本地浏览器已实际点击至首收，刷新后续档可见收成和后续林地目标，细节见 [STATUS](design/STATUS.md) 首段。后续仍按 SR/AC 单独核对完整开局、目标设备和更长经营链。
+
 ## M1 云岫首座灵草田
 
 新山院已接入首座灵草田的定点营造。药圃建位在 `godot/estate_2d/estate-sites.json`；`estate.gd` 负责建位轮廓、施工三阶段与落成画面；`dist/ea-godot-bridge.mjs` 投影阶段和真实作业位；`godot/estate_3d/web/game-ui.mjs` 提供营造卷册。规则仍来自唯一 JS 模拟，不另计施工与资源。定向检查 `node --test tests/ea-mountain-herb-site.test.mjs`，本地 Web 构建命令 `python3 tools/build-estate-painted-web.py --output output/mountain-courtyard-preview/index.html`。本地 Chromium 已由新档实点疗伤、择卷、立殿、药圃营造至落成；详细证据与限制见 [STATUS](design/STATUS.md) 首段。后续接田边种苗、门人劳作与收获时，应沿已有实物搬运和作物工单，不从顶部公库数字直接生长。

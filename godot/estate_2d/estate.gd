@@ -12,7 +12,7 @@ const BUILDING_ART := {
 	"hall": {"shelter": "opening-shelter-v1.png", "foundation": "mountain-main-hall-foundation-v1.png", "structure": "mountain-main-hall-structure-v1.png", "finishing": "mountain-main-hall-finishing-v1.png", "complete": "mountain-main-hall-v1.png", "level2": "mountain-main-hall-v1.png", "width": 380.0},
 	"house": {"complete": "residence-v1.png", "width": 265.0},
 	"kitchen": {"complete": "kitchen-v1.png", "width": 265.0},
-	"farm": {"foundation": "mountain-herb-terrace-foundation-v1.png", "structure": "mountain-herb-terrace-structure-v1.png", "finishing": "mountain-herb-terrace-finishing-v1.png", "complete": "mountain-herb-terrace-empty-v1.png", "width": 126.0},
+	"farm": {"foundation": "mountain-herb-terrace-foundation-v1.png", "structure": "mountain-herb-terrace-structure-v1.png", "finishing": "mountain-herb-terrace-finishing-v1.png", "complete": "mountain-herb-terrace-empty-v1.png", "growing": "mountain-herb-terrace-growing-v1.png", "ripe": "mountain-herb-terrace-ripe-v1.png", "width": 126.0},
 	"lumber": {"complete": "lumber-v1.png", "width": 265.0},
 }
 
@@ -149,7 +149,7 @@ func _make_foreground(texture: Texture2D) -> void:
 		layer.add_child(patch)
 
 func _building_signature(building: Dictionary) -> String:
-	return "%s:%s:%s:%s" % [building.get("type", ""), building.get("stage", ""), building.get("level", 1), building.get("condition", 100)]
+	return "%s:%s:%s:%s:%s" % [building.get("type", ""), building.get("stage", ""), building.get("level", 1), building.get("condition", 100), building.get("cropVisual", "")]
 
 func _make_construction(node: Node2D, stage: String, width: float) -> void:
 	var base := Polygon2D.new()
@@ -191,7 +191,9 @@ func _make_building(building: Dictionary, site: Dictionary) -> Dictionary:
 	if stage in ["foundation", "structure"] and not painted_construction:
 		_make_construction(node, stage, width)
 	else:
-		var file := str(art.get(stage, art.complete)) if painted_construction or stage in ["shelter", "damaged"] else str(art.get("level2", art.complete)) if kind == "hall" and level >= 2 and stage == "complete" else str(art.complete)
+		var file := str(art.get(stage, art.complete)) if painted_construction or stage in ["shelter", "damaged"] else str(art.get("level2", art.complete)) if kind == "hall" and level >= 2 and stage == "complete" else str(art.get(str(building.get("cropVisual", "empty")), art.complete)) if kind == "farm" and stage == "complete" else str(art.complete)
+		if not ResourceLoader.exists(ART_ROOT + file):
+			file = str(art.complete)
 		var texture := farm_stage_texture if farm_stage_texture != null else load(ART_ROOT + file) as Texture2D
 		if texture != null:
 			sprite = Sprite2D.new()
