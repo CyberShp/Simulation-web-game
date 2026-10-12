@@ -2107,7 +2107,8 @@
         "U-105",
         "R-32",
         "U-109",
-        "U-123"
+        "U-123",
+        "U-124"
       ],
       "source_specs": [
         "docs/design/03-SPATIAL-ART.md",
@@ -2180,7 +2181,9 @@
         "docs/SECT-GROWTH-PLAN.md；2026-10-09 山域总图、五阶段迁移及统一原型的设计来源；当前运行验收待补。",
         "docs/design/STATUS.md；2026-10-10 U-109 旧别院 3D 本地预览局部网页证据；完整 AC 状态不变。",
         "docs/art/COURTYARD-VALLEY-2026-10-12.md",
-        "tests/ea-mountain-alchemy.test.mjs"
+        "tests/ea-mountain-alchemy.test.mjs",
+        "docs/art/OPENING-CHAIN-2026-10-12.md；2026-10-12 U-124：主殿撤离等待与新建帮工落点修复，两个实际卡点存档接续；正常行走、碰撞与物资守恒定向检查通过。 仅增局部证据，完整 SR/AC 状态保持。",
+        "tests/ea-mountain-hall-egress.test.mjs"
       ],
       "change_log": [
         {
@@ -3659,7 +3662,8 @@
         "R-28",
         "U-105",
         "R-32",
-        "U-123"
+        "U-123",
+        "U-124"
       ],
       "source_specs": [
         "docs/design/02-EQUIPMENT-ARTS.md",
@@ -3747,7 +3751,8 @@
         "docs/art/COURTYARD-VALLEY-2026-10-12.md",
         "tests/ea-mountain-alchemy.test.mjs",
         "qa/ea-sr-production-accounting-acceptance.mjs",
-        "docs/design/ISSUE-5-PRODUCTION-ACCOUNTING.md"
+        "docs/design/ISSUE-5-PRODUCTION-ACCOUNTING.md",
+        "docs/art/OPENING-CHAIN-2026-10-12.md；2026-10-12 U-124：药圃首收、筹料建丹房、炉边交付10灵草并炼成2份回春散的普通新档完整路径。 仅增局部证据，完整 SR/AC 状态保持。"
       ],
       "change_log": [
         {
@@ -4142,7 +4147,8 @@
         "U-105",
         "R-32",
         "U-120",
-        "U-123"
+        "U-123",
+        "U-124"
       ],
       "source_specs": [
         "docs/design/05-RUNTIME-CONTRACTS.md",
@@ -4227,7 +4233,8 @@
         "tests/ea-mountain-alchemy.test.mjs",
         "tests/ea-mountain-valley.test.mjs",
         "qa/ea-sr-production-accounting-acceptance.mjs",
-        "docs/design/ISSUE-5-PRODUCTION-ACCOUNTING.md"
+        "docs/design/ISSUE-5-PRODUCTION-ACCOUNTING.md",
+        "docs/art/OPENING-CHAIN-2026-10-12.md；2026-10-12 U-124：采木采石送公库、药圃至丹房、成药携带与公库入账、采回6灵草及3余粮真实搬运；最终存读一致。 仅增局部证据，完整 SR/AC 状态保持。"
       ],
       "change_log": [
         {
@@ -4422,7 +4429,8 @@
         "U-105",
         "R-32",
         "U-123",
-        "U-125"
+        "U-125",
+        "U-124"
       ],
       "source_specs": [
         "docs/design/02-EQUIPMENT-ARTS.md",
@@ -4503,7 +4511,8 @@
         "docs/SECT-GROWTH-PLAN.md；2026-10-09 山域总图、五阶段迁移及统一原型的设计来源；当前运行验收待补。",
         "docs/art/COURTYARD-VALLEY-2026-10-12.md",
         "tests/ea-mountain-alchemy.test.mjs",
-        "2026-10-12 U-125：42 人物交谈及关联契约定义统一立绘聊天窗、身份叠加、知情、距离、意愿、暂停和持久规则；DIALOGUE-01–10 为 not_run。本批为设计与静态原型，运行接入及完整 SR/AC 状态保持。"
+        "2026-10-12 U-125：42 人物交谈及关联契约定义统一立绘聊天窗、身份叠加、知情、距离、意愿、暂停和持久规则；DIALOGUE-01–10 为 not_run。本批为设计与静态原型，运行接入及完整 SR/AC 状态保持。",
+        "docs/art/OPENING-CHAIN-2026-10-12.md；2026-10-12 U-124：同一普通新档等待青溪货郎自然来访，卖40木料换28灵石的有限交易路径。 仅增局部证据，完整 SR/AC 状态保持。"
       ],
       "change_log": [
         {
@@ -5037,7 +5046,8 @@
         "U-94",
         "U-114",
         "R-37",
-        "U-123"
+        "U-123",
+        "U-124"
       ],
       "source_specs": [
         "docs/design/02-EQUIPMENT-ARTS.md",
@@ -5095,7 +5105,8 @@
         "docs/design/33-ARTS-INITIAL-CALIBRATION.md（Y-001–067逐项反制校准；未实战定标）",
         "docs/art/COURTYARD-VALLEY-2026-10-12.md",
         "tests/ea-mountain-first-combat.test.mjs",
-        "tests/ea-godot-valley-projection.test.mjs"
+        "tests/ea-godot-valley-projection.test.mjs",
+        "docs/art/OPENING-CHAIN-2026-10-12.md；2026-10-12 U-124：同一普通新档引风术、护持、受伤撤退与归院用药；战斗收势阶段存读保持。 仅增局部证据，完整 SR/AC 状态保持。"
       ],
       "change_log": [
         {
@@ -5647,7 +5658,8 @@
         "R-25",
         "U-94",
         "U-123",
-        "U-125"
+        "U-125",
+        "U-124"
       ],
       "source_specs": [
         "docs/design/03-SPATIAL-ART.md",
@@ -5712,7 +5724,8 @@
         "docs/art/COURTYARD-VALLEY-2026-10-12.md",
         "tests/ea-mountain-valley.test.mjs",
         "tests/ea-godot-valley-projection.test.mjs",
-        "2026-10-12 U-125：42 人物交谈及关联契约定义统一立绘聊天窗、身份叠加、知情、距离、意愿、暂停和持久规则；DIALOGUE-01–10 为 not_run。本批为设计与静态原型，运行接入及完整 SR/AC 状态保持。"
+        "2026-10-12 U-125：42 人物交谈及关联契约定义统一立绘聊天窗、身份叠加、知情、距离、意愿、暂停和持久规则；DIALOGUE-01–10 为 not_run。本批为设计与静态原型，运行接入及完整 SR/AC 状态保持。",
+        "docs/art/OPENING-CHAIN-2026-10-12.md；2026-10-12 U-124：同一普通新档山院与山谷真实往返、溪边采集6灵草、山魈首战与撤退。 仅增局部证据，完整 SR/AC 状态保持。"
       ],
       "change_log": [
         {
@@ -8238,7 +8251,8 @@
         "U-109",
         "U-120",
         "U-123",
-        "U-125"
+        "U-125",
+        "U-124"
       ],
       "source_specs": [
         "docs/design/01-CHARACTERS.md",
@@ -8321,7 +8335,8 @@
         "tests/ea-mountain-alchemy.test.mjs",
         "tests/ea-mountain-valley.test.mjs",
         "2026-10-12 U-123 发布核验：运行源码 main 836ccb605a42e7c21c2aae8c5e2c4eee7e55c03e；gh-pages 4d6786da521f1ab92818c20f67c036a829469e6e；GitHub API Pages build=built。公开 mountain-courtyard 的14个交付文件（release/build/index、界面与加载模块、桥接及世界／战斗规则、三片场景包）HTTP 200，SHA与本地导出一致。公开浏览器百艺、导档、实际行走旅行与采集的操作证据见 docs/art/COURTYARD-VALLEY-2026-10-12.md；本记录仅是U-123局部发布证据，整项 D/I/V/R 与 AC 状态不变。",
-        "2026-10-12 U-125：42 人物交谈及关联契约定义统一立绘聊天窗、身份叠加、知情、距离、意愿、暂停和持久规则；DIALOGUE-01–10 为 not_run。本批为设计与静态原型，运行接入及完整 SR/AC 状态保持。"
+        "2026-10-12 U-125：42 人物交谈及关联契约定义统一立绘聊天窗、身份叠加、知情、距离、意愿、暂停和持久规则；DIALOGUE-01–10 为 not_run。本批为设计与静态原型，运行接入及完整 SR/AC 状态保持。",
+        "docs/art/OPENING-CHAIN-2026-10-12.md；2026-10-12 U-124：1440×960本地Chromium通过当前已实现界面走完整条开局；U-125人物窗仍仅为设计。 仅增局部证据，完整 SR/AC 状态保持。"
       ],
       "change_log": [
         {
@@ -8719,7 +8734,8 @@
         "R-32",
         "U-120",
         "U-123",
-        "U-125"
+        "U-125",
+        "U-124"
       ],
       "source_specs": [
         "docs/design/02-EQUIPMENT-ARTS.md",
@@ -8810,8 +8826,8 @@
         "docs/design/ISSUE-6-HISTORY-RETENTION.md",
         "tests/ea-history-retention.test.mjs",
         "qa/ea-history-benchmark.mjs",
-        "qa/ea-history-compare.mjs"
-
+        "qa/ea-history-compare.mjs",
+        "docs/art/OPENING-CHAIN-2026-10-12.md；2026-10-12 U-124：施工卡点、药成、战斗收势与返院伤愈存读，最终完整导出深度相等；未覆盖全部旧版迁移。 仅增局部证据，完整 SR/AC 状态保持。"
       ],
       "change_log": [
         {
@@ -9178,7 +9194,8 @@
         "U-93",
         "R-25",
         "U-94",
-        "U-125"
+        "U-125",
+        "U-124"
       ],
       "source_specs": [
         "docs/design/02-EQUIPMENT-ARTS.md",
@@ -9231,7 +9248,8 @@
       "evidence": [
         "docs/requirements/design/SR-XF-031.md",
         "docs/requirements/IMPLEMENTATION-2026-10-06.md",
-        "2026-10-12 U-125：42 人物交谈及关联契约定义统一立绘聊天窗、身份叠加、知情、距离、意愿、暂停和持久规则；DIALOGUE-01–10 为 not_run。本批为设计与静态原型，运行接入及完整 SR/AC 状态保持。"
+        "2026-10-12 U-125：42 人物交谈及关联契约定义统一立绘聊天窗、身份叠加、知情、距离、意愿、暂停和持久规则；DIALOGUE-01–10 为 not_run。本批为设计与静态原型，运行接入及完整 SR/AC 状态保持。",
+        "docs/art/OPENING-CHAIN-2026-10-12.md；2026-10-12 U-124：普通新档从疗伤择卷、立殿种收到筹料炼丹、采集首战及返院服药全链通过；长期平衡另验。 仅增局部证据，完整 SR/AC 状态保持。"
       ],
       "change_log": [
         {

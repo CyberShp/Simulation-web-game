@@ -14,7 +14,7 @@
 
 纳入云岫前期，按依赖推进。
 
-决策来源：U-63, U-93, R-25, U-94, U-98, U-99, R-28, U-105, R-32, U-123。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
+决策来源：U-63, U-93, R-25, U-94, U-98, U-99, R-28, U-105, R-32, U-123, U-124。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
 
 规格：[02-EQUIPMENT-ARTS.md](../../../docs/design/02-EQUIPMENT-ARTS.md)、[07-ECONOMY-ORGANIZATION.md](../../../docs/design/07-ECONOMY-ORGANIZATION.md)、[14-EARLY-GAME-DETAILED-DESIGN.md](../../../docs/design/14-EARLY-GAME-DETAILED-DESIGN.md)、[06-OPENING-ACCEPTANCE.md](../../../docs/design/06-OPENING-ACCEPTANCE.md)、[SECT-GROWTH-PLAN.md](../../../docs/SECT-GROWTH-PLAN.md)、[41-COURTYARD-VALLEY-IMPLEMENTATION.md](../../../docs/design/41-COURTYARD-VALLEY-IMPLEMENTATION.md)。
 
@@ -134,6 +134,7 @@ SR-XF-009-V01证据：dist/ea-sr-economy.mjs；dist/ea-sr-persons.mjs；tests/ea
 - tests/ea-mountain-alchemy.test.mjs
 - qa/ea-sr-production-accounting-acceptance.mjs
 - docs/design/ISSUE-5-PRODUCTION-ACCOUNTING.md
+- docs/art/OPENING-CHAIN-2026-10-12.md；2026-10-12 U-124：药圃首收、筹料建丹房、炉边交付10灵草并炼成2份回春散的普通新档完整路径。 仅增局部证据，完整 SR/AC 状态保持。
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。

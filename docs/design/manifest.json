@@ -1346,6 +1346,8 @@
     "currentOpeningInheritance": "docs/design/32-OPENING-INHERITANCE.md",
     "currentOpeningAcceptanceDecisionId": "U-124",
     "currentOpeningAcceptanceReference": "docs/design/41-COURTYARD-VALLEY-IMPLEMENTATION.md",
+    "currentOpeningAcceptanceEvidence": "docs/art/OPENING-CHAIN-2026-10-12.md",
+    "currentOpeningAcceptanceStatus": "single-normal-new-save-local-chain-verified-public-opening-smoke-verified",
     "currentCharacterDialogueDecisionId": "U-125",
     "currentCharacterDialogueReference": "docs/design/42-CHARACTER-DIALOGUE.md",
     "currentSequence": "record-character-dialogue-rules-then-continue-single-normal-new-save-opening-acceptance",

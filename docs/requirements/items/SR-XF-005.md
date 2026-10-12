@@ -14,7 +14,7 @@
 
 纳入云岫前期，按依赖推进。
 
-决策来源：U-63, U-93, R-25, U-94, U-96, U-97, R-27, U-98, U-99, R-28, U-100, R-29, R-30, U-105, R-32, U-109, U-123。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
+决策来源：U-63, U-93, R-25, U-94, U-96, U-97, R-27, U-98, U-99, R-28, U-100, R-29, R-30, U-105, R-32, U-109, U-123, U-124。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
 
 规格：[03-SPATIAL-ART.md](../../../docs/design/03-SPATIAL-ART.md)、[05-RUNTIME-CONTRACTS.md](../../../docs/design/05-RUNTIME-CONTRACTS.md)、[07-ECONOMY-ORGANIZATION.md](../../../docs/design/07-ECONOMY-ORGANIZATION.md)、[18-SPATIAL-CONTINUITY-IMPLEMENTATION.md](../../../docs/design/18-SPATIAL-CONTINUITY-IMPLEMENTATION.md)、[06-OPENING-ACCEPTANCE.md](../../../docs/design/06-OPENING-ACCEPTANCE.md)、[SECT-GROWTH-PLAN.md](../../../docs/SECT-GROWTH-PLAN.md)、[41-COURTYARD-VALLEY-IMPLEMENTATION.md](../../../docs/design/41-COURTYARD-VALLEY-IMPLEMENTATION.md)。
 
@@ -122,6 +122,8 @@ SR-XF-005-V01证据：qa/ea-courtyard-life-acceptance.mjs；tests/ea-scene-ui.te
 - docs/design/STATUS.md；2026-10-10 U-109 旧别院 3D 本地预览局部网页证据；完整 AC 状态不变。
 - docs/art/COURTYARD-VALLEY-2026-10-12.md
 - tests/ea-mountain-alchemy.test.mjs
+- docs/art/OPENING-CHAIN-2026-10-12.md；2026-10-12 U-124：主殿撤离等待与新建帮工落点修复，两个实际卡点存档接续；正常行走、碰撞与物资守恒定向检查通过。 仅增局部证据，完整 SR/AC 状态保持。
+- tests/ea-mountain-hall-egress.test.mjs
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
