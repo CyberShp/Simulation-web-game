@@ -1,17 +1,17 @@
 /** Godot Web presentation bridge: SR-XF-002/003/007/030, U-101 and runtime §4–11. */
-import {initial, tick, dispatchCommand, validateSave, COMMAND_NAMES, appearanceView, getCampaignScene, viewSRCombat} from './ea-opening-sim.mjs?v=c69084c118cd';
-import {BUILDINGS, RECIPES, RESOURCES, day, stage, realmName, xpNeed} from './ea-data.mjs?v=c69084c118cd';
-import {facilitySlots} from './ea-facility-slots.mjs?v=c69084c118cd';
-import {scenicHomeActors, nextObjective} from './ea-scene-state.mjs?v=c69084c118cd';
-import {SPATIAL_SCENE, spatialTerrain, spatialRoom, spatialPrefab, spatialTransform, polygonContains, viewSpatial, sceneUnits} from './ea-sr-spatial.mjs?v=c69084c118cd';
-import {artView, teachingQualificationSR} from './ea-sr-cultivation.mjs?v=c69084c118cd';
-import {openingInheritanceView} from './ea-opening-inheritance.mjs?v=c69084c118cd';
-import {FARM_CROP_RECIPE, HARVEST_BATCH, harvestAvailable, viewEconomy} from './ea-sr-economy.mjs?v=c69084c118cd';
-import {viewPersons} from './ea-sr-persons.mjs?v=c69084c118cd';
-import {personLifeSummary, workOpportunity} from './ea-life.mjs?v=c69084c118cd';
-import {viewPublicDiscipleLearning} from './ea-society.mjs?v=c69084c118cd';
-import {EQUIPMENT_SLOTS, viewEquipment, equipmentCombatBenefits} from './ea-sr-equipment.mjs?v=c69084c118cd';
-import {godotMoveCommand, projectGodotScene} from './ea-godot-world.mjs?v=c69084c118cd';
+import {initial, tick, dispatchCommand, validateSave, COMMAND_NAMES, appearanceView, getCampaignScene, viewSRCombat} from './ea-opening-sim.mjs?v=ea-issue5-850a7ea-20261012';
+import {BUILDINGS, RECIPES, RESOURCES, day, stage, realmName, xpNeed} from './ea-data.mjs?v=ea-issue5-850a7ea-20261012';
+import {facilitySlots} from './ea-facility-slots.mjs?v=ea-issue5-850a7ea-20261012';
+import {scenicHomeActors, nextObjective} from './ea-scene-state.mjs?v=ea-issue5-850a7ea-20261012';
+import {SPATIAL_SCENE, spatialTerrain, spatialRoom, spatialPrefab, spatialTransform, polygonContains, viewSpatial, sceneUnits} from './ea-sr-spatial.mjs?v=ea-issue5-850a7ea-20261012';
+import {artView, teachingQualificationSR} from './ea-sr-cultivation.mjs?v=ea-issue5-850a7ea-20261012';
+import {openingInheritanceView} from './ea-opening-inheritance.mjs?v=ea-issue5-850a7ea-20261012';
+import {FARM_CROP_RECIPE, HARVEST_BATCH, harvestAvailable, viewEconomy} from './ea-sr-economy.mjs?v=ea-issue5-850a7ea-20261012';
+import {viewPersons} from './ea-sr-persons.mjs?v=ea-issue5-850a7ea-20261012';
+import {personLifeSummary, workOpportunity} from './ea-life.mjs?v=ea-issue5-850a7ea-20261012';
+import {viewPublicDiscipleLearning} from './ea-society.mjs?v=ea-issue5-850a7ea-20261012';
+import {EQUIPMENT_SLOTS, viewEquipment, equipmentCombatBenefits} from './ea-sr-equipment.mjs?v=ea-issue5-850a7ea-20261012';
+import {godotMoveCommand, projectGodotScene} from './ea-godot-world.mjs?v=ea-issue5-850a7ea-20261012';
 
 const publicCommands = new Set(COMMAND_NAMES);
 const isRecord = value => value !== null && typeof value === 'object' && !Array.isArray(value);

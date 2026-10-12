@@ -1,3 +1,4 @@
+import {addAmounts,subtractAmounts} from './ea-resource-amounts.mjs?v=ea-issue5-850a7ea-20261012';
 /** EA data is independent of legacy shared objects. All randomness is state-owned. */
 export const GAME_VERSION='1.6.0-dev';
 export const DAY_LENGTH=120;
@@ -66,7 +67,7 @@ export function rng(s){let x=s.sim.seed>>>0;x^=x<<13;x^=x>>>17;x^=x<<5;s.sim.see
 export function log(s,text){s.logs.unshift({time:s.time,text:String(text).slice(0,500)});s.logs=s.logs.slice(0,100);}
 export const addLog=log;
 export function canPay(s,c={}){return c&&Object.entries(c).every(([k,v])=>Object.hasOwn(RESOURCES,k)&&finite(v)&&finite(s.resources[k])&&s.resources[k]>=v);}
-export function pay(s,c={}){if(!canPay(s,c))throw Error('物资不足：'+Object.entries(c).filter(([k,v])=>!finite(v)||s.resources[k]<v).map(([k,v])=>`${RESOURCES[k]||k} ${Math.ceil(Math.max(0,v-(s.resources[k]||0)))}`).join('、'));for(const[k,v]of Object.entries(c)){s.resources[k]-=v;if(s.economy)s.economy.expense[k]=(s.economy.expense[k]||0)+v;}}
-export function grant(s,c={}){for(const[k,v]of Object.entries(c)){if(!Object.hasOwn(RESOURCES,k)||!finite(v))throw Error('资源收益无效。');s.resources[k]=Math.min(1e12,s.resources[k]+v);if(s.economy)s.economy.income[k]=(s.economy.income[k]||0)+v;}}
+export function pay(s,c={}){if(!canPay(s,c))throw Error('物资不足：'+Object.entries(c).filter(([k,v])=>!finite(v)||s.resources[k]<v).map(([k,v])=>`${RESOURCES[k]||k} ${Math.ceil(Math.max(0,v-(s.resources[k]||0)))}`).join('、'));for(const[k,v]of Object.entries(c)){s.resources[k]=s.srEconomy?subtractAmounts(s.resources[k],v):s.resources[k]-v;if(s.economy)s.economy.expense[k]=s.srEconomy?addAmounts(s.economy.expense[k]||0,v):(s.economy.expense[k]||0)+v;}}
+export function grant(s,c={}){for(const[k,v]of Object.entries(c)){if(!Object.hasOwn(RESOURCES,k)||!finite(v))throw Error('资源收益无效。');s.resources[k]=Math.min(1e12,s.srEconomy?addAmounts(s.resources[k],v):s.resources[k]+v);if(s.economy)s.economy.income[k]=s.srEconomy?addAmounts(s.economy.income[k]||0,v):(s.economy.income[k]||0)+v;}}
 export function capacity(s){return s.buildings.reduce((n,b)=>n+(BUILDINGS[b.type]?.capacity||0)*b.level,0);}
 export function stage(s){if((s.society?.peaks?.length||0)>=2)return 4;if(s.sect.founded||s.sect.level>=2)return 3;if(s.disciples.length>=5&&(s.story?.step||0)>=3)return 2;return(s.story?.step||0)>=2||s.disciples.length>0?1:0;}

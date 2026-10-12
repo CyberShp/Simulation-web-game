@@ -1,14 +1,15 @@
-import {AUTONOMY_V2,npcScheduleDecision} from './ea-sr-persons.mjs?v=ea-160-courtyard-20261009-r37';
-import {hallInteriorEnabled} from './ea-hall-interior.mjs?v=ea-160-courtyard-20261009-r37';
-import {prepareFacilityActivity,releaseBodyActivity,contributeProduction} from './ea-facility-activities.mjs?v=ea-160-courtyard-20261009-r37';
-import {sceneUnits} from './ea-sr-spatial.mjs?v=ea-160-courtyard-20261009-r37';
-import {consumeHarvest,availablePills,ownAvailablePills,preparePillUse,consumeAccessiblePill} from './ea-sr-economy.mjs?v=ea-160-courtyard-20261009-r37';
+import {productionAmount,productionAmounts,addAmounts,subtractAmounts} from './ea-resource-amounts.mjs?v=ea-issue5-850a7ea-20261012';
+import {AUTONOMY_V2,npcScheduleDecision} from './ea-sr-persons.mjs?v=ea-issue5-850a7ea-20261012';
+import {hallInteriorEnabled} from './ea-hall-interior.mjs?v=ea-issue5-850a7ea-20261012';
+import {prepareFacilityActivity,releaseBodyActivity,contributeProduction} from './ea-facility-activities.mjs?v=ea-issue5-850a7ea-20261012';
+import {sceneUnits} from './ea-sr-spatial.mjs?v=ea-issue5-850a7ea-20261012';
+import {consumeHarvest,availablePills,ownAvailablePills,preparePillUse,consumeAccessiblePill} from './ea-sr-economy.mjs?v=ea-issue5-850a7ea-20261012';
 import {BUILDINGS, TECHNIQUES, RECIPES, ROUTES, CELLS, RESOURCES, TRAIT_NAMES,
-  rng, day, log, pay, canPay, grant, capacity, xpNeed, clamp} from './ea-data.mjs?v=ea-160-courtyard-20261009-r37';
+  rng, day, log, pay, canPay, grant, capacity, xpNeed, clamp} from './ea-data.mjs?v=ea-issue5-850a7ea-20261012';
 
-import {routeDiscovered} from './ea-scene-state.mjs?v=ea-160-courtyard-20261009-r37';
-import {lifeFacility,lifeActivityLock,lifePath,lifeScenePath,actorScenePosition,personLifeSummary,workOpportunity,teachingPresent} from './ea-life.mjs?v=ea-160-courtyard-20261009-r37';
-import {advanceScenic,repairScenicActor,validateScenic,SCENE_GEOMETRY,buildingAccess,scenicDistance,geometryRevision,syncScenicPosition} from './ea-scenic.mjs?v=ea-160-courtyard-20261009-r37';
+import {routeDiscovered} from './ea-scene-state.mjs?v=ea-issue5-850a7ea-20261012';
+import {lifeFacility,lifeActivityLock,lifePath,lifeScenePath,actorScenePosition,personLifeSummary,workOpportunity,teachingPresent} from './ea-life.mjs?v=ea-issue5-850a7ea-20261012';
+import {advanceScenic,repairScenicActor,validateScenic,SCENE_GEOMETRY,buildingAccess,scenicDistance,geometryRevision,syncScenicPosition} from './ea-scenic.mjs?v=ea-issue5-850a7ea-20261012';
 
 /** Society owns every NPC action. The main loop owns time, meals, upkeep and the master's actions. */
 export const SOCIETY_ROLES = {
@@ -233,15 +234,19 @@ function production(s,d,b,hooks,participants=null) {
   const peak=peakFor(s,d), tags=t.tags||[], order=s.workOrdersById?.[`work:production:${b.instanceId}`],skill=order?.phase!=='completed'&&(order?.crop?'plant':order?.recipeSnapshot?.skillKey)||(tags.includes('plant')?'plant':tags.includes('learning')?'learning':tags.includes('water')?'array':'industry');
   out=Object.fromEntries(Object.entries(out).map(([k,v])=>[k,v*(1+d.mind.skills[skill]/250)*(peak&&PEAK_DIRECTIONS[peak.direction].outputs.includes(k)?1+.12*peak.budget:1)]));
   if(participants){const credited=participants.reduce((total,p)=>total+p.share,0);out={};for(const {person,share,skillAtFirstContribution}of participants){const yields=hooks.buildingYield?hooks.buildingYield(s,b,person):Object.fromEntries(Object.entries(t.out).map(([k,v])=>[k,v*b.level*(.8+.2*person.talent)])),pk=peakFor(s,person);for(const[k,v]of Object.entries(yields))out[k]=(out[k]||0)+v*share/credited*(1+(skillAtFirstContribution??person.mind.skills[skill])/250)*(pk&&PEAK_DIRECTIONS[pk.direction].outputs.includes(k)?1+.12*pk.budget:1);}}
-  grant(s,out); s.society.stats.workCycles++;hooks.onProduction?.(s,d,b,out);
+  // SR settlement posts the explicit receipt directly to its physical holder.
+  // Do not temporarily grant to the public vault or infer yield from its delta.
+  if(s.srEconomy)out=productionAmounts(out);else grant(s,out);
+  s.society.stats.workCycles++;hooks.onProduction?.(s,d,b,out);
+  const wages=[];let wageBudget=s.srEconomy?addAmounts(s.resources.jade,out.jade||0):0;
   for(const {person,share}of participants||[{person:d,share:1}]) {
     const p=person.mind;p.skills[skill]=clamp(p.skills[skill]+.6*share,0,100);
-    if(s.srEconomy){const wage=Math.min(.8*share,s.resources.jade);s.resources.jade-=wage;p.purse=clamp(p.purse+wage,0,10000);}else p.purse=clamp(p.purse+.8*share,0,10000);
+    if(s.srEconomy){const wage=Math.min(productionAmount(.8*share),wageBudget,Math.max(0,subtractAmounts(10000,p.purse)));wageBudget=subtractAmounts(wageBudget,wage);p.purse=addAmounts(p.purse,wage);if(wage>0)wages.push({personId:person.personId,quantity:wage});}else p.purse=clamp(p.purse+.8*share,0,10000);
     p.restitutionBalance=Math.max(0,p.restitutionBalance-Object.values(out).reduce((a,b)=>a+b,0)*.2*share);
     if(skill==='plant'&&known(person,'wood'))p.knowledge.wood=clamp(known(person,'wood')+.18*share,0,100);
     if(skill==='array'&&known(person,'array'))p.knowledge.array=clamp(known(person,'array')+.18*share,0,100);
   }
-  return true;
+  return s.srEconomy?{grossOutput:out,wages}:true;
 }
 function consumePill(s,d,id,secret,hooks) {
   const r=RECIPES[id]; if(!r||id==='foundation')return false;

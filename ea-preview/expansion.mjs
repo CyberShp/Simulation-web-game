@@ -1,5 +1,5 @@
-import{TYPES,RESOURCE,RECIPES,EXPEDITIONS,buildingLock,isAway,sectUpgradeCost,upgradeSect,craft,usePill,expeditionLock,startExpedition,cancelExpedition,resolveEncounter,canPay}from'./sect-sim.mjs?v=ea-160-courtyard-20261009-r37';
-import{startMasterTravel,resolveMasterEncounter,cancelMasterTravel,offerRoute}from'./sect-sim.mjs?v=ea-160-courtyard-20261009-r37';
+import{TYPES,RESOURCE,RECIPES,EXPEDITIONS,buildingLock,isAway,sectUpgradeCost,upgradeSect,craft,usePill,expeditionLock,startExpedition,cancelExpedition,resolveEncounter,canPay}from'./sect-sim.mjs?v=ea-issue5-850a7ea-20261012';
+import{startMasterTravel,resolveMasterEncounter,cancelMasterTravel,offerRoute}from'./sect-sim.mjs?v=ea-issue5-850a7ea-20261012';
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 export function createExpansion(api){
  const {getState,getTab,setTab,chooseBuild,openModal,closeModal,mutate,toast,esc,resetCamera,cancelBuild}=api;

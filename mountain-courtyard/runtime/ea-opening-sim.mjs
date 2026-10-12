@@ -1,38 +1,38 @@
-import {initRainArtisan,advanceRainArtisan,validateRainArtisan,offerArtisanCare,cancelArtisanCare,declineArtisanCare,treatmentStatus} from './ea-rain-artisan.mjs?v=c69084c118cd';
-export {artisanCareView,treatmentStatus,offerArtisanCare,cancelArtisanCare,declineArtisanCare} from './ea-rain-artisan.mjs?v=c69084c118cd';
-import {prepareFacilityActivity,releaseBodyActivity,reconcileActivities,validateFacilityActivities,upgradeProductionRecipeSnapshots,cancelProduction} from './ea-facility-activities.mjs?v=c69084c118cd';
+import {initRainArtisan,advanceRainArtisan,validateRainArtisan,offerArtisanCare,cancelArtisanCare,declineArtisanCare,treatmentStatus} from './ea-rain-artisan.mjs?v=ea-issue5-850a7ea-20261012';
+export {artisanCareView,treatmentStatus,offerArtisanCare,cancelArtisanCare,declineArtisanCare} from './ea-rain-artisan.mjs?v=ea-issue5-850a7ea-20261012';
+import {prepareFacilityActivity,releaseBodyActivity,reconcileActivities,validateFacilityActivities,upgradeProductionRecipeSnapshots,cancelProduction} from './ea-facility-activities.mjs?v=ea-issue5-850a7ea-20261012';
 export {cancelProduction};
 /** DB v1.2 first development slice, wired into the actual EA application. */
-import * as base from './ea-sim.mjs?v=c69084c118cd';
-import {cloneState,hydrateState,migrateState,legacyProjection,validateV6Shape,SCHEMA_VERSION,CONTENT_VERSION} from './ea-state-v6.mjs?v=c69084c118cd';
-import {startScenicWalk,scenicPosition,advanceScenic,syncScenicPosition,buildingAccess,repairScenicState,scenicNearest} from './ea-scenic.mjs?v=c69084c118cd';
-export * from './ea-sim.mjs?v=c69084c118cd';
-import {srEnabled,initSR,validateSR,beforeSRSecond,tickSR,SR_HANDLERS,SR_BODY_COMMANDS} from './ea-sr-runtime.mjs?v=c69084c118cd';
-import {executeContractCommand} from './ea-sr-contracts.mjs?v=c69084c118cd';
-import {sceneUnits,placementIssue,initBuildingGrid,spatialPrefab,SPATIAL_SCENE} from './ea-sr-spatial.mjs?v=c69084c118cd';
-export {HALL_ESTABLISH_COST} from './ea-sr-spatial.mjs?v=c69084c118cd';
-import {BUILDING_GRID,buildingGridEnabled} from './ea-building-grid.mjs?v=c69084c118cd';
-import {advanceSRStory} from './ea-sr-story.mjs?v=c69084c118cd';
-import {tickCampaignCombat,settleCombatBodyProjection} from './ea-campaign.mjs?v=c69084c118cd';
-import {teachingQualificationSR} from './ea-sr-cultivation.mjs?v=c69084c118cd';
-import {prepareAutonomyV2 as prepareAutonomyV2Checked,reconcileAutonomyV2Commitments} from './ea-sr-persons.mjs?v=c69084c118cd';
-import {upgradeEquipmentRecipeSnapshots} from './ea-sr-equipment.mjs?v=c69084c118cd';
-import {beginOpeningInheritance,chooseOpeningInheritance,recoverOpeningInheritance,validateOpeningInheritance} from './ea-opening-inheritance.mjs?v=c69084c118cd';
-export {openingInheritanceView,openingRecoveryOptions} from './ea-opening-inheritance.mjs?v=c69084c118cd';
-export * from './ea-sr-equipment.mjs?v=c69084c118cd';
-export * from './ea-sr-cultivation.mjs?v=c69084c118cd';
-export * from './ea-sr-combat.mjs?v=c69084c118cd';
-export * from './ea-sr-covenants.mjs?v=c69084c118cd';
-export * from './ea-sr-mother-chain.mjs?v=c69084c118cd';
-export * from './ea-sr-economy.mjs?v=c69084c118cd';
-export * from './ea-sr-persons.mjs?v=c69084c118cd';
-export * from './ea-sr-weather.mjs?v=c69084c118cd';
-export * from './ea-sr-organization.mjs?v=c69084c118cd';
-export * from './ea-sr-world.mjs?v=c69084c118cd';
-export * from './ea-sr-crises.mjs?v=c69084c118cd';
-export * from './ea-sr-story.mjs?v=c69084c118cd';
-export * from './ea-sr-descent.mjs?v=c69084c118cd';
-export * from './ea-sr-late-economy.mjs?v=c69084c118cd';
+import * as base from './ea-sim.mjs?v=ea-issue5-850a7ea-20261012';
+import {cloneState,hydrateState,migrateState,legacyProjection,validateV6Shape,SCHEMA_VERSION,CONTENT_VERSION} from './ea-state-v6.mjs?v=ea-issue5-850a7ea-20261012';
+import {startScenicWalk,scenicPosition,advanceScenic,syncScenicPosition,buildingAccess,repairScenicState,scenicNearest} from './ea-scenic.mjs?v=ea-issue5-850a7ea-20261012';
+export * from './ea-sim.mjs?v=ea-issue5-850a7ea-20261012';
+import {srEnabled,initSR,validateSR,beforeSRSecond,tickSR,SR_HANDLERS,SR_BODY_COMMANDS} from './ea-sr-runtime.mjs?v=ea-issue5-850a7ea-20261012';
+import {executeContractCommand} from './ea-sr-contracts.mjs?v=ea-issue5-850a7ea-20261012';
+import {sceneUnits,placementIssue,initBuildingGrid,spatialPrefab,SPATIAL_SCENE} from './ea-sr-spatial.mjs?v=ea-issue5-850a7ea-20261012';
+export {HALL_ESTABLISH_COST} from './ea-sr-spatial.mjs?v=ea-issue5-850a7ea-20261012';
+import {BUILDING_GRID,buildingGridEnabled} from './ea-building-grid.mjs?v=ea-issue5-850a7ea-20261012';
+import {advanceSRStory} from './ea-sr-story.mjs?v=ea-issue5-850a7ea-20261012';
+import {tickCampaignCombat,settleCombatBodyProjection} from './ea-campaign.mjs?v=ea-issue5-850a7ea-20261012';
+import {teachingQualificationSR} from './ea-sr-cultivation.mjs?v=ea-issue5-850a7ea-20261012';
+import {prepareAutonomyV2 as prepareAutonomyV2Checked,reconcileAutonomyV2Commitments} from './ea-sr-persons.mjs?v=ea-issue5-850a7ea-20261012';
+import {upgradeEquipmentRecipeSnapshots} from './ea-sr-equipment.mjs?v=ea-issue5-850a7ea-20261012';
+import {beginOpeningInheritance,chooseOpeningInheritance,recoverOpeningInheritance,validateOpeningInheritance} from './ea-opening-inheritance.mjs?v=ea-issue5-850a7ea-20261012';
+export {openingInheritanceView,openingRecoveryOptions} from './ea-opening-inheritance.mjs?v=ea-issue5-850a7ea-20261012';
+export * from './ea-sr-equipment.mjs?v=ea-issue5-850a7ea-20261012';
+export * from './ea-sr-cultivation.mjs?v=ea-issue5-850a7ea-20261012';
+export * from './ea-sr-combat.mjs?v=ea-issue5-850a7ea-20261012';
+export * from './ea-sr-covenants.mjs?v=ea-issue5-850a7ea-20261012';
+export * from './ea-sr-mother-chain.mjs?v=ea-issue5-850a7ea-20261012';
+export * from './ea-sr-economy.mjs?v=ea-issue5-850a7ea-20261012';
+export * from './ea-sr-persons.mjs?v=ea-issue5-850a7ea-20261012';
+export * from './ea-sr-weather.mjs?v=ea-issue5-850a7ea-20261012';
+export * from './ea-sr-organization.mjs?v=ea-issue5-850a7ea-20261012';
+export * from './ea-sr-world.mjs?v=ea-issue5-850a7ea-20261012';
+export * from './ea-sr-crises.mjs?v=ea-issue5-850a7ea-20261012';
+export * from './ea-sr-story.mjs?v=ea-issue5-850a7ea-20261012';
+export * from './ea-sr-descent.mjs?v=ea-issue5-850a7ea-20261012';
+export * from './ea-sr-late-economy.mjs?v=ea-issue5-850a7ea-20261012';
 export {srEnabled,initSR};
 export {cloneState,SCHEMA_VERSION,CONTENT_VERSION};
 const LEGACY_COMMAND_NAMES=['recoverOpeningInheritance','chooseOpeningInheritance','setSpeed','setIntroPage','acknowledgeOnboarding','requestSceneInteraction','cancelSceneInteraction','setNarrativePage','acknowledgeNarrative','acknowledgeIntro','advanceStory','build','cancelConstruction','cancelProduction','offerArtisanCare','cancelArtisanCare','declineArtisanCare','upgrade','toggleBuilding','repairBuilding','relocate','demolish','recruit','obtainBook','sealBook','masterStudy','forgetSupport','returnToBasics','masterBreakthrough','masterRiskBreakthrough','masterPill','masterAction','masterTeach','moveMaster','moveScenicMaster','craft','trade','fulfill','claim','setPolicy','offerRoute','upgradeSect','societyCommand','foundSect','inviteOffice','foundPeak','inviteMentor','setSocietyPolicy','settleIncident','resolvePersonalQuest','resolveWorldVisitor','resolveSocietyVisitor','startExploration','moveExploration','resolveExploration','leaveRegion','combatAction','acknowledgeCombat','startMasterTravel','resolveMasterEncounter','cancelMasterTravel'];
@@ -303,10 +303,10 @@ export function dispatchCommand(s,{name,args=[],id=`command:${s.transactions.nex
 
 export function placementLock(s,type,x,y,ignoreId=null,level=1){return srEnabled(s)?placementIssue(s,type,x,y,{ignoreId,level}):base.placementLock(s,type,x,y,ignoreId);}
 
-export {spatialEnabled,viewSpatial,PREFAB_CATALOG,placementIssue,sceneUnits} from './ea-sr-spatial.mjs?v=c69084c118cd';
-export {BUILDING_GRID,buildingGridEnabled,buildingCellSize,buildingCellLabel,snapBuildingPoint} from './ea-building-grid.mjs?v=c69084c118cd';
+export {spatialEnabled,viewSpatial,PREFAB_CATALOG,placementIssue,sceneUnits} from './ea-sr-spatial.mjs?v=ea-issue5-850a7ea-20261012';
+export {BUILDING_GRID,buildingGridEnabled,buildingCellSize,buildingCellLabel,snapBuildingPoint} from './ea-building-grid.mjs?v=ea-issue5-850a7ea-20261012';
 
-export {viewBalance} from './ea-sr-balance.mjs?v=c69084c118cd';
+export {viewBalance} from './ea-sr-balance.mjs?v=ea-issue5-850a7ea-20261012';
 
 export function recommendedPlacement(s,type){
  if(!srEnabled(s))return base.CELLS.find(p=>!base.placementLock(s,type,p.x,p.y))||null;

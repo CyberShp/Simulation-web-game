@@ -1,10 +1,10 @@
-import {artisanPresent} from './ea-rain-artisan.mjs?v=c69084c118cd';
-import {facilitySlotView} from './ea-facility-slots.mjs?v=c69084c118cd';
-import {productionOrder} from './ea-facility-activities.mjs?v=c69084c118cd';
-import {BUILDINGS,ROUTES,RESOURCES,stage} from './ea-data.mjs?v=c69084c118cd';
-import {scenicPoint,buildingAccess,buildingSize,buildingFootprint} from './ea-scene-geometry.mjs?v=c69084c118cd';
-import {lifeFacility} from './ea-life.mjs?v=c69084c118cd';
-import {recoveryObjective} from './ea-onboarding.mjs?v=c69084c118cd';
+import {artisanPresent} from './ea-rain-artisan.mjs?v=ea-issue5-850a7ea-20261012';
+import {facilitySlotView} from './ea-facility-slots.mjs?v=ea-issue5-850a7ea-20261012';
+import {productionOrder} from './ea-facility-activities.mjs?v=ea-issue5-850a7ea-20261012';
+import {BUILDINGS,ROUTES,RESOURCES,stage} from './ea-data.mjs?v=ea-issue5-850a7ea-20261012';
+import {scenicPoint,buildingAccess,buildingSize,buildingFootprint} from './ea-scene-geometry.mjs?v=ea-issue5-850a7ea-20261012';
+import {lifeFacility} from './ea-life.mjs?v=ea-issue5-850a7ea-20261012';
+import {recoveryObjective} from './ea-onboarding.mjs?v=ea-issue5-850a7ea-20261012';
 
 export const facilityActive=b=>!!b&&b.enabled!==false&&b.condition>0;
 export function facilityRecords(s){

@@ -1,8 +1,8 @@
-import {spatialEnabled,sceneUnits,spatialAccess,SPATIAL_VERSION,COURTYARD_WALK_RATE,meterBodyBlocker,meterLocalBodyDetour,metreWalkTarget,requestBodyYield,meterDoorPermit,meterDoorMoved} from './ea-sr-spatial.mjs?v=c69084c118cd';
-import {slotById} from './ea-facility-slots.mjs?v=c69084c118cd';
-import {point,findPath,sweep,canStand,distance,LANDMARKS} from './yunxiu-courtyard/navigation.mjs?v=c69084c118cd';
-import {SCENE_GEOMETRY,SCENIC_PLOTS,scenicCanStand,scenicFindPath,scenicSweep,scenicNearest,buildingAccess,geometryRevision,scenicDistance} from './ea-scene-geometry.mjs?v=c69084c118cd';
-export {SCENE_GEOMETRY,scenicPoint,scenicInverse,scenicCanStand,scenicFindPath,scenicNearest,scenicDistance,scenicPathDistance,buildingAccess,geometryRevision} from './ea-scene-geometry.mjs?v=c69084c118cd';
+import {spatialEnabled,sceneUnits,spatialAccess,SPATIAL_VERSION,COURTYARD_WALK_RATE,meterBodyBlocker,meterLocalBodyDetour,metreWalkTarget,requestBodyYield,meterDoorPermit,meterDoorMoved} from './ea-sr-spatial.mjs?v=ea-issue5-850a7ea-20261012';
+import {slotById} from './ea-facility-slots.mjs?v=ea-issue5-850a7ea-20261012';
+import {point,findPath,sweep,canStand,distance,LANDMARKS} from './yunxiu-courtyard/navigation.mjs?v=ea-issue5-850a7ea-20261012';
+import {SCENE_GEOMETRY,SCENIC_PLOTS,scenicCanStand,scenicFindPath,scenicSweep,scenicNearest,buildingAccess,geometryRevision,scenicDistance} from './ea-scene-geometry.mjs?v=ea-issue5-850a7ea-20261012';
+export {SCENE_GEOMETRY,scenicPoint,scenicInverse,scenicCanStand,scenicFindPath,scenicNearest,scenicDistance,scenicPathDistance,buildingAccess,geometryRevision} from './ea-scene-geometry.mjs?v=ea-issue5-850a7ea-20261012';
 
 export const FACILITY_AREAS={hall:'main',house:'main',library:'main',watchtower:'gate',farm:'herbs',granary:'herbs',well:'herbs',lumber:'workshop',workshop:'workshop',quarry:'works',meditation:'meditation',alchemy:'kitchen',clinic:'kitchen',kitchen:'kitchen'};
 export const areaPoint=id=>point(LANDMARKS.find(l=>l.id===id)?.node||'centre');

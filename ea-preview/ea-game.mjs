@@ -1,14 +1,14 @@
-import * as SIM from './ea-opening-sim.mjs?v=ea-160-courtyard-20261009-r37';
-import {EA_SHELL,createEAUI} from './ea-ui.mjs?v=ea-160-courtyard-20261009-r37';
-import {createEAPersistence,MAX_IMPORT_BYTES} from './ea-persistence.mjs?v=ea-160-courtyard-20261009-r37';
-import {createWorldRenderer} from './ea-courtyard-renderer.mjs?v=ea-160-courtyard-20261009-r37';
-import {attachMapInput} from './map-input.mjs?v=ea-160-courtyard-20261009-r37';
-import {scenicPosition} from './ea-scenic.mjs?v=ea-160-courtyard-20261009-r37';
-import {spatialPrefab} from './ea-sr-spatial.mjs?v=ea-160-courtyard-20261009-r37';
-import {sceneInteractionReady,sceneInteractionTarget} from './ea-interactions.mjs?v=ea-160-courtyard-20261009-r37';
-import {createRuntimeClock,createFrameDiagnostics} from './ea-runtime.mjs?v=ea-160-courtyard-20261009-r37';
-import {recommendedPlot} from './ea-onboarding.mjs?v=ea-160-courtyard-20261009-r37';
-import {createOpeningAudio} from './ea-opening-audio.mjs?v=ea-160-courtyard-20261009-r37';
+import * as SIM from './ea-opening-sim.mjs?v=ea-issue5-850a7ea-20261012';
+import {EA_SHELL,createEAUI} from './ea-ui.mjs?v=ea-issue5-850a7ea-20261012';
+import {createEAPersistence,MAX_IMPORT_BYTES} from './ea-persistence.mjs?v=ea-issue5-850a7ea-20261012';
+import {createWorldRenderer} from './ea-courtyard-renderer.mjs?v=ea-issue5-850a7ea-20261012';
+import {attachMapInput} from './map-input.mjs?v=ea-issue5-850a7ea-20261012';
+import {scenicPosition} from './ea-scenic.mjs?v=ea-issue5-850a7ea-20261012';
+import {spatialPrefab} from './ea-sr-spatial.mjs?v=ea-issue5-850a7ea-20261012';
+import {sceneInteractionReady,sceneInteractionTarget} from './ea-interactions.mjs?v=ea-issue5-850a7ea-20261012';
+import {createRuntimeClock,createFrameDiagnostics} from './ea-runtime.mjs?v=ea-issue5-850a7ea-20261012';
+import {recommendedPlot} from './ea-onboarding.mjs?v=ea-issue5-850a7ea-20261012';
+import {createOpeningAudio} from './ea-opening-audio.mjs?v=ea-issue5-850a7ea-20261012';
 
 const VERSION=SIM.GAME_VERSION;
 const runtimeClock=createRuntimeClock(),diagnostics=createFrameDiagnostics();

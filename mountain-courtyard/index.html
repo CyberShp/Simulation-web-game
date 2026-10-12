@@ -5,14 +5,14 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#17251f">
   <link rel="icon" href="data:,">
-  <link rel="stylesheet" href="game-ui.css?v=c69084c118cd">
-  <link rel="stylesheet" href="system-ui.css?v=c69084c118cd">
-  <link rel="stylesheet" href="system-people.css?v=c69084c118cd">
-  <link rel="stylesheet" href="system-inventory.css?v=c69084c118cd">
-  <link rel="stylesheet" href="system-crafting.css?v=c69084c118cd">
-  <link rel="stylesheet" href="system-sect.css?v=c69084c118cd">
-  <link rel="stylesheet" href="system-world.css?v=c69084c118cd">
-  <link rel="stylesheet" href="battle-ui.css?v=c69084c118cd">
+  <link rel="stylesheet" href="game-ui.css?v=ea-issue5-850a7ea-20261012">
+  <link rel="stylesheet" href="system-ui.css?v=ea-issue5-850a7ea-20261012">
+  <link rel="stylesheet" href="system-people.css?v=ea-issue5-850a7ea-20261012">
+  <link rel="stylesheet" href="system-inventory.css?v=ea-issue5-850a7ea-20261012">
+  <link rel="stylesheet" href="system-crafting.css?v=ea-issue5-850a7ea-20261012">
+  <link rel="stylesheet" href="system-sect.css?v=ea-issue5-850a7ea-20261012">
+  <link rel="stylesheet" href="system-world.css?v=ea-issue5-850a7ea-20261012">
+  <link rel="stylesheet" href="battle-ui.css?v=ea-issue5-850a7ea-20261012">
   <title>余烬立山 · 云岫山院</title>
 
 </head>
@@ -60,15 +60,15 @@
   <script>window.__paintedGameMode = true;</script>
   <script src="index.js"></script>
   <script type="module">
-    import {bootGodotHost} from './runtime/ea-godot-host.mjs?v=c69084c118cd';
-    import {startEstateGameUI} from './game-ui.mjs?v=c69084c118cd';
-    import {installScenePackLoader} from './scene-pack-loader.mjs?v=c69084c118cd';
+    import {bootGodotHost} from './runtime/ea-godot-host.mjs?v=ea-issue5-850a7ea-20261012';
+    import {startEstateGameUI} from './game-ui.mjs?v=ea-issue5-850a7ea-20261012';
+    import {installScenePackLoader} from './scene-pack-loader.mjs?v=ea-issue5-850a7ea-20261012';
     const configuration={"args": [], "canvasResizePolicy": 2, "emscriptenPoolSize": 8, "ensureCrossOriginIsolationHeaders": true, "executable": "index", "experimentalVK": false, "fileSizes": {"index.wasm": 37700666, "scene-772e4d90182e.pck": 42643972}, "focusCanvas": true, "gdextensionLibs": [], "godotPoolSize": 4, "mainPack": "scene-772e4d90182e.pck", "scenePack": {"byteLength": 42643972, "sha256": "772e4d90182ed29edba4cab77c8b76f8fea7ef74acf289611696d13639519d30", "parts": [{"url": "scene-772e4d90182e.pck.part0", "byteLength": 16777216, "sha256": "b87ff13734fa0f7b54a278ba354d843b8e1c06f7e5dfbf5857f3f30de2ce3d54"}, {"url": "scene-772e4d90182e.pck.part1", "byteLength": 16777216, "sha256": "a8e5695003fc11d78bd94b04ad3192c58d13aa982898494bfed6110fa30bf841"}, {"url": "scene-772e4d90182e.pck.part2", "byteLength": 9089540, "sha256": "eb021280a072d4f3a800b7b62fe4b962bc5121e4a40117af828f66036fe92229"}]}};
     const loading=document.getElementById('loading'), progress=document.getElementById('progress');
     try {
       const missing=Engine.getMissingFeatures({threads:false});
       if(missing.length)throw Error('浏览器暂时无法运行山院：'+missing.join('、'));
-      const siteLayout=await fetch('./estate-sites.json').then(response=>{if(!response.ok)throw Error('山院营造地未能载入');return response.json()});
+      const siteLayout=await fetch('./estate-sites.json?v=ea-issue5-850a7ea-20261012').then(response=>{if(!response.ok)throw Error('山院营造地未能载入');return response.json()});
       const host=await bootGodotHost({preview:'estate-game',siteLayout});
       startEstateGameUI(host,siteLayout);
       const engine=new Engine(configuration);
