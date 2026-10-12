@@ -14,9 +14,9 @@
 
 纳入云岫前期，按依赖推进。
 
-决策来源：U-63, U-93, R-25, U-94。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
+决策来源：U-63, U-93, R-25, U-94, U-125。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
 
-规格：[01-CHARACTERS.md](../../../docs/design/01-CHARACTERS.md)、[04-WORLD-STORY.md](../../../docs/design/04-WORLD-STORY.md)、[08-LIVING-WORLD.md](../../../docs/design/08-LIVING-WORLD.md)、[09-INTRIGUE-OPPORTUNITIES.md](../../../docs/design/09-INTRIGUE-OPPORTUNITIES.md)、[12-CONTENT-AUTHORING.md](../../../docs/design/12-CONTENT-AUTHORING.md)、[06-OPENING-ACCEPTANCE.md](../../../docs/design/06-OPENING-ACCEPTANCE.md)、[TAKEOVER-2026-10-06.md](../../../docs/requirements/TAKEOVER-2026-10-06.md)。
+规格：[01-CHARACTERS.md](../../../docs/design/01-CHARACTERS.md)、[04-WORLD-STORY.md](../../../docs/design/04-WORLD-STORY.md)、[08-LIVING-WORLD.md](../../../docs/design/08-LIVING-WORLD.md)、[09-INTRIGUE-OPPORTUNITIES.md](../../../docs/design/09-INTRIGUE-OPPORTUNITIES.md)、[12-CONTENT-AUTHORING.md](../../../docs/design/12-CONTENT-AUTHORING.md)、[06-OPENING-ACCEPTANCE.md](../../../docs/design/06-OPENING-ACCEPTANCE.md)、[TAKEOVER-2026-10-06.md](../../../docs/requirements/TAKEOVER-2026-10-06.md)、[42-CHARACTER-DIALOGUE.md](../../../docs/design/42-CHARACTER-DIALOGUE.md)。
 
 依赖：[SR-XF-002](SR-XF-002.md)、[SR-XF-017](SR-XF-017.md)。
 
@@ -107,6 +107,7 @@ SR-XF-020-V01证据：2026-10-06：定向脚本与回归结果见接续实施记
 - 2026-10-06运行时部分已发布 Pages 7d16d54 / workflow 37453110511 success；release_status 仍表示整项 SR 验收/关闭门槛，未因开发版部署提升。
 - 2026-10-08 r24 AC03：正常救援后向苏家亲属和顾婉仪实际传话，20公开命令/7精确存读；重复阅读、隔空失败、重传、原生重载及恢复世界步不重复结算或改原话/观察/送达刻。根1/1、相邻31/31，本地Chromium正式导入、纪事实点及刷新续读、零控制台错误/警告；按原文passed。AC01与整项V/R待。
 - 2026-10-08 r25 AC01：正常新档在真实雨天收到姚仲真假混合口信，原话及观察/送达世界刻4800留存；掌门实际到听雨侧洞于5113查验洞口、于5199与青萝当面交谈后，仅新增两条有来源现场记录，药量与采出能否救急仍列为推测，不把作者真相当玩家已知。30条公开命令/23次精确存读，专项1/1、SR020重传相邻1/1、世界21/21、SR002玩家投影7/7。独立本地Chromium导入初闻及最终原生档、刷新继续，纪事仍保留原话和两次核实，控制台0错误/0警告。证据 qa/ea-sr-020-merchant-message-public-acceptance.mjs；本地浏览器快照 /tmp/immortal-sr020-message-r25/.playwright-cli/page-2026-10-08T11-39-34-270Z.yml。AC01按原文passed；完整CONTENT-05/INTRO-03、目标设备、SR整体V/R继续。
+- 2026-10-12 U-125：42 人物交谈及关联契约定义统一立绘聊天窗、身份叠加、知情、距离、意愿、暂停和持久规则；DIALOGUE-01–10 为 not_run。本批为设计与静态原型，运行接入及完整 SR/AC 状态保持。
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。

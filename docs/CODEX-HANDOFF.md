@@ -1,5 +1,9 @@
 # Codex 接手指南 · 2026-10-12
 
+## 当前接续 · U-125 / U-124
+
+先读取[42 人物交谈](design/42-CHARACTER-DIALOGUE.md)及 U-125：统一立绘聊天窗的设计已落档，运行接入待实施。当前工作按 U-124 从同一普通新档验收当前开局，修复实际遇到的卡点并验证存读；证据见[连续新档实玩](art/OPENING-CHAIN-2026-10-12.md)，最新完成状态以 STATUS 为准。
+
 ## 当前批次 · 炼丹、山谷与首战（2026-10-12）
 
 U-123 三段流程已实现并发布：山院种收与第一炉、云岫山谷采集会面往返、首战受伤撤退与返院服药。玩法定向检查 18／18、分片加载检查 3／3，真实 Godot 网页已验证搬运、成丹、攻防、场景往返及战斗／归院存读。实现与复验入口见 [41 号实施记录](design/41-COURTYARD-VALLEY-IMPLEMENTATION.md)和[实玩记录](art/COURTYARD-VALLEY-2026-10-12.md)。构建命令 `python3 tools/build-estate-painted-web.py --output output/u123-integrated-preview/index.html`；运行源码 `836ccb6`、Pages `4d6786d`，构建为 `built`；公开文件字节核对与网页操作范围见 [STATUS](design/STATUS.md)。目标真机、玩家美术评看与完整 SR 验收继续分别登记。

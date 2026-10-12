@@ -145,6 +145,14 @@
       "role": "arts-catalogue-Y310-Y347"
     },
     {
+      "path": "docs/design/41-COURTYARD-VALLEY-IMPLEMENTATION.md",
+      "role": "courtyard-alchemy-valley-combat-and-continuous-new-save-acceptance"
+    },
+    {
+      "path": "docs/design/42-CHARACTER-DIALOGUE.md",
+      "role": "shared-character-dialogue-identity-topics-distance-pause-and-persistence"
+    },
+    {
       "path": "docs/design/15-OPENING-IMPLEMENTATION.md",
       "role": "opening-development-slice-and-evidence"
     },
@@ -192,6 +200,7 @@
   "taskRead": {
     "characters": [
       "01-CHARACTERS.md",
+      "42-CHARACTER-DIALOGUE.md",
       "03-SPATIAL-ART.md",
       "05-RUNTIME-CONTRACTS.md",
       "06-OPENING-ACCEPTANCE.md",
@@ -200,6 +209,14 @@
       "10-CRISES-RESCUE-DEATH.md",
       "13-WORLDVIEW-DISCUSSION.md",
       "14-EARLY-GAME-DETAILED-DESIGN.md"
+    ],
+    "character_dialogue": [
+      "42-CHARACTER-DIALOGUE.md",
+      "01-CHARACTERS.md",
+      "05-RUNTIME-CONTRACTS.md",
+      "06-OPENING-ACCEPTANCE.md",
+      "08-LIVING-WORLD.md",
+      "09-INTRIGUE-OPPORTUNITIES.md"
     ],
     "equipment_arts_combat": [
       "01-CHARACTERS.md",
@@ -1292,7 +1309,7 @@
     "historicalMountainTrialDecisionId": "U-107"
   },
   "currentHandoff": {
-    "updatedAt": "2026-10-11",
+    "updatedAt": "2026-10-12",
     "entry": "AGENTS.md",
     "handoff": "docs/CODEX-HANDOFF.md",
     "deliveryPlan": "docs/DELIVERY-PLAN.md",
@@ -1327,10 +1344,47 @@
     "currentArtsReference": "docs/design/19-FIVE-CONTINENT-ARTS.md",
     "currentArtsBalanceReference": "docs/design/20-ARTS-GROWTH-COMBAT.md",
     "currentOpeningInheritance": "docs/design/32-OPENING-INHERITANCE.md",
+    "currentOpeningAcceptanceDecisionId": "U-124",
+    "currentOpeningAcceptanceReference": "docs/design/41-COURTYARD-VALLEY-IMPLEMENTATION.md",
+    "currentCharacterDialogueDecisionId": "U-125",
+    "currentCharacterDialogueReference": "docs/design/42-CHARACTER-DIALOGUE.md",
+    "currentSequence": "record-character-dialogue-rules-then-continue-single-normal-new-save-opening-acceptance",
     "currentArtsLedger": "docs/design/28-FIVE-CONTINENT-ARTS-LEDGER.md",
     "estateSourceScene": "godot/estate_2d/estate.tscn",
     "estateSiteLayout": "godot/estate_2d/estate-sites.json",
     "estatePreview": "dist/painted-game/index.html"
+  },
+  "characterDialogue": {
+    "decisionId": "U-125",
+    "updatedAt": "2026-10-12",
+    "reference": "docs/design/42-CHARACTER-DIALOGUE.md",
+    "status": "designed",
+    "runtimeImplementation": "not-started",
+    "runtimeAcceptance": "not_run",
+    "prototype": "docs/art/character-dialogue-20261012/dialogue-lu-zhiwei-v1.png",
+    "prototypeKind": "static-image",
+    "prototypeReference": "docs/art/character-dialogue-20261012/README.md",
+    "sharedWindowForAllNPCs": true,
+    "composableKnownIdentityRelationshipAndSituation": true,
+    "readingPauseScope": "whole-world",
+    "exitPausePolicy": "preserve-player-pause-intent-and-other-pause-reasons",
+    "inPersonActionsRequireActualArrival": true,
+    "initialTopicCountSuggestion": [3, 4],
+    "topicCountIsUserFixed": false,
+    "acceptanceReference": "docs/design/06-OPENING-ACCEPTANCE.md",
+    "acceptanceIds": [
+      "DIALOGUE-01",
+      "DIALOGUE-02",
+      "DIALOGUE-03",
+      "DIALOGUE-04",
+      "DIALOGUE-05",
+      "DIALOGUE-06",
+      "DIALOGUE-07",
+      "DIALOGUE-08",
+      "DIALOGUE-09",
+      "DIALOGUE-10"
+    ],
+    "closesWholeRequirements": false
   },
   "historicalDevelopmentSnapshots": [
     {

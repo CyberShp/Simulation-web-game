@@ -2983,7 +2983,8 @@
         "U-103",
         "U-104",
         "U-118",
-        "U-120"
+        "U-120",
+        "U-125"
       ],
       "source_specs": [
         "docs/design/01-CHARACTERS.md",
@@ -2992,7 +2993,8 @@
         "docs/design/14-EARLY-GAME-DETAILED-DESIGN.md",
         "docs/design/06-OPENING-ACCEPTANCE.md",
         "docs/GODOT-MIGRATION.md",
-        "docs/ART-REALTIME-TRIAL.md"
+        "docs/ART-REALTIME-TRIAL.md",
+        "docs/design/42-CHARACTER-DIALOGUE.md"
       ],
       "baseline": "沿用六列云岫人物及稳定spriteIndex/外观配方；真实床位休憩、书案研习和满包等候已按同一身份与身体活动投影静态姿态，缺图保留基础同身份人物和点选。",
       "design_gap": "D01/D02 已补齐关键人物配方、活动/工具和三视图同身份映射，并完成 SR002/SR004 与 REQ/AC 契约审阅。疗伤/劳动/斗法等完整连续动作、持久配方版本及面部标记范围门禁、三人以上真人辨识体验仍属 I/V 后续缺口；静态姿态与回退不代表完整动画完成。",
@@ -3092,7 +3094,8 @@
         "2026-10-11 U-118 转向校准：人物动作 45／45，行走跨越转向时持续使用行走帧；本地 Chromium 行走中站立转身帧 0。角色辨识与目标设备 AC 状态不变。",
         "docs/art/system-ui-20261012/RUNTIME.md",
         "tests/ea-system-ui-projection.test.mjs",
-        "2026-10-12 U-120：真实人物 ID、外观和公开修习接入名册／详情／掌门页；30 门人五页名册及人物功法往返通过模块检查，浏览器实点四页详情并定位同一场景人物。场景定位后继续行走的短样本仅覆盖本机 Chromium。完整人物动作、辨识及目标设备 AC 状态保持。"
+        "2026-10-12 U-120：真实人物 ID、外观和公开修习接入名册／详情／掌门页；30 门人五页名册及人物功法往返通过模块检查，浏览器实点四页详情并定位同一场景人物。场景定位后继续行走的短样本仅覆盖本机 Chromium。完整人物动作、辨识及目标设备 AC 状态保持。",
+        "2026-10-12 U-125：42 人物交谈及关联契约定义统一立绘聊天窗、身份叠加、知情、距离、意愿、暂停和持久规则；DIALOGUE-01–10 为 not_run。本批为设计与静态原型，运行接入及完整 SR/AC 状态保持。"
       ],
       "change_log": [
         {
@@ -3336,7 +3339,8 @@
         "U-93",
         "R-25",
         "U-94",
-        "U-123"
+        "U-123",
+        "U-125"
       ],
       "source_specs": [
         "docs/design/01-CHARACTERS.md",
@@ -3344,7 +3348,8 @@
         "docs/design/08-LIVING-WORLD.md",
         "docs/design/14-EARLY-GAME-DETAILED-DESIGN.md",
         "docs/design/03-SPATIAL-ART.md",
-        "docs/design/41-COURTYARD-VALLEY-IMPLEMENTATION.md"
+        "docs/design/41-COURTYARD-VALLEY-IMPLEMENTATION.md",
+        "docs/design/42-CHARACTER-DIALOGUE.md"
       ],
       "baseline": "已有自主行为、意愿和工位等候基础。",
       "design_gap": "v2 日相位已随唯一世界时钟更新且不打断有效工作承诺；完整候选效用、日程活动切换、职责、记忆更新及 3–5/24–32 人规模参数仍需补齐。",
@@ -3416,7 +3421,8 @@
         "qa/ea-sr-008-v2-migration-acceptance.mjs",
         "2026-10-08 M2 r32 v2 日相位子批：正常五人/两真实伐木工位来源链107+6公开命令、67次精确存读；两位自愿门人跨休整→生产偏好时保留原240步承诺、岗位和不同实际工位，停用营造后才中断。schedule.phase 在迁移、每世界步和只读人物页用同一 worldTick；不改生产结算或另建身体。根与独立新专项1/1、迁移1/1，旧邀请1/1、UI契约17通过/4待设备。旧v2-work硬编码缺失人物及旧five-workers精确小数坐标断言，在本提交父版本原样失败，不计回归通过；伤病/生产专项缺来源档跳过。源码2455d0b、Pages8c5621e built，162文本blob及公网入口/人物模块字节一致；r32未做浏览器游戏内交互和真机。完整v2/I/V/R继续。",
         "docs/art/COURTYARD-VALLEY-2026-10-12.md",
-        "tests/ea-mountain-alchemy.test.mjs"
+        "tests/ea-mountain-alchemy.test.mjs",
+        "2026-10-12 U-125：42 人物交谈及关联契约定义统一立绘聊天窗、身份叠加、知情、距离、意愿、暂停和持久规则；DIALOGUE-01–10 为 not_run。本批为设计与静态原型，运行接入及完整 SR/AC 状态保持。"
       ],
       "change_log": [
         {
@@ -4359,7 +4365,8 @@
         "U-94",
         "U-105",
         "R-32",
-        "U-123"
+        "U-123",
+        "U-125"
       ],
       "source_specs": [
         "docs/design/02-EQUIPMENT-ARTS.md",
@@ -4367,7 +4374,8 @@
         "docs/design/07-ECONOMY-ORGANIZATION.md",
         "docs/design/14-EARLY-GAME-DETAILED-DESIGN.md",
         "docs/SECT-GROWTH-PLAN.md",
-        "docs/design/41-COURTYARD-VALLEY-IMPLEMENTATION.md"
+        "docs/design/41-COURTYARD-VALLEY-IMPLEMENTATION.md",
+        "docs/design/42-CHARACTER-DIALOGUE.md"
       ],
       "baseline": "既有 JS 运行基线：已有买卖与资源交换基础。 U-105 山域成长方案见 docs/SECT-GROWTH-PLAN.md；本批只登记设计与阶段原型，正式运行版本保持。",
       "design_gap": "既有订单与有限补货证据保留。U-105 外部补给作为山域生产迁移期间的替代来源，仍须细化实际货位、运输路线、时限与中断恢复；原完整订单/公器销售验收继续。",
@@ -4438,7 +4446,8 @@
         "局部：2026-10-08 M2 r31 承运中断恢复：从正常公开补货各阶段存档出发，受控伤势35在出程/回程及供货仓验货、购货后、坊市交付前三处原位静养；三处同地阶段独立复核各经429个世界步复工，同一运单货位/产权/已付费用不变，购买/关口/交付事实各唯一。返程伤愈断路仍等待修路；已购货后死亡停止静养，旅途遗物指向真实travelId，500步不再收费交货。专项全过，旧商单12/12、危机21/21、根相邻事后10/10、运输6/6、世界21/21。源码b79b62b、Pages3a73c02 built；162文本blob及公网入口/经营/危机模块字节一致，公开Chromium仅首屏加载。合法继任/取回、取消与改道及目标设备仍未验，AC02和整项状态不变。",
         "docs/SECT-GROWTH-PLAN.md；2026-10-09 山域总图、五阶段迁移及统一原型的设计来源；当前运行验收待补。",
         "docs/art/COURTYARD-VALLEY-2026-10-12.md",
-        "tests/ea-mountain-alchemy.test.mjs"
+        "tests/ea-mountain-alchemy.test.mjs",
+        "2026-10-12 U-125：42 人物交谈及关联契约定义统一立绘聊天窗、身份叠加、知情、距离、意愿、暂停和持久规则；DIALOGUE-01–10 为 not_run。本批为设计与静态原型，运行接入及完整 SR/AC 状态保持。"
       ],
       "change_log": [
         {
@@ -5581,7 +5590,8 @@
         "U-93",
         "R-25",
         "U-94",
-        "U-123"
+        "U-123",
+        "U-125"
       ],
       "source_specs": [
         "docs/design/03-SPATIAL-ART.md",
@@ -5589,7 +5599,8 @@
         "docs/design/12-CONTENT-AUTHORING.md",
         "docs/design/14-EARLY-GAME-DETAILED-DESIGN.md",
         "docs/requirements/TAKEOVER-2026-10-06.md",
-        "docs/design/41-COURTYARD-VALLEY-IMPLEMENTATION.md"
+        "docs/design/41-COURTYARD-VALLEY-IMPLEMENTATION.md",
+        "docs/design/42-CHARACTER-DIALOGUE.md"
       ],
       "baseline": "七个前期世界场景已经接实际旅行、中心基座对象和区别地景；身份及持久路况沿用旧 ID。",
       "design_gap": "设计与基座命中已补齐；破阵/修桥全部恢复分支、替代路线及真实平台视觉仍由 V01 核验。",
@@ -5644,7 +5655,8 @@
         "2026-10-06运行时部分已发布 Pages 7d16d54 / workflow 37453110511 success；release_status 仍表示整项 SR 验收/关闭门槛，未因开发版部署提升。",
         "docs/art/COURTYARD-VALLEY-2026-10-12.md",
         "tests/ea-mountain-valley.test.mjs",
-        "tests/ea-godot-valley-projection.test.mjs"
+        "tests/ea-godot-valley-projection.test.mjs",
+        "2026-10-12 U-125：42 人物交谈及关联契约定义统一立绘聊天窗、身份叠加、知情、距离、意愿、暂停和持久规则；DIALOGUE-01–10 为 not_run。本批为设计与静态原型，运行接入及完整 SR/AC 状态保持。"
       ],
       "change_log": [
         {
@@ -5794,7 +5806,8 @@
         "U-49",
         "U-63",
         "R-26",
-        "U-94"
+        "U-94",
+        "U-125"
       ],
       "source_specs": [
         "docs/design/01-CHARACTERS.md",
@@ -5803,7 +5816,8 @@
         "docs/design/09-INTRIGUE-OPPORTUNITIES.md",
         "docs/design/12-CONTENT-AUTHORING.md",
         "docs/design/14-EARLY-GAME-DETAILED-DESIGN.md",
-        "docs/requirements/TAKEOVER-2026-10-06.md"
+        "docs/requirements/TAKEOVER-2026-10-06.md",
+        "docs/design/42-CHARACTER-DIALOGUE.md"
       ],
       "baseline": "七组织作者卡、地方产业、百机有限傀儡和玄阴鬼市费用/工具接入实体供给与行为。",
       "design_gap": "七组织首次接触 AC01 与顾氏同道途不同人物选择 AC02 已有正常公开命令、独立复核及本地浏览器证据；拒单、合作与改名重载 AC03、目标设备和整项 V/R 仍待。",
@@ -5863,7 +5877,8 @@
         "2026-10-08 r11 顾氏首次接触子情景：正常新档疗伤→发现青溪坊市→带真实木粮见顾婉仪→35步核单→60步交货；顾氏8份灵草有限库存清零，物资守恒。公开命令17提交/3同ID重发/4拒绝，13次逐阶段精确存读；远距/缺料拒绝、取消恢复通过。主线独立专项1/1、世界内容9/9、地方产业8/8、界面17 pass/4 pending；本地浏览器实点接洽/核单/交货，294请求全200/控制台零错误。源码0d6df503，Pages18d8bf4 built，发布树162文本blob相符；公网浏览器安全策略验证不可用未验。仅顾氏子情景，七组织完整AC01及设备/真人待验，状态保留not_run。",
         "2026-10-08 M2 七组织完整首次接触：正常公开开局经84条公开命令、43次精确存读，逐个走到青溪顾氏、百机山、州府、承霄、赤嶂、玄阴、伏煞七位具名接洽人，查看可读诉求与产业、现场核原单并完成有限实物交换；各联系人私有奖励仓实际扣减，重复结算拒绝。独立审读脚本无资源/交易状态注入；本地桌面浏览器实际点击罗铭走近、核单、仅主约、完成，最终原生档导入、刷新续档七卡保持完成。其余六单由正常公开命令链与浏览器续档 UI 交叉核对；公网浏览器、iPad 实机、AC02/03及整项V/R未验。证据 qa/ea-sr-017-seven-contacts-public-acceptance.mjs；/private/tmp/immortal-sr017-seven-independent-review.md。",
         "2026-10-08 r23 SR017-AC02：同一灵植师路径选择顾婉仪或顾守林，双方都以有来源木4/粮2换有限灵草8。顾婉仪善意路线信任+3；顾守林核原单后从自身有限灵石交附费6、信任-4，角色线索在选择前可见且隐藏附费不提前泄漏；玩家能以真实粮1/35步验单，再以粮1/40步纠正并退附费6，卡片保存刷新后显示已退。正常公开38命令/30次精确存读、专项1/1、相邻七组织1/1、世界内容9/9、界面17/17；独立本地Chromium实点接受/核验/纠正与存读。本条按原文 passed；AC03、设备与整项V/R继续。",
-        "2026-10-08 r24 局部拒单合作：正常公开56命令、37次精确存读；顾氏拒单后同势力交易仍可用，百机拒绝后可重会并保留傀儡/历史。改名仅七联系人受控兼容夹具及本地Chromium读档，未验玩家改名流程；根1/1，AC03与整项仍待。"
+        "2026-10-08 r24 局部拒单合作：正常公开56命令、37次精确存读；顾氏拒单后同势力交易仍可用，百机拒绝后可重会并保留傀儡/历史。改名仅七联系人受控兼容夹具及本地Chromium读档，未验玩家改名流程；根1/1，AC03与整项仍待。",
+        "2026-10-12 U-125：42 人物交谈及关联契约定义统一立绘聊天窗、身份叠加、知情、距离、意愿、暂停和持久规则；DIALOGUE-01–10 为 not_run。本批为设计与静态原型，运行接入及完整 SR/AC 状态保持。"
       ],
       "change_log": [
         {
@@ -6356,7 +6371,8 @@
         "U-63",
         "U-93",
         "R-25",
-        "U-94"
+        "U-94",
+        "U-125"
       ],
       "source_specs": [
         "docs/design/01-CHARACTERS.md",
@@ -6365,7 +6381,8 @@
         "docs/design/09-INTRIGUE-OPPORTUNITIES.md",
         "docs/design/12-CONTENT-AUTHORING.md",
         "docs/design/06-OPENING-ACCEPTANCE.md",
-        "docs/requirements/TAKEOVER-2026-10-06.md"
+        "docs/requirements/TAKEOVER-2026-10-06.md",
+        "docs/design/42-CHARACTER-DIALOGUE.md"
       ],
       "baseline": "真假消息、有限传播、知情评价和死讯后果已接共同事实与消息系统；普通死亡不归罪送信者。",
       "design_gap": "传播及个人/阵营/公开评价已有独立检查；真假混合消息与完整重复传播 AC 尚待逐项覆盖。",
@@ -6422,7 +6439,8 @@
         "2026-10-06接续：ea-sr-aftermath/world/persons：送达事实按个人利益、阵营权限与公开行为三层一次结算；未知者不全知，重复传播不刷分，非序列化增量缓存；旧share阵营固定分支已去重。 专项证据不自动关闭全部AC；平台/正常整链不足继续明列。",
         "2026-10-06运行时部分已发布 Pages 7d16d54 / workflow 37453110511 success；release_status 仍表示整项 SR 验收/关闭门槛，未因开发版部署提升。",
         "2026-10-08 r24 AC03：正常救援后向苏家亲属和顾婉仪实际传话，20公开命令/7精确存读；重复阅读、隔空失败、重传、原生重载及恢复世界步不重复结算或改原话/观察/送达刻。根1/1、相邻31/31，本地Chromium正式导入、纪事实点及刷新续读、零控制台错误/警告；按原文passed。AC01与整项V/R待。",
-        "2026-10-08 r25 AC01：正常新档在真实雨天收到姚仲真假混合口信，原话及观察/送达世界刻4800留存；掌门实际到听雨侧洞于5113查验洞口、于5199与青萝当面交谈后，仅新增两条有来源现场记录，药量与采出能否救急仍列为推测，不把作者真相当玩家已知。30条公开命令/23次精确存读，专项1/1、SR020重传相邻1/1、世界21/21、SR002玩家投影7/7。独立本地Chromium导入初闻及最终原生档、刷新继续，纪事仍保留原话和两次核实，控制台0错误/0警告。证据 qa/ea-sr-020-merchant-message-public-acceptance.mjs；本地浏览器快照 /tmp/immortal-sr020-message-r25/.playwright-cli/page-2026-10-08T11-39-34-270Z.yml。AC01按原文passed；完整CONTENT-05/INTRO-03、目标设备、SR整体V/R继续。"
+        "2026-10-08 r25 AC01：正常新档在真实雨天收到姚仲真假混合口信，原话及观察/送达世界刻4800留存；掌门实际到听雨侧洞于5113查验洞口、于5199与青萝当面交谈后，仅新增两条有来源现场记录，药量与采出能否救急仍列为推测，不把作者真相当玩家已知。30条公开命令/23次精确存读，专项1/1、SR020重传相邻1/1、世界21/21、SR002玩家投影7/7。独立本地Chromium导入初闻及最终原生档、刷新继续，纪事仍保留原话和两次核实，控制台0错误/0警告。证据 qa/ea-sr-020-merchant-message-public-acceptance.mjs；本地浏览器快照 /tmp/immortal-sr020-message-r25/.playwright-cli/page-2026-10-08T11-39-34-270Z.yml。AC01按原文passed；完整CONTENT-05/INTRO-03、目标设备、SR整体V/R继续。",
+        "2026-10-12 U-125：42 人物交谈及关联契约定义统一立绘聊天窗、身份叠加、知情、距离、意愿、暂停和持久规则；DIALOGUE-01–10 为 not_run。本批为设计与静态原型，运行接入及完整 SR/AC 状态保持。"
       ],
       "change_log": [
         {
@@ -8155,7 +8173,8 @@
         "R-32",
         "U-109",
         "U-120",
-        "U-123"
+        "U-123",
+        "U-125"
       ],
       "source_specs": [
         "docs/design/01-CHARACTERS.md",
@@ -8165,7 +8184,8 @@
         "docs/GODOT-MIGRATION.md",
         "docs/ART-REALTIME-TRIAL.md",
         "docs/SECT-GROWTH-PLAN.md",
-        "docs/design/41-COURTYARD-VALLEY-IMPLEMENTATION.md"
+        "docs/design/41-COURTYARD-VALLEY-IMPLEMENTATION.md",
+        "docs/design/42-CHARACTER-DIALOGUE.md"
       ],
       "baseline": "既有 JS 运行基线：建筑侧卡按预制件显示床位、作业位、研习位及当前占用；现场及重叠人物使用同身份头像入口。pointerup补验移动距离，拖动放开保持拖动语义；推荐营造确认消费正式返回字段。推荐营造说明使用稳定布局，指针离开画布后确认按钮仍可点击。 U-105 山域成长方案见 docs/SECT-GROWTH-PLAN.md；本批只登记设计与阶段原型，正式运行版本保持。",
       "design_gap": "既有统一输入与DPR局部实现保留；U-105 的地域总览、预设建位项目卡、迁居/供给状态和失败恢复流程待详细交互设计及桌面/iPad视口和真机验证。",
@@ -8236,7 +8256,8 @@
         "docs/art/COURTYARD-VALLEY-2026-10-12.md",
         "tests/ea-mountain-alchemy.test.mjs",
         "tests/ea-mountain-valley.test.mjs",
-        "2026-10-12 U-123 发布核验：运行源码 main 836ccb605a42e7c21c2aae8c5e2c4eee7e55c03e；gh-pages 4d6786da521f1ab92818c20f67c036a829469e6e；GitHub API Pages build=built。公开 mountain-courtyard 的14个交付文件（release/build/index、界面与加载模块、桥接及世界／战斗规则、三片场景包）HTTP 200，SHA与本地导出一致。公开浏览器百艺、导档、实际行走旅行与采集的操作证据见 docs/art/COURTYARD-VALLEY-2026-10-12.md；本记录仅是U-123局部发布证据，整项 D/I/V/R 与 AC 状态不变。"
+        "2026-10-12 U-123 发布核验：运行源码 main 836ccb605a42e7c21c2aae8c5e2c4eee7e55c03e；gh-pages 4d6786da521f1ab92818c20f67c036a829469e6e；GitHub API Pages build=built。公开 mountain-courtyard 的14个交付文件（release/build/index、界面与加载模块、桥接及世界／战斗规则、三片场景包）HTTP 200，SHA与本地导出一致。公开浏览器百艺、导档、实际行走旅行与采集的操作证据见 docs/art/COURTYARD-VALLEY-2026-10-12.md；本记录仅是U-123局部发布证据，整项 D/I/V/R 与 AC 状态不变。",
+        "2026-10-12 U-125：42 人物交谈及关联契约定义统一立绘聊天窗、身份叠加、知情、距离、意愿、暂停和持久规则；DIALOGUE-01–10 为 not_run。本批为设计与静态原型，运行接入及完整 SR/AC 状态保持。"
       ],
       "change_log": [
         {
@@ -8633,7 +8654,8 @@
         "U-105",
         "R-32",
         "U-120",
-        "U-123"
+        "U-123",
+        "U-125"
       ],
       "source_specs": [
         "docs/design/02-EQUIPMENT-ARTS.md",
@@ -8643,7 +8665,8 @@
         "docs/design/14-EARLY-GAME-DETAILED-DESIGN.md",
         "docs/design/06-OPENING-ACCEPTANCE.md",
         "docs/SECT-GROWTH-PLAN.md",
-        "docs/design/41-COURTYARD-VALLEY-IMPLEMENTATION.md"
+        "docs/design/41-COURTYARD-VALLEY-IMPLEMENTATION.md",
+        "docs/design/42-CHARACTER-DIALOGUE.md"
       ],
       "baseline": "既有 JS 运行基线：已有v5至schema6迁移。本批新增adult-furniture-1：原布局先校验，在副本中映射家具工位、必要脚点和失效返院缓存，保留身份、资源、时间、RNG、已付投入及活动进度；山外实际位置和旅程事实保留。 U-105 山域成长方案见 docs/SECT-GROWTH-PLAN.md；本批只登记设计与阶段原型，正式运行版本保持。",
       "design_gap": "既有版本、成人家具与存储恢复证据保留；U-105 需新增旧自由布局/96米场景到地域/建位布局的确定映射、兼容待安置、施工/迁居/接替在途状态及失败保护矩阵。",
@@ -8716,7 +8739,8 @@
         "tests/ea-mountain-alchemy.test.mjs",
         "tests/ea-mountain-valley.test.mjs",
         "tests/ea-godot-valley-projection.test.mjs",
-        "2026-10-12 U-123 发布核验：运行源码 main 836ccb605a42e7c21c2aae8c5e2c4eee7e55c03e；gh-pages 4d6786da521f1ab92818c20f67c036a829469e6e；GitHub API Pages build=built。公开 mountain-courtyard 的14个交付文件（release/build/index、界面与加载模块、桥接及世界／战斗规则、三片场景包）HTTP 200，SHA与本地导出一致。公开浏览器百艺、导档、实际行走旅行与采集的操作证据见 docs/art/COURTYARD-VALLEY-2026-10-12.md；本记录仅是U-123局部发布证据，整项 D/I/V/R 与 AC 状态不变。"
+        "2026-10-12 U-123 发布核验：运行源码 main 836ccb605a42e7c21c2aae8c5e2c4eee7e55c03e；gh-pages 4d6786da521f1ab92818c20f67c036a829469e6e；GitHub API Pages build=built。公开 mountain-courtyard 的14个交付文件（release/build/index、界面与加载模块、桥接及世界／战斗规则、三片场景包）HTTP 200，SHA与本地导出一致。公开浏览器百艺、导档、实际行走旅行与采集的操作证据见 docs/art/COURTYARD-VALLEY-2026-10-12.md；本记录仅是U-123局部发布证据，整项 D/I/V/R 与 AC 状态不变。",
+        "2026-10-12 U-125：42 人物交谈及关联契约定义统一立绘聊天窗、身份叠加、知情、距离、意愿、暂停和持久规则；DIALOGUE-01–10 为 not_run。本批为设计与静态原型，运行接入及完整 SR/AC 状态保持。"
       ],
       "change_log": [
         {
@@ -9074,7 +9098,8 @@
         "U-63",
         "U-93",
         "R-25",
-        "U-94"
+        "U-94",
+        "U-125"
       ],
       "source_specs": [
         "docs/design/02-EQUIPMENT-ARTS.md",
@@ -9082,7 +9107,8 @@
         "docs/design/07-ECONOMY-ORGANIZATION.md",
         "docs/design/08-LIVING-WORLD.md",
         "docs/design/10-CRISES-RESCUE-DEATH.md",
-        "docs/design/14-EARLY-GAME-DETAILED-DESIGN.md"
+        "docs/design/14-EARLY-GAME-DETAILED-DESIGN.md",
+        "docs/design/42-CHARACTER-DIALOGUE.md"
       ],
       "baseline": "已有T-01至T-12默认目标与旧参数。",
       "design_gap": "完整版本化参数、依据、等待/收益/危险预算和实测节奏未定稿。",
@@ -9125,7 +9151,8 @@
       ],
       "evidence": [
         "docs/requirements/design/SR-XF-031.md",
-        "docs/requirements/IMPLEMENTATION-2026-10-06.md"
+        "docs/requirements/IMPLEMENTATION-2026-10-06.md",
+        "2026-10-12 U-125：42 人物交谈及关联契约定义统一立绘聊天窗、身份叠加、知情、距离、意愿、暂停和持久规则；DIALOGUE-01–10 为 not_run。本批为设计与静态原型，运行接入及完整 SR/AC 状态保持。"
       ],
       "change_log": [
         {

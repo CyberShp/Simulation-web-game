@@ -14,9 +14,9 @@
 
 纳入云岫前期，按依赖推进。
 
-决策来源：U-37, U-38, U-41, U-42, U-43, U-45, U-46, U-47, U-48, U-49, U-63, R-26, U-94。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
+决策来源：U-37, U-38, U-41, U-42, U-43, U-45, U-46, U-47, U-48, U-49, U-63, R-26, U-94, U-125。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
 
-规格：[01-CHARACTERS.md](../../../docs/design/01-CHARACTERS.md)、[04-WORLD-STORY.md](../../../docs/design/04-WORLD-STORY.md)、[07-ECONOMY-ORGANIZATION.md](../../../docs/design/07-ECONOMY-ORGANIZATION.md)、[09-INTRIGUE-OPPORTUNITIES.md](../../../docs/design/09-INTRIGUE-OPPORTUNITIES.md)、[12-CONTENT-AUTHORING.md](../../../docs/design/12-CONTENT-AUTHORING.md)、[14-EARLY-GAME-DETAILED-DESIGN.md](../../../docs/design/14-EARLY-GAME-DETAILED-DESIGN.md)、[TAKEOVER-2026-10-06.md](../../../docs/requirements/TAKEOVER-2026-10-06.md)。
+规格：[01-CHARACTERS.md](../../../docs/design/01-CHARACTERS.md)、[04-WORLD-STORY.md](../../../docs/design/04-WORLD-STORY.md)、[07-ECONOMY-ORGANIZATION.md](../../../docs/design/07-ECONOMY-ORGANIZATION.md)、[09-INTRIGUE-OPPORTUNITIES.md](../../../docs/design/09-INTRIGUE-OPPORTUNITIES.md)、[12-CONTENT-AUTHORING.md](../../../docs/design/12-CONTENT-AUTHORING.md)、[14-EARLY-GAME-DETAILED-DESIGN.md](../../../docs/design/14-EARLY-GAME-DETAILED-DESIGN.md)、[TAKEOVER-2026-10-06.md](../../../docs/requirements/TAKEOVER-2026-10-06.md)、[42-CHARACTER-DIALOGUE.md](../../../docs/design/42-CHARACTER-DIALOGUE.md)。
 
 依赖：[SR-XF-001](SR-XF-001.md)、[SR-XF-002](SR-XF-002.md)。
 
@@ -109,6 +109,7 @@ SR-XF-017-V01证据：2026-10-06：定向脚本与回归结果见接续实施记
 - 2026-10-08 M2 七组织完整首次接触：正常公开开局经84条公开命令、43次精确存读，逐个走到青溪顾氏、百机山、州府、承霄、赤嶂、玄阴、伏煞七位具名接洽人，查看可读诉求与产业、现场核原单并完成有限实物交换；各联系人私有奖励仓实际扣减，重复结算拒绝。独立审读脚本无资源/交易状态注入；本地桌面浏览器实际点击罗铭走近、核单、仅主约、完成，最终原生档导入、刷新续档七卡保持完成。其余六单由正常公开命令链与浏览器续档 UI 交叉核对；公网浏览器、iPad 实机、AC02/03及整项V/R未验。证据 qa/ea-sr-017-seven-contacts-public-acceptance.mjs；/private/tmp/immortal-sr017-seven-independent-review.md。
 - 2026-10-08 r23 SR017-AC02：同一灵植师路径选择顾婉仪或顾守林，双方都以有来源木4/粮2换有限灵草8。顾婉仪善意路线信任+3；顾守林核原单后从自身有限灵石交附费6、信任-4，角色线索在选择前可见且隐藏附费不提前泄漏；玩家能以真实粮1/35步验单，再以粮1/40步纠正并退附费6，卡片保存刷新后显示已退。正常公开38命令/30次精确存读、专项1/1、相邻七组织1/1、世界内容9/9、界面17/17；独立本地Chromium实点接受/核验/纠正与存读。本条按原文 passed；AC03、设备与整项V/R继续。
 - 2026-10-08 r24 局部拒单合作：正常公开56命令、37次精确存读；顾氏拒单后同势力交易仍可用，百机拒绝后可重会并保留傀儡/历史。改名仅七联系人受控兼容夹具及本地Chromium读档，未验玩家改名流程；根1/1，AC03与整项仍待。
+- 2026-10-12 U-125：42 人物交谈及关联契约定义统一立绘聊天窗、身份叠加、知情、距离、意愿、暂停和持久规则；DIALOGUE-01–10 为 not_run。本批为设计与静态原型，运行接入及完整 SR/AC 状态保持。
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。

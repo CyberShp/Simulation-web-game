@@ -14,9 +14,9 @@
 
 纳入云岫前期，按依赖推进。
 
-决策来源：U-63, U-93, R-25, U-94, U-96, U-97, R-27, U-100, R-29, R-30, U-101, U-102, U-103, U-104, U-118, U-120。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
+决策来源：U-63, U-93, R-25, U-94, U-96, U-97, R-27, U-100, R-29, R-30, U-101, U-102, U-103, U-104, U-118, U-120, U-125。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
 
-规格：[01-CHARACTERS.md](../../../docs/design/01-CHARACTERS.md)、[02-EQUIPMENT-ARTS.md](../../../docs/design/02-EQUIPMENT-ARTS.md)、[03-SPATIAL-ART.md](../../../docs/design/03-SPATIAL-ART.md)、[14-EARLY-GAME-DETAILED-DESIGN.md](../../../docs/design/14-EARLY-GAME-DETAILED-DESIGN.md)、[06-OPENING-ACCEPTANCE.md](../../../docs/design/06-OPENING-ACCEPTANCE.md)、[GODOT-MIGRATION.md](../../../docs/GODOT-MIGRATION.md)、[ART-REALTIME-TRIAL.md](../../../docs/ART-REALTIME-TRIAL.md)。
+规格：[01-CHARACTERS.md](../../../docs/design/01-CHARACTERS.md)、[02-EQUIPMENT-ARTS.md](../../../docs/design/02-EQUIPMENT-ARTS.md)、[03-SPATIAL-ART.md](../../../docs/design/03-SPATIAL-ART.md)、[14-EARLY-GAME-DETAILED-DESIGN.md](../../../docs/design/14-EARLY-GAME-DETAILED-DESIGN.md)、[06-OPENING-ACCEPTANCE.md](../../../docs/design/06-OPENING-ACCEPTANCE.md)、[GODOT-MIGRATION.md](../../../docs/GODOT-MIGRATION.md)、[ART-REALTIME-TRIAL.md](../../../docs/ART-REALTIME-TRIAL.md)、[42-CHARACTER-DIALOGUE.md](../../../docs/design/42-CHARACTER-DIALOGUE.md)。
 
 依赖：[SR-XF-002](SR-XF-002.md)、[SR-XF-004](SR-XF-004.md)。
 
@@ -151,6 +151,7 @@ SR-XF-007-V01证据：qa/ea-courtyard-rest-render-acceptance.mjs；tests/ea-rest
 - docs/art/system-ui-20261012/RUNTIME.md
 - tests/ea-system-ui-projection.test.mjs
 - 2026-10-12 U-120：真实人物 ID、外观和公开修习接入名册／详情／掌门页；30 门人五页名册及人物功法往返通过模块检查，浏览器实点四页详情并定位同一场景人物。场景定位后继续行走的短样本仅覆盖本机 Chromium。完整人物动作、辨识及目标设备 AC 状态保持。
+- 2026-10-12 U-125：42 人物交谈及关联契约定义统一立绘聊天窗、身份叠加、知情、距离、意愿、暂停和持久规则；DIALOGUE-01–10 为 not_run。本批为设计与静态原型，运行接入及完整 SR/AC 状态保持。
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。

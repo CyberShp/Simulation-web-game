@@ -14,9 +14,9 @@
 
 纳入云岫前期，按依赖推进。
 
-决策来源：U-63, U-93, R-25, U-94, U-123。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
+决策来源：U-63, U-93, R-25, U-94, U-123, U-125。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
 
-规格：[01-CHARACTERS.md](../../../docs/design/01-CHARACTERS.md)、[07-ECONOMY-ORGANIZATION.md](../../../docs/design/07-ECONOMY-ORGANIZATION.md)、[08-LIVING-WORLD.md](../../../docs/design/08-LIVING-WORLD.md)、[14-EARLY-GAME-DETAILED-DESIGN.md](../../../docs/design/14-EARLY-GAME-DETAILED-DESIGN.md)、[03-SPATIAL-ART.md](../../../docs/design/03-SPATIAL-ART.md)、[41-COURTYARD-VALLEY-IMPLEMENTATION.md](../../../docs/design/41-COURTYARD-VALLEY-IMPLEMENTATION.md)。
+规格：[01-CHARACTERS.md](../../../docs/design/01-CHARACTERS.md)、[07-ECONOMY-ORGANIZATION.md](../../../docs/design/07-ECONOMY-ORGANIZATION.md)、[08-LIVING-WORLD.md](../../../docs/design/08-LIVING-WORLD.md)、[14-EARLY-GAME-DETAILED-DESIGN.md](../../../docs/design/14-EARLY-GAME-DETAILED-DESIGN.md)、[03-SPATIAL-ART.md](../../../docs/design/03-SPATIAL-ART.md)、[41-COURTYARD-VALLEY-IMPLEMENTATION.md](../../../docs/design/41-COURTYARD-VALLEY-IMPLEMENTATION.md)、[42-CHARACTER-DIALOGUE.md](../../../docs/design/42-CHARACTER-DIALOGUE.md)。
 
 依赖：[SR-XF-002](SR-XF-002.md)、[SR-XF-003](SR-XF-003.md)。
 
@@ -120,6 +120,7 @@ SR-XF-008-V01证据：qa/ea-sr-008-invite-public-acceptance.mjs；dist/ea-sr-per
 - 2026-10-08 M2 r32 v2 日相位子批：正常五人/两真实伐木工位来源链107+6公开命令、67次精确存读；两位自愿门人跨休整→生产偏好时保留原240步承诺、岗位和不同实际工位，停用营造后才中断。schedule.phase 在迁移、每世界步和只读人物页用同一 worldTick；不改生产结算或另建身体。根与独立新专项1/1、迁移1/1，旧邀请1/1、UI契约17通过/4待设备。旧v2-work硬编码缺失人物及旧five-workers精确小数坐标断言，在本提交父版本原样失败，不计回归通过；伤病/生产专项缺来源档跳过。源码2455d0b、Pages8c5621e built，162文本blob及公网入口/人物模块字节一致；r32未做浏览器游戏内交互和真机。完整v2/I/V/R继续。
 - docs/art/COURTYARD-VALLEY-2026-10-12.md
 - tests/ea-mountain-alchemy.test.mjs
+- 2026-10-12 U-125：42 人物交谈及关联契约定义统一立绘聊天窗、身份叠加、知情、距离、意愿、暂停和持久规则；DIALOGUE-01–10 为 not_run。本批为设计与静态原型，运行接入及完整 SR/AC 状态保持。
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
