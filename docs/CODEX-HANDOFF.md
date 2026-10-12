@@ -4,6 +4,15 @@
 
 先读取[42 人物交谈](design/42-CHARACTER-DIALOGUE.md)及 U-125：统一立绘聊天窗的设计已落档，运行接入待实施。当前工作按 U-124 从同一普通新档验收当前开局，修复实际遇到的卡点并验证存读；证据见[连续新档实玩](art/OPENING-CHAIN-2026-10-12.md)，最新完成状态以 STATUS 为准。
 
+## Issue #6 · 历史增长控制 · 2026-10-12
+
+2026-10-12 Issue #6：最新main36b6dd3复现纯历史增长，按递归引用闭包保护归档白名单；生产、一般旅行、剧情和交易结果继续保留。新档6/12/24/48小时及旧档/参考档24小时A/B、保存恢复、只读边界和性能测量见 [历史增长修复](design/ISSUE-6-HISTORY-RETENTION.md)。11项专项加65项相关回归通过；局部证据不推进整项SR/AC、真机或真人状态。运行源码 `main` `d53e9ce1aa7e7db7358632efcce32dbab13a5a27`，Pages `2e4ef4949456b7e429cd53822042cb43672ad7b6`，缓存标记 `ea-issue6-history-20261012-r2`；[构建与部署](https://github.com/CyberShp/Simulation-web-game/actions/runs/38206362806) completed/success。247 个发布文本 blob 已核对，13 个公网入口/新模块/清单均 HTTP 200 且字节一致；保留现有根/preview 与山院各自玩法，完整浏览器视觉、目标设备及真人长会话另验。
+
+## Issue #5 · 生产结算守恒修复 · 2026-10-12
+
+2026-10-12 Issue #5：最新main6000秒实验16笔生产/14笔微量灵石，修复显式receipt、9位新计算精度、工资封顶、事务提交与运输严格余额。专项12/12，正常公开开局2/2、丹炉公开链1/1；旧数量和事实逐字保留，不推进完整SR状态。见 docs/design/ISSUE-5-PRODUCTION-ACCOUNTING.md。 新事实校验毛产出、净入账、工资与工单/交付一致；历史无版本标记分录不重写。修复后完整6000秒16笔生产/0异常灵石，林地灵石0、公库0.2、合法灵木315.704312064；零库存微量运输拒绝。运行源码 `main` `850a7ea2178063684715ec2e46e625faf492bf40`，Pages `39a7225625046742bb4d5997dc15ad2c7b5d571b` 已同步；[构建与部署](https://github.com/CyberShp/Simulation-web-game/actions/runs/38197200144) completed/success。保留正式页和山院各自的原玩法，对现有运行模块分别应用本次修复；两套发布模块专项各12/12，243个发布文本blob与验收目录一致，22个公网入口、修复模块和构建清单均HTTP 200、SHA-256一致。Issue #5已完成并附实验记录。112/112 Node、公开开局2/2、丹炉1/1与经济组件5/5通过；字节和Node验证不表示浏览器视觉或目标设备试玩。
+
+
 ## 当前批次 · 炼丹、山谷与首战（2026-10-12）
 
 U-123 三段流程已实现并发布：山院种收与第一炉、云岫山谷采集会面往返、首战受伤撤退与返院服药。玩法定向检查 18／18、分片加载检查 3／3，真实 Godot 网页已验证搬运、成丹、攻防、场景往返及战斗／归院存读。实现与复验入口见 [41 号实施记录](design/41-COURTYARD-VALLEY-IMPLEMENTATION.md)和[实玩记录](art/COURTYARD-VALLEY-2026-10-12.md)。构建命令 `python3 tools/build-estate-painted-web.py --output output/u123-integrated-preview/index.html`；运行源码 `836ccb6`、Pages `4d6786d`，构建为 `built`；公开文件字节核对与网页操作范围见 [STATUS](design/STATUS.md)。目标真机、玩家美术评看与完整 SR 验收继续分别登记。

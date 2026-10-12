@@ -127,6 +127,10 @@ SR-XF-002-V01证据：qa/ea-sr-contracts-acceptance.mjs；docs/design/STATUS.md�
 - qa/ea-sr002-story-knowledge-acceptance.mjs
 - qa/ea-sr002-player-projection-ui-acceptance.mjs
 - tests/ea-master-control.test.mjs
+- docs/design/ISSUE-6-HISTORY-RETENTION.md
+- tests/ea-history-retention.test.mjs
+- qa/ea-history-benchmark.mjs
+- qa/ea-history-compare.mjs
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
@@ -141,5 +145,6 @@ SR-XF-002-V01证据：qa/ea-sr-contracts-acceptance.mjs；docs/design/STATUS.md�
 - 2026-10-08：2026-10-08 M1 版本与收件窄项：schema6 已登记主规则/内容组合、核心模块和显式空间子版本按字段校验；混搭、未知或缺失核心版本拒载。知识查询只读，初始收件与实际传话完结分别登记逐人时刻和送达事实；旧格式缺逐人证据时显示未知，首次再传话只登记新收件人。证据：qa/ea-sr-version-gate-acceptance.mjs 9/9、qa/ea-sr002-receipt-time-acceptance.mjs 5/5、qa/ea-sr-contracts-acceptance.mjs 24/24；相邻 qa/ea-sr-world-acceptance.mjs 21/21、qa/ea-sr-world-content-acceptance.mjs 9/9、qa/ea-sr-local-industry-acceptance.mjs 8/8，均经独立只读复验。自含存档只能校验内部一致性，无法证明所有时间与事实被同步篡改前的外部历史；旧档外观/日程来源、浏览器/目标设备与完整 I/V/R 继续。
 - 2026-10-08：M1 知识投影子批：消息、世界位置、危机和旧案界面按观察者实际获知事实收窄；独立专项 5/5、7/7、6/6、7/7，本地合法档试读和存读通过。公开源码及 Pages r4 已发布；不提升整项 I/V/R 或 AC。
 - 2026-10-11：U-119 掌门手动期与三十秒自主交接接入同一模拟和存档；定向 4/4、本地山院实点到点停留及计时后返程。已有工程继续、空闲修炼和重新接管分别覆盖；完整 SR002 I/V/R 与目标设备仍按原门槛。
+- 2026-10-12：Issue #6：只对白名单纯历史事实与完成商旅行程做引用闭包保护的周期摘要；生产及普通旅行完整保留，旧档先完整校验、保存恢复及日凭证幂等继续成立。真实6/12/24/48小时A/B与局部回归见ISSUE-6-HISTORY-RETENTION；不推进整项SR/AC、真机或真人状态。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。

@@ -71,6 +71,7 @@ SR-XF-010-AC-03证据：qa/ea-sr-010-property-public-acceptance.mjs；qa/ea-sr-g
 2026-10-12 U-123：第一炉成丹2份分至随身1／公库1，存读守恒；山谷队伍采草6份，返院工单搬草6加粮3，公库草4→10，队伍归零。炼药2／2、山谷5／5。 局部证据见 docs/art/COURTYARD-VALLEY-2026-10-12.md；整项 D/I/V/R 与 AC 状态不变。
 
 2026-10-12 U-123 首战本地网页：最终本地网页服用同炉随身回春散1份，随身1→0、总丹2→1、伤势14.6153→0，返院存读仍保剩余1份；完整账本 AC 状态保持。 证据见 docs/art/COURTYARD-VALLEY-2026-10-12.md；整项 D/I/V/R 与 AC 状态不变。
+2026-10-12 Issue #5：最新main6000秒实验16笔生产/14笔微量灵石，修复显式receipt、9位新计算精度、工资封顶、事务提交与运输严格余额。专项12/12，正常公开开局2/2、丹炉公开链1/1；旧数量和事实逐字保留，不推进完整SR状态。见 docs/design/ISSUE-5-PRODUCTION-ACCOUNTING.md。
 
 ## 开发任务
 
@@ -129,6 +130,8 @@ SR-XF-010-V01证据：dist/ea-sr-economy.mjs；qa/ea-sr-economy-acceptance.mjs
 - docs/art/COURTYARD-VALLEY-2026-10-12.md
 - tests/ea-mountain-alchemy.test.mjs
 - tests/ea-mountain-valley.test.mjs
+- qa/ea-sr-production-accounting-acceptance.mjs
+- docs/design/ISSUE-5-PRODUCTION-ACCOUNTING.md
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
@@ -143,5 +146,6 @@ SR-XF-010-V01证据：dist/ea-sr-economy.mjs；qa/ea-sr-economy-acceptance.mjs
 - 2026-10-12：2026-10-12 U-120：行囊读取真实位置库存与所有权；Node 专项验证只读、非法数量拒绝、实际搬运和存读守恒。本地 Chromium 公库 16 份灵草取 3 份后为公库 13／随身 3，送回公库 16，保存刷新保持。丹药使用采用明确人工库存边界 QA，未覆盖生产取得链；完整 SR/AC 状态保持。
 - 2026-10-12：2026-10-12 U-123：第一炉成丹2份分至随身1／公库1，存读守恒；山谷队伍采草6份，返院工单搬草6加粮3，公库草4→10，队伍归零。炼药2／2、山谷5／5。 局部证据见 docs/art/COURTYARD-VALLEY-2026-10-12.md；整项 D/I/V/R 与 AC 状态不变。
 - 2026-10-12：2026-10-12 U-123 首战本地网页：最终本地网页服用同炉随身回春散1份，随身1→0、总丹2→1、伤势14.6153→0，返院存读仍保剩余1份；完整账本 AC 状态保持。 证据见 docs/art/COURTYARD-VALLEY-2026-10-12.md；整项 D/I/V/R 与 AC 状态不变。
+- 2026-10-12：2026-10-12 Issue #5：最新main6000秒实验16笔生产/14笔微量灵石，修复显式receipt、9位新计算精度、工资封顶、事务提交与运输严格余额。专项12/12，正常公开开局2/2、丹炉公开链1/1；旧数量和事实逐字保留，不推进完整SR状态。见 docs/design/ISSUE-5-PRODUCTION-ACCOUNTING.md。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。

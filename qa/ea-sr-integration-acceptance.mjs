@@ -88,7 +88,7 @@ export function harness(state=S.initial({sr:true,seed:618033}),lineage='normal')
 
 export function normalOpening(invitation='invite'){
  const h=harness();const ids=Object.keys(h.s.personsById),identity=JSON.stringify(h.s.personsById['person:lu-zhiwei'].appearance);
- h.act('acknowledgeIntro');h.act('masterAction','heal');h.until(s=>s.master.wound===0,'opening healing');h.save();
+ h.act('acknowledgeIntro');h.act('masterAction','heal');h.act('chooseOpeningInheritance','qinglan');h.until(s=>s.master.wound===0,'opening healing');h.save();
  h.act('advanceStory');h.walkPerson('person:lu-zhiwei');const herbs=h.s.resources.herb;
  h.act('advanceStory','gift');assert.equal(h.s.resources.herb,herbs-10);assert.equal(h.s.story.opening.invitation,'unasked');h.save();
  h.act('advanceStory',invitation);assert.equal(h.s.homeMemberIds.includes('person:lu-zhiwei'),invitation==='invite');
@@ -96,7 +96,7 @@ export function normalOpening(invitation='invite'){
  assert(h.s.homeMemberIds.includes('person:lin-changfeng'));assert.equal(JSON.stringify(h.s.personsById['person:lu-zhiwei'].appearance),identity);assert(ids.every(id=>h.s.personsById[id]));
  h.until(s=>Object.values(s.factsById).some(f=>f.kind==='inventory-transaction'&&f.operation==='production'),'autonomous real production',6000);
  const f=Object.values(h.s.factsById).find(f=>f.kind==='inventory-transaction'&&f.operation==='production');assert(f.participantIds.length>0);const st=h.s.stockpilesById[f.targetStockpileId],resource=Object.entries(f.quantities).filter(([,quantity])=>quantity>1e-6).sort((a,b)=>b[1]-a[1])[0]?.[0];assert(resource,'production must yield a physical quantity');assert(st.resources[resource]>0);
- const sourceBefore=st.resources[resource],amount=Math.min(10,sourceBefore),t=h.act('startTransport',st.id,'stockpile:yunxiu','person:master',{[resource]:amount});assert.equal(h.s.stockpilesById[st.id].resources[resource],sourceBefore-amount);assert.equal(h.s.workOrdersById[t.id].cargo[resource],amount);h.save();
+ const sourceBefore=st.resources[resource],amount=Math.min(10,sourceBefore),t=h.act('startTransport',st.id,'stockpile:yunxiu','person:master',{[resource]:amount});assert(Math.abs(h.s.stockpilesById[st.id].resources[resource]-(sourceBefore-amount))<1e-8,'transport reserves the explicit physical amount');assert.equal(h.s.workOrdersById[t.id].cargo[resource],amount);h.save();
  let publicBeforeDelivery=h.s.resources[resource];h.until(s=>{const delivered=s.workOrdersById[t.id].phase==='delivered';if(!delivered)publicBeforeDelivery=s.resources[resource];return delivered;},'production delivery');assert(Math.abs(h.s.resources[resource]-publicBeforeDelivery-amount)<1e-8);const delivery=h.s.factsById[`fact:transport:${t.id}`];assert.equal(delivery.sourceStockpileId,st.id);assert.equal(delivery.targetStockpileId,'stockpile:yunxiu');assert.equal(delivery.quantities[resource],amount);assert.equal(h.s.reservationsById[h.s.workOrdersById[t.id].reservationId],undefined);h.save();
  h.build('library');h.act('advanceStory');assert(h.s.doctrine.books.includes('spring'));const order=h.act('masterStudy','spring');h.save();h.until(s=>s.srCultivation.orders[order.orderId].phase==='completed','first real study');assert(h.s.master.artsById.spring.understanding>0);h.save();
  return h;

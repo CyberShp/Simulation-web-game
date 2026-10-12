@@ -9,6 +9,7 @@ import {startScenicWalk,scenicPosition,advanceScenic,syncScenicPosition,building
 export * from './ea-sim.mjs';
 import {srEnabled,initSR,validateSR,beforeSRSecond,tickSR,SR_HANDLERS,SR_BODY_COMMANDS} from './ea-sr-runtime.mjs';
 import {executeContractCommand} from './ea-sr-contracts.mjs';
+import {pruneHistory,validateHistoryRetention} from './ea-history-retention.mjs';
 import {sceneUnits,placementIssue,initBuildingGrid,spatialPrefab,SPATIAL_SCENE} from './ea-sr-spatial.mjs';
 export {HALL_ESTABLISH_COST} from './ea-sr-spatial.mjs';
 import {BUILDING_GRID,buildingGridEnabled} from './ea-building-grid.mjs';
@@ -93,6 +94,7 @@ function validateOpeningRecords(s){
 }
 
 export function validateSave(input,{upgrade=false}={}){
+ validateHistoryRetention(input);
  if(srEnabled(input)){validateV6Shape(input);const s=cloneState(input);normalizeOpeningHallPhase(s);s.masterControl??={mode:'manual',idleMs:0};validateMasterControl(s);base.validateSave(legacyProjection(s),{canonical:true});validateOpeningRecords(s);validateFacilityActivities(s);validateRainArtisan(s);upgradeEquipmentRecipeSnapshots(s);validateSR(s);initBuildingGrid(s);validateFacilityActivities(s);upgradeProductionRecipeSnapshots(s);validateFacilityActivities(s);return hydrateState(validateSR(s));}
  if(input?.schemaVersion===undefined){
   const old=base.validateSave(input);
@@ -257,6 +259,7 @@ export function tick(s,dt){
   advanceRainArtisan(s);
   if(srEnabled(s))settleCombatBodyProjection(s);
   reconcileActivities(s);
+  if(srEnabled(s))pruneHistory(s);
  }
 }
 
