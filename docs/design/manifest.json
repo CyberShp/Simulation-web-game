@@ -1355,7 +1355,10 @@
     "estateSourceScene": "godot/estate_2d/estate.tscn",
     "estateSiteLayout": "godot/estate_2d/estate-sites.json",
     "estatePreview": "dist/painted-game/index.html",
-    "currentOpeningGuidanceEvidence": "docs/art/OPENING-GUIDANCE-2026-10-13.md"
+    "currentOpeningGuidanceEvidence": "docs/art/OPENING-GUIDANCE-2026-10-13.md",
+    "currentVisualStyleDecisionId": "U-126",
+    "currentVisualStylePrototype": "docs/art/mountain-flat-20261013/README.md",
+    "currentVisualStyleStatus": "direction-confirmed-prototype-review-pending-runtime-not-implemented"
   },
   "characterDialogue": {
     "decisionId": "U-125",

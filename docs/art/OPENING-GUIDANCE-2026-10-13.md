@@ -26,4 +26,8 @@ Godot 4.6.3 Web 构建通过；两个共用界面的导出脚本均包含新增�
 
 ## 发布
 
-本地实现与上述验证已完成；本批源码同步及公开试玩复核结果在发布后登记。
+运行源码 `140c9dc4314eeb53c5ebeb6c691165a5d5a5df28` 已精确同步远端 `main` 并读回。山院 Pages `3cea1b854b65eea0ba355a53650ff18b4a3f102f`，构建 `built`，[部署任务](https://github.com/CyberShp/Simulation-web-game/actions/runs/38277667639)为 completed/success。其余 91 个根条目保持，发布仅替换 `mountain-courtyard/`。
+
+构建 `scene-b1e052e74225.pck`、缓存 `283cdc422cd2`，`build.json` SHA-256 为 `a2ae4f48515bd9bb067716cf42a3202f679b31b9aaa388e36e3afb27b1c39cca`。公开入口、构建和发布记录、三个界面模块、桥接与三个场景分片，共 10 项首次 HTTP 200，SHA-256 和字节数全部一致。
+
+公开 Chromium 1440×960 独立 `qa-u124-guidance-public-20261013` 档通过正常存档界面导入首炉检查点，目标打开回春散后实际点击“携带一份”。世界步 3017：炉边 2→1、随身 0→1、服药次数 0，控制台 0 error／0 warning。该公开复验覆盖新版携药入口，本地及此前完整新档路线按各自上述证据登记。用户随后选择的 U-126 平涂画风仍为原型，不在本次运行发布中。
