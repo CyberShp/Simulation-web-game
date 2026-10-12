@@ -1,15 +1,15 @@
-import {AUTONOMY_V2,npcScheduleDecision} from './ea-sr-persons.mjs?v=99194c505dfc';
-import {productionAmount,productionAmounts,addAmounts,subtractAmounts} from './ea-resource-amounts.mjs?v=99194c505dfc';
-import {hallInteriorEnabled} from './ea-hall-interior.mjs?v=99194c505dfc';
-import {prepareFacilityActivity,releaseBodyActivity,contributeProduction} from './ea-facility-activities.mjs?v=99194c505dfc';
-import {sceneUnits} from './ea-sr-spatial.mjs?v=99194c505dfc';
-import {consumeHarvest,availablePills,ownAvailablePills,preparePillUse,consumeAccessiblePill} from './ea-sr-economy.mjs?v=99194c505dfc';
+import {AUTONOMY_V2,npcScheduleDecision} from './ea-sr-persons.mjs?v=283cdc422cd2';
+import {productionAmount,productionAmounts,addAmounts,subtractAmounts} from './ea-resource-amounts.mjs?v=283cdc422cd2';
+import {hallInteriorEnabled} from './ea-hall-interior.mjs?v=283cdc422cd2';
+import {prepareFacilityActivity,releaseBodyActivity,contributeProduction} from './ea-facility-activities.mjs?v=283cdc422cd2';
+import {sceneUnits} from './ea-sr-spatial.mjs?v=283cdc422cd2';
+import {consumeHarvest,availablePills,ownAvailablePills,preparePillUse,consumeAccessiblePill} from './ea-sr-economy.mjs?v=283cdc422cd2';
 import {BUILDINGS, TECHNIQUES, RECIPES, ROUTES, CELLS, RESOURCES, TRAIT_NAMES,
-  rng, day, log, pay, canPay, grant, capacity, xpNeed, clamp} from './ea-data.mjs?v=99194c505dfc';
+  rng, day, log, pay, canPay, grant, capacity, xpNeed, clamp} from './ea-data.mjs?v=283cdc422cd2';
 
-import {routeDiscovered} from './ea-scene-state.mjs?v=99194c505dfc';
-import {lifeFacility,lifeActivityLock,lifePath,lifeScenePath,actorScenePosition,personLifeSummary,workOpportunity,teachingPresent} from './ea-life.mjs?v=99194c505dfc';
-import {advanceScenic,repairScenicActor,validateScenic,SCENE_GEOMETRY,buildingAccess,scenicDistance,geometryRevision,syncScenicPosition} from './ea-scenic.mjs?v=99194c505dfc';
+import {routeDiscovered} from './ea-scene-state.mjs?v=283cdc422cd2';
+import {lifeFacility,lifeActivityLock,lifePath,lifeScenePath,actorScenePosition,personLifeSummary,workOpportunity,teachingPresent} from './ea-life.mjs?v=283cdc422cd2';
+import {advanceScenic,repairScenicActor,validateScenic,SCENE_GEOMETRY,buildingAccess,scenicDistance,geometryRevision,syncScenicPosition} from './ea-scenic.mjs?v=283cdc422cd2';
 
 /** Society owns every NPC action. The main loop owns time, meals, upkeep and the master's actions. */
 export const SOCIETY_ROLES = {

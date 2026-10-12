@@ -1,7 +1,7 @@
 {
-  "scope": "U-124 opening construction movement",
-  "sourceCommit": "6294aac2362066e2f17c8fed269a7d1c1504b67d",
-  "mainPack": "scene-ee25c7cb7897.pck",
-  "buildManifestSha256": "e55b0210f7fd2e430acbedf2a013e7a1aa806d0186f691f7007b7ab8e26673df",
-  "runtimeTag": "99194c505dfc"
+  "scope": "U-124 opening guidance and explicit medicine pickup",
+  "sourceCommit": "140c9dc4314eeb53c5ebeb6c691165a5d5a5df28",
+  "mainPack": "scene-b1e052e74225.pck",
+  "buildManifestSha256": "a2ae4f48515bd9bb067716cf42a3202f679b31b9aaa388e36e3afb27b1c39cca",
+  "runtimeTag": "283cdc422cd2"
 }

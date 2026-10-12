@@ -1,9 +1,9 @@
-import {BUILDINGS,TECHNIQUES,RECIPES,canPay} from './ea-data.mjs?v=99194c505dfc';
-import {facilityRecords,courtyardDestination,scenicHomeActors} from './ea-scene-state.mjs?v=99194c505dfc';
-import {startScenicWalk,scenicPosition} from './ea-scenic.mjs?v=99194c505dfc';
-import {homeInteractions} from './ea-narrative.mjs?v=99194c505dfc';
-import {scenicSweep} from './ea-scene-geometry.mjs?v=99194c505dfc';
-import {sceneUnits} from './ea-sr-spatial.mjs?v=99194c505dfc';
+import {BUILDINGS,TECHNIQUES,RECIPES,canPay} from './ea-data.mjs?v=283cdc422cd2';
+import {facilityRecords,courtyardDestination,scenicHomeActors} from './ea-scene-state.mjs?v=283cdc422cd2';
+import {startScenicWalk,scenicPosition} from './ea-scenic.mjs?v=283cdc422cd2';
+import {homeInteractions} from './ea-narrative.mjs?v=283cdc422cd2';
+import {scenicSweep} from './ea-scene-geometry.mjs?v=283cdc422cd2';
+import {sceneUnits} from './ea-sr-spatial.mjs?v=283cdc422cd2';
 
 const distance=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
 const arrived=(s,a,b)=>distance(a,b)<=sceneUnits(s,28)&&!scenicSweep(s,a,b).blocked;

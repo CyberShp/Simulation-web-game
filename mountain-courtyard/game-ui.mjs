@@ -1,6 +1,7 @@
-import {startPaintedGameUI} from './base-ui.mjs?v=99194c505dfc';
-import {BUILDINGS, STAGE_NAMES} from './runtime/ea-data.mjs?v=99194c505dfc';
-import {HALL_ESTABLISH_COST} from './runtime/ea-sr-spatial.mjs?v=99194c505dfc';
+import {startPaintedGameUI} from './base-ui.mjs?v=283cdc422cd2';
+import {BUILDINGS, STAGE_NAMES} from './runtime/ea-data.mjs?v=283cdc422cd2';
+import {HALL_ESTABLISH_COST} from './runtime/ea-sr-spatial.mjs?v=283cdc422cd2';
+import {openingGoal,materialShortages} from './opening-goal.mjs?v=283cdc422cd2';
 
 /** Mountain courtyard construction surface. Character and art rules stay in base-ui. */
 export function startEstateGameUI(host, layout) {
@@ -18,7 +19,7 @@ export function startEstateGameUI(host, layout) {
   const actualAt=(state,site)=>site&&state.buildings.find(building=>building.type===site.type&&building.x===site.x&&building.y===site.y);
   const stageText={shelter:'暂栖',damaged:'待修',complete:'已落成',foundation:'清地立基',structure:'木石成架',finishing:'屋檐将合',upgrade:'扩建中'};
   const cropNotes={growing:'种苗已入畦，新芽正在生长。',mature:'药叶渐丰，还需有人继续照看。','ripe/waiting':'药草已经长成，待田边收下。','paused:waterlogged':'畦中积水，待水退后再照看。','paused:facility':'田地暂不可用，照料已停下。',harvested:'这一畦已经收下。'};
-  let selectedSite='site:main-house',selectedBuilding=null,selectedStory=false,body='';
+  let selectedSite='site:main-house',selectedBuilding=null,selectedStory=false,body='',goalAction=null;
 
   function send(command) {
     const payload={...JSON.parse(host.command_context()),...command};
@@ -30,91 +31,15 @@ export function startEstateGameUI(host, layout) {
   }
 
   function goal(state) {
-    const master=state.roster.find(person=>person.role==='master');
-    const hall=state.buildings.find(building=>building.type==='hall');
-    const hallPhase=state.openingHallPhase||'complete';
-    const story=state.openingStory||{};
-    const terrace=state.herbTerrace||{};
-    const field=actualAt(state,siteById('site:herb-terrace'));
-    const lumber=actualAt(state,siteById('site:timber-grove'));
-    const title=document.getElementById('goal-title');
-    const copy=document.getElementById('goal-copy');
-    const action=document.getElementById('goal-action');
+    const next=openingGoal(state,{sites,alchemyCost:BUILDINGS.alchemy.cost});
     document.getElementById('build-tool').hidden=state.sceneId!=='scene:yunxiu-courtyard';
-    if(state.sceneId==='scene:travel'){
-      title.textContent='行在山间';copy.textContent='沿山道而行。';
-      action.hidden=false;action.textContent='查看行程';action.dataset.goal='world';return;
-    }
-    if(state.sceneId==='scene:valley'){
-      title.textContent=state.combat?'谷中交锋':'云岫山谷';
-      copy.textContent=state.combat?'留意山魈的蓄势。':'山中药草未尽，桥旁似有人迹。';
-      action.hidden=!!state.combat;action.textContent='查看山谷';action.dataset.goal='world';return;
-    }
-    if ((master?.wound||0)>0) {
-      title.textContent='先稳住伤势';
-      copy.textContent='一路风霜，伤口仍在作痛。先取灵草调息。';
-      action.hidden=false;action.textContent='用灵草调息';action.dataset.goal='heal';
-    } else if (story.visitor&&story.step===0) {
-      title.textContent='整理母亲留下的线索';
-      copy.textContent='伤势渐平，药匣里的旧纸与沿途见闻终于可以静心理清。';
-      action.hidden=false;action.textContent='整理旧卷';action.dataset.goal='clues';
-    } else if (story.visitor&&story.step===1&&story.invitation==='unasked'&&!story.gifted) {
-      title.textContent='去见陆知微';
-      copy.textContent=story.visitor?.canTalk?'她正为家中病人寻药，走近些听听她的难处。':'陆知微在院中等候，先走到她身边再谈。';
-      action.hidden=false;action.textContent='查看陆知微';action.dataset.goal='story';
-    } else if (hallPhase==='shelter') {
-      title.textContent='在云岫立起主殿';
-      copy.textContent='松坡小篷可暂避风雨。山前平地，正好立殿。';
-      action.hidden=false;action.textContent='查看殿址';action.dataset.goal='site:main-house';
-    } else if (hallPhase==='building') {
-      title.textContent='主殿渐成';
-      copy.textContent='殿址已开工，山上渐有梁柱声。';
-      action.hidden=false;action.textContent='查看工地';action.dataset.goal='site:main-house';
-    } else if ((hall?.condition??100)<50) {
-      title.textContent='修整山院主殿';
-      copy.textContent='殿宇受了损，添些木石便能修整。';
-      action.hidden=false;action.textContent='查看主殿';action.dataset.goal='site:main-house';
-    } else if (story.visitor&&story.step===1&&story.invitation==='unasked') {
-      title.textContent=story.gifted?'与陆知微商议去留':'去见陆知微';
-      copy.textContent=story.visitor?.canTalk?story.gifted?'药材已交到她手中，现在可以问她是否愿留在山院。':'她正为家中病人寻药，走近些听听她的难处。':'陆知微在院中等候，先走到她身边再谈。';
-      action.hidden=false;action.textContent='查看陆知微';action.dataset.goal='story';
-    } else if (!field||field.stage!=='complete') {
-      title.textContent=field?'药圃开垦中':'开辟山南药圃';
-      copy.textContent=field?'清去乱石，再引泉水入畦。':'泉边的山地，可辟成一片灵草田。';
-      action.hidden=false;action.textContent='查看药圃';action.dataset.goal='site:herb-terrace';
-    } else if (!terrace.lastHarvest&&terrace.crop&&terrace.crop.phase!=='harvested') {
-      title.textContent=terrace.crop.phase==='ripe/waiting'?'田畦将迎首收':terrace.crop.phase==='mature'?'药叶渐丰':'药圃新种';
-      copy.textContent=cropNotes[terrace.crop.phase]||'田边有人照看这一畦。';
-      action.hidden=false;action.textContent='查看药圃';action.dataset.goal='site:herb-terrace';
-    } else if (!terrace.lastHarvest&&terrace.seedTransports?.some(work=>['to-source','carrying'].includes(work.phase))) {
-      title.textContent='种苗正在运往药圃';
-      copy.textContent='掌门已领了差事，待种苗实际送到田边。';
-      action.hidden=false;action.textContent='查看药圃';action.dataset.goal='site:herb-terrace';
-    } else if (!terrace.lastHarvest&&(terrace.herbOnSite??0)<(terrace.seedNeeded??2)) {
-      title.textContent='为新田送去种苗';
-      copy.textContent='田畦已齐，公库中的灵草还须有人送到田边。';
-      action.hidden=false;action.textContent='查看药圃';action.dataset.goal='site:herb-terrace';
-    } else if (!terrace.lastHarvest&&!terrace.crop&&story.invitation==='joined') {
-      title.textContent='请陆知微照看药圃';
-      copy.textContent='种苗已到田边，可以问她愿否照料这片新田。';
-      action.hidden=false;action.textContent='查看药圃';action.dataset.goal='site:herb-terrace';
-    } else if (!state.crafting?.workstation) {
-      title.textContent='筑炉炼药';
-      copy.textContent='药圃初成，可在东台建一处丹房。';
-      action.hidden=false;action.textContent='查看丹房';action.dataset.goal='site:alchemy-court';
-    } else if (!state.crafting.orders.some(order=>order.phase==='completed')) {
-      title.textContent='开第一炉回春散';
-      copy.textContent='备好灵草，试炼一炉疗伤丹药。';
-      action.hidden=false;action.textContent='查看丹方';action.dataset.goal='crafts';
-    } else if (!lumber||lumber.stage!=='complete') {
-      title.textContent=lumber?'林缘工棚在建':'筹建林缘伐木场';
-      copy.textContent=lumber?'棚架立好，便可在松林边备木。':'松林在山道东侧，立一座工棚便能就近取材。';
-      action.hidden=false;action.textContent='查看林地';action.dataset.goal='site:timber-grove';
-    } else {
-      title.textContent='经营云岫山院';
-      copy.textContent='山路渐通，院中仍有许多空地待经营。';
-      action.hidden=true;
-    }
+    document.getElementById('goal-title').textContent=next.title;
+    document.getElementById('goal-copy').textContent=next.copy;
+    const action=document.getElementById('goal-action');
+    goalAction=next.action;
+    action.hidden=!goalAction;
+    action.textContent=goalAction?.label||'';
+    action.dataset.goal=goalAction?.target||'';
   }
 
   function storyMarkup(state) {
@@ -207,9 +132,13 @@ export function startEstateGameUI(host, layout) {
       const siteLock=state.openingHallPhase!=='complete'?'主殿立稳后再动工。':
         state.construction?'先等眼前这处工程完工。':
         (state.estateStage??0)<(definition.stage??0)?`待${STAGE_NAMES[definition.stage]||'山院成长'}后再营造。`:'';
+      const alchemyShortages=type==='alchemy'?materialShortages(state.resources,definition.cost):[];
+      const shortageText=alchemyShortages.length?alchemyShortages.map(item=>(resources[item.resource]||item.resource)+' '+Number(item.amount.toFixed(2))).join('、'):shortage.join('、');
+      const supplyLinks=alchemyShortages.map(item=>['wood','stone','herb'].includes(item.resource)?'<button class="secondary-action" data-estate-supply="'+safe(item.resource)+'">前往取'+safe(resources[item.resource])+'</button>':'').join('')+
+        (alchemyShortages.length?'<button class="secondary-action" data-estate-market>查看山客交易</button>':'');
       action='<p class="estate-cost">营造所需　'+safe(costText(definition.cost))+'</p>'+
-        (blocked||siteLock||shortage.length?'<p class="estate-lock">'+safe(blocked||siteLock||'尚缺'+shortage.join('、'))+'</p>':'')+
-        '<button class="primary-action" data-estate-build="'+safe(site?.id||'')+'" '+(blocked||siteLock||shortage.length?'disabled':'')+'>在此营造'+safe(definition.name||'设施')+'</button>';
+        (blocked||siteLock||shortage.length?'<p class="estate-lock">'+safe(blocked||siteLock||'尚缺'+shortageText)+'</p>':'')+
+        '<button class="primary-action" data-estate-build="'+safe(site?.id||'')+'" '+(blocked||siteLock||shortage.length?'disabled':'')+'>在此营造'+safe(definition.name||'设施')+'</button>'+supplyLinks;
     } else if (damaged) {
       const repair={wood:Math.ceil((100-condition)/5),stone:Math.ceil((100-condition)/8)};
       const shortage=missingCost(state,repair);
@@ -284,18 +213,20 @@ export function startEstateGameUI(host, layout) {
   document.querySelectorAll('[data-tab]').forEach(button=>button.addEventListener('click',()=>{panel.hidden=true}));
   document.getElementById('close-estate-panel').addEventListener('click',()=>{panel.hidden=true});
   document.getElementById('goal-action').addEventListener('click',event=>{
-    const target=event.currentTarget.dataset.goal;
+    if (!goalAction) return;
+    const {target,params}=goalAction;
     if (target==='heal') send({name:'masterAction',args:['heal']});
     else if (target==='clues') send({name:'advanceStory',args:[]});
     else if (target==='story') openStory();
-    else if (target==='crafts') systemUI.open('crafts');
-    else if (target==='world') systemUI.open('world');
+    else if (['crafts','world','sect','bag'].includes(target)) {panel.hidden=true;systemUI.open(target,params);}
     else {openSite(target);window.estateSceneCommand?.('focus_site',target)}
   });
   content.addEventListener('click',event=>{
     const button=event.target.closest('button');
     if (!button) return;
-    if (button.hasAttribute('data-estate-alchemy')) systemUI.open('crafts');
+    if (button.hasAttribute('data-estate-supply')) {panel.hidden=true;systemUI.open('sect',{section:'harvest',resource:button.dataset.estateSupply});}
+    else if (button.hasAttribute('data-estate-market')) {panel.hidden=true;systemUI.open('sect',{section:'market'});}
+    else if (button.hasAttribute('data-estate-alchemy')) systemUI.open('crafts');
     else if (button.dataset.storyChoice) send({name:'advanceStory',args:[button.dataset.storyChoice]});
     else if (button.hasAttribute('data-story-visit')) {
       const state=snapshot();

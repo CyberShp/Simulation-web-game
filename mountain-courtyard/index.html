@@ -5,14 +5,14 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#17251f">
   <link rel="icon" href="data:,">
-  <link rel="stylesheet" href="game-ui.css?v=99194c505dfc">
-  <link rel="stylesheet" href="system-ui.css?v=99194c505dfc">
-  <link rel="stylesheet" href="system-people.css?v=99194c505dfc">
-  <link rel="stylesheet" href="system-inventory.css?v=99194c505dfc">
-  <link rel="stylesheet" href="system-crafting.css?v=99194c505dfc">
-  <link rel="stylesheet" href="system-sect.css?v=99194c505dfc">
-  <link rel="stylesheet" href="system-world.css?v=99194c505dfc">
-  <link rel="stylesheet" href="battle-ui.css?v=99194c505dfc">
+  <link rel="stylesheet" href="game-ui.css?v=283cdc422cd2">
+  <link rel="stylesheet" href="system-ui.css?v=283cdc422cd2">
+  <link rel="stylesheet" href="system-people.css?v=283cdc422cd2">
+  <link rel="stylesheet" href="system-inventory.css?v=283cdc422cd2">
+  <link rel="stylesheet" href="system-crafting.css?v=283cdc422cd2">
+  <link rel="stylesheet" href="system-sect.css?v=283cdc422cd2">
+  <link rel="stylesheet" href="system-world.css?v=283cdc422cd2">
+  <link rel="stylesheet" href="battle-ui.css?v=283cdc422cd2">
   <title>余烬立山 · 云岫山院</title>
 
 </head>
@@ -60,10 +60,10 @@
   <script>window.__paintedGameMode = true;</script>
   <script src="index.js"></script>
   <script type="module">
-    import {bootGodotHost} from './runtime/ea-godot-host.mjs?v=99194c505dfc';
-    import {startEstateGameUI} from './game-ui.mjs?v=99194c505dfc';
-    import {installScenePackLoader} from './scene-pack-loader.mjs?v=99194c505dfc';
-    const configuration={"args": [], "canvasResizePolicy": 2, "emscriptenPoolSize": 8, "ensureCrossOriginIsolationHeaders": true, "executable": "index", "experimentalVK": false, "fileSizes": {"index.wasm": 37700666, "scene-ee25c7cb7897.pck": 42643972}, "focusCanvas": true, "gdextensionLibs": [], "godotPoolSize": 4, "mainPack": "scene-ee25c7cb7897.pck", "scenePack": {"byteLength": 42643972, "sha256": "ee25c7cb78971ee540d9bd22b5451b834def01403269dd6b23037d94f341ad10", "parts": [{"url": "scene-ee25c7cb7897.pck.part0", "byteLength": 16777216, "sha256": "b87ff13734fa0f7b54a278ba354d843b8e1c06f7e5dfbf5857f3f30de2ce3d54"}, {"url": "scene-ee25c7cb7897.pck.part1", "byteLength": 16777216, "sha256": "a8e5695003fc11d78bd94b04ad3192c58d13aa982898494bfed6110fa30bf841"}, {"url": "scene-ee25c7cb7897.pck.part2", "byteLength": 9089540, "sha256": "3b6545e14c4ef62c3c1fe98d20982d51b271a65c84d6ad9bec40a9e4a5707f2b"}]}};
+    import {bootGodotHost} from './runtime/ea-godot-host.mjs?v=283cdc422cd2';
+    import {startEstateGameUI} from './game-ui.mjs?v=283cdc422cd2';
+    import {installScenePackLoader} from './scene-pack-loader.mjs?v=283cdc422cd2';
+    const configuration={"args": [], "canvasResizePolicy": 2, "emscriptenPoolSize": 8, "ensureCrossOriginIsolationHeaders": true, "executable": "index", "experimentalVK": false, "fileSizes": {"index.wasm": 37700666, "scene-b1e052e74225.pck": 42643972}, "focusCanvas": true, "gdextensionLibs": [], "godotPoolSize": 4, "mainPack": "scene-b1e052e74225.pck", "scenePack": {"byteLength": 42643972, "sha256": "b1e052e7422524da034b0f946c1c55347c30295d0e3f02890343fb458117bf7c", "parts": [{"url": "scene-b1e052e74225.pck.part0", "byteLength": 16777216, "sha256": "b87ff13734fa0f7b54a278ba354d843b8e1c06f7e5dfbf5857f3f30de2ce3d54"}, {"url": "scene-b1e052e74225.pck.part1", "byteLength": 16777216, "sha256": "a8e5695003fc11d78bd94b04ad3192c58d13aa982898494bfed6110fa30bf841"}, {"url": "scene-b1e052e74225.pck.part2", "byteLength": 9089540, "sha256": "f3243b857505156171f96b0e6f4342824efd57bece0334ef16c5cbcb9c716468"}]}};
     const loading=document.getElementById('loading'), progress=document.getElementById('progress');
     try {
       const missing=Engine.getMissingFeatures({threads:false});

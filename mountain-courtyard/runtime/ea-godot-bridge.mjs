@@ -1,17 +1,17 @@
 /** Godot Web presentation bridge: SR-XF-002/003/007/030, U-101 and runtime §4–11. */
-import {initial, tick, dispatchCommand, validateSave, COMMAND_NAMES, appearanceView, getCampaignScene, viewSRCombat} from './ea-opening-sim.mjs?v=99194c505dfc';
-import {BUILDINGS, RECIPES, RESOURCES, day, stage, realmName, xpNeed} from './ea-data.mjs?v=99194c505dfc';
-import {facilitySlots} from './ea-facility-slots.mjs?v=99194c505dfc';
-import {scenicHomeActors, nextObjective} from './ea-scene-state.mjs?v=99194c505dfc';
-import {SPATIAL_SCENE, spatialTerrain, spatialRoom, spatialPrefab, spatialTransform, polygonContains, viewSpatial, sceneUnits} from './ea-sr-spatial.mjs?v=99194c505dfc';
-import {artView, teachingQualificationSR} from './ea-sr-cultivation.mjs?v=99194c505dfc';
-import {openingInheritanceView} from './ea-opening-inheritance.mjs?v=99194c505dfc';
-import {FARM_CROP_RECIPE, HARVEST_BATCH, harvestAvailable, viewEconomy} from './ea-sr-economy.mjs?v=99194c505dfc';
-import {viewPersons} from './ea-sr-persons.mjs?v=99194c505dfc';
-import {personLifeSummary, workOpportunity} from './ea-life.mjs?v=99194c505dfc';
-import {viewPublicDiscipleLearning} from './ea-society.mjs?v=99194c505dfc';
-import {EQUIPMENT_SLOTS, viewEquipment, equipmentCombatBenefits} from './ea-sr-equipment.mjs?v=99194c505dfc';
-import {godotMoveCommand, projectGodotScene} from './ea-godot-world.mjs?v=99194c505dfc';
+import {initial, tick, dispatchCommand, validateSave, COMMAND_NAMES, appearanceView, getCampaignScene, viewSRCombat} from './ea-opening-sim.mjs?v=283cdc422cd2';
+import {BUILDINGS, RECIPES, RESOURCES, day, stage, realmName, xpNeed} from './ea-data.mjs?v=283cdc422cd2';
+import {facilitySlots} from './ea-facility-slots.mjs?v=283cdc422cd2';
+import {scenicHomeActors, nextObjective} from './ea-scene-state.mjs?v=283cdc422cd2';
+import {SPATIAL_SCENE, spatialTerrain, spatialRoom, spatialPrefab, spatialTransform, polygonContains, viewSpatial, sceneUnits} from './ea-sr-spatial.mjs?v=283cdc422cd2';
+import {artView, teachingQualificationSR} from './ea-sr-cultivation.mjs?v=283cdc422cd2';
+import {openingInheritanceView} from './ea-opening-inheritance.mjs?v=283cdc422cd2';
+import {FARM_CROP_RECIPE, HARVEST_BATCH, harvestAvailable, viewEconomy} from './ea-sr-economy.mjs?v=283cdc422cd2';
+import {viewPersons} from './ea-sr-persons.mjs?v=283cdc422cd2';
+import {personLifeSummary, workOpportunity} from './ea-life.mjs?v=283cdc422cd2';
+import {viewPublicDiscipleLearning} from './ea-society.mjs?v=283cdc422cd2';
+import {EQUIPMENT_SLOTS, viewEquipment, equipmentCombatBenefits} from './ea-sr-equipment.mjs?v=283cdc422cd2';
+import {godotMoveCommand, projectGodotScene} from './ea-godot-world.mjs?v=283cdc422cd2';
 
 const publicCommands = new Set(COMMAND_NAMES);
 const isRecord = value => value !== null && typeof value === 'object' && !Array.isArray(value);
@@ -39,6 +39,34 @@ function projectOpeningStory(state) {
     invitation: opening?.invitation ?? 'unasked',
     visitor: visitor ? {id: visitor.personId, name: visitor.name,
       x: position?.x ?? null, y: position?.y ?? null, canTalk} : null,
+  };
+}
+
+function projectOpeningJourney(state) {
+  const masterId = state.master.personId;
+  const facts = Object.entries(state.factsById || {}).filter(([id, fact]) =>
+    isRecord(fact) && fact.id === id && fact.actorId === masterId && fact.public !== false &&
+    Number.isSafeInteger(fact.atTick) && fact.atTick >= 0 && fact.atTick <= state.worldTick
+  ).map(([, fact]) => fact);
+  const healingProduction = fact => fact.kind === 'inventory-transaction' &&
+    fact.operation === 'pill-production' && fact.recipeId === 'heal' && Number.isSafeInteger(fact.quantity) && fact.quantity > 0;
+  const battle = facts.filter(fact => {
+    const session = state.combatSessionsById?.[fact.sessionId];
+    return fact.kind === 'combat-result' && fact.encounterId === 'valley-shanxiao' &&
+      fact.personId === 'person:valley-shanxiao' && fact.sceneId === 'scene:valley' &&
+      fact.id === `fact:${fact.sessionId}:result` && ['won', 'retreated', 'lost'].includes(fact.result) &&
+      session?.personId === masterId && session.phase === 'ended' &&
+      session.result === fact.result && session.endedTick === fact.atTick &&
+      !(state.combat?.sessionId === fact.sessionId && state.combat.status === 'active');
+  }).sort((a, b) => b.atTick - a.atTick || b.id.localeCompare(a.id))[0];
+  return {
+    healingCrafted: facts.some(healingProduction),
+    valleyGathered: facts.some(fact => {
+      if (fact.kind !== 'interaction' || fact.sceneId !== 'scene:valley') return false;
+      const match = /^fact:interaction:object:valley:herbs:gather:(\d+)$/.exec(fact.id);
+      return !!match && Number.isSafeInteger(Number(match[1])) && Number(match[1]) <= fact.atTick;
+    }),
+    firstBattle: battle ? {result: battle.result, atTick: battle.atTick} : null,
   };
 }
 
@@ -370,6 +398,7 @@ export function projectGodotWorld(state, selection = null, sites = null) {
     world: scene.world, combat: projectLocalCombat(state, scene.sceneId),
     openingInheritance: openingInheritanceView(state),
     openingStory: projectOpeningStory(state),
+    openingJourney: projectOpeningJourney(state),
     openingHallPhase: state.story?.opening?.hallPhase || 'complete',
     herbTerrace: projectHerbTerrace(state, construction, sites),
     estateStage: stage(state),

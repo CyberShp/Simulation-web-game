@@ -1,5 +1,5 @@
-import { CLUES, PREPARATIONS, campaignSummary, explorationOptions } from './ea-campaign.mjs?v=99194c505dfc';
-import {capacity} from './ea-data.mjs?v=99194c505dfc';
+import { CLUES, PREPARATIONS, campaignSummary, explorationOptions } from './ea-campaign.mjs?v=283cdc422cd2';
+import {capacity} from './ea-data.mjs?v=283cdc422cd2';
 
 // Narrative is a projection of committed campaign facts, never a second quest
 // engine. Reading acknowledges prose only: costs, rewards and progress continue

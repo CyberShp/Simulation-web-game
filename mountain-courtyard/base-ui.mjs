@@ -1,11 +1,11 @@
 /** U-120: system windows read the shared simulation and issue its public commands. */
-import {createPeoplePanels} from './system-people.mjs?v=99194c505dfc';
-import {createInventoryPanel} from './system-inventory.mjs?v=99194c505dfc';
-import {createCraftingPanel} from './system-crafting.mjs?v=99194c505dfc';
-import {createSectPanel} from './system-sect.mjs?v=99194c505dfc';
-import {createWorldPanel} from './system-world.mjs?v=99194c505dfc';
-import {createBattleUI} from './battle-ui.mjs?v=99194c505dfc';
-import {escape as esc, amount, icon, portrait, bar} from './system-ui-helpers.mjs?v=99194c505dfc';
+import {createPeoplePanels} from './system-people.mjs?v=283cdc422cd2';
+import {createInventoryPanel} from './system-inventory.mjs?v=283cdc422cd2';
+import {createCraftingPanel} from './system-crafting.mjs?v=283cdc422cd2';
+import {createSectPanel} from './system-sect.mjs?v=283cdc422cd2';
+import {createWorldPanel} from './system-world.mjs?v=283cdc422cd2';
+import {createBattleUI} from './battle-ui.mjs?v=283cdc422cd2';
+import {escape as esc, amount, icon, portrait, bar} from './system-ui-helpers.mjs?v=283cdc422cd2';
 
 export function startPaintedGameUI(host) {
   const $ = selector => document.querySelector(selector);

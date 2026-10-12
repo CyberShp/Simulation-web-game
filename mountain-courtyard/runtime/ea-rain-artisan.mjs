@@ -1,9 +1,9 @@
 /** Author card: docs/design/content/rain-artisan-v1.2.json. No runtime AI. */
-import {canPay,pay,grant,log} from './ea-data.mjs?v=99194c505dfc';
-import {buildingAccess,scenicFindPath,scenicDistance,scenicSweep,geometryRevision} from './ea-scene-geometry.mjs?v=99194c505dfc';
-import {areaPoint,advanceScenic,validateScenic} from './ea-scenic.mjs?v=99194c505dfc';
-import {prepareFacilityActivity,releaseBodyActivity} from './ea-facility-activities.mjs?v=99194c505dfc';
-import {sceneUnits,spatialEnabled} from './ea-sr-spatial.mjs?v=99194c505dfc';
+import {canPay,pay,grant,log} from './ea-data.mjs?v=283cdc422cd2';
+import {buildingAccess,scenicFindPath,scenicDistance,scenicSweep,geometryRevision} from './ea-scene-geometry.mjs?v=283cdc422cd2';
+import {areaPoint,advanceScenic,validateScenic} from './ea-scenic.mjs?v=283cdc422cd2';
+import {prepareFacilityActivity,releaseBodyActivity} from './ea-facility-activities.mjs?v=283cdc422cd2';
+import {sceneUnits,spatialEnabled} from './ea-sr-spatial.mjs?v=283cdc422cd2';
 const gatePoint=s=>spatialEnabled(s)?{x:32,y:56}:areaPoint('gate');
 const PERSON_ID='person:cheng-wenzhou',ORDER_ID='work:rain-artisan:care',MEDICINE_ID='reservation:rain-artisan:medicine';
 export function initRainArtisan(s,addPerson){

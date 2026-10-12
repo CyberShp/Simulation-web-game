@@ -1,12 +1,12 @@
 /** SR-XF-009/010/011. U-63 author defaults (R/T), one world clock and one resource authority. */
-import {RESOURCES,GOODS,BUILDINGS,RECIPES,TECHNIQUES} from './ea-data.mjs?v=99194c505dfc';
-import {buildingAccess,scenicFindPath,scenicDistance,geometryRevision,scenicNearest} from './ea-scene-geometry.mjs?v=99194c505dfc';
-import {advanceScenic,syncScenicPosition} from './ea-scenic.mjs?v=99194c505dfc';
-import {facilitySlots,slotReservation} from './ea-facility-slots.mjs?v=99194c505dfc';
-import {cloneState,commitStateDraft} from './ea-state-v6.mjs?v=99194c505dfc';
-import {RESOURCE_ACCOUNTING_VERSION,addAmounts,subtractAmounts,canonicalProductionAmount} from './ea-resource-amounts.mjs?v=99194c505dfc';
-import {CLIMATE,weatherModifiers} from './ea-sr-weather.mjs?v=99194c505dfc';
-import {travelPreviewSR,travelSR} from './ea-sr-world.mjs?v=99194c505dfc';
+import {RESOURCES,GOODS,BUILDINGS,RECIPES,TECHNIQUES} from './ea-data.mjs?v=283cdc422cd2';
+import {buildingAccess,scenicFindPath,scenicDistance,geometryRevision,scenicNearest} from './ea-scene-geometry.mjs?v=283cdc422cd2';
+import {advanceScenic,syncScenicPosition} from './ea-scenic.mjs?v=283cdc422cd2';
+import {facilitySlots,slotReservation} from './ea-facility-slots.mjs?v=283cdc422cd2';
+import {cloneState,commitStateDraft} from './ea-state-v6.mjs?v=283cdc422cd2';
+import {RESOURCE_ACCOUNTING_VERSION,addAmounts,subtractAmounts,canonicalProductionAmount} from './ea-resource-amounts.mjs?v=283cdc422cd2';
+import {CLIMATE,weatherModifiers} from './ea-sr-weather.mjs?v=283cdc422cd2';
+import {travelPreviewSR,travelSR} from './ea-sr-world.mjs?v=283cdc422cd2';
 const zeros=()=>Object.fromEntries(Object.keys(RESOURCES).map(k=>[k,0]));
 const MARKET_SUPPLY_VERSION='market-supply:physical:v1',MARKET_SUPPLIER='person:qingxi-supply-clerk',MARKET_CARRIER='person:qingxi-hauler';
 const MARKET_SUPPLIER_STOCK='stockpile:qingxi-supplier',MARKET_SUPPLIER_WALLET='stockpile:qingxi-supplier-wallet',MARKET_TOLL_STOCK='stockpile:chizhang-market-toll';

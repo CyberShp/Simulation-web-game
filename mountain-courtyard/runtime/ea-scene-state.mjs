@@ -1,10 +1,10 @@
-import {artisanPresent} from './ea-rain-artisan.mjs?v=99194c505dfc';
-import {facilitySlotView} from './ea-facility-slots.mjs?v=99194c505dfc';
-import {productionOrder} from './ea-facility-activities.mjs?v=99194c505dfc';
-import {BUILDINGS,ROUTES,RESOURCES,stage} from './ea-data.mjs?v=99194c505dfc';
-import {scenicPoint,buildingAccess,buildingSize,buildingFootprint} from './ea-scene-geometry.mjs?v=99194c505dfc';
-import {lifeFacility} from './ea-life.mjs?v=99194c505dfc';
-import {recoveryObjective} from './ea-onboarding.mjs?v=99194c505dfc';
+import {artisanPresent} from './ea-rain-artisan.mjs?v=283cdc422cd2';
+import {facilitySlotView} from './ea-facility-slots.mjs?v=283cdc422cd2';
+import {productionOrder} from './ea-facility-activities.mjs?v=283cdc422cd2';
+import {BUILDINGS,ROUTES,RESOURCES,stage} from './ea-data.mjs?v=283cdc422cd2';
+import {scenicPoint,buildingAccess,buildingSize,buildingFootprint} from './ea-scene-geometry.mjs?v=283cdc422cd2';
+import {lifeFacility} from './ea-life.mjs?v=283cdc422cd2';
+import {recoveryObjective} from './ea-onboarding.mjs?v=283cdc422cd2';
 
 export const facilityActive=b=>!!b&&b.enabled!==false&&b.condition>0;
 export function facilityRecords(s){

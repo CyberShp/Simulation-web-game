@@ -1,10 +1,10 @@
-import { rng, day, log, pay, canPay, grant, capacity } from './ea-data.mjs?v=99194c505dfc';
-import { EXPEDITIONS as LEGACY_ROUTES } from './world.mjs?v=99194c505dfc';
-import { combatField, combatGeometryId, combatCanStand, combatClearLine, combatPath, moveCombatActor, dodgeEndpoint } from './ea-combat-geometry.mjs?v=99194c505dfc';
-import { appearance } from './ea-scenic.mjs?v=99194c505dfc';
-import {beginCombatSession,endCombatSession,initSRCombat,projectedCombatHp,setCombatActorHp,syncCombatBodyProjection} from './ea-sr-combat.mjs?v=99194c505dfc';
-import {openingCombatProfile} from './ea-opening-inheritance.mjs?v=99194c505dfc';
-import {recordPermanentDeathSR} from './ea-sr-crises.mjs?v=99194c505dfc';
+import { rng, day, log, pay, canPay, grant, capacity } from './ea-data.mjs?v=283cdc422cd2';
+import { EXPEDITIONS as LEGACY_ROUTES } from './world.mjs?v=283cdc422cd2';
+import { combatField, combatGeometryId, combatCanStand, combatClearLine, combatPath, moveCombatActor, dodgeEndpoint } from './ea-combat-geometry.mjs?v=283cdc422cd2';
+import { appearance } from './ea-scenic.mjs?v=283cdc422cd2';
+import {beginCombatSession,endCombatSession,initSRCombat,projectedCombatHp,setCombatActorHp,syncCombatBodyProjection} from './ea-sr-combat.mjs?v=283cdc422cd2';
+import {openingCombatProfile} from './ea-opening-inheritance.mjs?v=283cdc422cd2';
+import {recordPermanentDeathSR} from './ea-sr-crises.mjs?v=283cdc422cd2';
 
 // Campaign state is deliberately plain data. Every choice, weather roll and reward
 // is committed to the save before the next tick; loading never repeats a roll.

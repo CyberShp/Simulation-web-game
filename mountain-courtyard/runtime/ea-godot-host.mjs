@@ -1,8 +1,8 @@
 /** Godot Web host: one simulation clock, isolated preview saves, original save validation. */
-import {createGodotBridge} from './ea-godot-bridge.mjs?v=99194c505dfc';
-import {createEAPersistence, MAX_IMPORT_BYTES} from './ea-persistence.mjs?v=99194c505dfc';
-import {initial, validateSave, SCHEMA_VERSION, GAME_VERSION} from './ea-opening-sim.mjs?v=99194c505dfc';
-import {createRuntimeClock, createFrameDiagnostics} from './ea-runtime.mjs?v=99194c505dfc';
+import {createGodotBridge} from './ea-godot-bridge.mjs?v=283cdc422cd2';
+import {createEAPersistence, MAX_IMPORT_BYTES} from './ea-persistence.mjs?v=283cdc422cd2';
+import {initial, validateSave, SCHEMA_VERSION, GAME_VERSION} from './ea-opening-sim.mjs?v=283cdc422cd2';
+import {createRuntimeClock, createFrameDiagnostics} from './ea-runtime.mjs?v=283cdc422cd2';
 
 const LOCAL_PREVIEW_SCENES = new Set(['scene:yunxiu-courtyard', 'scene:valley']);
 
