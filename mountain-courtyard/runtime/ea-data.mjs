@@ -1,4 +1,4 @@
-import {addAmounts,subtractAmounts} from './ea-resource-amounts.mjs?v=ea-issue6-history-20261012-r1';
+import {addAmounts,subtractAmounts} from './ea-resource-amounts.mjs?v=ea-issue6-history-20261012-r2';
 /** EA data is independent of legacy shared objects. All randomness is state-owned. */
 export const GAME_VERSION='1.6.0-dev';
 export const DAY_LENGTH=120;

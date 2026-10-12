@@ -1,5 +1,5 @@
-import {TECHNIQUES,log} from './ea-data.mjs?v=ea-issue6-history-20261012-r1';
-import {spendResources} from './ea-sr-equipment.mjs?v=ea-issue6-history-20261012-r1';
+import {TECHNIQUES,log} from './ea-data.mjs?v=ea-issue6-history-20261012-r2';
+import {spendResources} from './ea-sr-equipment.mjs?v=ea-issue6-history-20261012-r2';
 
 // Y-001/003/004/011/012/013/041/043 and Y-228–234. One independent art per key.
 export const OPENING_INHERITANCES=Object.freeze({

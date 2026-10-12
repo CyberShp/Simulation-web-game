@@ -1,12 +1,12 @@
-import {RESOURCE_ACCOUNTING_VERSION,addAmounts,subtractAmounts,canonicalProductionAmount} from './ea-resource-amounts.mjs?v=ea-issue6-history-20261012-r1';
+import {RESOURCE_ACCOUNTING_VERSION,addAmounts,subtractAmounts,canonicalProductionAmount} from './ea-resource-amounts.mjs?v=ea-issue6-history-20261012-r2';
 /** SR-XF-009/010/011. U-63 author defaults (R/T), one world clock and one resource authority. */
-import {RESOURCES,GOODS,BUILDINGS,RECIPES,TECHNIQUES} from './ea-data.mjs?v=ea-issue6-history-20261012-r1';
-import {buildingAccess,scenicFindPath,scenicDistance,geometryRevision,scenicNearest} from './ea-scene-geometry.mjs?v=ea-issue6-history-20261012-r1';
-import {advanceScenic,syncScenicPosition} from './ea-scenic.mjs?v=ea-issue6-history-20261012-r1';
-import {facilitySlots,slotReservation} from './ea-facility-slots.mjs?v=ea-issue6-history-20261012-r1';
-import {cloneState,commitStateDraft} from './ea-state-v6.mjs?v=ea-issue6-history-20261012-r1';
-import {CLIMATE,weatherModifiers} from './ea-sr-weather.mjs?v=ea-issue6-history-20261012-r1';
-import {travelPreviewSR,travelSR} from './ea-sr-world.mjs?v=ea-issue6-history-20261012-r1';
+import {RESOURCES,GOODS,BUILDINGS,RECIPES,TECHNIQUES} from './ea-data.mjs?v=ea-issue6-history-20261012-r2';
+import {buildingAccess,scenicFindPath,scenicDistance,geometryRevision,scenicNearest} from './ea-scene-geometry.mjs?v=ea-issue6-history-20261012-r2';
+import {advanceScenic,syncScenicPosition} from './ea-scenic.mjs?v=ea-issue6-history-20261012-r2';
+import {facilitySlots,slotReservation} from './ea-facility-slots.mjs?v=ea-issue6-history-20261012-r2';
+import {cloneState,commitStateDraft} from './ea-state-v6.mjs?v=ea-issue6-history-20261012-r2';
+import {CLIMATE,weatherModifiers} from './ea-sr-weather.mjs?v=ea-issue6-history-20261012-r2';
+import {travelPreviewSR,travelSR} from './ea-sr-world.mjs?v=ea-issue6-history-20261012-r2';
 const zeros=()=>Object.fromEntries(Object.keys(RESOURCES).map(k=>[k,0]));
 const MARKET_SUPPLY_VERSION='market-supply:physical:v1',MARKET_SUPPLIER='person:qingxi-supply-clerk',MARKET_CARRIER='person:qingxi-hauler';
 const MARKET_SUPPLIER_STOCK='stockpile:qingxi-supplier',MARKET_SUPPLIER_WALLET='stockpile:qingxi-supplier-wallet',MARKET_TOLL_STOCK='stockpile:chizhang-market-toll';

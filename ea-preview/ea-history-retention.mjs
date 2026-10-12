@@ -12,6 +12,13 @@ function factClass(f){
  if(f?.kind==='inventory-transaction'&&f.operation==='merchant-arrival')return 'merchant-arrival';
  return null;
 }
+function acquiredKnowledge(f){
+ // Knowledge can be recorded on the fact itself, without a person's forward ID.
+ // Ordinary merchant-arrival actor IDs label settled audit receipts. All other
+ // actor IDs carry observer knowledge, including NPC-only knowledge in old saves.
+ return f.public===true||f.actorId==='person:master'||f.actorId!=null&&factClass(f)!=='merchant-arrival'||f.observerId!=null||
+  ['knownByIds','knownByPersonIds','knownBy'].some(key=>Object.hasOwn(f,key)&&(!Array.isArray(f[key])||f[key].length>0));
+}
 function auditedFact(s,f,kind){
  if(kind==='weather')return f.id===`fact:weather:yunxiu:${f.atTick}`&&f.regionId==='region:yunxiu'&&['clear','rain','fog','wind'].includes(f.phase);
  if(kind==='ecology-damage')return f.id===`fact:crop-water:${f.atTick}`&&f.sceneId==='scene:yunxiu-courtyard'&&f.cause==='waterlogging'&&f.resource==='herb'&&finite(f.quantity)&&f.quantity>=0;
@@ -73,7 +80,7 @@ export function pruneHistory(s,{force=false}={}){
  for(const [id,f]of Object.entries(s.factsById)){
   const kind=factClass(f);
   // A malformed/incomplete record must survive for the strict loader to reject.
-  if(!kind||f.id!==id||!integer(f.atTick)||f.atTick>s.worldTick||!auditedFact(s,f,kind)||missingHistoryReference(s,f)){keep.push(id);continue;}
+  if(!kind||f.id!==id||!integer(f.atTick)||f.atTick>s.worldTick||!auditedFact(s,f,kind)||acquiredKnowledge(f)||missingHistoryReference(s,f)){keep.push(id);continue;}
   candidates.push({id,kind,tick:f.atTick,table:s.factsById});
   if(kind==='daily-supply-relation'){
    add(kind+':'+f.personId,HISTORY_POLICY.dailySupplyPerPerson,f);

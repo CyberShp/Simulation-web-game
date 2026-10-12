@@ -1,5 +1,5 @@
-import * as prior from './living-world.mjs?v=ea-issue6-history-20261012-r1';
-export * from './living-world.mjs?v=ea-issue6-history-20261012-r1';
+import * as prior from './living-world.mjs?v=ea-issue6-history-20261012-r2';
+export * from './living-world.mjs?v=ea-issue6-history-20261012-r2';
 const {TYPES,RESOURCE,CELLS,addLog,pay,canPay,capacity,EXPEDITIONS,RECIPES}=prior;
 
 export const TECHNIQUES={
