@@ -1,13 +1,13 @@
-import {appearanceActionLabel,portraitDataURL} from './ea-courtyard-renderer.mjs?v=ea-issue5-850a7ea-20261012';
-import {renderSRPanel,dialogueSettings,srFormArguments} from './ea-sr-ui.mjs?v=ea-issue5-850a7ea-20261012';
-import {createDialogueAI} from './ea-sr-ai.mjs?v=ea-issue5-850a7ea-20261012';
-import {REGION_ART} from './ea-region-art.mjs?v=ea-issue5-850a7ea-20261012';
-import {appearance} from './ea-scenic.mjs?v=ea-issue5-850a7ea-20261012';
-import {facilityRecords,nextObjective,routeDiscovered} from './ea-scene-state.mjs?v=ea-issue5-850a7ea-20261012';
-import {sceneInteractionOptions,sceneInteractionTarget} from './ea-interactions.mjs?v=ea-issue5-850a7ea-20261012';
-import {narrativeForState,sceneDialogue,regionInteractions,homeInteractions} from './ea-narrative.mjs?v=ea-issue5-850a7ea-20261012';
-import * as SIM from './ea-opening-sim.mjs?v=ea-issue5-850a7ea-20261012';
-import {onboardingView,availableSystems,resourceReserve,resumeSummary} from './ea-onboarding.mjs?v=ea-issue5-850a7ea-20261012';
+import {appearanceActionLabel,portraitDataURL} from './ea-courtyard-renderer.mjs?v=ea-issue6-history-20261012-r1';
+import {renderSRPanel,dialogueSettings,srFormArguments} from './ea-sr-ui.mjs?v=ea-issue6-history-20261012-r1';
+import {createDialogueAI} from './ea-sr-ai.mjs?v=ea-issue6-history-20261012-r1';
+import {REGION_ART} from './ea-region-art.mjs?v=ea-issue6-history-20261012-r1';
+import {appearance} from './ea-scenic.mjs?v=ea-issue6-history-20261012-r1';
+import {facilityRecords,nextObjective,routeDiscovered} from './ea-scene-state.mjs?v=ea-issue6-history-20261012-r1';
+import {sceneInteractionOptions,sceneInteractionTarget} from './ea-interactions.mjs?v=ea-issue6-history-20261012-r1';
+import {narrativeForState,sceneDialogue,regionInteractions,homeInteractions} from './ea-narrative.mjs?v=ea-issue6-history-20261012-r1';
+import * as SIM from './ea-opening-sim.mjs?v=ea-issue6-history-20261012-r1';
+import {onboardingView,availableSystems,resourceReserve,resumeSummary} from './ea-onboarding.mjs?v=ea-issue6-history-20261012-r1';
 
 const E = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
 const n = value => Number.isFinite(Number(value)) ? Number(value) : 0;

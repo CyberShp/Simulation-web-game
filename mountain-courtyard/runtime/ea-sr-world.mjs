@@ -1,14 +1,14 @@
-import {addAmounts,subtractAmounts} from './ea-resource-amounts.mjs?v=ea-issue5-850a7ea-20261012';
-import {markAftermathKnowledge} from './ea-sr-aftermath.mjs?v=ea-issue5-850a7ea-20261012';
-import {knowledgeView,knownFactForObserver,stampInitialClaimReceipts} from './ea-sr-contracts.mjs?v=ea-issue5-850a7ea-20261012';
+import {addAmounts,subtractAmounts} from './ea-resource-amounts.mjs?v=ea-issue6-history-20261012-r1';
+import {markAftermathKnowledge} from './ea-sr-aftermath.mjs?v=ea-issue6-history-20261012-r1';
+import {knowledgeView,knownFactForObserver,stampInitialClaimReceipts} from './ea-sr-contracts.mjs?v=ea-issue6-history-20261012-r1';
 /** SR-XF-015/016/017/020/021. Facts are authoritative; views contain acquired knowledge only. */
-import {pay,grant,log,RESOURCES} from './ea-data.mjs?v=ea-issue5-850a7ea-20261012';
-import {GEOGRAPHY_SCENES,GEOGRAPHY_ROUTES,GEOGRAPHY_REGIONS,initGeographySR,startGeographySR,finishGeographySR,tickGeographySR,viewGeographySR,validateGeographySR} from './ea-sr-world-geography.mjs?v=ea-issue5-850a7ea-20261012';
-import {TELEPORT_ROUTES,initTransportSR,transportRouteUsableSR,transportModePlanSR,ticketPlanSR,reserveJourneyTicketsSR,releaseJourneyTicketsSR,tickTransportSR,startTransportCapabilitySR,finishTransportCapabilitySR,useTravelModeSR,viewTransportSR,validateTransportSR} from './ea-sr-world-transport.mjs?v=ea-issue5-850a7ea-20261012';
-import {HIGH_REALM_PATHS} from './ea-sr-cultivation.mjs?v=ea-issue5-850a7ea-20261012';
-import {startScenicWalk} from './ea-scenic.mjs?v=ea-issue5-850a7ea-20261012';
-import {startSRCombat,valleyEncounterDefinition} from './ea-campaign.mjs?v=ea-issue5-850a7ea-20261012';
-import {initWorldContentSR,tickWorldContentSR,startWorldContentSR,finishWorldContentSR,cancelWorldContentSR,viewWorldContentSR,validateWorldContentSR,worldContentDiagnosticsSR} from './ea-sr-world-content.mjs?v=ea-issue5-850a7ea-20261012';
+import {pay,grant,log,RESOURCES} from './ea-data.mjs?v=ea-issue6-history-20261012-r1';
+import {GEOGRAPHY_SCENES,GEOGRAPHY_ROUTES,GEOGRAPHY_REGIONS,initGeographySR,startGeographySR,finishGeographySR,tickGeographySR,viewGeographySR,validateGeographySR} from './ea-sr-world-geography.mjs?v=ea-issue6-history-20261012-r1';
+import {TELEPORT_ROUTES,initTransportSR,transportRouteUsableSR,transportModePlanSR,ticketPlanSR,reserveJourneyTicketsSR,releaseJourneyTicketsSR,tickTransportSR,startTransportCapabilitySR,finishTransportCapabilitySR,useTravelModeSR,viewTransportSR,validateTransportSR} from './ea-sr-world-transport.mjs?v=ea-issue6-history-20261012-r1';
+import {HIGH_REALM_PATHS} from './ea-sr-cultivation.mjs?v=ea-issue6-history-20261012-r1';
+import {startScenicWalk} from './ea-scenic.mjs?v=ea-issue6-history-20261012-r1';
+import {startSRCombat,valleyEncounterDefinition} from './ea-campaign.mjs?v=ea-issue6-history-20261012-r1';
+import {initWorldContentSR,tickWorldContentSR,startWorldContentSR,finishWorldContentSR,cancelWorldContentSR,viewWorldContentSR,validateWorldContentSR,worldContentDiagnosticsSR} from './ea-sr-world-content.mjs?v=ea-issue6-history-20261012-r1';
 const HOME='scene:yunxiu-courtyard', MASTER='person:master';
 const VALLEY_ENCOUNTER=Object.freeze(valleyEncounterDefinition());
 // Scenic exits add a physical approach to the established travel transaction.

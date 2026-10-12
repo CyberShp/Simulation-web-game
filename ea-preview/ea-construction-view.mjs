@@ -1,5 +1,5 @@
-import {spatialEnabled,viewSpatial} from './ea-sr-spatial.mjs?v=ea-issue5-850a7ea-20261012';
-import {buildingVisual,buildingAccess} from './ea-scene-geometry.mjs?v=ea-issue5-850a7ea-20261012';
+import {spatialEnabled,viewSpatial} from './ea-sr-spatial.mjs?v=ea-issue6-history-20261012-r1';
+import {buildingVisual,buildingAccess} from './ea-scene-geometry.mjs?v=ea-issue6-history-20261012-r1';
 
 /** Read-only projection; never completes work or reserves another material. */
 export function constructionView(s){if(spatialEnabled(s))return viewSpatial(s);

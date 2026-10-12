@@ -1,8 +1,8 @@
 /** Godot Web host: one simulation clock, isolated preview saves, original save validation. */
-import {createGodotBridge} from './ea-godot-bridge.mjs?v=ea-issue5-850a7ea-20261012';
-import {createEAPersistence, MAX_IMPORT_BYTES} from './ea-persistence.mjs?v=ea-issue5-850a7ea-20261012';
-import {initial, validateSave, SCHEMA_VERSION, GAME_VERSION} from './ea-opening-sim.mjs?v=ea-issue5-850a7ea-20261012';
-import {createRuntimeClock, createFrameDiagnostics} from './ea-runtime.mjs?v=ea-issue5-850a7ea-20261012';
+import {createGodotBridge} from './ea-godot-bridge.mjs?v=ea-issue6-history-20261012-r1';
+import {createEAPersistence, MAX_IMPORT_BYTES} from './ea-persistence.mjs?v=ea-issue6-history-20261012-r1';
+import {initial, validateSave, SCHEMA_VERSION, GAME_VERSION} from './ea-opening-sim.mjs?v=ea-issue6-history-20261012-r1';
+import {createRuntimeClock, createFrameDiagnostics} from './ea-runtime.mjs?v=ea-issue6-history-20261012-r1';
 
 const LOCAL_PREVIEW_SCENES = new Set(['scene:yunxiu-courtyard', 'scene:valley']);
 
@@ -150,7 +150,7 @@ export async function bootGodotHost({preview = 'godot-preview', siteLayout = nul
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
-      link.download = originalArchive ? '云岫预览-档案恢复资料.json?v=ea-issue5-850a7ea-20261012' : '云岫山院-进度.json?v=ea-issue5-850a7ea-20261012';
+      link.download = originalArchive ? '云岫预览-档案恢复资料.json?v=ea-issue6-history-20261012-r1' : '云岫山院-进度.json?v=ea-issue6-history-20261012-r1';
       link.click();
       setTimeout(() => URL.revokeObjectURL(url), 1000);
       message = originalArchive ? '原档与备份已导出，请保留恢复资料' : '已导出当前进度，请保留下载的文件';

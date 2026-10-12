@@ -1,11 +1,11 @@
 /** U-120: system windows read the shared simulation and issue its public commands. */
-import {createPeoplePanels} from './system-people.mjs?v=ea-issue5-850a7ea-20261012';
-import {createInventoryPanel} from './system-inventory.mjs?v=ea-issue5-850a7ea-20261012';
-import {createCraftingPanel} from './system-crafting.mjs?v=ea-issue5-850a7ea-20261012';
-import {createSectPanel} from './system-sect.mjs?v=ea-issue5-850a7ea-20261012';
-import {createWorldPanel} from './system-world.mjs?v=ea-issue5-850a7ea-20261012';
-import {createBattleUI} from './battle-ui.mjs?v=ea-issue5-850a7ea-20261012';
-import {escape as esc, amount, icon, portrait, bar} from './system-ui-helpers.mjs?v=ea-issue5-850a7ea-20261012';
+import {createPeoplePanels} from './system-people.mjs?v=ea-issue6-history-20261012-r1';
+import {createInventoryPanel} from './system-inventory.mjs?v=ea-issue6-history-20261012-r1';
+import {createCraftingPanel} from './system-crafting.mjs?v=ea-issue6-history-20261012-r1';
+import {createSectPanel} from './system-sect.mjs?v=ea-issue6-history-20261012-r1';
+import {createWorldPanel} from './system-world.mjs?v=ea-issue6-history-20261012-r1';
+import {createBattleUI} from './battle-ui.mjs?v=ea-issue6-history-20261012-r1';
+import {escape as esc, amount, icon, portrait, bar} from './system-ui-helpers.mjs?v=ea-issue6-history-20261012-r1';
 
 export function startPaintedGameUI(host) {
   const $ = selector => document.querySelector(selector);
