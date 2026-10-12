@@ -84,6 +84,8 @@ NPC目标/阶段生活计划、信念`beliefs`内嵌人物。`person.combatSessi
 | 时刻 | 非负整数 `worldTick`，字段名 `*Tick` |
 | 持续量 | 非负整数 `durationTicks`；禁止混用秒、毫秒和现实分钟 |
 
+Issue #5 实施（2026-10-12）：新生产毛产出和工资需求按 `resource-amounts:decimal-9:v1` 在汇总后规范至九位小数，分录使用同一十进制加减；历史 Number 余额、事实和在途数量不全局舍入，运输只依实际余额。具体精度边界、事务及兼容验证见 [生产结算修复](ISSUE-5-PRODUCTION-ACCOUNTING.md)。
+
 本版tick单位固定100ms模拟时间；模拟更新可批量推进整数tick。`ticksPerDay=1200`沿用现有120秒/日作为兼容基点，日长不是不可调整的世界观设定。改变tick单位需新契约与迁移；UI的辰时、日期由配置推导。
 
 1x/2x/4x改变单位墙钟内推进的模拟步数，不改变一个tick的意义。调速不允许额外结算生产、绕过冷却或重复抽事件。

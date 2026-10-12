@@ -89,6 +89,28 @@ export function hydrateState(s){
 }
 export function cloneState(s){return s.schemaVersion===6?hydrateState(structuredClone(s)):structuredClone(s);}
 
+/** Commit an isolated transaction while retaining live person/order/body references.
+ * Runtime adapters are getters, not a second state authority, and are left intact.
+ */
+export function commitStateDraft(state,draft){
+ const seen=new WeakMap();
+ function sync(target,source){
+  if(!source||typeof source!=='object')return source;
+  if(seen.has(source))return seen.get(source);
+  if(!target||typeof target!=='object'||Array.isArray(target)!==Array.isArray(source))target=Array.isArray(source)?[]:{};
+  seen.set(source,target);
+  const descriptors=Object.getOwnPropertyDescriptors(source);
+  for(const key of Object.keys(target))if(!Object.hasOwn(descriptors,key)&&!Object.getOwnPropertyDescriptor(target,key)?.get)delete target[key];
+  for(const [key,descriptor]of Object.entries(descriptors)){
+   if(!descriptor.enumerable||descriptor.get||Object.getOwnPropertyDescriptor(target,key)?.get)continue;
+   target[key]=sync(target[key],descriptor.value);
+  }
+  if(Array.isArray(source))target.length=source.length;
+  return target;
+ }
+ sync(state,draft);return state;
+}
+
 export function migrateState(legacy,{sourceVersion=5,newGame=false}={}){
  if(!newGame&&(!Number.isInteger(sourceVersion)||sourceVersion<1||sourceVersion>5))throw Error('存档校验失败：未知旧结构版本，原档保留');
  const source=structuredClone(legacy);

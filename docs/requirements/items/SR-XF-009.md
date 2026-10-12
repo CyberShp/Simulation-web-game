@@ -72,6 +72,7 @@ SR-XF-009-AC-03证据：qa/ea-sr-009-reservation-competition-public-acceptance.m
 2026-10-11 云岫首畦子批：已落成灵草田用原生产工单和田边实物种苗经历播种、出苗、成熟、首收；新档定向存读与守恒通过，本地 Godot Web 隔离档实点送苗、请门人照料至首收。首收留田边，公库不凭空增加。完整配方产能表、多设施与目标设备未验，当前 AC/D/I/V/R 状态不推进。
 
 2026-10-12 U-123：田边10份灵草实运到炉边，掌门单炉炼得回春散2份；炼药定向2／2。完整产能与供给链继续。 局部证据见 docs/art/COURTYARD-VALLEY-2026-10-12.md；整项 D/I/V/R 与 AC 状态不变。
+2026-10-12 Issue #5：最新main6000秒实验16笔生产/14笔微量灵石，修复显式receipt、9位新计算精度、工资封顶、事务提交与运输严格余额。专项12/12，正常公开开局2/2、丹炉公开链1/1；旧数量和事实逐字保留，不推进完整SR状态。见 docs/design/ISSUE-5-PRODUCTION-ACCOUNTING.md。
 
 ## 开发任务
 
@@ -131,6 +132,8 @@ SR-XF-009-V01证据：dist/ea-sr-economy.mjs；dist/ea-sr-persons.mjs；tests/ea
 - docs/SECT-GROWTH-PLAN.md；2026-10-09 山域总图、五阶段迁移及统一原型的设计来源；当前运行验收待补。
 - docs/art/COURTYARD-VALLEY-2026-10-12.md
 - tests/ea-mountain-alchemy.test.mjs
+- qa/ea-sr-production-accounting-acceptance.mjs
+- docs/design/ISSUE-5-PRODUCTION-ACCOUNTING.md
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
@@ -149,5 +152,6 @@ SR-XF-009-V01证据：dist/ea-sr-economy.mjs；dist/ea-sr-persons.mjs；tests/ea
 - 2026-10-08：2026-10-08 r26 局部装备配方：七件配方的新制作单冻结投入、工时、槽位、关键实物 claim、来源仓及产权；旧活跃已付费制作单在克隆读档时一次迁移，旧已完成物品保持，坏快照或重复结果拒载。有来源正常公开命令百工坊 checkpoint（worldTick31820）实际备料、制作行山轻衣、开工前/后取消、25步旧活跃单接续及成品唯一事实；根专项1/1，10条补充公开命令、6次精确存读，界面17通过/4待设备。本地Chromium导入真实在制档，七件报价、进度及取消可见；零进度取消实点后灵石98→110、木11→17，控制台0错误/0警告（1条浏览器autocomplete提示）。源码94986d3、Pages fa17a3b built，162文本blob与两个公网模块字节匹配。基线新档建坊处旧门道候位读档差异另案处理；本批没有测试七件分别全链或施工配方/跨仓物流/完整新档解锁，SR009整体状态不提升。证据 qa/ea-sr-009-equipment-recipe-public-acceptance.mjs、/tmp/immortal-sr009-root-r26/.playwright-cli/page-2026-10-08T11-52-40-680Z.yml。
 - 2026-10-09：2026-10-09 U-105 / R-32：当前需求更新为 1.1，山域设计关联 GROWTH-04、GROWTH-05、GROWTH-06、GROWTH-11。旧版 1.0 的标题、需求、AC原文/证据及D/I任务完成范围保存在 registry.json 的 version_history；当前重新记 not_run：SR-XF-009-AC-01。 当前D01继续补实施参数，D02及本版本I01待前置完成；development_status保留既有运行实现基线。未改变的已通过AC只沿用原行为及原运行环境证据，新增地域、布局与迁移流程按GROWTH另验。本批未执行运行时验收，未修改正式运行版本或发布状态。
 - 2026-10-12：2026-10-12 U-123：田边10份灵草实运到炉边，掌门单炉炼得回春散2份；炼药定向2／2。完整产能与供给链继续。 局部证据见 docs/art/COURTYARD-VALLEY-2026-10-12.md；整项 D/I/V/R 与 AC 状态不变。
+- 2026-10-12：2026-10-12 Issue #5：最新main6000秒实验16笔生产/14笔微量灵石，修复显式receipt、9位新计算精度、工资封顶、事务提交与运输严格余额。专项12/12，正常公开开局2/2、丹炉公开链1/1；旧数量和事实逐字保留，不推进完整SR状态。见 docs/design/ISSUE-5-PRODUCTION-ACCOUNTING.md。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。
