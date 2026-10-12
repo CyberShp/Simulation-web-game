@@ -42,6 +42,34 @@ function projectOpeningStory(state) {
   };
 }
 
+function projectOpeningJourney(state) {
+  const masterId = state.master.personId;
+  const facts = Object.entries(state.factsById || {}).filter(([id, fact]) =>
+    isRecord(fact) && fact.id === id && fact.actorId === masterId && fact.public !== false &&
+    Number.isSafeInteger(fact.atTick) && fact.atTick >= 0 && fact.atTick <= state.worldTick
+  ).map(([, fact]) => fact);
+  const healingProduction = fact => fact.kind === 'inventory-transaction' &&
+    fact.operation === 'pill-production' && fact.recipeId === 'heal' && Number.isSafeInteger(fact.quantity) && fact.quantity > 0;
+  const battle = facts.filter(fact => {
+    const session = state.combatSessionsById?.[fact.sessionId];
+    return fact.kind === 'combat-result' && fact.encounterId === 'valley-shanxiao' &&
+      fact.personId === 'person:valley-shanxiao' && fact.sceneId === 'scene:valley' &&
+      fact.id === `fact:${fact.sessionId}:result` && ['won', 'retreated', 'lost'].includes(fact.result) &&
+      session?.personId === masterId && session.phase === 'ended' &&
+      session.result === fact.result && session.endedTick === fact.atTick &&
+      !(state.combat?.sessionId === fact.sessionId && state.combat.status === 'active');
+  }).sort((a, b) => b.atTick - a.atTick || b.id.localeCompare(a.id))[0];
+  return {
+    healingCrafted: facts.some(healingProduction),
+    valleyGathered: facts.some(fact => {
+      if (fact.kind !== 'interaction' || fact.sceneId !== 'scene:valley') return false;
+      const match = /^fact:interaction:object:valley:herbs:gather:(\d+)$/.exec(fact.id);
+      return !!match && Number.isSafeInteger(Number(match[1])) && Number(match[1]) <= fact.atTick;
+    }),
+    firstBattle: battle ? {result: battle.result, atTick: battle.atTick} : null,
+  };
+}
+
 function farmCropVisual(state, building) {
   if (building.type !== 'farm') return null;
   const order = state.workOrdersById?.[`work:production:${building.instanceId}`];
@@ -370,6 +398,7 @@ export function projectGodotWorld(state, selection = null, sites = null) {
     world: scene.world, combat: projectLocalCombat(state, scene.sceneId),
     openingInheritance: openingInheritanceView(state),
     openingStory: projectOpeningStory(state),
+    openingJourney: projectOpeningJourney(state),
     openingHallPhase: state.story?.opening?.hallPhase || 'complete',
     herbTerrace: projectHerbTerrace(state, construction, sites),
     estateStage: stage(state),

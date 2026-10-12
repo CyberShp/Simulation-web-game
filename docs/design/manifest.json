@@ -1354,7 +1354,8 @@
     "currentArtsLedger": "docs/design/28-FIVE-CONTINENT-ARTS-LEDGER.md",
     "estateSourceScene": "godot/estate_2d/estate.tscn",
     "estateSiteLayout": "godot/estate_2d/estate-sites.json",
-    "estatePreview": "dist/painted-game/index.html"
+    "estatePreview": "dist/painted-game/index.html",
+    "currentOpeningGuidanceEvidence": "docs/art/OPENING-GUIDANCE-2026-10-13.md"
   },
   "characterDialogue": {
     "decisionId": "U-125",

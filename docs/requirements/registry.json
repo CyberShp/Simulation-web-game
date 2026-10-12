@@ -2,7 +2,7 @@
   "schema_version": 1,
   "registry_id": "SR-XF-2026-10-06",
   "design_baseline": "DB-2026-10-05 v1.2",
-  "updated": "2026-10-12",
+  "updated": "2026-10-13",
   "authoritative": "registry.json for requirement records and task states; derived Markdown rendered by qa/sr-manager.py refresh",
   "source_runtime": {
     "main": "7d27532bf22e8c6064281e12b390edb8370abce9",
@@ -3752,7 +3752,8 @@
         "tests/ea-mountain-alchemy.test.mjs",
         "qa/ea-sr-production-accounting-acceptance.mjs",
         "docs/design/ISSUE-5-PRODUCTION-ACCOUNTING.md",
-        "docs/art/OPENING-CHAIN-2026-10-12.md；2026-10-12 U-124：药圃首收、筹料建丹房、炉边交付10灵草并炼成2份回春散的普通新档完整路径。 仅增局部证据，完整 SR/AC 状态保持。"
+        "docs/art/OPENING-CHAIN-2026-10-12.md；2026-10-12 U-124：药圃首收、筹料建丹房、炉边交付10灵草并炼成2份回春散的普通新档完整路径。 仅增局部证据，完整 SR/AC 状态保持。",
+        "docs/art/OPENING-GUIDANCE-2026-10-13.md；2026-10-13 U-124：百艺明确携药与服用，炉边2→1、随身0→1且未消费；炼药正常命令与存读检查通过。 仅增局部证据，完整 SR/AC 状态保持。"
       ],
       "change_log": [
         {
@@ -4234,7 +4235,8 @@
         "tests/ea-mountain-valley.test.mjs",
         "qa/ea-sr-production-accounting-acceptance.mjs",
         "docs/design/ISSUE-5-PRODUCTION-ACCOUNTING.md",
-        "docs/art/OPENING-CHAIN-2026-10-12.md；2026-10-12 U-124：采木采石送公库、药圃至丹房、成药携带与公库入账、采回6灵草及3余粮真实搬运；最终存读一致。 仅增局部证据，完整 SR/AC 状态保持。"
+        "docs/art/OPENING-CHAIN-2026-10-12.md；2026-10-12 U-124：采木采石送公库、药圃至丹房、成药携带与公库入账、采回6灵草及3余粮真实搬运；最终存读一致。 仅增局部证据，完整 SR/AC 状态保持。",
+        "docs/art/OPENING-GUIDANCE-2026-10-13.md；2026-10-13 U-124：新增携药仍走真实搬运；实际随身取得、重复/空炉保护及刷新前后完整存档相等。 仅增局部证据，完整 SR/AC 状态保持。"
       ],
       "change_log": [
         {
@@ -4512,7 +4514,8 @@
         "docs/art/COURTYARD-VALLEY-2026-10-12.md",
         "tests/ea-mountain-alchemy.test.mjs",
         "2026-10-12 U-125：42 人物交谈及关联契约定义统一立绘聊天窗、身份叠加、知情、距离、意愿、暂停和持久规则；DIALOGUE-01–10 为 not_run。本批为设计与静态原型，运行接入及完整 SR/AC 状态保持。",
-        "docs/art/OPENING-CHAIN-2026-10-12.md；2026-10-12 U-124：同一普通新档等待青溪货郎自然来访，卖40木料换28灵石的有限交易路径。 仅增局部证据，完整 SR/AC 状态保持。"
+        "docs/art/OPENING-CHAIN-2026-10-12.md；2026-10-12 U-124：同一普通新档等待青溪货郎自然来访，卖40木料换28灵石的有限交易路径。 仅增局部证据，完整 SR/AC 状态保持。",
+        "docs/art/OPENING-GUIDANCE-2026-10-13.md；2026-10-13 U-124：丹房缺料页具体数量与取材、山客交易入口已实点。 仅增局部证据，完整 SR/AC 状态保持。"
       ],
       "change_log": [
         {
@@ -5725,7 +5728,8 @@
         "tests/ea-mountain-valley.test.mjs",
         "tests/ea-godot-valley-projection.test.mjs",
         "2026-10-12 U-125：42 人物交谈及关联契约定义统一立绘聊天窗、身份叠加、知情、距离、意愿、暂停和持久规则；DIALOGUE-01–10 为 not_run。本批为设计与静态原型，运行接入及完整 SR/AC 状态保持。",
-        "docs/art/OPENING-CHAIN-2026-10-12.md；2026-10-12 U-124：同一普通新档山院与山谷真实往返、溪边采集6灵草、山魈首战与撤退。 仅增局部证据，完整 SR/AC 状态保持。"
+        "docs/art/OPENING-CHAIN-2026-10-12.md；2026-10-12 U-124：同一普通新档山院与山谷真实往返、溪边采集6灵草、山魈首战与撤退。 仅增局部证据，完整 SR/AC 状态保持。",
+        "docs/art/OPENING-GUIDANCE-2026-10-13.md；2026-10-13 U-124：已结算谷内首战事实与采集事实只读投影，目标接入入谷、遭遇与返院路径。 仅增局部证据，完整 SR/AC 状态保持。"
       ],
       "change_log": [
         {
@@ -8336,7 +8340,8 @@
         "tests/ea-mountain-valley.test.mjs",
         "2026-10-12 U-123 发布核验：运行源码 main 836ccb605a42e7c21c2aae8c5e2c4eee7e55c03e；gh-pages 4d6786da521f1ab92818c20f67c036a829469e6e；GitHub API Pages build=built。公开 mountain-courtyard 的14个交付文件（release/build/index、界面与加载模块、桥接及世界／战斗规则、三片场景包）HTTP 200，SHA与本地导出一致。公开浏览器百艺、导档、实际行走旅行与采集的操作证据见 docs/art/COURTYARD-VALLEY-2026-10-12.md；本记录仅是U-123局部发布证据，整项 D/I/V/R 与 AC 状态不变。",
         "2026-10-12 U-125：42 人物交谈及关联契约定义统一立绘聊天窗、身份叠加、知情、距离、意愿、暂停和持久规则；DIALOGUE-01–10 为 not_run。本批为设计与静态原型，运行接入及完整 SR/AC 状态保持。",
-        "docs/art/OPENING-CHAIN-2026-10-12.md；2026-10-12 U-124：1440×960本地Chromium通过当前已实现界面走完整条开局；U-125人物窗仍仅为设计。 仅增局部证据，完整 SR/AC 状态保持。"
+        "docs/art/OPENING-CHAIN-2026-10-12.md；2026-10-12 U-124：1440×960本地Chromium通过当前已实现界面走完整条开局；U-125人物窗仍仅为设计。 仅增局部证据，完整 SR/AC 状态保持。",
+        "docs/art/OPENING-GUIDANCE-2026-10-13.md；2026-10-13 U-124：首炉至返院目标与丹房携药/缺料入口在1440×960实际网页验证。 仅增局部证据，完整 SR/AC 状态保持。"
       ],
       "change_log": [
         {
@@ -8827,7 +8832,8 @@
         "tests/ea-history-retention.test.mjs",
         "qa/ea-history-benchmark.mjs",
         "qa/ea-history-compare.mjs",
-        "docs/art/OPENING-CHAIN-2026-10-12.md；2026-10-12 U-124：施工卡点、药成、战斗收势与返院伤愈存读，最终完整导出深度相等；未覆盖全部旧版迁移。 仅增局部证据，完整 SR/AC 状态保持。"
+        "docs/art/OPENING-CHAIN-2026-10-12.md；2026-10-12 U-124：施工卡点、药成、战斗收势与返院伤愈存读，最终完整导出深度相等；未覆盖全部旧版迁移。 仅增局部证据，完整 SR/AC 状态保持。",
+        "docs/art/OPENING-GUIDANCE-2026-10-13.md；2026-10-13 U-124：携药后世界步3729保存刷新完整导出相等；四份原实玩存档只读投影与存读通过。 仅增局部证据，完整 SR/AC 状态保持。"
       ],
       "change_log": [
         {
@@ -9249,7 +9255,8 @@
         "docs/requirements/design/SR-XF-031.md",
         "docs/requirements/IMPLEMENTATION-2026-10-06.md",
         "2026-10-12 U-125：42 人物交谈及关联契约定义统一立绘聊天窗、身份叠加、知情、距离、意愿、暂停和持久规则；DIALOGUE-01–10 为 not_run。本批为设计与静态原型，运行接入及完整 SR/AC 状态保持。",
-        "docs/art/OPENING-CHAIN-2026-10-12.md；2026-10-12 U-124：普通新档从疗伤择卷、立殿种收到筹料炼丹、采集首战及返院服药全链通过；长期平衡另验。 仅增局部证据，完整 SR/AC 状态保持。"
+        "docs/art/OPENING-CHAIN-2026-10-12.md；2026-10-12 U-124：普通新档从疗伤择卷、立殿种收到筹料炼丹、采集首战及返院服药全链通过；长期平衡另验。 仅增局部证据，完整 SR/AC 状态保持。",
+        "docs/art/OPENING-GUIDANCE-2026-10-13.md；2026-10-13 U-124：接续普通新档完整路线，修复首炉后与返院用药指引，17项定向通过。 仅增局部证据，完整 SR/AC 状态保持。"
       ],
       "change_log": [
         {

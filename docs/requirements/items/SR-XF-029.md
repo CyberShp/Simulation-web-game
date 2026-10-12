@@ -143,6 +143,7 @@ SR-XF-029-V01证据：tests/ea-scene-ui.test.mjs；tests/map-input.test.mjs；qa
 - 2026-10-12 U-123 发布核验：运行源码 main 836ccb605a42e7c21c2aae8c5e2c4eee7e55c03e；gh-pages 4d6786da521f1ab92818c20f67c036a829469e6e；GitHub API Pages build=built。公开 mountain-courtyard 的14个交付文件（release/build/index、界面与加载模块、桥接及世界／战斗规则、三片场景包）HTTP 200，SHA与本地导出一致。公开浏览器百艺、导档、实际行走旅行与采集的操作证据见 docs/art/COURTYARD-VALLEY-2026-10-12.md；本记录仅是U-123局部发布证据，整项 D/I/V/R 与 AC 状态不变。
 - 2026-10-12 U-125：42 人物交谈及关联契约定义统一立绘聊天窗、身份叠加、知情、距离、意愿、暂停和持久规则；DIALOGUE-01–10 为 not_run。本批为设计与静态原型，运行接入及完整 SR/AC 状态保持。
 - docs/art/OPENING-CHAIN-2026-10-12.md；2026-10-12 U-124：1440×960本地Chromium通过当前已实现界面走完整条开局；U-125人物窗仍仅为设计。 仅增局部证据，完整 SR/AC 状态保持。
+- docs/art/OPENING-GUIDANCE-2026-10-13.md；2026-10-13 U-124：首炉至返院目标与丹房携药/缺料入口在1440×960实际网页验证。 仅增局部证据，完整 SR/AC 状态保持。
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。

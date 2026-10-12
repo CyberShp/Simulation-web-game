@@ -123,7 +123,8 @@ export function createCraftingPanel({getState,send,open,escape,icon,portrait,bar
     const transports=activeFurnaceTransports(state,workstation);
     const pillCount=recipe?stockAmount(furnaceStock,`pill:${recipe.id}`):0;
     const pillAccess=(state.inventory?.pillAccess||[]).find(item=>item.recipeId===recipe?.id);
-    const reachablePills=(state.inventory?.stockpiles||[]).filter(stock=>stock.access==='public'||stock.ownerId===state.masterId).reduce((total,stock)=>total+stockAmount(stock,`pill:${recipe?.id||''}`),0);
+    const carriedStock=state.inventory?.stockpiles?.find(stock=>stock.id==='stockpile:carried:master');
+    const carriedPills=stockAmount(carriedStock,`pill:${recipe?.id||''}`);
     const reasons=recipe?.reasons||[];
     const master=state.systemPeople?.persons?.find(person=>person.id===state.masterId);
     const effect=effectText(recipe?.effect);
@@ -132,7 +133,6 @@ export function createCraftingPanel({getState,send,open,escape,icon,portrait,bar
       n(recipe.effect?.energy)>0&&n(master.energy)<100||
       n(recipe.effect?.xp)>0&&n(master.xp)<n(master.xpNeed));
     const canUsePill=n(pillAccess?.available)>0;
-    const canFetchPill=reachablePills>0;
     return `<div class="system-crafting alchemy-layout">
       <aside class="pane alchemy-catalog"><div class="pane-title"><h3>丹方</h3><span class="subtle">${e(recipes.length)} 卷</span></div><div class="alchemy-catalog-mark">${icon('cauldron')}<span>云岫丹录</span></div>
         <div class="alchemy-recipe-list scroll-area" data-scroll-key="craft-recipes">${recipes.map(item=>`<button class="alchemy-recipe-choice${item.id===selected?' active':''}" data-system-action="craft-select" data-recipe="${e(item.id)}" aria-pressed="${item.id===selected}"><span class="icon-slot">${icon('pill')}</span><span><strong>${e(item.name)}</strong><small>一炉 · 成丹 ${e(amount(item.yield))} 份</small></span><i>${item.available?'可炼':'待备'}</i></button>`).join('')||'<p class="empty-state">丹录尚未展开。</p>'}</div>
@@ -147,7 +147,7 @@ export function createCraftingPanel({getState,send,open,escape,icon,portrait,bar
         <div class="alchemy-submit"><div>${reasons.length?`<p class="alchemy-reasons">${reasons.map(reason=>`<span>${e(reasonText(reason,workstation))}</span>`).join('')}</p>`:`<p class="good">${active?'炉火已起':'用料齐备，可开此炉。'}</p>`}</div>${button('craft-start',`开炉 · ${e(amount(recipe?.yield||0))} 份`,{primary:true,disabled:!recipe?.available||!!active})}</div>
       </section>
       <aside class="pane alchemy-side"><div class="pane-title"><h3>炉事</h3><span class="subtle">${e(orders.length)} 录</span></div><div class="alchemy-orders scroll-area" data-scroll-key="craft-orders">${orderRows(orders,recipes,workstation)}</div>
-        <div class="alchemy-medicine"><h4>成丹去处</h4><p>${e(workstation?.name||'丹房')} · ${e(recipe?.name||'丹药')} ${e(amount(pillCount))} 份</p><div class="alchemy-medicine-actions">${button('craft-collect',`送回公库 ${e(amount(Math.min(40,pillCount)))} 份`,{disabled:pillCount<1||!workstation?.stockpileId||!!transports.length})}${recipe?.id!=='foundation'?button('craft-pill',canUsePill?'服用一份':transports.length?'炉边运送中':canFetchPill?'取药一份':'尚无成丹',{disabled:!recipe||!canUsePill&&(!canFetchPill||!!transports.length)||canUsePill&&!canBenefit}):''}</div>${canUsePill&&!canBenefit?'<small class="subtle">此时服丹无益。</small>':''}</div>
+        <div class="alchemy-medicine"><h4>成丹去处</h4><p>${e(workstation?.name||'丹房')} · ${e(recipe?.name||'丹药')} ${e(amount(pillCount))} 份<br>掌门随身 ${e(amount(carriedPills))} 份</p><div class="alchemy-medicine-actions">${button('craft-carry','携带一份',{disabled:pillCount<1||!workstation?.stockpileId||!!transports.length})}${button('craft-collect',`送回公库 ${e(amount(Math.min(40,pillCount)))} 份`,{disabled:pillCount<1||!workstation?.stockpileId||!!transports.length})}${recipe?.id!=='foundation'?button('craft-pill','服用一份',{disabled:!recipe||!canUsePill||!canBenefit}):''}</div>${canUsePill&&!canBenefit?'<small class="subtle">此时服丹无益。</small>':''}</div>
         ${activeTransportRows(state,workstation,recipes)}
       </aside>
     </div>`;
@@ -156,6 +156,7 @@ export function createCraftingPanel({getState,send,open,escape,icon,portrait,bar
   function click(element) {
     const {systemAction:action,recipe:recipeId,resource}=element.dataset;
     if(!action?.startsWith('craft-'))return false;
+    if(element.disabled)return true;
     const {state,recipe,workstation,furnaceStock,recipes}=stateParts();
     const transporting=activeFurnaceTransports(state,workstation).length>0;
     if(action==='craft-select') {if(recipes.some(item=>item.id===recipeId))selected=recipeId;}
@@ -175,12 +176,14 @@ export function createCraftingPanel({getState,send,open,escape,icon,portrait,bar
       const source=sources.find(item=>item.id===selectedSources[resource])||sources[0];
       const quantity=Math.min(40,missing,stockAmount(source,resource));
       if(source&&quantity>0&&!transporting)send({name:'startTransport',args:[source.id,workstation.stockpileId,'person:master',{[resource]:quantity}]});
+    } else if(action==='craft-carry'&&recipe&&workstation?.stockpileId){
+      if(stockAmount(furnaceStock,`pill:${recipe.id}`)>=1&&!transporting)send({name:'startTransport',args:[workstation.stockpileId,'stockpile:carried:master','person:master',{[`pill:${recipe.id}`]:1}]});
     } else if(action==='craft-collect'&&recipe&&workstation?.stockpileId){
       const count=Math.min(40,stockAmount(furnaceStock,`pill:${recipe.id}`));
       if(count>0&&!transporting)send({name:'startTransport',args:[workstation.stockpileId,'stockpile:yunxiu','person:master',{[`pill:${recipe.id}`]:count}]});
     } else if(action==='craft-pill'&&recipe&&recipe.id!=='foundation'){
       const access=getState().inventory?.pillAccess?.find(item=>item.recipeId===recipe.id);
-      send({name:n(access?.available)>0?'masterPill':'preparePillUse',args:[recipe.id]});
+      if(n(access?.available)>0)send({name:'masterPill',args:[recipe.id]});
     }
     return true;
   }

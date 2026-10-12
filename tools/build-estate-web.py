@@ -101,7 +101,7 @@ progressive_web_app/enabled=false
             if obsolete_pack.name != pack_name:
                 obsolete_pack.unlink()
         web = ROOT / 'godot/estate_3d/web'
-        for name in ['game-ui.css', 'game-ui.mjs', 'base-ui.mjs',
+        for name in ['game-ui.css', 'game-ui.mjs', 'opening-goal.mjs', 'base-ui.mjs',
                      'system-ui.css', 'system-ui-helpers.mjs',
                      'system-people.mjs', 'system-people.css',
                      'system-crafting.mjs', 'system-crafting.css', 'alchemy-cauldron.png',

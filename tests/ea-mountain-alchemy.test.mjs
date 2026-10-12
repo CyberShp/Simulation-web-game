@@ -5,6 +5,7 @@ import {initial, tick, validateSave} from '../dist/ea-opening-sim.mjs';
 import {createGodotBridge} from '../dist/ea-godot-bridge.mjs';
 import {grantPills} from '../dist/ea-sr-economy.mjs';
 import {placementIssue} from '../dist/ea-sr-spatial.mjs';
+import {createCraftingPanel} from '../godot/estate_3d/web/system-crafting.mjs';
 
 const sites = JSON.parse(readFileSync(new URL('../godot/estate_2d/estate-sites.json', import.meta.url))).sites;
 const farmSite = sites.find(site => site.id === 'site:herb-terrace');
@@ -126,14 +127,45 @@ test('new mountain courtyard makes a real healing batch from gathered and terrac
   assert.equal(completed.inventory.stockpiles.find(stockpile => stockpile.id === workstation.stockpileId).pills.heal, 2);
   assert.equal(completed.inventory.pillAccess.find(pill => pill.recipeId === 'heal').available, 0);
 
-  walkNearMerchant(restored);
-  assert.equal(restored.snapshot().inventory.pillAccess.find(pill => pill.recipeId === 'heal').available, 0);
-  const pickup = command(restored, 'preparePillUse', 'heal');
-  assert.equal(pickup.pending, true);
+  const sent = [];
+  const panel = createCraftingPanel({
+    getState:() => restored.snapshot(),
+    send:message => {sent.push(message); return command(restored, message.name, ...message.args);},
+    open:() => {}, escape:String, icon:() => '', portrait:() => '', bar:() => '',
+  });
+  const beforeCarry = JSON.parse(restored.save());
+  assert.match(panel.render(), /携带一份/);
+  assert.equal(panel.click({dataset:{systemAction:'craft-carry'}}), true);
+  assert.equal(sent.length, 1);
+  assert.deepEqual(sent[0], {name:'startTransport', args:[workstation.stockpileId,
+    'stockpile:carried:master', 'person:master', {'pill:heal':1}]});
+  const pickup = restored.snapshot().inventory.transports.find(order =>
+    order.targetStockpileId === 'stockpile:carried:master' && !['delivered','cancelled'].includes(order.phase));
+  assert.ok(pickup);
+  panel.click({dataset:{systemAction:'craft-carry'}});
+  assert.equal(sent.length, 1, 'a pending pickup must not create a second transport');
   until(restored, view => view.inventory.transports.some(order => order.id === pickup.id && order.phase === 'delivered'),
     'physical medicine pickup');
   const carried = restored.snapshot().inventory.stockpiles.find(stockpile => stockpile.id === 'stockpile:carried:master');
   assert.equal(carried.pills.heal, 1);
+  assert.equal(restored.snapshot().crafting.workstation.pills.heal, 1);
+  assert.equal(JSON.parse(restored.save()).stats.consumed, beforeCarry.stats.consumed,
+    'carrying a dose must not consume it');
+  assert.equal(createGodotBridge({state:JSON.parse(restored.save()), sites}).snapshot()
+    .inventory.stockpiles.find(stockpile => stockpile.id === carried.id).pills.heal, 1);
+
+  const nearbyBridge = createGodotBridge({state:JSON.parse(restored.save()), sites});
+  assert.ok(nearbyBridge.snapshot().inventory.pillAccess.find(pill => pill.recipeId === 'heal').available > 0);
+  const nearbyCommands = [];
+  const nearbyPanel = createCraftingPanel({getState:() => nearbyBridge.snapshot(),
+    send:message => {nearbyCommands.push(message); command(nearbyBridge, message.name, ...message.args);}});
+  nearbyPanel.click({dataset:{systemAction:'craft-carry'}});
+  assert.equal(nearbyCommands[0].name, 'startTransport', 'accessible medicine must still be carried on this action');
+  until(nearbyBridge, view => view.inventory.stockpiles.find(stock => stock.id === carried.id).pills.heal === 2,
+    'second explicit pickup');
+  nearbyPanel.click({dataset:{systemAction:'craft-carry'}});
+  assert.equal(nearbyCommands.length, 1, 'an empty furnace cannot dispatch another pickup');
+  assert.equal(JSON.parse(nearbyBridge.save()).stats.consumed, beforeCarry.stats.consumed);
 
   const healthy = JSON.parse(restored.save());
   healthy.personsById['person:master'].wound = 0;

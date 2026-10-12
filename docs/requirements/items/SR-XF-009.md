@@ -135,6 +135,7 @@ SR-XF-009-V01证据：dist/ea-sr-economy.mjs；dist/ea-sr-persons.mjs；tests/ea
 - qa/ea-sr-production-accounting-acceptance.mjs
 - docs/design/ISSUE-5-PRODUCTION-ACCOUNTING.md
 - docs/art/OPENING-CHAIN-2026-10-12.md；2026-10-12 U-124：药圃首收、筹料建丹房、炉边交付10灵草并炼成2份回春散的普通新档完整路径。 仅增局部证据，完整 SR/AC 状态保持。
+- docs/art/OPENING-GUIDANCE-2026-10-13.md；2026-10-13 U-124：百艺明确携药与服用，炉边2→1、随身0→1且未消费；炼药正常命令与存读检查通过。 仅增局部证据，完整 SR/AC 状态保持。
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
