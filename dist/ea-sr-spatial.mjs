@@ -606,8 +606,10 @@ function constructionParticipantReady(s,p,activity,a,approach=null){
 function tickConstructionCrew(s,a,o,r,{masterAvailable,canWork,siteClear}){
  if(!siteClear){
   const sc=s.master.scenic;
-  const waitingAt=constructionEntry(s,a,o);
-  if(masterAvailable&&distance(sc,waitingAt)>.1){
+  // The entrance must remain clear while its users leave. Waiting at an
+  // available construction slot lets the master walk aside before work starts.
+  const waitingAt=['upgrade','establish'].includes(o.operation)?constructionApproachSlot(s,o,a,masterAvailable)?.position:constructionEntry(s,a,o);
+  if(masterAvailable&&waitingAt&&distance(sc,waitingAt)>.1){
    if(!sc.goal||distance(sc.goal,waitingAt)>.01||!sc.path?.length){const route=meterFindPath(s,sc,waitingAt,{maxSnap:0});if(route!==null){sc.path=route;sc.goal={...waitingAt};}}
    if(sc.path?.length){moveActor(s,sc,.144);syncPosition(s,s.master);s.master.action='walk';}
   }
