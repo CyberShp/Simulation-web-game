@@ -1,12 +1,12 @@
-import {RESOURCE_ACCOUNTING_VERSION,addAmounts,subtractAmounts,canonicalProductionAmount} from './ea-resource-amounts.mjs?v=ea-issue6-history-20261012-r2';
 /** SR-XF-009/010/011. U-63 author defaults (R/T), one world clock and one resource authority. */
-import {RESOURCES,GOODS,BUILDINGS,RECIPES,TECHNIQUES} from './ea-data.mjs?v=ea-issue6-history-20261012-r2';
-import {buildingAccess,scenicFindPath,scenicDistance,geometryRevision,scenicNearest} from './ea-scene-geometry.mjs?v=ea-issue6-history-20261012-r2';
-import {advanceScenic,syncScenicPosition} from './ea-scenic.mjs?v=ea-issue6-history-20261012-r2';
-import {facilitySlots,slotReservation} from './ea-facility-slots.mjs?v=ea-issue6-history-20261012-r2';
-import {cloneState,commitStateDraft} from './ea-state-v6.mjs?v=ea-issue6-history-20261012-r2';
-import {CLIMATE,weatherModifiers} from './ea-sr-weather.mjs?v=ea-issue6-history-20261012-r2';
-import {travelPreviewSR,travelSR} from './ea-sr-world.mjs?v=ea-issue6-history-20261012-r2';
+import {RESOURCES,GOODS,BUILDINGS,RECIPES,TECHNIQUES} from './ea-data.mjs?v=99194c505dfc';
+import {buildingAccess,scenicFindPath,scenicDistance,geometryRevision,scenicNearest} from './ea-scene-geometry.mjs?v=99194c505dfc';
+import {advanceScenic,syncScenicPosition} from './ea-scenic.mjs?v=99194c505dfc';
+import {facilitySlots,slotReservation} from './ea-facility-slots.mjs?v=99194c505dfc';
+import {cloneState,commitStateDraft} from './ea-state-v6.mjs?v=99194c505dfc';
+import {RESOURCE_ACCOUNTING_VERSION,addAmounts,subtractAmounts,canonicalProductionAmount} from './ea-resource-amounts.mjs?v=99194c505dfc';
+import {CLIMATE,weatherModifiers} from './ea-sr-weather.mjs?v=99194c505dfc';
+import {travelPreviewSR,travelSR} from './ea-sr-world.mjs?v=99194c505dfc';
 const zeros=()=>Object.fromEntries(Object.keys(RESOURCES).map(k=>[k,0]));
 const MARKET_SUPPLY_VERSION='market-supply:physical:v1',MARKET_SUPPLIER='person:qingxi-supply-clerk',MARKET_CARRIER='person:qingxi-hauler';
 const MARKET_SUPPLIER_STOCK='stockpile:qingxi-supplier',MARKET_SUPPLIER_WALLET='stockpile:qingxi-supplier-wallet',MARKET_TOLL_STOCK='stockpile:chizhang-market-toll';
@@ -231,7 +231,7 @@ export function reserveProductionInput(s,b,cost){if(!productionInputAvailable(s,
 export function refundProductionInput(s,b,cost){const target=productionInputResources(s,b);for(const[k,v]of Object.entries(cost))target[k]=addAmounts(target[k]||0,v);}
 function workshopBuyerAvailable(s){if(s.srWorld)return s.personsById['person:merchant-qingxi']?.lifeStatus!=='dead'&&s.personsById['person:merchant-qingxi']?.position?.kind==='scene'&&s.personsById['person:merchant-qingxi'].position.sceneId==='scene:yunxiu-courtyard'&&marketRouteOpen(s);return merchantPresent(s);}
 export function productionAvailability(s,b){if(!s.srEconomy)return {available:true,reason:''};if(b.type==='workshop'&&!workshopBuyerAvailable(s))return {available:false,reason:'器物买方尚未实际到达；等商人抵院后交货收款。'};if(b.type==='workshop'&&stock(s,'stockpile:qingxi').resources.jade<=0)return {available:false,reason:'器物买方本金不足，保留投入等待。'};const order=s.workOrdersById?.[`work:production:${b.instanceId}`],out=(order?.phase!=='completed'&&order?.recipeSnapshot?.outputDefinition)||(b.type==='farm'?FARM_V1_RECIPE.outputDefinition:productionRecipeDefinition(PRODUCTION_RECIPE_VERSION,b.type)?.outputDefinition||{}),st=s.stockpilesById[`stockpile:${b.instanceId}`];if(st&&total(st)+physicalOutputTotal(b,out)>st.capacity)return {available:false,reason:'成品存放处已满，先搬入府库。'};if(b.type==='library'){const home=stock(s,'stockpile:yunxiu');if(total(home)+(out.insight||0)>home.capacity+1e-9)return {available:false,reason:'院中公库研习预算容量已满，先腾出容量。'};}for(const[k,v]of Object.entries(out))if(!harvestAvailable(s,k,v))return {available:false,reason:`${RESOURCES[k]}来源已耗尽；补种、采购或另寻供给。`};return {available:true,reason:''};}
-/** Wrap the existing single production callback; relocate its actual delta rather than create another result. */
+/** One explicit receipt, one isolated execution, one atomic posting. */
 export function settleFiniteProduction(s,b,settle,participants){
  if(!s.srEconomy)return settle(participants);initEconomy(s);const order=s.workOrdersById[`work:production:${b.instanceId}`];if(!order||s.factsById[`fact:production:${b.instanceId}:${order.batch}`])return false;
  if(b.type!=='farm'||order.recipeSnapshot?.recipeVersion!==FARM_CROP_RECIPE.recipeVersion){const availability=productionAvailability(s,b);if(!availability.available)return false;}

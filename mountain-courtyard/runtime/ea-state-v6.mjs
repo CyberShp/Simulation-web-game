@@ -1,8 +1,8 @@
 /** Canonical identity tables. Legacy modules use non-serialized live adapters. */
-import {appearance} from './ea-scenic.mjs?v=ea-issue6-history-20261012-r2';
-import {RESOURCES} from './ea-data.mjs?v=ea-issue6-history-20261012-r2';
-import {hydratePillTotals} from './ea-sr-economy.mjs?v=ea-issue6-history-20261012-r2';
-import {ContractError,initContracts,validateContracts,SR_CONTENT_VERSION,SR_RULESET_VERSION} from './ea-sr-contracts.mjs?v=ea-issue6-history-20261012-r2';
+import {appearance} from './ea-scenic.mjs?v=99194c505dfc';
+import {RESOURCES} from './ea-data.mjs?v=99194c505dfc';
+import {hydratePillTotals} from './ea-sr-economy.mjs?v=99194c505dfc';
+import {ContractError,initContracts,validateContracts,SR_CONTENT_VERSION,SR_RULESET_VERSION} from './ea-sr-contracts.mjs?v=99194c505dfc';
 
 export const SCHEMA_VERSION=6;
 export const CONTENT_VERSION='opening-v1.2';
@@ -88,6 +88,10 @@ export function hydrateState(s){
  hydratePillTotals(s);return s;
 }
 export function cloneState(s){return s.schemaVersion===6?hydrateState(structuredClone(s)):structuredClone(s);}
+
+/** Commit an isolated transaction while retaining live person/order/body references.
+ * Runtime adapters are getters, not a second state authority, and are left intact.
+ */
 export function commitStateDraft(state,draft){
  const seen=new WeakMap();
  function sync(target,source){

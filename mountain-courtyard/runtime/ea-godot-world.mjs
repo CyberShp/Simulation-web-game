@@ -1,6 +1,6 @@
 /** Public local scene projection for the Godot presentation bridge. */
-import {appearanceView} from './ea-opening-sim.mjs?v=ea-issue6-history-20261012-r2';
-import {viewSRWorld} from './ea-sr-world.mjs?v=ea-issue6-history-20261012-r2';
+import {appearanceView} from './ea-opening-sim.mjs?v=99194c505dfc';
+import {viewSRWorld} from './ea-sr-world.mjs?v=99194c505dfc';
 
 const HOME = 'scene:yunxiu-courtyard';
 const TRAVEL = 'scene:travel';

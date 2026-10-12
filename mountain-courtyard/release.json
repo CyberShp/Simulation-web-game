@@ -1,7 +1,7 @@
 {
-  "scope": "U-123 / Issue #5 production accounting",
-  "sourceCommit": "850a7ea2178063684715ec2e46e625faf492bf40",
-  "mainPack": "scene-772e4d90182e.pck",
-  "buildManifestSha256": "655d087827d09395c55cddcfc94796ce0ee6bd4267b189911c514b7b32aa0a53",
-  "runtimeTag": "ea-issue5-850a7ea-20261012"
+  "scope": "U-124 opening construction movement",
+  "sourceCommit": "6294aac2362066e2f17c8fed269a7d1c1504b67d",
+  "mainPack": "scene-ee25c7cb7897.pck",
+  "buildManifestSha256": "e55b0210f7fd2e430acbedf2a013e7a1aa806d0186f691f7007b7ab8e26673df",
+  "runtimeTag": "99194c505dfc"
 }

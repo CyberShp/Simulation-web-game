@@ -1,5 +1,5 @@
-import {addAmounts,subtractAmounts} from './ea-resource-amounts.mjs?v=ea-issue6-history-20261012-r2';
 /** EA data is independent of legacy shared objects. All randomness is state-owned. */
+import {addAmounts,subtractAmounts} from './ea-resource-amounts.mjs?v=99194c505dfc';
 export const GAME_VERSION='1.6.0-dev';
 export const DAY_LENGTH=120;
 export const RESOURCES={jade:'灵石',wood:'灵木',stone:'青石',herb:'灵草',crystal:'灵晶',insight:'道韵',food:'口粮'};

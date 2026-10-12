@@ -1,8 +1,8 @@
-import {finalizeBuildingChange,releaseBodyActivity} from './ea-facility-activities.mjs?v=ea-issue6-history-20261012-r2';
+import {finalizeBuildingChange,releaseBodyActivity} from './ea-facility-activities.mjs?v=99194c505dfc';
 /** SR-XF-003–006: metre space and persistent, on-site construction transactions. */
-import {scenicPoint} from './ea-scene-geometry.mjs?v=ea-issue6-history-20261012-r2';
-import {BUILDINGS,RESOURCES,log as gameLog} from './ea-data.mjs?v=ea-issue6-history-20261012-r2';
-import {BUILDING_GRID,buildingGridEnabled,buildingCellSize,onBuildingGrid} from './ea-building-grid.mjs?v=ea-issue6-history-20261012-r2';
+import {scenicPoint} from './ea-scene-geometry.mjs?v=99194c505dfc';
+import {BUILDINGS,RESOURCES,log as gameLog} from './ea-data.mjs?v=99194c505dfc';
+import {BUILDING_GRID,buildingGridEnabled,buildingCellSize,onBuildingGrid} from './ea-building-grid.mjs?v=99194c505dfc';
 export const SPATIAL_VERSION='spatial-metres-1';
 export const SPATIAL_EXTENT_VERSION='courtyard-96-1';
 export const INTERIOR_LAYOUT_VERSION='adult-furniture-1';
@@ -561,7 +561,7 @@ function constructionVolunteer(s,p){
 }
 function constructionEntry(s,a,o){return ['upgrade','establish'].includes(o.operation)?spatialAccess(layoutBuilding(s,{type:o.buildingType,level:o.targetLevel,transform:o.targetTransform})):a.target;}
 function constructionApproachSlot(s,o,activity,masterAvailable=true){
- if(!['upgrade','establish'].includes(o.operation)||!activity)return null;
+ if(!activity)return null;
  const waiting=o.activityIds.map(id=>s.activitiesById[id]).filter(participant=>participant&&!participant.slotId&&(participant.personId!=='person:master'||masterAvailable));
  if(!waiting.some(participant=>participant.id===activity.id))waiting.push(activity);
  const reserved=new Set(),bodies=people(s);
@@ -606,8 +606,10 @@ function constructionParticipantReady(s,p,activity,a,approach=null){
 function tickConstructionCrew(s,a,o,r,{masterAvailable,canWork,siteClear}){
  if(!siteClear){
   const sc=s.master.scenic;
-  const waitingAt=constructionEntry(s,a,o);
-  if(masterAvailable&&distance(sc,waitingAt)>.1){
+  // The entrance must remain clear while its users leave. Waiting at an
+  // available construction slot lets the master walk aside before work starts.
+  const waitingAt=['upgrade','establish'].includes(o.operation)?constructionApproachSlot(s,o,a,masterAvailable)?.position:constructionEntry(s,a,o);
+  if(masterAvailable&&waitingAt&&distance(sc,waitingAt)>.1){
    if(!sc.goal||distance(sc.goal,waitingAt)>.01||!sc.path?.length){const route=meterFindPath(s,sc,waitingAt,{maxSnap:0});if(route!==null){sc.path=route;sc.goal={...waitingAt};}}
    if(sc.path?.length){moveActor(s,sc,.144);syncPosition(s,s.master);s.master.action='walk';}
   }

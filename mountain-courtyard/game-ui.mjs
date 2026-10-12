@@ -1,6 +1,6 @@
-import {startPaintedGameUI} from './base-ui.mjs?v=ea-issue6-history-20261012-r2';
-import {BUILDINGS, STAGE_NAMES} from './runtime/ea-data.mjs?v=ea-issue6-history-20261012-r2';
-import {HALL_ESTABLISH_COST} from './runtime/ea-sr-spatial.mjs?v=ea-issue6-history-20261012-r2';
+import {startPaintedGameUI} from './base-ui.mjs?v=99194c505dfc';
+import {BUILDINGS, STAGE_NAMES} from './runtime/ea-data.mjs?v=99194c505dfc';
+import {HALL_ESTABLISH_COST} from './runtime/ea-sr-spatial.mjs?v=99194c505dfc';
 
 /** Mountain courtyard construction surface. Character and art rules stay in base-ui. */
 export function startEstateGameUI(host, layout) {

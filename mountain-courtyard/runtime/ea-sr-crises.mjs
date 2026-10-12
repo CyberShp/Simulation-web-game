@@ -1,8 +1,8 @@
 /** Persistent danger, real treatment and permanent NPC deaths. SR-XF-022/023. */
-import {pay,log,RESOURCES} from './ea-data.mjs?v=ea-issue6-history-20261012-r2';
-import {knownFactForObserver} from './ea-sr-contracts.mjs?v=ea-issue6-history-20261012-r2';
-import {recordFactSR,publishFactSR,recordClaimSR,makeWorldPerson,activateRootSR,discoverSceneSR,setRouteConditionSR,worldResourcePaySR} from './ea-sr-world.mjs?v=ea-issue6-history-20261012-r2';
-import {initAftermath,activateRainAftermath,prepareDeathAftermath,discloseAftermathObligations,reconcileAftermathKnowledge,markAftermathKnowledge,viewAftermath,aftermathAction} from './ea-sr-aftermath.mjs?v=ea-issue6-history-20261012-r2';
+import {pay,log,RESOURCES} from './ea-data.mjs?v=99194c505dfc';
+import {knownFactForObserver} from './ea-sr-contracts.mjs?v=99194c505dfc';
+import {recordFactSR,publishFactSR,recordClaimSR,makeWorldPerson,activateRootSR,discoverSceneSR,setRouteConditionSR,worldResourcePaySR} from './ea-sr-world.mjs?v=99194c505dfc';
+import {initAftermath,activateRainAftermath,prepareDeathAftermath,discloseAftermathObligations,reconcileAftermathKnowledge,markAftermathKnowledge,viewAftermath,aftermathAction} from './ea-sr-aftermath.mjs?v=99194c505dfc';
 let deathCleanup=()=>{};
 export function configureSRCrises({onPermanentDeath}={}){if(onPermanentDeath)deathCleanup=onPermanentDeath;}
 const MASTER='person:master', HERBALIST='person:su-yelan',SCENE='scene:valley';

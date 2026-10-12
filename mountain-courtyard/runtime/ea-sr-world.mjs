@@ -1,14 +1,14 @@
-import {addAmounts,subtractAmounts} from './ea-resource-amounts.mjs?v=ea-issue6-history-20261012-r2';
-import {markAftermathKnowledge} from './ea-sr-aftermath.mjs?v=ea-issue6-history-20261012-r2';
-import {knowledgeView,knownFactForObserver,stampInitialClaimReceipts} from './ea-sr-contracts.mjs?v=ea-issue6-history-20261012-r2';
+import {addAmounts,subtractAmounts} from './ea-resource-amounts.mjs?v=99194c505dfc';
+import {markAftermathKnowledge} from './ea-sr-aftermath.mjs?v=99194c505dfc';
+import {knowledgeView,knownFactForObserver,stampInitialClaimReceipts} from './ea-sr-contracts.mjs?v=99194c505dfc';
 /** SR-XF-015/016/017/020/021. Facts are authoritative; views contain acquired knowledge only. */
-import {pay,grant,log,RESOURCES} from './ea-data.mjs?v=ea-issue6-history-20261012-r2';
-import {GEOGRAPHY_SCENES,GEOGRAPHY_ROUTES,GEOGRAPHY_REGIONS,initGeographySR,startGeographySR,finishGeographySR,tickGeographySR,viewGeographySR,validateGeographySR} from './ea-sr-world-geography.mjs?v=ea-issue6-history-20261012-r2';
-import {TELEPORT_ROUTES,initTransportSR,transportRouteUsableSR,transportModePlanSR,ticketPlanSR,reserveJourneyTicketsSR,releaseJourneyTicketsSR,tickTransportSR,startTransportCapabilitySR,finishTransportCapabilitySR,useTravelModeSR,viewTransportSR,validateTransportSR} from './ea-sr-world-transport.mjs?v=ea-issue6-history-20261012-r2';
-import {HIGH_REALM_PATHS} from './ea-sr-cultivation.mjs?v=ea-issue6-history-20261012-r2';
-import {startScenicWalk} from './ea-scenic.mjs?v=ea-issue6-history-20261012-r2';
-import {startSRCombat,valleyEncounterDefinition} from './ea-campaign.mjs?v=ea-issue6-history-20261012-r2';
-import {initWorldContentSR,tickWorldContentSR,startWorldContentSR,finishWorldContentSR,cancelWorldContentSR,viewWorldContentSR,validateWorldContentSR,worldContentDiagnosticsSR} from './ea-sr-world-content.mjs?v=ea-issue6-history-20261012-r2';
+import {pay,grant,log,RESOURCES} from './ea-data.mjs?v=99194c505dfc';
+import {GEOGRAPHY_SCENES,GEOGRAPHY_ROUTES,GEOGRAPHY_REGIONS,initGeographySR,startGeographySR,finishGeographySR,tickGeographySR,viewGeographySR,validateGeographySR} from './ea-sr-world-geography.mjs?v=99194c505dfc';
+import {TELEPORT_ROUTES,initTransportSR,transportRouteUsableSR,transportModePlanSR,ticketPlanSR,reserveJourneyTicketsSR,releaseJourneyTicketsSR,tickTransportSR,startTransportCapabilitySR,finishTransportCapabilitySR,useTravelModeSR,viewTransportSR,validateTransportSR} from './ea-sr-world-transport.mjs?v=99194c505dfc';
+import {HIGH_REALM_PATHS} from './ea-sr-cultivation.mjs?v=99194c505dfc';
+import {startScenicWalk} from './ea-scenic.mjs?v=99194c505dfc';
+import {startSRCombat,valleyEncounterDefinition} from './ea-campaign.mjs?v=99194c505dfc';
+import {initWorldContentSR,tickWorldContentSR,startWorldContentSR,finishWorldContentSR,cancelWorldContentSR,viewWorldContentSR,validateWorldContentSR,worldContentDiagnosticsSR} from './ea-sr-world-content.mjs?v=99194c505dfc';
 const HOME='scene:yunxiu-courtyard', MASTER='person:master';
 const VALLEY_ENCOUNTER=Object.freeze(valleyEncounterDefinition());
 // Scenic exits add a physical approach to the established travel transaction.
@@ -175,7 +175,7 @@ export function useSceneExitSR(s,exitId,options={}){
 }
 export function worldResourceStockSR(s){return s.master?.location?.kind==='local'&&s.master.location.sceneId===HOME?s.stockpilesById['stockpile:yunxiu']:s.stockpilesById['stockpile:sr-party'];}
 export function worldResourcePaySR(s,cost){const st=worldResourceStockSR(s);if(!st||Object.entries(cost).some(([k,v])=>!RESOURCES[k]||!Number.isFinite(v)||v<0||(st.resources[k]||0)<v))throw Error('身边实际物资不足；院外不能使用远方公库');for(const[k,v]of Object.entries(cost))st.resources[k]=subtractAmounts(st.resources[k],v);}
-function grantIssueSR(s,reward,cost={}){const st=worldResourceStockSR(s);if(!st)return '身边缺少实际行囊';if(Object.entries(reward).some(([k,v])=>!RESOURCES[k]||!Number.isFinite(v)||v<0))return '产出参数无效';const total=Object.values(st.resources).reduce((a,b)=>a+b,0),add=Object.values(reward).reduce((a,b)=>a+b,0),spent=Object.values(cost).reduce((a,b)=>a+b,0);return total-spent+add>st.capacity?'身边实际行囊容量不足，先交付或减轻携带':null;}
+function grantIssueSR(s,reward,cost={}){const st=worldResourceStockSR(s);if(!st)return '身边缺少实际行囊';if(Object.entries(reward).some(([k,v])=>!RESOURCES[k]||!Number.isFinite(v)||v<0))return '产出参数无效';const total=addAmounts(...Object.values(st.resources)),add=addAmounts(...Object.values(reward)),spent=addAmounts(...Object.values(cost));return addAmounts(total,-spent,add)>st.capacity?'身边实际行囊容量不足，先交付或减轻携带':null;}
 export function worldResourceGrantSR(s,reward){const issue=grantIssueSR(s,reward);if(issue)throw Error(issue);const st=worldResourceStockSR(s);if(!st)throw Error('身边缺少实际行囊');const total=addAmounts(...Object.values(st.resources)),add=addAmounts(...Object.values(reward));if(addAmounts(total,add)>st.capacity)throw Error('身边实际行囊容量不足，先交付或减轻携带');for(const[k,v]of Object.entries(reward))st.resources[k]=addAmounts(st.resources[k],v);}
 function packCargoSR(s,requested){const st=s.stockpilesById['stockpile:sr-party'],home=s.stockpilesById['stockpile:yunxiu'];const cargo=requested||{jade:30,herb:12,food:12,wood:10,stone:10,crystal:2};const actual={};let left=subtractAmounts(st.capacity,addAmounts(...Object.values(st.resources)));for(const[k,v]of Object.entries(cargo)){if(!RESOURCES[k]||!Number.isFinite(v)||v<0)throw Error('携带物资无效');const q=requested?v:Math.min(v,home.resources[k]);if(q>home.resources[k])throw Error('公库物资不足以装入行囊');if(requested&&q>left)throw Error('随行物资箱400份容量不足');actual[k]=Math.min(q,left);left=subtractAmounts(left,actual[k]);}for(const[k,v]of Object.entries(actual)){home.resources[k]=subtractAmounts(home.resources[k],v);st.resources[k]=addAmounts(st.resources[k],v);}return actual;}
 export function travelSR(s,destination,{companions=[],route='main',mode='walk',cargo}={}){

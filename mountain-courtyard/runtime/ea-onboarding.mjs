@@ -1,6 +1,6 @@
-import {BUILDINGS,RESOURCES,CELLS} from './ea-data.mjs?v=ea-issue6-history-20261012-r2';
-import {buildingAccess,scenicDistance} from './ea-scene-geometry.mjs?v=ea-issue6-history-20261012-r2';
-import {actorScenePosition,lifeBuildingActive,personLifeSummary} from './ea-life.mjs?v=ea-issue6-history-20261012-r2';
+import {BUILDINGS,RESOURCES,CELLS} from './ea-data.mjs?v=99194c505dfc';
+import {buildingAccess,scenicDistance} from './ea-scene-geometry.mjs?v=99194c505dfc';
+import {actorScenePosition,lifeBuildingActive,personLifeSummary} from './ea-life.mjs?v=99194c505dfc';
 
 // Guidance records observations only. Progress, choices and resources remain
 // owned by the campaign and simulation; older worlds opt out automatically.
