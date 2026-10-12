@@ -4,6 +4,7 @@ import {readFileSync} from 'node:fs';
 import {initial, tick, dispatchCommand, validateSave} from '../dist/ea-opening-sim.mjs';
 import {createGodotBridge} from '../dist/ea-godot-bridge.mjs';
 import {HALL_ESTABLISH_COST, meterSweep} from '../dist/ea-sr-spatial.mjs';
+import {BUILDINGS} from '../dist/ea-data.mjs';
 
 const sites = JSON.parse(readFileSync(new URL('../godot/estate_2d/estate-sites.json', import.meta.url))).sites;
 const scenePosition = (state, id) => id === 'person:master'
@@ -38,9 +39,50 @@ function completeHall(state) {
   assert.equal(state.stats.built, 1);
   const saved = JSON.stringify(state);
   assert.equal(JSON.stringify(validateSave(JSON.parse(saved))), saved);
+  return state;
 }
 
-test('new mountain opening gifts the visitor before building and keeps the hall exit clear', () => {
+function completeFarm(state) {
+  const orderId = Object.values(state.workOrdersById).find(order => order.kind === 'construction' && order.buildingType === 'farm').id;
+  const watched = ['person:master', 'person:lu-zhiwei'];
+  let reloadedInTransit = false;
+  for (let i = 0; i < 500 && state.workOrdersById[orderId]; i++) {
+    const positions = watched.map(id => ({...scenePosition(state, id)}));
+    tick(state, .1);
+    watched.forEach((id, index) => {
+      const after = scenePosition(state, id), before = positions[index];
+      assert.ok(Math.hypot(after.x - before.x, after.y - before.y) < .7);
+      assert.equal(meterSweep(state, before, after).blocked, false);
+    });
+    const master = scenePosition(state, watched[0]), helper = scenePosition(state, watched[1]);
+    assert.ok(Math.hypot(master.x - helper.x, master.y - helper.y) >= .53 - 1e-7,
+      'the carrier and volunteer keep their physical separation');
+    const order = state.workOrdersById[orderId], flow = order?.materialFlow;
+    if (flow) {
+      for (const resource of ['wood', 'stone']) {
+        const remaining = state.stockpilesById[flow.sourceStockpileId].resources[resource]
+          + state.stockpilesById[flow.siteStockpileId].resources[resource]
+          + (flow.cargo[resource] || 0) + (order.usedCost[resource] || 0);
+        assert.equal(remaining, BUILDINGS.farm.cost[resource], 'materials stay at their real location');
+      }
+      if (!reloadedInTransit && flow.phase === 'carrying') {
+        const saved = JSON.stringify(state);
+        state = validateSave(JSON.parse(saved));
+        assert.equal(JSON.stringify(state), saved);
+        reloadedInTransit = true;
+      }
+    }
+  }
+  assert.equal(state.buildings.filter(building => building.type === 'farm').length, 1);
+  assert.equal(state.workOrdersById[orderId], undefined);
+  assert.equal(reloadedInTransit, true);
+  assert.deepEqual(state.spatial.completedOrders.find(order => order.id === orderId).usedCost, BUILDINGS.farm.cost);
+  assert.equal(state.personsById['person:lu-zhiwei'].job, null, 'volunteering does not assign a permanent job');
+  const saved = JSON.stringify(state);
+  assert.equal(JSON.stringify(validateSave(JSON.parse(saved))), saved);
+}
+
+test('new mountain opening gifts the visitor, clears the hall exit and separates farm volunteers from deliveries', () => {
   let state = validateSave(JSON.parse(createGodotBridge({state:initial({sr:true, mountainOpening:true}), sites}).save()));
   const command = (name, ...args) => {
     const result = dispatchCommand(state, {name, args});
@@ -62,7 +104,11 @@ test('new mountain opening gifts the visitor before building and keeps the hall 
   advance(state, 280);
   assert.ok(Math.hypot(state.master.scenic.x - visitor.x, state.master.scenic.y - visitor.y) < 3);
   command('establishHall');
-  completeHall(state);
+  state = completeHall(state);
+  command('advanceStory', 'invite');
+  const farm = sites.find(site => site.type === 'farm');
+  command('build', 'farm', farm.x, farm.y);
+  completeFarm(state);
 });
 
 // Optional real browser evidence stays outside the source tree.
@@ -73,4 +119,13 @@ test('captured blocked hall resumes with the same people, materials and world cl
   assert.equal(scenePosition(state, 'person:cheng-wenzhou').waitingForPersonId, 'person:master');
   state = dispatchCommand(state, {name:'setSpeed', args:[1]}).state;
   completeHall(state);
+});
+
+const blockedFarmSave = process.env.EA_FARM_BLOCKED_SAVE;
+test('captured farm delivery resumes while its volunteer walks to a construction slot', {skip:!blockedFarmSave}, () => {
+  let state = validateSave(JSON.parse(readFileSync(blockedFarmSave, 'utf8')));
+  assert.equal(scenePosition(state, 'person:master').waitingForPersonId, 'person:lu-zhiwei');
+  assert.equal(scenePosition(state, 'person:lu-zhiwei').waitingForPersonId, 'person:master');
+  state = dispatchCommand(state, {name:'setSpeed', args:[1]}).state;
+  completeFarm(state);
 });

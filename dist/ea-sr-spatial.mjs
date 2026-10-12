@@ -561,7 +561,7 @@ function constructionVolunteer(s,p){
 }
 function constructionEntry(s,a,o){return ['upgrade','establish'].includes(o.operation)?spatialAccess(layoutBuilding(s,{type:o.buildingType,level:o.targetLevel,transform:o.targetTransform})):a.target;}
 function constructionApproachSlot(s,o,activity,masterAvailable=true){
- if(!['upgrade','establish'].includes(o.operation)||!activity)return null;
+ if(!activity)return null;
  const waiting=o.activityIds.map(id=>s.activitiesById[id]).filter(participant=>participant&&!participant.slotId&&(participant.personId!=='person:master'||masterAvailable));
  if(!waiting.some(participant=>participant.id===activity.id))waiting.push(activity);
  const reserved=new Set(),bodies=people(s);
