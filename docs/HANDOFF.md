@@ -2,7 +2,7 @@
 
 ## Issue #6 · 历史增长控制 · 2026-10-12
 
-2026-10-12 Issue #6：最新main36b6dd3复现纯历史增长，按递归引用闭包保护归档白名单；生产、一般旅行、剧情和交易结果继续保留。新档6/12/24/48小时及旧档/参考档24小时A/B、保存恢复、只读边界和性能测量见 [历史增长修复](design/ISSUE-6-HISTORY-RETENTION.md)。11项专项加65项相关回归通过；局部证据不推进整项SR/AC、真机或真人状态。运行源码 `main` `df8f7fcff4752fc5330998d4a9a0267d08585a4d`，Pages `c6ca7f4fe58261dcf1bb1dc1df749705a4b98093`，缓存标记 `ea-issue6-history-20261012-r1`；[构建与部署](https://github.com/CyberShp/Simulation-web-game/actions/runs/38204448612) completed/success。247 个发布文本 blob 已核对，13 个公网入口/新模块/清单均 HTTP 200 且字节一致；保留现有根/preview 与山院各自玩法，完整浏览器视觉、目标设备及真人长会话另验。
+2026-10-12 Issue #6：最新main36b6dd3复现纯历史增长，按递归引用闭包保护归档白名单；生产、一般旅行、剧情和交易结果继续保留。新档6/12/24/48小时及旧档/参考档24小时A/B、保存恢复、只读边界和性能测量见 [历史增长修复](design/ISSUE-6-HISTORY-RETENTION.md)。11项专项加65项相关回归通过；局部证据不推进整项SR/AC、真机或真人状态。运行源码 `main` `d53e9ce1aa7e7db7358632efcce32dbab13a5a27`，Pages `2e4ef4949456b7e429cd53822042cb43672ad7b6`，缓存标记 `ea-issue6-history-20261012-r2`；[构建与部署](https://github.com/CyberShp/Simulation-web-game/actions/runs/38206362806) completed/success。247 个发布文本 blob 已核对，13 个公网入口/新模块/清单均 HTTP 200 且字节一致；保留现有根/preview 与山院各自玩法，完整浏览器视觉、目标设备及真人长会话另验。
 
 ## 当前批次 · 炼丹、山谷与首战（2026-10-12）
 

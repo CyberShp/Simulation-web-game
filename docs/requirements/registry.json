@@ -340,10 +340,10 @@
     },
     "history_retention_issue6": {
       "base_main": "36b6dd3caf1e9470f049d48e50d16db2d59ce1b0",
-      "runtime_source": "df8f7fcff4752fc5330998d4a9a0267d08585a4d",
-      "pages": "c6ca7f4fe58261dcf1bb1dc1df749705a4b98093",
-      "release_tag": "ea-issue6-history-20261012-r1",
-      "deployment_run": 38204448612,
+      "runtime_source": "d53e9ce1aa7e7db7358632efcce32dbab13a5a27",
+      "pages": "2e4ef4949456b7e429cd53822042cb43672ad7b6",
+      "release_tag": "ea-issue6-history-20261012-r2",
+      "deployment_run": 38206362806,
       "deployment_status": "completed/success",
       "policy_version": "history-retention:v1",
       "targeted_tests": 76,
@@ -367,7 +367,12 @@
           24
         ]
       },
-      "scope": "History-only patch ported to each existing published runtime; all non-history fields and four gameplay projections compared exactly. Full SR, browser FPS, real devices and human sessions retain their existing status."
+      "scope": "History-only patch ported to each existing published runtime; all non-history fields and four gameplay projections compared exactly. Full SR, browser FPS, real devices and human sessions retain their existing status.",
+      "knowledge_guard": {
+        "independent_short_tests": 10,
+        "baseline_checkpoints": 13,
+        "candidate_observations_without_new_markers": 22983
+      }
     }
   },
   "enums": {
