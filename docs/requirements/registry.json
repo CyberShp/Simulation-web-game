@@ -346,7 +346,7 @@
       "deployment_run": 38204448612,
       "deployment_status": "completed/success",
       "policy_version": "history-retention:v1",
-      "targeted_tests": 75,
+      "targeted_tests": 76,
       "published_text_blobs_verified": 247,
       "public_http_byte_matches": 13,
       "benchmark_game_hours": {

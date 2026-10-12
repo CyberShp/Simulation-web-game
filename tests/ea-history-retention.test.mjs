@@ -5,6 +5,7 @@ import * as sim from '../dist/ea-opening-sim.mjs';
 import {HISTORY_POLICY,pruneHistory,validateHistoryRetention} from '../dist/ea-history-retention.mjs';
 import {foundingStatusSR,peakStatusSR} from '../dist/ea-sr-organization.mjs';
 import {PEAK_DIRECTIONS} from '../dist/ea-society.mjs';
+import {knownFactForObserver} from '../dist/ea-sr-contracts.mjs';
 import {resourceSource} from '../dist/ea-sr-equipment.mjs';
 import {createEAPersistence} from '../dist/ea-persistence.mjs';
 import {memoryStorage,memoryLocks} from '../qa/ea-storage-fixture.mjs';
@@ -60,6 +61,23 @@ test('implicit daily-supply keys survive alongside two latest receipts per perso
  const days=Object.values(s.factsById).filter(f=>f.kind==='daily-supply-relation').map(f=>f.dayIndex).sort((a,b)=>a-b);
  assert.deepEqual(days,[1,2,59,60]);assert.equal(s.historyRetention.summaries['daily-supply-relation'].count,56);
  assert.equal(s.personsById[personId].mind.relationships.master.trust,trust);
+});
+test('acquired knowledge recorded only on an old audit fact remains queryable',()=>{
+ const s=auditFixture(),id='fact:weather:yunxiu:1';
+ s.factsById[id].knownByPersonIds=['person:master'];
+ s.factsById['fact:crop-water:2'].knownByIds=['person:lu-zhiwei'];
+ s.factsById['fact:crop-water:3'].knownBy=['person:master'];
+ s.factsById['fact:weather:yunxiu:4'].public=true;
+ s.factsById['fact:weather:yunxiu:5'].observerId='person:master';
+ s.factsById['fact:crop-water:6'].actorId='person:master';
+ s.factsById['fact:weather:yunxiu:7'].actorId='person:lu-zhiwei';
+ assert.equal(knownFactForObserver(s,'person:master',id),true);
+ assert.equal(knownFactForObserver(s,'person:lu-zhiwei','fact:weather:yunxiu:7'),true);
+ pruneHistory(s,{force:true});
+ assert.equal(knownFactForObserver(s,'person:master',id),true);
+ assert.equal(knownFactForObserver(s,'person:lu-zhiwei','fact:weather:yunxiu:7'),true);
+ for(const key of [id,'fact:crop-water:2','fact:crop-water:3','fact:weather:yunxiu:4','fact:weather:yunxiu:5','fact:crop-water:6','fact:weather:yunxiu:7'])assert.ok(Object.hasOwn(s.factsById,key));
+ sim.validateSave(s);
 });
 test('unrecognized kinds and malformed candidates are retained for strict validation',()=>{
  const s=auditFixture(),bad='fact:weather:yunxiu:1';s.factsById[bad].atTick=NaN;
