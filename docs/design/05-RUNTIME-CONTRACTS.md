@@ -45,6 +45,8 @@
 
 各文档示例为局部形状，不能直接当成完整可导入存档。实现前应由共同schema给出必填、空值、枚举、范围及引用校验。
 
+Issue #6 实施（2026-10-12）：schema 6 可选 `historyRetention` 只记录白名单纯历史明细的分类计数与首末世界步，不成为资源或玩法真相的第二来源。只有过期、形状完整且不在递归引用闭包中的天气、生态损害、每日供给、商人到院流水及完成商旅行程可汇总；生产、一般旅程、剧情/交易结果及有效引用继续完整保留。原档先完整验证，加载、保存、只读投影不剪枝，实际世界步按确定边界处理；详细窗口、隐式凭证与长期兼容实测见 [历史增长修复](ISSUE-6-HISTORY-RETENTION.md)。
+
 NPC目标/阶段生活计划、信念`beliefs`内嵌人物。`person.combatSessionId`为空或唯一有效会话引用，`activityId`仍负责唯一身体活动；备战/结算不绕过唯一占用。
 
 `person.lifeStatus`为`alive / dead`，死亡必须与唯一死亡记录原子提交。存活者`bodyState`由health/injuries/意识/救治事实派生为`fit / impaired / incapacitated / dying`，死者不提供活人bodyState。失踪、被俘和外出均不意味着死亡；未知死亡也不自动变成玩家已知。

@@ -140,6 +140,10 @@ SR-XF-030-V01证据：qa/ea-indoor-furniture-acceptance.mjs；qa/ea-courtyard-li
 - 2026-10-12 U-123 发布核验：运行源码 main 836ccb605a42e7c21c2aae8c5e2c4eee7e55c03e；gh-pages 4d6786da521f1ab92818c20f67c036a829469e6e；GitHub API Pages build=built。公开 mountain-courtyard 的14个交付文件（release/build/index、界面与加载模块、桥接及世界／战斗规则、三片场景包）HTTP 200，SHA与本地导出一致。公开浏览器百艺、导档、实际行走旅行与采集的操作证据见 docs/art/COURTYARD-VALLEY-2026-10-12.md；本记录仅是U-123局部发布证据，整项 D/I/V/R 与 AC 状态不变。
 - qa/ea-sr-production-accounting-acceptance.mjs
 - docs/design/ISSUE-5-PRODUCTION-ACCOUNTING.md
+- docs/design/ISSUE-6-HISTORY-RETENTION.md
+- tests/ea-history-retention.test.mjs
+- qa/ea-history-benchmark.mjs
+- qa/ea-history-compare.mjs
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
@@ -155,5 +159,6 @@ SR-XF-030-V01证据：qa/ea-indoor-furniture-acceptance.mjs；qa/ea-courtyard-li
 - 2026-10-12：2026-10-12 U-123 首战本地网页：最终本地网页活动战斗存读后worldTick5974、掌门血140／灵力80、敌血98及双方脚点一致；返院服药后再存读保home、wound0及剩余丹药1。完整旧档迁移 AC 状态保持。 证据见 docs/art/COURTYARD-VALLEY-2026-10-12.md；整项 D/I/V/R 与 AC 状态不变。
 - 2026-10-12：2026-10-12 U-123 发布核验：运行源码 main 836ccb605a42e7c21c2aae8c5e2c4eee7e55c03e；gh-pages 4d6786da521f1ab92818c20f67c036a829469e6e；GitHub API Pages build=built。公开 mountain-courtyard 的14个交付文件（release/build/index、界面与加载模块、桥接及世界／战斗规则、三片场景包）HTTP 200，SHA与本地导出一致。公开浏览器百艺、导档、实际行走旅行与采集的操作证据见 docs/art/COURTYARD-VALLEY-2026-10-12.md；本记录仅是U-123局部发布证据，整项 D/I/V/R 与 AC 状态不变。
 - 2026-10-12：2026-10-12 Issue #5：最新main6000秒实验16笔生产/14笔微量灵石，修复显式receipt、9位新计算精度、工资封顶、事务提交与运输严格余额。专项12/12，正常公开开局2/2、丹炉公开链1/1；旧数量和事实逐字保留，不推进完整SR状态。见 docs/design/ISSUE-5-PRODUCTION-ACCOUNTING.md。
+- 2026-10-12：Issue #6：只对白名单纯历史事实与完成商旅行程做引用闭包保护的周期摘要；生产及普通旅行完整保留，旧档先完整校验、保存恢复及日凭证幂等继续成立。真实6/12/24/48小时A/B与局部回归见ISSUE-6-HISTORY-RETENTION；不推进整项SR/AC、真机或真人状态。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。

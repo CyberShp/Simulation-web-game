@@ -1,5 +1,9 @@
 # 项目交付接续 · 2026-10-12
 
+## Issue #6 · 历史增长控制 · 2026-10-12
+
+2026-10-12 Issue #6：最新main36b6dd3复现纯历史增长，按递归引用闭包保护归档白名单；生产、一般旅行、剧情和交易结果继续保留。新档6/12/24/48小时及旧档/参考档24小时A/B、保存恢复、只读边界和性能测量见 [历史增长修复](design/ISSUE-6-HISTORY-RETENTION.md)。10项专项加65项相关回归通过；局部证据不推进整项SR/AC、真机或真人状态。源码提交与Pages发布核对在验收收尾后登记。
+
 ## 当前批次 · 炼丹、山谷与首战（2026-10-12）
 
 U-123 三段流程已实现并发布：山院种收与第一炉、云岫山谷采集会面往返、首战受伤撤退与返院服药。玩法定向检查 18／18、分片加载检查 3／3，真实 Godot 网页已验证搬运、成丹、攻防、场景往返及战斗／归院存读。实现与复验入口见 [41 号实施记录](design/41-COURTYARD-VALLEY-IMPLEMENTATION.md)和[实玩记录](art/COURTYARD-VALLEY-2026-10-12.md)。构建命令 `python3 tools/build-estate-painted-web.py --output output/u123-integrated-preview/index.html`；运行源码 `836ccb6`、Pages `4d6786d`，构建为 `built`；公开文件字节核对与网页操作范围见 [STATUS](design/STATUS.md)。目标真机、玩家美术评看与完整 SR 验收继续分别登记。
