@@ -1,0 +1,383 @@
+import { Effects } from './effects.mjs';
+import { WORLD } from './world.mjs';
+
+const TAU = Math.PI * 2;
+const clamp = (value, low = 0, high = 1) => Math.max(low, Math.min(high, value));
+const mix = (a, b, t) => a + (b - a) * t;
+const finite = (value, fallback = 0) => Number.isFinite(value) ? value : fallback;
+const pixelColor = { blue: '#62c8dd', red: '#d78965', gold: '#e5c774' };
+const frames = [
+  [55,18,250,335,173,328],[433,18,225,335,154,329],
+  [803,18,237,335,157,330],[1200,18,211,335,137,329],
+  [76,360,281,300,125,293],[444,360,288,300,133,294],
+  [805,360,296,300,136,294],[1212,360,279,300,130,294],
+  [70,660,218,335,134,329],[426,668,317,330,160,322],
+  [758,686,406,298,189,287],[1172,674,299,325,185,314]
+];
+const discipleFrames = [
+  [55,42,280,447,151,438],[407,44,270,446,160,436],
+  [784,42,286,449,177,438],[1121,89,414,397,190,383],
+  [57,525,274,469,139,449],[410,531,290,458,158,442],
+  [788,531,288,460,161,448],[1140,535,375,462,183,447]
+];
+const garden = [
+  { id:'lantern',x:510,y:665,rect:[135,155,370,795],height:108,width:50 },
+  { id:'pine',x:1210,y:685,rect:[623,10,913,945],height:155,width:150 }
+];
+const foreground = [
+  [[305,663],[375,651],[409,693],[401,874],[375,941],[307,941]],
+  [[1270,658],[1340,664],[1339,923],[1283,941],[1260,876]],
+  [[550,727],[603,727],[626,774],[626,846],[549,831]],
+  [[1050,720],[1116,720],[1132,840],[1045,842]]
+];
+
+function loadImage(path) {
+  return new Promise((resolve,reject) => {
+    const image = new Image();
+    image.onload = () => resolve(image);
+    image.onerror = () => reject(new Error(`素材加载失败: ${path}`));
+    image.src = new URL(path,import.meta.url).href;
+  });
+}
+
+function sprite(image, frame, scale) {
+  const surface = document.createElement('canvas');
+  surface.width = 104; surface.height = 82;
+  const ctx = surface.getContext('2d');
+  if (!ctx) throw new Error('无法建立人物画布');
+  ctx.imageSmoothingEnabled = false;
+  const [sx,sy,sw,sh,ax,ay] = frame;
+  ctx.drawImage(image,sx,sy,sw,sh,Math.round(52-ax*scale),Math.round(77-ay*scale),Math.round(sw*scale),Math.round(sh*scale));
+  return surface;
+}
+
+function dot(ctx,x,y,size,color,alpha=1) {
+  if (alpha <= 0) return;
+  ctx.globalAlpha = clamp(alpha);
+  ctx.fillStyle = color;
+  const s = Math.max(1,Math.round(size));
+  ctx.fillRect(Math.round(x-s/2),Math.round(y-s/2),s,s);
+}
+
+function pixelLine(ctx,x1,y1,x2,y2,width,color,alpha=1) {
+  const steps = Math.max(1,Math.ceil(Math.hypot(x2-x1,y2-y1)/1.5));
+  for (let i=0;i<=steps;i++) dot(ctx,mix(x1,x2,i/steps),mix(y1,y2,i/steps),width,color,alpha);
+}
+
+function ring(ctx,x,y,radius,color,alpha=1,width=1) {
+  const steps = Math.max(36,Math.ceil(radius*4));
+  for (let i=0;i<steps;i++) {
+    const a = i/steps*TAU;
+    dot(ctx,x+Math.cos(a)*radius,y+Math.sin(a)*radius*.35,width,color,alpha);
+  }
+}
+
+function eventPoint(event,side,actors) {
+  const point = event[side];
+  if (point && Number.isFinite(point.x) && Number.isFinite(point.y)) return point;
+  const actor = actors.get(side==='from'?event.sourceId:event.targetId);
+  return actor ? {x:actor.x,y:actor.y} : null;
+}
+
+function seed(value) {
+  let n = 17;
+  for (const letter of String(value)) n = (n*31+letter.charCodeAt(0))>>>0;
+  return n;
+}
+
+function scatter(index,eventSeed) {
+  const n = Math.sin(index*127.1+eventSeed*.017)*43758.5453;
+  return n-Math.floor(n);
+}
+
+/** Pixel courtyard projection. All simulation state and timestamps are read-only.
+ * Camera zoom 1 fits the 1672 × 941 authored world to the canvas; 1.45 frames
+ * the arena more closely. Root input owns camera movement and commands.
+ */
+export class ArenaRenderer {
+  constructor(canvas) {
+    this.canvas = canvas;
+    this.ctx = canvas.getContext('2d',{alpha:false});
+    if (!this.ctx) throw new Error('无法建立场景画布');
+    this.camera = {x:836,y:590,zoom:1.45};
+    this.viewport = {w:1600,h:900,fit:1};
+    this.ready = false;
+    this.wardEffects = new Map();
+    this.resize();
+  }
+
+  async load() {
+    const [ground,people,props,disciples] = await Promise.all([
+      loadImage('assets/courtyard-v1.png'),loadImage('assets/cultivator-v1.png'),
+      loadImage('assets/garden-props-v1.png'),loadImage('assets/disciples-v1.png')
+    ]);
+    this.ground = ground; this.props = props;
+    this.sprites = frames.map((frame,index) => sprite(people,frame,index>=4&&index<=7?.237:.217));
+    this.discipleSprites = discipleFrames.map(frame => sprite(disciples,frame,.159));
+    this.ready = true;
+    return this;
+  }
+
+  resize() {
+    const box = this.canvas.getBoundingClientRect();
+    const w = Math.max(1,Math.round(box.width||globalThis.innerWidth||1600));
+    const h = Math.max(1,Math.round(box.height||globalThis.innerHeight||900));
+    this.viewport = {w,h,fit:Math.min(w/WORLD.width,h/WORLD.height)};
+    this.canvas.width = w; this.canvas.height = h;
+    this.ctx.imageSmoothingEnabled = false;
+    this.constrainCamera();
+  }
+
+  constrainCamera() {
+    const {w,h,fit} = this.viewport;
+    const camera = this.camera;
+    camera.zoom = clamp(finite(camera.zoom,1),1,2.8);
+    const halfW = w/(2*fit*camera.zoom),halfH = h/(2*fit*camera.zoom);
+    camera.x = halfW>=WORLD.width/2?WORLD.width/2:clamp(finite(camera.x,836),halfW,WORLD.width-halfW);
+    camera.y = halfH>=WORLD.height/2?WORLD.height/2:clamp(finite(camera.y,470.5),halfH,WORLD.height-halfH);
+  }
+
+  worldToScreen(x,y) {
+    const rect = this.canvas.getBoundingClientRect();
+    const {w,h,fit} = this.viewport,s = fit*this.camera.zoom;
+    return {x:(x-this.camera.x)*s+w/2+rect.left,y:(y-this.camera.y)*s+h/2+rect.top};
+  }
+
+  screenToWorld(clientX,clientY) {
+    const rect = this.canvas.getBoundingClientRect();
+    const {w,h,fit} = this.viewport,s = fit*this.camera.zoom;
+    return {x:(clientX-rect.left-w/2)/s+this.camera.x,y:(clientY-rect.top-h/2)/s+this.camera.y};
+  }
+
+  actorPose(actor,tick) {
+    const action = actor.action;
+    const active = action && tick>=action.startTick && tick<action.endTick;
+    if (active) {
+      if (action.skill==='sword'||action.skill==='attack') return tick<action.releaseTick?9:10;
+      return 11;
+    }
+    if (actor.moving) return (actor.back?4:0)+Math.floor(finite(actor.distance)/12)%4;
+    return actor.back?5:8;
+  }
+
+  drawActor(actor,state) {
+    const ctx = this.ctx;
+    const dead = actor.hp<=0;
+    const selected = actor.id===state.selectedTargetId;
+    const player = actor.id===state.playerId;
+    ctx.save(); ctx.translate(Math.round(actor.x),Math.round(actor.y));
+    ctx.fillStyle = '#142c3548';ctx.beginPath();ctx.ellipse(0,-1,dead?24:16,5,0,0,TAU);ctx.fill();
+    if (!dead) {
+      ring(ctx,0,0,selected?24:player?22:17,selected?pixelColor.gold:pixelColor[actor.team]||pixelColor.blue,selected?1:player?.85:.45,selected?2:1);
+      if (selected) {
+        pixelLine(ctx,-27,-4,-31,-4,2,pixelColor.gold);
+        pixelLine(ctx,27,-4,31,-4,2,pixelColor.gold);
+      }
+      if (actor.shield>0 && (!Number.isFinite(actor.shieldUntil)||state.tick<actor.shieldUntil)) ring(ctx,0,1,25,'#a4dedf',.7);
+      if (player) dot(ctx,0,-84,4,pixelColor.gold);
+    }
+    ctx.globalAlpha = dead?.4:1;
+    const pose = this.actorPose(actor,state.tick);
+    let surface = this.sprites[pose];
+    if (actor.appearance==='red'||actor.appearance==='white') {
+      const offset = actor.appearance==='white'?4:0;
+      const active = actor.action && state.tick>=actor.action.startTick && state.tick<actor.action.endTick;
+      const frame = active?3:actor.moving?1+Math.floor(finite(actor.distance)/14)%2:0;
+      surface = this.discipleSprites[offset+frame];
+    }
+    if (dead) {ctx.translate(-17,-4);ctx.rotate(-Math.PI/2);ctx.scale(.78,.78);}
+    ctx.scale(actor.dir===-1?-1:1,1);ctx.drawImage(surface,-52,-77);ctx.restore();
+  }
+
+  drawProp(prop) {
+    const ctx = this.ctx;
+    ctx.save();ctx.fillStyle = '#21363240';ctx.beginPath();ctx.ellipse(prop.x+8,prop.y-1,prop.width*.33,7,0,0,TAU);ctx.fill();
+    ctx.drawImage(this.props,...prop.rect,Math.round(prop.x-prop.width/2),Math.round(prop.y-prop.height),prop.width,prop.height);ctx.restore();
+  }
+
+  drawForeground() {
+    const ctx = this.ctx;
+    for (const polygon of foreground) {
+      ctx.save();ctx.beginPath();
+      polygon.forEach(([x,y],index) => index?ctx.lineTo(x,y):ctx.moveTo(x,y));
+      ctx.closePath();ctx.clip();ctx.drawImage(this.ground,0,0);ctx.restore();
+    }
+  }
+
+  drawMotes(time) {
+    const ctx = this.ctx;
+    for (let i=0;i<24;i++) {
+      const x = 95+(i*131+time*(3+i%3))%1480;
+      const y = 115+(i*73)%500+Math.sin(time*.9+i)*9;
+      ctx.fillStyle = i%3?'#ead88b77':'#cce8cb55';ctx.fillRect(Math.round(x),Math.round(y),2,1);
+    }
+  }
+
+  releaseVisual(event,state,actors) {
+    const from = eventPoint(event,'from',actors),to = eventPoint(event,'to',actors);
+    if (!from||!to) return null;
+    const age = (state.tick-event.atTick)*.1;
+    const duration = event.skill==='attack'?.1:.5;
+    if (age<0||age>=duration||event.skill==='ward') return null;
+    return {event,from,to,age,duration,y:mix(from.y,to.y,age/duration)};
+  }
+
+  drawRelease(visual) {
+    const {event,from,to,age,duration} = visual;
+    const ctx = this.ctx;
+    const p = clamp(age/duration);
+    const angle = Math.atan2(to.y-from.y,to.x-from.x);
+    const nx = Math.cos(angle),ny = Math.sin(angle),px = -ny,py = nx;
+    const hand = {x:from.x+nx*11,y:from.y-27+ny*8};
+    ctx.save();
+    if (event.skill==='sword'||event.skill==='attack') {
+      const q = event.skill==='attack'?.55:clamp(age/.3);
+      if (age<.3) for (let i=0;i<=52;i++) {
+        const t = i/52,a = mix(-1.45,.6,q)+t*1.5;
+        const r = 33+q*8;
+        const ahead = Math.cos(a)*r,across = Math.sin(a)*r*.82;
+        const x = hand.x+nx*ahead+px*across,y = hand.y+ny*ahead+py*across;
+        const taper = Math.sin(t*Math.PI);
+        dot(ctx,x,y,1+taper*4,'#31bad7',.8);
+        dot(ctx,x+nx,y+ny,1+taper*2,'#e7ffff',.9);
+      }
+      if (event.skill==='sword') {
+        const x = mix(hand.x,to.x,p),y = mix(hand.y,to.y-26,p);
+        for (let i=4;i>0;i--) pixelLine(ctx,x-nx*(i*6+6),y-ny*(i*6+6),x-nx*(i*6-5),y-ny*(i*6-5),2,'#31bad7',(1-i/5)*.5);
+        pixelLine(ctx,x-nx*10,y-ny*10,x+nx*10,y+ny*10,3,'#31bad7');
+        pixelLine(ctx,x-nx*6,y-ny*6,x+nx*10,y+ny*10,1,'#e7ffff');
+        pixelLine(ctx,x-nx*6-px*4,y-ny*6-py*4,x-nx*6+px*4,y-ny*6+py*4,1,'#e5c37d');
+      }
+    } else if (event.skill==='fire') {
+      const x = mix(hand.x,to.x,p),y = mix(hand.y,to.y-25,p)-Math.sin(p*Math.PI)*9;
+      for (let i=13;i>=0;i--) {
+        const f = 1-i/15,wobble = Math.sin(age*24+i*1.8)*i*.2;
+        dot(ctx,x-nx*i*2.3+px*wobble,y-ny*i*2.3+py*wobble,1+f*5,'#ef792b',f*.82);
+      }
+      dot(ctx,x,y,9,'#ef792b');dot(ctx,x+nx,y+ny,6,'#ffbe54');dot(ctx,x+nx*2,y+ny*2,3,'#fff0b0');
+    }
+    ctx.restore();
+  }
+
+  drawHit(event,time,point) {
+    const age = time-event.atTick*.1,p = clamp(age/.65);
+    if (age<0||age>=.65) return;
+    const ctx = this.ctx;
+    const fire = event.skill==='fire';
+    const palette = fire?['#ef792b','#ffbe54','#fff0b0']:['#31bad7','#95e9eb','#e7ffff'];
+    const eventSeed = seed(event.id);
+    const cx = point.x,cy = point.y-26;
+    ctx.save();
+    for (let i=0;i<(fire?26:17);i++) {
+      const a = scatter(i,eventSeed)*TAU;
+      const radius = (fire?42:28)*(.25+scatter(i+30,eventSeed)*.75)*(1-(1-p)**3);
+      const x = cx+Math.cos(a)*radius,y = cy+Math.sin(a)*radius*.7-Math.sin(p*Math.PI)*(fire?10:3);
+      dot(ctx,x,y,i%5===0?3:i%3===0?2:1,palette[i%3],(1-p)**1.4);
+      if (i%4===0) pixelLine(ctx,x,y,x-Math.cos(a)*5*(1-p),y-Math.sin(a)*3*(1-p),1,palette[1],(1-p)*.7);
+    }
+    if (p<.4) {
+      const f = 1-p/.4;
+      pixelLine(ctx,cx-10,cy-11,cx+10,cy+11,fire?3:2,palette[2],f);
+      pixelLine(ctx,cx+8,cy-10,cx-8,cy+10,1,palette[1],f);
+    }
+    ctx.restore();
+  }
+
+  drawActorBars(actors,state) {
+    const ctx = this.ctx;
+    const box = this.canvas.getBoundingClientRect();
+    for (const actor of actors) {
+      if (actor.hp<=0) continue;
+      const screen = this.worldToScreen(actor.x,actor.y-78);
+      const x = Math.round(screen.x-box.left),y = Math.round(screen.y-box.top);
+      const player = actor.id===state.playerId,selected = actor.id===state.selectedTargetId;
+      const w = selected||player?48:34,h = selected||player?4:3;
+      ctx.fillStyle = '#13252aea';ctx.fillRect(x-w/2-1,y-1,w+2,h+2);
+      ctx.fillStyle = actor.team==='red'?'#c97459':'#78b7ad';
+      ctx.fillRect(x-w/2,y,Math.round(w*clamp(actor.hp/Math.max(1,actor.maxHp))),h);
+      if (actor.shield>0) {ctx.fillStyle='#a7dce1';ctx.fillRect(x-w/2,y+h+2,Math.round(w*clamp(actor.shield/Math.max(1,actor.maxHp))),2);}
+      if (player||selected) {
+        const name = player?'掌门':actor.name;
+        if (name) {
+          ctx.font='12px "Songti SC", "Noto Serif CJK SC", serif';ctx.textAlign='center';
+          ctx.lineWidth=3;ctx.strokeStyle='#14272a';ctx.strokeText(name,x,y-6);
+          ctx.fillStyle=selected?'#f0d797':'#e4e3c9';ctx.fillText(name,x,y-6);
+        }
+      }
+    }
+  }
+
+  drawFeedback(events,time,actors) {
+    const ctx = this.ctx,box = this.canvas.getBoundingClientRect();
+    for (const event of events) {
+      if (!['hit','miss','ward'].includes(event.kind)) continue;
+      const age = time-event.atTick*.1;
+      if (age<0||age>1.05) continue;
+      const point = eventPoint(event,event.kind==='ward'?'from':'to',actors);
+      if (!point) continue;
+      const screen = this.worldToScreen(point.x,point.y-48-age*22);
+      const x = Math.round(screen.x-box.left),y = Math.round(screen.y-box.top);
+      const amount = Math.max(0,finite(event.amount));
+      const absorbed = Math.max(0,finite(event.absorbed));
+      const text = event.kind==='miss'?'失手':event.kind==='ward'?`护盾 +${Math.round(amount)}`:amount>0?`−${Math.round(amount)}`:absorbed>0?`护盾 −${Math.round(absorbed)}`:'';
+      if (!text) continue;
+      ctx.save();ctx.globalAlpha=clamp((1.05-age)/.35);ctx.textAlign='center';ctx.font=`${event.kind==='hit'?17:13}px "Songti SC", "Noto Serif CJK SC", serif`;
+      ctx.lineWidth=3;ctx.strokeStyle='#17262b';ctx.strokeText(text,x,y);
+      ctx.fillStyle=event.kind==='miss'?'#c5c5b3':event.kind==='ward'||!amount?'#a2e1df':'#ffe0ac';ctx.fillText(text,x,y);
+      if (amount>0&&absorbed>0) {ctx.font='11px "Songti SC", serif';ctx.fillStyle='#a2e1df';ctx.fillText(`盾 ${Math.round(absorbed)}`,x,y+14);}
+      ctx.restore();
+    }
+  }
+
+  render(state,{previous=null,alpha=1}={}) {
+    if (!this.ready) throw new Error('场景素材尚未加载');
+    const ctx = this.ctx,time = state.tick*.1;
+    this.constrainCamera();
+    const previousActors = new Map((previous?.actors||[]).map(actor=>[actor.id,actor]));
+    const canInterpolate = previous && previous.tick<=state.tick && previous.tick>=state.tick-1;
+    const fraction = clamp(finite(alpha,1));
+    const actors = state.actors.map(actor=>{
+      const before = canInterpolate?previousActors.get(actor.id):null;
+      return before?{...actor,x:mix(before.x,actor.x,fraction),y:mix(before.y,actor.y,fraction),distance:mix(finite(before.distance),finite(actor.distance),fraction)}:actor;
+    });
+    const actorsById = new Map(actors.map(actor=>[actor.id,actor]));
+    const events = (state.events||[]).filter(event=>Number.isFinite(event.atTick)&&event.atTick<=state.tick);
+    ctx.save();ctx.globalAlpha=1;ctx.imageSmoothingEnabled=false;
+    ctx.fillStyle='#10262c';ctx.fillRect(0,0,this.viewport.w,this.viewport.h);
+    ctx.translate(this.viewport.w/2,this.viewport.h/2);ctx.scale(this.viewport.fit*this.camera.zoom,this.viewport.fit*this.camera.zoom);ctx.translate(-this.camera.x,-this.camera.y);
+    ctx.drawImage(this.ground,0,0,WORLD.width,WORLD.height);this.drawMotes(time);
+    const activeWards = new Set(),air=[];
+    for (const event of events) {
+      if (event.kind==='ward' && state.tick-event.atTick<24) {
+        const from = eventPoint(event,'from',actorsById);
+        if (!from) continue;
+        const cacheKey = `${event.id}:${event.atTick}:${from.x}:${from.y}`;
+        activeWards.add(cacheKey);
+        let effects = this.wardEffects.get(cacheKey);
+        if (!effects) {
+          effects = new Effects();effects.cast('ward',from.x,from.y,from.x,from.y,event.atTick*.1);
+          this.wardEffects.set(cacheKey,effects);
+        }
+        effects.drawGround(ctx,time);air.push({y:from.y+.2,draw:()=>effects.drawAir(ctx,time)});
+      }
+      if (event.kind==='release') {
+        const visual = this.releaseVisual(event,state,actorsById);
+        if (visual) air.push({y:visual.y+.2,draw:()=>this.drawRelease(visual)});
+      }
+      if (event.kind==='hit' && state.tick-event.atTick<7) {
+        const to = eventPoint(event,'to',actorsById);
+        if (to) air.push({y:to.y+.3,draw:()=>this.drawHit(event,time,to)});
+      }
+    }
+    for (const key of this.wardEffects.keys()) if (!activeWards.has(key)) this.wardEffects.delete(key);
+    const player = actorsById.get(state.playerId),destination = player?.path?.at(-1);
+    if (destination && player.hp>0) {ctx.save();ring(ctx,destination.x,destination.y,12,pixelColor.gold,.75);ctx.restore();}
+    const layers = [
+      ...actors.map(actor=>({y:actor.y,draw:()=>this.drawActor(actor,state)})),
+      ...garden.map(prop=>({y:prop.y,draw:()=>this.drawProp(prop)})),...air
+    ].sort((a,b)=>a.y-b.y);
+    for (const layer of layers) layer.draw();
+    this.drawForeground();ctx.restore();
+    this.drawActorBars(actors,state);this.drawFeedback(events,time,actorsById);
+  }
+}

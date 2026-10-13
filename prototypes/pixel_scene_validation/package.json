@@ -1,0 +1,12 @@
+{
+  "name": "yunxiu-pixel-arena",
+  "private": true,
+  "version": "0.1.0",
+  "description": "云岫山院·演武",
+  "type": "module",
+  "main": "desktop.cjs",
+  "scripts": {
+    "start": "electron ."
+  },
+  "devDependencies": { "electron": "39.2.7" }
+}

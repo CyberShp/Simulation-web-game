@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; connect-src 'self'; media-src 'self' blob:">
+  <title>云岫山院 · 像素场景</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="scene" aria-label="云岫山院像素场景，WASD或点击地面行走，数字1至3施法"></canvas>
+  <div id="loading">正在进入云岫山院…</div>
+  <nav aria-label="场景控制">
+    <button id="auto" title="重新播放自动演示">自动游览</button>
+    <button id="pause" title="空格暂停或继续">暂停</button>
+    <button id="overview" title="全景镜头">全景</button>
+  </nav>
+  <script type="module" src="main.mjs"></script>
+</body>
+</html>

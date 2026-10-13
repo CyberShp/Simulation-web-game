@@ -99,6 +99,7 @@ SR-XF-013-D01证据：docs/design/20-ARTS-GROWTH-COMBAT.md（抗性与平衡首�
 - tests/ea-mountain-first-combat.test.mjs
 - tests/ea-godot-valley-projection.test.mjs
 - docs/art/OPENING-CHAIN-2026-10-12.md；2026-10-12 U-124：同一普通新档引风术、护持、受伤撤退与归院用药；战斗收势阶段存读保持。 仅增局部证据，完整 SR/AC 状态保持。
+- 2026-10-14 U-135 / R-41 / T-14：用户认可 U-134 高清像素实机并要求保持设计，以目标模式接续独立桌面演武。普攻及剑气／火诀／护阵接入消耗、冷却、范围、遮挡、落点失手和真实伤害；规则 14／14、最终打包应用集成 13／13 覆盖忙碌拒绝不重复消费、组队胜利、单挑失败、结果冻结与收招离场。原生键鼠剑气使敌方气血 100→66，护阵 50、持续及冷却倒数可见。局部证据见 docs/art/hd-pixel-20261014/ARENA-RUNTIME.md；最终记录 /Volumes/Media/immortal-qa/pixel-arena-20261014/ 下 final-run-3/metrics.json、restart-final/ 与 native-final/。源码与素材随本批源码检查点保存；正式规则完整移植、大地图、正式人物与存档、Windows 和完整 SR/AC 另验，D/I/V/R 与 AC 状态保持。
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。

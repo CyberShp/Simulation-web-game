@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; media-src 'self' blob:; object-src 'none'; base-uri 'none'"><title>云岫山院 · 演武</title><link rel="stylesheet" href="arena.css"></head>
+<body>
+<canvas id="scene" aria-label="云岫山院演武场"></canvas>
+<header class="plaque"><h1>云岫山院</h1><p>庭 中 演 武 <span id="battle-time">00:00</span></p></header>
+<nav aria-label="演武操作"><button id="overview">全景</button><button id="pause">暂停 · 空格</button><button id="save">保存</button><button id="leave">退出演武</button></nav>
+<div id="target" class="target panel" hidden><span id="target-name"></span><span id="target-hp"></span><div class="meter"><i id="target-fill"></i></div></div>
+<div id="notice" role="status" aria-live="polite"></div>
+<div id="pause-note" class="pause-note" hidden>静观中 · 可选择目标并预排一项行动</div>
+<section class="hero panel" aria-label="掌门状态"><div class="hero-title"><strong>沈砚</strong><span id="hero-status">青岚剑修</span></div><div class="meter hp"><i id="hp-fill"></i><span id="hp-text"></span></div><div class="meter qi"><i id="qi-fill"></i><span id="qi-text"></span></div><small id="shield-text">演武以切磋为限</small></section>
+<section class="hotbar" aria-label="技能栏"><div id="slots"></div><p>WASD / 点地行走　Tab 选敌　双击敌人 / F 普攻　1–3 施法</p></section>
+<aside class="summary panel"><strong id="teams">同门切磋</strong><p id="battle-mode">十六人演武</p><small id="save-state">独立演武存档</small></aside>
+<section id="menu" class="overlay"><div class="menu panel"><p class="eyebrow">云岫 · 练武坪</p><h2 id="menu-title">庭中演武</h2><p id="menu-copy">结伴入庭，以剑会友。只需掌控沈砚，同门会自行配合。</p><div id="start-actions" class="actions"><button id="start-team" class="primary">十六人演武</button><button id="start-duel">一对一切磋</button><button id="start-auto">观看自动演武</button><button id="continue" hidden>继续上次演武</button></div><div id="end-actions" class="actions" hidden><button id="again" class="primary">再来一场</button><button id="back-menu">返回庭前</button></div><p id="load-warning" class="warning" hidden></p><div class="help"><span>点选敌人后施法，留意调息与灵气。</span><span>空格暂停布置，滚轮缩放，右键拖动画面。</span></div><a href="/index.html">山院自动游览 →</a></div></section>
+<div id="loading">正在入院…</div>
+<script type="module" src="arena-boot.mjs"></script>
+</body></html>
