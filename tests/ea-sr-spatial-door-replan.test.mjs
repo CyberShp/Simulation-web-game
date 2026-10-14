@@ -16,7 +16,14 @@ test('SR-XF-003-AC-01: completed construction keeps the door open and replans ar
  const reload=()=>{const raw=JSON.stringify(s);s=SIM.validateSave(JSON.parse(raw));assert.equal(JSON.stringify(s),raw);reloads++;};
  const walk=(x,y)=>{assert.equal(act('moveScenicMaster',x,y),true);const route=s.master.scenic.path.map(point=>({...point}));let previous={x:s.master.scenic.x,y:s.master.scenic.y};for(const point of route){assert.equal(meterSweep(s,previous,point).blocked,false);previous=point;}until(state=>state.master.scenic.path.length===0,'public walk completes');assert(Math.hypot(s.master.scenic.x-x,s.master.scenic.y-y)<.001);return route;};
 
- act('acknowledgeIntro');act('masterAction','heal');until(state=>state.master.wound===0,'opening treatment completes');
+ act('acknowledgeIntro');act('masterAction','heal');
+ assert.equal(s.story.opening.inheritance.status,'pending','first treatment opens the inheritance choice');
+ const pending=JSON.stringify(s),herb=s.resources.herb;
+ SIM.tick(s,300);assert.equal(JSON.stringify(s),pending,'the world waits for the inheritance choice');
+ reload();
+ act('chooseOpeningInheritance','qinglan');
+ assert.equal(s.resources.herb,herb,'choosing after reload does not charge treatment twice');
+ until(state=>state.master.wound===0,'opening treatment completes');
  assert.deepEqual(meterFindPath(s,{x:24,y:18},{x:34,y:18},{maxSnap:0}),[{x:34,y:18}],'open land has a direct route before construction');
  const order=act('build','house',26,16);until(state=>state.spatial.completedOrders.some(done=>done.id===order.workOrderId&&done.phase==='completed'),'house construction completes');
  reload();
@@ -29,5 +36,5 @@ test('SR-XF-003-AC-01: completed construction keeps the door open and replans ar
  const bypass=walk(34,18);assert(bypass.some(point=>point.y<16||point.y>22),'route passes outside the building footprint');
  reload();assert.equal(s.buildings.find(building=>building.id===order.id).instanceId,house.instanceId);
  assert.equal(s.master.scenic.x,34);assert.equal(s.master.scenic.y,18);
- assert.equal(commands,6);assert.equal(reloads,2);
+ assert.equal(commands,7);assert.equal(reloads,3);
 });

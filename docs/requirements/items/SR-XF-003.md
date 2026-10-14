@@ -54,7 +54,7 @@ SR-XF-003-REQ-03：总览、分区近景、缩放与营造保持选中身份；�
 | SR-XF-003-AC-02 | 同一山域的五阶段总览、分区近景及触点缩放切换 | Z-01–07 的地域和选中对象对应同一世界位置；人物与门比例统一，布局和镜头切换不改身份、时间或资源。 | not_run |
 | SR-XF-003-AC-03 | 有来源旧坐标/96米布局样本加载到山域地域与建位布局 | 旧位置与稳定建筑/工位引用有确定映射，可恢复兼容位置有记录；人物、时间、资产和既有活动保留，未知布局安全拒载。 | not_run |
 
-SR-XF-003-AC-01证据：tests/ea-sr-spatial-door-replan.test.mjs；qa/ea-sr-spatial-acceptance.mjs；docs/design/STATUS.md
+SR-XF-003-AC-01证据：tests/ea-sr-spatial-door-replan.test.mjs；qa/ea-sr-spatial-acceptance.mjs；docs/design/STATUS.md；2026-10-15：tests/ea-sr-spatial-door-replan.test.mjs 按U-115补齐公开择法，2/2；同档7条成功命令、1条拒绝、3次精确重载。设施与出口回归19/19，含真实堵路存档。记录见 docs/art/pixel-courtyard-prototype-20261014/RUNTIME.md。
 
 SR-XF-003-AC-02证据：局部：qa/ea-sr-spatial-acceptance.mjs（生产Canvas：总览按钮聚焦、同号对象与标签、显式触点逆投影及状态只读）；局部：tests/map-input.test.mjs（双触点中点与取消）；局部：docs/design/STATUS.md（隔离真实浏览器鼠标/合成触控步骤、截图路径及未覆盖范围）；局部：qa/ea-sr003-outer-camera-acceptance.mjs；局部：qa/ea-sr-ui-acceptance.mjs；局部：2026-10-08 r21 青溪坊市与驻棚真实浏览器显式总览→选中建筑→回近景；坊市保存刷新续读，根复跑镜头5/5与UI17/17；门位画稿、目标设备未覆盖。
 
@@ -181,6 +181,7 @@ SR-XF-003-V01证据：qa/ea-indoor-furniture-acceptance.mjs；qa/ea-courtyard-li
 - 2026-10-14 U-138 山门接续修整：固定坐标实色补画接通松石、流水、石阶与栏杆，边界按对应纹理接合；同机位及左右2.25倍实机复核确认叠影和整条横向接线消除。渲染6/6，最终可见macOS包verified-run行程22/22、错误0；最终规则快照与上一批逐字段一致。证据见 docs/art/hd-pixel-trail-20261014/STAIR-CONNECTION.md。本批为局部美术修复，完整SR/AC状态保持。
 - 2026-10-15 U-143：山域总图方向与保真制作流程获确认，生成并静态复核1672×941山院近景母稿，主殿、药田、两人及东/西/后/南道路可见。docs/art/pixel-courtyard-prototype-20261014/README.md 记录原图、提示词与实际尺寸；图稿待用户认可，素材分层、首屏实机还原与运行验收待完成，完整D/I/V/R及AC状态保持。
 - 2026-10-15 U-144：用户确认按courtyard-v2.png还原。首屏采用原尺寸环境与独立人物、正式米制事实及同一模拟，实走、点选、原稿对照与存读的局部证据见 docs/art/pixel-courtyard-prototype-20261014/RUNTIME.md。用户实机美术认可、相邻地区、经营长验与Windows继续分别接续；完整D/I/V/R和AC状态保持。 最终macOS首屏94/94、70.029秒自主观察701次采样及原生输入/旧候选存档升级已复核，运行错误0；环境1,447,576像素比较差异0（排除状态与补画区）。
+- 2026-10-15 门道回归修复：按 U-115 补齐旧测试的首次疗伤择法步骤，验证择法前世界暂停、精确存读及草药不重复扣除，再执行原有营造、穿门、拒绝堵门、绕墙与存读断言。门道2/2、设施16/16、主殿与药田出口3/3，共21/21、失败0、跳过0；后者包含两份真实堵路存档恢复。本次仅修改测试与记录，运行规则、桌面包及完整SR/AC状态保持。 详见 docs/art/pixel-courtyard-prototype-20261014/RUNTIME.md。
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。

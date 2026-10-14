@@ -49,7 +49,11 @@
 
 读档失败保护另用实际桌面窗口验证：错误JSON显示读取失败，等待32秒后关闭，原文件32字节及SHA-256保持不变。记录在 `/Volumes/Media/immortal-qa/courtyard-master-20261015/corrupt-preserve/`；这是源码入口的针对性检查。
 
-相关旧测试 `tests/ea-sr-spatial-door-replan.test.mjs` 在开局疗伤前置条件 `opening treatment completes` 失败，尚未执行其建造门道断言。在保留其余工作区增量、仅移除本批首屏地形改动的临时副本中复现相同失败；本批未修改该旧问题。当前与基线日志及复现办法见上述空间证据目录的 `door-replan-current.log`、`door-replan-baseline.log`、`baseline-reproduction.md`。
+首屏首批验证时，旧测试 `tests/ea-sr-spatial-door-replan.test.mjs` 停在 `opening treatment completes`，其建造门道断言当时未执行。移除首屏地形改动的临时副本也有相同失败，历史日志见上述空间证据目录的 `door-replan-current.log`、`door-replan-baseline.log`、`baseline-reproduction.md`。
+
+2026-10-15 继续修复：确认旧测试缺少 U-115 的公开择法命令。首次疗伤后传承为 `pending`，模拟保持世界步0、伤势30；公开选择青岚后在第190步伤愈。测试已补齐选择前整档暂停不变、精确存读、选择后不再扣草药的断言；同一新档继续完成门人居营造、穿门到床位、堵门营造拒绝且状态不变、绕墙和两次后续存读。共7条成功公开命令、1条拒绝、3次精确重载，原施工和通行断言保留。
+
+此次对应 SR-XF-003-AC-01、U-115 及32/05的择法与存档契约，只修测试前置和验证记录。Node定向检查：门道2/2、设施16/16、主殿/药田出口3/3，共21/21，失败0、跳过0；出口回归显式加载 `/Volumes/Media/immortal-qa/u124-chain/` 的 `hall-blocked.json`、`farm-blocked.json`。日志为 `/Volumes/Media/immortal-qa/door-replan-20261015/targeted.log`。独立复核确认原断言保留，并复跑门道2/2。运行源码与桌面包保持原版本，本次组件结果不新增实机画面或Windows验证。
 
 ## 陶罐修正与最终v2包
 
