@@ -266,6 +266,12 @@ export async function createTrailQA({ scenario, sceneSettings, host, api }) {
         && JSON.stringify(file.data) === JSON.stringify(pausedSnapshot)
         && JSON.stringify(state) === JSON.stringify(pausedSnapshot), { tick: state.tick, playerY: player(state).y });
       await capture('trail-02-restored-path.png');
+      document.getElementById('overview').click();
+      for(const [side,x] of [['west',350],['east',1320]]){
+        api.renderer.camera={x,y:1040,zoom:2.25};api.renderer.constrainCamera();
+        await capture(`trail-02-${side}-detail.png`);
+      }
+      document.getElementById('follow').click();
       api.renderer.camera = previousCamera;
       api.setAutoplay(true);
       api.setPaused(false);

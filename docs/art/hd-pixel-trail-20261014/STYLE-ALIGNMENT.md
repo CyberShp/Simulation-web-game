@@ -1,5 +1,7 @@
 # 原山院风格统一 · 2026-10-14
 
+当前山门接缝已补画接续，最新应用和放大复核见[山门石阶与松石接续](STAIR-CONNECTION.md)。下文为前一批材质统一的受验记录。
+
 用户明确“保留上面的风格”，按 U-138 以原山院 `courtyard-v1.png` 为美术参照。新增林道和谷地已重绘为细密松针、灰青裂岩、暖灰石板及小型花草；当前运行素材为 [trail-terrain-v5.png](../../../prototypes/pixel_scene_validation/assets/trail-terrain-v5.png)，生成来源见 [STYLE-PROMPT.md](STYLE-PROMPT.md)。四份既有山院、人物及道具素材保持逐字节一致。
 
 ## 当前桌面入口

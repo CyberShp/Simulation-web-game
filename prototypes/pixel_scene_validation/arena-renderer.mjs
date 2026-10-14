@@ -1,4 +1,5 @@
 import { Effects } from './effects.mjs';
+import { trailConnection } from './trail-stair-connection.mjs';
 
 const BASE_VIEW = Object.freeze({width:1672,height:941});
 const TRAIL_WORLD = Object.freeze({width:1672,height:2823});
@@ -126,25 +127,23 @@ export class ArenaRenderer {
   }
 
   async load() {
-    const [ground,people,props,disciples,trail] = await Promise.all([
+    const [ground,people,props,disciples,trail,connection] = await Promise.all([
       loadImage('assets/courtyard-v1.png'),loadImage('assets/cultivator-v1.png'),
       loadImage('assets/garden-props-v1.png'),loadImage('assets/disciples-v1.png'),
-      loadImage('assets/trail-terrain-v5.png')
+      loadImage('assets/trail-terrain-v5.png'),loadImage('assets/trail-stair-connection-v1.png')
     ]);
     this.ground = ground; this.props = props; this.trail = trail;
-    // Cache the foliage overlap with a soft alpha edge; texture pixels stay sharp.
+    // The connecting terrain is painted in the same fixed world coordinates.
     this.trailEdge = document.createElement('canvas');
-    this.trailEdge.width = 1672; this.trailEdge.height = 252;
+    const {width,height,step,top,bottom}=trailConnection;
+    this.trailEdge.width = width; this.trailEdge.height = height;
     const edge = this.trailEdge.getContext('2d');
-    const mask = document.createElement('canvas'); mask.width=1672; mask.height=252;
-    const alpha = mask.getContext('2d');
-    alpha.filter='blur(8px)'; alpha.fillStyle='#fff';
-    const edges=[[[0,840],[640,840],[640,941],[610,958],[590,986],[540,976],[520,1002],[460,995],[410,1020],[355,1005],[325,1030],[260,1018],[220,1050],[170,1032],[120,1055],[60,1040],[0,1060]],[[1035,840],[1672,840],[1672,1020],[1620,1036],[1560,1008],[1510,1030],[1470,1000],[1410,1022],[1350,995],[1300,1013],[1240,989],[1180,1008],[1120,970],[1085,981],[1035,941]]];
-    for(const points of edges){alpha.beginPath();points.forEach(([x,y],i)=>i?alpha.lineTo(x,y-824):alpha.moveTo(x,y-824));alpha.closePath();alpha.fill();}
     edge.imageSmoothingEnabled=false;
-    edge.drawImage(ground,0,810*ground.naturalHeight/941,ground.naturalWidth,131*ground.naturalHeight/941,0,16,1672,220);
-    edge.globalCompositeOperation='destination-in';edge.drawImage(mask,0,0);
-    edge.globalCompositeOperation='source-over';
+    edge.beginPath();
+    top.forEach((y,i)=>i?edge.lineTo(i*step,y):edge.moveTo(0,y));
+    for(let i=bottom.length-1;i>=0;i--)edge.lineTo(i*step,bottom[i]);
+    edge.closePath();edge.clip();
+    edge.drawImage(connection,0,0,width,height);
     this.sprites = frames.map((frame,index) => sprite(people,frame,index>=4&&index<=7?.237:.217));
     this.discipleSprites = discipleFrames.map(frame => sprite(disciples,frame,.159));
     this.minimapSurface = document.createElement('canvas');
@@ -154,6 +153,7 @@ export class ArenaRenderer {
     map.imageSmoothingEnabled = false;
     map.drawImage(ground,0,0,132,223/3);
     map.drawImage(trail,0,223/3,132,223*2/3);
+    map.drawImage(this.trailEdge,0,trailConnection.y*223/2823,132,height*223/2823);
     this.ready = true;
     return this;
   }
@@ -240,7 +240,8 @@ export class ArenaRenderer {
     this.drawPlate(this.ground,0,0,BASE_VIEW.width,BASE_VIEW.height,view);
     if (isTrailMode(this.mode)) {
       this.drawPlate(this.trail,0,BASE_VIEW.height,TRAIL_WORLD.width,TRAIL_WORLD.height-BASE_VIEW.height,view);
-      if (view.y<1076&&view.y+view.h>824) this.drawPlate(this.trailEdge,0,824,1672,252,view);
+      const {x,y,width,height}=trailConnection;
+      if (view.y<y+height&&view.y+view.h>y) this.drawPlate(this.trailEdge,x,y,width,height,view);
     }
   }
 

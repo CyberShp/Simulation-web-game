@@ -1346,7 +1346,7 @@
     "trailArtApproval": "pending-user-runtime-review",
     "styleReferenceDecisionId": "U-138",
     "styleReferenceAsset": "prototypes/pixel_scene_validation/assets/courtyard-v1.png",
-    "styleAlignmentEvidence": "docs/art/hd-pixel-trail-20261014/STYLE-ALIGNMENT.md"
+    "styleAlignmentEvidence": "docs/art/hd-pixel-trail-20261014/STAIR-CONNECTION.md"
   },
   "currentHandoff": {
     "updatedAt": "2026-10-14",
@@ -1400,7 +1400,7 @@
     "currentVisualStyleDecisionId": "U-138",
     "currentVisualStylePrototype": "docs/art/hd-pixel-20261014/RUNTIME.md",
     "currentVisualStyleStatus": "courtyard-reference-trail-materials-aligned-awaits-user-review",
-    "currentVisualStyleEvidence": "docs/art/hd-pixel-trail-20261014/STYLE-ALIGNMENT.md",
+    "currentVisualStyleEvidence": "docs/art/hd-pixel-trail-20261014/STAIR-CONNECTION.md",
     "currentVisualStyleVariantCount": 1,
     "currentPlatformDecisionId": "U-128",
     "currentDeliveryPlatform": "desktop",
