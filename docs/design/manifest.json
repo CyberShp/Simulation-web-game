@@ -199,6 +199,10 @@
     {
       "path": "docs/design/43-PIXEL-ARENA-SLICE.md",
       "role": "pixel-desktop-arena-slice-clock-command-save-and-acceptance"
+    },
+    {
+      "path": "docs/design/44-PIXEL-TRAIL-SLICE.md",
+      "role": "pixel-desktop-continuous-trail-slice"
     }
   ],
   "taskRead": {
@@ -1312,22 +1316,22 @@
     "primaryPlatform": "Windows",
     "initialValidationPlatform": "macOS",
     "rendering": "pure-2d-high-definition-pixel-art",
-    "prototypeKind": "desktop-pixel-arena",
-    "prototypeReference": "docs/art/hd-pixel-20261014/ARENA-RUNTIME.md",
+    "prototypeKind": "desktop-pixel-trail",
+    "prototypeReference": "docs/art/hd-pixel-trail-20261014/RUNTIME.md",
     "prototypeFiles": [
       "prototypes/pixel_scene_validation/arena.html"
     ],
-    "prototypeStatus": "local-arena-implemented-macos-package-verified",
-    "userArtApproval": "accepted",
-    "runtimeImplementation": "independent-local-arena-implemented",
-    "runtimeEvidence": "docs/art/hd-pixel-20261014/ARENA-RUNTIME.md",
+    "prototypeStatus": "local-trail-implemented-macos-package-verified",
+    "userArtApproval": "courtyard-accepted-trail-pending",
+    "runtimeImplementation": "independent-local-trail-implemented",
+    "runtimeEvidence": "docs/art/hd-pixel-trail-20261014/RUNTIME.md",
     "publicationStatus": "local-desktop-build-source-checkpoint",
     "preserveExistingAssetsAndEvidence": true,
     "closesWholeRequirements": false,
     "platformDecisionId": "U-128",
     "spatialAndCombatDecisionId": "U-127",
     "validationDecisionId": "U-134",
-    "runtimeValidation": "29-component-tests-13-packaged-macos-integration-checks-native-input-background-and-cross-process-verified",
+    "runtimeValidation": "45-component-checks-22-packaged-visible-macos-checks",
     "runtimeTechnique": "canvas2d-electron",
     "runtimeSource": "prototypes/pixel_scene_validation/",
     "staticPrototypeFiles": [
@@ -1336,7 +1340,10 @@
     ],
     "userArtApprovalDecisionId": "U-135",
     "approvedRuntimeEvidence": "docs/art/hd-pixel-20261014/RUNTIME.md",
-    "currentRuntimeDecisionId": "U-135"
+    "currentRuntimeDecisionId": "U-136",
+    "pixelGrainDecisionId": "U-137",
+    "pixelGrain": "finer-one-step-clear-pixel-contours",
+    "trailArtApproval": "pending-user-runtime-review"
   },
   "currentHandoff": {
     "updatedAt": "2026-10-14",
@@ -1344,15 +1351,15 @@
     "handoff": "docs/CODEX-HANDOFF.md",
     "deliveryPlan": "docs/DELIVERY-PLAN.md",
     "engineMigration": "docs/GODOT-MIGRATION.md",
-    "artTrial": "docs/art/hd-pixel-20261014/ARENA-RUNTIME.md",
-    "currentArtDecisionId": "U-135",
+    "artTrial": "docs/art/hd-pixel-trail-20261014/RUNTIME.md",
+    "currentArtDecisionId": "U-137",
     "actualStatus": "docs/design/STATUS.md",
     "requirements": "docs/requirements/registry.json",
     "decisionLedger": "docs/design/DECISIONS.md",
     "appliesTo": "all agents, including Sol high and extra-high reasoning settings",
     "workingTree": "/Volumes/Media/immortal",
     "preserveUncommittedChanges": true,
-    "sourceBaseCommit": "473e9fdf027e1b800eef75ee70fd8d27e0fe7db2",
+    "sourceBaseCommit": "8fd91bd360605821a9fe41b26517adc5692d3fd9",
     "scopePerBatch": [
       "SR and AC",
       "design clause and U/R/T",
@@ -1381,37 +1388,37 @@
     "currentOpeningAcceptanceStatus": "single-normal-new-save-local-chain-verified-public-opening-smoke-verified",
     "currentCharacterDialogueDecisionId": "U-125",
     "currentCharacterDialogueReference": "docs/design/42-CHARACTER-DIALOGUE.md",
-    "currentSequence": "review-playable-pixel-arena",
+    "currentSequence": "review-continuous-pixel-trail",
     "currentArtsLedger": "docs/design/28-FIVE-CONTINENT-ARTS-LEDGER.md",
     "estateSourceScene": "godot/estate_2d/estate.tscn",
     "estateSiteLayout": "godot/estate_2d/estate-sites.json",
     "estatePreview": "dist/painted-game/index.html",
     "currentOpeningGuidanceEvidence": "docs/art/OPENING-GUIDANCE-2026-10-13.md",
-    "currentVisualStyleDecisionId": "U-135",
+    "currentVisualStyleDecisionId": "U-137",
     "currentVisualStylePrototype": "docs/art/hd-pixel-20261014/RUNTIME.md",
-    "currentVisualStyleStatus": "user-accepted-runtime-art",
+    "currentVisualStyleStatus": "approved-courtyard-finer-grain-trail-awaits-review",
     "currentVisualStyleEvidence": "docs/art/hd-pixel-20261014/RUNTIME.md",
     "currentVisualStyleVariantCount": 1,
     "currentPlatformDecisionId": "U-128",
     "currentDeliveryPlatform": "desktop",
     "currentPrimaryPlatform": "Windows",
     "currentInitialValidationPlatform": "macOS",
-    "currentDesktopMigrationStatus": "independent-arena-slice-implemented-formal-game-migration-pending",
+    "currentDesktopMigrationStatus": "independent-trail-slice-implemented-formal-game-migration-pending",
     "currentCombatDecisionId": "U-127",
     "currentCombatTarget": "large-scene-multiple-actors-realtime-skill-cooldowns",
-    "currentCombatExpansionStatus": "independent-arena-slice-implemented-macos-verified",
+    "currentCombatExpansionStatus": "16-32-actor-trail-macos-verified",
     "currentCombatPrototypeCount": 2,
-    "currentRendererTrialDecisionId": "U-135",
+    "currentRendererTrialDecisionId": "U-136",
     "currentRendererTrial": "canvas2d-electron",
     "currentRendererTrialSource": "prototypes/pixel_scene_validation/",
     "currentAutoplaySampleCount": 1,
     "currentReferenceScene": "prototypes/pixel_scene_validation/arena.html",
     "currentAssetGallery": null,
-    "currentPrototypeKind": "desktop-pixel-arena",
+    "currentPrototypeKind": "desktop-pixel-trail",
     "currentPrototypeFiles": [
       "prototypes/pixel_scene_validation/arena.html"
     ],
-    "currentDesktop2DRuntimeStatus": "independent-local-arena-implemented-macos-package-verified",
+    "currentDesktop2DRuntimeStatus": "independent-local-trail-implemented-macos-package-verified",
     "currentSceneValidationDecisionId": "U-134",
     "staticPrototypeFiles": [
       "docs/art/hd-pixel-20261014/courtyard-battle.png",
@@ -1456,6 +1463,19 @@
       "backgroundClock": "verified-no-catchup",
       "evidenceRoot": "/Volumes/Media/immortal-qa/pixel-arena-20261014/",
       "windows": "not-run"
+    },
+    "currentTrailReference": "docs/design/44-PIXEL-TRAIL-SLICE.md",
+    "currentTrailEvidence": "docs/art/hd-pixel-trail-20261014/RUNTIME.md",
+    "currentTrailApp": "/Volumes/Media/immortal-qa/pixel-trail-20261014/云岫山院·近山试行.app",
+    "currentTrailValidation": {
+      "components": 45,
+      "visiblePackagedChecks": 22,
+      "runtimeErrors": 0,
+      "evidenceRoot": "/Volumes/Media/immortal-qa/pixel-trail-20261014/",
+      "windows": "not-run",
+      "nativeInput": "verified-movement-map-zoom-pause-save",
+      "backgroundClock": "verified-tick-583-no-catchup",
+      "crossProcessRestore": "32-actors-exact-paused-snapshot-and-continued-movement"
     }
   },
   "characterDialogue": {

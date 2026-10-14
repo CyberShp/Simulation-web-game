@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Package Yunxiu Arena with its local Electron runtime and 2D assets."""
+"""Package Yunxiu Trail with its local Electron runtime and 2D assets."""
 import argparse
 import plistlib
 import shutil
@@ -9,7 +9,7 @@ from pathlib import Path
 
 parser = argparse.ArgumentParser()
 parser.add_argument("destination", nargs="?", type=Path,
-                    default=Path("/Volumes/Media/immortal-qa/pixel-arena-20261014/云岫山院·演武.app"),
+                    default=Path("/Volumes/Media/immortal-qa/pixel-trail-20261014/云岫山院·近山试行.app"),
                     help="New macOS .app destination")
 args = parser.parse_args()
 root = Path(__file__).resolve().parent
@@ -46,8 +46,8 @@ plist_path = bundle / "Contents/Info.plist"
 with plist_path.open("rb") as handle:
     plist = plistlib.load(handle)
 plist.update(
-    CFBundleName="云岫山院·演武",
-    CFBundleDisplayName="云岫山院·演武",
+    CFBundleName="云岫山院·近山试行",
+    CFBundleDisplayName="云岫山院·近山试行",
     CFBundleIdentifier="games.xianfu.pixel-arena",
 )
 with plist_path.open("wb") as handle:

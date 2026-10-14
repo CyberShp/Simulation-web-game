@@ -1,7 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { clearLine, isWalkable } from './world.mjs';
-import { TICK_SECONDS, SKILLS, createBattle, command, advanceBattle, snapshot, validateBattle, serializeBattle, restoreBattle } from './arena-sim.mjs';
+import { TICK_SECONDS, SKILLS, createBattle, command, advanceBattle, snapshot, validateBattle, serializeBattle, restoreBattle, battleWorld } from './arena-sim.mjs';
+import { TRAIL_LANDMARKS, TRAIL_ARRIVAL, isTrailArrival } from './trail-world.mjs';
 
 const master = state => state.actors.find(actor => actor.id === 'master');
 const red = state => state.actors.find(actor => actor.id === 'red-1');
@@ -13,6 +14,24 @@ function duel({ targetX = 860, targetY = 600, ai = false } = {}) {
   return state;
 }
 const cast = (state, skill, targetId = 'red-1') => command(state, { type: 'cast', skill, targetId });
+
+function driveTrail(state) {
+  const actor = master(state);
+  if (state.status !== 'active' || state.paused || actor.action) return;
+  if (state.trail.phase !== 'combat') {
+    if (!actor.path.length) command(state, { type: 'move', target: state.trail.phase === 'return' ? TRAIL_LANDMARKS.home : TRAIL_LANDMARKS.valley });
+    return;
+  }
+  if (state.tick % 5) return;
+  const target = state.actors.filter(other => other.team === 'red' && other.hp > 0)
+    .sort((a, b) => Math.hypot(a.x - actor.x, a.y - actor.y) - Math.hypot(b.x - actor.x, b.y - actor.y))[0];
+  if (!target) return;
+  if (actor.shield <= 0 && cast(state, 'ward').ok) return;
+  const range = Math.hypot(target.x - actor.x, target.y - actor.y);
+  if (range <= 320 && cast(state, 'fire', target.id).ok) return;
+  if (range <= 260 && cast(state, 'sword', target.id).ok) return;
+  command(state, { type: 'attack', targetId: target.id });
+}
 
 test('battle starts from valid fixed identities and only master accepts direct orders', () => {
   assert.equal(TICK_SECONDS, .1);
@@ -320,4 +339,176 @@ test('bad versions, unsafe positions, invalid action stages and references rejec
   restored.actors[0].hp--;
   assert.notDeepEqual(restored, state);
   assert.throws(() => restoreBattle('{oops'));
+});
+
+test('trail modes retain stable 16/32 identities and old arena snapshots restore without new fields', () => {
+  for (const mode of ['team', 'duel', 'trail', 'trail32']) {
+    const state = createBattle({ mode });
+    assert.deepEqual(restoreBattle(serializeBattle(state)), state);
+    assert.equal(state.actors.length, mode === 'duel' ? 2 : mode === 'trail32' ? 32 : 16);
+    assert.equal(new Set(state.actors.map(actor => actor.id)).size, state.actors.length);
+    assert.equal(new Set(state.actors.map(actor => `${actor.x},${actor.y}`)).size, state.actors.length);
+    assert.equal(battleWorld(state).world.height, mode.startsWith('trail') ? 2823 : 941);
+    if (!mode.startsWith('trail')) assert.equal(Object.hasOwn(state, 'trail'), false);
+  }
+  const state = createBattle({ mode: 'trail32' });
+  for (const mutate of [s => s.trail.phase = 'unknown', s => s.trail.returnRadius = 1000, s => s.trail.home.y = 700, s => s.actors[1].id = 'blue-16', s => s.actors[0].y = 2830]) {
+    const invalid = snapshot(state);
+    mutate(invalid);
+    assert.throws(() => restoreBattle(invalid), /存档无效/);
+  }
+});
+
+test('sixteen actors walk out, fight autonomously and keep the same health and identities until returning home', () => {
+  const state = createBattle({ mode: 'trail' });
+  const identities = state.actors.map(actor => actor.id), initialEnemies = state.actors.filter(actor => actor.team === 'red').map(actor => ({ id: actor.id, x: actor.x, y: actor.y }));
+  command(state, { type: 'start' });
+  const phases = new Set(), damageTeams = new Set();
+  let maxY = 0, returnHp = null, tickBeforeReturn = null;
+  for (let i = 0; i < 800 && state.status === 'active'; i++) {
+    driveTrail(state);
+    advanceBattle(state);
+    assert.equal(validateBattle(state), true);
+    maxY = Math.max(maxY, master(state).y);
+    phases.add(state.trail.phase);
+    if (state.trail.phase === 'outbound') {
+      assert.deepEqual(state.actors.filter(actor => actor.team === 'red').map(actor => ({ id: actor.id, x: actor.x, y: actor.y })), initialEnemies);
+      assert.equal(state.events.some(event => event.kind === 'hit'), false);
+    }
+    for (const event of state.events.filter(event => event.kind === 'hit')) damageTeams.add(state.actors.find(actor => actor.id === event.sourceId).team);
+    if (state.trail.phase === 'return' && returnHp === null) {
+      returnHp = master(state).hp;
+      tickBeforeReturn = state.tick;
+      assert.equal(state.status, 'active');
+      assert.ok(Math.hypot(master(state).x - 820, master(state).y - 650) > 50);
+      assert.equal(state.actors.some(actor => actor.team === 'red' && actor.hp > 0), false);
+    }
+  }
+  assert.deepEqual([...phases], ['outbound', 'combat', 'return']);
+  assert.deepEqual([...damageTeams].sort(), ['blue', 'red']);
+  assert.equal(state.status, 'victory');
+  assert.ok(maxY > 1882);
+  assert.ok(state.tick > tickBeforeReturn + 100);
+  assert.ok(Math.hypot(master(state).x - 820, master(state).y - 650) <= 50);
+  assert.equal(master(state).hp, returnHp);
+  assert.deepEqual(state.actors.map(actor => actor.id), identities);
+  assert.ok(state.actors.filter(actor => actor.team === 'blue' && actor.id !== 'master').every(actor => actor.distance > 1000));
+  assert.equal(state.events.filter(event => event.kind === 'result').length, 1);
+});
+
+test('thirty-two actors keep real movement, damage and a legal frozen result after the full route', () => {
+  const state = createBattle({ mode: 'trail32' });
+  command(state, { type: 'start' });
+  for (let i = 0; i < 800 && state.status === 'active'; i++) {
+    driveTrail(state);
+    advanceBattle(state);
+    assert.equal(validateBattle(state), true);
+  }
+  assert.equal(state.actors.length, 32);
+  assert.ok(['victory', 'defeat', 'draw'].includes(state.status));
+  assert.equal(master(state).hp > 0, state.status === 'victory');
+  assert.ok(state.actors.some(actor => actor.team === 'red' && actor.distance > 0));
+  assert.ok(state.actors.filter(actor => actor.team === 'red').every(actor => Object.values(actor.cooldowns).some(tick => tick > 0)));
+  const held = snapshot(state);
+  advanceBattle(state, 100);
+  assert.deepEqual(state, held);
+  assert.deepEqual(restoreBattle(serializeBattle(state)), held);
+});
+
+test('the arranged fight waits for the leader and companions to reach the open valley', () => {
+  const state = createBattle({ mode: 'trail' });
+  command(state, { type: 'start' });
+  command(state, { type: 'move', target: TRAIL_LANDMARKS.forest });
+  const waiting = state.actors.filter(actor => actor.team === 'red').map(actor => [actor.id, actor.x, actor.y]);
+  advanceBattle(state, 300);
+  assert.equal(state.trail.phase, 'outbound');
+  assert.equal(state.trail.startedTick, null);
+  assert.equal(state.events.some(event => event.kind === 'hit'), false);
+  assert.deepEqual(state.actors.filter(actor => actor.team === 'red').map(actor => [actor.id, actor.x, actor.y]), waiting);
+  const held = snapshot(state);
+  assert.equal(command(state, { type: 'attack', targetId: 'red-1' }).ok, false);
+  assert.deepEqual(state, held);
+  assert.equal(command(state, { type: 'cast', skill: 'fire', targetId: 'red-1' }).ok, false);
+  assert.deepEqual(state, held);
+  command(state, { type: 'move', target: TRAIL_LANDMARKS.valley });
+  for (let tick = 0; tick < 200 && state.trail.phase === 'outbound'; tick++) {
+    advanceBattle(state);
+    validateBattle(state);
+  }
+  assert.equal(state.trail.phase, 'combat');
+  assert.equal(isTrailArrival(master(state)), true);
+  assert.ok(state.actors.filter(actor => actor.team === 'blue' && actor.hp > 0).every(actor => actor.y >= TRAIL_ARRIVAL.partyMinY));
+  assert.equal(state.trail.startedTick, state.tick);
+  assert.deepEqual(restoreBattle(serializeBattle(state)), state);
+});
+
+test('companions can assemble when the leader enters the arrival area facing north', () => {
+  const state = createBattle({ mode: 'trail32' });
+  command(state, { type: 'start' });
+  command(state, { type: 'move', x: 700, y: 2280 });
+  for (let tick = 0; tick < 300 && master(state).path.length; tick++) advanceBattle(state);
+  assert.equal(state.trail.phase, 'outbound');
+  command(state, { type: 'move', x: 830, y: 2225 });
+  for (let tick = 0; tick < 300 && state.trail.phase === 'outbound'; tick++) {
+    advanceBattle(state);
+    validateBattle(state);
+  }
+  assert.equal(state.trail.phase, 'combat');
+  assert.equal(isTrailArrival(master(state)), true);
+  assert.ok(state.actors.filter(actor => actor.team === 'blue' && actor.hp > 0).every(actor => actor.y >= TRAIL_ARRIVAL.partyMinY));
+});
+
+test('trail travel, released flight, return and paused plans restore identical next-tick facts', () => {
+  const state = createBattle({ mode: 'trail' });
+  command(state, { type: 'start' });
+  const checkpoints = new Map();
+  for (let i = 0; i < 800 && state.status === 'active'; i++) {
+    driveTrail(state);
+    advanceBattle(state);
+    if (state.trail.phase === 'outbound' && master(state).y > 1200 && !checkpoints.has('travel')) checkpoints.set('travel', serializeBattle(state));
+    const action = master(state).action;
+    if (action && ['sword', 'fire'].includes(action.skill) && action.released && !action.impacted && !checkpoints.has('flight')) checkpoints.set('flight', serializeBattle(state));
+    if (state.trail.phase === 'return' && !checkpoints.has('return')) checkpoints.set('return', serializeBattle(state));
+  }
+  assert.deepEqual([...checkpoints.keys()], ['travel', 'flight', 'return']);
+  for (const encoded of checkpoints.values()) {
+    const original = restoreBattle(encoded), restored = restoreBattle(snapshot(original));
+    for (let tick = 0; tick < 35; tick++) {
+      driveTrail(original); driveTrail(restored);
+      advanceBattle(original); advanceBattle(restored);
+      assert.deepEqual(restored, original);
+      validateBattle(restored);
+    }
+  }
+  const paused = restoreBattle(checkpoints.get('travel'));
+  command(paused, { type: 'pause', value: true });
+  const qi = master(paused).qi, cooldowns = { ...master(paused).cooldowns };
+  assert.equal(command(paused, { type: 'cast', skill: 'ward' }).ok, true);
+  const restored = restoreBattle(serializeBattle(paused));
+  advanceBattle(restored, 50);
+  assert.deepEqual(restored, paused);
+  assert.equal(master(restored).qi, qi);
+  assert.deepEqual(master(restored).cooldowns, cooldowns);
+  command(restored, { type: 'pause', value: false });
+  advanceBattle(restored);
+  assert.equal(master(restored).action.skill, 'ward');
+  assert.equal(restored.plannedCommand, null);
+});
+
+test('unreachable trail orders preserve the route and voluntary exit settles once from an extended map', () => {
+  const state = createBattle({ mode: 'trail' });
+  command(state, { type: 'start' });
+  assert.equal(command(state, { type: 'move', target: TRAIL_LANDMARKS.valley }).ok, true);
+  advanceBattle(state, 50);
+  const held = snapshot(state);
+  assert.equal(command(state, { type: 'move', x: 500, y: 1400 }).ok, false);
+  assert.deepEqual(state, held);
+  assert.equal(command(state, { type: 'cast', skill: 'sword', targetId: 'red-1' }).ok, false);
+  assert.deepEqual(state, held);
+  assert.equal(command(state, { type: 'retreat' }).ok, true);
+  assert.equal(state.status, 'retreated');
+  assert.equal(command(state, { type: 'retreat' }).ok, true);
+  advanceBattle(state, 100);
+  assert.equal(state.events.filter(event => event.kind === 'result').length, 1);
+  assert.deepEqual(restoreBattle(serializeBattle(state)), state);
 });

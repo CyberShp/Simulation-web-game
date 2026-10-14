@@ -1,5 +1,9 @@
 import { Effects } from './effects.mjs';
-import { WORLD } from './world.mjs';
+
+const BASE_VIEW = Object.freeze({width:1672,height:941});
+const TRAIL_WORLD = Object.freeze({width:1672,height:2823});
+const isTrailMode = mode => mode==='trail'||mode==='trail32';
+const intersects = (a,b) => a.x+a.w>=b.x && b.x+b.w>=a.x && a.y+a.h>=b.y && b.y+b.h>=a.y;
 
 const TAU = Math.PI * 2;
 const clamp = (value, low = 0, high = 1) => Math.max(low, Math.min(high, value));
@@ -30,6 +34,17 @@ const foreground = [
   [[550,727],[603,727],[626,774],[626,846],[549,831]],
   [[1050,720],[1116,720],[1132,840],[1045,842]]
 ];
+const trailIsland = {
+  id:'central-pine-island',sortY:941+735*1882/1330,
+  polygon:[
+    [550,445],[575,452],[596,466],[633,480],[655,510],[696,515],
+    [719,528],[711,550],[748,570],[769,596],[776,632],[786,670],
+    [776,702],[737,719],[690,730],[640,724],[609,733],[565,725],
+    [527,726],[499,716],[470,708],[444,691],[439,672],[429,651],
+    [430,620],[419,600],[425,579],[435,563],[450,555],[463,546],
+    [463,523],[482,506],[487,486],[510,478],[522,461]
+  ].map(([x,y])=>[x*1672/1182,941+y*1882/1330])
+};
 
 function loadImage(path) {
   return new Promise((resolve,reject) => {
@@ -90,9 +105,8 @@ function scatter(index,eventSeed) {
   return n-Math.floor(n);
 }
 
-/** Pixel courtyard projection. All simulation state and timestamps are read-only.
- * Camera zoom 1 fits the 1672 × 941 authored world to the canvas; 1.45 frames
- * the arena more closely. Root input owns camera movement and commands.
+/** Read-only pixel world projection. Zoom 1 always fits a 1672 × 941 region,
+ * including on the long trail. Root input owns camera movement and commands.
  */
 export class ArenaRenderer {
   constructor(canvas) {
@@ -101,19 +115,31 @@ export class ArenaRenderer {
     if (!this.ctx) throw new Error('无法建立场景画布');
     this.camera = {x:836,y:590,zoom:1.45};
     this.viewport = {w:1600,h:900,fit:1};
+    this.mode = 'team';
+    this.worldBounds = BASE_VIEW;
+    this.minimapRect = null;
+    this.trailForeground = [trailIsland];
     this.ready = false;
     this.wardEffects = new Map();
     this.resize();
   }
 
   async load() {
-    const [ground,people,props,disciples] = await Promise.all([
+    const [ground,people,props,disciples,trail] = await Promise.all([
       loadImage('assets/courtyard-v1.png'),loadImage('assets/cultivator-v1.png'),
-      loadImage('assets/garden-props-v1.png'),loadImage('assets/disciples-v1.png')
+      loadImage('assets/garden-props-v1.png'),loadImage('assets/disciples-v1.png'),
+      loadImage('assets/trail-terrain-v4.png')
     ]);
-    this.ground = ground; this.props = props;
+    this.ground = ground; this.props = props; this.trail = trail;
     this.sprites = frames.map((frame,index) => sprite(people,frame,index>=4&&index<=7?.237:.217));
     this.discipleSprites = discipleFrames.map(frame => sprite(disciples,frame,.159));
+    this.minimapSurface = document.createElement('canvas');
+    this.minimapSurface.width = 132; this.minimapSurface.height = 223;
+    const map = this.minimapSurface.getContext('2d');
+    if (!map) throw new Error('无法建立山路图');
+    map.imageSmoothingEnabled = false;
+    map.drawImage(ground,0,0,132,223/3);
+    map.drawImage(trail,0,223/3,132,223*2/3);
     this.ready = true;
     return this;
   }
@@ -122,7 +148,7 @@ export class ArenaRenderer {
     const box = this.canvas.getBoundingClientRect();
     const w = Math.max(1,Math.round(box.width||globalThis.innerWidth||1600));
     const h = Math.max(1,Math.round(box.height||globalThis.innerHeight||900));
-    this.viewport = {w,h,fit:Math.min(w/WORLD.width,h/WORLD.height)};
+    this.viewport = {w,h,fit:Math.min(w/BASE_VIEW.width,h/BASE_VIEW.height)};
     this.canvas.width = w; this.canvas.height = h;
     this.ctx.imageSmoothingEnabled = false;
     this.constrainCamera();
@@ -130,11 +156,87 @@ export class ArenaRenderer {
 
   constrainCamera() {
     const {w,h,fit} = this.viewport;
-    const camera = this.camera;
-    camera.zoom = clamp(finite(camera.zoom,1),1,2.8);
+    const camera = this.camera,world = this.worldBounds;
+    camera.zoom = clamp(finite(camera.zoom,1),isTrailMode(this.mode)?.33:1,2.8);
     const halfW = w/(2*fit*camera.zoom),halfH = h/(2*fit*camera.zoom);
-    camera.x = halfW>=WORLD.width/2?WORLD.width/2:clamp(finite(camera.x,836),halfW,WORLD.width-halfW);
-    camera.y = halfH>=WORLD.height/2?WORLD.height/2:clamp(finite(camera.y,470.5),halfH,WORLD.height-halfH);
+    camera.x = halfW>=world.width/2?world.width/2:clamp(finite(camera.x,836),halfW,world.width-halfW);
+    camera.y = halfH>=world.height/2?world.height/2:clamp(finite(camera.y,470.5),halfH,world.height-halfH);
+  }
+
+  setMode(mode) {
+    this.mode = mode;
+    this.worldBounds = isTrailMode(mode)?TRAIL_WORLD:BASE_VIEW;
+    if (!isTrailMode(mode)) this.minimapRect = null;
+    this.constrainCamera();
+    return this.worldBounds;
+  }
+
+  setWorldForState(state) {
+    return this.setMode(state.mode||'team');
+  }
+
+  followActor(actor,{snap=false,deltaSeconds=.016,zoom=1.25}={}) {
+    if (!actor || !Number.isFinite(actor.x) || !Number.isFinite(actor.y)) return;
+    const fraction = snap?1:1-Math.exp(-Math.max(0,finite(deltaSeconds))*7);
+    this.camera.x = mix(this.camera.x,actor.x,fraction);
+    this.camera.y = mix(this.camera.y,actor.y-70,fraction);
+    this.camera.zoom = clamp(finite(zoom,1.25),1,2.8);
+    this.constrainCamera();
+  }
+
+  followBattle(state,options={}) {
+    const player=state.actors.find(actor=>actor.id===state.playerId);
+    if (!player) return;
+    if (state.trail?.phase!=='combat') return this.followActor(player,options);
+    const nearby=state.actors.filter(actor=>actor.hp>0&&Math.hypot(actor.x-player.x,actor.y-player.y)<650);
+    if (!nearby.length) return this.followActor(player,options);
+    const left=Math.min(...nearby.map(actor=>actor.x)),right=Math.max(...nearby.map(actor=>actor.x));
+    const top=Math.min(...nearby.map(actor=>actor.y-78)),bottom=Math.max(...nearby.map(actor=>actor.y));
+    // Keep the skirmish above the skill bar while the master remains in view.
+    this.followActor({x:clamp((left+right)/2,player.x-160,player.x+160),y:(top+bottom)/2+130},options);
+  }
+
+  showOverview() {
+    const {w,h,fit} = this.viewport,world = this.worldBounds;
+    this.camera.x = world.width/2; this.camera.y = world.height/2;
+    this.camera.zoom = Math.min(w/world.width,h/world.height)/fit;
+    this.constrainCamera();
+  }
+
+  getVisibleWorldRect() {
+    const {w,h,fit} = this.viewport,s = fit*this.camera.zoom;
+    return {x:this.camera.x-w/(2*s),y:this.camera.y-h/(2*s),w:w/s,h:h/s};
+  }
+
+  setTrailForeground(masks) {
+    this.trailForeground = masks.map(mask=>({
+      ...mask,polygon:mask.polygon.map(([x,y])=>[x,y])
+    }));
+  }
+
+  drawPlate(image,x,y,width,height,view) {
+    const left = Math.max(x,view.x),top = Math.max(y,view.y);
+    const right = Math.min(x+width,view.x+view.w),bottom = Math.min(y+height,view.y+view.h);
+    if (right<=left||bottom<=top) return;
+    const sx = (image.naturalWidth||image.width)/width,sy = (image.naturalHeight||image.height)/height;
+    this.ctx.drawImage(image,(left-x)*sx,(top-y)*sy,(right-left)*sx,(bottom-top)*sy,left,top,right-left,bottom-top);
+  }
+
+  drawTerrain(view) {
+    this.drawPlate(this.ground,0,0,BASE_VIEW.width,BASE_VIEW.height,view);
+    if (isTrailMode(this.mode)) {
+      this.drawPlate(this.trail,0,BASE_VIEW.height,TRAIL_WORLD.width,TRAIL_WORLD.height-BASE_VIEW.height,view);
+      // Extend the existing cliff foliage over the adjoining plate at its natural edge.
+      // The central staircase and all walkable ground retain their authored coordinates.
+      if (view.y<1060&&view.y+view.h>860) {
+        const edges=[[[0,840],[640,840],[640,941],[610,958],[590,986],[540,976],[520,1002],[460,995],[410,1020],[355,1005],[325,1030],[260,1018],[220,1050],[170,1032],[120,1055],[60,1040],[0,1060]],[[1035,840],[1672,840],[1672,1020],[1620,1036],[1560,1008],[1510,1030],[1470,1000],[1410,1022],[1350,995],[1300,1013],[1240,989],[1180,1008],[1120,970],[1085,981],[1035,941]]];
+        for(const edge of edges){
+          const ctx=this.ctx;ctx.save();ctx.beginPath();edge.forEach(([x,y],i)=>i?ctx.lineTo(x,y):ctx.moveTo(x,y));ctx.closePath();ctx.clip();
+          const sx=(this.ground.naturalWidth||1672)/1672,sy=(this.ground.naturalHeight||941)/941;
+          ctx.drawImage(this.ground,0,810*sy,1672*sx,131*sy,0,840,1672,220);ctx.restore();
+        }
+      }
+    }
   }
 
   worldToScreen(x,y) {
@@ -195,20 +297,31 @@ export class ArenaRenderer {
     ctx.drawImage(this.props,...prop.rect,Math.round(prop.x-prop.width/2),Math.round(prop.y-prop.height),prop.width,prop.height);ctx.restore();
   }
 
-  drawForeground() {
+  drawForeground(view) {
     const ctx = this.ctx;
     for (const polygon of foreground) {
+      const xs=polygon.map(p=>p[0]),ys=polygon.map(p=>p[1]);
+      if (!intersects(view,{x:Math.min(...xs),y:Math.min(...ys),w:Math.max(...xs)-Math.min(...xs),h:Math.max(...ys)-Math.min(...ys)})) continue;
       ctx.save();ctx.beginPath();
       polygon.forEach(([x,y],index) => index?ctx.lineTo(x,y):ctx.moveTo(x,y));
-      ctx.closePath();ctx.clip();ctx.drawImage(this.ground,0,0);ctx.restore();
+      ctx.closePath();ctx.clip();this.drawPlate(this.ground,0,0,BASE_VIEW.width,BASE_VIEW.height,view);ctx.restore();
     }
   }
 
-  drawMotes(time) {
+  drawTrailMask(mask,view) {
     const ctx = this.ctx;
-    for (let i=0;i<24;i++) {
+    ctx.save();ctx.beginPath();
+    mask.polygon.forEach(([x,y],index)=>index?ctx.lineTo(x,y):ctx.moveTo(x,y));
+    ctx.closePath();ctx.clip();this.drawPlate(this.trail,0,941,1672,1882,view);ctx.restore();
+  }
+
+  drawMotes(time,view) {
+    const ctx = this.ctx;
+    const rows = isTrailMode(this.mode)?3:1;
+    for (let row=0;row<rows;row++) for (let i=0;i<24;i++) {
       const x = 95+(i*131+time*(3+i%3))%1480;
-      const y = 115+(i*73)%500+Math.sin(time*.9+i)*9;
+      const y = row*941+115+(i*73)%500+Math.sin(time*.9+i)*9;
+      if (x<view.x||x>view.x+view.w||y<view.y||y>view.y+view.h) continue;
       ctx.fillStyle = i%3?'#ead88b77':'#cce8cb55';ctx.fillRect(Math.round(x),Math.round(y),2,1);
     }
   }
@@ -290,6 +403,7 @@ export class ArenaRenderer {
       if (actor.hp<=0) continue;
       const screen = this.worldToScreen(actor.x,actor.y-78);
       const x = Math.round(screen.x-box.left),y = Math.round(screen.y-box.top);
+      if (x<-60||x>this.viewport.w+60||y<-25||y>this.viewport.h+15) continue;
       const player = actor.id===state.playerId,selected = actor.id===state.selectedTargetId;
       const w = selected||player?48:34,h = selected||player?4:3;
       ctx.fillStyle = '#13252aea';ctx.fillRect(x-w/2-1,y-1,w+2,h+2);
@@ -307,9 +421,15 @@ export class ArenaRenderer {
     }
   }
 
-  drawFeedback(events,time,actors) {
+  drawFeedback(events,time,actors,state) {
     const ctx = this.ctx,box = this.canvas.getBoundingClientRect();
+    const latest=new Map();
     for (const event of events) {
+      if (![event.sourceId,event.targetId].includes(state.playerId)&&event.targetId!==state.selectedTargetId) continue;
+      if (!['hit','miss','ward'].includes(event.kind)) continue;
+      latest.set(`${event.kind}:${event.targetId||event.sourceId}`,event);
+    }
+    for (const event of latest.values()) {
       if (!['hit','miss','ward'].includes(event.kind)) continue;
       const age = time-event.atTick*.1;
       if (age<0||age>1.05) continue;
@@ -317,6 +437,7 @@ export class ArenaRenderer {
       if (!point) continue;
       const screen = this.worldToScreen(point.x,point.y-48-age*22);
       const x = Math.round(screen.x-box.left),y = Math.round(screen.y-box.top);
+      if (x<-90||x>this.viewport.w+90||y<-35||y>this.viewport.h+25) continue;
       const amount = Math.max(0,finite(event.amount));
       const absorbed = Math.max(0,finite(event.absorbed));
       const text = event.kind==='miss'?'失手':event.kind==='ward'?`护盾 +${Math.round(amount)}`:amount>0?`−${Math.round(amount)}`:absorbed>0?`护盾 −${Math.round(absorbed)}`:'';
@@ -329,12 +450,56 @@ export class ArenaRenderer {
     }
   }
 
+  drawMinimap(state,actors) {
+    if (!isTrailMode(this.mode)) {this.minimapRect=null;return;}
+    const ctx=this.ctx,{w,h}=this.viewport;
+    const mapH=Math.round(clamp(h-335,160,223)),mapW=Math.round(mapH*TRAIL_WORLD.width/TRAIL_WORLD.height);
+    const panelW=mapW+28,panelH=mapH+50;
+    const x=w-panelW-24,y=110,mapX=x+14,mapY=y+28;
+    const box=this.canvas.getBoundingClientRect();
+    this.minimapRect={x:x+box.left,y:y+box.top,w:panelW,h:panelH,mapX:mapX+box.left,mapY:mapY+box.top,mapW,mapH};
+    ctx.save();ctx.globalAlpha=1;ctx.fillStyle='#10272df0';ctx.fillRect(x,y,panelW,panelH);
+    ctx.strokeStyle='#a4936399';ctx.lineWidth=1;ctx.strokeRect(x+.5,y+.5,panelW-1,panelH-1);
+    ctx.font='13px "Songti SC", "Noto Serif CJK SC", serif';ctx.textAlign='center';ctx.fillStyle='#e5d7af';ctx.fillText('云岫山路',x+panelW/2,y+19);
+    ctx.drawImage(this.minimapSurface,mapX,mapY,mapW,mapH);
+    const sx=mapW/TRAIL_WORLD.width,sy=mapH/TRAIL_WORLD.height;
+    ctx.save();ctx.beginPath();ctx.rect(mapX,mapY,mapW,mapH);ctx.clip();
+    for (const [title,wy] of [['山院',470],['林道',1440],['谷地',2370]]) {
+      const ty=mapY+wy*sy;
+      ctx.fillStyle='#10272dbb';ctx.fillRect(mapX+3,ty-9,29,15);
+      ctx.font='11px "Songti SC", "Noto Serif CJK SC", serif';ctx.textAlign='left';ctx.fillStyle='#efe3c7';ctx.fillText(title,mapX+6,ty+2);
+    }
+    for (const actor of actors) {
+      if (actor.hp<=0||actor.id===state.playerId) continue;
+      ctx.fillStyle=actor.team==='red'?'#d88b65':'#80c6c5';
+      ctx.fillRect(Math.round(mapX+actor.x*sx-1),Math.round(mapY+actor.y*sy-1),2,2);
+    }
+    const player=actors.find(actor=>actor.id===state.playerId);
+    if (player) {
+      const px=Math.round(mapX+player.x*sx),py=Math.round(mapY+player.y*sy);
+      ctx.fillStyle='#13282c';ctx.fillRect(px-3,py-3,7,7);
+      ctx.fillStyle='#ffe3a2';ctx.beginPath();ctx.moveTo(px,py-4);ctx.lineTo(px+3,py+3);ctx.lineTo(px,py+1);ctx.lineTo(px-3,py+3);ctx.closePath();ctx.fill();
+    }
+    const visible=this.getVisibleWorldRect();
+    const left=clamp(visible.x,0,TRAIL_WORLD.width),top=clamp(visible.y,0,TRAIL_WORLD.height);
+    const right=clamp(visible.x+visible.w,0,TRAIL_WORLD.width),bottom=clamp(visible.y+visible.h,0,TRAIL_WORLD.height);
+    ctx.strokeStyle='#fff2c4';ctx.lineWidth=1;ctx.strokeRect(mapX+left*sx+.5,mapY+top*sy+.5,Math.max(0,(right-left)*sx-1),Math.max(0,(bottom-top)*sy-1));
+    ctx.restore();ctx.font='10px "Songti SC", "Noto Serif CJK SC", serif';ctx.textAlign='center';ctx.fillStyle='#d1c8aa';ctx.fillText('金标 · 掌门　白框 · 视野',x+panelW/2,y+panelH-9);ctx.restore();
+  }
+
+  minimapToWorld(clientX,clientY) {
+    const r=this.minimapRect;
+    if (!r||clientX<r.mapX||clientX>r.mapX+r.mapW||clientY<r.mapY||clientY>r.mapY+r.mapH) return null;
+    return {x:(clientX-r.mapX)/r.mapW*this.worldBounds.width,y:(clientY-r.mapY)/r.mapH*this.worldBounds.height};
+  }
+
   render(state,{previous=null,alpha=1}={}) {
     if (!this.ready) throw new Error('场景素材尚未加载');
     const ctx = this.ctx,time = state.tick*.1;
-    this.constrainCamera();
+    this.setWorldForState(state);
+    const view=this.getVisibleWorldRect();
     const previousActors = new Map((previous?.actors||[]).map(actor=>[actor.id,actor]));
-    const canInterpolate = previous && previous.tick<=state.tick && previous.tick>=state.tick-1;
+    const canInterpolate = previous && previous.mode===state.mode && previous.tick<=state.tick && previous.tick>=state.tick-1;
     const fraction = clamp(finite(alpha,1));
     const actors = state.actors.map(actor=>{
       const before = canInterpolate?previousActors.get(actor.id):null;
@@ -345,12 +510,18 @@ export class ArenaRenderer {
     ctx.save();ctx.globalAlpha=1;ctx.imageSmoothingEnabled=false;
     ctx.fillStyle='#10262c';ctx.fillRect(0,0,this.viewport.w,this.viewport.h);
     ctx.translate(this.viewport.w/2,this.viewport.h/2);ctx.scale(this.viewport.fit*this.camera.zoom,this.viewport.fit*this.camera.zoom);ctx.translate(-this.camera.x,-this.camera.y);
-    ctx.drawImage(this.ground,0,0,WORLD.width,WORLD.height);this.drawMotes(time);
+    this.drawTerrain(view);this.drawMotes(time,view);
     const activeWards = new Set(),air=[];
     for (const event of events) {
       if (event.kind==='ward' && state.tick-event.atTick<24) {
         const from = eventPoint(event,'from',actorsById);
         if (!from) continue;
+        if (!intersects(view,{x:from.x-65,y:from.y-65,w:130,h:100})) continue;
+        if (event.sourceId!==state.playerId) {
+          const age=(state.tick-event.atTick)*.1;
+          if (age<.4) {ctx.save();ring(ctx,from.x,from.y,25+age*22,'#a4dedf',(1-age/.4)*.65);ctx.restore();}
+          continue;
+        }
         const cacheKey = `${event.id}:${event.atTick}:${from.x}:${from.y}`;
         activeWards.add(cacheKey);
         let effects = this.wardEffects.get(cacheKey);
@@ -362,22 +533,36 @@ export class ArenaRenderer {
       }
       if (event.kind==='release') {
         const visual = this.releaseVisual(event,state,actorsById);
-        if (visual) air.push({y:visual.y+.2,draw:()=>this.drawRelease(visual)});
+        if (visual) {
+          const {from,to}=visual;
+          const bounds={x:Math.min(from.x,to.x)-65,y:Math.min(from.y,to.y)-95,w:Math.abs(from.x-to.x)+130,h:Math.abs(from.y-to.y)+130};
+          if (intersects(view,bounds)) air.push({y:visual.y+.2,draw:()=>this.drawRelease(visual)});
+        }
       }
       if (event.kind==='hit' && state.tick-event.atTick<7) {
         const to = eventPoint(event,'to',actorsById);
-        if (to) air.push({y:to.y+.3,draw:()=>this.drawHit(event,time,to)});
+        if (to&&intersects(view,{x:to.x-50,y:to.y-80,w:100,h:110})) air.push({y:to.y+.3,draw:()=>this.drawHit(event,time,to)});
       }
     }
     for (const key of this.wardEffects.keys()) if (!activeWards.has(key)) this.wardEffects.delete(key);
     const player = actorsById.get(state.playerId),destination = player?.path?.at(-1);
     if (destination && player.hp>0) {ctx.save();ring(ctx,destination.x,destination.y,12,pixelColor.gold,.75);ctx.restore();}
+    const visibleActors=actors.filter(actor=>intersects(view,{x:actor.x-65,y:actor.y-100,w:130,h:115}));
+    const visibleProps=garden.filter(prop=>intersects(view,{x:prop.x-prop.width/2-10,y:prop.y-prop.height,w:prop.width+20,h:prop.height+15}));
+    const masks=isTrailMode(this.mode)?this.trailForeground.filter(mask=>{
+      const xs=mask.polygon.map(p=>p[0]),ys=mask.polygon.map(p=>p[1]);
+      return intersects(view,{x:Math.min(...xs),y:Math.min(...ys),w:Math.max(...xs)-Math.min(...xs),h:Math.max(...ys)-Math.min(...ys)});
+    }):[];
     const layers = [
-      ...actors.map(actor=>({y:actor.y,draw:()=>this.drawActor(actor,state)})),
-      ...garden.map(prop=>({y:prop.y,draw:()=>this.drawProp(prop)})),...air
+      ...visibleActors.map(actor=>({y:actor.y,draw:()=>this.drawActor(actor,state)})),
+      ...visibleProps.map(prop=>({y:prop.y,draw:()=>this.drawProp(prop)})),
+      ...masks.filter(mask=>Number.isFinite(mask.sortY)).map(mask=>({y:mask.sortY,draw:()=>this.drawTrailMask(mask,view)})),...air
     ].sort((a,b)=>a.y-b.y);
     for (const layer of layers) layer.draw();
-    this.drawForeground();ctx.restore();
-    this.drawActorBars(actors,state);this.drawFeedback(events,time,actorsById);
+    this.drawForeground(view);
+    for (const mask of masks.filter(mask=>!Number.isFinite(mask.sortY))) this.drawTrailMask(mask,view);
+    ctx.restore();
+    this.drawActorBars(visibleActors,state);this.drawFeedback(events,time,actorsById,state);this.drawMinimap(state,actors);
+    this.lastFrameStats={actorsTotal:actors.length,actorsDrawn:visibleActors.length,propsDrawn:visibleProps.length,effectsDrawn:air.length,view:{...view},world:{...this.worldBounds}};
   }
 }

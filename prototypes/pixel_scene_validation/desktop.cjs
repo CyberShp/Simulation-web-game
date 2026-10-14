@@ -9,7 +9,7 @@ const args = process.argv.slice(1);
 const option = (key, fallback) => args.find(arg => arg.startsWith(`${key}=`))?.slice(key.length + 1) ?? fallback;
 const qaDir = option('--qa-dir', '');
 const sceneMode = args.includes('--scene');
-const title = sceneMode ? '云岫山院·像素场景' : '云岫山院·演武';
+const title = sceneMode ? '云岫山院·像素场景' : '云岫山院·近山试行';
 let sceneWindow;
 let server;
 let closeAllowed = false;
@@ -123,6 +123,8 @@ app.whenReady().then(async () => {
     active: windowActive(),
     qa: Boolean(qaDir),
     autoplay: args.includes('--autoplay'),
+    trail: args.includes('--trail')||args.includes('--trail32'),
+    trail32: args.includes('--trail32'),
     qaScenario: option('--qa-scenario', null)
   });});
   ipcMain.handle('arena:load', event => authorized(event)
