@@ -1479,7 +1479,10 @@
       "nativeInput": "verified-movement-map-zoom-pause-save",
       "backgroundClock": "verified-tick-583-no-catchup",
       "crossProcessRestore": "32-actors-exact-paused-snapshot-and-continued-movement"
-    }
+    },
+    "currentGameplayDecisionId": "U-139",
+    "currentGameplayStatus": "confirmed-direction-implementation-pending",
+    "currentGameplayEvidence": "docs/design/DECISIONS.md"
   },
   "characterDialogue": {
     "decisionId": "U-125",
