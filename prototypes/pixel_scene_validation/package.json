@@ -6,7 +6,8 @@
   "type": "module",
   "main": "desktop.cjs",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "courtyard": "electron courtyard-host.cjs"
   },
   "devDependencies": { "electron": "39.2.7" }
 }

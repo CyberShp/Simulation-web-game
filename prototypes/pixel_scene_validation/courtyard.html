@@ -1,0 +1,11 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; media-src 'self' blob:; style-src 'self'; script-src 'self'; object-src 'none'; base-uri 'self'; frame-src 'none'"><meta name="viewport" content="width=device-width,initial-scale=1"><title>云岫山院 · 山院实景</title><link rel="stylesheet" href="courtyard.css"></head><body>
+<canvas id="scene" aria-label="云岫山院，点击地面行走，点击人物交谈"></canvas>
+<header id="title"><strong>云岫山院</strong><span id="clock"></span></header>
+<nav id="tools" aria-label="山院镜头与院务"><button id="home">回小院</button><button id="domain">山域</button><button id="follow">寻掌门</button><button id="compare">原稿对照</button><button id="pause">暂停</button><button id="save">保存</button></nav>
+<div id="reference-note" hidden>原稿对照 · 世界静止</div>
+<footer id="hint"><span id="action">左键行走与交谈 · 滚轮缩放 · 右键拖动 · Tab 收起界面</span><span id="save-note">院务已载入</span></footer>
+<div id="notice" role="status" hidden></div>
+<div id="dialog" class="shade" hidden><section class="conversation" role="dialog" aria-modal="true" aria-labelledby="person-name"><button class="close" id="close-person" aria-label="关闭">×</button><div class="portrait"><canvas id="portrait" width="300" height="420"></canvas><h1 id="person-name"></h1><p id="person-role"></p></div><div class="speech"><p class="eyebrow">院中相谈</p><p id="person-speech"></p><p id="person-detail"></p><button id="focus-person">看看他的位置</button><button id="leave-person">稍后再谈</button></div></section></div>
+<div id="building-dialog" class="shade" hidden><section class="building" role="dialog" aria-modal="true"><button id="close-building" class="close" aria-label="关闭">×</button><p class="eyebrow">山院营造</p><h1 id="building-name"></h1><p id="building-detail"></p><button id="building-walk">走到门前</button></section></div>
+<div id="loading">正在入院</div>
+<script type="module" src="courtyard-main.mjs"></script></body></html>

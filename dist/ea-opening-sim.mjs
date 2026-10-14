@@ -13,6 +13,7 @@ import {pruneHistory,validateHistoryRetention} from './ea-history-retention.mjs'
 import {sceneUnits,placementIssue,initBuildingGrid,spatialPrefab,SPATIAL_SCENE} from './ea-sr-spatial.mjs';
 export {HALL_ESTABLISH_COST} from './ea-sr-spatial.mjs';
 import {BUILDING_GRID,buildingGridEnabled} from './ea-building-grid.mjs';
+import {SECT_DOMAIN} from './ea-sect-domain.mjs';
 import {advanceSRStory} from './ea-sr-story.mjs';
 import {tickCampaignCombat,settleCombatBodyProjection} from './ea-campaign.mjs';
 import {teachingQualificationSR} from './ea-sr-cultivation.mjs';
@@ -38,7 +39,7 @@ export {srEnabled,initSR};
 export {cloneState,SCHEMA_VERSION,CONTENT_VERSION};
 const LEGACY_COMMAND_NAMES=['recoverOpeningInheritance','chooseOpeningInheritance','setSpeed','setIntroPage','acknowledgeOnboarding','requestSceneInteraction','cancelSceneInteraction','setNarrativePage','acknowledgeNarrative','acknowledgeIntro','advanceStory','build','cancelConstruction','cancelProduction','offerArtisanCare','cancelArtisanCare','declineArtisanCare','upgrade','toggleBuilding','repairBuilding','relocate','demolish','recruit','obtainBook','sealBook','masterStudy','forgetSupport','returnToBasics','masterBreakthrough','masterRiskBreakthrough','masterPill','masterAction','masterTeach','moveMaster','moveScenicMaster','craft','trade','fulfill','claim','setPolicy','offerRoute','upgradeSect','societyCommand','foundSect','inviteOffice','foundPeak','inviteMentor','setSocietyPolicy','settleIncident','resolvePersonalQuest','resolveWorldVisitor','resolveSocietyVisitor','startExploration','moveExploration','resolveExploration','leaveRegion','combatAction','acknowledgeCombat','startMasterTravel','resolveMasterEncounter','cancelMasterTravel'];
 export const COMMAND_NAMES=[...new Set([...LEGACY_COMMAND_NAMES,...Object.keys(SR_HANDLERS)])];
-const bodyCommands=new Set(['build','establishHall','upgrade','repairBuilding','relocate','demolish','masterStudy','masterAction','masterTeach','masterBreakthrough','masterRiskBreakthrough','masterPill','moveMaster','moveScenicMaster','requestSceneInteraction','startExploration','startMasterTravel','craft','advanceStory','offerArtisanCare','declineArtisanCare']);
+const bodyCommands=new Set(['build','buildDomainSite','establishHall','upgrade','repairBuilding','relocate','demolish','masterStudy','masterAction','masterTeach','masterBreakthrough','masterRiskBreakthrough','masterPill','moveMaster','moveScenicMaster','requestSceneInteraction','startExploration','startMasterTravel','craft','advanceStory','offerArtisanCare','declineArtisanCare']);
 const MASTER_AUTO_DELAY_MS=30000;
 const directMasterCommands=new Set([...bodyCommands,...SR_BODY_COMMANDS,'chooseOpeningInheritance','cancelConstruction','cancelSceneInteraction','cancelArtisanCare','cancelProduction','cancelMasterTravel']);
 function resetMasterControl(s){s.masterControl={mode:'manual',idleMs:0};}
@@ -277,7 +278,8 @@ export function dispatchCommand(s,{name,args=[],id=`command:${s.transactions.nex
     if(a&&a.kind!=='facility'&&!cancelling&&!currentCombatAction&&!command.startsWith('cancel')&&!['srCrisisCommand','srWorldCommand','srStoryCommand'].includes(command))throw Error('掌门已有身体活动，先完成或中止。');
    }
    if(command==='build'){const lock=base.buildingLock(next,values[0]);if(lock)throw Error(lock);}
-   if(['build','upgrade','recruit'].includes(command)&&next.story?.opening&&next.story.opening.hallPhase!=='complete')throw Error('先营造主殿，再安排其他院务。');
+   if(command==='buildDomainSite'){const site=SECT_DOMAIN.sites.find(value=>value.id===values[0]);if(!site)throw Error('营造地不存在。');const lock=base.buildingLock(next,site.type);if(lock)throw Error(lock);}
+   if(['build','buildDomainSite','upgrade','recruit'].includes(command)&&next.story?.opening&&next.story.opening.hallPhase!=='complete')throw Error('先营造主殿，再安排其他院务。');
    const fn=command==='recoverOpeningInheritance'?recoverOpeningInheritance:command==='chooseOpeningInheritance'?chooseOpeningInheritance:command==='masterAction'?openingMasterAction:command==='advanceStory'?advanceStory:SR_HANDLERS[command]||({setSpeed,offerArtisanCare,cancelArtisanCare,declineArtisanCare,cancelProduction}[command])||base[command];
    if(typeof fn!=='function')throw Error('操作尚未接入。');
    const result=fn(next,...values);if(result!==false&&directMasterCommands.has(command))resetMasterControl(next);reconcileActivities(next);reconcileAutonomyV2Commitments(next);return result;

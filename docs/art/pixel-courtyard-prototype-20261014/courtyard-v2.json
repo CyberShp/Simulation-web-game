@@ -1,0 +1,26 @@
+{
+  "version": 2,
+  "recordedOn": "2026-10-15",
+  "kind": "generated-nearview-art-prototype",
+  "status": "approved-for-first-screen-reconstruction",
+  "file": "courtyard-v2.png",
+  "width": 1672,
+  "height": 941,
+  "sha256": "f1d5dfbc5270c0a711252d4460829935c2487b00cb36f9fb9d469f3e65bccba6",
+  "generatedWith": "built-in image_gen",
+  "prompt": "NEARVIEW-PROMPT.md",
+  "references": "reference-baseline.json",
+  "camera": "fixed elevated oblique; east right, west left, mountain interior upper, outbound lower",
+  "inspectionScale": "native 1672x941 pixels; runtime camera 1x to 2x",
+  "visibleDirections": [
+    "east terrace route exits right",
+    "west descent reaches stream bridge on left",
+    "rear uphill route continues beyond upper edge",
+    "southern approach steps continue beyond lower edge"
+  ],
+  "runtimeIntegrated": true,
+  "userApproved": true,
+  "decisionId": "U-144",
+  "runtimeEvidence": "RUNTIME.md",
+  "runtimeArtApproved": false
+}

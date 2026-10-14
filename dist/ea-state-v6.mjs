@@ -3,6 +3,8 @@ import {appearance} from './ea-scenic.mjs';
 import {RESOURCES} from './ea-data.mjs';
 import {hydratePillTotals} from './ea-sr-economy.mjs';
 import {ContractError,initContracts,validateContracts,SR_CONTENT_VERSION,SR_RULESET_VERSION} from './ea-sr-contracts.mjs';
+import {DOMAIN_EXTENT_VERSION,DOMAIN_LAYOUT_VERSION} from './ea-sect-domain.mjs';
+import {validateCourtyardTerrainRecord} from './ea-courtyard-master-terrain.mjs';
 
 export const SCHEMA_VERSION=6;
 export const CONTENT_VERSION='opening-v1.2';
@@ -38,9 +40,13 @@ function validateVersionCombination(s){
  if(s.migrationLedger!==undefined||sr)versionField(s.migrationLedger,'version',1,'migrationLedger.version',{required:sr});
  if(s.spatial!==undefined||sr){
   versionField(s.spatial,'version','spatial-metres-1','spatial.version',{required:sr});
-  versionField(s.spatial,'extentVersion','courtyard-96-1','spatial.extentVersion',{optionalField:true});
+  const domain=s.spatial?.extentVersion===DOMAIN_EXTENT_VERSION;
+  versionField(s.spatial,'extentVersion',domain?DOMAIN_EXTENT_VERSION:'courtyard-96-1','spatial.extentVersion',{optionalField:true});
+  if(domain)versionField(s.spatial.domain,'layoutVersion',DOMAIN_LAYOUT_VERSION,'spatial.domain.layoutVersion',{required:true});
+  else if(s.spatial?.domain!==undefined)unsupported('spatial.domain',s.spatial.domain.layoutVersion);
   versionField(s.spatial,'buildingGridVersion','building-units-1','spatial.buildingGridVersion',{optionalField:true});
   versionField(s.spatial,'interiorLayoutVersion','adult-furniture-1','spatial.interiorLayoutVersion',{optionalField:true});
+  validateCourtyardTerrainRecord(s);
  }
  for(const [id,b]of Object.entries(s.buildingsById||{})){
   if(b?.buildingGridVersion!==undefined)versionField(b,'buildingGridVersion','building-units-1',`buildingsById.${id}.buildingGridVersion`);

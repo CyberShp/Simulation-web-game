@@ -1,0 +1,45 @@
+{
+  "decisionId": "U-144",
+  "updatedOn": "2026-10-15",
+  "sourceMaster": "courtyard-v2.png",
+  "originalResolution": [
+    1672,
+    941
+  ],
+  "runtimeArtApproved": false,
+  "files": [
+    {
+      "path": "prototypes/pixel_scene_validation/assets/courtyard-master-v2.png",
+      "sha256": "f1d5dfbc5270c0a711252d4460829935c2487b00cb36f9fb9d469f3e65bccba6",
+      "bytes": 3928200
+    },
+    {
+      "path": "prototypes/pixel_scene_validation/assets/courtyard-clean-v2.png",
+      "sha256": "238b67bb90a8507669ccf8d89dc97e87fdc21568ecf9d92c5af0740d0a37f429",
+      "bytes": 3659514
+    },
+    {
+      "path": "prototypes/pixel_scene_validation/assets/courtyard-fallow-v2.png",
+      "sha256": "09ccb3adbe5582d724a76d926178eb8d6b579b3dbb8ca76beee672005182ebcb",
+      "bytes": 3559422
+    },
+    {
+      "path": "prototypes/pixel_scene_validation/assets/courtyard-domain-v1.png",
+      "sha256": "01f2e729512344b6a1ba2f9bd0770c616bb0791803ca06c44f09f9acc1aba538",
+      "bytes": 4115686
+    },
+    {
+      "path": "prototypes/pixel_scene_validation/assets/cultivator-v1.png",
+      "sha256": "2da0c19428bce30330055e4b24a9d0b3dbf68835099648191a5b1849e76d9467",
+      "bytes": 2291215
+    },
+    {
+      "path": "prototypes/pixel_scene_validation/assets/disciples-v1.png",
+      "sha256": "bd1e9bc8e3ec54600193d1b7c68d0972d8115fdba31181b1b5af45c20b99a3db",
+      "bytes": 2352615
+    }
+  ],
+  "frameAndOcclusionMetadata": "prototypes/pixel_scene_validation/courtyard-layers.mjs",
+  "coordinateProfile": "prototypes/pixel_scene_validation/courtyard-space.mjs",
+  "promptRecord": "LAYER-PROMPTS.md"
+}

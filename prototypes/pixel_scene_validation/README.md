@@ -1,5 +1,11 @@
 # 云岫山院 · 近山试行
 
+## 山院实景 · U-144
+
+按确认的 `courtyard-v2.png` 还原首屏，入口 `npm run courtyard`；macOS打包使用 `python3 package-courtyard-macos.py /absolute/new-destination.app`。实际画面、走路范围与验证见 [首屏记录](../../docs/art/pixel-courtyard-prototype-20261014/RUNTIME.md)。
+
+左键点地行走、点人物交谈、点建筑查看近况；滚轮缩放、右键拖动，空格暂停，Tab收起界面。原稿对照保持同一镜头。该入口读取正式模拟与独立山院存档，运行时切后台继续，手动暂停、阅读与关闭停止；重开恢复保存事实。下方演武与近山试行保留各自入口和历史规则。
+
 纯 2D 高清像素桌面样件：从山院步行下山，穿过溪桥、绕松石岛，进入谷地会武，再沿原路返院。支持亲自操作与自动行程。
 
 [实机记录](../../docs/art/hd-pixel-trail-20261014/RUNTIME.md) · [连续行程规则](../../docs/design/44-PIXEL-TRAIL-SLICE.md) · [基础演武规则](../../docs/design/43-PIXEL-ARENA-SLICE.md)

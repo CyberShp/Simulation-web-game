@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "recordedOn": "2026-10-15",
+  "purpose": "source identity for proposed visual fidelity workflow; not runtime acceptance",
+  "references": [
+    {
+      "id": "domain-expansion-v1.png",
+      "path": "docs/art/pixel-courtyard-prototype-20261014/domain-expansion-v1.png",
+      "status": "user-approved-layout-direction",
+      "width": 1672,
+      "height": 941,
+      "sha256": "01f2e729512344b6a1ba2f9bd0770c616bb0791803ca06c44f09f9acc1aba538"
+    },
+    {
+      "id": "arena-style",
+      "path": "prototypes/pixel_scene_validation/assets/courtyard-v1.png",
+      "status": "user-approved-style-reference",
+      "width": 1672,
+      "height": 941,
+      "sha256": "4dfd47195532eb01bf3e288f1dacdf846b4f58e8fc9942bb2c24931cda07a773"
+    },
+    {
+      "id": "courtyard-v1.png",
+      "path": "docs/art/pixel-courtyard-prototype-20261014/courtyard-v1.png",
+      "status": "material-reference-layout-revision-required",
+      "width": 1672,
+      "height": 941,
+      "sha256": "db3f4f4a0f742f57ecb1f3c73bcf960b93a2d36ccd2cfb9184e86578d9c37744"
+    }
+  ]
+}

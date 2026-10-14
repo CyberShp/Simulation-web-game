@@ -525,8 +525,8 @@
     "actualSaveVersionAtAuditNote": "Historical pre-schema6 audit; current schema and local state are recorded in currentDevelopment."
   },
   "execution": {
-    "scopeThisDelivery": "documentation-only",
-    "runtimeDeployment": "unchanged",
+    "scopeThisDelivery": "independent-desktop-arena-local-implementation-and-verification",
+    "runtimeDeployment": "local-macos-package-verified",
     "requiresRepositoryContext": true,
     "recommendedDoesNotMeanUserApproved": true,
     "targetDesignDoesNotMeanImplemented": true
@@ -957,6 +957,19 @@
     "nextWorkSource": "docs/design/DECISIONS.md",
     "fullDesignVerified": false,
     "versionAppliesTo": "existing formal JS game; art trial has independent local state",
+    "independentDesktopSlice": {
+      "decisionId": "U-135",
+      "reference": "docs/design/43-PIXEL-ARENA-SLICE.md",
+      "source": "prototypes/pixel_scene_validation/",
+      "entry": "prototypes/pixel_scene_validation/arena.html",
+      "ruleset": "arena-v1",
+      "schemaVersion": 1,
+      "status": "implemented-macos-package-verified",
+      "sourceStatus": "local-uncommitted",
+      "evidence": "docs/art/hd-pixel-20261014/ARENA-RUNTIME.md",
+      "writesFormalSaveSlots": false,
+      "windowsVerification": "not-run"
+    },
     "desktopArena": {
       "decisionId": "U-135",
       "status": "independent-slice-macos-verified",
@@ -1330,6 +1343,19 @@
     "closesWholeRequirements": false,
     "platformDecisionId": "U-128",
     "spatialAndCombatDecisionId": "U-127",
+    "preserved3DWork": {
+      "decisionIds": [
+        "U-129",
+        "U-130",
+        "U-131",
+        "U-132"
+      ],
+      "status": "stopped-local-archive",
+      "source": "prototypes/three_style_showcase/",
+      "assetEvidence": "docs/art/asset-review-20261013/README.md",
+      "sceneEvidence": "docs/art/reference-reconstruction-20261013/README.md",
+      "preserveUncommittedChanges": true
+    },
     "validationDecisionId": "U-134",
     "runtimeValidation": "45-component-checks-22-packaged-visible-macos-checks",
     "runtimeTechnique": "canvas2d-electron",
@@ -1410,6 +1436,12 @@
     "currentCombatDecisionId": "U-127",
     "currentCombatTarget": "large-scene-multiple-actors-realtime-skill-cooldowns",
     "currentCombatExpansionStatus": "16-32-actor-trail-macos-verified",
+    "preservedVisualWork": {
+      "decisionId": "U-126",
+      "status": "paused-local-unpublished",
+      "evidence": "docs/art/mountain-flat-20261013/RUNTIME.md",
+      "preserveUncommittedChanges": true
+    },
     "currentCombatPrototypeCount": 2,
     "currentRendererTrialDecisionId": "U-136",
     "currentRendererTrial": "canvas2d-electron",
@@ -1422,6 +1454,22 @@
       "prototypes/pixel_scene_validation/arena.html"
     ],
     "currentDesktop2DRuntimeStatus": "independent-local-trail-implemented-macos-package-verified",
+    "preservedDesktop3DWork": {
+      "decisionIds": [
+        "U-129",
+        "U-130",
+        "U-131",
+        "U-132"
+      ],
+      "status": "stopped-local-archive",
+      "rendererTrial": "threejs-electron",
+      "source": "prototypes/three_style_showcase/",
+      "autoplaySampleCount": 2,
+      "referenceScene": "prototypes/three_style_showcase/reference.html",
+      "assetGallery": "prototypes/three_style_showcase/asset-review.html",
+      "evidence": "docs/art/asset-review-20261013/README.md",
+      "preserveUncommittedChanges": true
+    },
     "currentSceneValidationDecisionId": "U-134",
     "staticPrototypeFiles": [
       "docs/art/hd-pixel-20261014/courtyard-battle.png",
@@ -1480,9 +1528,33 @@
       "backgroundClock": "verified-tick-583-no-catchup",
       "crossProcessRestore": "32-actors-exact-paused-snapshot-and-continued-movement"
     },
-    "currentGameplayDecisionId": "U-139",
-    "currentGameplayStatus": "confirmed-direction-implementation-pending",
-    "currentGameplayEvidence": "docs/design/DECISIONS.md"
+    "currentGameplayDecisionId": "U-144",
+    "currentGameplayStatus": "first-screen-reconstruction-user-review-pending",
+    "currentGameplayEvidence": "docs/art/pixel-courtyard-prototype-20261014/RUNTIME.md",
+    "currentCourtyardArt": {
+      "decisionId": "U-144",
+      "updatedAt": "2026-10-15",
+      "prototype": "docs/art/pixel-courtyard-prototype-20261014/courtyard-v2.png",
+      "evidence": "docs/art/pixel-courtyard-prototype-20261014/RUNTIME.md",
+      "fidelityPlan": "docs/art/pixel-courtyard-prototype-20261014/FIDELITY.md",
+      "status": "first-screen-macos-verified-user-art-review-pending",
+      "runtimeIntegrated": true,
+      "userApprovedMaster": true,
+      "runtimeArtApproved": false,
+      "sourceEntry": "prototypes/pixel_scene_validation/courtyard.html",
+      "terrainVersion": "courtyard-master-terrain-2",
+      "runtimeVerification": {
+        "packagedReviewChecks": "94/94",
+        "autonomySeconds": 70.029,
+        "autonomySamples": 701,
+        "runtimeErrors": 0,
+        "environmentComparedPixels": 1447576,
+        "environmentDifferentPixels": 0,
+        "nativeInput": "verified",
+        "v1SaveUpgrade": "verified",
+        "windows": "not-run"
+      }
+    }
   },
   "characterDialogue": {
     "decisionId": "U-125",
@@ -1686,5 +1758,32 @@
     "currentSpatialDecisionId": "U-107",
     "currentSpatialReference": "docs/MOUNTAIN-DOMAIN.md",
     "historicalAlignmentDecisionId": "U-106"
-  }
+  },
+  "historicalArtDirections": [
+    {
+      "decisionId": "U-110",
+      "decisionStatus": "user-confirmed",
+      "updatedAt": "2026-10-10",
+      "reference": "docs/design/DECISIONS.md",
+      "engine": "Godot",
+      "delivery": "Web",
+      "rendering": "godot-2d-layered-painting",
+      "view": "fixed-oblique",
+      "sourceScene": "godot/estate_2d/estate.tscn",
+      "siteLayout": "godot/estate_2d/estate-sites.json",
+      "buildScript": "tools/build-estate-painted-web.py",
+      "generatedPreviewEntry": "dist/painted-game/index.html",
+      "previewSaveNamespace": "estate-game",
+      "runtimeEvidence": "docs/design/STATUS.md",
+      "publicationStatus": "published-preview",
+      "userRealtimeApproval": "pending",
+      "simulatedSpatialCollisionStatus": "retained-and-locally-checked",
+      "preserveExistingAssetsAndEvidence": true,
+      "closesWholeRequirements": false,
+      "currentSpatialDecisionId": "U-117",
+      "historicalEstateRenderingDecisionId": "U-109",
+      "historicalPaintedTrialDecisionId": "U-104",
+      "historicalMountainTrialDecisionId": "U-107"
+    }
+  ]
 }

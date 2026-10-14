@@ -3,6 +3,8 @@ import {finalizeBuildingChange,releaseBodyActivity} from './ea-facility-activiti
 import {scenicPoint} from './ea-scene-geometry.mjs';
 import {BUILDINGS,RESOURCES,log as gameLog} from './ea-data.mjs';
 import {BUILDING_GRID,buildingGridEnabled,buildingCellSize,onBuildingGrid} from './ea-building-grid.mjs';
+import {DOMAIN_LAYOUT_VERSION,DOMAIN_EXTENT_VERSION,SECT_DOMAIN,activeBounds,domainBarriers,domainSiteAt} from './ea-sect-domain.mjs';
+import {COURTYARD_MASTER_TERRAIN_VERSION,courtyardTerrainSolids,validateCourtyardTerrainRecord,courtyardPassage} from './ea-courtyard-master-terrain.mjs';
 export const SPATIAL_VERSION='spatial-metres-1';
 export const SPATIAL_EXTENT_VERSION='courtyard-96-1';
 export const INTERIOR_LAYOUT_VERSION='adult-furniture-1';
@@ -13,12 +15,14 @@ export const COURTYARD_WALK_RATE=2.2;
 // Unmarked metre saves must first pass their original 64m boundary. This is a
 // content extent marker within schema 6, not a coordinate or identity migration.
 const LEGACY_SPATIAL_BOUNDS=Object.freeze({width:64,height:64});
-function sceneBounds(s){
+export function spatialBounds(s){
  if(!spatialEnabled(s))return SPATIAL_SCENE;
  if(!Object.hasOwn(s.spatial,'extentVersion'))return LEGACY_SPATIAL_BOUNDS;
+ if(s.spatial.extentVersion===DOMAIN_EXTENT_VERSION)return activeBounds;
  if(s.spatial.extentVersion!==SPATIAL_EXTENT_VERSION)throw Error('未知山院范围版本，原存档保留。');
  return SPATIAL_SCENE;
 }
+const sceneBounds=spatialBounds;
 export const spatialEnabled=s=>s?.spatial?.version===SPATIAL_VERSION;
 export const sceneUnits=(s,pixels)=>spatialEnabled(s)?pixels/32:pixels;
 export const legacyToWorld=p=>({x:p.x/32,y:p.y/(32*.65)});
@@ -72,9 +76,9 @@ const ESTATE_GATE_POSTS=Object.freeze([
  {id:'estate:gate-west',label:'旧山门西柱',kind:'solid',polygon:rect(28.57,57.43,1.14,1.14)},
  {id:'estate:gate-east',label:'旧山门东柱',kind:'solid',polygon:rect(34.29,57.43,1.14,1.14)},
 ]);
-export const spatialTerrain=s=>s?.spatial?.estateCollisionVersion==='estate-gate-1'?[...SPATIAL_TERRAIN,...ESTATE_GATE_POSTS]:SPATIAL_TERRAIN;
+export const spatialTerrain=s=>[...SPATIAL_TERRAIN,...(s?.spatial?.estateCollisionVersion==='estate-gate-1'?ESTATE_GATE_POSTS:[]),...(s?.spatial?.extentVersion===DOMAIN_EXTENT_VERSION?domainBarriers.map(t=>({...t,polygon:t.polygon.map(p=>[...p])})):[]),...courtyardTerrainSolids(s?.spatial?.courtyardTerrain?.version).map(t=>({...t,polygon:t.polygon.map(p=>[...p])}))];
 const collisionCache=new WeakMap();
-export function spatialRevision(s){return (s.buildings||[]).map(b=>`${b.id}:${b.type}:${b.level}:${b.buildingGridVersion||'metres'}:${b.interiorLayoutVersion||'compact'}:${spatialTransform(b).x}:${spatialTransform(b).y}`).join('|')+';'+(s.spatial?.geometryRevision||0)+';'+(s.spatial?.extentVersion||'legacy-64')+';'+(s.spatial?.estateCollisionVersion||'');}
+export function spatialRevision(s){return (s.buildings||[]).map(b=>`${b.id}:${b.type}:${b.level}:${b.buildingGridVersion||'metres'}:${b.interiorLayoutVersion||'compact'}:${spatialTransform(b).x}:${spatialTransform(b).y}`).join('|')+';'+(s.spatial?.geometryRevision||0)+';'+(s.spatial?.extentVersion||'legacy-64')+';'+(s.spatial?.estateCollisionVersion||'')+(s.spatial?.courtyardTerrain?';'+s.spatial.courtyardTerrain.version:'');}
 function obstacles(s){const rev=spatialRevision(s),old=collisionCache.get(s);if(old?.rev===rev)return old.polygons;const polygons=[...spatialTerrain(s).filter(t=>t.kind!=='protected').map(t=>t.polygon),...(s.buildings||[]).flatMap(b=>{const r=spatialRoom(b);return r?[...r.walls,...r.furniture.map(f=>f.polygon)]:b.type==='well'&&b.buildingGridVersion===BUILDING_GRID.version?[spatialFootprint(b)]:[];})];for(const poly of polygons){const xs=poly.map(p=>p[0]),ys=poly.map(p=>p[1]);poly.aabb={left:Math.min(...xs),right:Math.max(...xs),top:Math.min(...ys),bottom:Math.max(...ys)};}const index=new Map();for(const poly of polygons){const b=poly.aabb;for(let y=Math.floor(b.top/2);y<=Math.floor(b.bottom/2);y++)for(let x=Math.floor(b.left/2);x<=Math.floor(b.right/2);x++){const key=`${x}/${y}`;if(!index.has(key))index.set(key,[]);index.get(key).push(poly);}}polygons.spatialIndex=index;polygons.bounds=sceneBounds(s);collisionCache.set(s,{rev,polygons});return polygons;}
 function clearPoint(polygons,p,radius=.26){const bounds=polygons.bounds||SPATIAL_SCENE;if(!Number.isFinite(p?.x)||!Number.isFinite(p?.y)||p.x<radius||p.y<radius||p.x>bounds.width-radius||p.y>bounds.height-radius)return false;if(!polygons.spatialIndex)return !polygons.some(poly=>polygonContains(p,poly,radius));for(let y=Math.floor((p.y-radius)/2);y<=Math.floor((p.y+radius)/2);y++)for(let x=Math.floor((p.x-radius)/2);x<=Math.floor((p.x+radius)/2);x++)if(polygons.spatialIndex.get(`${x}/${y}`)?.some(poly=>polygonContains(p,poly,radius)))return false;return true;}
 function segmentsIntersect(a,b,c,d){const cross=(p,q,r)=>(q.x-p.x)*(r.y-p.y)-(q.y-p.y)*(r.x-p.x),v1=cross(a,b,c),v2=cross(a,b,d),v3=cross(c,d,a),v4=cross(c,d,b);if(Math.abs(v1)<1e-10&&Math.abs(v2)<1e-10)return Math.max(Math.min(a.x,b.x),Math.min(c.x,d.x))<=Math.min(Math.max(a.x,b.x),Math.max(c.x,d.x))+1e-10&&Math.max(Math.min(a.y,b.y),Math.min(c.y,d.y))<=Math.min(Math.max(a.y,b.y),Math.max(c.y,d.y))+1e-10;return v1*v2<=0&&v3*v4<=0;}
@@ -94,8 +98,12 @@ export function meterNearest(s,p,{maxDistance,radius=.26,occupied=[]}={}){
 }
 function heapPush(heap,n){let i=heap.length;heap.push(n);while(i){const p=(i-1)>>1;if(heap[p].f<=n.f)break;heap[i]=heap[p];i=p;}heap[i]=n;}
 function heapPop(heap){const first=heap[0],last=heap.pop();if(heap.length){let i=0;while(i*2+1<heap.length){let c=i*2+1;if(c+1<heap.length&&heap[c+1].f<heap[c].f)c++;if(last.f<=heap[c].f)break;heap[i]=heap[c];i=c;}heap[i]=last;}return first;}
-export function meterFindPath(s,from,goal,{maxSnap=2,radius=.26}={}){
+export function meterFindPath(s,from,goal,{maxSnap=2,radius=.26,throughCourtyardPassage=true}={}){
  const polygons=obstacles(s),clear=p=>clearPoint(polygons,p,radius),sweep=(a,b)=>({blocked:!clear(a)||!continuousClear(polygons,a,b,radius)});if(!clear(from))return null;const to=clear(goal)?{x:goal.x,y:goal.y}:meterNearest(s,goal,{maxDistance:maxSnap,radius});if(!to)return null;if(distance(from,to)<.001)return [];if(!sweep(from,to).blocked)return [to];
+ if(throughCourtyardPassage&&courtyardTerrainSolids(s.spatial?.courtyardTerrain?.version).length){
+  const passage=courtyardPassage(from,to);
+  if(passage){const result=[];let at=from;for(const point of [...passage,to]){const route=meterFindPath(s,at,point,{maxSnap:0,radius,throughCourtyardPassage:false});if(route===null)return null;result.push(...route);at=point;}return result;}
+ }
  const step=SPATIAL_SCENE.grid,maxX=Math.ceil(polygons.bounds.width/step)-1,maxY=Math.ceil(polygons.bounds.height/step)-1,stride=maxX+1;
  const k=(x,y)=>y*stride+x,open=[],cost=new Map(),parents=new Map(),points=new Map(),closed=new Set();
  for(let y=Math.round(from.y/step)-2;y<=Math.round(from.y/step)+2;y++)for(let x=Math.round(from.x/step)-2;x<=Math.round(from.x/step)+2;x++){const p={x:x*step,y:y*step};if(x<1||y<1||x>maxX||y>maxY||sweep(from,p).blocked)continue;const id=k(x,y),g=distance(from,p);cost.set(id,g);points.set(id,p);heapPush(open,{x,y,id,g,f:g+distance(p,to)});}
@@ -220,7 +228,11 @@ export function placementIssue(s,type,x,y,{ignoreId=null,level=1,checkPeople=tru
  if(buildingGridEnabled(s)&&(!onBuildingGrid(x)||!onBuildingGrid(y)))return '位置须对齐建筑单位格；每格2米。';
  const bounds=sceneBounds(s),b=layoutBuilding(s,{type,level,transform:{x,y,orientation:'south'}}),r=footprintRect(b),poly=spatialFootprint(b);
  if(x<1||y<1||x+r.w>bounds.width-1||y+r.h+1>bounds.height-1)return '此处超出可建边界或未留门外通道。';
- for(const t of spatialTerrain(s)){const xs=t.polygon.map(p=>p[0]),ys=t.polygon.map(p=>p[1]);if(overlaps(r,{x:Math.min(...xs),y:Math.min(...ys),w:Math.max(...xs)-Math.min(...xs),h:Math.max(...ys)-Math.min(...ys)}))return `${t.label}不能营造。`;}
+ if(s.spatial?.extentVersion===DOMAIN_EXTENT_VERSION&&(x+r.w>SPATIAL_SCENE.width||y+r.h>SPATIAL_SCENE.height)){
+  const site=domainSiteAt(type,x,y);
+  if(!site||level>site.maxLevel||r.w>site.reserveWidth||r.h>site.reserveHeight)return '请在东台已规划的营造地动工。';
+ }
+ for(const t of spatialTerrain(s)){if(t.buildingId===`building:yunxiu:${ignoreId}`&&type==='farm'&&x===12&&y===40&&level===1)continue;const xs=t.polygon.map(p=>p[0]),ys=t.polygon.map(p=>p[1]);if(overlaps(r,{x:Math.min(...xs),y:Math.min(...ys),w:Math.max(...xs)-Math.min(...xs),h:Math.max(...ys)-Math.min(...ys)}))return `${t.label}不能营造。`;}
  for(const old of s.buildings||[]){if(old.id===ignoreId)continue;if(overlaps(r,footprintRect(old)))return `与${BUILDINGS[old.type].name}（${old.id}）占地冲突。`;if(polygonContains(spatialAccess(old),poly,.65))return `挡住${BUILDINGS[old.type].name}入口与门外通路。`;if(polygonContains(spatialAccess(b),spatialFootprint(old),.65))return `${BUILDINGS[old.type].name}占地挡住新设施入口与门外通路。`;}
  if(checkReservations)for(const o of Object.values(s.workOrdersById||{})){if(o.kind!=='construction'||!o.spatial||['cancelled','completed'].includes(o.phase)||o.targetId===`building:yunxiu:${ignoreId}`||o.operation==='demolish')continue;const planned=layoutBuilding(s,{type:o.buildingType,level:o.targetLevel,transform:o.targetTransform});if(overlaps(r,footprintRect(planned)))return '该位置已有施工预约。';}
  if(checkPeople)for(const p of people(s)){const q=personPosition(s,p);if(q&&polygonContains(q,poly,.26))return `${p.name||p.personId}正在此处，请等其走开。`;}
@@ -253,10 +265,40 @@ function log(s,message){gameLog(s,message);}
  * Existing metre saves are validated before conversion; identity and job progress
  * survive. The explicit mapping is persisted and never performed by a renderer. */
 function initSpatialExtent(s){
- if(s.spatial.extentVersion===SPATIAL_EXTENT_VERSION)return s;
+ if([SPATIAL_EXTENT_VERSION,DOMAIN_EXTENT_VERSION].includes(s.spatial.extentVersion))return s;
  // Validation remains on the legacy boundary until every original position,
  // route and construction target is accepted. Expansion only adds metadata.
  validateSpatial(s);s.spatial.extentVersion=SPATIAL_EXTENT_VERSION;return s;
+}
+/** Explicit content activation preserves every existing metre position and
+ * activity. The current world command owns the transaction and its receipt. */
+export function enableSectDomain(s){
+ if(!spatialEnabled(s)||!buildingGridEnabled(s))throw Error('山域扩展需要现行米制山院存档。');
+ validateSpatial(s);
+ if(s.spatial.extentVersion===DOMAIN_EXTENT_VERSION)return {enabled:true,alreadyEnabled:true,extentVersion:DOMAIN_EXTENT_VERSION,layoutVersion:DOMAIN_LAYOUT_VERSION};
+ if(s.story?.opening&&s.story.opening.hallPhase!=='complete')throw Error('先营造主殿，再启用东台山路。');
+ s.spatial.extentVersion=DOMAIN_EXTENT_VERSION;
+ s.spatial.domain={layoutVersion:DOMAIN_LAYOUT_VERSION,openedAtTick:s.worldTick};
+ s.spatial.geometryRevision++;
+ validateSpatial(s);
+ return {enabled:true,alreadyEnabled:false,extentVersion:DOMAIN_EXTENT_VERSION,layoutVersion:DOMAIN_LAYOUT_VERSION};
+}
+export function enableCourtyardTerrain(s){
+ if(!spatialEnabled(s)||!buildingGridEnabled(s))throw Error('首屏地形需要现行米制山院存档。');
+ validateSpatial(s);
+ if(s.spatial.courtyardTerrain?.version===COURTYARD_MASTER_TERRAIN_VERSION)return {enabled:true,alreadyEnabled:true,version:COURTYARD_MASTER_TERRAIN_VERSION};
+ s.spatial.courtyardTerrain={version:COURTYARD_MASTER_TERRAIN_VERSION,activatedAtTick:s.worldTick};
+ validateCourtyardTerrainRecord(s);
+ s.spatial.geometryRevision++;
+ for(const p of people(s)){
+  const a=personPosition(s,p);if(!a)continue;
+  if(!meterCanStand(s,a))throw Error(`首屏地面物件与现有人物位置冲突：${p.personId}，原存档保留。`);
+  if(a.path?.length){const route=meterFindPath(s,a,a.goal||a.path.at(-1),{maxSnap:0});if(route===null)throw Error(`首屏地面物件使既有行程不可达：${p.personId}，原存档保留。`);a.path=route;}
+  if(a.bodyYield?.path?.length){const route=meterFindPath(s,a,a.bodyYield.path.at(-1),{maxSnap:0});if(route===null)throw Error(`首屏地面物件使既有让行不可达：${p.personId}，原存档保留。`);a.bodyYield.path=route;}
+  a.revision=spatialRevision(s);
+ }
+ validateSpatial(s);
+ return {enabled:true,alreadyEnabled:false,version:COURTYARD_MASTER_TERRAIN_VERSION};
 }
 function initInteriorLayout(s){
  const version=s.spatial.interiorLayoutVersion;
@@ -435,10 +477,20 @@ function begin(s,operation,b,targetTransform){
  pay(s,cost);releaseBodyActivity(s,s.master);const id=b.id,activityId=`activity:build:${id}`,reservationId=`reservation:build:${id}`;
  const a={id:activityId,kind:'construction',personId:'person:master',phase:route.length?'moving':'working',operation,type:b.type,x:b.x,y:b.y,buildingId:id,instanceId:`building:yunxiu:${id}`,transform:targetTransform,target,workOrderId:orderId,reservationId};
  const o={id:orderId,kind:'construction',spatial:true,operation,targetId:a.instanceId,buildingType:b.type,targetLevel,targetTransform,sourceTransform:existing?{...b.transform}:null,phase:'active',progressTicks:0,durationTicks:operation==='build'||operation==='establish'?200:operation==='upgrade'?240:operation==='relocate'?180:120,activityIds:[activityId],reservationId,usedCost:{},evacuations:[],workSlots,workSlotGeometryRevision:s.spatial.geometryRevision};
+ const site=domainSiteAt(b.type,targetTransform.x,targetTransform.y);if(site)o.domainSiteId=site.id;
  s.activitiesById[activityId]=a;s.workOrdersById[orderId]=o;s.reservationsById[reservationId]={id:reservationId,activityId,kind:'construction-material',cost};s.master.activityId=activityId;s.master.scenic.path=route;s.master.scenic.goal=route.at(-1)||null;s.master.action=route.length?'walk':'rest';setupConstructionMaterials(s,a,o,cost,sourceRoute);if(existing)b.spatialLock=orderId;
  log(s,operation==='establish'?'主殿开始营造，材料正运往工地。':`${def.name}已登记${operation==='build'?'营造':operation==='upgrade'?'升级':operation==='relocate'?'迁建':'拆除'}，须到场并安全撤离使用者。`);return {id,operation,pending:true,activityId,workOrderId:orderId,transform:targetTransform};
 }
 export const handlers={
+ enableSectDomain,
+ enableCourtyardTerrain,
+ buildDomainSite(s,siteId){
+  if(s.spatial?.extentVersion!==DOMAIN_EXTENT_VERSION)throw Error('先启用东台山路与营造地。');
+  const site=SECT_DOMAIN.sites.find(value=>value.id===siteId);if(!site)throw Error('营造地不存在。');
+  const result=handlers.build(s,site.type,site.x,site.y);
+  s.workOrdersById[result.workOrderId].domainSiteId=site.id;
+  return {...result,siteId:site.id};
+ },
  establishHall(s){
   if(s.story?.opening?.hallPhase!=='shelter')throw Error('主殿营造已安排。');
   const hall=s.buildings.find(b=>b.type==='hall');if(!hall)throw Error('主殿地基未找到。');
@@ -674,17 +726,20 @@ export function tickSpatial(s){
   if(remainingCapacity<(s.homeMemberIds?.length||0)){a.phase='blocked';a.reason='拆除后床位不足，请先安排其他居所。';o.waitingReason=a.reason;return;}
  }
  const issue=o.operation==='demolish'?'':placementIssue(s,a.type,o.targetTransform.x,o.targetTransform.y,{ignoreId:source?.id,level:o.targetLevel,checkReservations:false});if(issue){a.phase='blocked';a.reason=issue;return;}
- if(o.operation==='build'){const b=layoutBuilding(s,{id:a.buildingId,instanceId:a.instanceId,type:a.type,x:a.x,y:a.y,transform:{...o.targetTransform},prefabId:prefabId(future),sceneId:SPATIAL_SCENE.id,level:1,progress:0,condition:100,enabled:true});s.buildings.push(b);s.stats.built++;}
+ if(o.operation==='build'){const b=layoutBuilding(s,{id:a.buildingId,instanceId:a.instanceId,type:a.type,x:a.x,y:a.y,transform:{...o.targetTransform},prefabId:prefabId(future),sceneId:SPATIAL_SCENE.id,level:1,progress:0,condition:100,enabled:true});const site=domainSiteAt(b.type,b.transform.x,b.transform.y);if(site)b.domainSiteId=site.id;s.buildings.push(b);s.stats.built++;}
  else if(o.operation==='demolish'){finalizeBuildingChange(s,source,'demolish');const refund={};for(const [k,v]of Object.entries(BUILDINGS[source.type].cost))refund[k]=Math.floor(v*.65);for(let n=1;n<source.level;n++)for(const[k,v]of Object.entries({jade:45*n,wood:30*n,stone:20*n}))refund[k]=(refund[k]||0)+Math.floor(v*.65);grant(s,refund);for(const p of s.disciples||[])if(p.job===source.id)p.job=null;s.buildings=s.buildings.filter(b=>b.id!==source.id);o.salvage=refund;}
- else{source.transform={...o.targetTransform};if(o.operation==='upgrade'){source.level=o.targetLevel;source.condition=100;}if(o.operation==='establish'){source.condition=100;s.story.opening.hallPhase='complete';s.stats.built++;log(s,'主殿落成，山院有了立身之所。');}if(o.operation==='relocate'){source.x=o.targetTransform.x;source.y=o.targetTransform.y;s.stats.relocated++;}delete source.spatialLock;finalizeBuildingChange(s,source,o.operation);}
- s.spatial.geometryRevision++;s.spatial.completedOrders.push({id:o.id,operation:o.operation,phase:'completed',progressTicks:o.progressTicks,usedCost:{...o.usedCost},sourceTransform:o.sourceTransform,targetTransform:o.targetTransform,evacuations:o.evacuations,salvage:o.salvage||null,tick:s.worldTick});cleanup(s,a);
+ else{source.transform={...o.targetTransform};if(o.operation==='upgrade'){source.level=o.targetLevel;source.condition=100;}if(o.operation==='establish'){source.condition=100;s.story.opening.hallPhase='complete';s.stats.built++;log(s,'主殿落成，山院有了立身之所。');}if(o.operation==='relocate'){source.x=o.targetTransform.x;source.y=o.targetTransform.y;const site=domainSiteAt(source.type,source.transform.x,source.transform.y);if(site)source.domainSiteId=site.id;else delete source.domainSiteId;s.stats.relocated++;}delete source.spatialLock;finalizeBuildingChange(s,source,o.operation);}
+ s.spatial.geometryRevision++;s.spatial.completedOrders.push({id:o.id,operation:o.operation,phase:'completed',progressTicks:o.progressTicks,usedCost:{...o.usedCost},sourceTransform:o.sourceTransform,targetTransform:o.targetTransform,evacuations:o.evacuations,salvage:o.salvage||null,tick:s.worldTick,...(o.domainSiteId?{domainSiteId:o.domainSiteId,materialTrips:o.materialFlow?.trips||[]}:{})});cleanup(s,a);
  for(const p of people(s)){const q=personPosition(s,p);if(q){q.revision=spatialRevision(s);q.path=[];q.goal=null;}}
  pruneDoorQueues(s);
 }
 export function viewSpatial(s){const a=spatialConstruction(s),o=a&&s.workOrdersById[a.workOrderId];if(!o)return null;const b=layoutBuilding(s,{id:a.buildingId,type:a.type,level:o.targetLevel,transform:o.targetTransform});return {building:b,position:spatialAccess(b),footprint:spatialFootprint(b),access:a.target,progress:o.progressTicks/o.durationTicks,stage:o.progressTicks/o.durationTicks<1/3?'foundation':o.progressTicks/o.durationTicks<2/3?'structure':'finishing',label:o.waitingReason||a.reason||({moving:'前往工地',working:'到场施工',blocked:'等待安全条件'}[a.phase]),operation:o.operation};}
 export function validateSpatial(s){
  if(!spatialEnabled(s))return true;
+ validateCourtyardTerrainRecord(s);
  const bounds=sceneBounds(s);
+ if(s.spatial.extentVersion===DOMAIN_EXTENT_VERSION){const d=s.spatial.domain;if(!d||d.layoutVersion!==DOMAIN_LAYOUT_VERSION||!Number.isSafeInteger(d.openedAtTick)||d.openedAtTick<0||d.openedAtTick>s.worldTick)throw Error('山域布局版本或开放记录异常，原存档保留。');}
+ else if(s.spatial.domain!==undefined)throw Error('山域布局与空间范围版本不一致，原存档保留。');
  if(s.spatial.buildingGridVersion&&!buildingGridEnabled(s))throw Error('未知建筑单位格版本。');
  if(s.spatial.interiorLayoutVersion&&s.spatial.interiorLayoutVersion!==INTERIOR_LAYOUT_VERSION||s.buildings.some(b=>b.interiorLayoutVersion&&b.interiorLayoutVersion!==INTERIOR_LAYOUT_VERSION))throw Error('未知室内布局版本，原存档保留。');
  if(s.spatial.sceneId!==SPATIAL_SCENE.id||!Number.isSafeInteger(s.spatial.geometryRevision)||s.spatial.geometryRevision<1||!Array.isArray(s.spatial.migrations)||!Array.isArray(s.spatial.completedOrders)||s.spatial.completedOrders.length>128)throw Error('米制空间迁移记录异常。');
@@ -694,10 +749,11 @@ export function validateSpatial(s){
   let previous=null;for(const record of [...(q.holder?[q.holder]:[]),...q.waiting]){if(record?.entryId!==entryId||typeof record.personId!=='string'||!Number.isSafeInteger(record.firstArrivalTick)||record.firstArrivalTick<0||record.firstArrivalTick>s.worldTick||record.activityId!==null&&typeof record.activityId!=='string'||!Number.isFinite(record.target?.x)||!Number.isFinite(record.target?.y)||!['in','out'].includes(record.phase)||queued.has(record.personId))throw Error('门道通行权或候选记录异常。');queued.add(record.personId);}
   for(const record of q.waiting){if(previous&&(previous.firstArrivalTick>record.firstArrivalTick||previous.firstArrivalTick===record.firstArrivalTick&&previous.personId.localeCompare(record.personId)>0))throw Error('门道候选队序异常。');previous=record;}
  }}
- for(const b of s.buildings){const t=b.transform,d=spatialPrefab(b);if(!t||![t.x,t.y].every(Number.isFinite)||snap(t.x)!==t.x||snap(t.y)!==t.y||t.orientation!=='south'||b.prefabId!==prefabId(b)||b.buildingGridVersion&&!buildingGridEnabled(s)||buildingGridEnabled(s)&&(b.buildingGridVersion!==BUILDING_GRID.version||!onBuildingGrid(t.x)||!onBuildingGrid(t.y))||t.x<1||t.y<1||t.x+d.width>bounds.width-1||t.y+d.height+1>bounds.height-1)throw Error(`米制建筑位置异常：${b.instanceId}`);const issue=placementIssue(s,b.type,t.x,t.y,{ignoreId:b.id,level:b.level,checkPeople:false,checkReservations:false,checkConnectivity:false});if(issue||!meterCanStand(s,spatialAccess(b)))throw Error(`米制建筑占地或入口异常：${b.instanceId} ${issue}`);}
+ for(const b of s.buildings){const t=b.transform,d=spatialPrefab(b);if(!t||![t.x,t.y].every(Number.isFinite)||snap(t.x)!==t.x||snap(t.y)!==t.y||t.orientation!=='south'||b.prefabId!==prefabId(b)||b.buildingGridVersion&&!buildingGridEnabled(s)||buildingGridEnabled(s)&&(b.buildingGridVersion!==BUILDING_GRID.version||!onBuildingGrid(t.x)||!onBuildingGrid(t.y))||t.x<1||t.y<1||t.x+d.width>bounds.width-1||t.y+d.height+1>bounds.height-1)throw Error(`米制建筑位置异常：${b.instanceId}`);const issue=placementIssue(s,b.type,t.x,t.y,{ignoreId:b.id,level:b.level,checkPeople:false,checkReservations:false,checkConnectivity:false});if(issue||!meterCanStand(s,spatialAccess(b)))throw Error(`米制建筑占地或入口异常：${b.instanceId} ${issue}`);const site=domainSiteAt(b.type,t.x,t.y);if(b.domainSiteId!==undefined&&b.domainSiteId!==site?.id||t.x>=SPATIAL_SCENE.width&&b.domainSiteId!==site?.id)throw Error('建筑与山域营造地身份不一致。');}
  for(const p of people(s)){const a=personPosition(s,p);if(a&&!meterCanStand(s,a))throw Error(`人物米制脚点不合法：${p.personId}`);let from=a;for(const q of a?.path||[]){if(meterSweep(s,from,q).blocked)throw Error('米制路径穿越障碍。');from=q;}if(a?.bodyYield){const y=a.bodyYield;if(!['door-wait','mutual-corridor',undefined].includes(y.kind)||typeof y.requestedBy!=='string'||!Number.isSafeInteger(y.startedTick)||y.startedTick<0||y.startedTick>s.worldTick||!Number.isFinite(y.target?.x)||!Number.isFinite(y.target?.y)||!Array.isArray(y.path)||y.path.length>24||y.path.some(q=>!Number.isFinite(q?.x)||!Number.isFinite(q?.y)))throw Error('人物真实让行路径异常。');}}
  const active=Object.values(s.workOrdersById).filter(o=>o.spatial&&o.kind==='construction');if(active.length>1)throw Error('重复施工工作单。');
  for(const o of active){const a=s.activitiesById[o.activityIds?.[0]],r=s.reservationsById[o.reservationId],source=s.buildingsById?.[o.targetId];
+  if(o.domainSiteId!==undefined&&o.domainSiteId!==domainSiteAt(o.buildingType,o.targetTransform?.x,o.targetTransform?.y)?.id)throw Error('施工与山域营造地身份不一致。');
   if(!a||s.master.activityId!==a.id||a.personId!=='person:master'||a.instanceId!==o.targetId||o.id!==`work:construction:${a.buildingId}`||a.id!==`activity:build:${a.buildingId}`||!r||r.activityId!==a.id||r.kind!=='construction-material'||a.workOrderId!==o.id||!['build','establish','upgrade','relocate','demolish'].includes(o.operation)||!['moving','working','blocked'].includes(a.phase)||!Number.isInteger(o.progressTicks)||o.progressTicks<0||o.progressTicks>o.durationTicks||o.durationTicks!==({build:200,establish:200,upgrade:240,relocate:180,demolish:120}[o.operation])||!Number.isInteger(a.buildingId)||a.buildingId<1||a.buildingId>=s.nextId||o.operation==='build'&&source||o.operation!=='build'&&!source||!BUILDINGS[o.buildingType]||o.buildingType!==a.type||o.operation==='establish'&&(a.type!=='hall'||s.story?.opening?.hallPhase!=='building'||o.targetLevel!==source.level))throw Error('米制施工预约异常。');
   if(o.workSlots){
    if(!Array.isArray(o.workSlots)||o.workSlots.length<1||o.workSlots.length>2||!Number.isSafeInteger(o.workSlotGeometryRevision)||o.workSlotGeometryRevision<1||o.workSlotGeometryRevision>s.spatial.geometryRevision||!Array.isArray(o.activityIds)||o.activityIds[0]!==a.id||o.activityIds.length>o.workSlots.length+1||new Set(o.activityIds).size!==o.activityIds.length)throw Error('施工执行位或参与者记录异常。');
