@@ -1,0 +1,18 @@
+# 近山地形材质统一 · 2026-10-14
+
+U-138 的美术参照为已认可的原山院 `prototypes/pixel_scene_validation/assets/courtyard-v1.png`。内置 imagegen 以该图为风格参照，以 v4 南方地形为布局参照，生成同构图的 v5。原山院素材保持逐字节一致；下方素材原生尺寸为 1182×1330，运行时映射为 1672×1882。
+
+输出素材：[trail-terrain-v5.png](../../../prototypes/pixel_scene_validation/assets/trail-terrain-v5.png)。制作结果先作为候选，再通过实际桌面窗口检查衔接、人物比例及树石遮挡。运行证据见 [STYLE-ALIGNMENT.md](STYLE-ALIGNMENT.md)。
+
+## 实际生成提示
+
+```text
+Use case: style-transfer.
+Asset type: production 2D Chinese cultivation game terrain plate, high-resolution fine-pixel scenic illustration.
+Input image 1 is the AUTHORITATIVE STYLE reference: the existing mountain sect courtyard. Input image 2 is the EDIT TARGET: the southward stone bridge, pine island and combat clearing. Return only the edited portrait terrain of image 2, with its exact framing, top-down-oblique camera, object locations, sizes, road widths and walkable silhouette preserved.
+Primary request: repaint ALL vegetation, rocks, masonry, ground and water in image 2 so it belongs to exactly the same finely rendered scene as image 1. Match image 1's small, densely resolved pixel marks, slender irregular pine needles, gnarled narrow branches, fine shrubs and wildflowers, subtly fractured gray stone faces, elegant detailed lamp posts, weathered beige-gray paving, and natural material shading. The intended style is image 1's sophisticated detailed Chinese landscape game painting with very fine crisp pixel edges. Every tree canopy must have image 1's fine irregular branch/needle structure and natural asymmetry. Thin shrubs and tall grasses cluster at rock feet. Slate gray and muted olive foliage with restrained warm highlights, deep desaturated blue-green shadow, pale ivory stone, natural blue-gray water. Maintain image 1's daylight direction and tonal range.
+Geometry invariants: keep image 2 as the layout guide. Top center stair opening spans about 42–56 percent width, widens into the approach; stone bridge deck at 41–58 percent width and 18–31 percent height; the central pine rock island within 35–67 percent width and 34–56 percent height; curving paths pass on both sides; broad unobstructed clearing is centered in the lower third; water remains above the island crossing left/right under the bridge. Preserve the riverbanks, bridge rail feet, island footprint and all path/clearing boundaries exactly. Render the large central island's foliage within its existing silhouette.
+Seam requirement: the very TOP edge is a continuation immediately below image 1's bottom edge. The original courtyard stair ends at the top border of this new plate; match the existing stair width, stone tile scale, edge rails, and neighboring foliage density. Gray rock slopes at left and the thin waterfall cascade at right continue from the reference. The first 15 percent of the image should naturally bridge the existing courtyard vegetation into the rest of the new terrain, at one consistent material scale.
+Resolution: produce this same portrait composition with at least 1672 x 1882 pixels of detailed drawing if supported; preserve the ~0.888 width/height ratio. Tiny fine detail should read at 1:1 scale, with sharp material edges.
+Constraints: preserve exactly the established geometry and open fight area. Terrain and environment only, no characters, no UI, no lettering, no border, no labels. Use fine texture and intricate natural forms from image 1; do not use bold cartoon outlines, rounded simplified tree clumps, chunky mosaic blocks, neon lime vegetation, or blurred brush textures. The two plates should look painted by the same artist at the same detail density.
+```

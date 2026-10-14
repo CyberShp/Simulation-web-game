@@ -14,7 +14,7 @@
 
 纳入云岫前期，按依赖推进。
 
-决策来源：U-63, U-93, R-25, U-94, U-96, U-97, R-27, U-98, U-99, R-28, U-100, R-29, R-30, U-101, U-102, U-103, U-104, U-105, R-32, U-109, U-126。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
+决策来源：U-63, U-93, R-25, U-94, U-96, U-97, R-27, U-98, U-99, R-28, U-100, R-29, R-30, U-101, U-102, U-103, U-104, U-105, R-32, U-109, U-126, U-138。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
 
 规格：[03-SPATIAL-ART.md](../../../docs/design/03-SPATIAL-ART.md)、[01-CHARACTERS.md](../../../docs/design/01-CHARACTERS.md)、[14-EARLY-GAME-DETAILED-DESIGN.md](../../../docs/design/14-EARLY-GAME-DETAILED-DESIGN.md)、[17-INDOOR-LIFE-IMPLEMENTATION.md](../../../docs/design/17-INDOOR-LIFE-IMPLEMENTATION.md)、[18-SPATIAL-CONTINUITY-IMPLEMENTATION.md](../../../docs/design/18-SPATIAL-CONTINUITY-IMPLEMENTATION.md)、[GODOT-MIGRATION.md](../../../docs/GODOT-MIGRATION.md)、[ART-REALTIME-TRIAL.md](../../../docs/ART-REALTIME-TRIAL.md)、[SECT-GROWTH-PLAN.md](../../../docs/SECT-GROWTH-PLAN.md)。
 
@@ -157,6 +157,7 @@ SR-XF-004-V01证据：qa/ea-indoor-furniture-acceptance.mjs；qa/ea-courtyard-re
 - docs/art/mountain-flat-20261013/README.md; U-126 flat-color art direction confirmed; prototype review pending, runtime art not implemented. SR/AC states unchanged.
 - 2026-10-14 U-135 / R-41 / T-14：用户认可 U-134 高清像素实机并要求保持设计，以目标模式接续独立桌面演武。同一像素素材接入掌门移动选敌、实际血条、命中反馈与双方 NPC 自主交手；组件 29／29、最终 macOS 打包应用可见窗口集成 13／13、运行错误 0；实际键鼠验证行走 110 像素、Tab 选敌、超距反馈、剑气命中、护阵、缩放、点地预排和保存。局部证据见 docs/art/hd-pixel-20261014/ARENA-RUNTIME.md；最终记录 /Volumes/Media/immortal-qa/pixel-arena-20261014/ 下 final-run-3/metrics.json、restart-final/ 与 native-final/。源码与素材随本批源码检查点保存；正式规则完整移植、大地图、正式人物与存档、Windows 和完整 SR/AC 另验，D/I/V/R 与 AC 状态保持。
 - 2026-10-14 U-136/U-137，R-42/T-15：独立近山行程扩为同一1672×2823图像空间，山院→溪桥→林道→谷地会武→实际返院；16/32人稳定身份、只控掌门、同一时钟和独立存读。组件45/45；最终可见macOS包run-3检查22/22、运行错误0；16人实际返院胜利，32人到谷后采样15.00秒（其中交战13.08秒）再公开退出。原生输入、存读及画面差距见 docs/art/hd-pixel-trail-20261014/RUNTIME.md，设计见 docs/design/44-PIXEL-TRAIL-SLICE.md。源码与素材随本批检查点保存；当前画面认可、正式世界与存档接入、Windows及完整SR/AC另验；D/I/V/R及AC状态保持。
+- 2026-10-14 U-138：以上方原山院为美术基准，南方林道与谷地使用trail-terrain-v5，匹配细密松针、灰青岩石与暖灰石板；同步松岛视觉遮挡及缓存接缝边缘。原四份素材哈希、导航和规则源码保持。渲染6/6，最终macOS包行程22/22、错误0；同机位、过松岛及32人截图见 docs/art/hd-pixel-trail-20261014/STYLE-ALIGNMENT.md。局部衔接纹理及队伍重叠仍待完善，当前实机美术认可待用户评看；完整SR/AC状态保持。
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。

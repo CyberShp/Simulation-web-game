@@ -37,12 +37,13 @@ const foreground = [
 const trailIsland = {
   id:'central-pine-island',sortY:941+735*1882/1330,
   polygon:[
-    [550,445],[575,452],[596,466],[633,480],[655,510],[696,515],
-    [719,528],[711,550],[748,570],[769,596],[776,632],[786,670],
-    [776,702],[737,719],[690,730],[640,724],[609,733],[565,725],
-    [527,726],[499,716],[470,708],[444,691],[439,672],[429,651],
-    [430,620],[419,600],[425,579],[435,563],[450,555],[463,546],
-    [463,523],[482,506],[487,486],[510,478],[522,461]
+    [548,444],[578,448],[600,465],[641,467],[666,485],[687,488],
+    [703,514],[707,535],[678,550],[724,550],[745,565],[775,568],
+    [788,583],[813,581],[834,610],[827,632],[794,625],[786,657],
+    [794,687],[780,711],[748,719],[702,732],[647,735],[607,742],
+    [555,734],[514,729],[473,713],[445,691],[427,669],[420,642],
+    [414,612],[405,591],[415,571],[440,559],[457,547],[473,541],
+    [483,519],[486,499],[504,484],[519,464],[540,460]
   ].map(([x,y])=>[x*1672/1182,941+y*1882/1330])
 };
 
@@ -128,9 +129,22 @@ export class ArenaRenderer {
     const [ground,people,props,disciples,trail] = await Promise.all([
       loadImage('assets/courtyard-v1.png'),loadImage('assets/cultivator-v1.png'),
       loadImage('assets/garden-props-v1.png'),loadImage('assets/disciples-v1.png'),
-      loadImage('assets/trail-terrain-v4.png')
+      loadImage('assets/trail-terrain-v5.png')
     ]);
     this.ground = ground; this.props = props; this.trail = trail;
+    // Cache the foliage overlap with a soft alpha edge; texture pixels stay sharp.
+    this.trailEdge = document.createElement('canvas');
+    this.trailEdge.width = 1672; this.trailEdge.height = 252;
+    const edge = this.trailEdge.getContext('2d');
+    const mask = document.createElement('canvas'); mask.width=1672; mask.height=252;
+    const alpha = mask.getContext('2d');
+    alpha.filter='blur(8px)'; alpha.fillStyle='#fff';
+    const edges=[[[0,840],[640,840],[640,941],[610,958],[590,986],[540,976],[520,1002],[460,995],[410,1020],[355,1005],[325,1030],[260,1018],[220,1050],[170,1032],[120,1055],[60,1040],[0,1060]],[[1035,840],[1672,840],[1672,1020],[1620,1036],[1560,1008],[1510,1030],[1470,1000],[1410,1022],[1350,995],[1300,1013],[1240,989],[1180,1008],[1120,970],[1085,981],[1035,941]]];
+    for(const points of edges){alpha.beginPath();points.forEach(([x,y],i)=>i?alpha.lineTo(x,y-824):alpha.moveTo(x,y-824));alpha.closePath();alpha.fill();}
+    edge.imageSmoothingEnabled=false;
+    edge.drawImage(ground,0,810*ground.naturalHeight/941,ground.naturalWidth,131*ground.naturalHeight/941,0,16,1672,220);
+    edge.globalCompositeOperation='destination-in';edge.drawImage(mask,0,0);
+    edge.globalCompositeOperation='source-over';
     this.sprites = frames.map((frame,index) => sprite(people,frame,index>=4&&index<=7?.237:.217));
     this.discipleSprites = discipleFrames.map(frame => sprite(disciples,frame,.159));
     this.minimapSurface = document.createElement('canvas');
@@ -226,16 +240,7 @@ export class ArenaRenderer {
     this.drawPlate(this.ground,0,0,BASE_VIEW.width,BASE_VIEW.height,view);
     if (isTrailMode(this.mode)) {
       this.drawPlate(this.trail,0,BASE_VIEW.height,TRAIL_WORLD.width,TRAIL_WORLD.height-BASE_VIEW.height,view);
-      // Extend the existing cliff foliage over the adjoining plate at its natural edge.
-      // The central staircase and all walkable ground retain their authored coordinates.
-      if (view.y<1060&&view.y+view.h>860) {
-        const edges=[[[0,840],[640,840],[640,941],[610,958],[590,986],[540,976],[520,1002],[460,995],[410,1020],[355,1005],[325,1030],[260,1018],[220,1050],[170,1032],[120,1055],[60,1040],[0,1060]],[[1035,840],[1672,840],[1672,1020],[1620,1036],[1560,1008],[1510,1030],[1470,1000],[1410,1022],[1350,995],[1300,1013],[1240,989],[1180,1008],[1120,970],[1085,981],[1035,941]]];
-        for(const edge of edges){
-          const ctx=this.ctx;ctx.save();ctx.beginPath();edge.forEach(([x,y],i)=>i?ctx.lineTo(x,y):ctx.moveTo(x,y));ctx.closePath();ctx.clip();
-          const sx=(this.ground.naturalWidth||1672)/1672,sy=(this.ground.naturalHeight||941)/941;
-          ctx.drawImage(this.ground,0,810*sy,1672*sx,131*sy,0,840,1672,220);ctx.restore();
-        }
-      }
+      if (view.y<1076&&view.y+view.h>824) this.drawPlate(this.trailEdge,0,824,1672,252,view);
     }
   }
 

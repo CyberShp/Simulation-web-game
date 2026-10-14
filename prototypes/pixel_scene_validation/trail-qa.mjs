@@ -272,6 +272,8 @@ export async function createTrailQA({ scenario, sceneSettings, host, api }) {
       go('route');
     } else if (phase === 'route' || phase === 'route32') {
       const suffix = run.mode === 'trail32' ? '32' : '16';
+      if (state.trail?.phase === 'outbound' && player(state).y >= 1800
+        && !captures.includes(`trail-${suffix}-pine.png`)) await capture(`trail-${suffix}-pine.png`);
       if (run.valleyFirstTick !== null && !captures.includes(`trail-${suffix}-valley.png`)) await capture(`trail-${suffix}-valley.png`);
       if (state.trail?.phase === 'combat' && run.firstCombatTick !== null && state.tick - run.firstCombatTick >= 30
         && !captures.includes(`trail-${suffix}-combat.png`)) await capture(`trail-${suffix}-combat.png`);
