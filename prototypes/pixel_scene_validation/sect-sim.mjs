@@ -5,6 +5,10 @@ import { godotMoveCommand } from '../../dist/ea-godot-world.mjs';
 import { SECT_DOMAIN, DOMAIN_EXTENT_VERSION } from '../../dist/ea-sect-domain.mjs';
 import { spatialBounds } from '../../dist/ea-sr-spatial.mjs';
 import { workOpportunity } from '../../dist/ea-life.mjs';
+import { openingCombatProfile } from '../../dist/ea-opening-inheritance.mjs';
+import { breakthroughView } from '../../dist/ea-sr-cultivation.mjs';
+import { facilitySlots } from '../../dist/ea-facility-slots.mjs';
+import { scenicFindPath, scenicNearest } from '../../dist/ea-scene-geometry.mjs';
 import { COURTYARD_MASTER_TERRAIN_VERSION } from '../../dist/ea-courtyard-master-terrain.mjs';
 import seed from './sect-seed.mjs';
 
@@ -59,7 +63,7 @@ function publicCommand(session, name, args, { autonomous = false, reason = name,
     }
     if (autonomous && name === 'startMasterHarvest') session.automation.autonomousHarvestId = session.state.master.activityId;
     note(session, autonomous ? 'autonomous-action' : 'manual-action', reason, { action: name, actorId, commandId: id, autonomous, result });
-    return { ok: true, result, commandId: id };
+    return { ok: true, result, commandId: id, message: reason };
   } catch (error) {
     note(session, 'blocked', error.message, { action: name, actorId, autonomous });
     return { ok: false, error: error.message };
@@ -73,7 +77,9 @@ function cancelMaster(session) {
       a.kind === 'sr-replenish' ? ['cancelReplenish', []] :
         a.kind === 'sr-cultivation' && s.srCultivation.orders[a.orderId]?.kind === 'study' ? ['cancelCultivationOrder', [a.orderId]] : null;
   if (!request) return { ok: false, error: '这项正式事务须完成或从对应入口中止。' };
-  return publicCommand(session, ...request, { reason: '掌门接管，按原规则中止当前事务。' });
+  const consequences = actionConsequences(s);
+  const result = publicCommand(session, ...request, { reason: consequences.resultMessage });
+  return { ...result, consequences };
 }
 function farmState(s) {
   const building = Object.values(s.buildingsById).find(b => b.type === 'farm' && b.condition > 0);
@@ -209,20 +215,20 @@ export function commandSect(session, request) {
       session.policy = checkedPolicy({ ...session.policy, ...(request.policy || request.value || {}) });
       session.automation.nextDecisionTick = session.state.worldTick;
       note(session, 'policy', '已更新灵草目标、自主整备额度和本地行动偏好。');
-      return { ok: true, policy: clone(session.policy) };
+      return { ok: true, policy: clone(session.policy), message: '灵草目标、自主整备累计额度和行动偏好已更新。' };
     }
     if (['auto', 'return-auto'].includes(request.type)) {
       session.control = { mode: 'auto', idleMs: 30000 };
       syncControl(session);
       session.automation.nextDecisionTick = session.state.worldTick;
       note(session, 'control', '掌门开始按目标自理。');
-      return { ok: true };
+      return { ok: true, message: '掌门开始按目标自理，当前事务继续。' };
     }
     if (request.type === 'manual') {
       session.control = { mode: 'manual', idleMs: 0 };
       syncControl(session);
       note(session, 'control', '掌门进入亲控期，当前事务继续；三十秒内不另开自主事务。');
-      return { ok: true };
+      return { ok: true, message: '已由玩家亲自安排，当前事务继续。' };
     }
     if (request.type === 'pause') {
       if (typeof request.paused !== 'boolean') throw Error('暂停须为布尔值。');
@@ -262,11 +268,12 @@ export function commandSect(session, request) {
     else if (request.type === 'cancel-activity') {
       const trial = restoreSect(snapshotSect(session)), result = cancelMaster(trial);
       if (!result.ok) return result;
-      const rest = publicCommand(trial, 'masterAction', ['rest'], { reason: '已按正式规则中止事务，掌门休整；已发生的劳动保留。' });
+      const message = result.consequences?.resultMessage || '掌门已转入休整。';
+      const rest = publicCommand(trial, 'masterAction', ['rest'], { reason: message });
       if (!rest.ok) return rest;
       trial.control = { mode: 'manual', idleMs: 0 }; syncControl(trial);
       trial.automation.activeAction = null; Object.assign(session, trial);
-      return { ...result, ok: true };
+      return { ...result, ok: true, message };
     }
     else if (request.type === 'build-site') { command = { name: 'buildDomainSite', args: [request.siteId] }; reason = '掌门按玩家选择营造东台门人居，材料须从旧院实际运往工地。'; }
     else if (request.type === 'harvest') { command = { name: 'startMasterHarvest', args: [request.resource] }; reason = '掌门按玩家安排前往实际来源采集，所得先存入随身包裹。'; }
@@ -274,7 +281,8 @@ export function commandSect(session, request) {
     else throw Error('操作尚未接入。');
     // An invalid replacement must not abandon an existing transport or crop task.
     const trial = restoreSect(snapshotSect(session));
-    if (replacesBody) { const cancelled = cancelMaster(trial); if (!cancelled.ok) return cancelled; }
+    let consequences = null;
+    if (replacesBody) { const cancelled = cancelMaster(trial); if (!cancelled.ok) return cancelled; consequences = cancelled.consequences || null; }
     const result = publicCommand(trial, command.name, command.args, { reason, actorId });
     // A refusal is a committed NPC answer, not a failed transaction. Keep it so
     // repeated invitations and reloads cannot reroll the same conditions.
@@ -291,6 +299,11 @@ export function commandSect(session, request) {
       }
       Object.assign(session, trial);
     }
+    if (result.ok && consequences) {
+      result.consequences = consequences;
+      result.message = `${consequences.resultMessage}${result.message}`;
+    }
+    if (result.ok && request.type === 'invite-work') result.message = result.result?.publicReason || result.result?.reason || '本人已接受这次差事。';
     return result;
   } catch (error) { return { ok: false, error: error.message }; }
 }
@@ -369,6 +382,103 @@ function domainView(s, construction) {
 // conditions, the actual route, ownership and exclusive work positions.
 const availability = reason => ({ available: !reason, reason: reason || '' });
 const replenishCosts = { herb: { herb: 4, jade: 8 }, food: { food: 8, jade: 4 }, wood: { jade: 12, herb: 2 } };
+const roundAmount = value => Math.round(value * 1e9) / 1e9;
+const itemDefinition = id => ({ id, name: id.startsWith('pill:') ? SIM.RECIPES[id.slice(5)]?.name || '丹药' : SIM.RESOURCES[id] || id,
+  kind: id.startsWith('pill:') ? 'pill' : id === 'insight' ? 'knowledge-budget' : id === 'jade' ? 'currency' : 'resource', transportable: id !== 'insight' });
+const cargoText = cargo => Object.entries(cargo || {}).filter(([, quantity]) => quantity > 0)
+  .map(([id, quantity]) => `${itemDefinition(id).name}${Number(quantity.toFixed(2))}份`).join('、');
+const buildingName = building => building?.type === 'hall' ? '主殿' : SIM.BUILDINGS[building?.type]?.name || '院中设施';
+function locationLabel(s, position) {
+  if (position?.kind === 'travel') return '实际旅途停留处';
+  if (position?.sceneId !== 'scene:yunxiu-courtyard') return '山院之外';
+  const closest = s.buildings.map(b => ({ b, distance: Math.hypot(position.x - (b.transform?.x ?? b.x), position.y - (b.transform?.y ?? b.y)) }))
+    .sort((a, b) => a.distance - b.distance)[0];
+  return closest ? `${buildingName(closest.b)}附近` : '山院地面';
+}
+function stockLabel(s, id) {
+  if (id === HOME) return '山院公库';
+  if (id === CARRIED) return '掌门随身';
+  const st = s.stockpilesById[id];
+  if (id?.startsWith('stockpile:dropped:')) return `${locationLabel(s, st?.position)}的落地包裹`;
+  if (st?.buildingId) return `${buildingName(s.buildingsById[st.buildingId])}货位`;
+  if (id?.startsWith('stockpile:construction:')) return '营造专用货位';
+  return st?.label || '院中货位';
+}
+function actionConsequences(s) {
+  const a = s.activitiesById[s.master.activityId];
+  const result = { active: false, activityId: a?.id || null, requiresConfirmation: false,
+    summary: '', resultMessage: '', refunded: {}, consumed: {}, dropped: null, progressLost: 0 };
+  if (!a || a.kind === 'facility') return result;
+  if (a.kind === 'sr-cultivation') {
+    const order = s.srCultivation.orders[a.orderId];
+    if (order?.kind !== 'study') return result;
+    const name = SIM.TECHNIQUES[order.parameters.artId].name;
+    result.active = true;
+    result.label = `研习《${name}》`;
+    result.sourceStockpileId = order.sourceStockpileId;
+    result.progressLost = order.progressTicks;
+    if (order.consumed) {
+      result.consumed = clone(order.cost);
+      result.summary = `中止《${name}》会结束本次研读；${cargoText(order.cost)}已耗用，本次未完成的理解收益不结算。`;
+      result.resultMessage = `已中止《${name}》；${cargoText(order.cost)}已耗用，已有理解与熟练保留。`;
+      result.requiresConfirmation = true;
+    } else {
+      result.refunded = clone(order.cost);
+      result.summary = `尚未开始研读；中止后${cargoText(order.cost)}退回${stockLabel(s, order.sourceStockpileId)}。`;
+      result.resultMessage = `研习已中止，${cargoText(order.cost)}已退回${stockLabel(s, order.sourceStockpileId)}。`;
+    }
+  } else if (a.kind === 'sr-transport') {
+    const order = s.workOrdersById[a.workOrderId];
+    if (!order || terminal(order.phase)) return result;
+    result.active = true; result.label = '搬运物资'; result.orderId = order.id;
+    if (order.phase === 'to-source') {
+      result.refunded = clone(order.cargo); result.sourceStockpileId = order.sourceStockpileId;
+      result.summary = `尚未取货；中止后${cargoText(order.cargo)}退回${stockLabel(s, order.sourceStockpileId)}。`;
+      result.resultMessage = `搬运已中止，${cargoText(order.cargo)}已退回${stockLabel(s, order.sourceStockpileId)}。`;
+    } else {
+      const position = { sceneId: s.master.position.sceneId, x: s.master.scenic.x, y: s.master.scenic.y };
+      result.dropped = { stockpileId: `stockpile:dropped:${order.id}`, cargo: clone(order.cargo), position, locationLabel: locationLabel(s, position) };
+      result.summary = `已经取货；中止后${cargoText(order.cargo)}留在${result.dropped.locationLabel}，需要另行搬回。`;
+      result.resultMessage = `搬运已中止，${cargoText(order.cargo)}留在${result.dropped.locationLabel}，可从物资页回收。`;
+      result.requiresConfirmation = true;
+    }
+  } else if (a.kind === 'sr-replenish') {
+    const cost = s.reservationsById[a.reservationId]?.cost || {};
+    result.active = true; result.label = '来源整备'; result.progressLost = a.progressTicks;
+    for (const [key, quantity] of Object.entries(cost)) {
+      result.refunded[key] = quantity * (1 - a.progressTicks / a.durationTicks);
+      result.consumed[key] = quantity - result.refunded[key];
+    }
+    result.requiresConfirmation = a.progressTicks > 0;
+    result.summary = `中止来源整备，退回${cargoText(result.refunded)}${a.progressTicks > 0 ? `；已用${cargoText(result.consumed)}，本次尚未完成的来源恢复不结算` : ''}。`;
+    result.resultMessage = `来源整备已中止，已退回${cargoText(result.refunded)}${a.progressTicks > 0 ? `，已耗${cargoText(result.consumed)}` : ''}。`;
+  } else if (a.kind === 'sr-harvest') {
+    result.active = true; result.label = `采集${SIM.RESOURCES[a.resource]}`;
+    result.progressLost = a.progressTicks || 0; result.requiresConfirmation = result.progressLost > 0;
+    result.summary = '中止当前采集；未完成的这一批不结算，已经取得的物资保留在随身包裹。';
+    result.resultMessage = '采集已中止，已经取得的物资保留在随身包裹。';
+  }
+  return result;
+}
+function recoveryView(s, stock, local, busy) {
+  const cargo = {}, target = s.stockpilesById[HOME];
+  let capacity = Math.max(0, Math.min(40, target.capacity - Object.values(target.resources).reduce((n, q) => n + q, 0) - Object.values(target.pills || {}).reduce((n, q) => n + q, 0)));
+  for (const [id, quantity] of [...Object.entries(stock.resources || {}), ...Object.entries(stock.pills || {}).map(([id, q]) => [`pill:${id}`, q])]) {
+    const amount = id.startsWith('pill:') ? Math.floor(Math.min(quantity, capacity)) : roundAmount(Math.min(quantity, capacity));
+    if (id !== 'insight' && amount > 0) { cargo[id] = amount; capacity = roundAmount(capacity - amount); }
+  }
+  const onlyPills = Object.keys(cargo).length > 0 && Object.keys(cargo).every(id => id.startsWith('pill:'));
+  let reason = local || busy || (stock.position?.sceneId !== 'scene:yunxiu-courtyard' ? '须在对应地点实际取回。' : '') ||
+    (s.master.wound > (onlyPills ? 85 : 20) || s.master.energy < (onlyPills ? 5 : 15) ? '先恢复身体与精力。' : '') ||
+    (s.master.scenic.spatialEvacuationOrderId ? '先完成当前撤离。' : '') ||
+    (target.buildingId && s.buildingsById[target.buildingId]?.spatialLock ? '公库所在设施正在迁建。' : '') ||
+    (!Object.keys(cargo).length ? '没有可回收物资，或公库空间不足。' : '');
+  if (!reason) {
+    const point = scenicNearest(s, stock.position, { maxDistance: s.spatial?.version === 'spatial-metres-1' ? 1.5 : 48 });
+    if (!point || scenicFindPath(s, s.master.scenic, point, { maxSnap: 0 }) === null) reason = '落地处暂时没有可达通路。';
+  }
+  return { ...availability(reason), cargo, quantity: roundAmount(Object.values(cargo).reduce((n, q) => n + q, 0)), targetStockpileId: HOME };
+}
 function operationsView(s, projection) {
   const master = s.master, activity = s.activitiesById[master.activityId];
   const away = master.location?.kind === 'travel' || master.location?.sceneId && master.location.sceneId !== 'scene:yunxiu-courtyard' || master.journey || s.world.exploration || s.combat?.status === 'active';
@@ -378,6 +488,7 @@ function operationsView(s, projection) {
   const cultivationOrder = activity?.kind === 'sr-cultivation' ? s.srCultivation.orders[activity.orderId] : null;
   const cancelable = ['sr-harvest', 'sr-transport', 'sr-replenish'].includes(activity?.kind) || cultivationOrder?.kind === 'study';
   const replacementReason = busy && !cancelable ? busy : '';
+  const consequences = actionConsequences(s), combatProfile = openingCombatProfile(s);
   const publicActivity = activity ? {
     id: activity.id, kind: activity.kind, phase: activity.phase,
     reason: cultivationOrder?.reason || activity.reason || s.workOrdersById[activity.workOrderId]?.reason || '',
@@ -386,14 +497,38 @@ function operationsView(s, projection) {
     targetId: activity.targetId || cultivationOrder?.workstationId || null,
   } : null;
   const study = cultivationOrder?.kind === 'study' ? { id: cultivationOrder.id, artId: cultivationOrder.parameters.artId,
+    name: SIM.TECHNIQUES[cultivationOrder.parameters.artId].name, consumed: cultivationOrder.consumed, cost: clone(cultivationOrder.cost),
+    sourceStockpileId: cultivationOrder.sourceStockpileId, cancel: consequences,
+    stageLabel: cultivationOrder.phase === 'blocked' || /受阻|中断/.test(cultivationOrder.reason) ? '受阻' : /工位不足|占用/.test(cultivationOrder.reason) ? '等候阅卷席' : master.wound > 0 || master.energy < 1 ? '等待身体恢复' : cultivationOrder.phase === 'executing' ? '研读中' : '前往阅卷席',
+    durationSeconds: cultivationOrder.durationTicks * SECT_TICK_SECONDS,
+    remainingSeconds: (cultivationOrder.durationTicks - cultivationOrder.progressTicks) * SECT_TICK_SECONDS,
     phase: cultivationOrder.phase, progressTicks: cultivationOrder.progressTicks, durationTicks: cultivationOrder.durationTicks, reason: cultivationOrder.reason } : null;
-  const arts = projection.arts.filter(art => art.access).map(art => {
+  const studyPlaces = s.buildings.filter(b => ['hall', 'library'].includes(b.type) && b.enabled !== false && b.condition > 0 && !b.spatialLock)
+    .flatMap(b => facilitySlots(s, b, 'study').map(slot => ({ buildingId: b.instanceId, name: `${buildingName(b)} · ${slot.label}` })));
+  const arts = projection.arts.filter(art => art.access || master.artsById[art.id]).map(art => {
     const definition = SIM.TECHNIQUES[art.id];
-    const prerequisite = definition.prerequisites.some(pre => pre.id && (master.artsById[pre.id]?.understanding || 0) < pre.mastery || pre.anyMain && (master.artsById[master.main]?.understanding || 0) < pre.anyMain);
-    const reason = local || busy || (master.wound > 0 || master.energy < 20 ? '先养伤调息，研习需要精力20。' : '') ||
-      (master.realm < art.realm ? '境界不足。' : '') || (prerequisite ? '先理解前置法门。' : '') ||
-      (art.understanding >= 100 ? '本篇理解已满，可通过有效实践继续熟练。' : '') || (home.food < 2 ? '公库食粮不足2份，可亲采口粮后实际入库。' : '');
+    const conditions = [
+      { id: 'access', label: '典籍可阅', met: art.access, current: art.access, required: true, reason: '已知这部法门，当前无法实际接触典籍。' },
+      { id: 'home', label: '人在山院', met: !local, current: !local, required: true, reason: local },
+      { id: 'body', label: '身体空闲', met: !busy, current: !busy, required: true, reason: busy },
+      { id: 'wound', label: '伤势已愈', met: master.wound <= 0, current: master.wound, required: 0, reason: '先养好伤势。' },
+      { id: 'energy', label: '精力', met: master.energy >= 20, current: master.energy, required: 20, reason: '研习需要精力20。' },
+      { id: 'realm', label: '境界', met: master.realm >= art.realm, current: master.realm, required: art.realm, reason: `需要${SIM.realmName(art.realm)}。` },
+      ...definition.prerequisites.map((pre, index) => { const id = pre.id || master.main, current = master.artsById[id]?.understanding || 0, required = pre.mastery || pre.anyMain;
+        return { id: `prerequisite:${index}`, artId: id, label: `${SIM.TECHNIQUES[id]?.name || '主修心法'}理解`, met: current >= required, current, required, reason: `先理解${SIM.TECHNIQUES[id]?.name || '主修心法'}至${required}。` }; }),
+      { id: 'food', label: '公库口粮', met: home.food >= 2, current: home.food, required: 2, stockpileId: HOME, reason: '公库口粮不足2份，可采集后实际入库。' },
+      { id: 'study-place', label: '阅卷场所', met: studyPlaces.length > 0, current: studyPlaces.length, required: 1, reason: '需要可用的主殿或藏经阁阅卷席。' },
+    ];
+    const reason = conditions.find(condition => !condition.met)?.reason || (art.understanding >= 100 ? '本篇理解已满，可通过有效实践继续熟练。' : '');
+    const enabled = art.main || master.support.includes(art.id) || [combatProfile?.attackArtId, combatProfile?.guardArtId].includes(art.id);
     return { id: art.id, name: art.name, source: art.source, understanding: art.understanding, mastery: art.mastery, main: art.main,
+      access: art.access, learned: art.understanding > 0, enabled, kind: art.kind,
+      kindLabel: ({ main: '主修心法', support: '辅修心法', spell: '术法', martial: '武学' })[art.kind] || '法门',
+      purpose: definition.description, chapterLabel: art.id === 'foundation' ? '筑基篇' : '炼气篇',
+      roleLabel: art.main ? '当前主修' : master.support.includes(art.id) ? '已启用辅修' : combatProfile?.attackArtId === art.id ? '当前攻击法门' : combatProfile?.guardArtId === art.id ? '当前护持法门' : '已知法门',
+      useCondition: art.id === combatProfile?.attackArtId ? `有效目标在${combatProfile.range}米内，视线通畅；消耗灵力${combatProfile.cost}。` : art.id === combatProfile?.guardArtId ? '战斗中施展护持，须有足够灵力并结束当前动作。' : definition.kind === 'main' ? '作为当前主修时用于积累修为。' : '按对应实际活动及启用条件生效。',
+      conditions, studyPlaces, understandingGain: Math.max(0, Math.min(12, 100 - art.understanding)), masteryGain: 0,
+      sourceStockpileId: HOME, sourceStockpileLabel: '山院公库', durationSeconds: 80 * SECT_TICK_SECONDS, travelTimeSeparate: true,
       ...availability(reason), cost: { food: 2 }, durationTicks: 80 };
   });
   const farms = s.buildings.filter(b => b.type === 'farm').map(b => {
@@ -402,10 +537,13 @@ function operationsView(s, projection) {
     const source = SIM.productionAvailability(s, b);
     const reason = b.enabled === false ? '药田已暂停，可恢复使用。' : b.condition <= 0 || b.spatialLock ? '药田当前不可用。' :
       order && !terminal(order.phase) ? order.waitingReason || '' : (stock?.resources.herb || 0) < 2 ? '药田缺少田边灵草2份种苗，先实际搬入。' : source.reason;
+    const harvestQuantity = roundAmount(Math.max(0, Math.min(40, (stock?.resources.herb || 0) - 2)));
     return { id: b.instanceId, buildingId: b.instanceId, name: SIM.BUILDINGS[b.type].name, enabled: b.enabled !== false,
       stockpileId, seedNeeded: Math.max(0, 2 - (stock?.resources.herb || 0)), seedRequirement: 2,
       seedScope: order && !terminal(order.phase) ? '下一轮种苗' : '本轮种苗',
       herbOnSite: stock?.resources.herb || 0, availability: availability(reason),
+      harvestTransport: { quantity: harvestQuantity, retained: 2, remaining: roundAmount(Math.max(0, (stock?.resources.herb || 0) - 2 - harvestQuantity)),
+        sourceStockpileId: stockpileId, targetStockpileId: HOME, ...availability(local || busy || (harvestQuantity > 0 ? '' : '田边需留下两份种苗，当前没有可搬收成。')) },
       workers: projection.systemPeople.persons.filter(p => s.activitiesById[p.currentActivity?.id]?.targetId === b.instanceId)
         .map(p => ({ id: p.id, name: p.name, activity: clone(p.currentActivity) })),
       invites: s.homeMemberIds.map(id => {
@@ -417,29 +555,64 @@ function operationsView(s, projection) {
     };
   });
   const stocks = projection.inventory.stockpiles.filter(st => st.access === 'public' || st.ownerId === MASTER).map(st => {
-    const reserved = {}, inTransit = {};
-    const reserve = (resource, quantity) => { if (quantity > 0) reserved[resource] = (reserved[resource] || 0) + quantity; };
+    const reserved = {}, inTransit = {}, allocations = [];
+    const reserve = (resource, quantity, orderId, purpose) => { if (quantity > 0) { reserved[resource] = (reserved[resource] || 0) + quantity;
+      allocations.push({ resource, name: itemDefinition(resource).name, quantity, orderId, purpose, phase: 'reserved' }); } };
     for (const order of Object.values(s.workOrdersById)) if (order.kind === 'transport' && order.sourceStockpileId === st.id && !terminal(order.phase)) {
       const quantities = order.phase === 'to-source' ? reserved : inTransit;
-      for (const [resource, quantity] of Object.entries(order.cargo)) quantities[resource] = (quantities[resource] || 0) + quantity;
+      for (const [resource, quantity] of Object.entries(order.cargo)) {
+        quantities[resource] = (quantities[resource] || 0) + quantity;
+        allocations.push({ resource, name: itemDefinition(resource).name, quantity, orderId: order.id,
+          purpose: `送往${stockLabel(s, order.targetStockpileId)}`, phase: order.phase === 'to-source' ? 'reserved' : 'inTransit' });
+      }
     }
     for (const order of Object.values(s.workOrdersById)) if (order.kind === 'production' && `stockpile:${order.targetId}` === st.id && !terminal(order.phase)) {
       const reservation = s.reservationsById[order.reservationId];
       for (const [resource, quantity] of Object.entries(reservation?.cost || {})) reserve(resource,
-        reservation.remainingCost?.[resource] ?? quantity * Math.max(0, 1 - order.progressTicks / order.durationTicks));
+        reservation.remainingCost?.[resource] ?? quantity * Math.max(0, 1 - order.progressTicks / order.durationTicks), order.id, `${buildingName(s.buildingsById[order.targetId])}生产投入`);
     }
     for (const order of Object.values(s.srCultivation.orders)) if (order.kind === 'study' && order.sourceStockpileId === st.id && !terminal(order.phase) && !order.consumed) {
-      for (const [resource, quantity] of Object.entries(order.cost)) reserve(resource, quantity);
+      for (const [resource, quantity] of Object.entries(order.cost)) reserve(resource, quantity, order.id, `研习《${SIM.TECHNIQUES[order.parameters.artId].name}》`);
     }
     if (st.id === HOME) for (const action of Object.values(s.activitiesById)) if (action.kind === 'sr-replenish') {
-      for (const [resource, quantity] of Object.entries(s.reservationsById[action.reservationId]?.cost || {})) reserve(resource, quantity * Math.max(0, 1 - action.progressTicks / action.durationTicks));
+      for (const [resource, quantity] of Object.entries(s.reservationsById[action.reservationId]?.cost || {})) reserve(resource, quantity * Math.max(0, 1 - action.progressTicks / action.durationTicks), action.id, '恢复采集来源');
     }
-    return { ...clone(st), label: st.id === HOME ? '山院公库' : st.id === CARRIED ? '掌门随身' : st.label,
-      capacity: s.stockpilesById[st.id]?.capacity ?? null, reserved, inTransit };
+    for (const allocation of Object.values(s.srEconomy.pillAllocations || {})) if (allocation.phase === 'reserved') {
+      for (const part of allocation.parts) if (part.stockpileId === st.id) reserve(`pill:${allocation.recipeId}`, part.quantity, allocation.id, '丹药使用预留');
+    }
+    for (const order of Object.values(s.workOrdersById)) {
+      if (order.kind === 'sr-crafting' && order.phase === 'active') for (const [resource, quantity] of Object.entries(order.cost)) {
+        if (order.sourceStockpileIds[resource] === st.id) reserve(resource, quantity * Math.max(0, 1 - order.progressTicks / order.durationTicks), order.id, `炼制${SIM.RECIPES[order.recipeId].name}`);
+      }
+      if (order.kind === 'construction' && st.id === HOME) for (const [resource, quantity] of Object.entries(s.reservationsById[order.reservationId]?.cost || {})) {
+        if (!order.materialFlow || resource === 'jade') reserve(resource, Math.max(0, quantity - (order.usedCost?.[resource] || 0)), order.id, '营造投入');
+      }
+      if (order.kind === 'construction' && order.materialFlow?.sourceStockpileId === st.id) for (const [resource, quantity] of Object.entries(order.materialFlow.cargo || {})) {
+        if (quantity > 0) {
+          inTransit[resource] = (inTransit[resource] || 0) + quantity;
+          allocations.push({ resource, name: itemDefinition(resource).name, quantity, orderId: order.id, purpose: '运往营造工地', phase: 'inTransit' });
+        }
+      }
+    }
+    const constructionOrder = Object.values(s.workOrdersById).find(w => w.kind === 'construction' && [w.materialFlow?.sourceStockpileId, w.materialFlow?.siteStockpileId].includes(st.id));
+    const held = !!constructionOrder || st.orderReserved;
+    const available = { ...st.resources, ...Object.fromEntries(Object.entries(st.pills || {}).map(([id, q]) => [`pill:${id}`, q])) };
+    if (held) for (const [resource, quantity] of Object.entries(available)) { reserve(resource, quantity, constructionOrder?.id || null, constructionOrder ? '营造专用材料' : '商单预留'); available[resource] = 0; }
+    const itemIds = new Set([...Object.keys(available), ...Object.keys(reserved), ...Object.keys(inTransit)]);
+    const items = [...itemIds].map(id => ({ ...itemDefinition(id), available: available[id] || 0, reserved: reserved[id] || 0, inTransit: inTransit[id] || 0,
+      total: (available[id] || 0) + (reserved[id] || 0) + (inTransit[id] || 0) })).filter(item => item.total > 0);
+    const dropped = st.id.startsWith('stockpile:dropped:');
+    return { ...clone(st), label: stockLabel(s, st.id), locationLabel: st.id === CARRIED ? '由掌门随身携带' : locationLabel(s, st.position),
+      ownerLabel: s.personsById[st.ownerId]?.name || '山院', ownershipLabel: st.access === 'public' ? '山院公用' : '掌门私有',
+      capacity: s.stockpilesById[st.id]?.capacity ?? null, available, reserved, inTransit, items, allocations, dropped,
+      ...(dropped ? { recovery: recoveryView(s, st, local, busy) } : {}),
+      transport: availability(local || busy || (held ? '此货位物资已由事务占用。' : '')) };
   });
   // The first gather/transport command creates this actual carried stockpile.
   if (!stocks.some(st => st.id === CARRIED)) stocks.push({ id: CARRIED, label: '掌门随身', ownerId: MASTER, access: 'private',
-    resources: {}, reserved: {}, inTransit: {}, position: clone(master.position), capacity: 40, notYetCreated: true });
+    resources: {}, pills: {}, available: {}, reserved: {}, inTransit: {}, items: [], allocations: [],
+    ownerLabel: master.name, ownershipLabel: '掌门私有', locationLabel: '由掌门随身携带',
+    position: clone(master.position), capacity: 40, notYetCreated: true });
   const harvest = Object.entries(SIM.HARVEST_BATCH).map(([id, batchSize]) => {
     const patch = s.srEconomy.patches[id], cost = replenishCosts[id];
     const carried = s.stockpilesById[CARRIED];
@@ -465,13 +638,18 @@ function operationsView(s, projection) {
       group.amounts[resource].total += quantity;
     }
   }
+  for (const group of inventorySummary) for (const [id, amounts] of Object.entries(group.amounts)) Object.assign(amounts, itemDefinition(id));
+  const breakthrough = clone(breakthroughView(s));
+  breakthrough.costConditions = Object.entries(breakthrough.cost).map(([id, required]) => ({ ...itemDefinition(id), current: home[id] || 0, required, met: (home[id] || 0) >= required }));
+  breakthrough.entryAvailable = false;
+  breakthrough.entryReason = '此山院界面可查看突破条件，突破安排入口待接入。';
   return {
     master: { id: MASTER, name: master.name, realmLabel: SIM.realmName(master.realm), xp: master.xp, xpNeed: SIM.xpNeed(master.realm),
-      energy: master.energy, wound: master.wound, activity: publicActivity,
-      actions: { rest: availability(local || replacementReason), cultivate: availability(local || replacementReason || (master.wound > 0 ? '先养好伤势。' : '') || (!master.main ? '先取得并修习主修心法。' : '') || (master.xp >= SIM.xpNeed(master.realm) ? '本层积累已满，继续修炼不会增加修为。' : '')),
+      energy: master.energy, wound: master.wound, activity: publicActivity, mainArtId: master.main, mainArtName: SIM.TECHNIQUES[master.main]?.name || '尚未主修', breakthrough,
+      actions: { rest: { ...availability(local || replacementReason), consequence: consequences }, cultivate: { ...availability(local || replacementReason || (master.wound > 0 ? '先养好伤势。' : '') || (!master.main ? '先取得并修习主修心法。' : '') || (master.xp >= SIM.xpNeed(master.realm) ? '本层积累已满，继续修炼不会增加修为。' : '')), consequence: consequences },
         heal: availability(local || busy || (master.wound <= 0 ? '伤势已愈，无需耗药。' : '') || (home.herb < 6 ? '公库灵草不足6份，可采集后实际入库。' : '')),
-        cancel: availability(cancelable ? '' : '当前没有可在此中止的事务。') } },
-    arts, study, farms, inventory: { stockpiles: stocks, summary: inventorySummary },
+        cancel: { ...availability(cancelable ? '' : '当前没有可在此中止的事务。'), consequence: consequences } } },
+    actionConsequences: consequences, arts, study, farms, inventory: { stockpiles: stocks, summary: inventorySummary },
     harvest, canTransport: availability(local || busy),
   };
 }
@@ -492,7 +670,10 @@ export function viewSect(session) {
     patches: clone(s.srEconomy.patches), budget: { ...clone(session.budget), remaining: Math.max(0, session.policy.spendingCap - session.budget.spent), label: '自主整备灵石额度', scope: '掌门自主发起的来源恢复支出；宗门日常供给和生产工资继续按正式规则结算。' },
     economy: { expenses: clone(s.economy.expense), previousExpenses: clone(s.economy.previous.expense), starvation: s.economy.starvation, productionWages: Object.values(s.factsById).filter(f => f.operation === 'production' && f.atTick >= session.baseline.tick).reduce((total, f) => total + (f.wagesFromPublic || 0), 0) },
     ledger: clone(session.ledger), totals: clone(session.totals), provenance: clone(session.provenance),
-    transports: Object.values(s.workOrdersById).filter(w => w.kind === 'transport').map(w => ({ id: w.id, phase: w.phase, carrierId: w.carrierId, sourceStockpileId: w.sourceStockpileId, targetStockpileId: w.targetStockpileId, cargo: clone(w.cargo), reason: w.reason })),
+    transports: Object.values(s.workOrdersById).filter(w => w.kind === 'transport').map(w => ({ id: w.id, phase: w.phase, carrierId: w.carrierId,
+      sourceStockpileId: w.sourceStockpileId, sourceLabel: stockLabel(s, w.sourceStockpileId), targetStockpileId: w.targetStockpileId, targetLabel: stockLabel(s, w.targetStockpileId),
+      carrierName: s.personsById[w.carrierId]?.name || '承运者', stageLabel: ({ 'to-source': '前往取货', carrying: '已取货，正在送达', delivered: '已送达', cancelled: '已中止' })[w.phase],
+      returnedTo: w.returnedTo || null, returnedToLabel: w.returnedTo ? stockLabel(s, w.returnedTo) : null, cargo: clone(w.cargo), reason: w.reason })),
     targetMet: s.stockpilesById[HOME].resources.herb >= session.policy.herbTarget,
     operations: operationsView(s, view)
   };

@@ -247,6 +247,10 @@
     {
       "path": "docs/design/50-COURTYARD-UI-DESIGN-AUDIT.md",
       "role": "courtyard-ui-design-audit-and-restructure-proposal"
+    },
+    {
+      "path": "docs/design/51-COURTYARD-MANAGEMENT-INTEGRATION.md",
+      "role": "courtyard-management-implementation-and-desktop-acceptance"
     }
   ],
   "taskRead": {
@@ -1419,7 +1423,7 @@
     "styleAlignmentEvidence": "docs/art/hd-pixel-trail-20261014/STAIR-CONNECTION.md"
   },
   "currentHandoff": {
-    "updatedAt": "2026-10-14",
+    "updatedAt": "2026-10-15",
     "entry": "AGENTS.md",
     "handoff": "docs/CODEX-HANDOFF.md",
     "deliveryPlan": "docs/DELIVERY-PLAN.md",
@@ -1432,7 +1436,7 @@
     "appliesTo": "all agents, including Sol high and extra-high reasoning settings",
     "workingTree": "/Volumes/Media/immortal",
     "preserveUncommittedChanges": true,
-    "sourceBaseCommit": "8fd91bd360605821a9fe41b26517adc5692d3fd9",
+    "sourceBaseCommit": "1294b47",
     "scopePerBatch": [
       "SR and AC",
       "design clause and U/R/T",
@@ -1461,7 +1465,7 @@
     "currentOpeningAcceptanceStatus": "single-normal-new-save-local-chain-verified-public-opening-smoke-verified",
     "currentCharacterDialogueDecisionId": "U-125",
     "currentCharacterDialogueReference": "docs/design/42-CHARACTER-DIALOGUE.md",
-    "currentSequence": "review-continuous-pixel-trail",
+    "currentSequence": "review-courtyard-management-desktop",
     "currentArtsLedger": "docs/design/28-FIVE-CONTINENT-ARTS-LEDGER.md",
     "estateSourceScene": "godot/estate_2d/estate.tscn",
     "estateSiteLayout": "godot/estate_2d/estate-sites.json",
@@ -1572,9 +1576,9 @@
       "backgroundClock": "verified-tick-583-no-catchup",
       "crossProcessRestore": "32-actors-exact-paused-snapshot-and-continued-movement"
     },
-    "currentGameplayDecisionId": "U-144",
-    "currentGameplayStatus": "first-screen-reconstruction-user-review-pending",
-    "currentGameplayEvidence": "docs/art/pixel-courtyard-prototype-20261014/RUNTIME.md",
+    "currentGameplayDecisionId": "U-149",
+    "currentGameplayStatus": "management-operations-macos-verified-full-opening-pending",
+    "currentGameplayEvidence": "docs/design/51-COURTYARD-MANAGEMENT-INTEGRATION.md",
     "currentCourtyardArt": {
       "decisionId": "U-144",
       "updatedAt": "2026-10-15",
@@ -1617,28 +1621,34 @@
       "previousReference": "docs/design/47-GOLDEN-CORE-ARTS-CATALOGUE-DRAFT.md"
     },
     "currentCourtyardOperations": {
-      "decisionId": "U-147",
-      "proposalId": "R-47",
-      "reference": "docs/design/49-P0-P2-COURTYARD-PROGRESS.md",
+      "decisionId": "U-149",
+      "proposalId": "R-49",
+      "reference": "docs/design/51-COURTYARD-MANAGEMENT-INTEGRATION.md",
       "source": "prototypes/pixel_scene_validation/courtyard-main.mjs",
       "entry": "prototypes/pixel_scene_validation/courtyard.html",
-      "nodeChecks": 47,
-      "browserStatus": "not_run-missing-browser-runtime-download-failed",
-      "desktopPackageStatus": "not_rebuilt",
+      "nodeChecks": 57,
+      "browserStatus": "visible-electron-chain-13-of-13",
+      "desktopPackageStatus": "macos-package-verified",
       "scope": "two-member-courtyard-supply-growth-save-protection",
       "completeP0P1P2": false,
-      "newGameOpeningComplete": false
+      "newGameOpeningComplete": false,
+      "desktopPackageChecks": 8,
+      "recoveryPackageChecks": 9,
+      "desktopApp": "/Volumes/Media/immortal-qa/courtyard-management-20261015/package-2/云岫山院·山院实景.app",
+      "nativeRecovery": "verified-file-picker-preview-confirm-and-pause",
+      "windows": "not-run"
     },
     "currentCourtyardUIReview": {
       "decisionId": "U-148",
       "proposalId": "R-48",
       "reference": "docs/design/50-COURTYARD-UI-DESIGN-AUDIT.md",
-      "status": "audit-and-proposal-runtime-unchanged",
+      "status": "partial-remediation-implemented-and-macos-verified",
       "findingCount": 30,
       "prototypeApproval": "not-approved",
       "publicCommandReproductions": 2,
-      "browserStatus": "not_run",
-      "closesWholeRequirements": false
+      "browserStatus": "visible-electron-verified-recorded-scope",
+      "closesWholeRequirements": false,
+      "implementationReference": "docs/design/51-COURTYARD-MANAGEMENT-INTEGRATION.md"
     }
   },
   "characterDialogue": {

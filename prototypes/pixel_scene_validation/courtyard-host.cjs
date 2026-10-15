@@ -3,7 +3,8 @@ const http = require('node:http');
 const fs = require('node:fs');
 const path = require('node:path');
 const { createSectStorage } = require('./sect-storage.cjs');
-const { exportCourtyardRecovery } = require('./courtyard-recovery.cjs');
+const { exportCourtyardRecovery, readCourtyardRecovery, restoreCourtyardRecovery } = require('./courtyard-recovery.cjs');
+const { createHash, randomUUID } = require('node:crypto');
 
 const root = __dirname;
 const distRoot = path.resolve(root, '../../dist');
@@ -22,6 +23,9 @@ const ownsProfile = app.requestSingleInstanceLock();
 let sceneWindow, server, origin, closeTimeout;
 let ready = false, closeAllowed = false, closePending = false, closeRequested = false;
 let suspended = false, powerSequence = 0;
+let recoveryPreview = null, verifiedExport = null;
+const validateRecovery = async value => (await import('./sect-sim.mjs')).validateSect(value);
+const digest = value => createHash('sha256').update(JSON.stringify(value)).digest('hex');
 const lifecycle = [];
 const storage = createSectStorage({
   directory: qaDir || profileDirectory,
@@ -132,8 +136,41 @@ else {
         defaultPath: path.join(app.getPath('documents'), `云岫山院-恢复-${Date.now()}.json`),
         filters: [{ name: '山院恢复文件', extensions: ['json'] }] });
       if (chosen.canceled || !chosen.filePath) return { ok: false, cancelled: true };
-      return exportCourtyardRecovery({ filename: chosen.filePath, state, saveFilename: storage.filename,
-        validate: async value => (await import('./sect-sim.mjs')).validateSect(value) });
+      const result = await exportCourtyardRecovery({ filename: chosen.filePath, state, saveFilename: storage.filename,
+        validate: validateRecovery });
+      if (!result.ok) return result;
+      const readback = await readCourtyardRecovery({ filename: result.path, validate: validateRecovery });
+      if (!readback.ok || digest(readback.data) !== digest(state)) return { ok: false, error: '恢复文件写后校验未通过，请重新导出。' };
+      verifiedExport = { path: result.path, digest: digest(state) };
+      return { ...result, verified: true };
+    });
+    handle('sect:preview-recovery', async () => {
+      recoveryPreview = null;
+      const chosen = await dialog.showOpenDialog(sceneWindow, { title: '选择山院恢复文件',
+        properties: ['openFile'], filters: [{ name: '山院恢复文件', extensions: ['json'] }] });
+      if (chosen.canceled || !chosen.filePaths[0]) return { ok: false, cancelled: true };
+      const result = await readCourtyardRecovery({ filename: chosen.filePaths[0], validate: validateRecovery });
+      if (!result.ok) return result;
+      recoveryPreview = { token: randomUUID(), data: result.data };
+      return { ok: true, token: recoveryPreview.token, data: result.data, filename: path.basename(chosen.filePaths[0]) };
+    });
+    handle('sect:cancel-recovery', () => { recoveryPreview = null; return true; });
+    handle('sect:restore-recovery', async ({ token, previousState } = {}) => {
+      if (!token || recoveryPreview?.token !== token) return { ok: false, error: '请重新选择并预检恢复文件。' };
+      const preview = recoveryPreview;
+      recoveryPreview = null;
+      const result = await restoreCourtyardRecovery({ data: preview.data, previousState, storage, validate: validateRecovery });
+      if (result.ok) verifiedExport = null;
+      return result;
+    });
+    handle('sect:exit-recovery', async state => {
+      if (!verifiedExport || digest(state) !== verifiedExport.digest) return { ok: false, error: '当前进度已有变化，请重新导出恢复文件后退出。' };
+      const readback = await readCourtyardRecovery({ filename: verifiedExport.path, validate: validateRecovery });
+      if (!readback.ok || digest(readback.data) !== verifiedExport.digest) return { ok: false, error: '恢复文件无法通过校验，请重新导出后退出。' };
+      await storage.flush();
+      recordLifecycle('close-with-verified-recovery', { path: verifiedExport.path });
+      clearTimeout(closeTimeout); closeAllowed = true; sceneWindow.close();
+      return { ok: true };
     });
     handle('sect:close-ready', async () => {
       if (!closeRequested) return false;
