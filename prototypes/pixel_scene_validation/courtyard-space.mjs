@@ -2,9 +2,12 @@
  * This profile is read-only. Routes are input waypoints for official move commands.
  */
 import {courtyardTerrainPointClear,courtyardTerrainSegmentClear} from '../../dist/ea-courtyard-master-terrain.mjs';
+import {domainContains,COURTYARD_EAST_ROAD} from '../../dist/ea-sect-domain.mjs';
+import {EAST_LAYOUT,EAST_PATH_CENTER,EAST_TERRACE_WALK} from './courtyard-east-layout.mjs';
 export const ART_WIDTH = 1672;
 export const ART_HEIGHT = 941;
-export const COURTYARD_PROFILE = 'courtyard-v2-presentation-1';
+export const DOMAIN_ART_WIDTH = EAST_LAYOUT.width;
+export const COURTYARD_PROFILE = 'courtyard-v2-east-seams-1';
 
 const X = [0, 8, 12, 14, 16, 20, 24, 28, 32, 36, 44, 56, 96, 160];
 // Each row is monotone in both world depth and art depth. Interpolated X rows
@@ -37,16 +40,70 @@ function rowAt(value, key) {
   const t = (value-a[key])/(b[key]-a[key]);
   return { y: lerp(a.y,b.y,t), v: lerp(a.v,b.v,t), x: a.x.map((x,n) => lerp(x,b.x[n],t)) };
 }
-export function toArt(x,y) {
+function baseToArt(x,y) {
   if (!Number.isFinite(x) || !Number.isFinite(y)) return null;
   const row = rowAt(y,'y'), i = interval(X,x), t = (x-X[i])/(X[i+1]-X[i]);
   return { x: lerp(row.x[i],row.x[i+1],t), y: row.v };
 }
-export function toWorld(x,y) {
+function baseToWorld(x,y) {
   if (!Number.isFinite(x) || !Number.isFinite(y)) return null;
   const row = rowAt(y,'v'), i = interval(row.x,x), t = (x-row.x[i])/(row.x[i+1]-row.x[i]);
   return { x: lerp(X[i],X[i+1],t), y: row.y };
 }
+
+// Two triangular, monotone transforms keep the courtyard core calibrated and
+// give the opened road one reversible projection. Neither transform edits metres.
+const horizontalAnchors=[[50.72,1672],[90,3344],[120,5016],[126,5516],
+  [132,5796],[135,6021],[138,6246],[156,6688],[160,6808]];
+function interpolatePairs(pairs,value){const i=interval(pairs.map(p=>p[0]),value),a=pairs[i],b=pairs[i+1];return lerp(a[1],b[1],(value-a[0])/(b[0]-a[0]));}
+function horizontalProjection(baseX,baseY){
+  if(baseX<=ART_WIDTH)return baseX;
+  const worldX=baseToWorld(baseX,baseY).x,target=interpolatePairs(horizontalAnchors,worldX);
+  const fraction=Math.min(1,(baseX-ART_WIDTH)/528);
+  return lerp(baseX,target,fraction);
+}
+function inverseHorizontal(x,baseY){
+  if(x<=ART_WIDTH)return x;
+  if(x>=horizontalProjection(2200,baseY)){
+    const worldX=interpolatePairs(horizontalAnchors.map(([world,art])=>[art,world]),x);
+    return baseToArt(worldX,baseToWorld(0,baseY).y).x;
+  }
+  let lo=ART_WIDTH,hi=Math.max(8000,x*2);
+  while(horizontalProjection(hi,baseY)<x)hi*=2;
+  for(let n=0;n<48;n++){const mid=(lo+hi)/2;if(horizontalProjection(mid,baseY)<x)lo=mid;else hi=mid;}
+  return (lo+hi)/2;
+}
+const depthKeys=[-120,130,315,407,475,545,653,750,810,820,860,868,877.6,900,980,1340,1860];
+const terraceDepth=[-300,-200,-60,65,125,190,260,340,380,385,405,410,420,455,545,865,1225];
+const depthColumns=[{x:ART_WIDTH,values:depthKeys}];
+function roadSourceDepth(artX){
+  const road=COURTYARD_EAST_ROAD.filter(p=>p.x>=50.72&&p.x<=90).map(p=>[p.x,p.y]);
+  let lo=50.72,hi=90;
+  for(let n=0;n<44;n++){const x=(lo+hi)/2,y=interpolatePairs(road,x),p=baseToArt(x,y);if(horizontalProjection(p.x,p.y)<artX)lo=x;else hi=x;}
+  const x=(lo+hi)/2,y=interpolatePairs(road,x);
+  return baseToArt(x,y).y;
+}
+// Frequent road columns follow the formal diagonal's changes in depth, while
+// the authored centreline determines only its on-screen shape.
+for(let x=ART_WIDTH+1;x<3344;x+=x<1752?1:32){const y=interpolatePairs(EAST_PATH_CENTER,x),sourceY=roadSourceDepth(x);depthColumns.push({x,values:depthKeys.map(v=>y+(v-sourceY)*.8)});}
+depthColumns.push({x:3344,values:depthKeys.map(v=>interpolatePairs(EAST_PATH_CENTER,3344)+(v-810)*.8)});
+for(const [x,y] of EAST_PATH_CENTER.filter(p=>p[0]>3344))depthColumns.push({x,values:depthKeys.map(v=>y+(v-810)*.8)});
+depthColumns.push(
+  {x:5350,values:terraceDepth.map(v=>v+90)},
+  {x:5516,values:terraceDepth.map(v=>v+140)},
+  {x:5703,values:terraceDepth.map(v=>v+40)},
+  {x:5796,values:terraceDepth},
+  {x:6688,values:terraceDepth},
+);
+function columnAt(x){const i=interval(depthColumns.map(c=>c.x),x),a=depthColumns[i],b=depthColumns[i+1],t=(x-a.x)/(b.x-a.x);return a.values.map((v,n)=>lerp(v,b.values[n],t));}
+function projectDepth(x,baseY){if(x<=ART_WIDTH)return baseY;const values=columnAt(x);return interpolatePairs(depthKeys.map((v,n)=>[v,values[n]]),baseY);}
+function inverseDepth(x,y){if(x<=ART_WIDTH)return y;return interpolatePairs(columnAt(x).map((v,n)=>[v,depthKeys[n]]),y);}
+const joinDepth=[[1422,0],[1536,-6],[1597,18],[1672,49],[1747,42],[1822,33],[1922,0]];
+const joinDepthShift=x=>x<1422||x>1922?0:interpolatePairs(joinDepth,x);
+export function toArt(x,y){const base=baseToArt(x,y);if(!base)return null;const artX=horizontalProjection(base.x,base.y);return{x:artX,y:projectDepth(artX,base.y)+joinDepthShift(artX)};}
+export function toWorld(x,y){if(!Number.isFinite(x)||!Number.isFinite(y))return null;const baseY=inverseDepth(x,y-joinDepthShift(x));return baseToWorld(inverseHorizontal(x,baseY),baseY);}
+// Version-1 presentation saves stored image points before the local seam shift.
+export function previousArtToWorld(x,y){if(!Number.isFinite(x)||!Number.isFinite(y))return null;const baseY=inverseDepth(x,y);return baseToWorld(inverseHorizontal(x,baseY),baseY);}
 
 const inPolygon = (x,y,points) => {
   let inside = false;
@@ -81,9 +138,13 @@ const CORRIDORS = [
 ];
 const SOUTH_FOREGROUND_ROCKS=[[315,850],[395,829],[490,850],[515,941],[300,941]];
 export function isArtWalkable(x,y) {
-  if (!Number.isFinite(x)||!Number.isFinite(y)||x<0||y<407||x>ART_WIDTH||y>ART_HEIGHT) return false;
+  if (!Number.isFinite(x)||!Number.isFinite(y)||x<0||y<0||x>DOMAIN_ART_WIDTH||y>ART_HEIGHT) return false;
+  const artY=y;y-=joinDepthShift(x);
+  if(x>1440&&EAST_PATH_CENTER.slice(1).some((b,i)=>segmentDistance(x,y,EAST_PATH_CENTER[i],b)<=24))return domainContains(toWorld(x,artY),.26);
+  if(x>=EAST_LAYOUT.terraceX)return EAST_TERRACE_WALK.some(p=>inPolygon(x-EAST_LAYOUT.terraceX,y,p))&&domainContains(toWorld(x,artY),.26);
+  if(x>ART_WIDTH||y<407)return false;
   if(inPolygon(x,y,SOUTH_FOREGROUND_ROCKS))return false;
-  if (!courtyardTerrainPointClear(toWorld(x,y))) return false;
+  if (!courtyardTerrainPointClear(toWorld(x,artY))) return false;
   return WALK_POLYGONS.some(p=>inPolygon(x,y,p)) || CORRIDORS.some(c=>c.points.slice(1).some((b,i)=>segmentDistance(x,y,c.points[i],b)<=c.width));
 }
 const distance = (a,b) => Math.hypot(a.x-b.x,a.y-b.y);
@@ -97,7 +158,7 @@ function artSegmentClear(a,b) {
   }
   return true;
 }
-const GRID=8, COLS=Math.floor(ART_WIDTH/GRID)+1, ROW_COUNT=Math.floor(ART_HEIGHT/GRID)+1;
+const GRID=8, COLS=Math.floor(DOMAIN_ART_WIDTH/GRID)+1, ROW_COUNT=Math.floor(ART_HEIGHT/GRID)+1;
 let grid;
 function walkGrid() {
   if (!grid) {
@@ -140,14 +201,39 @@ function shortWaypoints(points,maxStep) {
   if(result.length)result[result.length-1]={...points.at(-1)};
   return result;
 }
+function attachEastRoad(art){
+  const point=toWorld(art.x,art.y);
+  if(art.x<1457)return{index:0,point:COURTYARD_EAST_ROAD[0]};
+  let best=null;
+  for(let i=1;i<COURTYARD_EAST_ROAD.length;i++){
+    const a=COURTYARD_EAST_ROAD[i-1],b=COURTYARD_EAST_ROAD[i],dx=b.x-a.x,dy=b.y-a.y;
+    const t=Math.max(0,Math.min(1,((point.x-a.x)*dx+(point.y-a.y)*dy)/(dx*dx+dy*dy)));
+    const at={x:a.x+dx*t,y:a.y+dy*t},d=distance(point,at);
+    if(!best||d<best.distance)best={index:i-1+t,point:at,distance:d};
+  }
+  return best;
+}
+function eastRoadRoute(from,to,maxStep){
+  const a=attachEastRoad(from),b=attachEastRoad(to),start=toArt(a.point.x,a.point.y),end=toArt(b.point.x,b.point.y);
+  const first=routeArt(from,start,{maxWaypointDistance:maxStep,useEastRoad:false}),last=routeArt(end,to,{maxWaypointDistance:maxStep,useEastRoad:false});
+  if(!first||!last)return null;
+  const direction=Math.sign(b.index-a.index),inner=COURTYARD_EAST_ROAD.map((p,index)=>({p,index})).filter(({index})=>index>Math.min(a.index,b.index)&&index<Math.max(a.index,b.index));
+  if(direction<0)inner.reverse();
+  const middle=shortWaypoints([start,...inner.map(({p})=>toArt(p.x,p.y)),end],maxStep);
+  if(!middle.every(p=>isArtWalkable(p.x,p.y)))return null;
+  return [...first,...middle,...last];
+}
 /** Return art waypoints excluding the starting point; null means unavailable.
  * Execute one corresponding official world move at a time, waiting for arrival.
  */
-export function routeArt(from,to,{maxWaypointDistance=18}={}) {
+export function routeArt(from,to,{maxWaypointDistance=18,useEastRoad=true}={}) {
   if(!finitePoint(from)||!finitePoint(to)||!isArtWalkable(from.x,from.y)||!isArtWalkable(to.x,to.y))return null;
   if(!Number.isFinite(maxWaypointDistance)||maxWaypointDistance<=0) return null;
   const maxStep=Math.min(18,maxWaypointDistance);
   if(distance(from,to)<.001)return [];
+  if(useEastRoad&&Math.max(from.x,to.x)>ART_WIDTH&&Math.min(from.x,to.x)<EAST_LAYOUT.terraceX){
+    const road=eastRoadRoute(from,to,maxStep);if(road)return road;
+  }
   if(artSegmentClear(from,to))return shortWaypoints([from,to],maxStep);
   const start=nearbyNode(from),goal=nearbyNode(to),cells=walkGrid();
   if(start<0||goal<0)return null;

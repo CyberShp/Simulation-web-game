@@ -3,7 +3,7 @@ import {finalizeBuildingChange,releaseBodyActivity} from './ea-facility-activiti
 import {scenicPoint} from './ea-scene-geometry.mjs';
 import {BUILDINGS,RESOURCES,log as gameLog} from './ea-data.mjs';
 import {BUILDING_GRID,buildingGridEnabled,buildingCellSize,onBuildingGrid} from './ea-building-grid.mjs';
-import {DOMAIN_LAYOUT_VERSION,DOMAIN_EXTENT_VERSION,SECT_DOMAIN,activeBounds,domainBarriers,domainSiteAt} from './ea-sect-domain.mjs';
+import {DOMAIN_LAYOUT_VERSION,DOMAIN_EXTENT_VERSION,SECT_DOMAIN,activeBounds,domainBarriers,domainSiteAt,courtyardEastPassage} from './ea-sect-domain.mjs';
 import {COURTYARD_MASTER_TERRAIN_VERSION,courtyardTerrainSolids,validateCourtyardTerrainRecord,courtyardPassage} from './ea-courtyard-master-terrain.mjs';
 export const SPATIAL_VERSION='spatial-metres-1';
 export const SPATIAL_EXTENT_VERSION='courtyard-96-1';
@@ -98,11 +98,16 @@ export function meterNearest(s,p,{maxDistance,radius=.26,occupied=[]}={}){
 }
 function heapPush(heap,n){let i=heap.length;heap.push(n);while(i){const p=(i-1)>>1;if(heap[p].f<=n.f)break;heap[i]=heap[p];i=p;}heap[i]=n;}
 function heapPop(heap){const first=heap[0],last=heap.pop();if(heap.length){let i=0;while(i*2+1<heap.length){let c=i*2+1;if(c+1<heap.length&&heap[c+1].f<heap[c].f)c++;if(last.f<=heap[c].f)break;heap[i]=heap[c];i=c;}heap[i]=last;}return first;}
-export function meterFindPath(s,from,goal,{maxSnap=2,radius=.26,throughCourtyardPassage=true}={}){
- const polygons=obstacles(s),clear=p=>clearPoint(polygons,p,radius),sweep=(a,b)=>({blocked:!clear(a)||!continuousClear(polygons,a,b,radius)});if(!clear(from))return null;const to=clear(goal)?{x:goal.x,y:goal.y}:meterNearest(s,goal,{maxDistance:maxSnap,radius});if(!to)return null;if(distance(from,to)<.001)return [];if(!sweep(from,to).blocked)return [to];
+export function meterFindPath(s,from,goal,{maxSnap=2,radius=.26,throughCourtyardPassage=true,throughEastPassage=true}={}){
+ const polygons=obstacles(s),clear=p=>clearPoint(polygons,p,radius),sweep=(a,b)=>({blocked:!clear(a)||!continuousClear(polygons,a,b,radius)});if(!clear(from))return null;const to=clear(goal)?{x:goal.x,y:goal.y}:meterNearest(s,goal,{maxDistance:maxSnap,radius});if(!to)return null;if(distance(from,to)<.001)return [];
+ if(throughEastPassage&&s.spatial?.extentVersion===DOMAIN_EXTENT_VERSION&&courtyardTerrainSolids(s.spatial?.courtyardTerrain?.version).length){
+  const passage=courtyardEastPassage(from,to);
+  if(passage){const result=[];let at=from;for(const point of [...passage,to]){const route=meterFindPath(s,at,point,{maxSnap:0,radius,throughEastPassage:false});if(route===null)return null;result.push(...route);at=point;}return result;}
+ }
+ if(!sweep(from,to).blocked)return [to];
  if(throughCourtyardPassage&&courtyardTerrainSolids(s.spatial?.courtyardTerrain?.version).length){
   const passage=courtyardPassage(from,to);
-  if(passage){const result=[];let at=from;for(const point of [...passage,to]){const route=meterFindPath(s,at,point,{maxSnap:0,radius,throughCourtyardPassage:false});if(route===null)return null;result.push(...route);at=point;}return result;}
+  if(passage){const result=[];let at=from;for(const point of [...passage,to]){const route=meterFindPath(s,at,point,{maxSnap:0,radius,throughCourtyardPassage:false,throughEastPassage});if(route===null)return null;result.push(...route);at=point;}return result;}
  }
  const step=SPATIAL_SCENE.grid,maxX=Math.ceil(polygons.bounds.width/step)-1,maxY=Math.ceil(polygons.bounds.height/step)-1,stride=maxX+1;
  const k=(x,y)=>y*stride+x,open=[],cost=new Map(),parents=new Map(),points=new Map(),closed=new Set();
@@ -528,7 +533,7 @@ function finishConstructionCancellation(s,a,o){
  if(flow){const source=s.stockpilesById[flow.sourceStockpileId],site=s.stockpilesById[flow.siteStockpileId];if(materialTotal(flow.cargo)||materialTotal(site.resources))throw Error('工地未用材料尚需实际返程。');for(const[k,v]of Object.entries(constructionMaterials(r.cost)))if(source.resources[k]!==refund[k])throw Error('施工退料位置与剩余数量不一致。');}
  grant(s,refund);const b=s.buildingsById?.[a.instanceId]||s.buildings.find(v=>v.id===a.buildingId);if(b)delete b.spatialLock;
  if(o.operation==='establish')s.story.opening.hallPhase='shelter';
- s.spatial.completedOrders.push({id:o.id,operation:o.operation,phase:'cancelled',progressTicks:o.progressTicks,usedCost:{...o.usedCost},refund,sourceTransform:o.sourceTransform,targetTransform:o.targetTransform,materialTrips:flow?.trips||[],tick:s.worldTick});cleanup(s,a);return {refund,usedCost:o.usedCost};
+ s.spatial.completedOrders.push({id:o.id,operation:o.operation,phase:'cancelled',progressTicks:o.progressTicks,usedCost:{...o.usedCost},refund,sourceTransform:o.sourceTransform,targetTransform:o.targetTransform,materialTrips:flow?.trips||[],tick:s.worldTick,...(o.domainSiteId?{domainSiteId:o.domainSiteId}:{})});cleanup(s,a);return {refund,usedCost:o.usedCost};
 }
 function requestConstructionCancellation(s,a,o){
  for(const id of [...o.activityIds]){const helper=s.activitiesById[id];if(helper?.kind==='sr-construction')releaseConstructionHelper(s,o,helper);}

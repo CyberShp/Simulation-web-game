@@ -13,7 +13,7 @@ TITLE = "云岫山院·山院实景"
 APP_SOURCE_FILES = (
     "courtyard-host.cjs", "courtyard-preload.cjs", "courtyard.html",
     "courtyard-main.mjs", "courtyard.css", "courtyard-renderer.mjs",
-    "courtyard-space.mjs", "courtyard-layers.mjs", "courtyard-qa.mjs",
+    "courtyard-space.mjs", "courtyard-layers.mjs", "courtyard-east-layout.mjs", "courtyard-qa.mjs",
     "courtyard-panels.mjs", "courtyard-panel-state.mjs", "courtyard-inspection.mjs",
     "courtyard-persistence.mjs", "courtyard-recovery.cjs",
     "sect-storage.cjs", "sect-sim.mjs", "sect-seed.mjs",
@@ -22,6 +22,9 @@ ASSET_FILES = (
     "courtyard-master-v2.png", "courtyard-clean-v2.png",
     "courtyard-fallow-v2.png", "courtyard-domain-v1.png",
     "cultivator-v1.png", "disciples-v1.png",
+    "east-path-a.png", "east-path-b.png", "east-terrace-v2.png",
+    "east-terrace-clean.png", "east-terrace-empty.png", "east-terrace-construction.png",
+    "east-seam-1672.png", "east-seam-3344.png", "east-seam-5016.png",
 )
 # These are the nested module/data dependencies of the official top-level modules.
 NESTED_DIST_FILES = (

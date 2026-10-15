@@ -3,6 +3,7 @@
  * sourceHeight measures from the visible crown to the planted foot.
  */
 export const SOURCE_SIZE = Object.freeze({ width: 1672, height: 941 });
+import { EAST_LAYOUT, EAST_HOUSE_POLYGON } from './courtyard-east-layout.mjs';
 
 const frame = (crop, foot, sourceHeight) => ({ crop, foot, sourceHeight });
 const rail = (id, a, b, width, feetY) => {
@@ -15,6 +16,17 @@ const rail = (id, a, b, width, feetY) => {
 const post = (id, x, top, bottom, width) => ({ id, feetY: bottom,
   polygon: [[x-width/2,top+3],[x-width/2+2,top],[x+width/2-2,top],
     [x+width/2,top+3],[x+width/2,bottom],[x-width/2,bottom]] });
+
+const east = item => ({...item,source:'east',polygon:item.polygon.map(([x,y])=>[x+EAST_LAYOUT.terraceX,y])});
+export const EAST_OCCLUDERS = Object.freeze([
+  east({id:'east-residence',feetY:418,building:true,polygon:EAST_HOUSE_POLYGON}),
+  east(rail('east-front-rail-a',[839,573],[1044,624],12,634)),
+  east(post('east-front-post-a',839,551,598,14)),
+  east(post('east-front-post-b',914,574,625,14)),
+  east(post('east-front-post-c',1040,592,649,16)),
+  east({id:'east-front-lamp',feetY:658,polygon:[[1045,570],[1061,552],[1070,535],[1081,554],[1095,569],[1090,607],[1102,632],[1100,657],[1047,657],[1044,631],[1054,611]]}),
+  east({id:'east-step-lamp',feetY:751,polygon:[[1317,641],[1336,623],[1343,610],[1355,626],[1370,641],[1364,677],[1378,705],[1375,751],[1321,750],[1314,705],[1329,678]]}),
+]);
 
 export const FRAME_TABLE = Object.freeze({
   master: {

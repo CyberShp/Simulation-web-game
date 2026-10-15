@@ -2,7 +2,7 @@
   "schema_version": 1,
   "registry_id": "SR-XF-2026-10-06",
   "design_baseline": "DB-2026-10-05 v1.2",
-  "updated": "2026-10-15",
+  "updated": "2026-10-16",
   "authoritative": "registry.json for requirement records and task states; derived Markdown rendered by qa/sr-manager.py refresh",
   "source_runtime": {
     "main": "7d27532bf22e8c6064281e12b390edb8370abce9",
@@ -387,6 +387,26 @@
       "runtime_errors": 0,
       "windows": "not-run",
       "full_opening_complete": false,
+      "web_runtime_changed": false
+    },
+    "courtyard_east_expansion": {
+      "decision": "U-150",
+      "source_base": "4eedf62",
+      "record": "docs/design/52-EAST-TERRACE-INTEGRATION.md",
+      "desktop_package": "/Volumes/Media/immortal-qa/east-expansion-20261016/package-1/云岫山院·山院实景.app",
+      "status": "macos-package-verified",
+      "same_world_chain_wall_seconds": 308.849,
+      "source_chain_segments": [
+        8,
+        10
+      ],
+      "harness_interruption_recorded": true,
+      "package_phase_checks": 6,
+      "package_roundtrip_checks": 9,
+      "package_roundtrip_wall_seconds": 251.754,
+      "runtime_errors": 0,
+      "windows": "not-run",
+      "full_requirement_status_changed": false,
       "web_runtime_changed": false
     }
   },
@@ -962,7 +982,9 @@
         "U-143",
         "U-144",
         "U-149",
-        "R-49"
+        "R-49",
+        "U-150",
+        "R-50"
       ],
       "source_specs": [
         "docs/design/03-SPATIAL-ART.md",
@@ -973,7 +995,9 @@
         "docs/ART-REALTIME-TRIAL.md",
         "docs/SECT-GROWTH-PLAN.md",
         "docs/design/41-COURTYARD-VALLEY-IMPLEMENTATION.md",
-        "docs/design/51-COURTYARD-MANAGEMENT-INTEGRATION.md"
+        "docs/design/51-COURTYARD-MANAGEMENT-INTEGRATION.md",
+        "docs/design/46-CONTINUOUS-DOMAIN-FOUNDATION.md",
+        "docs/design/52-EAST-TERRACE-INTEGRATION.md"
       ],
       "baseline": "既有 JS 运行基线：96米山院与2米营造格沿用同一米制空间。本批登记adult-furniture-1室内布局，成人家具、导航、预约脚点和可见床面共用预制件；旧合法布局在副本中一次映射并记录位置变化。 U-105 山域成长方案见 docs/SECT-GROWTH-PLAN.md；本批只登记设计与阶段原型，正式运行版本保持。\n2026-10-14 U-142：先审核完整山院美术原型，再按构图、细节、精度与材质还原实机。目标模式、场景接入及20分钟长验按用户要求暂停；本地增量保留。原型见 docs/art/pixel-courtyard-prototype-20261014/README.md；原型不计作运行验收，既有SR/AC状态保持。",
       "design_gap": "U-105 山域分区、稳定地域身份和统一布局解析已写入成长章程；各区逻辑米边界、建位入口、道路长度和跨区连接仍待实施设计，五阶段镜头、寻路及目标设备待实际验收。",
@@ -1085,7 +1109,9 @@
         "2026-10-15 U-144：用户确认按courtyard-v2.png还原。首屏采用原尺寸环境与独立人物、正式米制事实及同一模拟，实走、点选、原稿对照与存读的局部证据见 docs/art/pixel-courtyard-prototype-20261014/RUNTIME.md。用户实机美术认可、相邻地区、经营长验与Windows继续分别接续；完整D/I/V/R和AC状态保持。 最终macOS首屏94/94、70.029秒自主观察701次采样及原生输入/旧候选存档升级已复核，运行错误0；环境1,447,576像素比较差异0（排除状态与补画区）。",
         "2026-10-15 门道回归修复：按 U-115 补齐旧测试的首次疗伤择法步骤，验证择法前世界暂停、精确存读及草药不重复扣除，再执行原有营造、穿门、拒绝堵门、绕墙与存读断言。门道2/2、设施16/16、主殿与药田出口3/3，共21/21、失败0、跳过0；后者包含两份真实堵路存档恢复。本次仅修改测试与记录，运行规则、桌面包及完整SR/AC状态保持。 详见 docs/art/pixel-courtyard-prototype-20261014/RUNTIME.md。",
         "docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。",
-        "docs/design/51-COURTYARD-MANAGEMENT-INTEGRATION.md；2026-10-15 U-149/R-49：四页与共用详情、单趟40份留苗搬运、落地回收和保存恢复接通；组件与相邻回归57/57，同一检查点真实桌面387.845秒13/13、最终包页面8/8、恢复链9/9，原生选择文件/预检/恢复及手动暂停已验。完整新档、规模、对话/突破、跨区施工、20分钟自主与Windows待接；完整D/I/V/R和AC状态保持。"
+        "docs/design/51-COURTYARD-MANAGEMENT-INTEGRATION.md；2026-10-15 U-149/R-49：四页与共用详情、单趟40份留苗搬运、落地回收和保存恢复接通；组件与相邻回归57/57，同一检查点真实桌面387.845秒13/13、最终包页面8/8、恢复链9/9，原生选择文件/预检/恢复及手动暂停已验。完整新档、规模、对话/突破、跨区施工、20分钟自主与Windows待接；完整D/I/V/R和AC状态保持。",
+        "docs/design/52-EAST-TERRACE-INTEGRATION.md",
+        "qa/courtyard-east-desktop.mjs"
       ],
       "change_log": [
         {
@@ -1231,6 +1257,10 @@
         {
           "date": "2026-10-15",
           "reason": "U-149：接续远端main并完成当前山院管理和取消回收、保存恢复的局部桌面验证；完整状态保持。"
+        },
+        {
+          "date": "2026-10-16",
+          "reason": "U-150/R-50：追加连续东路、实际分趟运料施工、四床启用与同源macOS存读往返局部证据。流程两段308.849秒，最终包阶段6项及往返9项，错误0；保留验收脚本中断记录。完整SR/AC与D/I/V/R状态保持。"
         }
       ],
       "tasks": [
@@ -1607,7 +1637,9 @@
         "U-143",
         "U-144",
         "U-149",
-        "R-49"
+        "R-49",
+        "U-150",
+        "R-50"
       ],
       "source_specs": [
         "docs/design/03-SPATIAL-ART.md",
@@ -1618,7 +1650,9 @@
         "docs/GODOT-MIGRATION.md",
         "docs/ART-REALTIME-TRIAL.md",
         "docs/SECT-GROWTH-PLAN.md",
-        "docs/design/51-COURTYARD-MANAGEMENT-INTEGRATION.md"
+        "docs/design/51-COURTYARD-MANAGEMENT-INTEGRATION.md",
+        "docs/design/46-CONTINUOUS-DOMAIN-FOUNDATION.md",
+        "docs/design/52-EAST-TERRACE-INTEGRATION.md"
       ],
       "baseline": "既有 JS 运行基线：主屋、居舍、医庐采用0.9×2.2米成人床，书案与工作台按统一室内布局放置。相同预制件服务家具、工位、通行与营造；床位及卧姿仍保存在真实活动中。按U-101，院景中封闭建筑保持完整外观，不绘制室内家具与人物；容量和活动由人物/建筑管理查看。 U-105 山域成长方案见 docs/SECT-GROWTH-PLAN.md；本批只登记设计与阶段原型，正式运行版本保持。\n2026-10-14 U-142：先审核完整山院美术原型，再按构图、细节、精度与材质还原实机。目标模式、场景接入及20分钟长验按用户要求暂停；本地增量保留。原型见 docs/art/pixel-courtyard-prototype-20261014/README.md；原型不计作运行验收，既有SR/AC状态保持。",
       "design_gap": "U-105 五阶段建筑用途、主峰仙宫和分峰生活容量方向已登记；分阶段预制件尺寸、真实工位容量与素材目录仍待冻结，并须在 U-104 Godot 二维场景逐项验证。",
@@ -1740,7 +1774,9 @@
         "2026-10-15 U-144：用户确认按courtyard-v2.png还原。首屏采用原尺寸环境与独立人物、正式米制事实及同一模拟，实走、点选、原稿对照与存读的局部证据见 docs/art/pixel-courtyard-prototype-20261014/RUNTIME.md。用户实机美术认可、相邻地区、经营长验与Windows继续分别接续；完整D/I/V/R和AC状态保持。 最终macOS首屏94/94、70.029秒自主观察701次采样及原生输入/旧候选存档升级已复核，运行错误0；环境1,447,576像素比较差异0（排除状态与补画区）。",
         "docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。",
         "docs/design/50-COURTYARD-UI-DESIGN-AUDIT.md；2026-10-15 U-148/R-48：四页及关联入口30项设计审查与7条后续场景；两处物流问题由正常命令复现，运行代码未修，实际UI未验，完整状态保持。",
-        "docs/design/51-COURTYARD-MANAGEMENT-INTEGRATION.md；2026-10-15 U-149/R-49：四页与共用详情、单趟40份留苗搬运、落地回收和保存恢复接通；组件与相邻回归57/57，同一检查点真实桌面387.845秒13/13、最终包页面8/8、恢复链9/9，原生选择文件/预检/恢复及手动暂停已验。完整新档、规模、对话/突破、跨区施工、20分钟自主与Windows待接；完整D/I/V/R和AC状态保持。"
+        "docs/design/51-COURTYARD-MANAGEMENT-INTEGRATION.md；2026-10-15 U-149/R-49：四页与共用详情、单趟40份留苗搬运、落地回收和保存恢复接通；组件与相邻回归57/57，同一检查点真实桌面387.845秒13/13、最终包页面8/8、恢复链9/9，原生选择文件/预检/恢复及手动暂停已验。完整新档、规模、对话/突破、跨区施工、20分钟自主与Windows待接；完整D/I/V/R和AC状态保持。",
+        "docs/design/52-EAST-TERRACE-INTEGRATION.md",
+        "qa/courtyard-east-desktop.mjs"
       ],
       "change_log": [
         {
@@ -1866,6 +1902,10 @@
         {
           "date": "2026-10-15",
           "reason": "U-149：接续远端main并完成当前山院管理和取消回收、保存恢复的局部桌面验证；完整状态保持。"
+        },
+        {
+          "date": "2026-10-16",
+          "reason": "U-150/R-50：追加连续东路、实际分趟运料施工、四床启用与同源macOS存读往返局部证据。流程两段308.849秒，最终包阶段6项及往返9项，错误0；保留验收脚本中断记录。完整SR/AC与D/I/V/R状态保持。"
         }
       ],
       "tasks": [
@@ -2242,7 +2282,9 @@
         "R-32",
         "U-109",
         "U-123",
-        "U-124"
+        "U-124",
+        "U-150",
+        "R-50"
       ],
       "source_specs": [
         "docs/design/03-SPATIAL-ART.md",
@@ -2251,7 +2293,9 @@
         "docs/design/18-SPATIAL-CONTINUITY-IMPLEMENTATION.md",
         "docs/design/06-OPENING-ACCEPTANCE.md",
         "docs/SECT-GROWTH-PLAN.md",
-        "docs/design/41-COURTYARD-VALLEY-IMPLEMENTATION.md"
+        "docs/design/41-COURTYARD-VALLEY-IMPLEMENTATION.md",
+        "docs/design/46-CONTINUOUS-DOMAIN-FOUNDATION.md",
+        "docs/design/52-EAST-TERRACE-INTEGRATION.md"
       ],
       "baseline": "既有 JS 运行基线：自由选址、材料预留和到场施工沿用单位格事务。本批推荐营造确认按返回的transform与选中建筑类型显示镜头及反馈；建筑卡读取真实可用容量和工位状态。推荐营造说明使用稳定布局，指针离开画布后确认按钮仍可点击。 U-105 山域成长方案见 docs/SECT-GROWTH-PLAN.md；本批只登记设计与阶段原型，正式运行版本保持。",
       "design_gap": "U-105 已确定建筑预设位置和资格—投入—施工流程；建位允许项目、资格条件、占地/门道与工单字段需补齐后接入实际营造。旧版自由选址证据保留原版本。",
@@ -2317,7 +2361,9 @@
         "docs/art/COURTYARD-VALLEY-2026-10-12.md",
         "tests/ea-mountain-alchemy.test.mjs",
         "docs/art/OPENING-CHAIN-2026-10-12.md；2026-10-12 U-124：主殿撤离等待与新建帮工落点修复，两个实际卡点存档接续；正常行走、碰撞与物资守恒定向检查通过。 仅增局部证据，完整 SR/AC 状态保持。",
-        "tests/ea-mountain-hall-egress.test.mjs"
+        "tests/ea-mountain-hall-egress.test.mjs",
+        "docs/design/52-EAST-TERRACE-INTEGRATION.md",
+        "qa/courtyard-east-desktop.mjs"
       ],
       "change_log": [
         {
@@ -2387,6 +2433,10 @@
         {
           "date": "2026-10-12",
           "reason": "2026-10-12 U-123：新丹房建位与外观接入；新档首收与独立丹房QA档的第一炉分别在网页实走，炼药定向2／2。全部建位、施工和入口安全门槛仍按原 AC。 局部证据见 docs/art/COURTYARD-VALLEY-2026-10-12.md；整项 D/I/V/R 与 AC 状态不变。"
+        },
+        {
+          "date": "2026-10-16",
+          "reason": "U-150/R-50：追加连续东路、实际分趟运料施工、四床启用与同源macOS存读往返局部证据。流程两段308.849秒，最终包阶段6项及往返9项，错误0；保留验收脚本中断记录。完整SR/AC与D/I/V/R状态保持。"
         }
       ],
       "tasks": [
@@ -3178,7 +3228,9 @@
         "U-143",
         "U-144",
         "U-149",
-        "R-49"
+        "R-49",
+        "U-150",
+        "R-50"
       ],
       "source_specs": [
         "docs/design/01-CHARACTERS.md",
@@ -3189,7 +3241,9 @@
         "docs/GODOT-MIGRATION.md",
         "docs/ART-REALTIME-TRIAL.md",
         "docs/design/42-CHARACTER-DIALOGUE.md",
-        "docs/design/51-COURTYARD-MANAGEMENT-INTEGRATION.md"
+        "docs/design/51-COURTYARD-MANAGEMENT-INTEGRATION.md",
+        "docs/design/46-CONTINUOUS-DOMAIN-FOUNDATION.md",
+        "docs/design/52-EAST-TERRACE-INTEGRATION.md"
       ],
       "baseline": "沿用六列云岫人物及稳定spriteIndex/外观配方；真实床位休憩、书案研习和满包等候已按同一身份与身体活动投影静态姿态，缺图保留基础同身份人物和点选。\n2026-10-14 U-142：先审核完整山院美术原型，再按构图、细节、精度与材质还原实机。目标模式、场景接入及20分钟长验按用户要求暂停；本地增量保留。原型见 docs/art/pixel-courtyard-prototype-20261014/README.md；原型不计作运行验收，既有SR/AC状态保持。",
       "design_gap": "D01/D02 已补齐关键人物配方、活动/工具和三视图同身份映射，并完成 SR002/SR004 与 REQ/AC 契约审阅。疗伤/劳动/斗法等完整连续动作、持久配方版本及面部标记范围门禁、三人以上真人辨识体验仍属 I/V 后续缺口；静态姿态与回退不代表完整动画完成。",
@@ -3308,7 +3362,9 @@
         "2026-10-15 U-144：用户确认按courtyard-v2.png还原。首屏采用原尺寸环境与独立人物、正式米制事实及同一模拟，实走、点选、原稿对照与存读的局部证据见 docs/art/pixel-courtyard-prototype-20261014/RUNTIME.md。用户实机美术认可、相邻地区、经营长验与Windows继续分别接续；完整D/I/V/R和AC状态保持。 最终macOS首屏94/94、70.029秒自主观察701次采样及原生输入/旧候选存档升级已复核，运行错误0；环境1,447,576像素比较差异0（排除状态与补画区）。",
         "docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。",
         "docs/design/50-COURTYARD-UI-DESIGN-AUDIT.md；2026-10-15 U-148/R-48：四页及关联入口30项设计审查与7条后续场景；两处物流问题由正常命令复现，运行代码未修，实际UI未验，完整状态保持。",
-        "docs/design/51-COURTYARD-MANAGEMENT-INTEGRATION.md；2026-10-15 U-149/R-49：四页与共用详情、单趟40份留苗搬运、落地回收和保存恢复接通；组件与相邻回归57/57，同一检查点真实桌面387.845秒13/13、最终包页面8/8、恢复链9/9，原生选择文件/预检/恢复及手动暂停已验。完整新档、规模、对话/突破、跨区施工、20分钟自主与Windows待接；完整D/I/V/R和AC状态保持。"
+        "docs/design/51-COURTYARD-MANAGEMENT-INTEGRATION.md；2026-10-15 U-149/R-49：四页与共用详情、单趟40份留苗搬运、落地回收和保存恢复接通；组件与相邻回归57/57，同一检查点真实桌面387.845秒13/13、最终包页面8/8、恢复链9/9，原生选择文件/预检/恢复及手动暂停已验。完整新档、规模、对话/突破、跨区施工、20分钟自主与Windows待接；完整D/I/V/R和AC状态保持。",
+        "docs/design/52-EAST-TERRACE-INTEGRATION.md",
+        "qa/courtyard-east-desktop.mjs"
       ],
       "change_log": [
         {
@@ -3422,6 +3478,10 @@
         {
           "date": "2026-10-15",
           "reason": "U-149：接续远端main并完成当前山院管理和取消回收、保存恢复的局部桌面验证；完整状态保持。"
+        },
+        {
+          "date": "2026-10-16",
+          "reason": "U-150/R-50：追加连续东路、实际分趟运料施工、四床启用与同源macOS存读往返局部证据。流程两段308.849秒，最终包阶段6项及往返9项，错误0；保留验收脚本中断记录。完整SR/AC与D/I/V/R状态保持。"
         }
       ],
       "tasks": [
@@ -4394,7 +4454,9 @@
         "U-123",
         "U-124",
         "U-149",
-        "R-49"
+        "R-49",
+        "U-150",
+        "R-50"
       ],
       "source_specs": [
         "docs/design/05-RUNTIME-CONTRACTS.md",
@@ -4402,7 +4464,9 @@
         "docs/design/14-EARLY-GAME-DETAILED-DESIGN.md",
         "docs/SECT-GROWTH-PLAN.md",
         "docs/design/41-COURTYARD-VALLEY-IMPLEMENTATION.md",
-        "docs/design/51-COURTYARD-MANAGEMENT-INTEGRATION.md"
+        "docs/design/51-COURTYARD-MANAGEMENT-INTEGRATION.md",
+        "docs/design/46-CONTINUOUS-DOMAIN-FOUNDATION.md",
+        "docs/design/52-EAST-TERRACE-INTEGRATION.md"
       ],
       "baseline": "已有公库/个人赠药及共享工作单预留的局部事实。",
       "design_gap": "D01/D02 已复核；r20 局部实现公库、掌门私物和商人库存的五数只读汇总。完整 ECON-02/03、跨订单取消后的产权恢复、所有中断工单状态及目标设备仍待验收。",
@@ -4485,7 +4549,9 @@
         "docs/art/OPENING-GUIDANCE-2026-10-13.md；2026-10-13 U-124：新增携药仍走真实搬运；实际随身取得、重复/空炉保护及刷新前后完整存档相等。 仅增局部证据，完整 SR/AC 状态保持。",
         "docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。",
         "docs/design/50-COURTYARD-UI-DESIGN-AUDIT.md；2026-10-15 U-148/R-48：四页及关联入口30项设计审查与7条后续场景；两处物流问题由正常命令复现，运行代码未修，实际UI未验，完整状态保持。",
-        "docs/design/51-COURTYARD-MANAGEMENT-INTEGRATION.md；2026-10-15 U-149/R-49：四页与共用详情、单趟40份留苗搬运、落地回收和保存恢复接通；组件与相邻回归57/57，同一检查点真实桌面387.845秒13/13、最终包页面8/8、恢复链9/9，原生选择文件/预检/恢复及手动暂停已验。完整新档、规模、对话/突破、跨区施工、20分钟自主与Windows待接；完整D/I/V/R和AC状态保持。"
+        "docs/design/51-COURTYARD-MANAGEMENT-INTEGRATION.md；2026-10-15 U-149/R-49：四页与共用详情、单趟40份留苗搬运、落地回收和保存恢复接通；组件与相邻回归57/57，同一检查点真实桌面387.845秒13/13、最终包页面8/8、恢复链9/9，原生选择文件/预检/恢复及手动暂停已验。完整新档、规模、对话/突破、跨区施工、20分钟自主与Windows待接；完整D/I/V/R和AC状态保持。",
+        "docs/design/52-EAST-TERRACE-INTEGRATION.md",
+        "qa/courtyard-east-desktop.mjs"
       ],
       "change_log": [
         {
@@ -4555,6 +4621,10 @@
         {
           "date": "2026-10-15",
           "reason": "U-149：接续远端main并完成当前山院管理和取消回收、保存恢复的局部桌面验证；完整状态保持。"
+        },
+        {
+          "date": "2026-10-16",
+          "reason": "U-150/R-50：追加连续东路、实际分趟运料施工、四床启用与同源macOS存读往返局部证据。流程两段308.849秒，最终包阶段6项及往返9项，错误0；保留验收脚本中断记录。完整SR/AC与D/I/V/R状态保持。"
         }
       ],
       "tasks": [
@@ -8598,7 +8668,9 @@
         "U-142",
         "U-144",
         "U-149",
-        "R-49"
+        "R-49",
+        "U-150",
+        "R-50"
       ],
       "source_specs": [
         "docs/design/01-CHARACTERS.md",
@@ -8610,7 +8682,9 @@
         "docs/SECT-GROWTH-PLAN.md",
         "docs/design/41-COURTYARD-VALLEY-IMPLEMENTATION.md",
         "docs/design/42-CHARACTER-DIALOGUE.md",
-        "docs/design/51-COURTYARD-MANAGEMENT-INTEGRATION.md"
+        "docs/design/51-COURTYARD-MANAGEMENT-INTEGRATION.md",
+        "docs/design/46-CONTINUOUS-DOMAIN-FOUNDATION.md",
+        "docs/design/52-EAST-TERRACE-INTEGRATION.md"
       ],
       "baseline": "既有 JS 运行基线：建筑侧卡按预制件显示床位、作业位、研习位及当前占用；现场及重叠人物使用同身份头像入口。pointerup补验移动距离，拖动放开保持拖动语义；推荐营造确认消费正式返回字段。推荐营造说明使用稳定布局，指针离开画布后确认按钮仍可点击。 U-105 山域成长方案见 docs/SECT-GROWTH-PLAN.md；本批只登记设计与阶段原型，正式运行版本保持。\n2026-10-14 U-142：先审核完整山院美术原型，再按构图、细节、精度与材质还原实机。目标模式、场景接入及20分钟长验按用户要求暂停；本地增量保留。原型见 docs/art/pixel-courtyard-prototype-20261014/README.md；原型不计作运行验收，既有SR/AC状态保持。",
       "design_gap": "既有统一输入与DPR局部实现保留；U-105 的地域总览、预设建位项目卡、迁居/供给状态和失败恢复流程待详细交互设计及桌面/iPad视口和真机验证。",
@@ -8700,7 +8774,9 @@
         "2026-10-15 U-144：用户确认按courtyard-v2.png还原。首屏采用原尺寸环境与独立人物、正式米制事实及同一模拟，实走、点选、原稿对照与存读的局部证据见 docs/art/pixel-courtyard-prototype-20261014/RUNTIME.md。用户实机美术认可、相邻地区、经营长验与Windows继续分别接续；完整D/I/V/R和AC状态保持。 最终macOS首屏94/94、70.029秒自主观察701次采样及原生输入/旧候选存档升级已复核，运行错误0；环境1,447,576像素比较差异0（排除状态与补画区）。",
         "docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。",
         "docs/design/50-COURTYARD-UI-DESIGN-AUDIT.md；2026-10-15 U-148/R-48：四页及关联入口30项设计审查与7条后续场景；两处物流问题由正常命令复现，运行代码未修，实际UI未验，完整状态保持。",
-        "docs/design/51-COURTYARD-MANAGEMENT-INTEGRATION.md；2026-10-15 U-149/R-49：四页与共用详情、单趟40份留苗搬运、落地回收和保存恢复接通；组件与相邻回归57/57，同一检查点真实桌面387.845秒13/13、最终包页面8/8、恢复链9/9，原生选择文件/预检/恢复及手动暂停已验。完整新档、规模、对话/突破、跨区施工、20分钟自主与Windows待接；完整D/I/V/R和AC状态保持。"
+        "docs/design/51-COURTYARD-MANAGEMENT-INTEGRATION.md；2026-10-15 U-149/R-49：四页与共用详情、单趟40份留苗搬运、落地回收和保存恢复接通；组件与相邻回归57/57，同一检查点真实桌面387.845秒13/13、最终包页面8/8、恢复链9/9，原生选择文件/预检/恢复及手动暂停已验。完整新档、规模、对话/突破、跨区施工、20分钟自主与Windows待接；完整D/I/V/R和AC状态保持。",
+        "docs/design/52-EAST-TERRACE-INTEGRATION.md",
+        "qa/courtyard-east-desktop.mjs"
       ],
       "change_log": [
         {
@@ -8810,6 +8886,10 @@
         {
           "date": "2026-10-15",
           "reason": "U-149：接续远端main并完成当前山院管理和取消回收、保存恢复的局部桌面验证；完整状态保持。"
+        },
+        {
+          "date": "2026-10-16",
+          "reason": "U-150/R-50：追加连续东路、实际分趟运料施工、四床启用与同源macOS存读往返局部证据。流程两段308.849秒，最终包阶段6项及往返9项，错误0；保留验收脚本中断记录。完整SR/AC与D/I/V/R状态保持。"
         }
       ],
       "tasks": [
@@ -9134,7 +9214,9 @@
         "U-142",
         "U-144",
         "U-149",
-        "R-49"
+        "R-49",
+        "U-150",
+        "R-50"
       ],
       "source_specs": [
         "docs/design/02-EQUIPMENT-ARTS.md",
@@ -9146,7 +9228,9 @@
         "docs/SECT-GROWTH-PLAN.md",
         "docs/design/41-COURTYARD-VALLEY-IMPLEMENTATION.md",
         "docs/design/42-CHARACTER-DIALOGUE.md",
-        "docs/design/51-COURTYARD-MANAGEMENT-INTEGRATION.md"
+        "docs/design/51-COURTYARD-MANAGEMENT-INTEGRATION.md",
+        "docs/design/46-CONTINUOUS-DOMAIN-FOUNDATION.md",
+        "docs/design/52-EAST-TERRACE-INTEGRATION.md"
       ],
       "baseline": "既有 JS 运行基线：已有v5至schema6迁移。本批新增adult-furniture-1：原布局先校验，在副本中映射家具工位、必要脚点和失效返院缓存，保留身份、资源、时间、RNG、已付投入及活动进度；山外实际位置和旅程事实保留。 U-105 山域成长方案见 docs/SECT-GROWTH-PLAN.md；本批只登记设计与阶段原型，正式运行版本保持。\n2026-10-14 U-142：先审核完整山院美术原型，再按构图、细节、精度与材质还原实机。目标模式、场景接入及20分钟长验按用户要求暂停；本地增量保留。原型见 docs/art/pixel-courtyard-prototype-20261014/README.md；原型不计作运行验收，既有SR/AC状态保持。",
       "design_gap": "既有版本、成人家具与存储恢复证据保留；U-105 需新增旧自由布局/96米场景到地域/建位布局的确定映射、兼容待安置、施工/迁居/接替在途状态及失败保护矩阵。",
@@ -9243,7 +9327,9 @@
         "2026-10-15 U-144：用户确认按courtyard-v2.png还原。首屏采用原尺寸环境与独立人物、正式米制事实及同一模拟，实走、点选、原稿对照与存读的局部证据见 docs/art/pixel-courtyard-prototype-20261014/RUNTIME.md。用户实机美术认可、相邻地区、经营长验与Windows继续分别接续；完整D/I/V/R和AC状态保持。 最终macOS首屏94/94、70.029秒自主观察701次采样及原生输入/旧候选存档升级已复核，运行错误0；环境1,447,576像素比较差异0（排除状态与补画区）。",
         "docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。",
         "docs/design/50-COURTYARD-UI-DESIGN-AUDIT.md；2026-10-15 U-148/R-48：四页及关联入口30项设计审查与7条后续场景；两处物流问题由正常命令复现，运行代码未修，实际UI未验，完整状态保持。",
-        "docs/design/51-COURTYARD-MANAGEMENT-INTEGRATION.md；2026-10-15 U-149/R-49：四页与共用详情、单趟40份留苗搬运、落地回收和保存恢复接通；组件与相邻回归57/57，同一检查点真实桌面387.845秒13/13、最终包页面8/8、恢复链9/9，原生选择文件/预检/恢复及手动暂停已验。完整新档、规模、对话/突破、跨区施工、20分钟自主与Windows待接；完整D/I/V/R和AC状态保持。"
+        "docs/design/51-COURTYARD-MANAGEMENT-INTEGRATION.md；2026-10-15 U-149/R-49：四页与共用详情、单趟40份留苗搬运、落地回收和保存恢复接通；组件与相邻回归57/57，同一检查点真实桌面387.845秒13/13、最终包页面8/8、恢复链9/9，原生选择文件/预检/恢复及手动暂停已验。完整新档、规模、对话/突破、跨区施工、20分钟自主与Windows待接；完整D/I/V/R和AC状态保持。",
+        "docs/design/52-EAST-TERRACE-INTEGRATION.md",
+        "qa/courtyard-east-desktop.mjs"
       ],
       "change_log": [
         {
@@ -9325,6 +9411,10 @@
         {
           "date": "2026-10-15",
           "reason": "U-149：接续远端main并完成当前山院管理和取消回收、保存恢复的局部桌面验证；完整状态保持。"
+        },
+        {
+          "date": "2026-10-16",
+          "reason": "U-150/R-50：追加连续东路、实际分趟运料施工、四床启用与同源macOS存读往返局部证据。流程两段308.849秒，最终包阶段6项及往返9项，错误0；保留验收脚本中断记录。完整SR/AC与D/I/V/R状态保持。"
         }
       ],
       "tasks": [

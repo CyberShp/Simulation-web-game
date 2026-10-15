@@ -251,6 +251,22 @@
     {
       "path": "docs/design/51-COURTYARD-MANAGEMENT-INTEGRATION.md",
       "role": "courtyard-management-implementation-and-desktop-acceptance"
+    },
+    {
+      "path": "docs/design/45-SECT-IDLE-SLICE.md",
+      "role": "two-member-sect-autonomy-slice"
+    },
+    {
+      "path": "docs/design/46-CONTINUOUS-DOMAIN-FOUNDATION.md",
+      "role": "continuous-domain-shared-scale"
+    },
+    {
+      "path": "docs/design/52-EAST-TERRACE-INTEGRATION.md",
+      "role": "east-terrace-integration-evidence"
+    },
+    {
+      "path": "docs/design/53-COURTYARD-AUTONOMY-ACCEPTANCE.md",
+      "role": "same-world-autonomy-endurance-acceptance"
     }
   ],
   "taskRead": {
@@ -1423,20 +1439,20 @@
     "styleAlignmentEvidence": "docs/art/hd-pixel-trail-20261014/STAIR-CONNECTION.md"
   },
   "currentHandoff": {
-    "updatedAt": "2026-10-15",
+    "updatedAt": "2026-10-16",
     "entry": "AGENTS.md",
     "handoff": "docs/CODEX-HANDOFF.md",
     "deliveryPlan": "docs/DELIVERY-PLAN.md",
     "engineMigration": "docs/GODOT-MIGRATION.md",
-    "artTrial": "docs/art/hd-pixel-trail-20261014/RUNTIME.md",
-    "currentArtDecisionId": "U-138",
+    "artTrial": "docs/design/52-EAST-TERRACE-INTEGRATION.md",
+    "currentArtDecisionId": "U-150",
     "actualStatus": "docs/design/STATUS.md",
     "requirements": "docs/requirements/registry.json",
     "decisionLedger": "docs/design/DECISIONS.md",
     "appliesTo": "all agents, including Sol high and extra-high reasoning settings",
     "workingTree": "/Volumes/Media/immortal",
     "preserveUncommittedChanges": true,
-    "sourceBaseCommit": "1294b47",
+    "sourceBaseCommit": "4eedf62",
     "scopePerBatch": [
       "SR and AC",
       "design clause and U/R/T",
@@ -1451,10 +1467,10 @@
     "layoutRefinementId": "R-32",
     "currentAlignmentDecisionId": "U-107",
     "mountainDomain": "docs/MOUNTAIN-DOMAIN.md",
-    "currentSpatialDecisionId": "U-127",
+    "currentSpatialDecisionId": "U-150",
     "currentSpatialSourceCommit": null,
     "preservedSpatialSourceCommit": "3a930ea55d66244cb24cfcfef52cbc3e6d1b8b88",
-    "currentSpatialReference": "docs/design/03-SPATIAL-ART.md",
+    "currentSpatialReference": "docs/design/46-CONTINUOUS-DOMAIN-FOUNDATION.md",
     "currentArtsDecisionId": "U-115",
     "currentArtsReference": "docs/design/19-FIVE-CONTINENT-ARTS.md",
     "currentArtsBalanceReference": "docs/design/20-ARTS-GROWTH-COMBAT.md",
@@ -1465,7 +1481,7 @@
     "currentOpeningAcceptanceStatus": "single-normal-new-save-local-chain-verified-public-opening-smoke-verified",
     "currentCharacterDialogueDecisionId": "U-125",
     "currentCharacterDialogueReference": "docs/design/42-CHARACTER-DIALOGUE.md",
-    "currentSequence": "review-courtyard-management-desktop",
+    "currentSequence": "same-world-twenty-minute-autonomy-acceptance",
     "currentArtsLedger": "docs/design/28-FIVE-CONTINENT-ARTS-LEDGER.md",
     "estateSourceScene": "godot/estate_2d/estate.tscn",
     "estateSiteLayout": "godot/estate_2d/estate-sites.json",
@@ -1473,8 +1489,8 @@
     "currentOpeningGuidanceEvidence": "docs/art/OPENING-GUIDANCE-2026-10-13.md",
     "currentVisualStyleDecisionId": "U-138",
     "currentVisualStylePrototype": "docs/art/hd-pixel-20261014/RUNTIME.md",
-    "currentVisualStyleStatus": "courtyard-reference-trail-materials-aligned-awaits-user-review",
-    "currentVisualStyleEvidence": "docs/art/hd-pixel-trail-20261014/STAIR-CONNECTION.md",
+    "currentVisualStyleStatus": "courtyard-approved-east-integrated-runtime-review-pending",
+    "currentVisualStyleEvidence": "docs/design/52-EAST-TERRACE-INTEGRATION.md",
     "currentVisualStyleVariantCount": 1,
     "currentPlatformDecisionId": "U-128",
     "currentDeliveryPlatform": "desktop",
@@ -1491,17 +1507,17 @@
       "preserveUncommittedChanges": true
     },
     "currentCombatPrototypeCount": 2,
-    "currentRendererTrialDecisionId": "U-136",
+    "currentRendererTrialDecisionId": "U-150",
     "currentRendererTrial": "canvas2d-electron",
     "currentRendererTrialSource": "prototypes/pixel_scene_validation/",
-    "currentAutoplaySampleCount": 1,
-    "currentReferenceScene": "prototypes/pixel_scene_validation/arena.html",
+    "currentAutoplaySampleCount": 0,
+    "currentReferenceScene": "prototypes/pixel_scene_validation/courtyard.html",
     "currentAssetGallery": null,
-    "currentPrototypeKind": "desktop-pixel-trail",
+    "currentPrototypeKind": "desktop-pixel-courtyard",
     "currentPrototypeFiles": [
-      "prototypes/pixel_scene_validation/arena.html"
+      "prototypes/pixel_scene_validation/courtyard.html"
     ],
-    "currentDesktop2DRuntimeStatus": "independent-local-trail-implemented-macos-package-verified",
+    "currentDesktop2DRuntimeStatus": "courtyard-management-and-east-expansion-macos-verified",
     "preservedDesktop3DWork": {
       "decisionIds": [
         "U-129",
@@ -1534,10 +1550,11 @@
     "preservedSceneEntry": "prototypes/pixel_scene_validation/index.html",
     "preservedSceneLaunchArgument": "--scene",
     "currentGoal": {
-      "decisionId": "U-135",
+      "decisionId": "U-151",
       "mode": "goal",
-      "status": "verified-source-checkpoint",
-      "objective": "Keep the approved pixel art and complete the independent playable desktop arena with movement, targeting, combat, outcomes, persistence and macOS acceptance.",
+      "status": "authorized-work-in-progress",
+      "objective": "Continue the completed east-expansion world for twenty minutes of bounded autonomous sect management, then record current and overall progress and push source.",
+      "reference": "docs/design/53-COURTYARD-AUTONOMY-ACCEPTANCE.md",
       "closesWholeRequirements": false
     },
     "currentArenaValidation": {
@@ -1576,19 +1593,19 @@
       "backgroundClock": "verified-tick-583-no-catchup",
       "crossProcessRestore": "32-actors-exact-paused-snapshot-and-continued-movement"
     },
-    "currentGameplayDecisionId": "U-149",
-    "currentGameplayStatus": "management-operations-macos-verified-full-opening-pending",
-    "currentGameplayEvidence": "docs/design/51-COURTYARD-MANAGEMENT-INTEGRATION.md",
+    "currentGameplayDecisionId": "U-150",
+    "currentGameplayStatus": "east-expansion-macos-verified-autonomy-acceptance-next",
+    "currentGameplayEvidence": "docs/design/52-EAST-TERRACE-INTEGRATION.md",
     "currentCourtyardArt": {
       "decisionId": "U-144",
-      "updatedAt": "2026-10-15",
+      "updatedAt": "2026-10-16",
       "prototype": "docs/art/pixel-courtyard-prototype-20261014/courtyard-v2.png",
       "evidence": "docs/art/pixel-courtyard-prototype-20261014/RUNTIME.md",
       "fidelityPlan": "docs/art/pixel-courtyard-prototype-20261014/FIDELITY.md",
-      "status": "first-screen-macos-verified-user-art-review-pending",
+      "status": "first-screen-macos-verified-user-approved",
       "runtimeIntegrated": true,
       "userApprovedMaster": true,
-      "runtimeArtApproved": false,
+      "runtimeArtApproved": true,
       "sourceEntry": "prototypes/pixel_scene_validation/courtyard.html",
       "terrainVersion": "courtyard-master-terrain-2",
       "runtimeVerification": {
@@ -1601,7 +1618,8 @@
         "nativeInput": "verified",
         "v1SaveUpgrade": "verified",
         "windows": "not-run"
-      }
+      },
+      "approvalDecisionId": "U-150"
     },
     "currentArtsDraft": {
       "decisionId": "U-146",
@@ -1649,6 +1667,44 @@
       "browserStatus": "visible-electron-verified-recorded-scope",
       "closesWholeRequirements": false,
       "implementationReference": "docs/design/51-COURTYARD-MANAGEMENT-INTEGRATION.md"
+    },
+    "currentEastExpansion": {
+      "decisionId": "U-150",
+      "proposalId": "R-50",
+      "reference": "docs/design/52-EAST-TERRACE-INTEGRATION.md",
+      "prototype": "docs/art/east-terrace-20261016/east-terrace-v2.png",
+      "prototypeApproved": true,
+      "runtimeArtApproved": false,
+      "status": "macos-package-verified",
+      "sceneId": "scene:yunxiu-courtyard",
+      "worldBoundsMeters": [
+        160,
+        96
+      ],
+      "artDimensionsPixels": [
+        6688,
+        941
+      ],
+      "constructionTrips": [
+        40,
+        20
+      ],
+      "beds": 4,
+      "desktopApp": "/Volumes/Media/immortal-qa/east-expansion-20261016/package-1/云岫山院·山院实景.app",
+      "verification": {
+        "sameWorldChainWallSeconds": 308.849,
+        "chainSegments": [
+          8,
+          10
+        ],
+        "harnessInterruptionRecorded": true,
+        "packagePhaseChecks": 6,
+        "packageRoundtripChecks": 9,
+        "packageRoundtripWallSeconds": 251.754,
+        "runtimeErrors": 0,
+        "windows": "not-run"
+      },
+      "fullRequirementStatusChanged": false
     }
   },
   "characterDialogue": {

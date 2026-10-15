@@ -75,6 +75,7 @@ function cancelMaster(session) {
   const request = a.kind === 'sr-harvest' ? ['cancelMasterHarvest', []] :
     a.kind === 'sr-transport' ? ['cancelTransport', [a.workOrderId]] :
       a.kind === 'sr-replenish' ? ['cancelReplenish', []] :
+        a.kind === 'construction' ? ['cancelConstruction', []] :
         a.kind === 'sr-cultivation' && s.srCultivation.orders[a.orderId]?.kind === 'study' ? ['cancelCultivationOrder', [a.orderId]] : null;
   if (!request) return { ok: false, error: '这项正式事务须完成或从对应入口中止。' };
   const consequences = actionConsequences(s);
@@ -269,8 +270,10 @@ export function commandSect(session, request) {
       const trial = restoreSect(snapshotSect(session)), result = cancelMaster(trial);
       if (!result.ok) return result;
       const message = result.consequences?.resultMessage || '掌门已转入休整。';
-      const rest = publicCommand(trial, 'masterAction', ['rest'], { reason: message });
-      if (!rest.ok) return rest;
+      if (!result.result?.pending) {
+        const rest = publicCommand(trial, 'masterAction', ['rest'], { reason: message });
+        if (!rest.ok) return rest;
+      }
       trial.control = { mode: 'manual', idleMs: 0 }; syncControl(trial);
       trial.automation.activeAction = null; Object.assign(session, trial);
       return { ...result, ok: true, message };
@@ -359,9 +362,17 @@ export function restoreSect(data) { return checkedSect(typeof data === 'string' 
 function constructionView(s, projection) {
   const activity = s.activitiesById[s.master.activityId], order = activity && s.workOrdersById[activity.workOrderId];
   if (activity?.kind !== 'construction' || order?.kind !== 'construction') return null;
+  const flow = order.materialFlow, source = flow && s.stockpilesById[flow.sourceStockpileId], site = flow && s.stockpilesById[flow.siteStockpileId];
+  const total = resources => Object.values(resources || {}).reduce((sum, quantity) => sum + quantity, 0);
+  const cost = s.reservationsById[order.reservationId]?.cost || {};
+  const requiredQuantity = Object.entries(cost).reduce((sum, [key, quantity]) => sum + (key === 'jade' ? 0 : quantity), 0);
+  const materialFlow = flow ? { ...clone(flow), sourceResources: clone(source?.resources || {}), siteResources: clone(site?.resources || {}),
+    deliveredQuantity: total(site?.resources) + Object.entries(order.usedCost || {}).reduce((sum, [key, quantity]) => sum + (key === 'jade' ? 0 : quantity), 0),
+    requiredQuantity, carryCapacity: 40, currentTrip: flow.trips.length,
+    stageLabel: flow.cancelRequested ? '返料中' : flow.phase === 'to-source' ? '取料中' : flow.phase === 'carrying' ? '运料中' : '施工中' } : null;
   return { ...clone(projection), activityId: activity.id, workOrderId: order.id, phase: activity.phase,
     progressTicks: order.progressTicks, durationTicks: order.durationTicks,
-    usedCost: clone(order.usedCost || {}), materialFlow: clone(order.materialFlow || null),
+    usedCost: clone(order.usedCost || {}), cost: clone(cost), materialFlow,
     reason: order.waitingReason || activity.reason || projection?.label || '按正式工单继续营造。' };
 }
 function domainView(s, construction) {
@@ -373,8 +384,15 @@ function domainView(s, construction) {
       const order = Object.values(s.workOrdersById).find(w => w.kind === 'construction' && w.buildingType === site.type && w.targetTransform?.x === site.x && w.targetTransform?.y === site.y);
       const cost = clone(SIM.BUILDINGS[site.type].cost), missing = Object.entries(cost).filter(([resource, quantity]) => s.stockpilesById[HOME].resources[resource] < quantity);
       const status = building ? 'complete' : order ? 'building' : enabled ? 'available' : 'locked';
+      const activity = s.activitiesById[s.master.activityId];
+      const buildReason = !enabled ? '先启用东台山路。' : building ? '门人居已经落成。' : order ? '该处营造正在推进。' :
+        s.master.location?.kind === 'travel' || s.master.location?.sceneId && s.master.location.sceneId !== SECT_DOMAIN.sceneId ? '先返回山院。' :
+          activity && activity.kind !== 'facility' ? '先完成或中止当前身体活动。' : s.master.wound > 0 || s.master.energy < 15 ? '先归院养伤并恢复精力。' : missing.length ? '公库尚需备足营造材料。' : '';
       return { ...clone(site), status, buildingId: building?.instanceId || order?.targetId || null, workOrderId: order?.id || null,
         progress: building ? 1 : order ? order.progressTicks / order.durationTicks : 0, cost,
+        missingCost: order || building ? {} : Object.fromEntries(missing.map(([resource, quantity]) => [resource, quantity - s.stockpilesById[HOME].resources[resource]])),
+        buildAvailable: availability(buildReason), completedCapacity: building ? SIM.BUILDINGS[building.type].capacity * building.level : 0,
+        materialFlow: order && construction?.workOrderId === order.id ? clone(construction.materialFlow) : null,
         reason: building ? '门人居已经落成，可按真实床位与通路使用。' : order ? construction?.reason || '材料与施工按同一工单推进。' : !enabled ? '东侧台地尚未开放。' : missing.length ? '公库尚需备足营造材料。' : '材料已备足，可由掌门发起营造。' };
     }) };
 }
@@ -452,6 +470,21 @@ function actionConsequences(s) {
     result.requiresConfirmation = a.progressTicks > 0;
     result.summary = `中止来源整备，退回${cargoText(result.refunded)}${a.progressTicks > 0 ? `；已用${cargoText(result.consumed)}，本次尚未完成的来源恢复不结算` : ''}。`;
     result.resultMessage = `来源整备已中止，已退回${cargoText(result.refunded)}${a.progressTicks > 0 ? `，已耗${cargoText(result.consumed)}` : ''}。`;
+  } else if (a.kind === 'construction') {
+    const order = s.workOrdersById[a.workOrderId], cost = s.reservationsById[a.reservationId]?.cost || {}, flow = order?.materialFlow;
+    if (!order) return result;
+    const refund = Object.fromEntries(Object.entries(cost).map(([key, quantity]) => [key, quantity - (order.usedCost[key] || 0)]));
+    const materialAtSite = flow && Object.values(s.stockpilesById[flow.siteStockpileId]?.resources || {}).some(quantity => quantity > 0);
+    const carrying = flow && Object.values(flow.cargo).some(quantity => quantity > 0);
+    result.active = true; result.label = `营造${SIM.BUILDINGS[order.buildingType]?.name || '院中设施'}`; result.orderId = order.id;
+    result.consumed = clone(order.usedCost); result.progressLost = order.progressTicks;
+    result.pendingReturn = !!(materialAtSite || carrying); result.cancelRequested = !!flow?.cancelRequested;
+    result.requiresConfirmation = result.pendingReturn || order.progressTicks > 0;
+    if (result.pendingReturn) result.refundPending = refund; else result.refunded = refund;
+    const used = cargoText(result.consumed);
+    result.summary = flow?.cancelRequested ? '正在把工地与途中剩余材料带回公库，返库后结清退款。' :
+      `中止营造${used ? `，已投入${used}` : ''}；${result.pendingReturn ? `掌门须把未用木石实际带回公库，返库后退还${cargoText(refund)}` : `退还${cargoText(refund)}`}。`;
+    result.resultMessage = result.pendingReturn ? '已停止施工，掌门正在回收未用材料；返库后结清退款。' : `营造已中止，已退回${cargoText(refund)}${used ? `，已投入${used}` : ''}。`;
   } else if (a.kind === 'sr-harvest') {
     result.active = true; result.label = `采集${SIM.RESOURCES[a.resource]}`;
     result.progressLost = a.progressTicks || 0; result.requiresConfirmation = result.progressLost > 0;
@@ -486,8 +519,10 @@ function operationsView(s, projection) {
   const local = away ? '先返回山院。' : '';
   const home = s.stockpilesById[HOME].resources;
   const cultivationOrder = activity?.kind === 'sr-cultivation' ? s.srCultivation.orders[activity.orderId] : null;
-  const cancelable = ['sr-harvest', 'sr-transport', 'sr-replenish'].includes(activity?.kind) || cultivationOrder?.kind === 'study';
-  const replacementReason = busy && !cancelable ? busy : '';
+  const construction = activity?.kind === 'construction' ? s.workOrdersById[activity.workOrderId] : null;
+  const returningMaterials = !!construction?.materialFlow?.cancelRequested;
+  const cancelable = ['sr-harvest', 'sr-transport', 'sr-replenish'].includes(activity?.kind) || cultivationOrder?.kind === 'study' || !!construction && !returningMaterials;
+  const replacementReason = busy && (!cancelable || construction) ? busy : '';
   const consequences = actionConsequences(s), combatProfile = openingCombatProfile(s);
   const publicActivity = activity ? {
     id: activity.id, kind: activity.kind, phase: activity.phase,
@@ -648,7 +683,7 @@ function operationsView(s, projection) {
       energy: master.energy, wound: master.wound, activity: publicActivity, mainArtId: master.main, mainArtName: SIM.TECHNIQUES[master.main]?.name || '尚未主修', breakthrough,
       actions: { rest: { ...availability(local || replacementReason), consequence: consequences }, cultivate: { ...availability(local || replacementReason || (master.wound > 0 ? '先养好伤势。' : '') || (!master.main ? '先取得并修习主修心法。' : '') || (master.xp >= SIM.xpNeed(master.realm) ? '本层积累已满，继续修炼不会增加修为。' : '')), consequence: consequences },
         heal: availability(local || busy || (master.wound <= 0 ? '伤势已愈，无需耗药。' : '') || (home.herb < 6 ? '公库灵草不足6份，可采集后实际入库。' : '')),
-        cancel: { ...availability(cancelable ? '' : '当前没有可在此中止的事务。'), consequence: consequences } } },
+        cancel: { ...availability(returningMaterials ? '掌门正在回收未用材料，返库后结束营造事务。' : cancelable ? '' : '当前没有可在此中止的事务。'), consequence: consequences } } },
     actionConsequences: consequences, arts, study, farms, inventory: { stockpiles: stocks, summary: inventorySummary },
     harvest, canTransport: availability(local || busy),
   };

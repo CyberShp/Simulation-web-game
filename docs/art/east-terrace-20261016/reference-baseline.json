@@ -1,0 +1,185 @@
+{
+  "version": 1,
+  "recordedOn": "2026-10-16",
+  "sourceCommit": "4eedf62767d1d05a5a322547072af189487e8369",
+  "purpose": "east terrace near-view art review and source identity",
+  "status": "prototype-approved-runtime-integrated-macos-verified",
+  "authorization": {
+    "date": "2026-10-16",
+    "userResponse": "认可，按此接入",
+    "scope": "Current courtyard runtime and east-terrace v2 accepted as the integration standard; connect the road and implement hauling and construction.",
+    "decisionId": "U-150"
+  },
+  "generation": {
+    "tool": "image_gen",
+    "promptPath": "docs/art/east-terrace-20261016/PROMPT.md",
+    "currentOutput": "east-terrace-v2",
+    "initialOutput": "east-terrace-v1"
+  },
+  "relatedRequirements": [
+    "SR-XF-003",
+    "SR-XF-004",
+    "SR-XF-005",
+    "SR-XF-007",
+    "SR-XF-010"
+  ],
+  "evidenceScope": "Image identity and approved art baseline; actual integration evidence is recorded separately in docs/design/52-EAST-TERRACE-INTEGRATION.md. Integrated runtime art awaits user review.",
+  "reviewPage": "/Volumes/Media/immortal-qa/east-terrace-review-20261016/review.html",
+  "images": [
+    {
+      "id": "east-terrace-v2",
+      "path": "docs/art/east-terrace-20261016/east-terrace-v2.png",
+      "role": "current near-view prototype",
+      "status": "user-approved-east-terrace-master",
+      "format": "PNG",
+      "width": 1672,
+      "height": 941,
+      "sha256": "ce0206ab13699add647527d5a75facc07aa3c31281e92d82d4b34b5a334cb164"
+    },
+    {
+      "id": "east-terrace-v1",
+      "path": "docs/art/east-terrace-20261016/east-terrace-v1.png",
+      "role": "retained initial prototype",
+      "status": "historical-prototype",
+      "format": "PNG",
+      "width": 1672,
+      "height": 941,
+      "sha256": "615936907ff13aeb4f721f802a80b9aeecc33e76a1894d1da336759ae11c7e91"
+    },
+    {
+      "id": "courtyard-v2",
+      "path": "docs/art/pixel-courtyard-prototype-20261014/courtyard-v2.png",
+      "role": "generation reference for near-view materials, composition and visual scale",
+      "status": "user-approved-courtyard-master",
+      "format": "PNG",
+      "width": 1672,
+      "height": 941,
+      "sha256": "f1d5dfbc5270c0a711252d4460829935c2487b00cb36f9fb9d469f3e65bccba6"
+    },
+    {
+      "id": "domain-expansion-v1",
+      "path": "docs/art/pixel-courtyard-prototype-20261014/domain-expansion-v1.png",
+      "role": "generation reference for regional relationship and continuous land",
+      "status": "user-approved-layout-direction",
+      "format": "PNG",
+      "width": 1672,
+      "height": 941,
+      "sha256": "01f2e729512344b6a1ba2f9bd0770c616bb0791803ca06c44f09f9acc1aba538"
+    },
+    {
+      "id": "comparison-live",
+      "path": "/Volumes/Media/immortal-qa/courtyard-master-20261015/final-v2-review/review-evidence/comparison-live.png",
+      "role": "generation reference for existing runtime visual scale",
+      "status": "historical-runtime-capture",
+      "format": "PNG",
+      "width": 1672,
+      "height": 941,
+      "sha256": "d5d5e2944beeafd0ed1216e16c74134aec19d2c8ab0ed4a5f7e3cd68d5cf72e5"
+    },
+    {
+      "id": "current-scene-20261016",
+      "path": "/Volumes/Media/immortal-qa/courtyard-management-20261015/native-1/current-scene-20261016.jpg",
+      "role": "current runtime comparison captured after prototype generation",
+      "status": "runtime-capture",
+      "format": "JPEG",
+      "width": 1672,
+      "height": 973,
+      "sceneRect": {
+        "x": 0,
+        "y": 32,
+        "width": 1672,
+        "height": 941
+      },
+      "sha256": "ddbc7a328025e9ceba41383c918c95eaef01608c9fd64c2a6eb57fea7b504788",
+      "capture": {
+        "applicationPath": "/Volumes/Media/immortal-qa/courtyard-management-20261015/package-2/云岫山院·山院实景.app",
+        "surface": "native window",
+        "hudVisible": false,
+        "paused": true,
+        "pauseReason": "manual",
+        "worldTick": 901,
+        "systemTitleBarPixels": 32
+      }
+    }
+  ],
+  "geometryReference": {
+    "sourcePath": "dist/ea-sect-domain.mjs",
+    "sceneId": "scene:yunxiu-courtyard",
+    "coordinateUnit": "metre",
+    "road": {
+      "start": {
+        "x": 90,
+        "y": 44
+      },
+      "end": {
+        "x": 126,
+        "y": 44
+      },
+      "width": 12
+    },
+    "terrace": {
+      "x": 120,
+      "y": 30,
+      "width": 36,
+      "height": 40
+    },
+    "site": {
+      "id": "site:domain:east-residence-1",
+      "x": 132,
+      "y": 40,
+      "width": 6,
+      "height": 6,
+      "reserveWidth": 12,
+      "reserveHeight": 12,
+      "door": {
+        "x": 135,
+        "y": 46,
+        "clearWidth": 1.4
+      },
+      "access": {
+        "x": 135,
+        "y": 46.6
+      },
+      "levelOneBeds": 4,
+      "adultBedSize": {
+        "width": 0.9,
+        "length": 2.2
+      },
+      "prefabSourcePath": "dist/ea-sr-spatial.mjs"
+    },
+    "prototypeCalibrationStatus": "integrated mapping and road travel verified in final macOS package; user review of integrated runtime remains pending",
+    "preIntegrationMapping": {
+      "sourcePath": "prototypes/pixel_scene_validation/courtyard-space.mjs",
+      "currentEastReviewArt": {
+        "x": 1290,
+        "y": 495
+      },
+      "currentEastReviewWorldApprox": {
+        "x": 41.67,
+        "y": 22.29
+      },
+      "formalRoadStartArt": {
+        "x": 3175,
+        "y": 810
+      },
+      "status": "historical-pre-integration-measurement"
+    },
+    "currentMapping": {
+      "sourcePath": "prototypes/pixel_scene_validation/courtyard-space.mjs",
+      "profile": "courtyard-v2-east-seams-1",
+      "roadStartArt": {
+        "x": 3344,
+        "y": 610
+      },
+      "terraceWestArt": {
+        "x": 5016,
+        "y": 395
+      },
+      "residenceAccessArt": {
+        "x": 6021,
+        "y": 420
+      },
+      "record": "docs/design/52-EAST-TERRACE-INTEGRATION.md"
+    }
+  }
+}

@@ -16,6 +16,39 @@ export const initialOpenAreas = freeze([
   {id:'area:yunxiu:east-terrace',zoneId:'Z-02',x:120,y:30,width:36,height:40,status:'open',polygon:rectangle(120,30,36,40)}
 ]);
 export const openedRoad = freeze({id:'road:yunxiu:east-approach',status:'open',fromZoneId:'Z-01',toZoneId:'Z-02',width:12,points:[{x:90,y:44},{x:126,y:44}],areaId:'area:yunxiu:east-approach'});
+// The first-screen east path and the opened metre road meet at stable gates.
+// All actors follow these points when the courtyard artwork terrain is active.
+export const COURTYARD_EAST_ROAD = freeze([
+  {x:35.83485068135691,y:28.51851851851852},
+  {x:38.36935166994106,y:27.65714285714286},
+  {x:40.40574162679426,y:24.57142857142857},
+  {x:42.260223048327134,y:21.02857142857143},
+  {x:43.976165305141755,y:17.061764705882354},
+  {x:45.02196078431373,y:12.926470588235293},
+  {x:47.093333333333334,y:12.42391304347826},
+  {x:50.72,y:12.123913043478261},
+  {x:57,y:31},{x:65,y:31},
+  {x:90,y:44},{x:120,y:44},{x:131,y:48}
+]);
+function roadAttachment(point) {
+  if (point.x >= 131) return {index:COURTYARD_EAST_ROAD.length-1,point:COURTYARD_EAST_ROAD.at(-1)};
+  let best=null;
+  for(let i=1;i<COURTYARD_EAST_ROAD.length;i++){
+    const a=COURTYARD_EAST_ROAD[i-1],b=COURTYARD_EAST_ROAD[i],dx=b.x-a.x,dy=b.y-a.y;
+    const t=Math.max(0,Math.min(1,((point.x-a.x)*dx+(point.y-a.y)*dy)/(dx*dx+dy*dy)));
+    const at={x:a.x+t*dx,y:a.y+t*dy},distance=Math.hypot(point.x-at.x,point.y-at.y);
+    if(!best||distance<best.distance)best={index:i-1+t,point:at,distance};
+  }
+  return point.x<50.72&&best.distance>.8?{index:0,point:COURTYARD_EAST_ROAD[0]}:best;
+}
+/** Keep routes on the shared road through the first-screen boundary. */
+export function courtyardEastPassage(from,to) {
+  if(from.x<50.72&&to.x<50.72||from.x>=120&&to.x>=120)return null;
+  const a=roadAttachment(from),b=roadAttachment(to),forward=b.index>=a.index;
+  const between=COURTYARD_EAST_ROAD.filter((_,i)=>forward?i>a.index&&i<b.index:i<a.index&&i>b.index);
+  if(!forward)between.reverse();
+  return [a.point,...between,b.point].filter((point,i,array)=>!i||Math.hypot(point.x-array[i-1].x,point.y-array[i-1].y)>.001);
+}
 export const firstSite = freeze({id:'site:domain:east-residence-1',name:'东台门人居',zoneId:'Z-02',type:'house',x:132,y:40,width:6,height:6,reserveWidth:12,reserveHeight:12,maxLevel:3,entrance:{x:135,y:46.6},status:'open',areaId:'area:yunxiu:east-terrace'});
 // The complement of the three open areas within activeBounds. These polygons
 // are also real navigation barriers: a straight segment cannot cut a corner.

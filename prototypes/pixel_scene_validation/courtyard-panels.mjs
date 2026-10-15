@@ -55,7 +55,7 @@ export function createCourtyardPanels({ getView, inspect, command, openPerson, f
   const stocks = view => view.operations?.inventory?.stockpiles || view.stockpiles || [];
   const stockLabel = (view, id) => stocks(view).find(stock => stock.id === id)?.label || '物资存放处';
   const remember = () => scrolls.set(pageKey(current), body.scrollTop);
-  const syncReading = () => { const next = !panel.hidden && (current.page === 'building' || current.reading === true); if (next !== reading) { reading = next; onReadingChange(next); } };
+  const syncReading = () => { const next = !panel.hidden && (current.page === 'building' || current.reading === true || pending?.freezeWorld === true); if (next !== reading) { reading = next; onReadingChange(next); } };
   const clearFeedback = () => { feedback = null; pending = null; };
   function go(next, { push = true } = {}) {
     remember(); if (push && !panel.hidden) history.push({ ...current }); current = next; panel.hidden = false;
@@ -65,12 +65,13 @@ export function createCourtyardPanels({ getView, inspect, command, openPerson, f
   function close() { remember(); panel.hidden = true; pending = null; syncReading(); }
   function back() {
     if (panel.hidden) return false;
-    if (pending) { pending = null; render(true); return true; }
+    if (pending) { pending = null; syncReading(); render(true); return true; }
     if (history.length) { remember(); current = history.pop(); clearFeedback(); syncReading(); render(true, true); }
     else close();
     return true;
   }
   function building(id) { go({ tab: 'affairs', page: 'building', id: String(id) }); }
+  function domainSite(id) { go({ tab: 'affairs', page: 'domain-site', id }); }
   function stockPage(id) { go({ tab: 'supply', page: 'stock', id }); }
   function transfer(source, target, resource, retained = 0, requested = null) {
     const next = { tab: 'supply', page: 'transfer', source, target, resource, retained };
@@ -85,19 +86,21 @@ export function createCourtyardPanels({ getView, inspect, command, openPerson, f
   function submit(request, { confirmed = false, run = null } = {}) {
     const view = getView(), consequence = view.operations?.actionConsequences;
     if (!confirmed && ['cancel-activity', 'rest', 'cultivate', 'move'].includes(request.type) && consequence?.requiresConfirmation) {
-      pending = { request, run, activityId: view.operations?.master?.activity?.id || null, consequence };
-      render(true); body.querySelector('[data-ui-key="confirm-action"]')?.focus(); return null;
+      pending = { request, run, activityId: view.operations?.master?.activity?.id || null, consequence, freezeWorld: view.operations?.master?.activity?.kind === 'construction' };
+      syncReading(); render(true); body.querySelector('[data-ui-key="confirm-action"]')?.focus(); return null;
     }
     pending = null;
     const result = run ? run() : command(request);
     const message = result.ok ? result.message || ({ policy: '自主安排已保存。', manual: '已由你亲自安排掌门行动。', auto: '掌门已按当前目标自主安排。', 'toggle-building': '生产设置已更新。' }[request.type] || '行动已安排，可在正在进行中查看进展。') : result.error || '当前无法执行。';
     feedback = { ok: result.ok, message, consequences: result.consequences || null };
     announce(message);
-    if (result.ok && !['policy', 'manual', 'auto', 'toggle-building', 'invite-work'].includes(request.type)) {
+    if (result.ok && ['enable-domain', 'build-site'].includes(request.type)) {
+      remember(); current = { tab: 'affairs', page: 'domain-site', id: request.siteId || view.domain?.sites?.[0]?.id }; history = []; syncReading();
+    } else if (result.ok && !['policy', 'manual', 'auto', 'toggle-building', 'invite-work'].includes(request.type)) {
       remember(); current = { tab: request.type === 'study' || ['rest', 'cultivate', 'heal', 'cancel-activity'].includes(request.type) ? 'growth' : 'affairs', page: 'index' };
       states.growth.mode = 'current'; history = []; syncReading();
     }
-    lastSignature = ''; render(true, result.ok && !reading); return result;
+    syncReading(); lastSignature = ''; render(true, result.ok && !reading); return result;
   }
   function commandAction(parent, text, request, key, condition = {}, className = '') {
     return action(parent, text, () => submit(request), key, condition, className);
@@ -140,6 +143,14 @@ export function createCourtyardPanels({ getView, inspect, command, openPerson, f
     }
     if (view.construction?.reason) { note(todo, view.construction.reason); count++; }
     if (!count) note(todo, '眼下没有需要立即处理的院务。'); body.append(todo);
+    if (view.domain?.sites?.length) {
+      const expansion = section('东侧扩建', view.domain.enabled ? '沿山院东路前往住居台地，木石备齐后可安排营造。' : '主殿落成后，可启用通往住居台地的东路。');
+      if (!view.domain.enabled) commandAction(expansion, '启用东台山路', { type: 'enable-domain' }, 'domain:enable', {}, 'primary');
+      for (const site of view.domain.sites) listEntry(expansion, site.name,
+        site.status === 'complete' ? `已落成 · ${number(site.completedCapacity)} 张床位` : site.status === 'building' ? `${site.materialFlow?.stageLabel || '营造中'} · 施工 ${number(site.progress * 100)}%` : site.status === 'locked' ? '东台山路尚待启用' : `待营造 · ${Object.keys(site.missingCost || {}).length ? `尚缺 ${resources(site.missingCost)}` : '材料已备足'}`,
+        () => domainSite(site.id), `domain:site:${site.id}`);
+      body.append(expansion);
+    }
     ongoing(body, view);
     const facilities = section('院中建筑');
     for (const entry of projection.buildings) listEntry(facilities, entry.name, `${entry.slotCounts.occupied} 处使用 · ${entry.slotCounts.reserved} 处预约 · ${entry.occupants.length} 人在场`, () => building(entry.id), `building:${entry.id}`);
@@ -337,6 +348,48 @@ export function createCourtyardPanels({ getView, inspect, command, openPerson, f
     }
     body.append(detail);
   }
+  function domainSiteDetail(view) {
+    const site = view.domain?.sites?.find(item => item.id === current.id);
+    if (!site) return note(body, '当前建位已变化，可返回院务重新查看。');
+    const flow = site.materialFlow, detail = section(site.name, '东侧住居台地');
+    note(detail, site.reason, 'detail-lead');
+    facts(detail, [['营造用度', resources(site.cost)], ['公库尚缺', resources(site.missingCost)],
+      ['床位', site.status === 'complete' ? `${number(site.completedCapacity)} 张已启用` : '落成后启用4张'],
+      ['施工进度', `${number(site.progress * 100)}%`]]);
+    if (!view.domain.enabled) commandAction(detail, '启用东台山路', { type: 'enable-domain' }, 'domain:enable', {}, 'primary');
+    else if (site.status === 'available') {
+      commandAction(detail, '营造东台门人居', { type: 'build-site', siteId: site.id }, `domain:build:${site.id}`, site.buildAvailable, 'primary');
+      note(detail, '确认后预留公库材料；掌门每趟最多搬运40份木石，全部送达后到场施工。');
+      if (Object.keys(site.missingCost || {}).length) {
+        const supplies = node('div', undefined, 'management-actions');
+        supplies.append(button('查看公库', () => stockPage(HOME), 'domain:stock'));
+        for (const resource of Object.keys(site.missingCost).filter(id => view.operations?.harvest?.some(patch => patch.id === id)))
+          supplies.append(button(`查看${resourceName(resource)}来源`, () => go({ tab: 'supply', page: 'source', id: resource }), `domain:source:${resource}`));
+        detail.append(supplies);
+      }
+    }
+    const location = { focus: site.entrance, label: site.name }, visit = node('div', undefined, 'management-actions');
+    visit.append(button('定位东台', () => focusPerson({ location, indoor: false }), 'domain:focus', { available: !!view.domain.enabled }));
+    action(visit, '走到门前', () => submit({ type: 'move', x: site.entrance.x, y: site.entrance.y }, { run: walkTo ? () => walkTo(location) : null }), 'domain:walk',
+      { available: !!view.domain.enabled && !view.construction, reason: !view.domain.enabled ? '先启用东台山路。' : view.construction ? '先完成营造或中止后收回材料。' : '' });
+    detail.append(visit); body.append(detail);
+    if (flow) {
+      const logistics = section(flow.stageLabel || '材料与施工');
+      facts(logistics, [['运送趟次', `${flow.currentTrip ? `第 ${number(flow.currentTrip)} 趟` : '准备首趟'} · 每趟最多 ${number(flow.carryCapacity)} 份`],
+        ['已送至工地', `${number(flow.deliveredQuantity)} / ${number(flow.requiredQuantity)} 份`],
+        ['途中携带', resources(flow.cargo)], ['旧院待取', resources(flow.sourceResources)], ['工地待用', resources(flow.siteResources)]]);
+      note(logistics, view.construction?.reason);
+      if (view.construction?.usedCost && Object.values(view.construction.usedCost).some(value => value > 0)) note(logistics, `已投入 ${resources(view.construction.usedCost)}`);
+      for (const trip of flow.trips || []) note(logistics, `第 ${trip.id.split(':').at(-1)} 趟 · ${trip.kind === 'return' ? '返料' : '运料'} · ${resources(trip.cargo)} · ${{ carrying: '在途', delivered: '已送达', returned: '已返库' }[trip.phase] || '进行中'}`);
+      commandAction(logistics, flow.cancelRequested ? '正在返料' : '中止营造并收回余料', { type: 'cancel-activity' }, 'domain:cancel', view.operations?.master?.actions?.cancel, 'quiet-danger');
+      if (view.operations?.actionConsequences?.summary) note(logistics, view.operations.actionConsequences.summary, 'consequence-note');
+      body.append(logistics);
+    }
+    if (site.status === 'complete' && site.buildingId) {
+      const completed = section('门人居已落成', '床位与实际使用情况可在建筑详情中查看。');
+      completed.append(button('查看门人居与床位', () => building(site.buildingId), 'domain:building', {}, 'primary')); body.append(completed);
+    }
+  }
   function buildingDetail(view) {
     const projection = inspect(), entry = projection.buildings.find(item => sameBuilding(item.id, current.id));
     if (!entry) return note(body, '当前建筑已变化，可返回院务重新查看。');
@@ -392,10 +445,10 @@ export function createCourtyardPanels({ getView, inspect, command, openPerson, f
       const confirm = node('section', undefined, 'management-confirm'); confirm.setAttribute('role', 'alert'); confirm.append(node('h3', '更改当前安排'));
       note(confirm, pending.consequence.summary); const row = node('div', undefined, 'management-actions');
       row.append(button('确认更改', () => { const next = pending, latest = getView();
-        if ((latest.operations?.master?.activity?.id || null) !== next.activityId) { pending = null; feedback = { ok: false, message: '当前事务已变化，请重新查看后再安排。' }; render(true); return; }
+        if ((latest.operations?.master?.activity?.id || null) !== next.activityId) { pending = null; syncReading(); feedback = { ok: false, message: '当前事务已变化，请重新查看后再安排。' }; render(true); return; }
         const effect = latest.operations?.actionConsequences;
         if (effect?.summary !== next.consequence.summary) { pending.consequence = effect; feedback = { ok: false, message: '当前事务已有进展，请查看更新后的结算说明。' }; render(true); return; }
-        submit(next.request, { confirmed: true, run: next.run }); }, 'confirm-action', {}, 'quiet-danger'), button('保留当前安排', () => { pending = null; render(true); }, 'cancel-confirm'));
+        submit(next.request, { confirmed: true, run: next.run }); }, 'confirm-action', {}, 'quiet-danger'), button('保留当前安排', () => { pending = null; syncReading(); render(true); }, 'cancel-confirm'));
       confirm.append(row); body.append(confirm);
     }
   }
@@ -413,21 +466,21 @@ export function createCourtyardPanels({ getView, inspect, command, openPerson, f
   }
   function render(force = false, navigated = false) {
     if (panel.hidden || rendering) return;
-    const view = getView(), signature = JSON.stringify([current, states, Math.floor(view.tick / 10), view.control, view.policy, view.resources, view.operations]);
+    const view = getView(), signature = JSON.stringify([current, states, Math.floor(view.tick / 10), view.control, view.policy, view.resources, view.operations, view.domain, view.construction]);
     const editing = body.contains(document.activeElement) && /^(INPUT|SELECT|TEXTAREA)$/.test(document.activeElement.tagName);
     if (!force && (interacting || editing || signature === lastSignature)) return;
     rendering = true; lastSignature = signature; const focus = navigated ? null : captureFocus(), scroll = navigated ? scrolls.get(pageKey(current)) || 0 : body.scrollTop;
     try {
       for (const list of body.querySelectorAll('[data-scroll-key]')) listScrolls.set(list.dataset.scrollKey, list.scrollTop);
       body.replaceChildren();
-      title.textContent = current.page === 'building' ? '建筑详情' : current.page === 'transfer' ? '搬运安排' : current.page === 'stock' ? '货位详情' : '山院簿';
+      title.textContent = current.page === 'building' ? '建筑详情' : current.page === 'domain-site' ? '东侧扩建' : current.page === 'transfer' ? '搬运安排' : current.page === 'stock' ? '货位详情' : '山院簿';
       for (const item of tabs) item.setAttribute('aria-selected', String(item.dataset.tab === current.tab));
-      statusNote.textContent = reading ? '正在阅读建筑 · 返回院务后继续运行' : '院务随世界更新 · 可随时暂停';
+      statusNote.textContent = pending?.freezeWorld ? '正在确认营造结算 · 世界暂停' : reading ? '正在阅读建筑 · 返回院务后继续运行' : '院务随世界更新 · 可随时暂停';
       if (history.length || current.page !== 'index') {
         const trail = node('div', undefined, 'management-breadcrumb'); trail.append(button('‹ 返回', back, 'page:back', {}, 'text-button'), node('span', `${PAGE[current.tab]}${current.page === 'policy' ? ' · 自主安排' : ''}`)); body.append(trail);
       }
       renderFeedback();
-      ({ index: () => ({ affairs, people, growth, supply }[current.tab])(view), policy: () => policy(view), building: () => buildingDetail(view), stock: () => stockDetail(view), transfer: () => transferDetail(view), source: () => sourceDetail(view) }[current.page] || (() => note(body, '此页暂不可查看。')))();
+      ({ index: () => ({ affairs, people, growth, supply }[current.tab])(view), policy: () => policy(view), building: () => buildingDetail(view), 'domain-site': () => domainSiteDetail(view), stock: () => stockDetail(view), transfer: () => transferDetail(view), source: () => sourceDetail(view) }[current.page] || (() => note(body, '此页暂不可查看。')))();
       restoreFocus(focus); body.scrollTop = scroll;
       for (const list of body.querySelectorAll('[data-scroll-key]')) list.scrollTop = listScrolls.get(list.dataset.scrollKey) || 0;
     } finally { rendering = false; }
@@ -435,6 +488,7 @@ export function createCourtyardPanels({ getView, inspect, command, openPerson, f
   return {
     open(name = 'affairs', ids = null) { if (!PAGE[name]) name = 'affairs'; if (name === 'people') states.people.ids = ids; go({ tab: name, page: 'index' }, { push: false }); history = []; },
     openBuilding: building,
+    openDomainSite: domainSite,
     requestMove(location) {
       const point = location?.focus || location;
       if (!Number.isFinite(point?.x) || !Number.isFinite(point?.y)) return { ok: false, error: '当前尚无可靠位置。' };
