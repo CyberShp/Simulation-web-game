@@ -211,6 +211,34 @@
     {
       "path": "docs/design/content/golden-core-arts-draft-v0.1.json",
       "role": "golden-core-arts-draft-data-not-runtime"
+    },
+    {
+      "path": "docs/design/48-GOLDEN-CORE-WORLD-ARTS-V02.md",
+      "role": "golden-core-world-arts-v02-author-draft"
+    },
+    {
+      "path": "docs/design/content/golden-core-arts-draft-v0.2.json",
+      "role": "golden-core-world-arts-v02-data-not-runtime"
+    },
+    {
+      "path": "docs/design/arts-v02/talisman.md",
+      "role": "golden-core-world-arts-v02-domain"
+    },
+    {
+      "path": "docs/design/arts-v02/gu.md",
+      "role": "golden-core-world-arts-v02-domain"
+    },
+    {
+      "path": "docs/design/arts-v02/weapons.md",
+      "role": "golden-core-world-arts-v02-domain"
+    },
+    {
+      "path": "docs/design/arts-v02/heterodox.md",
+      "role": "golden-core-world-arts-v02-domain"
+    },
+    {
+      "path": "docs/design/arts-v02/crafts.md",
+      "role": "golden-core-world-arts-v02-domain"
     }
   ],
   "taskRead": {
@@ -1564,18 +1592,21 @@
       }
     },
     "currentArtsDraft": {
-      "decisionId": "U-145",
-      "proposalId": "R-45",
-      "reference": "docs/design/47-GOLDEN-CORE-ARTS-CATALOGUE-DRAFT.md",
-      "data": "docs/design/content/golden-core-arts-draft-v0.1.json",
+      "decisionId": "U-146",
+      "proposalId": "R-46",
+      "reference": "docs/design/48-GOLDEN-CORE-WORLD-ARTS-V02.md",
+      "data": "docs/design/content/golden-core-arts-draft-v0.2.json",
       "status": "author-draft",
       "runtimeIntegrated": false,
-      "scope": "qi-six-through-golden-core-revenge-closure",
-      "entries": 169,
-      "existingIds": 160,
-      "proposedIds": 9,
-      "arrays": 12,
-      "hiddenRoots": 8
+      "scope": "qi-six-through-golden-core-world-pool-for-player-and-npcs",
+      "entries": 720,
+      "retainedV01": 169,
+      "addedV02": 551,
+      "newLineages": 72,
+      "arrays": 24,
+      "hiddenRoots": 18,
+      "worldUniqueDrafts": 907,
+      "previousReference": "docs/design/47-GOLDEN-CORE-ARTS-CATALOGUE-DRAFT.md"
     }
   },
   "characterDialogue": {
