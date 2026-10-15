@@ -84,7 +84,7 @@ SR-XF-009-AC-03证据：qa/ea-sr-009-reservation-competition-public-acceptance.m
 | SR-XF-009-V01 | 验收与兼容：执行本SR的AC-01至AC-03及GROWTH-04、GROWTH-05、GROWTH-06、GROWTH-11；分别记录正常、失败、存读、网页视口和适用真机证据。 | todo | SR-XF-009-I01 | 待分配 |
 | SR-XF-009-R01 | 发布与关闭：完成所需源码/运行时发布核对、交接和未覆盖说明；本轮用户不要求上传QA过程产物。 | todo | SR-XF-009-V01 | 待分配 |
 
-SR-XF-009-D01证据：docs/SECT-GROWTH-PLAN.md；docs/design/47-GOLDEN-CORE-ARTS-CATALOGUE-DRAFT.md；2026-10-15 U-145/R-45：169项修行内容草案、五脉续篇、获取替代、百艺阵法、暗线与特效；仅补设计证据，金丹运行与完整D/I/V/R、AC状态保持。；docs/design/48-GOLDEN-CORE-WORLD-ARTS-V02.md；2026-10-15 U-146/R-46：720项玩家/NPC世界修行库、72新增来源谱系，符箓蛊道心法攻防及获取特效补齐；仅设计字段、来源与引用检查，运行及完整D/I/V/R、AC状态保持。
+SR-XF-009-D01证据：docs/SECT-GROWTH-PLAN.md；docs/design/47-GOLDEN-CORE-ARTS-CATALOGUE-DRAFT.md；2026-10-15 U-145/R-45：169项修行内容草案、五脉续篇、获取替代、百艺阵法、暗线与特效；仅补设计证据，金丹运行与完整D/I/V/R、AC状态保持。；docs/design/48-GOLDEN-CORE-WORLD-ARTS-V02.md；2026-10-15 U-146/R-46：720项玩家/NPC世界修行库、72新增来源谱系，符箓蛊道心法攻防及获取特效补齐；仅设计字段、来源与引用检查，运行及完整D/I/V/R、AC状态保持。；docs/design/50-COURTYARD-UI-DESIGN-AUDIT.md；2026-10-15 U-148/R-48：四页及关联入口30项设计审查与7条后续场景；两处物流问题由正常命令复现，运行代码未修，实际UI未验，完整状态保持。
 
 SR-XF-009-I01证据：dist/ea-sr-economy.mjs；dist/ea-sr-persons.mjs；tests/ea-activity-truth.test.mjs；qa/ea-sr-economy-acceptance.mjs；2026-10-08 r19: qa/ea-sr-009-herb-crop-public-acceptance.mjs 5/5; adjacent production 5/5, facility and door 17/17, opt-in v2 work route 1/1; local Chromium memory import showed crop status and cancellation; source c9be1d476311a558e7a37a4e0305e5086b71a369, Pages 15ec91db21b8f4b37f30accdd5ac643e024a160d built；2026-10-08 r23: ordinary production recipe:v2 snapshots, old active v1 migration, tamper rejection and scoped independent replay; runtime main dc1ff06670f569be34f836580ce83c31f1c92150, Pages e7f6a8a55f2e7bbd74d33d6a33563d885bd17b27 built; construction/craft/equipment snapshots and full new-game unlock remain open；2026-10-08 r26 局部装备配方：七件配方的新制作单冻结投入、工时、槽位、关键实物 claim、来源仓及产权；旧活跃已付费制作单在克隆读档时一次迁移，旧已完成物品保持，坏快照或重复结果拒载。有来源正常公开命令百工坊 checkpoint（worldTick31820）实际备料、制作行山轻衣、开工前/后取消、25步旧活跃单接续及成品唯一事实；根专项1/1，10条补充公开命令、6次精确存读，界面17通过/4待设备。本地Chromium导入真实在制档，七件报价、进度及取消可见；零进度取消实点后灵石98→110、木11→17，控制台0错误/0警告（1条浏览器autocomplete提示）。源码94986d3、Pages fa17a3b built，162文本blob与两个公网模块字节匹配。基线新档建坊处旧门道候位读档差异另案处理；本批没有测试七件分别全链或施工配方/跨仓物流/完整新档解锁，SR009整体状态不提升。证据 qa/ea-sr-009-equipment-recipe-public-acceptance.mjs、/tmp/immortal-sr009-root-r26/.playwright-cli/page-2026-10-08T11-52-40-680Z.yml。；docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。
 
@@ -139,6 +139,7 @@ SR-XF-009-V01证据：dist/ea-sr-economy.mjs；dist/ea-sr-persons.mjs；tests/ea
 - docs/design/47-GOLDEN-CORE-ARTS-CATALOGUE-DRAFT.md；2026-10-15 U-145/R-45：169项修行内容草案、五脉续篇、获取替代、百艺阵法、暗线与特效；仅补设计证据，金丹运行与完整D/I/V/R、AC状态保持。
 - docs/design/48-GOLDEN-CORE-WORLD-ARTS-V02.md；2026-10-15 U-146/R-46：720项玩家/NPC世界修行库、72新增来源谱系，符箓蛊道心法攻防及获取特效补齐；仅设计字段、来源与引用检查，运行及完整D/I/V/R、AC状态保持。
 - docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。
+- docs/design/50-COURTYARD-UI-DESIGN-AUDIT.md；2026-10-15 U-148/R-48：四页及关联入口30项设计审查与7条后续场景；两处物流问题由正常命令复现，运行代码未修，实际UI未验，完整状态保持。
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
@@ -161,5 +162,6 @@ SR-XF-009-V01证据：dist/ea-sr-economy.mjs；dist/ea-sr-persons.mjs；tests/ea
 - 2026-10-15：U-145授权起草至金丹复仇收束的修行目录；R-45是作者提案。本批仅文档与同源JSON，不推进实现、验收或发布状态。
 - 2026-10-15：U-146纠正169项过少，扩写至720项的R-46作者草案；玩家与NPC共用，补符蛊完整路线与散修来源，不推进运行或验收状态。
 - 2026-10-15：U-147接续P0—P2：新增两人小院可操作供给成长和保存/事务保护，登记局部实现与Node证据；实际UI/桌面未验，完整状态不推进。
+- 2026-10-15：U-148：记录四页及关联入口设计审查、操作断点和R-48重整提案；未修运行代码，完整D/I/V/R与AC状态保持。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。

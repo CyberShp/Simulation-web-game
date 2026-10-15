@@ -1,5 +1,7 @@
 # P0—P2 · 山院院务与供给成长接续
 
+> 2026-10-15 后续审查 U-148：四页信息结构与若干操作路径须整改，见[50界面审查](50-COURTYARD-UI-DESIGN-AUDIT.md)。下文47项是本批原组件范围，不能据此认为当前UI已完成设计或实机验收；大量收成搬运和取消后的物资回收缺口已另行记录，尚未修复。
+
 2026-10-15，U-147。本批按[06](06-OPENING-ACCEPTANCE.md)的工程阶段推进，区别于SR台账的P0/P1/P2优先级。入口仍为 `prototypes/pixel_scene_validation/courtyard.html` / `npm run courtyard`，沿用U-144母稿与正式模拟。
 
 ## 本批实际交付

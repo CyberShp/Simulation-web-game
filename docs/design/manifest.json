@@ -243,6 +243,10 @@
     {
       "path": "docs/design/49-P0-P2-COURTYARD-PROGRESS.md",
       "role": "p0-p2-courtyard-implementation-and-limits"
+    },
+    {
+      "path": "docs/design/50-COURTYARD-UI-DESIGN-AUDIT.md",
+      "role": "courtyard-ui-design-audit-and-restructure-proposal"
     }
   ],
   "taskRead": {
@@ -1624,6 +1628,17 @@
       "scope": "two-member-courtyard-supply-growth-save-protection",
       "completeP0P1P2": false,
       "newGameOpeningComplete": false
+    },
+    "currentCourtyardUIReview": {
+      "decisionId": "U-148",
+      "proposalId": "R-48",
+      "reference": "docs/design/50-COURTYARD-UI-DESIGN-AUDIT.md",
+      "status": "audit-and-proposal-runtime-unchanged",
+      "findingCount": 30,
+      "prototypeApproval": "not-approved",
+      "publicCommandReproductions": 2,
+      "browserStatus": "not_run",
+      "closesWholeRequirements": false
     }
   },
   "characterDialogue": {
