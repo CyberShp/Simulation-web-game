@@ -28,6 +28,6 @@
 
 本批视觉对应SR-XF-003、004、007，正式空间与扩建对应SR-XF-005、010；实现与局部验收见52记录，完整D/I/V/R及AC由各自台账管理。呈现存档v2保存世界坐标，v1画面坐标按旧映射迁移，人物事实沿用正式存档。
 
-最终包为 `/Volumes/Media/immortal-qa/east-expansion-20261016/package-1/云岫山院·山院实景.app`，同源阶段检查3/3＋3/3，实际往返9/9，往返可见窗口251.754秒，运行错误0。当前本地完成、待提交与推送；20分钟同源自主经营正在接续。
+最终包为 `/Volumes/Media/immortal-qa/east-expansion-20261016/package-1/云岫山院·山院实景.app`，同源阶段检查3/3＋3/3，实际往返9/9，往返可见窗口251.754秒，运行错误0。源码与素材已随`45e002e`推送main；20分钟同源自主经营已完成，见[长时验收](../../design/53-COURTYARD-AUTONOMY-ACCEPTANCE.md)。
 
 运行图层提示词见[LAYER-PROMPTS.md](LAYER-PROMPTS.md)，接缝补画见[SEAM-PROMPTS.md](SEAM-PROMPTS.md)。

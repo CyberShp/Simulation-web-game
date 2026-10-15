@@ -1481,7 +1481,7 @@
     "currentOpeningAcceptanceStatus": "single-normal-new-save-local-chain-verified-public-opening-smoke-verified",
     "currentCharacterDialogueDecisionId": "U-125",
     "currentCharacterDialogueReference": "docs/design/42-CHARACTER-DIALOGUE.md",
-    "currentSequence": "same-world-twenty-minute-autonomy-acceptance",
+    "currentSequence": "sustained-food-supply-then-three-to-five-residents",
     "currentArtsLedger": "docs/design/28-FIVE-CONTINENT-ARTS-LEDGER.md",
     "estateSourceScene": "godot/estate_2d/estate.tscn",
     "estateSiteLayout": "godot/estate_2d/estate-sites.json",
@@ -1552,8 +1552,8 @@
     "currentGoal": {
       "decisionId": "U-151",
       "mode": "goal",
-      "status": "authorized-work-in-progress",
-      "objective": "Continue the completed east-expansion world for twenty minutes of bounded autonomous sect management, then record current and overall progress and push source.",
+      "status": "verified-source-checkpoint",
+      "objective": "Complete same-world bounded autonomous sect management acceptance and record current and overall progress.",
       "reference": "docs/design/53-COURTYARD-AUTONOMY-ACCEPTANCE.md",
       "closesWholeRequirements": false
     },
@@ -1593,9 +1593,9 @@
       "backgroundClock": "verified-tick-583-no-catchup",
       "crossProcessRestore": "32-actors-exact-paused-snapshot-and-continued-movement"
     },
-    "currentGameplayDecisionId": "U-150",
-    "currentGameplayStatus": "east-expansion-macos-verified-autonomy-acceptance-next",
-    "currentGameplayEvidence": "docs/design/52-EAST-TERRACE-INTEGRATION.md",
+    "currentGameplayDecisionId": "U-151",
+    "currentGameplayStatus": "bounded-autonomy-macos-verified-food-supply-gap-recorded",
+    "currentGameplayEvidence": "docs/design/53-COURTYARD-AUTONOMY-ACCEPTANCE.md",
     "currentCourtyardArt": {
       "decisionId": "U-144",
       "updatedAt": "2026-10-16",
@@ -1704,7 +1704,26 @@
         "runtimeErrors": 0,
         "windows": "not-run"
       },
-      "fullRequirementStatusChanged": false
+      "fullRequirementStatusChanged": false,
+      "sourceCommit": "45e002e57560c8d14d1c7f057df336bf73df76e0",
+      "sourcePublication": "pushed-to-main-remote-ref-verified"
+    },
+    "currentCourtyardAutonomy": {
+      "decisionId": "U-151",
+      "reference": "docs/design/53-COURTYARD-AUTONOMY-ACCEPTANCE.md",
+      "app": "/Volumes/Media/immortal-qa/east-expansion-20261016/package-1/云岫山院·山院实景.app",
+      "sourceBaseCommit": "45e002e",
+      "autonomousSeconds": 1200.035876168002,
+      "wallSeconds": 1260.542,
+      "backgroundSeconds": 180.856749459,
+      "rawHarnessStatus": "failed-final-activity-classification",
+      "sameRunEvidenceAuditChecks": 38,
+      "foodRecoveryChecks": 5,
+      "foodRecoveryWallSeconds": 88.516,
+      "pageErrors": 0,
+      "sustainedFoodSupply": false,
+      "windows": "not-run",
+      "wholeRequirementStatusChanged": false
     }
   },
   "characterDialogue": {
