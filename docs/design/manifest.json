@@ -203,6 +203,14 @@
     {
       "path": "docs/design/44-PIXEL-TRAIL-SLICE.md",
       "role": "pixel-desktop-continuous-trail-slice"
+    },
+    {
+      "path": "docs/design/47-GOLDEN-CORE-ARTS-CATALOGUE-DRAFT.md",
+      "role": "golden-core-revenge-arts-author-draft"
+    },
+    {
+      "path": "docs/design/content/golden-core-arts-draft-v0.1.json",
+      "role": "golden-core-arts-draft-data-not-runtime"
     }
   ],
   "taskRead": {
@@ -1554,6 +1562,20 @@
         "v1SaveUpgrade": "verified",
         "windows": "not-run"
       }
+    },
+    "currentArtsDraft": {
+      "decisionId": "U-145",
+      "proposalId": "R-45",
+      "reference": "docs/design/47-GOLDEN-CORE-ARTS-CATALOGUE-DRAFT.md",
+      "data": "docs/design/content/golden-core-arts-draft-v0.1.json",
+      "status": "author-draft",
+      "runtimeIntegrated": false,
+      "scope": "qi-six-through-golden-core-revenge-closure",
+      "entries": 169,
+      "existingIds": 160,
+      "proposedIds": 9,
+      "arrays": 12,
+      "hiddenRoots": 8
     }
   },
   "characterDialogue": {
