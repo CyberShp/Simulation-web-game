@@ -4,6 +4,7 @@ import { projectGodotWorld } from '../../dist/ea-godot-bridge.mjs';
 import { godotMoveCommand } from '../../dist/ea-godot-world.mjs';
 import { SECT_DOMAIN, DOMAIN_EXTENT_VERSION } from '../../dist/ea-sect-domain.mjs';
 import { spatialBounds } from '../../dist/ea-sr-spatial.mjs';
+import { workOpportunity } from '../../dist/ea-life.mjs';
 import { COURTYARD_MASTER_TERRAIN_VERSION } from '../../dist/ea-courtyard-master-terrain.mjs';
 import seed from './sect-seed.mjs';
 
@@ -69,7 +70,8 @@ function cancelMaster(session) {
   if (!a || a.kind === 'facility') return { ok: true };
   const request = a.kind === 'sr-harvest' ? ['cancelMasterHarvest', []] :
     a.kind === 'sr-transport' ? ['cancelTransport', [a.workOrderId]] :
-      a.kind === 'sr-replenish' ? ['cancelReplenish', []] : null;
+      a.kind === 'sr-replenish' ? ['cancelReplenish', []] :
+        a.kind === 'sr-cultivation' && s.srCultivation.orders[a.orderId]?.kind === 'study' ? ['cancelCultivationOrder', [a.orderId]] : null;
   if (!request) return { ok: false, error: '这项正式事务须完成或从对应入口中止。' };
   return publicCommand(session, ...request, { reason: '掌门接管，按原规则中止当前事务。' });
 }
@@ -234,9 +236,38 @@ export function commandSect(session, request) {
       if (result.ok) Object.assign(session, trial);
       return result;
     }
-    let command, reason, replacesBody = false;
+    let command, reason, replacesBody = false, actorId = MASTER;
     if (request.type === 'move') { command = movementCommand(session.state, request.x, request.y); reason = '掌门按玩家指定的位置实际行走。'; replacesBody = true; }
     else if (['rest', 'cultivate'].includes(request.type)) { command = { name: 'masterAction', args: [request.type] }; reason = request.type === 'rest' ? '掌门按玩家指令休整。' : '掌门按玩家指令修炼。'; replacesBody = true; }
+    else if (request.type === 'heal') { command = { name: 'masterAction', args: ['heal'] }; reason = '掌门使用公库六份灵草，按正式疗伤规则休养。'; }
+    else if (request.type === 'study') {
+      if (!session.state.doctrine.books.includes(request.artId) || !SIM.TECHNIQUES[request.artId]) throw Error('尚不能实际接触该典籍。');
+      command = { name: 'masterStudy', args: [request.artId] }; reason = `掌门到真实阅卷席研习《${SIM.TECHNIQUES[request.artId].name}》。`;
+    }
+    else if (request.type === 'invite-work') {
+      const building = session.state.buildingsById[request.buildingId];
+      if (!building || !session.state.homeMemberIds.includes(request.personId)) throw Error('只能向在院门人商议现有设施的真实差事。');
+      command = { name: 'inviteWork', args: [request.personId, building.instanceId] }; actorId = request.personId;
+      reason = `商议照看${SIM.BUILDINGS[building.type].name}，由本人决定是否接受。`;
+    }
+    else if (request.type === 'toggle-building') {
+      const building = session.state.buildingsById[request.buildingId];
+      if (!building) throw Error('设施不存在。');
+      command = { name: 'toggleBuilding', args: [building.id] }; reason = `${building.enabled === false ? '恢复' : '暂停'}${SIM.BUILDINGS[building.type].name}，保留实际工单和已投入材料。`;
+    }
+    else if (request.type === 'replenish') {
+      if (!['wood', 'stone', 'herb', 'food'].includes(request.resource)) throw Error('请选择已知基础物资来源。');
+      command = { name: 'replenishPatch', args: [request.resource] }; reason = '掌门按明确指令支付材料，实际前往恢复来源；此支出单列于正式账本。';
+    }
+    else if (request.type === 'cancel-activity') {
+      const trial = restoreSect(snapshotSect(session)), result = cancelMaster(trial);
+      if (!result.ok) return result;
+      const rest = publicCommand(trial, 'masterAction', ['rest'], { reason: '已按正式规则中止事务，掌门休整；已发生的劳动保留。' });
+      if (!rest.ok) return rest;
+      trial.control = { mode: 'manual', idleMs: 0 }; syncControl(trial);
+      trial.automation.activeAction = null; Object.assign(session, trial);
+      return { ...result, ok: true };
+    }
     else if (request.type === 'build-site') { command = { name: 'buildDomainSite', args: [request.siteId] }; reason = '掌门按玩家选择营造东台门人居，材料须从旧院实际运往工地。'; }
     else if (request.type === 'harvest') { command = { name: 'startMasterHarvest', args: [request.resource] }; reason = '掌门按玩家安排前往实际来源采集，所得先存入随身包裹。'; }
     else if (request.type === 'transport') { command = { name: 'startTransport', args: [request.sourceStockpileId, request.targetStockpileId, MASTER, request.cargo] }; reason = '掌门按玩家安排实际取料并送至指定仓储。'; }
@@ -244,11 +275,20 @@ export function commandSect(session, request) {
     // An invalid replacement must not abandon an existing transport or crop task.
     const trial = restoreSect(snapshotSect(session));
     if (replacesBody) { const cancelled = cancelMaster(trial); if (!cancelled.ok) return cancelled; }
-    const result = publicCommand(trial, command.name, command.args, { reason });
-    if (result.ok) {
+    const result = publicCommand(trial, command.name, command.args, { reason, actorId });
+    // A refusal is a committed NPC answer, not a failed transaction. Keep it so
+    // repeated invitations and reloads cannot reroll the same conditions.
+    if (result.ok || request.type === 'invite-work' && result.refused) {
       trial.control = { mode: 'manual', idleMs: 0 };
       syncControl(trial);
-      trial.automation.activeAction = request.type === 'move' ? 'manual-walk' : null;
+      if (['move', 'rest', 'cultivate', 'study', 'heal', 'harvest', 'transport', 'replenish', 'build-site'].includes(request.type)) {
+        trial.automation.activeAction = request.type === 'move' ? 'manual-walk' : null;
+      }
+      if (request.type === 'toggle-building') {
+        // An explicit facility choice supersedes this adapter's old auto-pause.
+        if (trial.automation.managedFarmId === request.buildingId) trial.automation.managedFarmId = null;
+        if (trial.automation.parkedFarmId === request.buildingId) { trial.automation.parkedFarmId = null; trial.automation.parkedReason = null; }
+      }
       Object.assign(session, trial);
     }
     return result;
@@ -325,6 +365,116 @@ function domainView(s, construction) {
         reason: building ? '门人居已经落成，可按真实床位与通路使用。' : order ? construction?.reason || '材料与施工按同一工单推进。' : !enabled ? '东侧台地尚未开放。' : missing.length ? '公库尚需备足营造材料。' : '材料已备足，可由掌门发起营造。' };
     }) };
 }
+// Presentation of the existing opening rules. Commands always revalidate these
+// conditions, the actual route, ownership and exclusive work positions.
+const availability = reason => ({ available: !reason, reason: reason || '' });
+const replenishCosts = { herb: { herb: 4, jade: 8 }, food: { food: 8, jade: 4 }, wood: { jade: 12, herb: 2 } };
+function operationsView(s, projection) {
+  const master = s.master, activity = s.activitiesById[master.activityId];
+  const away = master.location?.kind === 'travel' || master.location?.sceneId && master.location.sceneId !== 'scene:yunxiu-courtyard' || master.journey || s.world.exploration || s.combat?.status === 'active';
+  const busy = activity && activity.kind !== 'facility' ? '先完成或中止当前身体活动。' : '';
+  const local = away ? '先返回山院。' : '';
+  const home = s.stockpilesById[HOME].resources;
+  const cultivationOrder = activity?.kind === 'sr-cultivation' ? s.srCultivation.orders[activity.orderId] : null;
+  const cancelable = ['sr-harvest', 'sr-transport', 'sr-replenish'].includes(activity?.kind) || cultivationOrder?.kind === 'study';
+  const replacementReason = busy && !cancelable ? busy : '';
+  const publicActivity = activity ? {
+    id: activity.id, kind: activity.kind, phase: activity.phase,
+    reason: cultivationOrder?.reason || activity.reason || s.workOrdersById[activity.workOrderId]?.reason || '',
+    progressTicks: cultivationOrder?.progressTicks ?? activity.progressTicks ?? null,
+    durationTicks: cultivationOrder?.durationTicks ?? activity.durationTicks ?? null,
+    targetId: activity.targetId || cultivationOrder?.workstationId || null,
+  } : null;
+  const study = cultivationOrder?.kind === 'study' ? { id: cultivationOrder.id, artId: cultivationOrder.parameters.artId,
+    phase: cultivationOrder.phase, progressTicks: cultivationOrder.progressTicks, durationTicks: cultivationOrder.durationTicks, reason: cultivationOrder.reason } : null;
+  const arts = projection.arts.filter(art => art.access).map(art => {
+    const definition = SIM.TECHNIQUES[art.id];
+    const prerequisite = definition.prerequisites.some(pre => pre.id && (master.artsById[pre.id]?.understanding || 0) < pre.mastery || pre.anyMain && (master.artsById[master.main]?.understanding || 0) < pre.anyMain);
+    const reason = local || busy || (master.wound > 0 || master.energy < 20 ? '先养伤调息，研习需要精力20。' : '') ||
+      (master.realm < art.realm ? '境界不足。' : '') || (prerequisite ? '先理解前置法门。' : '') ||
+      (art.understanding >= 100 ? '本篇理解已满，可通过有效实践继续熟练。' : '') || (home.food < 2 ? '公库食粮不足2份，可亲采口粮后实际入库。' : '');
+    return { id: art.id, name: art.name, source: art.source, understanding: art.understanding, mastery: art.mastery, main: art.main,
+      ...availability(reason), cost: { food: 2 }, durationTicks: 80 };
+  });
+  const farms = s.buildings.filter(b => b.type === 'farm').map(b => {
+    const stockpileId = `stockpile:${b.instanceId}`, stock = s.stockpilesById[stockpileId];
+    const order = s.workOrdersById[`work:production:${b.instanceId}`];
+    const source = SIM.productionAvailability(s, b);
+    const reason = b.enabled === false ? '药田已暂停，可恢复使用。' : b.condition <= 0 || b.spatialLock ? '药田当前不可用。' :
+      order && !terminal(order.phase) ? order.waitingReason || '' : (stock?.resources.herb || 0) < 2 ? '药田缺少田边灵草2份种苗，先实际搬入。' : source.reason;
+    return { id: b.instanceId, buildingId: b.instanceId, name: SIM.BUILDINGS[b.type].name, enabled: b.enabled !== false,
+      stockpileId, seedNeeded: Math.max(0, 2 - (stock?.resources.herb || 0)), seedRequirement: 2,
+      seedScope: order && !terminal(order.phase) ? '下一轮种苗' : '本轮种苗',
+      herbOnSite: stock?.resources.herb || 0, availability: availability(reason),
+      workers: projection.systemPeople.persons.filter(p => s.activitiesById[p.currentActivity?.id]?.targetId === b.instanceId)
+        .map(p => ({ id: p.id, name: p.name, activity: clone(p.currentActivity) })),
+      invites: s.homeMemberIds.map(id => {
+        const p = s.personsById[id], opportunity = workOpportunity(s, p, b), answer = p.schedule?.invitations?.[`work:${b.instanceId}`];
+        return { personId: id, name: p.name, ...availability(opportunity.reason), available: opportunity.available,
+          lastResult: answer ? { accepted: answer.accepted, available: answer.available, atTick: answer.atTick,
+            reason: answer.publicReason, retryAfterTick: answer.retryAfterTick } : null };
+      }),
+    };
+  });
+  const stocks = projection.inventory.stockpiles.filter(st => st.access === 'public' || st.ownerId === MASTER).map(st => {
+    const reserved = {}, inTransit = {};
+    const reserve = (resource, quantity) => { if (quantity > 0) reserved[resource] = (reserved[resource] || 0) + quantity; };
+    for (const order of Object.values(s.workOrdersById)) if (order.kind === 'transport' && order.sourceStockpileId === st.id && !terminal(order.phase)) {
+      const quantities = order.phase === 'to-source' ? reserved : inTransit;
+      for (const [resource, quantity] of Object.entries(order.cargo)) quantities[resource] = (quantities[resource] || 0) + quantity;
+    }
+    for (const order of Object.values(s.workOrdersById)) if (order.kind === 'production' && `stockpile:${order.targetId}` === st.id && !terminal(order.phase)) {
+      const reservation = s.reservationsById[order.reservationId];
+      for (const [resource, quantity] of Object.entries(reservation?.cost || {})) reserve(resource,
+        reservation.remainingCost?.[resource] ?? quantity * Math.max(0, 1 - order.progressTicks / order.durationTicks));
+    }
+    for (const order of Object.values(s.srCultivation.orders)) if (order.kind === 'study' && order.sourceStockpileId === st.id && !terminal(order.phase) && !order.consumed) {
+      for (const [resource, quantity] of Object.entries(order.cost)) reserve(resource, quantity);
+    }
+    if (st.id === HOME) for (const action of Object.values(s.activitiesById)) if (action.kind === 'sr-replenish') {
+      for (const [resource, quantity] of Object.entries(s.reservationsById[action.reservationId]?.cost || {})) reserve(resource, quantity * Math.max(0, 1 - action.progressTicks / action.durationTicks));
+    }
+    return { ...clone(st), label: st.id === HOME ? '山院公库' : st.id === CARRIED ? '掌门随身' : st.label,
+      capacity: s.stockpilesById[st.id]?.capacity ?? null, reserved, inTransit };
+  });
+  // The first gather/transport command creates this actual carried stockpile.
+  if (!stocks.some(st => st.id === CARRIED)) stocks.push({ id: CARRIED, label: '掌门随身', ownerId: MASTER, access: 'private',
+    resources: {}, reserved: {}, inTransit: {}, position: clone(master.position), capacity: 40, notYetCreated: true });
+  const harvest = Object.entries(SIM.HARVEST_BATCH).map(([id, batchSize]) => {
+    const patch = s.srEconomy.patches[id], cost = replenishCosts[id];
+    const carried = s.stockpilesById[CARRIED];
+    const carriedQuantity = Object.values(carried?.resources || {}).reduce((sum, quantity) => sum + quantity, 0) + Object.values(carried?.pills || {}).reduce((sum, quantity) => sum + quantity, 0);
+    const reason = local || busy || (master.wound > 20 || master.energy < 15 ? '先恢复身体与精力，采集需要精力15。' : '') ||
+      (carriedQuantity + batchSize > (carried?.capacity || 40) ? '随身空间不足一整批，请先实际搬入公库。' : '') ||
+      (!SIM.harvestAvailable(s, id, batchSize) ? '整批来源不足，先恢复或另寻补给。' : '');
+    const replenishReason = !cost ? '青石矿脉不可凭空恢复，须采购或寻找其他矿源。' : local || busy ||
+      (master.wound > 20 || master.energy < 20 ? '先恢复身体与精力，整备需要精力20。' : '') ||
+      (patch.remaining > patch.max * .25 ? '当前来源尚足，暂不需要恢复。' : '') ||
+      (Object.entries(cost).some(([key, amount]) => home[key] < amount) ? '公库补种或整备材料不足，先采集并实际入库。' : '');
+    return { id, name: SIM.RESOURCES[id], batchSize, remaining: patch.remaining, ...availability(reason),
+      replenish: { cost: clone(cost || {}), ...availability(replenishReason) } };
+  });
+  const inventorySummary = clone(projection.inventory.summary.filter(group => ['public', 'personal'].includes(group.id)));
+  // The generic inventory view predates SR study meals. Their unconsumed cost
+  // is already removed from available stock, and remains refundable in this order.
+  for (const order of Object.values(s.srCultivation.orders)) if (order.kind === 'study' && !terminal(order.phase) && !order.consumed) {
+    const stock = s.stockpilesById[order.sourceStockpileId];
+    const group = inventorySummary.find(item => item.id === (stock?.access === 'public' ? 'public' : stock?.ownerId === MASTER ? 'personal' : null));
+    for (const [resource, quantity] of Object.entries(order.cost)) if (group?.amounts[resource]) {
+      group.amounts[resource].reserved += quantity;
+      group.amounts[resource].total += quantity;
+    }
+  }
+  return {
+    master: { id: MASTER, name: master.name, realmLabel: SIM.realmName(master.realm), xp: master.xp, xpNeed: SIM.xpNeed(master.realm),
+      energy: master.energy, wound: master.wound, activity: publicActivity,
+      actions: { rest: availability(local || replacementReason), cultivate: availability(local || replacementReason || (master.wound > 0 ? '先养好伤势。' : '') || (!master.main ? '先取得并修习主修心法。' : '') || (master.xp >= SIM.xpNeed(master.realm) ? '本层积累已满，继续修炼不会增加修为。' : '')),
+        heal: availability(local || busy || (master.wound <= 0 ? '伤势已愈，无需耗药。' : '') || (home.herb < 6 ? '公库灵草不足6份，可采集后实际入库。' : '')),
+        cancel: availability(cancelable ? '' : '当前没有可在此中止的事务。') } },
+    arts, study, farms, inventory: { stockpiles: stocks, summary: inventorySummary },
+    harvest, canTransport: availability(local || busy),
+  };
+}
 export function viewSect(session) {
   const s = session.state, view = projectGodotWorld(s), members = new Set([MASTER, ...s.homeMemberIds]);
   const knownStocks = [HOME, CARRIED, ...Object.keys(s.stockpilesById).filter(id => id.startsWith('stockpile:building:') || id.startsWith('stockpile:construction:') || id.startsWith('stockpile:dropped:'))];
@@ -343,6 +493,7 @@ export function viewSect(session) {
     economy: { expenses: clone(s.economy.expense), previousExpenses: clone(s.economy.previous.expense), starvation: s.economy.starvation, productionWages: Object.values(s.factsById).filter(f => f.operation === 'production' && f.atTick >= session.baseline.tick).reduce((total, f) => total + (f.wagesFromPublic || 0), 0) },
     ledger: clone(session.ledger), totals: clone(session.totals), provenance: clone(session.provenance),
     transports: Object.values(s.workOrdersById).filter(w => w.kind === 'transport').map(w => ({ id: w.id, phase: w.phase, carrierId: w.carrierId, sourceStockpileId: w.sourceStockpileId, targetStockpileId: w.targetStockpileId, cargo: clone(w.cargo), reason: w.reason })),
-    targetMet: s.stockpilesById[HOME].resources.herb >= session.policy.herbTarget
+    targetMet: s.stockpilesById[HOME].resources.herb >= session.policy.herbTarget,
+    operations: operationsView(s, view)
   };
 }

@@ -87,9 +87,9 @@ SR-XF-010-D01证据：docs/requirements/design/SR-XF-007-011-019-026-027.md；do
 
 SR-XF-010-D02证据：docs/requirements/design/SR-XF-007-011-019-026-027.md；qa/ea-sr-010-study-budget-contract-acceptance.mjs；qa/ea-sr-010-construction-logistics-public-acceptance.mjs；dist/ea-sr-economy.mjs
 
-SR-XF-010-I01证据：dist/ea-sr-economy.mjs；qa/ea-sr-economy-acceptance.mjs；2026-10-08 r20: qa/ea-sr-010-inventory-summary-acceptance.mjs 4/4, adjacent SR010 25/25, market-order 7/7, UI 17/17; local Chromium isolated import showed public/private/merchant five-number cards; source f8b8912244d05a7c101d5dc8b81dc2502d41d5d4 and Pages 098cc0511096de37b5da79cf01cceb65e68e7727 built, all 162 packaged text blobs matched
+SR-XF-010-I01证据：dist/ea-sr-economy.mjs；qa/ea-sr-economy-acceptance.mjs；2026-10-08 r20: qa/ea-sr-010-inventory-summary-acceptance.mjs 4/4, adjacent SR010 25/25, market-order 7/7, UI 17/17; local Chromium isolated import showed public/private/merchant five-number cards; source f8b8912244d05a7c101d5dc8b81dc2502d41d5d4 and Pages 098cc0511096de37b5da79cf01cceb65e68e7727 built, all 162 packaged text blobs matched；docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。
 
-SR-XF-010-V01证据：dist/ea-sr-economy.mjs；qa/ea-sr-economy-acceptance.mjs
+SR-XF-010-V01证据：dist/ea-sr-economy.mjs；qa/ea-sr-economy-acceptance.mjs；docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。
 
 ## 可进入开发的条件
 
@@ -134,6 +134,7 @@ SR-XF-010-V01证据：dist/ea-sr-economy.mjs；qa/ea-sr-economy-acceptance.mjs
 - docs/design/ISSUE-5-PRODUCTION-ACCOUNTING.md
 - docs/art/OPENING-CHAIN-2026-10-12.md；2026-10-12 U-124：采木采石送公库、药圃至丹房、成药携带与公库入账、采回6灵草及3余粮真实搬运；最终存读一致。 仅增局部证据，完整 SR/AC 状态保持。
 - docs/art/OPENING-GUIDANCE-2026-10-13.md；2026-10-13 U-124：新增携药仍走真实搬运；实际随身取得、重复/空炉保护及刷新前后完整存档相等。 仅增局部证据，完整 SR/AC 状态保持。
+- docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
@@ -149,5 +150,6 @@ SR-XF-010-V01证据：dist/ea-sr-economy.mjs；qa/ea-sr-economy-acceptance.mjs
 - 2026-10-12：2026-10-12 U-123：第一炉成丹2份分至随身1／公库1，存读守恒；山谷队伍采草6份，返院工单搬草6加粮3，公库草4→10，队伍归零。炼药2／2、山谷5／5。 局部证据见 docs/art/COURTYARD-VALLEY-2026-10-12.md；整项 D/I/V/R 与 AC 状态不变。
 - 2026-10-12：2026-10-12 U-123 首战本地网页：最终本地网页服用同炉随身回春散1份，随身1→0、总丹2→1、伤势14.6153→0，返院存读仍保剩余1份；完整账本 AC 状态保持。 证据见 docs/art/COURTYARD-VALLEY-2026-10-12.md；整项 D/I/V/R 与 AC 状态不变。
 - 2026-10-12：2026-10-12 Issue #5：最新main6000秒实验16笔生产/14笔微量灵石，修复显式receipt、9位新计算精度、工资封顶、事务提交与运输严格余额。专项12/12，正常公开开局2/2、丹炉公开链1/1；旧数量和事实逐字保留，不推进完整SR状态。见 docs/design/ISSUE-5-PRODUCTION-ACCOUNTING.md。
+- 2026-10-15：U-147接续P0—P2：新增两人小院可操作供给成长和保存/事务保护，登记局部实现与Node证据；实际UI/桌面未验，完整状态不推进。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。

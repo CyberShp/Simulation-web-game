@@ -1,8 +1,9 @@
-const { app, BrowserWindow, ipcMain, powerMonitor } = require('electron');
+const { app, BrowserWindow, ipcMain, powerMonitor, dialog } = require('electron');
 const http = require('node:http');
 const fs = require('node:fs');
 const path = require('node:path');
 const { createSectStorage } = require('./sect-storage.cjs');
+const { exportCourtyardRecovery } = require('./courtyard-recovery.cjs');
 
 const root = __dirname;
 const distRoot = path.resolve(root, '../../dist');
@@ -126,10 +127,25 @@ else {
     });
     handle('sect:load', () => storage.load());
     handle('sect:save', state => storage.save(state));
+    handle('sect:export-recovery', async state => {
+      const chosen = await dialog.showSaveDialog(sceneWindow, { title: '另存山院恢复文件',
+        defaultPath: path.join(app.getPath('documents'), `云岫山院-恢复-${Date.now()}.json`),
+        filters: [{ name: '山院恢复文件', extensions: ['json'] }] });
+      if (chosen.canceled || !chosen.filePath) return { ok: false, cancelled: true };
+      return exportCourtyardRecovery({ filename: chosen.filePath, state, saveFilename: storage.filename,
+        validate: async value => (await import('./sect-sim.mjs')).validateSect(value) });
+    });
     handle('sect:close-ready', async () => {
       if (!closeRequested) return false;
       await storage.flush(); clearTimeout(closeTimeout);
       closeAllowed = true; sceneWindow.close(); return true;
+    });
+    handle('sect:cancel-close', () => {
+      if (!closeRequested || closeAllowed) return false;
+      clearTimeout(closeTimeout);
+      closePending = false; closeRequested = false;
+      recordLifecycle('close-cancelled-after-save-failure');
+      return true;
     });
     sceneWindow.on('close', event => {
       if (!ready || closeAllowed) return;

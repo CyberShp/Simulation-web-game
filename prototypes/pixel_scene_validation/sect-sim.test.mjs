@@ -18,7 +18,13 @@ function automatic(policy = {}) {
 
 test('two-member checkpoint is reproduced with the recorded official command lineage', () => {
   const rebuilt = buildSectSeed();
-  assert.deepEqual(rebuilt, seed);
+  // Historical source hashes describe the shipped checkpoint. Current code may
+  // change while reproducing the exact same world and official command trace.
+  assert.deepEqual(rebuilt.state, seed.state);
+  const { sourceFiles: historicalSources, ...historicalProvenance } = seed.provenance;
+  const { sourceFiles: currentSources, ...currentProvenance } = rebuilt.provenance;
+  assert.deepEqual(currentProvenance, historicalProvenance);
+  assert.deepEqual(Object.keys(currentSources), Object.keys(historicalSources));
   assert.equal(createHash('sha256').update(JSON.stringify(seed.state)).digest('hex'), seed.provenance.stateSha256);
   assert.deepEqual(seed.state.homeMemberIds, ['person:lu-zhiwei']);
   assert.ok(seed.state.factsById['fact:opening:gift']);

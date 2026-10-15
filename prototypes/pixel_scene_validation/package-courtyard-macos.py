@@ -14,6 +14,8 @@ APP_SOURCE_FILES = (
     "courtyard-host.cjs", "courtyard-preload.cjs", "courtyard.html",
     "courtyard-main.mjs", "courtyard.css", "courtyard-renderer.mjs",
     "courtyard-space.mjs", "courtyard-layers.mjs", "courtyard-qa.mjs",
+    "courtyard-panels.mjs", "courtyard-inspection.mjs",
+    "courtyard-persistence.mjs", "courtyard-recovery.cjs",
     "sect-storage.cjs", "sect-sim.mjs", "sect-seed.mjs",
 )
 ASSET_FILES = (

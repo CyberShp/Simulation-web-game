@@ -1,5 +1,11 @@
 # 云岫山院 · 近山试行
 
+## 山院院务接续 · U-147
+
+`npm run courtyard` 进入既有两人小院，新增院务目标、人物/重叠候选、真实工位、物资账、研习修炼及采集搬运。保存失败后保护暂停，可显式重试或另存恢复文件。只操作掌门和管理机会，NPC可拒绝邀请。当前仍使用已建成主殿/药田的公开命令检查点，尚非普通新档开局。
+
+本批47项Node检查通过，实际浏览器/桌面验证待补，运行命令和证据范围见[49记录](../../docs/design/49-P0-P2-COURTYARD-PROGRESS.md)。桌面保持U-139后台继续；原生包尚未在本环境重建。
+
 ## 山院实景 · U-144
 
 按确认的 `courtyard-v2.png` 还原首屏，入口 `npm run courtyard`；macOS打包使用 `python3 package-courtyard-macos.py /absolute/new-destination.app`。实际画面、走路范围与验证见 [首屏记录](../../docs/art/pixel-courtyard-prototype-20261014/RUNTIME.md)。

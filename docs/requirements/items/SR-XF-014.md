@@ -71,6 +71,10 @@ SR-XF-014-AC-03证据：局部：docs/art/SYSTEM-UI-2026-10-10.md（真实研习
 
 SR-XF-014-D01证据：docs/design/19-FIVE-CONTINENT-ARTS.md（分类与云岫首批机制初稿，章节等继续）；docs/design/20-ARTS-GROWTH-COMBAT.md（成长与数值首稿，实机调校继续）；docs/design/29-ARTS-SAMPLE-QINGLAN-REALM-STOP.md（青岚与止步心法样例，非完整D01）；docs/design/30-ARTS-SAMPLE-LINEAGE-PERSONAL-ARRAY.md（跨境传承与个人阵样例，非完整D01）；docs/design/47-GOLDEN-CORE-ARTS-CATALOGUE-DRAFT.md；2026-10-15 U-145/R-45：169项修行内容草案、五脉续篇、获取替代、百艺阵法、暗线与特效；仅补设计证据，金丹运行与完整D/I/V/R、AC状态保持。；docs/design/48-GOLDEN-CORE-WORLD-ARTS-V02.md；2026-10-15 U-146/R-46：720项玩家/NPC世界修行库、72新增来源谱系，符箓蛊道心法攻防及获取特效补齐；仅设计字段、来源与引用检查，运行及完整D/I/V/R、AC状态保持。
 
+SR-XF-014-I01证据：docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。
+
+SR-XF-014-V01证据：docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。
+
 ## 可进入开发的条件
 
 - 设计交付物存在且版本/引用正确。
@@ -105,6 +109,7 @@ SR-XF-014-D01证据：docs/design/19-FIVE-CONTINENT-ARTS.md（分类与云岫首
 - tests/ea-mountain-first-combat.test.mjs
 - docs/design/47-GOLDEN-CORE-ARTS-CATALOGUE-DRAFT.md；2026-10-15 U-145/R-45：169项修行内容草案、五脉续篇、获取替代、百艺阵法、暗线与特效；仅补设计证据，金丹运行与完整D/I/V/R、AC状态保持。
 - docs/design/48-GOLDEN-CORE-WORLD-ARTS-V02.md；2026-10-15 U-146/R-46：720项玩家/NPC世界修行库、72新增来源谱系，符箓蛊道心法攻防及获取特效补齐；仅设计字段、来源与引用检查，运行及完整D/I/V/R、AC状态保持。
+- docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
@@ -117,5 +122,6 @@ SR-XF-014-D01证据：docs/design/19-FIVE-CONTINENT-ARTS.md（分类与云岫首
 - 2026-10-12：2026-10-12 U-123 首战本地网页：最终本地网页实点青岚术、剑式与护息，效果读取正式战斗结算；五条开局攻守的定向6／6仍属局部，完整学习／转修与成长 AC 状态保持。 证据见 docs/art/COURTYARD-VALLEY-2026-10-12.md；整项 D/I/V/R 与 AC 状态不变。
 - 2026-10-15：U-145授权起草至金丹复仇收束的修行目录；R-45是作者提案。本批仅文档与同源JSON，不推进实现、验收或发布状态。
 - 2026-10-15：U-146纠正169项过少，扩写至720项的R-46作者草案；玩家与NPC共用，补符蛊完整路线与散修来源，不推进运行或验收状态。
+- 2026-10-15：U-147接续P0—P2：新增两人小院可操作供给成长和保存/事务保护，登记局部实现与Node证据；实际UI/桌面未验，完整状态不推进。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。

@@ -88,9 +88,9 @@ SR-XF-004-AC-03证据：dist/ea-estate-assets.mjs；dist/ea-courtyard-renderer.m
 
 SR-XF-004-D01证据：docs/SECT-GROWTH-PLAN.md
 
-SR-XF-004-I01证据：dist/ea-sr-spatial.mjs；dist/ea-character-art.mjs；dist/ea-courtyard-renderer.mjs；dist/assets/estate-v1/characters-rest-v1.png；docs/design/STATUS.md；asset-manifest.json；dist/assets/estate-v1/hall-stages-v1.png；dist/assets/estate-v1/clinic-stages-v1.png；dist/assets/estate-v1/library-stages-v1.png；tests/ea-hall-stage-art.test.mjs；dist/assets/estate-v1/farm-stages-v1.png；dist/assets/estate-v1/lumber-stages-v1.png；dist/assets/estate-v1/quarry-stages-v1.png；dist/assets/estate-v1/meditation-stages-v1.png；tests/ea-outdoor-stage-art.test.mjs
+SR-XF-004-I01证据：dist/ea-sr-spatial.mjs；dist/ea-character-art.mjs；dist/ea-courtyard-renderer.mjs；dist/assets/estate-v1/characters-rest-v1.png；docs/design/STATUS.md；asset-manifest.json；dist/assets/estate-v1/hall-stages-v1.png；dist/assets/estate-v1/clinic-stages-v1.png；dist/assets/estate-v1/library-stages-v1.png；tests/ea-hall-stage-art.test.mjs；dist/assets/estate-v1/farm-stages-v1.png；dist/assets/estate-v1/lumber-stages-v1.png；dist/assets/estate-v1/quarry-stages-v1.png；dist/assets/estate-v1/meditation-stages-v1.png；tests/ea-outdoor-stage-art.test.mjs；docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。
 
-SR-XF-004-V01证据：qa/ea-indoor-furniture-acceptance.mjs；qa/ea-courtyard-rest-render-acceptance.mjs；qa/ea-courtyard-life-acceptance.mjs；docs/design/STATUS.md；dist/assets/estate-v1/hall-stages-v1.png；dist/assets/estate-v1/clinic-stages-v1.png；dist/assets/estate-v1/library-stages-v1.png；tests/ea-hall-stage-art.test.mjs；dist/assets/estate-v1/farm-stages-v1.png；dist/assets/estate-v1/lumber-stages-v1.png；dist/assets/estate-v1/quarry-stages-v1.png；dist/assets/estate-v1/meditation-stages-v1.png；tests/ea-outdoor-stage-art.test.mjs
+SR-XF-004-V01证据：qa/ea-indoor-furniture-acceptance.mjs；qa/ea-courtyard-rest-render-acceptance.mjs；qa/ea-courtyard-life-acceptance.mjs；docs/design/STATUS.md；dist/assets/estate-v1/hall-stages-v1.png；dist/assets/estate-v1/clinic-stages-v1.png；dist/assets/estate-v1/library-stages-v1.png；tests/ea-hall-stage-art.test.mjs；dist/assets/estate-v1/farm-stages-v1.png；dist/assets/estate-v1/lumber-stages-v1.png；dist/assets/estate-v1/quarry-stages-v1.png；dist/assets/estate-v1/meditation-stages-v1.png；tests/ea-outdoor-stage-art.test.mjs；docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。
 
 ## 可进入开发的条件
 
@@ -169,6 +169,7 @@ SR-XF-004-V01证据：qa/ea-indoor-furniture-acceptance.mjs；qa/ea-courtyard-re
 - 2026-10-14 U-138 山门接续修整：固定坐标实色补画接通松石、流水、石阶与栏杆，边界按对应纹理接合；同机位及左右2.25倍实机复核确认叠影和整条横向接线消除。渲染6/6，最终可见macOS包verified-run行程22/22、错误0；最终规则快照与上一批逐字段一致。证据见 docs/art/hd-pixel-trail-20261014/STAIR-CONNECTION.md。本批为局部美术修复，完整SR/AC状态保持。
 - 2026-10-15 U-143：山域总图方向与保真制作流程获确认，生成并静态复核1672×941山院近景母稿，主殿、药田、两人及东/西/后/南道路可见。docs/art/pixel-courtyard-prototype-20261014/README.md 记录原图、提示词与实际尺寸；图稿待用户认可，素材分层、首屏实机还原与运行验收待完成，完整D/I/V/R及AC状态保持。
 - 2026-10-15 U-144：用户确认按courtyard-v2.png还原。首屏采用原尺寸环境与独立人物、正式米制事实及同一模拟，实走、点选、原稿对照与存读的局部证据见 docs/art/pixel-courtyard-prototype-20261014/RUNTIME.md。用户实机美术认可、相邻地区、经营长验与Windows继续分别接续；完整D/I/V/R和AC状态保持。 最终macOS首屏94/94、70.029秒自主观察701次采样及原生输入/旧候选存档升级已复核，运行错误0；环境1,447,576像素比较差异0（排除状态与补画区）。
+- docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
@@ -198,5 +199,6 @@ SR-XF-004-V01证据：qa/ea-indoor-furniture-acceptance.mjs；qa/ea-courtyard-re
 - 2026-10-10：U-109 第一批本地预览：残败主屋、预留荒地、田地与伐木场及建筑级别从同一持久状态显示；完整容量和后续阶段外观仍待验。此为局部证据，不提升完整 AC/SR 状态。
 - 2026-10-13：U-126：用户要求从原型中断处继续，接入平涂地形、建筑、药田、人物和山谷；校准投影、脚点、透明命中、前景遮挡和田地绘制顺序。定向断言及网页点选、行走和保存刷新证据见本批 RUNTIME。仅登记局部实现与验证，整项 D/I/V/R、任务与 AC 状态不变。
 - 2026-10-13：U-127/U-128：按用户要求先审核大场景多人即时战斗与画风原型，平台转为桌面。地图尺寸、人数上限、技能数值与最终画风未定；保留既有实现和验收事实，完整SR/AC及任务状态不变。
+- 2026-10-15：U-147接续P0—P2：新增两人小院可操作供给成长和保存/事务保护，登记局部实现与Node证据；实际UI/桌面未验，完整状态不推进。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。

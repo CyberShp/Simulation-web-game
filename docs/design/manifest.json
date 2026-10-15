@@ -239,6 +239,10 @@
     {
       "path": "docs/design/arts-v02/crafts.md",
       "role": "golden-core-world-arts-v02-domain"
+    },
+    {
+      "path": "docs/design/49-P0-P2-COURTYARD-PROGRESS.md",
+      "role": "p0-p2-courtyard-implementation-and-limits"
     }
   ],
   "taskRead": {
@@ -1607,6 +1611,19 @@
       "hiddenRoots": 18,
       "worldUniqueDrafts": 907,
       "previousReference": "docs/design/47-GOLDEN-CORE-ARTS-CATALOGUE-DRAFT.md"
+    },
+    "currentCourtyardOperations": {
+      "decisionId": "U-147",
+      "proposalId": "R-47",
+      "reference": "docs/design/49-P0-P2-COURTYARD-PROGRESS.md",
+      "source": "prototypes/pixel_scene_validation/courtyard-main.mjs",
+      "entry": "prototypes/pixel_scene_validation/courtyard.html",
+      "nodeChecks": 47,
+      "browserStatus": "not_run-missing-browser-runtime-download-failed",
+      "desktopPackageStatus": "not_rebuilt",
+      "scope": "two-member-courtyard-supply-growth-save-protection",
+      "completeP0P1P2": false,
+      "newGameOpeningComplete": false
     }
   },
   "characterDialogue": {

@@ -1,7 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { observeActorDisplay } from './courtyard-renderer.mjs';
+import { observeActorDisplay, CourtyardRenderer } from './courtyard-renderer.mjs';
 import { toArt } from './courtyard-space.mjs';
+import { createSectSession, viewSect, snapshotSect } from './sect-sim.mjs';
 
 const person = (x, y, path, indoor = false) => ({ id: 'person:test', x, y, path, indoor });
 const route = [{ x: 21, y: 20 }, { x: 21, y: 22 }, { x: 23, y: 22 }];
@@ -58,4 +59,47 @@ test('pause, indoor changes, clock rewind and unverifiable paths use the exact a
     assert.deepEqual(result.world, { x: body.x, y: body.y });
     assert.equal(result.interpolating, false);
   }
+});
+
+const rendererFixture = () => new CourtyardRenderer({ getContext: () => ({}), getBoundingClientRect: () => ({ width: 1672, height: 941 }) });
+
+test('overlapping public identities all remain selectable in front-to-back order', () => {
+  const session = createSectSession(), before = snapshotSect(session), people = viewSect(session).people;
+  const renderer = rendererFixture();
+  // Exercise projected overlap without moving or cloning simulation bodies.
+  renderer.hitRegions = people.map(person => ({ person, p: { x: 700, y: 600 }, x: 680, y: 520, w: 40, h: 80 }));
+  assert.deepEqual(renderer.pickPeople(700, 560).map(person => person.id), [...people].reverse().map(person => person.id));
+  assert.equal(renderer.pickPerson(700, 560).id, people.at(-1).id);
+  assert.deepEqual(snapshotSect(session), before);
+});
+
+test('minimum hit region is 44 CSS pixels while indoor and occluded bodies remain unpickable', () => {
+  const renderer = rendererFixture(), source = viewSect(createSectSession()).people;
+  renderer.fit = .5;
+  renderer.hitRegions = [{ person: source[0], p: { x: 700, y: 600 }, x: 695, y: 590, w: 10, h: 10 }];
+  const edge = renderer.artToScreen({ x: 740, y: 595 });
+  assert.equal(renderer.pickPeople(edge.x, edge.y)[0].id, source[0].id);
+  const outside = renderer.artToScreen({ x: 745, y: 595 });
+  assert.equal(renderer.pickPeople(outside.x, outside.y).length, 0);
+  renderer.fit = 1;
+  renderer.hitRegions = [
+    { person: { ...source[0], indoor: true }, p: { x: 700, y: 600 }, x: 680, y: 520, w: 40, h: 80 },
+    { person: source[1], p: { x: 650, y: 300 }, x: 620, y: 180, w: 60, h: 100 },
+  ];
+  assert.deepEqual(renderer.pickPeople(700, 560), []);
+  assert.deepEqual(renderer.pickPeople(650, 230), []);
+  renderer.reference = true;
+  assert.deepEqual(renderer.pickPeople(700, 560), []);
+});
+
+test('location focus changes only the camera and rejects unavailable positions', () => {
+  const renderer = rendererFixture(), session = createSectSession(), before = snapshotSect(session);
+  renderer.mode = 'planning'; renderer.reference = true;
+  assert.equal(renderer.focusLocation({ kind: 'indoor', focus: { x: 28, y: 12.6 } }), true);
+  assert.equal(renderer.mode, 'local');
+  assert.equal(renderer.reference, false);
+  assert.equal(renderer.followId, null);
+  assert.equal(renderer.camera.zoom, 1.35);
+  assert.equal(renderer.focusLocation({ focus: { x: null, y: null } }), false);
+  assert.deepEqual(snapshotSect(session), before);
 });

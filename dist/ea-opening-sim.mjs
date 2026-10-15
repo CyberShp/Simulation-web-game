@@ -266,9 +266,11 @@ export function tick(s,dt){
 
 /** Atomic, revision-checked, retry-safe command gateway used by the browser. */
 export function dispatchCommand(s,{name,args=[],id=`command:${s.transactions.nextCommandId}`,expectedRevision=s.revision}={}){
- if(s.story?.opening?.inheritance?.status==='pending'&&name!=='chooseOpeningInheritance')throw Error('先在包裹中择定一条传承。');
  if(srEnabled(s)){
   const handlers=Object.fromEntries(COMMAND_NAMES.map(command=>[command,(next,...values)=>{
+   // The transaction gateway must resolve an existing receipt before applying
+   // current gameplay gates: the first healing command itself opens this gate.
+   if(next.story?.opening?.inheritance?.status==='pending'&&command!=='chooseOpeningInheritance')throw Error('先在包裹中择定一条传承。');
    if(next.master.sceneIntent&&!['requestSceneInteraction','cancelSceneInteraction','setNarrativePage','acknowledgeNarrative','acknowledgeIntro'].includes(command))base.cancelSceneInteraction(next);
    if(bodyCommands.has(command)||SR_BODY_COMMANDS.has(command)){
     const a=next.activitiesById[next.master.activityId];
@@ -290,6 +292,7 @@ export function dispatchCommand(s,{name,args=[],id=`command:${s.transactions.nex
  if(!COMMAND_NAMES.includes(name)||!Array.isArray(args))throw Error('操作尚未接入。');
  const signature=JSON.stringify([name,args]),prior=s.transactions.receipts.find(r=>r.id===id);
  if(prior){if(prior.signature!==signature)throw Error('同一操作编号不能用于不同请求。');return {state:s,result:structuredClone(prior.result),replayed:true};}
+ if(s.story?.opening?.inheritance?.status==='pending'&&name!=='chooseOpeningInheritance')throw Error('先在包裹中择定一条传承。');
  if(id!==`command:${s.transactions.nextCommandId}`||expectedRevision!==s.revision)throw Error('世界状态已更新，请重新选择操作。');
  if(treatmentStatus(s)&&bodyCommands.has(name))throw Error('掌门正在换药；先完成或中止治疗。');
  if(constructionStatus(s)&&bodyCommands.has(name))throw Error('掌门正在营造；先完成或取消这项事务。');

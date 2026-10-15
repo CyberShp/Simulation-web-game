@@ -11,10 +11,12 @@ contextBridge.exposeInMainWorld('sectHost', {
   settings: () => ipcRenderer.invoke('sect:settings'),
   load: () => ipcRenderer.invoke('sect:load'),
   save: state => ipcRenderer.invoke('sect:save', state),
+  exportRecovery: state => ipcRenderer.invoke('sect:export-recovery', state),
   onActivity: callback => subscribe('sect:activity', callback),
   onPower: callback => subscribe('sect:power', callback),
   onClosing: callback => subscribe('sect:closing', callback),
-  closeReady: () => ipcRenderer.invoke('sect:close-ready')
+  closeReady: () => ipcRenderer.invoke('sect:close-ready'),
+  cancelClose: () => ipcRenderer.invoke('sect:cancel-close')
 });
 
 contextBridge.exposeInMainWorld('sceneHost', {

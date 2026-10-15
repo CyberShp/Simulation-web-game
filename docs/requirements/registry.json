@@ -717,7 +717,8 @@
         "docs/design/ISSUE-6-HISTORY-RETENTION.md",
         "tests/ea-history-retention.test.mjs",
         "qa/ea-history-benchmark.mjs",
-        "qa/ea-history-compare.mjs"
+        "qa/ea-history-compare.mjs",
+        "docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。"
       ],
       "change_log": [
         {
@@ -775,6 +776,10 @@
         {
           "date": "2026-10-12",
           "reason": "Issue #6：只对白名单纯历史事实与完成商旅行程做引用闭包保护的周期摘要；生产及普通旅行完整保留，旧档先完整校验、保存恢复及日凭证幂等继续成立。真实6/12/24/48小时A/B与局部回归见ISSUE-6-HISTORY-RETENTION；不推进整项SR/AC、真机或真人状态。"
+        },
+        {
+          "date": "2026-10-15",
+          "reason": "U-147接续P0—P2：新增两人小院可操作供给成长和保存/事务保护，登记局部实现与Node证据；实际UI/桌面未验，完整状态不推进。"
         }
       ],
       "tasks": [
@@ -821,7 +826,8 @@
             "qa/ea-sr002-knowledge-projection-acceptance.mjs",
             "qa/ea-sr002-world-knowledge-acceptance.mjs",
             "qa/ea-sr002-story-knowledge-acceptance.mjs",
-            "qa/ea-sr002-player-projection-ui-acceptance.mjs"
+            "qa/ea-sr002-player-projection-ui-acceptance.mjs",
+            "docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。"
           ],
           "blocked_reason": null
         },
@@ -842,7 +848,8 @@
             "qa/ea-sr002-knowledge-projection-acceptance.mjs",
             "qa/ea-sr002-world-knowledge-acceptance.mjs",
             "qa/ea-sr002-story-knowledge-acceptance.mjs",
-            "qa/ea-sr002-player-projection-ui-acceptance.mjs"
+            "qa/ea-sr002-player-projection-ui-acceptance.mjs",
+            "docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。"
           ],
           "blocked_reason": null
         },
@@ -1050,7 +1057,8 @@
         "2026-10-14 U-138 山门接续修整：固定坐标实色补画接通松石、流水、石阶与栏杆，边界按对应纹理接合；同机位及左右2.25倍实机复核确认叠影和整条横向接线消除。渲染6/6，最终可见macOS包verified-run行程22/22、错误0；最终规则快照与上一批逐字段一致。证据见 docs/art/hd-pixel-trail-20261014/STAIR-CONNECTION.md。本批为局部美术修复，完整SR/AC状态保持。",
         "2026-10-15 U-143：山域总图方向与保真制作流程获确认，生成并静态复核1672×941山院近景母稿，主殿、药田、两人及东/西/后/南道路可见。docs/art/pixel-courtyard-prototype-20261014/README.md 记录原图、提示词与实际尺寸；图稿待用户认可，素材分层、首屏实机还原与运行验收待完成，完整D/I/V/R及AC状态保持。",
         "2026-10-15 U-144：用户确认按courtyard-v2.png还原。首屏采用原尺寸环境与独立人物、正式米制事实及同一模拟，实走、点选、原稿对照与存读的局部证据见 docs/art/pixel-courtyard-prototype-20261014/RUNTIME.md。用户实机美术认可、相邻地区、经营长验与Windows继续分别接续；完整D/I/V/R和AC状态保持。 最终macOS首屏94/94、70.029秒自主观察701次采样及原生输入/旧候选存档升级已复核，运行错误0；环境1,447,576像素比较差异0（排除状态与补画区）。",
-        "2026-10-15 门道回归修复：按 U-115 补齐旧测试的首次疗伤择法步骤，验证择法前世界暂停、精确存读及草药不重复扣除，再执行原有营造、穿门、拒绝堵门、绕墙与存读断言。门道2/2、设施16/16、主殿与药田出口3/3，共21/21、失败0、跳过0；后者包含两份真实堵路存档恢复。本次仅修改测试与记录，运行规则、桌面包及完整SR/AC状态保持。 详见 docs/art/pixel-courtyard-prototype-20261014/RUNTIME.md。"
+        "2026-10-15 门道回归修复：按 U-115 补齐旧测试的首次疗伤择法步骤，验证择法前世界暂停、精确存读及草药不重复扣除，再执行原有营造、穿门、拒绝堵门、绕墙与存读断言。门道2/2、设施16/16、主殿与药田出口3/3，共21/21、失败0、跳过0；后者包含两份真实堵路存档恢复。本次仅修改测试与记录，运行规则、桌面包及完整SR/AC状态保持。 详见 docs/art/pixel-courtyard-prototype-20261014/RUNTIME.md。",
+        "docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。"
       ],
       "change_log": [
         {
@@ -1188,6 +1196,10 @@
         {
           "date": "2026-10-13",
           "reason": "U-127/U-128：按用户要求先审核大场景多人即时战斗与画风原型，平台转为桌面。地图尺寸、人数上限、技能数值与最终画风未定；保留既有实现和验收事实，完整SR/AC及任务状态不变。"
+        },
+        {
+          "date": "2026-10-15",
+          "reason": "U-147接续P0—P2：新增两人小院可操作供给成长和保存/事务保护，登记局部实现与Node证据；实际UI/桌面未验，完整状态不推进。"
         }
       ],
       "tasks": [
@@ -1241,7 +1253,8 @@
             "dist/ea-facility-activities.mjs",
             "qa/ea-paused-courtyard-render-acceptance.mjs",
             "2026-10-08 r14 默认倍率密集山院局部减负：已验收来源档40建筑/30人、1200x849/DPR2，独立本地Chromium两次各6秒热身后对照，rAF回调约34.8/s→56.7/s、间隔P95 50→16.8ms；候选最长166.7ms且主线程累计任务时间更高，不等于实际显示FPS或整幅卡顿修复。32MiB LRU、每帧最多新建1幅、素材/销毁清空、无OffscreenCanvas直绘降级；像素专项均差0.11/255、强差0.07%，主殿外观/门位/人物遮挡与点选保持。缓存专项1/1、暂停/田地2/2、三人点选及封闭建筑回归通过；相邻4项旧断言在未改空间/场景逻辑失败。源码307894b、Pages f3e0d63 built，162文本blob匹配。缩放长帧、首次导入、公开浏览器、真机和完整AC02/I/V/R继续。",
-            "2026-10-08 r27 门道候位存读修复：正常公开新档建住宅、招三人、落成百工坊，完工后人物路线随几何更新被清空时，同步清理已失效候位，不再等加载才改变存档；林长风床位活动和真实脚步保留。根正常链1/1、原门道改路1/1、空间36/36，坏旧候位下一真实世界步清理、失效记录不留、精确存读。建筑网格宽测4/6，两失败（缩放选点、旧生产快照断言）在此前独立基线相同；首次空间宽测因本机缺Canvas依赖失败一项，按既有NODE_PATH重跑36/36。源码c8f71b8、Pages944f072 built，162文本blob及公网空间模块一致；本批未实点浏览器或目标设备。SR003-AC02门位画稿/触控与整项I/V/R继续。证据 qa/ea-sr003-door-queue-reload-acceptance.mjs。"
+            "2026-10-08 r27 门道候位存读修复：正常公开新档建住宅、招三人、落成百工坊，完工后人物路线随几何更新被清空时，同步清理已失效候位，不再等加载才改变存档；林长风床位活动和真实脚步保留。根正常链1/1、原门道改路1/1、空间36/36，坏旧候位下一真实世界步清理、失效记录不留、精确存读。建筑网格宽测4/6，两失败（缩放选点、旧生产快照断言）在此前独立基线相同；首次空间宽测因本机缺Canvas依赖失败一项，按既有NODE_PATH重跑36/36。源码c8f71b8、Pages944f072 built，162文本blob及公网空间模块一致；本批未实点浏览器或目标设备。SR003-AC02门位画稿/触控与整项I/V/R继续。证据 qa/ea-sr003-door-queue-reload-acceptance.mjs。",
+            "docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。"
           ],
           "blocked_reason": null
         },
@@ -1264,7 +1277,8 @@
             "qa/ea-sr003-pedestrian-occupancy-acceptance.mjs",
             "qa/ea-paused-courtyard-render-acceptance.mjs",
             "2026-10-08 r14 默认倍率密集山院局部减负：已验收来源档40建筑/30人、1200x849/DPR2，独立本地Chromium两次各6秒热身后对照，rAF回调约34.8/s→56.7/s、间隔P95 50→16.8ms；候选最长166.7ms且主线程累计任务时间更高，不等于实际显示FPS或整幅卡顿修复。32MiB LRU、每帧最多新建1幅、素材/销毁清空、无OffscreenCanvas直绘降级；像素专项均差0.11/255、强差0.07%，主殿外观/门位/人物遮挡与点选保持。缓存专项1/1、暂停/田地2/2、三人点选及封闭建筑回归通过；相邻4项旧断言在未改空间/场景逻辑失败。源码307894b、Pages f3e0d63 built，162文本blob匹配。缩放长帧、首次导入、公开浏览器、真机和完整AC02/I/V/R继续。",
-            "2026-10-08 r27 门道候位存读修复：正常公开新档建住宅、招三人、落成百工坊，完工后人物路线随几何更新被清空时，同步清理已失效候位，不再等加载才改变存档；林长风床位活动和真实脚步保留。根正常链1/1、原门道改路1/1、空间36/36，坏旧候位下一真实世界步清理、失效记录不留、精确存读。建筑网格宽测4/6，两失败（缩放选点、旧生产快照断言）在此前独立基线相同；首次空间宽测因本机缺Canvas依赖失败一项，按既有NODE_PATH重跑36/36。源码c8f71b8、Pages944f072 built，162文本blob及公网空间模块一致；本批未实点浏览器或目标设备。SR003-AC02门位画稿/触控与整项I/V/R继续。证据 qa/ea-sr003-door-queue-reload-acceptance.mjs。"
+            "2026-10-08 r27 门道候位存读修复：正常公开新档建住宅、招三人、落成百工坊，完工后人物路线随几何更新被清空时，同步清理已失效候位，不再等加载才改变存档；林长风床位活动和真实脚步保留。根正常链1/1、原门道改路1/1、空间36/36，坏旧候位下一真实世界步清理、失效记录不留、精确存读。建筑网格宽测4/6，两失败（缩放选点、旧生产快照断言）在此前独立基线相同；首次空间宽测因本机缺Canvas依赖失败一项，按既有NODE_PATH重跑36/36。源码c8f71b8、Pages944f072 built，162文本blob及公网空间模块一致；本批未实点浏览器或目标设备。SR003-AC02门位画稿/触控与整项I/V/R继续。证据 qa/ea-sr003-door-queue-reload-acceptance.mjs。",
+            "docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。"
           ],
           "blocked_reason": null
         },
@@ -1689,7 +1703,8 @@
         "2026-10-14 U-138：以上方原山院为美术基准，南方林道与谷地使用trail-terrain-v5，匹配细密松针、灰青岩石与暖灰石板；同步松岛视觉遮挡及缓存接缝边缘。原四份素材哈希、导航和规则源码保持。渲染6/6，最终macOS包行程22/22、错误0；同机位、过松岛及32人截图见 docs/art/hd-pixel-trail-20261014/STYLE-ALIGNMENT.md。局部衔接纹理及队伍重叠仍待完善，当前实机美术认可待用户评看；完整SR/AC状态保持。",
         "2026-10-14 U-138 山门接续修整：固定坐标实色补画接通松石、流水、石阶与栏杆，边界按对应纹理接合；同机位及左右2.25倍实机复核确认叠影和整条横向接线消除。渲染6/6，最终可见macOS包verified-run行程22/22、错误0；最终规则快照与上一批逐字段一致。证据见 docs/art/hd-pixel-trail-20261014/STAIR-CONNECTION.md。本批为局部美术修复，完整SR/AC状态保持。",
         "2026-10-15 U-143：山域总图方向与保真制作流程获确认，生成并静态复核1672×941山院近景母稿，主殿、药田、两人及东/西/后/南道路可见。docs/art/pixel-courtyard-prototype-20261014/README.md 记录原图、提示词与实际尺寸；图稿待用户认可，素材分层、首屏实机还原与运行验收待完成，完整D/I/V/R及AC状态保持。",
-        "2026-10-15 U-144：用户确认按courtyard-v2.png还原。首屏采用原尺寸环境与独立人物、正式米制事实及同一模拟，实走、点选、原稿对照与存读的局部证据见 docs/art/pixel-courtyard-prototype-20261014/RUNTIME.md。用户实机美术认可、相邻地区、经营长验与Windows继续分别接续；完整D/I/V/R和AC状态保持。 最终macOS首屏94/94、70.029秒自主观察701次采样及原生输入/旧候选存档升级已复核，运行错误0；环境1,447,576像素比较差异0（排除状态与补画区）。"
+        "2026-10-15 U-144：用户确认按courtyard-v2.png还原。首屏采用原尺寸环境与独立人物、正式米制事实及同一模拟，实走、点选、原稿对照与存读的局部证据见 docs/art/pixel-courtyard-prototype-20261014/RUNTIME.md。用户实机美术认可、相邻地区、经营长验与Windows继续分别接续；完整D/I/V/R和AC状态保持。 最终macOS首屏94/94、70.029秒自主观察701次采样及原生输入/旧候选存档升级已复核，运行错误0；环境1,447,576像素比较差异0（排除状态与补画区）。",
+        "docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。"
       ],
       "change_log": [
         {
@@ -1803,6 +1818,10 @@
         {
           "date": "2026-10-13",
           "reason": "U-127/U-128：按用户要求先审核大场景多人即时战斗与画风原型，平台转为桌面。地图尺寸、人数上限、技能数值与最终画风未定；保留既有实现和验收事实，完整SR/AC及任务状态不变。"
+        },
+        {
+          "date": "2026-10-15",
+          "reason": "U-147接续P0—P2：新增两人小院可操作供给成长和保存/事务保护，登记局部实现与Node证据；实际UI/桌面未验，完整状态不推进。"
         }
       ],
       "tasks": [
@@ -1857,7 +1876,8 @@
             "dist/assets/estate-v1/lumber-stages-v1.png",
             "dist/assets/estate-v1/quarry-stages-v1.png",
             "dist/assets/estate-v1/meditation-stages-v1.png",
-            "tests/ea-outdoor-stage-art.test.mjs"
+            "tests/ea-outdoor-stage-art.test.mjs",
+            "docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。"
           ],
           "blocked_reason": null
         },
@@ -1884,7 +1904,8 @@
             "dist/assets/estate-v1/lumber-stages-v1.png",
             "dist/assets/estate-v1/quarry-stages-v1.png",
             "dist/assets/estate-v1/meditation-stages-v1.png",
-            "tests/ea-outdoor-stage-art.test.mjs"
+            "tests/ea-outdoor-stage-art.test.mjs",
+            "docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。"
           ],
           "blocked_reason": null
         },
@@ -3237,7 +3258,8 @@
         "2026-10-14 U-138：以上方原山院为美术基准，南方林道与谷地使用trail-terrain-v5，匹配细密松针、灰青岩石与暖灰石板；同步松岛视觉遮挡及缓存接缝边缘。原四份素材哈希、导航和规则源码保持。渲染6/6，最终macOS包行程22/22、错误0；同机位、过松岛及32人截图见 docs/art/hd-pixel-trail-20261014/STYLE-ALIGNMENT.md。局部衔接纹理及队伍重叠仍待完善，当前实机美术认可待用户评看；完整SR/AC状态保持。",
         "2026-10-14 U-138 山门接续修整：固定坐标实色补画接通松石、流水、石阶与栏杆，边界按对应纹理接合；同机位及左右2.25倍实机复核确认叠影和整条横向接线消除。渲染6/6，最终可见macOS包verified-run行程22/22、错误0；最终规则快照与上一批逐字段一致。证据见 docs/art/hd-pixel-trail-20261014/STAIR-CONNECTION.md。本批为局部美术修复，完整SR/AC状态保持。",
         "2026-10-15 U-143：山域总图方向与保真制作流程获确认，生成并静态复核1672×941山院近景母稿，主殿、药田、两人及东/西/后/南道路可见。docs/art/pixel-courtyard-prototype-20261014/README.md 记录原图、提示词与实际尺寸；图稿待用户认可，素材分层、首屏实机还原与运行验收待完成，完整D/I/V/R及AC状态保持。",
-        "2026-10-15 U-144：用户确认按courtyard-v2.png还原。首屏采用原尺寸环境与独立人物、正式米制事实及同一模拟，实走、点选、原稿对照与存读的局部证据见 docs/art/pixel-courtyard-prototype-20261014/RUNTIME.md。用户实机美术认可、相邻地区、经营长验与Windows继续分别接续；完整D/I/V/R和AC状态保持。 最终macOS首屏94/94、70.029秒自主观察701次采样及原生输入/旧候选存档升级已复核，运行错误0；环境1,447,576像素比较差异0（排除状态与补画区）。"
+        "2026-10-15 U-144：用户确认按courtyard-v2.png还原。首屏采用原尺寸环境与独立人物、正式米制事实及同一模拟，实走、点选、原稿对照与存读的局部证据见 docs/art/pixel-courtyard-prototype-20261014/RUNTIME.md。用户实机美术认可、相邻地区、经营长验与Windows继续分别接续；完整D/I/V/R和AC状态保持。 最终macOS首屏94/94、70.029秒自主观察701次采样及原生输入/旧候选存档升级已复核，运行错误0；环境1,447,576像素比较差异0（排除状态与补画区）。",
+        "docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。"
       ],
       "change_log": [
         {
@@ -3339,6 +3361,10 @@
         {
           "date": "2026-10-13",
           "reason": "U-127/U-128：按用户要求先审核大场景多人即时战斗与画风原型，平台转为桌面。地图尺寸、人数上限、技能数值与最终画风未定；保留既有实现和验收事实，完整SR/AC及任务状态不变。"
+        },
+        {
+          "date": "2026-10-15",
+          "reason": "U-147接续P0—P2：新增两人小院可操作供给成长和保存/事务保护，登记局部实现与Node证据；实际UI/桌面未验，完整状态不推进。"
         }
       ],
       "tasks": [
@@ -3398,7 +3424,8 @@
             "dist/ea-ui.mjs",
             "tests/ea-scene-ui.test.mjs",
             "qa/ea-person-three-selection-acceptance.mjs",
-            "qa/ea-person-recipe-save-acceptance.mjs"
+            "qa/ea-person-recipe-save-acceptance.mjs",
+            "docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。"
           ],
           "blocked_reason": null
         },
@@ -3428,7 +3455,8 @@
             "qa/ea-person-equipment-art-acceptance.mjs",
             "tests/ea-scene-ui.test.mjs",
             "qa/ea-person-three-selection-acceptance.mjs",
-            "qa/ea-person-recipe-save-acceptance.mjs"
+            "qa/ea-person-recipe-save-acceptance.mjs",
+            "docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。"
           ],
           "blocked_reason": null
         },
@@ -3574,7 +3602,8 @@
         "docs/art/COURTYARD-VALLEY-2026-10-12.md",
         "tests/ea-mountain-alchemy.test.mjs",
         "2026-10-12 U-125：42 人物交谈及关联契约定义统一立绘聊天窗、身份叠加、知情、距离、意愿、暂停和持久规则；DIALOGUE-01–10 为 not_run。本批为设计与静态原型，运行接入及完整 SR/AC 状态保持。",
-        "2026-10-14 U-139 设计确认：宗门模拟经营支持自主生活；桌面后台继续运行、关闭停止且重开不补离线进度；掌门按玩家设定的发展目标、预算和风险偏好选择修炼、出行和经营。见 docs/design/DECISIONS.md、docs/design/01-CHARACTERS.md、docs/design/05-RUNTIME-CONTRACTS.md。当前仅落档，运行接入与新行为验收待实施；既有 SR/AC 状态和历史证据范围保持。"
+        "2026-10-14 U-139 设计确认：宗门模拟经营支持自主生活；桌面后台继续运行、关闭停止且重开不补离线进度；掌门按玩家设定的发展目标、预算和风险偏好选择修炼、出行和经营。见 docs/design/DECISIONS.md、docs/design/01-CHARACTERS.md、docs/design/05-RUNTIME-CONTRACTS.md。当前仅落档，运行接入与新行为验收待实施；既有 SR/AC 状态和历史证据范围保持。",
+        "docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。"
       ],
       "change_log": [
         {
@@ -3632,6 +3661,10 @@
         {
           "date": "2026-10-12",
           "reason": "2026-10-12 U-123：陆知微照料首畦并在网页实收13.8份灵草；炼药专项含受伤门人私有药物自主取用，定向2／2。完整 NPC 日程仍按原状态。 局部证据见 docs/art/COURTYARD-VALLEY-2026-10-12.md；整项 D/I/V/R 与 AC 状态不变。"
+        },
+        {
+          "date": "2026-10-15",
+          "reason": "U-147接续P0—P2：新增两人小院可操作供给成长和保存/事务保护，登记局部实现与Node证据；实际UI/桌面未验，完整状态不推进。"
         }
       ],
       "tasks": [
@@ -3683,7 +3716,8 @@
             "2026-10-08 r15 有界 autonomy:v2 准备能力：从正常公开邀请原生档先验证原档，克隆迁移并保留旧承诺剩余期限和本人来源事实；到原截止世界步转 completed、设施停用或公开出行转 interrupted，逐阶段可精确存读；非法 speed=3 原档迁移前拒绝，低信任为可做但不愿做，设施不可用为硬阻塞。迁移专项正常来源37命令/24次存读，根合入后新增3/3、旧邀请/五人2/2、世界21/21、产权6/6；独立复核5/5，旧AC03三项缺外部来源检查点跳过。源码effc917、Pages a90fda6 built，162文本blob匹配。当前正式 tick/邀请仍走v1；v2其他活动、职责、意愿平衡、浏览器与目标设备未验，I01及整项V/R继续。",
             "2026-10-08 r18：正常来源92条公开命令、隔离迁移后10条邀请与至少66次精确存读；两名42分自愿到不同真实伐木工位，27分拒绝与身体硬阻塞、承诺到期、停用中断及150/300/600退避均复核。主线6/6，源码a7326da9b73f331567dbaa4fa6cfaba932f18a5d，Pages656f4b026bb917c54c070436218ecbbd39cc1981 built，162文本blob一致；浏览器、设备及完整v2未验。",
             "2026-10-08 r19: mutual facility-route wait after the SR009 opening timing change was resolved with physical side-step; qa/ea-sr-008-v2-work-public-acceptance.mjs 1/1, two real stations before the original 240-tick commitment expiry, exact-save yielding route; adjacent facility/door 17/17; source c9be1d476311a558e7a37a4e0305e5086b71a369",
-            "2026-10-08 M2 r32 v2 日相位子批：正常五人/两真实伐木工位来源链107+6公开命令、67次精确存读；两位自愿门人跨休整→生产偏好时保留原240步承诺、岗位和不同实际工位，停用营造后才中断。schedule.phase 在迁移、每世界步和只读人物页用同一 worldTick；不改生产结算或另建身体。根与独立新专项1/1、迁移1/1，旧邀请1/1、UI契约17通过/4待设备。旧v2-work硬编码缺失人物及旧five-workers精确小数坐标断言，在本提交父版本原样失败，不计回归通过；伤病/生产专项缺来源档跳过。源码2455d0b、Pages8c5621e built，162文本blob及公网入口/人物模块字节一致；r32未做浏览器游戏内交互和真机。完整v2/I/V/R继续。"
+            "2026-10-08 M2 r32 v2 日相位子批：正常五人/两真实伐木工位来源链107+6公开命令、67次精确存读；两位自愿门人跨休整→生产偏好时保留原240步承诺、岗位和不同实际工位，停用营造后才中断。schedule.phase 在迁移、每世界步和只读人物页用同一 worldTick；不改生产结算或另建身体。根与独立新专项1/1、迁移1/1，旧邀请1/1、UI契约17通过/4待设备。旧v2-work硬编码缺失人物及旧five-workers精确小数坐标断言，在本提交父版本原样失败，不计回归通过；伤病/生产专项缺来源档跳过。源码2455d0b、Pages8c5621e built，162文本blob及公网入口/人物模块字节一致；r32未做浏览器游戏内交互和真机。完整v2/I/V/R继续。",
+            "docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。"
           ],
           "blocked_reason": null
         },
@@ -3701,7 +3735,8 @@
             "qa/ea-sr-008-invite-public-acceptance.mjs",
             "dist/ea-sr-persons.mjs",
             "dist/ea-sr-ui.mjs",
-            "docs/design/STATUS.md"
+            "docs/design/STATUS.md",
+            "docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。"
           ],
           "blocked_reason": null
         },
@@ -3860,7 +3895,8 @@
         "docs/art/OPENING-CHAIN-2026-10-12.md；2026-10-12 U-124：药圃首收、筹料建丹房、炉边交付10灵草并炼成2份回春散的普通新档完整路径。 仅增局部证据，完整 SR/AC 状态保持。",
         "docs/art/OPENING-GUIDANCE-2026-10-13.md；2026-10-13 U-124：百艺明确携药与服用，炉边2→1、随身0→1且未消费；炼药正常命令与存读检查通过。 仅增局部证据，完整 SR/AC 状态保持。",
         "docs/design/47-GOLDEN-CORE-ARTS-CATALOGUE-DRAFT.md；2026-10-15 U-145/R-45：169项修行内容草案、五脉续篇、获取替代、百艺阵法、暗线与特效；仅补设计证据，金丹运行与完整D/I/V/R、AC状态保持。",
-        "docs/design/48-GOLDEN-CORE-WORLD-ARTS-V02.md；2026-10-15 U-146/R-46：720项玩家/NPC世界修行库、72新增来源谱系，符箓蛊道心法攻防及获取特效补齐；仅设计字段、来源与引用检查，运行及完整D/I/V/R、AC状态保持。"
+        "docs/design/48-GOLDEN-CORE-WORLD-ARTS-V02.md；2026-10-15 U-146/R-46：720项玩家/NPC世界修行库、72新增来源谱系，符箓蛊道心法攻防及获取特效补齐；仅设计字段、来源与引用检查，运行及完整D/I/V/R、AC状态保持。",
+        "docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。"
       ],
       "change_log": [
         {
@@ -3942,6 +3978,10 @@
         {
           "date": "2026-10-15",
           "reason": "U-146纠正169项过少，扩写至720项的R-46作者草案；玩家与NPC共用，补符蛊完整路线与散修来源，不推进运行或验收状态。"
+        },
+        {
+          "date": "2026-10-15",
+          "reason": "U-147接续P0—P2：新增两人小院可操作供给成长和保存/事务保护，登记局部实现与Node证据；实际UI/桌面未验，完整状态不推进。"
         }
       ],
       "tasks": [
@@ -3990,7 +4030,8 @@
             "qa/ea-sr-economy-acceptance.mjs",
             "2026-10-08 r19: qa/ea-sr-009-herb-crop-public-acceptance.mjs 5/5; adjacent production 5/5, facility and door 17/17, opt-in v2 work route 1/1; local Chromium memory import showed crop status and cancellation; source c9be1d476311a558e7a37a4e0305e5086b71a369, Pages 15ec91db21b8f4b37f30accdd5ac643e024a160d built",
             "2026-10-08 r23: ordinary production recipe:v2 snapshots, old active v1 migration, tamper rejection and scoped independent replay; runtime main dc1ff06670f569be34f836580ce83c31f1c92150, Pages e7f6a8a55f2e7bbd74d33d6a33563d885bd17b27 built; construction/craft/equipment snapshots and full new-game unlock remain open",
-            "2026-10-08 r26 局部装备配方：七件配方的新制作单冻结投入、工时、槽位、关键实物 claim、来源仓及产权；旧活跃已付费制作单在克隆读档时一次迁移，旧已完成物品保持，坏快照或重复结果拒载。有来源正常公开命令百工坊 checkpoint（worldTick31820）实际备料、制作行山轻衣、开工前/后取消、25步旧活跃单接续及成品唯一事实；根专项1/1，10条补充公开命令、6次精确存读，界面17通过/4待设备。本地Chromium导入真实在制档，七件报价、进度及取消可见；零进度取消实点后灵石98→110、木11→17，控制台0错误/0警告（1条浏览器autocomplete提示）。源码94986d3、Pages fa17a3b built，162文本blob与两个公网模块字节匹配。基线新档建坊处旧门道候位读档差异另案处理；本批没有测试七件分别全链或施工配方/跨仓物流/完整新档解锁，SR009整体状态不提升。证据 qa/ea-sr-009-equipment-recipe-public-acceptance.mjs、/tmp/immortal-sr009-root-r26/.playwright-cli/page-2026-10-08T11-52-40-680Z.yml。"
+            "2026-10-08 r26 局部装备配方：七件配方的新制作单冻结投入、工时、槽位、关键实物 claim、来源仓及产权；旧活跃已付费制作单在克隆读档时一次迁移，旧已完成物品保持，坏快照或重复结果拒载。有来源正常公开命令百工坊 checkpoint（worldTick31820）实际备料、制作行山轻衣、开工前/后取消、25步旧活跃单接续及成品唯一事实；根专项1/1，10条补充公开命令、6次精确存读，界面17通过/4待设备。本地Chromium导入真实在制档，七件报价、进度及取消可见；零进度取消实点后灵石98→110、木11→17，控制台0错误/0警告（1条浏览器autocomplete提示）。源码94986d3、Pages fa17a3b built，162文本blob与两个公网模块字节匹配。基线新档建坊处旧门道候位读档差异另案处理；本批没有测试七件分别全链或施工配方/跨仓物流/完整新档解锁，SR009整体状态不提升。证据 qa/ea-sr-009-equipment-recipe-public-acceptance.mjs、/tmp/immortal-sr009-root-r26/.playwright-cli/page-2026-10-08T11-52-40-680Z.yml。",
+            "docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。"
           ],
           "blocked_reason": null
         },
@@ -4012,7 +4053,8 @@
             "qa/ea-sr-integration-acceptance.mjs",
             "docs/design/STATUS.md",
             "2026-10-08 r24 局部丹炉：正常公开开局建炉/运草/成丹59命令、39次精确存读；v1及旧已付费迁移、取消余料一次返还、满仓同地同产权暂存、完成/取消坏事实拒载。根1/1、独立1/1，本地Chromium导入/刷新续档4/20。施工/装备和完整新档解锁未验，整项状态不提升。",
-            "2026-10-08 r26 局部装备配方：七件配方的新制作单冻结投入、工时、槽位、关键实物 claim、来源仓及产权；旧活跃已付费制作单在克隆读档时一次迁移，旧已完成物品保持，坏快照或重复结果拒载。有来源正常公开命令百工坊 checkpoint（worldTick31820）实际备料、制作行山轻衣、开工前/后取消、25步旧活跃单接续及成品唯一事实；根专项1/1，10条补充公开命令、6次精确存读，界面17通过/4待设备。本地Chromium导入真实在制档，七件报价、进度及取消可见；零进度取消实点后灵石98→110、木11→17，控制台0错误/0警告（1条浏览器autocomplete提示）。源码94986d3、Pages fa17a3b built，162文本blob与两个公网模块字节匹配。基线新档建坊处旧门道候位读档差异另案处理；本批没有测试七件分别全链或施工配方/跨仓物流/完整新档解锁，SR009整体状态不提升。证据 qa/ea-sr-009-equipment-recipe-public-acceptance.mjs、/tmp/immortal-sr009-root-r26/.playwright-cli/page-2026-10-08T11-52-40-680Z.yml。"
+            "2026-10-08 r26 局部装备配方：七件配方的新制作单冻结投入、工时、槽位、关键实物 claim、来源仓及产权；旧活跃已付费制作单在克隆读档时一次迁移，旧已完成物品保持，坏快照或重复结果拒载。有来源正常公开命令百工坊 checkpoint（worldTick31820）实际备料、制作行山轻衣、开工前/后取消、25步旧活跃单接续及成品唯一事实；根专项1/1，10条补充公开命令、6次精确存读，界面17通过/4待设备。本地Chromium导入真实在制档，七件报价、进度及取消可见；零进度取消实点后灵石98→110、木11→17，控制台0错误/0警告（1条浏览器autocomplete提示）。源码94986d3、Pages fa17a3b built，162文本blob与两个公网模块字节匹配。基线新档建坊处旧门道候位读档差异另案处理；本批没有测试七件分别全链或施工配方/跨仓物流/完整新档解锁，SR009整体状态不提升。证据 qa/ea-sr-009-equipment-recipe-public-acceptance.mjs、/tmp/immortal-sr009-root-r26/.playwright-cli/page-2026-10-08T11-52-40-680Z.yml。",
+            "docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。"
           ],
           "blocked_reason": null
         },
@@ -4353,7 +4395,8 @@
         "qa/ea-sr-production-accounting-acceptance.mjs",
         "docs/design/ISSUE-5-PRODUCTION-ACCOUNTING.md",
         "docs/art/OPENING-CHAIN-2026-10-12.md；2026-10-12 U-124：采木采石送公库、药圃至丹房、成药携带与公库入账、采回6灵草及3余粮真实搬运；最终存读一致。 仅增局部证据，完整 SR/AC 状态保持。",
-        "docs/art/OPENING-GUIDANCE-2026-10-13.md；2026-10-13 U-124：新增携药仍走真实搬运；实际随身取得、重复/空炉保护及刷新前后完整存档相等。 仅增局部证据，完整 SR/AC 状态保持。"
+        "docs/art/OPENING-GUIDANCE-2026-10-13.md；2026-10-13 U-124：新增携药仍走真实搬运；实际随身取得、重复/空炉保护及刷新前后完整存档相等。 仅增局部证据，完整 SR/AC 状态保持。",
+        "docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。"
       ],
       "change_log": [
         {
@@ -4411,6 +4454,10 @@
         {
           "date": "2026-10-12",
           "reason": "2026-10-12 Issue #5：最新main6000秒实验16笔生产/14笔微量灵石，修复显式receipt、9位新计算精度、工资封顶、事务提交与运输严格余额。专项12/12，正常公开开局2/2、丹炉公开链1/1；旧数量和事实逐字保留，不推进完整SR状态。见 docs/design/ISSUE-5-PRODUCTION-ACCOUNTING.md。"
+        },
+        {
+          "date": "2026-10-15",
+          "reason": "U-147接续P0—P2：新增两人小院可操作供给成长和保存/事务保护，登记局部实现与Node证据；实际UI/桌面未验，完整状态不推进。"
         }
       ],
       "tasks": [
@@ -4462,7 +4509,8 @@
           "evidence": [
             "dist/ea-sr-economy.mjs",
             "qa/ea-sr-economy-acceptance.mjs",
-            "2026-10-08 r20: qa/ea-sr-010-inventory-summary-acceptance.mjs 4/4, adjacent SR010 25/25, market-order 7/7, UI 17/17; local Chromium isolated import showed public/private/merchant five-number cards; source f8b8912244d05a7c101d5dc8b81dc2502d41d5d4 and Pages 098cc0511096de37b5da79cf01cceb65e68e7727 built, all 162 packaged text blobs matched"
+            "2026-10-08 r20: qa/ea-sr-010-inventory-summary-acceptance.mjs 4/4, adjacent SR010 25/25, market-order 7/7, UI 17/17; local Chromium isolated import showed public/private/merchant five-number cards; source f8b8912244d05a7c101d5dc8b81dc2502d41d5d4 and Pages 098cc0511096de37b5da79cf01cceb65e68e7727 built, all 162 packaged text blobs matched",
+            "docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。"
           ],
           "blocked_reason": null
         },
@@ -4478,7 +4526,8 @@
           ],
           "evidence": [
             "dist/ea-sr-economy.mjs",
-            "qa/ea-sr-economy-acceptance.mjs"
+            "qa/ea-sr-economy-acceptance.mjs",
+            "docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。"
           ],
           "blocked_reason": null
         },
@@ -5464,7 +5513,8 @@
         "docs/art/COURTYARD-VALLEY-2026-10-12.md",
         "tests/ea-mountain-first-combat.test.mjs",
         "docs/design/47-GOLDEN-CORE-ARTS-CATALOGUE-DRAFT.md；2026-10-15 U-145/R-45：169项修行内容草案、五脉续篇、获取替代、百艺阵法、暗线与特效；仅补设计证据，金丹运行与完整D/I/V/R、AC状态保持。",
-        "docs/design/48-GOLDEN-CORE-WORLD-ARTS-V02.md；2026-10-15 U-146/R-46：720项玩家/NPC世界修行库、72新增来源谱系，符箓蛊道心法攻防及获取特效补齐；仅设计字段、来源与引用检查，运行及完整D/I/V/R、AC状态保持。"
+        "docs/design/48-GOLDEN-CORE-WORLD-ARTS-V02.md；2026-10-15 U-146/R-46：720项玩家/NPC世界修行库、72新增来源谱系，符箓蛊道心法攻防及获取特效补齐；仅设计字段、来源与引用检查，运行及完整D/I/V/R、AC状态保持。",
+        "docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。"
       ],
       "change_log": [
         {
@@ -5510,6 +5560,10 @@
         {
           "date": "2026-10-15",
           "reason": "U-146纠正169项过少，扩写至720项的R-46作者草案；玩家与NPC共用，补符蛊完整路线与散修来源，不推进运行或验收状态。"
+        },
+        {
+          "date": "2026-10-15",
+          "reason": "U-147接续P0—P2：新增两人小院可操作供给成长和保存/事务保护，登记局部实现与Node证据；实际UI/桌面未验，完整状态不推进。"
         }
       ],
       "tasks": [
@@ -5554,7 +5608,9 @@
           "depends_on": [
             "SR-XF-014-D02"
           ],
-          "evidence": [],
+          "evidence": [
+            "docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。"
+          ],
           "blocked_reason": null
         },
         {
@@ -5567,7 +5623,9 @@
           "depends_on": [
             "SR-XF-014-I01"
           ],
-          "evidence": [],
+          "evidence": [
+            "docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。"
+          ],
           "blocked_reason": null
         },
         {
@@ -8517,7 +8575,8 @@
         "2026-10-14 U-135 / R-41 / T-14：用户认可 U-134 高清像素实机并要求保持设计，以目标模式接续独立桌面演武。整数 100 毫秒步与前台计时复用接入独立演武；暂停预排不扣费、暂停冻结、恢复执行、飞行阶段读档后命中仅一次已验证。原生活动记录在 tick 129、266 失焦／恢复均保持同一步，隐藏期间完整快照哈希不变，回前台无补时。局部证据见 docs/art/hd-pixel-20261014/ARENA-RUNTIME.md；最终记录 /Volumes/Media/immortal-qa/pixel-arena-20261014/ 下 final-run-3/metrics.json、restart-final/ 与 native-final/。源码与素材随本批源码检查点保存；正式规则完整移植、大地图、正式人物与存档、Windows 和完整 SR/AC 另验，D/I/V/R 与 AC 状态保持。",
         "2026-10-14 U-136/U-137，R-42/T-15：独立近山行程扩为同一1672×2823图像空间，山院→溪桥→林道→谷地会武→实际返院；16/32人稳定身份、只控掌门、同一时钟和独立存读。组件45/45；最终可见macOS包run-3检查22/22、运行错误0；16人实际返院胜利，32人到谷后采样15.00秒（其中交战13.08秒）再公开退出。原生输入、存读及画面差距见 docs/art/hd-pixel-trail-20261014/RUNTIME.md，设计见 docs/design/44-PIXEL-TRAIL-SLICE.md。源码与素材随本批检查点保存；当前画面认可、正式世界与存档接入、Windows及完整SR/AC另验；D/I/V/R及AC状态保持。",
         "2026-10-14 U-139 设计确认：宗门模拟经营支持自主生活；桌面后台继续运行、关闭停止且重开不补离线进度；掌门按玩家设定的发展目标、预算和风险偏好选择修炼、出行和经营。见 docs/design/DECISIONS.md、docs/design/01-CHARACTERS.md、docs/design/05-RUNTIME-CONTRACTS.md。当前仅落档，运行接入与新行为验收待实施；既有 SR/AC 状态和历史证据范围保持。",
-        "2026-10-15 U-144：用户确认按courtyard-v2.png还原。首屏采用原尺寸环境与独立人物、正式米制事实及同一模拟，实走、点选、原稿对照与存读的局部证据见 docs/art/pixel-courtyard-prototype-20261014/RUNTIME.md。用户实机美术认可、相邻地区、经营长验与Windows继续分别接续；完整D/I/V/R和AC状态保持。 最终macOS首屏94/94、70.029秒自主观察701次采样及原生输入/旧候选存档升级已复核，运行错误0；环境1,447,576像素比较差异0（排除状态与补画区）。"
+        "2026-10-15 U-144：用户确认按courtyard-v2.png还原。首屏采用原尺寸环境与独立人物、正式米制事实及同一模拟，实走、点选、原稿对照与存读的局部证据见 docs/art/pixel-courtyard-prototype-20261014/RUNTIME.md。用户实机美术认可、相邻地区、经营长验与Windows继续分别接续；完整D/I/V/R和AC状态保持。 最终macOS首屏94/94、70.029秒自主观察701次采样及原生输入/旧候选存档升级已复核，运行错误0；环境1,447,576像素比较差异0（排除状态与补画区）。",
+        "docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。"
       ],
       "change_log": [
         {
@@ -8615,6 +8674,10 @@
         {
           "date": "2026-10-13",
           "reason": "U-127/U-128：按用户要求先审核大场景多人即时战斗与画风原型，平台转为桌面。地图尺寸、人数上限、技能数值与最终画风未定；保留既有实现和验收事实，完整SR/AC及任务状态不变。"
+        },
+        {
+          "date": "2026-10-15",
+          "reason": "U-147接续P0—P2：新增两人小院可操作供给成长和保存/事务保护，登记局部实现与Node证据；实际UI/桌面未验，完整状态不推进。"
         }
       ],
       "tasks": [
@@ -8660,7 +8723,8 @@
             "dist/ea-game.mjs",
             "docs/design/STATUS.md",
             "dist/ea.css",
-            "dist/ea-courtyard-renderer.mjs"
+            "dist/ea-courtyard-renderer.mjs",
+            "docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。"
           ],
           "blocked_reason": null
         },
@@ -8679,7 +8743,8 @@
             "tests/map-input.test.mjs",
             "qa/ea-courtyard-rest-render-acceptance.mjs",
             "docs/design/STATUS.md",
-            "qa/ea-sr-spatial-acceptance.mjs"
+            "qa/ea-sr-spatial-acceptance.mjs",
+            "docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。"
           ],
           "blocked_reason": null
         },
@@ -9039,7 +9104,8 @@
         "2026-10-14 U-135 / R-41 / T-14：用户认可 U-134 高清像素实机并要求保持设计，以目标模式接续独立桌面演武。独立 arena-save.json 经动态版本／状态校验、2 MiB 限制、顺序原子替换保存；存储 9／9 覆盖真实规则快照往返、坏 JSON／未知版本原字节保留、失败不覆盖良档和并行调用顺序。最终打包应用跨进程写入 1／1、恢复 3／3：tick 4 火诀飞行存档恢复后敌方 100→72、掌门 280→266，各一次；原生手动和关闭保存完成验证。局部证据见 docs/art/hd-pixel-20261014/ARENA-RUNTIME.md；最终记录 /Volumes/Media/immortal-qa/pixel-arena-20261014/ 下 final-run-3/metrics.json、restart-final/ 与 native-final/。源码与素材随本批源码检查点保存；正式规则完整移植、大地图、正式人物与存档、Windows 和完整 SR/AC 另验，D/I/V/R 与 AC 状态保持。",
         "2026-10-14 U-136/U-137，R-42/T-15：独立近山行程扩为同一1672×2823图像空间，山院→溪桥→林道→谷地会武→实际返院；16/32人稳定身份、只控掌门、同一时钟和独立存读。组件45/45；最终可见macOS包run-3检查22/22、运行错误0；16人实际返院胜利，32人到谷后采样15.00秒（其中交战13.08秒）再公开退出。原生输入、存读及画面差距见 docs/art/hd-pixel-trail-20261014/RUNTIME.md，设计见 docs/design/44-PIXEL-TRAIL-SLICE.md。源码与素材随本批检查点保存；当前画面认可、正式世界与存档接入、Windows及完整SR/AC另验；D/I/V/R及AC状态保持。",
         "2026-10-14 U-139 设计确认：宗门模拟经营支持自主生活；桌面后台继续运行、关闭停止且重开不补离线进度；掌门按玩家设定的发展目标、预算和风险偏好选择修炼、出行和经营。见 docs/design/DECISIONS.md、docs/design/01-CHARACTERS.md、docs/design/05-RUNTIME-CONTRACTS.md。当前仅落档，运行接入与新行为验收待实施；既有 SR/AC 状态和历史证据范围保持。",
-        "2026-10-15 U-144：用户确认按courtyard-v2.png还原。首屏采用原尺寸环境与独立人物、正式米制事实及同一模拟，实走、点选、原稿对照与存读的局部证据见 docs/art/pixel-courtyard-prototype-20261014/RUNTIME.md。用户实机美术认可、相邻地区、经营长验与Windows继续分别接续；完整D/I/V/R和AC状态保持。 最终macOS首屏94/94、70.029秒自主观察701次采样及原生输入/旧候选存档升级已复核，运行错误0；环境1,447,576像素比较差异0（排除状态与补画区）。"
+        "2026-10-15 U-144：用户确认按courtyard-v2.png还原。首屏采用原尺寸环境与独立人物、正式米制事实及同一模拟，实走、点选、原稿对照与存读的局部证据见 docs/art/pixel-courtyard-prototype-20261014/RUNTIME.md。用户实机美术认可、相邻地区、经营长验与Windows继续分别接续；完整D/I/V/R和AC状态保持。 最终macOS首屏94/94、70.029秒自主观察701次采样及原生输入/旧候选存档升级已复核，运行错误0；环境1,447,576像素比较差异0（排除状态与补画区）。",
+        "docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。"
       ],
       "change_log": [
         {
@@ -9109,6 +9175,10 @@
         {
           "date": "2026-10-13",
           "reason": "U-127/U-128：按用户要求先审核大场景多人即时战斗与画风原型，平台转为桌面。地图尺寸、人数上限、技能数值与最终画风未定；保留既有实现和验收事实，完整SR/AC及任务状态不变。"
+        },
+        {
+          "date": "2026-10-15",
+          "reason": "U-147接续P0—P2：新增两人小院可操作供给成长和保存/事务保护，登记局部实现与Node证据；实际UI/桌面未验，完整状态不推进。"
         }
       ],
       "tasks": [
@@ -9151,7 +9221,8 @@
           "evidence": [
             "dist/ea-sr-spatial.mjs",
             "docs/design/STATUS.md",
-            "qa/ea-sr-contracts-acceptance.mjs"
+            "qa/ea-sr-contracts-acceptance.mjs",
+            "docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。"
           ],
           "blocked_reason": null
         },
@@ -9171,7 +9242,8 @@
             "qa/ea-reference-world.json",
             "docs/design/STATUS.md",
             "qa/ea-sr-travel-continuity-acceptance.mjs",
-            "qa/ea-sr-contracts-acceptance.mjs"
+            "qa/ea-sr-contracts-acceptance.mjs",
+            "docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。"
           ],
           "blocked_reason": null
         },
