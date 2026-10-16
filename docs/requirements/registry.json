@@ -8955,7 +8955,8 @@
         "U-150",
         "R-50",
         "U-151",
-        "R-43"
+        "R-43",
+        "U-154"
       ],
       "source_specs": [
         "docs/design/01-CHARACTERS.md",
@@ -9067,7 +9068,8 @@
         "docs/design/53-COURTYARD-AUTONOMY-ACCEPTANCE.md",
         "tests/acceptance/courtyard-autonomy-desktop.mjs",
         "tests/acceptance/courtyard-autonomy-audit.py",
-        "docs/design/54-COURTYARD-OPENING-DEMO.md；2026-10-16 U-153：当前高清像素桌面正式空档接入灭门序章、落脚疗伤择卷与首次主殿营造。默认测试133/133、后增场景相关16/16、独立复核19/19；最终macOS包同一新档10/10（72.310秒，五处进程重启）、旧暂停档兼容5/5，页面/资源错误0。完整后续开局链、Windows与SR/AC状态保持。"
+        "docs/design/54-COURTYARD-OPENING-DEMO.md；2026-10-16 U-153：当前高清像素桌面正式空档接入灭门序章、落脚疗伤择卷与首次主殿营造。默认测试133/133、后增场景相关16/16、独立复核19/19；最终macOS包同一新档10/10（72.310秒，五处进程重启）、旧暂停档兼容5/5，页面/资源错误0。完整后续开局链、Windows与SR/AC状态保持。",
+        "docs/design/54-COURTYARD-OPENING-DEMO.md；2026-10-16 U-154：六幕连环画与四帧包裹展开接入当前桌面，正式页码与共用状态保持。定向测试11/11；源码桌面17/17、八次进程重启保留子帧/开包/世界进度；最终macOS包同一新档连续录像检查7/7、160.104秒，错误0。开包、择卷与重播时草药16和世界步0保持。Windows与完整SR/AC状态保持。"
       ],
       "change_log": [
         {
@@ -9517,7 +9519,8 @@
         "U-150",
         "R-50",
         "U-151",
-        "R-43"
+        "R-43",
+        "U-154"
       ],
       "source_specs": [
         "docs/design/02-EQUIPMENT-ARTS.md",
@@ -9636,7 +9639,8 @@
         "docs/design/53-COURTYARD-AUTONOMY-ACCEPTANCE.md",
         "tests/acceptance/courtyard-autonomy-desktop.mjs",
         "tests/acceptance/courtyard-autonomy-audit.py",
-        "docs/design/54-COURTYARD-OPENING-DEMO.md；2026-10-16 U-153：当前高清像素桌面正式空档接入灭门序章、落脚疗伤择卷与首次主殿营造。默认测试133/133、后增场景相关16/16、独立复核19/19；最终macOS包同一新档10/10（72.310秒，五处进程重启）、旧暂停档兼容5/5，页面/资源错误0。完整后续开局链、Windows与SR/AC状态保持。"
+        "docs/design/54-COURTYARD-OPENING-DEMO.md；2026-10-16 U-153：当前高清像素桌面正式空档接入灭门序章、落脚疗伤择卷与首次主殿营造。默认测试133/133、后增场景相关16/16、独立复核19/19；最终macOS包同一新档10/10（72.310秒，五处进程重启）、旧暂停档兼容5/5，页面/资源错误0。完整后续开局链、Windows与SR/AC状态保持。",
+        "docs/design/54-COURTYARD-OPENING-DEMO.md；2026-10-16 U-154：六幕连环画与四帧包裹展开接入当前桌面，正式页码与共用状态保持。定向测试11/11；源码桌面17/17、八次进程重启保留子帧/开包/世界进度；最终macOS包同一新档连续录像检查7/7、160.104秒，错误0。开包、择卷与重播时草药16和世界步0保持。Windows与完整SR/AC状态保持。"
       ],
       "change_log": [
         {

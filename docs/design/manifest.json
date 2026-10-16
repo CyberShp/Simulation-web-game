@@ -1856,10 +1856,10 @@
       "pagesCommit": "b3b002822cb9bf6e40aa29c8f754c17242705e7b"
     },
     "currentOpeningDemo": "docs/design/54-COURTYARD-OPENING-DEMO.md",
-    "currentOpeningDemoDecisionId": "U-153",
-    "currentOpeningDemoStatus": "implemented-macos-package-verified-continuous-video-delivered",
-    "currentOpeningDemoEvidence": "/Volumes/Media/immortal-qa/opening-demo-20261016/package-1/report.json",
-    "currentOpeningDemoVideo": "/Volumes/Media/immortal-qa/opening-demo-20261016/delivery/余烬立山-开局实机.mp4"
+    "currentOpeningDemoDecisionId": "U-154",
+    "currentOpeningDemoStatus": "six-frame-prologue-bundle-sequence-macos-verified",
+    "currentOpeningDemoEvidence": "/Volumes/Media/immortal-qa/opening-comic-20261016/source-1/report.json",
+    "currentOpeningDemoVideo": "/Volumes/Media/immortal-qa/opening-comic-20261016/delivery/余烬立山-连环画开局实机.mp4"
   },
   "characterDialogue": {
     "decisionId": "U-125",

@@ -4,9 +4,7 @@
 .opening-backdrop,.opening-surface{position:absolute;inset:0}
 .opening-backdrop{background-position:center;background-size:cover;image-rendering:pixelated}
 .opening-surface{display:flex;align-items:flex-end;padding:clamp(38px,7vh,90px) clamp(34px,7vw,120px);overflow:auto}
-.courtyard-opening[data-stage=intro] .opening-backdrop:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#061315c7 0%,#06131580 35%,transparent 75%),linear-gradient(0deg,#071416d9 0%,transparent 66%)}
-.courtyard-opening[data-stage=intro][data-page="2"] .opening-backdrop{background:#0c23224d}
-.courtyard-opening[data-stage=intro][data-page="2"] .opening-backdrop:after{background:linear-gradient(0deg,#071b1cf2,transparent 90%)}
+.opening-art-frame{display:block;width:100%;height:100%;object-fit:cover;image-rendering:pixelated;animation:opening-art-enter .5s ease-out both}
 .opening-story{max-width:590px;position:relative;padding-bottom:5vh;animation:opening-enter .65s ease-out both;text-shadow:0 2px 10px #0009}
 .opening-chapter{font-size:13px;letter-spacing:5px;color:#c1bd97;margin:0 0 22px;font-weight:500}
 .opening-title{font-family:CourtyardOpeningSerif,"Songti SC","STSong","Noto Serif CJK SC",serif;font-size:clamp(42px,4.9vw,76px);font-weight:700;letter-spacing:.14em;line-height:1.35;margin:0 0 30px;color:#f0e5be;text-shadow:0 2px 1px #26392b,0 3px 22px #0009}
@@ -63,4 +61,20 @@
 @media(max-width:1050px){.opening-surface{padding-inline:45px}.opening-story{max-width:510px}.opening-inheritance-sheet{width:49vw}.opening-lineages{margin-bottom:16px}.opening-flavor{font-size:14px}.opening-arts dd{font-size:18px}.opening-temper{font-size:11px;letter-spacing:0}}
 @media(max-height:760px){.opening-surface{padding-block:35px}.opening-story{padding-bottom:0}.opening-title{margin-bottom:20px}.opening-chapter{margin-bottom:14px}.opening-actions{margin-top:24px}.opening-inheritance-sheet .opening-title{font-size:39px;margin-bottom:9px}.opening-inheritance-intro{margin-bottom:15px}.opening-button-lineage{min-height:67px;padding-block:7px;gap:3px}.opening-flavor{min-height:0;margin-bottom:12px}.opening-arts{margin-bottom:12px}.opening-arts>div{margin:6px 0}.opening-temper{margin-bottom:17px}.opening-footnote{margin-top:12px}}
 @media(max-width:760px){.opening-surface{padding:35px 27px}.opening-story{max-width:100%}.opening-title{font-size:42px}.opening-copy{font-size:16px}.opening-actions{gap:10px}.opening-button{min-width:110px;padding-inline:18px}.courtyard-opening[data-stage=inheritance] .opening-backdrop{background-position:27% center}.courtyard-opening[data-stage=inheritance] .opening-backdrop:after{background:#071d1dd9}.courtyard-opening[data-stage=inheritance] .opening-surface{padding:25px 27px;justify-content:center}.opening-inheritance-sheet{width:100%;max-width:510px}.opening-button-lineage{min-width:0;padding-inline:4px}.opening-inheritance-sheet .opening-title{font-size:38px}.opening-flavor{min-height:0}.opening-arts dd{font-size:18px}.opening-inheritance-sheet .opening-chapter{font-size:11px;letter-spacing:3px}.opening-scene-sheet .opening-copy{font-size:16px}.courtyard-opening[data-reading=false] .opening-surface{padding-left:15px;padding-bottom:80px}.opening-guide{padding:15px 19px;width:310px}.opening-guide .opening-title{font-size:22px}}
-@media(prefers-reduced-motion:reduce){.opening-story,.opening-scene-sheet,.opening-inheritance-sheet,.opening-guide{animation:none}.opening-button,.opening-progress span{transition:none}}
+.courtyard-opening:is([data-stage=intro],[data-bundle-phase=closed],[data-bundle-phase=playing]){--opening-caption-height:clamp(166px,20vh,190px);background:#071211}
+.courtyard-opening:is([data-stage=intro],[data-bundle-phase=closed],[data-bundle-phase=playing]) .opening-backdrop{inset:0 0 var(--opening-caption-height);background:#071211}
+.courtyard-opening:is([data-stage=intro],[data-bundle-phase=closed],[data-bundle-phase=playing]) .opening-backdrop:after{content:none}
+.courtyard-opening:is([data-stage=intro],[data-bundle-phase=closed],[data-bundle-phase=playing]) .opening-art-frame{object-fit:contain}
+.courtyard-opening:is([data-stage=intro],[data-bundle-phase=closed],[data-bundle-phase=playing]) .opening-surface{top:auto;height:var(--opening-caption-height);box-sizing:border-box;padding:20px clamp(28px,4vw,70px);align-items:center;justify-content:stretch;background:linear-gradient(0deg,#091c1b,#102523);border-top:1px solid #98a48133}
+.opening-story{max-width:none;width:100%;padding:0;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:30px;text-shadow:0 2px 8px #0008}
+.opening-story .opening-chapter{font-size:11px;letter-spacing:4px;margin:0 0 8px}
+.opening-story .opening-title{font-size:clamp(24px,2.3vw,34px);line-height:1.2;letter-spacing:.13em;margin:0 0 10px}
+.opening-story .opening-copy{font-size:clamp(13px,1.05vw,16px);line-height:1.7;letter-spacing:.7px;margin:0;max-width:56em}
+.opening-story .opening-actions{margin:0;gap:12px;flex-wrap:wrap;justify-content:flex-end;max-width:350px}
+.opening-story .opening-page{width:100%;text-align:right;margin:0 0 3px;font-size:12px;letter-spacing:4px;color:#a7b8a2}
+.opening-story .opening-button{min-height:43px;min-width:112px;padding:10px 20px;font-size:14px}
+.opening-story .opening-button-quiet{min-width:86px;font-size:13px}
+.opening-inheritance-sheet>[data-opening-action=bundle-replay]{display:block;margin-top:12px;padding:6px 0;min-height:32px;min-width:0;font-size:12px;letter-spacing:2px;border:0}
+@keyframes opening-art-enter{from{opacity:.15}to{opacity:1}}
+@media(max-width:760px){.courtyard-opening:is([data-stage=intro],[data-bundle-phase=closed],[data-bundle-phase=playing]){--opening-caption-height:235px}.courtyard-opening:is([data-stage=intro],[data-bundle-phase=closed],[data-bundle-phase=playing]) .opening-surface{padding:16px 24px}.opening-story{grid-template-columns:1fr;gap:14px}.opening-story .opening-actions{width:100%;max-width:none;flex-wrap:nowrap}.opening-story .opening-page{width:auto;margin-right:auto;text-align:left}.opening-story .opening-title{font-size:26px}.opening-story .opening-copy{font-size:13px}.opening-story .opening-button{min-width:90px;padding-inline:12px}}
+@media(prefers-reduced-motion:reduce){.opening-art-frame,.opening-story,.opening-scene-sheet,.opening-inheritance-sheet,.opening-guide{animation:none}.opening-button,.opening-progress span{transition:none}}

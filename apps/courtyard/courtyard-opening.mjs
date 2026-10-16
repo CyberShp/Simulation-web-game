@@ -1,15 +1,8 @@
 /** Desktop opening presentation. World changes use the shared simulation commands. */
 import { openingView } from './sect-sim.mjs';
+import { INTRO_FRAMES, BUNDLE_FRAMES, BUNDLE_FRAME_MS, restoreOpeningPresentation, advanceBundleFrame } from './courtyard-opening-presentation.mjs';
 
 const ART = 'assets/';
-const INTRO = Object.freeze([
-  { chapter: '序章 · 雨夜', title: '一夜成灰', image: 'prologue-rain-v1.png',
-    lines: ['赤嶂门破开沈氏山门。', '火光吞没旧宅，雨声里尽是刀兵。'] },
-  { chapter: '序章 · 诀别', title: '留住这一息', image: 'prologue-rain-v1.png',
-    lines: ['父亲反转残阵，挡住追兵。母亲将旧布包塞入你怀中，拼尽性命送你离开。', '你活了下来。双亲留在了那个雨夜。'] },
-  { chapter: '四个月后 · 云岫', title: '余烬立山', image: null,
-    lines: ['数月隐匿流亡，你终于寻到母亲旧日采药的别院。', '旧伤未愈，家传尚在。先在这里活下来。'] }
-]);
 const RESOURCES = { jade: '灵石', wood: '木材', stone: '石料', herb: '灵草' };
 const ELEMENT_CLASS = { qinglan: 'wind', chiyang: 'fire', hanquan: 'water', houttu: 'earth', jinfeng: 'metal' };
 const READING_STAGES = new Set(['intro', 'shelter', 'inheritance', 'hall-ready']);
@@ -45,6 +38,55 @@ export function createCourtyardOpening({ getSession, getView, command, save,
   let reading = false, busy = false, disposed = false, lastSignature = '', previousStage = null;
   let selected = null, error = '', completionVisible = false, completedSession = null, lastSession = null, hallDeferred = false;
   let focusBeforeReading = null;
+  let presentation = null, bundleTimer = null, bundleSaving = false, bundleBlocked = false, bundleGeneration = 0;
+  let artwork = null;
+
+  function showArt(filename) {
+    if (artwork === filename) return;
+    artwork = filename; backdrop.replaceChildren();
+    if (!filename) return;
+    const image = node('img', undefined, 'opening-art-frame');
+    image.src = new URL(ART + filename, import.meta.url).href; image.alt = ''; image.draggable = false;
+    backdrop.append(image);
+  }
+  function stopBundle() {
+    if (bundleTimer !== null) clearTimeout(bundleTimer);
+    bundleTimer = null; bundleGeneration++;
+  }
+  async function persistPresentation() {
+    if (!save) return true;
+    try {
+      const saved = await save(false, 'manual');
+      if (saved?.ok === false) { error = saved.error || '进度暂未保存，请先处理保存提示。'; return false; }
+      return true;
+    } catch (cause) { error = cause?.message || '进度暂未保存。'; return false; }
+  }
+  function scheduleBundle() {
+    if (disposed || bundleTimer !== null || bundleSaving || bundleBlocked || previousStage !== 'inheritance' || presentation?.bundle.phase !== 'playing') return;
+    const generation = bundleGeneration;
+    bundleTimer = setTimeout(async () => {
+      bundleTimer = null;
+      if (disposed || generation !== bundleGeneration || openingView(getSession()).stage !== 'inheritance') return;
+      bundleSaving = true;
+      presentation.bundle = advanceBundleFrame(presentation.bundle);
+      render();
+      const saved = await persistPresentation();
+      if (disposed || generation !== bundleGeneration) return;
+      bundleSaving = false; bundleBlocked = !saved;
+      render(); scheduleBundle();
+    }, BUNDLE_FRAME_MS);
+  }
+  async function openBundle(replay = false) {
+    if (busy || bundleSaving || disposed || openingView(getSession()).stage !== 'inheritance') return;
+    if (!replay && presentation.bundle.phase === 'open') return;
+    stopBundle(); const generation = bundleGeneration;
+    if (replay || presentation.bundle.phase === 'closed') presentation.bundle = { phase: 'playing', frame: 0 };
+    error = ''; bundleBlocked = false; bundleSaving = true; render();
+    const saved = await persistPresentation();
+    if (disposed || generation !== bundleGeneration) return;
+    bundleSaving = false; bundleBlocked = !saved;
+    render(); scheduleBundle();
+  }
 
   function syncReading(next) {
     if (next === reading) return;
@@ -54,37 +96,43 @@ export function createCourtyardOpening({ getSession, getView, command, save,
     onReadingChange(reading);
     if (!reading && focusBeforeReading?.isConnected) focusBeforeReading.focus({ preventScroll: true });
   }
-  async function submit(request) {
+  async function submit(request, nextIntroFrame = null) {
     if (busy || disposed) return;
-    busy = true; error = ''; render(true);
+    const previousFrame = presentation.introFrame;
+    if (nextIntroFrame !== null) presentation.introFrame = nextIntroFrame;
+    busy = true; error = '';
     try {
-      const result = command(request);
-      if (!result?.ok) error = result?.error || '此刻尚无法继续，请稍后再试。';
-      else if (save) {
-        const saved = await save(false, 'manual');
-        if (saved?.ok === false) error = saved.error || '进度暂未保存，请先处理保存提示。';
+      const result = request ? command(request) : { ok: true };
+      if (!result?.ok) {
+        presentation.introFrame = previousFrame;
+        error = result?.error || '此刻尚无法继续，请稍后再试。';
+      } else {
+        render();
+        await persistPresentation();
       }
-    } catch (cause) { error = cause?.message || '此次操作未完成。'; }
-    finally { busy = false; render(true); }
+    } catch (cause) { presentation.introFrame = previousFrame; error = cause?.message || '此次操作未完成。'; }
+    finally { busy = false; render(); }
   }
   function heading(parent, chapter, title) {
     paragraph(parent, chapter, 'opening-chapter');
     const h = node('h1', title, 'opening-title'); h.id = 'opening-title'; parent.append(h);
   }
   function renderIntro(view) {
-    const page = Math.max(0, Math.min(2, view.introPage || 0)), content = INTRO[page];
-    root.dataset.page = String(page);
-    backdrop.style.backgroundImage = content.image ? `url("${new URL(ART + content.image, import.meta.url).href}")` : '';
+    const frame = presentation.introFrame, content = INTRO_FRAMES[frame];
+    root.dataset.page = String(content.page); root.dataset.frame = String(frame);
+    showArt(content.image);
     const sheet = node('div', undefined, 'opening-story');
-    heading(sheet, content.chapter, content.title);
-    for (const line of content.lines) paragraph(sheet, line);
+    const caption = node('div', undefined, 'opening-caption');
+    heading(caption, content.chapter, content.title);
+    for (const line of content.lines) paragraph(caption, line);
     const actions = node('div', undefined, 'opening-actions');
-    const progress = node('span', `${String(page + 1).padStart(2, '0')} / 03`, 'opening-page');
+    const progress = node('span', `${String(frame + 1).padStart(2, '0')} / 06`, 'opening-page');
     actions.append(progress);
-    if (page > 0) actions.append(button('前一幕', 'intro-back', () => submit({ type: 'opening-intro', page: page - 1 }), busy, 'quiet'));
-    actions.append(button(page === 2 ? '在此落脚' : '继续', 'intro-next', () => submit(page === 2
-      ? { type: 'opening-intro', complete: true } : { type: 'opening-intro', page: page + 1 }), busy));
-    sheet.append(actions); surface.append(sheet);
+    const turnTo = next => submit(INTRO_FRAMES[next].page === view.introPage ? null : { type: 'opening-intro', page: INTRO_FRAMES[next].page }, next);
+    if (frame > 0) actions.append(button('前一幕', 'intro-back', () => turnTo(frame - 1), busy, 'quiet'));
+    actions.append(button(frame === INTRO_FRAMES.length - 1 ? '在此落脚' : '继续', 'intro-next', () => frame === INTRO_FRAMES.length - 1
+      ? submit({ type: 'opening-intro', complete: true }) : turnTo(frame + 1), busy));
+    sheet.append(caption, actions); surface.append(sheet);
   }
   function renderShelter(view) {
     const sheet = node('div', undefined, 'opening-scene-sheet');
@@ -101,17 +149,33 @@ export function createCourtyardOpening({ getSession, getView, command, save,
     surface.append(sheet);
   }
   function renderInheritance(view) {
-    backdrop.style.backgroundImage = `url("${new URL(ART + 'prologue-scroll-v1.png', import.meta.url).href}")`;
+    const bundle = presentation.bundle, content = BUNDLE_FRAMES[bundle.frame];
+    root.dataset.bundlePhase = bundle.phase; root.dataset.bundleFrame = String(bundle.frame);
+    showArt(content.image);
+    if (bundle.phase !== 'open') {
+      const sheet = node('div', undefined, 'opening-story opening-bundle-story');
+      const caption = node('div', undefined, 'opening-caption');
+      heading(caption, '母亲留下的旧布包', content.title);
+      paragraph(caption, content.line);
+      const actions = node('div', undefined, 'opening-actions');
+      if (bundle.phase === 'closed' || bundleBlocked) actions.append(button(bundleBlocked ? '继续展开' : '打开包裹', 'bundle-open', () => openBundle(), busy || bundleSaving));
+      else {
+        const progress = node('span', `${String(bundle.frame + 1).padStart(2, '0')} / 04`, 'opening-page');
+        progress.setAttribute('role', 'status'); progress.setAttribute('aria-label', `包裹展开，第 ${bundle.frame + 1} 幕`);
+        actions.append(progress);
+      }
+      sheet.append(caption, actions); surface.append(sheet); return;
+    }
     const options = view.inheritance?.options || [];
     if (!options.some(option => option.id === selected)) selected = view.inheritance?.selected || options[0]?.id;
     const chosen = options.find(option => option.id === selected);
     const sheet = node('div', undefined, 'opening-inheritance-sheet');
     heading(sheet, '母亲留下的旧布包', '一卷薪火');
-    paragraph(sheet, '解开封缄，定下这卷传承。', 'opening-inheritance-intro');
+    paragraph(sheet, '旧布已展，定下这一卷传承。', 'opening-inheritance-intro');
     const choices = node('div', undefined, 'opening-lineages');
     choices.setAttribute('role', 'tablist'); choices.setAttribute('aria-label', '入门传承');
     for (const option of options) {
-      const choice = button('', `lineage:${option.id}`, () => { selected = option.id; error = ''; render(true); }, busy, 'lineage');
+      const choice = button('', `lineage:${option.id}`, () => { selected = option.id; error = ''; render(); }, busy || bundleSaving, 'lineage');
       choice.setAttribute('role', 'tab'); choice.setAttribute('aria-selected', String(option.id === selected));
       choice.setAttribute('aria-controls', 'opening-lineage-detail');
       choice.id = `opening-lineage-${option.id}`; choice.dataset.element = ELEMENT_CLASS[option.id] || 'wind';
@@ -129,9 +193,10 @@ export function createCourtyardOpening({ getSession, getView, command, save,
       detail.append(arts);
       paragraph(detail, `${chosen.supply}　·　${chosen.temper}`, 'opening-temper');
       sheet.append(detail);
-      sheet.append(button(`承此传承 · ${chosen.name}`, 'choose-inheritance', () => submit({ type: 'choose-inheritance', lineage: chosen.id }), busy));
+      sheet.append(button(`承此传承 · ${chosen.name}`, 'choose-inheritance', () => submit({ type: 'choose-inheritance', lineage: chosen.id }), busy || bundleSaving));
     }
     paragraph(sheet, '择定后继续疗伤。此为修行起点，日后仍可兼修。', 'opening-footnote');
+    sheet.append(button('重看展开', 'bundle-replay', () => openBundle(true), busy || bundleSaving, 'quiet'));
     surface.append(sheet);
   }
   function renderHallReady(view) {
@@ -182,8 +247,11 @@ export function createCourtyardOpening({ getSession, getView, command, save,
     if (disposed) return;
     const session = getSession(), view = openingView(session);
     if (lastSession !== session) {
+      stopBundle(); bundleSaving = false; bundleBlocked = false; error = ''; lastSignature = '';
+      presentation = restoreOpeningPresentation(session.courtyardPresentation?.opening, view);
       previousStage = null; selected = null; completionVisible = false; completedSession = null; hallDeferred = false; lastSession = session;
     }
+    if (view.stage !== 'inheritance' && (bundleTimer !== null || bundleSaving)) { stopBundle(); bundleSaving = false; }
     if (view.enabled && view.stage === 'complete' && previousStage === 'hall-building' && completedSession !== session) {
       completionVisible = true; completedSession = session; onComplete(view);
     }
@@ -192,16 +260,18 @@ export function createCourtyardOpening({ getSession, getView, command, save,
     const nextReading = visible && READING_STAGES.has(view.stage) && !(view.stage === 'hall-ready' && hallDeferred);
     syncReading(nextReading);
     root.hidden = !visible;
-    if (!visible) { lastSignature = ''; return; }
+    if (!visible) { lastSignature = ''; showArt(null); return; }
     const signature = JSON.stringify([view.stage, view.introPage, view.canHeal, view.healReason, view.canEstablishHall,
-      view.hallReason, Math.ceil(view.wound || 0), view.construction, view.healing, selected, error, busy, completionVisible, hallDeferred, getView?.()?.paused]);
-    if (!force && signature === lastSignature) return;
+      view.hallReason, Math.ceil(view.wound || 0), view.construction, view.healing, selected, error, busy, completionVisible, hallDeferred,
+      presentation.introFrame, presentation.bundle, bundleSaving, bundleBlocked, getView?.()?.paused]);
+    if (!force && signature === lastSignature) { scheduleBundle(); return; }
     lastSignature = signature;
     const focusKey = root.contains(document.activeElement) ? document.activeElement.dataset.openingAction : null;
     surface.replaceChildren(); root.dataset.stage = view.stage; root.dataset.reading = String(nextReading);
     root.setAttribute('role', nextReading ? 'dialog' : 'region'); root.setAttribute('aria-labelledby', 'opening-title');
     if (nextReading) root.setAttribute('aria-modal', 'true'); else root.removeAttribute('aria-modal');
-    backdrop.style.backgroundImage = ''; delete root.dataset.page;
+    delete root.dataset.page; delete root.dataset.frame; delete root.dataset.bundlePhase; delete root.dataset.bundleFrame;
+    if (!['intro', 'inheritance'].includes(view.stage)) showArt(null);
     if (view.stage === 'intro') renderIntro(view);
     else if (view.stage === 'shelter') renderShelter(view);
     else if (view.stage === 'inheritance') renderInheritance(view);
@@ -211,6 +281,7 @@ export function createCourtyardOpening({ getSession, getView, command, save,
     const focus = focusKey && [...surface.querySelectorAll('button')].find(el => el.dataset.openingAction === focusKey && !el.disabled);
     if (focus) focus.focus({ preventScroll: true });
     else if (nextReading && !root.contains(document.activeElement)) (surface.querySelector('.opening-button-primary:not(:disabled)') || surface.querySelector('button:not(:disabled)'))?.focus({ preventScroll: true });
+    scheduleBundle();
   }
   function deferHall() { if (busy) return; hallDeferred = true; error = ''; render(true); }
   function onKeydown(event) {
@@ -228,6 +299,10 @@ export function createCourtyardOpening({ getSession, getView, command, save,
   root.addEventListener('keydown', onKeydown);
   return {
     render, isReading: () => reading, back() { const consumed = reading; if (reading && previousStage === 'hall-ready') deferHall(); return consumed; },
-    destroy() { disposed = true; syncReading(false); root.remove(); }
+    snapshotPresentation() {
+      const state = presentation || restoreOpeningPresentation(getSession().courtyardPresentation?.opening, openingView(getSession()));
+      return { version: state.version, introFrame: state.introFrame, bundle: { ...state.bundle } };
+    },
+    destroy() { disposed = true; stopBundle(); syncReading(false); root.removeEventListener('keydown', onKeydown); root.remove(); }
   };
 }

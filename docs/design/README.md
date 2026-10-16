@@ -25,7 +25,7 @@
 | [51 山院管理](51-COURTYARD-MANAGEMENT-INTEGRATION.md) | 管理、供给、成长、存档恢复的实际证据 |
 | [52 东台扩建](52-EAST-TERRACE-INTEGRATION.md) | 批准母稿、道路、分趟运输、施工与往返 |
 | [53 两人自主长验](53-COURTYARD-AUTONOMY-ACCEPTANCE.md) | 同源二十分钟长验、原脚本误报和粮食供给边界 |
-| [54 桌面开局演示](54-COURTYARD-OPENING-DEMO.md) | 灭门序章、落脚疗伤、遗卷选择、主殿营造与同档实机录像 |
+| [54 桌面开局演示](54-COURTYARD-OPENING-DEMO.md) | 六幕连环画、包裹展开、落脚疗伤、遗卷选择、主殿营造与同档实机录像 |
 
 ## 分系统与来源索引
 
