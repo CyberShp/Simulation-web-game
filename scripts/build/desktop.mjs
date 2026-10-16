@@ -48,7 +48,7 @@ if (!values['stage-only']) {
     appVersion: pkg.version, appBundleId: 'games.xianfu.courtyard-master',
     appCategoryType: 'public.app-category.games',
     asar: false, prune: false, overwrite: true,
-    win32metadata: { ProductName: title, FileDescription: title }
+    win32metadata: { CompanyName: 'CyberShp', ProductName: title, FileDescription: title }
   });
   if (values.platform === 'darwin') {
     for (const application of applications) {
