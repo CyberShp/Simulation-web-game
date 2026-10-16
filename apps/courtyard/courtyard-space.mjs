@@ -137,43 +137,46 @@ const CORRIDORS = [
   { width: 20, points: [[668,740],[695,722],[712,690]] },
 ];
 const SOUTH_FOREGROUND_ROCKS=[[315,850],[395,829],[490,850],[515,941],[300,941]];
-export function isArtWalkable(x,y) {
+export function isArtWalkable(x,y,{terrain=true,domain=true}={}) {
+  if(!domain&&x>ART_WIDTH)return false;
   if (!Number.isFinite(x)||!Number.isFinite(y)||x<0||y<0||x>DOMAIN_ART_WIDTH||y>ART_HEIGHT) return false;
   const artY=y;y-=joinDepthShift(x);
   if(x>1440&&EAST_PATH_CENTER.slice(1).some((b,i)=>segmentDistance(x,y,EAST_PATH_CENTER[i],b)<=24))return domainContains(toWorld(x,artY),.26);
   if(x>=EAST_LAYOUT.terraceX)return EAST_TERRACE_WALK.some(p=>inPolygon(x-EAST_LAYOUT.terraceX,y,p))&&domainContains(toWorld(x,artY),.26);
   if(x>ART_WIDTH||y<407)return false;
   if(inPolygon(x,y,SOUTH_FOREGROUND_ROCKS))return false;
-  if (!courtyardTerrainPointClear(toWorld(x,artY))) return false;
+  if (terrain&&!courtyardTerrainPointClear(toWorld(x,artY))) return false;
   return WALK_POLYGONS.some(p=>inPolygon(x,y,p)) || CORRIDORS.some(c=>c.points.slice(1).some((b,i)=>segmentDistance(x,y,c.points[i],b)<=c.width));
 }
 const distance = (a,b) => Math.hypot(a.x-b.x,a.y-b.y);
-function artSegmentClear(a,b) {
+function artSegmentClear(a,b,options) {
   const wa=toWorld(a.x,a.y),wb=toWorld(b.x,b.y);
-  if(!courtyardTerrainSegmentClear(wa,wb))return false;
+  if(options?.terrain!==false&&!courtyardTerrainSegmentClear(wa,wb))return false;
   const n=Math.max(1,Math.ceil(distance(a,b)/3),Math.ceil(distance(wa,wb)/.05));
   for(let i=0;i<=n;i++) {
     const p=toArt(lerp(wa.x,wb.x,i/n),lerp(wa.y,wb.y,i/n));
-    if(!isArtWalkable(lerp(a.x,b.x,i/n),lerp(a.y,b.y,i/n))||!isArtWalkable(p.x,p.y))return false;
+    if(!isArtWalkable(lerp(a.x,b.x,i/n),lerp(a.y,b.y,i/n),options)||!isArtWalkable(p.x,p.y,options))return false;
   }
   return true;
 }
 const GRID=8, COLS=Math.floor(DOMAIN_ART_WIDTH/GRID)+1, ROW_COUNT=Math.floor(ART_HEIGHT/GRID)+1;
-let grid;
-function walkGrid() {
-  if (!grid) {
-    grid=new Uint8Array(COLS*ROW_COUNT);
-    for(let j=0;j<ROW_COUNT;j++) for(let i=0;i<COLS;i++) grid[j*COLS+i]=isArtWalkable(i*GRID,j*GRID)?1:0;
+const grids=new Map();
+function walkGrid(options) {
+  const key=`${options?.terrain!==false}:${options?.domain!==false}`;
+  if (!grids.has(key)) {
+    const grid=new Uint8Array(COLS*ROW_COUNT);
+    for(let j=0;j<ROW_COUNT;j++) for(let i=0;i<COLS;i++) grid[j*COLS+i]=isArtWalkable(i*GRID,j*GRID,options)?1:0;
+    grids.set(key,grid);
   }
-  return grid;
+  return grids.get(key);
 }
 const gridPoint = n => ({x:n%COLS*GRID,y:Math.floor(n/COLS)*GRID});
-function nearbyNode(p) {
-  const cells=walkGrid(),ix=Math.round(p.x/GRID),iy=Math.round(p.y/GRID);
+function nearbyNode(p,options) {
+  const cells=walkGrid(options),ix=Math.round(p.x/GRID),iy=Math.round(p.y/GRID);
   let result=-1,best=Infinity;
   for(let y=Math.max(0,iy-3);y<=Math.min(ROW_COUNT-1,iy+3);y++) for(let x=Math.max(0,ix-3);x<=Math.min(COLS-1,ix+3);x++) {
     const id=y*COLS+x,q=gridPoint(id),d=distance(p,q);
-    if(cells[id]&&d<best&&artSegmentClear(p,q)){best=d;result=id;}
+    if(cells[id]&&d<best&&artSegmentClear(p,q,options)){best=d;result=id;}
   }
   return result;
 }
@@ -213,29 +216,30 @@ function attachEastRoad(art){
   }
   return best;
 }
-function eastRoadRoute(from,to,maxStep){
+function eastRoadRoute(from,to,maxStep,options){
   const a=attachEastRoad(from),b=attachEastRoad(to),start=toArt(a.point.x,a.point.y),end=toArt(b.point.x,b.point.y);
-  const first=routeArt(from,start,{maxWaypointDistance:maxStep,useEastRoad:false}),last=routeArt(end,to,{maxWaypointDistance:maxStep,useEastRoad:false});
+  const first=routeArt(from,start,{...options,maxWaypointDistance:maxStep,useEastRoad:false}),last=routeArt(end,to,{...options,maxWaypointDistance:maxStep,useEastRoad:false});
   if(!first||!last)return null;
   const direction=Math.sign(b.index-a.index),inner=COURTYARD_EAST_ROAD.map((p,index)=>({p,index})).filter(({index})=>index>Math.min(a.index,b.index)&&index<Math.max(a.index,b.index));
   if(direction<0)inner.reverse();
   const middle=shortWaypoints([start,...inner.map(({p})=>toArt(p.x,p.y)),end],maxStep);
-  if(!middle.every(p=>isArtWalkable(p.x,p.y)))return null;
+  if(!middle.every(p=>isArtWalkable(p.x,p.y,options)))return null;
   return [...first,...middle,...last];
 }
 /** Return art waypoints excluding the starting point; null means unavailable.
  * Execute one corresponding official world move at a time, waiting for arrival.
  */
-export function routeArt(from,to,{maxWaypointDistance=18,useEastRoad=true}={}) {
-  if(!finitePoint(from)||!finitePoint(to)||!isArtWalkable(from.x,from.y)||!isArtWalkable(to.x,to.y))return null;
+export function routeArt(from,to,{maxWaypointDistance=18,useEastRoad=true,terrain=true,domain=true}={}) {
+  const options={terrain,domain};
+  if(!finitePoint(from)||!finitePoint(to)||!isArtWalkable(from.x,from.y,options)||!isArtWalkable(to.x,to.y,options))return null;
   if(!Number.isFinite(maxWaypointDistance)||maxWaypointDistance<=0) return null;
   const maxStep=Math.min(18,maxWaypointDistance);
   if(distance(from,to)<.001)return [];
   if(useEastRoad&&Math.max(from.x,to.x)>ART_WIDTH&&Math.min(from.x,to.x)<EAST_LAYOUT.terraceX){
-    const road=eastRoadRoute(from,to,maxStep);if(road)return road;
+    const road=eastRoadRoute(from,to,maxStep,options);if(road)return road;
   }
-  if(artSegmentClear(from,to))return shortWaypoints([from,to],maxStep);
-  const start=nearbyNode(from),goal=nearbyNode(to),cells=walkGrid();
+  if(artSegmentClear(from,to,options))return shortWaypoints([from,to],maxStep);
+  const start=nearbyNode(from,options),goal=nearbyNode(to,options),cells=walkGrid(options);
   if(start<0||goal<0)return null;
   const g=new Float64Array(cells.length).fill(Infinity),previous=new Int32Array(cells.length).fill(-1),closed=new Uint8Array(cells.length),open=[];
   g[start]=0;push(open,{id:start,f:distance(gridPoint(start),to)});
@@ -245,14 +249,14 @@ export function routeArt(from,to,{maxWaypointDistance=18,useEastRoad=true}={}) {
       const indices=[];for(let at=goal;at!==start;at=previous[at])indices.push(at);indices.reverse();
       const raw=[from,gridPoint(start),...indices.map(gridPoint),to],simple=[from];
       let at=0;
-      while(at<raw.length-1){let next=at+1;while(next+1<raw.length&&artSegmentClear(raw[at],raw[next+1]))next++;simple.push(raw[next]);at=next;}
+      while(at<raw.length-1){let next=at+1;while(next+1<raw.length&&artSegmentClear(raw[at],raw[next+1],options))next++;simple.push(raw[next]);at=next;}
       return shortWaypoints(simple,maxStep);
     }
     const x=id%COLS,y=Math.floor(id/COLS),a=gridPoint(id);
     for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++){
       if(!dx&&!dy)continue;const nx=x+dx,ny=y+dy;if(nx<0||ny<0||nx>=COLS||ny>=ROW_COUNT)continue;
       const next=ny*COLS+nx;if(!cells[next]||closed[next])continue;
-      const b=gridPoint(next);if(!artSegmentClear(a,b))continue;
+      const b=gridPoint(next);if(!artSegmentClear(a,b,options))continue;
       const score=g[id]+distance(a,b);if(score>=g[next])continue;
       g[next]=score;previous[next]=id;push(open,{id:next,f:score+distance(b,to)});
     }

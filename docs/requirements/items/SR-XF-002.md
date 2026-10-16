@@ -133,6 +133,7 @@ SR-XF-002-V01证据：tests/acceptance/ea-sr-contracts-acceptance.mjs；docs/des
 - tests/acceptance/ea-history-compare.mjs
 - docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。
 - docs/design/51-COURTYARD-MANAGEMENT-INTEGRATION.md；2026-10-15 U-149/R-49：四页与共用详情、单趟40份留苗搬运、落地回收和保存恢复接通；组件与相邻回归57/57，同一检查点真实桌面387.845秒13/13、最终包页面8/8、恢复链9/9，原生选择文件/预检/恢复及手动暂停已验。完整新档、规模、对话/突破、跨区施工、20分钟自主与Windows待接；完整D/I/V/R和AC状态保持。
+- docs/design/54-COURTYARD-OPENING-DEMO.md；2026-10-16 U-153：当前高清像素桌面正式空档接入灭门序章、落脚疗伤择卷与首次主殿营造。默认测试133/133、后增场景相关16/16、独立复核19/19；最终macOS包同一新档10/10（72.310秒，五处进程重启）、旧暂停档兼容5/5，页面/资源错误0。完整后续开局链、Windows与SR/AC状态保持。
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
@@ -150,5 +151,6 @@ SR-XF-002-V01证据：tests/acceptance/ea-sr-contracts-acceptance.mjs；docs/des
 - 2026-10-12：Issue #6：只对白名单纯历史事实与完成商旅行程做引用闭包保护的周期摘要；生产及普通旅行完整保留，旧档先完整校验、保存恢复及日凭证幂等继续成立。真实6/12/24/48小时A/B与局部回归见ISSUE-6-HISTORY-RETENTION；不推进整项SR/AC、真机或真人状态。
 - 2026-10-15：U-147接续P0—P2：新增两人小院可操作供给成长和保存/事务保护，登记局部实现与Node证据；实际UI/桌面未验，完整状态不推进。
 - 2026-10-15：U-149：接续远端main并完成当前山院管理和取消回收、保存恢复的局部桌面验证；完整状态保持。
+- 2026-10-16：U-153：补充桌面正式空档到主殿完工的局部实现与同档实机证据；完整需求和AC状态保持。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python scripts/requirements/sr-manager.py refresh`，不单独修改此派生页。

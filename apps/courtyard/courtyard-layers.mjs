@@ -5,6 +5,32 @@
 export const SOURCE_SIZE = Object.freeze({ width: 1672, height: 941 });
 import { EAST_LAYOUT, EAST_HOUSE_POLYGON } from './courtyard-east-layout.mjs';
 
+/** U-153 opening variants use the approved camera. Only these site regions
+ * replace the master painting; the rest of the environment stays unchanged. */
+export const OPENING_IMAGES = Object.freeze({
+  empty: 'opening-ground-v1.png',
+  shelter: 'opening-shelter-v1.png',
+  foundation: 'opening-hall-foundation-v1.png',
+  structure: 'opening-hall-structure-v1.png',
+  finishing: 'opening-hall-finishing-v1.png',
+});
+export const OPENING_HALL_PATCH = Object.freeze([
+  [250,38],[1000,38],[1000,355],[844,445],[414,445],[415,311],
+  [355,301],[265,283],[244,258],[275,230],[259,208],
+]);
+export const OPENING_FIELD_PATCH = Object.freeze([
+  [233,550],[315,579],[400,598],[546,631],[684,667],[688,794],
+  [622,851],[548,898],[359,901],[211,860],[87,805],[84,725],
+  [143,679],[187,624],
+]);
+export const OPENING_SHELTER = Object.freeze({
+  crop: [96,90,1416,844], foot: [645,794], width: 190,
+  silhouette: [[68,740],[200,415],[195,120],[249,83],[250,5],[310,5],
+    [315,105],[1180,160],[1180,60],[1250,55],[1260,152],[1300,175],
+    [1300,211],[1260,236],[1375,774],[1345,790],[1260,765],
+    [1250,830],[1190,830],[1175,800],[1030,810],[965,815],[740,777],[250,770]],
+});
+
 const frame = (crop, foot, sourceHeight) => ({ crop, foot, sourceHeight });
 const rail = (id, a, b, width, feetY) => {
   const length = Math.hypot(b[0] - a[0], b[1] - a[1]);

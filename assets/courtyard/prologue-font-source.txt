@@ -1,0 +1,15 @@
+开局字体来源
+
+文件：prologue-serif.ttf
+字体内部名称：Noto Serif SC Regular
+字体内部版权声明：(c) 2017-2024 Adobe (http://www.adobe.com/).
+
+本文件逐字节复制自本仓库 assets/web/opening-serif.ttf。
+与 archive/godot/estate_2d/assets/opening-serif.ttf 的 SHA-256 一致：
+bee378bf62ead97dd3c107c127aba042a125cbe88341fc0545c41fba5a945034
+
+许可：SIL Open Font License 1.1。
+随附 OFL-Noto-Serif-SC.txt 逐字节复制自
+archive/godot/estate_2d/assets/OFL-Noto-Serif-SC.txt。
+
+本批复用现有字体文件与许可，未修改字体内容。

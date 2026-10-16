@@ -268,6 +268,10 @@
     {
       "path": "docs/design/53-COURTYARD-AUTONOMY-ACCEPTANCE.md",
       "role": "same-world-autonomy-endurance-acceptance"
+    },
+    {
+      "path": "docs/design/54-COURTYARD-OPENING-DEMO.md",
+      "role": "desktop-opening-and-demo-evidence"
     }
   ],
   "taskRead": {
@@ -590,8 +594,8 @@
     "actualSaveVersionAtAuditNote": "Historical pre-schema6 audit; current schema and local state are recorded in currentDevelopment."
   },
   "execution": {
-    "scopeThisDelivery": "U-152-engineering-reorganization-and-source-delivery",
-    "runtimeDeployment": "local-desktop-and-web-verified-source-delivery-pending",
+    "scopeThisDelivery": "U-153-desktop-opening-through-first-hall-and-continuous-demo",
+    "runtimeDeployment": "local-macos-final-package-verified",
     "requiresRepositoryContext": true,
     "recommendedDoesNotMeanUserApproved": true,
     "targetDesignDoesNotMeanImplemented": true
@@ -1050,7 +1054,8 @@
         160,
         96
       ],
-      "evidence": "docs/design/52-EAST-TERRACE-INTEGRATION.md"
+      "evidence": "docs/design/52-EAST-TERRACE-INTEGRATION.md",
+      "openingEvidence": "docs/design/54-COURTYARD-OPENING-DEMO.md"
     }
   },
   "requirementsManagement": {
@@ -1507,7 +1512,7 @@
     "currentDeliveryPlatform": "desktop",
     "currentPrimaryPlatform": "Windows",
     "currentInitialValidationPlatform": "macOS",
-    "currentDesktopMigrationStatus": "courtyard-management-east-autonomy-implemented-full-new-game-pending",
+    "currentDesktopMigrationStatus": "opening-through-first-hall-management-east-autonomy-macos-verified-full-frontier-chain-pending",
     "currentCombatDecisionId": "U-127",
     "currentCombatTarget": "large-scene-multiple-actors-realtime-skill-cooldowns",
     "currentCombatExpansionStatus": "16-32-actor-trail-macos-verified",
@@ -1849,7 +1854,12 @@
       "sourceCommit": "d92898a4e3b52298bf1c575a5882f207670b380d",
       "webSourceCommit": "72875dc32f653926635ba7a3109550a1e4397b34",
       "pagesCommit": "b3b002822cb9bf6e40aa29c8f754c17242705e7b"
-    }
+    },
+    "currentOpeningDemo": "docs/design/54-COURTYARD-OPENING-DEMO.md",
+    "currentOpeningDemoDecisionId": "U-153",
+    "currentOpeningDemoStatus": "implemented-macos-package-verified-continuous-video-delivered",
+    "currentOpeningDemoEvidence": "/Volumes/Media/immortal-qa/opening-demo-20261016/package-1/report.json",
+    "currentOpeningDemoVideo": "/Volumes/Media/immortal-qa/opening-demo-20261016/delivery/余烬立山-开局实机.mp4"
   },
   "characterDialogue": {
     "decisionId": "U-125",

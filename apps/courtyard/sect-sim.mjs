@@ -3,7 +3,7 @@ import * as SIM from '../../src/simulation/ea-opening-sim.mjs';
 import { projectGodotWorld } from '../../src/simulation/ea-godot-bridge.mjs';
 import { godotMoveCommand } from '../../src/simulation/ea-godot-world.mjs';
 import { SECT_DOMAIN, DOMAIN_EXTENT_VERSION } from '../../src/simulation/ea-sect-domain.mjs';
-import { spatialBounds } from '../../src/simulation/ea-sr-spatial.mjs';
+import { spatialAccess, spatialBounds } from '../../src/simulation/ea-sr-spatial.mjs';
 import { workOpportunity } from '../../src/simulation/ea-life.mjs';
 import { openingCombatProfile } from '../../src/simulation/ea-opening-inheritance.mjs';
 import { breakthroughView } from '../../src/simulation/ea-sr-cultivation.mjs';
@@ -11,6 +11,8 @@ import { facilitySlots } from '../../src/simulation/ea-facility-slots.mjs';
 import { scenicFindPath, scenicNearest } from '../../src/simulation/ea-scene-geometry.mjs';
 import { COURTYARD_MASTER_TERRAIN_VERSION } from '../../src/simulation/ea-courtyard-master-terrain.mjs';
 import seed from './sect-seed.mjs';
+import { OPENING_SOURCE_KIND, isOpeningSession, openingStage, openingView } from './sect-opening.mjs';
+export { openingView } from './sect-opening.mjs';
 
 export const SECT_FORMAT = 'pixel-sect-session';
 export const SECT_VERSION = 1;
@@ -209,9 +211,24 @@ export function createSectSession({ policy = {}, source = seed } = {}) {
   syncControl(session);
   return session;
 }
+export function createOpeningSectSession({ name } = {}) {
+  const initialOptions = { sr: true, mountainOpening: true, ...(name === undefined ? {} : { name }) };
+  const state = SIM.initial(initialOptions);
+  const session = createSectSession({ source: { state, provenance: {
+    kind: OPENING_SOURCE_KIND, initialTick: state.worldTick, initialOptions,
+    rulesetVersion: state.rulesetVersion
+  } } });
+  session.reason = '先读完序章，在云岫山中落脚。';
+  return session;
+}
 export function commandSect(session, request) {
   try {
     if (!request || typeof request !== 'object') throw Error('操作格式无效。');
+    const stage = openingStage(session), openingActive = isOpeningSession(session) && stage !== 'complete';
+    if (openingActive && ['auto', 'return-auto'].includes(request.type)) throw Error('先完成落脚、疗伤与主殿营造，再交由掌门自主安排。');
+    if (openingActive && ['intro', 'inheritance'].includes(stage) && !['opening-intro', 'choose-inheritance', 'pause', 'manual', 'policy'].includes(request.type)) {
+      throw Error(stage === 'intro' ? '先读完序章，在山中落脚。' : '先确定遗卷传承。');
+    }
     if (request.type === 'policy') {
       session.policy = checkedPolicy({ ...session.policy, ...(request.policy || request.value || {}) });
       session.automation.nextDecisionTick = session.state.worldTick;
@@ -244,9 +261,28 @@ export function commandSect(session, request) {
       return result;
     }
     let command, reason, replacesBody = false, actorId = MASTER;
-    if (request.type === 'move') { command = movementCommand(session.state, request.x, request.y); reason = '掌门按玩家指定的位置实际行走。'; replacesBody = true; }
+    if (request.type === 'opening-intro') {
+      if (!isOpeningSession(session) || stage !== 'intro') throw Error('序章已经读完。');
+      if (request.complete === true) {
+        if (session.state.story.onboarding.introPage !== 2) throw Error('先读至序章最后一幕。');
+        command = { name: 'acknowledgeIntro', args: [] }; reason = '带着母亲的包裹，在云岫山中落脚。';
+      } else { command = { name: 'setIntroPage', args: [request.page] }; reason = '继续读序章。'; }
+    }
+    else if (request.type === 'choose-inheritance') {
+      if (!isOpeningSession(session) || stage !== 'inheritance') throw Error('此刻没有待择的传承。');
+      command = { name: 'chooseOpeningInheritance', args: [request.lineage] }; reason = '遗卷传承已经确定，继续调息养伤。';
+    }
+    else if (request.type === 'establish-hall') {
+      const opening = openingView(session);
+      if (!opening.enabled || !opening.canEstablishHall) throw Error(opening.hallReason || '先完成开局疗伤与择卷。');
+      command = { name: 'establishHall', args: [] }; reason = '已确认营造主殿，掌门开始按实际路线运料施工。';
+    }
+    else if (request.type === 'move') { command = movementCommand(session.state, request.x, request.y); reason = '掌门按玩家指定的位置实际行走。'; replacesBody = true; }
     else if (['rest', 'cultivate'].includes(request.type)) { command = { name: 'masterAction', args: [request.type] }; reason = request.type === 'rest' ? '掌门按玩家指令休整。' : '掌门按玩家指令修炼。'; replacesBody = true; }
-    else if (request.type === 'heal') { command = { name: 'masterAction', args: ['heal'] }; reason = '掌门使用公库六份灵草，按正式疗伤规则休养。'; }
+    else if (request.type === 'heal') {
+      if (openingActive && !openingView(session).canHeal) throw Error(openingView(session).healReason);
+      command = { name: 'masterAction', args: ['heal'] }; reason = '掌门使用公库六份灵草，按正式疗伤规则休养。';
+    }
     else if (request.type === 'study') {
       if (!session.state.doctrine.books.includes(request.artId) || !SIM.TECHNIQUES[request.artId]) throw Error('尚不能实际接触该典籍。');
       command = { name: 'masterStudy', args: [request.artId] }; reason = `掌门到真实阅卷席研习《${SIM.TECHNIQUES[request.artId].name}》。`;
@@ -286,13 +322,17 @@ export function commandSect(session, request) {
     const trial = restoreSect(snapshotSect(session));
     let consequences = null;
     if (replacesBody) { const cancelled = cancelMaster(trial); if (!cancelled.ok) return cancelled; consequences = cancelled.consequences || null; }
+    if (request.type === 'establish-hall' && trial.state.story.step === 0) {
+      const healed = publicCommand(trial, 'advanceStory', [], { reason: '伤势已愈，带着家传在云岫立足。' });
+      if (!healed.ok) return healed;
+    }
     const result = publicCommand(trial, command.name, command.args, { reason, actorId });
     // A refusal is a committed NPC answer, not a failed transaction. Keep it so
     // repeated invitations and reloads cannot reroll the same conditions.
     if (result.ok || request.type === 'invite-work' && result.refused) {
       trial.control = { mode: 'manual', idleMs: 0 };
       syncControl(trial);
-      if (['move', 'rest', 'cultivate', 'study', 'heal', 'harvest', 'transport', 'replenish', 'build-site'].includes(request.type)) {
+      if (['move', 'rest', 'cultivate', 'study', 'heal', 'harvest', 'transport', 'replenish', 'build-site', 'establish-hall'].includes(request.type)) {
         trial.automation.activeAction = request.type === 'move' ? 'manual-walk' : null;
       }
       if (request.type === 'toggle-building') {
@@ -312,14 +352,18 @@ export function commandSect(session, request) {
 }
 export function advanceSect(session, seconds) {
   if (!finite(seconds, 0, 86400)) throw Error('推进时间须为0至86400秒。');
+  if (isOpeningSession(session) && ['intro', 'inheritance'].includes(openingStage(session))) return session;
   if (session.state.speed === 0) return session;
   session.carrySeconds = Math.round((session.carrySeconds + seconds) * 1e10) / 1e10;
   const steps = Math.floor((session.carrySeconds + 1e-9) / SECT_TICK_SECONDS);
   session.carrySeconds = Math.max(0, Math.round((session.carrySeconds - steps * SECT_TICK_SECONDS) * 1e10) / 1e10);
   for (let i = 0; i < steps && session.state.speed !== 0; i++) {
+    const openingActive = isOpeningSession(session) && openingStage(session) !== 'complete';
+    if (openingActive) session.control = { mode: 'manual', idleMs: 0 };
     syncControl(session);
     SIM.tick(session.state, SECT_TICK_SECONDS);
-    if (session.control.mode === 'manual') {
+    if (openingActive) session.control = { mode: 'manual', idleMs: 0 };
+    else if (session.control.mode === 'manual') {
       session.control.idleMs = Math.min(30000, session.control.idleMs + 100);
       if (session.control.idleMs === 30000) session.control.mode = 'auto';
     }
@@ -345,9 +389,16 @@ function checkedSect(input) {
   assert(typeof input.reason === 'string' && input.totals && Object.values(input.totals).every(n => Number.isSafeInteger(n) && n >= 0), '自主原因与计数');
   assert(input.baseline && Number.isSafeInteger(input.baseline.tick) && input.baseline.tick >= 0, '起始世界步');
   assert([null, 'goal', 'source'].includes(input.automation.parkedReason), '药田暂停原因');
-  assert(input.provenance?.kind === 'normal-public-command-checkpoint' && typeof input.provenance.stateSha256 === 'string', '起始存档来源');
+  const provenance = input.provenance;
+  const initialSource = provenance?.kind === OPENING_SOURCE_KIND && provenance.initialTick === 0 &&
+    provenance.initialOptions?.sr === true && provenance.initialOptions?.mountainOpening === true &&
+    Object.keys(provenance.initialOptions).every(key => ['sr', 'mountainOpening', 'name'].includes(key)) &&
+    (provenance.initialOptions.name === undefined || typeof provenance.initialOptions.name === 'string' && provenance.initialOptions.name.trim().length > 0 && provenance.initialOptions.name.trim().length <= 20) &&
+    typeof provenance.rulesetVersion === 'string';
+  assert(initialSource || provenance?.kind === 'normal-public-command-checkpoint' && typeof provenance.stateSha256 === 'string', '起始存档来源');
   const result = clone(input);
   result.state = SIM.validateSave(input.state);
+  if (initialSource) assert(result.baseline.tick === 0 && result.state.story.opening && result.state.story.onboarding, '正式开局记录');
   assert(result.baseline.tick <= result.state.worldTick, '起始世界步超出当前时间');
   for (const key of ['managedFarmId', 'parkedFarmId']) assert(result.automation[key] === null || result.state.buildingsById[result.automation[key]]?.type === 'farm', '自主药田引用');
   assert(result.automation.parkedFarmId === null || result.automation.parkedFarmId === result.automation.managedFarmId, '药田暂停权限');
@@ -700,7 +751,10 @@ export function viewSect(session) {
     policy: clone(session.policy), control: clone(session.control), reason: session.reason,
     resources: clone(s.stockpilesById[HOME].resources), baseline: clone(session.baseline),
     people: view.people.map(p => { const official = s.personsById[p.id], body = p.id === MASTER ? official : official.mind, activity = s.activitiesById[official.activityId]; return { ...clone(p), resident: members.has(p.id), path: clone(body.scenic?.path || []), energy: official.energy, wound: official.wound, xp: official.xp, realm: official.realm, activityId: official.activityId, activityDetail: activity ? { id: activity.id, kind: activity.kind, phase: activity.phase, reason: activity.reason || s.workOrdersById[activity.workOrderId]?.reason || body.reason || '', target: clone(activity.target || null), progressTicks: activity.progressTicks ?? null, durationTicks: activity.durationTicks ?? null } : null, reason: p.id === MASTER ? session.reason : body.reason || official.schedule?.lastReason || '' }; }),
-    buildings: view.buildings.map(b => ({ ...clone(b), enabled: s.buildingsById[`building:yunxiu:${b.id}`]?.enabled !== false })), masterPath: clone(view.masterPath), crop: clone(view.herbTerrace),
+    buildings: view.buildings.map(b => {
+      const official = s.buildingsById[`building:yunxiu:${b.id}`];
+      return { ...clone(b), enabled: official?.enabled !== false, entrance: official ? clone(spatialAccess(official)) : null };
+    }), masterPath: clone(view.masterPath), crop: clone(view.herbTerrace),
     stockpiles: knownStocks.filter(id => s.stockpilesById[id]).map(id => { const st = s.stockpilesById[id]; return { id, resources: clone(st.resources), position: clone(st.carrierId ? { sceneId: s.personsById[st.carrierId].position.sceneId, ...s.personsById[st.carrierId].scenic } : st.position), capacity: st.capacity, buildingId: st.buildingId || null }; }),
     patches: clone(s.srEconomy.patches), budget: { ...clone(session.budget), remaining: Math.max(0, session.policy.spendingCap - session.budget.spent), label: '自主整备灵石额度', scope: '掌门自主发起的来源恢复支出；宗门日常供给和生产工资继续按正式规则结算。' },
     economy: { expenses: clone(s.economy.expense), previousExpenses: clone(s.economy.previous.expense), starvation: s.economy.starvation, productionWages: Object.values(s.factsById).filter(f => f.operation === 'production' && f.atTick >= session.baseline.tick).reduce((total, f) => total + (f.wagesFromPublic || 0), 0) },
@@ -710,6 +764,6 @@ export function viewSect(session) {
       carrierName: s.personsById[w.carrierId]?.name || '承运者', stageLabel: ({ 'to-source': '前往取货', carrying: '已取货，正在送达', delivered: '已送达', cancelled: '已中止' })[w.phase],
       returnedTo: w.returnedTo || null, returnedToLabel: w.returnedTo ? stockLabel(s, w.returnedTo) : null, cargo: clone(w.cargo), reason: w.reason })),
     targetMet: s.stockpilesById[HOME].resources.herb >= session.policy.herbTarget,
-    operations: operationsView(s, view)
+    operations: operationsView(s, view), opening: openingView(session)
   };
 }

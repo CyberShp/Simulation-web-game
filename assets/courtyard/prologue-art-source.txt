@@ -1,0 +1,16 @@
+云岫山院开局图像来源 · 2026-10-16
+
+工具：内置 image_gen；本批生成，复制为运行素材。
+尺寸：两张均为 1672 × 941 像素。
+
+1. prologue-rain-v1.png
+生成输出：01a144fa-7c34-7e12-8d0a-7a57d302b307/exec-3b95f9d9-c355-4d76-8707-ce4733e86a93.png
+SHA-256：25e08f5c31d061cbea92f3f261eb985208878f55d950e59b21fdd963a274492e
+完整提示词：
+Use case: illustration-story. Asset type: a wide 16:9 cinematic prologue background for a high-definition 2D Chinese xianxia pixel-art desktop game, image only, no text or UI. Scene: a rain-soaked Chinese mountain clan residence during a night assault, a partially burning blue-gray tiled wooden gateway in the middle distance, copper-red embers among dark blue-green pine trees. A small distant father figure in traditional robes stands at the gateway holding a broken defensive magic formation, while in the lower right a mother in muted robes guides her young adult son in blue-white robes onto a wet stone mountain escape path, with one worn cloth bundle in the son's hands. Their faces are indistinct at this scale. Convey parents shielding an escape through composition, with no graphic injury. Highly crafted fine-pixel artwork, crisp clustered square-pixel edges and dense hand-placed details in roof tiles, old stone, rain and pine needles; nuanced muted gray-blue-green palette with restrained warm firelight. Large establishing landscape, dramatic layering and cinematic atmosphere, realistic adult body proportions at small scale. Leave the lower left third darker and visually quiet for separately overlaid story text. No lettering, no captions, no border, no logos, no interface.
+
+2. prologue-scroll-v1.png
+生成输出：01a144fa-7c34-7e12-8d0a-7a57d302b307/exec-713d3f6b-8ec1-4b4d-a2d3-f9385abb609b.png
+SHA-256：9e8cc2910bba084ddac19f41173fdd9ae5919f211b21b0b77d73d5278eaa3658
+完整提示词：
+Use case: illustration-story. Asset type: a wide 16:9 cinematic background for choosing a single inherited scroll in a high-definition 2D Chinese xianxia pixel-art desktop game. Image only. Inside a humble old mountain refuge before dawn, a single ancient tightly rolled parchment scroll lies diagonally on an opened worn indigo cloth bundle, on a rough pinewood table in the LEFT half of the image. One scroll total, tied with faded ochre thread, warm ivory paper edge and dark wood end caps, no writing visible. A small clay medicine bowl and a few fresh green herb leaves near the table's lower edge imply healing. Behind it, the open wooden window reveals soft gray-blue-green pine mountains in light rain, one small warm oil lamp at far left. The RIGHT half of the frame is predominantly quiet dark desaturated pine-green wall and shadow for separately overlaid selection text. Premium fine-pixel game art: crisp tiny square-pixel clusters, dense deliberate details, subtly stepped edges, rich material texture, atmospheric blue-green shadows and restrained amber highlights, fully 2D artwork. Mood: grief, survival and careful inheritance. No characters, no extra scrolls, no loose pages, no text, no symbols, no labels, no UI, no borders, no logos. Composition is an object still life with the scroll clearly readable and not cut off.

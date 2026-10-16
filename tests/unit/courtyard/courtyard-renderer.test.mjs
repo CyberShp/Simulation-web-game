@@ -1,8 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { observeActorDisplay, CourtyardRenderer } from '../../../apps/courtyard/courtyard-renderer.mjs';
+import { observeActorDisplay, CourtyardRenderer, courtyardSceneStages, openingShelterPlacement } from '../../../apps/courtyard/courtyard-renderer.mjs';
 import { toArt } from '../../../apps/courtyard/courtyard-space.mjs';
-import { createSectSession, viewSect, snapshotSect } from '../../../apps/courtyard/sect-sim.mjs';
+import { createSectSession, createOpeningSectSession, viewSect, snapshotSect } from '../../../apps/courtyard/sect-sim.mjs';
 
 const person = (x, y, path, indoor = false) => ({ id: 'person:test', x, y, path, indoor });
 const route = [{ x: 21, y: 20 }, { x: 21, y: 22 }, { x: 23, y: 22 }];
@@ -102,4 +102,42 @@ test('location focus changes only the camera and rejects unavailable positions',
   assert.equal(renderer.camera.zoom, 1.35);
   assert.equal(renderer.focusLocation({ focus: { x: null, y: null } }), false);
   assert.deepEqual(snapshotSect(session), before);
+});
+
+test('a formal fresh arrival shows its shelter and unbuilt garden at the actual entrance', () => {
+  const session=createOpeningSectSession(),before=snapshotSect(session),view=viewSect(session);
+  assert.deepEqual(courtyardSceneStages(view),{hall:'shelter',farm:'unbuilt'});
+  const hall=view.buildings.find(b=>b.type==='hall'),placement=openingShelterPlacement(hall);
+  assert.deepEqual(placement.foot,toArt(hall.entrance.x,hall.entrance.y));
+  assert.deepEqual(placement.foot,{x:680,y:407});
+  const renderer=rendererFixture();renderer.view=view;
+  assert.equal(renderer.occluders().some(o=>o.id.startsWith('hall-')||o.id.startsWith('herb-')),false);
+  assert.equal(renderer.pickBuilding(placement.x+placement.width/2,placement.y+placement.height/2)?.id,hall.id);
+  assert.equal(renderer.pickBuilding(680,150),null);
+  assert.deepEqual(snapshotSect(session),before);
+});
+
+test('construction phases and completed field state follow the public building facts', () => {
+  const renderer=rendererFixture(),hall={id:'1',type:'hall',stage:'foundation'};
+  renderer.view={buildings:[hall]};
+  for(const stage of ['foundation','structure','finishing','complete']){
+    hall.stage=stage;
+    assert.deepEqual(courtyardSceneStages(renderer.view),{hall:stage,farm:'unbuilt'});
+    assert.equal(renderer.occluders().some(o=>o.id==='hall-lion-left'),stage==='complete');
+    assert.equal(openingShelterPlacement(hall),null);
+  }
+  const farm={id:'2',type:'farm',stage:'foundation',cropVisual:'empty'};renderer.view.buildings.push(farm);
+  assert.equal(courtyardSceneStages(renderer.view).farm,'unbuilt');
+  farm.stage='complete';assert.equal(courtyardSceneStages(renderer.view).farm,'fallow');
+  farm.cropVisual='harvestable';assert.equal(courtyardSceneStages(renderer.view).farm,'planted');
+  assert.equal(renderer.occluders().some(o=>o.id==='herb-shelf'),true);
+});
+
+test('shelter occlusion keeps a person behind the cloth out of its visible hit region', () => {
+  const renderer=rendererFixture();renderer.view=viewSect(createOpeningSectSession());
+  const body={id:'person:behind',indoor:false};
+  renderer.hitRegions=[{person:body,p:{x:710,y:380},x:690,y:300,w:40,h:80}];
+  assert.deepEqual(renderer.pickPeople(710,350),[]);
+  renderer.hitRegions[0].p.y=420;
+  assert.equal(renderer.pickPeople(710,350)[0],body);
 });
