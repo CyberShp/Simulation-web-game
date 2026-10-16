@@ -4,8 +4,8 @@
 
 ## 资产
 
-- 文件：`godot/painted_courtyard/assets/characters.png`
-- 元数据：`godot/painted_courtyard/assets/characters.json`
+- 文件：`archive/godot/painted_courtyard/assets/characters.png`
+- 元数据：`archive/godot/painted_courtyard/assets/characters.json`
 - 尺寸：1254 × 1254，RGBA；6 列 × 6 行，每片 209 × 209。
 - 沈砚：象牙白外袍、青绿衣缘和腰带、深发高髻；陆知微：青绿工作衣、米白袖、深青腰带。
 - 每人有前向行走 6 帧、后向行走 6 帧、锄地 6 帧。左右朝向由同一脚点水平翻转；静止使用对应方向的第 2 帧。

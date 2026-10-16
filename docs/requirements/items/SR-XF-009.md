@@ -53,9 +53,9 @@ SR-XF-009-REQ-03：掌门可补足早期缺工；各阶段保留基础供给和�
 | SR-XF-009-AC-02 | 多人协作完成一批并重载 | 只产出规定数量，成本、技能与记忆按同一结果结算。 | passed |
 | SR-XF-009-AC-03 | 取消加工或原料被其他订单预留 | 区分可用/预留/已用量，余料返还一次且可继续其他合法活动。 | passed |
 
-SR-XF-009-AC-02证据：qa/ea-sr-009-shared-batch-public-acceptance.mjs；dist/ea-sr-economy.mjs；docs/design/STATUS.md
+SR-XF-009-AC-02证据：tests/acceptance/ea-sr-009-shared-batch-public-acceptance.mjs；src/simulation/ea-sr-economy.mjs；docs/design/STATUS.md
 
-SR-XF-009-AC-03证据：qa/ea-sr-009-reservation-competition-public-acceptance.mjs；qa/ea-sr-009-cancel-public-acceptance.mjs；docs/design/STATUS.md；2026-10-08 r24 局部丹炉：正常公开开局建炉/运草/成丹59命令、39次精确存读；v1及旧已付费迁移、取消余料一次返还、满仓同地同产权暂存、完成/取消坏事实拒载。根1/1、独立1/1，本地Chromium导入/刷新续档4/20。施工/装备和完整新档解锁未验，整项状态不提升。
+SR-XF-009-AC-03证据：tests/acceptance/ea-sr-009-reservation-competition-public-acceptance.mjs；tests/acceptance/ea-sr-009-cancel-public-acceptance.mjs；docs/design/STATUS.md；2026-10-08 r24 局部丹炉：正常公开开局建炉/运草/成丹59命令、39次精确存读；v1及旧已付费迁移、取消余料一次返还、满仓同地同产权暂存、完成/取消坏事实拒载。根1/1、独立1/1，本地Chromium导入/刷新续档4/20。施工/装备和完整新档解锁未验，整项状态不提升。
 
 2026-10-07局部修正：掌门采集与有限来源恢复在受伤、离位或低精力时明确paused，不再保留working伪装劳动；包裹满的采集也暂停而不扣有限来源。公开命令定向覆盖伤势、低精力、自然四批包裹满、精确存读与恢复3/3，离位分支尚未单独验证；经济52/52通过。完整配方/产能和SR-XF-009各AC仍未关闭。
 2026-10-07 M1正常成长链阻断修复：有来源正常档 tick404450 的商人精力9.706低于工坊收货门槛10，空闲长期不恢复，真实工序停在190/200。现在商人仅在院/坊市始末同场且无身体活动时每世界tick恢复0.3；出行或收货中不恢复。定向3/3、经济52/52；独立只读复核从该正常档克隆1200 tick内见两批实物收货/分别付款64.1923331328及64.503802176，商人减少与工坊增加逐笔相等，生产工资0.8另按公库和人物钱袋守恒；600 tick完整存读逐字一致。仅局部Node证据，不提升原AC或完整D/I/V/R。
@@ -86,9 +86,9 @@ SR-XF-009-AC-03证据：qa/ea-sr-009-reservation-competition-public-acceptance.m
 
 SR-XF-009-D01证据：docs/SECT-GROWTH-PLAN.md；docs/design/47-GOLDEN-CORE-ARTS-CATALOGUE-DRAFT.md；2026-10-15 U-145/R-45：169项修行内容草案、五脉续篇、获取替代、百艺阵法、暗线与特效；仅补设计证据，金丹运行与完整D/I/V/R、AC状态保持。；docs/design/48-GOLDEN-CORE-WORLD-ARTS-V02.md；2026-10-15 U-146/R-46：720项玩家/NPC世界修行库、72新增来源谱系，符箓蛊道心法攻防及获取特效补齐；仅设计字段、来源与引用检查，运行及完整D/I/V/R、AC状态保持。；docs/design/50-COURTYARD-UI-DESIGN-AUDIT.md；2026-10-15 U-148/R-48：四页及关联入口30项设计审查与7条后续场景；两处物流问题由正常命令复现，运行代码未修，实际UI未验，完整状态保持。
 
-SR-XF-009-I01证据：dist/ea-sr-economy.mjs；dist/ea-sr-persons.mjs；tests/ea-activity-truth.test.mjs；qa/ea-sr-economy-acceptance.mjs；2026-10-08 r19: qa/ea-sr-009-herb-crop-public-acceptance.mjs 5/5; adjacent production 5/5, facility and door 17/17, opt-in v2 work route 1/1; local Chromium memory import showed crop status and cancellation; source c9be1d476311a558e7a37a4e0305e5086b71a369, Pages 15ec91db21b8f4b37f30accdd5ac643e024a160d built；2026-10-08 r23: ordinary production recipe:v2 snapshots, old active v1 migration, tamper rejection and scoped independent replay; runtime main dc1ff06670f569be34f836580ce83c31f1c92150, Pages e7f6a8a55f2e7bbd74d33d6a33563d885bd17b27 built; construction/craft/equipment snapshots and full new-game unlock remain open；2026-10-08 r26 局部装备配方：七件配方的新制作单冻结投入、工时、槽位、关键实物 claim、来源仓及产权；旧活跃已付费制作单在克隆读档时一次迁移，旧已完成物品保持，坏快照或重复结果拒载。有来源正常公开命令百工坊 checkpoint（worldTick31820）实际备料、制作行山轻衣、开工前/后取消、25步旧活跃单接续及成品唯一事实；根专项1/1，10条补充公开命令、6次精确存读，界面17通过/4待设备。本地Chromium导入真实在制档，七件报价、进度及取消可见；零进度取消实点后灵石98→110、木11→17，控制台0错误/0警告（1条浏览器autocomplete提示）。源码94986d3、Pages fa17a3b built，162文本blob与两个公网模块字节匹配。基线新档建坊处旧门道候位读档差异另案处理；本批没有测试七件分别全链或施工配方/跨仓物流/完整新档解锁，SR009整体状态不提升。证据 qa/ea-sr-009-equipment-recipe-public-acceptance.mjs、/tmp/immortal-sr009-root-r26/.playwright-cli/page-2026-10-08T11-52-40-680Z.yml。；docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。
+SR-XF-009-I01证据：src/simulation/ea-sr-economy.mjs；src/simulation/ea-sr-persons.mjs；tests/unit/web/ea-activity-truth.test.mjs；tests/acceptance/ea-sr-economy-acceptance.mjs；2026-10-08 r19: tests/acceptance/ea-sr-009-herb-crop-public-acceptance.mjs 5/5; adjacent production 5/5, facility and door 17/17, opt-in v2 work route 1/1; local Chromium memory import showed crop status and cancellation; source c9be1d476311a558e7a37a4e0305e5086b71a369, Pages 15ec91db21b8f4b37f30accdd5ac643e024a160d built；2026-10-08 r23: ordinary production recipe:v2 snapshots, old active v1 migration, tamper rejection and scoped independent replay; runtime main dc1ff06670f569be34f836580ce83c31f1c92150, Pages e7f6a8a55f2e7bbd74d33d6a33563d885bd17b27 built; construction/craft/equipment snapshots and full new-game unlock remain open；2026-10-08 r26 局部装备配方：七件配方的新制作单冻结投入、工时、槽位、关键实物 claim、来源仓及产权；旧活跃已付费制作单在克隆读档时一次迁移，旧已完成物品保持，坏快照或重复结果拒载。有来源正常公开命令百工坊 checkpoint（worldTick31820）实际备料、制作行山轻衣、开工前/后取消、25步旧活跃单接续及成品唯一事实；根专项1/1，10条补充公开命令、6次精确存读，界面17通过/4待设备。本地Chromium导入真实在制档，七件报价、进度及取消可见；零进度取消实点后灵石98→110、木11→17，控制台0错误/0警告（1条浏览器autocomplete提示）。源码94986d3、Pages fa17a3b built，162文本blob与两个公网模块字节匹配。基线新档建坊处旧门道候位读档差异另案处理；本批没有测试七件分别全链或施工配方/跨仓物流/完整新档解锁，SR009整体状态不提升。证据 tests/acceptance/ea-sr-009-equipment-recipe-public-acceptance.mjs、/tmp/immortal-sr009-root-r26/.playwright-cli/page-2026-10-08T11-52-40-680Z.yml。；docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。
 
-SR-XF-009-V01证据：dist/ea-sr-economy.mjs；dist/ea-sr-persons.mjs；tests/ea-activity-truth.test.mjs；qa/ea-sr-economy-acceptance.mjs；qa/ea-sr-integration-acceptance.mjs；docs/design/STATUS.md；2026-10-08 r24 局部丹炉：正常公开开局建炉/运草/成丹59命令、39次精确存读；v1及旧已付费迁移、取消余料一次返还、满仓同地同产权暂存、完成/取消坏事实拒载。根1/1、独立1/1，本地Chromium导入/刷新续档4/20。施工/装备和完整新档解锁未验，整项状态不提升。；2026-10-08 r26 局部装备配方：七件配方的新制作单冻结投入、工时、槽位、关键实物 claim、来源仓及产权；旧活跃已付费制作单在克隆读档时一次迁移，旧已完成物品保持，坏快照或重复结果拒载。有来源正常公开命令百工坊 checkpoint（worldTick31820）实际备料、制作行山轻衣、开工前/后取消、25步旧活跃单接续及成品唯一事实；根专项1/1，10条补充公开命令、6次精确存读，界面17通过/4待设备。本地Chromium导入真实在制档，七件报价、进度及取消可见；零进度取消实点后灵石98→110、木11→17，控制台0错误/0警告（1条浏览器autocomplete提示）。源码94986d3、Pages fa17a3b built，162文本blob与两个公网模块字节匹配。基线新档建坊处旧门道候位读档差异另案处理；本批没有测试七件分别全链或施工配方/跨仓物流/完整新档解锁，SR009整体状态不提升。证据 qa/ea-sr-009-equipment-recipe-public-acceptance.mjs、/tmp/immortal-sr009-root-r26/.playwright-cli/page-2026-10-08T11-52-40-680Z.yml。；docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。
+SR-XF-009-V01证据：src/simulation/ea-sr-economy.mjs；src/simulation/ea-sr-persons.mjs；tests/unit/web/ea-activity-truth.test.mjs；tests/acceptance/ea-sr-economy-acceptance.mjs；tests/acceptance/ea-sr-integration-acceptance.mjs；docs/design/STATUS.md；2026-10-08 r24 局部丹炉：正常公开开局建炉/运草/成丹59命令、39次精确存读；v1及旧已付费迁移、取消余料一次返还、满仓同地同产权暂存、完成/取消坏事实拒载。根1/1、独立1/1，本地Chromium导入/刷新续档4/20。施工/装备和完整新档解锁未验，整项状态不提升。；2026-10-08 r26 局部装备配方：七件配方的新制作单冻结投入、工时、槽位、关键实物 claim、来源仓及产权；旧活跃已付费制作单在克隆读档时一次迁移，旧已完成物品保持，坏快照或重复结果拒载。有来源正常公开命令百工坊 checkpoint（worldTick31820）实际备料、制作行山轻衣、开工前/后取消、25步旧活跃单接续及成品唯一事实；根专项1/1，10条补充公开命令、6次精确存读，界面17通过/4待设备。本地Chromium导入真实在制档，七件报价、进度及取消可见；零进度取消实点后灵石98→110、木11→17，控制台0错误/0警告（1条浏览器autocomplete提示）。源码94986d3、Pages fa17a3b built，162文本blob与两个公网模块字节匹配。基线新档建坊处旧门道候位读档差异另案处理；本批没有测试七件分别全链或施工配方/跨仓物流/完整新档解锁，SR009整体状态不提升。证据 tests/acceptance/ea-sr-009-equipment-recipe-public-acceptance.mjs、/tmp/immortal-sr009-root-r26/.playwright-cli/page-2026-10-08T11-52-40-680Z.yml。；docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。
 
 ## 可进入开发的条件
 
@@ -114,25 +114,25 @@ SR-XF-009-V01证据：dist/ea-sr-economy.mjs；dist/ea-sr-persons.mjs；tests/ea
 
 - docs/requirements/design/SR-XF-007-011-019-026-027.md
 - docs/requirements/IMPLEMENTATION-2026-10-06.md
-- dist/ea-sr-economy.mjs
-- dist/ea-sr-persons.mjs
-- tests/ea-activity-truth.test.mjs
-- qa/ea-sr-economy-acceptance.mjs
-- tests/ea-merchant-idle-recovery.test.mjs
-- qa/ea-sr-integration-acceptance.mjs
+- src/simulation/ea-sr-economy.mjs
+- src/simulation/ea-sr-persons.mjs
+- tests/unit/web/ea-activity-truth.test.mjs
+- tests/acceptance/ea-sr-economy-acceptance.mjs
+- tests/unit/web/ea-merchant-idle-recovery.test.mjs
+- tests/acceptance/ea-sr-integration-acceptance.mjs
 - docs/design/STATUS.md
-- qa/ea-sr-009-production-gates-public-acceptance.mjs
-- dist/ea-sr-ui.mjs
-- qa/ea-sr-009-shared-batch-public-acceptance.mjs
-- qa/ea-sr-009-reservation-competition-public-acceptance.mjs
-- qa/ea-sr-009-cancel-public-acceptance.mjs
+- tests/acceptance/ea-sr-009-production-gates-public-acceptance.mjs
+- apps/web/ea-sr-ui.mjs
+- tests/acceptance/ea-sr-009-shared-batch-public-acceptance.mjs
+- tests/acceptance/ea-sr-009-reservation-competition-public-acceptance.mjs
+- tests/acceptance/ea-sr-009-cancel-public-acceptance.mjs
 - 2026-10-08 r23 普通生产 v2 配方快照：木场、采石、谷仓、藏经、井、百工坊、打坐的投入/产出/时长/技能及首位贡献者固定于开工单；旧活跃 v1 批次克隆时一次迁移，坏快照拒载，旧批在现行建筑定义变化后仍按原值唯一结算。独立复核新旧批与技能归属；根复跑共享生产1/1、门槛3/3、取消1/1、预留竞争1/1、生命11/11、邀请1/1。施工/丹炉/装备及完整新档解锁仍待，I01/V01/R01 不关闭。
 - 2026-10-08 r24 局部丹炉：正常公开开局建炉/运草/成丹59命令、39次精确存读；v1及旧已付费迁移、取消余料一次返还、满仓同地同产权暂存、完成/取消坏事实拒载。根1/1、独立1/1，本地Chromium导入/刷新续档4/20。施工/装备和完整新档解锁未验，整项状态不提升。
-- 2026-10-08 r26 局部装备配方：七件配方的新制作单冻结投入、工时、槽位、关键实物 claim、来源仓及产权；旧活跃已付费制作单在克隆读档时一次迁移，旧已完成物品保持，坏快照或重复结果拒载。有来源正常公开命令百工坊 checkpoint（worldTick31820）实际备料、制作行山轻衣、开工前/后取消、25步旧活跃单接续及成品唯一事实；根专项1/1，10条补充公开命令、6次精确存读，界面17通过/4待设备。本地Chromium导入真实在制档，七件报价、进度及取消可见；零进度取消实点后灵石98→110、木11→17，控制台0错误/0警告（1条浏览器autocomplete提示）。源码94986d3、Pages fa17a3b built，162文本blob与两个公网模块字节匹配。基线新档建坊处旧门道候位读档差异另案处理；本批没有测试七件分别全链或施工配方/跨仓物流/完整新档解锁，SR009整体状态不提升。证据 qa/ea-sr-009-equipment-recipe-public-acceptance.mjs、/tmp/immortal-sr009-root-r26/.playwright-cli/page-2026-10-08T11-52-40-680Z.yml。
+- 2026-10-08 r26 局部装备配方：七件配方的新制作单冻结投入、工时、槽位、关键实物 claim、来源仓及产权；旧活跃已付费制作单在克隆读档时一次迁移，旧已完成物品保持，坏快照或重复结果拒载。有来源正常公开命令百工坊 checkpoint（worldTick31820）实际备料、制作行山轻衣、开工前/后取消、25步旧活跃单接续及成品唯一事实；根专项1/1，10条补充公开命令、6次精确存读，界面17通过/4待设备。本地Chromium导入真实在制档，七件报价、进度及取消可见；零进度取消实点后灵石98→110、木11→17，控制台0错误/0警告（1条浏览器autocomplete提示）。源码94986d3、Pages fa17a3b built，162文本blob与两个公网模块字节匹配。基线新档建坊处旧门道候位读档差异另案处理；本批没有测试七件分别全链或施工配方/跨仓物流/完整新档解锁，SR009整体状态不提升。证据 tests/acceptance/ea-sr-009-equipment-recipe-public-acceptance.mjs、/tmp/immortal-sr009-root-r26/.playwright-cli/page-2026-10-08T11-52-40-680Z.yml。
 - docs/SECT-GROWTH-PLAN.md；2026-10-09 山域总图、五阶段迁移及统一原型的设计来源；当前运行验收待补。
 - docs/art/COURTYARD-VALLEY-2026-10-12.md
-- tests/ea-mountain-alchemy.test.mjs
-- qa/ea-sr-production-accounting-acceptance.mjs
+- tests/unit/web/ea-mountain-alchemy.test.mjs
+- tests/acceptance/ea-sr-production-accounting-acceptance.mjs
 - docs/design/ISSUE-5-PRODUCTION-ACCOUNTING.md
 - docs/art/OPENING-CHAIN-2026-10-12.md；2026-10-12 U-124：药圃首收、筹料建丹房、炉边交付10灵草并炼成2份回春散的普通新档完整路径。 仅增局部证据，完整 SR/AC 状态保持。
 - docs/art/OPENING-GUIDANCE-2026-10-13.md；2026-10-13 U-124：百艺明确携药与服用，炉边2→1、随身0→1且未消费；炼药正常命令与存读检查通过。 仅增局部证据，完整 SR/AC 状态保持。
@@ -142,8 +142,8 @@ SR-XF-009-V01证据：dist/ea-sr-economy.mjs；dist/ea-sr-persons.mjs；tests/ea
 - docs/design/50-COURTYARD-UI-DESIGN-AUDIT.md；2026-10-15 U-148/R-48：四页及关联入口30项设计审查与7条后续场景；两处物流问题由正常命令复现，运行代码未修，实际UI未验，完整状态保持。
 - docs/design/51-COURTYARD-MANAGEMENT-INTEGRATION.md；2026-10-15 U-149/R-49：四页与共用详情、单趟40份留苗搬运、落地回收和保存恢复接通；组件与相邻回归57/57，同一检查点真实桌面387.845秒13/13、最终包页面8/8、恢复链9/9，原生选择文件/预检/恢复及手动暂停已验。完整新档、规模、对话/突破、跨区施工、20分钟自主与Windows待接；完整D/I/V/R和AC状态保持。
 - docs/design/53-COURTYARD-AUTONOMY-ACCEPTANCE.md
-- qa/courtyard-autonomy-desktop.mjs
-- qa/courtyard-autonomy-audit.py
+- tests/acceptance/courtyard-autonomy-desktop.mjs
+- tests/acceptance/courtyard-autonomy-audit.py
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
@@ -159,7 +159,7 @@ SR-XF-009-V01证据：dist/ea-sr-economy.mjs；dist/ea-sr-persons.mjs；tests/ea
 - 2026-10-08：r19 implements seeded herb crop batches and exact old-active-batch compatibility; other versioned recipes, full early-game unlock and target-device acceptance remain open
 - 2026-10-08：r23 普通生产 v2 版本配方快照及旧活跃批次迁移发布、独立审读并局部验收；其余工单与完整 I/V/R 继续。
 - 2026-10-08：2026-10-08 r24 局部丹炉：正常公开开局建炉/运草/成丹59命令、39次精确存读；v1及旧已付费迁移、取消余料一次返还、满仓同地同产权暂存、完成/取消坏事实拒载。根1/1、独立1/1，本地Chromium导入/刷新续档4/20。施工/装备和完整新档解锁未验，整项状态不提升。
-- 2026-10-08：2026-10-08 r26 局部装备配方：七件配方的新制作单冻结投入、工时、槽位、关键实物 claim、来源仓及产权；旧活跃已付费制作单在克隆读档时一次迁移，旧已完成物品保持，坏快照或重复结果拒载。有来源正常公开命令百工坊 checkpoint（worldTick31820）实际备料、制作行山轻衣、开工前/后取消、25步旧活跃单接续及成品唯一事实；根专项1/1，10条补充公开命令、6次精确存读，界面17通过/4待设备。本地Chromium导入真实在制档，七件报价、进度及取消可见；零进度取消实点后灵石98→110、木11→17，控制台0错误/0警告（1条浏览器autocomplete提示）。源码94986d3、Pages fa17a3b built，162文本blob与两个公网模块字节匹配。基线新档建坊处旧门道候位读档差异另案处理；本批没有测试七件分别全链或施工配方/跨仓物流/完整新档解锁，SR009整体状态不提升。证据 qa/ea-sr-009-equipment-recipe-public-acceptance.mjs、/tmp/immortal-sr009-root-r26/.playwright-cli/page-2026-10-08T11-52-40-680Z.yml。
+- 2026-10-08：2026-10-08 r26 局部装备配方：七件配方的新制作单冻结投入、工时、槽位、关键实物 claim、来源仓及产权；旧活跃已付费制作单在克隆读档时一次迁移，旧已完成物品保持，坏快照或重复结果拒载。有来源正常公开命令百工坊 checkpoint（worldTick31820）实际备料、制作行山轻衣、开工前/后取消、25步旧活跃单接续及成品唯一事实；根专项1/1，10条补充公开命令、6次精确存读，界面17通过/4待设备。本地Chromium导入真实在制档，七件报价、进度及取消可见；零进度取消实点后灵石98→110、木11→17，控制台0错误/0警告（1条浏览器autocomplete提示）。源码94986d3、Pages fa17a3b built，162文本blob与两个公网模块字节匹配。基线新档建坊处旧门道候位读档差异另案处理；本批没有测试七件分别全链或施工配方/跨仓物流/完整新档解锁，SR009整体状态不提升。证据 tests/acceptance/ea-sr-009-equipment-recipe-public-acceptance.mjs、/tmp/immortal-sr009-root-r26/.playwright-cli/page-2026-10-08T11-52-40-680Z.yml。
 - 2026-10-09：2026-10-09 U-105 / R-32：当前需求更新为 1.1，山域设计关联 GROWTH-04、GROWTH-05、GROWTH-06、GROWTH-11。旧版 1.0 的标题、需求、AC原文/证据及D/I任务完成范围保存在 registry.json 的 version_history；当前重新记 not_run：SR-XF-009-AC-01。 当前D01继续补实施参数，D02及本版本I01待前置完成；development_status保留既有运行实现基线。未改变的已通过AC只沿用原行为及原运行环境证据，新增地域、布局与迁移流程按GROWTH另验。本批未执行运行时验收，未修改正式运行版本或发布状态。
 - 2026-10-12：2026-10-12 U-123：田边10份灵草实运到炉边，掌门单炉炼得回春散2份；炼药定向2／2。完整产能与供给链继续。 局部证据见 docs/art/COURTYARD-VALLEY-2026-10-12.md；整项 D/I/V/R 与 AC 状态不变。
 - 2026-10-12：2026-10-12 Issue #5：最新main6000秒实验16笔生产/14笔微量灵石，修复显式receipt、9位新计算精度、工资封顶、事务提交与运输严格余额。专项12/12，正常公开开局2/2、丹炉公开链1/1；旧数量和事实逐字保留，不推进完整SR状态。见 docs/design/ISSUE-5-PRODUCTION-ACCOUNTING.md。
@@ -170,4 +170,4 @@ SR-XF-009-V01证据：dist/ea-sr-economy.mjs；dist/ea-sr-persons.mjs；tests/ea
 - 2026-10-15：U-149：接续远端main并完成当前山院管理和取消回收、保存恢复的局部桌面验证；完整状态保持。
 - 2026-10-16：U-151/R-43：同一东台完成档实际自主1200.036秒，后台180.857秒、接管、预算风险、生产搬运及关闭重开。原脚本末段分类失败保留，同轮证据补核验38项；同档手动补粮恢复5项。持续公库供给仍有缺口，完整SR/AC与D/I/V/R状态保持。
 
-本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。
+本文件由[registry.json](../registry.json)派生；更新台账后执行 `python scripts/requirements/sr-manager.py refresh`，不单独修改此派生页。

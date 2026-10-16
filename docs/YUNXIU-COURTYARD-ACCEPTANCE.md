@@ -2,7 +2,7 @@
 
 用户指出早期 terrain-lab 与原型画面差距过大，并提供了云岫别院参考图。本轮改为以该图的建筑、竹林、药田、石桥、溪流和山崖构图制作可交互场景。早期技术样机不作为本轮视觉交付。
 
-入口：`dist/yunxiu-courtyard/index.html`。发布：`https://cybershp.github.io/Simulation-web-game/yunxiu-courtyard/?v=courtyard-1.3`。正式 EA 根目录与三个世界档位没有替换；此场景使用独立的 `xianfu-yunxiu-courtyard-v1` 存档。
+入口：`apps/web/yunxiu-courtyard/index.html`。发布：`https://cybershp.github.io/Simulation-web-game/yunxiu-courtyard/?v=courtyard-1.3`。正式 EA 根目录与三个世界档位没有替换；此场景使用独立的 `xianfu-yunxiu-courtyard-v1` 存档。
 
 ## 已实现
 
@@ -17,7 +17,7 @@
 
 ## 实际验收证据
 
-`node qa/yunxiu-acceptance.mjs` 通过：1,296 组节点路线、12,292 段连续扫掠、2,592 次长距离边界扫掠；七处地标到达、三名同行者、暂停不推进、存档恢复、升级扣款与不足拒绝；道路非法位置为 0。这是逻辑测试，不代表每一个场景像素都完成视觉检查。
+`node tests/acceptance/yunxiu-acceptance.mjs` 通过：1,296 组节点路线、12,292 段连续扫掠、2,592 次长距离边界扫掠；七处地标到达、三名同行者、暂停不推进、存档恢复、升级扣款与不足拒绝；道路非法位置为 0。这是逻辑测试，不代表每一个场景像素都完成视觉检查。
 
 `node --test tests/*.test.mjs`：182 / 182 通过。原 EA 核心模块未修改。
 

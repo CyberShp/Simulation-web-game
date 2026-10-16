@@ -54,11 +54,11 @@ SR-XF-007-REQ-03：远景不破坏人类尺度；近景可区分至少三名人�
 | SR-XF-007-AC-02 | 换装备和切到战斗再返回 | 身份特征稳定，武器/法器外观与实际实例对应。 | passed |
 | SR-XF-007-AC-03 | 等待、睡眠和研习切换 | 动作/工具/标签与权威状态一致，回退不冒充完整动作。 | passed |
 
-SR-XF-007-AC-01证据：局部：qa/ea-person-three-selection-acceptance.mjs（同场三人公开命令、精确存读、生产Canvas脚点）；局部：tests/ea-scene-ui.test.mjs（肖像与当前动作只读点选）；局部：docs/design/STATUS.md（独立本地浏览器三人、重叠候选与续档；真人/真机仍待）；局部：docs/art/SYSTEM-UI-2026-10-10.md（宽庭院人物卷册读取正式身份、外观和活动；同场三人场景动作未验）
+SR-XF-007-AC-01证据：局部：tests/acceptance/ea-person-three-selection-acceptance.mjs（同场三人公开命令、精确存读、生产Canvas脚点）；局部：tests/unit/web/ea-scene-ui.test.mjs（肖像与当前动作只读点选）；局部：docs/design/STATUS.md（独立本地浏览器三人、重叠候选与续档；真人/真机仍待）；局部：docs/art/SYSTEM-UI-2026-10-10.md（宽庭院人物卷册读取正式身份、外观和活动；同场三人场景动作未验）
 
-SR-XF-007-AC-02证据：qa/ea-person-equipment-battle-acceptance.mjs；qa/ea-person-equipment-art-acceptance.mjs；dist/ea-life.mjs；dist/ea-ui.mjs；docs/design/STATUS.md
+SR-XF-007-AC-02证据：tests/acceptance/ea-person-equipment-battle-acceptance.mjs；tests/acceptance/ea-person-equipment-art-acceptance.mjs；src/simulation/ea-life.mjs；apps/web/ea-ui.mjs；docs/design/STATUS.md
 
-SR-XF-007-AC-03证据：qa/ea-person-activity-switch-acceptance.mjs；tests/ea-scene-ui.test.mjs；qa/ea-courtyard-rest-render-acceptance.mjs；docs/design/STATUS.md
+SR-XF-007-AC-03证据：tests/acceptance/ea-person-activity-switch-acceptance.mjs；tests/unit/web/ea-scene-ui.test.mjs；tests/acceptance/ea-courtyard-rest-render-acceptance.mjs；docs/design/STATUS.md
 
 2026-10-07本地小院批次：成人家具/单位格/空间定向检查48/48（8/6/34），正常公开命令接受/拒绝邀请两路完成营造、产出搬运、研习、到床休息与迁建取消/续建；分别60命令/36次精确存读和61命令/37次精确存读。六身份卧姿与预约前提2/2，生产Canvas卧姿加载/只读/身体点选/缺图回退4/4，已读图。旧v5完成档40建筑30门人保留资源、时间和return结局，全部入口可达，二次存读一致。各SR仅登记适用子情景；完整AC、真机触摸/FPS和真人首次体验状态分别保留。 浏览器DPR1鼠标在1366×900、1180×820、820×1180点选床上掌门通过；正常推荐营造经Enter和鼠标确认、实际施工落成。一次动态模块加载失败经页面重载恢复同档，原因待定位。I/V证据为沿既有可用契约实施的本批子范围；完整D01/D02及I/V关闭门槛保持原状态。 2026-10-07活动事实局部修正：采集/补种因受伤、离位、低精力暂停时阶段记paused，画面为等候，不推进；自然采集第四批包裹满也暂停且不扣来源。定向测试覆盖伤势、低精力、包裹满、存读与恢复3/3，离位未逐项注入验收。人物投影asset限定为身份基础云岫画稿，卧床只列sceneAssetCandidate；实际床几何、脚点与加载由渲染决定，完整动作标记false。人物与卧姿11/11、空间34/34、经济52/52通过；三人辨识、全套动作、触屏及整项AC仍未通过。
 
@@ -84,9 +84,9 @@ SR-XF-007-D01证据：docs/requirements/design/SR-XF-007-011-019-026-027.md
 
 SR-XF-007-D02证据：docs/requirements/design/SR-XF-007-011-019-026-027.md
 
-SR-XF-007-I01证据：dist/ea-character-art.mjs；dist/ea-courtyard-renderer.mjs；dist/assets/estate-v1/characters-rest-v1.png；docs/design/STATUS.md；asset-manifest.json；dist/ea-sr-persons.mjs；dist/ea-sr-economy.mjs；tests/ea-activity-truth.test.mjs；qa/ea-sr-economy-acceptance.mjs；qa/ea-sr-spatial-acceptance.mjs；dist/ea-sr-equipment.mjs；qa/ea-sr-integration-acceptance.mjs；qa/ea-person-equipment-battle-acceptance.mjs；qa/ea-person-equipment-art-acceptance.mjs；dist/ea-ui.mjs；tests/ea-scene-ui.test.mjs；qa/ea-person-three-selection-acceptance.mjs；qa/ea-person-recipe-save-acceptance.mjs；docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。
+SR-XF-007-I01证据：apps/web/ea-character-art.mjs；apps/web/ea-courtyard-renderer.mjs；assets/web/estate-v1/characters-rest-v1.png；docs/design/STATUS.md；assets/manifest.json；src/simulation/ea-sr-persons.mjs；src/simulation/ea-sr-economy.mjs；tests/unit/web/ea-activity-truth.test.mjs；tests/acceptance/ea-sr-economy-acceptance.mjs；tests/acceptance/ea-sr-spatial-acceptance.mjs；src/simulation/ea-sr-equipment.mjs；tests/acceptance/ea-sr-integration-acceptance.mjs；tests/acceptance/ea-person-equipment-battle-acceptance.mjs；tests/acceptance/ea-person-equipment-art-acceptance.mjs；apps/web/ea-ui.mjs；tests/unit/web/ea-scene-ui.test.mjs；tests/acceptance/ea-person-three-selection-acceptance.mjs；tests/acceptance/ea-person-recipe-save-acceptance.mjs；docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。
 
-SR-XF-007-V01证据：qa/ea-courtyard-rest-render-acceptance.mjs；tests/ea-rest-pose.test.mjs；qa/ea-courtyard-life-acceptance.mjs；docs/design/STATUS.md；dist/ea-sr-persons.mjs；dist/ea-sr-economy.mjs；tests/ea-activity-truth.test.mjs；qa/ea-sr-economy-acceptance.mjs；qa/ea-sr-spatial-acceptance.mjs；dist/ea-sr-equipment.mjs；qa/ea-sr-integration-acceptance.mjs；qa/ea-person-equipment-battle-acceptance.mjs；qa/ea-person-equipment-art-acceptance.mjs；tests/ea-scene-ui.test.mjs；qa/ea-person-three-selection-acceptance.mjs；qa/ea-person-recipe-save-acceptance.mjs；docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。
+SR-XF-007-V01证据：tests/acceptance/ea-courtyard-rest-render-acceptance.mjs；tests/unit/web/ea-rest-pose.test.mjs；tests/acceptance/ea-courtyard-life-acceptance.mjs；docs/design/STATUS.md；src/simulation/ea-sr-persons.mjs；src/simulation/ea-sr-economy.mjs；tests/unit/web/ea-activity-truth.test.mjs；tests/acceptance/ea-sr-economy-acceptance.mjs；tests/acceptance/ea-sr-spatial-acceptance.mjs；src/simulation/ea-sr-equipment.mjs；tests/acceptance/ea-sr-integration-acceptance.mjs；tests/acceptance/ea-person-equipment-battle-acceptance.mjs；tests/acceptance/ea-person-equipment-art-acceptance.mjs；tests/unit/web/ea-scene-ui.test.mjs；tests/acceptance/ea-person-three-selection-acceptance.mjs；tests/acceptance/ea-person-recipe-save-acceptance.mjs；docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。
 
 ## 可进入开发的条件
 
@@ -113,44 +113,44 @@ SR-XF-007-V01证据：qa/ea-courtyard-rest-render-acceptance.mjs；tests/ea-rest
 - docs/requirements/IMPLEMENTATION-2026-10-06.md
 - docs/design/03-SPATIAL-ART.md
 - docs/design/STATUS.md
-- dist/ea-character-art.mjs
-- dist/ea-courtyard-renderer.mjs
-- dist/assets/estate-v1/characters-rest-v1.png
-- qa/ea-courtyard-rest-render-acceptance.mjs
-- tests/ea-rest-pose.test.mjs
-- qa/ea-courtyard-life-acceptance.mjs
+- apps/web/ea-character-art.mjs
+- apps/web/ea-courtyard-renderer.mjs
+- assets/web/estate-v1/characters-rest-v1.png
+- tests/acceptance/ea-courtyard-rest-render-acceptance.mjs
+- tests/unit/web/ea-rest-pose.test.mjs
+- tests/acceptance/ea-courtyard-life-acceptance.mjs
 - docs/CODEX-HANDOFF.md
-- asset-manifest.json
-- dist/ea-sr-persons.mjs
-- dist/ea-sr-economy.mjs
-- tests/ea-activity-truth.test.mjs
-- qa/ea-sr-economy-acceptance.mjs
-- qa/ea-sr-spatial-acceptance.mjs
-- dist/assets/estate-v1/characters-wait-study-v1.png
-- tests/ea-house-activity-art.test.mjs
-- dist/ea-sr-equipment.mjs
-- qa/ea-sr-integration-acceptance.mjs
-- qa/ea-indoor-activities-acceptance.mjs
-- dist/ea-life.mjs
-- tests/ea-scene-ui.test.mjs
-- qa/ea-person-activity-switch-acceptance.mjs
-- qa/ea-person-equipment-battle-acceptance.mjs
-- qa/ea-person-equipment-art-acceptance.mjs
-- dist/ea-ui.mjs
-- qa/ea-person-three-selection-acceptance.mjs
-- qa/ea-person-recipe-save-acceptance.mjs
+- assets/manifest.json
+- src/simulation/ea-sr-persons.mjs
+- src/simulation/ea-sr-economy.mjs
+- tests/unit/web/ea-activity-truth.test.mjs
+- tests/acceptance/ea-sr-economy-acceptance.mjs
+- tests/acceptance/ea-sr-spatial-acceptance.mjs
+- assets/web/estate-v1/characters-wait-study-v1.png
+- tests/unit/web/ea-house-activity-art.test.mjs
+- src/simulation/ea-sr-equipment.mjs
+- tests/acceptance/ea-sr-integration-acceptance.mjs
+- tests/acceptance/ea-indoor-activities-acceptance.mjs
+- src/simulation/ea-life.mjs
+- tests/unit/web/ea-scene-ui.test.mjs
+- tests/acceptance/ea-person-activity-switch-acceptance.mjs
+- tests/acceptance/ea-person-equipment-battle-acceptance.mjs
+- tests/acceptance/ea-person-equipment-art-acceptance.mjs
+- apps/web/ea-ui.mjs
+- tests/acceptance/ea-person-three-selection-acceptance.mjs
+- tests/acceptance/ea-person-recipe-save-acceptance.mjs
 - docs/art/REALTIME-TRIAL-2026-10-09.md
-- godot/art/art_courtyard.gd
-- godot/art/actor_3d.gd
-- tools/build-art-web.py
+- archive/godot/art/art_courtyard.gd
+- archive/godot/art/actor_3d.gd
+- archive/godot/tools/build-art-web.py
 - docs/art/PAINTED-COURTYARD-2026-10-09.md
-- godot/estate_2d/estate.gd
+- archive/godot/estate_2d/estate.gd
 - 2026-10-11 U-118 局部：Godot 2D 图集按逻辑米位移推进；隔离 Chromium 行走五秒窗口观测每秒切换 9–11 帧，实际目标设备与三人以上辨识仍待验，AC 状态不变。
-- godot/painted_courtyard/actor_2d.gd
-- qa/painted-actor-check.gd
+- archive/godot/painted_courtyard/actor_2d.gd
+- archive/godot/qa/painted-actor-check.gd
 - 2026-10-11 U-118 转向校准：人物动作 45／45，行走跨越转向时持续使用行走帧；本地 Chromium 行走中站立转身帧 0。角色辨识与目标设备 AC 状态不变。
 - docs/art/system-ui-20261012/RUNTIME.md
-- tests/ea-system-ui-projection.test.mjs
+- tests/unit/web/ea-system-ui-projection.test.mjs
 - 2026-10-12 U-120：真实人物 ID、外观和公开修习接入名册／详情／掌门页；30 门人五页名册及人物功法往返通过模块检查，浏览器实点四页详情并定位同一场景人物。场景定位后继续行走的短样本仅覆盖本机 Chromium。完整人物动作、辨识及目标设备 AC 状态保持。
 - 2026-10-12 U-125：42 人物交谈及关联契约定义统一立绘聊天窗、身份叠加、知情、距离、意愿、暂停和持久规则；DIALOGUE-01–10 为 not_run。本批为设计与静态原型，运行接入及完整 SR/AC 状态保持。
 - docs/art/mountain-flat-20261013/README.md; U-126 flat-color art direction confirmed; prototype review pending, runtime art not implemented. SR/AC states unchanged.
@@ -172,7 +172,7 @@ SR-XF-007-V01证据：qa/ea-courtyard-rest-render-acceptance.mjs；tests/ea-rest
 - docs/design/50-COURTYARD-UI-DESIGN-AUDIT.md；2026-10-15 U-148/R-48：四页及关联入口30项设计审查与7条后续场景；两处物流问题由正常命令复现，运行代码未修，实际UI未验，完整状态保持。
 - docs/design/51-COURTYARD-MANAGEMENT-INTEGRATION.md；2026-10-15 U-149/R-49：四页与共用详情、单趟40份留苗搬运、落地回收和保存恢复接通；组件与相邻回归57/57，同一检查点真实桌面387.845秒13/13、最终包页面8/8、恢复链9/9，原生选择文件/预检/恢复及手动暂停已验。完整新档、规模、对话/突破、跨区施工、20分钟自主与Windows待接；完整D/I/V/R和AC状态保持。
 - docs/design/52-EAST-TERRACE-INTEGRATION.md
-- qa/courtyard-east-desktop.mjs
+- tests/acceptance/courtyard-east-desktop.mjs
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
@@ -204,4 +204,4 @@ SR-XF-007-V01证据：qa/ea-courtyard-rest-render-acceptance.mjs；tests/ea-rest
 - 2026-10-15：U-149：接续远端main并完成当前山院管理和取消回收、保存恢复的局部桌面验证；完整状态保持。
 - 2026-10-16：U-150/R-50：追加连续东路、实际分趟运料施工、四床启用与同源macOS存读往返局部证据。流程两段308.849秒，最终包阶段6项及往返9项，错误0；保留验收脚本中断记录。完整SR/AC与D/I/V/R状态保持。
 
-本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。
+本文件由[registry.json](../registry.json)派生；更新台账后执行 `python scripts/requirements/sr-manager.py refresh`，不单独修改此派生页。

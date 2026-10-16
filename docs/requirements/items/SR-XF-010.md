@@ -53,11 +53,11 @@ SR-XF-010-REQ-03：共有和个人财物权限分开，入宗不自动没收或�
 | SR-XF-010-AC-02 | 路断/搬运者受伤后取消与重载 | 材料留在有记录位置或走明确恢复事务，不丢失不重复返还。 | passed |
 | SR-XF-010-AC-03 | 赠予、借用和公库竞争 | 权限与所有权正确，一份预留不能被第二订单消费。 | passed |
 
-SR-XF-010-AC-01证据：qa/ea-sr-010-construction-logistics-public-acceptance.mjs；qa/ea-sr-building-change-public-acceptance.mjs；dist/ea-sr-spatial.mjs；dist/ea-sr-economy.mjs；docs/design/STATUS.md
+SR-XF-010-AC-01证据：tests/acceptance/ea-sr-010-construction-logistics-public-acceptance.mjs；tests/acceptance/ea-sr-building-change-public-acceptance.mjs；src/simulation/ea-sr-spatial.mjs；src/simulation/ea-sr-economy.mjs；docs/design/STATUS.md
 
-SR-XF-010-AC-02证据：qa/ea-sr-010-transport-interrupt-public-acceptance.mjs；qa/ea-sr-010-construction-logistics-public-acceptance.mjs；dist/ea-sr-economy.mjs；docs/design/STATUS.md
+SR-XF-010-AC-02证据：tests/acceptance/ea-sr-010-transport-interrupt-public-acceptance.mjs；tests/acceptance/ea-sr-010-construction-logistics-public-acceptance.mjs；src/simulation/ea-sr-economy.mjs；docs/design/STATUS.md
 
-SR-XF-010-AC-03证据：qa/ea-sr-010-property-public-acceptance.mjs；qa/ea-sr-growth-acceptance.mjs；dist/ea-sr-economy.mjs；dist/ea-sr-equipment.mjs；docs/design/STATUS.md
+SR-XF-010-AC-03证据：tests/acceptance/ea-sr-010-property-public-acceptance.mjs；tests/acceptance/ea-sr-growth-acceptance.mjs；src/simulation/ea-sr-economy.mjs；src/simulation/ea-sr-equipment.mjs；docs/design/STATUS.md
 
 2026-10-08 M2 工地物流缺口复现：正常公开疗伤后在世界步200营造灵草田，下单同刻公库木65→40、石45→35，有逻辑材料预约但无工地位置库存或搬运批次；前后精确存读档在 /tmp/immortal-m2-sr010-gap。SR010-AC01 保持 not_run，待补材料实际到场/逐段守恒并复核现有营造与旧档。
 2026-10-08 M2 AC01：正常公开灵草田档在主屋预留、掌门携料、工地交付、安装和完工各阶段木石数量守恒；交付前进度0，取消后材料实际返仓才一次退款，旧无材料流在建档保留原结算。定向7/7、空间34/34、相关场景UI10/10、升级/迁建/拆除公开回归4/4；独立只读复核施工条真实阶段/百分比。隔离桌面浏览器另确认建成和在途取消返仓。受伤/断路仅故障注入，AC02/03和整项仍未完成。
@@ -83,13 +83,13 @@ SR-XF-010-AC-03证据：qa/ea-sr-010-property-public-acceptance.mjs；qa/ea-sr-g
 | SR-XF-010-V01 | 验收与兼容：执行SR-XF-010-AC-01至AC-03及ECON-02、ECON-03；登记实际结果、兼容和设备证据边界。 | todo | SR-XF-010-I01 | 待分配 |
 | SR-XF-010-R01 | 发布与关闭：完成所需源码/运行时发布核对、交接和未覆盖说明；本轮用户不要求上传QA过程产物。 | todo | SR-XF-010-V01 | 待分配 |
 
-SR-XF-010-D01证据：docs/requirements/design/SR-XF-007-011-019-026-027.md；docs/design/05-RUNTIME-CONTRACTS.md；dist/ea-sr-economy.mjs；dist/ea-sr-spatial.mjs；dist/ea-sr-equipment.mjs
+SR-XF-010-D01证据：docs/requirements/design/SR-XF-007-011-019-026-027.md；docs/design/05-RUNTIME-CONTRACTS.md；src/simulation/ea-sr-economy.mjs；src/simulation/ea-sr-spatial.mjs；src/simulation/ea-sr-equipment.mjs
 
-SR-XF-010-D02证据：docs/requirements/design/SR-XF-007-011-019-026-027.md；qa/ea-sr-010-study-budget-contract-acceptance.mjs；qa/ea-sr-010-construction-logistics-public-acceptance.mjs；dist/ea-sr-economy.mjs
+SR-XF-010-D02证据：docs/requirements/design/SR-XF-007-011-019-026-027.md；tests/acceptance/ea-sr-010-study-budget-contract-acceptance.mjs；tests/acceptance/ea-sr-010-construction-logistics-public-acceptance.mjs；src/simulation/ea-sr-economy.mjs
 
-SR-XF-010-I01证据：dist/ea-sr-economy.mjs；qa/ea-sr-economy-acceptance.mjs；2026-10-08 r20: qa/ea-sr-010-inventory-summary-acceptance.mjs 4/4, adjacent SR010 25/25, market-order 7/7, UI 17/17; local Chromium isolated import showed public/private/merchant five-number cards; source f8b8912244d05a7c101d5dc8b81dc2502d41d5d4 and Pages 098cc0511096de37b5da79cf01cceb65e68e7727 built, all 162 packaged text blobs matched；docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。
+SR-XF-010-I01证据：src/simulation/ea-sr-economy.mjs；tests/acceptance/ea-sr-economy-acceptance.mjs；2026-10-08 r20: tests/acceptance/ea-sr-010-inventory-summary-acceptance.mjs 4/4, adjacent SR010 25/25, market-order 7/7, UI 17/17; local Chromium isolated import showed public/private/merchant five-number cards; source f8b8912244d05a7c101d5dc8b81dc2502d41d5d4 and Pages 098cc0511096de37b5da79cf01cceb65e68e7727 built, all 162 packaged text blobs matched；docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。
 
-SR-XF-010-V01证据：dist/ea-sr-economy.mjs；qa/ea-sr-economy-acceptance.mjs；docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。
+SR-XF-010-V01证据：src/simulation/ea-sr-economy.mjs；tests/acceptance/ea-sr-economy-acceptance.mjs；docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。
 
 ## 可进入开发的条件
 
@@ -114,23 +114,23 @@ SR-XF-010-V01证据：dist/ea-sr-economy.mjs；qa/ea-sr-economy-acceptance.mjs�
 
 - docs/requirements/design/SR-XF-007-011-019-026-027.md
 - docs/requirements/IMPLEMENTATION-2026-10-06.md
-- dist/ea-sr-economy.mjs
-- qa/ea-sr-economy-acceptance.mjs
-- qa/ea-sr-010-construction-logistics-public-acceptance.mjs
-- qa/ea-sr-building-change-public-acceptance.mjs
-- dist/ea-sr-spatial.mjs
+- src/simulation/ea-sr-economy.mjs
+- tests/acceptance/ea-sr-economy-acceptance.mjs
+- tests/acceptance/ea-sr-010-construction-logistics-public-acceptance.mjs
+- tests/acceptance/ea-sr-building-change-public-acceptance.mjs
+- src/simulation/ea-sr-spatial.mjs
 - docs/design/STATUS.md
-- qa/ea-sr-010-property-public-acceptance.mjs
-- qa/ea-sr-growth-acceptance.mjs
-- dist/ea-sr-equipment.mjs
-- qa/ea-sr-010-study-budget-contract-acceptance.mjs
+- tests/acceptance/ea-sr-010-property-public-acceptance.mjs
+- tests/acceptance/ea-sr-growth-acceptance.mjs
+- src/simulation/ea-sr-equipment.mjs
+- tests/acceptance/ea-sr-010-study-budget-contract-acceptance.mjs
 - docs/art/system-ui-20261012/RUNTIME.md
-- tests/ea-system-ui-projection.test.mjs
+- tests/unit/web/ea-system-ui-projection.test.mjs
 - 2026-10-12 U-120：行囊读取真实位置库存与所有权；Node 专项验证只读、非法数量拒绝、实际搬运和存读守恒。本地 Chromium 公库 16 份灵草取 3 份后为公库 13／随身 3，送回公库 16，保存刷新保持。丹药使用采用明确人工库存边界 QA，未覆盖生产取得链；完整 SR/AC 状态保持。
 - docs/art/COURTYARD-VALLEY-2026-10-12.md
-- tests/ea-mountain-alchemy.test.mjs
-- tests/ea-mountain-valley.test.mjs
-- qa/ea-sr-production-accounting-acceptance.mjs
+- tests/unit/web/ea-mountain-alchemy.test.mjs
+- tests/unit/web/ea-mountain-valley.test.mjs
+- tests/acceptance/ea-sr-production-accounting-acceptance.mjs
 - docs/design/ISSUE-5-PRODUCTION-ACCOUNTING.md
 - docs/art/OPENING-CHAIN-2026-10-12.md；2026-10-12 U-124：采木采石送公库、药圃至丹房、成药携带与公库入账、采回6灵草及3余粮真实搬运；最终存读一致。 仅增局部证据，完整 SR/AC 状态保持。
 - docs/art/OPENING-GUIDANCE-2026-10-13.md；2026-10-13 U-124：新增携药仍走真实搬运；实际随身取得、重复/空炉保护及刷新前后完整存档相等。 仅增局部证据，完整 SR/AC 状态保持。
@@ -138,10 +138,10 @@ SR-XF-010-V01证据：dist/ea-sr-economy.mjs；qa/ea-sr-economy-acceptance.mjs�
 - docs/design/50-COURTYARD-UI-DESIGN-AUDIT.md；2026-10-15 U-148/R-48：四页及关联入口30项设计审查与7条后续场景；两处物流问题由正常命令复现，运行代码未修，实际UI未验，完整状态保持。
 - docs/design/51-COURTYARD-MANAGEMENT-INTEGRATION.md；2026-10-15 U-149/R-49：四页与共用详情、单趟40份留苗搬运、落地回收和保存恢复接通；组件与相邻回归57/57，同一检查点真实桌面387.845秒13/13、最终包页面8/8、恢复链9/9，原生选择文件/预检/恢复及手动暂停已验。完整新档、规模、对话/突破、跨区施工、20分钟自主与Windows待接；完整D/I/V/R和AC状态保持。
 - docs/design/52-EAST-TERRACE-INTEGRATION.md
-- qa/courtyard-east-desktop.mjs
+- tests/acceptance/courtyard-east-desktop.mjs
 - docs/design/53-COURTYARD-AUTONOMY-ACCEPTANCE.md
-- qa/courtyard-autonomy-desktop.mjs
-- qa/courtyard-autonomy-audit.py
+- tests/acceptance/courtyard-autonomy-desktop.mjs
+- tests/acceptance/courtyard-autonomy-audit.py
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
@@ -163,4 +163,4 @@ SR-XF-010-V01证据：dist/ea-sr-economy.mjs；qa/ea-sr-economy-acceptance.mjs�
 - 2026-10-16：U-150/R-50：追加连续东路、实际分趟运料施工、四床启用与同源macOS存读往返局部证据。流程两段308.849秒，最终包阶段6项及往返9项，错误0；保留验收脚本中断记录。完整SR/AC与D/I/V/R状态保持。
 - 2026-10-16：U-151/R-43：同一东台完成档实际自主1200.036秒，后台180.857秒、接管、预算风险、生产搬运及关闭重开。原脚本末段分类失败保留，同轮证据补核验38项；同档手动补粮恢复5项。持续公库供给仍有缺口，完整SR/AC与D/I/V/R状态保持。
 
-本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。
+本文件由[registry.json](../registry.json)派生；更新台账后执行 `python scripts/requirements/sr-manager.py refresh`，不单独修改此派生页。

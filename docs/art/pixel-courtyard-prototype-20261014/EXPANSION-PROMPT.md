@@ -1,6 +1,6 @@
 # 山域扩建总图 · 生成说明
 
-使用内置 image_gen。直接参考：已认可的演武场像素画面 `prototypes/pixel_scene_validation/assets/courtyard-v1.png`，以及同目录 `courtyard-v1.png` 中主殿与开山院的视觉身份。
+使用内置 image_gen。直接参考：已认可的演武场像素画面 `archive/prototypes/pixel_scene_validation/assets/courtyard-v1.png`，以及同目录 `courtyard-v1.png` 中主殿与开山院的视觉身份。
 
 该图是地域规划原型。近院、东住居、西生产谷、主峰腹地与四座分峰的具体面积、距离、道路工程和建位仍须映射到正式世界；图上可见不等于已经开放。运行接入继续暂停，待原型审核。
 

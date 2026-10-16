@@ -345,7 +345,7 @@ NPC 未公开私事只存在于权威状态，人物卡不能提前显示“此�
 
 ## 15. 已有基础与需要重建的部分
 
-2026-10-05 源码参考：`dist/ea-campaign.mjs`、`ea-narrative.mjs`、`world.mjs`、`living-world.mjs`。
+2026-10-05 源码参考：`src/simulation/ea-campaign.mjs`、`ea-narrative.mjs`、`world.mjs`、`living-world.mjs`。
 已有五段篇章对应的推进节点、可靠证据三选二、准备四选二、天气、行程、同行与战败养伤基础。
 已有成本校验、唯一领取和双结局，及场景交互投影；这些可复用，但必须接受新的空间与身份契约校验。
 现有世界地点较多依赖章节与境界锁；新设计改为信息、路线、关系、成本和危险分开表达。

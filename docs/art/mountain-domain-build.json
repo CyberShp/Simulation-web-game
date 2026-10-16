@@ -21,16 +21,16 @@
     "domain": 20
   },
   "sources": {
-    "godot/painted_courtyard/courtyard.gd": "4ca351cc2e1ed97d5bf4fd7545286e1374428b45a37f5663a94c6bd617317f9a",
-    "godot/painted_courtyard/mountain_domain.gd": "aed5c587f3a006d0879e919055d4b093cbf2858bc236d02cd554c55f0b345100",
-    "godot/painted_courtyard/web/shell.html": "93c147b1bb474f3046c1760b5e23b3e755b97b0efc8d5946fd8f65168dadc11b",
-    "godot/painted_courtyard/assets/layout.json": "d6e1eeb99b849e6b62774f44d2fa3347647a1183aeacb01d1bfbe54b47b5b72c",
-    "godot/painted_courtyard/assets/domain-layout.json": "5d7ae32d5c1664534b68c1486611de1ba96ef9b70148dac69a3ac6b3f836e993",
-    "godot/painted_courtyard/assets/founding-ground-v3.png": "e33f79f9c27741902bbb82d963653400c7e20e58a8241f66d1ba35cc02d4231e",
-    "godot/painted_courtyard/assets/domain-overview-v1.png": "4d00641c229e28ae8ff335a73ab0b7376041891e155db373af4a10b44e2d0014",
-    "tools/build-painted-web.py": "5ebe0097a9f4cefdb2cf3814ae09d288a3e1786e3aa0c058f03f683059251115",
-    "qa/painted-courtyard-check.gd": "0c030dc89e922150267d5504bd896ca12a09ef28777bf173c9bfc4b817878541",
-    "qa/painted-domain-check.gd": "9b5e3d6cc147c0dfe8055a88261771ab810e78b47a02c561b5b9715db93b0393"
+    "archive/godot/painted_courtyard/courtyard.gd": "4ca351cc2e1ed97d5bf4fd7545286e1374428b45a37f5663a94c6bd617317f9a",
+    "archive/godot/painted_courtyard/mountain_domain.gd": "aed5c587f3a006d0879e919055d4b093cbf2858bc236d02cd554c55f0b345100",
+    "archive/godot/painted_courtyard/web/shell.html": "93c147b1bb474f3046c1760b5e23b3e755b97b0efc8d5946fd8f65168dadc11b",
+    "archive/godot/painted_courtyard/assets/layout.json": "d6e1eeb99b849e6b62774f44d2fa3347647a1183aeacb01d1bfbe54b47b5b72c",
+    "archive/godot/painted_courtyard/assets/domain-layout.json": "5d7ae32d5c1664534b68c1486611de1ba96ef9b70148dac69a3ac6b3f836e993",
+    "archive/godot/painted_courtyard/assets/founding-ground-v3.png": "e33f79f9c27741902bbb82d963653400c7e20e58a8241f66d1ba35cc02d4231e",
+    "archive/godot/painted_courtyard/assets/domain-overview-v1.png": "4d00641c229e28ae8ff335a73ab0b7376041891e155db373af4a10b44e2d0014",
+    "archive/godot/tools/build-painted-web.py": "5ebe0097a9f4cefdb2cf3814ae09d288a3e1786e3aa0c058f03f683059251115",
+    "archive/godot/qa/painted-courtyard-check.gd": "0c030dc89e922150267d5504bd896ca12a09ef28777bf173c9bfc4b817878541",
+    "archive/godot/qa/painted-domain-check.gd": "9b5e3d6cc147c0dfe8055a88261771ab810e78b47a02c561b5b9715db93b0393"
   },
   "user_art_approved": false,
   "real_devices_tested": false,

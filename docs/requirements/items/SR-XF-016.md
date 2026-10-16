@@ -53,11 +53,11 @@ SR-XF-016-REQ-03：开放来自知识、可达道路和交互条件，不把人�
 | SR-XF-016-AC-02 | 破阵或修桥后存读档 | 对应通行和场景状态持久，线索/物品不再次领取。 | not_run |
 | SR-XF-016-AC-03 | 无指定同行或一条路线失效 | 仍能按设计承担代价推进，拒绝可选准备不封全部地图。 | not_run |
 
-SR-XF-016-AC-01证据：2026-10-06部分证据：七类前期场景及22对象生产renderer：中心脚点、真实公开路径、只读投影、旧ID与地方状态；qa/ea-sr-scene-art-acceptance.mjs，7场景通过。 本条完整必需覆盖仍待逐项复核，状态未据总数量提升。
+SR-XF-016-AC-01证据：2026-10-06部分证据：七类前期场景及22对象生产renderer：中心脚点、真实公开路径、只读投影、旧ID与地方状态；tests/acceptance/ea-sr-scene-art-acceptance.mjs，7场景通过。 本条完整必需覆盖仍待逐项复核，状态未据总数量提升。
 
-SR-XF-016-AC-02证据：2026-10-06部分证据：七类前期场景及22对象生产renderer：中心脚点、真实公开路径、只读投影、旧ID与地方状态；qa/ea-sr-scene-art-acceptance.mjs，7场景通过。 本条完整必需覆盖仍待逐项复核，状态未据总数量提升。
+SR-XF-016-AC-02证据：2026-10-06部分证据：七类前期场景及22对象生产renderer：中心脚点、真实公开路径、只读投影、旧ID与地方状态；tests/acceptance/ea-sr-scene-art-acceptance.mjs，7场景通过。 本条完整必需覆盖仍待逐项复核，状态未据总数量提升。
 
-SR-XF-016-AC-03证据：2026-10-06部分证据：七类前期场景及22对象生产renderer：中心脚点、真实公开路径、只读投影、旧ID与地方状态；qa/ea-sr-scene-art-acceptance.mjs，7场景通过。 本条完整必需覆盖仍待逐项复核，状态未据总数量提升。
+SR-XF-016-AC-03证据：2026-10-06部分证据：七类前期场景及22对象生产renderer：中心脚点、真实公开路径、只读投影、旧ID与地方状态；tests/acceptance/ea-sr-scene-art-acceptance.mjs，7场景通过。 本条完整必需覆盖仍待逐项复核，状态未据总数量提升。
 
 2026-10-12 U-123：云岫山谷已在1440×960网页实走有限采集、青萝近处会面及返院，控制台0错误／0警告；七类场景完整 AC 继续。 局部证据见 docs/art/COURTYARD-VALLEY-2026-10-12.md；整项 D/I/V/R 与 AC 状态不变。
 
@@ -77,7 +77,7 @@ SR-XF-016-D01证据：2026-10-06接续：docs/requirements/TAKEOVER-2026-10-06.m
 
 SR-XF-016-D02证据：2026-10-06接续：审阅唯一身份/公私物资、身体互斥、单钟、消息知情与旧完成档保护，模块接口已接共同入口。
 
-SR-XF-016-I01证据：2026-10-06接续：七类前期场景及22对象生产renderer：中心脚点、真实公开路径、只读投影、旧ID与地方状态；qa/ea-sr-scene-art-acceptance.mjs，7场景通过。 已接init/validate/tick、公开网关和HTML操作投影；完整AC及真实设备另由V01判断。
+SR-XF-016-I01证据：2026-10-06接续：七类前期场景及22对象生产renderer：中心脚点、真实公开路径、只读投影、旧ID与地方状态；tests/acceptance/ea-sr-scene-art-acceptance.mjs，7场景通过。 已接init/validate/tick、公开网关和HTML操作投影；完整AC及真实设备另由V01判断。
 
 SR-XF-016-V01证据：2026-10-06：定向脚本与回归结果见接续实施记录；不能以组件或人工边界替代正常全程/设备证据。
 
@@ -105,11 +105,11 @@ SR-XF-016-V01证据：2026-10-06：定向脚本与回归结果见接续实施记
 - docs/requirements/design/SR-XF-015-017-020-025-035-037-039.md
 - docs/requirements/IMPLEMENTATION-2026-10-06.md
 - docs/requirements/TAKEOVER-2026-10-06.md
-- 2026-10-06接续：七类前期场景及22对象生产renderer：中心脚点、真实公开路径、只读投影、旧ID与地方状态；qa/ea-sr-scene-art-acceptance.mjs，7场景通过。 专项证据不自动关闭全部AC；平台/正常整链不足继续明列。
+- 2026-10-06接续：七类前期场景及22对象生产renderer：中心脚点、真实公开路径、只读投影、旧ID与地方状态；tests/acceptance/ea-sr-scene-art-acceptance.mjs，7场景通过。 专项证据不自动关闭全部AC；平台/正常整链不足继续明列。
 - 2026-10-06运行时部分已发布 Pages 7d16d54 / workflow 37453110511 success；release_status 仍表示整项 SR 验收/关闭门槛，未因开发版部署提升。
 - docs/art/COURTYARD-VALLEY-2026-10-12.md
-- tests/ea-mountain-valley.test.mjs
-- tests/ea-godot-valley-projection.test.mjs
+- tests/unit/web/ea-mountain-valley.test.mjs
+- tests/unit/web/ea-godot-valley-projection.test.mjs
 - 2026-10-12 U-125：42 人物交谈及关联契约定义统一立绘聊天窗、身份叠加、知情、距离、意愿、暂停和持久规则；DIALOGUE-01–10 为 not_run。本批为设计与静态原型，运行接入及完整 SR/AC 状态保持。
 - docs/art/OPENING-CHAIN-2026-10-12.md；2026-10-12 U-124：同一普通新档山院与山谷真实往返、溪边采集6灵草、山魈首战与撤退。 仅增局部证据，完整 SR/AC 状态保持。
 - docs/art/OPENING-GUIDANCE-2026-10-13.md；2026-10-13 U-124：已结算谷内首战事实与采集事实只读投影，目标接入入谷、遭遇与返院路径。 仅增局部证据，完整 SR/AC 状态保持。
@@ -120,4 +120,4 @@ SR-XF-016-V01证据：2026-10-06：定向脚本与回归结果见接续实施记
 - 2026-10-12：2026-10-12 U-123：云岫山谷已在1440×960网页实走有限采集、青萝近处会面及返院，控制台0错误／0警告；七类场景完整 AC 继续。 局部证据见 docs/art/COURTYARD-VALLEY-2026-10-12.md；整项 D/I/V/R 与 AC 状态不变。
 - 2026-10-12：2026-10-12 U-123 首战本地网页：最终场景包的谷内战斗在1440×960及820×1180网页可见，山魈与掌门实际脚点、动作反馈和返院场景连续；完整七类地点 AC 状态保持。 证据见 docs/art/COURTYARD-VALLEY-2026-10-12.md；整项 D/I/V/R 与 AC 状态不变。
 
-本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。
+本文件由[registry.json](../registry.json)派生；更新台账后执行 `python scripts/requirements/sr-manager.py refresh`，不单独修改此派生页。

@@ -93,4 +93,4 @@ SR-XF-033-REQ-03：如开启按正式范围变更接入迁移和发布，不作�
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
 - 2026-10-06：U-94激活实施，AC01由旧规划不开放改为完整闭环开放条件；保留历史scenario/expected，不冒充原AC通过。
 
-本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。
+本文件由[registry.json](../registry.json)派生；更新台账后执行 `python scripts/requirements/sr-manager.py refresh`，不单独修改此派生页。

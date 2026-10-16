@@ -3,8 +3,8 @@
 用户已确认 U-104 制作方案。本批由 Godot 4.6.3 二维场景直接使用统一绘画背景、独立主殿和人物图集，提供一殿、一道、两人的本地 Web 试游。
 
 - 入口：[绘画小院](http://127.0.0.1:8080/painted-courtyard/)
-- 源场景：`godot/painted_courtyard/courtyard.tscn`
-- 构建：`python3 tools/build-painted-web.py`
+- 源场景：`archive/godot/painted_courtyard/courtyard.tscn`
+- 构建：`python3 archive/godot/tools/build-painted-web.py`
 - 完整素材提示词：[环境](painted-environment-prompts.md)、[人物](painted-character-prompts.md)
 - 受验环境：macOS，隔离 Playwright WebKit 26.6，独立浏览器资料目录；实际版本哈希与视口记录见下。
 

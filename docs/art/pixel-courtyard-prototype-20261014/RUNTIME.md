@@ -8,7 +8,7 @@
 
 首屏围栏通过独立版本的公开启用命令接入正式寻路，人物沿田东入口进出。启用时保留现有位置、活动、库存和时钟，重新规划受围栏影响的既有路线；普通旧入口保持原有空间规则。人物沿用已认可的 `cultivator-v1.png`、`disciples-v1.png`；掌门高111原图像素，其他成人100，脚点随正式米制位置映射。门、石阶、灯柱和田边竹栏按源图轮廓排序遮挡。药田待播／有作物及人物进屋由正式状态决定，当前成长中与待收共用母稿的有作物外观。
 
-`courtyard-space.mjs` 为可逆的呈现坐标映射，保存的米制位置、身份、物资和活动保持原事实。它不是全山域等比投影。手动行走先沿图中可走地面分段，再逐段提交正式行走命令；室内掌门先通过所在建筑真实入口出门。正式模拟仍是 `sect-sim.mjs` 调用的 `dist/ea-opening-sim.mjs`。
+`courtyard-space.mjs` 为可逆的呈现坐标映射，保存的米制位置、身份、物资和活动保持原事实。它不是全山域等比投影。手动行走先沿图中可走地面分段，再逐段提交正式行走命令；室内掌门先通过所在建筑真实入口出门。正式模拟仍是 `sect-sim.mjs` 调用的 `src/simulation/ea-opening-sim.mjs`。
 
 显示插值沿正式路径已经走过的节点播放，保留拐角；绘制、排序、姓名与点选共用显示脚点。暂停、室内切换或无法确认衔接的改路立即对齐真实位置。
 
@@ -16,8 +16,8 @@
 
 ## 入口与操作
 
-- 源码：`prototypes/pixel_scene_validation/courtyard.html`；桌面启动 `npm run courtyard`。
-- macOS打包：`python3 prototypes/pixel_scene_validation/package-courtyard-macos.py /absolute/new-destination.app`。
+- 源码：`apps/courtyard/courtyard.html`；桌面启动 `npm run courtyard`。
+- macOS打包：`python3 archive/prototypes/pixel_scene_validation/package-courtyard-macos.py /absolute/new-destination.app`。
 - 本机交付：`/Volumes/Media/immortal-qa/courtyard-master-20261015/云岫山院·山院实景-v2.app`。
 - 左键点地行走、点人物打开立绘与对话；点建筑查看近况。
 - 滚轮缩放1–2倍、右键拖动、空格暂停、Tab收起界面；原稿对照保留当前镜头。
@@ -49,7 +49,7 @@
 
 读档失败保护另用实际桌面窗口验证：错误JSON显示读取失败，等待32秒后关闭，原文件32字节及SHA-256保持不变。记录在 `/Volumes/Media/immortal-qa/courtyard-master-20261015/corrupt-preserve/`；这是源码入口的针对性检查。
 
-首屏首批验证时，旧测试 `tests/ea-sr-spatial-door-replan.test.mjs` 停在 `opening treatment completes`，其建造门道断言当时未执行。移除首屏地形改动的临时副本也有相同失败，历史日志见上述空间证据目录的 `door-replan-current.log`、`door-replan-baseline.log`、`baseline-reproduction.md`。
+首屏首批验证时，旧测试 `tests/unit/web/ea-sr-spatial-door-replan.test.mjs` 停在 `opening treatment completes`，其建造门道断言当时未执行。移除首屏地形改动的临时副本也有相同失败，历史日志见上述空间证据目录的 `door-replan-current.log`、`door-replan-baseline.log`、`baseline-reproduction.md`。
 
 2026-10-15 继续修复：确认旧测试缺少 U-115 的公开择法命令。首次疗伤后传承为 `pending`，模拟保持世界步0、伤势30；公开选择青岚后在第190步伤愈。测试已补齐选择前整档暂停不变、精确存读、选择后不再扣草药的断言；同一新档继续完成门人居营造、穿门到床位、堵门营造拒绝且状态不变、绕墙和两次后续存读。共7条成功公开命令、1条拒绝、3次精确重载，原施工和通行断言保留。
 

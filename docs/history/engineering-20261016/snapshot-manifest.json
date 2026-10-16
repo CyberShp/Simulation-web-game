@@ -1,0 +1,74 @@
+{
+  "date": "2026-10-16",
+  "decision": "U-152",
+  "source_base_commit": "e5f0d78358ab42fefbd2b5e3c516465bff115f8b",
+  "scope": "Entry documents before engineering reorganization; original bytes and original path references preserved.",
+  "files": [
+    {
+      "original_path": "README.md",
+      "snapshot_path": "docs/history/engineering-20261016/README.md",
+      "sha256": "d51ffe9790af1ae3df40f32d6852218e3d818c308e47448c47c54f7a6aaee509",
+      "bytes": 8453
+    },
+    {
+      "original_path": "AGENTS.md",
+      "snapshot_path": "docs/history/engineering-20261016/AGENTS.md",
+      "sha256": "08901d363caaa79719898e68d8afa16a06753d4e35a0e328a219c0ffbeb481a8",
+      "bytes": 33599
+    },
+    {
+      "original_path": "CLAUDE.md",
+      "snapshot_path": "docs/history/engineering-20261016/CLAUDE.md",
+      "sha256": "3c6f6e00df7d141345fb67e08b4fbf1a05869a1496e4eaaa5630db4df113a421",
+      "bytes": 312
+    },
+    {
+      "original_path": "GEMINI.md",
+      "snapshot_path": "docs/history/engineering-20261016/GEMINI.md",
+      "sha256": "3c6f6e00df7d141345fb67e08b4fbf1a05869a1496e4eaaa5630db4df113a421",
+      "bytes": 312
+    },
+    {
+      "original_path": "docs/CODEX-HANDOFF.md",
+      "snapshot_path": "docs/history/engineering-20261016/docs/CODEX-HANDOFF.md",
+      "sha256": "de76d93dfd5c353f0802dce6ad114ada0232c5aaf3fac79478e98ec2401c55d8",
+      "bytes": 96789
+    },
+    {
+      "original_path": "docs/HANDOFF.md",
+      "snapshot_path": "docs/history/engineering-20261016/docs/HANDOFF.md",
+      "sha256": "a8dd2e8828216b43d5d207bb23d3b738622b97f4a20a38b791547fb984cb65af",
+      "bytes": 126784
+    },
+    {
+      "original_path": "docs/design/STATUS.md",
+      "snapshot_path": "docs/history/engineering-20261016/docs/design/STATUS.md",
+      "sha256": "5aa46034ea16825487f142ab90e241aeaf573eb8db8d0b77dc41bc8c7f167641",
+      "bytes": 223060
+    },
+    {
+      "original_path": "docs/design/README.md",
+      "snapshot_path": "docs/history/engineering-20261016/docs/design/README.md",
+      "sha256": "c05b9ba39e93ae040eee5de4b3352139ee0695532ced62e1db397e5e74b7dc38",
+      "bytes": 20892
+    },
+    {
+      "original_path": "docs/design/DECISIONS.md",
+      "snapshot_path": "docs/history/engineering-20261016/docs/design/DECISIONS.md",
+      "sha256": "52d6378c12927b3f6f099f262f08608a313ba7bb076ced77b67ac53b153b1d44",
+      "bytes": 94811
+    },
+    {
+      "original_path": "docs/design/manifest.json",
+      "snapshot_path": "docs/history/engineering-20261016/docs/design/manifest.json",
+      "sha256": "ca8f47acdf2e9ade333f29d7498ce9c59944d33897c0a775dc7b63cbd25e2cd2",
+      "bytes": 73779
+    },
+    {
+      "original_path": "docs/requirements/registry.json",
+      "snapshot_path": "docs/history/engineering-20261016/docs/requirements/registry.json",
+      "sha256": "954934f77f1d778fc9a27d1ba7b06c6b5a40eaf36c2f3a7bdbf67f4819dc3e0a",
+      "bytes": 742713
+    }
+  ]
+}

@@ -4,7 +4,7 @@
 
 ## 人物移开后的环境
 
-输出：`prototypes/pixel_scene_validation/assets/courtyard-clean-v2.png`。
+输出：`assets/courtyard/courtyard-clean-v2.png`。
 
 ```text
 Use case: precise-object-edit.
@@ -14,7 +14,7 @@ Reconstruct the paving slabs, stone seams, tiny moss and existing herb rows / so
 
 ## 待播药田
 
-输入为上述清人环境，输出：`prototypes/pixel_scene_validation/assets/courtyard-fallow-v2.png`。
+输入为上述清人环境，输出：`assets/courtyard/courtyard-fallow-v2.png`。
 
 ```text
 Use case: precise-object-edit. This is a game environment layer.

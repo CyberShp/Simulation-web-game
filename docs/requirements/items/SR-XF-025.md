@@ -105,4 +105,4 @@ SR-XF-025-V01证据：正常单一路径筑基三层、三死亡、双结局及�
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
 - 2026-10-06：正常成长与固定清算双结局接通，战后身体残留修复；设计/集成任务完成，验收不据单一路线关闭。
 
-本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。
+本文件由[registry.json](../registry.json)派生；更新台账后执行 `python scripts/requirements/sr-manager.py refresh`，不单独修改此派生页。

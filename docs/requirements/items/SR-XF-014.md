@@ -106,7 +106,7 @@ SR-XF-014-V01证据：docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-
 - docs/design/33-ARTS-INITIAL-CALIBRATION.md（Y-001–067逐项品相与机制复评）
 - docs/design/28-FIVE-CONTINENT-ARTS-LEDGER.md（目录草稿更新至Y-347；运行实装另计）
 - docs/art/COURTYARD-VALLEY-2026-10-12.md
-- tests/ea-mountain-first-combat.test.mjs
+- tests/unit/web/ea-mountain-first-combat.test.mjs
 - docs/design/47-GOLDEN-CORE-ARTS-CATALOGUE-DRAFT.md；2026-10-15 U-145/R-45：169项修行内容草案、五脉续篇、获取替代、百艺阵法、暗线与特效；仅补设计证据，金丹运行与完整D/I/V/R、AC状态保持。
 - docs/design/48-GOLDEN-CORE-WORLD-ARTS-V02.md；2026-10-15 U-146/R-46：720项玩家/NPC世界修行库、72新增来源谱系，符箓蛊道心法攻防及获取特效补齐；仅设计字段、来源与引用检查，运行及完整D/I/V/R、AC状态保持。
 - docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。
@@ -128,4 +128,4 @@ SR-XF-014-V01证据：docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-
 - 2026-10-15：U-148：记录四页及关联入口设计审查、操作断点和R-48重整提案；未修运行代码，完整D/I/V/R与AC状态保持。
 - 2026-10-15：U-149：接续远端main并完成当前山院管理和取消回收、保存恢复的局部桌面验证；完整状态保持。
 
-本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。
+本文件由[registry.json](../registry.json)派生；更新台账后执行 `python scripts/requirements/sr-manager.py refresh`，不单独修改此派生页。

@@ -1,0 +1,2841 @@
+{
+  "baselineCommit": "e5f0d78358ab42fefbd2b5e3c516465bff115f8b",
+  "moves": [
+    {
+      "from": "ASSETS-v02.md",
+      "to": "docs/history/ASSETS-v02.md"
+    },
+    {
+      "from": "asset-manifest.json",
+      "to": "assets/manifest.json"
+    },
+    {
+      "from": "deploy/Caddyfile.example",
+      "to": "scripts/release/server/Caddyfile.example"
+    },
+    {
+      "from": "deploy/nginx.conf",
+      "to": "scripts/release/server/nginx.conf"
+    },
+    {
+      "from": "dist/assets/buildings.png",
+      "to": "assets/web/buildings.png"
+    },
+    {
+      "from": "dist/assets/disciples.png",
+      "to": "assets/web/disciples.png"
+    },
+    {
+      "from": "dist/assets/ea-alchemy-room.jpg",
+      "to": "assets/web/ea-alchemy-room.jpg"
+    },
+    {
+      "from": "dist/assets/ea-courtyard-empty.jpg",
+      "to": "assets/web/ea-courtyard-empty.jpg"
+    },
+    {
+      "from": "dist/assets/ea-courtyard-ground-v1.png",
+      "to": "assets/web/ea-courtyard-ground-v1.png"
+    },
+    {
+      "from": "dist/assets/ea-estate-stages.jpg",
+      "to": "assets/web/ea-estate-stages.jpg"
+    },
+    {
+      "from": "dist/assets/ea-hall-layers-v1.png",
+      "to": "assets/web/ea-hall-layers-v1.png"
+    },
+    {
+      "from": "dist/assets/ea-open-court.jpg",
+      "to": "assets/web/ea-open-court.jpg"
+    },
+    {
+      "from": "dist/assets/ea-portraits.jpg",
+      "to": "assets/web/ea-portraits.jpg"
+    },
+    {
+      "from": "dist/assets/ea-qixia.jpg",
+      "to": "assets/web/ea-qixia.jpg"
+    },
+    {
+      "from": "dist/assets/ea-regions-07.jpg",
+      "to": "assets/web/ea-regions-07.jpg"
+    },
+    {
+      "from": "dist/assets/ea-regions-08.jpg",
+      "to": "assets/web/ea-regions-08.jpg"
+    },
+    {
+      "from": "dist/assets/ea-world-map.jpg",
+      "to": "assets/web/ea-world-map.jpg"
+    },
+    {
+      "from": "dist/assets/estate-v1/alchemy-stages-v1.png",
+      "to": "assets/web/estate-v1/alchemy-stages-v1.png"
+    },
+    {
+      "from": "dist/assets/estate-v1/alchemy-stages-v2.png",
+      "to": "assets/web/estate-v1/alchemy-stages-v2.png"
+    },
+    {
+      "from": "dist/assets/estate-v1/alchemy-stages-v3.png",
+      "to": "assets/web/estate-v1/alchemy-stages-v3.png"
+    },
+    {
+      "from": "dist/assets/estate-v1/characters-rest-v1.png",
+      "to": "assets/web/estate-v1/characters-rest-v1.png"
+    },
+    {
+      "from": "dist/assets/estate-v1/characters-wait-study-v1.png",
+      "to": "assets/web/estate-v1/characters-wait-study-v1.png"
+    },
+    {
+      "from": "dist/assets/estate-v1/clinic-stages-v1.png",
+      "to": "assets/web/estate-v1/clinic-stages-v1.png"
+    },
+    {
+      "from": "dist/assets/estate-v1/clinic-stages-v2.png",
+      "to": "assets/web/estate-v1/clinic-stages-v2.png"
+    },
+    {
+      "from": "dist/assets/estate-v1/core.webp",
+      "to": "assets/web/estate-v1/core.webp"
+    },
+    {
+      "from": "dist/assets/estate-v1/farm-stages-v1.png",
+      "to": "assets/web/estate-v1/farm-stages-v1.png"
+    },
+    {
+      "from": "dist/assets/estate-v1/granary-stages-v1.png",
+      "to": "assets/web/estate-v1/granary-stages-v1.png"
+    },
+    {
+      "from": "dist/assets/estate-v1/hall-stages-v1.png",
+      "to": "assets/web/estate-v1/hall-stages-v1.png"
+    },
+    {
+      "from": "dist/assets/estate-v1/hall-stages-v2.png",
+      "to": "assets/web/estate-v1/hall-stages-v2.png"
+    },
+    {
+      "from": "dist/assets/estate-v1/house-stages-v1.png",
+      "to": "assets/web/estate-v1/house-stages-v1.png"
+    },
+    {
+      "from": "dist/assets/estate-v1/house-stages-v2.png",
+      "to": "assets/web/estate-v1/house-stages-v2.png"
+    },
+    {
+      "from": "dist/assets/estate-v1/kitchen-stages-v1.png",
+      "to": "assets/web/estate-v1/kitchen-stages-v1.png"
+    },
+    {
+      "from": "dist/assets/estate-v1/kitchen-stages-v2.png",
+      "to": "assets/web/estate-v1/kitchen-stages-v2.png"
+    },
+    {
+      "from": "dist/assets/estate-v1/kitchen-stages-v3.png",
+      "to": "assets/web/estate-v1/kitchen-stages-v3.png"
+    },
+    {
+      "from": "dist/assets/estate-v1/library-stages-v1.png",
+      "to": "assets/web/estate-v1/library-stages-v1.png"
+    },
+    {
+      "from": "dist/assets/estate-v1/library-stages-v2.png",
+      "to": "assets/web/estate-v1/library-stages-v2.png"
+    },
+    {
+      "from": "dist/assets/estate-v1/library-stages-v3.png",
+      "to": "assets/web/estate-v1/library-stages-v3.png"
+    },
+    {
+      "from": "dist/assets/estate-v1/life.webp",
+      "to": "assets/web/estate-v1/life.webp"
+    },
+    {
+      "from": "dist/assets/estate-v1/lumber-stages-v1.png",
+      "to": "assets/web/estate-v1/lumber-stages-v1.png"
+    },
+    {
+      "from": "dist/assets/estate-v1/meadow-20261007.webp",
+      "to": "assets/web/estate-v1/meadow-20261007.webp"
+    },
+    {
+      "from": "dist/assets/estate-v1/meditation-stages-v1.png",
+      "to": "assets/web/estate-v1/meditation-stages-v1.png"
+    },
+    {
+      "from": "dist/assets/estate-v1/nature-20261007.webp",
+      "to": "assets/web/estate-v1/nature-20261007.webp"
+    },
+    {
+      "from": "dist/assets/estate-v1/outdoor.webp",
+      "to": "assets/web/estate-v1/outdoor.webp"
+    },
+    {
+      "from": "dist/assets/estate-v1/quarry-stages-v1.png",
+      "to": "assets/web/estate-v1/quarry-stages-v1.png"
+    },
+    {
+      "from": "dist/assets/estate-v1/watchtower-stages-v1.png",
+      "to": "assets/web/estate-v1/watchtower-stages-v1.png"
+    },
+    {
+      "from": "dist/assets/estate-v1/well-stages-v1.png",
+      "to": "assets/web/estate-v1/well-stages-v1.png"
+    },
+    {
+      "from": "dist/assets/estate-v1/workshop-stages-v1.png",
+      "to": "assets/web/estate-v1/workshop-stages-v1.png"
+    },
+    {
+      "from": "dist/assets/estate-v1/workshop-stages-v2.png",
+      "to": "assets/web/estate-v1/workshop-stages-v2.png"
+    },
+    {
+      "from": "dist/assets/estate-v1/workshop-stages-v3.png",
+      "to": "assets/web/estate-v1/workshop-stages-v3.png"
+    },
+    {
+      "from": "dist/assets/fonts/OFL-MaShanZheng.txt",
+      "to": "assets/web/fonts/OFL-MaShanZheng.txt"
+    },
+    {
+      "from": "dist/assets/fonts/README.md",
+      "to": "assets/web/fonts/README.md"
+    },
+    {
+      "from": "dist/assets/fonts/xianfu-brush.woff2",
+      "to": "assets/web/fonts/xianfu-brush.woff2"
+    },
+    {
+      "from": "dist/assets/lake.webp",
+      "to": "assets/web/lake.webp"
+    },
+    {
+      "from": "dist/assets/map.webp",
+      "to": "assets/web/map.webp"
+    },
+    {
+      "from": "dist/assets/newbuildings.png",
+      "to": "assets/web/newbuildings.png"
+    },
+    {
+      "from": "dist/assets/opening-bundle-portrait.png",
+      "to": "assets/web/opening-bundle-portrait.png"
+    },
+    {
+      "from": "dist/assets/opening-bundle-wide.png",
+      "to": "assets/web/opening-bundle-wide.png"
+    },
+    {
+      "from": "dist/assets/opening-rain-portrait.png",
+      "to": "assets/web/opening-rain-portrait.png"
+    },
+    {
+      "from": "dist/assets/opening-rain-wide.png",
+      "to": "assets/web/opening-rain-wide.png"
+    },
+    {
+      "from": "dist/assets/opening-scroll-portrait.png",
+      "to": "assets/web/opening-scroll-portrait.png"
+    },
+    {
+      "from": "dist/assets/opening-scroll-wide.png",
+      "to": "assets/web/opening-scroll-wide.png"
+    },
+    {
+      "from": "dist/assets/opening-serif.ttf",
+      "to": "assets/web/opening-serif.ttf"
+    },
+    {
+      "from": "dist/assets/valley.webp",
+      "to": "assets/web/valley.webp"
+    },
+    {
+      "from": "dist/community.mjs",
+      "to": "apps/web/community.mjs"
+    },
+    {
+      "from": "dist/ea-bootstrap.mjs",
+      "to": "apps/web/ea-bootstrap.mjs"
+    },
+    {
+      "from": "dist/ea-building-grid.mjs",
+      "to": "src/simulation/ea-building-grid.mjs"
+    },
+    {
+      "from": "dist/ea-campaign.mjs",
+      "to": "src/simulation/ea-campaign.mjs"
+    },
+    {
+      "from": "dist/ea-character-art.mjs",
+      "to": "apps/web/ea-character-art.mjs"
+    },
+    {
+      "from": "dist/ea-character-frames.mjs",
+      "to": "apps/web/ea-character-frames.mjs"
+    },
+    {
+      "from": "dist/ea-combat-geometry.mjs",
+      "to": "src/simulation/ea-combat-geometry.mjs"
+    },
+    {
+      "from": "dist/ea-construction-view.mjs",
+      "to": "apps/web/ea-construction-view.mjs"
+    },
+    {
+      "from": "dist/ea-courtyard-master-terrain.mjs",
+      "to": "src/simulation/ea-courtyard-master-terrain.mjs"
+    },
+    {
+      "from": "dist/ea-courtyard-renderer.mjs",
+      "to": "apps/web/ea-courtyard-renderer.mjs"
+    },
+    {
+      "from": "dist/ea-courtyard.css",
+      "to": "apps/web/ea-courtyard.css"
+    },
+    {
+      "from": "dist/ea-data.mjs",
+      "to": "src/simulation/ea-data.mjs"
+    },
+    {
+      "from": "dist/ea-estate-assets.mjs",
+      "to": "apps/web/ea-estate-assets.mjs"
+    },
+    {
+      "from": "dist/ea-estate-ground-art.mjs",
+      "to": "apps/web/ea-estate-ground-art.mjs"
+    },
+    {
+      "from": "dist/ea-estate-interior-art.mjs",
+      "to": "apps/web/ea-estate-interior-art.mjs"
+    },
+    {
+      "from": "dist/ea-facility-activities.mjs",
+      "to": "src/simulation/ea-facility-activities.mjs"
+    },
+    {
+      "from": "dist/ea-facility-slots.mjs",
+      "to": "src/simulation/ea-facility-slots.mjs"
+    },
+    {
+      "from": "dist/ea-foreground.mjs",
+      "to": "apps/web/ea-foreground.mjs"
+    },
+    {
+      "from": "dist/ea-game.mjs",
+      "to": "apps/web/ea-game.mjs"
+    },
+    {
+      "from": "dist/ea-godot-bridge.mjs",
+      "to": "src/simulation/ea-godot-bridge.mjs"
+    },
+    {
+      "from": "dist/ea-godot-host.mjs",
+      "to": "apps/web/ea-godot-host.mjs"
+    },
+    {
+      "from": "dist/ea-godot-world.mjs",
+      "to": "src/simulation/ea-godot-world.mjs"
+    },
+    {
+      "from": "dist/ea-hall-interior.mjs",
+      "to": "src/simulation/ea-hall-interior.mjs"
+    },
+    {
+      "from": "dist/ea-history-retention.mjs",
+      "to": "src/simulation/ea-history-retention.mjs"
+    },
+    {
+      "from": "dist/ea-interactions.mjs",
+      "to": "src/simulation/ea-interactions.mjs"
+    },
+    {
+      "from": "dist/ea-life.mjs",
+      "to": "src/simulation/ea-life.mjs"
+    },
+    {
+      "from": "dist/ea-narrative.mjs",
+      "to": "src/simulation/ea-narrative.mjs"
+    },
+    {
+      "from": "dist/ea-navigation.mjs",
+      "to": "apps/web/ea-navigation.mjs"
+    },
+    {
+      "from": "dist/ea-onboarding.mjs",
+      "to": "src/simulation/ea-onboarding.mjs"
+    },
+    {
+      "from": "dist/ea-opening-audio.mjs",
+      "to": "apps/web/ea-opening-audio.mjs"
+    },
+    {
+      "from": "dist/ea-opening-inheritance.mjs",
+      "to": "src/simulation/ea-opening-inheritance.mjs"
+    },
+    {
+      "from": "dist/ea-opening-sim.mjs",
+      "to": "src/simulation/ea-opening-sim.mjs"
+    },
+    {
+      "from": "dist/ea-package-scene.mjs",
+      "to": "apps/web/ea-package-scene.mjs"
+    },
+    {
+      "from": "dist/ea-persistence.mjs",
+      "to": "src/simulation/ea-persistence.mjs"
+    },
+    {
+      "from": "dist/ea-rain-artisan.mjs",
+      "to": "src/simulation/ea-rain-artisan.mjs"
+    },
+    {
+      "from": "dist/ea-region-art.mjs",
+      "to": "apps/web/ea-region-art.mjs"
+    },
+    {
+      "from": "dist/ea-renderer.mjs",
+      "to": "apps/web/ea-renderer.mjs"
+    },
+    {
+      "from": "dist/ea-resource-amounts.mjs",
+      "to": "src/simulation/ea-resource-amounts.mjs"
+    },
+    {
+      "from": "dist/ea-runtime.mjs",
+      "to": "src/simulation/ea-runtime.mjs"
+    },
+    {
+      "from": "dist/ea-save-codec.mjs",
+      "to": "src/simulation/ea-save-codec.mjs"
+    },
+    {
+      "from": "dist/ea-scene-geometry.mjs",
+      "to": "src/simulation/ea-scene-geometry.mjs"
+    },
+    {
+      "from": "dist/ea-scene-picking.mjs",
+      "to": "apps/web/ea-scene-picking.mjs"
+    },
+    {
+      "from": "dist/ea-scene-state.mjs",
+      "to": "src/simulation/ea-scene-state.mjs"
+    },
+    {
+      "from": "dist/ea-scenic.mjs",
+      "to": "src/simulation/ea-scenic.mjs"
+    },
+    {
+      "from": "dist/ea-sect-domain.mjs",
+      "to": "src/simulation/ea-sect-domain.mjs"
+    },
+    {
+      "from": "dist/ea-sim.mjs",
+      "to": "src/simulation/ea-sim.mjs"
+    },
+    {
+      "from": "dist/ea-society.mjs",
+      "to": "src/simulation/ea-society.mjs"
+    },
+    {
+      "from": "dist/ea-sr-aftermath.mjs",
+      "to": "src/simulation/ea-sr-aftermath.mjs"
+    },
+    {
+      "from": "dist/ea-sr-ai.mjs",
+      "to": "apps/web/ea-sr-ai.mjs"
+    },
+    {
+      "from": "dist/ea-sr-balance.mjs",
+      "to": "src/simulation/ea-sr-balance.mjs"
+    },
+    {
+      "from": "dist/ea-sr-combat.mjs",
+      "to": "src/simulation/ea-sr-combat.mjs"
+    },
+    {
+      "from": "dist/ea-sr-contracts.mjs",
+      "to": "src/simulation/ea-sr-contracts.mjs"
+    },
+    {
+      "from": "dist/ea-sr-covenants.mjs",
+      "to": "src/simulation/ea-sr-covenants.mjs"
+    },
+    {
+      "from": "dist/ea-sr-crises.mjs",
+      "to": "src/simulation/ea-sr-crises.mjs"
+    },
+    {
+      "from": "dist/ea-sr-cultivation.mjs",
+      "to": "src/simulation/ea-sr-cultivation.mjs"
+    },
+    {
+      "from": "dist/ea-sr-descent.mjs",
+      "to": "src/simulation/ea-sr-descent.mjs"
+    },
+    {
+      "from": "dist/ea-sr-economy.mjs",
+      "to": "src/simulation/ea-sr-economy.mjs"
+    },
+    {
+      "from": "dist/ea-sr-equipment.mjs",
+      "to": "src/simulation/ea-sr-equipment.mjs"
+    },
+    {
+      "from": "dist/ea-sr-late-economy.mjs",
+      "to": "src/simulation/ea-sr-late-economy.mjs"
+    },
+    {
+      "from": "dist/ea-sr-local-industry.mjs",
+      "to": "src/simulation/ea-sr-local-industry.mjs"
+    },
+    {
+      "from": "dist/ea-sr-mother-chain.mjs",
+      "to": "src/simulation/ea-sr-mother-chain.mjs"
+    },
+    {
+      "from": "dist/ea-sr-organization.mjs",
+      "to": "src/simulation/ea-sr-organization.mjs"
+    },
+    {
+      "from": "dist/ea-sr-persons.mjs",
+      "to": "src/simulation/ea-sr-persons.mjs"
+    },
+    {
+      "from": "dist/ea-sr-runtime.mjs",
+      "to": "src/simulation/ea-sr-runtime.mjs"
+    },
+    {
+      "from": "dist/ea-sr-spatial.mjs",
+      "to": "src/simulation/ea-sr-spatial.mjs"
+    },
+    {
+      "from": "dist/ea-sr-story.mjs",
+      "to": "src/simulation/ea-sr-story.mjs"
+    },
+    {
+      "from": "dist/ea-sr-ui.mjs",
+      "to": "apps/web/ea-sr-ui.mjs"
+    },
+    {
+      "from": "dist/ea-sr-weather.mjs",
+      "to": "src/simulation/ea-sr-weather.mjs"
+    },
+    {
+      "from": "dist/ea-sr-world-content.mjs",
+      "to": "src/simulation/ea-sr-world-content.mjs"
+    },
+    {
+      "from": "dist/ea-sr-world-geography.mjs",
+      "to": "src/simulation/ea-sr-world-geography.mjs"
+    },
+    {
+      "from": "dist/ea-sr-world-transport.mjs",
+      "to": "src/simulation/ea-sr-world-transport.mjs"
+    },
+    {
+      "from": "dist/ea-sr-world.mjs",
+      "to": "src/simulation/ea-sr-world.mjs"
+    },
+    {
+      "from": "dist/ea-state-v6.mjs",
+      "to": "src/simulation/ea-state-v6.mjs"
+    },
+    {
+      "from": "dist/ea-ui.mjs",
+      "to": "apps/web/ea-ui.mjs"
+    },
+    {
+      "from": "dist/ea-world-scene-art.mjs",
+      "to": "apps/web/ea-world-scene-art.mjs"
+    },
+    {
+      "from": "dist/ea.css",
+      "to": "apps/web/ea.css"
+    },
+    {
+      "from": "dist/expansion.mjs",
+      "to": "apps/web/expansion.mjs"
+    },
+    {
+      "from": "dist/game.mjs",
+      "to": "apps/web/game.mjs"
+    },
+    {
+      "from": "dist/index.html",
+      "to": "apps/web/index.html"
+    },
+    {
+      "from": "dist/living-world.mjs",
+      "to": "src/simulation/living-world.mjs"
+    },
+    {
+      "from": "dist/map-input.mjs",
+      "to": "apps/web/map-input.mjs"
+    },
+    {
+      "from": "dist/model.mjs",
+      "to": "src/simulation/model.mjs"
+    },
+    {
+      "from": "dist/persistence.mjs",
+      "to": "apps/web/persistence.mjs"
+    },
+    {
+      "from": "dist/sect-sim.mjs",
+      "to": "src/simulation/sect-sim.mjs"
+    },
+    {
+      "from": "dist/sect-ui.mjs",
+      "to": "apps/web/sect-ui.mjs"
+    },
+    {
+      "from": "dist/style.css",
+      "to": "apps/web/style.css"
+    },
+    {
+      "from": "dist/terrain-lab/app.mjs",
+      "to": "apps/web/terrain-lab/app.mjs"
+    },
+    {
+      "from": "dist/terrain-lab/index.html",
+      "to": "apps/web/terrain-lab/index.html"
+    },
+    {
+      "from": "dist/terrain-lab/renderer.mjs",
+      "to": "apps/web/terrain-lab/renderer.mjs"
+    },
+    {
+      "from": "dist/terrain-lab/style.css",
+      "to": "apps/web/terrain-lab/style.css"
+    },
+    {
+      "from": "dist/terrain-lab/world.mjs",
+      "to": "apps/web/terrain-lab/world.mjs"
+    },
+    {
+      "from": "dist/theme-v2.css",
+      "to": "apps/web/theme-v2.css"
+    },
+    {
+      "from": "dist/theme-v4.css",
+      "to": "apps/web/theme-v4.css"
+    },
+    {
+      "from": "dist/vendor/PAKO-LICENSE",
+      "to": "src/simulation/vendor/PAKO-LICENSE"
+    },
+    {
+      "from": "dist/vendor/pako.mjs",
+      "to": "src/simulation/vendor/pako.mjs"
+    },
+    {
+      "from": "dist/world.mjs",
+      "to": "src/simulation/world.mjs"
+    },
+    {
+      "from": "dist/yunxiu-courtyard/app.mjs",
+      "to": "apps/web/yunxiu-courtyard/app.mjs"
+    },
+    {
+      "from": "dist/yunxiu-courtyard/assets/character-frames.json",
+      "to": "apps/web/yunxiu-courtyard/assets/character-frames.json"
+    },
+    {
+      "from": "dist/yunxiu-courtyard/assets/characters.webp",
+      "to": "apps/web/yunxiu-courtyard/assets/characters.webp"
+    },
+    {
+      "from": "dist/yunxiu-courtyard/assets/courtyard-background.jpg",
+      "to": "apps/web/yunxiu-courtyard/assets/courtyard-background.jpg"
+    },
+    {
+      "from": "dist/yunxiu-courtyard/icons.mjs",
+      "to": "apps/web/yunxiu-courtyard/icons.mjs"
+    },
+    {
+      "from": "dist/yunxiu-courtyard/index.html",
+      "to": "apps/web/yunxiu-courtyard/index.html"
+    },
+    {
+      "from": "dist/yunxiu-courtyard/navigation.mjs",
+      "to": "src/simulation/yunxiu-courtyard/navigation.mjs"
+    },
+    {
+      "from": "dist/yunxiu-courtyard/renderer.mjs",
+      "to": "apps/web/yunxiu-courtyard/renderer.mjs"
+    },
+    {
+      "from": "dist/yunxiu-courtyard/style.css",
+      "to": "apps/web/yunxiu-courtyard/style.css"
+    },
+    {
+      "from": "dist/yunxiu-courtyard/world.mjs",
+      "to": "apps/web/yunxiu-courtyard/world.mjs"
+    },
+    {
+      "from": "godot/README.md",
+      "to": "archive/godot/README.md"
+    },
+    {
+      "from": "godot/art/actor_3d.gd",
+      "to": "archive/godot/art/actor_3d.gd"
+    },
+    {
+      "from": "godot/art/actor_3d.gd.uid",
+      "to": "archive/godot/art/actor_3d.gd.uid"
+    },
+    {
+      "from": "godot/art/art_courtyard.gd",
+      "to": "archive/godot/art/art_courtyard.gd"
+    },
+    {
+      "from": "godot/art/art_courtyard.gd.uid",
+      "to": "archive/godot/art/art_courtyard.gd.uid"
+    },
+    {
+      "from": "godot/art/art_courtyard.tscn",
+      "to": "archive/godot/art/art_courtyard.tscn"
+    },
+    {
+      "from": "godot/art/assets/disciple_master.glb",
+      "to": "archive/godot/art/assets/disciple_master.glb"
+    },
+    {
+      "from": "godot/art/assets/disciple_worker.glb",
+      "to": "archive/godot/art/assets/disciple_worker.glb"
+    },
+    {
+      "from": "godot/art/assets/hall.glb",
+      "to": "archive/godot/art/assets/hall.glb"
+    },
+    {
+      "from": "godot/art/assets/landscape-metrics.json",
+      "to": "archive/godot/art/assets/landscape-metrics.json"
+    },
+    {
+      "from": "godot/art/assets/landscape.glb",
+      "to": "archive/godot/art/assets/landscape.glb"
+    },
+    {
+      "from": "godot/art/web/shell.html",
+      "to": "archive/godot/art/web/shell.html"
+    },
+    {
+      "from": "godot/estate_2d/assets/OFL-LXGWWenKai.txt",
+      "to": "archive/godot/estate_2d/assets/OFL-LXGWWenKai.txt"
+    },
+    {
+      "from": "godot/estate_2d/assets/OFL-Noto-Serif-SC.txt",
+      "to": "archive/godot/estate_2d/assets/OFL-Noto-Serif-SC.txt"
+    },
+    {
+      "from": "godot/estate_2d/assets/PROMPTS.md",
+      "to": "archive/godot/estate_2d/assets/PROMPTS.md"
+    },
+    {
+      "from": "godot/estate_2d/assets/estate-ground-v1.png",
+      "to": "archive/godot/estate_2d/assets/estate-ground-v1.png"
+    },
+    {
+      "from": "godot/estate_2d/assets/estate-ground-v2.png",
+      "to": "archive/godot/estate_2d/assets/estate-ground-v2.png"
+    },
+    {
+      "from": "godot/estate_2d/assets/farm-v1.png",
+      "to": "archive/godot/estate_2d/assets/farm-v1.png"
+    },
+    {
+      "from": "godot/estate_2d/assets/hall-damaged-v1.png",
+      "to": "archive/godot/estate_2d/assets/hall-damaged-v1.png"
+    },
+    {
+      "from": "godot/estate_2d/assets/hall-damaged-v2.png",
+      "to": "archive/godot/estate_2d/assets/hall-damaged-v2.png"
+    },
+    {
+      "from": "godot/estate_2d/assets/hall-level2-v1.png",
+      "to": "archive/godot/estate_2d/assets/hall-level2-v1.png"
+    },
+    {
+      "from": "godot/estate_2d/assets/hall-repaired-v1.png",
+      "to": "archive/godot/estate_2d/assets/hall-repaired-v1.png"
+    },
+    {
+      "from": "godot/estate_2d/assets/kitchen-v1.png",
+      "to": "archive/godot/estate_2d/assets/kitchen-v1.png"
+    },
+    {
+      "from": "godot/estate_2d/assets/lumber-v1.png",
+      "to": "archive/godot/estate_2d/assets/lumber-v1.png"
+    },
+    {
+      "from": "godot/estate_2d/assets/merchant-qingxi-v1.png",
+      "to": "archive/godot/estate_2d/assets/merchant-qingxi-v1.png"
+    },
+    {
+      "from": "godot/estate_2d/assets/mountain-alchemy-house-v1.png",
+      "to": "archive/godot/estate_2d/assets/mountain-alchemy-house-v1.png"
+    },
+    {
+      "from": "godot/estate_2d/assets/mountain-courtyard-ground-v1.png",
+      "to": "archive/godot/estate_2d/assets/mountain-courtyard-ground-v1.png"
+    },
+    {
+      "from": "godot/estate_2d/assets/mountain-herb-terrace-empty-v1.png",
+      "to": "archive/godot/estate_2d/assets/mountain-herb-terrace-empty-v1.png"
+    },
+    {
+      "from": "godot/estate_2d/assets/mountain-herb-terrace-finishing-v1.png",
+      "to": "archive/godot/estate_2d/assets/mountain-herb-terrace-finishing-v1.png"
+    },
+    {
+      "from": "godot/estate_2d/assets/mountain-herb-terrace-foundation-v1.png",
+      "to": "archive/godot/estate_2d/assets/mountain-herb-terrace-foundation-v1.png"
+    },
+    {
+      "from": "godot/estate_2d/assets/mountain-herb-terrace-growing-v1.png",
+      "to": "archive/godot/estate_2d/assets/mountain-herb-terrace-growing-v1.png"
+    },
+    {
+      "from": "godot/estate_2d/assets/mountain-herb-terrace-ripe-v1.png",
+      "to": "archive/godot/estate_2d/assets/mountain-herb-terrace-ripe-v1.png"
+    },
+    {
+      "from": "godot/estate_2d/assets/mountain-herb-terrace-structure-v1.png",
+      "to": "archive/godot/estate_2d/assets/mountain-herb-terrace-structure-v1.png"
+    },
+    {
+      "from": "godot/estate_2d/assets/mountain-main-hall-finishing-v1.png",
+      "to": "archive/godot/estate_2d/assets/mountain-main-hall-finishing-v1.png"
+    },
+    {
+      "from": "godot/estate_2d/assets/mountain-main-hall-foundation-v1.png",
+      "to": "archive/godot/estate_2d/assets/mountain-main-hall-foundation-v1.png"
+    },
+    {
+      "from": "godot/estate_2d/assets/mountain-main-hall-structure-v1.png",
+      "to": "archive/godot/estate_2d/assets/mountain-main-hall-structure-v1.png"
+    },
+    {
+      "from": "godot/estate_2d/assets/mountain-main-hall-v1.png",
+      "to": "archive/godot/estate_2d/assets/mountain-main-hall-v1.png"
+    },
+    {
+      "from": "godot/estate_2d/assets/opening-bundle-portrait.png",
+      "to": "archive/godot/estate_2d/assets/opening-bundle-portrait.png"
+    },
+    {
+      "from": "godot/estate_2d/assets/opening-bundle-wide.png",
+      "to": "archive/godot/estate_2d/assets/opening-bundle-wide.png"
+    },
+    {
+      "from": "godot/estate_2d/assets/opening-rain-portrait.png",
+      "to": "archive/godot/estate_2d/assets/opening-rain-portrait.png"
+    },
+    {
+      "from": "godot/estate_2d/assets/opening-rain-wide.png",
+      "to": "archive/godot/estate_2d/assets/opening-rain-wide.png"
+    },
+    {
+      "from": "godot/estate_2d/assets/opening-scroll-portrait.png",
+      "to": "archive/godot/estate_2d/assets/opening-scroll-portrait.png"
+    },
+    {
+      "from": "godot/estate_2d/assets/opening-scroll-wide.png",
+      "to": "archive/godot/estate_2d/assets/opening-scroll-wide.png"
+    },
+    {
+      "from": "godot/estate_2d/assets/opening-serif.ttf",
+      "to": "archive/godot/estate_2d/assets/opening-serif.ttf"
+    },
+    {
+      "from": "godot/estate_2d/assets/opening-shelter-v1.png",
+      "to": "archive/godot/estate_2d/assets/opening-shelter-v1.png"
+    },
+    {
+      "from": "godot/estate_2d/assets/qing-luo-v1.png",
+      "to": "archive/godot/estate_2d/assets/qing-luo-v1.png"
+    },
+    {
+      "from": "godot/estate_2d/assets/residence-v1.png",
+      "to": "archive/godot/estate_2d/assets/residence-v1.png"
+    },
+    {
+      "from": "godot/estate_2d/assets/resource-herb.png",
+      "to": "archive/godot/estate_2d/assets/resource-herb.png"
+    },
+    {
+      "from": "godot/estate_2d/assets/scene-labels.ttf",
+      "to": "archive/godot/estate_2d/assets/scene-labels.ttf"
+    },
+    {
+      "from": "godot/estate_2d/assets/valley-bridge-v1.png",
+      "to": "archive/godot/estate_2d/assets/valley-bridge-v1.png"
+    },
+    {
+      "from": "godot/estate_2d/assets/valley-cave-v1.png",
+      "to": "archive/godot/estate_2d/assets/valley-cave-v1.png"
+    },
+    {
+      "from": "godot/estate_2d/assets/valley-ground-v1.png",
+      "to": "archive/godot/estate_2d/assets/valley-ground-v1.png"
+    },
+    {
+      "from": "godot/estate_2d/assets/valley-herb-patch-v1.png",
+      "to": "archive/godot/estate_2d/assets/valley-herb-patch-v1.png"
+    },
+    {
+      "from": "godot/estate_2d/assets/valley-shanxiao-v1.png",
+      "to": "archive/godot/estate_2d/assets/valley-shanxiao-v1.png"
+    },
+    {
+      "from": "godot/estate_2d/battle_view.gd",
+      "to": "archive/godot/estate_2d/battle_view.gd"
+    },
+    {
+      "from": "godot/estate_2d/estate-sites.json",
+      "to": "archive/godot/estate_2d/estate-sites.json"
+    },
+    {
+      "from": "godot/estate_2d/estate.gd",
+      "to": "archive/godot/estate_2d/estate.gd"
+    },
+    {
+      "from": "godot/estate_2d/estate.tscn",
+      "to": "archive/godot/estate_2d/estate.tscn"
+    },
+    {
+      "from": "godot/estate_2d/opening_inheritance_canvas.gd",
+      "to": "archive/godot/estate_2d/opening_inheritance_canvas.gd"
+    },
+    {
+      "from": "godot/estate_2d/opening_inheritance_scene.gd",
+      "to": "archive/godot/estate_2d/opening_inheritance_scene.gd"
+    },
+    {
+      "from": "godot/estate_2d/shadow_layer.gd",
+      "to": "archive/godot/estate_2d/shadow_layer.gd"
+    },
+    {
+      "from": "godot/estate_2d/standing_person.gd",
+      "to": "archive/godot/estate_2d/standing_person.gd"
+    },
+    {
+      "from": "godot/estate_2d/valley_scene.gd",
+      "to": "archive/godot/estate_2d/valley_scene.gd"
+    },
+    {
+      "from": "godot/estate_3d/estate-sites.json",
+      "to": "archive/godot/estate_3d/estate-sites.json"
+    },
+    {
+      "from": "godot/estate_3d/estate.gd",
+      "to": "archive/godot/estate_3d/estate.gd"
+    },
+    {
+      "from": "godot/estate_3d/estate.tscn",
+      "to": "archive/godot/estate_3d/estate.tscn"
+    },
+    {
+      "from": "godot/estate_3d/estate_art.gd",
+      "to": "archive/godot/estate_3d/estate_art.gd"
+    },
+    {
+      "from": "godot/estate_3d/web/alchemy-cauldron.png",
+      "to": "archive/godot/estate_3d/web/alchemy-cauldron.png"
+    },
+    {
+      "from": "godot/estate_3d/web/base-ui.mjs",
+      "to": "archive/godot/estate_3d/web/base-ui.mjs"
+    },
+    {
+      "from": "godot/estate_3d/web/battle-ui.css",
+      "to": "archive/godot/estate_3d/web/battle-ui.css"
+    },
+    {
+      "from": "godot/estate_3d/web/battle-ui.mjs",
+      "to": "archive/godot/estate_3d/web/battle-ui.mjs"
+    },
+    {
+      "from": "godot/estate_3d/web/crest.svg",
+      "to": "archive/godot/estate_3d/web/crest.svg"
+    },
+    {
+      "from": "godot/estate_3d/web/game-shell.html",
+      "to": "archive/godot/estate_3d/web/game-shell.html"
+    },
+    {
+      "from": "godot/estate_3d/web/game-ui.css",
+      "to": "archive/godot/estate_3d/web/game-ui.css"
+    },
+    {
+      "from": "godot/estate_3d/web/game-ui.mjs",
+      "to": "archive/godot/estate_3d/web/game-ui.mjs"
+    },
+    {
+      "from": "godot/estate_3d/web/manual-painted.png",
+      "to": "archive/godot/estate_3d/web/manual-painted.png"
+    },
+    {
+      "from": "godot/estate_3d/web/opening-goal.mjs",
+      "to": "archive/godot/estate_3d/web/opening-goal.mjs"
+    },
+    {
+      "from": "godot/estate_3d/web/plaque-frame.svg",
+      "to": "archive/godot/estate_3d/web/plaque-frame.svg"
+    },
+    {
+      "from": "godot/estate_3d/web/rail-painted.png",
+      "to": "archive/godot/estate_3d/web/rail-painted.png"
+    },
+    {
+      "from": "godot/estate_3d/web/resource-food.png",
+      "to": "archive/godot/estate_3d/web/resource-food.png"
+    },
+    {
+      "from": "godot/estate_3d/web/resource-herb.png",
+      "to": "archive/godot/estate_3d/web/resource-herb.png"
+    },
+    {
+      "from": "godot/estate_3d/web/resource-jade.png",
+      "to": "archive/godot/estate_3d/web/resource-jade.png"
+    },
+    {
+      "from": "godot/estate_3d/web/resource-stone.png",
+      "to": "archive/godot/estate_3d/web/resource-stone.png"
+    },
+    {
+      "from": "godot/estate_3d/web/resource-wood.png",
+      "to": "archive/godot/estate_3d/web/resource-wood.png"
+    },
+    {
+      "from": "godot/estate_3d/web/scene-pack-loader.mjs",
+      "to": "archive/godot/estate_3d/web/scene-pack-loader.mjs"
+    },
+    {
+      "from": "godot/estate_3d/web/scroll-painted.png",
+      "to": "archive/godot/estate_3d/web/scroll-painted.png"
+    },
+    {
+      "from": "godot/estate_3d/web/scroll-panel.svg",
+      "to": "archive/godot/estate_3d/web/scroll-panel.svg"
+    },
+    {
+      "from": "godot/estate_3d/web/system-crafting.css",
+      "to": "archive/godot/estate_3d/web/system-crafting.css"
+    },
+    {
+      "from": "godot/estate_3d/web/system-crafting.mjs",
+      "to": "archive/godot/estate_3d/web/system-crafting.mjs"
+    },
+    {
+      "from": "godot/estate_3d/web/system-inventory.css",
+      "to": "archive/godot/estate_3d/web/system-inventory.css"
+    },
+    {
+      "from": "godot/estate_3d/web/system-inventory.mjs",
+      "to": "archive/godot/estate_3d/web/system-inventory.mjs"
+    },
+    {
+      "from": "godot/estate_3d/web/system-people.css",
+      "to": "archive/godot/estate_3d/web/system-people.css"
+    },
+    {
+      "from": "godot/estate_3d/web/system-people.mjs",
+      "to": "archive/godot/estate_3d/web/system-people.mjs"
+    },
+    {
+      "from": "godot/estate_3d/web/system-sect.css",
+      "to": "archive/godot/estate_3d/web/system-sect.css"
+    },
+    {
+      "from": "godot/estate_3d/web/system-sect.mjs",
+      "to": "archive/godot/estate_3d/web/system-sect.mjs"
+    },
+    {
+      "from": "godot/estate_3d/web/system-ui-helpers.mjs",
+      "to": "archive/godot/estate_3d/web/system-ui-helpers.mjs"
+    },
+    {
+      "from": "godot/estate_3d/web/system-ui.css",
+      "to": "archive/godot/estate_3d/web/system-ui.css"
+    },
+    {
+      "from": "godot/estate_3d/web/system-world.css",
+      "to": "archive/godot/estate_3d/web/system-world.css"
+    },
+    {
+      "from": "godot/estate_3d/web/system-world.mjs",
+      "to": "archive/godot/estate_3d/web/system-world.mjs"
+    },
+    {
+      "from": "godot/estate_3d/web/title-painted.png",
+      "to": "archive/godot/estate_3d/web/title-painted.png"
+    },
+    {
+      "from": "godot/estate_3d/web/topbar-painted.png",
+      "to": "archive/godot/estate_3d/web/topbar-painted.png"
+    },
+    {
+      "from": "godot/export_presets.cfg",
+      "to": "archive/godot/export_presets.cfg"
+    },
+    {
+      "from": "godot/main.tscn",
+      "to": "archive/godot/main.tscn"
+    },
+    {
+      "from": "godot/painted_courtyard/actor_2d.gd",
+      "to": "archive/godot/painted_courtyard/actor_2d.gd"
+    },
+    {
+      "from": "godot/painted_courtyard/actor_2d.gd.uid",
+      "to": "archive/godot/painted_courtyard/actor_2d.gd.uid"
+    },
+    {
+      "from": "godot/painted_courtyard/assets/characters-v1.json",
+      "to": "archive/godot/painted_courtyard/assets/characters-v1.json"
+    },
+    {
+      "from": "godot/painted_courtyard/assets/characters-v2.json",
+      "to": "archive/godot/painted_courtyard/assets/characters-v2.json"
+    },
+    {
+      "from": "godot/painted_courtyard/assets/characters-v2.png",
+      "to": "archive/godot/painted_courtyard/assets/characters-v2.png"
+    },
+    {
+      "from": "godot/painted_courtyard/assets/characters.json",
+      "to": "archive/godot/painted_courtyard/assets/characters.json"
+    },
+    {
+      "from": "godot/painted_courtyard/assets/characters.png",
+      "to": "archive/godot/painted_courtyard/assets/characters.png"
+    },
+    {
+      "from": "godot/painted_courtyard/assets/domain-layout.json",
+      "to": "archive/godot/painted_courtyard/assets/domain-layout.json"
+    },
+    {
+      "from": "godot/painted_courtyard/assets/domain-overview-production.json",
+      "to": "archive/godot/painted_courtyard/assets/domain-overview-production.json"
+    },
+    {
+      "from": "godot/painted_courtyard/assets/domain-overview-v1.png",
+      "to": "archive/godot/painted_courtyard/assets/domain-overview-v1.png"
+    },
+    {
+      "from": "godot/painted_courtyard/assets/founding-ground-v2.png",
+      "to": "archive/godot/painted_courtyard/assets/founding-ground-v2.png"
+    },
+    {
+      "from": "godot/painted_courtyard/assets/founding-ground-v3.png",
+      "to": "archive/godot/painted_courtyard/assets/founding-ground-v3.png"
+    },
+    {
+      "from": "godot/painted_courtyard/assets/founding-v3-production.json",
+      "to": "archive/godot/painted_courtyard/assets/founding-v3-production.json"
+    },
+    {
+      "from": "godot/painted_courtyard/assets/ground.png",
+      "to": "archive/godot/painted_courtyard/assets/ground.png"
+    },
+    {
+      "from": "godot/painted_courtyard/assets/hall.png",
+      "to": "archive/godot/painted_courtyard/assets/hall.png"
+    },
+    {
+      "from": "godot/painted_courtyard/assets/layout-spacious-v3.json",
+      "to": "archive/godot/painted_courtyard/assets/layout-spacious-v3.json"
+    },
+    {
+      "from": "godot/painted_courtyard/assets/layout-v1.json",
+      "to": "archive/godot/painted_courtyard/assets/layout-v1.json"
+    },
+    {
+      "from": "godot/painted_courtyard/assets/layout-v2.json",
+      "to": "archive/godot/painted_courtyard/assets/layout-v2.json"
+    },
+    {
+      "from": "godot/painted_courtyard/assets/layout.json",
+      "to": "archive/godot/painted_courtyard/assets/layout.json"
+    },
+    {
+      "from": "godot/painted_courtyard/assets/production-v2.json",
+      "to": "archive/godot/painted_courtyard/assets/production-v2.json"
+    },
+    {
+      "from": "godot/painted_courtyard/courtyard.gd",
+      "to": "archive/godot/painted_courtyard/courtyard.gd"
+    },
+    {
+      "from": "godot/painted_courtyard/courtyard.gd.uid",
+      "to": "archive/godot/painted_courtyard/courtyard.gd.uid"
+    },
+    {
+      "from": "godot/painted_courtyard/courtyard.tscn",
+      "to": "archive/godot/painted_courtyard/courtyard.tscn"
+    },
+    {
+      "from": "godot/painted_courtyard/mountain_domain.gd",
+      "to": "archive/godot/painted_courtyard/mountain_domain.gd"
+    },
+    {
+      "from": "godot/painted_courtyard/mountain_domain.gd.uid",
+      "to": "archive/godot/painted_courtyard/mountain_domain.gd.uid"
+    },
+    {
+      "from": "godot/painted_courtyard/web/game-shell.html",
+      "to": "archive/godot/painted_courtyard/web/game-shell.html"
+    },
+    {
+      "from": "godot/painted_courtyard/web/game-ui.css",
+      "to": "archive/godot/painted_courtyard/web/game-ui.css"
+    },
+    {
+      "from": "godot/painted_courtyard/web/game-ui.mjs",
+      "to": "archive/godot/painted_courtyard/web/game-ui.mjs"
+    },
+    {
+      "from": "godot/painted_courtyard/web/shell.html",
+      "to": "archive/godot/painted_courtyard/web/shell.html"
+    },
+    {
+      "from": "godot/project.godot",
+      "to": "archive/godot/project.godot"
+    },
+    {
+      "from": "godot/scripts/courtyard.gd",
+      "to": "archive/godot/scripts/courtyard.gd"
+    },
+    {
+      "from": "godot/scripts/courtyard.gd.uid",
+      "to": "archive/godot/scripts/courtyard.gd.uid"
+    },
+    {
+      "from": "godot/scripts/estate_actor.gd",
+      "to": "archive/godot/scripts/estate_actor.gd"
+    },
+    {
+      "from": "godot/scripts/estate_actor.gd.uid",
+      "to": "archive/godot/scripts/estate_actor.gd.uid"
+    },
+    {
+      "from": "godot/scripts/estate_building.gd",
+      "to": "archive/godot/scripts/estate_building.gd"
+    },
+    {
+      "from": "godot/scripts/estate_building.gd.uid",
+      "to": "archive/godot/scripts/estate_building.gd.uid"
+    },
+    {
+      "from": "godot/scripts/main.gd",
+      "to": "archive/godot/scripts/main.gd"
+    },
+    {
+      "from": "godot/scripts/main.gd.uid",
+      "to": "archive/godot/scripts/main.gd.uid"
+    },
+    {
+      "from": "godot/web/shell.html",
+      "to": "archive/godot/web/shell.html"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/README.md",
+      "to": "archive/prototypes/pixel_scene_validation/README.md"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/arena-boot.mjs",
+      "to": "archive/prototypes/pixel_scene_validation/arena-boot.mjs"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/arena-main.mjs",
+      "to": "archive/prototypes/pixel_scene_validation/arena-main.mjs"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/arena-qa.mjs",
+      "to": "archive/prototypes/pixel_scene_validation/arena-qa.mjs"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/arena-renderer.mjs",
+      "to": "archive/prototypes/pixel_scene_validation/arena-renderer.mjs"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/arena-renderer.test.mjs",
+      "to": "tests/unit/prototypes/arena-renderer.test.mjs"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/arena-sim.mjs",
+      "to": "archive/prototypes/pixel_scene_validation/arena-sim.mjs"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/arena-sim.test.mjs",
+      "to": "tests/unit/prototypes/arena-sim.test.mjs"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/arena-storage.cjs",
+      "to": "archive/prototypes/pixel_scene_validation/arena-storage.cjs"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/arena-storage.test.cjs",
+      "to": "tests/unit/prototypes/arena-storage.test.cjs"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/arena.css",
+      "to": "archive/prototypes/pixel_scene_validation/arena.css"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/arena.html",
+      "to": "archive/prototypes/pixel_scene_validation/arena.html"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/assets/courtyard-clean-v2.png",
+      "to": "assets/courtyard/courtyard-clean-v2.png"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/assets/courtyard-domain-v1.png",
+      "to": "assets/courtyard/courtyard-domain-v1.png"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/assets/courtyard-fallow-v2.png",
+      "to": "assets/courtyard/courtyard-fallow-v2.png"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/assets/courtyard-master-v2.png",
+      "to": "assets/courtyard/courtyard-master-v2.png"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/assets/courtyard-v1.png",
+      "to": "archive/prototypes/pixel_scene_validation/assets/courtyard-v1.png"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/assets/cultivator-v1.png",
+      "to": "assets/courtyard/cultivator-v1.png"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/assets/disciples-v1.png",
+      "to": "assets/courtyard/disciples-v1.png"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/assets/east-path-a.png",
+      "to": "assets/courtyard/east-path-a.png"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/assets/east-path-b.png",
+      "to": "assets/courtyard/east-path-b.png"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/assets/east-seam-1672.png",
+      "to": "assets/courtyard/east-seam-1672.png"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/assets/east-seam-3344.png",
+      "to": "assets/courtyard/east-seam-3344.png"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/assets/east-seam-5016.png",
+      "to": "assets/courtyard/east-seam-5016.png"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/assets/east-terrace-clean.png",
+      "to": "assets/courtyard/east-terrace-clean.png"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/assets/east-terrace-construction.png",
+      "to": "assets/courtyard/east-terrace-construction.png"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/assets/east-terrace-empty.png",
+      "to": "assets/courtyard/east-terrace-empty.png"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/assets/east-terrace-v2.png",
+      "to": "assets/courtyard/east-terrace-v2.png"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/assets/garden-props-v1.png",
+      "to": "archive/prototypes/pixel_scene_validation/assets/garden-props-v1.png"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/assets/prompts.md",
+      "to": "archive/prototypes/pixel_scene_validation/assets/prompts.md"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/assets/trail-stair-connection-v1.png",
+      "to": "archive/prototypes/pixel_scene_validation/assets/trail-stair-connection-v1.png"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/assets/trail-terrain-v3.png",
+      "to": "archive/prototypes/pixel_scene_validation/assets/trail-terrain-v3.png"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/assets/trail-terrain-v4.png",
+      "to": "archive/prototypes/pixel_scene_validation/assets/trail-terrain-v4.png"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/assets/trail-terrain-v5.png",
+      "to": "archive/prototypes/pixel_scene_validation/assets/trail-terrain-v5.png"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/courtyard-east-layout.mjs",
+      "to": "apps/courtyard/courtyard-east-layout.mjs"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/courtyard-east.test.mjs",
+      "to": "tests/unit/courtyard/courtyard-east.test.mjs"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/courtyard-host.cjs",
+      "to": "apps/courtyard/courtyard-host.cjs"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/courtyard-inspection.mjs",
+      "to": "apps/courtyard/courtyard-inspection.mjs"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/courtyard-inspection.test.mjs",
+      "to": "tests/unit/courtyard/courtyard-inspection.test.mjs"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/courtyard-layers.mjs",
+      "to": "apps/courtyard/courtyard-layers.mjs"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/courtyard-main.mjs",
+      "to": "apps/courtyard/courtyard-main.mjs"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/courtyard-panel-state.mjs",
+      "to": "apps/courtyard/courtyard-panel-state.mjs"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/courtyard-panel-state.test.mjs",
+      "to": "tests/unit/courtyard/courtyard-panel-state.test.mjs"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/courtyard-panels.mjs",
+      "to": "apps/courtyard/courtyard-panels.mjs"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/courtyard-persistence.mjs",
+      "to": "apps/courtyard/courtyard-persistence.mjs"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/courtyard-persistence.test.mjs",
+      "to": "tests/unit/courtyard/courtyard-persistence.test.mjs"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/courtyard-preload.cjs",
+      "to": "apps/courtyard/courtyard-preload.cjs"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/courtyard-qa.mjs",
+      "to": "apps/courtyard/courtyard-qa.mjs"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/courtyard-recovery.cjs",
+      "to": "apps/courtyard/courtyard-recovery.cjs"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/courtyard-recovery.test.cjs",
+      "to": "tests/unit/courtyard/courtyard-recovery.test.cjs"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/courtyard-renderer.mjs",
+      "to": "apps/courtyard/courtyard-renderer.mjs"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/courtyard-renderer.test.mjs",
+      "to": "tests/unit/courtyard/courtyard-renderer.test.mjs"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/courtyard-space.mjs",
+      "to": "apps/courtyard/courtyard-space.mjs"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/courtyard-space.test.mjs",
+      "to": "tests/unit/courtyard/courtyard-space.test.mjs"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/courtyard.css",
+      "to": "apps/courtyard/courtyard.css"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/courtyard.html",
+      "to": "apps/courtyard/courtyard.html"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/desktop.cjs",
+      "to": "archive/prototypes/pixel_scene_validation/desktop.cjs"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/east-operations.test.mjs",
+      "to": "tests/unit/courtyard/east-operations.test.mjs"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/effects.mjs",
+      "to": "archive/prototypes/pixel_scene_validation/effects.mjs"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/index.html",
+      "to": "archive/prototypes/pixel_scene_validation/index.html"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/main.mjs",
+      "to": "archive/prototypes/pixel_scene_validation/main.mjs"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/package-courtyard-macos.py",
+      "to": "archive/prototypes/pixel_scene_validation/package-courtyard-macos.py"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/package-lock.json",
+      "to": "archive/prototypes/pixel_scene_validation/package-lock.json"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/package-macos.py",
+      "to": "archive/prototypes/pixel_scene_validation/package-macos.py"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/package.json",
+      "to": "archive/prototypes/pixel_scene_validation/package.json"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/preload.cjs",
+      "to": "archive/prototypes/pixel_scene_validation/preload.cjs"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/sect-operations.test.mjs",
+      "to": "tests/unit/courtyard/sect-operations.test.mjs"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/sect-seed-build.mjs",
+      "to": "apps/courtyard/sect-seed-build.mjs"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/sect-seed.mjs",
+      "to": "apps/courtyard/sect-seed.mjs"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/sect-sim.mjs",
+      "to": "apps/courtyard/sect-sim.mjs"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/sect-sim.test.mjs",
+      "to": "tests/unit/courtyard/sect-sim.test.mjs"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/sect-storage.cjs",
+      "to": "apps/courtyard/sect-storage.cjs"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/sect-storage.test.cjs",
+      "to": "tests/unit/courtyard/sect-storage.test.cjs"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/style.css",
+      "to": "archive/prototypes/pixel_scene_validation/style.css"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/trail-qa.mjs",
+      "to": "archive/prototypes/pixel_scene_validation/trail-qa.mjs"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/trail-stair-connection.mjs",
+      "to": "archive/prototypes/pixel_scene_validation/trail-stair-connection.mjs"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/trail-world.mjs",
+      "to": "archive/prototypes/pixel_scene_validation/trail-world.mjs"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/trail-world.test.mjs",
+      "to": "tests/unit/prototypes/trail-world.test.mjs"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/world.mjs",
+      "to": "archive/prototypes/pixel_scene_validation/world.mjs"
+    },
+    {
+      "from": "prototypes/pixel_scene_validation/world.test.mjs",
+      "to": "tests/unit/prototypes/world.test.mjs"
+    },
+    {
+      "from": "qa/acceptance-1.1/browser-export.json",
+      "to": "archive/qa/acceptance-1.1/browser-export.json"
+    },
+    {
+      "from": "qa/acceptance-1.1/browser-observations.json",
+      "to": "archive/qa/acceptance-1.1/browser-observations.json"
+    },
+    {
+      "from": "qa/acceptance-1.1/fixture-generation.txt",
+      "to": "archive/qa/acceptance-1.1/fixture-generation.txt"
+    },
+    {
+      "from": "qa/acceptance-1.1/node-tests.tap",
+      "to": "archive/qa/acceptance-1.1/node-tests.tap"
+    },
+    {
+      "from": "qa/acceptance-1.1/normal-run-summary.json",
+      "to": "archive/qa/acceptance-1.1/normal-run-summary.json"
+    },
+    {
+      "from": "qa/acceptance-1.1/regions-contact.jpg",
+      "to": "archive/qa/acceptance-1.1/regions-contact.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.1/release-verification.json",
+      "to": "archive/qa/acceptance-1.1/release-verification.json"
+    },
+    {
+      "from": "qa/acceptance-1.1/screenshots/01-main.jpg",
+      "to": "archive/qa/acceptance-1.1/screenshots/01-main.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.1/screenshots/02A-master.jpg",
+      "to": "archive/qa/acceptance-1.1/screenshots/02A-master.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.1/screenshots/02B-build.jpg",
+      "to": "archive/qa/acceptance-1.1/screenshots/02B-build.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.1/screenshots/02C-disciples.jpg",
+      "to": "archive/qa/acceptance-1.1/screenshots/02C-disciples.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.1/screenshots/02D-manuals.jpg",
+      "to": "archive/qa/acceptance-1.1/screenshots/02D-manuals.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.1/screenshots/03A-inventory.jpg",
+      "to": "archive/qa/acceptance-1.1/screenshots/03A-inventory.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.1/screenshots/03B-alchemy.jpg",
+      "to": "archive/qa/acceptance-1.1/screenshots/03B-alchemy.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.1/screenshots/03C-market.jpg",
+      "to": "archive/qa/acceptance-1.1/screenshots/03C-market.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.1/screenshots/03D-governance.jpg",
+      "to": "archive/qa/acceptance-1.1/screenshots/03D-governance.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.1/screenshots/04A-peaks.jpg",
+      "to": "archive/qa/acceptance-1.1/screenshots/04A-peaks.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.1/screenshots/04B-worldmap.jpg",
+      "to": "archive/qa/acceptance-1.1/screenshots/04B-worldmap.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.1/screenshots/04C-journal.jpg",
+      "to": "archive/qa/acceptance-1.1/screenshots/04C-journal.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.1/screenshots/04D-visitors.jpg",
+      "to": "archive/qa/acceptance-1.1/screenshots/04D-visitors.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.1/screenshots/05A-person.jpg",
+      "to": "archive/qa/acceptance-1.1/screenshots/05A-person.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.1/screenshots/05B-combat-actions.jpg",
+      "to": "archive/qa/acceptance-1.1/screenshots/05B-combat-actions.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.1/screenshots/05B-retreat-result.jpg",
+      "to": "archive/qa/acceptance-1.1/screenshots/05B-retreat-result.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.1/screenshots/05B-retreat-route.jpg",
+      "to": "archive/qa/acceptance-1.1/screenshots/05B-retreat-route.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.1/screenshots/05C-backups-redesign.jpg",
+      "to": "archive/qa/acceptance-1.1/screenshots/05C-backups-redesign.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.1/screenshots/05C-backups.jpg",
+      "to": "archive/qa/acceptance-1.1/screenshots/05C-backups.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.1/screenshots/05C-battle-reload.jpg",
+      "to": "archive/qa/acceptance-1.1/screenshots/05C-battle-reload.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.1/screenshots/05D-settings-redesign.jpg",
+      "to": "archive/qa/acceptance-1.1/screenshots/05D-settings-redesign.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.1/screenshots/06A-estate-initial.jpg",
+      "to": "archive/qa/acceptance-1.1/screenshots/06A-estate-initial.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.1/screenshots/06B-estate-grown.jpg",
+      "to": "archive/qa/acceptance-1.1/screenshots/06B-estate-grown.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.1/screenshots/06C-estate-founded.jpg",
+      "to": "archive/qa/acceptance-1.1/screenshots/06C-estate-founded.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.1/screenshots/06D-estate-peaks.jpg",
+      "to": "archive/qa/acceptance-1.1/screenshots/06D-estate-peaks.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.1/screenshots/07A-valley.jpg",
+      "to": "archive/qa/acceptance-1.1/screenshots/07A-valley.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.1/screenshots/07B-market.jpg",
+      "to": "archive/qa/acceptance-1.1/screenshots/07B-market.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.1/screenshots/07C-quarry.jpg",
+      "to": "archive/qa/acceptance-1.1/screenshots/07C-quarry.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.1/screenshots/07D-ruins.jpg",
+      "to": "archive/qa/acceptance-1.1/screenshots/07D-ruins.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.1/screenshots/08A-prison.jpg",
+      "to": "archive/qa/acceptance-1.1/screenshots/08A-prison.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.1/screenshots/08B-supply.jpg",
+      "to": "archive/qa/acceptance-1.1/screenshots/08B-supply.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.1/screenshots/08C-ward.jpg",
+      "to": "archive/qa/acceptance-1.1/screenshots/08C-ward.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.1/screenshots/08D-council.jpg",
+      "to": "archive/qa/acceptance-1.1/screenshots/08D-council.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.1/screenshots/09A-qixia.jpg",
+      "to": "archive/qa/acceptance-1.1/screenshots/09A-qixia.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.1/screenshots/09A-walked.jpg",
+      "to": "archive/qa/acceptance-1.1/screenshots/09A-walked.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.1/screenshots/09B-battle-party.jpg",
+      "to": "archive/qa/acceptance-1.1/screenshots/09B-battle-party.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.1/screenshots/10A-mobile-main.jpg",
+      "to": "archive/qa/acceptance-1.1/screenshots/10A-mobile-main.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.1/screenshots/10B-mobile-drawer-final.jpg",
+      "to": "archive/qa/acceptance-1.1/screenshots/10B-mobile-drawer-final.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.1/screenshots/10B-mobile-drawer.jpg",
+      "to": "archive/qa/acceptance-1.1/screenshots/10B-mobile-drawer.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.1/screenshots/10C-mobile-person-final.jpg",
+      "to": "archive/qa/acceptance-1.1/screenshots/10C-mobile-person-final.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.1/screenshots/10C-mobile-person.jpg",
+      "to": "archive/qa/acceptance-1.1/screenshots/10C-mobile-person.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.1/screenshots/10D-mobile-320-final.jpg",
+      "to": "archive/qa/acceptance-1.1/screenshots/10D-mobile-320-final.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.1/screenshots/10D-mobile-320-fixed.jpg",
+      "to": "archive/qa/acceptance-1.1/screenshots/10D-mobile-320-fixed.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.1/screenshots/10D-mobile-battle.jpg",
+      "to": "archive/qa/acceptance-1.1/screenshots/10D-mobile-battle.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.1/screenshots/archive-mobile-320.jpg",
+      "to": "archive/qa/acceptance-1.1/screenshots/archive-mobile-320.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.1/screenshots/archive-mobile-390.jpg",
+      "to": "archive/qa/acceptance-1.1/screenshots/archive-mobile-390.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.1/screenshots/archive-worlds-redesign.jpg",
+      "to": "archive/qa/acceptance-1.1/screenshots/archive-worlds-redesign.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.1/screenshots/import-confirm-mobile.jpg",
+      "to": "archive/qa/acceptance-1.1/screenshots/import-confirm-mobile.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.1/screenshots/import-preview-mobile.jpg",
+      "to": "archive/qa/acceptance-1.1/screenshots/import-preview-mobile.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.1/screenshots/paste-mobile-redesign.jpg",
+      "to": "archive/qa/acceptance-1.1/screenshots/paste-mobile-redesign.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.1/screenshots/release-archive-brush.jpg",
+      "to": "archive/qa/acceptance-1.1/screenshots/release-archive-brush.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.1/screenshots/release-main-brush.jpg",
+      "to": "archive/qa/acceptance-1.1/screenshots/release-main-brush.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.1/screenshots/release-mobile-archive-320.jpg",
+      "to": "archive/qa/acceptance-1.1/screenshots/release-mobile-archive-320.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.1/screenshots/release-mobile-combat-320.jpg",
+      "to": "archive/qa/acceptance-1.1/screenshots/release-mobile-combat-320.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.1/screenshots/release-mobile-person-brush.jpg",
+      "to": "archive/qa/acceptance-1.1/screenshots/release-mobile-person-brush.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.1/screenshots/release-mobile-settings-brush.jpg",
+      "to": "archive/qa/acceptance-1.1/screenshots/release-mobile-settings-brush.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.1/screenshots/release-person-brush.jpg",
+      "to": "archive/qa/acceptance-1.1/screenshots/release-person-brush.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.1/screenshots/release-settings-brush.jpg",
+      "to": "archive/qa/acceptance-1.1/screenshots/release-settings-brush.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.1/screenshots/save-invalid-rejected.jpg",
+      "to": "archive/qa/acceptance-1.1/screenshots/save-invalid-rejected.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.1/screenshots/save-lock-blocked.jpg",
+      "to": "archive/qa/acceptance-1.1/screenshots/save-lock-blocked.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.1/screenshots/save-memory-confirmation.jpg",
+      "to": "archive/qa/acceptance-1.1/screenshots/save-memory-confirmation.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.1/screenshots/save-memory-continued.jpg",
+      "to": "archive/qa/acceptance-1.1/screenshots/save-memory-continued.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.1/screenshots/save-takeover-pauses-owner.jpg",
+      "to": "archive/qa/acceptance-1.1/screenshots/save-takeover-pauses-owner.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.1/screenshots/save-text-recovery.jpg",
+      "to": "archive/qa/acceptance-1.1/screenshots/save-text-recovery.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.1/screenshots/save-v4-import.jpg",
+      "to": "archive/qa/acceptance-1.1/screenshots/save-v4-import.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.1/screenshots/settings-before-redesign.jpg",
+      "to": "archive/qa/acceptance-1.1/screenshots/settings-before-redesign.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.1/screenshots/settings-mobile-390.jpg",
+      "to": "archive/qa/acceptance-1.1/screenshots/settings-mobile-390.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.1/screenshots/visitor-resolved.jpg",
+      "to": "archive/qa/acceptance-1.1/screenshots/visitor-resolved.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.1/ui-template-summary.json",
+      "to": "archive/qa/acceptance-1.1/ui-template-summary.json"
+    },
+    {
+      "from": "qa/acceptance-1.2/browser-observations.json",
+      "to": "archive/qa/acceptance-1.2/browser-observations.json"
+    },
+    {
+      "from": "qa/acceptance-1.2/furnace-paused.json",
+      "to": "archive/qa/acceptance-1.2/furnace-paused.json"
+    },
+    {
+      "from": "qa/acceptance-1.2/guide-shortage.json",
+      "to": "archive/qa/acceptance-1.2/guide-shortage.json"
+    },
+    {
+      "from": "qa/acceptance-1.2/legacy-browser-export.json",
+      "to": "archive/qa/acceptance-1.2/legacy-browser-export.json"
+    },
+    {
+      "from": "qa/acceptance-1.2/screenshots/01-prologue.jpg",
+      "to": "archive/qa/acceptance-1.2/screenshots/01-prologue.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.2/screenshots/02-built-courtyard.jpg",
+      "to": "archive/qa/acceptance-1.2/screenshots/02-built-courtyard.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.2/screenshots/03-full-overview.jpg",
+      "to": "archive/qa/acceptance-1.2/screenshots/03-full-overview.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.2/screenshots/04-mobile-prologue.jpg",
+      "to": "archive/qa/acceptance-1.2/screenshots/04-mobile-prologue.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.2/ui-templates.json",
+      "to": "archive/qa/acceptance-1.2/ui-templates.json"
+    },
+    {
+      "from": "qa/acceptance-1.2/unit-tests.tap",
+      "to": "archive/qa/acceptance-1.2/unit-tests.tap"
+    },
+    {
+      "from": "qa/acceptance-1.3/browser-observations.json",
+      "to": "archive/qa/acceptance-1.3/browser-observations.json"
+    },
+    {
+      "from": "qa/acceptance-1.3/combat-prison.json",
+      "to": "archive/qa/acceptance-1.3/combat-prison.json"
+    },
+    {
+      "from": "qa/acceptance-1.3/combat-qixia.json",
+      "to": "archive/qa/acceptance-1.3/combat-qixia.json"
+    },
+    {
+      "from": "qa/acceptance-1.3/combat-quarry.json",
+      "to": "archive/qa/acceptance-1.3/combat-quarry.json"
+    },
+    {
+      "from": "qa/acceptance-1.3/combat-supply.json",
+      "to": "archive/qa/acceptance-1.3/combat-supply.json"
+    },
+    {
+      "from": "qa/acceptance-1.3/combat-won.json",
+      "to": "archive/qa/acceptance-1.3/combat-won.json"
+    },
+    {
+      "from": "qa/acceptance-1.3/independent-command-report.json",
+      "to": "archive/qa/acceptance-1.3/independent-command-report.json"
+    },
+    {
+      "from": "qa/acceptance-1.3/midgame.json",
+      "to": "archive/qa/acceptance-1.3/midgame.json"
+    },
+    {
+      "from": "qa/acceptance-1.3/region-arrived-read.json",
+      "to": "archive/qa/acceptance-1.3/region-arrived-read.json"
+    },
+    {
+      "from": "qa/acceptance-1.3/region-arrived.json",
+      "to": "archive/qa/acceptance-1.3/region-arrived.json"
+    },
+    {
+      "from": "qa/acceptance-1.3/release.json",
+      "to": "archive/qa/acceptance-1.3/release.json"
+    },
+    {
+      "from": "qa/acceptance-1.3/screenshots/full-world-r4.jpg",
+      "to": "archive/qa/acceptance-1.3/screenshots/full-world-r4.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.3/screenshots/mobile-390-r5.jpg",
+      "to": "archive/qa/acceptance-1.3/screenshots/mobile-390-r5.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.3/screenshots/official-full-world.jpg",
+      "to": "archive/qa/acceptance-1.3/screenshots/official-full-world.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.3/screenshots/prison-r5.jpg",
+      "to": "archive/qa/acceptance-1.3/screenshots/prison-r5.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.3/screenshots/qixia-r5.jpg",
+      "to": "archive/qa/acceptance-1.3/screenshots/qixia-r5.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.3/screenshots/quarry-before-fix.jpg",
+      "to": "archive/qa/acceptance-1.3/screenshots/quarry-before-fix.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.3/screenshots/quarry-r5.jpg",
+      "to": "archive/qa/acceptance-1.3/screenshots/quarry-r5.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.3/screenshots/quarry-spell-r5.jpg",
+      "to": "archive/qa/acceptance-1.3/screenshots/quarry-spell-r5.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.3/screenshots/region-dialogue-r6.jpg",
+      "to": "archive/qa/acceptance-1.3/screenshots/region-dialogue-r6.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.3/screenshots/supply-r5.jpg",
+      "to": "archive/qa/acceptance-1.3/screenshots/supply-r5.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.3/screenshots/won-r5.jpg",
+      "to": "archive/qa/acceptance-1.3/screenshots/won-r5.jpg"
+    },
+    {
+      "from": "qa/acceptance-1.3/ui-templates.json",
+      "to": "archive/qa/acceptance-1.3/ui-templates.json"
+    },
+    {
+      "from": "qa/acceptance-1.3/unit-tests.tap",
+      "to": "archive/qa/acceptance-1.3/unit-tests.tap"
+    },
+    {
+      "from": "qa/courtyard-autonomy-audit.py",
+      "to": "tests/acceptance/courtyard-autonomy-audit.py"
+    },
+    {
+      "from": "qa/courtyard-autonomy-desktop.mjs",
+      "to": "tests/acceptance/courtyard-autonomy-desktop.mjs"
+    },
+    {
+      "from": "qa/courtyard-east-desktop.mjs",
+      "to": "tests/acceptance/courtyard-east-desktop.mjs"
+    },
+    {
+      "from": "qa/courtyard-management-desktop.mjs",
+      "to": "tests/acceptance/courtyard-management-desktop.mjs"
+    },
+    {
+      "from": "qa/courtyard-operations-browser.mjs",
+      "to": "tests/acceptance/courtyard-operations-browser.mjs"
+    },
+    {
+      "from": "qa/courtyard-recovery-desktop.mjs",
+      "to": "tests/acceptance/courtyard-recovery-desktop.mjs"
+    },
+    {
+      "from": "qa/ea-130-acceptance.mjs",
+      "to": "tests/acceptance/ea-130-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-140-acceptance.mjs",
+      "to": "tests/acceptance/ea-140-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-142-acceptance.mjs",
+      "to": "tests/acceptance/ea-142-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-battle-ready-world.json",
+      "to": "tests/fixtures/ea-battle-ready-world.json"
+    },
+    {
+      "from": "qa/ea-battle-world.json",
+      "to": "tests/fixtures/ea-battle-world.json"
+    },
+    {
+      "from": "qa/ea-building-grid-acceptance.mjs",
+      "to": "tests/acceptance/ea-building-grid-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-building-raster-cache-acceptance.mjs",
+      "to": "tests/acceptance/ea-building-raster-cache-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-courtyard-life-acceptance.mjs",
+      "to": "tests/acceptance/ea-courtyard-life-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-courtyard-rest-render-acceptance.mjs",
+      "to": "tests/acceptance/ea-courtyard-rest-render-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-courtyard-visibility-acceptance.mjs",
+      "to": "tests/acceptance/ea-courtyard-visibility-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-estate-extent-acceptance.mjs",
+      "to": "tests/acceptance/ea-estate-extent-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-estate-field-cache-acceptance.mjs",
+      "to": "tests/acceptance/ea-estate-field-cache-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-export-stages.mjs",
+      "to": "tests/acceptance/ea-export-stages.mjs"
+    },
+    {
+      "from": "qa/ea-history-benchmark.mjs",
+      "to": "tests/acceptance/ea-history-benchmark.mjs"
+    },
+    {
+      "from": "qa/ea-history-compare.mjs",
+      "to": "tests/acceptance/ea-history-compare.mjs"
+    },
+    {
+      "from": "qa/ea-indoor-activities-acceptance.mjs",
+      "to": "tests/acceptance/ea-indoor-activities-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-indoor-furniture-acceptance.mjs",
+      "to": "tests/acceptance/ea-indoor-furniture-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-indoor-render.mjs",
+      "to": "tests/acceptance/ea-indoor-render.mjs"
+    },
+    {
+      "from": "qa/ea-long-session-report.json",
+      "to": "archive/qa/ea-long-session-report.json"
+    },
+    {
+      "from": "qa/ea-long-session.mjs",
+      "to": "tests/acceptance/ea-long-session.mjs"
+    },
+    {
+      "from": "qa/ea-normal-play-report.json",
+      "to": "archive/qa/ea-normal-play-report.json"
+    },
+    {
+      "from": "qa/ea-normal-play.mjs",
+      "to": "tests/acceptance/ea-normal-play.mjs"
+    },
+    {
+      "from": "qa/ea-opening-hall-acceptance.mjs",
+      "to": "tests/acceptance/ea-opening-hall-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-opening-v12-acceptance.mjs",
+      "to": "tests/acceptance/ea-opening-v12-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-paused-courtyard-render-acceptance.mjs",
+      "to": "tests/acceptance/ea-paused-courtyard-render-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-pending-world.json",
+      "to": "tests/fixtures/ea-pending-world.json"
+    },
+    {
+      "from": "qa/ea-person-activity-switch-acceptance.mjs",
+      "to": "tests/acceptance/ea-person-activity-switch-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-person-equipment-art-acceptance.mjs",
+      "to": "tests/acceptance/ea-person-equipment-art-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-person-equipment-battle-acceptance.mjs",
+      "to": "tests/acceptance/ea-person-equipment-battle-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-person-recipe-save-acceptance.mjs",
+      "to": "tests/acceptance/ea-person-recipe-save-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-person-three-selection-acceptance.mjs",
+      "to": "tests/acceptance/ea-person-three-selection-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-player.mjs",
+      "to": "tests/acceptance/ea-player.mjs"
+    },
+    {
+      "from": "qa/ea-prototype-worlds.mjs",
+      "to": "tests/acceptance/ea-prototype-worlds.mjs"
+    },
+    {
+      "from": "qa/ea-rain-artisan-acceptance.mjs",
+      "to": "tests/acceptance/ea-rain-artisan-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-reference-world.json",
+      "to": "tests/fixtures/ea-reference-world.json"
+    },
+    {
+      "from": "qa/ea-spatial-v12-acceptance.mjs",
+      "to": "tests/acceptance/ea-spatial-v12-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-sr-008-daily-relation-public-acceptance.mjs",
+      "to": "tests/acceptance/ea-sr-008-daily-relation-public-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-sr-008-five-workers-public-acceptance.mjs",
+      "to": "tests/acceptance/ea-sr-008-five-workers-public-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-sr-008-injury-interrupt-acceptance.mjs",
+      "to": "tests/acceptance/ea-sr-008-injury-interrupt-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-sr-008-invite-public-acceptance.mjs",
+      "to": "tests/acceptance/ea-sr-008-invite-public-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-sr-008-material-interrupt-public-acceptance.mjs",
+      "to": "tests/acceptance/ea-sr-008-material-interrupt-public-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-sr-008-travel-interrupt-public-acceptance.mjs",
+      "to": "tests/acceptance/ea-sr-008-travel-interrupt-public-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-sr-008-v2-migration-acceptance.mjs",
+      "to": "tests/acceptance/ea-sr-008-v2-migration-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-sr-008-v2-phase-public-acceptance.mjs",
+      "to": "tests/acceptance/ea-sr-008-v2-phase-public-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-sr-008-v2-work-public-acceptance.mjs",
+      "to": "tests/acceptance/ea-sr-008-v2-work-public-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-sr-009-cancel-public-acceptance.mjs",
+      "to": "tests/acceptance/ea-sr-009-cancel-public-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-sr-009-equipment-recipe-public-acceptance.mjs",
+      "to": "tests/acceptance/ea-sr-009-equipment-recipe-public-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-sr-009-herb-crop-public-acceptance.mjs",
+      "to": "tests/acceptance/ea-sr-009-herb-crop-public-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-sr-009-pill-recipe-public-acceptance.mjs",
+      "to": "tests/acceptance/ea-sr-009-pill-recipe-public-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-sr-009-production-gates-public-acceptance.mjs",
+      "to": "tests/acceptance/ea-sr-009-production-gates-public-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-sr-009-reservation-competition-public-acceptance.mjs",
+      "to": "tests/acceptance/ea-sr-009-reservation-competition-public-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-sr-009-shared-batch-public-acceptance.mjs",
+      "to": "tests/acceptance/ea-sr-009-shared-batch-public-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-sr-010-construction-logistics-public-acceptance.mjs",
+      "to": "tests/acceptance/ea-sr-010-construction-logistics-public-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-sr-010-inventory-summary-acceptance.mjs",
+      "to": "tests/acceptance/ea-sr-010-inventory-summary-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-sr-010-property-public-acceptance.mjs",
+      "to": "tests/acceptance/ea-sr-010-property-public-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-sr-010-study-budget-contract-acceptance.mjs",
+      "to": "tests/acceptance/ea-sr-010-study-budget-contract-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-sr-010-transport-interrupt-public-acceptance.mjs",
+      "to": "tests/acceptance/ea-sr-010-transport-interrupt-public-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-sr-011-market-order-v2-public-acceptance.mjs",
+      "to": "tests/acceptance/ea-sr-011-market-order-v2-public-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-sr-011-merchant-response-public-acceptance.mjs",
+      "to": "tests/acceptance/ea-sr-011-merchant-response-public-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-sr-011-order-deadline-public-acceptance.mjs",
+      "to": "tests/acceptance/ea-sr-011-order-deadline-public-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-sr-011-order-public-acceptance.mjs",
+      "to": "tests/acceptance/ea-sr-011-order-public-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-sr-017-refusal-cooperation-public-acceptance.mjs",
+      "to": "tests/acceptance/ea-sr-017-refusal-cooperation-public-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-sr-017-same-path-choice-public-acceptance.mjs",
+      "to": "tests/acceptance/ea-sr-017-same-path-choice-public-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-sr-017-seven-contacts-public-acceptance.mjs",
+      "to": "tests/acceptance/ea-sr-017-seven-contacts-public-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-sr-020-merchant-message-public-acceptance.mjs",
+      "to": "tests/acceptance/ea-sr-020-merchant-message-public-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-sr-020-repeat-delivery-public-acceptance.mjs",
+      "to": "tests/acceptance/ea-sr-020-repeat-delivery-public-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-sr-aftermath-acceptance.mjs",
+      "to": "tests/acceptance/ea-sr-aftermath-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-sr-building-change-public-acceptance.mjs",
+      "to": "tests/acceptance/ea-sr-building-change-public-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-sr-combat-release-acceptance.mjs",
+      "to": "tests/acceptance/ea-sr-combat-release-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-sr-contracts-acceptance.mjs",
+      "to": "tests/acceptance/ea-sr-contracts-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-sr-descent-acceptance.mjs",
+      "to": "tests/acceptance/ea-sr-descent-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-sr-economy-acceptance.mjs",
+      "to": "tests/acceptance/ea-sr-economy-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-sr-growth-acceptance.mjs",
+      "to": "tests/acceptance/ea-sr-growth-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-sr-harvest-reservation-acceptance.mjs",
+      "to": "tests/acceptance/ea-sr-harvest-reservation-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-sr-integration-acceptance.mjs",
+      "to": "tests/acceptance/ea-sr-integration-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-sr-late-economy-acceptance.mjs",
+      "to": "tests/acceptance/ea-sr-late-economy-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-sr-local-industry-acceptance.mjs",
+      "to": "tests/acceptance/ea-sr-local-industry-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-sr-market-supply-acceptance.mjs",
+      "to": "tests/acceptance/ea-sr-market-supply-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-sr-production-accounting-acceptance.mjs",
+      "to": "tests/acceptance/ea-sr-production-accounting-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-sr-scene-art-acceptance.mjs",
+      "to": "tests/acceptance/ea-sr-scene-art-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-sr-spatial-acceptance.mjs",
+      "to": "tests/acceptance/ea-sr-spatial-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-sr-teaching-boundary-acceptance.mjs",
+      "to": "tests/acceptance/ea-sr-teaching-boundary-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-sr-travel-continuity-acceptance.mjs",
+      "to": "tests/acceptance/ea-sr-travel-continuity-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-sr-ui-acceptance.mjs",
+      "to": "tests/acceptance/ea-sr-ui-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-sr-version-gate-acceptance.mjs",
+      "to": "tests/acceptance/ea-sr-version-gate-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-sr-world-acceptance.mjs",
+      "to": "tests/acceptance/ea-sr-world-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-sr-world-content-acceptance.mjs",
+      "to": "tests/acceptance/ea-sr-world-content-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-sr-world-geography-acceptance.mjs",
+      "to": "tests/acceptance/ea-sr-world-geography-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-sr002-historical-person-acceptance.mjs",
+      "to": "tests/acceptance/ea-sr002-historical-person-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-sr002-knowledge-projection-acceptance.mjs",
+      "to": "tests/acceptance/ea-sr002-knowledge-projection-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-sr002-player-projection-ui-acceptance.mjs",
+      "to": "tests/acceptance/ea-sr002-player-projection-ui-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-sr002-receipt-time-acceptance.mjs",
+      "to": "tests/acceptance/ea-sr002-receipt-time-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-sr002-story-knowledge-acceptance.mjs",
+      "to": "tests/acceptance/ea-sr002-story-knowledge-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-sr002-world-knowledge-acceptance.mjs",
+      "to": "tests/acceptance/ea-sr002-world-knowledge-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-sr003-door-queue-reload-acceptance.mjs",
+      "to": "tests/acceptance/ea-sr003-door-queue-reload-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-sr003-outer-camera-acceptance.mjs",
+      "to": "tests/acceptance/ea-sr003-outer-camera-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-sr003-pedestrian-occupancy-acceptance.mjs",
+      "to": "tests/acceptance/ea-sr003-pedestrian-occupancy-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-sr004-closed-fallback-acceptance.mjs",
+      "to": "tests/acceptance/ea-sr004-closed-fallback-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-sr004-hall-upgrade-canvas.mjs",
+      "to": "tests/acceptance/ea-sr004-hall-upgrade-canvas.mjs"
+    },
+    {
+      "from": "qa/ea-sr004-stage-browser-source.mjs",
+      "to": "tests/acceptance/ea-sr004-stage-browser-source.mjs"
+    },
+    {
+      "from": "qa/ea-sr005-crew-acceptance.mjs",
+      "to": "tests/acceptance/ea-sr005-crew-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-sr006-serial-public-acceptance.mjs",
+      "to": "tests/acceptance/ea-sr006-serial-public-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-sr006-upgrade-cancel-recovery-public-acceptance.mjs",
+      "to": "tests/acceptance/ea-sr006-upgrade-cancel-recovery-public-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-sr017-gu-first-contact-public-acceptance.mjs",
+      "to": "tests/acceptance/ea-sr017-gu-first-contact-public-acceptance.mjs"
+    },
+    {
+      "from": "qa/ea-storage-fixture.mjs",
+      "to": "tests/acceptance/ea-storage-fixture.mjs"
+    },
+    {
+      "from": "qa/ea-travel-world.json",
+      "to": "tests/fixtures/ea-travel-world.json"
+    },
+    {
+      "from": "qa/ea-ui-smoke.mjs",
+      "to": "tests/acceptance/ea-ui-smoke.mjs"
+    },
+    {
+      "from": "qa/ea-ui-template-report.json",
+      "to": "archive/qa/ea-ui-template-report.json"
+    },
+    {
+      "from": "qa/estate-motion-check.gd",
+      "to": "archive/godot/qa/estate-motion-check.gd"
+    },
+    {
+      "from": "qa/godot-scene-check.gd",
+      "to": "archive/godot/qa/godot-scene-check.gd"
+    },
+    {
+      "from": "qa/package-pages-release.py",
+      "to": "scripts/release/package-pages.py"
+    },
+    {
+      "from": "qa/painted-actor-check.gd",
+      "to": "archive/godot/qa/painted-actor-check.gd"
+    },
+    {
+      "from": "qa/painted-courtyard-check.gd",
+      "to": "archive/godot/qa/painted-courtyard-check.gd"
+    },
+    {
+      "from": "qa/painted-domain-check.gd",
+      "to": "archive/godot/qa/painted-domain-check.gd"
+    },
+    {
+      "from": "qa/prepare-release.py",
+      "to": "archive/qa/prepare-release.py"
+    },
+    {
+      "from": "qa/prototype-worlds/battle-party.json",
+      "to": "tests/fixtures/prototype-worlds/battle-party.json"
+    },
+    {
+      "from": "qa/prototype-worlds/battle.json",
+      "to": "tests/fixtures/prototype-worlds/battle.json"
+    },
+    {
+      "from": "qa/prototype-worlds/council.json",
+      "to": "tests/fixtures/prototype-worlds/council.json"
+    },
+    {
+      "from": "qa/prototype-worlds/estate-1.json",
+      "to": "tests/fixtures/prototype-worlds/estate-1.json"
+    },
+    {
+      "from": "qa/prototype-worlds/estate-2.json",
+      "to": "tests/fixtures/prototype-worlds/estate-2.json"
+    },
+    {
+      "from": "qa/prototype-worlds/estate-3.json",
+      "to": "tests/fixtures/prototype-worlds/estate-3.json"
+    },
+    {
+      "from": "qa/prototype-worlds/legacy-v4.json",
+      "to": "tests/fixtures/prototype-worlds/legacy-v4.json"
+    },
+    {
+      "from": "qa/prototype-worlds/market.json",
+      "to": "tests/fixtures/prototype-worlds/market.json"
+    },
+    {
+      "from": "qa/prototype-worlds/prison.json",
+      "to": "tests/fixtures/prototype-worlds/prison.json"
+    },
+    {
+      "from": "qa/prototype-worlds/qixia.json",
+      "to": "tests/fixtures/prototype-worlds/qixia.json"
+    },
+    {
+      "from": "qa/prototype-worlds/quarry.json",
+      "to": "tests/fixtures/prototype-worlds/quarry.json"
+    },
+    {
+      "from": "qa/prototype-worlds/ruins.json",
+      "to": "tests/fixtures/prototype-worlds/ruins.json"
+    },
+    {
+      "from": "qa/prototype-worlds/supply.json",
+      "to": "tests/fixtures/prototype-worlds/supply.json"
+    },
+    {
+      "from": "qa/prototype-worlds/valley.json",
+      "to": "tests/fixtures/prototype-worlds/valley.json"
+    },
+    {
+      "from": "qa/prototype-worlds/visitors.json",
+      "to": "tests/fixtures/prototype-worlds/visitors.json"
+    },
+    {
+      "from": "qa/prototype-worlds/ward.json",
+      "to": "tests/fixtures/prototype-worlds/ward.json"
+    },
+    {
+      "from": "qa/sr-manager.py",
+      "to": "scripts/requirements/sr-manager.py"
+    },
+    {
+      "from": "qa/terrain-lab-acceptance-report.json",
+      "to": "archive/qa/terrain-lab-acceptance-report.json"
+    },
+    {
+      "from": "qa/terrain-lab-acceptance.mjs",
+      "to": "tests/acceptance/terrain-lab-acceptance.mjs"
+    },
+    {
+      "from": "qa/terrain-lab-viewport.html",
+      "to": "tests/acceptance/terrain-lab-viewport.html"
+    },
+    {
+      "from": "qa/yunxiu-acceptance-report.json",
+      "to": "archive/qa/yunxiu-acceptance-report.json"
+    },
+    {
+      "from": "qa/yunxiu-acceptance.mjs",
+      "to": "tests/acceptance/yunxiu-acceptance.mjs"
+    },
+    {
+      "from": "qa/yunxiu-viewport.html",
+      "to": "tests/acceptance/yunxiu-viewport.html"
+    },
+    {
+      "from": "tests/ea-130-cross-system.test.mjs",
+      "to": "tests/unit/web/ea-130-cross-system.test.mjs"
+    },
+    {
+      "from": "tests/ea-activity-truth.test.mjs",
+      "to": "tests/unit/web/ea-activity-truth.test.mjs"
+    },
+    {
+      "from": "tests/ea-campaign.test.mjs",
+      "to": "tests/unit/web/ea-campaign.test.mjs"
+    },
+    {
+      "from": "tests/ea-character-atlas.test.mjs",
+      "to": "tests/unit/web/ea-character-atlas.test.mjs"
+    },
+    {
+      "from": "tests/ea-closed-stage-fallback.test.mjs",
+      "to": "tests/unit/web/ea-closed-stage-fallback.test.mjs"
+    },
+    {
+      "from": "tests/ea-combat-integration.test.mjs",
+      "to": "tests/unit/web/ea-combat-integration.test.mjs"
+    },
+    {
+      "from": "tests/ea-estate-remaining-stage-art.test.mjs",
+      "to": "tests/unit/web/ea-estate-remaining-stage-art.test.mjs"
+    },
+    {
+      "from": "tests/ea-facility-v12.test.mjs",
+      "to": "tests/unit/web/ea-facility-v12.test.mjs"
+    },
+    {
+      "from": "tests/ea-godot-bridge.test.mjs",
+      "to": "tests/unit/web/ea-godot-bridge.test.mjs"
+    },
+    {
+      "from": "tests/ea-godot-host.test.mjs",
+      "to": "tests/unit/web/ea-godot-host.test.mjs"
+    },
+    {
+      "from": "tests/ea-godot-valley-projection.test.mjs",
+      "to": "tests/unit/web/ea-godot-valley-projection.test.mjs"
+    },
+    {
+      "from": "tests/ea-hall-stage-art.test.mjs",
+      "to": "tests/unit/web/ea-hall-stage-art.test.mjs"
+    },
+    {
+      "from": "tests/ea-history-retention.test.mjs",
+      "to": "tests/unit/web/ea-history-retention.test.mjs"
+    },
+    {
+      "from": "tests/ea-house-activity-art.test.mjs",
+      "to": "tests/unit/web/ea-house-activity-art.test.mjs"
+    },
+    {
+      "from": "tests/ea-indoor-v12.test.mjs",
+      "to": "tests/unit/web/ea-indoor-v12.test.mjs"
+    },
+    {
+      "from": "tests/ea-integration.test.mjs",
+      "to": "tests/unit/web/ea-integration.test.mjs"
+    },
+    {
+      "from": "tests/ea-life.test.mjs",
+      "to": "tests/unit/web/ea-life.test.mjs"
+    },
+    {
+      "from": "tests/ea-master-control.test.mjs",
+      "to": "tests/unit/web/ea-master-control.test.mjs"
+    },
+    {
+      "from": "tests/ea-merchant-idle-recovery.test.mjs",
+      "to": "tests/unit/web/ea-merchant-idle-recovery.test.mjs"
+    },
+    {
+      "from": "tests/ea-mountain-alchemy.test.mjs",
+      "to": "tests/unit/web/ea-mountain-alchemy.test.mjs"
+    },
+    {
+      "from": "tests/ea-mountain-first-combat.test.mjs",
+      "to": "tests/unit/web/ea-mountain-first-combat.test.mjs"
+    },
+    {
+      "from": "tests/ea-mountain-hall-egress.test.mjs",
+      "to": "tests/unit/web/ea-mountain-hall-egress.test.mjs"
+    },
+    {
+      "from": "tests/ea-mountain-herb-crop.test.mjs",
+      "to": "tests/unit/web/ea-mountain-herb-crop.test.mjs"
+    },
+    {
+      "from": "tests/ea-mountain-herb-site.test.mjs",
+      "to": "tests/unit/web/ea-mountain-herb-site.test.mjs"
+    },
+    {
+      "from": "tests/ea-mountain-valley.test.mjs",
+      "to": "tests/unit/web/ea-mountain-valley.test.mjs"
+    },
+    {
+      "from": "tests/ea-narrative-ui.test.mjs",
+      "to": "tests/unit/web/ea-narrative-ui.test.mjs"
+    },
+    {
+      "from": "tests/ea-narrative.test.mjs",
+      "to": "tests/unit/web/ea-narrative.test.mjs"
+    },
+    {
+      "from": "tests/ea-navigation.test.mjs",
+      "to": "tests/unit/web/ea-navigation.test.mjs"
+    },
+    {
+      "from": "tests/ea-onboarding.test.mjs",
+      "to": "tests/unit/web/ea-onboarding.test.mjs"
+    },
+    {
+      "from": "tests/ea-opening-goal.test.mjs",
+      "to": "tests/unit/web/ea-opening-goal.test.mjs"
+    },
+    {
+      "from": "tests/ea-opening-journey-projection.test.mjs",
+      "to": "tests/unit/web/ea-opening-journey-projection.test.mjs"
+    },
+    {
+      "from": "tests/ea-opening-replay-gate.test.mjs",
+      "to": "tests/unit/web/ea-opening-replay-gate.test.mjs"
+    },
+    {
+      "from": "tests/ea-opening-v12.test.mjs",
+      "to": "tests/unit/web/ea-opening-v12.test.mjs"
+    },
+    {
+      "from": "tests/ea-outdoor-stage-art.test.mjs",
+      "to": "tests/unit/web/ea-outdoor-stage-art.test.mjs"
+    },
+    {
+      "from": "tests/ea-persistence.test.mjs",
+      "to": "tests/unit/web/ea-persistence.test.mjs"
+    },
+    {
+      "from": "tests/ea-placement-v12.test.mjs",
+      "to": "tests/unit/web/ea-placement-v12.test.mjs"
+    },
+    {
+      "from": "tests/ea-progressive-panels.test.mjs",
+      "to": "tests/unit/web/ea-progressive-panels.test.mjs"
+    },
+    {
+      "from": "tests/ea-release-package.test.mjs",
+      "to": "tests/unit/web/ea-release-package.test.mjs"
+    },
+    {
+      "from": "tests/ea-rest-pose.test.mjs",
+      "to": "tests/unit/web/ea-rest-pose.test.mjs"
+    },
+    {
+      "from": "tests/ea-runtime.test.mjs",
+      "to": "tests/unit/web/ea-runtime.test.mjs"
+    },
+    {
+      "from": "tests/ea-scene-geometry.test.mjs",
+      "to": "tests/unit/web/ea-scene-geometry.test.mjs"
+    },
+    {
+      "from": "tests/ea-scene-integration.test.mjs",
+      "to": "tests/unit/web/ea-scene-integration.test.mjs"
+    },
+    {
+      "from": "tests/ea-scene-pack-loader.test.mjs",
+      "to": "tests/unit/web/ea-scene-pack-loader.test.mjs"
+    },
+    {
+      "from": "tests/ea-scene-ui.test.mjs",
+      "to": "tests/unit/web/ea-scene-ui.test.mjs"
+    },
+    {
+      "from": "tests/ea-scenic.test.mjs",
+      "to": "tests/unit/web/ea-scenic.test.mjs"
+    },
+    {
+      "from": "tests/ea-sect-domain.test.mjs",
+      "to": "tests/unit/web/ea-sect-domain.test.mjs"
+    },
+    {
+      "from": "tests/ea-sim.test.mjs",
+      "to": "tests/unit/web/ea-sim.test.mjs"
+    },
+    {
+      "from": "tests/ea-society.test.mjs",
+      "to": "tests/unit/web/ea-society.test.mjs"
+    },
+    {
+      "from": "tests/ea-sr-combat-body.test.mjs",
+      "to": "tests/unit/web/ea-sr-combat-body.test.mjs"
+    },
+    {
+      "from": "tests/ea-sr-spatial-door-replan.test.mjs",
+      "to": "tests/unit/web/ea-sr-spatial-door-replan.test.mjs"
+    },
+    {
+      "from": "tests/ea-system-ui-projection.test.mjs",
+      "to": "tests/unit/web/ea-system-ui-projection.test.mjs"
+    },
+    {
+      "from": "tests/living-world.test.mjs",
+      "to": "tests/unit/web/living-world.test.mjs"
+    },
+    {
+      "from": "tests/map-input.test.mjs",
+      "to": "tests/unit/web/map-input.test.mjs"
+    },
+    {
+      "from": "tests/persistence.test.mjs",
+      "to": "tests/unit/web/persistence.test.mjs"
+    },
+    {
+      "from": "tests/sect-sim.test.mjs",
+      "to": "tests/unit/web/sect-sim.test.mjs"
+    },
+    {
+      "from": "tests/world.test.mjs",
+      "to": "tests/unit/web/world.test.mjs"
+    },
+    {
+      "from": "tools/art/build_characters.py",
+      "to": "scripts/art/build_characters.py"
+    },
+    {
+      "from": "tools/art/build_hall.py",
+      "to": "scripts/art/build_hall.py"
+    },
+    {
+      "from": "tools/art/build_landscape.py",
+      "to": "scripts/art/build_landscape.py"
+    },
+    {
+      "from": "tools/build-art-web.py",
+      "to": "archive/godot/tools/build-art-web.py"
+    },
+    {
+      "from": "tools/build-estate-painted-web.py",
+      "to": "archive/godot/tools/build-estate-painted-web.py"
+    },
+    {
+      "from": "tools/build-estate-web.py",
+      "to": "archive/godot/tools/build-estate-web.py"
+    },
+    {
+      "from": "tools/build-godot-web.py",
+      "to": "archive/godot/tools/build-godot-web.py"
+    },
+    {
+      "from": "tools/build-painted-web.py",
+      "to": "archive/godot/tools/build-painted-web.py"
+    }
+  ]
+}

@@ -111,4 +111,4 @@ SR-XF-038-V01证据：2026-10-06：定向脚本与回归结果见接续实施记
 - 2026-10-06：U-94激活高阶实施，REQ03/AC03由旧背景后置改为实际开放与前期隔离；保留历史expected，新增组件证据不能直接关闭实际全程AC。
 - 2026-10-06：接续具体设计及运行时集成完成，D01/D02/I01据源码与作者配置更新；V01继续，未据局部检查宣布SR验收或发布关闭。
 
-本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。
+本文件由[registry.json](../registry.json)派生；更新台账后执行 `python scripts/requirements/sr-manager.py refresh`，不单独修改此派生页。

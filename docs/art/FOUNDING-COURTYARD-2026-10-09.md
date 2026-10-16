@@ -18,12 +18,12 @@
 
 沈砚使用深靛衣袍与高束发，陆知微使用赭黄短衣、深青下装与低束发。图集共64帧，每人具有正/背向行走各8帧、劳动8帧、转身与站姿8帧；左右方向镜像，站姿使用转身条的0/2/4帧。脚步按实际行走距离推进，停下后0.16秒收步，劳动离位立即切换，暂停冻结位置与姿态。角色仍是相同的两名身份。
 
-新图由内置imagegen生成，原图原样保留；[完整生成提示词与来源](../../godot/painted_courtyard/assets/production-v2.json)、[图集帧与脚点](../../godot/painted_courtyard/assets/characters-v2.json)、[地标、通路与遮挡](../../godot/painted_courtyard/assets/layout.json)可追溯。旧图集、底图和主殿素材继续保留。图集两帧在原图相邻边界分别有5/12个有效alpha像素，元数据已注明；当前68像素显示与网页截图未观察到明显外溢，后续放大美术认可仍由用户判断。
+新图由内置imagegen生成，原图原样保留；[完整生成提示词与来源](../../archive/godot/painted_courtyard/assets/production-v2.json)、[图集帧与脚点](../../archive/godot/painted_courtyard/assets/characters-v2.json)、[地标、通路与遮挡](../../archive/godot/painted_courtyard/assets/layout.json)可追溯。旧图集、底图和主殿素材继续保留。图集两帧在原图相邻边界分别有5/12个有效alpha像素，元数据已注明；当前68像素显示与网页截图未观察到明显外溢，后续放大美术认可仍由用户判断。
 
 ## 可复现构建
 
 ```sh
-python3 tools/build-painted-web.py --check
+python3 archive/godot/tools/build-painted-web.py --check
 python3 -m http.server 8080 --directory dist --bind 127.0.0.1
 ```
 

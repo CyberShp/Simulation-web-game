@@ -1,6 +1,6 @@
 # 山院美术原型 · 生成说明
 
-使用内置 image_gen。直接风格参考为 `prototypes/pixel_scene_validation/assets/courtyard-v1.png`，以演武场已认可的细颗粒像素、材质刻画和景观层次为标准。
+使用内置 image_gen。直接风格参考为 `archive/prototypes/pixel_scene_validation/assets/courtyard-v1.png`，以演武场已认可的细颗粒像素、材质刻画和景观层次为标准。
 
 本轮先交原型供用户审核。场景代码与长时验收暂停，既有未提交成果保留。原型中的布局细化须经审核后再转换为实际地形、碰撞、建位与分层素材。
 

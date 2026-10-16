@@ -16,7 +16,7 @@
 | 桌面长时运行 | SR-XF-029；IDLE-05、U-139 | 至少1200秒实际自主运行、原生最小化仍推进、阅读及手动暂停 |
 | 关闭与重开 | SR-XF-030；IDLE-06 | 同一状态跨进程恢复、关闭期间不补进度、继续实际活动 |
 
-新增`qa/courtyard-autonomy-desktop.mjs`（长跑与`--mode=food-recovery`恢复检查）及`qa/courtyard-autonomy-audit.py`（读取同一轮原始证据）。正式运行代码沿用U-150最终包；完整SR/AC只在全部条件满足后关闭。
+新增`tests/acceptance/courtyard-autonomy-desktop.mjs`（长跑与`--mode=food-recovery`恢复检查）及`tests/acceptance/courtyard-autonomy-audit.py`（读取同一轮原始证据）。正式运行代码沿用U-150最终包；完整SR/AC只在全部条件满足后关闭。
 
 ## 本批实际结果
 

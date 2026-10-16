@@ -91,12 +91,12 @@ SR-XF-015-REQ-03：断路和拒绝同行有可行替代，关闭/后台不补算
 - docs/requirements/design/SR-XF-015-017-020-025-035-037-039.md
 - docs/requirements/IMPLEMENTATION-2026-10-06.md
 - docs/art/COURTYARD-VALLEY-2026-10-12.md
-- tests/ea-mountain-valley.test.mjs
-- tests/ea-godot-valley-projection.test.mjs
+- tests/unit/web/ea-mountain-valley.test.mjs
+- tests/unit/web/ea-godot-valley-projection.test.mjs
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
 - 2026-10-12：2026-10-12 U-123：正式界面山院赴山门、8秒入谷、34米返程出口及8秒返院已实走；谷内存读保同一人物和地点，山谷定向5／5。 局部证据见 docs/art/COURTYARD-VALLEY-2026-10-12.md；整项 D/I/V/R 与 AC 状态不变。
 - 2026-10-12：2026-10-12 U-123 首战本地网页：最终本地战斗网页撤退保留谷内同一掌门脚点，确认战报后实走17.3米至归院道，按当时天气约9秒返院；完整旅行定位 AC 状态保持。 证据见 docs/art/COURTYARD-VALLEY-2026-10-12.md；整项 D/I/V/R 与 AC 状态不变。
 
-本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。
+本文件由[registry.json](../registry.json)派生；更新台账后执行 `python scripts/requirements/sr-manager.py refresh`，不单独修改此派生页。

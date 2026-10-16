@@ -41,7 +41,7 @@
 
 ## 2. 与当前代码的边界
 
-核对基准为 `docs/EA-DESIGN.md`、`dist/ea-data.mjs`、`dist/ea-sim.mjs`、`dist/ea-campaign.mjs`。
+核对基准为 `docs/EA-DESIGN.md`、`src/simulation/ea-data.mjs`、`src/simulation/ea-sim.mjs`、`src/simulation/ea-campaign.mjs`。
 当前已有十二部主辅功法定义、四类丹药、书籍来源和部分剧情传承奖励。
 当前已有熟练值、前置、互斥、封存、主修转修、导师判断及自主学习基础。
 当前 `knowledge` 同时承担理解和熟练的含义，不能据此宣称本规格已完整实现。

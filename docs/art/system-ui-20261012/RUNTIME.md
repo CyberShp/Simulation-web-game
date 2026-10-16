@@ -24,21 +24,21 @@
 
 | 文件 | 责任 |
 | --- | --- |
-| `godot/estate_3d/web/game-shell.html`、`system-ui.css`、`system-ui-helpers.mjs` | 共同窗口、导航、样式、真实肖像与图标。 |
-| `godot/estate_3d/web/base-ui.mjs` | 页面控制、命令反馈、跨页人物／物品参数、增量更新、存读入口。 |
-| `godot/estate_3d/web/system-people.mjs`、`system-people.css` | 门人名册、详情和掌门页面。 |
-| `godot/estate_3d/web/system-inventory.mjs`、`system-inventory.css` | 行囊、装备和位置库存页面。 |
-| `godot/estate_3d/web/game-ui.mjs`、`godot/estate_2d/estate.gd` | 山院剧情／营造与真实人物镜头定位。 |
-| `dist/ea-godot-bridge.mjs`、`dist/ea-godot-host.mjs` | `systemPeople`／`inventory` 只读投影及正式命令派发。 |
-| `dist/ea-society.mjs`、`dist/ea-sr-economy.mjs` | 公开学习视图、随身货位和搬运边界。 |
-| `tools/build-estate-painted-web.py`、`tools/build-estate-web.py` | 随网页导出共同窗口及人物／行囊模块。 |
+| `archive/godot/estate_3d/web/game-shell.html`、`system-ui.css`、`system-ui-helpers.mjs` | 共同窗口、导航、样式、真实肖像与图标。 |
+| `archive/godot/estate_3d/web/base-ui.mjs` | 页面控制、命令反馈、跨页人物／物品参数、增量更新、存读入口。 |
+| `archive/godot/estate_3d/web/system-people.mjs`、`system-people.css` | 门人名册、详情和掌门页面。 |
+| `archive/godot/estate_3d/web/system-inventory.mjs`、`system-inventory.css` | 行囊、装备和位置库存页面。 |
+| `archive/godot/estate_3d/web/game-ui.mjs`、`archive/godot/estate_2d/estate.gd` | 山院剧情／营造与真实人物镜头定位。 |
+| `src/simulation/ea-godot-bridge.mjs`、`apps/web/ea-godot-host.mjs` | `systemPeople`／`inventory` 只读投影及正式命令派发。 |
+| `src/simulation/ea-society.mjs`、`src/simulation/ea-sr-economy.mjs` | 公开学习视图、随身货位和搬运边界。 |
+| `archive/godot/tools/build-estate-painted-web.py`、`archive/godot/tools/build-estate-web.py` | 随网页导出共同窗口及人物／行囊模块。 |
 
 人物页调用 `masterAction('heal'|'rest'|'cultivate')`、`inviteWork(personId, instanceId)`；行囊调用 `equipItem`、`storeItem`、`masterPill`／`preparePillUse`、`startTransport`／`transferProperty`。UI 以命令回执和后续快照显示预约、前往、完成或拒绝。场景人物点击向页面传入同一 ID，定位通过 `focus_person` 返回场景。
 
 本地构建：
 
 ```bash
-python3 tools/build-estate-painted-web.py --output output/mountain-courtyard-preview/index.html
+python3 archive/godot/tools/build-estate-painted-web.py --output output/mountain-courtyard-preview/index.html
 ```
 
 ## 已验证范围
@@ -46,7 +46,7 @@ python3 tools/build-estate-painted-web.py --output output/mountain-courtyard-pre
 ### 定向 Node 检查
 
 ```bash
-node --test tests/ea-system-ui-projection.test.mjs tests/ea-mountain-herb-crop.test.mjs tests/ea-master-control.test.mjs
+node --test tests/unit/web/ea-system-ui-projection.test.mjs tests/unit/web/ea-mountain-herb-crop.test.mjs tests/unit/web/ea-master-control.test.mjs
 ```
 
 本批结果 **9／9**：
@@ -55,7 +55,7 @@ node --test tests/ea-system-ui-projection.test.mjs tests/ea-mountain-herb-crop.t
 - `ea-mountain-herb-crop` 1 项：首畦照料、播种、成长、收获与对应存读。
 - `ea-master-control` 4 项：手动期、三十秒交接、重新接管和暂停／倍速／存读等现有控制契约。
 
-人物模块另使用实际载入的 `qa/ea-reference-world.json`（掌门加 30 门人）检查五页名册、每页 6 人、按 ID 选人、搜索、功法往返保持筛选及只读存档不变。此项为模块检查，未据此记作大名册浏览器或目标设备验收。
+人物模块另使用实际载入的 `tests/fixtures/ea-reference-world.json`（掌门加 30 门人）检查五页名册、每页 6 人、按 ID 选人、搜索、功法往返保持筛选及只读存档不变。此项为模块检查，未据此记作大名册浏览器或目标设备验收。
 
 ### 本地浏览器操作
 

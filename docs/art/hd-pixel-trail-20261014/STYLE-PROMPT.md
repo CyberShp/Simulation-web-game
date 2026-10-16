@@ -1,8 +1,8 @@
 # 近山地形材质统一 · 2026-10-14
 
-U-138 的美术参照为已认可的原山院 `prototypes/pixel_scene_validation/assets/courtyard-v1.png`。内置 imagegen 以该图为风格参照，以 v4 南方地形为布局参照，生成同构图的 v5。原山院素材保持逐字节一致；下方素材原生尺寸为 1182×1330，运行时映射为 1672×1882。
+U-138 的美术参照为已认可的原山院 `archive/prototypes/pixel_scene_validation/assets/courtyard-v1.png`。内置 imagegen 以该图为风格参照，以 v4 南方地形为布局参照，生成同构图的 v5。原山院素材保持逐字节一致；下方素材原生尺寸为 1182×1330，运行时映射为 1672×1882。
 
-输出素材：[trail-terrain-v5.png](../../../prototypes/pixel_scene_validation/assets/trail-terrain-v5.png)。制作结果先作为候选，再通过实际桌面窗口检查衔接、人物比例及树石遮挡。运行证据见 [STYLE-ALIGNMENT.md](STYLE-ALIGNMENT.md)。
+输出素材：[trail-terrain-v5.png](../../../archive/prototypes/pixel_scene_validation/assets/trail-terrain-v5.png)。制作结果先作为候选，再通过实际桌面窗口检查衔接、人物比例及树石遮挡。运行证据见 [STYLE-ALIGNMENT.md](STYLE-ALIGNMENT.md)。
 
 ## 实际生成提示
 

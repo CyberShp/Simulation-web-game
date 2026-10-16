@@ -24,8 +24,8 @@
 ## 验证
 
 - `node --test tests/*.test.mjs`：198 / 198；本轮新增 9 项联动回归，含设施增改停拆、NPC 去向、地图阶段、隐藏路线、恢复幂等与满规模通路入口。
-- `node qa/ea-ui-smoke.mjs`：6 状态、48 模板，无异常或非有限数字，渲染不修改世界状态。此项是模板检查，不代替浏览器验收。
-- `node qa/ea-normal-play.mjs --reference`：1358 次公开玩家操作、22 次整档校验、55 游戏日；筑基、通关、正式立派、30 人 / 40 设施 / 双峰。该通关脚本未直接修改资源或进度。
+- `node tests/acceptance/ea-ui-smoke.mjs`：6 状态、48 模板，无异常或非有限数字，渲染不修改世界状态。此项是模板检查，不代替浏览器验收。
+- `node tests/acceptance/ea-normal-play.mjs --reference`：1358 次公开玩家操作、22 次整档校验、55 游戏日；筑基、通关、正式立派、30 人 / 40 设施 / 双峰。该通关脚本未直接修改资源或进度。
 - 桌面浏览器：三幕序章及直接疗伤、初始无开放路线、中期四个发现地点、设施独立定位/停用、完整档导入、战斗恢复及往返山院、v4 原文导入与完整文本导出。
 - 全部浏览器操作使用 `acceptance=qa-*` 独立档位。中后期验收档通过公开导入校验和“验收试读”加载，不写玩家正式档。
 
@@ -39,10 +39,10 @@ GitHub Pages 发布提交 `eb7f6ead81465811a1ea48ea44e4fe0e7b44d45f`，部署任
 
 | 画面 | 证据 |
 | --- | --- |
-| 剧情承接与首个行动 | [序章](../qa/acceptance-1.2/screenshots/01-prologue.jpg) |
-| 浏览器实际建设后的三处设施 | [营造后总览](../qa/acceptance-1.2/screenshots/02-built-courtyard.jpg) |
-| 正式上线、40 处设施、丹炉停用状态 | [完整总览](../qa/acceptance-1.2/screenshots/03-full-overview.jpg) |
-| 窄屏三幕剧情 | [手机尺寸](../qa/acceptance-1.2/screenshots/04-mobile-prologue.jpg) |
+| 剧情承接与首个行动 | [序章](../archive/qa/acceptance-1.2/screenshots/01-prologue.jpg) |
+| 浏览器实际建设后的三处设施 | [营造后总览](../archive/qa/acceptance-1.2/screenshots/02-built-courtyard.jpg) |
+| 正式上线、40 处设施、丹炉停用状态 | [完整总览](../archive/qa/acceptance-1.2/screenshots/03-full-overview.jpg) |
+| 窄屏三幕剧情 | [手机尺寸](../archive/qa/acceptance-1.2/screenshots/04-mobile-prologue.jpg) |
 
 实际观察、测试报告与 v4 浏览器导出见 `qa/acceptance-1.2/`。材料不足档由新世界正常疗伤、赠药、卖出材料形成；停炉档在正常通关参考档上使用开炉与停用命令形成，未直接修改资源或剧情状态。
 

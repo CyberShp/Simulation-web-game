@@ -12,10 +12,10 @@
 
 ## 素材与构建
 
-- [宽庭院素材](../../godot/painted_courtyard/assets/founding-ground-v3.png)与[完整生成提示词](../../godot/painted_courtyard/assets/founding-v3-production.json)：内置imagegen生成。
-- [山域总览素材](../../godot/painted_courtyard/assets/domain-overview-v1.png)与[完整生成提示词](../../godot/painted_courtyard/assets/domain-overview-production.json)：内置imagegen生成，作为规划绘景。
-- [布局](../../godot/painted_courtyard/assets/layout.json)定义道路、阻挡和绘画遮挡分片；[山域定义](../../godot/painted_courtyard/assets/domain-layout.json)定义总览及近景范围。
-- 构建命令：`python3 tools/build-painted-web.py --check`；构建只打包当前使用素材，既有源码与历史素材保留。
+- [宽庭院素材](../../archive/godot/painted_courtyard/assets/founding-ground-v3.png)与[完整生成提示词](../../archive/godot/painted_courtyard/assets/founding-v3-production.json)：内置imagegen生成。
+- [山域总览素材](../../archive/godot/painted_courtyard/assets/domain-overview-v1.png)与[完整生成提示词](../../archive/godot/painted_courtyard/assets/domain-overview-production.json)：内置imagegen生成，作为规划绘景。
+- [布局](../../archive/godot/painted_courtyard/assets/layout.json)定义道路、阻挡和绘画遮挡分片；[山域定义](../../archive/godot/painted_courtyard/assets/domain-layout.json)定义总览及近景范围。
+- 构建命令：`python3 archive/godot/tools/build-painted-web.py --check`；构建只打包当前使用素材，既有源码与历史素材保留。
 
 ## 验证记录
 

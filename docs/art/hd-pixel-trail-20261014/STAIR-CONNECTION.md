@@ -8,7 +8,7 @@
 - [同机位实机](/Volumes/Media/immortal-qa/pixel-seam-20261014/verified-run/trail-02-restored-path.png)
 - [西侧近景](/Volumes/Media/immortal-qa/pixel-seam-20261014/verified-run/trail-02-west-detail.png) · [东侧近景](/Volumes/Media/immortal-qa/pixel-seam-20261014/verified-run/trail-02-east-detail.png)
 - [行程实录](/Volumes/Media/immortal-qa/pixel-seam-20261014/verified-run/trail-playthrough.webm)
-- [补画素材](../../../prototypes/pixel_scene_validation/assets/trail-stair-connection-v1.png) · [生成提示与边界来源](STAIR-CONNECTION-PROMPT.md)
+- [补画素材](../../../archive/prototypes/pixel_scene_validation/assets/trail-stair-connection-v1.png) · [生成提示与边界来源](STAIR-CONNECTION-PROMPT.md)
 
 ## 实现与复核
 

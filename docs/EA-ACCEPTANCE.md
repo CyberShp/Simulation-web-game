@@ -14,18 +14,18 @@
 
 | 文件 / 命令 | 用途与证据边界 |
 | --- | --- |
-| `qa/ea-player.mjs` | 从 `initial()` 开始，只使用公开玩家命令和 `tick`；读取状态规划行动，不改资源、人物、剧情、随机状态。每个等待有有限超时。 |
-| `node qa/ea-normal-play.mjs --reference` | 完整普通流程；输出操作轨迹 `ea-normal-play-report.json` 与可导入参考档 `ea-reference-world.json`。 |
-| `node --test tests/ea-integration.test.mjs` | 23 项独立跨模块验证。秘密行为、非法数据和精确竞争使用明确标注的边界夹具；这些不用于证明普通开局可行。 |
-| `node qa/ea-long-session.mjs` | 正常操作建立密集世界后，执行 21,600 次一秒更新，每游戏日保存、验证并检查独占岗位；输出 `ea-long-session-report.json`。 |
-| `node qa/ea-ui-smoke.mjs` | 实际执行 UI 模板、人物详情、建筑详情、引导；最小 document 仅收集结果。不能证明 DOM 更新、焦点、布局、触控或帧率。 |
-| `node qa/ea-export-stages.mjs` | 用普通操作生成决战前、决战中、旅行中、待选探索事件四份严格校验通过的 v5 存档，供实际 UI 导入验收。 |
-| `qa/ea-storage-fixture.mjs` | 内存 storage 与持有至释放的 Web Locks 模拟器；证明合作写入协议，不能代替真浏览器多窗口。 |
+| `tests/acceptance/ea-player.mjs` | 从 `initial()` 开始，只使用公开玩家命令和 `tick`；读取状态规划行动，不改资源、人物、剧情、随机状态。每个等待有有限超时。 |
+| `node tests/acceptance/ea-normal-play.mjs --reference` | 完整普通流程；输出操作轨迹 `ea-normal-play-report.json` 与可导入参考档 `ea-reference-world.json`。 |
+| `node --test tests/unit/web/ea-integration.test.mjs` | 23 项独立跨模块验证。秘密行为、非法数据和精确竞争使用明确标注的边界夹具；这些不用于证明普通开局可行。 |
+| `node tests/acceptance/ea-long-session.mjs` | 正常操作建立密集世界后，执行 21,600 次一秒更新，每游戏日保存、验证并检查独占岗位；输出 `ea-long-session-report.json`。 |
+| `node tests/acceptance/ea-ui-smoke.mjs` | 实际执行 UI 模板、人物详情、建筑详情、引导；最小 document 仅收集结果。不能证明 DOM 更新、焦点、布局、触控或帧率。 |
+| `node tests/acceptance/ea-export-stages.mjs` | 用普通操作生成决战前、决战中、旅行中、待选探索事件四份严格校验通过的 v5 存档，供实际 UI 导入验收。 |
+| `tests/acceptance/ea-storage-fixture.mjs` | 内存 storage 与持有至释放的 Web Locks 模拟器；证明合作写入协议，不能代替真浏览器多窗口。 |
 | `node --test tests/*.test.mjs` | 执行各模块作者测试与独立集成测试；通过数量不表示每个测试都来自普通玩家流程。 |
 
 ## 普通玩家流程实际结果
 
-最终默认新档记录于 `qa/ea-normal-play-report.json`。时间为模拟世界中的秒，第一日从 0 秒开始；表中不是真人操作速度。
+最终默认新档记录于 `archive/qa/ea-normal-play-report.json`。时间为模拟世界中的秒，第一日从 0 秒开始；表中不是真人操作速度。
 
 | 节点 | 游戏秒 / 游戏日 | 实际状态 |
 | --- | --- | --- |
@@ -90,7 +90,7 @@
 | U-06 错误和恢复入口 | 真实只读/接管提示、旧卷迁移、三份备份中选择最旧并确认恢复通过；存储故障入口未在浏览器注入验证 |
 | U-07 字体 / 颜色 / 音效的替代信息 | 设置三个视听开关与 1.2 倍大字可操作；已有文字状态与条件；对比度和实际听感未专门验证 |
 
-浏览器阶段档：`qa/ea-battle-ready-world.json`（决战前）、`qa/ea-battle-world.json`（韩厉川战斗中）、`qa/ea-travel-world.json`（坊市途中）、`qa/ea-pending-world.json`（地标待选）、`qa/ea-reference-world.json`（密集双峰）。这些均由正常玩家操作生成；不是注入的演示结局。
+浏览器阶段档：`tests/fixtures/ea-battle-ready-world.json`（决战前）、`tests/fixtures/ea-battle-world.json`（韩厉川战斗中）、`tests/fixtures/ea-travel-world.json`（坊市途中）、`tests/fixtures/ea-pending-world.json`（地标待选）、`tests/fixtures/ea-reference-world.json`（密集双峰）。这些均由正常玩家操作生成；不是注入的演示结局。
 
 浏览器证据由主执行者提供，验收代理未共享或操作浏览器。环境：qa3，Chrome，主视口 1363 × 936，另有同源 iframe 390 × 844 响应式检查；未探测 Chrome 具体版本。窄视口不是移动设备或移动浏览器。
 
@@ -110,7 +110,7 @@
 
 ## 长时间模拟与性能
 
-最终报告：`qa/ea-long-session-report.json`。环境为 Node v24.19.0；保存使用真实 EA 校验和持久化实现，底层为内存 storage / Web Locks 夹具。采样没有浏览器绘制，不宣称桌面 60 FPS 或移动 30 FPS。
+最终报告：`archive/qa/ea-long-session-report.json`。环境为 Node v24.19.0；保存使用真实 EA 校验和持久化实现，底层为内存 storage / Web Locks 夹具。采样没有浏览器绘制，不宣称桌面 60 FPS 或移动 30 FPS。
 
 | 指标 | 实际测量 |
 | --- | --- |

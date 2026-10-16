@@ -1,6 +1,6 @@
 # 近山像素地形 · 素材制作记录
 
-采用内置 imagegen 编辑生成二维地形。当前运行素材为 `prototypes/pixel_scene_validation/assets/trail-terrain-v4.png`，自然尺寸 1182×1330；投影为 1672×1882，接在原山院南侧。用户确认的颗粒方向为“颗粒再细一级，保留清楚的像素轮廓”；当前接入后的完整画面仍由实机评看确认。
+采用内置 imagegen 编辑生成二维地形。当前运行素材为 `archive/prototypes/pixel_scene_validation/assets/trail-terrain-v4.png`，自然尺寸 1182×1330；投影为 1672×1882，接在原山院南侧。用户确认的颗粒方向为“颗粒再细一级，保留清楚的像素轮廓”；当前接入后的完整画面仍由实机评看确认。
 
 ## 生成要求摘要
 

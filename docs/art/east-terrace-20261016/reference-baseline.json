@@ -103,7 +103,7 @@
     }
   ],
   "geometryReference": {
-    "sourcePath": "dist/ea-sect-domain.mjs",
+    "sourcePath": "src/simulation/ea-sect-domain.mjs",
     "sceneId": "scene:yunxiu-courtyard",
     "coordinateUnit": "metre",
     "road": {
@@ -145,11 +145,11 @@
         "width": 0.9,
         "length": 2.2
       },
-      "prefabSourcePath": "dist/ea-sr-spatial.mjs"
+      "prefabSourcePath": "src/simulation/ea-sr-spatial.mjs"
     },
     "prototypeCalibrationStatus": "integrated mapping and road travel verified in final macOS package; user review of integrated runtime remains pending",
     "preIntegrationMapping": {
-      "sourcePath": "prototypes/pixel_scene_validation/courtyard-space.mjs",
+      "sourcePath": "apps/courtyard/courtyard-space.mjs",
       "currentEastReviewArt": {
         "x": 1290,
         "y": 495
@@ -165,7 +165,7 @@
       "status": "historical-pre-integration-measurement"
     },
     "currentMapping": {
-      "sourcePath": "prototypes/pixel_scene_validation/courtyard-space.mjs",
+      "sourcePath": "apps/courtyard/courtyard-space.mjs",
       "profile": "courtyard-v2-east-seams-1",
       "roadStartArt": {
         "x": 3344,

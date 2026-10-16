@@ -53,13 +53,13 @@ SR-XF-002-REQ-03：新字段接入包含保存、加载和旧数据兼容策略�
 | SR-XF-002-AC-02 | 重复提交与只读查询 | 结果事务至多一次，查询前后权威状态一致。 | passed |
 | SR-XF-002-AC-03 | 导入引用缺失或版本未知的定义 | 校验定位到具体ID/字段，停止激活并保留原状态，不生成占位奖励。 | passed |
 
-SR-XF-002-AC-01证据：qa/ea-sr-integration-acceptance.mjs；docs/design/STATUS.md；tests/ea-sr-combat-body.test.mjs；dist/ea-sr-story.mjs；dist/ea-sr-runtime.mjs
+SR-XF-002-AC-01证据：tests/acceptance/ea-sr-integration-acceptance.mjs；docs/design/STATUS.md；tests/unit/web/ea-sr-combat-body.test.mjs；src/simulation/ea-sr-story.mjs；src/simulation/ea-sr-runtime.mjs
 
-SR-XF-002-AC-02证据：qa/ea-sr-contracts-acceptance.mjs；docs/requirements/IMPLEMENTATION-2026-10-06.md
+SR-XF-002-AC-02证据：tests/acceptance/ea-sr-contracts-acceptance.mjs；docs/requirements/IMPLEMENTATION-2026-10-06.md
 
-SR-XF-002-AC-03证据：qa/ea-sr-contracts-acceptance.mjs；docs/requirements/IMPLEMENTATION-2026-10-06.md
+SR-XF-002-AC-03证据：tests/acceptance/ea-sr-contracts-acceptance.mjs；docs/requirements/IMPLEMENTATION-2026-10-06.md
 
-2026-10-07 M0/M1 接续批：D01 补了当前 schema6 主人物山院、旅行、斗法、返院的实际字段/失败/存读映射。共同契约 Node 19/19 复验。另以 qa/ea-sr-integration-acceptance.mjs 的新档正常公开命令链验证疗伤、发现地点、出发、在途、抵达、返院和5次精确 JSON 存读：4命令、世界步至561，person:master 人物记录始终唯一，一件随身继承剑实例 ID/归属/位置与外观配方保留；此为 AC01 的旅行子范围。独立审阅确认斗法同链身份/装备/伤势尚未核验，且 combat.player 仍有独立 hp、缺持久 personId。故 D01/D02 和 AC01 均未关闭，AC02/03 沿用既有通过证据。
+2026-10-07 M0/M1 接续批：D01 补了当前 schema6 主人物山院、旅行、斗法、返院的实际字段/失败/存读映射。共同契约 Node 19/19 复验。另以 tests/acceptance/ea-sr-integration-acceptance.mjs 的新档正常公开命令链验证疗伤、发现地点、出发、在途、抵达、返院和5次精确 JSON 存读：4命令、世界步至561，person:master 人物记录始终唯一，一件随身继承剑实例 ID/归属/位置与外观配方保留；此为 AC01 的旅行子范围。独立审阅确认斗法同链身份/装备/伤势尚未核验，且 combat.player 仍有独立 hp、缺持久 personId。故 D01/D02 和 AC01 均未关闭，AC02/03 沿用既有通过证据。
 
 2026-10-07 M1 战斗共同身体批：SR 会话持久引用同一掌门/具名参战者；战斗 HP 从人物伤势投影，受击/携药治疗立即写回伤势，胜败撤只释放身体而不重复记伤。同 tick 致胜一击后又遭契约致命反噬时按最终身体事实判败、无胜利奖励。独立只读复核重跑战斗及旧回归 30/30；新增组件测试 8/8 覆盖会话、存读、旧活跃形状迁移与坏引用拒绝。新档正常旅行子链已通过，但未到实战返院；旧活跃档只用合成历史形状，浏览器实战未验，故 AC01、D/I/V/R 均保持原状态。
 2026-10-07 正常新档公开操作链从已完成五人匠人档继续，完成第9/10/11境并在世界步474439保存；后续世界步483700的晶石采购因商人现货6、补货来源0被正式命令拒绝。真实来源/远方采集和成本尚待核对，尚未进入同档实战返院；AC01与完整D/I/V/R保持原状态。
@@ -70,9 +70,9 @@ SR-XF-002-AC-03证据：qa/ea-sr-contracts-acceptance.mjs；docs/requirements/IM
 
 2026-10-08 M1 旧离宗窄项：合法 v5 离宗历史升级后保留身份/原因/记忆、时钟/资源/RNG和源文，不再凭缺字段生成活跃生命周期或院内脚点；世界场景不画该人，传话发起与伪造进行中传话存档均拒绝。独立专项 3/3、共同契约 24/24、世界相关 21/21，源档精确存读。外观/日程/生命史仍由旧兼容路径合成，版本组合及逐人送达时刻仍属 I01；I/V/R 不提升。
 
-2026-10-08 M1 版本与收件窄项：schema6 已登记主规则/内容组合、核心模块和显式空间子版本按字段校验；混搭、未知或缺失核心版本拒载。知识查询只读，初始收件与实际传话完结分别登记逐人时刻和送达事实；旧格式缺逐人证据时显示未知，首次再传话只登记新收件人。证据：qa/ea-sr-version-gate-acceptance.mjs 9/9、qa/ea-sr002-receipt-time-acceptance.mjs 5/5、qa/ea-sr-contracts-acceptance.mjs 24/24；相邻 qa/ea-sr-world-acceptance.mjs 21/21、qa/ea-sr-world-content-acceptance.mjs 9/9、qa/ea-sr-local-industry-acceptance.mjs 8/8，均经独立只读复验。自含存档只能校验内部一致性，无法证明所有时间与事实被同步篡改前的外部历史；旧档外观/日程来源、浏览器/目标设备与完整 I/V/R 继续。
+2026-10-08 M1 版本与收件窄项：schema6 已登记主规则/内容组合、核心模块和显式空间子版本按字段校验；混搭、未知或缺失核心版本拒载。知识查询只读，初始收件与实际传话完结分别登记逐人时刻和送达事实；旧格式缺逐人证据时显示未知，首次再传话只登记新收件人。证据：tests/acceptance/ea-sr-version-gate-acceptance.mjs 9/9、tests/acceptance/ea-sr002-receipt-time-acceptance.mjs 5/5、tests/acceptance/ea-sr-contracts-acceptance.mjs 24/24；相邻 tests/acceptance/ea-sr-world-acceptance.mjs 21/21、tests/acceptance/ea-sr-world-content-acceptance.mjs 9/9、tests/acceptance/ea-sr-local-industry-acceptance.mjs 8/8，均经独立只读复验。自含存档只能校验内部一致性，无法证明所有时间与事实被同步篡改前的外部历史；旧档外观/日程来源、浏览器/目标设备与完整 I/V/R 继续。
 
-2026-10-08 M1 知识投影子批：knownFactForObserver 不把普通转述证据视作本人亲见；消息分开显示观察/实际收件时刻，旧档缺值未知，核实程度及位置按已获事实过滤。山外位置/卜算、危机远程结果、旧案责任和死亡传闻沿同一边界。独立专项 qa/ea-sr002-knowledge-projection-acceptance.mjs 5/5、qa/ea-sr002-world-knowledge-acceptance.mjs 7/7、qa/ea-sr002-story-knowledge-acceptance.mjs 6/6、qa/ea-sr002-player-projection-ui-acceptance.mjs 7/7；相邻收据 5/5、世界 21/21、共同契约 24/24。本地独立 Chromium 合法试读传闻卡、未落盘、新建/保存/刷新续档通过；8080 模块连接重置，8177 刷新后可用。更宽的集成脚本 9 pass/4 fail，四处同为未修改上一源码也复现的开局运输资源断言；独立公开 Chromium 合法传闻试读、新建、手动保存、刷新续档通过，控制台 0 错误/0 警告；完整历史来源矩阵和真 iPadOS 仍未证明。运行源码 56639dc8925a5697782edd41db37e7fa49fb5035、Pages 03d3e30cd6c618e12958351afa5afaf845f382b5 已发布且构建完成，整项 I/V/R 与 AC 状态不提升。
+2026-10-08 M1 知识投影子批：knownFactForObserver 不把普通转述证据视作本人亲见；消息分开显示观察/实际收件时刻，旧档缺值未知，核实程度及位置按已获事实过滤。山外位置/卜算、危机远程结果、旧案责任和死亡传闻沿同一边界。独立专项 tests/acceptance/ea-sr002-knowledge-projection-acceptance.mjs 5/5、tests/acceptance/ea-sr002-world-knowledge-acceptance.mjs 7/7、tests/acceptance/ea-sr002-story-knowledge-acceptance.mjs 6/6、tests/acceptance/ea-sr002-player-projection-ui-acceptance.mjs 7/7；相邻收据 5/5、世界 21/21、共同契约 24/24。本地独立 Chromium 合法试读传闻卡、未落盘、新建/保存/刷新续档通过；8080 模块连接重置，8177 刷新后可用。更宽的集成脚本 9 pass/4 fail，四处同为未修改上一源码也复现的开局运输资源断言；独立公开 Chromium 合法传闻试读、新建、手动保存、刷新续档通过，控制台 0 错误/0 警告；完整历史来源矩阵和真 iPadOS 仍未证明。运行源码 56639dc8925a5697782edd41db37e7fa49fb5035、Pages 03d3e30cd6c618e12958351afa5afaf845f382b5 已发布且构建完成，整项 I/V/R 与 AC 状态不提升。
 
 ## 开发任务
 
@@ -88,9 +88,9 @@ SR-XF-002-D01证据：docs/requirements/design/SR-XF-002-030.md；docs/requireme
 
 SR-XF-002-D02证据：docs/requirements/design/SR-XF-002-030.md
 
-SR-XF-002-I01证据：qa/ea-sr002-knowledge-projection-acceptance.mjs；qa/ea-sr002-world-knowledge-acceptance.mjs；qa/ea-sr002-story-knowledge-acceptance.mjs；qa/ea-sr002-player-projection-ui-acceptance.mjs；docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。
+SR-XF-002-I01证据：tests/acceptance/ea-sr002-knowledge-projection-acceptance.mjs；tests/acceptance/ea-sr002-world-knowledge-acceptance.mjs；tests/acceptance/ea-sr002-story-knowledge-acceptance.mjs；tests/acceptance/ea-sr002-player-projection-ui-acceptance.mjs；docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。
 
-SR-XF-002-V01证据：qa/ea-sr-contracts-acceptance.mjs；docs/design/STATUS.md；qa/ea-sr-integration-acceptance.mjs；qa/ea-sr002-knowledge-projection-acceptance.mjs；qa/ea-sr002-world-knowledge-acceptance.mjs；qa/ea-sr002-story-knowledge-acceptance.mjs；qa/ea-sr002-player-projection-ui-acceptance.mjs；docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。
+SR-XF-002-V01证据：tests/acceptance/ea-sr-contracts-acceptance.mjs；docs/design/STATUS.md；tests/acceptance/ea-sr-integration-acceptance.mjs；tests/acceptance/ea-sr002-knowledge-projection-acceptance.mjs；tests/acceptance/ea-sr002-world-knowledge-acceptance.mjs；tests/acceptance/ea-sr002-story-knowledge-acceptance.mjs；tests/acceptance/ea-sr002-player-projection-ui-acceptance.mjs；docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。
 
 ## 可进入开发的条件
 
@@ -115,22 +115,22 @@ SR-XF-002-V01证据：qa/ea-sr-contracts-acceptance.mjs；docs/design/STATUS.md�
 
 - docs/requirements/design/SR-XF-002-030.md
 - docs/requirements/IMPLEMENTATION-2026-10-06.md
-- dist/ea-campaign.mjs
-- dist/ea-sr-combat.mjs
-- dist/ea-opening-sim.mjs
-- tests/ea-sr-combat-body.test.mjs
-- qa/ea-sr-combat-release-acceptance.mjs
+- src/simulation/ea-campaign.mjs
+- src/simulation/ea-sr-combat.mjs
+- src/simulation/ea-opening-sim.mjs
+- tests/unit/web/ea-sr-combat-body.test.mjs
+- tests/acceptance/ea-sr-combat-release-acceptance.mjs
 - docs/design/STATUS.md
-- qa/ea-sr-integration-acceptance.mjs
-- qa/ea-sr002-knowledge-projection-acceptance.mjs
-- qa/ea-sr002-world-knowledge-acceptance.mjs
-- qa/ea-sr002-story-knowledge-acceptance.mjs
-- qa/ea-sr002-player-projection-ui-acceptance.mjs
-- tests/ea-master-control.test.mjs
+- tests/acceptance/ea-sr-integration-acceptance.mjs
+- tests/acceptance/ea-sr002-knowledge-projection-acceptance.mjs
+- tests/acceptance/ea-sr002-world-knowledge-acceptance.mjs
+- tests/acceptance/ea-sr002-story-knowledge-acceptance.mjs
+- tests/acceptance/ea-sr002-player-projection-ui-acceptance.mjs
+- tests/unit/web/ea-master-control.test.mjs
 - docs/design/ISSUE-6-HISTORY-RETENTION.md
-- tests/ea-history-retention.test.mjs
-- qa/ea-history-benchmark.mjs
-- qa/ea-history-compare.mjs
+- tests/unit/web/ea-history-retention.test.mjs
+- tests/acceptance/ea-history-benchmark.mjs
+- tests/acceptance/ea-history-compare.mjs
 - docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。
 - docs/design/51-COURTYARD-MANAGEMENT-INTEGRATION.md；2026-10-15 U-149/R-49：四页与共用详情、单趟40份留苗搬运、落地回收和保存恢复接通；组件与相邻回归57/57，同一检查点真实桌面387.845秒13/13、最终包页面8/8、恢复链9/9，原生选择文件/预检/恢复及手动暂停已验。完整新档、规模、对话/突破、跨区施工、20分钟自主与Windows待接；完整D/I/V/R和AC状态保持。
 
@@ -144,11 +144,11 @@ SR-XF-002-V01证据：qa/ea-sr-contracts-acceptance.mjs；docs/design/STATUS.md�
 - 2026-10-08：独立逐段核对旧离宗例外、主子版本矩阵、条件模块与I01接缝，结论PASS
 - 2026-10-08：SR002 D01/D02 设计与独立审阅完成；将历史离宗人兼容、版本门禁及知识送达时刻列入 I01，不宣称实现。
 - 2026-10-08：2026-10-08 M1 旧离宗窄项：合法 v5 离宗历史升级后保留身份/原因/记忆、时钟/资源/RNG和源文，不再凭缺字段生成活跃生命周期或院内脚点；世界场景不画该人，传话发起与伪造进行中传话存档均拒绝。独立专项 3/3、共同契约 24/24、世界相关 21/21，源档精确存读。外观/日程/生命史仍由旧兼容路径合成，版本组合及逐人送达时刻仍属 I01；I/V/R 不提升。
-- 2026-10-08：2026-10-08 M1 版本与收件窄项：schema6 已登记主规则/内容组合、核心模块和显式空间子版本按字段校验；混搭、未知或缺失核心版本拒载。知识查询只读，初始收件与实际传话完结分别登记逐人时刻和送达事实；旧格式缺逐人证据时显示未知，首次再传话只登记新收件人。证据：qa/ea-sr-version-gate-acceptance.mjs 9/9、qa/ea-sr002-receipt-time-acceptance.mjs 5/5、qa/ea-sr-contracts-acceptance.mjs 24/24；相邻 qa/ea-sr-world-acceptance.mjs 21/21、qa/ea-sr-world-content-acceptance.mjs 9/9、qa/ea-sr-local-industry-acceptance.mjs 8/8，均经独立只读复验。自含存档只能校验内部一致性，无法证明所有时间与事实被同步篡改前的外部历史；旧档外观/日程来源、浏览器/目标设备与完整 I/V/R 继续。
+- 2026-10-08：2026-10-08 M1 版本与收件窄项：schema6 已登记主规则/内容组合、核心模块和显式空间子版本按字段校验；混搭、未知或缺失核心版本拒载。知识查询只读，初始收件与实际传话完结分别登记逐人时刻和送达事实；旧格式缺逐人证据时显示未知，首次再传话只登记新收件人。证据：tests/acceptance/ea-sr-version-gate-acceptance.mjs 9/9、tests/acceptance/ea-sr002-receipt-time-acceptance.mjs 5/5、tests/acceptance/ea-sr-contracts-acceptance.mjs 24/24；相邻 tests/acceptance/ea-sr-world-acceptance.mjs 21/21、tests/acceptance/ea-sr-world-content-acceptance.mjs 9/9、tests/acceptance/ea-sr-local-industry-acceptance.mjs 8/8，均经独立只读复验。自含存档只能校验内部一致性，无法证明所有时间与事实被同步篡改前的外部历史；旧档外观/日程来源、浏览器/目标设备与完整 I/V/R 继续。
 - 2026-10-08：M1 知识投影子批：消息、世界位置、危机和旧案界面按观察者实际获知事实收窄；独立专项 5/5、7/7、6/6、7/7，本地合法档试读和存读通过。公开源码及 Pages r4 已发布；不提升整项 I/V/R 或 AC。
 - 2026-10-11：U-119 掌门手动期与三十秒自主交接接入同一模拟和存档；定向 4/4、本地山院实点到点停留及计时后返程。已有工程继续、空闲修炼和重新接管分别覆盖；完整 SR002 I/V/R 与目标设备仍按原门槛。
 - 2026-10-12：Issue #6：只对白名单纯历史事实与完成商旅行程做引用闭包保护的周期摘要；生产及普通旅行完整保留，旧档先完整校验、保存恢复及日凭证幂等继续成立。真实6/12/24/48小时A/B与局部回归见ISSUE-6-HISTORY-RETENTION；不推进整项SR/AC、真机或真人状态。
 - 2026-10-15：U-147接续P0—P2：新增两人小院可操作供给成长和保存/事务保护，登记局部实现与Node证据；实际UI/桌面未验，完整状态不推进。
 - 2026-10-15：U-149：接续远端main并完成当前山院管理和取消回收、保存恢复的局部桌面验证；完整状态保持。
 
-本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。
+本文件由[registry.json](../registry.json)派生；更新台账后执行 `python scripts/requirements/sr-manager.py refresh`，不单独修改此派生页。

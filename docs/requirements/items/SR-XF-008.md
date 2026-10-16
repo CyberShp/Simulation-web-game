@@ -53,11 +53,11 @@ SR-XF-008-REQ-03：理由只显示公开/本人说法，隐藏动机不从UI泄�
 | SR-XF-008-AC-02 | 五人竞争两个工位 | 两人实际执行，其他等待或改做其他事，入口不叠人假生产。 | passed |
 | SR-XF-008-AC-03 | 出行或受伤打断工作 | 生产停止，预约合理释放；恢复先重验身体、目标和材料。 | passed |
 
-SR-XF-008-AC-01证据：qa/ea-sr-008-invite-public-acceptance.mjs；dist/ea-sr-persons.mjs；dist/ea-sr-ui.mjs；docs/design/STATUS.md
+SR-XF-008-AC-01证据：tests/acceptance/ea-sr-008-invite-public-acceptance.mjs；src/simulation/ea-sr-persons.mjs；apps/web/ea-sr-ui.mjs；docs/design/STATUS.md
 
-SR-XF-008-AC-02证据：qa/ea-sr-008-five-workers-public-acceptance.mjs；dist/ea-ui.mjs；dist/ea-sr-persons.mjs；docs/design/STATUS.md
+SR-XF-008-AC-02证据：tests/acceptance/ea-sr-008-five-workers-public-acceptance.mjs；apps/web/ea-ui.mjs；src/simulation/ea-sr-persons.mjs；docs/design/STATUS.md
 
-SR-XF-008-AC-03证据：qa/ea-sr-008-travel-interrupt-public-acceptance.mjs；qa/ea-sr-008-material-interrupt-public-acceptance.mjs；qa/ea-sr-008-injury-interrupt-acceptance.mjs；dist/ea-facility-activities.mjs；docs/design/STATUS.md
+SR-XF-008-AC-03证据：tests/acceptance/ea-sr-008-travel-interrupt-public-acceptance.mjs；tests/acceptance/ea-sr-008-material-interrupt-public-acceptance.mjs；tests/acceptance/ea-sr-008-injury-interrupt-acceptance.mjs；src/simulation/ea-facility-activities.mjs；docs/design/STATUS.md
 
 2026-10-08 M2 首批：SR008-AC01 公开命令五阶段 accepted/repeated/unavailable/renewed/working 精确存读与原生导入一致；管理页在接受和停用同 tick 显示当前公开原因与有效承诺，浏览器独立只读导入核对。根 Agent 复跑 1/1，相关界面10/10、经济52/52。AC02/03和整项门槛仍未完成。
 2026-10-08 M2 五人两工位验收：正常新档 128 条公开命令招至五人、建居舍并三趟搬运腾出木材缓存；五人分别获邀，两人实际占独立伐木工位，两人各在门外独立点等候，一人自主休憩；第28批仅两名执行者记贡献、只一条产出事实且库存增量等于产量。根 Agent 复跑1/1并看隔离桌面浏览器的执行者、等候者、建筑2/2三张截图；修正侧卡从投影人物误读旧休憩为真实身体活动。AC02 passed，真iPadOS/真人、AC03和整项门槛未关闭。
@@ -80,9 +80,9 @@ SR-XF-008-D01证据：docs/requirements/design/SR-XF-007-011-019-026-027.md; 202
 
 SR-XF-008-D02证据：docs/requirements/design/SR-XF-007-011-019-026-027.md; independent reviewer report 2026-10-08
 
-SR-XF-008-I01证据：qa/ea-sr-008-invite-public-acceptance.mjs；dist/ea-sr-persons.mjs；dist/ea-sr-ui.mjs；docs/design/STATUS.md；docs/requirements/design/SR-XF-007-011-019-026-027.md；2026-10-08 r14 在正式schema6/content v1.2 每日供给已结算时，按人物/日号登记唯一来源事实，再一次更新信任；旧关系为既有基线，不反推旧日事实，坏来源拒载。正常公开有粮与缺粮链35命令/25次精确存读，新专项2/2，旧重复邀请和五人两工位2/2、世界21/21。源码307894b、Pages f3e0d63 built，162文本blob匹配。完整自主日程v2的迁移、承诺生命周期和正式决策尚未发布，I01继续；原AC与V/R状态不变。；2026-10-08 r15 有界 autonomy:v2 准备能力：从正常公开邀请原生档先验证原档，克隆迁移并保留旧承诺剩余期限和本人来源事实；到原截止世界步转 completed、设施停用或公开出行转 interrupted，逐阶段可精确存读；非法 speed=3 原档迁移前拒绝，低信任为可做但不愿做，设施不可用为硬阻塞。迁移专项正常来源37命令/24次存读，根合入后新增3/3、旧邀请/五人2/2、世界21/21、产权6/6；独立复核5/5，旧AC03三项缺外部来源检查点跳过。源码effc917、Pages a90fda6 built，162文本blob匹配。当前正式 tick/邀请仍走v1；v2其他活动、职责、意愿平衡、浏览器与目标设备未验，I01及整项V/R继续。；2026-10-08 r18：正常来源92条公开命令、隔离迁移后10条邀请与至少66次精确存读；两名42分自愿到不同真实伐木工位，27分拒绝与身体硬阻塞、承诺到期、停用中断及150/300/600退避均复核。主线6/6，源码a7326da9b73f331567dbaa4fa6cfaba932f18a5d，Pages656f4b026bb917c54c070436218ecbbd39cc1981 built，162文本blob一致；浏览器、设备及完整v2未验。；2026-10-08 r19: mutual facility-route wait after the SR009 opening timing change was resolved with physical side-step; qa/ea-sr-008-v2-work-public-acceptance.mjs 1/1, two real stations before the original 240-tick commitment expiry, exact-save yielding route; adjacent facility/door 17/17; source c9be1d476311a558e7a37a4e0305e5086b71a369；2026-10-08 M2 r32 v2 日相位子批：正常五人/两真实伐木工位来源链107+6公开命令、67次精确存读；两位自愿门人跨休整→生产偏好时保留原240步承诺、岗位和不同实际工位，停用营造后才中断。schedule.phase 在迁移、每世界步和只读人物页用同一 worldTick；不改生产结算或另建身体。根与独立新专项1/1、迁移1/1，旧邀请1/1、UI契约17通过/4待设备。旧v2-work硬编码缺失人物及旧five-workers精确小数坐标断言，在本提交父版本原样失败，不计回归通过；伤病/生产专项缺来源档跳过。源码2455d0b、Pages8c5621e built，162文本blob及公网入口/人物模块字节一致；r32未做浏览器游戏内交互和真机。完整v2/I/V/R继续。；docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。
+SR-XF-008-I01证据：tests/acceptance/ea-sr-008-invite-public-acceptance.mjs；src/simulation/ea-sr-persons.mjs；apps/web/ea-sr-ui.mjs；docs/design/STATUS.md；docs/requirements/design/SR-XF-007-011-019-026-027.md；2026-10-08 r14 在正式schema6/content v1.2 每日供给已结算时，按人物/日号登记唯一来源事实，再一次更新信任；旧关系为既有基线，不反推旧日事实，坏来源拒载。正常公开有粮与缺粮链35命令/25次精确存读，新专项2/2，旧重复邀请和五人两工位2/2、世界21/21。源码307894b、Pages f3e0d63 built，162文本blob匹配。完整自主日程v2的迁移、承诺生命周期和正式决策尚未发布，I01继续；原AC与V/R状态不变。；2026-10-08 r15 有界 autonomy:v2 准备能力：从正常公开邀请原生档先验证原档，克隆迁移并保留旧承诺剩余期限和本人来源事实；到原截止世界步转 completed、设施停用或公开出行转 interrupted，逐阶段可精确存读；非法 speed=3 原档迁移前拒绝，低信任为可做但不愿做，设施不可用为硬阻塞。迁移专项正常来源37命令/24次存读，根合入后新增3/3、旧邀请/五人2/2、世界21/21、产权6/6；独立复核5/5，旧AC03三项缺外部来源检查点跳过。源码effc917、Pages a90fda6 built，162文本blob匹配。当前正式 tick/邀请仍走v1；v2其他活动、职责、意愿平衡、浏览器与目标设备未验，I01及整项V/R继续。；2026-10-08 r18：正常来源92条公开命令、隔离迁移后10条邀请与至少66次精确存读；两名42分自愿到不同真实伐木工位，27分拒绝与身体硬阻塞、承诺到期、停用中断及150/300/600退避均复核。主线6/6，源码a7326da9b73f331567dbaa4fa6cfaba932f18a5d，Pages656f4b026bb917c54c070436218ecbbd39cc1981 built，162文本blob一致；浏览器、设备及完整v2未验。；2026-10-08 r19: mutual facility-route wait after the SR009 opening timing change was resolved with physical side-step; tests/acceptance/ea-sr-008-v2-work-public-acceptance.mjs 1/1, two real stations before the original 240-tick commitment expiry, exact-save yielding route; adjacent facility/door 17/17; source c9be1d476311a558e7a37a4e0305e5086b71a369；2026-10-08 M2 r32 v2 日相位子批：正常五人/两真实伐木工位来源链107+6公开命令、67次精确存读；两位自愿门人跨休整→生产偏好时保留原240步承诺、岗位和不同实际工位，停用营造后才中断。schedule.phase 在迁移、每世界步和只读人物页用同一 worldTick；不改生产结算或另建身体。根与独立新专项1/1、迁移1/1，旧邀请1/1、UI契约17通过/4待设备。旧v2-work硬编码缺失人物及旧five-workers精确小数坐标断言，在本提交父版本原样失败，不计回归通过；伤病/生产专项缺来源档跳过。源码2455d0b、Pages8c5621e built，162文本blob及公网入口/人物模块字节一致；r32未做浏览器游戏内交互和真机。完整v2/I/V/R继续。；docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。
 
-SR-XF-008-V01证据：qa/ea-sr-008-invite-public-acceptance.mjs；dist/ea-sr-persons.mjs；dist/ea-sr-ui.mjs；docs/design/STATUS.md；docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。
+SR-XF-008-V01证据：tests/acceptance/ea-sr-008-invite-public-acceptance.mjs；src/simulation/ea-sr-persons.mjs；apps/web/ea-sr-ui.mjs；docs/design/STATUS.md；docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。
 
 ## 可进入开发的条件
 
@@ -107,27 +107,27 @@ SR-XF-008-V01证据：qa/ea-sr-008-invite-public-acceptance.mjs；dist/ea-sr-per
 
 - docs/requirements/design/SR-XF-007-011-019-026-027.md
 - docs/requirements/IMPLEMENTATION-2026-10-06.md
-- qa/ea-sr-008-invite-public-acceptance.mjs
-- dist/ea-sr-persons.mjs
-- dist/ea-sr-ui.mjs
+- tests/acceptance/ea-sr-008-invite-public-acceptance.mjs
+- src/simulation/ea-sr-persons.mjs
+- apps/web/ea-sr-ui.mjs
 - docs/design/STATUS.md
-- qa/ea-sr-008-five-workers-public-acceptance.mjs
-- dist/ea-ui.mjs
-- dist/ea-society.mjs
-- qa/ea-sr-008-daily-relation-public-acceptance.mjs
-- dist/ea-sr-persons.mjs
-- qa/ea-sr-008-v2-migration-acceptance.mjs
+- tests/acceptance/ea-sr-008-five-workers-public-acceptance.mjs
+- apps/web/ea-ui.mjs
+- src/simulation/ea-society.mjs
+- tests/acceptance/ea-sr-008-daily-relation-public-acceptance.mjs
+- src/simulation/ea-sr-persons.mjs
+- tests/acceptance/ea-sr-008-v2-migration-acceptance.mjs
 - 2026-10-08 M2 r32 v2 日相位子批：正常五人/两真实伐木工位来源链107+6公开命令、67次精确存读；两位自愿门人跨休整→生产偏好时保留原240步承诺、岗位和不同实际工位，停用营造后才中断。schedule.phase 在迁移、每世界步和只读人物页用同一 worldTick；不改生产结算或另建身体。根与独立新专项1/1、迁移1/1，旧邀请1/1、UI契约17通过/4待设备。旧v2-work硬编码缺失人物及旧five-workers精确小数坐标断言，在本提交父版本原样失败，不计回归通过；伤病/生产专项缺来源档跳过。源码2455d0b、Pages8c5621e built，162文本blob及公网入口/人物模块字节一致；r32未做浏览器游戏内交互和真机。完整v2/I/V/R继续。
 - docs/art/COURTYARD-VALLEY-2026-10-12.md
-- tests/ea-mountain-alchemy.test.mjs
+- tests/unit/web/ea-mountain-alchemy.test.mjs
 - 2026-10-12 U-125：42 人物交谈及关联契约定义统一立绘聊天窗、身份叠加、知情、距离、意愿、暂停和持久规则；DIALOGUE-01–10 为 not_run。本批为设计与静态原型，运行接入及完整 SR/AC 状态保持。
 - 2026-10-14 U-139 设计确认：宗门模拟经营支持自主生活；桌面后台继续运行、关闭停止且重开不补离线进度；掌门按玩家设定的发展目标、预算和风险偏好选择修炼、出行和经营。见 docs/design/DECISIONS.md、docs/design/01-CHARACTERS.md、docs/design/05-RUNTIME-CONTRACTS.md。当前仅落档，运行接入与新行为验收待实施；既有 SR/AC 状态和历史证据范围保持。
 - docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。
 - docs/design/50-COURTYARD-UI-DESIGN-AUDIT.md；2026-10-15 U-148/R-48：四页及关联入口30项设计审查与7条后续场景；两处物流问题由正常命令复现，运行代码未修，实际UI未验，完整状态保持。
 - docs/design/51-COURTYARD-MANAGEMENT-INTEGRATION.md；2026-10-15 U-149/R-49：四页与共用详情、单趟40份留苗搬运、落地回收和保存恢复接通；组件与相邻回归57/57，同一检查点真实桌面387.845秒13/13、最终包页面8/8、恢复链9/9，原生选择文件/预检/恢复及手动暂停已验。完整新档、规模、对话/突破、跨区施工、20分钟自主与Windows待接；完整D/I/V/R和AC状态保持。
 - docs/design/53-COURTYARD-AUTONOMY-ACCEPTANCE.md
-- qa/courtyard-autonomy-desktop.mjs
-- qa/courtyard-autonomy-audit.py
+- tests/acceptance/courtyard-autonomy-desktop.mjs
+- tests/acceptance/courtyard-autonomy-audit.py
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
@@ -148,4 +148,4 @@ SR-XF-008-V01证据：qa/ea-sr-008-invite-public-acceptance.mjs；dist/ea-sr-per
 - 2026-10-15：U-149：接续远端main并完成当前山院管理和取消回收、保存恢复的局部桌面验证；完整状态保持。
 - 2026-10-16：U-151/R-43：同一东台完成档实际自主1200.036秒，后台180.857秒、接管、预算风险、生产搬运及关闭重开。原脚本末段分类失败保留，同轮证据补核验38项；同档手动补粮恢复5项。持续公库供给仍有缺口，完整SR/AC与D/I/V/R状态保持。
 
-本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。
+本文件由[registry.json](../registry.json)派生；更新台账后执行 `python scripts/requirements/sr-manager.py refresh`，不单独修改此派生页。

@@ -17,7 +17,7 @@ U-123：用户确认按以下顺序以目标模式、多 agent 完成开发。�
 - 丹方产物先落在丹房货位，送回公库与取到随身均经过正式物流。服药读取真实伤势／精力／修为收益。
 - 封闭丹房显示完整外观，工位与人物劳动在同一空间和时钟中运行。
 
-预计文件：`dist/ea-godot-bridge.mjs` 的只读炼丹／取材／商人视图，必要规则常量导出；`system-crafting.*`、`system-sect.*`、共同 UI 接线；`estate-sites.json`、`estate.gd`、丹房透明素材及构建清单。
+预计文件：`src/simulation/ea-godot-bridge.mjs` 的只读炼丹／取材／商人视图，必要规则常量导出；`system-crafting.*`、`system-sect.*`、共同 UI 接线；`estate-sites.json`、`estate.gd`、丹房透明素材及构建清单。
 
 ## 第二批：山谷往返
 
@@ -57,10 +57,10 @@ U-123 确定三段开发顺序与可玩的结果。丹方费用、建位、山�
 
 | 阶段 | 当前本地实现 | 定向检查 | 实际网页操作 |
 | --- | --- | --- | --- |
-| 丹房与第一炉 | 丹房建位及完整外观、百艺炉事、山院取材与商人交易入口；田边／公库／炉边／随身的物资位置与工单贯通 | `tests/ea-mountain-alchemy.test.mjs` 2／2 | 独立 QA 档实走首收、田边送料、开炉、成丹、取药及存读；见下文 |
-| 山谷往返 | 山外路线、可行走谷景、有限药丛、青萝会面、同一队伍货位与返院入口 | `tests/ea-mountain-valley.test.mjs` 5／5 | 独立 QA 档实走山门、谷内采集与会面、返院搬库及谷内存读；见下文 |
-| 山谷首战 | 谷内山魈、同场战斗动作与撤退、伤势和战果存档、战斗场景与操作界面 | `tests/ea-mountain-first-combat.test.mjs` 6／6 | 近身应战、攻防、撤退、返院服药及战斗中存读已在网页实走；见下文 |
-| 场景投影 | 山院／途中／山谷／战斗读取同一身份和地点，点击转交正式命令 | `tests/ea-godot-valley-projection.test.mjs` 5／5 | 山谷和首战网页链均已实走 |
+| 丹房与第一炉 | 丹房建位及完整外观、百艺炉事、山院取材与商人交易入口；田边／公库／炉边／随身的物资位置与工单贯通 | `tests/unit/web/ea-mountain-alchemy.test.mjs` 2／2 | 独立 QA 档实走首收、田边送料、开炉、成丹、取药及存读；见下文 |
+| 山谷往返 | 山外路线、可行走谷景、有限药丛、青萝会面、同一队伍货位与返院入口 | `tests/unit/web/ea-mountain-valley.test.mjs` 5／5 | 独立 QA 档实走山门、谷内采集与会面、返院搬库及谷内存读；见下文 |
+| 山谷首战 | 谷内山魈、同场战斗动作与撤退、伤势和战果存档、战斗场景与操作界面 | `tests/unit/web/ea-mountain-first-combat.test.mjs` 6／6 | 近身应战、攻防、撤退、返院服药及战斗中存读已在网页实走；见下文 |
+| 场景投影 | 山院／途中／山谷／战斗读取同一身份和地点，点击转交正式命令 | `tests/unit/web/ea-godot-valley-projection.test.mjs` 5／5 | 山谷和首战网页链均已实走 |
 
 四个定向文件在当前工作树合计 **18／18 通过**；其中投影检查覆盖未确认战果返院后的存档。此数字只代表上述局部自动检查；完整 SR/AC、目标设备和用户评看仍按各自门槛记录。
 
@@ -76,6 +76,6 @@ U-123 确定三段开发顺序与可玩的结果。丹方费用、建位、山�
 
 运行源码 `main` `836ccb605a42e7c21c2aae8c5e2c4eee7e55c03e` 已推送；[公开山院试玩](https://cybershp.github.io/Simulation-web-game/mountain-courtyard/) 的 `gh-pages` 为 `4d6786da521f1ab92818c20f67c036a829469e6e`，Pages 构建为 `built`。公开入口、版本记录、构建清单、八个界面／规则模块与三个场景分片共 **14 个文件**均返回 HTTP 200，SHA-256 与最终本地导出一致。发布场景包为 `scene-772e4d90182e.pck`，按三个分片加载，构建清单 SHA-256 为 `111069c4fdec82d0428621e85d3a74e83101735ed999b741db56597fac30851d`。
 
-加载重组与缺片／损坏拒绝另有 `tests/ea-scene-pack-loader.test.mjs` **3／3**，连同上述玩法检查共 **21／21**。完整发布与实际公开操作见[实玩记录](../art/COURTYARD-VALLEY-2026-10-12.md)。
+加载重组与缺片／损坏拒绝另有 `tests/unit/web/ea-scene-pack-loader.test.mjs` **3／3**，连同上述玩法检查共 **21／21**。完整发布与实际公开操作见[实玩记录](../art/COURTYARD-VALLEY-2026-10-12.md)。
 
 公开 Chromium 已实点百艺、界面导档、走向出口并旅行到谷、原生药丛点选与采集。采后药丛 18→12、随行灵草 0→6、公库仍 4；本次运行 0 error／0 warning。首访单资源 503 经正常刷新恢复，详见实玩记录。

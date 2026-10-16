@@ -28,7 +28,7 @@
 
 自动检查**346/346通过，0失败/跳过**。QA位于`qa/acceptance-spatial-v12/`；历史室内QA目录保留，不覆盖玩家正式档位。生产canvas全部素材加载成功，实际drawImage校验三级预览尺寸与成品锚点，规划进退保持同一屏幕点的世界坐标。开局邀请/拒绝分别31/32条命令、294/311模拟秒；伤匠治疗/取消续治/拒绝分别345/345/456模拟秒。
 
-运行：`node --test tests/*.test.mjs`、`node qa/ea-spatial-v12-acceptance.mjs`、`XIANFU_QA_DIRECTORY=./acceptance-spatial-v12/ node qa/ea-ui-smoke.mjs --opening-v12`。QA使用已有运行时canvas依赖；没有增加项目依赖或下载浏览器。浏览器内核缺失，上一批云浏览器拒绝连接本地服务，故本轮只记录渲染快照，不宣称浏览器、手机、FPS或真人通过。
+运行：`node --test tests/*.test.mjs`、`node tests/acceptance/ea-spatial-v12-acceptance.mjs`、`XIANFU_QA_DIRECTORY=./acceptance-spatial-v12/ node tests/acceptance/ea-ui-smoke.mjs --opening-v12`。QA使用已有运行时canvas依赖；没有增加项目依赖或下载浏览器。浏览器内核缺失，上一批云浏览器拒绝连接本地服务，故本轮只记录渲染快照，不宣称浏览器、手机、FPS或真人通过。
 
 ## 下一步的真实缺口
 

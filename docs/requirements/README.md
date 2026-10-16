@@ -50,16 +50,16 @@ U-94已激活全部40项SR的设计、开发与验收工作；conditional/deferr
 在仓库根目录执行：
 
 ```bash
-python qa/sr-manager.py list --scope early
-python qa/sr-manager.py list --iteration I1
-python qa/sr-manager.py validate
-python qa/sr-manager.py refresh
+python scripts/requirements/sr-manager.py list --scope early
+python scripts/requirements/sr-manager.py list --iteration I1
+python scripts/requirements/sr-manager.py validate
+python scripts/requirements/sr-manager.py refresh
 ```
 
 更新单项任务的示例（实际使用时替换证据，不照抄虚构路径）：
 
 ```bash
-python qa/sr-manager.py task SR-XF-003-D01 --status in_progress --owner assigned-developer
+python scripts/requirements/sr-manager.py task SR-XF-003-D01 --status in_progress --owner assigned-developer
 ```
 
 完成任务时用`--evidence`登记真实的设计路径、提交或简要结果；工具拒绝无证据的done和未完成前置。设计/开发/验收/发布整体状态、AC结果和变更理由在registry.json中明确更新后，执行refresh同步派生文档；不要只改单项Markdown或聊天中的状态。

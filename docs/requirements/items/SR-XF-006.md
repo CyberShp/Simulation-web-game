@@ -53,13 +53,13 @@ SR-XF-006-REQ-03：活动中人员安全结束或中断后再迁居；无安全�
 | SR-XF-006-AC-02 | 跨区迁建/功能接替中目标失效、断路、取消并重载 | 原建筑身份、工位引用、已用投入与货物位置可追溯；旧必要服务可恢复，退款一次，无复制建筑或生产批次。 | not_run |
 | SR-XF-006-AC-03 | 升级扩大占地 | 合法扩大才能完成；通路/容量/UI使用新统一定义。 | passed |
 
-SR-XF-006-AC-03证据：qa/ea-sr-spatial-acceptance.mjs；docs/requirements/IMPLEMENTATION-2026-10-06.md；qa/ea-indoor-furniture-acceptance.mjs
+SR-XF-006-AC-03证据：tests/acceptance/ea-sr-spatial-acceptance.mjs；docs/requirements/IMPLEMENTATION-2026-10-06.md；tests/acceptance/ea-indoor-furniture-acceptance.mjs
 
 2026-10-07本地小院批次：成人家具/单位格/空间定向检查48/48（8/6/34），正常公开命令接受/拒绝邀请两路完成营造、产出搬运、研习、到床休息与迁建取消/续建；分别60命令/36次精确存读和61命令/37次精确存读。六身份卧姿与预约前提2/2，生产Canvas卧姿加载/只读/身体点选/缺图回退4/4，已读图。旧v5完成档40建筑30门人保留资源、时间和return结局，全部入口可达，二次存读一致。各SR仅登记适用子情景；完整AC、真机触摸/FPS和真人首次体验状态分别保留。 浏览器DPR1鼠标在1366×900、1180×820、820×1180点选床上掌门通过；正常推荐营造经Enter和鼠标确认、实际施工落成。一次动态模块加载失败经页面重载恢复同档，原因待定位。I/V证据为沿既有可用契约实施的本批子范围；完整D01/D02及I/V关闭门槛保持原状态。
 2026-10-08 M1 第十批：补验占床升级、劳动中拆除、足迹内携货原子拒绝/取消一次退款、足迹外在途货物迁建后送达，正式公开操作4/4、相关空间家具42/42。独立只读复核同意原三条AC继续passed；扩大升级占地和真机仍未覆盖。
 2026-10-08 SR006 设计补齐与局部实现：独立 D02 按设计 171-230 行及 SR004/005/010 接缝复审通过；公开命令 4/4、空间 36/36、室内 8/8、SR UI 17 pass/4 pending，现行浏览器串行和设备结果另记。
 独立 1200×849 Chromium：正常公开来源住宅档仅将 speed 1→0 暂停并通过校验；陆知微实际占床、林长风趋向床位。升级一次扣 45/30/20，原建筑与 0/240 工单保存刷新一致；迁建候选和取消不扣费，确认一次扣 10/8/0，0/180 工单保存刷新一致；拆除弹窗列两人、床位/生产/仓/入口/剧情。原求助浮条遮挡确认按钮中心，选址时暂隐并退出后恢复，普通点击复验通过；最终浏览器控制台 0 error/0 warning。施工完工、拆除执行、真机/真人未验。仓库外报告 /private/tmp/immortal-sr006-player-review.json。
-2026-10-08 M1 r7 同一座伐木场正常公开串行：建造、升级扩大占地、迁建、拆除 93 命令/62 次精确存读/世界步 15911；真实药田草药搬入设施仓且各阶段存量守恒；完工账单、建筑唯一身份、施工材料位置和拆除一次返料均逐阶段核对。独立专项 1/1，来源 qa/ea-sr006-serial-public-acceptance.mjs。此证据限正常 Node 公开命令链；取消/目标失效、浏览器完整串行、真机/真人及整项 I/V/R 仍待。
+2026-10-08 M1 r7 同一座伐木场正常公开串行：建造、升级扩大占地、迁建、拆除 93 命令/62 次精确存读/世界步 15911；真实药田草药搬入设施仓且各阶段存量守恒；完工账单、建筑唯一身份、施工材料位置和拆除一次返料均逐阶段核对。独立专项 1/1，来源 tests/acceptance/ea-sr006-serial-public-acceptance.mjs。此证据限正常 Node 公开命令链；取消/目标失效、浏览器完整串行、真机/真人及整项 I/V/R 仍待。
 2026-10-08 M1 r8 升级施工中取消与重试：独立公开链 1/1，已发生实际施工进度后取消，余料实物到仓才只返灵石40、木27、石18；重复确认不再返，保存/重载及原建筑重试仍保持身份和工单。新建筑截断在途搬运路线的相邻物流专项 7/7；更多失败/取消阶段、浏览器完整串行及目标设备仍待，I/V/R 与整项状态不变。
 2026-10-08 M1 r33：正常新档主殿升级45条公开命令/33次精确存读、2人撤离，原卡住档7450→7460开始施工→7585完工；40建筑/30人旧档升级、独立全额/部分退料和重复取消通过。既有门道时间断言和二次迁建玉石不足在父版本同样失败。页面内完整串行和真机仍待，整项 I/V/R 不关闭。
 
@@ -77,9 +77,9 @@ SR-XF-006-AC-03证据：qa/ea-sr-spatial-acceptance.mjs；docs/requirements/IMPL
 
 SR-XF-006-D01证据：docs/SECT-GROWTH-PLAN.md
 
-SR-XF-006-I01证据：dist/ea-sr-spatial.mjs；docs/design/STATUS.md；qa/ea-sr-building-change-public-acceptance.mjs；qa/ea-sr006-serial-public-acceptance.mjs；qa/ea-sr006-upgrade-cancel-recovery-public-acceptance.mjs
+SR-XF-006-I01证据：src/simulation/ea-sr-spatial.mjs；docs/design/STATUS.md；tests/acceptance/ea-sr-building-change-public-acceptance.mjs；tests/acceptance/ea-sr006-serial-public-acceptance.mjs；tests/acceptance/ea-sr006-upgrade-cancel-recovery-public-acceptance.mjs
 
-SR-XF-006-V01证据：qa/ea-indoor-furniture-acceptance.mjs；qa/ea-courtyard-life-acceptance.mjs；docs/design/STATUS.md；qa/ea-sr-building-change-public-acceptance.mjs；qa/ea-sr006-serial-public-acceptance.mjs；qa/ea-sr006-upgrade-cancel-recovery-public-acceptance.mjs
+SR-XF-006-V01证据：tests/acceptance/ea-indoor-furniture-acceptance.mjs；tests/acceptance/ea-courtyard-life-acceptance.mjs；docs/design/STATUS.md；tests/acceptance/ea-sr-building-change-public-acceptance.mjs；tests/acceptance/ea-sr006-serial-public-acceptance.mjs；tests/acceptance/ea-sr006-upgrade-cancel-recovery-public-acceptance.mjs
 
 ## 可进入开发的条件
 
@@ -107,19 +107,19 @@ SR-XF-006-V01证据：qa/ea-indoor-furniture-acceptance.mjs；qa/ea-courtyard-li
 - docs/requirements/IMPLEMENTATION-2026-10-06.md
 - docs/design/03-SPATIAL-ART.md
 - docs/design/STATUS.md
-- dist/ea-sr-spatial.mjs
-- qa/ea-indoor-furniture-acceptance.mjs
-- qa/ea-courtyard-life-acceptance.mjs
+- src/simulation/ea-sr-spatial.mjs
+- tests/acceptance/ea-indoor-furniture-acceptance.mjs
+- tests/acceptance/ea-courtyard-life-acceptance.mjs
 - docs/CODEX-HANDOFF.md
-- qa/ea-sr-building-change-public-acceptance.mjs
-- dist/ea-game.mjs
-- dist/ea-ui.mjs
-- dist/ea-sr-ui.mjs
-- dist/ea.css
-- qa/ea-sr-integration-acceptance.mjs
-- qa/ea-sr-spatial-acceptance.mjs
-- qa/ea-sr006-serial-public-acceptance.mjs
-- qa/ea-sr006-upgrade-cancel-recovery-public-acceptance.mjs
+- tests/acceptance/ea-sr-building-change-public-acceptance.mjs
+- apps/web/ea-game.mjs
+- apps/web/ea-ui.mjs
+- apps/web/ea-sr-ui.mjs
+- apps/web/ea.css
+- tests/acceptance/ea-sr-integration-acceptance.mjs
+- tests/acceptance/ea-sr-spatial-acceptance.mjs
+- tests/acceptance/ea-sr006-serial-public-acceptance.mjs
+- tests/acceptance/ea-sr006-upgrade-cancel-recovery-public-acceptance.mjs
 - docs/SECT-GROWTH-PLAN.md；2026-10-09 山域总图、五阶段迁移及统一原型的设计来源；当前运行验收待补。
 - docs/design/STATUS.md；2026-10-10 U-109 旧别院 3D 本地预览局部网页证据；完整 AC 状态不变。
 
@@ -132,10 +132,10 @@ SR-XF-006-V01证据：qa/ea-indoor-furniture-acceptance.mjs；qa/ea-courtyard-li
 - 2026-10-07：成人家具与现场交互本地批次：升级、迁建、拆除继续保留同一建筑身份。本批成人床占用者可按实际步长撤离；正常迁建取消、暂停续建和旧在建进度加载保留材料与唯一实体。 已登记适用实现与独立复验证据，整体开发/验收保持in_progress，AC状态沿用已有范围。
 - 2026-10-08：M1 第十批并行复验现有 SR006 三条已通过 AC：公开操作覆盖占床升级、劳动中拆除、迁建遇建筑足迹内携货人原子拒绝、取消一次退款及足迹外携货完成后继续送达。修复足迹内搬运身体被锁而与施工等待互相卡住的缺陷，独立只读复核同意保留原 AC 状态；扩大升级占地的额外场景、真机与整项 D/I/V/R 继续。
 - 2026-10-08：SR006 升级/迁建/拆除状态、工时费用、人物撤离、物流返料、失败与存读设计完成并经独立 D02 复核；迁建网页改为选址后显式确认、拆除确认显示具名影响、升级预查扩地。公开命令 4/4、空间 36/36、室内 8/8、界面 17/17；隔离 Chromium 在合法占床住宅档通过升级/迁建工单提交与保存重载、具名拆除预览、候选取消和浮条遮挡修复。实际完工/拆除执行和目标设备仍待，I/V/R 不关闭。
-- 2026-10-08：2026-10-08 M1 r7 同一座伐木场正常公开串行：建造、升级扩大占地、迁建、拆除 93 命令/62 次精确存读/世界步 15911；真实药田草药搬入设施仓且各阶段存量守恒；完工账单、建筑唯一身份、施工材料位置和拆除一次返料均逐阶段核对。独立专项 1/1，来源 qa/ea-sr006-serial-public-acceptance.mjs。此证据限正常 Node 公开命令链；取消/目标失效、浏览器完整串行、真机/真人及整项 I/V/R 仍待。
+- 2026-10-08：2026-10-08 M1 r7 同一座伐木场正常公开串行：建造、升级扩大占地、迁建、拆除 93 命令/62 次精确存读/世界步 15911；真实药田草药搬入设施仓且各阶段存量守恒；完工账单、建筑唯一身份、施工材料位置和拆除一次返料均逐阶段核对。独立专项 1/1，来源 tests/acceptance/ea-sr006-serial-public-acceptance.mjs。此证据限正常 Node 公开命令链；取消/目标失效、浏览器完整串行、真机/真人及整项 I/V/R 仍待。
 - 2026-10-08：M1 r8 升级施工中取消专项核对真实返料到仓后一次退款，灵石40木27石18；返料、保存重载和同建筑重试通过。相邻施工物流新建筑断路会重求或保留货物与工单。完整取消分支、浏览器串行与真机/真人仍待，AC 和 I/V/R 状态不提升。
 - 2026-10-08：M1 r33：正常新档主殿升级45条公开命令/33次精确存读、2人撤离，原卡住档7450→7460开始施工→7585完工；40建筑/30人旧档升级、独立全额/部分退料和重复取消通过。既有门道时间断言和二次迁建玉石不足在父版本同样失败。页面内完整串行和真机仍待，整项 I/V/R 不关闭。
 - 2026-10-09：2026-10-09 U-105 / R-32：当前需求更新为 1.1，山域设计关联 GROWTH-03、GROWTH-04、GROWTH-06、GROWTH-07、GROWTH-08。旧版 1.0 的标题、需求、AC原文/证据及D/I任务完成范围保存在 registry.json 的 version_history；当前重新记 not_run：SR-XF-006-AC-01、SR-XF-006-AC-02。 当前D01继续补实施参数，D02及本版本I01待前置完成；development_status保留既有运行实现基线。未改变的已通过AC只沿用原行为及原运行环境证据，新增地域、布局与迁移流程按GROWTH另验。本批未执行运行时验收，未修改正式运行版本或发布状态。
 - 2026-10-10：U-109 第一批本地预览：主屋修缮在伤愈和材料满足后即时完成；建筑升级沿原有世界步施工，后续迁建与阶段成长仍待验。此为局部证据，不提升完整 AC/SR 状态。
 
-本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。
+本文件由[registry.json](../registry.json)派生；更新台账后执行 `python scripts/requirements/sr-manager.py refresh`，不单独修改此派生页。

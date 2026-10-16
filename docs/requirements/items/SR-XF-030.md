@@ -54,17 +54,17 @@ SR-XF-030-REQ-03：施工、迁居、运输及生产接替存读后延续同一�
 | SR-XF-030-AC-02 | 旧设施无可用预设建位或存在未知地域/布局/工位引用 | 进入可查的兼容/待安置状态或拒绝加载并保留原文；安全转换前保留必要服务，有确定恢复路径，不能丢设施或资产。 | not_run |
 | SR-XF-030-AC-03 | 重复迁移与保存失败后恢复 | 补偿/奖励/死亡只一次，旧knowledge不双倍变满理解与熟练。 | passed |
 
-SR-XF-030-AC-03证据：qa/ea-sr-contracts-acceptance.mjs；docs/requirements/IMPLEMENTATION-2026-10-06.md；qa/ea-indoor-furniture-acceptance.mjs
+SR-XF-030-AC-03证据：tests/acceptance/ea-sr-contracts-acceptance.mjs；docs/requirements/IMPLEMENTATION-2026-10-06.md；tests/acceptance/ea-indoor-furniture-acceptance.mjs
 
 2026-10-07本地小院批次：成人家具/单位格/空间定向检查48/48（8/6/34），正常公开命令接受/拒绝邀请两路完成营造、产出搬运、研习、到床休息与迁建取消/续建；分别60命令/36次精确存读和61命令/37次精确存读。六身份卧姿与预约前提2/2，生产Canvas卧姿加载/只读/身体点选/缺图回退4/4，已读图。旧v5完成档40建筑30门人保留资源、时间和return结局，全部入口可达，二次存读一致。各SR仅登记适用子情景；完整AC、真机触摸/FPS和真人首次体验状态分别保留。 浏览器DPR1鼠标在1366×900、1180×820、820×1180点选床上掌门通过；正常推荐营造经Enter和鼠标确认、实际施工落成。一次动态模块加载失败经页面重载恢复同档，原因待定位。I/V证据为沿既有可用契约实施的本批子范围；完整D01/D02及I/V关闭门槛保持原状态。
 
-2026-10-07 M0/M1 接续批：旅行连续性脚本原引用不存在的 legacy-full.json；改用仓库内合法 qa/ea-reference-world.json（v5 完成档40建筑/30门人/return），复验7/7；仅证旧完成档升级及该条付费运输。独立浏览器验收档两座自由营造建成后重载保留设施数3、资源与暂停时间。未知引用、无法安置、写入失败总矩阵仍未做；AC02仍 not_run。
+2026-10-07 M0/M1 接续批：旅行连续性脚本原引用不存在的 legacy-full.json；改用仓库内合法 tests/fixtures/ea-reference-world.json（v5 完成档40建筑/30门人/return），复验7/7；仅证旧完成档升级及该条付费运输。独立浏览器验收档两座自由营造建成后重载保留设施数3、资源与暂停时间。未知引用、无法安置、写入失败总矩阵仍未做；AC02仍 not_run。
 
 2026-10-07 M1 第四批：SR030-AC02 的两设施档由旧版公开营造，最近旧址阻塞入口时改选合法格并留迁移账，身份/资源/时间/RNG及源档原文保留。76 建筑三级设施档先设已立派，每一处均通过旧版 placementLock 且整档通过 Legacy.validateSave；新空间无法安置时实际档位拒载、禁写、原文导出并可选择有效备份恢复，故障字节留在保留区。当前版缺失人物位置引用同样实际拒载和恢复；未知建筑定义及未来版本不改原输入。专项 24/24，独立只读复核通过，AC02 按原文 Node 契约范围登记 passed。76 建筑档是合成的旧版合法结构压力样本，不是逐座公开建成的玩家历史档；持久层使用真实模块和内存存储，真实浏览器存储未验。历史 full fixture 缺失另记跳过；整项 SR030 D/I/V/R 仍未关闭。
 
 2026-10-07 M1 第五批大档续存：同源公开操作首战档的普通 JSON 约 3.5 MB，实际浏览器原 2 MB 门槛阻止导入，扩容后导入成功但首次未压缩主档再保存触发浏览器配额失败且旧主档保留。当前对较大有效主档与滚动备份同步压缩存放，仍读取原普通 JSON，下载导出保持普通 JSON；8 MB 是未压缩输入上限，实际写入串也须在此范围。35/35 持久层测试包含 5 MB 模拟配额下旧大档连续保存与高熵压缩封装边界，旧集成 23/23。独立只读复核使用约3.60 MB真实结局状态及真实校验器，在5 MiB模拟配额连续保存4次、三份有效备份并精确读回。另在隔离的真实浏览器验收档位导入约3.5 MB首战档、刷新续玩并连续保存两次，主档约342 KB、三份备份约1.03 MB。浏览器加载偶发连接重置、设备配额与关闭时保存全矩阵、真机/触控仍待验；整项SR030 D/I/V/R保持原状态。
 
-2026-10-08 M1 版本迁移窄项：prepareMigration 要求调用方提供返回已校验结构6状态的完整加载器，并在隔离初始化前后各校验一次。合法 v1–v4 生成器、真实 qa/prototype-worlds/legacy-v4.json 与 qa/ea-reference-world.json 的旧档均迁至 opening-runtime-2 + legacy-ea-1.4.2，原文保留、离线推进为0、存读稳定；已登记 opening/runtime 和 SR v6 来源仍可读。混搭主版本、未知内容或子版本、缺失 SR 核心模块拒载且不改输入。证据：qa/ea-sr-version-gate-acceptance.mjs 9/9、qa/ea-sr-contracts-acceptance.mjs 24/24，以及独立同源复验。浏览器存储、目标设备、旧可选模块来源全矩阵和完整 I/V/R 尚未由本窄项覆盖。
+2026-10-08 M1 版本迁移窄项：prepareMigration 要求调用方提供返回已校验结构6状态的完整加载器，并在隔离初始化前后各校验一次。合法 v1–v4 生成器、真实 tests/fixtures/prototype-worlds/legacy-v4.json 与 tests/fixtures/ea-reference-world.json 的旧档均迁至 opening-runtime-2 + legacy-ea-1.4.2，原文保留、离线推进为0、存读稳定；已登记 opening/runtime 和 SR v6 来源仍可读。混搭主版本、未知内容或子版本、缺失 SR 核心模块拒载且不改输入。证据：tests/acceptance/ea-sr-version-gate-acceptance.mjs 9/9、tests/acceptance/ea-sr-contracts-acceptance.mjs 24/24，以及独立同源复验。浏览器存储、目标设备、旧可选模块来源全矩阵和完整 I/V/R 尚未由本窄项覆盖。
 
 2026-10-08 M1 r28 持久层减顿窄项：仅已完整校验过且原始文本未变化的旧主档/备份，可在滚动备份和历史显示时复用校验结果，最多缓存6份；新状态、新封装和变更文本仍完整校验。持久层36/36；本地 Chromium 导入合法 v5 40建筑/30人档，自动保存得3份可用备份，刷新后同一世界续玩，控制台0错误。独立同一 Chromium DPR2 A/B 三轮自动存档旧150/193/373ms、新124/123/118ms，历史校验旧67/110/274ms、新57/43/54ms；有限样本，不代表持续帧率达标。Pages built，162文本 blob 与公网入口/持久层模块字节一致；200ms以上寻路长帧、目标设备和完整 SR030 验收仍待。
 
@@ -89,9 +89,9 @@ SR-XF-030-AC-03证据：qa/ea-sr-contracts-acceptance.mjs；docs/requirements/IM
 
 SR-XF-030-D01证据：docs/SECT-GROWTH-PLAN.md
 
-SR-XF-030-I01证据：dist/ea-sr-spatial.mjs；docs/design/STATUS.md；qa/ea-sr-contracts-acceptance.mjs；docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。
+SR-XF-030-I01证据：src/simulation/ea-sr-spatial.mjs；docs/design/STATUS.md；tests/acceptance/ea-sr-contracts-acceptance.mjs；docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。
 
-SR-XF-030-V01证据：qa/ea-indoor-furniture-acceptance.mjs；qa/ea-courtyard-life-acceptance.mjs；qa/ea-reference-world.json；docs/design/STATUS.md；qa/ea-sr-travel-continuity-acceptance.mjs；qa/ea-sr-contracts-acceptance.mjs；docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。
+SR-XF-030-V01证据：tests/acceptance/ea-indoor-furniture-acceptance.mjs；tests/acceptance/ea-courtyard-life-acceptance.mjs；tests/fixtures/ea-reference-world.json；docs/design/STATUS.md；tests/acceptance/ea-sr-travel-continuity-acceptance.mjs；tests/acceptance/ea-sr-contracts-acceptance.mjs；docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。
 
 ## 可进入开发的条件
 
@@ -117,35 +117,35 @@ SR-XF-030-V01证据：qa/ea-indoor-furniture-acceptance.mjs；qa/ea-courtyard-li
 
 - docs/requirements/design/SR-XF-002-030.md
 - docs/requirements/IMPLEMENTATION-2026-10-06.md
-- dist/ea-sr-spatial.mjs
-- qa/ea-indoor-furniture-acceptance.mjs
-- qa/ea-courtyard-life-acceptance.mjs
-- qa/ea-reference-world.json
+- src/simulation/ea-sr-spatial.mjs
+- tests/acceptance/ea-indoor-furniture-acceptance.mjs
+- tests/acceptance/ea-courtyard-life-acceptance.mjs
+- tests/fixtures/ea-reference-world.json
 - docs/design/STATUS.md
 - docs/CODEX-HANDOFF.md
-- qa/ea-sr-travel-continuity-acceptance.mjs
-- qa/ea-sr-contracts-acceptance.mjs
-- dist/ea-persistence.mjs
-- dist/ea-save-codec.mjs
-- dist/vendor/pako.mjs
-- dist/vendor/PAKO-LICENSE
-- tests/ea-persistence.test.mjs
+- tests/acceptance/ea-sr-travel-continuity-acceptance.mjs
+- tests/acceptance/ea-sr-contracts-acceptance.mjs
+- src/simulation/ea-persistence.mjs
+- src/simulation/ea-save-codec.mjs
+- src/simulation/vendor/pako.mjs
+- src/simulation/vendor/PAKO-LICENSE
+- tests/unit/web/ea-persistence.test.mjs
 - docs/SECT-GROWTH-PLAN.md；2026-10-09 山域总图、五阶段迁移及统一原型的设计来源；当前运行验收待补。
 - docs/art/system-ui-20261012/RUNTIME.md
-- tests/ea-system-ui-projection.test.mjs
+- tests/unit/web/ea-system-ui-projection.test.mjs
 - 2026-10-12 U-120：只读人物／库存投影沿同一存档，Node 验证装备预约／完成、邀约与搬运对应存读；本地浏览器保存刷新保留实际武器槽与库存，并经导入界面载入正式命令生成的药圃 QA 档。本批为当前流程存读与导入的局部证据，完整旧布局／装备／成长／篇章迁移 AC 状态保持。
 - docs/art/COURTYARD-VALLEY-2026-10-12.md
-- tests/ea-mountain-alchemy.test.mjs
-- tests/ea-mountain-valley.test.mjs
-- tests/ea-godot-valley-projection.test.mjs
+- tests/unit/web/ea-mountain-alchemy.test.mjs
+- tests/unit/web/ea-mountain-valley.test.mjs
+- tests/unit/web/ea-godot-valley-projection.test.mjs
 - 2026-10-12 U-123 发布核验：运行源码 main 836ccb605a42e7c21c2aae8c5e2c4eee7e55c03e；gh-pages 4d6786da521f1ab92818c20f67c036a829469e6e；GitHub API Pages build=built。公开 mountain-courtyard 的14个交付文件（release/build/index、界面与加载模块、桥接及世界／战斗规则、三片场景包）HTTP 200，SHA与本地导出一致。公开浏览器百艺、导档、实际行走旅行与采集的操作证据见 docs/art/COURTYARD-VALLEY-2026-10-12.md；本记录仅是U-123局部发布证据，整项 D/I/V/R 与 AC 状态不变。
 - 2026-10-12 U-125：42 人物交谈及关联契约定义统一立绘聊天窗、身份叠加、知情、距离、意愿、暂停和持久规则；DIALOGUE-01–10 为 not_run。本批为设计与静态原型，运行接入及完整 SR/AC 状态保持。
-- qa/ea-sr-production-accounting-acceptance.mjs
+- tests/acceptance/ea-sr-production-accounting-acceptance.mjs
 - docs/design/ISSUE-5-PRODUCTION-ACCOUNTING.md
 - docs/design/ISSUE-6-HISTORY-RETENTION.md
-- tests/ea-history-retention.test.mjs
-- qa/ea-history-benchmark.mjs
-- qa/ea-history-compare.mjs
+- tests/unit/web/ea-history-retention.test.mjs
+- tests/acceptance/ea-history-benchmark.mjs
+- tests/acceptance/ea-history-compare.mjs
 - docs/art/OPENING-CHAIN-2026-10-12.md；2026-10-12 U-124：施工卡点、药成、战斗收势与返院伤愈存读，最终完整导出深度相等；未覆盖全部旧版迁移。 仅增局部证据，完整 SR/AC 状态保持。
 - docs/art/OPENING-GUIDANCE-2026-10-13.md；2026-10-13 U-124：携药后世界步3729保存刷新完整导出相等；四份原实玩存档只读投影与存读通过。 仅增局部证据，完整 SR/AC 状态保持。
 - docs/art/mountain-flat-20261013/RUNTIME.md；2026-10-13 U-126：平涂场景、建筑作物阶段及人物接入同一模拟，局部 Godot 与实际网页验证；完整 SR/AC、目标真机与用户美术评看状态保持。
@@ -164,10 +164,10 @@ SR-XF-030-V01证据：qa/ea-indoor-furniture-acceptance.mjs；qa/ea-courtyard-li
 - docs/design/50-COURTYARD-UI-DESIGN-AUDIT.md；2026-10-15 U-148/R-48：四页及关联入口30项设计审查与7条后续场景；两处物流问题由正常命令复现，运行代码未修，实际UI未验，完整状态保持。
 - docs/design/51-COURTYARD-MANAGEMENT-INTEGRATION.md；2026-10-15 U-149/R-49：四页与共用详情、单趟40份留苗搬运、落地回收和保存恢复接通；组件与相邻回归57/57，同一检查点真实桌面387.845秒13/13、最终包页面8/8、恢复链9/9，原生选择文件/预检/恢复及手动暂停已验。完整新档、规模、对话/突破、跨区施工、20分钟自主与Windows待接；完整D/I/V/R和AC状态保持。
 - docs/design/52-EAST-TERRACE-INTEGRATION.md
-- qa/courtyard-east-desktop.mjs
+- tests/acceptance/courtyard-east-desktop.mjs
 - docs/design/53-COURTYARD-AUTONOMY-ACCEPTANCE.md
-- qa/courtyard-autonomy-desktop.mjs
-- qa/courtyard-autonomy-audit.py
+- tests/acceptance/courtyard-autonomy-desktop.mjs
+- tests/acceptance/courtyard-autonomy-audit.py
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
@@ -176,7 +176,7 @@ SR-XF-030-V01证据：qa/ea-indoor-furniture-acceptance.mjs；qa/ea-courtyard-li
 - 2026-10-07：M0/M1 接续批完成局部设计、修复和独立复核；具体通过范围与缺口见 acceptance_notes 和 STATUS。整项 D/I/V/R 及 AC 状态保持原门槛。
 - 2026-10-07：2026-10-07 M1 第四批：SR030-AC02 的两设施档由旧版公开营造，最近旧址阻塞入口时改选合法格并留迁移账，身份/资源/时间/RNG及源档原文保留。76 建筑三级设施档先设已立派，每一处均通过旧版 placementLock 且整档通过 Legacy.validateSave；新空间无法安置时实际档位拒载、禁写、原文导出并可选择有效备份恢复，故障字节留在保留区。当前版缺失人物位置引用同样实际拒载和恢复；未知建筑定义及未来版本不改原输入。专项 24/24，独立只读复核通过，AC02 按原文 Node 契约范围登记 passed。76 建筑档是合成的旧版合法结构压力样本，不是逐座公开建成的玩家历史档；持久层使用真实模块和内存存储，真实浏览器存储未验。历史 full fixture 缺失另记跳过；整项 SR030 D/I/V/R 仍未关闭。
 - 2026-10-07：M1 第五批修复大档持续保存：有效本地快照和滚动备份压缩，普通导出及旧格式读取保留；模拟配额、真实浏览器续存与独立复核已登记，整项门槛继续。
-- 2026-10-08：2026-10-08 M1 版本迁移窄项：prepareMigration 要求调用方提供返回已校验结构6状态的完整加载器，并在隔离初始化前后各校验一次。合法 v1–v4 生成器、真实 qa/prototype-worlds/legacy-v4.json 与 qa/ea-reference-world.json 的旧档均迁至 opening-runtime-2 + legacy-ea-1.4.2，原文保留、离线推进为0、存读稳定；已登记 opening/runtime 和 SR v6 来源仍可读。混搭主版本、未知内容或子版本、缺失 SR 核心模块拒载且不改输入。证据：qa/ea-sr-version-gate-acceptance.mjs 9/9、qa/ea-sr-contracts-acceptance.mjs 24/24，以及独立同源复验。浏览器存储、目标设备、旧可选模块来源全矩阵和完整 I/V/R 尚未由本窄项覆盖。
+- 2026-10-08：2026-10-08 M1 版本迁移窄项：prepareMigration 要求调用方提供返回已校验结构6状态的完整加载器，并在隔离初始化前后各校验一次。合法 v1–v4 生成器、真实 tests/fixtures/prototype-worlds/legacy-v4.json 与 tests/fixtures/ea-reference-world.json 的旧档均迁至 opening-runtime-2 + legacy-ea-1.4.2，原文保留、离线推进为0、存读稳定；已登记 opening/runtime 和 SR v6 来源仍可读。混搭主版本、未知内容或子版本、缺失 SR 核心模块拒载且不改输入。证据：tests/acceptance/ea-sr-version-gate-acceptance.mjs 9/9、tests/acceptance/ea-sr-contracts-acceptance.mjs 24/24，以及独立同源复验。浏览器存储、目标设备、旧可选模块来源全矩阵和完整 I/V/R 尚未由本窄项覆盖。
 - 2026-10-09：2026-10-09 U-105 / R-32：当前需求更新为 1.1，山域设计关联 GROWTH-08、GROWTH-09、GROWTH-11。旧版 1.0 的标题、需求、AC原文/证据及D/I任务完成范围保存在 registry.json 的 version_history；当前重新记 not_run：SR-XF-030-AC-01、SR-XF-030-AC-02。 当前D01继续补实施参数，D02及本版本I01待前置完成；development_status保留既有运行实现基线。未改变的已通过AC只沿用原行为及原运行环境证据，新增地域、布局与迁移流程按GROWTH另验。本批未执行运行时验收，未修改正式运行版本或发布状态。
 - 2026-10-12：2026-10-12 U-120：只读人物／库存投影沿同一存档，Node 验证装备预约／完成、邀约与搬运对应存读；本地浏览器保存刷新保留实际武器槽与库存，并经导入界面载入正式命令生成的药圃 QA 档。本批为当前流程存读与导入的局部证据，完整旧布局／装备／成长／篇章迁移 AC 状态保持。
 - 2026-10-12：2026-10-12 U-123：正式界面导档、第一炉随身1／公库1保存读取守恒，谷内存读保同一人物ID及scene:valley；旧布局和完整迁移 AC 状态保持。 局部证据见 docs/art/COURTYARD-VALLEY-2026-10-12.md；整项 D/I/V/R 与 AC 状态不变。
@@ -192,4 +192,4 @@ SR-XF-030-V01证据：qa/ea-indoor-furniture-acceptance.mjs；qa/ea-courtyard-li
 - 2026-10-16：U-150/R-50：追加连续东路、实际分趟运料施工、四床启用与同源macOS存读往返局部证据。流程两段308.849秒，最终包阶段6项及往返9项，错误0；保留验收脚本中断记录。完整SR/AC与D/I/V/R状态保持。
 - 2026-10-16：U-151/R-43：同一东台完成档实际自主1200.036秒，后台180.857秒、接管、预算风险、生产搬运及关闭重开。原脚本末段分类失败保留，同轮证据补核验38项；同档手动补粮恢复5项。持续公库供给仍有缺口，完整SR/AC与D/I/V/R状态保持。
 
-本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。
+本文件由[registry.json](../registry.json)派生；更新台账后执行 `python scripts/requirements/sr-manager.py refresh`，不单独修改此派生页。

@@ -6,9 +6,9 @@
 
 实际 Godot 4.6.3 3D 场景包含一栋主殿、山石道路、松竹及药田、沈砚与陆知微两名骨骼人物。人物具有待机、行走和劳动动画，位置按每帧时间连续移动。主殿采用完整屋顶和封闭门窗；入殿后隐藏人物表现，出殿后继续可见。工具栏提供走一圈、入殿/出殿、照料药田、暂停、复位与缩放；地面点击行走，人物/主殿点击选择，拖动与滚轮调整镜头。
 
-- 场景：`godot/art/art_courtyard.tscn`；源资产和脚本：`godot/art/`。
-- 可重建资产脚本：`tools/art/build_hall.py`、`build_landscape.py`、`build_characters.py`，由本机 Blender 执行。
-- Web 构建：`python3 tools/build-art-web.py`；临时工程只复制本批 art 资源，Compatibility、单线程、上限60帧、2倍多重采样抗锯齿。
+- 场景：`archive/godot/art/art_courtyard.tscn`；源资产和脚本：`archive/godot/art/`。
+- 可重建资产脚本：`scripts/art/build_hall.py`、`build_landscape.py`、`build_characters.py`，由本机 Blender 执行。
+- Web 构建：`python3 archive/godot/tools/build-art-web.py`；临时工程只复制本批 art 资源，Compatibility、单线程、上限60帧、2倍多重采样抗锯齿。
 - 本地入口：[打开实机小院](http://127.0.0.1:8080/art-courtyard/)。需要现有 `dist/` 网页服务在8080端口运行。
 - 本批未提交或推送，未替换正式发布页。原未提交成果保留。
 
@@ -45,13 +45,13 @@
 
 | 文件 | SHA-256 |
 | --- | --- |
-| `godot/art/art_courtyard.gd` | `fe453e3cb4c278f8850beb2d015e9f014a8e9726d83d5c86cd8b7906551c117d` |
-| `godot/art/actor_3d.gd` | `9f6d3106b9b9c0d4f2ad6327c3ec453636cd11fa7b9185efd951c77075bb5d8d` |
-| `godot/art/assets/hall.glb` | `40a8e6396bcf571853831653bcdab40e9645c3bd1e942b2ff79ad34bc2432159` |
-| `godot/art/assets/landscape.glb` | `629a7f4d127edf493d59a68877203bd36b8563fda96c392814543b362e1cb1d9` |
-| `godot/art/assets/disciple_master.glb` | `71eb9a22ffa3a9925f040bf2227f79256fa814c61abbcf747b903d0efcb8aba1` |
-| `godot/art/assets/disciple_worker.glb` | `f8131ca1fd0079243763ed3d4ee3a0a6eeb9b9bcc378d9e478ce23542cd14759` |
-| `tools/build-art-web.py` | `f3d1b58ec21306f56bf7f9a95667b0196948b6fee374338e1e04835464d53a33` |
+| `archive/godot/art/art_courtyard.gd` | `fe453e3cb4c278f8850beb2d015e9f014a8e9726d83d5c86cd8b7906551c117d` |
+| `archive/godot/art/actor_3d.gd` | `9f6d3106b9b9c0d4f2ad6327c3ec453636cd11fa7b9185efd951c77075bb5d8d` |
+| `archive/godot/art/assets/hall.glb` | `40a8e6396bcf571853831653bcdab40e9645c3bd1e942b2ff79ad34bc2432159` |
+| `archive/godot/art/assets/landscape.glb` | `629a7f4d127edf493d59a68877203bd36b8563fda96c392814543b362e1cb1d9` |
+| `archive/godot/art/assets/disciple_master.glb` | `71eb9a22ffa3a9925f040bf2227f79256fa814c61abbcf747b903d0efcb8aba1` |
+| `archive/godot/art/assets/disciple_worker.glb` | `f8131ca1fd0079243763ed3d4ee3a0a6eeb9b9bcc378d9e478ce23542cd14759` |
+| `archive/godot/tools/build-art-web.py` | `f3d1b58ec21306f56bf7f9a95667b0196948b6fee374338e1e04835464d53a33` |
 | `dist/art-courtyard/index.html` | `2d21128a2c6371b0b0b34cebb9a047ef684a72d4baa8d1c74208a84ce8c11cc9` |
 | `dist/art-courtyard/index.pck` | `7eb8b27d9d30c9f81386c48b5f395aa3056ded9a93a9c1842319cef8a13f0d7e` |
 

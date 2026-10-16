@@ -1,17 +1,22 @@
+# Local dependencies and credentials
 node_modules/
 .env
 .env.*
 *.pem
 *.key
-*.tar.gz
 .openai/
 .sites-runtime/
-godot/.godot/
-godot/assets/
-dist/godot/
-dist/art-courtyard/
-output/playwright/art-courtyard/
-dist/painted-courtyard/
-output/playwright/painted-courtyard/
-output/playwright/painted-courtyard-aligned/
-output/painted-courtyard-v2-build.log
+
+# Generated builds and local verification evidence
+/dist/
+/output/
+/artifacts/
+/test-results/
+/playwright-report/
+.playwright-cli/
+*.tar.gz
+.DS_Store
+
+# Historical engine caches
+archive/godot/.godot/
+archive/godot/assets/

@@ -49,7 +49,7 @@ WASD / 点地行走，点选或 Tab 选敌，F / 双击敌人追击，1–3 使�
 源码在 `prototypes/pixel_scene_validation/`。`trail-world.mjs` 提供长场景地面、实体遮挡与到场区；`arena-sim.mjs` 保持唯一规则写入；`arena-main.mjs` 接输入与自动操作；`arena-renderer.mjs` 只读呈现；`trail-qa.mjs` 通过正常命令、前台时钟及文件存读完成验收。
 
 ```sh
-node --test prototypes/pixel_scene_validation/arena-sim.test.mjs prototypes/pixel_scene_validation/world.test.mjs prototypes/pixel_scene_validation/trail-world.test.mjs prototypes/pixel_scene_validation/arena-storage.test.cjs prototypes/pixel_scene_validation/arena-renderer.test.mjs
+node --test tests/unit/prototypes/arena-sim.test.mjs tests/unit/prototypes/world.test.mjs tests/unit/prototypes/trail-world.test.mjs tests/unit/prototypes/arena-storage.test.cjs tests/unit/prototypes/arena-renderer.test.mjs
 cd prototypes/pixel_scene_validation
 npm start
 npm start -- --trail --autoplay

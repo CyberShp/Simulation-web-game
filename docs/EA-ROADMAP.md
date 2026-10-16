@@ -432,7 +432,7 @@ U-07：字体、颜色、音效、动画不成为理解系统的唯一方式。
 
 ## 14. 依据与边界说明
 
-代码核对：`dist/persistence.mjs`、`dist/game.mjs`、`tests/persistence.test.mjs`，以及 v0.4.1 的设计文档与已上线行为。核对时间为 2026-10-04。
+代码核对：`apps/web/persistence.mjs`、`apps/web/game.mjs`、`tests/unit/web/persistence.test.mjs`，以及 v0.4.1 的设计文档与已上线行为。核对时间为 2026-10-04。
 
 浏览器平台依据：
 

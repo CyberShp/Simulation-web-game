@@ -1038,7 +1038,7 @@ Playground 生成代码和美术属于开发过程。游戏正常运行不依赖
 - [AI边界](design/11-AI-CONTENT-CONTRACT.md)、[内容制作](design/12-CONTENT-AUTHORING.md)、[世界观](design/13-WORLDVIEW-DISCUSSION.md)、[完整前期](design/14-EARLY-GAME-DETAILED-DESIGN.md)。
 - [开局作者卡](design/content/opening-v1.2.json)、[伤匠作者卡](design/content/rain-artisan-v1.2.json)、[山域成长章程](SECT-GROWTH-PLAN.md)、[二维绘画方案](PAINTED-COURTYARD.md)。
 - [40项需求](requirements/registry.json)：本文映射范围，不据本文更新实现或验收状态。
-- 第9–10节部分数值取自当前作者目录：`dist/ea-data.mjs`、`dist/ea-sr-equipment.mjs`、`dist/ea-sr-combat.mjs`；新原型额外参数集中标为P值。
+- 第9–10节部分数值取自当前作者目录：`src/simulation/ea-data.mjs`、`src/simulation/ea-sr-equipment.mjs`、`src/simulation/ea-sr-combat.mjs`；新原型额外参数集中标为P值。
 - 本次用户补充：允许Playground自行生成新的美术资源。已有概念图可作参考。
 
 执行时先交付第23.1节的可玩版本，再依次扩充。每一轮围绕明确的一段玩法继续同一游戏，保存已成立的世界事实与玩家进度。

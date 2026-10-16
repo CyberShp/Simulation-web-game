@@ -10,13 +10,13 @@
 
 游戏继续以网页交付，用 Godot 4.6.3 制作旧别院 2D 绘画场景。地图、建筑和人物按 U-109 的开局及 U-110 的分层方案重建；正式玩法的96米山院、2米营造格、0.5米导航精度、封闭建筑完整外观与真实室内活动继续成立；保留已确认的世界、经营、成长、人物自主及全部40项 SR。玩家只直接控制掌门，人物、建筑、库存、活动、事件和战斗仍引用同一稳定身份、位置与世界时钟。镜头、动画和只读页面不推动生产、奖励或 NPC 决定。
 
-本机实施基点为 Godot 4.6.3 stable，项目入口 `godot/project.godot`、脚本 `godot/scripts/`；选择 GDScript、Compatibility 渲染器和单线程 Web 导出。Godot 官方说明 Web 导出使用 Compatibility/WebGL 2，单线程导出可避免线程所需的跨源隔离条件；这些是本批技术选择，目标浏览器和设备仍要实测。[Godot Web 导出说明](https://docs.godotengine.org/en/stable/tutorials/export/exporting_for_web.html)
+本机实施基点为 Godot 4.6.3 stable，项目入口 `archive/godot/project.godot`、脚本 `archive/godot/scripts/`；选择 GDScript、Compatibility 渲染器和单线程 Web 导出。Godot 官方说明 Web 导出使用 Compatibility/WebGL 2，单线程导出可避免线程所需的跨源隔离条件；这些是本批技术选择，目标浏览器和设备仍要实测。[Godot Web 导出说明](https://docs.godotengine.org/en/stable/tutorials/export/exporting_for_web.html)
 
-在规则迁完之前，现有 `dist/ea-opening-sim.mjs` 及其领域模块是唯一模拟权威。`dist/ea-godot-bridge.mjs` 仅传递 Godot 输入请求、公开状态投影和命令结果；Godot 场景不得另存一份可独立结算的人物、建筑或物资，也不得用每帧回调建立第二个世界时钟。桥接请求须带稳定目标 ID、预期修订和可识别的提交结果；同一确认重送只能由既有命令事务规则处理。读档先按当前加载器校验，失败保留原文和可恢复入口；迁移规则所有权时逐项替换写入者与存档映射，不直接改写正式旧档。
+在规则迁完之前，现有 `src/simulation/ea-opening-sim.mjs` 及其领域模块是唯一模拟权威。`src/simulation/ea-godot-bridge.mjs` 仅传递 Godot 输入请求、公开状态投影和命令结果；Godot 场景不得另存一份可独立结算的人物、建筑或物资，也不得用每帧回调建立第二个世界时钟。桥接请求须带稳定目标 ID、预期修订和可识别的提交结果；同一确认重送只能由既有命令事务规则处理。读档先按当前加载器校验，失败保留原文和可恢复入口；迁移规则所有权时逐项替换写入者与存档映射，不直接改写正式旧档。
 
-构建脚本为 `tools/build-godot-web.py`，Web 导出到 `dist/godot/index.html`；这是构建产物，不作为 main 的手写源码。Godot 预览使用 `godot-preview` 独立存档命名空间，玩家正式三个档位与现行 `dist/index.html` 入口保持原样。G0 达到本批验收后可从 `/godot/` 提供独立网页预览；正式首页只有在替代入口覆盖对应功能与验收、旧档恢复和发布回退均成立后才切换。部署与验收是后续执行动作，本文件不记为已完成。
+构建脚本为 `archive/godot/tools/build-godot-web.py`，Web 导出到 `dist/godot/index.html`；这是构建产物，不作为 main 的手写源码。Godot 预览使用 `godot-preview` 独立存档命名空间，玩家正式三个档位与现行 `apps/web/index.html` 入口保持原样。G0 达到本批验收后可从 `/godot/` 提供独立网页预览；正式首页只有在替代入口覆盖对应功能与验收、旧档恢复和发布回退均成立后才切换。部署与验收是后续执行动作，本文件不记为已完成。
 
-U-104 二维绘画小院历史试游单独使用 `godot/painted_courtyard/courtyard.tscn`、`godot/painted_courtyard/assets/` 和 `tools/build-painted-web.py`，导出至 `dist/painted-courtyard/index.html`。它只有样板场景及观察动作所需的临时状态，不读取或写入正式三个档位，不结算经营资源，不建立并行的游戏世界。它的网页操作和用户审阅只证明对应美术表现；后续与唯一模拟的桥接、真实工位及存档接入须重新取得集成证据。
+U-104 二维绘画小院历史试游单独使用 `archive/godot/painted_courtyard/courtyard.tscn`、`archive/godot/painted_courtyard/assets/` 和 `archive/godot/tools/build-painted-web.py`，导出至 `dist/painted-courtyard/index.html`。它只有样板场景及观察动作所需的临时状态，不读取或写入正式三个档位，不结算经营资源，不建立并行的游戏世界。它的网页操作和用户审阅只证明对应美术表现；后续与唯一模拟的桥接、真实工位及存档接入须重新取得集成证据。
 
 ## 阶段、交付物与退出标准
 

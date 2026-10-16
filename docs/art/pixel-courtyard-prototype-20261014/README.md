@@ -2,7 +2,7 @@
 
 ## 山院近景母稿 · 2026-10-15
 
-U-144：用户已确认按以下母稿开始还原。母稿以演武场作为材质参考，在总图开山院位置表现一殿、药田、松岩和两位人物；首屏源码入口为 `prototypes/pixel_scene_validation/courtyard.html`，实际交付与验证见 [首屏运行记录](RUNTIME.md)。
+U-144：用户已确认按以下母稿开始还原。母稿以演武场作为材质参考，在总图开山院位置表现一殿、药田、松岩和两位人物；首屏源码入口为 `apps/courtyard/courtyard.html`，实际交付与验证见 [首屏运行记录](RUNTIME.md)。
 
 ![山院近景母稿](courtyard-v2.png)
 

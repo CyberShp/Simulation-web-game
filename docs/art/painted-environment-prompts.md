@@ -4,7 +4,7 @@
 
 ## 地面背景
 
-项目文件：`godot/painted_courtyard/assets/ground.png`。
+项目文件：`archive/godot/painted_courtyard/assets/ground.png`。
 
 ```text
 Use case: stylized-concept. Asset type: production background painting for a Godot 2D Chinese cultivation management game.
@@ -17,7 +17,7 @@ Critical: ZERO buildings, ZERO humans or animals, no furniture on the central cl
 
 ## 主殿精灵
 
-项目文件：`godot/painted_courtyard/assets/hall.png`；生成请求使用 transparent_background=true。
+项目文件：`archive/godot/painted_courtyard/assets/hall.png`；生成请求使用 transparent_background=true。
 
 ```text
 Use case: stylized-concept. Asset type: a single production building sprite, a finely hand-painted Chinese cultivation sect main hall on a genuinely transparent background, for Godot 2D.

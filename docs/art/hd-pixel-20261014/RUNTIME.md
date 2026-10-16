@@ -25,7 +25,7 @@
 | 技能 | 剑气、火诀、护阵的动作与独立像素效果；示例冷却为 2.8／5／8 秒，冷却内重复释放被拒。 |
 | 人数与界面 | 16 名示例人物。两排各 12 个技能槽中，1–3 接入动作，其余为空位示意。 |
 
-素材由内置 imagegen 生成，完整要求见[素材提示词](../../../prototypes/pixel_scene_validation/assets/prompts.md)。运行使用透明图集的独立帧；人物、道具和特效由 Canvas 2D 绘制，Electron 提供本地桌面窗口。这是本批样件的制作方式，完整游戏的最终引擎选型仍另行确定。
+素材由内置 imagegen 生成，完整要求见[素材提示词](../../../archive/prototypes/pixel_scene_validation/assets/prompts.md)。运行使用透明图集的独立帧；人物、道具和特效由 Canvas 2D 绘制，Electron 提供本地桌面窗口。这是本批样件的制作方式，完整游戏的最终引擎选型仍另行确定。
 
 ## 本机验证
 
@@ -48,8 +48,8 @@
 复验命令（在仓库根目录执行）：
 
 ```sh
-node --test prototypes/pixel_scene_validation/world.test.mjs
-node prototypes/three_style_showcase/node_modules/electron/cli.js prototypes/pixel_scene_validation --qa-dir=/Volumes/Media/immortal-qa/pixel-scene-20261014/recheck --show --record
+node --test tests/unit/prototypes/world.test.mjs
+node archive/prototypes/three_style_showcase/node_modules/electron/cli.js prototypes/pixel_scene_validation --qa-dir=/Volumes/Media/immortal-qa/pixel-scene-20261014/recheck --show --record
 ```
 
 ## 评看边界

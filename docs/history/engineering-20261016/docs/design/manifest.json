@@ -1,0 +1,1959 @@
+{
+  "designId": "DB-2026-10-05",
+  "version": "1.2",
+  "kind": "target-design",
+  "language": "zh-CN",
+  "repository": "CyberShp/Simulation-web-game",
+  "entry": "AGENTS.md",
+  "index": "docs/design/README.md",
+  "precedence": [
+    "latest-explicit-user-instruction",
+    "decision-status",
+    "current-design",
+    "historical-documents"
+  ],
+  "decisionStatus": [
+    "user-confirmed",
+    "recommended",
+    "tunable",
+    "deferred"
+  ],
+  "implementationStatus": [
+    "not-started",
+    "designed",
+    "partial",
+    "implemented",
+    "verified",
+    "blocked"
+  ],
+  "requiredRead": [
+    "AGENTS.md",
+    "docs/SECT-GROWTH-PLAN.md",
+    "docs/MOUNTAIN-DOMAIN.md",
+    "docs/PAINTED-COURTYARD.md",
+    "docs/GODOT-MIGRATION.md",
+    "docs/design/README.md",
+    "docs/design/00-BASELINE.md",
+    "docs/design/DECISIONS.md",
+    "docs/design/STATUS.md",
+    "docs/design/13-WORLDVIEW-DISCUSSION.md",
+    "docs/design/14-EARLY-GAME-DETAILED-DESIGN.md",
+    "docs/CODEX-HANDOFF.md",
+    "docs/design/05-RUNTIME-CONTRACTS.md",
+    "docs/design/06-OPENING-ACCEPTANCE.md",
+    "docs/requirements/registry.json"
+  ],
+  "files": [
+    {
+      "path": "docs/design/00-BASELINE.md",
+      "role": "product-baseline"
+    },
+    {
+      "path": "docs/design/01-CHARACTERS.md",
+      "role": "identity-autonomy-relationships"
+    },
+    {
+      "path": "docs/design/02-EQUIPMENT-ARTS.md",
+      "role": "items-learning-combat"
+    },
+    {
+      "path": "docs/design/03-SPATIAL-ART.md",
+      "role": "space-assets-construction-input"
+    },
+    {
+      "path": "docs/design/04-WORLD-STORY.md",
+      "role": "locations-travel-reputation-events-story"
+    },
+    {
+      "path": "docs/design/05-RUNTIME-CONTRACTS.md",
+      "role": "state-clock-command-transaction-save"
+    },
+    {
+      "path": "docs/design/06-OPENING-ACCEPTANCE.md",
+      "role": "opening-integration-evidence-delivery"
+    },
+    {
+      "path": "docs/design/07-ECONOMY-ORGANIZATION.md",
+      "role": "supply-logistics-budget-organization"
+    },
+    {
+      "path": "docs/design/08-LIVING-WORLD.md",
+      "role": "people-ecology-weather-faction-agendas"
+    },
+    {
+      "path": "docs/design/09-INTRIGUE-OPPORTUNITIES.md",
+      "role": "ethics-claims-investigation-rare-hidden-threads"
+    },
+    {
+      "path": "docs/design/10-CRISES-RESCUE-DEATH.md",
+      "role": "crises-location-combat-rescue-traps-mortality"
+    },
+    {
+      "path": "docs/design/11-AI-CONTENT-CONTRACT.md",
+      "role": "optional-ai-authority-knowledge-expression"
+    },
+    {
+      "path": "docs/design/12-CONTENT-AUTHORING.md",
+      "role": "truth-cards-clues-time-budget-content-gates"
+    },
+    {
+      "path": "docs/design/13-WORLDVIEW-DISCUSSION.md",
+      "role": "confirmed-worldview-and-deferred-nonblocking-questions"
+    },
+    {
+      "path": "docs/design/DECISIONS.md",
+      "role": "decision-ledger"
+    },
+    {
+      "path": "docs/design/STATUS.md",
+      "role": "implementation-evidence"
+    },
+    {
+      "path": "docs/design/REFERENCES.md",
+      "role": "source-facts-and-adaptation"
+    },
+    {
+      "path": "docs/design/14-EARLY-GAME-DETAILED-DESIGN.md",
+      "role": "early-game-scope-content-growth-migration-and-design-readiness"
+    },
+    {
+      "path": "docs/design/19-FIVE-CONTINENT-ARTS.md",
+      "role": "five-continent-learnable-arts-taxonomy-and-yunxiu-first-batch"
+    },
+    {
+      "path": "docs/design/20-ARTS-GROWTH-COMBAT.md",
+      "role": "cultivation-quality-defense-status-and-combat-balance-proposal"
+    },
+    {
+      "path": "docs/design/32-OPENING-INHERITANCE.md",
+      "role": "opening-package-five-inheritance-choice-and-runtime-boundary"
+    },
+    {
+      "path": "docs/design/33-ARTS-INITIAL-CALIBRATION.md",
+      "role": "yunxiu-first-67-arts-individual-calibration"
+    },
+    {
+      "path": "docs/design/34-FIVE-CONTINENT-ARTS-EXPANSION-05.md",
+      "role": "arts-catalogue-Y235-Y272"
+    },
+    {
+      "path": "docs/design/35-FIVE-CONTINENT-ARTS-EXPANSION-06.md",
+      "role": "arts-catalogue-Y273-Y309"
+    },
+    {
+      "path": "docs/design/36-FIVE-CONTINENT-ARTS-EXPANSION-07.md",
+      "role": "arts-catalogue-Y310-Y347"
+    },
+    {
+      "path": "docs/design/41-COURTYARD-VALLEY-IMPLEMENTATION.md",
+      "role": "courtyard-alchemy-valley-combat-and-continuous-new-save-acceptance"
+    },
+    {
+      "path": "docs/design/42-CHARACTER-DIALOGUE.md",
+      "role": "shared-character-dialogue-identity-topics-distance-pause-and-persistence"
+    },
+    {
+      "path": "docs/design/15-OPENING-IMPLEMENTATION.md",
+      "role": "opening-development-slice-and-evidence"
+    },
+    {
+      "path": "docs/design/16-WORKSTATIONS-ARTISAN-IMPLEMENTATION.md",
+      "role": "second-development-slice-workstations-shared-batches-artisan-care"
+    },
+    {
+      "path": "docs/design/17-INDOOR-LIFE-IMPLEMENTATION.md",
+      "role": "third-development-slice-hall-indoor-life-doors-beds-and-render-snapshots"
+    },
+    {
+      "path": "docs/design/18-SPATIAL-CONTINUITY-IMPLEMENTATION.md",
+      "role": "spatial-continuity-implementation-and-evidence-boundaries"
+    },
+    {
+      "path": "docs/GODOT-MIGRATION.md",
+      "role": "godot-web-implementation-stages-and-exit-gates"
+    },
+    {
+      "path": "docs/PAINTED-COURTYARD.md",
+      "role": "current-painted-2d-courtyard-scope-and-web-acceptance"
+    },
+    {
+      "path": "docs/ART-REALTIME-TRIAL.md",
+      "role": "historical-U-103-art-trial-scope-and-evidence-boundary"
+    },
+    {
+      "path": "docs/requirements/README.md",
+      "role": "sr-management-entry"
+    },
+    {
+      "path": "docs/requirements/BACKLOG.md",
+      "role": "sr-dependencies-and-development-order"
+    },
+    {
+      "path": "docs/requirements/registry.json",
+      "role": "authoritative-sr-and-task-registry"
+    },
+    {
+      "path": "docs/SECT-GROWTH-PLAN.md",
+      "role": "same-mountain-staged-growth-and-migration"
+    },
+    {
+      "path": "docs/design/43-PIXEL-ARENA-SLICE.md",
+      "role": "pixel-desktop-arena-slice-clock-command-save-and-acceptance"
+    },
+    {
+      "path": "docs/design/44-PIXEL-TRAIL-SLICE.md",
+      "role": "pixel-desktop-continuous-trail-slice"
+    },
+    {
+      "path": "docs/design/47-GOLDEN-CORE-ARTS-CATALOGUE-DRAFT.md",
+      "role": "golden-core-revenge-arts-author-draft"
+    },
+    {
+      "path": "docs/design/content/golden-core-arts-draft-v0.1.json",
+      "role": "golden-core-arts-draft-data-not-runtime"
+    },
+    {
+      "path": "docs/design/48-GOLDEN-CORE-WORLD-ARTS-V02.md",
+      "role": "golden-core-world-arts-v02-author-draft"
+    },
+    {
+      "path": "docs/design/content/golden-core-arts-draft-v0.2.json",
+      "role": "golden-core-world-arts-v02-data-not-runtime"
+    },
+    {
+      "path": "docs/design/arts-v02/talisman.md",
+      "role": "golden-core-world-arts-v02-domain"
+    },
+    {
+      "path": "docs/design/arts-v02/gu.md",
+      "role": "golden-core-world-arts-v02-domain"
+    },
+    {
+      "path": "docs/design/arts-v02/weapons.md",
+      "role": "golden-core-world-arts-v02-domain"
+    },
+    {
+      "path": "docs/design/arts-v02/heterodox.md",
+      "role": "golden-core-world-arts-v02-domain"
+    },
+    {
+      "path": "docs/design/arts-v02/crafts.md",
+      "role": "golden-core-world-arts-v02-domain"
+    },
+    {
+      "path": "docs/design/49-P0-P2-COURTYARD-PROGRESS.md",
+      "role": "p0-p2-courtyard-implementation-and-limits"
+    },
+    {
+      "path": "docs/design/50-COURTYARD-UI-DESIGN-AUDIT.md",
+      "role": "courtyard-ui-design-audit-and-restructure-proposal"
+    },
+    {
+      "path": "docs/design/51-COURTYARD-MANAGEMENT-INTEGRATION.md",
+      "role": "courtyard-management-implementation-and-desktop-acceptance"
+    },
+    {
+      "path": "docs/design/45-SECT-IDLE-SLICE.md",
+      "role": "two-member-sect-autonomy-slice"
+    },
+    {
+      "path": "docs/design/46-CONTINUOUS-DOMAIN-FOUNDATION.md",
+      "role": "continuous-domain-shared-scale"
+    },
+    {
+      "path": "docs/design/52-EAST-TERRACE-INTEGRATION.md",
+      "role": "east-terrace-integration-evidence"
+    },
+    {
+      "path": "docs/design/53-COURTYARD-AUTONOMY-ACCEPTANCE.md",
+      "role": "same-world-autonomy-endurance-acceptance"
+    }
+  ],
+  "taskRead": {
+    "characters": [
+      "01-CHARACTERS.md",
+      "42-CHARACTER-DIALOGUE.md",
+      "03-SPATIAL-ART.md",
+      "05-RUNTIME-CONTRACTS.md",
+      "06-OPENING-ACCEPTANCE.md",
+      "08-LIVING-WORLD.md",
+      "09-INTRIGUE-OPPORTUNITIES.md",
+      "10-CRISES-RESCUE-DEATH.md",
+      "13-WORLDVIEW-DISCUSSION.md",
+      "14-EARLY-GAME-DETAILED-DESIGN.md"
+    ],
+    "character_dialogue": [
+      "42-CHARACTER-DIALOGUE.md",
+      "01-CHARACTERS.md",
+      "05-RUNTIME-CONTRACTS.md",
+      "06-OPENING-ACCEPTANCE.md",
+      "08-LIVING-WORLD.md",
+      "09-INTRIGUE-OPPORTUNITIES.md"
+    ],
+    "equipment_arts_combat": [
+      "01-CHARACTERS.md",
+      "02-EQUIPMENT-ARTS.md",
+      "03-SPATIAL-ART.md",
+      "04-WORLD-STORY.md",
+      "05-RUNTIME-CONTRACTS.md",
+      "06-OPENING-ACCEPTANCE.md",
+      "09-INTRIGUE-OPPORTUNITIES.md",
+      "10-CRISES-RESCUE-DEATH.md",
+      "12-CONTENT-AUTHORING.md",
+      "13-WORLDVIEW-DISCUSSION.md",
+      "14-EARLY-GAME-DETAILED-DESIGN.md",
+      "19-FIVE-CONTINENT-ARTS.md"
+    ],
+    "space_art_input": [
+      "../PAINTED-COURTYARD.md",
+      "../GODOT-MIGRATION.md",
+      "01-CHARACTERS.md",
+      "03-SPATIAL-ART.md",
+      "05-RUNTIME-CONTRACTS.md",
+      "06-OPENING-ACCEPTANCE.md",
+      "08-LIVING-WORLD.md",
+      "10-CRISES-RESCUE-DEATH.md",
+      "13-WORLDVIEW-DISCUSSION.md",
+      "14-EARLY-GAME-DETAILED-DESIGN.md"
+    ],
+    "world_story": [
+      "01-CHARACTERS.md",
+      "02-EQUIPMENT-ARTS.md",
+      "03-SPATIAL-ART.md",
+      "04-WORLD-STORY.md",
+      "05-RUNTIME-CONTRACTS.md",
+      "06-OPENING-ACCEPTANCE.md",
+      "08-LIVING-WORLD.md",
+      "09-INTRIGUE-OPPORTUNITIES.md",
+      "10-CRISES-RESCUE-DEATH.md",
+      "11-AI-CONTENT-CONTRACT.md",
+      "12-CONTENT-AUTHORING.md",
+      "13-WORLDVIEW-DISCUSSION.md",
+      "14-EARLY-GAME-DETAILED-DESIGN.md"
+    ],
+    "economy_organization": [
+      "01-CHARACTERS.md",
+      "02-EQUIPMENT-ARTS.md",
+      "03-SPATIAL-ART.md",
+      "05-RUNTIME-CONTRACTS.md",
+      "06-OPENING-ACCEPTANCE.md",
+      "07-ECONOMY-ORGANIZATION.md",
+      "08-LIVING-WORLD.md",
+      "09-INTRIGUE-OPPORTUNITIES.md",
+      "10-CRISES-RESCUE-DEATH.md",
+      "13-WORLDVIEW-DISCUSSION.md",
+      "14-EARLY-GAME-DETAILED-DESIGN.md"
+    ],
+    "save_runtime": [
+      "01-CHARACTERS.md",
+      "02-EQUIPMENT-ARTS.md",
+      "03-SPATIAL-ART.md",
+      "04-WORLD-STORY.md",
+      "05-RUNTIME-CONTRACTS.md",
+      "06-OPENING-ACCEPTANCE.md",
+      "07-ECONOMY-ORGANIZATION.md",
+      "08-LIVING-WORLD.md",
+      "09-INTRIGUE-OPPORTUNITIES.md",
+      "10-CRISES-RESCUE-DEATH.md",
+      "11-AI-CONTENT-CONTRACT.md",
+      "12-CONTENT-AUTHORING.md",
+      "13-WORLDVIEW-DISCUSSION.md",
+      "14-EARLY-GAME-DETAILED-DESIGN.md"
+    ],
+    "living_world": [
+      "01-CHARACTERS.md",
+      "03-SPATIAL-ART.md",
+      "04-WORLD-STORY.md",
+      "05-RUNTIME-CONTRACTS.md",
+      "06-OPENING-ACCEPTANCE.md",
+      "07-ECONOMY-ORGANIZATION.md",
+      "08-LIVING-WORLD.md",
+      "09-INTRIGUE-OPPORTUNITIES.md",
+      "10-CRISES-RESCUE-DEATH.md",
+      "11-AI-CONTENT-CONTRACT.md",
+      "12-CONTENT-AUTHORING.md",
+      "13-WORLDVIEW-DISCUSSION.md",
+      "14-EARLY-GAME-DETAILED-DESIGN.md"
+    ],
+    "intrigue_opportunities": [
+      "01-CHARACTERS.md",
+      "02-EQUIPMENT-ARTS.md",
+      "04-WORLD-STORY.md",
+      "05-RUNTIME-CONTRACTS.md",
+      "06-OPENING-ACCEPTANCE.md",
+      "08-LIVING-WORLD.md",
+      "09-INTRIGUE-OPPORTUNITIES.md",
+      "10-CRISES-RESCUE-DEATH.md",
+      "11-AI-CONTENT-CONTRACT.md",
+      "12-CONTENT-AUTHORING.md",
+      "13-WORLDVIEW-DISCUSSION.md",
+      "14-EARLY-GAME-DETAILED-DESIGN.md"
+    ],
+    "crises_rescue_death": [
+      "01-CHARACTERS.md",
+      "02-EQUIPMENT-ARTS.md",
+      "03-SPATIAL-ART.md",
+      "04-WORLD-STORY.md",
+      "05-RUNTIME-CONTRACTS.md",
+      "06-OPENING-ACCEPTANCE.md",
+      "08-LIVING-WORLD.md",
+      "09-INTRIGUE-OPPORTUNITIES.md",
+      "10-CRISES-RESCUE-DEATH.md",
+      "11-AI-CONTENT-CONTRACT.md",
+      "12-CONTENT-AUTHORING.md",
+      "13-WORLDVIEW-DISCUSSION.md",
+      "14-EARLY-GAME-DETAILED-DESIGN.md"
+    ],
+    "ai_content": [
+      "01-CHARACTERS.md",
+      "04-WORLD-STORY.md",
+      "05-RUNTIME-CONTRACTS.md",
+      "06-OPENING-ACCEPTANCE.md",
+      "09-INTRIGUE-OPPORTUNITIES.md",
+      "10-CRISES-RESCUE-DEATH.md",
+      "11-AI-CONTENT-CONTRACT.md",
+      "12-CONTENT-AUTHORING.md",
+      "13-WORLDVIEW-DISCUSSION.md",
+      "14-EARLY-GAME-DETAILED-DESIGN.md"
+    ],
+    "content_authoring": [
+      "01-CHARACTERS.md",
+      "02-EQUIPMENT-ARTS.md",
+      "04-WORLD-STORY.md",
+      "05-RUNTIME-CONTRACTS.md",
+      "06-OPENING-ACCEPTANCE.md",
+      "08-LIVING-WORLD.md",
+      "09-INTRIGUE-OPPORTUNITIES.md",
+      "10-CRISES-RESCUE-DEATH.md",
+      "11-AI-CONTENT-CONTRACT.md",
+      "12-CONTENT-AUTHORING.md",
+      "13-WORLDVIEW-DISCUSSION.md",
+      "14-EARLY-GAME-DETAILED-DESIGN.md"
+    ],
+    "pixel_desktop_arena": [
+      "43-PIXEL-ARENA-SLICE.md",
+      "05-RUNTIME-CONTRACTS.md",
+      "02-EQUIPMENT-ARTS.md",
+      "20-ARTS-GROWTH-COMBAT.md",
+      "06-OPENING-ACCEPTANCE.md"
+    ]
+  },
+  "taskReadBase": "docs/design/",
+  "crossSystemContracts": {
+    "masterPersonId": "person:master",
+    "simulationTickMilliseconds": 100,
+    "initialTicksPerDay": 1200,
+    "dayLengthStatus": "tunable",
+    "worldUnit": "logical-meter",
+    "terrainCellWorldUnits": 2,
+    "conditionRange": [
+      0,
+      1
+    ],
+    "understandingRange": [
+      0,
+      100
+    ],
+    "masteryRange": [
+      0,
+      100
+    ],
+    "cultivationProgressRange": [
+      0,
+      1
+    ],
+    "activityPhases": [
+      "proposed",
+      "reserving",
+      "navigating",
+      "preparing",
+      "executing",
+      "settling",
+      "completed",
+      "waiting",
+      "interrupted",
+      "cancelled",
+      "failed"
+    ],
+    "workOrderPhases": [
+      "planned",
+      "active",
+      "waiting",
+      "settling",
+      "completed",
+      "cancelled",
+      "failed"
+    ],
+    "equipmentSlots": [
+      "weapon",
+      "clothing",
+      "artifact",
+      "pendant"
+    ],
+    "recommendedDecisionIds": [
+      "R-01",
+      "R-02",
+      "R-06",
+      "R-07",
+      "R-10",
+      "R-14",
+      "R-17",
+      "R-05",
+      "R-15",
+      "R-18",
+      "R-19",
+      "R-20",
+      "R-21",
+      "R-22",
+      "R-23",
+      "R-25",
+      "R-26",
+      "R-27",
+      "R-28",
+      "R-29",
+      "R-30",
+      "R-31"
+    ],
+    "actualSaveVersionAtAudit": 5,
+    "targetSaveSchemaVersion": 6,
+    "npcLifeStatuses": [
+      "alive",
+      "dead"
+    ],
+    "derivedLivingBodyStates": [
+      "fit",
+      "impaired",
+      "incapacitated",
+      "dying"
+    ],
+    "crisisStages": [
+      "forming",
+      "exposed",
+      "engaged",
+      "escalating",
+      "critical",
+      "resolved"
+    ],
+    "combatSessionPhases": [
+      "preparing",
+      "active",
+      "settling",
+      "ended"
+    ],
+    "schemeStages": [
+      "planned",
+      "preparing",
+      "active",
+      "compromised",
+      "settling",
+      "resolved"
+    ],
+    "practiceLinkStatuses": [
+      "latent",
+      "active",
+      "severed",
+      "purified"
+    ],
+    "importantRootKinds": [
+      "opportunity",
+      "event-chain"
+    ],
+    "manipulationReasonIds": [
+      "deliberate-manipulation",
+      "consequential-deception",
+      "covert-hostile-plan"
+    ],
+    "intrigueInitialTargetRatio": 0.4,
+    "intrigueDenominator": "distinct-important-roots-first-activated-for-player",
+    "intrigueRatioStatus": "tunable",
+    "rareContentRequiresAuthoredHiddenThread": true,
+    "aiApiRequired": false,
+    "aiApiEnabledByDefault": false,
+    "runtimeAiMayWriteAuthoritativeState": false,
+    "newRootTables": [
+      "ecologiesBySceneId",
+      "weatherByRegionId",
+      "schemesById",
+      "claimsById",
+      "opportunitiesById",
+      "investigationsById",
+      "divinationsById",
+      "crisesById",
+      "combatSessionsById",
+      "hazardsById",
+      "deathRecordsByPersonId"
+    ],
+    "targetContentVersion": "opening-v1.2",
+    "navigationCellWorldUnits": 0.5,
+    "constructionGridDecision": "U-99/R-28",
+    "actualSaveVersionAtAuditNote": "Historical pre-schema6 audit; current schema and local state are recorded in currentDevelopment."
+  },
+  "execution": {
+    "scopeThisDelivery": "independent-desktop-arena-local-implementation-and-verification",
+    "runtimeDeployment": "local-macos-package-verified",
+    "requiresRepositoryContext": true,
+    "recommendedDoesNotMeanUserApproved": true,
+    "targetDesignDoesNotMeanImplemented": true
+  },
+  "worldviewDiscussion": {
+    "recordId": "WV-2026-10-06-48",
+    "path": "docs/design/13-WORLDVIEW-DISCUSSION.md",
+    "status": "paused-for-early-game-detailed-design",
+    "questionPolicy": "two-per-round-up-to-three-when-needed",
+    "confirmedDecisionIds": [
+      "U-16",
+      "U-17",
+      "U-18",
+      "U-19",
+      "U-20",
+      "U-21",
+      "U-22",
+      "U-23",
+      "U-24",
+      "U-25",
+      "U-26",
+      "U-27",
+      "U-28",
+      "U-29",
+      "U-30",
+      "U-31",
+      "U-32",
+      "U-33",
+      "U-34",
+      "U-35",
+      "U-36",
+      "U-37",
+      "U-38",
+      "U-39",
+      "U-40",
+      "U-41",
+      "U-42",
+      "U-43",
+      "U-44",
+      "U-45",
+      "U-46",
+      "U-47",
+      "U-48",
+      "U-49",
+      "U-50",
+      "U-51",
+      "U-52",
+      "U-53",
+      "U-54",
+      "U-55",
+      "U-56",
+      "U-57",
+      "U-58",
+      "U-59",
+      "U-60",
+      "U-61",
+      "U-62",
+      "U-63",
+      "U-64",
+      "U-65",
+      "U-66",
+      "U-67",
+      "U-68",
+      "U-69",
+      "U-70",
+      "U-71",
+      "U-72",
+      "U-73",
+      "U-74",
+      "U-75",
+      "U-76",
+      "U-77",
+      "U-78",
+      "U-79",
+      "U-80",
+      "U-81",
+      "U-82",
+      "U-83",
+      "U-84",
+      "U-85",
+      "U-86",
+      "U-87",
+      "U-88",
+      "U-89",
+      "U-90",
+      "U-91",
+      "U-92",
+      "U-93"
+    ],
+    "fixedEightCultivationSystems": "withdrawn",
+    "playerAscensionCurrentlyInScope": false,
+    "descentModes": [
+      "materialized-avatar",
+      "true-body"
+    ],
+    "realmSequence": [
+      "炼气",
+      "筑基",
+      "金丹",
+      "元婴",
+      "化神",
+      "炼虚",
+      "合体",
+      "大乘"
+    ],
+    "factionRoster": "undecided",
+    "tribulationIsSeparateRealm": false,
+    "openingPolitics": "dynasty-frontier",
+    "localDynastyState": "strong-with-growing-systemic-problems",
+    "openingMinorOrganizations": "small-with-few-mature-branches",
+    "openingGoldenCorePowers": "one-orthodox-sect-and-one-demonic-sect",
+    "greatVehiclePopulation": "very-rare-exact-count-undecided",
+    "otherLocalFactionsExist": true,
+    "chizhangAffiliation": "subordinate-to-local-golden-core-demonic-sect",
+    "revengeResponsibility": "han-lichuan-and-finite-preauthored-complicit-upper-sect-stewards",
+    "demonicSectCoreTradition": "煞炼刀法",
+    "complicitStewardRoster": "undecided",
+    "demonicSectInitialMatureTraditions": 1,
+    "orthodoxSectCoreTradition": "飞剑一脉",
+    "localGoldenCoreSectRelationship": "bounded-rivalry-with-trade-and-possible-cooperation",
+    "localSectConstraintDetails": "undecided",
+    "frontierCourtSectPolicy": "allows-both-sects-subject-to-tax-market-order-security-and-shared-taboos",
+    "frontierCourtPolicyDetails": "undecided",
+    "openingAdditionalFactionTypes": [
+      "傀儡小宗",
+      "鬼修小宗",
+      "灵植世家"
+    ],
+    "ghostSectAffiliation": "independent-of-local-golden-core-sects",
+    "ghostSectWiderAlliance": "undecided",
+    "sharedTabooDefinition": "undecided",
+    "heterodoxClassification": "cultivation-taboo-violation-not-crime-severity-alone",
+    "deliberateAtrocityForCultivation": "heterodox",
+    "temporaryLossOfControlAtrocity": "separate-classification-not-automatic-heterodox",
+    "temporaryLossOfControlLiability": "undecided",
+    "heterodoxResponsePolicy": "organization-rules-and-person-specific-not-faction-deterministic",
+    "factionReactionExamplesAreAbsolute": false,
+    "tabooAndOrganizationRuleRelationship": "undecided",
+    "bountySystemDetails": "undecided",
+    "puppetSectDirectionStatus": "current-user-direction-subject-to-user-revision",
+    "puppetSectCoreFocus": "attack-and-guard-puppets-with-other-functional-types",
+    "puppetSectMainIncome": "low-tier-combat-puppet-sales",
+    "puppetSectAffiliation": "independent-of-local-golden-core-sects",
+    "puppetSectModelsAndMatureBranches": "undecided",
+    "puppetSectIndustryScaleAndControlMechanism": "undecided",
+    "puppetSectTradePartners": "local-orthodox-sect-demonic-sect-and-court",
+    "puppetSectCustomerSelection": "organization-rules-and-person-specific",
+    "puppetSectWiderAllianceAndProtectionAgreements": "undecided",
+    "spiritPlantClanMainIndustry": "basic-medicinal-spirit-herb-cultivation-and-raw-material-supply",
+    "spiritPlantClanCustomerCategories": "alchemists-sects-and-markets",
+    "spiritPlantClanAffiliation": "independent-and-self-governing",
+    "spiritPlantClanSpecificPlantsAndIndustryScale": "undecided",
+    "spiritPlantClanCoreCultivationTradition": "undecided",
+    "spiritPlantClanSwordSectRelationship": "long-term-friendly-cooperation-with-personal-and-mutual-interest-ties",
+    "spiritPlantClanActualDependenceOrSubordination": "self-governing-without-subordinate-decision-control",
+    "spiritPlantClanSwordSectRelationshipGeneralBasis": "personal-ties-and-mutual-interests",
+    "spiritPlantClanSwordSectRelationshipSpecificHistoryAndAgreements": "undecided",
+    "ghostSectCoreTradition": "养鬼御鬼",
+    "ghostSectCoreFocus": "cultivate-and-command-a-small-number-of-ghosts-for-combat-and-scouting",
+    "ghostSectAuxiliaryAbilities": "limited-auxiliary-abilities-allowed-details-undecided",
+    "ghostSectGhostOriginsAndControlMechanism": "undecided",
+    "ghostSectMainCommissionsAndIncome": "covert-ghost-market-trade-in-yin-materials-and-ghost-artifacts-and-brokering-hidden-deals",
+    "ghostSectBusinessCandidateFeedback": "previous-service-options-rejected-option-C-covert-ghost-market-trader-confirmed",
+    "ghostSectGoodsProvenancePolicy": "purchases-goods-of-unclear-origin-specific-rules-undecided",
+    "ghostSectMarketRoleScaleAndIncomeDetails": "covert-host-of-small-local-ghost-market-collects-fees-details-undecided",
+    "ghostSectMarketResponsibilities": [
+      "secretly-organize-trades",
+      "collect-fees",
+      "maintain-market-order"
+    ],
+    "ghostSectMarketCourtRelationship": "knowingly-tolerated-locally-no-crackdown-unless-major-trouble",
+    "ghostSectMarketVenueScheduleAdmissionAndRules": "undecided",
+    "ghostSectMarketEnforcementThresholdAndOfficials": "undecided",
+    "shenClanPoliticalAlignment": "orthodox-side-formal-subordination-undecided",
+    "currentPeaceAndLowerFactionConflict": "temporary-peace-with-limited-orthodox-restraint-on-lower-faction-disputes",
+    "shenEstateDisputeSequence": [
+      "enemy-sect-occupies-shen-assets",
+      "orthodox-intervention-claims-righteousness-but-seeks-cultivation-spirit-vein-interests",
+      "intervening-side-fails-to-gain-advantage"
+    ],
+    "orthodoxInterveningFactionsAndPeople": "local-sword-sect-middle-tier-organized-participation-specific-people-undecided",
+    "orthodoxInterventionUnitsAndAuthorization": "undecided",
+    "orthodoxSectLeadershipKnowledgeAndPosition": "undecided",
+    "orthodoxSpiritVeinDisputeFailureCauseAndFinalAllocation": "demonic-backing-escalation-risk-and-high-cost-confirmed-final-allocation-undecided",
+    "orthodoxSpiritVeinDisputeJointConsiderations": [
+      "chizhang-demonic-upper-sect-support-risks-conflict-escalation",
+      "taking-controlled-assets-costs-more-than-sword-sect-middle-tier-is-willing-to-bear"
+    ],
+    "spiritVeinDisputeSupportersMeansAndActualClashOutcome": "undecided",
+    "shenDisputedResource": "existing-cultivation-spirit-vein",
+    "shenMineralVeinMention": "user-corrected-slip-not-an-additional-mineral-asset",
+    "shenDisputeTimingRelativeToOpening": "historical-background-before-protagonist-formally-settles-at-yunxiu",
+    "shenDisputeDiscovery": "later-investigation-initial-knowledge-undecided",
+    "shenEscapeToSettlementInterval": "several-months-of-concealed-flight-before-arrival",
+    "shenEscapeExactDurationRouteAndInjuryDetails": "undecided",
+    "hanLichuanBeliefAboutProtagonistSurvivalAtOpening": "uncertain-life-or-death-suspects-possible-survivors",
+    "hanLichuanInvestigationEffortAndEvidenceAtOpening": "undecided",
+    "localOpinionOfShenDestructionAtOpening": "accusation-based-options-withdrawn-no-criminal-pretext",
+    "shenMassacrePremise": "direct-seizure-of-spirit-vein-and-property-without-accusation",
+    "shenFabricatedHeterodoxAccusation": "withdrawn-by-user-correction",
+    "shenExonerationOrPublicApprovalRequiredForRevenge": false,
+    "chizhangCoreTraditionRelationToUpperSect": "unrelated-blade-lineage-with-political-subordination-retained",
+    "chizhangCoreCultivationTradition": "自有刀法",
+    "chizhangCoreTraditionDetailsAndOrigins": "specific-techniques-name-mechanics-costs-and-own-origin-undecided",
+    "chizhangMainIncomeBeforeShenSeizure": "own-small-scale-existing-estate-operations",
+    "chizhangBladeStyle": "重刀刚猛，正面压制，以势破敌",
+    "chizhangSecondaryIncomeBeforeShenSeizure": "tolls-from-a-controlled-local-trade-route-or-crossing",
+    "chizhangPreSeizureIncomeHierarchy": "estate-operations-primary-route-tolls-secondary-exact-shares-undecided",
+    "chizhangPreSeizureEstateCondition": "declining-spiritual-land-and-growing-operating-shortfall",
+    "chizhangEstateTypesAndRouteTollDetails": "author-default-R-24-small-spirit-fields-and-herb-gardens-with-mountain-route-tolls",
+    "chizhangUpperSectObligations": "author-default-R-24-periodic-tribute-and-limited-agreed-manpower-service",
+    "questionScope": "concrete-continents-sects-clans-dynasties-and-cultivation-traditions",
+    "localDetailAuthority": "author-may-fill-details-within-confirmed-worldview-mark-as-author-defaults",
+    "authorDefaults": {
+      "R-24": {
+        "status": "recommended",
+        "authorityDecisionId": "U-63",
+        "userSelectedOptions": false,
+        "estate": "small-spirit-grain-fields-and-low-tier-herb-gardens",
+        "secondaryIncome": "mountain-trade-route-checkpoint-tolls",
+        "upperSectObligations": [
+          "periodic-spirit-stone-or-material-tribute",
+          "limited-agreed-personnel-service"
+        ],
+        "details": "quantities-rates-place-names-and-personnel-for-author-content-design"
+      }
+    },
+    "mortalCultivatorSocietyRelationship": "lower-tier-interwoven-with-mortal-society-highest-tier-socially-stratified",
+    "ordinarySpiritualCultivationInnateEntryRequirement": "no-universal-innate-gate-entry-possible-in-principle-for-everyone",
+    "mortalCultivatorSocialTierBoundary": "no-fixed-realm-cutoff-confirmed-regional-and-personal-variation-allowed",
+    "specificArtsOrSystemsMayRequireInnateConditions": true,
+    "specificInnateEntryConditions": "author-to-define-per-art-or-system-no-universal-exclusion",
+    "universalEntryPossibilityMeansUniversalActualCultivationOrGuaranteedBreakthrough": false,
+    "majorRealmPowerGap": "near-insurmountable-with-extremely-rare-prodigy-level-cross-major-realm-kills",
+    "cultivationResourceScarcityPattern": "higher-tier-scarcity-combined-with-extreme-geographic-disparity",
+    "crossMajorRealmKillDifficultyTrend": "increases-at-higher-realms",
+    "chosenOnePhraseConfirmsFateSystemOrProtagonistGuaranteedVictory": false,
+    "resourceScarcityAxes": [
+      "lower-tier-relatively-common-higher-tier-resources-and-breakthrough-opportunities-increasingly-scarce",
+      "large-disparities-between-rich-and-poor-regions-shaping-migration-and-resource-control"
+    ],
+    "resourceDistributionQuantitiesPricesAndRenewal": "author-content-design-within-confirmed-pattern",
+    "ancientAndContemporaryCultivationCivilizationRelationship": "overall-progress-with-growing-knowledge-ancient-arts-not-inherently-superior",
+    "sapientPeoplesWorldDistribution": "multiple-peoples-powers-interspersed-across-major-continents-with-competition-and-cooperation",
+    "antiquityAloneGuaranteesArtOrArtifactSuperiority": false,
+    "sapientPeoplesRosterAndLocalDistribution": "author-content-design-no-equal-strength-or-universal-mixed-settlement-assumption",
+    "heavenlyDaoHasWill": false,
+    "basicCultivationKnowledgeAccessibility": "basic-entry-methods-relatively-accessible-guidance-advanced-transmissions-and-breakthrough-resources-scarcer",
+    "heavenlyDaoNature": "impersonal-objective-laws-no-intentional-decisions",
+    "questionRecommendationPolicy": "mark-recommended-option-and-explain-reason-for-each-question-without-treating-recommendation-as-confirmation",
+    "basicKnowledgeAccessibilityMeansFreeUniformOrFullAdvancedAccess": false,
+    "majorRealmBreakthroughPrimaryBottleneck": "game-accumulation-breakthrough-materials-and-defined-high-tier-conditions",
+    "preAscensionNaturalLifespanBoundary": "finite-at-all-pre-ascension-realms-with-lifespan-extension-and-path-differences",
+    "universalIndependentInsightGateRequiredForBreakthrough": false,
+    "breakthroughMaterialsAndHigherTierConditions": "author-to-define-actionable-requirements",
+    "immortalRealmLifespan": "undecided",
+    "lifespanExhaustionGameplay": "deferred-no-offline-aging-or-new-permadeath-implementation",
+    "mainWorldIntercontinentalConnectivity": "stable-routes-with-high-long-distance-travel-costs",
+    "otherIndependentWorldCultivationCompatibility": "cultivation-retained-some-abilities-adapt-to-local-laws",
+    "mainWorldTravelModes": {
+      "nearby": [
+        "walking",
+        "mounts",
+        "flying-boats",
+        "object-flight"
+      ],
+      "longDistanceAdditionalOption": "teleportation-arrays-usually-in-major-cities",
+      "details": "author-to-define-routes-requirements-costs-duration-capacity-and-ownership",
+      "nearbyExamplesExcludeLongDistanceUse": false
+    },
+    "otherIndependentWorldCompatibilityScope": "independent-worlds-other-than-immortal-realm-existing-immortal-descent-rules-remain-separate",
+    "ordinaryPostDeathSoulFate": "gradual-dissipation-with-persistence-under-special-conditions",
+    "supernaturalContractEnforceability": "heavenly-dao-oaths-and-sect-derived-cultivation-contracts-with-slightly-lower-binding-force",
+    "universalAutomaticReincarnation": false,
+    "specialSoulPersistenceRules": "author-to-define-no-automatic-immortality-or-routine-resurrection",
+    "oathAndContractMechanism": "impersonal-heavenly-dao-laws-no-conscious-divine-adjudication",
+    "oathAndContractDetails": "author-to-define-formation-conditions-costs-scope-breach-consequences-and-release-rules",
+    "orthodoxDemonicPrimaryIdeologicalEmphasis": "professed-order-status-and-lineage-duty-versus-personal-will-and-power-not-fixed-individual-morality",
+    "highestRealmDependenceOnFixedMajorOrganization": "major-organizational-advantages-but-not-required-rare-independent-cultivators-can-reach-highest-realms",
+    "spiritualEnergyAndVeinLongTermRenewal": "slow-renewal-and-new-formation-with-possible-local-degradation",
+    "mainWorldExplorationExtent": "established-core-settlements-and-routes-with-large-unexplored-wilderness",
+    "proposedContinentLayout": {
+      "status": "user-confirmed-layout-U-84",
+      "names": [
+        "青衡洲",
+        "中天洲",
+        "炎荒洲",
+        "玄朔洲",
+        "沧流洲"
+      ],
+      "proposedOpeningContinent": "青衡洲",
+      "detailsSource": "docs/design/13-WORLDVIEW-DISCUSSION.md",
+      "representativeFactionsStatus": "dasheng-confirmed-U-85-other-factions-author-proposals"
+    },
+    "openingDynastyCurrentHighestRealm": "dacheng-hidden",
+    "openingDynastyProposedName": {
+      "name": "大晟王朝",
+      "status": "user-confirmed-U-85"
+    },
+    "qinghengTopPowerConfiguration": "three-orthodox-and-three-demonic-major-sects-public-heti-each-with-hidden-dacheng",
+    "guiyuanCoreTransmission": "five-element-arts-primary-with-sword-and-formation-transmissions",
+    "qinghengFactionProposal": {
+      "status": "sect-counts-and-power-confirmed-guiyuan-name-and-core-confirmed-other-sect-names-and-cores-proposed",
+      "source": "docs/design/13-WORLDVIEW-DISCUSSION.md",
+      "orthodoxNames": [
+        "归元道宗",
+        "天工谷",
+        "万灵山"
+      ],
+      "demonicNames": [
+        "无相魔宗",
+        "幽冥宗",
+        "玄煞宗"
+      ],
+      "otherNames": [
+        "大晟王朝",
+        "丹阳陆氏"
+      ]
+    },
+    "qinghengMajorSectCounts": {
+      "orthodox": 3,
+      "demonic": 3
+    },
+    "qinghengMajorSectPublicHighestRealm": "heti",
+    "qinghengMajorSectHiddenRealm": "dacheng",
+    "hiddenDachengCoverageForDynastiesAndTopClans": "qingheng-dynasties-yes-clans-no",
+    "openingDynastyPublicHighestRealm": "heti",
+    "qinghengTopClanHighestRealm": "heti-no-dacheng",
+    "dashengFortuneCultivationMainBranch": "national-fortune-cultivation-with-individual-foundation-military-and-state-protection-formations",
+    "qinghengRepresentativeClanProposals": {
+      "status": "author-proposals-not-confirmed",
+      "names": [
+        "丹阳陆氏",
+        "云川谢氏",
+        "北陵裴氏"
+      ]
+    },
+    "usualDynasticCultivationMainBranch": "almost-all-dynasties-national-fortune-cultivation",
+    "investitureDynastyContinent": "undecided",
+    "investitureDynastySectClanArrangement": "undecided",
+    "continentConqueringInvestitureDynasty": {
+      "status": "existence-and-completed-continent-conquest-user-confirmed-U-92",
+      "confirmedCount": 1,
+      "name": "undecided",
+      "cultivation": "office-fief-and-authority-granted-supernatural-powers-weakened-by-loss-of-office-or-land",
+      "highestRealm": "undecided",
+      "proposedLocations": [
+        "中天洲的大胤王朝",
+        "玄朔洲的玄霜王朝"
+      ]
+    },
+    "deferredQuestions": [
+      {
+        "topic": "investitureDynastyContinent",
+        "recommendedOption": "A",
+        "reason": "places-a-unified-imperial-power-at-the-intercontinental-hub-while-preserving-Qingheng-multipolarity",
+        "status": "deferred-not-blocking-early-game-design",
+        "deferredByDecisionId": "U-93"
+      },
+      {
+        "topic": "investitureDynastySectClanArrangement",
+        "recommendedOption": "A",
+        "reason": "retains-named-sects-clans-and-transmissions-under-real-imperial-subordination-and-investiture",
+        "status": "deferred-not-blocking-early-game-design",
+        "deferredByDecisionId": "U-93"
+      }
+    ],
+    "pendingQuestions": [],
+    "currentWork": "early-game-detailed-design-v1.2",
+    "userConfirmationBlockersForEarlyGame": [],
+    "historicalQuestionnairePendingFields": "Old undecided fields describe original question checkpoints; R-26/14 supersede the local names, four-month interval, opening knowledge and three responsibility persons. Remaining current gaps are tracked in SR registry; full world roster remains deferred."
+  },
+  "earlyGameDesign": {
+    "status": "framework-designed-implementation-partial-detailed-gaps-tracked-by-SR",
+    "path": "docs/design/14-EARLY-GAME-DETAILED-DESIGN.md",
+    "scope": "yunxiu-qi-refining-through-foundation-building-complete-revenge-and-continuing-management",
+    "userConfirmationBlockers": [],
+    "authorDefaultsDecisionIds": [
+      "R-25",
+      "R-26"
+    ],
+    "revengeResponsibilityPersonIds": [
+      "person:han-lichuan",
+      "person:xing-lie",
+      "person:shao-heng"
+    ],
+    "revengeRequiresExonerationOrEvidenceCount": false,
+    "preserveLegacyCompletedEndings": true,
+    "deferredWorldbuildingDecisionId": "U-93"
+  },
+  "implementationSnapshot": {
+    "localGameVersion": "1.6.0-dev",
+    "schemaVersion": 6,
+    "contentVersion": "sr-content-v1.2",
+    "rulesetVersion": "opening-runtime-3",
+    "reference": "docs/design/STATUS.md",
+    "scope": "courtyard-local-increment-2026-10-07",
+    "fullDesignVerified": false,
+    "deployed": false,
+    "evidencePolicy": "Local implementation, component tests, normal public-command flows, browser viewports, target hardware and published release remain separate."
+  },
+  "currentDevelopment": {
+    "version": "1.6.0-dev",
+    "schemaVersion": 6,
+    "contentVersion": "sr-content-v1.2",
+    "rulesetVersion": "opening-runtime-3",
+    "reference": "docs/CODEX-HANDOFF.md",
+    "evidence": "docs/design/STATUS.md",
+    "sourceBaseCommit": "87a15dbf6b3f784f61ddfbf06de2fe23d0a31f9a",
+    "scope": "godot-2d-painted-courtyard-local-art-review",
+    "sourceStatus": "uncommitted-local-changes",
+    "deploymentStatus": "local-increment-not-deployed",
+    "lastPublishedCheckpoint": {
+      "runtimeSourceCommit": "7d27532bf22e8c6064281e12b390edb8370abce9",
+      "pagesCommit": "acb40955ded401e6e2c5225c463d3e0a380ae6a2",
+      "releaseTag": "ea-160-courtyard-20261009-r37",
+      "evidence": "docs/design/STATUS.md"
+    },
+    "scene": {
+      "widthMetres": 96,
+      "heightMetres": 96,
+      "buildingUnitMetres": 2,
+      "navigationMetres": 0.5,
+      "extentVersion": "courtyard-96-1",
+      "buildingGridVersion": "building-units-1",
+      "interiorLayoutVersion": "adult-furniture-1"
+    },
+    "nextWorkSource": "docs/design/DECISIONS.md",
+    "fullDesignVerified": false,
+    "versionAppliesTo": "existing formal JS game; art trial has independent local state",
+    "independentDesktopSlice": {
+      "decisionId": "U-135",
+      "reference": "docs/design/43-PIXEL-ARENA-SLICE.md",
+      "source": "prototypes/pixel_scene_validation/",
+      "entry": "prototypes/pixel_scene_validation/arena.html",
+      "ruleset": "arena-v1",
+      "schemaVersion": 1,
+      "status": "implemented-macos-package-verified",
+      "sourceStatus": "local-uncommitted",
+      "evidence": "docs/art/hd-pixel-20261014/ARENA-RUNTIME.md",
+      "writesFormalSaveSlots": false,
+      "windowsVerification": "not-run"
+    },
+    "desktopArena": {
+      "decisionId": "U-135",
+      "status": "independent-slice-macos-verified",
+      "reference": "docs/design/43-PIXEL-ARENA-SLICE.md",
+      "evidence": "docs/art/hd-pixel-20261014/ARENA-RUNTIME.md",
+      "closesWholeRequirements": false
+    }
+  },
+  "requirementsManagement": {
+    "registryId": "SR-XF-2026-10-06",
+    "version": "1.0",
+    "entry": "docs/requirements/README.md",
+    "backlog": "docs/requirements/BACKLOG.md",
+    "registry": "docs/requirements/registry.json",
+    "itemsDirectory": "docs/requirements/items",
+    "manager": "qa/sr-manager.py",
+    "counts": {
+      "early": 32,
+      "conditional": 2,
+      "deferred": 6,
+      "total": 40,
+      "tasks": 200,
+      "acceptanceCriteria": 120
+    },
+    "nextIteration": "I1",
+    "designAndDeliveryStatesAreSeparate": true,
+    "earlyDependsOnDeferred": false,
+    "documentSourceCommit": "272cbe8c1f5fba39ac2293a139ce79a842619762",
+    "managementRequirement": "SR-XF-001",
+    "managementAcceptance": "passed",
+    "runtimeChanged": true,
+    "acceptanceCounts": {
+      "passed": 18,
+      "not_run": 101,
+      "blocked": 1
+    }
+  },
+  "previousImplementationSnapshot": {
+    "localGameVersion": "1.5.0-dev",
+    "schemaVersion": 6,
+    "scope": "bounded-hall-and-construction-continuity-not-complete-spatial-migration",
+    "reference": "docs/design/18-SPATIAL-CONTINUITY-IMPLEMENTATION.md",
+    "fullDesignVerified": false,
+    "deployed": true,
+    "rulesetVersion": "opening-runtime-3",
+    "automatedTestsPassed": 346,
+    "uiTemplatesEvaluated": 80,
+    "deploymentCommit": "350a4d6a0d450ff5dfbcde11ea6782b00a43df29",
+    "deploymentScope": "existing-bounded-opening-indoor-and-construction-only"
+  },
+  "previousDevelopmentRecord": {
+    "version": "1.5.0-dev",
+    "schemaVersion": 6,
+    "rulesetVersion": "opening-runtime-3",
+    "branch": "feat/indoor-life-v12",
+    "reference": "docs/design/18-SPATIAL-CONTINUITY-IMPLEMENTATION.md",
+    "scope": "bounded-hall-and-construction-continuity-not-complete-spatial-migration",
+    "verified": {
+      "automatedChecks": 346,
+      "managementTemplates": 80,
+      "publicOpeningRoutes": 2,
+      "publicArtisanRoutes": 3,
+      "productionCanvasSnapshots": 6
+    },
+    "browserStatus": "startup-and-prologue-verified-online-full-design-and-real-device-not-verified",
+    "deploymentStatus": "EA-1.5.0-dev-published-pages-workflow-37420271334-success",
+    "remoteSaveStatus": "main-source-uploaded-via-github-api-excluding-generated-acceptance-artifacts",
+    "previousImplementationCommit": "18b419b",
+    "implementationCommitSource": "git-history-for-current-snapshot",
+    "sourceMainCommit": "74df8c4a9957a40c1510644b29a98fc2390e535b",
+    "runtimeSourceCommit": "9cc4466887b349536ac7f16f15ac9f6bcfd16756",
+    "pagesCommit": "350a4d6a0d450ff5dfbcde11ea6782b00a43df29"
+  },
+  "estateInteractiveRelease": {
+    "date": "2026-10-06",
+    "status": "playable-development-release",
+    "gameVersion": "1.6.0-dev",
+    "schemaVersion": 6,
+    "decisions": [
+      "U-96",
+      "U-97",
+      "R-27"
+    ],
+    "assetVersion": "yunxiu-modular-20261006-v1",
+    "scope": "固定45度平面旋转正交2.5D；12类独立外立面、两类代码田地、代码地表/室内/人物；地点同步、紧凑侧卡及折叠剧情",
+    "logicCompatibility": "既有逻辑米坐标、人物/建筑身份、导航、工位、单时钟及存档schema保持；granary仍为灵稻田",
+    "pagesCommit": "c0cb4038fd4a0d7536cbcfaf8755f22e10c01cb5",
+    "deploymentRun": "37464500470",
+    "deploymentStatus": "completed/success",
+    "releaseTag": "ea-160-estate-art-20261006-r1",
+    "url": "https://cybershp.github.io/Simulation-web-game/?v=ea-160-estate-art-20261006-r1",
+    "sourceMainStatus": "runtime source uploaded and metadata recorded on descendant main commit",
+    "verification": {
+      "uiComponentTests": {
+        "passed": 39,
+        "failed": 0,
+        "scripts": [
+          "tests/ea-scene-ui.test.mjs",
+          "tests/ea-narrative-ui.test.mjs",
+          "tests/map-input.test.mjs"
+        ]
+      },
+      "spatialCanvasTests": {
+        "passed": 34,
+        "failed": 0,
+        "script": "qa/ea-sr-spatial-acceptance.mjs",
+        "viewportDprCases": 9,
+        "browser": false
+      },
+      "worldSceneTests": {
+        "scenes": 7,
+        "objects": 22,
+        "script": "qa/ea-sr-scene-art-acceptance.mjs"
+      },
+      "normalSaveFlow": {
+        "passed": 9,
+        "failed": 0,
+        "buildings": 8,
+        "members": 5,
+        "publicCommands": 11,
+        "exactSaveReloads": 2,
+        "walkedEntrances": 8,
+        "worldTickStart": 229941,
+        "worldTickEnd": 230690,
+        "restArrived": true,
+        "pausedClockUnchanged": true,
+        "injectedProgress": false
+      },
+      "productionCanvasSnapshots": "final still-image review passed for courtyard field rendering and closed facade wall correction; not browser screenshots",
+      "domMouse": "not_run",
+      "iPadTouch": "not_run",
+      "targetHardware": "not_run",
+      "fps": "not_run",
+      "browserLimitation": "CUA browser tool unavailable in this callable tool set; older browser results do not apply to this release",
+      "deployedTree": {
+        "textModules": 158,
+        "webpAssets": 3,
+        "shaMatchesLocalPackage": true,
+        "browser": false
+      }
+    },
+    "limitations": [
+      "整体风格与原型仍有差距，独立精细外立面与代码人物/室内混合",
+      "床体0.6x0.9逻辑米不足成人卧躺；仅真实抵达床边工位后半坐歇息，完整睡眠动画未完成",
+      "SR003–007及029开发/验收保持in_progress，开发版发布不关闭SR"
+    ],
+    "evidencePolicy": "Do not upload screenshots, save dumps or QA process artifacts; retain source, required art, docs and reusable checks only",
+    "runtimeSourceCommit": "6e1aba828c79baf2429d2c24e38664940fc9321a"
+  },
+  "estateGridAdjustment": {
+    "date": "2026-10-06",
+    "decision": "U-98",
+    "gridMetres": 0.5,
+    "gridAlwaysVisible": true,
+    "paving": "deferred",
+    "automaticRoadDrawing": false,
+    "decorativeRoadPathfinding": false,
+    "logicMigration": "none",
+    "pagesCommit": "cd66139c6d2aea98093cd28386cc004dbed05dbe",
+    "releaseTag": "ea-160-estate-grid-20261006-r1",
+    "deploymentStatus": "completed/success",
+    "verification": {
+      "spatial": 34,
+      "normalSave": 9,
+      "grid": 6,
+      "uiInput": 13,
+      "failed": 0,
+      "browser": {
+        "viewport": "1363x936",
+        "scope": "limited mouse smoke check",
+        "passed": [
+          "formal root startup",
+          "normal old-save memory-only acceptance import",
+          "visible ground grid and no automatic stone roads",
+          "map drag",
+          "zoom-in",
+          "building selection detail"
+        ],
+        "notTested": [
+          "full construction/upgrade/relocation workflow",
+          "iPad touch",
+          "physical target devices",
+          "FPS"
+        ],
+        "officialSaveSlotsWritten": false
+      }
+    },
+    "sourceMainStatus": "runtime source committed; release metadata commit is a descendant",
+    "sourceMainCommit": "c77c96b6be45ba8acb60e9101295ab9ae4290dda",
+    "officialUrl": "https://cybershp.github.io/Simulation-web-game/?v=ea-160-estate-grid-20261006-r1",
+    "deploymentRun": "37469792150",
+    "deployedTreeVerification": {
+      "textModules": 158,
+      "existingWebpAssets": 6,
+      "estateWebpAssets": 3,
+      "shaMatchesLocalPackage": true
+    },
+    "supersededBy": "U-99 / estateBuildingUnits"
+  },
+  "estateBuildingUnits": {
+    "date": "2026-10-06",
+    "decision": "U-99",
+    "authorDefault": "R-28",
+    "version": "building-units-1",
+    "unitMetres": 2,
+    "navigationMetres": 0.5,
+    "levelOneCells": {
+      "hall": [
+        4,
+        4
+      ],
+      "farm": [
+        2,
+        2
+      ],
+      "lumber": [
+        2,
+        2
+      ],
+      "quarry": [
+        2,
+        2
+      ],
+      "house": [
+        3,
+        3
+      ],
+      "meditation": [
+        3,
+        3
+      ],
+      "alchemy": [
+        3,
+        3
+      ],
+      "library": [
+        3,
+        3
+      ],
+      "well": [
+        1,
+        1
+      ],
+      "granary": [
+        2,
+        2
+      ],
+      "kitchen": [
+        3,
+        3
+      ],
+      "clinic": [
+        3,
+        3
+      ],
+      "workshop": [
+        3,
+        3
+      ],
+      "watchtower": [
+        2,
+        2
+      ]
+    },
+    "upgrade": "one additional column and row per level",
+    "paving": "deferred",
+    "migration": "validated isolated copy, nearest legal cells, identities/progress/materials/time/RNG retained",
+    "verification": "in_progress",
+    "releaseStatus": "published-historical-U99-see-STATUS",
+    "currentImplementationReference": "docs/design/STATUS.md"
+  },
+  "historicalImplementationRecords": {
+    "beforeCourtyard20261007": {
+      "implementationSnapshot": {
+        "localGameVersion": "1.6.0-dev",
+        "schemaVersion": 6,
+        "contentVersion": "sr-content-v1.2",
+        "rulesetVersion": "opening-runtime-3",
+        "scope": "SR-integration-normal-foundation-revenge-both-endings-local-industry-aftermath-late-income-descent",
+        "reference": "docs/requirements/TAKEOVER-2026-10-06.md",
+        "fullDesignVerified": false,
+        "deployed": true,
+        "automatedTestsPassed": 346,
+        "deploymentCommit": "7d16d54c0d7d0ecd591e0c8e84952b00e3a674ba",
+        "deploymentWorkflow": 37453110511,
+        "deploymentScope": "current-tested-EA-1.6.0-dev-runtime-not-all-SR-AC-closed"
+      },
+      "currentDevelopment": {
+        "version": "1.6.0-dev",
+        "schemaVersion": 6,
+        "contentVersion": "sr-content-v1.2",
+        "rulesetVersion": "opening-runtime-3",
+        "reference": "docs/requirements/TAKEOVER-2026-10-06.md",
+        "scope": "SR-integration-normal-foundation-revenge-both-endings-local-industry-aftermath-late-income-descent",
+        "verified": {
+          "automatedChecks": 346,
+          "combatReservationBoundary": 4,
+          "aftermath": 10,
+          "localIndustry": 8,
+          "lateIncomeComponent": 8,
+          "earnedLateIncomeOrders": 2,
+          "descentBoundary": 15,
+          "sceneObjectHits": 22,
+          "normalFoundationRealm": 12,
+          "normalResponsibleDeaths": 3,
+          "normalPersistentEndings": 2,
+          "normalEndingRevisits": 2,
+          "normalHighChapterSources": 1
+        },
+        "browserStatus": "official-EA1.6-startup-and-old-independent-portrait-save-restored-paused-real-device-touch-FPS-not-verified",
+        "deploymentStatus": "EA-1.6.0-dev-pages-workflow-37453110511-success",
+        "remoteSaveStatus": "main-source-uploaded-via-github-api-excluding-generated-acceptance-artifacts",
+        "sourceMainCommit": "ae1d771444ac841f9565a8823636cd28c7d26926",
+        "runtimeSourceCommit": "ae1d771444ac841f9565a8823636cd28c7d26926",
+        "pagesCommit": "7d16d54c0d7d0ecd591e0c8e84952b00e3a674ba",
+        "officialUrl": "https://cybershp.github.io/Simulation-web-game/?v=ea-160-dev-release-20261006-r1",
+        "remaining": [
+          "full-natural-three-cultivation-routes",
+          "full-natural-mother-counteraction-routes",
+          "all-six-high-realm-growth-balance",
+          "iPadOS-Windows-macOS-real-device-touch-DPR-FPS",
+          "SR037-user-unselected-dynasty-choices"
+        ],
+        "localImplementationCommit": "e3b68ef",
+        "implementationCommitSource": "runtime source ae1d771 with descendant metadata commit; current HEAD follows git history"
+      }
+    }
+  },
+  "engineMigration": {
+    "decisionId": "U-102",
+    "artDirectionDecisionId": "U-110",
+    "implementationChoiceId": "R-31",
+    "route": "docs/GODOT-MIGRATION.md",
+    "platform": "web",
+    "stages": [
+      "G0",
+      "G1",
+      "G2",
+      "G3"
+    ],
+    "sourceProject": "godot/project.godot",
+    "bridge": "dist/ea-godot-bridge.mjs",
+    "buildScript": "tools/build-godot-web.py",
+    "generatedPreviewEntry": "dist/godot/index.html",
+    "previewSaveNamespace": "godot-preview",
+    "currentRulesAuthorityDuringG0": "existing-js-simulation",
+    "formalEntrySwitchGate": "corresponding-function-and-save-acceptance"
+  },
+  "currentArtDirection": {
+    "decisionId": "U-133",
+    "decisionStatus": "user-confirmed",
+    "updatedAt": "2026-10-14",
+    "reference": "docs/design/DECISIONS.md",
+    "engine": null,
+    "engineStatus": "not-selected-for-desktop-2d",
+    "delivery": "desktop",
+    "primaryPlatform": "Windows",
+    "initialValidationPlatform": "macOS",
+    "rendering": "pure-2d-high-definition-pixel-art",
+    "prototypeKind": "desktop-pixel-trail",
+    "prototypeReference": "docs/art/hd-pixel-trail-20261014/RUNTIME.md",
+    "prototypeFiles": [
+      "prototypes/pixel_scene_validation/arena.html"
+    ],
+    "prototypeStatus": "local-trail-implemented-macos-package-verified",
+    "userArtApproval": "courtyard-accepted-trail-pending",
+    "runtimeImplementation": "independent-local-trail-implemented",
+    "runtimeEvidence": "docs/art/hd-pixel-trail-20261014/RUNTIME.md",
+    "publicationStatus": "local-desktop-build-source-checkpoint",
+    "preserveExistingAssetsAndEvidence": true,
+    "closesWholeRequirements": false,
+    "platformDecisionId": "U-128",
+    "spatialAndCombatDecisionId": "U-127",
+    "preserved3DWork": {
+      "decisionIds": [
+        "U-129",
+        "U-130",
+        "U-131",
+        "U-132"
+      ],
+      "status": "stopped-local-archive",
+      "source": "prototypes/three_style_showcase/",
+      "assetEvidence": "docs/art/asset-review-20261013/README.md",
+      "sceneEvidence": "docs/art/reference-reconstruction-20261013/README.md",
+      "preserveUncommittedChanges": true
+    },
+    "validationDecisionId": "U-134",
+    "runtimeValidation": "45-component-checks-22-packaged-visible-macos-checks",
+    "runtimeTechnique": "canvas2d-electron",
+    "runtimeSource": "prototypes/pixel_scene_validation/",
+    "staticPrototypeFiles": [
+      "docs/art/hd-pixel-20261014/courtyard-battle.png",
+      "docs/art/hd-pixel-20261014/characters-effects.png"
+    ],
+    "userArtApprovalDecisionId": "U-135",
+    "approvedRuntimeEvidence": "docs/art/hd-pixel-20261014/RUNTIME.md",
+    "currentRuntimeDecisionId": "U-136",
+    "pixelGrainDecisionId": "U-137",
+    "pixelGrain": "finer-one-step-clear-pixel-contours",
+    "trailArtApproval": "pending-user-runtime-review",
+    "styleReferenceDecisionId": "U-138",
+    "styleReferenceAsset": "prototypes/pixel_scene_validation/assets/courtyard-v1.png",
+    "styleAlignmentEvidence": "docs/art/hd-pixel-trail-20261014/STAIR-CONNECTION.md"
+  },
+  "currentHandoff": {
+    "updatedAt": "2026-10-16",
+    "entry": "AGENTS.md",
+    "handoff": "docs/CODEX-HANDOFF.md",
+    "deliveryPlan": "docs/DELIVERY-PLAN.md",
+    "engineMigration": "docs/GODOT-MIGRATION.md",
+    "artTrial": "docs/design/52-EAST-TERRACE-INTEGRATION.md",
+    "currentArtDecisionId": "U-150",
+    "actualStatus": "docs/design/STATUS.md",
+    "requirements": "docs/requirements/registry.json",
+    "decisionLedger": "docs/design/DECISIONS.md",
+    "appliesTo": "all agents, including Sol high and extra-high reasoning settings",
+    "workingTree": "/Volumes/Media/immortal",
+    "preserveUncommittedChanges": true,
+    "sourceBaseCommit": "4eedf62",
+    "scopePerBatch": [
+      "SR and AC",
+      "design clause and U/R/T",
+      "changed files and shared contracts",
+      "normal failure reload and UI evidence"
+    ],
+    "independentDesignReviewRequired": true,
+    "historicalRecordsPolicy": "Versioned snapshots retain their original evidence scope; current state comes from actualStatus and requirements, verified against the working tree.",
+    "historicalArtTrial": "docs/ART-REALTIME-TRIAL.md",
+    "sectGrowthPlan": "docs/SECT-GROWTH-PLAN.md",
+    "currentLayoutDecisionId": "U-105",
+    "layoutRefinementId": "R-32",
+    "currentAlignmentDecisionId": "U-107",
+    "mountainDomain": "docs/MOUNTAIN-DOMAIN.md",
+    "currentSpatialDecisionId": "U-150",
+    "currentSpatialSourceCommit": null,
+    "preservedSpatialSourceCommit": "3a930ea55d66244cb24cfcfef52cbc3e6d1b8b88",
+    "currentSpatialReference": "docs/design/46-CONTINUOUS-DOMAIN-FOUNDATION.md",
+    "currentArtsDecisionId": "U-115",
+    "currentArtsReference": "docs/design/19-FIVE-CONTINENT-ARTS.md",
+    "currentArtsBalanceReference": "docs/design/20-ARTS-GROWTH-COMBAT.md",
+    "currentOpeningInheritance": "docs/design/32-OPENING-INHERITANCE.md",
+    "currentOpeningAcceptanceDecisionId": "U-124",
+    "currentOpeningAcceptanceReference": "docs/design/41-COURTYARD-VALLEY-IMPLEMENTATION.md",
+    "currentOpeningAcceptanceEvidence": "docs/art/OPENING-CHAIN-2026-10-12.md",
+    "currentOpeningAcceptanceStatus": "single-normal-new-save-local-chain-verified-public-opening-smoke-verified",
+    "currentCharacterDialogueDecisionId": "U-125",
+    "currentCharacterDialogueReference": "docs/design/42-CHARACTER-DIALOGUE.md",
+    "currentSequence": "sustained-food-supply-then-three-to-five-residents",
+    "currentArtsLedger": "docs/design/28-FIVE-CONTINENT-ARTS-LEDGER.md",
+    "estateSourceScene": "godot/estate_2d/estate.tscn",
+    "estateSiteLayout": "godot/estate_2d/estate-sites.json",
+    "estatePreview": "dist/painted-game/index.html",
+    "currentOpeningGuidanceEvidence": "docs/art/OPENING-GUIDANCE-2026-10-13.md",
+    "currentVisualStyleDecisionId": "U-138",
+    "currentVisualStylePrototype": "docs/art/hd-pixel-20261014/RUNTIME.md",
+    "currentVisualStyleStatus": "courtyard-approved-east-integrated-runtime-review-pending",
+    "currentVisualStyleEvidence": "docs/design/52-EAST-TERRACE-INTEGRATION.md",
+    "currentVisualStyleVariantCount": 1,
+    "currentPlatformDecisionId": "U-128",
+    "currentDeliveryPlatform": "desktop",
+    "currentPrimaryPlatform": "Windows",
+    "currentInitialValidationPlatform": "macOS",
+    "currentDesktopMigrationStatus": "independent-trail-slice-implemented-formal-game-migration-pending",
+    "currentCombatDecisionId": "U-127",
+    "currentCombatTarget": "large-scene-multiple-actors-realtime-skill-cooldowns",
+    "currentCombatExpansionStatus": "16-32-actor-trail-macos-verified",
+    "preservedVisualWork": {
+      "decisionId": "U-126",
+      "status": "paused-local-unpublished",
+      "evidence": "docs/art/mountain-flat-20261013/RUNTIME.md",
+      "preserveUncommittedChanges": true
+    },
+    "currentCombatPrototypeCount": 2,
+    "currentRendererTrialDecisionId": "U-150",
+    "currentRendererTrial": "canvas2d-electron",
+    "currentRendererTrialSource": "prototypes/pixel_scene_validation/",
+    "currentAutoplaySampleCount": 0,
+    "currentReferenceScene": "prototypes/pixel_scene_validation/courtyard.html",
+    "currentAssetGallery": null,
+    "currentPrototypeKind": "desktop-pixel-courtyard",
+    "currentPrototypeFiles": [
+      "prototypes/pixel_scene_validation/courtyard.html"
+    ],
+    "currentDesktop2DRuntimeStatus": "courtyard-management-and-east-expansion-macos-verified",
+    "preservedDesktop3DWork": {
+      "decisionIds": [
+        "U-129",
+        "U-130",
+        "U-131",
+        "U-132"
+      ],
+      "status": "stopped-local-archive",
+      "rendererTrial": "threejs-electron",
+      "source": "prototypes/three_style_showcase/",
+      "autoplaySampleCount": 2,
+      "referenceScene": "prototypes/three_style_showcase/reference.html",
+      "assetGallery": "prototypes/three_style_showcase/asset-review.html",
+      "evidence": "docs/art/asset-review-20261013/README.md",
+      "preserveUncommittedChanges": true
+    },
+    "currentSceneValidationDecisionId": "U-134",
+    "staticPrototypeFiles": [
+      "docs/art/hd-pixel-20261014/courtyard-battle.png",
+      "docs/art/hd-pixel-20261014/characters-effects.png"
+    ],
+    "currentArenaReference": "docs/design/43-PIXEL-ARENA-SLICE.md",
+    "currentArenaEvidence": "docs/art/hd-pixel-20261014/ARENA-RUNTIME.md",
+    "currentArenaDecisionId": "U-135",
+    "currentArenaImplementationId": "R-41",
+    "currentArenaTuningId": "T-14",
+    "currentArenaApp": "/Volumes/Media/immortal-qa/pixel-arena-20261014/云岫山院·演武.app",
+    "currentArenaSourceStatus": "tracked-checkpoint",
+    "currentArenaPublicationStatus": "not-published",
+    "preservedSceneEntry": "prototypes/pixel_scene_validation/index.html",
+    "preservedSceneLaunchArgument": "--scene",
+    "currentGoal": {
+      "decisionId": "U-151",
+      "mode": "goal",
+      "status": "verified-source-checkpoint",
+      "objective": "Complete same-world bounded autonomous sect management acceptance and record current and overall progress.",
+      "reference": "docs/design/53-COURTYARD-AUTONOMY-ACCEPTANCE.md",
+      "closesWholeRequirements": false
+    },
+    "currentArenaValidation": {
+      "componentChecks": {
+        "passed": 29,
+        "total": 29
+      },
+      "packagedIntegrationChecks": {
+        "passed": 13,
+        "total": 13
+      },
+      "runtimeErrors": 0,
+      "crossProcessWriteChecks": {
+        "passed": 1,
+        "total": 1
+      },
+      "crossProcessReadChecks": {
+        "passed": 3,
+        "total": 3
+      },
+      "nativeInput": "verified",
+      "backgroundClock": "verified-no-catchup",
+      "evidenceRoot": "/Volumes/Media/immortal-qa/pixel-arena-20261014/",
+      "windows": "not-run"
+    },
+    "currentTrailReference": "docs/design/44-PIXEL-TRAIL-SLICE.md",
+    "currentTrailEvidence": "docs/art/hd-pixel-trail-20261014/RUNTIME.md",
+    "currentTrailApp": "/Volumes/Media/immortal-qa/pixel-trail-20261014/云岫山院·近山试行.app",
+    "currentTrailValidation": {
+      "components": 45,
+      "visiblePackagedChecks": 22,
+      "runtimeErrors": 0,
+      "evidenceRoot": "/Volumes/Media/immortal-qa/pixel-trail-20261014/",
+      "windows": "not-run",
+      "nativeInput": "verified-movement-map-zoom-pause-save",
+      "backgroundClock": "verified-tick-583-no-catchup",
+      "crossProcessRestore": "32-actors-exact-paused-snapshot-and-continued-movement"
+    },
+    "currentGameplayDecisionId": "U-151",
+    "currentGameplayStatus": "bounded-autonomy-macos-verified-food-supply-gap-recorded",
+    "currentGameplayEvidence": "docs/design/53-COURTYARD-AUTONOMY-ACCEPTANCE.md",
+    "currentCourtyardArt": {
+      "decisionId": "U-144",
+      "updatedAt": "2026-10-16",
+      "prototype": "docs/art/pixel-courtyard-prototype-20261014/courtyard-v2.png",
+      "evidence": "docs/art/pixel-courtyard-prototype-20261014/RUNTIME.md",
+      "fidelityPlan": "docs/art/pixel-courtyard-prototype-20261014/FIDELITY.md",
+      "status": "first-screen-macos-verified-user-approved",
+      "runtimeIntegrated": true,
+      "userApprovedMaster": true,
+      "runtimeArtApproved": true,
+      "sourceEntry": "prototypes/pixel_scene_validation/courtyard.html",
+      "terrainVersion": "courtyard-master-terrain-2",
+      "runtimeVerification": {
+        "packagedReviewChecks": "94/94",
+        "autonomySeconds": 70.029,
+        "autonomySamples": 701,
+        "runtimeErrors": 0,
+        "environmentComparedPixels": 1447576,
+        "environmentDifferentPixels": 0,
+        "nativeInput": "verified",
+        "v1SaveUpgrade": "verified",
+        "windows": "not-run"
+      },
+      "approvalDecisionId": "U-150"
+    },
+    "currentArtsDraft": {
+      "decisionId": "U-146",
+      "proposalId": "R-46",
+      "reference": "docs/design/48-GOLDEN-CORE-WORLD-ARTS-V02.md",
+      "data": "docs/design/content/golden-core-arts-draft-v0.2.json",
+      "status": "author-draft",
+      "runtimeIntegrated": false,
+      "scope": "qi-six-through-golden-core-world-pool-for-player-and-npcs",
+      "entries": 720,
+      "retainedV01": 169,
+      "addedV02": 551,
+      "newLineages": 72,
+      "arrays": 24,
+      "hiddenRoots": 18,
+      "worldUniqueDrafts": 907,
+      "previousReference": "docs/design/47-GOLDEN-CORE-ARTS-CATALOGUE-DRAFT.md"
+    },
+    "currentCourtyardOperations": {
+      "decisionId": "U-149",
+      "proposalId": "R-49",
+      "reference": "docs/design/51-COURTYARD-MANAGEMENT-INTEGRATION.md",
+      "source": "prototypes/pixel_scene_validation/courtyard-main.mjs",
+      "entry": "prototypes/pixel_scene_validation/courtyard.html",
+      "nodeChecks": 57,
+      "browserStatus": "visible-electron-chain-13-of-13",
+      "desktopPackageStatus": "macos-package-verified",
+      "scope": "two-member-courtyard-supply-growth-save-protection",
+      "completeP0P1P2": false,
+      "newGameOpeningComplete": false,
+      "desktopPackageChecks": 8,
+      "recoveryPackageChecks": 9,
+      "desktopApp": "/Volumes/Media/immortal-qa/courtyard-management-20261015/package-2/云岫山院·山院实景.app",
+      "nativeRecovery": "verified-file-picker-preview-confirm-and-pause",
+      "windows": "not-run"
+    },
+    "currentCourtyardUIReview": {
+      "decisionId": "U-148",
+      "proposalId": "R-48",
+      "reference": "docs/design/50-COURTYARD-UI-DESIGN-AUDIT.md",
+      "status": "partial-remediation-implemented-and-macos-verified",
+      "findingCount": 30,
+      "prototypeApproval": "not-approved",
+      "publicCommandReproductions": 2,
+      "browserStatus": "visible-electron-verified-recorded-scope",
+      "closesWholeRequirements": false,
+      "implementationReference": "docs/design/51-COURTYARD-MANAGEMENT-INTEGRATION.md"
+    },
+    "currentEastExpansion": {
+      "decisionId": "U-150",
+      "proposalId": "R-50",
+      "reference": "docs/design/52-EAST-TERRACE-INTEGRATION.md",
+      "prototype": "docs/art/east-terrace-20261016/east-terrace-v2.png",
+      "prototypeApproved": true,
+      "runtimeArtApproved": false,
+      "status": "macos-package-verified",
+      "sceneId": "scene:yunxiu-courtyard",
+      "worldBoundsMeters": [
+        160,
+        96
+      ],
+      "artDimensionsPixels": [
+        6688,
+        941
+      ],
+      "constructionTrips": [
+        40,
+        20
+      ],
+      "beds": 4,
+      "desktopApp": "/Volumes/Media/immortal-qa/east-expansion-20261016/package-1/云岫山院·山院实景.app",
+      "verification": {
+        "sameWorldChainWallSeconds": 308.849,
+        "chainSegments": [
+          8,
+          10
+        ],
+        "harnessInterruptionRecorded": true,
+        "packagePhaseChecks": 6,
+        "packageRoundtripChecks": 9,
+        "packageRoundtripWallSeconds": 251.754,
+        "runtimeErrors": 0,
+        "windows": "not-run"
+      },
+      "fullRequirementStatusChanged": false,
+      "sourceCommit": "45e002e57560c8d14d1c7f057df336bf73df76e0",
+      "sourcePublication": "pushed-to-main-remote-ref-verified"
+    },
+    "currentCourtyardAutonomy": {
+      "decisionId": "U-151",
+      "reference": "docs/design/53-COURTYARD-AUTONOMY-ACCEPTANCE.md",
+      "app": "/Volumes/Media/immortal-qa/east-expansion-20261016/package-1/云岫山院·山院实景.app",
+      "sourceBaseCommit": "45e002e",
+      "autonomousSeconds": 1200.035876168002,
+      "wallSeconds": 1260.542,
+      "backgroundSeconds": 180.856749459,
+      "rawHarnessStatus": "failed-final-activity-classification",
+      "sameRunEvidenceAuditChecks": 38,
+      "foodRecoveryChecks": 5,
+      "foodRecoveryWallSeconds": 88.516,
+      "pageErrors": 0,
+      "sustainedFoodSupply": false,
+      "windows": "not-run",
+      "wholeRequirementStatusChanged": false
+    }
+  },
+  "characterDialogue": {
+    "decisionId": "U-125",
+    "updatedAt": "2026-10-12",
+    "reference": "docs/design/42-CHARACTER-DIALOGUE.md",
+    "status": "designed",
+    "runtimeImplementation": "not-started",
+    "runtimeAcceptance": "not_run",
+    "prototype": "docs/art/character-dialogue-20261012/dialogue-lu-zhiwei-v1.png",
+    "prototypeKind": "static-image",
+    "prototypeReference": "docs/art/character-dialogue-20261012/README.md",
+    "sharedWindowForAllNPCs": true,
+    "composableKnownIdentityRelationshipAndSituation": true,
+    "readingPauseScope": "whole-world",
+    "exitPausePolicy": "preserve-player-pause-intent-and-other-pause-reasons",
+    "inPersonActionsRequireActualArrival": true,
+    "initialTopicCountSuggestion": [
+      3,
+      4
+    ],
+    "topicCountIsUserFixed": false,
+    "acceptanceReference": "docs/design/06-OPENING-ACCEPTANCE.md",
+    "acceptanceIds": [
+      "DIALOGUE-01",
+      "DIALOGUE-02",
+      "DIALOGUE-03",
+      "DIALOGUE-04",
+      "DIALOGUE-05",
+      "DIALOGUE-06",
+      "DIALOGUE-07",
+      "DIALOGUE-08",
+      "DIALOGUE-09",
+      "DIALOGUE-10"
+    ],
+    "closesWholeRequirements": false
+  },
+  "historicalDevelopmentSnapshots": [
+    {
+      "version": "1.6.0-dev",
+      "schemaVersion": 6,
+      "contentVersion": "sr-content-v1.2",
+      "rulesetVersion": "opening-runtime-3",
+      "reference": "docs/CODEX-HANDOFF.md",
+      "evidence": "docs/design/STATUS.md",
+      "sourceBaseCommit": "1b28260007c3049d077dfce424d0db2c6e8cbd60",
+      "scope": "adult-furniture-static-rest-and-scene-interaction-local-increment",
+      "sourceStatus": "uncommitted-local-changes",
+      "deploymentStatus": "local-increment-not-deployed",
+      "lastPublishedCheckpoint": {
+        "runtimeSourceCommit": "eb5cca59b226c49c184a2082bcdda5ebd64de3fb",
+        "pagesCommit": "809d5bb8aecfbfc2a4681fd706e6597ed62297b3",
+        "releaseTag": "ea-160-yunxiu-2d-20261007-r1",
+        "evidence": "docs/design/STATUS.md"
+      },
+      "scene": {
+        "widthMetres": 96,
+        "heightMetres": 96,
+        "buildingUnitMetres": 2,
+        "navigationMetres": 0.5,
+        "extentVersion": "courtyard-96-1",
+        "buildingGridVersion": "building-units-1",
+        "interiorLayoutVersion": "adult-furniture-1"
+      },
+      "nextWorkSource": "docs/CODEX-HANDOFF.md#已知差距及下一步",
+      "fullDesignVerified": false
+    }
+  ],
+  "historicalArtTrials": [
+    {
+      "decisionId": "U-103",
+      "decisionStatus": "user-confirmed",
+      "updatedAt": "2026-10-09",
+      "reference": "docs/ART-REALTIME-TRIAL.md",
+      "styleReference": "山门与幻境",
+      "approvedConcept": "docs/art/reference/mountain-courtyard.png",
+      "conceptApproval": "user-approved-direction",
+      "rendering": "godot-realtime-3d",
+      "supersededArtDirectionIds": [
+        "U-100",
+        "R-01",
+        "R-27"
+      ],
+      "preserveExistingAssetsAndEvidence": true,
+      "sampleScope": {
+        "mainHallCount": 1,
+        "mountainStoneRoadSectionCount": 1,
+        "characterCount": 2,
+        "interactions": [
+          "zoom",
+          "selection",
+          "walking",
+          "turning",
+          "working",
+          "occlusion"
+        ],
+        "closedBuildingPresentation": "complete-exterior"
+      },
+      "sourceScene": "godot/art/art_courtyard.tscn",
+      "assetDirectory": "godot/art/assets",
+      "buildScript": "tools/build-art-web.py",
+      "generatedPreviewEntry": "dist/art-courtyard/index.html",
+      "runtimeEvidence": "docs/art/REALTIME-TRIAL-2026-10-09.md",
+      "userRealtimeApproval": "not-obtained-before-production-stopped",
+      "batchArtExpansionGate": "user-approval-of-actual-web-trial",
+      "rulesIntegrationGate": "original-SR-AC-and-single-authority-contracts",
+      "writesFormalSaveSlots": false,
+      "settlesEconomy": false,
+      "closesWholeRequirements": false,
+      "runtimeStatus": "preserved-historical-trial-production-stopped-by-U-104"
+    }
+  ],
+  "sectGrowthPlan": {
+    "decisionId": "U-105",
+    "refinementId": "R-32",
+    "updatedAt": "2026-10-09",
+    "reference": "docs/SECT-GROWTH-PLAN.md",
+    "masterPlan": "docs/art/sect-growth-20261009-v2/master-plan.svg",
+    "prototypeDirectory": "docs/art/sect-growth-20261009-v2",
+    "status": "design-and-concept-prototypes",
+    "placement": "preset-building-sites",
+    "populationExamples": [
+      5,
+      20,
+      50,
+      100,
+      150
+    ],
+    "minimumPlannedCapacity": 150,
+    "populationValuesAreUnlockThresholds": false,
+    "regions": [
+      "Z-01",
+      "Z-02",
+      "Z-03",
+      "Z-04",
+      "Z-05",
+      "Z-06",
+      "Z-07"
+    ],
+    "existingCourtyardBaselineRegion": "Z-01",
+    "wholeDomainDimensionsMetres": null,
+    "userPrototypeApproval": "pending",
+    "runtimeImplementation": "not-implemented",
+    "runtimeAcceptance": "not_run",
+    "strictGeographicContinuity": "requires-shared-base-map-and-landmark-anchors",
+    "acceptance": "docs/SECT-GROWTH-PLAN.md#6-正常失败存读与界面验收"
+  },
+  "historicalPaintedArtDirection": {
+    "decisionId": "U-104",
+    "decisionStatus": "user-confirmed",
+    "updatedAt": "2026-10-09",
+    "reference": "docs/PAINTED-COURTYARD.md",
+    "engine": "Godot",
+    "delivery": "Web",
+    "styleReference": "山门与幻境",
+    "approvedConcept": "docs/art/reference/mountain-courtyard.png",
+    "modelPolicy": "3d-model-production-and-expansion-stopped",
+    "preserveExistingAssetsAndEvidence": true,
+    "runtimeEvidence": "docs/art/MOUNTAIN-DOMAIN-2026-10-09.md",
+    "closesWholeRequirements": false,
+    "rendering": "godot-2d",
+    "view": "fixed-oblique",
+    "assets": "coherent-painted-assets-and-2d-character-animation",
+    "assetProduction": "built-in-imagegen-to-godot-2d-layers",
+    "productionPlanStatus": "user-confirmed",
+    "continuousCharacterMovement": true,
+    "sourceScene": "godot/painted_courtyard/courtyard.tscn",
+    "assetDirectory": "godot/painted_courtyard/assets",
+    "buildScript": "tools/build-painted-web.py",
+    "generatedPreviewEntry": "dist/painted-courtyard/index.html",
+    "acceptanceChecklist": "DOMAIN-01–06 and related ART-2D regressions",
+    "userRealtimeApproval": "pending",
+    "batchArtExpansionGate": "user-approval-of-actual-painted-web-trial",
+    "writesFormalSaveSlots": false,
+    "settlesEconomy": false,
+    "sampleScope": {
+      "mainHallCount": 1,
+      "mountainStoneRoadSectionCount": 1,
+      "characterCount": 2,
+      "interactions": [
+        "zoom",
+        "selection",
+        "walking",
+        "turning",
+        "working",
+        "occlusion"
+      ],
+      "closedBuildingPresentation": "complete-exterior",
+      "assetStructure": {
+        "background": "founding-courtyard-shared-environment-painting",
+        "independentAssets": [
+          "same-coordinate-building-occlusion-layers",
+          "two-character-64-frame-atlas"
+        ],
+        "backgroundRocks": "non-walkable"
+      }
+    },
+    "alignmentDecisionId": "U-107",
+    "currentPrototype": "godot/painted_courtyard/assets/founding-ground-v3.png",
+    "publicPreviewURL": "https://cybershp.github.io/Simulation-web-game/painted-courtyard/?v=d28daeedaaa0",
+    "publicationStatus": "published-and-public-browser-verified",
+    "currentSpatialDecisionId": "U-107",
+    "currentSpatialReference": "docs/MOUNTAIN-DOMAIN.md",
+    "historicalAlignmentDecisionId": "U-106"
+  },
+  "historicalArtDirections": [
+    {
+      "decisionId": "U-110",
+      "decisionStatus": "user-confirmed",
+      "updatedAt": "2026-10-10",
+      "reference": "docs/design/DECISIONS.md",
+      "engine": "Godot",
+      "delivery": "Web",
+      "rendering": "godot-2d-layered-painting",
+      "view": "fixed-oblique",
+      "sourceScene": "godot/estate_2d/estate.tscn",
+      "siteLayout": "godot/estate_2d/estate-sites.json",
+      "buildScript": "tools/build-estate-painted-web.py",
+      "generatedPreviewEntry": "dist/painted-game/index.html",
+      "previewSaveNamespace": "estate-game",
+      "runtimeEvidence": "docs/design/STATUS.md",
+      "publicationStatus": "published-preview",
+      "userRealtimeApproval": "pending",
+      "simulatedSpatialCollisionStatus": "retained-and-locally-checked",
+      "preserveExistingAssetsAndEvidence": true,
+      "closesWholeRequirements": false,
+      "currentSpatialDecisionId": "U-117",
+      "historicalEstateRenderingDecisionId": "U-109",
+      "historicalPaintedTrialDecisionId": "U-104",
+      "historicalMountainTrialDecisionId": "U-107"
+    }
+  ]
+}

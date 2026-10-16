@@ -1,0 +1,76 @@
+name: Desktop packages
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  desktop:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: macos-15
+            platform: darwin
+            arch: arm64
+          - os: macos-15
+            platform: darwin
+            arch: x64
+          - os: windows-latest
+            platform: win32
+            arch: x64
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: npm ci
+      - run: npm run check
+      - run: npm test
+      - run: npm run build:desktop -- --platform=${{ matrix.platform }} --arch=${{ matrix.arch }}
+      - name: Archive macOS application
+        if: matrix.platform == 'darwin'
+        shell: bash
+        run: ditto -c -k --sequesterRsrc --keepParent "dist/desktop/云岫山院·山院实景-darwin-${{ matrix.arch }}/云岫山院·山院实景.app" "dist/desktop/yunxiu-courtyard-master-darwin-${{ matrix.arch }}.zip"
+      - name: Archive Windows application
+        if: matrix.platform == 'win32'
+        shell: pwsh
+        run: Compress-Archive -Path "dist/desktop/云岫山院·山院实景-win32-${{ matrix.arch }}/*" -DestinationPath "dist/desktop/yunxiu-courtyard-master-win32-${{ matrix.arch }}.zip"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: courtyard-${{ matrix.platform }}-${{ matrix.arch }}
+          path: dist/desktop/*.zip
+          if-no-files-found: error
+
+  draft-release:
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
+    needs: desktop
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: courtyard-*
+          merge-multiple: true
+          path: dist/release/
+      - name: Prepare draft release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: node scripts/release/draft-release.mjs --tag="$RELEASE_TAG"

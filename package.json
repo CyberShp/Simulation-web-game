@@ -1,0 +1,27 @@
+{
+  "name": "yunxiu-courtyard-master",
+  "version": "0.1.0",
+  "private": true,
+  "description": "云岫山院·山院实景",
+  "type": "module",
+  "main": "apps/courtyard/courtyard-host.cjs",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "start": "electron apps/courtyard/courtyard-host.cjs",
+    "dev": "npm start",
+    "dev:web": "node scripts/dev/web.mjs",
+    "build:web": "node scripts/build/web.mjs",
+    "build:desktop": "node scripts/build/desktop.mjs",
+    "check": "node scripts/check.mjs",
+    "test": "node scripts/test.mjs",
+    "verify": "npm run check && npm test"
+  },
+  "devDependencies": {
+    "@electron/packager": "20.3.0",
+    "@napi-rs/canvas": "1.0.11",
+    "electron": "39.2.7",
+    "playwright": "1.64.1"
+  }
+}

@@ -31,10 +31,10 @@ WASD / 点地移动，点击或 Tab 选敌，F / 双击敌人追击普攻，1 �
 
 ## 源码与验证命令
 
-源码为 `prototypes/pixel_scene_validation/`：`arena-sim.mjs` 唯一规则时钟；`arena-main.mjs` 输入与界面；`arena-renderer.mjs` 只读像素呈现；`arena-storage.cjs`、`desktop.cjs`、`preload.cjs` 负责独立文件与桌面窗口。共享计时模块直接读取/打包 `dist/ea-runtime.mjs` 原文件。
+源码为 `prototypes/pixel_scene_validation/`：`arena-sim.mjs` 唯一规则时钟；`arena-main.mjs` 输入与界面；`arena-renderer.mjs` 只读像素呈现；`arena-storage.cjs`、`desktop.cjs`、`preload.cjs` 负责独立文件与桌面窗口。共享计时模块直接读取/打包 `src/simulation/ea-runtime.mjs` 原文件。
 
 ```sh
-node --test prototypes/pixel_scene_validation/arena-sim.test.mjs prototypes/pixel_scene_validation/arena-storage.test.cjs prototypes/pixel_scene_validation/world.test.mjs
+node --test tests/unit/prototypes/arena-sim.test.mjs tests/unit/prototypes/arena-storage.test.cjs tests/unit/prototypes/world.test.mjs
 cd prototypes/pixel_scene_validation
 npm ci
 npm start

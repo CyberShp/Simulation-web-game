@@ -23,7 +23,7 @@
 
 模型、材质、灯光与相机共同决定最终画面，调整后以同一网页构建重新检查。样板默认采用斜俯视观察；具体相机角度、模型细节、光照和缩放上下限属于本批实施调试参数，按实际结果记录。
 
-源场景为 `godot/art/art_courtyard.tscn`，素材在 `godot/art/assets/`，构建脚本为 `tools/build-art-web.py`，导出入口为 `dist/art-courtyard/index.html`。导出文件是运行产物；制作与复核应能追溯到对应源文件及构建。
+源场景为 `archive/godot/art/art_courtyard.tscn`，素材在 `archive/godot/art/assets/`，构建脚本为 `archive/godot/tools/build-art-web.py`，导出入口为 `dist/art-courtyard/index.html`。导出文件是运行产物；制作与复核应能追溯到对应源文件及构建。
 
 ## 与正式玩法的关系
 

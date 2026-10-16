@@ -21,9 +21,9 @@ U-106已以[五人开山院原型](art/sect-growth-20261009-v2/stage-01-5.png)�
 
 本范围使用内置 imagegen 制作绘画素材，由 Godot 二维图层直接使用。U-106采用与当时原型同构图的统一环境绘画、共享其坐标与纹理的建筑遮挡分片、两人64帧透明图集。主殿和人物可点选，山门屋顶与两侧实体分片保留门洞；碰撞仅围住实体占地，背景山石不可通行。U-107按新院落重新登记位置与相关分片。生成图与 Godot 实际画面分别检查，导入后核对透明边缘、缩放清晰度、人物脚点、建筑基础锚点与图层遮挡，并保留素材来源和版本。
 
-- 源场景：`godot/painted_courtyard/courtyard.tscn`
-- 资源目录：`godot/painted_courtyard/assets/`
-- 构建：`python3 tools/build-painted-web.py`
+- 源场景：`archive/godot/painted_courtyard/courtyard.tscn`
+- 资源目录：`archive/godot/painted_courtyard/assets/`
+- 构建：`python3 archive/godot/tools/build-painted-web.py`
 - 独立输出：`dist/painted-courtyard/index.html`
 - 本地查看：启动 `python3 -m http.server 8080 --directory dist --bind 127.0.0.1`，打开 [二维绘画小院](http://127.0.0.1:8080/painted-courtyard/)。
 

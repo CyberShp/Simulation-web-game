@@ -2,7 +2,7 @@
 
 > 2026-10-15 后续审查 U-148：四页信息结构与若干操作路径须整改，见[50界面审查](50-COURTYARD-UI-DESIGN-AUDIT.md)。下文47项是本批原组件范围，不能据此认为当前UI已完成设计或实机验收；大量收成搬运和取消后的物资回收缺口已另行记录，尚未修复。
 
-2026-10-15，U-147。本批按[06](06-OPENING-ACCEPTANCE.md)的工程阶段推进，区别于SR台账的P0/P1/P2优先级。入口仍为 `prototypes/pixel_scene_validation/courtyard.html` / `npm run courtyard`，沿用U-144母稿与正式模拟。
+2026-10-15，U-147。本批按[06](06-OPENING-ACCEPTANCE.md)的工程阶段推进，区别于SR台账的P0/P1/P2优先级。入口仍为 `apps/courtyard/courtyard.html` / `npm run courtyard`，沿用U-144母稿与正式模拟。
 
 ## 本批实际交付
 
@@ -41,8 +41,8 @@
 可复跑：
 
 ```sh
-node --test prototypes/pixel_scene_validation/sect-sim.test.mjs prototypes/pixel_scene_validation/sect-operations.test.mjs prototypes/pixel_scene_validation/sect-storage.test.cjs prototypes/pixel_scene_validation/courtyard-persistence.test.mjs prototypes/pixel_scene_validation/courtyard-recovery.test.cjs prototypes/pixel_scene_validation/courtyard-inspection.test.mjs prototypes/pixel_scene_validation/courtyard-renderer.test.mjs tests/ea-opening-replay-gate.test.mjs
-node qa/courtyard-operations-browser.mjs --output=/absolute/scratch/path
+node --test tests/unit/courtyard/sect-sim.test.mjs tests/unit/courtyard/sect-operations.test.mjs tests/unit/courtyard/sect-storage.test.cjs tests/unit/courtyard/courtyard-persistence.test.mjs tests/unit/courtyard/courtyard-recovery.test.cjs tests/unit/courtyard/courtyard-inspection.test.mjs tests/unit/courtyard/courtyard-renderer.test.mjs tests/unit/web/ea-opening-replay-gate.test.mjs
+node tests/acceptance/courtyard-operations-browser.mjs --output=/absolute/scratch/path
 ```
 
 独立静态复核发现并修复了山院簿收起按钮被继承的pointer-events禁用、管理面板遮挡模态窗口两处问题。浏览器验收脚本使用真实页面和官方存储，长动作等待会使用浏览器虚拟时钟驱动正式pump，不能当成真实时长经营长验。

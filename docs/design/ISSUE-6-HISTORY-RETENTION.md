@@ -45,17 +45,17 @@ schema 6 原档缺少 `historyRetention` 仍支持，加载不剪枝、不补跑
 
 ```bash
 # 将基点的 dist 文本模块及 yunxiu-courtyard 依赖准备在仓库外 before/dist。
-node qa/ea-history-benchmark.mjs --runtime /tmp/before/dist --label opening-before --commit 36b6dd3 --hours 6,12,24,48 --output /tmp/issue6
-node qa/ea-history-benchmark.mjs --label opening-after --hours 6,12,24,48 --output /tmp/issue6
-node qa/ea-history-compare.mjs --before-runtime /tmp/before/dist --scenario opening --directory /tmp/issue6
-# 两边加相同 --fixture qa/ea-travel-world.json 或 qa/ea-reference-world.json
+node tests/acceptance/ea-history-benchmark.mjs --runtime /tmp/before/dist --label opening-before --commit 36b6dd3 --hours 6,12,24,48 --output /tmp/issue6
+node tests/acceptance/ea-history-benchmark.mjs --label opening-after --hours 6,12,24,48 --output /tmp/issue6
+node tests/acceptance/ea-history-compare.mjs --before-runtime /tmp/before/dist --scenario opening --directory /tmp/issue6
+# 两边加相同 --fixture tests/fixtures/ea-travel-world.json 或 tests/fixtures/ea-reference-world.json
 # 并对应使用 legacy-before/after、reference-before/after 标签。
-node --test tests/ea-history-retention.test.mjs
+node --test tests/unit/web/ea-history-retention.test.mjs
 ```
 
 比较前等待对应基准结束。比较脚本在每个时点交替测量 24 轮，丢弃前三轮，再推进两边各 1,200 个真实小步。除历史表/摘要外的所有可序列化状态须精确一致；保留明细须是原表的未改子集；天气、经济、宗务、世界知情投影须精确一致。资源、RNG、身份、伤势、信任、剧情、工单、在途位置和库存因此逐字段比较。
 
-基准来源：正式 SR 新档；原 `qa/ea-travel-world.json` v5 两门人五建筑旧档；原 `qa/ea-reference-world.json` v5 三十门人四十建筑旧档。全程使用自然模拟，不注资、恢复饱食度、冻结人数或重新抽随机。门人可因正常供给状态自主离院；记录每时点人数，不能称为持续 30 人或原 Issue 的 16 人压力测试。单位测试中的大量人工流水与长跑来源分别标注。
+基准来源：正式 SR 新档；原 `tests/fixtures/ea-travel-world.json` v5 两门人五建筑旧档；原 `tests/fixtures/ea-reference-world.json` v5 三十门人四十建筑旧档。全程使用自然模拟，不注资、恢复饱食度、冻结人数或重新抽随机。门人可因正常供给状态自主离院；记录每时点人数，不能称为持续 30 人或原 Issue 的 16 人压力测试。单位测试中的大量人工流水与长跑来源分别标注。
 
 ## 实测结果
 
@@ -119,7 +119,7 @@ Node `v24.19.0`，CPU `INTEL XEON PLATINUM 8573C`。以下为同一基点、相�
 
 ## 自动与独立回归
 
-`tests/ea-history-retention.test.mjs` 11 项覆盖嵌套及传递引用、纯历史摘要计数、生产与普通旅程的玩法语义、每日隐式凭证、坏引用/未知类别保护、旧 schema 6 原文验证、v5 迁移、归档版本拒载、真实存储 codec/备份/重放，以及 6 游戏小时保存恢复/只读边界。长跑部分实际执行 9 小时总演算（3 小时检查点加两条 3 小时继续），两份终档精确相同。
+`tests/unit/web/ea-history-retention.test.mjs` 11 项覆盖嵌套及传递引用、纯历史摘要计数、生产与普通旅程的玩法语义、每日隐式凭证、坏引用/未知类别保护、旧 schema 6 原文验证、v5 迁移、归档版本拒载、真实存储 codec/备份/重放，以及 6 游戏小时保存恢复/只读边界。长跑部分实际执行 9 小时总演算（3 小时检查点加两条 3 小时继续），两份终档精确相同。
 
 另有相关回归 65/65，涵盖 Issue #5 的全部生产数量、工资与微量运输检查，实际首畦采收、山谷往返与第一场斗法、掌门控制、存储故障和发布打包。独立 Agent 只读复核 8 个短回归全部通过，并另外比较 601 小步的批量/逐步演算；该演算已追加为自动第 10 项；未把该复核标为独立重跑长基准。浏览器 FPS、目标设备和真人长会话未据 Node 实验宣称通过。
 

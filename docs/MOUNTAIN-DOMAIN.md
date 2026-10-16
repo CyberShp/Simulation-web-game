@@ -45,7 +45,7 @@ U-107 确认：筑基可有限御物飞行；金丹具备更持久、更自由�
 
 ## 4. 运行与保存边界
 
-源场景继续使用 `godot/painted_courtyard/courtyard.tscn`，素材位于 `godot/painted_courtyard/assets/`，构建由 `tools/build-painted-web.py` 产生 `dist/painted-courtyard/index.html`。具体新增文件、素材版本、可达范围与受验构建在 [STATUS](design/STATUS.md)及本批证据中登记。
+源场景继续使用 `archive/godot/painted_courtyard/courtyard.tscn`，素材位于 `archive/godot/painted_courtyard/assets/`，构建由 `archive/godot/tools/build-painted-web.py` 产生 `dist/painted-courtyard/index.html`。具体新增文件、素材版本、可达范围与受验构建在 [STATUS](design/STATUS.md)及本批证据中登记。
 
 本试游仅使用观察、动作和游历所需的临时状态；刷新、重开后的实际恢复或复位方式须明示并验证。暂停时人物位置、动作及劳动展示冻结。正式 JS 规则、三个正式档位及已发布首页继续保持既有行为；样板不结算生产、库存或修为。后续玩法集成依 [05 运行时契约](design/05-RUNTIME-CONTRACTS.md)接入持久人物、空间和模拟时钟。
 

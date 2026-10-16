@@ -14,9 +14,9 @@
 
 纳入云岫前期，按依赖推进。
 
-决策来源：U-63, U-93, R-25, R-26。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
+决策来源：U-63, U-93, R-25, R-26, U-152。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
 
-规格：[00-BASELINE.md](../../../docs/design/00-BASELINE.md)、[04-WORLD-STORY.md](../../../docs/design/04-WORLD-STORY.md)、[12-CONTENT-AUTHORING.md](../../../docs/design/12-CONTENT-AUTHORING.md)、[13-WORLDVIEW-DISCUSSION.md](../../../docs/design/13-WORLDVIEW-DISCUSSION.md)、[14-EARLY-GAME-DETAILED-DESIGN.md](../../../docs/design/14-EARLY-GAME-DETAILED-DESIGN.md)、[18-SPATIAL-CONTINUITY-IMPLEMENTATION.md](../../../docs/design/18-SPATIAL-CONTINUITY-IMPLEMENTATION.md)、[06-OPENING-ACCEPTANCE.md](../../../docs/design/06-OPENING-ACCEPTANCE.md)。
+规格：[00-BASELINE.md](../../../docs/design/00-BASELINE.md)、[04-WORLD-STORY.md](../../../docs/design/04-WORLD-STORY.md)、[12-CONTENT-AUTHORING.md](../../../docs/design/12-CONTENT-AUTHORING.md)、[13-WORLDVIEW-DISCUSSION.md](../../../docs/design/13-WORLDVIEW-DISCUSSION.md)、[14-EARLY-GAME-DETAILED-DESIGN.md](../../../docs/design/14-EARLY-GAME-DETAILED-DESIGN.md)、[18-SPATIAL-CONTINUITY-IMPLEMENTATION.md](../../../docs/design/18-SPATIAL-CONTINUITY-IMPLEMENTATION.md)、[06-OPENING-ACCEPTANCE.md](../../../docs/design/06-OPENING-ACCEPTANCE.md)、[REPOSITORY.md](../../../docs/engineering/REPOSITORY.md)、[MIGRATION-20261016.md](../../../docs/engineering/MIGRATION-20261016.md)。
 
 依赖：无。
 
@@ -75,7 +75,7 @@ SR-XF-001-D01证据：docs/requirements/README.md、TEMPLATE.md、registry.json�
 
 SR-XF-001-D02证据：2026-10-06：validate确认40项来源/原验收引用有效、无循环依赖、前期不依赖条件或远期。；2026-10-06：503个本地文档链接检查通过；12独立药师与14一致，旧待定字段增加R-26覆盖说明。
 
-SR-XF-001-I01证据：qa/sr-manager.py：validate/refresh/list/task可用；派生40项页面与BACKLOG，AGENTS/manifest/STATUS/HANDOFF已接续。
+SR-XF-001-I01证据：scripts/requirements/sr-manager.py：validate/refresh/list/task可用；派生40项页面与BACKLOG，AGENTS/manifest/STATUS/HANDOFF已接续。
 
 SR-XF-001-V01证据：2026-10-06：3项非法任务状态更新均被拒绝且registry未写入；另5项循环、越界及虚假完成守卫检查通过。；2026-10-06：GitHub API核实main基线74df8c4及Pages350a4d6，与manifest及发布记录一致。
 
@@ -104,9 +104,12 @@ SR-XF-001-R01证据：2026-10-06：GitHub API提交main 272cbe8c1f5fba39ac2293a1
 - 2026-10-06：40项SR、200任务、120AC建档并校验；需求管理本身D01/D02/I01/V01/R01全部完成。
 - 需求基线文档main提交：272cbe8c1f5fba39ac2293a139ce79a842619762；远端54个变更文件哈希已核对。
 - 这只覆盖SR-XF-001管理能力；其余玩法仍待设计补齐、实现及独立验收。
+- 2026-10-16 U-152：工程整理本地验证完成。干净检出 npm ci/check、默认124/124、桌面暂存通过；macOS最终包同源档5/5，页面/资源错误0，来源原文保持。真实网页首页与独立预览8/8，325请求均200，错误/警告0；首页调息与刷新恢复已验。扩展623项为560通过、60失败、3跳过，60失败在基点e5f0d7逐名重现，当前失败名称无新增；路径专项16/16。11份原文快照及当前文档链接复核通过，独立审计无阻断。源码提交与远端核对待完成；证据见 docs/engineering/MIGRATION-20261016.md。原SR/AC及任务状态保持。
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：完成管理SR的设计、实现及结构/来源/状态守卫验收；仅文档提交待核对，游戏Pages不适用。
 - 2026-10-06：GitHub API提交main并核对远端内容，完成R01；文档SR关闭，Pages运行时不变。
+- 2026-10-16：U-152已批准完整工程整理和推送。追加独立工程迁移记录；保留既有40项SR/120条AC状态、历史证据及未提交成果。
+- 2026-10-16：U-152完成干净检出、根命令、macOS实际同档迁移、网页操作及独立复核的本地验证；扩展旧失败已逐项基线对照。源码提交与远端核对待完成，40项SR/120条AC及任务状态保持。
 
-本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。
+本文件由[registry.json](../registry.json)派生；更新台账后执行 `python scripts/requirements/sr-manager.py refresh`，不单独修改此派生页。

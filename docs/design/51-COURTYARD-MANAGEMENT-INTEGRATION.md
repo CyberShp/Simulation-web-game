@@ -61,4 +61,4 @@ UI与保存恢复使用独立验收档；失败导入保留当前世界和主档
 
 macOS应用：`/Volumes/Media/immortal-qa/courtyard-management-20261015/package-2/云岫山院·山院实景.app`，17份入口源码、6份既有图片、83份正式顶层模块/数据及4份嵌套依赖；源图及比例沿用U-144。
 
-在仓库根目录启动 `npm --prefix prototypes/pixel_scene_validation run courtyard`。重打包运行 `python3 prototypes/pixel_scene_validation/package-courtyard-macos.py /absolute/new-destination.app`。定向脚本为 `qa/courtyard-management-desktop.mjs` 和 `qa/courtyard-recovery-desktop.mjs`；均使用隔离目录，不能指向玩家主档。截图、过程存档、打包应用保留本机，源码同步main；本次桌面包通过本机交付，既有网页入口保持其原版本与验收范围。
+在仓库根目录启动 `npm --prefix prototypes/pixel_scene_validation run courtyard`。重打包运行 `python3 archive/prototypes/pixel_scene_validation/package-courtyard-macos.py /absolute/new-destination.app`。定向脚本为 `tests/acceptance/courtyard-management-desktop.mjs` 和 `tests/acceptance/courtyard-recovery-desktop.mjs`；均使用隔离目录，不能指向玩家主档。截图、过程存档、打包应用保留本机，源码同步main；本次桌面包通过本机交付，既有网页入口保持其原版本与验收范围。

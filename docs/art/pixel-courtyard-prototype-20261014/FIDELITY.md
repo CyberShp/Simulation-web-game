@@ -8,7 +8,7 @@
 | --- | --- | --- |
 | `courtyard-v2.png` | U-144确认并开始还原的首屏母稿 | 首屏构图、环境像素、人物与建筑视觉尺度、四向道路出口 |
 | `domain-expansion-v1.png` | 用户认可的山域扩建方向 | 开山院、主峰腹地、东住居、西生产谷和四分峰的相对位置、连续土地与连接方向 |
-| `prototypes/pixel_scene_validation/assets/courtyard-v1.png` | 已认可的演武场美术基准 | 细颗粒像素、石板、松岩、屋瓦木构、色彩和明暗层次 |
+| `archive/prototypes/pixel_scene_validation/assets/courtyard-v1.png` | 已认可的演武场美术基准 | 细颗粒像素、石板、松岩、屋瓦木构、色彩和明暗层次 |
 | 本目录 `courtyard-v1.png` | 首张山院近景材质参考 | 材质与局部细节供比较；周边地形须按总图重新组织并审核 |
 
 三个文件的尺寸和SHA-256记录于 `reference-baseline.json`。哈希用于识别文件是否被替换，不评判美术质量。修改基准使用新版本文件并重新审核，保留原文件。

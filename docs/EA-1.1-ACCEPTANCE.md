@@ -17,8 +17,8 @@
 ## 验证结果
 
 - `node --test tests/*.test.mjs`：189 / 189。覆盖 v1–v4 迁移、v5 校验、社会意愿、经济、故事、战斗、寻路、并发保存、备份损坏与空间不足。
-- `node qa/ea-normal-play.mjs --reference`：1358 个公开玩家操作，22 次整档校验，55 游戏日；筑基、通关、正式立派、30 人、40 设施、双峰。没有直接改资源或进度旗标。
-- `node qa/ea-ui-smoke.mjs`：6 个场景、48 个模板无异常、无非有限数值，渲染未改状态。这项只证明模板执行，视觉通过来自下列浏览器记录。
+- `node tests/acceptance/ea-normal-play.mjs --reference`：1358 个公开玩家操作，22 次整档校验，55 游戏日；筑基、通关、正式立派、30 人、40 设施、双峰。没有直接改资源或进度旗标。
+- `node tests/acceptance/ea-ui-smoke.mjs`：6 个场景、48 个模板无异常、无非有限数值，渲染未改状态。这项只证明模板执行，视觉通过来自下列浏览器记录。
 - 实际桌面浏览器：八系统、四阶段、九地域、带林长风同行的栖霞决战；青岚术真气消耗与命中、守御/闪避冷却、暂停后战斗恢复、沿退路撤回云岫；访客修缮消耗及结果。
 - 实际存档操作：三个世界切换、v4 原文导入、坏 JSON 拒绝、恢复旧备份、双窗口锁阻止重复写入、请求接管使原窗口暂停只读。浏览器反复导入大型验收资料触发配额不足，保存未宣称成功且原主档可重新打开；显式内存继续可推进。
 - 文本导出：从真实弹窗读回完整 EA envelope，并用正式校验器验证；30 人、40 设施、双峰均保留。文件导入使用系统文件选择器实际执行。
@@ -34,46 +34,46 @@
 
 | 原型 | 页面或场景 | 验收环境 | 证据 |
 | --- | --- | --- | --- |
-| 01 | 主界面与图标导航 | 桌面 | [截图](../qa/acceptance-1.1/screenshots/01-main.jpg) |
-| 02A | 掌门 | 桌面 | [截图](../qa/acceptance-1.1/screenshots/02A-master.jpg) |
-| 02B | 营造 | 桌面 | [截图](../qa/acceptance-1.1/screenshots/02B-build.jpg) |
-| 02C | 门人 | 桌面 | [截图](../qa/acceptance-1.1/screenshots/02C-disciples.jpg) |
-| 02D | 传承 | 桌面 | [截图](../qa/acceptance-1.1/screenshots/02D-manuals.jpg) |
-| 03A | 府库与生产 | 桌面 | [截图](../qa/acceptance-1.1/screenshots/03A-inventory.jpg) |
-| 03B | 炼丹 | 桌面 | [截图](../qa/acceptance-1.1/screenshots/03B-alchemy.jpg) |
-| 03C | 坊市与委托 | 桌面 | [截图](../qa/acceptance-1.1/screenshots/03C-market.jpg) |
-| 03D | 山门治理 | 桌面 | [截图](../qa/acceptance-1.1/screenshots/03D-governance.jpg) |
-| 04A | 分峰 | 桌面 | [截图](../qa/acceptance-1.1/screenshots/04A-peaks.jpg) |
-| 04B | 山外舆图与同行 | 桌面 | [截图](../qa/acceptance-1.1/screenshots/04B-worldmap.jpg) |
-| 04C | 纪事与线索 | 桌面 | [截图](../qa/acceptance-1.1/screenshots/04C-journal.jpg) |
-| 04D | 访客与事务 | 桌面 | [截图](../qa/acceptance-1.1/screenshots/04D-visitors.jpg) |
-| 05A | 门人档案与关系 | 桌面 | [截图](../qa/acceptance-1.1/screenshots/05A-person.jpg) |
-| 05B | 实时战斗 | 桌面 | [截图](../qa/acceptance-1.1/screenshots/09B-battle-party.jpg) |
-| 05C | 存档与恢复 | 桌面 | [截图](../qa/acceptance-1.1/screenshots/05C-backups-redesign.jpg) |
-| 05D | 设置与操作 | 桌面 | [截图](../qa/acceptance-1.1/screenshots/05D-settings-redesign.jpg) |
-| 06A | 结庐立足 | 桌面 | [截图](../qa/acceptance-1.1/screenshots/06A-estate-initial.jpg) |
-| 06B | 山院初成 | 桌面 | [截图](../qa/acceptance-1.1/screenshots/06B-estate-grown.jpg) |
-| 06C | 正式立派 | 桌面 | [截图](../qa/acceptance-1.1/screenshots/06C-estate-founded.jpg) |
-| 06D | 双峰承道 | 桌面 | [截图](../qa/acceptance-1.1/screenshots/06D-estate-peaks.jpg) |
-| 07A | 云岫山谷 | 桌面 | [截图](../qa/acceptance-1.1/screenshots/07A-valley.jpg) |
-| 07B | 青溪坊市 | 桌面 | [截图](../qa/acceptance-1.1/screenshots/07B-market.jpg) |
-| 07C | 石桥驿 | 桌面 | [截图](../qa/acceptance-1.1/screenshots/07C-quarry.jpg) |
-| 07D | 听雨遗址 | 桌面 | [截图](../qa/acceptance-1.1/screenshots/07D-ruins.jpg) |
-| 08A | 赤嶂偏牢 | 桌面 | [截图](../qa/acceptance-1.1/screenshots/08A-prison.jpg) |
-| 08B | 赤嶂粮道 | 桌面 | [截图](../qa/acceptance-1.1/screenshots/08B-supply.jpg) |
-| 08C | 栖霞外阵 | 桌面 | [截图](../qa/acceptance-1.1/screenshots/08C-ward.jpg) |
-| 08D | 南渡公议 | 桌面 | [截图](../qa/acceptance-1.1/screenshots/08D-council.jpg) |
-| 09A | 栖霞旧山门 | 桌面 | [截图](../qa/acceptance-1.1/screenshots/09A-qixia.jpg) |
-| 09B | 灵脉决战 | 桌面 | [截图](../qa/acceptance-1.1/screenshots/09B-battle-party.jpg) |
-| 10A | 手机主场景 | 窄屏模拟 | [截图](../qa/acceptance-1.1/screenshots/10A-mobile-main.jpg) |
-| 10B | 手机系统抽屉 | 窄屏模拟 | [截图](../qa/acceptance-1.1/screenshots/10B-mobile-drawer-final.jpg) |
-| 10C | 手机门人详情 | 窄屏模拟 | [截图](../qa/acceptance-1.1/screenshots/10C-mobile-person-final.jpg) |
-| 10D | 手机战斗 | 窄屏模拟 | [截图](../qa/acceptance-1.1/screenshots/10D-mobile-320-final.jpg) |
+| 01 | 主界面与图标导航 | 桌面 | [截图](../archive/qa/acceptance-1.1/screenshots/01-main.jpg) |
+| 02A | 掌门 | 桌面 | [截图](../archive/qa/acceptance-1.1/screenshots/02A-master.jpg) |
+| 02B | 营造 | 桌面 | [截图](../archive/qa/acceptance-1.1/screenshots/02B-build.jpg) |
+| 02C | 门人 | 桌面 | [截图](../archive/qa/acceptance-1.1/screenshots/02C-disciples.jpg) |
+| 02D | 传承 | 桌面 | [截图](../archive/qa/acceptance-1.1/screenshots/02D-manuals.jpg) |
+| 03A | 府库与生产 | 桌面 | [截图](../archive/qa/acceptance-1.1/screenshots/03A-inventory.jpg) |
+| 03B | 炼丹 | 桌面 | [截图](../archive/qa/acceptance-1.1/screenshots/03B-alchemy.jpg) |
+| 03C | 坊市与委托 | 桌面 | [截图](../archive/qa/acceptance-1.1/screenshots/03C-market.jpg) |
+| 03D | 山门治理 | 桌面 | [截图](../archive/qa/acceptance-1.1/screenshots/03D-governance.jpg) |
+| 04A | 分峰 | 桌面 | [截图](../archive/qa/acceptance-1.1/screenshots/04A-peaks.jpg) |
+| 04B | 山外舆图与同行 | 桌面 | [截图](../archive/qa/acceptance-1.1/screenshots/04B-worldmap.jpg) |
+| 04C | 纪事与线索 | 桌面 | [截图](../archive/qa/acceptance-1.1/screenshots/04C-journal.jpg) |
+| 04D | 访客与事务 | 桌面 | [截图](../archive/qa/acceptance-1.1/screenshots/04D-visitors.jpg) |
+| 05A | 门人档案与关系 | 桌面 | [截图](../archive/qa/acceptance-1.1/screenshots/05A-person.jpg) |
+| 05B | 实时战斗 | 桌面 | [截图](../archive/qa/acceptance-1.1/screenshots/09B-battle-party.jpg) |
+| 05C | 存档与恢复 | 桌面 | [截图](../archive/qa/acceptance-1.1/screenshots/05C-backups-redesign.jpg) |
+| 05D | 设置与操作 | 桌面 | [截图](../archive/qa/acceptance-1.1/screenshots/05D-settings-redesign.jpg) |
+| 06A | 结庐立足 | 桌面 | [截图](../archive/qa/acceptance-1.1/screenshots/06A-estate-initial.jpg) |
+| 06B | 山院初成 | 桌面 | [截图](../archive/qa/acceptance-1.1/screenshots/06B-estate-grown.jpg) |
+| 06C | 正式立派 | 桌面 | [截图](../archive/qa/acceptance-1.1/screenshots/06C-estate-founded.jpg) |
+| 06D | 双峰承道 | 桌面 | [截图](../archive/qa/acceptance-1.1/screenshots/06D-estate-peaks.jpg) |
+| 07A | 云岫山谷 | 桌面 | [截图](../archive/qa/acceptance-1.1/screenshots/07A-valley.jpg) |
+| 07B | 青溪坊市 | 桌面 | [截图](../archive/qa/acceptance-1.1/screenshots/07B-market.jpg) |
+| 07C | 石桥驿 | 桌面 | [截图](../archive/qa/acceptance-1.1/screenshots/07C-quarry.jpg) |
+| 07D | 听雨遗址 | 桌面 | [截图](../archive/qa/acceptance-1.1/screenshots/07D-ruins.jpg) |
+| 08A | 赤嶂偏牢 | 桌面 | [截图](../archive/qa/acceptance-1.1/screenshots/08A-prison.jpg) |
+| 08B | 赤嶂粮道 | 桌面 | [截图](../archive/qa/acceptance-1.1/screenshots/08B-supply.jpg) |
+| 08C | 栖霞外阵 | 桌面 | [截图](../archive/qa/acceptance-1.1/screenshots/08C-ward.jpg) |
+| 08D | 南渡公议 | 桌面 | [截图](../archive/qa/acceptance-1.1/screenshots/08D-council.jpg) |
+| 09A | 栖霞旧山门 | 桌面 | [截图](../archive/qa/acceptance-1.1/screenshots/09A-qixia.jpg) |
+| 09B | 灵脉决战 | 桌面 | [截图](../archive/qa/acceptance-1.1/screenshots/09B-battle-party.jpg) |
+| 10A | 手机主场景 | 窄屏模拟 | [截图](../archive/qa/acceptance-1.1/screenshots/10A-mobile-main.jpg) |
+| 10B | 手机系统抽屉 | 窄屏模拟 | [截图](../archive/qa/acceptance-1.1/screenshots/10B-mobile-drawer-final.jpg) |
+| 10C | 手机门人详情 | 窄屏模拟 | [截图](../archive/qa/acceptance-1.1/screenshots/10C-mobile-person-final.jpg) |
+| 10D | 手机战斗 | 窄屏模拟 | [截图](../archive/qa/acceptance-1.1/screenshots/10D-mobile-320-final.jpg) |
 
-浏览器状态、时间与图片索引见 `qa/acceptance-1.1/browser-observations.json`；UI 重新截图已排除导入弹窗过渡帧。浏览器导出的验收存档为 `qa/acceptance-1.1/browser-export.json`。
+浏览器状态、时间与图片索引见 `archive/qa/acceptance-1.1/browser-observations.json`；UI 重新截图已排除导入弹窗过渡帧。浏览器导出的验收存档为 `archive/qa/acceptance-1.1/browser-export.json`。
 
 ## 正式上线复验
 
 正式根入口已显示 1.1.0-ea，缓存图使用 ea-110-release-20261004-r2。原正式世界只读取列表，所有操作均在 qa-* 档位或内存验收中进行。
-毛笔楷书由本地 WOFF2 加载；桌面藏卷、设置、主界面及 390 像素人物弹窗已复核，字体加载检查通过。关闭后再打开人物弹窗，内容滚动位置为 0；1.2 倍大字设置无横向溢出。320 战斗最终复验：HUD clientWidth 与 scrollWidth 均为 302px；五个操作按钮高度均为 44px，技能名及冷却为紧凑换行。各系统 h2–h5 标题均使用毛笔字体。线上检查细节见 qa/acceptance-1.1/release-verification.json。
+毛笔楷书由本地 WOFF2 加载；桌面藏卷、设置、主界面及 390 像素人物弹窗已复核，字体加载检查通过。关闭后再打开人物弹窗，内容滚动位置为 0；1.2 倍大字设置无横向溢出。320 战斗最终复验：HUD clientWidth 与 scrollWidth 均为 302px；五个操作按钮高度均为 44px，技能名及冷却为紧凑换行。各系统 h2–h5 标题均使用毛笔字体。线上检查细节见 archive/qa/acceptance-1.1/release-verification.json。
 最终字体截图为 qa/acceptance-1.1/screenshots/release-*.jpg。原型逐项截图记录功能与布局；字体追加修改的实际效果以这些发布截图为准。

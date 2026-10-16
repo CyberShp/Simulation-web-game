@@ -54,9 +54,9 @@ SR-XF-004-REQ-03：五阶段外观使用受支持素材和同一空间定义；�
 | SR-XF-004-AC-02 | 屋内睡眠、研习和疗伤 | 人物实际到达床位/书案，封闭建筑保持完整外观；管理页可选择真实人物和活动，门道不作为执行工位。 | passed |
 | SR-XF-004-AC-03 | 缺失/旧版资产 | 缺失或旧版素材回退为封闭建筑外观或真实露天工位，不出现假容量或更换人物身份。 | passed |
 
-SR-XF-004-AC-02证据：qa/ea-indoor-activities-acceptance.mjs；qa/ea-courtyard-rest-render-acceptance.mjs；qa/ea-courtyard-visibility-acceptance.mjs；dist/ea-facility-slots.mjs；docs/design/STATUS.md
+SR-XF-004-AC-02证据：tests/acceptance/ea-indoor-activities-acceptance.mjs；tests/acceptance/ea-courtyard-rest-render-acceptance.mjs；tests/acceptance/ea-courtyard-visibility-acceptance.mjs；src/simulation/ea-facility-slots.mjs；docs/design/STATUS.md
 
-SR-XF-004-AC-03证据：dist/ea-estate-assets.mjs；dist/ea-courtyard-renderer.mjs；qa/ea-courtyard-visibility-acceptance.mjs；tests/ea-house-activity-art.test.mjs；tests/ea-outdoor-stage-art.test.mjs；docs/design/STATUS.md；dist/ea-estate-ground-art.mjs；tests/ea-closed-stage-fallback.test.mjs
+SR-XF-004-AC-03证据：apps/web/ea-estate-assets.mjs；apps/web/ea-courtyard-renderer.mjs；tests/acceptance/ea-courtyard-visibility-acceptance.mjs；tests/unit/web/ea-house-activity-art.test.mjs；tests/unit/web/ea-outdoor-stage-art.test.mjs；docs/design/STATUS.md；apps/web/ea-estate-ground-art.mjs；tests/unit/web/ea-closed-stage-fallback.test.mjs
 
 2026-10-07本地小院批次：成人家具/单位格/空间定向检查48/48（8/6/34），正常公开命令接受/拒绝邀请两路完成营造、产出搬运、研习、到床休息与迁建取消/续建；分别60命令/36次精确存读和61命令/37次精确存读。六身份卧姿与预约前提2/2，生产Canvas卧姿加载/只读/身体点选/缺图回退4/4，已读图。旧v5完成档40建筑30门人保留资源、时间和return结局，全部入口可达，二次存读一致。各SR仅登记适用子情景；完整AC、真机触摸/FPS和真人首次体验状态分别保留。 浏览器DPR1鼠标在1366×900、1180×820、820×1180点选床上掌门通过；正常推荐营造经Enter和鼠标确认、实际施工落成。一次动态模块加载失败经页面重载恢复同档，原因待定位。I/V证据为沿既有可用契约实施的本批子范围；完整D01/D02及I/V关闭门槛保持原状态。
 
@@ -88,9 +88,9 @@ SR-XF-004-AC-03证据：dist/ea-estate-assets.mjs；dist/ea-courtyard-renderer.m
 
 SR-XF-004-D01证据：docs/SECT-GROWTH-PLAN.md
 
-SR-XF-004-I01证据：dist/ea-sr-spatial.mjs；dist/ea-character-art.mjs；dist/ea-courtyard-renderer.mjs；dist/assets/estate-v1/characters-rest-v1.png；docs/design/STATUS.md；asset-manifest.json；dist/assets/estate-v1/hall-stages-v1.png；dist/assets/estate-v1/clinic-stages-v1.png；dist/assets/estate-v1/library-stages-v1.png；tests/ea-hall-stage-art.test.mjs；dist/assets/estate-v1/farm-stages-v1.png；dist/assets/estate-v1/lumber-stages-v1.png；dist/assets/estate-v1/quarry-stages-v1.png；dist/assets/estate-v1/meditation-stages-v1.png；tests/ea-outdoor-stage-art.test.mjs；docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。
+SR-XF-004-I01证据：src/simulation/ea-sr-spatial.mjs；apps/web/ea-character-art.mjs；apps/web/ea-courtyard-renderer.mjs；assets/web/estate-v1/characters-rest-v1.png；docs/design/STATUS.md；assets/manifest.json；assets/web/estate-v1/hall-stages-v1.png；assets/web/estate-v1/clinic-stages-v1.png；assets/web/estate-v1/library-stages-v1.png；tests/unit/web/ea-hall-stage-art.test.mjs；assets/web/estate-v1/farm-stages-v1.png；assets/web/estate-v1/lumber-stages-v1.png；assets/web/estate-v1/quarry-stages-v1.png；assets/web/estate-v1/meditation-stages-v1.png；tests/unit/web/ea-outdoor-stage-art.test.mjs；docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。
 
-SR-XF-004-V01证据：qa/ea-indoor-furniture-acceptance.mjs；qa/ea-courtyard-rest-render-acceptance.mjs；qa/ea-courtyard-life-acceptance.mjs；docs/design/STATUS.md；dist/assets/estate-v1/hall-stages-v1.png；dist/assets/estate-v1/clinic-stages-v1.png；dist/assets/estate-v1/library-stages-v1.png；tests/ea-hall-stage-art.test.mjs；dist/assets/estate-v1/farm-stages-v1.png；dist/assets/estate-v1/lumber-stages-v1.png；dist/assets/estate-v1/quarry-stages-v1.png；dist/assets/estate-v1/meditation-stages-v1.png；tests/ea-outdoor-stage-art.test.mjs；docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。
+SR-XF-004-V01证据：tests/acceptance/ea-indoor-furniture-acceptance.mjs；tests/acceptance/ea-courtyard-rest-render-acceptance.mjs；tests/acceptance/ea-courtyard-life-acceptance.mjs；docs/design/STATUS.md；assets/web/estate-v1/hall-stages-v1.png；assets/web/estate-v1/clinic-stages-v1.png；assets/web/estate-v1/library-stages-v1.png；tests/unit/web/ea-hall-stage-art.test.mjs；assets/web/estate-v1/farm-stages-v1.png；assets/web/estate-v1/lumber-stages-v1.png；assets/web/estate-v1/quarry-stages-v1.png；assets/web/estate-v1/meditation-stages-v1.png；tests/unit/web/ea-outdoor-stage-art.test.mjs；docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。
 
 ## 可进入开发的条件
 
@@ -118,40 +118,40 @@ SR-XF-004-V01证据：qa/ea-indoor-furniture-acceptance.mjs；qa/ea-courtyard-re
 - docs/requirements/IMPLEMENTATION-2026-10-06.md
 - docs/design/03-SPATIAL-ART.md
 - docs/design/STATUS.md
-- dist/ea-sr-spatial.mjs
-- dist/ea-character-art.mjs
-- dist/ea-courtyard-renderer.mjs
-- dist/assets/estate-v1/characters-rest-v1.png
-- qa/ea-indoor-furniture-acceptance.mjs
-- qa/ea-courtyard-rest-render-acceptance.mjs
-- qa/ea-courtyard-life-acceptance.mjs
+- src/simulation/ea-sr-spatial.mjs
+- apps/web/ea-character-art.mjs
+- apps/web/ea-courtyard-renderer.mjs
+- assets/web/estate-v1/characters-rest-v1.png
+- tests/acceptance/ea-indoor-furniture-acceptance.mjs
+- tests/acceptance/ea-courtyard-rest-render-acceptance.mjs
+- tests/acceptance/ea-courtyard-life-acceptance.mjs
 - docs/CODEX-HANDOFF.md
-- asset-manifest.json
-- dist/ea-estate-assets.mjs
-- dist/assets/estate-v1/house-stages-v1.png
-- tests/ea-house-activity-art.test.mjs
-- qa/ea-indoor-activities-acceptance.mjs
-- dist/ea-life.mjs
-- dist/ea-sr-persons.mjs
-- dist/ea-ui.mjs
-- tests/ea-scene-ui.test.mjs
-- dist/ea-estate-ground-art.mjs
-- dist/assets/estate-v1/hall-stages-v1.png
-- dist/assets/estate-v1/clinic-stages-v1.png
-- dist/assets/estate-v1/library-stages-v1.png
-- tests/ea-hall-stage-art.test.mjs
-- dist/assets/estate-v1/farm-stages-v1.png
-- dist/assets/estate-v1/lumber-stages-v1.png
-- dist/assets/estate-v1/quarry-stages-v1.png
-- dist/assets/estate-v1/meditation-stages-v1.png
-- tests/ea-outdoor-stage-art.test.mjs
-- tests/ea-estate-remaining-stage-art.test.mjs
-- qa/ea-courtyard-visibility-acceptance.mjs
-- tests/ea-closed-stage-fallback.test.mjs
+- assets/manifest.json
+- apps/web/ea-estate-assets.mjs
+- assets/web/estate-v1/house-stages-v1.png
+- tests/unit/web/ea-house-activity-art.test.mjs
+- tests/acceptance/ea-indoor-activities-acceptance.mjs
+- src/simulation/ea-life.mjs
+- src/simulation/ea-sr-persons.mjs
+- apps/web/ea-ui.mjs
+- tests/unit/web/ea-scene-ui.test.mjs
+- apps/web/ea-estate-ground-art.mjs
+- assets/web/estate-v1/hall-stages-v1.png
+- assets/web/estate-v1/clinic-stages-v1.png
+- assets/web/estate-v1/library-stages-v1.png
+- tests/unit/web/ea-hall-stage-art.test.mjs
+- assets/web/estate-v1/farm-stages-v1.png
+- assets/web/estate-v1/lumber-stages-v1.png
+- assets/web/estate-v1/quarry-stages-v1.png
+- assets/web/estate-v1/meditation-stages-v1.png
+- tests/unit/web/ea-outdoor-stage-art.test.mjs
+- tests/unit/web/ea-estate-remaining-stage-art.test.mjs
+- tests/acceptance/ea-courtyard-visibility-acceptance.mjs
+- tests/unit/web/ea-closed-stage-fallback.test.mjs
 - docs/art/REALTIME-TRIAL-2026-10-09.md
-- godot/art/art_courtyard.gd
-- godot/art/actor_3d.gd
-- tools/build-art-web.py
+- archive/godot/art/art_courtyard.gd
+- archive/godot/art/actor_3d.gd
+- archive/godot/tools/build-art-web.py
 - docs/art/PAINTED-COURTYARD-2026-10-09.md
 - docs/SECT-GROWTH-PLAN.md；2026-10-09 山域总图、五阶段迁移及统一原型的设计来源；当前运行验收待补。
 - docs/design/STATUS.md；2026-10-10 U-109 旧别院 3D 本地预览局部网页证据；完整 AC 状态不变。
@@ -173,7 +173,7 @@ SR-XF-004-V01证据：qa/ea-indoor-furniture-acceptance.mjs；qa/ea-courtyard-re
 - docs/design/50-COURTYARD-UI-DESIGN-AUDIT.md；2026-10-15 U-148/R-48：四页及关联入口30项设计审查与7条后续场景；两处物流问题由正常命令复现，运行代码未修，实际UI未验，完整状态保持。
 - docs/design/51-COURTYARD-MANAGEMENT-INTEGRATION.md；2026-10-15 U-149/R-49：四页与共用详情、单趟40份留苗搬运、落地回收和保存恢复接通；组件与相邻回归57/57，同一检查点真实桌面387.845秒13/13、最终包页面8/8、恢复链9/9，原生选择文件/预检/恢复及手动暂停已验。完整新档、规模、对话/突破、跨区施工、20分钟自主与Windows待接；完整D/I/V/R和AC状态保持。
 - docs/design/52-EAST-TERRACE-INTEGRATION.md
-- qa/courtyard-east-desktop.mjs
+- tests/acceptance/courtyard-east-desktop.mjs
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
@@ -208,4 +208,4 @@ SR-XF-004-V01证据：qa/ea-indoor-furniture-acceptance.mjs；qa/ea-courtyard-re
 - 2026-10-15：U-149：接续远端main并完成当前山院管理和取消回收、保存恢复的局部桌面验证；完整状态保持。
 - 2026-10-16：U-150/R-50：追加连续东路、实际分趟运料施工、四床启用与同源macOS存读往返局部证据。流程两段308.849秒，最终包阶段6项及往返9项，错误0；保留验收脚本中断记录。完整SR/AC与D/I/V/R状态保持。
 
-本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。
+本文件由[registry.json](../registry.json)派生；更新台账后执行 `python scripts/requirements/sr-manager.py refresh`，不单独修改此派生页。

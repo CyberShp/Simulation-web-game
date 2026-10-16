@@ -1,0 +1,662 @@
+[
+  {
+    "source": "assets/web/buildings.png",
+    "target": "assets/buildings.png"
+  },
+  {
+    "source": "assets/web/disciples.png",
+    "target": "assets/disciples.png"
+  },
+  {
+    "source": "assets/web/ea-alchemy-room.jpg",
+    "target": "assets/ea-alchemy-room.jpg"
+  },
+  {
+    "source": "assets/web/ea-courtyard-empty.jpg",
+    "target": "assets/ea-courtyard-empty.jpg"
+  },
+  {
+    "source": "assets/web/ea-courtyard-ground-v1.png",
+    "target": "assets/ea-courtyard-ground-v1.png"
+  },
+  {
+    "source": "assets/web/ea-estate-stages.jpg",
+    "target": "assets/ea-estate-stages.jpg"
+  },
+  {
+    "source": "assets/web/ea-hall-layers-v1.png",
+    "target": "assets/ea-hall-layers-v1.png"
+  },
+  {
+    "source": "assets/web/ea-open-court.jpg",
+    "target": "assets/ea-open-court.jpg"
+  },
+  {
+    "source": "assets/web/ea-portraits.jpg",
+    "target": "assets/ea-portraits.jpg"
+  },
+  {
+    "source": "assets/web/ea-qixia.jpg",
+    "target": "assets/ea-qixia.jpg"
+  },
+  {
+    "source": "assets/web/ea-regions-07.jpg",
+    "target": "assets/ea-regions-07.jpg"
+  },
+  {
+    "source": "assets/web/ea-regions-08.jpg",
+    "target": "assets/ea-regions-08.jpg"
+  },
+  {
+    "source": "assets/web/ea-world-map.jpg",
+    "target": "assets/ea-world-map.jpg"
+  },
+  {
+    "source": "assets/web/estate-v1/alchemy-stages-v1.png",
+    "target": "assets/estate-v1/alchemy-stages-v1.png"
+  },
+  {
+    "source": "assets/web/estate-v1/alchemy-stages-v2.png",
+    "target": "assets/estate-v1/alchemy-stages-v2.png"
+  },
+  {
+    "source": "assets/web/estate-v1/alchemy-stages-v3.png",
+    "target": "assets/estate-v1/alchemy-stages-v3.png"
+  },
+  {
+    "source": "assets/web/estate-v1/characters-rest-v1.png",
+    "target": "assets/estate-v1/characters-rest-v1.png"
+  },
+  {
+    "source": "assets/web/estate-v1/characters-wait-study-v1.png",
+    "target": "assets/estate-v1/characters-wait-study-v1.png"
+  },
+  {
+    "source": "assets/web/estate-v1/clinic-stages-v1.png",
+    "target": "assets/estate-v1/clinic-stages-v1.png"
+  },
+  {
+    "source": "assets/web/estate-v1/clinic-stages-v2.png",
+    "target": "assets/estate-v1/clinic-stages-v2.png"
+  },
+  {
+    "source": "assets/web/estate-v1/core.webp",
+    "target": "assets/estate-v1/core.webp"
+  },
+  {
+    "source": "assets/web/estate-v1/farm-stages-v1.png",
+    "target": "assets/estate-v1/farm-stages-v1.png"
+  },
+  {
+    "source": "assets/web/estate-v1/granary-stages-v1.png",
+    "target": "assets/estate-v1/granary-stages-v1.png"
+  },
+  {
+    "source": "assets/web/estate-v1/hall-stages-v1.png",
+    "target": "assets/estate-v1/hall-stages-v1.png"
+  },
+  {
+    "source": "assets/web/estate-v1/hall-stages-v2.png",
+    "target": "assets/estate-v1/hall-stages-v2.png"
+  },
+  {
+    "source": "assets/web/estate-v1/house-stages-v1.png",
+    "target": "assets/estate-v1/house-stages-v1.png"
+  },
+  {
+    "source": "assets/web/estate-v1/house-stages-v2.png",
+    "target": "assets/estate-v1/house-stages-v2.png"
+  },
+  {
+    "source": "assets/web/estate-v1/kitchen-stages-v1.png",
+    "target": "assets/estate-v1/kitchen-stages-v1.png"
+  },
+  {
+    "source": "assets/web/estate-v1/kitchen-stages-v2.png",
+    "target": "assets/estate-v1/kitchen-stages-v2.png"
+  },
+  {
+    "source": "assets/web/estate-v1/kitchen-stages-v3.png",
+    "target": "assets/estate-v1/kitchen-stages-v3.png"
+  },
+  {
+    "source": "assets/web/estate-v1/library-stages-v1.png",
+    "target": "assets/estate-v1/library-stages-v1.png"
+  },
+  {
+    "source": "assets/web/estate-v1/library-stages-v2.png",
+    "target": "assets/estate-v1/library-stages-v2.png"
+  },
+  {
+    "source": "assets/web/estate-v1/library-stages-v3.png",
+    "target": "assets/estate-v1/library-stages-v3.png"
+  },
+  {
+    "source": "assets/web/estate-v1/life.webp",
+    "target": "assets/estate-v1/life.webp"
+  },
+  {
+    "source": "assets/web/estate-v1/lumber-stages-v1.png",
+    "target": "assets/estate-v1/lumber-stages-v1.png"
+  },
+  {
+    "source": "assets/web/estate-v1/meadow-20261007.webp",
+    "target": "assets/estate-v1/meadow-20261007.webp"
+  },
+  {
+    "source": "assets/web/estate-v1/meditation-stages-v1.png",
+    "target": "assets/estate-v1/meditation-stages-v1.png"
+  },
+  {
+    "source": "assets/web/estate-v1/nature-20261007.webp",
+    "target": "assets/estate-v1/nature-20261007.webp"
+  },
+  {
+    "source": "assets/web/estate-v1/outdoor.webp",
+    "target": "assets/estate-v1/outdoor.webp"
+  },
+  {
+    "source": "assets/web/estate-v1/quarry-stages-v1.png",
+    "target": "assets/estate-v1/quarry-stages-v1.png"
+  },
+  {
+    "source": "assets/web/estate-v1/watchtower-stages-v1.png",
+    "target": "assets/estate-v1/watchtower-stages-v1.png"
+  },
+  {
+    "source": "assets/web/estate-v1/well-stages-v1.png",
+    "target": "assets/estate-v1/well-stages-v1.png"
+  },
+  {
+    "source": "assets/web/estate-v1/workshop-stages-v1.png",
+    "target": "assets/estate-v1/workshop-stages-v1.png"
+  },
+  {
+    "source": "assets/web/estate-v1/workshop-stages-v2.png",
+    "target": "assets/estate-v1/workshop-stages-v2.png"
+  },
+  {
+    "source": "assets/web/estate-v1/workshop-stages-v3.png",
+    "target": "assets/estate-v1/workshop-stages-v3.png"
+  },
+  {
+    "source": "assets/web/fonts/OFL-MaShanZheng.txt",
+    "target": "assets/fonts/OFL-MaShanZheng.txt"
+  },
+  {
+    "source": "assets/web/fonts/README.md",
+    "target": "assets/fonts/README.md"
+  },
+  {
+    "source": "assets/web/fonts/xianfu-brush.woff2",
+    "target": "assets/fonts/xianfu-brush.woff2"
+  },
+  {
+    "source": "assets/web/lake.webp",
+    "target": "assets/lake.webp"
+  },
+  {
+    "source": "assets/web/map.webp",
+    "target": "assets/map.webp"
+  },
+  {
+    "source": "assets/web/newbuildings.png",
+    "target": "assets/newbuildings.png"
+  },
+  {
+    "source": "assets/web/opening-bundle-portrait.png",
+    "target": "assets/opening-bundle-portrait.png"
+  },
+  {
+    "source": "assets/web/opening-bundle-wide.png",
+    "target": "assets/opening-bundle-wide.png"
+  },
+  {
+    "source": "assets/web/opening-rain-portrait.png",
+    "target": "assets/opening-rain-portrait.png"
+  },
+  {
+    "source": "assets/web/opening-rain-wide.png",
+    "target": "assets/opening-rain-wide.png"
+  },
+  {
+    "source": "assets/web/opening-scroll-portrait.png",
+    "target": "assets/opening-scroll-portrait.png"
+  },
+  {
+    "source": "assets/web/opening-scroll-wide.png",
+    "target": "assets/opening-scroll-wide.png"
+  },
+  {
+    "source": "assets/web/opening-serif.ttf",
+    "target": "assets/opening-serif.ttf"
+  },
+  {
+    "source": "assets/web/valley.webp",
+    "target": "assets/valley.webp"
+  },
+  {
+    "source": "apps/web/community.mjs",
+    "target": "community.mjs"
+  },
+  {
+    "source": "apps/web/ea-bootstrap.mjs",
+    "target": "ea-bootstrap.mjs"
+  },
+  {
+    "source": "src/simulation/ea-building-grid.mjs",
+    "target": "ea-building-grid.mjs"
+  },
+  {
+    "source": "src/simulation/ea-campaign.mjs",
+    "target": "ea-campaign.mjs"
+  },
+  {
+    "source": "apps/web/ea-character-art.mjs",
+    "target": "ea-character-art.mjs"
+  },
+  {
+    "source": "apps/web/ea-character-frames.mjs",
+    "target": "ea-character-frames.mjs"
+  },
+  {
+    "source": "src/simulation/ea-combat-geometry.mjs",
+    "target": "ea-combat-geometry.mjs"
+  },
+  {
+    "source": "apps/web/ea-construction-view.mjs",
+    "target": "ea-construction-view.mjs"
+  },
+  {
+    "source": "src/simulation/ea-courtyard-master-terrain.mjs",
+    "target": "ea-courtyard-master-terrain.mjs"
+  },
+  {
+    "source": "apps/web/ea-courtyard-renderer.mjs",
+    "target": "ea-courtyard-renderer.mjs"
+  },
+  {
+    "source": "apps/web/ea-courtyard.css",
+    "target": "ea-courtyard.css"
+  },
+  {
+    "source": "src/simulation/ea-data.mjs",
+    "target": "ea-data.mjs"
+  },
+  {
+    "source": "apps/web/ea-estate-assets.mjs",
+    "target": "ea-estate-assets.mjs"
+  },
+  {
+    "source": "apps/web/ea-estate-ground-art.mjs",
+    "target": "ea-estate-ground-art.mjs"
+  },
+  {
+    "source": "apps/web/ea-estate-interior-art.mjs",
+    "target": "ea-estate-interior-art.mjs"
+  },
+  {
+    "source": "src/simulation/ea-facility-activities.mjs",
+    "target": "ea-facility-activities.mjs"
+  },
+  {
+    "source": "src/simulation/ea-facility-slots.mjs",
+    "target": "ea-facility-slots.mjs"
+  },
+  {
+    "source": "apps/web/ea-foreground.mjs",
+    "target": "ea-foreground.mjs"
+  },
+  {
+    "source": "apps/web/ea-game.mjs",
+    "target": "ea-game.mjs"
+  },
+  {
+    "source": "src/simulation/ea-godot-bridge.mjs",
+    "target": "ea-godot-bridge.mjs"
+  },
+  {
+    "source": "apps/web/ea-godot-host.mjs",
+    "target": "ea-godot-host.mjs"
+  },
+  {
+    "source": "src/simulation/ea-godot-world.mjs",
+    "target": "ea-godot-world.mjs"
+  },
+  {
+    "source": "src/simulation/ea-hall-interior.mjs",
+    "target": "ea-hall-interior.mjs"
+  },
+  {
+    "source": "src/simulation/ea-history-retention.mjs",
+    "target": "ea-history-retention.mjs"
+  },
+  {
+    "source": "src/simulation/ea-interactions.mjs",
+    "target": "ea-interactions.mjs"
+  },
+  {
+    "source": "src/simulation/ea-life.mjs",
+    "target": "ea-life.mjs"
+  },
+  {
+    "source": "src/simulation/ea-narrative.mjs",
+    "target": "ea-narrative.mjs"
+  },
+  {
+    "source": "apps/web/ea-navigation.mjs",
+    "target": "ea-navigation.mjs"
+  },
+  {
+    "source": "src/simulation/ea-onboarding.mjs",
+    "target": "ea-onboarding.mjs"
+  },
+  {
+    "source": "apps/web/ea-opening-audio.mjs",
+    "target": "ea-opening-audio.mjs"
+  },
+  {
+    "source": "src/simulation/ea-opening-inheritance.mjs",
+    "target": "ea-opening-inheritance.mjs"
+  },
+  {
+    "source": "src/simulation/ea-opening-sim.mjs",
+    "target": "ea-opening-sim.mjs"
+  },
+  {
+    "source": "apps/web/ea-package-scene.mjs",
+    "target": "ea-package-scene.mjs"
+  },
+  {
+    "source": "src/simulation/ea-persistence.mjs",
+    "target": "ea-persistence.mjs"
+  },
+  {
+    "source": "src/simulation/ea-rain-artisan.mjs",
+    "target": "ea-rain-artisan.mjs"
+  },
+  {
+    "source": "apps/web/ea-region-art.mjs",
+    "target": "ea-region-art.mjs"
+  },
+  {
+    "source": "apps/web/ea-renderer.mjs",
+    "target": "ea-renderer.mjs"
+  },
+  {
+    "source": "src/simulation/ea-resource-amounts.mjs",
+    "target": "ea-resource-amounts.mjs"
+  },
+  {
+    "source": "src/simulation/ea-runtime.mjs",
+    "target": "ea-runtime.mjs"
+  },
+  {
+    "source": "src/simulation/ea-save-codec.mjs",
+    "target": "ea-save-codec.mjs"
+  },
+  {
+    "source": "src/simulation/ea-scene-geometry.mjs",
+    "target": "ea-scene-geometry.mjs"
+  },
+  {
+    "source": "apps/web/ea-scene-picking.mjs",
+    "target": "ea-scene-picking.mjs"
+  },
+  {
+    "source": "src/simulation/ea-scene-state.mjs",
+    "target": "ea-scene-state.mjs"
+  },
+  {
+    "source": "src/simulation/ea-scenic.mjs",
+    "target": "ea-scenic.mjs"
+  },
+  {
+    "source": "src/simulation/ea-sect-domain.mjs",
+    "target": "ea-sect-domain.mjs"
+  },
+  {
+    "source": "src/simulation/ea-sim.mjs",
+    "target": "ea-sim.mjs"
+  },
+  {
+    "source": "src/simulation/ea-society.mjs",
+    "target": "ea-society.mjs"
+  },
+  {
+    "source": "src/simulation/ea-sr-aftermath.mjs",
+    "target": "ea-sr-aftermath.mjs"
+  },
+  {
+    "source": "apps/web/ea-sr-ai.mjs",
+    "target": "ea-sr-ai.mjs"
+  },
+  {
+    "source": "src/simulation/ea-sr-balance.mjs",
+    "target": "ea-sr-balance.mjs"
+  },
+  {
+    "source": "src/simulation/ea-sr-combat.mjs",
+    "target": "ea-sr-combat.mjs"
+  },
+  {
+    "source": "src/simulation/ea-sr-contracts.mjs",
+    "target": "ea-sr-contracts.mjs"
+  },
+  {
+    "source": "src/simulation/ea-sr-covenants.mjs",
+    "target": "ea-sr-covenants.mjs"
+  },
+  {
+    "source": "src/simulation/ea-sr-crises.mjs",
+    "target": "ea-sr-crises.mjs"
+  },
+  {
+    "source": "src/simulation/ea-sr-cultivation.mjs",
+    "target": "ea-sr-cultivation.mjs"
+  },
+  {
+    "source": "src/simulation/ea-sr-descent.mjs",
+    "target": "ea-sr-descent.mjs"
+  },
+  {
+    "source": "src/simulation/ea-sr-economy.mjs",
+    "target": "ea-sr-economy.mjs"
+  },
+  {
+    "source": "src/simulation/ea-sr-equipment.mjs",
+    "target": "ea-sr-equipment.mjs"
+  },
+  {
+    "source": "src/simulation/ea-sr-late-economy.mjs",
+    "target": "ea-sr-late-economy.mjs"
+  },
+  {
+    "source": "src/simulation/ea-sr-local-industry.mjs",
+    "target": "ea-sr-local-industry.mjs"
+  },
+  {
+    "source": "src/simulation/ea-sr-mother-chain.mjs",
+    "target": "ea-sr-mother-chain.mjs"
+  },
+  {
+    "source": "src/simulation/ea-sr-organization.mjs",
+    "target": "ea-sr-organization.mjs"
+  },
+  {
+    "source": "src/simulation/ea-sr-persons.mjs",
+    "target": "ea-sr-persons.mjs"
+  },
+  {
+    "source": "src/simulation/ea-sr-runtime.mjs",
+    "target": "ea-sr-runtime.mjs"
+  },
+  {
+    "source": "src/simulation/ea-sr-spatial.mjs",
+    "target": "ea-sr-spatial.mjs"
+  },
+  {
+    "source": "src/simulation/ea-sr-story.mjs",
+    "target": "ea-sr-story.mjs"
+  },
+  {
+    "source": "apps/web/ea-sr-ui.mjs",
+    "target": "ea-sr-ui.mjs"
+  },
+  {
+    "source": "src/simulation/ea-sr-weather.mjs",
+    "target": "ea-sr-weather.mjs"
+  },
+  {
+    "source": "src/simulation/ea-sr-world-content.mjs",
+    "target": "ea-sr-world-content.mjs"
+  },
+  {
+    "source": "src/simulation/ea-sr-world-geography.mjs",
+    "target": "ea-sr-world-geography.mjs"
+  },
+  {
+    "source": "src/simulation/ea-sr-world-transport.mjs",
+    "target": "ea-sr-world-transport.mjs"
+  },
+  {
+    "source": "src/simulation/ea-sr-world.mjs",
+    "target": "ea-sr-world.mjs"
+  },
+  {
+    "source": "src/simulation/ea-state-v6.mjs",
+    "target": "ea-state-v6.mjs"
+  },
+  {
+    "source": "apps/web/ea-ui.mjs",
+    "target": "ea-ui.mjs"
+  },
+  {
+    "source": "apps/web/ea-world-scene-art.mjs",
+    "target": "ea-world-scene-art.mjs"
+  },
+  {
+    "source": "apps/web/ea.css",
+    "target": "ea.css"
+  },
+  {
+    "source": "apps/web/expansion.mjs",
+    "target": "expansion.mjs"
+  },
+  {
+    "source": "apps/web/game.mjs",
+    "target": "game.mjs"
+  },
+  {
+    "source": "apps/web/index.html",
+    "target": "index.html"
+  },
+  {
+    "source": "src/simulation/living-world.mjs",
+    "target": "living-world.mjs"
+  },
+  {
+    "source": "apps/web/map-input.mjs",
+    "target": "map-input.mjs"
+  },
+  {
+    "source": "src/simulation/model.mjs",
+    "target": "model.mjs"
+  },
+  {
+    "source": "apps/web/persistence.mjs",
+    "target": "persistence.mjs"
+  },
+  {
+    "source": "src/simulation/sect-sim.mjs",
+    "target": "sect-sim.mjs"
+  },
+  {
+    "source": "apps/web/sect-ui.mjs",
+    "target": "sect-ui.mjs"
+  },
+  {
+    "source": "apps/web/style.css",
+    "target": "style.css"
+  },
+  {
+    "source": "apps/web/terrain-lab/app.mjs",
+    "target": "terrain-lab/app.mjs"
+  },
+  {
+    "source": "apps/web/terrain-lab/index.html",
+    "target": "terrain-lab/index.html"
+  },
+  {
+    "source": "apps/web/terrain-lab/renderer.mjs",
+    "target": "terrain-lab/renderer.mjs"
+  },
+  {
+    "source": "apps/web/terrain-lab/style.css",
+    "target": "terrain-lab/style.css"
+  },
+  {
+    "source": "apps/web/terrain-lab/world.mjs",
+    "target": "terrain-lab/world.mjs"
+  },
+  {
+    "source": "apps/web/theme-v2.css",
+    "target": "theme-v2.css"
+  },
+  {
+    "source": "apps/web/theme-v4.css",
+    "target": "theme-v4.css"
+  },
+  {
+    "source": "src/simulation/vendor/PAKO-LICENSE",
+    "target": "vendor/PAKO-LICENSE"
+  },
+  {
+    "source": "src/simulation/vendor/pako.mjs",
+    "target": "vendor/pako.mjs"
+  },
+  {
+    "source": "src/simulation/world.mjs",
+    "target": "world.mjs"
+  },
+  {
+    "source": "apps/web/yunxiu-courtyard/app.mjs",
+    "target": "yunxiu-courtyard/app.mjs"
+  },
+  {
+    "source": "apps/web/yunxiu-courtyard/assets/character-frames.json",
+    "target": "yunxiu-courtyard/assets/character-frames.json"
+  },
+  {
+    "source": "apps/web/yunxiu-courtyard/assets/characters.webp",
+    "target": "yunxiu-courtyard/assets/characters.webp"
+  },
+  {
+    "source": "apps/web/yunxiu-courtyard/assets/courtyard-background.jpg",
+    "target": "yunxiu-courtyard/assets/courtyard-background.jpg"
+  },
+  {
+    "source": "apps/web/yunxiu-courtyard/icons.mjs",
+    "target": "yunxiu-courtyard/icons.mjs"
+  },
+  {
+    "source": "apps/web/yunxiu-courtyard/index.html",
+    "target": "yunxiu-courtyard/index.html"
+  },
+  {
+    "source": "src/simulation/yunxiu-courtyard/navigation.mjs",
+    "target": "yunxiu-courtyard/navigation.mjs"
+  },
+  {
+    "source": "apps/web/yunxiu-courtyard/renderer.mjs",
+    "target": "yunxiu-courtyard/renderer.mjs"
+  },
+  {
+    "source": "apps/web/yunxiu-courtyard/style.css",
+    "target": "yunxiu-courtyard/style.css"
+  },
+  {
+    "source": "apps/web/yunxiu-courtyard/world.mjs",
+    "target": "yunxiu-courtyard/world.mjs"
+  }
+]

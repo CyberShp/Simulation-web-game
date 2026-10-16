@@ -53,7 +53,7 @@ SR-XF-005-REQ-03：确认及完工均检查建位允许类型、占用、真实�
 | SR-XF-005-AC-02 | 在未开放、已预约或阻挡通路/人物的建位尝试确认 | 明确说明资格或占用原因；费用、人物位置和原工程保持，条件恢复后可在合法建位继续。 | not_run |
 | SR-XF-005-AC-03 | 反复确认、取消、存读档和暂停 | 任务/材料至多登记一次，暂停不推进，取消按已发生投入结算。 | passed |
 
-SR-XF-005-AC-03证据：qa/ea-sr-spatial-acceptance.mjs；docs/requirements/IMPLEMENTATION-2026-10-06.md；qa/ea-courtyard-life-acceptance.mjs
+SR-XF-005-AC-03证据：tests/acceptance/ea-sr-spatial-acceptance.mjs；docs/requirements/IMPLEMENTATION-2026-10-06.md；tests/acceptance/ea-courtyard-life-acceptance.mjs
 
 2026-10-07本地小院批次：成人家具/单位格/空间定向检查48/48（8/6/34），正常公开命令接受/拒绝邀请两路完成营造、产出搬运、研习、到床休息与迁建取消/续建；分别60命令/36次精确存读和61命令/37次精确存读。六身份卧姿与预约前提2/2，生产Canvas卧姿加载/只读/身体点选/缺图回退4/4，已读图。旧v5完成档40建筑30门人保留资源、时间和return结局，全部入口可达，二次存读一致。各SR仅登记适用子情景；完整AC、真机触摸/FPS和真人首次体验状态分别保留。 浏览器DPR1鼠标在1366×900、1180×820、820×1180点选床上掌门通过；正常推荐营造经Enter和鼠标确认、实际施工落成。一次动态模块加载失败经页面重载恢复同档，原因待定位。I/V证据为沿既有可用契约实施的本批子范围；完整D01/D02及I/V关闭门槛保持原状态。
 
@@ -61,7 +61,7 @@ SR-XF-005-AC-03证据：qa/ea-sr-spatial-acceptance.mjs；docs/requirements/IMPL
 
 2026-10-08 M1 双工位施工后端子批：工单保存最多两个排他脚点，掌门和自愿门人实际到场共享材料/进度，真实受伤/改派/离院/临时占位会停止该人贡献并安全释放或等待；读档拒绝伪造到位脚点，旧无 workSlots 单人单据继续执行。独立专项 8/8，相关 BUILD/SR006 13/13，合并空间/历史 46/46；仅后端子范围可发布。前端显式预览/确认、实际 iPadOS 选址及完整 I/V/R 继续。
 
-2026-10-08 M1 双工位后端独立补证：qa/ea-sr005-crew-acceptance.mjs 8/8 覆盖双排他施工位、自愿到场、共用进度/材料、受伤或离院释放、动态占位、伪造到位拒载和旧单人单据存读；qa/ea-sr-spatial-acceptance.mjs 的 BUILD/SR005/006 相关 13/13。此次证据限运行时后端和 Node 存读；显式选址界面、iPadOS 实机和完整 I/V/R 继续。
+2026-10-08 M1 双工位后端独立补证：tests/acceptance/ea-sr005-crew-acceptance.mjs 8/8 覆盖双排他施工位、自愿到场、共用进度/材料、受伤或离院释放、动态占位、伪造到位拒载和旧单人单据存读；tests/acceptance/ea-sr-spatial-acceptance.mjs 的 BUILD/SR005/006 相关 13/13。此次证据限运行时后端和 Node 存读；显式选址界面、iPadOS 实机和完整 I/V/R 继续。
 
 2026-10-09 U-105 / R-32：当前需求更新为 1.1，山域设计关联 GROWTH-02、GROWTH-06、GROWTH-10。旧版 1.0 的标题、需求、AC原文/证据及D/I任务完成范围保存在 registry.json 的 version_history；当前重新记 not_run：SR-XF-005-AC-01、SR-XF-005-AC-02。 当前D01继续补实施参数，D02及本版本I01待前置完成；development_status保留既有运行实现基线。未改变的已通过AC只沿用原行为及原运行环境证据，新增地域、布局与迁移流程按GROWTH另验。本批未执行运行时验收，未修改正式运行版本或发布状态。
 
@@ -81,9 +81,9 @@ SR-XF-005-AC-03证据：qa/ea-sr-spatial-acceptance.mjs；docs/requirements/IMPL
 
 SR-XF-005-D01证据：docs/SECT-GROWTH-PLAN.md
 
-SR-XF-005-I01证据：dist/ea-game.mjs；dist/ea-ui.mjs；docs/design/STATUS.md；dist/ea.css；dist/ea-courtyard-renderer.mjs
+SR-XF-005-I01证据：apps/web/ea-game.mjs；apps/web/ea-ui.mjs；docs/design/STATUS.md；apps/web/ea.css；apps/web/ea-courtyard-renderer.mjs
 
-SR-XF-005-V01证据：qa/ea-courtyard-life-acceptance.mjs；tests/ea-scene-ui.test.mjs；docs/design/STATUS.md
+SR-XF-005-V01证据：tests/acceptance/ea-courtyard-life-acceptance.mjs；tests/unit/web/ea-scene-ui.test.mjs；docs/design/STATUS.md
 
 ## 可进入开发的条件
 
@@ -111,21 +111,21 @@ SR-XF-005-V01证据：qa/ea-courtyard-life-acceptance.mjs；tests/ea-scene-ui.te
 - docs/requirements/IMPLEMENTATION-2026-10-06.md
 - docs/design/03-SPATIAL-ART.md
 - docs/design/STATUS.md
-- dist/ea-game.mjs
-- dist/ea-ui.mjs
-- qa/ea-courtyard-life-acceptance.mjs
-- tests/ea-scene-ui.test.mjs
+- apps/web/ea-game.mjs
+- apps/web/ea-ui.mjs
+- tests/acceptance/ea-courtyard-life-acceptance.mjs
+- tests/unit/web/ea-scene-ui.test.mjs
 - docs/CODEX-HANDOFF.md
-- dist/ea.css
-- dist/ea-courtyard-renderer.mjs
+- apps/web/ea.css
+- apps/web/ea-courtyard-renderer.mjs
 - docs/SECT-GROWTH-PLAN.md；2026-10-09 山域总图、五阶段迁移及统一原型的设计来源；当前运行验收待补。
 - docs/design/STATUS.md；2026-10-10 U-109 旧别院 3D 本地预览局部网页证据；完整 AC 状态不变。
 - docs/art/COURTYARD-VALLEY-2026-10-12.md
-- tests/ea-mountain-alchemy.test.mjs
+- tests/unit/web/ea-mountain-alchemy.test.mjs
 - docs/art/OPENING-CHAIN-2026-10-12.md；2026-10-12 U-124：主殿撤离等待与新建帮工落点修复，两个实际卡点存档接续；正常行走、碰撞与物资守恒定向检查通过。 仅增局部证据，完整 SR/AC 状态保持。
-- tests/ea-mountain-hall-egress.test.mjs
+- tests/unit/web/ea-mountain-hall-egress.test.mjs
 - docs/design/52-EAST-TERRACE-INTEGRATION.md
-- qa/courtyard-east-desktop.mjs
+- tests/acceptance/courtyard-east-desktop.mjs
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
@@ -140,10 +140,10 @@ SR-XF-005-V01证据：qa/ea-courtyard-life-acceptance.mjs；tests/ea-scene-ui.te
 - 2026-10-08：SR005 选址、预览确认、双施工位、材料事务、取消与存读设计已补齐；仅关闭设计任务。
 - 2026-10-08：独立复核 SR005-D01 与 SR003/004/010 接缝通过；I/V/R 和真机验收继续。
 - 2026-10-08：2026-10-08 M1 双工位施工后端子批：工单保存最多两个排他脚点，掌门和自愿门人实际到场共享材料/进度，真实受伤/改派/离院/临时占位会停止该人贡献并安全释放或等待；读档拒绝伪造到位脚点，旧无 workSlots 单人单据继续执行。独立专项 8/8，相关 BUILD/SR006 13/13，合并空间/历史 46/46；仅后端子范围可发布。前端显式预览/确认、实际 iPadOS 选址及完整 I/V/R 继续。
-- 2026-10-08：2026-10-08 M1 双工位后端独立补证：qa/ea-sr005-crew-acceptance.mjs 8/8 覆盖双排他施工位、自愿到场、共用进度/材料、受伤或离院释放、动态占位、伪造到位拒载和旧单人单据存读；qa/ea-sr-spatial-acceptance.mjs 的 BUILD/SR005/006 相关 13/13。此次证据限运行时后端和 Node 存读；显式选址界面、iPadOS 实机和完整 I/V/R 继续。
+- 2026-10-08：2026-10-08 M1 双工位后端独立补证：tests/acceptance/ea-sr005-crew-acceptance.mjs 8/8 覆盖双排他施工位、自愿到场、共用进度/材料、受伤或离院释放、动态占位、伪造到位拒载和旧单人单据存读；tests/acceptance/ea-sr-spatial-acceptance.mjs 的 BUILD/SR005/006 相关 13/13。此次证据限运行时后端和 Node 存读；显式选址界面、iPadOS 实机和完整 I/V/R 继续。
 - 2026-10-09：2026-10-09 U-105 / R-32：当前需求更新为 1.1，山域设计关联 GROWTH-02、GROWTH-06、GROWTH-10。旧版 1.0 的标题、需求、AC原文/证据及D/I任务完成范围保存在 registry.json 的 version_history；当前重新记 not_run：SR-XF-005-AC-01、SR-XF-005-AC-02。 当前D01继续补实施参数，D02及本版本I01待前置完成；development_status保留既有运行实现基线。未改变的已通过AC只沿用原行为及原运行环境证据，新增地域、布局与迁移流程按GROWTH另验。本批未执行运行时验收，未修改正式运行版本或发布状态。
 - 2026-10-10：U-109 第一批本地预览：旧别院五处固定建位已接入本地预览；灵草田、伐木场从零营造，非法坐标拒绝，施工期存读局部通过。此为局部证据，不提升完整 AC/SR 状态。
 - 2026-10-12：2026-10-12 U-123：新丹房建位与外观接入；新档首收与独立丹房QA档的第一炉分别在网页实走，炼药定向2／2。全部建位、施工和入口安全门槛仍按原 AC。 局部证据见 docs/art/COURTYARD-VALLEY-2026-10-12.md；整项 D/I/V/R 与 AC 状态不变。
 - 2026-10-16：U-150/R-50：追加连续东路、实际分趟运料施工、四床启用与同源macOS存读往返局部证据。流程两段308.849秒，最终包阶段6项及往返9项，错误0；保留验收脚本中断记录。完整SR/AC与D/I/V/R状态保持。
 
-本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。
+本文件由[registry.json](../registry.json)派生；更新台账后执行 `python scripts/requirements/sr-manager.py refresh`，不单独修改此派生页。

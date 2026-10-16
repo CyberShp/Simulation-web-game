@@ -26,17 +26,17 @@
 
 ## Godot Web 交付轴（U-102）
 
-当前二维小院入口为 `godot/painted_courtyard/courtyard.tscn`，资源在 `godot/painted_courtyard/assets/`。执行 `python3 tools/build-painted-web.py`，生成独立 `dist/painted-courtyard/index.html`；以 `python3 -m http.server 8080 --directory dist --bind 127.0.0.1` 提供网页后，打开[二维绘画小院](http://127.0.0.1:8080/painted-courtyard/)。原 Godot 主场景与正式玩法保持现状；构建与实机检查按实际结果登记。
+当前二维小院入口为 `archive/godot/painted_courtyard/courtyard.tscn`，资源在 `archive/godot/painted_courtyard/assets/`。执行 `python3 archive/godot/tools/build-painted-web.py`，生成独立 `dist/painted-courtyard/index.html`；以 `python3 -m http.server 8080 --directory dist --bind 127.0.0.1` 提供网页后，打开[二维绘画小院](http://127.0.0.1:8080/painted-courtyard/)。原 Godot 主场景与正式玩法保持现状；构建与实机检查按实际结果登记。
 
 | 阶段 | 对应需求与交付 | 进入下一阶段的门槛 |
 | --- | --- | --- |
 | U-104 当前二维小院 | 一栋主殿、一段山石道路、两名人物的独立二维绘画小院；按 ART-2D-01–08 检查统一画风、连续位置与动作、缩放、点选、遮挡与入口隔离。 | 先完成实际 Web 检查与问题修正，再由用户确认网页实机美术效果；确认后才批量扩展美术。样板不结算经营、不读写正式三个档位，也不替代完整 SR 验收。 |
-| G0 引擎与唯一模拟桥接 | `godot/project.godot` 和 `godot/scripts/` 真正运行 Godot Web；`dist/ea-godot-bridge.mjs` 接现有 JS 权威模拟，构建脚本导出独立 `/godot/` 预览。主要消费 SR002/003/029/030 的身份、输入和存读契约。 | 实际 Web 页面可见可点；公开移动与一项山院命令、拒绝/重复、暂停、保存刷新及旧档读取不分叉状态；独立 `godot-preview` 存档不碰正式三档。构建成功或编辑器截图本身不算通过。 |
+| G0 引擎与唯一模拟桥接 | `archive/godot/project.godot` 和 `archive/godot/scripts/` 真正运行 Godot Web；`src/simulation/ea-godot-bridge.mjs` 接现有 JS 权威模拟，构建脚本导出独立 `/godot/` 预览。主要消费 SR002/003/029/030 的身份、输入和存读契约。 | 实际 Web 页面可见可点；公开移动与一项山院命令、拒绝/重复、暂停、保存刷新及旧档读取不分叉状态；独立 `godot-preview` 存档不碰正式三档。构建成功或编辑器截图本身不算通过。 |
 | G1 场景、移动、动作 | 用户认可 U-104 小院后，按其绘画素材与动作标准扩展并接入玩法；复用 M1 的 SR003–007 与 SR029，完成真实路径、镜头、状态对应动作、封闭建筑外观、露天工作与可读反馈。 | 同来源档的实际浏览器输入、视觉、布局/DPR、帧间隔和存读复测；目标设备未测时对应 AC 继续待验。 |
 | G2 分批迁规则与完整 UI | 依 M1–M7 的 SR 前置，逐模块把唯一写入权从 JS 交接到 GDScript；每批补 UI、失败恢复与旧档兼容。 | 每次交接有 SR/AC、状态/命令/时钟/身份映射与新旧结果对照；正常、失败、中断、存读和适用网页均实证，未迁模块明确仍由 JS 执行。 |
 | G3 完整经营成长与网页交付 | 汇总 M6/M8 的整项验收和发布：连续经营、三路成长、出行危机、复仇收束及结局后经营。 | 40 项 SR 原 D/I/V/R、全部原 AC 与目标 iPadOS/Windows/macOS 网页、支持旧档、真人及发布检查逐项成立；正式入口切换前核对受验版本、回退与玩家档位。 |
 
-旧 JS 测试与发布证据仍是其记录版本的有效事实和迁移对照；跨到 Godot 的画面、输入、性能、设备及迁移后行为须按新构建再验。现行 `dist/index.html` 继续是正式入口，`dist/godot/index.html` 是构建产物、仅供独立预览；预览经本阶段验收后再部署，替换正式入口须满足对应功能与存档门槛。详细接缝和失败恢复见 [Godot Web 实施路线](GODOT-MIGRATION.md)。
+旧 JS 测试与发布证据仍是其记录版本的有效事实和迁移对照；跨到 Godot 的画面、输入、性能、设备及迁移后行为须按新构建再验。现行 `apps/web/index.html` 继续是正式入口，`dist/godot/index.html` 是构建产物、仅供独立预览；预览经本阶段验收后再部署，替换正式入口须满足对应功能与存档门槛。详细接缝和失败恢复见 [Godot Web 实施路线](GODOT-MIGRATION.md)。
 
 ## 2. 每批共同完成条件
 
@@ -134,8 +134,8 @@ M1–M5 的交互与存档改动须同步消费 SR029/030，不等到 M6 才检�
 git status --short
 git log -1 --format='%H %s'
 git diff --stat
-python3 qa/sr-manager.py validate
-python3 qa/sr-manager.py list --iteration I1
+python3 scripts/requirements/sr-manager.py validate
+python3 scripts/requirements/sr-manager.py list --iteration I1
 ```
 
 ## 6. 分工与检查入口
@@ -146,13 +146,13 @@ python3 qa/sr-manager.py list --iteration I1
 
 | 范围 | 既有入口 |
 | --- | --- |
-| 共同契约/兼容 | `qa/ea-sr-contracts-acceptance.mjs`、`qa/ea-sr-travel-continuity-acceptance.mjs`、`qa/ea-sr-combat-release-acceptance.mjs` |
-| 空间与小院 | `qa/ea-sr-spatial-acceptance.mjs`、`qa/ea-indoor-furniture-acceptance.mjs`、`qa/ea-building-grid-acceptance.mjs`、`qa/ea-estate-extent-acceptance.mjs` |
-| 人物与生活 | `tests/ea-character-atlas.test.mjs`、`tests/ea-rest-pose.test.mjs`、`tests/ea-activity-truth.test.mjs`、`qa/ea-courtyard-life-acceptance.mjs`、`qa/ea-courtyard-rest-render-acceptance.mjs` |
-| 经营/成长 | `qa/ea-sr-economy-acceptance.mjs`、`qa/ea-sr-harvest-reservation-acceptance.mjs`、`qa/ea-sr-local-industry-acceptance.mjs`、`qa/ea-sr-growth-acceptance.mjs`、`qa/ea-sr-teaching-boundary-acceptance.mjs` |
-| 世界/后果/高阶 | `qa/ea-sr-world-acceptance.mjs`、`qa/ea-sr-world-content-acceptance.mjs`、`qa/ea-sr-world-geography-acceptance.mjs`、`qa/ea-sr-aftermath-acceptance.mjs`、`qa/ea-sr-descent-acceptance.mjs` |
-| 界面 | `qa/ea-sr-ui-acceptance.mjs`、`tests/ea-scene-ui.test.mjs`、`tests/ea-narrative-ui.test.mjs`、`tests/map-input.test.mjs`，以及独立验收档的真实网页操作 |
-| 正常集成链 | `qa/ea-sr-integration-acceptance.mjs` 与 `qa/ea-courtyard-life-acceptance.mjs`；检查所选 case、存档来源和输出范围 |
+| 共同契约/兼容 | `tests/acceptance/ea-sr-contracts-acceptance.mjs`、`tests/acceptance/ea-sr-travel-continuity-acceptance.mjs`、`tests/acceptance/ea-sr-combat-release-acceptance.mjs` |
+| 空间与小院 | `tests/acceptance/ea-sr-spatial-acceptance.mjs`、`tests/acceptance/ea-indoor-furniture-acceptance.mjs`、`tests/acceptance/ea-building-grid-acceptance.mjs`、`tests/acceptance/ea-estate-extent-acceptance.mjs` |
+| 人物与生活 | `tests/unit/web/ea-character-atlas.test.mjs`、`tests/unit/web/ea-rest-pose.test.mjs`、`tests/unit/web/ea-activity-truth.test.mjs`、`tests/acceptance/ea-courtyard-life-acceptance.mjs`、`tests/acceptance/ea-courtyard-rest-render-acceptance.mjs` |
+| 经营/成长 | `tests/acceptance/ea-sr-economy-acceptance.mjs`、`tests/acceptance/ea-sr-harvest-reservation-acceptance.mjs`、`tests/acceptance/ea-sr-local-industry-acceptance.mjs`、`tests/acceptance/ea-sr-growth-acceptance.mjs`、`tests/acceptance/ea-sr-teaching-boundary-acceptance.mjs` |
+| 世界/后果/高阶 | `tests/acceptance/ea-sr-world-acceptance.mjs`、`tests/acceptance/ea-sr-world-content-acceptance.mjs`、`tests/acceptance/ea-sr-world-geography-acceptance.mjs`、`tests/acceptance/ea-sr-aftermath-acceptance.mjs`、`tests/acceptance/ea-sr-descent-acceptance.mjs` |
+| 界面 | `tests/acceptance/ea-sr-ui-acceptance.mjs`、`tests/unit/web/ea-scene-ui.test.mjs`、`tests/unit/web/ea-narrative-ui.test.mjs`、`tests/unit/web/map-input.test.mjs`，以及独立验收档的真实网页操作 |
+| 正常集成链 | `tests/acceptance/ea-sr-integration-acceptance.mjs` 与 `tests/acceptance/ea-courtyard-life-acceptance.mjs`；检查所选 case、存档来源和输出范围 |
 
 当前本机 Canvas 测试使用既有 `@napi-rs/canvas`；可通过 `NODE_PATH=/Users/shepard/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules` 解析，换机器先核实依赖位置。实际浏览器和设备验收在独立 `acceptance=qa-*` 存档中进行。
 
@@ -173,10 +173,10 @@ T-08 的移动端 30 FPS、桌面 60 FPS、反馈 100ms 是待基线测量的初
 每完成一批运行代码或素材的独立验收，就推送该批源码并更新既有游戏网页；运行时发布候选必须绑定已完成相应验收的代码。当前二维小院使用独立 `/painted-courtyard/` 入口，原 Godot 主场景、`/godot/` 桥接预览和正式首页保持现状；本地构建、网页检查、公开部署和用户美术确认分别记录。前期检查点与全部40项最终交付分别记录，公开开发版不自动关闭未达标 SR。
 
 1. 固定受验源码和资产版本，独立复核最终差异，保存发布前可恢复基点。检查暂存内容只包含本次已确认交付，代码和文档提交引用 SR/AC。
-2. 源码提交/同步与 `gh-pages` 发布分别核对。使用既有 `qa/package-pages-release.py` 的新缓存标记和仓库外输出；新增二进制美术须另核对上传，打包脚本的文本输出不足以证明资产齐全。
+2. 源码提交/同步与 `gh-pages` 发布分别核对。使用既有 `scripts/release/package-pages.py` 的新缓存标记和仓库外输出；新增二进制美术须另核对上传，打包脚本的文本输出不足以证明资产齐全。
 3. 核对根入口与 `ea-preview/`、所有模块/素材、缓存标记、部署任务结果以及线上实际页面。保留版本/视口和正常加载、保存恢复、基本交互证据。
 4. 发布失败保留上一个可用版本与当前源码，记录实际失败环节并修复；未核实成功前只报告真实阶段。
-5. 更新 registry 的各项状态及证据、STATUS、HANDOFF 和 CODEX-HANDOFF，执行 `python3 qa/sr-manager.py refresh`、`validate` 与文件差异检查。
+5. 更新 registry 的各项状态及证据、STATUS、HANDOFF 和 CODEX-HANDOFF，执行 `python3 scripts/requirements/sr-manager.py refresh`、`validate` 与文件差异检查。
 6. M8 核对 40 项全部满足条件；任一需求、设备或用户选择未完成时，列出具体 SR/AC、原因、下一动作和负责人角色，保持总体交付未完成。
 
 每批向用户简报四件事：交付的玩家能力、主要修改位置、实际验证范围、剩余事项及源码/部署状态。附下一批的 SR/AC，继续已授权工作。

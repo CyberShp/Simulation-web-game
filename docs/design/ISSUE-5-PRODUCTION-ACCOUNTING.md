@@ -46,14 +46,14 @@ Issue 原脚本在最新开局因传承待选而暂停。复现沿公开命令�
 复验入口：
 
 ```bash
-node --test qa/ea-sr-production-accounting-acceptance.mjs
-node --test tests/ea-mountain-alchemy.test.mjs tests/ea-mountain-valley.test.mjs tests/ea-mountain-herb-crop.test.mjs tests/ea-society.test.mjs tests/ea-facility-v12.test.mjs tests/ea-persistence.test.mjs tests/ea-mountain-first-combat.test.mjs tests/ea-system-ui-projection.test.mjs
-node qa/ea-sr-integration-acceptance.mjs --case 'normal fresh SR opening'
-node --test qa/ea-sr-009-pill-recipe-public-acceptance.mjs
-python3 qa/sr-manager.py refresh
-python3 qa/sr-manager.py validate
+node --test tests/acceptance/ea-sr-production-accounting-acceptance.mjs
+node --test tests/unit/web/ea-mountain-alchemy.test.mjs tests/unit/web/ea-mountain-valley.test.mjs tests/unit/web/ea-mountain-herb-crop.test.mjs tests/unit/web/ea-society.test.mjs tests/unit/web/ea-facility-v12.test.mjs tests/unit/web/ea-persistence.test.mjs tests/unit/web/ea-mountain-first-combat.test.mjs tests/unit/web/ea-system-ui-projection.test.mjs
+node tests/acceptance/ea-sr-integration-acceptance.mjs --case 'normal fresh SR opening'
+node --test tests/acceptance/ea-sr-009-pill-recipe-public-acceptance.mjs
+python3 scripts/requirements/sr-manager.py refresh
+python3 scripts/requirements/sr-manager.py validate
 ```
 
-专属 12 项覆盖 6000 秒生产、合法小数/大公库、一次结算、失败原子回滚、满额/部分余额工资、事实篡改、幽灵运输拒绝、取消/交付、40 份边界、真实旧微量、旧炉批兼容和炼丹存读。正常公开开局接受与拒绝邀请两条链均通过，包括生产搬运和首次研习；正常丹炉配方公开链通过。当前广域 `qa/ea-sr-economy-acceptance.mjs` 的首个旧夹具把 SR 经济挂入非 SR 世界，基点和修复后均被版本校验拒绝；此预先存在的夹具错误未宣称通过。该脚本的五处生产回调已适配显式 receipt，五个相关组件情景另行执行通过。
+专属 12 项覆盖 6000 秒生产、合法小数/大公库、一次结算、失败原子回滚、满额/部分余额工资、事实篡改、幽灵运输拒绝、取消/交付、40 份边界、真实旧微量、旧炉批兼容和炼丹存读。正常公开开局接受与拒绝邀请两条链均通过，包括生产搬运和首次研习；正常丹炉配方公开链通过。当前广域 `tests/acceptance/ea-sr-economy-acceptance.mjs` 的首个旧夹具把 SR 经济挂入非 SR 世界，基点和修复后均被版本校验拒绝；此预先存在的夹具错误未宣称通过。该脚本的五处生产回调已适配显式 receipt，五个相关组件情景另行执行通过。
 
 本批证据是自动化规则、公开命令和存档验证；没有将 Node 运行当作真人试玩、目标设备或美术验收。运行源码 `main` `850a7ea2178063684715ec2e46e625faf492bf40`，Pages `39a7225625046742bb4d5997dc15ad2c7b5d571b` 已同步；[构建与部署](https://github.com/CyberShp/Simulation-web-game/actions/runs/38197200144) completed/success。保留正式页和山院各自的原玩法，对现有运行模块分别应用本次修复；两套发布模块专项各12/12，243个发布文本blob与验收目录一致，22个公网入口、修复模块和构建清单均HTTP 200、SHA-256一致。Issue #5已完成并附实验记录。112/112 Node、公开开局2/2、丹炉1/1与经济组件5/5通过；字节和Node验证不表示浏览器视觉或目标设备试玩。

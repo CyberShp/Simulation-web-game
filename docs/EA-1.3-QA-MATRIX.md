@@ -17,9 +17,9 @@
 
 ## 运行与证据口径
 
-`node qa/ea-130-acceptance.mjs` 输出当前版本独立验收报告。完整通关由 `Player` 的公开命令完成，保留操作数、验证数和里程碑；扩展异常测试与正常游玩结果分别记录。
+`node tests/acceptance/ea-130-acceptance.mjs` 输出当前版本独立验收报告。完整通关由 `Player` 的公开命令完成，保留操作数、验证数和里程碑；扩展异常测试与正常游玩结果分别记录。
 
-`node --test tests/ea-130-cross-system.test.mjs` 验证跨系统状态和恢复边界。实现接口尚未稳定时，不以跳过用例宣称通过。
+`node --test tests/unit/web/ea-130-cross-system.test.mjs` 验证跨系统状态和恢复边界。实现接口尚未稳定时，不以跳过用例宣称通过。
 
 浏览器由主 Agent 统一执行和记录，避免多个 Agent 干扰同一存档或会话。人工朋友无人讲解试玩、iOS/Android 真机锁屏/强退目前待用户设备验收；本环境不能宣称完成。
 

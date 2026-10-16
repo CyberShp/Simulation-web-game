@@ -96,8 +96,8 @@ SR-XF-013-D01证据：docs/design/20-ARTS-GROWTH-COMBAT.md（抗性与平衡首�
 - docs/design/31-ARTS-SAMPLE-COFORMATION-DIVINE.md（Y-201护撤与Y-144行动权的动作、反制和存读试算；三路及敌人配置继续）
 - docs/design/33-ARTS-INITIAL-CALIBRATION.md（Y-001–067逐项反制校准；未实战定标）
 - docs/art/COURTYARD-VALLEY-2026-10-12.md
-- tests/ea-mountain-first-combat.test.mjs
-- tests/ea-godot-valley-projection.test.mjs
+- tests/unit/web/ea-mountain-first-combat.test.mjs
+- tests/unit/web/ea-godot-valley-projection.test.mjs
 - docs/art/OPENING-CHAIN-2026-10-12.md；2026-10-12 U-124：同一普通新档引风术、护持、受伤撤退与归院用药；战斗收势阶段存读保持。 仅增局部证据，完整 SR/AC 状态保持。
 - docs/art/desktop-style-review-20261013/README.md；2026-10-13 U-127/U-128：五种画风、战场总览及交战近景共七张静态原型待用户审核；桌面交付方向为Windows主力、macOS先验证。仅设计与原型证据，桌面迁移及新战斗未实施。
 - 2026-10-13 U-129/U-130：独立 Three.js/Electron 双画风自动样板用于空间、人物与特效评看；范围及实际证据见 docs/art/DESKTOP-RUNTIME-SAMPLES-2026-10-13.md。正式玩法、Windows 与完整 SR/AC 状态保持。
@@ -119,4 +119,4 @@ SR-XF-013-D01证据：docs/design/20-ARTS-GROWTH-COMBAT.md（抗性与平衡首�
 - 2026-10-15：U-146纠正169项过少，扩写至720项的R-46作者草案；玩家与NPC共用，补符蛊完整路线与散修来源，不推进运行或验收状态。
 - 2026-10-15：U-149：接续远端main并完成当前山院管理和取消回收、保存恢复的局部桌面验证；完整状态保持。
 
-本文件由[registry.json](../registry.json)派生；更新台账后执行 `python qa/sr-manager.py refresh`，不单独修改此派生页。
+本文件由[registry.json](../registry.json)派生；更新台账后执行 `python scripts/requirements/sr-manager.py refresh`，不单独修改此派生页。

@@ -28,6 +28,8 @@
   ],
   "requiredRead": [
     "AGENTS.md",
+    "docs/CODEX-HANDOFF.md",
+    "docs/engineering/REPOSITORY.md",
     "docs/SECT-GROWTH-PLAN.md",
     "docs/MOUNTAIN-DOMAIN.md",
     "docs/PAINTED-COURTYARD.md",
@@ -38,7 +40,6 @@
     "docs/design/STATUS.md",
     "docs/design/13-WORLDVIEW-DISCUSSION.md",
     "docs/design/14-EARLY-GAME-DETAILED-DESIGN.md",
-    "docs/CODEX-HANDOFF.md",
     "docs/design/05-RUNTIME-CONTRACTS.md",
     "docs/design/06-OPENING-ACCEPTANCE.md",
     "docs/requirements/registry.json"
@@ -589,8 +590,8 @@
     "actualSaveVersionAtAuditNote": "Historical pre-schema6 audit; current schema and local state are recorded in currentDevelopment."
   },
   "execution": {
-    "scopeThisDelivery": "independent-desktop-arena-local-implementation-and-verification",
-    "runtimeDeployment": "local-macos-package-verified",
+    "scopeThisDelivery": "U-152-engineering-reorganization-and-source-delivery",
+    "runtimeDeployment": "local-desktop-and-web-verified-source-delivery-pending",
     "requiresRepositoryContext": true,
     "recommendedDoesNotMeanUserApproved": true,
     "targetDesignDoesNotMeanImplemented": true
@@ -999,10 +1000,10 @@
     "rulesetVersion": "opening-runtime-3",
     "reference": "docs/CODEX-HANDOFF.md",
     "evidence": "docs/design/STATUS.md",
-    "sourceBaseCommit": "87a15dbf6b3f784f61ddfbf06de2fe23d0a31f9a",
-    "scope": "godot-2d-painted-courtyard-local-art-review",
-    "sourceStatus": "uncommitted-local-changes",
-    "deploymentStatus": "local-increment-not-deployed",
+    "sourceBaseCommit": "e5f0d78358ab42fefbd2b5e3c516465bff115f8b",
+    "scope": "desktop-pixel-courtyard-management-east-expansion-and-bounded-autonomy",
+    "sourceStatus": "engineering-migration-local-verified",
+    "deploymentStatus": "local-desktop-and-web-verified-source-delivery-pending",
     "lastPublishedCheckpoint": {
       "runtimeSourceCommit": "7d27532bf22e8c6064281e12b390edb8370abce9",
       "pagesCommit": "acb40955ded401e6e2c5225c463d3e0a380ae6a2",
@@ -1020,12 +1021,12 @@
     },
     "nextWorkSource": "docs/design/DECISIONS.md",
     "fullDesignVerified": false,
-    "versionAppliesTo": "existing formal JS game; art trial has independent local state",
+    "versionAppliesTo": "shared simulation; desktop full new-game integration and complete requirement acceptance remain open",
     "independentDesktopSlice": {
       "decisionId": "U-135",
       "reference": "docs/design/43-PIXEL-ARENA-SLICE.md",
-      "source": "prototypes/pixel_scene_validation/",
-      "entry": "prototypes/pixel_scene_validation/arena.html",
+      "source": "archive/prototypes/pixel_scene_validation/",
+      "entry": "archive/prototypes/pixel_scene_validation/arena.html",
       "ruleset": "arena-v1",
       "schemaVersion": 1,
       "status": "implemented-macos-package-verified",
@@ -1040,6 +1041,16 @@
       "reference": "docs/design/43-PIXEL-ARENA-SLICE.md",
       "evidence": "docs/art/hd-pixel-20261014/ARENA-RUNTIME.md",
       "closesWholeRequirements": false
+    },
+    "sceneAppliesTo": "96-metre courtyard compatibility baseline; current east expansion extends the shared world",
+    "currentCourtyard": {
+      "source": "apps/courtyard/",
+      "entry": "apps/courtyard/courtyard.html",
+      "worldBoundsMetres": [
+        160,
+        96
+      ],
+      "evidence": "docs/design/52-EAST-TERRACE-INTEGRATION.md"
     }
   },
   "requirementsManagement": {
@@ -1049,7 +1060,7 @@
     "backlog": "docs/requirements/BACKLOG.md",
     "registry": "docs/requirements/registry.json",
     "itemsDirectory": "docs/requirements/items",
-    "manager": "qa/sr-manager.py",
+    "manager": "scripts/requirements/sr-manager.py",
     "counts": {
       "early": 32,
       "conditional": 2,
@@ -1066,8 +1077,8 @@
     "managementAcceptance": "passed",
     "runtimeChanged": true,
     "acceptanceCounts": {
-      "passed": 18,
-      "not_run": 101,
+      "passed": 31,
+      "not_run": 88,
       "blocked": 1
     }
   },
@@ -1131,22 +1142,22 @@
         "passed": 39,
         "failed": 0,
         "scripts": [
-          "tests/ea-scene-ui.test.mjs",
-          "tests/ea-narrative-ui.test.mjs",
-          "tests/map-input.test.mjs"
+          "tests/unit/web/ea-scene-ui.test.mjs",
+          "tests/unit/web/ea-narrative-ui.test.mjs",
+          "tests/unit/web/map-input.test.mjs"
         ]
       },
       "spatialCanvasTests": {
         "passed": 34,
         "failed": 0,
-        "script": "qa/ea-sr-spatial-acceptance.mjs",
+        "script": "tests/acceptance/ea-sr-spatial-acceptance.mjs",
         "viewportDprCases": 9,
         "browser": false
       },
       "worldSceneTests": {
         "scenes": 7,
         "objects": 22,
-        "script": "qa/ea-sr-scene-art-acceptance.mjs"
+        "script": "tests/acceptance/ea-sr-scene-art-acceptance.mjs"
       },
       "normalSaveFlow": {
         "passed": 9,
@@ -1374,9 +1385,9 @@
       "G2",
       "G3"
     ],
-    "sourceProject": "godot/project.godot",
-    "bridge": "dist/ea-godot-bridge.mjs",
-    "buildScript": "tools/build-godot-web.py",
+    "sourceProject": "archive/godot/project.godot",
+    "bridge": "src/simulation/ea-godot-bridge.mjs",
+    "buildScript": "archive/godot/tools/build-godot-web.py",
     "generatedPreviewEntry": "dist/godot/index.html",
     "previewSaveNamespace": "godot-preview",
     "currentRulesAuthorityDuringG0": "existing-js-simulation",
@@ -1385,23 +1396,23 @@
   "currentArtDirection": {
     "decisionId": "U-133",
     "decisionStatus": "user-confirmed",
-    "updatedAt": "2026-10-14",
+    "updatedAt": "2026-10-16",
     "reference": "docs/design/DECISIONS.md",
     "engine": null,
-    "engineStatus": "not-selected-for-desktop-2d",
+    "engineStatus": "canvas2d-electron-current-courtyard-runtime",
     "delivery": "desktop",
     "primaryPlatform": "Windows",
     "initialValidationPlatform": "macOS",
     "rendering": "pure-2d-high-definition-pixel-art",
-    "prototypeKind": "desktop-pixel-trail",
-    "prototypeReference": "docs/art/hd-pixel-trail-20261014/RUNTIME.md",
+    "prototypeKind": "desktop-pixel-courtyard",
+    "prototypeReference": "docs/art/pixel-courtyard-prototype-20261014/README.md",
     "prototypeFiles": [
-      "prototypes/pixel_scene_validation/arena.html"
+      "apps/courtyard/courtyard.html"
     ],
-    "prototypeStatus": "local-trail-implemented-macos-package-verified",
+    "prototypeStatus": "courtyard-approved-east-integrated-runtime-review-pending",
     "userArtApproval": "courtyard-accepted-trail-pending",
-    "runtimeImplementation": "independent-local-trail-implemented",
-    "runtimeEvidence": "docs/art/hd-pixel-trail-20261014/RUNTIME.md",
+    "runtimeImplementation": "shared-simulation-courtyard-management-east-expansion-bounded-autonomy",
+    "runtimeEvidence": "docs/design/53-COURTYARD-AUTONOMY-ACCEPTANCE.md",
     "publicationStatus": "local-desktop-build-source-checkpoint",
     "preserveExistingAssetsAndEvidence": true,
     "closesWholeRequirements": false,
@@ -1415,27 +1426,27 @@
         "U-132"
       ],
       "status": "stopped-local-archive",
-      "source": "prototypes/three_style_showcase/",
+      "source": "archive/prototypes/three_style_showcase/",
       "assetEvidence": "docs/art/asset-review-20261013/README.md",
       "sceneEvidence": "docs/art/reference-reconstruction-20261013/README.md",
       "preserveUncommittedChanges": true
     },
     "validationDecisionId": "U-134",
-    "runtimeValidation": "45-component-checks-22-packaged-visible-macos-checks",
+    "runtimeValidation": "see-currentHandoff-recorded-scope-and-engineering-migration-verification",
     "runtimeTechnique": "canvas2d-electron",
-    "runtimeSource": "prototypes/pixel_scene_validation/",
+    "runtimeSource": "apps/courtyard/",
     "staticPrototypeFiles": [
       "docs/art/hd-pixel-20261014/courtyard-battle.png",
       "docs/art/hd-pixel-20261014/characters-effects.png"
     ],
     "userArtApprovalDecisionId": "U-135",
     "approvedRuntimeEvidence": "docs/art/hd-pixel-20261014/RUNTIME.md",
-    "currentRuntimeDecisionId": "U-136",
+    "currentRuntimeDecisionId": "U-150",
     "pixelGrainDecisionId": "U-137",
     "pixelGrain": "finer-one-step-clear-pixel-contours",
     "trailArtApproval": "pending-user-runtime-review",
     "styleReferenceDecisionId": "U-138",
-    "styleReferenceAsset": "prototypes/pixel_scene_validation/assets/courtyard-v1.png",
+    "styleReferenceAsset": "archive/prototypes/pixel_scene_validation/assets/courtyard-v1.png",
     "styleAlignmentEvidence": "docs/art/hd-pixel-trail-20261014/STAIR-CONNECTION.md"
   },
   "currentHandoff": {
@@ -1452,7 +1463,7 @@
     "appliesTo": "all agents, including Sol high and extra-high reasoning settings",
     "workingTree": "/Volumes/Media/immortal",
     "preserveUncommittedChanges": true,
-    "sourceBaseCommit": "4eedf62",
+    "sourceBaseCommit": "e5f0d78358ab42fefbd2b5e3c516465bff115f8b",
     "scopePerBatch": [
       "SR and AC",
       "design clause and U/R/T",
@@ -1483,8 +1494,8 @@
     "currentCharacterDialogueReference": "docs/design/42-CHARACTER-DIALOGUE.md",
     "currentSequence": "sustained-food-supply-then-three-to-five-residents",
     "currentArtsLedger": "docs/design/28-FIVE-CONTINENT-ARTS-LEDGER.md",
-    "estateSourceScene": "godot/estate_2d/estate.tscn",
-    "estateSiteLayout": "godot/estate_2d/estate-sites.json",
+    "estateSourceScene": "archive/godot/estate_2d/estate.tscn",
+    "estateSiteLayout": "archive/godot/estate_2d/estate-sites.json",
     "estatePreview": "dist/painted-game/index.html",
     "currentOpeningGuidanceEvidence": "docs/art/OPENING-GUIDANCE-2026-10-13.md",
     "currentVisualStyleDecisionId": "U-138",
@@ -1496,7 +1507,7 @@
     "currentDeliveryPlatform": "desktop",
     "currentPrimaryPlatform": "Windows",
     "currentInitialValidationPlatform": "macOS",
-    "currentDesktopMigrationStatus": "independent-trail-slice-implemented-formal-game-migration-pending",
+    "currentDesktopMigrationStatus": "courtyard-management-east-autonomy-implemented-full-new-game-pending",
     "currentCombatDecisionId": "U-127",
     "currentCombatTarget": "large-scene-multiple-actors-realtime-skill-cooldowns",
     "currentCombatExpansionStatus": "16-32-actor-trail-macos-verified",
@@ -1509,13 +1520,13 @@
     "currentCombatPrototypeCount": 2,
     "currentRendererTrialDecisionId": "U-150",
     "currentRendererTrial": "canvas2d-electron",
-    "currentRendererTrialSource": "prototypes/pixel_scene_validation/",
+    "currentRendererTrialSource": "apps/courtyard/",
     "currentAutoplaySampleCount": 0,
-    "currentReferenceScene": "prototypes/pixel_scene_validation/courtyard.html",
+    "currentReferenceScene": "apps/courtyard/courtyard.html",
     "currentAssetGallery": null,
     "currentPrototypeKind": "desktop-pixel-courtyard",
     "currentPrototypeFiles": [
-      "prototypes/pixel_scene_validation/courtyard.html"
+      "apps/courtyard/courtyard.html"
     ],
     "currentDesktop2DRuntimeStatus": "courtyard-management-and-east-expansion-macos-verified",
     "preservedDesktop3DWork": {
@@ -1527,10 +1538,10 @@
       ],
       "status": "stopped-local-archive",
       "rendererTrial": "threejs-electron",
-      "source": "prototypes/three_style_showcase/",
+      "source": "archive/prototypes/three_style_showcase/",
       "autoplaySampleCount": 2,
-      "referenceScene": "prototypes/three_style_showcase/reference.html",
-      "assetGallery": "prototypes/three_style_showcase/asset-review.html",
+      "referenceScene": "archive/prototypes/three_style_showcase/reference.html",
+      "assetGallery": "archive/prototypes/three_style_showcase/asset-review.html",
       "evidence": "docs/art/asset-review-20261013/README.md",
       "preserveUncommittedChanges": true
     },
@@ -1547,14 +1558,14 @@
     "currentArenaApp": "/Volumes/Media/immortal-qa/pixel-arena-20261014/云岫山院·演武.app",
     "currentArenaSourceStatus": "tracked-checkpoint",
     "currentArenaPublicationStatus": "not-published",
-    "preservedSceneEntry": "prototypes/pixel_scene_validation/index.html",
+    "preservedSceneEntry": "archive/prototypes/pixel_scene_validation/index.html",
     "preservedSceneLaunchArgument": "--scene",
     "currentGoal": {
-      "decisionId": "U-151",
-      "mode": "goal",
-      "status": "verified-source-checkpoint",
-      "objective": "Complete same-world bounded autonomous sect management acceptance and record current and overall progress.",
-      "reference": "docs/design/53-COURTYARD-AUTONOMY-ACCEPTANCE.md",
+      "decisionId": "U-152",
+      "mode": "task",
+      "status": "local-verified-source-delivery-pending",
+      "objective": "Reorganize the complete repository, validate commands and compatibility, preserve prior work, and push reviewed source.",
+      "reference": "docs/engineering/MIGRATION-20261016.md",
       "closesWholeRequirements": false
     },
     "currentArenaValidation": {
@@ -1606,7 +1617,7 @@
       "runtimeIntegrated": true,
       "userApprovedMaster": true,
       "runtimeArtApproved": true,
-      "sourceEntry": "prototypes/pixel_scene_validation/courtyard.html",
+      "sourceEntry": "apps/courtyard/courtyard.html",
       "terrainVersion": "courtyard-master-terrain-2",
       "runtimeVerification": {
         "packagedReviewChecks": "94/94",
@@ -1642,8 +1653,8 @@
       "decisionId": "U-149",
       "proposalId": "R-49",
       "reference": "docs/design/51-COURTYARD-MANAGEMENT-INTEGRATION.md",
-      "source": "prototypes/pixel_scene_validation/courtyard-main.mjs",
-      "entry": "prototypes/pixel_scene_validation/courtyard.html",
+      "source": "apps/courtyard/courtyard-main.mjs",
+      "entry": "apps/courtyard/courtyard.html",
       "nodeChecks": 57,
       "browserStatus": "visible-electron-chain-13-of-13",
       "desktopPackageStatus": "macos-package-verified",
@@ -1724,6 +1735,87 @@
       "sustainedFoodSupply": false,
       "windows": "not-run",
       "wholeRequirementStatusChanged": false
+    },
+    "previousSourceBaseCommit": "4eedf62",
+    "engineeringGuide": "docs/engineering/REPOSITORY.md",
+    "historicalEntrySnapshots": "docs/history/README.md",
+    "previousGoal": {
+      "decisionId": "U-151",
+      "mode": "goal",
+      "status": "verified-source-checkpoint",
+      "objective": "Complete same-world bounded autonomous sect management acceptance and record current and overall progress.",
+      "reference": "docs/design/53-COURTYARD-AUTONOMY-ACCEPTANCE.md",
+      "closesWholeRequirements": false
+    },
+    "currentEngineeringMigration": {
+      "decisionId": "U-152",
+      "status": "local-verified-source-delivery-pending",
+      "reference": "docs/engineering/MIGRATION-20261016.md",
+      "source": "apps/courtyard/",
+      "webSource": "apps/web/",
+      "simulationSource": "src/simulation/",
+      "buildOutput": "dist/",
+      "gameLogicChanged": false,
+      "saveIdentifiersChanged": false,
+      "verification": {
+        "cleanCheckout": "/Volumes/Media/immortal-qa/engineering-20261016/clean-source",
+        "lockedDependencyInstall": "passed",
+        "rootCheck": "passed",
+        "defaultTests": {
+          "total": 124,
+          "passed": 124,
+          "failed": 0,
+          "skipped": 0
+        },
+        "expandedTests": {
+          "total": 623,
+          "passed": 560,
+          "failed": 60,
+          "skipped": 3,
+          "sameFailureNamesInBaseline": 60,
+          "newFailureNames": 0,
+          "baselineCommit": "e5f0d78358ab42fefbd2b5e3c516465bff115f8b",
+          "evidence": "/Volumes/Media/immortal-qa/engineering-20261016/tests/comparison.json"
+        },
+        "pathChecks": {
+          "passed": 16,
+          "total": 16
+        },
+        "webBuildFiles": 257,
+        "webResourceReferences": 767,
+        "webBrowser": {
+          "passed": 8,
+          "total": 8,
+          "rootRequests": 216,
+          "previewRequests": 109,
+          "httpErrors": 0,
+          "consoleErrors": 0,
+          "consoleWarnings": 0,
+          "rootReload": "verified-herb16-and-healing",
+          "previewScope": "new-world-master-panel-healing",
+          "evidence": "/Volumes/Media/immortal-qa/engineering-20261016/web-smoke/report.json"
+        },
+        "desktopStage": "passed-clean-checkout",
+        "macosPackage": "built-signed-verified",
+        "packagedMigration": {
+          "passed": 5,
+          "total": 5,
+          "pageErrors": 0,
+          "resourceErrors": 0,
+          "sourceSaveUnchanged": true,
+          "evidence": "/Volumes/Media/immortal-qa/engineering-20261016/package-migration-2/report.json"
+        },
+        "independentReview": "completed-no-blocking-findings",
+        "originalDocumentSnapshots": {
+          "passed": 11,
+          "total": 11
+        },
+        "currentDocumentLinks": "passed",
+        "windows": "not-run",
+        "fullRequirementStatusesChanged": false
+      },
+      "sourcePublication": "pending",
+      "webPublication": "not-published"
     }
   },
   "characterDialogue": {
@@ -1822,9 +1914,9 @@
         ],
         "closedBuildingPresentation": "complete-exterior"
       },
-      "sourceScene": "godot/art/art_courtyard.tscn",
-      "assetDirectory": "godot/art/assets",
-      "buildScript": "tools/build-art-web.py",
+      "sourceScene": "archive/godot/art/art_courtyard.tscn",
+      "assetDirectory": "archive/godot/art/assets",
+      "buildScript": "archive/godot/tools/build-art-web.py",
       "generatedPreviewEntry": "dist/art-courtyard/index.html",
       "runtimeEvidence": "docs/art/REALTIME-TRIAL-2026-10-09.md",
       "userRealtimeApproval": "not-obtained-before-production-stopped",
@@ -1890,9 +1982,9 @@
     "assetProduction": "built-in-imagegen-to-godot-2d-layers",
     "productionPlanStatus": "user-confirmed",
     "continuousCharacterMovement": true,
-    "sourceScene": "godot/painted_courtyard/courtyard.tscn",
-    "assetDirectory": "godot/painted_courtyard/assets",
-    "buildScript": "tools/build-painted-web.py",
+    "sourceScene": "archive/godot/painted_courtyard/courtyard.tscn",
+    "assetDirectory": "archive/godot/painted_courtyard/assets",
+    "buildScript": "archive/godot/tools/build-painted-web.py",
     "generatedPreviewEntry": "dist/painted-courtyard/index.html",
     "acceptanceChecklist": "DOMAIN-01–06 and related ART-2D regressions",
     "userRealtimeApproval": "pending",
@@ -1922,7 +2014,7 @@
       }
     },
     "alignmentDecisionId": "U-107",
-    "currentPrototype": "godot/painted_courtyard/assets/founding-ground-v3.png",
+    "currentPrototype": "archive/godot/painted_courtyard/assets/founding-ground-v3.png",
     "publicPreviewURL": "https://cybershp.github.io/Simulation-web-game/painted-courtyard/?v=d28daeedaaa0",
     "publicationStatus": "published-and-public-browser-verified",
     "currentSpatialDecisionId": "U-107",
@@ -1939,9 +2031,9 @@
       "delivery": "Web",
       "rendering": "godot-2d-layered-painting",
       "view": "fixed-oblique",
-      "sourceScene": "godot/estate_2d/estate.tscn",
-      "siteLayout": "godot/estate_2d/estate-sites.json",
-      "buildScript": "tools/build-estate-painted-web.py",
+      "sourceScene": "archive/godot/estate_2d/estate.tscn",
+      "siteLayout": "archive/godot/estate_2d/estate-sites.json",
+      "buildScript": "archive/godot/tools/build-estate-painted-web.py",
       "generatedPreviewEntry": "dist/painted-game/index.html",
       "previewSaveNamespace": "estate-game",
       "runtimeEvidence": "docs/design/STATUS.md",
@@ -1955,5 +2047,120 @@
       "historicalPaintedTrialDecisionId": "U-104",
       "historicalMountainTrialDecisionId": "U-107"
     }
-  ]
+  ],
+  "engineeringMigrationPreviousNavigation": {
+    "currentDevelopment": {
+      "version": "1.6.0-dev",
+      "schemaVersion": 6,
+      "contentVersion": "sr-content-v1.2",
+      "rulesetVersion": "opening-runtime-3",
+      "reference": "docs/CODEX-HANDOFF.md",
+      "evidence": "docs/design/STATUS.md",
+      "sourceBaseCommit": "87a15dbf6b3f784f61ddfbf06de2fe23d0a31f9a",
+      "scope": "godot-2d-painted-courtyard-local-art-review",
+      "sourceStatus": "uncommitted-local-changes",
+      "deploymentStatus": "local-increment-not-deployed",
+      "lastPublishedCheckpoint": {
+        "runtimeSourceCommit": "7d27532bf22e8c6064281e12b390edb8370abce9",
+        "pagesCommit": "acb40955ded401e6e2c5225c463d3e0a380ae6a2",
+        "releaseTag": "ea-160-courtyard-20261009-r37",
+        "evidence": "docs/design/STATUS.md"
+      },
+      "scene": {
+        "widthMetres": 96,
+        "heightMetres": 96,
+        "buildingUnitMetres": 2,
+        "navigationMetres": 0.5,
+        "extentVersion": "courtyard-96-1",
+        "buildingGridVersion": "building-units-1",
+        "interiorLayoutVersion": "adult-furniture-1"
+      },
+      "nextWorkSource": "docs/design/DECISIONS.md",
+      "fullDesignVerified": false,
+      "versionAppliesTo": "existing formal JS game; art trial has independent local state",
+      "independentDesktopSlice": {
+        "decisionId": "U-135",
+        "reference": "docs/design/43-PIXEL-ARENA-SLICE.md",
+        "source": "archive/prototypes/pixel_scene_validation/",
+        "entry": "archive/prototypes/pixel_scene_validation/arena.html",
+        "ruleset": "arena-v1",
+        "schemaVersion": 1,
+        "status": "implemented-macos-package-verified",
+        "sourceStatus": "local-uncommitted",
+        "evidence": "docs/art/hd-pixel-20261014/ARENA-RUNTIME.md",
+        "writesFormalSaveSlots": false,
+        "windowsVerification": "not-run"
+      },
+      "desktopArena": {
+        "decisionId": "U-135",
+        "status": "independent-slice-macos-verified",
+        "reference": "docs/design/43-PIXEL-ARENA-SLICE.md",
+        "evidence": "docs/art/hd-pixel-20261014/ARENA-RUNTIME.md",
+        "closesWholeRequirements": false
+      }
+    },
+    "currentArtDirection": {
+      "decisionId": "U-133",
+      "decisionStatus": "user-confirmed",
+      "updatedAt": "2026-10-14",
+      "reference": "docs/design/DECISIONS.md",
+      "engine": null,
+      "engineStatus": "not-selected-for-desktop-2d",
+      "delivery": "desktop",
+      "primaryPlatform": "Windows",
+      "initialValidationPlatform": "macOS",
+      "rendering": "pure-2d-high-definition-pixel-art",
+      "prototypeKind": "desktop-pixel-trail",
+      "prototypeReference": "docs/art/hd-pixel-trail-20261014/RUNTIME.md",
+      "prototypeFiles": [
+        "archive/prototypes/pixel_scene_validation/arena.html"
+      ],
+      "prototypeStatus": "local-trail-implemented-macos-package-verified",
+      "userArtApproval": "courtyard-accepted-trail-pending",
+      "runtimeImplementation": "independent-local-trail-implemented",
+      "runtimeEvidence": "docs/art/hd-pixel-trail-20261014/RUNTIME.md",
+      "publicationStatus": "local-desktop-build-source-checkpoint",
+      "preserveExistingAssetsAndEvidence": true,
+      "closesWholeRequirements": false,
+      "platformDecisionId": "U-128",
+      "spatialAndCombatDecisionId": "U-127",
+      "preserved3DWork": {
+        "decisionIds": [
+          "U-129",
+          "U-130",
+          "U-131",
+          "U-132"
+        ],
+        "status": "stopped-local-archive",
+        "source": "archive/prototypes/three_style_showcase/",
+        "assetEvidence": "docs/art/asset-review-20261013/README.md",
+        "sceneEvidence": "docs/art/reference-reconstruction-20261013/README.md",
+        "preserveUncommittedChanges": true
+      },
+      "validationDecisionId": "U-134",
+      "runtimeValidation": "45-component-checks-22-packaged-visible-macos-checks",
+      "runtimeTechnique": "canvas2d-electron",
+      "runtimeSource": "archive/prototypes/pixel_scene_validation/",
+      "staticPrototypeFiles": [
+        "docs/art/hd-pixel-20261014/courtyard-battle.png",
+        "docs/art/hd-pixel-20261014/characters-effects.png"
+      ],
+      "userArtApprovalDecisionId": "U-135",
+      "approvedRuntimeEvidence": "docs/art/hd-pixel-20261014/RUNTIME.md",
+      "currentRuntimeDecisionId": "U-136",
+      "pixelGrainDecisionId": "U-137",
+      "pixelGrain": "finer-one-step-clear-pixel-contours",
+      "trailArtApproval": "pending-user-runtime-review",
+      "styleReferenceDecisionId": "U-138",
+      "styleReferenceAsset": "archive/prototypes/pixel_scene_validation/assets/courtyard-v1.png",
+      "styleAlignmentEvidence": "docs/art/hd-pixel-trail-20261014/STAIR-CONNECTION.md"
+    },
+    "execution": {
+      "scopeThisDelivery": "independent-desktop-arena-local-implementation-and-verification",
+      "runtimeDeployment": "local-macos-package-verified",
+      "requiresRepositoryContext": true,
+      "recommendedDoesNotMeanUserApproved": true,
+      "targetDesignDoesNotMeanImplemented": true
+    }
+  }
 }

@@ -23,12 +23,12 @@
 
 - 全仓340/340自动检查，其中本批新增9项，覆盖门道与家具阻挡、真实到场、跨用途床位争用、满床暂歇、读档/暂停、旧院前预约与无床位等待迁移、屋顶投影只读和异常执行位置拒绝。
 - 80个管理页模板执行通过；两条正常开局及三条伤匠公开命令路线通过。具体命令与模拟时长记录在本批command-report及artisan-command-report；不当真人节奏通过。
-- `qa/ea-indoor-render.mjs`执行实际生产canvas渲染器，加载全部素材零失败，并输出closed-roof/indoor-healing快照及对应真实模拟档。后台为@napi-rs/canvas，DOM使用桩；证明渲染器与状态接通，不证明浏览器、界面操作、触摸或FPS。
+- `tests/acceptance/ea-indoor-render.mjs`执行实际生产canvas渲染器，加载全部素材零失败，并输出closed-roof/indoor-healing快照及对应真实模拟档。后台为@napi-rs/canvas，DOM使用桩；证明渲染器与状态接通，不证明浏览器、界面操作、触摸或FPS。
 - 已尝试云浏览器本地验收，返回`ERR_CONNECTION_REFUSED`，本地HTTP服务无法从浏览器连接。未获得本批浏览器截图或设备通过结论。图片展示若使用本批快照，必须标“渲染快照，浏览器待验”。
 
 ## 素材来源与登记
 
-本批使用内置imagegen，未调用CLI/API。项目资产：`dist/assets/ea-hall-layers-v1.png`（1024×1536，RGBA，真实alpha；室内和屋顶分帧）与`dist/assets/ea-courtyard-ground-v1.png`（1672×941，RGB）。两件资产保留原生成文件，以版本化新文件接入；旧地面不覆盖。
+本批使用内置imagegen，未调用CLI/API。项目资产：`assets/web/ea-hall-layers-v1.png`（1024×1536，RGBA，真实alpha；室内和屋顶分帧）与`assets/web/ea-courtyard-ground-v1.png`（1672×941，RGB）。两件资产保留原生成文件，以版本化新文件接入；旧地面不覆盖。
 
 生成提示：国风仙侠斜俯视主屋，透明图集上方屋内/下方独立屋顶，四床、两书案、中央通道、四蒲团、南门，无人物或界面；编辑地面只移除上方主屋及附属亭，保留桥、水道、台地、楼梯和道路注册。地图图像仅为表现，几何不从像素临时推断。
 

@@ -8,9 +8,9 @@
 
 | 阶段 | 当前本地画面 | 玩家入口 |
 | --- | --- | --- |
-| 山院第一炉 | [丹房完整外观](../../godot/estate_2d/assets/mountain-alchemy-house-v1.png)，百艺卷册的丹炉、方子、材料来源、单炉进度和成丹位置 | 山院营造丹房；田边／公库送料；掌门开炉；取药、入库与服药 |
-| 山谷往返 | [谷地底图](../../godot/estate_2d/assets/valley-ground-v1.png)、[桥](../../godot/estate_2d/assets/valley-bridge-v1.png)、[洞口](../../godot/estate_2d/assets/valley-cave-v1.png)、[药丛](../../godot/estate_2d/assets/valley-herb-patch-v1.png)、[青萝](../../godot/estate_2d/assets/qing-luo-v1.png)；场景由 `valley_scene.gd` 呈现 | 山外路线与可见出口、谷内点地行走、药丛采集、近处会面、返院 |
-| 谷内首战 | [山魈](../../godot/estate_2d/assets/valley-shanxiao-v1.png)、谷内战斗场景、动作与受击反馈 | 走近山魈应战，选择攻击、护持、躲避或撤退，返院治疗 |
+| 山院第一炉 | [丹房完整外观](../../archive/godot/estate_2d/assets/mountain-alchemy-house-v1.png)，百艺卷册的丹炉、方子、材料来源、单炉进度和成丹位置 | 山院营造丹房；田边／公库送料；掌门开炉；取药、入库与服药 |
+| 山谷往返 | [谷地底图](../../archive/godot/estate_2d/assets/valley-ground-v1.png)、[桥](../../archive/godot/estate_2d/assets/valley-bridge-v1.png)、[洞口](../../archive/godot/estate_2d/assets/valley-cave-v1.png)、[药丛](../../archive/godot/estate_2d/assets/valley-herb-patch-v1.png)、[青萝](../../archive/godot/estate_2d/assets/qing-luo-v1.png)；场景由 `valley_scene.gd` 呈现 | 山外路线与可见出口、谷内点地行走、药丛采集、近处会面、返院 |
+| 谷内首战 | [山魈](../../archive/godot/estate_2d/assets/valley-shanxiao-v1.png)、谷内战斗场景、动作与受击反馈 | 走近山魈应战，选择攻击、护持、躲避或撤退，返院治疗 |
 
 丹房、药丛、桥、洞口和人物切图按固定斜俯视的分层绘画接入；场景坐标、身份和库存由正式世界投影驱动。山魈气血 160、基础伤害 10、起手 18 步、收势 20 步，以及丹房建位（46，26）等具体值是作者试调；U-123 确认的是三段可玩闭环和先后顺序。
 
@@ -52,7 +52,7 @@
 
 ## 发布加载
 
-网页导出将原场景包按 16 MiB 分段，逐片核对长度与 SHA-256，合并后再次校验整包，再经 Godot 的 `preloadFile(ArrayBuffer, path)` 启动。加载失败时显示重试提示，世界时钟尚未启动。`tests/ea-scene-pack-loader.test.mjs` 3／3 覆盖完整重组、缺片与损坏拒绝、普通导出兼容；本地实际浏览器已下载三个分片、正常进入山院并显示字体，控制台零错误。该检查追加于玩法 18 项之外。
+网页导出将原场景包按 16 MiB 分段，逐片核对长度与 SHA-256，合并后再次校验整包，再经 Godot 的 `preloadFile(ArrayBuffer, path)` 启动。加载失败时显示重试提示，世界时钟尚未启动。`tests/unit/web/ea-scene-pack-loader.test.mjs` 3／3 覆盖完整重组、缺片与损坏拒绝、普通导出兼容；本地实际浏览器已下载三个分片、正常进入山院并显示字体，控制台零错误。该检查追加于玩法 18 项之外。
 
 ## 公开版本
 

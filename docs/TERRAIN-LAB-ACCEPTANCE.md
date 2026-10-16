@@ -26,7 +26,7 @@
 
 ## 自动验收（2026-10-04）
 
-`node --test tests/*.test.mjs`：182 / 182 通过，其中此次新增 20 项地形与角色测试。`node qa/terrain-lab-acceptance.mjs` 生成真实断言报告 `qa/terrain-lab-acceptance-report.json`。
+`node --test tests/*.test.mjs`：182 / 182 通过，其中此次新增 20 项地形与角色测试。`node tests/acceptance/terrain-lab-acceptance.mjs` 生成真实断言报告 `archive/qa/terrain-lab-acceptance-report.json`。
 
 | 验收项 | 实际范围 | 结果 |
 | --- | --- | --- |
