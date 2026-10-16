@@ -1,4 +1,4 @@
-import{WIDTH,HEIGHT,EDGES,point,LANDMARKS}from'./navigation.mjs?v=courtyard-1.3';
+import{WIDTH,HEIGHT,EDGES,point,LANDMARKS}from'./navigation.mjs?v=72875dc32f653926635ba7a3109550a1e4397b34';
 // Foreground silhouettes use the same registered world coordinates as navigation.
 // A sprite is clipped by an object only when its feet are behind that object.
 export const foreground=[

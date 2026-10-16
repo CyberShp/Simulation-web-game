@@ -1,10 +1,10 @@
-import{attachMapInput}from'./map-input.mjs?v=ea-issue6-history-20261012-r2';
-import{TYPES,RESOURCE,CELLS,initial,canPay,capacity,upgradeCost,build,assign,upgrade,recruit,breakthrough,tick,rates,QUESTS,claim,validateSave,addLog,buildingLock,isAway,demolish}from'./sect-sim.mjs?v=ea-issue6-history-20261012-r2';
-import{createExpansion}from'./expansion.mjs?v=ea-issue6-history-20261012-r2';
-import{createPersistence}from'./persistence.mjs?v=ea-issue6-history-20261012-r2';
-import{renderCommunity}from'./community.mjs?v=ea-issue6-history-20261012-r2';
-import{createSectUI}from'./sect-ui.mjs?v=ea-issue6-history-20261012-r2';
-import{moveMaster}from'./sect-sim.mjs?v=ea-issue6-history-20261012-r2';
+import{attachMapInput}from'./map-input.mjs?v=72875dc32f653926635ba7a3109550a1e4397b34';
+import{TYPES,RESOURCE,CELLS,initial,canPay,capacity,upgradeCost,build,assign,upgrade,recruit,breakthrough,tick,rates,QUESTS,claim,validateSave,addLog,buildingLock,isAway,demolish}from'./sect-sim.mjs?v=72875dc32f653926635ba7a3109550a1e4397b34';
+import{createExpansion}from'./expansion.mjs?v=72875dc32f653926635ba7a3109550a1e4397b34';
+import{createPersistence}from'./persistence.mjs?v=72875dc32f653926635ba7a3109550a1e4397b34';
+import{renderCommunity}from'./community.mjs?v=72875dc32f653926635ba7a3109550a1e4397b34';
+import{createSectUI}from'./sect-ui.mjs?v=72875dc32f653926635ba7a3109550a1e4397b34';
+import{moveMaster}from'./sect-sim.mjs?v=72875dc32f653926635ba7a3109550a1e4397b34';
 const persistence=createPersistence(()=>localStorage,validateSave);
 const restored=persistence.load();
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];

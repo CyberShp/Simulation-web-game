@@ -1,5 +1,5 @@
-import {addAmounts,subtractAmounts} from './ea-resource-amounts.mjs?v=ea-issue6-history-20261012-r2';
 /** EA data is independent of legacy shared objects. All randomness is state-owned. */
+import {addAmounts,subtractAmounts} from './ea-resource-amounts.mjs?v=72875dc32f653926635ba7a3109550a1e4397b34';
 export const GAME_VERSION='1.6.0-dev';
 export const DAY_LENGTH=120;
 export const RESOURCES={jade:'灵石',wood:'灵木',stone:'青石',herb:'灵草',crystal:'灵晶',insight:'道韵',food:'口粮'};
@@ -28,8 +28,8 @@ const technique=(name,kind,element,realm,source,description,extra={})=>({name,ki
 export const TECHNIQUES={
  qingyuan:technique('青岚养元诀','main','neutral',1,'家传炼气篇 · 随身带出','适性宽和的共同基础，进境提升12%，可以自学。',{sourceType:'inheritance',duration:55,cultivation:1.12}),
  spring:technique('春雨养脉法','support','water',1,'母亲药理手札 · 整理遗卷','温养经脉，休息回复额外精力，为药理路线奠基。',{sourceType:'story',duration:65,rest:.4}),
- ember:technique('赤阳行气诀','main','fire',2,'云游修士 · 交换','进境较快但耗神较多，与寒泉路线功体冲突。',{cost:{jade:140,herb:25},conflicts:['frost','river'],cultivation:1.3,fatigue:.42,prerequisites:[{id:'qingyuan',mastery:20}]}),
- frost:technique('寒泉静心诀','main','water',2,'寒潭散修 · 交换','清心节省精力，与赤阳、凝火的运气路线有特殊禁忌。',{cost:{jade:140,crystal:2},conflicts:['ember','flame'],cultivation:1.08,fatigue:.16,prerequisites:[{id:'qingyuan',mastery:20}]}),
+ ember:technique('赤阳行气诀','main','fire',1,'云游修士 · 交换','进境较快但耗神较多，与寒泉路线功体冲突。',{cost:{jade:140,herb:25},conflicts:['frost','river'],cultivation:1.3,fatigue:.42,prerequisites:[{anyMain:20}]}),
+ frost:technique('寒泉静心诀','main','water',1,'寒潭散修 · 交换','清心节省精力，与赤阳、凝火的运气路线有特殊禁忌。',{cost:{jade:140,crystal:2},conflicts:['ember','flame'],cultivation:1.08,fatigue:.16,prerequisites:[{anyMain:20}]}),
  flame:technique('凝火诀','support','fire',2,'行脚丹师 · 交换','控制丹火，辅助进境与炼丹。水行并非全数相斥，仅寒泉静心诀禁配。',{cost:{jade:100,herb:20},conflicts:['frost'],cultivation:1.08,prerequisites:[{id:'qingyuan',mastery:20}]}),
  wood:technique('青木调息法','support','wood',1,'灵植师 · 交换','草木生机助修行，与水行相生，照料灵植时增产。',{cost:{jade:90,wood:40},cultivation:1.08,production:'plant'}),
  foundation:technique('青岚筑基篇','main','neutral',9,'旧账新证 · 可靠传承续篇','以家传炼气基础重建道基。精通此篇是筑基的可控知识来源。',{sourceType:'story',duration:180,cultivation:1.28,prerequisites:[{id:'qingyuan',mastery:40}],tags:['neutral','foundation']}),
@@ -37,7 +37,18 @@ export const TECHNIQUES={
  alchemy:technique('丹霞药理经','support','wood',3,'母亲笔记与行脚丹师 · 互证','掌握药性与火候，支持筑基丹炼制，弟子可成长为丹道导师。',{cost:{jade:140,herb:35,insight:10},duration:110,prerequisites:[{id:'spring',mastery:20}],tags:['wood','alchemy'],production:'medicine'}),
  sword:technique('照夜御剑篇','support','metal',6,'栖霞旧道 · 商旅传剑','将灵力凝成剑势，战斗技艺增益；需已有稳定主修基础。',{cost:{jade:180,stone:35,insight:20},duration:130,prerequisites:[{anyMain:40}],tags:['metal','combat'],power:1.18}),
  river:technique('沧流归海诀','main','water',7,'寒潭遗境 · 旧碑拓本','水木相生的长期路线；不禁凝火辅修，与赤阳功体冲突。',{cost:{jade:240,crystal:8,insight:25},duration:140,conflicts:['ember'],prerequisites:[{anyMain:40}],cultivation:1.28,fatigue:.22,tags:['water','river']}),
- earth:technique('厚土载生诀','main','earth',5,'山中阵师 · 传承交换','厚土养生，稳定生产与耐力，可成护山和百工一脉。',{cost:{jade:200,stone:65,insight:15},duration:120,prerequisites:[{anyMain:30}],cultivation:1.18,fatigue:.2,tags:['earth','craft'],production:'industry'})
+ earth:technique('厚土载生诀','main','earth',1,'山中阵师 · 传承交换','厚土养生，稳定生产与耐力，可成护山和百工一脉。',{cost:{jade:200,stone:65,insight:15},duration:120,prerequisites:[{anyMain:30}],cultivation:1.18,fatigue:.2,tags:['earth','craft'],production:'industry'}),
+ goldmain:technique('金锋凝息诀','main','metal',1,'青溪旧兵铺 · 封卷','以磨剑与金石之气锤炼锋芒，持剑时更易捕捉破绽。',{cultivation:1.15,fatigue:.28}),
+ qingwind:technique('青岚引风术','spell','neutral',1,'沈氏家传 · 入门施术','沿视线中距引风伤敌。'),
+ qingguard:technique('青岚护息印','spell','neutral',1,'母亲护脉笔记','短时护息挡势。'),
+ firestrike:technique('赤阳灼脉指','spell','fire',1,'赤阳入门篇','火行直击，灵力消耗较高。'),
+ fireguard:technique('赤阳隔焰衣','spell','fire',1,'赤阳入门篇','以热浪隔开迎面来势。'),
+ froststrike:technique('寒泉凝针术','spell','water',1,'寒泉入门篇','凝水为针，起手较慢。'),
+ frostguard:technique('寒泉卸流罩','spell','water',1,'寒泉入门篇','顺势卸开单次重击。'),
+ earthstrike:technique('石脊击','spell','earth',1,'厚土入门篇','近距隆起石脊。'),
+ earthguard:technique('岩关护身式','martial','earth',1,'山门护卫 · 入门篇','站稳护位，守住正面。'),
+ swordbasic:technique('开山剑式','martial','metal',1,'坊市兵器铺 · 入门篇','持剑近身起手。'),
+ metalguard:technique('金锋横刃式','martial','metal',1,'金锋入门篇','持剑横刃格挡。')
 };
 export const RECIPES={
  qi:{name:'聚气丹',description:'炼气修为 +70；筑基后药力减半。',cost:{jade:15,herb:12},duration:25,effect:{xp:70,energy:0,wound:0},sectLevel:1,realm:1,yield:2},

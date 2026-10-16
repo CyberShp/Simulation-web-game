@@ -1,8 +1,8 @@
 /** Persistent danger, real treatment and permanent NPC deaths. SR-XF-022/023. */
-import {pay,log,RESOURCES} from './ea-data.mjs?v=ea-issue6-history-20261012-r2';
-import {knownFactForObserver} from './ea-sr-contracts.mjs?v=ea-issue6-history-20261012-r2';
-import {recordFactSR,publishFactSR,recordClaimSR,makeWorldPerson,activateRootSR,discoverSceneSR,setRouteConditionSR,worldResourcePaySR} from './ea-sr-world.mjs?v=ea-issue6-history-20261012-r2';
-import {initAftermath,activateRainAftermath,prepareDeathAftermath,discloseAftermathObligations,reconcileAftermathKnowledge,markAftermathKnowledge,viewAftermath,aftermathAction} from './ea-sr-aftermath.mjs?v=ea-issue6-history-20261012-r2';
+import {pay,log,RESOURCES} from './ea-data.mjs?v=72875dc32f653926635ba7a3109550a1e4397b34';
+import {knownFactForObserver} from './ea-sr-contracts.mjs?v=72875dc32f653926635ba7a3109550a1e4397b34';
+import {recordFactSR,publishFactSR,recordClaimSR,makeWorldPerson,activateRootSR,discoverSceneSR,setRouteConditionSR,worldResourcePaySR} from './ea-sr-world.mjs?v=72875dc32f653926635ba7a3109550a1e4397b34';
+import {initAftermath,activateRainAftermath,prepareDeathAftermath,discloseAftermathObligations,reconcileAftermathKnowledge,markAftermathKnowledge,viewAftermath,aftermathAction} from './ea-sr-aftermath.mjs?v=72875dc32f653926635ba7a3109550a1e4397b34';
 let deathCleanup=()=>{};
 export function configureSRCrises({onPermanentDeath}={}){if(onPermanentDeath)deathCleanup=onPermanentDeath;}
 const MASTER='person:master', HERBALIST='person:su-yelan',SCENE='scene:valley';

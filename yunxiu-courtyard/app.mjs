@@ -1,8 +1,8 @@
-import{LANDMARKS,point,inPolygon,nearest,distance}from'./navigation.mjs?v=courtyard-1.3';
-import{createState,saveData,update,walk,upgrade,SAVE_KEY}from'./world.mjs?v=courtyard-1.3';
-import{createRenderer}from'./renderer.mjs?v=courtyard-1.3';
-import{attachMapInput}from'../map-input.mjs';
-import{icon,plantArt}from'./icons.mjs?v=courtyard-1.3';
+import{LANDMARKS,point,inPolygon,nearest,distance}from'./navigation.mjs?v=72875dc32f653926635ba7a3109550a1e4397b34';
+import{createState,saveData,update,walk,upgrade,SAVE_KEY}from'./world.mjs?v=72875dc32f653926635ba7a3109550a1e4397b34';
+import{createRenderer}from'./renderer.mjs?v=72875dc32f653926635ba7a3109550a1e4397b34';
+import{attachMapInput}from'../map-input.mjs?v=72875dc32f653926635ba7a3109550a1e4397b34';
+import{icon,plantArt}from'./icons.mjs?v=72875dc32f653926635ba7a3109550a1e4397b34';
 const $=id=>document.getElementById(id);let saved=null;try{saved=JSON.parse(localStorage.getItem(SAVE_KEY));}catch{}const state=createState(saved);let renderer,panelType=null,lastSave=0,lastHud=0,noticeTimer,arrival=null,debug=false;
 const systems=[['master','掌门','master'],['build','营造','build'],['people','门人','people'],['heritage','传承','scroll'],['production','生产','produce'],['gate','山门','gate'],['outside','山外','outside'],['journal','纪事','scroll']];
 $('systems').innerHTML=systems.map(([id,label,i])=>`<button data-system="${id}" title="${label}" aria-label="${label}">${icon(i)}<span>${label}</span></button>`).join('');$('settings').innerHTML=icon('gear');$('journal').innerHTML=icon('check');$('quest-icon').innerHTML=icon('book');

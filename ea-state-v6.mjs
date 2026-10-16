@@ -1,8 +1,10 @@
 /** Canonical identity tables. Legacy modules use non-serialized live adapters. */
-import {appearance} from './ea-scenic.mjs?v=ea-issue6-history-20261012-r2';
-import {RESOURCES} from './ea-data.mjs?v=ea-issue6-history-20261012-r2';
-import {hydratePillTotals} from './ea-sr-economy.mjs?v=ea-issue6-history-20261012-r2';
-import {ContractError,initContracts,validateContracts,SR_CONTENT_VERSION,SR_RULESET_VERSION} from './ea-sr-contracts.mjs?v=ea-issue6-history-20261012-r2';
+import {appearance} from './ea-scenic.mjs?v=72875dc32f653926635ba7a3109550a1e4397b34';
+import {RESOURCES} from './ea-data.mjs?v=72875dc32f653926635ba7a3109550a1e4397b34';
+import {hydratePillTotals} from './ea-sr-economy.mjs?v=72875dc32f653926635ba7a3109550a1e4397b34';
+import {ContractError,initContracts,validateContracts,SR_CONTENT_VERSION,SR_RULESET_VERSION} from './ea-sr-contracts.mjs?v=72875dc32f653926635ba7a3109550a1e4397b34';
+import {DOMAIN_EXTENT_VERSION,DOMAIN_LAYOUT_VERSION} from './ea-sect-domain.mjs?v=72875dc32f653926635ba7a3109550a1e4397b34';
+import {validateCourtyardTerrainRecord} from './ea-courtyard-master-terrain.mjs?v=72875dc32f653926635ba7a3109550a1e4397b34';
 
 export const SCHEMA_VERSION=6;
 export const CONTENT_VERSION='opening-v1.2';
@@ -38,9 +40,13 @@ function validateVersionCombination(s){
  if(s.migrationLedger!==undefined||sr)versionField(s.migrationLedger,'version',1,'migrationLedger.version',{required:sr});
  if(s.spatial!==undefined||sr){
   versionField(s.spatial,'version','spatial-metres-1','spatial.version',{required:sr});
-  versionField(s.spatial,'extentVersion','courtyard-96-1','spatial.extentVersion',{optionalField:true});
+  const domain=s.spatial?.extentVersion===DOMAIN_EXTENT_VERSION;
+  versionField(s.spatial,'extentVersion',domain?DOMAIN_EXTENT_VERSION:'courtyard-96-1','spatial.extentVersion',{optionalField:true});
+  if(domain)versionField(s.spatial.domain,'layoutVersion',DOMAIN_LAYOUT_VERSION,'spatial.domain.layoutVersion',{required:true});
+  else if(s.spatial?.domain!==undefined)unsupported('spatial.domain',s.spatial.domain.layoutVersion);
   versionField(s.spatial,'buildingGridVersion','building-units-1','spatial.buildingGridVersion',{optionalField:true});
   versionField(s.spatial,'interiorLayoutVersion','adult-furniture-1','spatial.interiorLayoutVersion',{optionalField:true});
+  validateCourtyardTerrainRecord(s);
  }
  for(const [id,b]of Object.entries(s.buildingsById||{})){
   if(b?.buildingGridVersion!==undefined)versionField(b,'buildingGridVersion','building-units-1',`buildingsById.${id}.buildingGridVersion`);
@@ -88,6 +94,10 @@ export function hydrateState(s){
  hydratePillTotals(s);return s;
 }
 export function cloneState(s){return s.schemaVersion===6?hydrateState(structuredClone(s)):structuredClone(s);}
+
+/** Commit an isolated transaction while retaining live person/order/body references.
+ * Runtime adapters are getters, not a second state authority, and are left intact.
+ */
 export function commitStateDraft(state,draft){
  const seen=new WeakMap();
  function sync(target,source){

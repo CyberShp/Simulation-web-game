@@ -1,8 +1,8 @@
-import {spatialEnabled,spatialSlots} from './ea-sr-spatial.mjs?v=ea-issue6-history-20261012-r2';
-import {interiorSlots} from './ea-hall-interior.mjs?v=ea-issue6-history-20261012-r2';
+import {spatialEnabled,spatialSlots} from './ea-sr-spatial.mjs?v=72875dc32f653926635ba7a3109550a1e4397b34';
+import {interiorSlots} from './ea-hall-interior.mjs?v=72875dc32f653926635ba7a3109550a1e4397b34';
 /** Physical courtyard work stations. The old painting is a transitional ground layer. */
-import {BUILDINGS} from './ea-data.mjs?v=ea-issue6-history-20261012-r2';
-import {buildingAccess,scenicCanStand,scenicSweep,scenicDistance,geometryRevision} from './ea-scene-geometry.mjs?v=ea-issue6-history-20261012-r2';
+import {BUILDINGS} from './ea-data.mjs?v=72875dc32f653926635ba7a3109550a1e4397b34';
+import {buildingAccess,scenicCanStand,scenicSweep,scenicDistance,geometryRevision} from './ea-scene-geometry.mjs?v=72875dc32f653926635ba7a3109550a1e4397b34';
 export const FACILITY_MODEL_VERSION='courtyard-stations-1';
 export const facilityBodyKinds=new Set(['work','study','teach','cultivate','care','rest','heal']);
 const suffixes={work:'work',study:'desk',teach:'teacher',cultivate:'mat',care:'care'};

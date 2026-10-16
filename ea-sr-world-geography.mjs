@@ -1,5 +1,5 @@
 /** U-63 author geography; confirmed topology is distinct from authored names and local history. */
-import {RESOURCES} from './ea-data.mjs?v=ea-issue6-history-20261012-r2';
+import {RESOURCES} from './ea-data.mjs?v=72875dc32f653926635ba7a3109550a1e4397b34';
 const MASTER='person:master',clone=structuredClone,zero=()=>Object.fromEntries(Object.keys(RESOURCES).map(k=>[k,0]));
 const object=(id,name,kind,x,y,w=5,h=4)=>({id,name,kind,x,y,width:w,height:h,interactionRadius:2.4,choices:[]});
 const site=(key,name,continent,authority,peoples,terrain,resource,history,parent,ticks)=>({id:`region:geo:${key}`,sceneId:`scene:geo-${key}`,key,name,continentId:`continent:${continent}`,authorityId:authority,peoples,terrain,resource,historyId:`history:geo:${key}`,history,parent,ticks,sourceStatus:'U-63-author-default',confirmedFields:['continent-layout','multi-species-interleaving']});

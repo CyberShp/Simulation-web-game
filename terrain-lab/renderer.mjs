@@ -1,5 +1,5 @@
-import { depthOrder, heightAt, master, POIS, project, unproject } from './world.mjs?v=terrain-lab-1.0.4';
-import { blockedCells } from '../ea-navigation.mjs?v=terrain-lab-1.0.4';
+import { depthOrder, heightAt, master, POIS, project, unproject } from './world.mjs?v=72875dc32f653926635ba7a3109550a1e4397b34';
+import { blockedCells } from '../ea-navigation.mjs?v=72875dc32f653926635ba7a3109550a1e4397b34';
 const ink = '#213f36', gold = '#d8be79';
 const rand = n => { const v = Math.sin(n * 132.73 + 78.3) * 43875.15; return v - Math.floor(v); };
 function polygon(ctx, points, fill, stroke) { ctx.beginPath(); points.forEach((p, i) => i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y)); ctx.closePath(); if (fill) { ctx.fillStyle = fill; ctx.fill(); } if (stroke) { ctx.strokeStyle = stroke; ctx.lineWidth = .8; ctx.stroke(); } }

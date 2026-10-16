@@ -4,7 +4,7 @@
  * poses. This module neither imports simulation/render owners nor mutates a view.
  * x/y is the actor's ground anchor, scale is pixels per logical metre.
  */
-import characterFrames from './ea-character-frames.mjs?v=ea-issue6-history-20261012-r2';
+import characterFrames from './ea-character-frames.mjs?v=72875dc32f653926635ba7a3109550a1e4397b34';
 
 const TAU = Math.PI * 2;
 const DEFAULT_RECIPE = Object.freeze({height:1.75, body:'regular', face:'oval', hair:'topknot', outfit:'disciple', faceMark:0});

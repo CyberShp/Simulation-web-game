@@ -1,9 +1,9 @@
-import {BUILDINGS,TECHNIQUES,RECIPES,canPay} from './ea-data.mjs?v=ea-issue6-history-20261012-r2';
-import {facilityRecords,courtyardDestination,scenicHomeActors} from './ea-scene-state.mjs?v=ea-issue6-history-20261012-r2';
-import {startScenicWalk,scenicPosition} from './ea-scenic.mjs?v=ea-issue6-history-20261012-r2';
-import {homeInteractions} from './ea-narrative.mjs?v=ea-issue6-history-20261012-r2';
-import {scenicSweep} from './ea-scene-geometry.mjs?v=ea-issue6-history-20261012-r2';
-import {sceneUnits} from './ea-sr-spatial.mjs?v=ea-issue6-history-20261012-r2';
+import {BUILDINGS,TECHNIQUES,RECIPES,canPay} from './ea-data.mjs?v=72875dc32f653926635ba7a3109550a1e4397b34';
+import {facilityRecords,courtyardDestination,scenicHomeActors} from './ea-scene-state.mjs?v=72875dc32f653926635ba7a3109550a1e4397b34';
+import {startScenicWalk,scenicPosition} from './ea-scenic.mjs?v=72875dc32f653926635ba7a3109550a1e4397b34';
+import {homeInteractions} from './ea-narrative.mjs?v=72875dc32f653926635ba7a3109550a1e4397b34';
+import {scenicSweep} from './ea-scene-geometry.mjs?v=72875dc32f653926635ba7a3109550a1e4397b34';
+import {sceneUnits} from './ea-sr-spatial.mjs?v=72875dc32f653926635ba7a3109550a1e4397b34';
 
 const distance=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
 const arrived=(s,a,b)=>distance(a,b)<=sceneUnits(s,28)&&!scenicSweep(s,a,b).blocked;

@@ -1,15 +1,15 @@
-import {productionAmount,productionAmounts,addAmounts,subtractAmounts} from './ea-resource-amounts.mjs?v=ea-issue6-history-20261012-r2';
-import {AUTONOMY_V2,npcScheduleDecision} from './ea-sr-persons.mjs?v=ea-issue6-history-20261012-r2';
-import {hallInteriorEnabled} from './ea-hall-interior.mjs?v=ea-issue6-history-20261012-r2';
-import {prepareFacilityActivity,releaseBodyActivity,contributeProduction} from './ea-facility-activities.mjs?v=ea-issue6-history-20261012-r2';
-import {sceneUnits} from './ea-sr-spatial.mjs?v=ea-issue6-history-20261012-r2';
-import {consumeHarvest,availablePills,ownAvailablePills,preparePillUse,consumeAccessiblePill} from './ea-sr-economy.mjs?v=ea-issue6-history-20261012-r2';
+import {AUTONOMY_V2,npcScheduleDecision} from './ea-sr-persons.mjs?v=72875dc32f653926635ba7a3109550a1e4397b34';
+import {productionAmount,productionAmounts,addAmounts,subtractAmounts} from './ea-resource-amounts.mjs?v=72875dc32f653926635ba7a3109550a1e4397b34';
+import {hallInteriorEnabled} from './ea-hall-interior.mjs?v=72875dc32f653926635ba7a3109550a1e4397b34';
+import {prepareFacilityActivity,releaseBodyActivity,contributeProduction} from './ea-facility-activities.mjs?v=72875dc32f653926635ba7a3109550a1e4397b34';
+import {sceneUnits} from './ea-sr-spatial.mjs?v=72875dc32f653926635ba7a3109550a1e4397b34';
+import {consumeHarvest,availablePills,ownAvailablePills,preparePillUse,consumeAccessiblePill} from './ea-sr-economy.mjs?v=72875dc32f653926635ba7a3109550a1e4397b34';
 import {BUILDINGS, TECHNIQUES, RECIPES, ROUTES, CELLS, RESOURCES, TRAIT_NAMES,
-  rng, day, log, pay, canPay, grant, capacity, xpNeed, clamp} from './ea-data.mjs?v=ea-issue6-history-20261012-r2';
+  rng, day, log, pay, canPay, grant, capacity, xpNeed, clamp} from './ea-data.mjs?v=72875dc32f653926635ba7a3109550a1e4397b34';
 
-import {routeDiscovered} from './ea-scene-state.mjs?v=ea-issue6-history-20261012-r2';
-import {lifeFacility,lifeActivityLock,lifePath,lifeScenePath,actorScenePosition,personLifeSummary,workOpportunity,teachingPresent} from './ea-life.mjs?v=ea-issue6-history-20261012-r2';
-import {advanceScenic,repairScenicActor,validateScenic,SCENE_GEOMETRY,buildingAccess,scenicDistance,geometryRevision,syncScenicPosition} from './ea-scenic.mjs?v=ea-issue6-history-20261012-r2';
+import {routeDiscovered} from './ea-scene-state.mjs?v=72875dc32f653926635ba7a3109550a1e4397b34';
+import {lifeFacility,lifeActivityLock,lifePath,lifeScenePath,actorScenePosition,personLifeSummary,workOpportunity,teachingPresent} from './ea-life.mjs?v=72875dc32f653926635ba7a3109550a1e4397b34';
+import {advanceScenic,repairScenicActor,validateScenic,SCENE_GEOMETRY,buildingAccess,scenicDistance,geometryRevision,syncScenicPosition} from './ea-scenic.mjs?v=72875dc32f653926635ba7a3109550a1e4397b34';
 
 /** Society owns every NPC action. The main loop owns time, meals, upkeep and the master's actions. */
 export const SOCIETY_ROLES = {
@@ -148,6 +148,16 @@ function syncPublicIncidents(s) {
 }
 function hiddenBook(s,d,id) {
   return !!d.mind.hiddenKnowledge[id]&&s.society.secrets.some(e=>e.id===d.mind.hiddenKnowledge[id]&&!e.discovered);
+}
+export function viewPublicDiscipleLearning(s,dOrId) {
+  const d=npc(s,dOrId);
+  if(!d)return null;
+  const p=d.mind;
+  const hidden=new Set(Object.keys(p.hiddenKnowledge).filter(id=>hiddenBook(s,d,id)));
+  return {
+    main:hidden.has(p.main)?p.publicMain:p.main,
+    knowledge:Object.fromEntries(Object.entries(p.knowledge).filter(([id])=>!hidden.has(id))),
+  };
 }
 function addSecret(s,d,kind,subject,motive) {
   const existing=s.society.secrets.find(e=>e.discipleId===d.id&&e.kind===kind&&!e.handled);
