@@ -1,3 +1,4 @@
+import {beginCourtyardVisit,departCourtyardVisitor,advanceCourtyardVisitor} from './ea-courtyard-visitors.mjs';
 /** Author card: docs/design/content/rain-artisan-v1.2.json. No runtime AI. */
 import {canPay,pay,grant,log} from './ea-data.mjs';
 import {buildingAccess,scenicFindPath,scenicDistance,scenicSweep,geometryRevision} from './ea-scene-geometry.mjs';
@@ -46,20 +47,21 @@ export function cancelArtisanCare(s){
 }
 export function declineArtisanCare(s){
  const event=s.story.artisan;if(event?.phase!=='present'||!home(s))throw Error('当前无法送别伤匠。');
- const p=s.personsById[event.personId];releaseBodyActivity(s,p);event.phase='departing';p.mind.activity='rest';walk(s,p,gatePoint(s));
+ const p=s.personsById[event.personId];releaseBodyActivity(s,p);event.phase='departing';p.mind.activity='rest';if(!departCourtyardVisitor(s,p))walk(s,p,gatePoint(s));
  log(s,'程问舟理解山院暂时无法照料，收好随身工具，沿山路离开。');return true;
 }
 export function advanceRainArtisan(s){
  const event=s.story.artisan;if(!event)return;const p=s.personsById[event.personId];if(!p||p.lifeStatus==='dead'||p.life?.status==='dead'||p.dead||p.historicalOnly)return;const hall=s.buildings.find(b=>b.type==='hall');
  if(event.phase==='dormant'){
   if(!home(s)||s.story.step<4||!s.story.onboarding.productions.length)return;
-  Object.assign(p.mind.scenic,gatePoint(s),{path:[],goal:null,revision:geometryRevision(s)});walk(s,p,buildingAccess(s,hall));event.phase='arriving';
+  if(!beginCourtyardVisit(s,p,{target:{x:29,y:25},reason:'雨夜滑伤后，正沿山路缓步前往院前求助。'})){Object.assign(p.mind.scenic,gatePoint(s),{path:[],goal:null,revision:geometryRevision(s)});walk(s,p,buildingAccess(s,hall));}event.phase='arriving';
   log(s,'山门传来呼唤：一名雨夜滑伤的修器匠正缓步上山。');return;
  }
  if(event.phase==='arriving'||event.phase==='departing'){
-  advanceScenic(p.mind.scenic,2.2,s);
+  const visiting=!!p.courtyardVisit;
+  if(visiting)advanceCourtyardVisitor(s,p,2.2);else advanceScenic(p.mind.scenic,2.2,s);
   const goal=event.phase==='arriving'?buildingAccess(s,hall):gatePoint(s);
-  if(!p.mind.scenic.path.length&&scenicDistance(p.mind.scenic,goal)<sceneUnits(s,1)){
+  if(visiting?['present','departed'].includes(p.courtyardVisit.phase):!p.mind.scenic.path.length&&scenicDistance(p.mind.scenic,goal)<sceneUnits(s,1)){
    event.phase=event.phase==='arriving'?'present':'departed';
    if(event.phase==='present'){event.arrivedTick=s.worldTick;if(home(s))log(s,'程问舟来到院前，请求换药。可走近了解、暂缓，或提供8份灵草照料。');}
   }return;

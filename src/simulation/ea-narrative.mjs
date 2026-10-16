@@ -1,3 +1,4 @@
+import {courtyardVisitorReady} from './ea-courtyard-visitors.mjs';
 import { CLUES, PREPARATIONS, campaignSummary, explorationOptions } from './ea-campaign.mjs';
 import {capacity} from './ea-data.mjs';
 
@@ -197,6 +198,7 @@ export function homeInteractions(s) {
   if(s.world.exploration||s.master.journey)return [];
   if(s.story.step===1&&s.story.opening){
     const o=s.story.opening,p=s.personsById[o.visitorId],gifted=o.gifted;
+    if(!courtyardVisitorReady(p))return [];
     const choices=gifted?[
       {label:'商议入院 · 提供住处与药理',command:'advanceStory',args:['invite'],disabled:s.disciples.length>=capacity(s),reason:s.disciples.length>=capacity(s)?'准备可用居所后再商议':''},
       {label:'让她先回去照应家人',command:'advanceStory',args:['decline'],disabled:false}
@@ -207,5 +209,6 @@ export function homeInteractions(s) {
   const action=q.completed?null:q.step===9?[{label:'重建栖霞故地',command:'advanceStory',args:['rebuild'],disabled:!q.ready},{label:'带传承回云岫',command:'advanceStory',args:['return'],disabled:!q.ready}]:[{label:q.action,command:'advanceStory',args:[],disabled:!q.ready,reason:q.requirements.filter(r=>!r.met).map(r=>r.label).join('；')}];
   const building=s.buildings.find(b=>b.type===(q.step===3||q.step===4||q.step===5?'library':'hall'))||s.buildings.find(b=>b.type==='hall');
   if(arrival)action[0].label='听来客说说缘由';
+  if(s.story.opening&&q.step===2&&!courtyardVisitorReady(s.personsById[s.story.opening.secondVisitorId]))return [];
   return [{id:`home:chapter:${q.step}`,...role,...(s.story.opening&&q.step===2?{personId:s.personsById[s.story.opening.secondVisitorId].id}:{}),kind:role.type==='visitor'?'person':'object',buildingId:building?.id||null,title:arrival?'主屋前 · 叩门声':q.title,pages:[page(role.name,role.text)],choices:action||[],requirements:q.requirements.map(r=>({...r})),scene:'home'}];
 }

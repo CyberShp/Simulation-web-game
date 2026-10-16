@@ -1,3 +1,4 @@
+import {courtyardVisitorReady} from './ea-courtyard-visitors.mjs';
 /** Godot Web presentation bridge: SR-XF-002/003/007/030, U-101 and runtime §4–11. */
 import {initial, tick, dispatchCommand, validateSave, COMMAND_NAMES, appearanceView, getCampaignScene, viewSRCombat} from './ea-opening-sim.mjs';
 import {BUILDINGS, RECIPES, RESOURCES, day, stage, realmName, xpNeed} from './ea-data.mjs';
@@ -30,7 +31,7 @@ function projectOpeningStory(state) {
   const visitor = opening && state.personsById?.[opening.visitorId];
   const position = visitor?.mind?.scenic || visitor?.scenic;
   const master = state.master?.scenic;
-  const canTalk = !!(visitor && position && master && atHome(state.master) && atHome(visitor) &&
+  const canTalk = !!(visitor && courtyardVisitorReady(visitor) && position && master && atHome(state.master) && atHome(visitor) &&
     !state.world?.exploration && !state.master.journey && state.combat?.status !== 'active' &&
     Math.hypot(master.x - position.x, master.y - position.y) <= sceneUnits(state, 48));
   return {
@@ -335,6 +336,7 @@ export function projectGodotWorld(state, selection = null, sites = null) {
     const appearance = appearanceView(state, person.personId);
     return {
       id: person.personId, name: person.name, x: position.x, y: position.y,
+      visit: person.courtyardVisit ? structuredClone(person.courtyardVisit) : null,
       appearance: appearance.spriteIndex, activity: appearance.action,
       indoor: rooms.some(room => polygonContains(position, room.floor)), moving: !!position.path?.length,
     };

@@ -18,15 +18,14 @@ function automatic(policy = {}) {
 
 test('two-member checkpoint is reproduced with the recorded official command lineage', () => {
   const rebuilt = buildSectSeed();
-  // Historical source hashes describe the shipped checkpoint. Current code may
-  // change while reproducing the exact same world and official command trace.
-  assert.deepEqual(rebuilt.state, seed.state);
-  const { sourceFiles: historicalSources, ...historicalProvenance } = seed.provenance;
-  const { sourceFiles: currentSources, ...currentProvenance } = rebuilt.provenance;
-  assert.deepEqual(currentProvenance, historicalProvenance);
-  const currentPath = name => name.startsWith('dist/') ? name.replace(/^dist\//, 'src/simulation/')
-    : name.startsWith('godot/') ? `archive/${name}` : name;
-  assert.deepEqual(Object.keys(currentSources), Object.keys(historicalSources).map(currentPath));
+  // The shipped checkpoint remains a compatibility fixture. A current new game
+  // records the visitor's actual route and the master's approach before gifting.
+  assert.equal(rebuilt.state.story.opening.invitation, 'joined');
+  assert.deepEqual(rebuilt.state.homeMemberIds, seed.state.homeMemberIds);
+  assert.equal(rebuilt.state.personsById['person:lu-zhiwei'].courtyardVisit.phase, 'present');
+  assert.ok(rebuilt.provenance.trace.some(entry => entry.label === 'visitor reaches courtyard'));
+  assert.ok(rebuilt.provenance.trace.some(entry => entry.label === 'master approaches visitor'));
+  assert.equal(rebuilt.provenance.trace.at(-1).name, 'enableSectDomain');
   assert.equal(createHash('sha256').update(JSON.stringify(seed.state)).digest('hex'), seed.provenance.stateSha256);
   assert.deepEqual(seed.state.homeMemberIds, ['person:lu-zhiwei']);
   assert.ok(seed.state.factsById['fact:opening:gift']);

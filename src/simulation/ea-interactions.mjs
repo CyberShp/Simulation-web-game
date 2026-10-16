@@ -1,3 +1,4 @@
+import {courtyardVisitorReady} from './ea-courtyard-visitors.mjs';
 import {BUILDINGS,TECHNIQUES,RECIPES,canPay} from './ea-data.mjs';
 import {facilityRecords,courtyardDestination,scenicHomeActors} from './ea-scene-state.mjs';
 import {startScenicWalk,scenicPosition} from './ea-scenic.mjs';
@@ -12,12 +13,12 @@ export function sceneInteractionTarget(s,kind,id){
  if(!home(s))return null;
  const records=facilityRecords(s);
  if(kind==='building'){const record=records.find(r=>r.id===id);return record?{name:record.name,position:record.access,record}:null;}
- if(kind==='person'){const person=scenicHomeActors(s).find(d=>d.id===id);if(!person)return null;const facility=courtyardDestination(s,person,records);return facility?{name:person.name,position:facility.access,person,record:facility}:null;}
+ if(kind==='person'){const person=scenicHomeActors(s).find(d=>d.id===id);if(!person)return null;const facility=courtyardDestination(s,person,records);return facility?{name:person.name,position:person.mind?.scenic||facility.access,person,record:facility}:null;}
  return null;
 }
 export function sceneInteractionOptions(s,kind,id,checks={}){
  const target=sceneInteractionTarget(s,kind,id);if(!target)return [];
- if(kind==='person')return [{id:'talk',label:'走近交谈',personId:id,lock:''}];
+ if(kind==='person')return [{id:'talk',label:'走近交谈',personId:id,lock:courtyardVisitorReady(target.person)?'':'来客正在沿山路行走，抵达院前后再交谈。'}];
  const {record:r}=target,type=r.type,rows=[];
  const add=(id,label,command,args=[],lock='')=>rows.push({id,label,command,args,lock});
  const status=!r.active?'设施停用或损坏，先恢复运行':'';

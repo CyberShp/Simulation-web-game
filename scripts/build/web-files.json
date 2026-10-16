@@ -276,6 +276,10 @@
     "target": "ea-courtyard-renderer.mjs"
   },
   {
+    "source": "src/simulation/ea-courtyard-visitors.mjs",
+    "target": "ea-courtyard-visitors.mjs"
+  },
+  {
     "source": "apps/web/ea-courtyard.css",
     "target": "ea-courtyard.css"
   },

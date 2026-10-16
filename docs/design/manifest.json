@@ -1455,7 +1455,7 @@
     "styleAlignmentEvidence": "docs/art/hd-pixel-trail-20261014/STAIR-CONNECTION.md"
   },
   "currentHandoff": {
-    "updatedAt": "2026-10-16",
+    "updatedAt": "2026-10-17",
     "entry": "AGENTS.md",
     "handoff": "docs/CODEX-HANDOFF.md",
     "deliveryPlan": "docs/DELIVERY-PLAN.md",
@@ -1855,11 +1855,24 @@
       "webSourceCommit": "72875dc32f653926635ba7a3109550a1e4397b34",
       "pagesCommit": "b3b002822cb9bf6e40aa29c8f754c17242705e7b"
     },
-    "currentOpeningDemo": "docs/design/54-COURTYARD-OPENING-DEMO.md",
-    "currentOpeningDemoDecisionId": "U-154",
-    "currentOpeningDemoStatus": "six-frame-prologue-bundle-sequence-macos-verified",
-    "currentOpeningDemoEvidence": "/Volumes/Media/immortal-qa/opening-comic-20261016/source-1/report.json",
-    "currentOpeningDemoVideo": "/Volumes/Media/immortal-qa/opening-comic-20261016/delivery/余烬立山-连环画开局实机.mp4"
+    "previousOpeningDemo": {
+      "Reference": "docs/design/54-COURTYARD-OPENING-DEMO.md",
+      "DecisionId": "U-154",
+      "Status": "six-frame-prologue-bundle-sequence-macos-verified",
+      "Evidence": "/Volumes/Media/immortal-qa/opening-comic-20261016/source-1/report.json",
+      "Video": "/Volumes/Media/immortal-qa/opening-comic-20261016/delivery/余烬立山-连环画开局实机.mp4"
+    },
+    "currentOpening": {
+      "decisionId": "U-155",
+      "reference": "docs/design/54-COURTYARD-OPENING-DEMO.md",
+      "status": "ward-frames-road-arrival-macos-verified",
+      "presentationEvidence": "/Volumes/Media/immortal-qa/opening-ward-20261017/package-2/report.json",
+      "visitorEvidence": "/Volumes/Media/immortal-qa/visitor-arrival-20261017/ordinary-package-04/report.json",
+      "videoPolicy": "only-on-current-explicit-user-request",
+      "videoGenerated": false,
+      "windows": "not-run",
+      "wholeRequirementStatusesChanged": false
+    }
   },
   "characterDialogue": {
     "decisionId": "U-125",

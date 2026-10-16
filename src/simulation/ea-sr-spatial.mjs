@@ -116,7 +116,7 @@ export function meterFindPath(s,from,goal,{maxSnap=2,radius=.26,throughCourtyard
  if(end===null)return null;const path=[to];for(let n=end;n!==undefined;n=parents.get(n))path.unshift(points.get(n));const result=[];let p=from;while(path.length){let i=path.length-1;while(i>0&&sweep(p,path[i]).blocked)i--;if(sweep(p,path[i]).blocked)return null;if(distance(p,path[i])>.001)result.push(path[i]);p=path[i];path.splice(0,i+1);}return result;
 }
 const personPosition=(s,p)=>p===s.master?p.scenic:p.mind?.scenic;
-const people=s=>Object.values(s.personsById||{}).filter(p=>p.lifeStatus!=='dead'&&!p.left&&!p.mind?.away&&!p.mind?.journey&&(!p.location||p.location.kind==='local'&&p.location.sceneId===SPATIAL_SCENE.id)&&(p===s.master||s.homeMemberIds?.includes(p.personId)||p.mind?.scenic));
+const people=s=>Object.values(s.personsById||{}).filter(p=>!['waiting','departed'].includes(p.courtyardVisit?.phase)&&p.lifeStatus!=='dead'&&!p.left&&!p.mind?.away&&!p.mind?.journey&&(!p.location||p.location.kind==='local'&&p.location.sceneId===SPATIAL_SCENE.id)&&(p===s.master||s.homeMemberIds?.includes(p.personId)||p.mind?.scenic));
 const walkingPerson=(s,actor)=>people(s).find(p=>personPosition(s,p)===actor);
 export function metreWalkTarget(s,actor,goal){
  const mover=walkingPerson(s,actor);if(!mover||!people(s).some(p=>p!==mover&&personPosition(s,p)&&distance(personPosition(s,p),goal)<.53))return goal;
@@ -209,7 +209,7 @@ export function meterLocalBodyDetour(s,actor,from,route){
 /** A local person can step aside when idle or mutually blocked en route to a v2 facility task. */
 export function requestBodyYield(s,actor,blocker,route){
  const mover=walkingPerson(s,actor),q=personPosition(s,blocker);
- const activity=s.activitiesById[blocker.activityId],canPause=mover?.schedule?.definitionId==='autonomy:yunxiu:v2'&&activity?.kind==='facility'&&['waiting','navigating'].includes(activity.phase)&&q.waitingForPersonId===mover.personId;
+ const activity=s.activitiesById[blocker.activityId],visitorPassing=['arriving','departing'].includes(mover?.courtyardVisit?.phase)&&['arriving','departing'].includes(blocker.courtyardVisit?.phase),canPause=(visitorPassing||mover?.schedule?.definitionId==='autonomy:yunxiu:v2'&&activity?.kind==='facility'&&['waiting','navigating'].includes(activity.phase))&&q.waitingForPersonId===mover.personId;
  if(!mover||!q||blocker===mover||blocker.activityId&&!canPause||q.path?.length&&!canPause||q.bodyYield||!route?.length)return false;
  const from={x:q.x,y:q.y},points=[];
  for(let y=snap(from.y-2);y<=snap(from.y+2);y+=.5)for(let x=snap(from.x-2);x<=snap(from.x+2);x+=.5){const at={x,y},away=distance(from,at);if(away<.53||away>2.25||!meterCanStand(s,at))continue;

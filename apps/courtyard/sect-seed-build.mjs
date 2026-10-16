@@ -6,7 +6,7 @@ import { initial } from '../../src/simulation/ea-opening-sim.mjs';
 import { createGodotBridge } from '../../src/simulation/ea-godot-bridge.mjs';
 
 const sites = JSON.parse(readFileSync(new URL('../../archive/godot/estate_2d/estate-sites.json', import.meta.url))).sites;
-const sourceFiles = ['src/simulation/ea-opening-sim.mjs', 'src/simulation/ea-godot-bridge.mjs', 'src/simulation/ea-sr-economy.mjs', 'src/simulation/ea-sr-persons.mjs', 'src/simulation/ea-sr-spatial.mjs', 'src/simulation/ea-sect-domain.mjs', 'src/simulation/ea-state-v6.mjs', 'archive/godot/estate_2d/estate-sites.json'];
+const sourceFiles = ['src/simulation/ea-opening-sim.mjs', 'src/simulation/ea-courtyard-visitors.mjs', 'src/simulation/ea-godot-bridge.mjs', 'src/simulation/ea-sr-economy.mjs', 'src/simulation/ea-sr-persons.mjs', 'src/simulation/ea-sr-spatial.mjs', 'src/simulation/ea-sect-domain.mjs', 'src/simulation/ea-state-v6.mjs', 'archive/godot/estate_2d/estate-sites.json'];
 const hash = text => createHash('sha256').update(text).digest('hex');
 export function buildSectSeed({ enableDomain = true } = {}) {
   const options = { sr: true, mountainOpening: true, seed: 618033 };
@@ -31,6 +31,10 @@ export function buildSectSeed({ enableDomain = true } = {}) {
   command('advanceStory');
   command('establishHall');
   until(view => view.openingHallPhase === 'complete', 'main hall construction');
+  until(view => view.people.find(p => p.id === 'person:lu-zhiwei')?.visit?.phase === 'present', 'visitor reaches courtyard');
+  const visitor = world.snapshot().people.find(p => p.id === 'person:lu-zhiwei');
+  command('moveScenicMaster', visitor.x + 1, visitor.y);
+  until(view => view.openingStory.visitor.canTalk, 'master approaches visitor');
   command('advanceStory', 'gift');
   command('advanceStory', 'invite');
   const farm = sites.find(site => site.type === 'farm');

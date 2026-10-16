@@ -1,3 +1,4 @@
+import {courtyardVisitorVisible} from './ea-courtyard-visitors.mjs';
 import {artisanPresent} from './ea-rain-artisan.mjs';
 import {facilitySlotView} from './ea-facility-slots.mjs';
 import {productionOrder} from './ea-facility-activities.mjs';
@@ -31,7 +32,8 @@ export function scenicHomeActors(s){
  if(s.story.opening?.invitation==='unasked'&&s.story.step<=1&&s.personsById){const visitor=s.personsById[s.story.opening.visitorId];if(visitor&&!people.includes(visitor))people.push(visitor);}
  if(s.story.opening&&s.story.step===2){const visitor=s.personsById[s.story.opening.secondVisitorId];if(visitor&&!people.includes(visitor))people.push(visitor);}
  if(artisanPresent(s)){const artisan=s.personsById[s.story.artisan.personId];if(!people.includes(artisan))people.push(artisan);}
- return people;
+ for(const person of Object.values(s.personsById||{}))if(['arriving','departing'].includes(person.courtyardVisit?.phase)&&!people.includes(person))people.push(person);
+ return people.filter(courtyardVisitorVisible);
 }
 export function routeDiscovered(s,id){return !!ROUTES[id]&&(s.story.step>=(ROUTES[id].scene==='lake'?4:2)||!!s.migration);}
 export function nextObjective(s){
@@ -43,7 +45,7 @@ export function nextObjective(s){
  if(q===0&&m.wound>0){if(m.action==='heal'&&s.speed===0)return {label:'继续疗伤',text:'药力尚在，续起调息便能接着疗伤。',kind:'resumeHealing'};if(m.action!=='heal'){const recovery=recoveryObjective(s,{herb:6});if(recovery)return recovery;}return {label:m.action==='heal'?'查看疗伤进度':'用灵草调息（6份）',text:m.action==='heal'?`药力正温养经脉，约 ${Math.ceil(m.wound/2)} 秒后伤势可稳。`:'母亲留下的灵草能温养经脉。先治好逃亡伤势。',kind:m.action==='heal'?'self':'heal'};}
  if(s.story.opening?.hallPhase==='shelter'&&m.wound<=0){const hall=s.buildings.find(b=>b.type==='hall');return {label:'立起山院主殿',text:'松林高处已有一片平地，备齐木石便可动工。',kind:'home',id:hall.id};}
  if(s.story.opening?.hallPhase==='building')return {label:'营造山院主殿',text:'木石正往山上运来，掌门也须到场。',kind:'construction'};
- if(q===0||q===1){if(q===1&&!s.story.opening?.gifted){const recovery=recoveryObjective(s,{herb:10});if(recovery)return recovery;}const hall=s.buildings.find(b=>b.type==='hall');return {label:q===0?'到山门看看来意':s.story.opening?.gifted?'与陆知微商议去留':'走近陆知微，赠药结缘',text:q===0?'伤势已愈，有人循着母亲的旧药方来到山院。':'陆知微正在院中等候。走近交谈，亲手赠药，再商议去留。',kind:'home',id:hall.id};}
+ if(q===0||q===1){if(q===1&&!s.story.opening?.gifted){const recovery=recoveryObjective(s,{herb:10});if(recovery)return recovery;}const hall=s.buildings.find(b=>b.type==='hall');return {label:q===0?'到山门看看来意':s.story.opening?.gifted?'与陆知微商议去留':'走近陆知微，赠药结缘',text:q===0?'伤势已愈，有人循着母亲的旧药方来到山院。':s.personsById?.[s.story.opening?.visitorId]?.courtyardVisit?.phase==='arriving'?'陆知微正沿山路来到院前，抵达后可走近交谈。':'陆知微正在院前等候。走近交谈，亲手赠药，再商议去留。',kind:'home',id:hall.id};}
  for(const type of q===2?['farm','lumber']:q===3?['library']:[]){
   const built=s.buildings.filter(b=>b.type===type);if(built.some(facilityActive))continue;
   if(built.length)return {label:'恢复'+BUILDINGS[type].name,text:'设施已建成，但停用或损坏。先查看并恢复运行，再推进主线。',kind:'facility',id:built[0].id};

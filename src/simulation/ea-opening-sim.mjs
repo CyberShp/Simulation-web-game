@@ -1,3 +1,4 @@
+import {initOpeningVisitors,advanceOpeningVisitors,validateCourtyardVisitors,courtyardVisitorReady,departCourtyardVisitor} from './ea-courtyard-visitors.mjs';
 import {initRainArtisan,advanceRainArtisan,validateRainArtisan,offerArtisanCare,cancelArtisanCare,declineArtisanCare,treatmentStatus} from './ea-rain-artisan.mjs';
 export {artisanCareView,treatmentStatus,offerArtisanCare,cancelArtisanCare,declineArtisanCare} from './ea-rain-artisan.mjs';
 import {prepareFacilityActivity,releaseBodyActivity,reconcileActivities,validateFacilityActivities,upgradeProductionRecipeSnapshots,cancelProduction} from './ea-facility-activities.mjs';
@@ -73,7 +74,7 @@ export function initial(options={}){
  resetMasterControl(s);
  s.master.main=null;s.master.knowledge={};s.master.artsById={};s.doctrine.books=[];
  s.stockpilesById['stockpile:lu-zhiwei']={id:'stockpile:lu-zhiwei',ownerId:visitor.personId,resources:Object.fromEntries(Object.keys(base.RESOURCES).map(k=>[k,0]))};
- initRainArtisan(s,base.addDisciple);s.rulesetVersion='opening-runtime-3';repairScenicState(s);if(options.sr)initSR(s,{newGame:true});return s;
+ initRainArtisan(s,base.addDisciple);s.rulesetVersion='opening-runtime-3';repairScenicState(s);if(options.sr)initSR(s,{newGame:true});if(options.sr)initOpeningVisitors(s);return s;
 }
 
 function normalizeOpeningHallPhase(s){
@@ -82,7 +83,7 @@ function normalizeOpeningHallPhase(s){
 }
 
 function validateOpeningRecords(s){
- validateOpeningInheritance(s);
+ validateOpeningInheritance(s);validateCourtyardVisitors(s);
  const opening=s.story.opening;
  if(opening){
   const establishing=s.workOrdersById?.['work:construction:1']?.operation==='establish';
@@ -136,6 +137,7 @@ export function advanceStory(s,choice){
   if(s.story.opening.hallPhase!=='complete')throw Error('先营造主殿，再商议入院。');
   if(!base.storyReady(s))throw Error('先恢复可运行的药田与伐木场，并准备可用居所。');
   const visitor=s.personsById[s.story.opening.secondVisitorId],position=visitor.mind.scenic;
+  if(!courtyardVisitorReady(visitor))throw Error('林长风尚在山路上，等他抵达院前再商议。');
   if(s.world.exploration||s.master.journey||Math.hypot(s.master.scenic.x-position.x,s.master.scenic.y-position.y)>sceneUnits(s,48))throw Error('先到林长风身边，再商议入院。');
   s.homeMemberIds.push(visitor.personId);visitor.mind.reason='山院给了我安身与传承的机会，我愿靠自己的选择求道。';
   base.rememberPerson(s,visitor,visitor.mind.reason,{important:true,key:'opening:changfeng-join'});
@@ -143,6 +145,7 @@ export function advanceStory(s,choice){
  }
  if(!s.story.opening||s.story.step!==1)return base.advanceStory(s,choice);
  const o=s.story.opening,visitor=s.personsById[o.visitorId];
+ if(!courtyardVisitorReady(visitor))throw Error('陆知微尚未抵达院前，等她沿山路到来再商议。');
  if(s.world.exploration||s.master.journey||s.combat?.status==='active')throw Error('先返回山院，再与来客商议。');
  const distance=Math.hypot(scenicPosition(s.master).x-scenicPosition(visitor.mind).x,scenicPosition(s.master).y-scenicPosition(visitor.mind).y);
  if(distance>sceneUnits(s,48))throw Error('先走到陆知微身边，再赠药或商议。');
@@ -161,7 +164,7 @@ export function advanceStory(s,choice){
   s.homeMemberIds.push(visitor.personId);o.invitation='joined';visitor.mind.reason='药材已备好，山院提供药理与住处，我愿留下求道；同行仍另作决定。';
   base.rememberPerson(s,visitor,visitor.mind.reason,{important:true,key:'opening:voluntary-join'});
   base.log(s,'陆知微自愿入院研习药理。赠药、入院和参与复仇各是一次选择。');
- }else{o.invitation='declined';base.log(s,'陆知微带药回去照应家人。善缘保留，山院仍可自行营造和结识其他同道。');}
+ }else{o.invitation='declined';if(visitor.courtyardVisit)departCourtyardVisitor(s,visitor);base.log(s,'陆知微带药回去照应家人。善缘保留，山院仍可自行营造和结识其他同道。');}
  if(!s.story.claimed.includes('story:1'))s.story.claimed.push('story:1');s.story.step=2;
  return base.campaignSummary(s);
 }
@@ -257,6 +260,7 @@ export function tick(s,dt){
   if((s.worldTick-s.schemaMigration.clockOriginTick)%10===0)base.advanceWorldSecond(s,{advanceCombat:!srEnabled(s),advanceFreeWalk:false});
   if(srEnabled(s)){tickCampaignCombat(s,.1);tickSR(s);}else advanceConstruction(s);
   base.advanceMasterFreeWalk(s,4.6);
+  advanceOpeningVisitors(s);
   advanceRainArtisan(s);
   if(srEnabled(s))settleCombatBodyProjection(s);
   reconcileActivities(s);
