@@ -750,7 +750,7 @@
       "acceptance_notes": "本管理SR验证文档、机器台账、状态守卫和既有发布事实；不要求新的游戏场景、设备或截图验收。",
       "engineering_migration": {
         "decision": "U-152",
-        "status": "local_verified_pending_source_delivery",
+        "status": "completed",
         "record": "docs/engineering/MIGRATION-20261016.md",
         "history": "docs/history/README.md",
         "verification": {
@@ -807,11 +807,43 @@
             "total": 11
           },
           "currentDocumentLinks": "passed",
-          "windows": "not-run",
-          "fullRequirementStatusesChanged": false
+          "windows": {
+            "ci": "passed",
+            "package": "built",
+            "deviceGameplay": "not-run"
+          },
+          "fullRequirementStatusesChanged": false,
+          "remoteChecks": {
+            "run": 38905597984,
+            "platforms": [
+              "ubuntu",
+              "macos",
+              "windows"
+            ],
+            "passedPerPlatform": 124,
+            "status": "success"
+          },
+          "remoteDesktopPackages": {
+            "run": 38905629276,
+            "targets": [
+              "darwin-arm64",
+              "darwin-x64",
+              "win32-x64"
+            ],
+            "status": "success"
+          },
+          "remotePages": {
+            "run": 38904895544,
+            "status": "success",
+            "publicFileHashes": 4,
+            "publicBrowserChecks": 4,
+            "evidence": "/Volumes/Media/immortal-qa/engineering-20261016/public-browser/report.json"
+          }
         },
-        "source_publication": "pending",
-        "existing_requirement_statuses_preserved": true
+        "source_publication": "pushed_main_verified",
+        "existing_requirement_statuses_preserved": true,
+        "source_commit": "d92898a4e3b52298bf1c575a5882f207670b380d",
+        "web_publication": "published_verified"
       }
     },
     {

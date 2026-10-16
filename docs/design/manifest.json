@@ -1002,8 +1002,8 @@
     "evidence": "docs/design/STATUS.md",
     "sourceBaseCommit": "e5f0d78358ab42fefbd2b5e3c516465bff115f8b",
     "scope": "desktop-pixel-courtyard-management-east-expansion-and-bounded-autonomy",
-    "sourceStatus": "engineering-migration-local-verified",
-    "deploymentStatus": "local-desktop-and-web-verified-source-delivery-pending",
+    "sourceStatus": "engineering-migration-pushed-verified",
+    "deploymentStatus": "desktop-packages-built-and-existing-pages-published",
     "lastPublishedCheckpoint": {
       "runtimeSourceCommit": "7d27532bf22e8c6064281e12b390edb8370abce9",
       "pagesCommit": "acb40955ded401e6e2c5225c463d3e0a380ae6a2",
@@ -1563,7 +1563,7 @@
     "currentGoal": {
       "decisionId": "U-152",
       "mode": "task",
-      "status": "local-verified-source-delivery-pending",
+      "status": "completed",
       "objective": "Reorganize the complete repository, validate commands and compatibility, preserve prior work, and push reviewed source.",
       "reference": "docs/engineering/MIGRATION-20261016.md",
       "closesWholeRequirements": false
@@ -1749,7 +1749,7 @@
     },
     "currentEngineeringMigration": {
       "decisionId": "U-152",
-      "status": "local-verified-source-delivery-pending",
+      "status": "completed",
       "reference": "docs/engineering/MIGRATION-20261016.md",
       "source": "apps/courtyard/",
       "webSource": "apps/web/",
@@ -1811,11 +1811,44 @@
           "total": 11
         },
         "currentDocumentLinks": "passed",
-        "windows": "not-run",
-        "fullRequirementStatusesChanged": false
+        "windows": {
+          "ci": "passed",
+          "package": "built",
+          "deviceGameplay": "not-run"
+        },
+        "fullRequirementStatusesChanged": false,
+        "remoteChecks": {
+          "run": 38905597984,
+          "platforms": [
+            "ubuntu",
+            "macos",
+            "windows"
+          ],
+          "passedPerPlatform": 124,
+          "status": "success"
+        },
+        "remoteDesktopPackages": {
+          "run": 38905629276,
+          "targets": [
+            "darwin-arm64",
+            "darwin-x64",
+            "win32-x64"
+          ],
+          "status": "success"
+        },
+        "remotePages": {
+          "run": 38904895544,
+          "status": "success",
+          "publicFileHashes": 4,
+          "publicBrowserChecks": 4,
+          "evidence": "/Volumes/Media/immortal-qa/engineering-20261016/public-browser/report.json"
+        }
       },
-      "sourcePublication": "pending",
-      "webPublication": "not-published"
+      "sourcePublication": "pushed-main-verified",
+      "webPublication": "published-verified",
+      "sourceCommit": "d92898a4e3b52298bf1c575a5882f207670b380d",
+      "webSourceCommit": "72875dc32f653926635ba7a3109550a1e4397b34",
+      "pagesCommit": "b3b002822cb9bf6e40aa29c8f754c17242705e7b"
     }
   },
   "characterDialogue": {

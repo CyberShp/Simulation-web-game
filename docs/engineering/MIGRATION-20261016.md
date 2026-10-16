@@ -49,14 +49,16 @@ README 说明当前桌面主线、实际可运行范围和根命令；AGENTS 维
 | 当前桌面构建与启动 | macOS arm64 最终包成功，签名检查通过；干净检出桌面暂存成功；最终包真实启动复验 5/5 |
 | 存档路径与同源恢复 | U-151 原经营档副本加载、四个面板、实际时间推进、UI 保存、关闭重开通过；来源档字节未变，页面/资源错误 0 |
 | 独立复核 | 当前源码、构建接缝、文档与证据已独立审计，最终无阻断发现 |
-| 源码提交与远端核对 | 待执行并记录 |
+| 源码提交与远端核对 | 工程迁移 72875dc、Windows 打包修正 d92898a 已推送 main；远端目录与提交已读回核对 |
+| 远端三平台检查与打包 | d92898a 的 Ubuntu/macOS/Windows 检查全部成功，各 124/124；macOS arm64/x64、Windows x64 包构建并上传成功 |
+| 现有网页发布 | Pages 发布成功，线上清单标记 72875dc；4 个入口/模块/样式散列匹配，真实网页操作与刷新续档 4/4 |
 
 迁移前的山院、东台和自主经营证据见 [STATUS](../design/STATUS.md)。本次验证结果按实际执行追加；Windows、完整桌面新档、持续口粮与完整 SR/AC 继续使用原有待完成状态。
 
 
 ### 文档与状态复核
 
-本批当前入口、工程说明和历史索引最终检查 228 个本地 Markdown 链接，缺失 0。11 份历史快照逐文件 SHA-256 与保存时清单一致。将迁移前后台账逐项比较，40 项 SR 的设计/开发/验收/发布状态、120 条 AC 状态及 200 项任务状态均保持；新增工程迁移状态独立记录为本地验证完成、待源码提交及远端核对。
+本批当前入口、工程说明和历史索引检查 228 个本地 Markdown 链接，缺失 0。11 份历史快照逐文件 SHA-256 与保存时清单一致。将迁移前后台账逐项比较，40 项 SR 的设计/开发/验收/发布状态、120 条 AC 状态及 200 项任务状态均保持；新增工程迁移状态记录为本批整理与交付完成。
 
 文档与台账检查和上表运行验证分别保留证据。
 
@@ -72,4 +74,14 @@ README 说明当前桌面主线、实际可运行范围和根命令；AGENTS 维
 
 扩展 `npm test -- --all` 共 623 项，560 通过、60 失败、3 跳过。60 项旧 Web 行为与 DOM 用例失败已在迁移前 `e5f0d7` 的同名测试中逐项复现，当前失败名称无新增；本批修复了 11 处迁移引起的路径断言，专项 16/16。基线对照为同一提交提取的七个对应旧网页测试模块及其源码和文本夹具，完整记录位于 `/Volumes/Media/immortal-qa/engineering-20261016/tests/comparison.json`，使用方法见 [工程验证说明](../../tests/README.md)。默认 124 项套件覆盖当前山院与相关共用规则。
 
-固定 Electron 39.2.7 的依赖审计有 6 项告警（2 高危、4 中危）；依赖范围、公告和升级边界见 [构建说明](../../scripts/build/README.md)。Windows 包构建、Windows 真机游戏操作和公开分发签名分别验证。
+固定 Electron 39.2.7 的依赖审计有 6 项告警（2 高危、4 中危）；依赖范围、公告和升级边界见 [构建说明](../../scripts/build/README.md)。Windows 包构建已通过，Windows 真机游戏操作和公开分发签名仍待完成。
+
+### 远端交付记录
+
+- 源码：[72875dc 工程迁移](https://github.com/CyberShp/Simulation-web-game/commit/72875dc32f653926635ba7a3109550a1e4397b34)；[d92898a Windows 发布者元数据](https://github.com/CyberShp/Simulation-web-game/commit/d92898a4e3b52298bf1c575a5882f207670b380d)。首次 HTTPS 推送连接超时，随后通过同一 GitHub 身份的 SSH 推送成功，origin 地址保持。
+- [三平台工程检查](https://github.com/CyberShp/Simulation-web-game/actions/runs/38905597984)绑定 d92898a，全部通过；初次 72875dc 检查同样通过。检查证明 GitHub runner 上的安装、源码/资源/台账检查与默认测试。
+- [三平台桌面包](https://github.com/CyberShp/Simulation-web-game/actions/runs/38905629276)绑定 d92898a，三个 ZIP 产物均已上传。初次运行 38904900268 的 Windows 打包因缺少 CompanyName 失败，补齐仓库所有者元数据后实跑关闭；两次日志保留。手动流程已实际运行，标签触发的 Draft Release 创建流程经静态复核，尚未创建发布。
+- [Pages 发布](https://github.com/CyberShp/Simulation-web-game/actions/runs/38904895544)成功，发布分支提交为 `b3b002822cb9bf6e40aa29c8f754c17242705e7b`，公开清单标记源码 72875dc。后续 d92898a 只修改 Windows 打包元数据，网页文件保持。现有 [网页地址](https://cybershp.github.io/Simulation-web-game/)及历史发布路径继续保留。
+- 线上实际通过新建、进入山院、灵草调息 22→16、刷新继续；库存 16 和疗伤状态保持，控制台错误/警告 0。证据为 `/Volumes/Media/immortal-qa/engineering-20261016/public-browser/report.json`；根入口、预览入口、模拟模块和样式四个文件散列核对见同级 `public-file-hashes.json`。
+
+全部运行日志、截图、过程档和下载的构建产物保存在仓库外。此次完成工程整理与发布流程验证；游戏玩法的完整需求、设备操作与历史测试欠账继续按各自状态接续。
