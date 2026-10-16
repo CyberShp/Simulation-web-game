@@ -5,7 +5,7 @@ import {createRequire} from 'node:module';
 import {readFileSync,writeFileSync} from 'node:fs';
 import {resolve} from 'node:path';
 import * as S from '../../src/simulation/ea-opening-sim.mjs';
-import {drawAppearance} from '../../apps/web/ea-courtyard-renderer.mjs';
+import {drawAppearance} from '../../apps/web/ea-character-art.mjs';
 
 const require=createRequire(import.meta.url);
 const dir=process.env.XIANFU_QA_SR007_AC02_DIR;

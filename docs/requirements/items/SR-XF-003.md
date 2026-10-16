@@ -14,9 +14,9 @@
 
 纳入云岫前期，按依赖推进。
 
-决策来源：U-63, U-93, R-25, U-94, U-95, U-96, U-97, R-27, U-98, U-99, R-28, U-100, R-29, R-30, U-102, U-103, U-104, U-105, R-32, U-109, U-118, U-123, U-126, U-127, U-128, U-129, U-130, U-131, U-132, U-138, U-142, U-143, U-144, U-149, R-49, U-150, R-50, U-155。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
+决策来源：U-63, U-93, R-25, U-94, U-95, U-96, U-97, R-27, U-98, U-99, R-28, U-100, R-29, R-30, U-102, U-103, U-104, U-105, R-32, U-109, U-118, U-123, U-126, U-127, U-128, U-129, U-130, U-131, U-132, U-138, U-142, U-143, U-144, U-149, R-49, U-150, R-50, U-155, U-156。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
 
-规格：[03-SPATIAL-ART.md](../../../docs/design/03-SPATIAL-ART.md)、[05-RUNTIME-CONTRACTS.md](../../../docs/design/05-RUNTIME-CONTRACTS.md)、[14-EARLY-GAME-DETAILED-DESIGN.md](../../../docs/design/14-EARLY-GAME-DETAILED-DESIGN.md)、[18-SPATIAL-CONTINUITY-IMPLEMENTATION.md](../../../docs/design/18-SPATIAL-CONTINUITY-IMPLEMENTATION.md)、[GODOT-MIGRATION.md](../../../docs/GODOT-MIGRATION.md)、[ART-REALTIME-TRIAL.md](../../../docs/ART-REALTIME-TRIAL.md)、[SECT-GROWTH-PLAN.md](../../../docs/SECT-GROWTH-PLAN.md)、[41-COURTYARD-VALLEY-IMPLEMENTATION.md](../../../docs/design/41-COURTYARD-VALLEY-IMPLEMENTATION.md)、[51-COURTYARD-MANAGEMENT-INTEGRATION.md](../../../docs/design/51-COURTYARD-MANAGEMENT-INTEGRATION.md)、[46-CONTINUOUS-DOMAIN-FOUNDATION.md](../../../docs/design/46-CONTINUOUS-DOMAIN-FOUNDATION.md)、[52-EAST-TERRACE-INTEGRATION.md](../../../docs/design/52-EAST-TERRACE-INTEGRATION.md)。
+规格：[03-SPATIAL-ART.md](../../../docs/design/03-SPATIAL-ART.md)、[05-RUNTIME-CONTRACTS.md](../../../docs/design/05-RUNTIME-CONTRACTS.md)、[14-EARLY-GAME-DETAILED-DESIGN.md](../../../docs/design/14-EARLY-GAME-DETAILED-DESIGN.md)、[18-SPATIAL-CONTINUITY-IMPLEMENTATION.md](../../../docs/design/18-SPATIAL-CONTINUITY-IMPLEMENTATION.md)、[GODOT-MIGRATION.md](../../../docs/GODOT-MIGRATION.md)、[ART-REALTIME-TRIAL.md](../../../docs/ART-REALTIME-TRIAL.md)、[SECT-GROWTH-PLAN.md](../../../docs/SECT-GROWTH-PLAN.md)、[41-COURTYARD-VALLEY-IMPLEMENTATION.md](../../../docs/design/41-COURTYARD-VALLEY-IMPLEMENTATION.md)、[51-COURTYARD-MANAGEMENT-INTEGRATION.md](../../../docs/design/51-COURTYARD-MANAGEMENT-INTEGRATION.md)、[46-CONTINUOUS-DOMAIN-FOUNDATION.md](../../../docs/design/46-CONTINUOUS-DOMAIN-FOUNDATION.md)、[52-EAST-TERRACE-INTEGRATION.md](../../../docs/design/52-EAST-TERRACE-INTEGRATION.md)、[WEB-RETIREMENT-20261017.md](../../../docs/engineering/WEB-RETIREMENT-20261017.md)。
 
 依赖：[SR-XF-002](SR-XF-002.md)。
 
@@ -188,6 +188,7 @@ SR-XF-003-V01证据：tests/acceptance/ea-indoor-furniture-acceptance.mjs；test
 - tests/acceptance/courtyard-east-desktop.mjs
 - docs/design/54-COURTYARD-OPENING-DEMO.md；2026-10-16 U-153：当前高清像素桌面正式空档接入灭门序章、落脚疗伤择卷与首次主殿营造。默认测试133/133、后增场景相关16/16、独立复核19/19；最终macOS包同一新档10/10（72.310秒，五处进程重启）、旧暂停档兼容5/5，页面/资源错误0。完整后续开局链、Windows与SR/AC状态保持。
 - docs/design/54-COURTYARD-OPENING-DEMO.md；2026-10-17 U-155：三张守阵/逃离v3画帧、四类访客真实山路入离场、相向让行与旧档保护。基础143/143、定向17/17；最终macOS包序章17/17八次重启、同一普通新档陆知微入场4/4与99个在途脚点、暂停跨进程恢复/点选/走近通过。赠药仅同源隔离副本命令门槛证据；Windows、桌面完整交谈链、既有网页择法暂停提示和完整SR/AC状态保持。
+- 2026-10-17 U-156：旧网页场景退役，Pages 已取消发布，公开首页/独立预览均404。默认144/144、定向18/18、根检查与桌面暂存通过；桌面/共用模拟保持，原8处修改逐字节一致。网页发布暂停，完整SR/AC状态保持。范围见 docs/engineering/WEB-RETIREMENT-20261017.md。
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
@@ -227,5 +228,6 @@ SR-XF-003-V01证据：tests/acceptance/ea-indoor-furniture-acceptance.mjs；test
 - 2026-10-15：U-149：接续远端main并完成当前山院管理和取消回收、保存恢复的局部桌面验证；完整状态保持。
 - 2026-10-16：U-150/R-50：追加连续东路、实际分趟运料施工、四床启用与同源macOS存读往返局部证据。流程两段308.849秒，最终包阶段6项及往返9项，错误0；保留验收脚本中断记录。完整SR/AC与D/I/V/R状态保持。
 - 2026-10-16：U-153：补充桌面正式空档到主殿完工的局部实现与同档实机证据；完整需求和AC状态保持。
+- 2026-10-17：U-156 删除旧网页场景、下线线上旧网页并暂停发布；当前桌面及共用存档继续保留，历史网页证据限定于原版本。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python scripts/requirements/sr-manager.py refresh`，不单独修改此派生页。

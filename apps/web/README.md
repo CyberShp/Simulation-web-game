@@ -1,7 +1,7 @@
-# 网页入口
+# 网页界面组件
 
-本目录保存现有网页的入口、界面与渲染源码。共用游戏规则位于 `src/simulation/`，网页素材位于 `assets/web/`。
+本目录保留人物、对话、管理面板及样式组件。共用游戏规则位于 `src/simulation/`，相关素材位于 `assets/web/`。
 
-在仓库根目录执行 `npm run dev:web` 进行预览，或执行 `npm run build:web` 生成 `dist/web/`。构建按 `scripts/build/web-files.json` 组装原有公开路径，并生成 `ea-preview/` 入口、资源清单和内容摘要。
+U-156 已删除旧场景与启动入口，网页预览、构建和发布命令均停用。用户完成网页版重构并明确恢复发布后，再建立新的入口与验收。当前运行入口是仓库根目录的 `npm start`，详见 [网页退役记录](../../docs/engineering/WEB-RETIREMENT-20261017.md)。
 
 当前主力开发入口和真实验证范围见 [项目首页](../../README.md)及 [实现状态](../../docs/design/STATUS.md)。

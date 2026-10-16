@@ -5,7 +5,6 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import * as S from '../../src/simulation/ea-opening-sim.mjs';
 import * as base from '../../src/simulation/ea-sim.mjs';
-import {createWorldRenderer} from '../../apps/web/ea-courtyard-renderer.mjs';
 import {spatialPrefab,spatialFootprint,spatialAccess,spatialSlots,meterCanStand,meterFindPath,meterSweep,validateSpatial} from '../../src/simulation/ea-sr-spatial.mjs';
 import {prepareFacilityActivity,validateFacilityActivities} from '../../src/simulation/ea-facility-activities.mjs';
 import {initEconomy} from '../../src/simulation/ea-sr-economy.mjs';
@@ -36,37 +35,6 @@ test('U-99: 14 prefab types / 42 variants have integral cell footprints and reac
  assert.equal(variants,42);assert.equal(stations,264);
  assert.equal(S.buildingCellSize('hall',1).count,16);
  for(const type of ['lumber','quarry'])assert.deepEqual(S.buildingCellSize(type,1),{columns:2,rows:2,count:4,width:4,height:4});
-});
-
-test('U-99: real renderer keeps 2m cell selection and 0.5m walking distinct through zoom and pan without state writes',async()=>{
- const oldImage=globalThis.Image,oldDPR=globalThis.devicePixelRatio,oldFetch=globalThis.fetch;
- const noop=()=>{},ctx=new Proxy({measureText:t=>({width:t.length*7}),createLinearGradient:()=>({addColorStop(){}}),createRadialGradient:()=>({addColorStop(){}})},{get:(o,k)=>k in o?o[k]:noop,set:(o,k,v)=>(o[k]=v,true)});
- globalThis.Image=class{set src(v){queueMicrotask(()=>this.onload?.());}};
- globalThis.fetch=async()=>({ok:false});globalThis.devicePixelRatio=1;
- let r;
- try{
-  const s=fixture(),before=JSON.stringify(s);let sceneState=s,mode='inspect',away=null,battle=null;
-  const canvas={width:900,height:600,clientWidth:900,clientHeight:600,getContext:()=>ctx,getBoundingClientRect:()=>({left:7,top:13})};
-  r=createWorldRenderer(canvas,{getState:()=>sceneState,getMode:()=>mode,getSelection:()=>null,getLocalScene:()=>away,getCampaignScene:()=>battle});await r.ready;
-  const screen=p=>{const q=r.projectPoint(p);return{clientX:q.x+7,clientY:q.y+13};};
-  for(const delta of [0,.65,-1,.8]){
-   r.setZoom(delta);r.pan.x+=13;r.pan.y-=7;
-   for(const p of [{x:40.1,y:34.1},{x:41.8,y:35.8},{x:39.64,y:41.88},{x:33.73,y:32.14}]){
-    const event=screen(p),walk={x:Math.round(p.x/.5)*.5,y:Math.round(p.y/.5)*.5},cell={x:Math.floor(p.x/2)*2,y:Math.floor(p.y/2)*2};
-    assert.deepEqual(r.walkPoint(event),walk);mode='build';
-    assert.deepEqual(r.mapPoint(event),cell);const hit=r.pick(event);assert.equal(hit.x,cell.x);assert.equal(hit.y,cell.y);
-    mode='inspect';const raw=r.screenPoint(event);assert(Math.hypot(raw.x-p.x,raw.y-p.y)<1e-9);
-   }
-  }
-  const p={x:9.173,y:12.327};sceneState=S.validateSave(JSON.parse(before));
-  sceneState.master.location={kind:'local',sceneId:'scene:market',...p};
-  sceneState.master.position={kind:'scene',sceneId:'scene:market',...p};
-  away={scene:{id:'scene:market',objects:[]},actors:[]};const awayBefore=JSON.stringify(sceneState);
-  let q=r.walkPoint(screen(p));assert(Math.hypot(q.x-p.x,q.y-p.y)<1e-9);
-  assert.equal(JSON.stringify(sceneState),awayBefore);
-  sceneState=s;away=null;battle={type:'combat',player:{x:3,y:4},enemies:[],allies:[],effects:[],obstacles:[]};
-  q=r.walkPoint(screen(p));assert(Math.hypot(q.x-p.x,q.y-p.y)<1e-9);assert.equal(JSON.stringify(s),before);
- }finally{r?.destroy();globalThis.Image=oldImage;globalThis.devicePixelRatio=oldDPR;globalThis.fetch=oldFetch;}
 });
 
 test('U-99: half-cell anchors, occupied cells and protected terrain reject atomically',()=>{

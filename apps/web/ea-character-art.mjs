@@ -547,3 +547,18 @@ export function drawCultivator(ctx,view={}, {x=0,y=0,scale=32,tick=0,facing=1,re
   }
   ctx.restore();return f;
 }
+
+/** SR-XF-007 code-native frame recipe. Simulation facts select the action; this is a pure pose. */
+export function appearanceFrame(view,tick=0,{reducedMotion=false}={}){
+ const recipe=view?.recipe||{height:1.75,body:'regular',face:'oval',hair:'topknot',outfit:'disciple',faceMark:0},action=view?.action||'stand',phase=reducedMotion?0:(tick%24)/24*Math.PI*2,swing=Math.sin(phase),stride=['walk','transport'].includes(action)?swing*.2:0;
+ const height=recipe.height||1.75,width=recipe.body==='slim'?.25:recipe.body==='broad'?.38:.3,bend=['plant','gather','work'].includes(action)?.18+Math.sin(phase)*.08:action==='hit'?-.22:0,seated=['study','heal','cultivate','teach','groundRest'].includes(action),sleep=['rest','down'].includes(action);
+ const breathing=Math.sin(phase)*.008,torsoY=(seated?-height*.5:-height*.62)+breathing,headY=(seated?-height*.72:-height*.88)+breathing,armPhase=['plant','gather','work','cast'].includes(action)?swing*.17:seated?swing*.018:stride*.6;
+ return {version:'procedural:yunxiu-v1',action,phase,height,width,bend,seated,sleep,bodyY:torsoY,headY,bob:['walk','transport'].includes(action)?Math.abs(swing)*.035:0,leftFoot:{x:-.1+stride,y:0},rightFoot:{x:.1-stride,y:0},leftHand:{x:-width-.08,y:torsoY+.23-armPhase},rightHand:{x:width+.08+(['cast','work','plant'].includes(action)?.13:0),y:torsoY+.23+armPhase},recipe,tool:view?.tool||null,mounts:view?.mounts||{}};
+}
+export function drawAppearance(ctx,view,{x=0,y=0,scale=32,tick=0,facing=1,reducedMotion=false,portrait=false,atlas}={}){
+ drawCultivator(ctx,view,{x,y,scale,tick,facing,reducedMotion,portrait,atlas});return appearanceFrame(view,tick,{reducedMotion});
+}
+
+export function portraitDataURL(view){if(typeof document==='undefined'||!view||!hasCultivatorAtlas())return null;const canvas=document.createElement('canvas');canvas.width=96;canvas.height=112;const ctx=canvas.getContext('2d');ctx.fillStyle='#263d32';ctx.fillRect(0,0,96,112);drawAppearance(ctx,{...view,action:'stand'},{x:48,y:56+(view.recipe?.height||1.75)*.88*105,scale:105,portrait:true,reducedMotion:true});return canvas.toDataURL('image/png');}
+
+export const appearanceActionLabel=action=>({stand:'站立',walk:'行走',work:'操作',plant:'栽培',gather:'采集',study:'研习',rest:'休养',groundRest:'暂歇',heal:'疗伤',cast:'施法',hit:'受击',transport:'搬运',waiting:'等候',down:'倒地',cultivate:'修炼',teach:'授业'}[action]||action);

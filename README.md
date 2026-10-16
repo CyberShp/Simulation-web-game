@@ -2,7 +2,7 @@
 
 单人修仙宗门经营游戏。玩家只直接控制掌门，门人按意愿和现实条件自主生活、劳作与修行；人物、物资、营造和成长共用同一世界与存档。
 
-当前开发入口是 **纯 2D 高清像素桌面山院**，以 Windows 为主力平台，在 macOS 进行前期验证。当前山院使用 Electron 与 Canvas 2D 呈现，玩法读取共用 JavaScript 模拟。已有网页入口继续保留：[网页开发版](https://cybershp.github.io/Simulation-web-game/)。
+当前开发入口是 **纯 2D 高清像素桌面山院**，以 Windows 为主力平台，在 macOS 进行前期验证。当前山院使用 Electron 与 Canvas 2D 呈现，玩法读取共用 JavaScript 模拟。旧网页场景按 U-156 退役，网页发布暂停至用户完成重构并明确恢复。
 
 ## 当前可运行范围
 
@@ -24,9 +24,7 @@ npm start
 | `npm start` | 打开当前高清像素桌面山院 |
 | `npm test` | 运行当前山院及相关核心单元测试 |
 | `npm run check` | 检查源码、工程入口与需求台账 |
-| `npm run build:web` | 生成现有网页到 `dist/web/` |
 | `npm run build:desktop` | 生成当前平台桌面应用到 `dist/desktop/` |
-| `npm run dev:web` | 构建并预览现有网页入口 |
 
 `dist/` 是构建输出。修改源码后重新构建；依赖版本由根目录 `package-lock.json` 固定。构建输出位置、专项验收及历史场景使用方式见 [工程说明](docs/engineering/REPOSITORY.md)。
 
@@ -35,7 +33,7 @@ npm start
 | 路径 | 内容 |
 | --- | --- |
 | `apps/courtyard/` | 当前桌面山院的窗口、界面与呈现 |
-| `apps/web/` | 现有网页入口和网页界面 |
+| `apps/web/` | 保留的网页界面组件；当前无网页启动入口 |
 | `src/simulation/` | 共用规则、状态、空间、时钟与存档模块 |
 | `assets/courtyard/`、`assets/web/` | 桌面山院和网页素材 |
 | `tests/unit/`、`tests/acceptance/`、`tests/fixtures/` | 单元检查、实际流程验收和可复用夹具 |

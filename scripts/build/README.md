@@ -3,20 +3,17 @@
 使用 Node.js 22.12 以上版本，CI 使用 Node.js 24。首次运行先在仓库根目录执行 `npm ci`。
 
 - `npm start`：启动当前桌面山院。Electron 固定为 39.2.7。
-- `npm run dev:web`：构建网页并在本机 8080 端口预览；改用其他端口可追加 `-- --port=8081`。
-- `npm run build:web`：按 `web-files.json` 组装完整的 `dist/web/`，保留根入口和 `ea-preview/`，输出文件散列清单。追加 `-- --tag=<版本>` 指定缓存版本。
+- `npm run dev:web`、`npm run build:web`：按 U-156 停用，执行时说明暂停原因并退出。
 - `npm run build:desktop`：在当前 macOS 或 Windows 上打包，输出到 `dist/desktop/`。可追加 `-- --arch=x64` 或 `-- --arch=arm64`；`-- --stage-only` 只准备运行文件。
-- `npm run verify`：检查源码与网页构建，再执行单元测试。
+- `npm run verify`：检查源码与台账，再执行单元测试。
 
 桌面打包从 `apps/courtyard/`、`src/simulation/` 与 `assets/courtyard/` 取运行文件，保留随共用模块提供的许可证。应用标识为 `games.xianfu.courtyard-master`；存档继续使用系统应用数据目录内的 `yunxiu-courtyard-master` 与原存档文件名。
 
-`check.yml` 在主分支推送或 PR 时执行三平台检查，并由 Ubuntu 任务保存完整网页产物。
+`check.yml` 在主分支推送或 PR 时执行三平台源码与单元检查。
 
-`pages.yml` 由手动触发，先执行完整工程验证，再按源码提交号构建网页。发布脚本校验产物散列，在临时分离工作树中更新现有 `gh-pages` 分支，只同步构建清单中的文件，保留其他历史路径，以普通推送防止覆盖并发提交。之后通过 GitHub Pages API 请求构建，并等待对应提交实际完成；发布权限为 `contents: write` 与 `pages: write`，同仓库发布串行执行。现有 Pages 设置应为 `gh-pages` 分支根目录。用 `node scripts/release/publish-pages.mjs --dry-run` 可先核对本地产物。
+U-156 删除 Pages 发布工作流，并停用网页构建、预览、发布及构建请求脚本。用户重构网页版并明确恢复前，只同步源码。实际下线记录见 [网页退役记录](../../docs/engineering/WEB-RETIREMENT-20261017.md)。
 
 `release.yml` 在 `v*` 标签或手动触发时生成 macOS arm64、macOS x64 与 Windows x64 压缩包，保存为工作流产物。标签触发且三个构建成功后，汇总任务创建 GitHub **Draft Release**，附压缩包、源码提交号和自上一标签起的变更记录；手动触发只保存构建产物。已有同名草稿只更新构建附件，保留其说明，已公开的同名 Release 会让任务停止。macOS 包使用本机临时签名；面向公开分发的签名和公证仍需发布凭据。工程检查与打包结果和目标设备游戏验收分别记录。
-
-网页构建的发布路径以 `web-files.json` 为准；新增公开文件时更新此清单。`package-pages.py` 提供现有 GitHub Git Tree 文本条目格式，完整静态发布使用 `dist/web/`。
 
 ## 依赖审计记录 · 2026-10-16
 

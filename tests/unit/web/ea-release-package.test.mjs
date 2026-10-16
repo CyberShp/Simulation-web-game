@@ -1,32 +1,49 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync, rmSync } from 'node:fs';
+import { cpSync, existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { spawnSync } from 'node:child_process';
+import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { buildWeb } from '../../../scripts/build/web.mjs';
-import { checkWebBuild, localReferences } from '../../../scripts/check.mjs';
 
 const root = fileURLToPath(new URL('../../../', import.meta.url));
 
-test('web package resolves module and asset paths for root and preview with one cache version', async () => {
-  const output = path.join(root, 'dist', `test-web-${process.pid}`);
+test('U-156: web build, preview and release commands fail before creating output', async () => {
+  const isolated = mkdtempSync(path.join(os.tmpdir(), 'immortal-web-freeze-'));
+  const output = path.join(isolated, 'dist/web');
+  const commands = [
+    [process.execPath, 'scripts/build/web.mjs', '--out', output],
+    [process.execPath, 'scripts/dev/web.mjs', '--port', '0'],
+    [process.execPath, 'scripts/release/publish-pages.mjs'],
+    [process.execPath, 'scripts/release/request-pages-build.mjs'],
+    [process.env.PYTHON || (process.platform === 'win32' ? 'python' : 'python3'), 'scripts/release/package-pages.py', '--tag', 'qa-freeze', '--output', path.join(output, 'tree.json')],
+  ];
   try {
-    await buildWeb({ tag: 'qa-package-test', output });
-    const result = checkWebBuild(output);
-    assert(result.references > 200);
-    for (const prefix of ['', 'ea-preview/']) {
-      const html = readFileSync(path.join(output, prefix, 'index.html'), 'utf8');
-      assert.match(html, /ea-bootstrap\.mjs\?v=qa-package-test/);
-      const scenic = readFileSync(path.join(output, prefix, 'ea-scenic.mjs'), 'utf8');
-      assert(scenic.includes(prefix ? '../yunxiu-courtyard/navigation.mjs' : './yunxiu-courtyard/navigation.mjs'));
+    mkdirSync(output, { recursive: true });
+    writeFileSync(path.join(output, 'sentinel.txt'), 'existing output');
+    await assert.rejects(buildWeb({ tag: 'qa-freeze', output }), /U-156/);
+    for (const [command, script, ...args] of commands) {
+      const target = path.join(isolated, script);
+      mkdirSync(path.dirname(target), { recursive: true });
+      cpSync(path.join(root, script), target);
+      const result = spawnSync(command, [target, ...args], { cwd: isolated, encoding: 'utf8', timeout: 5000,
+        env: { ...process.env, PYTHONIOENCODING: 'utf-8' } });
+      assert.ifError(result.error);
+      assert.equal(result.status, 1, `${script}: must reject execution`);
+      assert.match(result.stderr, /U-156/, `${script}: must explain the publication freeze`);
+      assert.deepEqual(readdirSync(output), ['sentinel.txt'], `${script}: output stays untouched`);
+      assert.equal(readFileSync(path.join(output, 'sentinel.txt'), 'utf8'), 'existing output');
     }
-    const manifest = JSON.parse(readFileSync(path.join(output, 'build-manifest.json'), 'utf8'));
-    for (const entry of manifest.files.filter(entry => entry.path.endsWith('.mjs'))) {
-      for (const ref of localReferences(entry.path, readFileSync(path.join(output, entry.path), 'utf8'))) {
-        if (!/\.mjs(?:\?|$)/.test(ref)) continue;
-        const url = new URL(ref, 'https://example.test/' + entry.path);
-        assert.deepEqual(url.searchParams.getAll('v'), ['qa-package-test'], `${entry.path} → ${ref}`);
-      }
-    }
-  } finally { rmSync(output, { recursive: true, force: true }); }
+  } finally { rmSync(isolated, { recursive: true, force: true }); }
+});
+
+test('U-156: repository workflows cannot publish or upload a web build', () => {
+  assert.equal(existsSync(path.join(root, '.github/workflows/pages.yml')), false);
+  assert.equal(existsSync(path.join(root, 'scripts/build/web-files.json')), false);
+  for (const filename of readdirSync(path.join(root, '.github/workflows'))) {
+    if (!/\.ya?ml$/.test(filename)) continue;
+    const workflow = readFileSync(path.join(root, '.github/workflows', filename), 'utf8');
+    assert.doesNotMatch(workflow, /build:web|publish-pages|request-pages-build|deploy-pages|dist\/web|pages:\s*write/, filename);
+  }
 });

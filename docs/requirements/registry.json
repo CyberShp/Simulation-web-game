@@ -18,7 +18,7 @@
     "main_record_type": "runtime source commit; release metadata commit is a descendant",
     "working_release_note": "Independent local Chromium viewport checks found exact DPR2 main/ground bitmaps, clickable 44px help and working person picking; QA save/reload passed. Spatial Canvas 36/36 and input 13/13. Four 5-second browser pairs showed no clear rAF regression; backing allocation rose ~7.11 MiB for two DPR2 canvases. Public release files verified; real devices and full SR acceptance remain open.",
     "previous_pages": "47d435295a62f1b626df1299b4bc94132c6b2fd3",
-    "pages_deployment_status": "built",
+    "pages_deployment_status": "unpublished",
     "working_release_tag": "ea-160-courtyard-20261009-r37",
     "official_release_tag": "ea-160-courtyard-20261009-r37",
     "official_url": "https://cybershp.github.io/Simulation-web-game/?v=ea-160-courtyard-20261009-r37",
@@ -518,6 +518,15 @@
         "video": "/Volumes/Media/immortal-qa/opening-demo-20261016/delivery/余烬立山-开局实机.mp4",
         "continuous_single_new_save": true
       }
+    },
+    "web_retirement": {
+      "decision": "U-156",
+      "date": "2026-10-17",
+      "publication_status": "paused-until-user-web-rebuild-and-explicit-resume",
+      "public_http_status": 404,
+      "preview_http_status": 404,
+      "evidence": "docs/engineering/WEB-RETIREMENT-20261017.md",
+      "priorReleaseMetadata": "historical-only"
     }
   },
   "enums": {
@@ -589,7 +598,8 @@
         "U-93",
         "R-25",
         "R-26",
-        "U-152"
+        "U-152",
+        "U-156"
       ],
       "source_specs": [
         "docs/design/00-BASELINE.md",
@@ -600,7 +610,8 @@
         "docs/design/18-SPATIAL-CONTINUITY-IMPLEMENTATION.md",
         "docs/design/06-OPENING-ACCEPTANCE.md",
         "docs/engineering/REPOSITORY.md",
-        "docs/engineering/MIGRATION-20261016.md"
+        "docs/engineering/MIGRATION-20261016.md",
+        "docs/engineering/WEB-RETIREMENT-20261017.md"
       ],
       "baseline": "已有统一规格与已发布EA 1.5.0-dev，旧索引仍残留未部署/待定表述。",
       "design_gap": "建立逐项SR、来源、依赖、任务和关闭条件；统一药师身份及最新发布状态。",
@@ -652,7 +663,8 @@
         "需求基线文档main提交：272cbe8c1f5fba39ac2293a139ce79a842619762；远端54个变更文件哈希已核对。",
         "这只覆盖SR-XF-001管理能力；其余玩法仍待设计补齐、实现及独立验收。",
         "2026-10-16 U-152：工程整理本地验证完成。干净检出 npm ci/check、默认124/124、桌面暂存通过；macOS最终包同源档5/5，页面/资源错误0，来源原文保持。真实网页首页与独立预览8/8，325请求均200，错误/警告0；首页调息与刷新恢复已验。扩展623项为560通过、60失败、3跳过，60失败在基点e5f0d7逐名重现，当前失败名称无新增；路径专项16/16。11份原文快照及当前文档链接复核通过，独立审计无阻断。源码提交与远端核对待完成；证据见 docs/engineering/MIGRATION-20261016.md。原SR/AC及任务状态保持。",
-        "2026-10-16 U-152：工程迁移72875dc与Windows打包修正d92898a已推送main。远端三平台检查各124/124，三个桌面ZIP构建并上传；Pages发布成功，线上文件散列4/4与操作续档4/4。运行链接与原始失败及修复记录见docs/engineering/MIGRATION-20261016.md。Windows真机游戏操作与历史测试欠账保持原范围。"
+        "2026-10-16 U-152：工程迁移72875dc与Windows打包修正d92898a已推送main。远端三平台检查各124/124，三个桌面ZIP构建并上传；Pages发布成功，线上文件散列4/4与操作续档4/4。运行链接与原始失败及修复记录见docs/engineering/MIGRATION-20261016.md。Windows真机游戏操作与历史测试欠账保持原范围。",
+        "2026-10-17 U-156：旧网页场景退役，Pages 已取消发布，公开首页/独立预览均404。默认144/144、定向18/18、根检查与桌面暂存通过；桌面/共用模拟保持，原8处修改逐字节一致。网页发布暂停，完整SR/AC状态保持。范围见 docs/engineering/WEB-RETIREMENT-20261017.md。"
       ],
       "change_log": [
         {
@@ -678,6 +690,10 @@
         {
           "date": "2026-10-16",
           "reason": "U-152完成源码交付、三平台检查及桌面打包、既有Pages发布与线上核对；独立工程迁移记录完成，既有SR/AC及任务状态保持。"
+        },
+        {
+          "date": "2026-10-17",
+          "reason": "U-156 删除旧网页场景、下线线上旧网页并暂停发布；当前桌面及共用存档继续保留，历史网页证据限定于原版本。"
         }
       ],
       "tasks": [
@@ -1214,7 +1230,8 @@
         "R-49",
         "U-150",
         "R-50",
-        "U-155"
+        "U-155",
+        "U-156"
       ],
       "source_specs": [
         "docs/design/03-SPATIAL-ART.md",
@@ -1227,7 +1244,8 @@
         "docs/design/41-COURTYARD-VALLEY-IMPLEMENTATION.md",
         "docs/design/51-COURTYARD-MANAGEMENT-INTEGRATION.md",
         "docs/design/46-CONTINUOUS-DOMAIN-FOUNDATION.md",
-        "docs/design/52-EAST-TERRACE-INTEGRATION.md"
+        "docs/design/52-EAST-TERRACE-INTEGRATION.md",
+        "docs/engineering/WEB-RETIREMENT-20261017.md"
       ],
       "baseline": "既有 JS 运行基线：96米山院与2米营造格沿用同一米制空间。本批登记adult-furniture-1室内布局，成人家具、导航、预约脚点和可见床面共用预制件；旧合法布局在副本中一次映射并记录位置变化。 U-105 山域成长方案见 docs/SECT-GROWTH-PLAN.md；本批只登记设计与阶段原型，正式运行版本保持。\n2026-10-14 U-142：先审核完整山院美术原型，再按构图、细节、精度与材质还原实机。目标模式、场景接入及20分钟长验按用户要求暂停；本地增量保留。原型见 docs/art/pixel-courtyard-prototype-20261014/README.md；原型不计作运行验收，既有SR/AC状态保持。",
       "design_gap": "U-105 山域分区、稳定地域身份和统一布局解析已写入成长章程；各区逻辑米边界、建位入口、道路长度和跨区连接仍待实施设计，五阶段镜头、寻路及目标设备待实际验收。",
@@ -1343,7 +1361,8 @@
         "docs/design/52-EAST-TERRACE-INTEGRATION.md",
         "tests/acceptance/courtyard-east-desktop.mjs",
         "docs/design/54-COURTYARD-OPENING-DEMO.md；2026-10-16 U-153：当前高清像素桌面正式空档接入灭门序章、落脚疗伤择卷与首次主殿营造。默认测试133/133、后增场景相关16/16、独立复核19/19；最终macOS包同一新档10/10（72.310秒，五处进程重启）、旧暂停档兼容5/5，页面/资源错误0。完整后续开局链、Windows与SR/AC状态保持。",
-        "docs/design/54-COURTYARD-OPENING-DEMO.md；2026-10-17 U-155：三张守阵/逃离v3画帧、四类访客真实山路入离场、相向让行与旧档保护。基础143/143、定向17/17；最终macOS包序章17/17八次重启、同一普通新档陆知微入场4/4与99个在途脚点、暂停跨进程恢复/点选/走近通过。赠药仅同源隔离副本命令门槛证据；Windows、桌面完整交谈链、既有网页择法暂停提示和完整SR/AC状态保持。"
+        "docs/design/54-COURTYARD-OPENING-DEMO.md；2026-10-17 U-155：三张守阵/逃离v3画帧、四类访客真实山路入离场、相向让行与旧档保护。基础143/143、定向17/17；最终macOS包序章17/17八次重启、同一普通新档陆知微入场4/4与99个在途脚点、暂停跨进程恢复/点选/走近通过。赠药仅同源隔离副本命令门槛证据；Windows、桌面完整交谈链、既有网页择法暂停提示和完整SR/AC状态保持。",
+        "2026-10-17 U-156：旧网页场景退役，Pages 已取消发布，公开首页/独立预览均404。默认144/144、定向18/18、根检查与桌面暂存通过；桌面/共用模拟保持，原8处修改逐字节一致。网页发布暂停，完整SR/AC状态保持。范围见 docs/engineering/WEB-RETIREMENT-20261017.md。"
       ],
       "change_log": [
         {
@@ -1497,6 +1516,10 @@
         {
           "date": "2026-10-16",
           "reason": "U-153：补充桌面正式空档到主殿完工的局部实现与同档实机证据；完整需求和AC状态保持。"
+        },
+        {
+          "date": "2026-10-17",
+          "reason": "U-156 删除旧网页场景、下线线上旧网页并暂停发布；当前桌面及共用存档继续保留，历史网页证据限定于原版本。"
         }
       ],
       "tasks": [

@@ -9,7 +9,7 @@
 3. [运行时契约](05-RUNTIME-CONTRACTS.md)、[开局验收](06-OPENING-ACCEPTANCE.md)、[前期详细设计](14-EARLY-GAME-DETAILED-DESIGN.md)，再读本次分系统及依赖。
 4. [需求入口](../requirements/README.md)、[总表](../requirements/BACKLOG.md)、[台账](../requirements/registry.json) 和对应 SR 页面。
 
-当前美术按 U-133/U-135、U-144 与 U-150 的批准依据接续；后台运行按 U-139。工程整理按 U-152，保持游戏逻辑和存档兼容。U 表示用户确认，R/T 表示作者建议或可调参数。U-93 暂停的主动远期问答继续保持，未定神道事项不阻塞前期。
+当前美术按 U-133/U-135、U-144 与 U-150 的批准依据接续；后台运行按 U-139。工程整理按 U-152，保持游戏逻辑和存档兼容。U-156 删除旧网页场景并暂停发布，接续以 [退役记录](../engineering/WEB-RETIREMENT-20261017.md) 为准。U 表示用户确认，R/T 表示作者建议或可调参数。U-93 暂停的主动远期问答继续保持，未定神道事项不阻塞前期。
 
 ## 当前桌面与经营
 

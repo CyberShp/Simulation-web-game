@@ -102,4 +102,4 @@ Windows 真机、首次玩家体验、主殿之后的招募/生产/炼丹/出谷
 
 网页暂停接缝在基点 `39a3309` 和当前源码以同样公开命令、原样网页回调和实际保存模块复现，五个相关文件哈希相同；对照证据为 `/Volumes/Media/immortal-qa/visitor-road-20261017/web-inheritance-pause-compare.json`。本地浏览器操作记录见 `opening-ward-20261017/web-smoke-report.json`。
 
-本批已修复范围以本表为准。Windows 真机、完整桌面赠药/招募交谈链，以及既有网页择法期间保存提示仍按各自范围接续。源码与现有网页的发布、远端提交与实际网页文件散列读回记录于 `/Volumes/Media/immortal-qa/opening-ward-20261017/publication.json`。
+本批已修复范围以本表为准。Windows 真机与完整桌面赠药/招募交谈链继续接续；旧网页后按 U-156 退役。U-155 源码 3028c3f 已推送，网页仅做构建与 dry-run，用户要求暂停后未发布本批网页。源码与发布边界记录于 `/Volumes/Media/immortal-qa/opening-ward-20261017/publication.json`。

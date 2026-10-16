@@ -1,14 +1,14 @@
 # Codex 接手指南
 
-更新于 2026-10-17，当前守阵画帧与访客沿路入院按 U-155，开局按 U-153/U-154，工程目录按 U-152。先读 [AGENTS.md](../AGENTS.md)，核对工作区、当前分支和未提交差异。本文负责当前导航；规则由设计规格定义，实际完成范围由 [STATUS](design/STATUS.md) 与 [需求台账](requirements/registry.json) 记录。
+更新于 2026-10-17，旧网页退役与发布暂停按 U-156，当前守阵画帧与访客沿路入院按 U-155，开局按 U-153/U-154，工程目录按 U-152。先读 [AGENTS.md](../AGENTS.md)，核对工作区、当前分支和未提交差异。本文负责当前导航；规则由设计规格定义，实际完成范围由 [STATUS](design/STATUS.md) 与 [需求台账](requirements/registry.json) 记录。
 
 ## 当前主线
 
-当前可运行主线是纯 2D 高清像素桌面山院，Windows 为主力平台，macOS 用于前期验证。`apps/courtyard/` 使用 Electron / Canvas 2D 展示原山院、东路与首处东台门人居，并读取 `src/simulation/` 的共用规则。现有网页入口保存在 `apps/web/`，历史 Godot 工程与独立样板位于 `archive/`。
+当前可运行主线是纯 2D 高清像素桌面山院，Windows 为主力平台，macOS 用于前期验证。`apps/courtyard/` 使用 Electron / Canvas 2D 展示原山院、东路与首处东台门人居，并读取 `src/simulation/` 的共用规则。`apps/web/` 仅保留界面组件，旧场景与启动入口已删除；历史 Godot 工程与独立样板位于 `archive/`。
 
 原山院实机与东台 v2 母稿已获用户批准。当前山院管理、供苗/劳动/搬运、修行与物资操作、保存恢复和东台实际扩建有迁移前 macOS 证据。同一东台完成档已实际自主运行 1200.036 秒，原生最小化 180.857 秒并继续推进；其中持续口粮供给不足，之后使用同源存档手动采粮恢复。完整范围与原验收脚本失败的处理见 [53 长验记录](design/53-COURTYARD-AUTONOMY-ACCEPTANCE.md)。
 
-本次整理工程结构、命令、构建、测试与文档导航，保持既有游戏逻辑和存档标识。干净检出安装、根检查、默认核心测试 124/124、桌面暂存、最终 macOS 包同档复验 5/5 和真实网页操作 8/8 已完成，独立审计无阻断。扩展套件 623 项中 560 通过、60 失败、3 跳过；60 项失败均在迁移前基点逐名重现，当前失败名称没有新增。源码已推送，远端三平台检查、三个桌面包及现有网页发布已核对，具体证据见 [工程迁移记录](engineering/MIGRATION-20261016.md)。
+U-152 工程整理覆盖结构、命令、构建、测试与文档导航，保持既有游戏逻辑和存档标识。干净检出安装、根检查、默认核心测试 124/124、桌面暂存、最终 macOS 包同档复验 5/5 和真实网页操作 8/8 已完成，独立审计无阻断。扩展套件 623 项中 560 通过、60 失败、3 跳过；60 项失败均在迁移前基点逐名重现，当前失败名称没有新增。源码已推送，远端三平台检查、三个桌面包及现有网页发布已核对，具体证据见 [工程迁移记录](engineering/MIGRATION-20261016.md)。
 
 U-153 将当前桌面的空存档入口接通灭门序章、云岫落脚、疗伤择卷与首次主殿营造。阶段读取正式共用状态，同一人物与物资持续保存；详细实现、最终包验证和连续录像见 [54 开局演示](design/54-COURTYARD-OPENING-DEMO.md)。主殿之后的完整前期流程继续按原验收范围接续。
 
@@ -35,11 +35,10 @@ npm ci
 npm start
 npm test
 npm run check
-npm run build:web
 npm run build:desktop
 ```
 
-`npm run dev:web` 构建并启动现有网页预览。生成目录与各命令范围见 [工程说明](engineering/REPOSITORY.md)。QA 日志、截图、测试存档与临时产物写到仓库外；桌面验收使用独立 `--qa-dir`，网页验收使用 `acceptance=qa-*`，保护用户正式存档。
+网页预览、构建与发布按 U-156 停用。生成目录与各命令范围见 [工程说明](engineering/REPOSITORY.md)。QA 日志、截图、测试存档与临时产物写到仓库外；桌面验收使用独立 `--qa-dir`，网页验收使用 `acceptance=qa-*`，保护用户正式存档。
 
 台账由 JSON 生成派生文档：
 
@@ -59,7 +58,7 @@ python3 scripts/requirements/sr-manager.py validate
 | 山院对共用模拟的接入 | `apps/courtyard/sect-sim.mjs`、`sect-seed.mjs` |
 | 模拟、活动与自主 | `src/simulation/ea-sim.mjs`、`ea-opening-sim.mjs`、`ea-sr-runtime.mjs`、`ea-sr-persons.mjs` |
 | 空间、物流与持久化 | `src/simulation/ea-sr-spatial.mjs`、`ea-sr-economy.mjs`、`ea-persistence.mjs` |
-| 现有网页 | `apps/web/index.html`、`apps/web/ea-game.mjs` |
+| 网页退役与发布暂停 | [U-156 记录](engineering/WEB-RETIREMENT-20261017.md) |
 | 运行素材 | `assets/courtyard/`、`assets/web/` |
 | 单元与实际验收 | `tests/unit/`、`tests/acceptance/`、`tests/fixtures/` |
 | 构建与发布 | `scripts/build/`、`scripts/release/`、`.github/workflows/` |
@@ -99,4 +98,4 @@ python3 scripts/requirements/sr-manager.py validate
 
 入口文档的旧全文按原路径保存在 [历史快照](history/README.md)，历史验收记录与失败原文继续保留。只提交必要源码、素材、设计和可复用测试；运行日志、截图、个人测试存档与生成物留在仓库外。
 
-现有 GitHub Pages 由 `gh-pages` 发布运行产物。文档整理本身不证明游戏部署完成；运行版本变更须构建、验证并核对实际公开文件。源码推送失败时可使用已授权的 GitHub API 路径，更新分支须核对预期 HEAD 并保持 `force:false`。
+U-156 要求线上旧网页下线。用户重构网页版并明确恢复发布前，只同步源码，禁止重新启用 Pages、运行网页发布或提交运行产物触发部署。实际下线与验证见 [退役记录](engineering/WEB-RETIREMENT-20261017.md)。源码推送失败时可使用已授权的 GitHub API 路径，更新分支须核对预期 HEAD 并保持 `force:false`。

@@ -1872,6 +1872,26 @@
       "videoGenerated": false,
       "windows": "not-run",
       "wholeRequirementStatusesChanged": false
+    },
+    "currentWebRetirement": {
+      "decisionId": "U-156",
+      "reference": "docs/engineering/WEB-RETIREMENT-20261017.md",
+      "status": "scene-removed-site-unpublished-publication-paused",
+      "websitePublished": false,
+      "publicationPolicy": "paused-until-user-web-rebuild-and-explicit-resume",
+      "offlineEvidence": "/Volumes/Media/immortal-qa/web-retirement-20261017/offline-report.json",
+      "sharedSimulationPreserved": true,
+      "desktopPreserved": true,
+      "verification": {
+        "defaultUnitPassed": 144,
+        "targetedPassed": 18,
+        "sourceCheck": "passed",
+        "desktopStage": "passed",
+        "publicHttpStatus": 404,
+        "previewHttpStatus": 404,
+        "windows": "not-run",
+        "wholeRequirementStatusesChanged": false
+      }
     }
   },
   "characterDialogue": {

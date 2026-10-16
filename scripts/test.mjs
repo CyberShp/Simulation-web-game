@@ -28,7 +28,7 @@ function filesAt(relative) {
 
 if (args.includes('--help')) {
   console.log('Usage: npm test [-- --all | tests/unit/...test.mjs]');
-  console.log('Default: courtyard behavior, shared persistence/clock/space, source and web packaging.');
+  console.log('Default: courtyard behavior, shared persistence/clock/space, source and web publication freeze.');
   console.log('Desktop migration: node tests/acceptance/courtyard-migration-desktop.mjs --source-save=/absolute/paused-save.json');
   console.log('Long autonomy: node tests/acceptance/courtyard-autonomy-desktop.mjs --app=/absolute/package.app --source=/absolute/paused-save.json --output=/absolute/evidence');
   process.exit(0);

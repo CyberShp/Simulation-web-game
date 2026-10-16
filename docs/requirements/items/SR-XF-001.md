@@ -14,9 +14,9 @@
 
 纳入云岫前期，按依赖推进。
 
-决策来源：U-63, U-93, R-25, R-26, U-152。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
+决策来源：U-63, U-93, R-25, R-26, U-152, U-156。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
 
-规格：[00-BASELINE.md](../../../docs/design/00-BASELINE.md)、[04-WORLD-STORY.md](../../../docs/design/04-WORLD-STORY.md)、[12-CONTENT-AUTHORING.md](../../../docs/design/12-CONTENT-AUTHORING.md)、[13-WORLDVIEW-DISCUSSION.md](../../../docs/design/13-WORLDVIEW-DISCUSSION.md)、[14-EARLY-GAME-DETAILED-DESIGN.md](../../../docs/design/14-EARLY-GAME-DETAILED-DESIGN.md)、[18-SPATIAL-CONTINUITY-IMPLEMENTATION.md](../../../docs/design/18-SPATIAL-CONTINUITY-IMPLEMENTATION.md)、[06-OPENING-ACCEPTANCE.md](../../../docs/design/06-OPENING-ACCEPTANCE.md)、[REPOSITORY.md](../../../docs/engineering/REPOSITORY.md)、[MIGRATION-20261016.md](../../../docs/engineering/MIGRATION-20261016.md)。
+规格：[00-BASELINE.md](../../../docs/design/00-BASELINE.md)、[04-WORLD-STORY.md](../../../docs/design/04-WORLD-STORY.md)、[12-CONTENT-AUTHORING.md](../../../docs/design/12-CONTENT-AUTHORING.md)、[13-WORLDVIEW-DISCUSSION.md](../../../docs/design/13-WORLDVIEW-DISCUSSION.md)、[14-EARLY-GAME-DETAILED-DESIGN.md](../../../docs/design/14-EARLY-GAME-DETAILED-DESIGN.md)、[18-SPATIAL-CONTINUITY-IMPLEMENTATION.md](../../../docs/design/18-SPATIAL-CONTINUITY-IMPLEMENTATION.md)、[06-OPENING-ACCEPTANCE.md](../../../docs/design/06-OPENING-ACCEPTANCE.md)、[REPOSITORY.md](../../../docs/engineering/REPOSITORY.md)、[MIGRATION-20261016.md](../../../docs/engineering/MIGRATION-20261016.md)、[WEB-RETIREMENT-20261017.md](../../../docs/engineering/WEB-RETIREMENT-20261017.md)。
 
 依赖：无。
 
@@ -106,6 +106,7 @@ SR-XF-001-R01证据：2026-10-06：GitHub API提交main 272cbe8c1f5fba39ac2293a1
 - 这只覆盖SR-XF-001管理能力；其余玩法仍待设计补齐、实现及独立验收。
 - 2026-10-16 U-152：工程整理本地验证完成。干净检出 npm ci/check、默认124/124、桌面暂存通过；macOS最终包同源档5/5，页面/资源错误0，来源原文保持。真实网页首页与独立预览8/8，325请求均200，错误/警告0；首页调息与刷新恢复已验。扩展623项为560通过、60失败、3跳过，60失败在基点e5f0d7逐名重现，当前失败名称无新增；路径专项16/16。11份原文快照及当前文档链接复核通过，独立审计无阻断。源码提交与远端核对待完成；证据见 docs/engineering/MIGRATION-20261016.md。原SR/AC及任务状态保持。
 - 2026-10-16 U-152：工程迁移72875dc与Windows打包修正d92898a已推送main。远端三平台检查各124/124，三个桌面ZIP构建并上传；Pages发布成功，线上文件散列4/4与操作续档4/4。运行链接与原始失败及修复记录见docs/engineering/MIGRATION-20261016.md。Windows真机游戏操作与历史测试欠账保持原范围。
+- 2026-10-17 U-156：旧网页场景退役，Pages 已取消发布，公开首页/独立预览均404。默认144/144、定向18/18、根检查与桌面暂存通过；桌面/共用模拟保持，原8处修改逐字节一致。网页发布暂停，完整SR/AC状态保持。范围见 docs/engineering/WEB-RETIREMENT-20261017.md。
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：完成管理SR的设计、实现及结构/来源/状态守卫验收；仅文档提交待核对，游戏Pages不适用。
@@ -113,5 +114,6 @@ SR-XF-001-R01证据：2026-10-06：GitHub API提交main 272cbe8c1f5fba39ac2293a1
 - 2026-10-16：U-152已批准完整工程整理和推送。追加独立工程迁移记录；保留既有40项SR/120条AC状态、历史证据及未提交成果。
 - 2026-10-16：U-152完成干净检出、根命令、macOS实际同档迁移、网页操作及独立复核的本地验证；扩展旧失败已逐项基线对照。源码提交与远端核对待完成，40项SR/120条AC及任务状态保持。
 - 2026-10-16：U-152完成源码交付、三平台检查及桌面打包、既有Pages发布与线上核对；独立工程迁移记录完成，既有SR/AC及任务状态保持。
+- 2026-10-17：U-156 删除旧网页场景、下线线上旧网页并暂停发布；当前桌面及共用存档继续保留，历史网页证据限定于原版本。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python scripts/requirements/sr-manager.py refresh`，不单独修改此派生页。

@@ -1,4 +1,4 @@
-import {appearanceActionLabel,portraitDataURL} from './ea-courtyard-renderer.mjs';
+import {appearanceActionLabel,portraitDataURL} from './ea-character-art.mjs';
 import {renderSRPanel,dialogueSettings,srFormArguments} from './ea-sr-ui.mjs';
 import {createDialogueAI} from './ea-sr-ai.mjs';
 import {REGION_ART} from './ea-region-art.mjs';

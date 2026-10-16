@@ -7,7 +7,6 @@ import {resolve,relative,dirname,sep} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import * as S from '../../src/simulation/ea-opening-sim.mjs';
 import {harness,normalFinishRevenge} from './ea-sr-integration-acceptance.mjs';
-import {sceneEquipmentMounts} from '../../apps/web/ea-courtyard-renderer.mjs';
 import {createEAPersistence} from '../../src/simulation/ea-persistence.mjs';
 
 const SOURCE=process.env.XIANFU_QA_SR007_AC02_SOURCE;
@@ -20,9 +19,8 @@ const PULSE_ROBE='item:sr-equipment:5';
 function equipped(s,slot){return Object.values(s.itemsById).find(i=>i.location?.kind==='person'&&i.location.id===MASTER&&i.location.slot===slot);}
 function snapshot(h){h.save();return {state:h.s,counts:h.counts};}
 function assertIdentity(s,identity){
- const view=S.appearanceView(s,MASTER),mounts=sceneEquipmentMounts(s,MASTER);
+ const view=S.appearanceView(s,MASTER),mounts=view.mounts;
  assert.equal(JSON.stringify({id:view.personId,sprite:view.spriteIndex,accent:view.accent,recipe:view.recipe,portrait:view.portraitKey}),identity);
- assert.deepEqual(mounts,view.mounts);
  for(const [slot,mount] of Object.entries(mounts)){
   const item=equipped(s,slot);
   assert.equal(mount.itemId,item?.id);

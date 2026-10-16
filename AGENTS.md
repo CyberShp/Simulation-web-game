@@ -15,13 +15,13 @@
 ## 当前工程入口
 
 - `apps/courtyard/`：当前纯 2D 高清像素桌面山院，入口 `courtyard-host.cjs` / `courtyard.html`。
-- `apps/web/`：现有网页入口；`src/simulation/`：共用模拟与持久事实。
+- `apps/web/`：保留的网页界面组件，旧场景入口已移除；`src/simulation/`：共用模拟与持久事实。
 - `assets/courtyard/`、`assets/web/`：相应运行素材。
 - `tests/unit/`、`tests/acceptance/`、`tests/fixtures/`：分层验证与夹具。
 - `scripts/`：检查、测试、构建、发布、开发、需求和美术工具；`dist/` 只保存生成物。
 - `archive/godot/`、`archive/prototypes/`：历史工程与样板。各自的规则和证据以所属版本为准。
 
-在根目录用 `npm ci` 安装固定依赖，`npm start` 启动山院；`npm test`、`npm run check`、`npm run build:web`、`npm run build:desktop` 为统一入口。详见 [工程说明](docs/engineering/REPOSITORY.md)。
+在根目录用 `npm ci` 安装固定依赖，`npm start` 启动山院；`npm test`、`npm run check`、`npm run build:desktop` 为统一入口。网页构建与预览按 U-156 停用。详见 [工程说明](docs/engineering/REPOSITORY.md)。
 
 ## 每批范围与协作
 
@@ -64,6 +64,6 @@ U-93 的主动世界观问答暂停仍有效。远期神道王朝所在地和宗
 
 `main` 保存源码、素材、设计和可复用测试；`dist/`、依赖、运行日志、验收截图、测试存档和临时产物不提交。整理与发布前保留已有未提交成果，源码提交和远端分支读回分别核对。
 
-现有 GitHub Pages 使用 `gh-pages` 运行产物分支。每批运行代码或素材完成相应独立验收后，按当前交付范围推送源码和更新既有网页，分别核对源码与网页。纯文档或台账批只同步源码。桌面应用、现有网页首页和历史独立场景按各自入口验收；没有实现和验证的新设计不得称为已上线。
+U-156：旧网页场景及入口删除，线上旧网页下线。用户重构网页版并明确恢复发布前，禁止发布、重新启用 GitHub Pages 或提交产物触发网页部署；运行代码、美术与文档批次只同步源码。网页预览、构建、发布命令均停用，Pages 工作流移除。当前桌面应用按自身入口验收，历史网页证据保留原日期和范围。
 
 2026-10-16 工程整理按 U-152 保持游戏逻辑与存档标识。历史入口文档原文和原始路径在 [历史快照](docs/history/README.md)；本文件只维护稳定协作规则与当前导航。
