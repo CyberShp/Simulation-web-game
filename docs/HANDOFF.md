@@ -1,6 +1,6 @@
 # 项目接续索引
 
-从 [AGENTS.md](../AGENTS.md) 和 [Codex 接手指南](CODEX-HANDOFF.md) 开始。当前工程入口为 `apps/courtyard/` 的高清像素桌面山院，根目录 `npm start` 启动。U-152 已完成干净检出安装/检查、默认 124 项测试、macOS 同档迁移复验 5/5 和网页操作复验 8/8；源码提交及远端核对继续登记。
+从 [AGENTS.md](../AGENTS.md) 和 [Codex 接手指南](CODEX-HANDOFF.md) 开始。当前工程入口为 `apps/courtyard/` 的高清像素桌面山院，根目录 `npm start` 启动。U-152 已完成工程迁移与推送；三平台检查各 124/124，三个桌面包构建成功，macOS 同档迁移及现有网页发布与线上操作已验证。具体范围见迁移记录。
 
 - 当前实现与证据：[STATUS](design/STATUS.md)。
 - 需求状态：[registry.json](requirements/registry.json) 与 [BACKLOG](requirements/BACKLOG.md)。
