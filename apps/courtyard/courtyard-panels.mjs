@@ -621,10 +621,28 @@ export function createCourtyardPanels({ getView, inspect, command, openPerson, f
         }
         note(work, '材料先实际送到工位；本人到岗后开工，成品由商人到坊取货付款。');
       }
-      commandAction(work, workplace.enabled === false ? '恢复生产' : '暂停生产', { type: 'toggle-building', buildingId: workplace.buildingId }, 'workplace:toggle');
       const order = workplace.order;
+      const processes = workplace.processes || [];
+      if (processes.length) {
+        const list = section('专业工序', '宗主指定本坊下一批工序；原料须已在坊内，本人到岗后开工。');
+        for (const process of processes) {
+          const row = node('div', undefined, 'station-row'); row.append(node('strong', process.name));
+          note(row, `每批投料 ${resources(process.inputCost)} · 产出 ${resources(process.outputDefinition)} · 工时 ${number(process.durationTicks / 10)} 秒`);
+          for (const [id, missing] of Object.entries(process.missingCost || {})) {
+            const delivery = Math.min(40, missing, view.resources[id] || 0);
+            action(row, `送入${resourceName(id)} · 缺${number(missing)}`, () => transfer(HOME, workplace.stockpileId, id, 0, Math.max(1, delivery)), `workplace:process:${process.id}:${id}`,
+              { available: delivery > 0 && view.operations.canTransport.available, reason: view.operations.canTransport.reason || (delivery <= 0 ? `公库${resourceName(id)}不足。` : '') });
+          }
+          commandAction(row, `委托${process.name}`, { type: 'start-workshop-process', buildingId: workplace.buildingId, processId: process.id }, `workplace:process:${process.id}`,
+            { available: process.availability.available && workplace.availability.available && (!order || order.phase === 'completed'), reason: order && order.phase !== 'completed' ? '已有在制批次，先完成或中止。' : process.availability.reason }, 'primary');
+          list.append(row);
+        }
+        work.append(list);
+      }
+      commandAction(work, workplace.enabled === false ? '恢复生产' : '暂停生产', { type: 'toggle-building', buildingId: workplace.buildingId }, 'workplace:toggle');
       if (order) {
-        facts(work, [['在制批次', `第 ${number(order.batch ?? 1)} 批`], ['加工进度', `${number(order.progressTicks || 0)} / ${number(order.durationTicks || 0)}`], ['工单状态', order.phase === 'completed' ? (workplace.recipe ? '已完工，商人到坊取货付款' : '已完工，待搬入府库') : '加工中']]);
+        const processName = workplace.selectedProcess ? processes.find(process => process.id === workplace.selectedProcess)?.name || '常规器物' : '常规器物';
+        facts(work, [['本批工序', processName], ['在制批次', `第 ${number(order.batch ?? 1)} 批`], ['加工进度', `${number(order.progressTicks || 0)} / ${number(order.durationTicks || 0)}`], ['工单状态', order.phase === 'completed' ? (workplace.recipe ? '已完工，商人到坊取货付款' : '已完工，待搬入府库') : order.phase === 'waiting' ? '已委托，待本人到岗' : '加工中']]);
         commandAction(work, '中止本批生产', { type: 'cancel-production', buildingId: workplace.buildingId }, 'workplace:cancel',
           { available: order.phase !== 'completed', reason: order.phase === 'completed' ? '本批已完工，无需中止。' : '' });
       } else note(work, '当前没有在制工单；材料送到工位、本人到岗后开工。');

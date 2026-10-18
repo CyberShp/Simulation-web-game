@@ -2,7 +2,7 @@ import {meditationSupplyEnabled} from './ea-meditation-definitions.mjs';
 import {siteServiceEnabled} from './ea-service-definitions.mjs';
 /** Body activities and exclusive work stations, called only by the world owner. */
 import {BUILDINGS,canPay,pay,grant} from './ea-data.mjs';
-import {productionAvailability,settleFiniteProduction,initEconomy,productionInputAvailable,reserveProductionInput,refundProductionInput,cancelMerchantCollection,farmWaterlogged,cropRecipeFor,cropRecipeByVersion,FARM_V1_RECIPE,PRODUCTION_RECIPE_VERSION,productionRecipeDefinition,productionRecipeSnapshot} from './ea-sr-economy.mjs';
+import {productionAvailability,settleFiniteProduction,initEconomy,productionInputAvailable,reserveProductionInput,refundProductionInput,cancelMerchantCollection,farmWaterlogged,cropRecipeFor,cropRecipeByVersion,FARM_V1_RECIPE,PRODUCTION_RECIPE_VERSION,productionRecipeDefinition,productionRecipeSnapshot,productionSkillVersion} from './ea-sr-economy.mjs';
 const units=(s,pixels)=>s.spatial?.version==='spatial-metres-1'?pixels/32:pixels;
 const spacing=s=>s.spatial?.version==='spatial-metres-1'?.5:8;
 const arrival=s=>s.spatial?.version==='spatial-metres-1'?.04:.5;
@@ -138,11 +138,11 @@ export function contributeProduction(s,p,b,settle){
  }
  a.workOrderId=order.id;order.phase='active';
  if(order.crop){if(farmWaterlogged(s)){order.crop.phase='paused:waterlogged';order.crop.weatherPauseReason='waterlogged';a.reason=`${cropName}积水，成长与照料暂停。`;order.phase='waiting';return false;}if(order.crop.maturedAtTick===null&&order.progressTicks>=order.durationTicks){a.reason=`照料已满，等待${cropName}成熟。`;order.phase='waiting';return false;}}
- const contribution=Math.min(10,order.durationTicks-order.progressTicks);order.progressTicks+=contribution;if(contribution){order.contributions[p.personId]=(order.contributions[p.personId]||0)+contribution;if(order.crop)order.participantSkills[p.personId]??=p.mind?.skills?.plant||0;else if(order.recipeSnapshot?.recipeVersion===PRODUCTION_RECIPE_VERSION)order.participantSkills[p.personId]??=p.mind?.skills?.[order.recipeSnapshot.skillKey]||0;}
+ const contribution=Math.min(10,order.durationTicks-order.progressTicks);order.progressTicks+=contribution;if(contribution){order.contributions[p.personId]=(order.contributions[p.personId]||0)+contribution;if(order.crop)order.participantSkills[p.personId]??=p.mind?.skills?.plant||0;else if(productionSkillVersion(order.recipeSnapshot?.recipeVersion))order.participantSkills[p.personId]??=p.mind?.skills?.[order.recipeSnapshot.skillKey]||0;}
  if(order.crop)order.crop.careContribution=order.progressTicks;
  if(order.progressTicks<order.durationTicks)return true;
  if(order.crop&&order.crop.maturedAtTick===null){order.phase='waiting';order.crop.phase='growing';a.reason=`照料已满，等待${cropName}成熟。`;return false;}
- const participants=Object.entries(order.contributions).map(([id,ticks])=>({person:s.personsById[id],share:ticks/order.durationTicks,...(order.crop||order.recipeSnapshot?.recipeVersion===PRODUCTION_RECIPE_VERSION?{skillAtFirstContribution:order.participantSkills[id]}:{})})).sort((a,b)=>b.share-a.share||a.person.id-b.person.id);
+ const participants=Object.entries(order.contributions).map(([id,ticks])=>({person:s.personsById[id],share:ticks/order.durationTicks,...(order.crop||productionSkillVersion(order.recipeSnapshot?.recipeVersion)?{skillAtFirstContribution:order.participantSkills[id]}:{})})).sort((a,b)=>b.share-a.share||a.person.id-b.person.id);
  if(!settleFiniteProduction(s,b,settle,participants)){if(!order.crop){order.progressTicks-=contribution;order.contributions[p.personId]-=contribution;if(!order.contributions[p.personId]){delete order.contributions[p.personId];if(order.participantSkills)delete order.participantSkills[p.personId];}}else{order.phase='waiting';order.crop.phase='ripe/waiting';}a.reason='整批成品容量或来源不足，保留投入等待；不会截断产物。';return false;}
  if(order.crop){const factId=`fact:production:${b.instanceId}:${order.batch}`,harvestFactId=`fact:crop:harvest:${b.instanceId}:${order.batch}`;order.crop.harvestedAtTick=s.worldTick;order.crop.fallowUntilTick=s.worldTick+1;order.crop.phase='harvested';s.factsById[harvestFactId]={id:harvestFactId,kind:'crop-harvest',atTick:s.worldTick,buildingId:b.instanceId,workOrderId:order.id,batch:order.batch,sowFactId:order.crop.sowFactId,productionFactId:factId,quantity:s.factsById[factId]?.quantities?.[Object.keys(cropRecipe.output)[0]]||0,recipeVersion:cropRecipe.recipeVersion};}
  order.phase='completed';order.resultTransactionId=`result:${order.id}:${order.batch}`;delete s.reservationsById[order.reservationId];return true;
@@ -203,7 +203,7 @@ export function validateFacilityActivities(s){
   if(!newFarm&&b.type!=='farm'&&o.recipeSnapshot){
    const snap=o.recipeSnapshot,expected=recipe&&productionRecipeSnapshot(s,b,snap.recipeVersion);
    if(!expected||snap.recipeId!==expected.recipeId||JSON.stringify(snap.inputCost)!==JSON.stringify(expected.inputCost)||snap.durationUnit!=='contribution'||snap.durationValue!==recipe.durationValue||JSON.stringify(snap.outputDefinition)!==JSON.stringify(expected.outputDefinition)||snap.outputRuleVersion!==expected.outputRuleVersion||snap.skillRuleVersion!==expected.skillRuleVersion||snap.skillKey!==expected.skillKey||snap.skillGate!==0||snap.workstationRule!==expected.workstationRule||JSON.stringify(snap.sourceStockpileIds)!==JSON.stringify(expected.sourceStockpileIds)||snap.ownerId!==expected.ownerId||!Number.isSafeInteger(snap.createdTick)||snap.createdTick<0||snap.createdTick>s.worldTick)fail();
-   if(snap.recipeVersion===PRODUCTION_RECIPE_VERSION&&(!o.participantSkills||Object.keys(o.participantSkills).length!==Object.keys(o.contributions).length||!Object.entries(o.participantSkills).every(([pid,v])=>o.contributions[pid]>0&&Number.isFinite(v)&&v>=0&&v<=100)))fail();
+   if(productionSkillVersion(snap.recipeVersion)&&(!o.participantSkills||Object.keys(o.participantSkills).length!==Object.keys(o.contributions).length||!Object.entries(o.participantSkills).every(([pid,v])=>o.contributions[pid]>0&&Number.isFinite(v)&&v>=0&&v<=100)))fail();
   }
   if(newFarm)validateFarmCrop(s,o,b,r,fail);
   if(o.phase==='completed'){if(o.progressTicks!==o.durationTicks||r||o.resultTransactionId!==`result:${id}:${o.batch}`)fail();}

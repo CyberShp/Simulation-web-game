@@ -496,6 +496,14 @@ export function commandSect(session, request) {
       command = { name: 'cancelProduction', args: [building.id] };
       reason = `中止${SIM.BUILDINGS[building.type].name}本批生产；未耗原料按进度退回现场货位，已投入部分不退。`;
     }
+    else if (request.type === 'start-workshop-process') {
+      const building = session.state.buildingsById[request.buildingId];
+      if (!building || building.type !== 'workshop') throw Error('只有百工坊可安排专业工序。');
+      const process = (SIM.WORKSHOP_PROCESSES || []).find(row => row.id === request.processId);
+      if (!process) throw Error('百工坊工序不存在。');
+      command = { name: 'startWorkshopProcess', args: [building.instanceId, process.id] };
+      reason = `宗主指定百工坊本批做${process.name}；原料须已在坊内，本人到岗后开工。`;
+    }
     else if (request.type === 'replenish') {
       if (!['wood', 'stone', 'herb', 'food'].includes(request.resource)) throw Error('请选择已知基础物资来源。');
       command = { name: 'replenishPatch', args: [request.resource] }; reason = '掌门按明确指令支付材料，实际前往恢复来源；此支出单列于正式账本。';
@@ -970,8 +978,17 @@ function operationsView(s, projection) {
     const recipe = typeof SIM.productionRecipeDefinition === 'function' && SIM.PRODUCTION_RECIPE_VERSION ? SIM.productionRecipeDefinition(SIM.PRODUCTION_RECIPE_VERSION, b.type) : null;
     const onsite = stock?.resources || {}, missingCost = {};
     for (const [id, quantity] of Object.entries(recipe?.inputCost || {})) { const missing = Math.max(0, quantity - (onsite[id] || 0)); if (missing > 0) missingCost[id] = missing; }
+    const processes = b.type === 'workshop' && b.domainSiteId === 'site:domain:gc-25' && Array.isArray(SIM.WORKSHOP_PROCESSES) ? SIM.WORKSHOP_PROCESSES.map(process => {
+      const processMissing = {};
+      for (const [id, quantity] of Object.entries(process.recipe.inputCost)) { const missing = Math.max(0, quantity - (onsite[id] || 0)); if (missing > 0) processMissing[id] = missing; }
+      const gate = SIM.productionAvailability(s, b, process.version);
+      return { id: process.id, name: process.name, version: process.version, inputCost: clone(process.recipe.inputCost),
+        outputDefinition: clone(process.recipe.outputDefinition), durationTicks: process.recipe.durationValue,
+        missingCost: processMissing, availability: availability(gate.available && !Object.keys(processMissing).length ? '' : gate.available ? '工位原料未齐，先从公库搬入。' : gate.reason) };
+    }) : [];
+    const selectedProcess = processes.find(process => process.version === order?.recipeSnapshot?.recipeVersion) || null;
     return { buildingId: b.instanceId, name: SIM.BUILDINGS[b.type].name, enabled: b.enabled !== false, availability: availability(reason),
-      stockpileId, resources: clone(onsite), order: clone(order),
+      stockpileId, resources: clone(onsite), order: clone(order), processes, selectedProcess: selectedProcess?.id || null,
       recipe: recipe ? { inputCost: clone(recipe.inputCost), outputDefinition: clone(recipe.outputDefinition), durationTicks: recipe.durationValue, skillKey: recipe.skill } : null,
       missingCost, cancelable: !!order && order.phase !== 'completed',
       workers: projection.systemPeople.persons.filter(p => s.activitiesById[p.currentActivity?.id]?.targetId === b.instanceId).map(p => ({ id: p.id, name: p.name, activity: clone(p.currentActivity) })),
