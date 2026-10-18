@@ -612,6 +612,8 @@ export function createCourtyardPanels({ getView, inspect, command, openPerson, f
       note(work, workplace.availability?.reason, workplace.availability?.available === false ? 'action-reason' : 'muted');
       const siteStock = Object.entries(workplace.resources || {}).filter(([, quantity]) => quantity > 0).map(([id, quantity]) => `${resourceName(id)} ${number(quantity)}`).join('、') || '空';
       facts(work, [['当前作业', `${workplace.workers?.length || 0} 人`], ['生产状态', workplace.enabled === false ? '已暂停' : '开放作业'], ['现场物资', siteStock]]);
+      const stations = workplace.stations || [];
+      if (stations.length) facts(work, [['作业工位', stations.map(station => `${station.label}${station.personId ? `：${station.name}` : '：空'}`).join('；')]]);
       for (const [id, quantity] of Object.entries(workplace.resources || {}).filter(([, amount]) => amount > 0)) {
         const movable = Math.min(40, Math.floor(quantity));
         action(work, `搬回${resourceName(id)} · 现场${number(quantity)}`, () => transfer(workplace.stockpileId, HOME, id, 0, Math.max(1, movable)), `workplace:haul:${id}`,

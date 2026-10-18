@@ -101,6 +101,9 @@ test('a commissioned process reserves materials, reloads, cancels and actually r
   for (let step = 0; step < 60000 && !((mid.state.workOrdersById[midOrderId]?.progressTicks || 0) > 0); step++) advanceSect(mid, .2);
   const midOrder = mid.state.workOrdersById[midOrderId];
   assert.ok(midOrder && midOrder.phase === 'active' && midOrder.progressTicks > 0 && midOrder.progressTicks < midOrder.durationTicks, 'the worker never started contributing');
+  const midStations = workplace(mid).stations;
+  assert.ok(midStations.length >= 1);
+  assert.ok(midStations.some(station => station.personId === WORKER), 'the contributor occupies a real work station');
   const midSaved = snapshotSect(mid), midLoaded = restoreSect(midSaved);
   assert.deepEqual(snapshotSect(midLoaded), midSaved);
   const midFact = `fact:production:${midView.buildingId}:1`;

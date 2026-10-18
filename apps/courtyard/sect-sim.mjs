@@ -15,7 +15,7 @@ import { spatialAccess, spatialBounds, spatialPrefab, spatialRevision, placement
 import { workOpportunity } from '../../src/simulation/ea-life.mjs';
 import { openingCombatProfile } from '../../src/simulation/ea-opening-inheritance.mjs';
 import { breakthroughView, familyNotesView, teachingQualificationSR, artStudyRequirement, libraryStudentReadiness } from '../../src/simulation/ea-sr-cultivation.mjs';
-import { facilitySlots } from '../../src/simulation/ea-facility-slots.mjs';
+import { facilitySlots, facilitySlotView } from '../../src/simulation/ea-facility-slots.mjs';
 import { residentialHousingApplicable, residentialProjectionState, residentialHousingView, residentialRestView } from '../../src/simulation/ea-residential-housing.mjs';
 import { scenicFindPath, scenicNearest } from '../../src/simulation/ea-scene-geometry.mjs';
 import { COURTYARD_MASTER_TERRAIN_VERSION } from '../../src/simulation/ea-courtyard-master-terrain.mjs';
@@ -990,10 +990,13 @@ function operationsView(s, projection) {
     }) : [];
     const selectedProcess = processes.find(process => process.version === order?.recipeSnapshot?.recipeVersion) || null;
     const collection = Object.values(s.workOrdersById).find(candidate => candidate.kind === 'sr-merchant-collection' && candidate.productionWorkOrderId === `work:production:${b.instanceId}` && !['cancelled', 'delivered'].includes(candidate.phase)) || null;
+    const stations = facilitySlotView(s, b).filter(slot => slot.kind === 'work').map(slot => ({ id: slot.id, label: slot.label,
+      personId: slot.personId || null, name: slot.personId ? s.personsById[slot.personId]?.name || '门人' : null, phase: slot.phase || 'free' }));
     return { buildingId: b.instanceId, name: SIM.BUILDINGS[b.type].name, enabled: b.enabled !== false, availability: availability(reason),
       stockpileId, resources: clone(onsite), order: clone(order), processes, selectedProcess: selectedProcess?.id || null,
       collection: collection ? { phase: collection.phase, reason: collection.reason || '', carrierName: s.personsById[collection.carrierId]?.name || '商人',
         payment: collection.actualPayment ?? collection.expectedPayment ?? 0 } : null,
+      stations,
       recipe: recipe ? { inputCost: clone(recipe.inputCost), outputDefinition: clone(recipe.outputDefinition), durationTicks: recipe.durationValue, skillKey: recipe.skill } : null,
       missingCost, cancelable: !!order && order.phase !== 'completed',
       workers: projection.systemPeople.persons.filter(p => s.activitiesById[p.currentActivity?.id]?.targetId === b.instanceId).map(p => ({ id: p.id, name: p.name, activity: clone(p.currentActivity) })),
