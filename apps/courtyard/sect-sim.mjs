@@ -953,7 +953,7 @@ function operationsView(s, projection) {
       }),
     };
   });
-  const workplaces = s.buildings.filter(b => ['lumber', 'quarry'].includes(b.type)).map(b => {
+  const workplaces = s.buildings.filter(b => ['lumber', 'quarry', 'workshop'].includes(b.type)).map(b => {
     const source = SIM.productionAvailability(s, b);
     const name = SIM.BUILDINGS[b.type].name;
     const reason = b.enabled === false ? `${name}已暂停，可恢复使用。` : b.condition <= 0 || b.spatialLock ? `${name}当前不可用。` : source.reason;
