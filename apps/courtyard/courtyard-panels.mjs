@@ -612,10 +612,22 @@ export function createCourtyardPanels({ getView, inspect, command, openPerson, f
       note(work, workplace.availability?.reason, workplace.availability?.available === false ? 'action-reason' : 'muted');
       const siteStock = Object.entries(workplace.resources || {}).filter(([, quantity]) => quantity > 0).map(([id, quantity]) => `${resourceName(id)} ${number(quantity)}`).join('、') || '空';
       facts(work, [['当前作业', `${workplace.workers?.length || 0} 人`], ['生产状态', workplace.enabled === false ? '已暂停' : '开放作业'], ['现场物资', siteStock]]);
+      if (workplace.recipe) {
+        facts(work, [['每批投料', resources(workplace.recipe.inputCost)], ['每批产出', `${resources(workplace.recipe.outputDefinition)}　交来访商人取货付款`], ['单批工时', `${number(workplace.recipe.durationTicks / 10)} 秒`]]);
+        for (const [id, missing] of Object.entries(workplace.missingCost || {})) {
+          const delivery = Math.min(40, missing, view.resources[id] || 0);
+          action(work, `送入${resourceName(id)} · 缺${number(missing)}`, () => transfer(HOME, workplace.stockpileId, id, 0, Math.max(1, delivery)), `workplace:deliver:${id}`,
+            { available: delivery > 0 && view.operations.canTransport.available, reason: view.operations.canTransport.reason || (delivery <= 0 ? `公库${resourceName(id)}不足。` : '') });
+        }
+        note(work, '材料先实际送到工位；本人到岗后开工，成品由商人到坊取货付款。');
+      }
       commandAction(work, workplace.enabled === false ? '恢复生产' : '暂停生产', { type: 'toggle-building', buildingId: workplace.buildingId }, 'workplace:toggle');
       const order = workplace.order;
-      if (order) facts(work, [['在制批次', `第 ${number(order.batch ?? 1)} 批`], ['加工进度', `${number(order.progressTicks || 0)} / ${number(order.durationTicks || 0)}`], ['工单状态', order.phase === 'completed' ? '已完工，待搬入府库' : '加工中']]);
-      else note(work, '当前没有在制工单；投料与开工入口待接。');
+      if (order) {
+        facts(work, [['在制批次', `第 ${number(order.batch ?? 1)} 批`], ['加工进度', `${number(order.progressTicks || 0)} / ${number(order.durationTicks || 0)}`], ['工单状态', order.phase === 'completed' ? (workplace.recipe ? '已完工，商人到坊取货付款' : '已完工，待搬入府库') : '加工中']]);
+        commandAction(work, '中止本批生产', { type: 'cancel-production', buildingId: workplace.buildingId }, 'workplace:cancel',
+          { available: order.phase !== 'completed', reason: order.phase === 'completed' ? '本批已完工，无需中止。' : '' });
+      } else note(work, '当前没有在制工单；材料送到工位、本人到岗后开工。');
       for (const invite of workplace.invites || []) {
         const row = node('div', undefined, 'invite-row'); row.append(node('strong', invite.name));
         if (invite.lastResult) note(row, `上次答复：${invite.lastResult.accepted ? '愿意接受' : '暂未接受'} · ${invite.lastResult.reason || ''}`);

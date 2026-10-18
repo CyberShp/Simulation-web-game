@@ -488,6 +488,14 @@ export function commandSect(session, request) {
       if (!building) throw Error('设施不存在。');
       command = { name: 'toggleBuilding', args: [building.id] }; reason = `${building.enabled === false ? '恢复' : '暂停'}${SIM.BUILDINGS[building.type].name}，保留实际工单和已投入材料。`;
     }
+    else if (request.type === 'cancel-production') {
+      const building = session.state.buildingsById[request.buildingId];
+      if (!building || !SIM.BUILDINGS[building.type]?.work) throw Error('该设施没有可中止的生产批次。');
+      const order = session.state.workOrdersById[`work:production:${building.instanceId}`];
+      if (!order || order.phase === 'completed') throw Error('当前没有未完成的生产批次。');
+      command = { name: 'cancelProduction', args: [building.id] };
+      reason = `中止${SIM.BUILDINGS[building.type].name}本批生产；未耗原料按进度退回现场货位，已投入部分不退。`;
+    }
     else if (request.type === 'replenish') {
       if (!['wood', 'stone', 'herb', 'food'].includes(request.resource)) throw Error('请选择已知基础物资来源。');
       command = { name: 'replenishPatch', args: [request.resource] }; reason = '掌门按明确指令支付材料，实际前往恢复来源；此支出单列于正式账本。';
@@ -958,8 +966,14 @@ function operationsView(s, projection) {
     const name = SIM.BUILDINGS[b.type].name;
     const reason = b.enabled === false ? `${name}已暂停，可恢复使用。` : b.condition <= 0 || b.spatialLock ? `${name}当前不可用。` : source.reason;
     const stockpileId = `stockpile:${b.instanceId}`, stock = s.stockpilesById[stockpileId];
+    const order = s.workOrdersById[`work:production:${b.instanceId}`] || null;
+    const recipe = typeof SIM.productionRecipeDefinition === 'function' && SIM.PRODUCTION_RECIPE_VERSION ? SIM.productionRecipeDefinition(SIM.PRODUCTION_RECIPE_VERSION, b.type) : null;
+    const onsite = stock?.resources || {}, missingCost = {};
+    for (const [id, quantity] of Object.entries(recipe?.inputCost || {})) { const missing = Math.max(0, quantity - (onsite[id] || 0)); if (missing > 0) missingCost[id] = missing; }
     return { buildingId: b.instanceId, name: SIM.BUILDINGS[b.type].name, enabled: b.enabled !== false, availability: availability(reason),
-      stockpileId, resources: clone(stock?.resources || {}), order: clone(s.workOrdersById[`work:production:${b.instanceId}`] || null),
+      stockpileId, resources: clone(onsite), order: clone(order),
+      recipe: recipe ? { inputCost: clone(recipe.inputCost), outputDefinition: clone(recipe.outputDefinition), durationTicks: recipe.durationValue, skillKey: recipe.skill } : null,
+      missingCost, cancelable: !!order && order.phase !== 'completed',
       workers: projection.systemPeople.persons.filter(p => s.activitiesById[p.currentActivity?.id]?.targetId === b.instanceId).map(p => ({ id: p.id, name: p.name, activity: clone(p.currentActivity) })),
       invites: s.homeMemberIds.map(id => {
         const p = s.personsById[id], opportunity = workOpportunity(s, p, b), answer = p.schedule?.invitations?.[`work:${b.instanceId}`];
