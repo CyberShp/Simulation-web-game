@@ -970,13 +970,14 @@ function operationsView(s, projection) {
       }),
     };
   });
-  const workplaces = s.buildings.filter(b => ['lumber', 'quarry', 'workshop'].includes(b.type)).map(b => {
+  const workplaces = s.buildings.filter(b => ['lumber', 'quarry', 'workshop'].includes(b.type) || b.type === 'well' && b.domainSiteId === 'site:domain:gc-23').map(b => {
     const source = SIM.productionAvailability(s, b);
     const name = SIM.BUILDINGS[b.type].name;
     const reason = b.enabled === false ? `${name}已暂停，可恢复使用。` : b.condition <= 0 || b.spatialLock ? `${name}当前不可用。` : source.reason;
     const stockpileId = `stockpile:${b.instanceId}`, stock = s.stockpilesById[stockpileId];
     const order = s.workOrdersById[`work:production:${b.instanceId}`] || null;
-    const recipe = typeof SIM.productionRecipeDefinition === 'function' && SIM.PRODUCTION_RECIPE_VERSION ? SIM.productionRecipeDefinition(SIM.PRODUCTION_RECIPE_VERSION, b.type) : null;
+    const recipeVersion = typeof SIM.productionVersionFor === 'function' ? SIM.productionVersionFor(b) : SIM.PRODUCTION_RECIPE_VERSION;
+    const recipe = typeof SIM.productionRecipeDefinition === 'function' && recipeVersion ? SIM.productionRecipeDefinition(recipeVersion, b.type) : null;
     const onsite = stock?.resources || {}, missingCost = {};
     for (const [id, quantity] of Object.entries(recipe?.inputCost || {})) { const missing = Math.max(0, quantity - (onsite[id] || 0)); if (missing > 0) missingCost[id] = missing; }
     const processes = b.type === 'workshop' && b.domainSiteId === 'site:domain:gc-25' && Array.isArray(SIM.WORKSHOP_PROCESSES) ? SIM.WORKSHOP_PROCESSES.map(process => {

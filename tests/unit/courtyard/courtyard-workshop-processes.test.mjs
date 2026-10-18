@@ -89,4 +89,24 @@ test('a commissioned process reserves materials, reloads, cancels and actually r
   assert.ok(fact.grossOutput.jade > 0);
   assert.equal(loaded.state.workOrdersById[orderId].phase, 'completed');
   assert.equal(SIM.validateSave(copy(loaded.state)).revision, loaded.state.revision);
+  // A second session from the same yard proves a mid-batch cancel refunds only
+  // the unused part and still reloads exactly.
+  const mid = sessionFor(yard), midView = workplace(mid), midOrderId = `work:production:${midView.buildingId}`;
+  assert.equal(commandSect(mid, { type: 'start-workshop-process', buildingId: midView.buildingId, processId: 'paper' }).ok, true);
+  assert.equal(commandSect(mid, { type: 'invite-work', personId: WORKER, buildingId: midView.buildingId }).ok, true);
+  for (let step = 0; step < 60000 && !((mid.state.workOrdersById[midOrderId]?.progressTicks || 0) > 0); step++) advanceSect(mid, .2);
+  const midOrder = mid.state.workOrdersById[midOrderId];
+  assert.ok(midOrder && midOrder.phase === 'active' && midOrder.progressTicks > 0 && midOrder.progressTicks < midOrder.durationTicks, 'the worker never started contributing');
+  const midSaved = snapshotSect(mid), midLoaded = restoreSect(midSaved);
+  assert.deepEqual(snapshotSect(midLoaded), midSaved);
+  const midFact = `fact:production:${midView.buildingId}:1`;
+  assert.equal(midLoaded.state.factsById[midFact], undefined);
+  const midCancel = commandSect(midLoaded, { type: 'cancel-production', buildingId: midView.buildingId });
+  assert.equal(midCancel.ok, true, midCancel.error);
+  const refunded = midLoaded.state.stockpilesById[yard.stockpileId].resources;
+  assert.ok(refunded.wood > 4 && refunded.wood < 6, `wood refund ${refunded.wood}`);
+  assert.ok(refunded.herb > 4 && refunded.herb < 6, `herb refund ${refunded.herb}`);
+  assert.equal(midLoaded.state.factsById[midFact], undefined);
+  assert.equal(midLoaded.state.workOrdersById[midOrderId], undefined);
+  assert.equal(SIM.validateSave(copy(midLoaded.state)).revision, midLoaded.state.revision);
 });
