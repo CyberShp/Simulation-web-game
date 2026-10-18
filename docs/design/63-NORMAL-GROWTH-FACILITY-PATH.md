@@ -2,6 +2,8 @@
 
 2026-10-18，接入草案。依据 U-167 / R-54 的[58 号总图](58-GOLDEN-CORE-PRESET-BUILDINGS.md)、[39 人物与供给](39-FIRST-CAMPAIGN-DISCIPLES-ECONOMY.md)、[05 运行契约](05-RUNTIME-CONTRACTS.md)和[62 现场服务](62-EAST-SERVICES-INTEGRATION.md)。本稿只核对已批准建筑所需的成长操作与当前入口缺口；源码和服务桌面验收保持各自批次边界。
 
+2026-10-19 注：本稿写于接入前，§2–3 中的“GC02 待接入”“GC03 待完成”“尚无整理遗卷入口”等缺口此后已分别按 [64](64-NORTH-LIBRARY-INTEGRATION.md)、[66](66-NORTH-MEDITATION-INTEGRATION.md)、[62](62-EAST-SERVICES-INTEGRATION.md) 实现；这些描述保留为当时草案，当前缺口以 [STATUS](STATUS.md) 与上述接入记录为准。医庐（GC14）正常解锁与疗程、GC04–07 设施定义仍未完成。
+
 ## 1. 同源起点与证据强度
 
 来源为 `/Volumes/Media/immortal-qa/kitchen-funding-20261018/run-01/02-kitchen-materials-ready.json`，SHA-256：`52f33e4ea707807460c45ecec902639f1971be6ee7d65d4a560cfef1a078d009`。
