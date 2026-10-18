@@ -1,0 +1,154 @@
+{
+  "date": "2026-10-18",
+  "decision": "U-162",
+  "action": "S04",
+  "name": "掐诀护身",
+  "frameCount": 12,
+  "durationMs": 1760,
+  "sourceSha256": {
+    "assets/characters/shen-yan/cast-study-v1/source/casting-master-v1.png": "f3696e131bd0ce47d4c31dfe124502ed05579da1fdadc000f34e51d3806a6b65",
+    "assets/characters/shen-yan/guard-study-v1/source/guard-master-v1.png": "153f62fe317362c92923e75f840a3a8ce784f856f483b015d5795b41ba87b28f",
+    "assets/characters/shen-yan/guard-study-v1/source/seal-master-v1.png": "b2a29beac8be83815cda4fb2823ba2a9159c2d8aa41310826263f416b59851eb"
+  },
+  "manifestSha256": "bb13ce5fd9f91025a36fbb2a1b1cf2caec34ef5e9933d1834398c0eeb8bfb2a7",
+  "bootRegion": {
+    "rectangle": [
+      0,
+      416,
+      640,
+      96
+    ],
+    "changedChannelsByFrame": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "baseFaceComparison": {
+    "rectangle": [
+      235,
+      105,
+      67,
+      48
+    ],
+    "changedChannels": 0,
+    "reference": "cast-study-v1/sprites/body-000.png"
+  },
+  "firstLastPixelDifference": {
+    "body": {
+      "changedPixels": 0,
+      "fractionOfFrame": 0,
+      "absoluteChannelDifference": 0
+    },
+    "equipment": {
+      "changedPixels": 0,
+      "fractionOfFrame": 0,
+      "absoluteChannelDifference": 0
+    },
+    "composite": {
+      "changedPixels": 0,
+      "fractionOfFrame": 0,
+      "absoluteChannelDifference": 0
+    }
+  },
+  "resourceCount": 61,
+  "shield": {
+    "center": [
+      255,
+      265
+    ],
+    "radius": [
+      220,
+      235
+    ],
+    "holdRange": [
+      5,
+      8
+    ],
+    "outsidePixelsByHoldFrame": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "maximumSilhouetteRadius": 0.9641873245857124,
+    "stages": [
+      "chest-level hand seal",
+      "rising from the feet",
+      "closed around the body",
+      "local hit ripple",
+      "dissipate"
+    ]
+  },
+  "scale": {
+    "nominalHeight": 80,
+    "runtimeReferenceHeight": 111,
+    "sourceSize": [
+      1672,
+      941
+    ],
+    "zooms": [
+      1,
+      1.35,
+      2
+    ],
+    "displayedHeights": [
+      80,
+      108,
+      160
+    ],
+    "sharedSceneTransform": true,
+    "courtyardFoot": [
+      710,
+      575
+    ],
+    "hallPreviewFoot": [
+      680,
+      465
+    ],
+    "productionHallEntrance": [
+      680,
+      407
+    ],
+    "scope": "offline study"
+  },
+  "preview": {
+    "passed": true,
+    "checks": 30,
+    "errors": [],
+    "platform": "darwin",
+    "protocol": "file:",
+    "electron": "39.2.7",
+    "dpr": 1,
+    "canvasCSSSize": [
+      1180,
+      570
+    ],
+    "report": "/Volumes/Media/immortal-qa/shen-yan-shield-20261018/preview/smoke-report.json"
+  },
+  "missingAssets": {
+    "passed": true,
+    "checks": 4,
+    "report": "/Volumes/Media/immortal-qa/shen-yan-shield-20261018/preview-missing/smoke-report.json"
+  },
+  "independentReview": {
+    "reviewer": "seal_review",
+    "status": "passed-with-scope",
+    "report": "/Volumes/Media/immortal-qa/shen-yan-shield-20261018/seal-independent-review.json",
+    "scope": "read-only scripts, sprite pixels and actual Electron screenshots",
+    "findings": "Chest-level seal precedes the rising and closing full-body shield. Continuous cuffs and wrists, stable feet, preserved S01 face region. Body and sheathed equipment remain within the completed shield."
+  },
+  "characterAppearanceApproval": "approved-by-user-in-U-161",
+  "s04ArtApproval": "pending-user-review",
+  "runtimeIntegration": "pending",
+  "qaRoot": "/Volumes/Media/immortal-qa/shen-yan-shield-20261018"
+}

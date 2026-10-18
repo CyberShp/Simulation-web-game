@@ -1,3 +1,7 @@
+import {meditationSupplyEnabled} from './ea-meditation-definitions.mjs';
+import {spiritSourcePersonBusy,queueMeditationCultivation} from './ea-spirit-sources.mjs';
+import {siteServicePersonBusy,considerSiteMeal,sitePersonalMealSupply} from './ea-site-services.mjs';
+import {siteServiceEnabled} from './ea-service-definitions.mjs';
 import {AUTONOMY_V2,npcScheduleDecision} from './ea-sr-persons.mjs';
 import {productionAmount,productionAmounts,addAmounts,subtractAmounts} from './ea-resource-amounts.mjs';
 import {hallInteriorEnabled} from './ea-hall-interior.mjs';
@@ -28,7 +32,7 @@ export const SOCIETY_RULE_OPTIONS = {
   enforcement:[{id:'restorative',label:'重解释与补偿'},{id:'strict',label:'重记录与约束'}]
 };
 const FOUNDING_COST = {jade:350,wood:100,stone:100,insight:30};
-const ACTIVITIES = new Set(['rest','heal','forage','work','study','cultivate','teach','travel','social','breakthrough']);
+const ACTIVITIES = new Set(['rest','heal','forage','work','study','cultivate','teach','travel','social','breakthrough','eat','treatment']);
 const profiles = [[82,44,78,68,62],[45,88,36,57,80],[65,60,70,85,48],[38,91,30,70,90]];
 const goals = ['精研草木','求取长生','守成护道','求索奇法'];
 const clock = s => s.society?.clock ?? s.time;
@@ -451,6 +455,7 @@ function finishLearning(s,d,id,hooks) {
   p.activity='rest';d.job=null;p.commitUntil=0;
 }
 function execute(s,d,hooks) {
+  if(siteServicePersonBusy(s,d)||spiritSourcePersonBusy(s,d))return;
   const p=d.mind;
   if(p.away){if(p.away.kind==='errand')tickJourney(s,d);return;}
   const lock=lifeActivityLock(s,d);
@@ -472,7 +477,7 @@ function execute(s,d,hooks) {
   } else if(p.activity==='heal') {
     p.workProgress++;
     d.energy=clamp(d.energy+.55,0,100);d.wound=Math.max(0,d.wound-.1);
-    if(p.workProgress>=8){p.workProgress=0;if(s.resources.herb>=1){pay(s,{herb:1});d.wound=Math.max(0,d.wound-(hasBuilding(s,'clinic')?7:4));}else p.commitUntil=0;}
+    if(p.workProgress>=8){p.workProgress=0;if(s.resources.herb>=1){pay(s,{herb:1});d.wound=Math.max(0,d.wound-(s.buildings.some(b=>b.type==='clinic'&&buildingActive(b)&&!siteServiceEnabled(b))?7:4));}else p.commitUntil=0;}
     if(d.wound<=5){p.activity='rest';p.commitUntil=0;}
   } else if(p.activity==='forage') {
     p.workProgress++;d.energy=clamp(d.energy-.12,0,100);
@@ -488,9 +493,9 @@ function execute(s,d,hooks) {
       if(b.progress>=t.duration){b.progress-=t.duration;if(!production(s,d,b,hooks)){p.reason='原料、维护或运输条件不足，暂缓生产。';p.commitUntil=0;}}
     }
   } else if(p.activity==='cultivate') {
-    const b=s.buildings.find(b=>b.id===d.job);
+    const b=meditationSupplyEnabled(destination)?destination:s.buildings.find(b=>b.id===d.job);
     const rate=hooks.cultivationRate?hooks.cultivationRate(s,d,b):(.8+(b?.type==='meditation'?1:0))*d.talent*(TECHNIQUES[p.main]?.cultivation||1);
-    d.xp=Math.min(xpNeed(d.realm),d.xp+rate);d.energy=clamp(d.energy-fatigue(d),0,100);
+    if(!queueMeditationCultivation(s,d,b,rate))d.xp=Math.min(xpNeed(d.realm),d.xp+rate);d.energy=clamp(d.energy-fatigue(d),0,100);
     if(p.main)p.knowledge[p.main]=clamp(known(d,p.main)+.11,0,100);
     if(d.xp>=xpNeed(d.realm))p.commitUntil=0;
   } else if(p.activity==='study'&&p.learning) {
@@ -781,12 +786,13 @@ function daily(s) {
     const p=d.mind,r=relation(d);
     const dayIndex=day(s),factId=s.schemaVersion===6&&s.contentVersion==='sr-content-v1.2'&&s.economy?.lastSupplyDay===dayIndex&&d.personId&&s.factsById?`fact:person-daily-supply:${d.personId}:${dayIndex}`:null;
     if(factId&&s.factsById[factId])continue;
-    const supplied=s.economy?.lastSupplyDay===day(s)?s.economy.starvation===0:s.resources.food>=Math.max(1,s.disciples.length);
+    const mealFactIds=sitePersonalMealSupply(s,d.personId),personFed=mealFactIds.length===2;
+    const supplied=personFed||(s.economy?.lastSupplyDay===day(s)?s.economy.starvation===0:s.resources.food>=Math.max(1,s.disciples.length));
     const trustBefore=r.trust;
     p.satiety=clamp(p.satiety+(supplied?22:-32),0,100);
     if(!supplied){p.mood=clamp(p.mood-7,0,100);r.trust=clamp(r.trust-2,0,100);}
     else {p.mood=clamp(p.mood+3,0,100);if(r.trust<45)r.trust=clamp(r.trust+.8,0,100);}
-    if(factId)s.factsById[factId]={id:factId,kind:'daily-supply-relation',personId:d.personId,dayIndex,atTick:s.worldTick,source:'economy.daily-supply',sourceDay:s.economy.lastSupplyDay,starvation:s.economy.starvation,supplied,trustBefore,trustAfter:r.trust,deltaTrust:r.trust-trustBefore};
+    if(factId)s.factsById[factId]={id:factId,kind:'daily-supply-relation',personId:d.personId,dayIndex,atTick:s.worldTick,source:'economy.daily-supply',sourceDay:s.economy.lastSupplyDay,starvation:personFed?0:s.economy.starvation,...(personFed?{mealCredit:{dayIndex:dayIndex-1,factIds:mealFactIds},globalStarvation:s.economy.starvation}:{}),supplied,trustBefore,trustAfter:r.trust,deltaTrust:r.trust-trustBefore};
     if(p.satiety<15&&r.trust<15)p.neglectDays++;else p.neglectDays=Math.max(0,p.neglectDays-1);
     if(p.neglectDays>=4&&s.disciples.length>1&&!p.away&&!s.activitiesById?.[d.activityId]?.kind?.startsWith('sr-')){depart(s,d,'长期缺乏供给且信任耗尽，决定另寻安身之地。');continue;}
     createPersonalQuest(s,d);
@@ -804,6 +810,7 @@ export function tickSociety(s,dt=1,hooks={}) {
   if(day(s)!==s.society.lastDay){s.society.lastDay=day(s);daily(s);}
   for(const d of [...s.disciples]) {
     if(d.lifeStatus==='dead'||s.activitiesById?.[d.activityId]?.kind?.startsWith('sr-'))continue;
+    if(considerSiteMeal(s,d)||siteServicePersonBusy(s,d)&&d.mind.activity!=='work')continue;
     if(!d.mind.away&&(clock(s)-d.mind.lastDecision>=6||d.mind.commitUntil<=clock(s))&&!npcScheduleDecision(s,d))decide(s,d,hooks);
     execute(s,d,hooks);
   }
@@ -921,6 +928,7 @@ export function validateSociety(s,{canonical=false}={}) {
   if(!unique(sc.secrets,'id')||!unique(sc.peaks,'id')||!unique(sc.quests,'id')||!unique(sc.visitors,'id'))bad('事件编号重复');
   if(canonical)for(const [id,f]of Object.entries(s.factsById||{}))if(id.startsWith('fact:person-daily-supply:')||f?.kind==='daily-supply-relation'){
     if(f.kind!=='daily-supply-relation'||!str(f.personId,100)||id!==`fact:person-daily-supply:${f.personId}:${f.dayIndex}`||f.id!==id||!s.personsById?.[f.personId]||!int(f.dayIndex,0,day(s))||!int(f.atTick,0,s.worldTick)||f.source!=='economy.daily-supply'||f.sourceDay!==f.dayIndex||!int(f.starvation)||f.supplied!==(f.starvation===0)||!num(f.trustBefore,0,100)||!num(f.trustAfter,0,100)||!num(f.deltaTrust,-100,100))bad('每日供给关系来源');
+    if(f.mealCredit!==undefined&&(!f.supplied||f.starvation!==0||!int(f.globalStarvation)||f.mealCredit.dayIndex!==f.dayIndex-1||!Array.isArray(f.mealCredit.factIds)||f.mealCredit.factIds.length!==2||new Set(f.mealCredit.factIds).size!==2||!f.mealCredit.factIds.every(fid=>{const meal=s.factsById[fid];return meal?.kind==='site-meal-consumed'&&meal.personId===f.personId&&meal.dayIndex===f.dayIndex-1;})))bad('个人实际用膳来源');
     const delta=f.supplied?(f.trustBefore<45?.8:0):-2;
     if(Math.abs(f.trustAfter-clamp(f.trustBefore+delta,0,100))>1e-8||Math.abs(f.deltaTrust-(f.trustAfter-f.trustBefore))>1e-8)bad('每日供给关系变化');
   }

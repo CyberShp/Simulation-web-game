@@ -2,10 +2,11 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {initial,dispatchCommand,tick,validateSave} from '../../../src/simulation/ea-opening-sim.mjs';
+import {buildSectSeed} from '../../../apps/courtyard/sect-seed-build.mjs';
 import {createGodotBridge} from '../../../src/simulation/ea-godot-bridge.mjs';
 import {BUILDINGS} from '../../../src/simulation/ea-data.mjs';
 import {spatialBounds,meterCanStand,meterFindPath,meterSweep} from '../../../src/simulation/ea-sr-spatial.mjs';
-import {DOMAIN_EXTENT_VERSION,DOMAIN_LAYOUT_VERSION,firstSite,domainPoint,localPoint,domainContains,SECT_DOMAIN} from '../../../src/simulation/ea-sect-domain.mjs';
+import {DOMAIN_EXTENT_VERSION,DOMAIN_LAYOUT_VERSION,firstSite,activeBounds,domainPoint,localPoint,domainContains,SECT_DOMAIN} from '../../../src/simulation/ea-sect-domain.mjs';
 
 const sites=JSON.parse(readFileSync(new URL('../../../archive/godot/estate_2d/estate-sites.json',import.meta.url))).sites;
 const copy=value=>JSON.parse(JSON.stringify(value));
@@ -19,18 +20,7 @@ function session(source){
     restore(){const text=JSON.stringify(state);state=validateSave(JSON.parse(text));assert.equal(JSON.stringify(state),text,'save/load retains the exact canonical world');}
   };
 }
-function ordinaryTwoMemberCourtyard(){
-  const run=session();
-  run.command('masterAction','heal');run.command('chooseOpeningInheritance','qinglan');
-  run.until(s=>s.master.wound===0,'healing finishes');
-  run.command('advanceStory');run.command('establishHall');
-  run.until(s=>s.story.opening.hallPhase==='complete','hall finishes');
-  run.command('advanceStory','gift');run.command('advanceStory','invite');
-  const farm=sites.find(site=>site.type==='farm');run.command('build','farm',farm.x,farm.y);
-  run.until(s=>s.buildings.some(b=>b.type==='farm'),'farm finishes');run.command('masterAction','rest');
-  return copy(run.state);
-}
-const original=ordinaryTwoMemberCourtyard();
+const original=buildSectSeed({enableDomain:false}).state;
 function provisionAndOpen(){
   const run=session(original);run.command('enableSectDomain');
   for(let n=0;n<2;n++){run.command('startMasterHarvest','wood');run.until(s=>!s.master.activityId,'gather wood from its finite source');}
@@ -50,7 +40,7 @@ test('explicit domain activation preserves the old courtyard, identities, resour
   assert.equal(result.alreadyEnabled,false);assert.equal(run.state.schemaVersion,6);
   assert.equal(run.state.spatial.extentVersion,DOMAIN_EXTENT_VERSION);
   assert.equal(run.state.spatial.domain.layoutVersion,DOMAIN_LAYOUT_VERSION);
-  assert.deepEqual(spatialBounds(run.state),{x:0,y:0,width:160,height:96});
+  assert.deepEqual(spatialBounds(run.state),activeBounds);
   for(const field of ['worldTick','rngState','personsById','buildingsById','stockpilesById','activitiesById','workOrdersById','reservationsById'])assert.deepEqual(run.state[field],before[field],field);
   assert.equal(run.state.time,beforeTime);
   run.restore();const activated=copy(run.state),again=run.command('enableSectDomain');

@@ -4,12 +4,12 @@ import {interiorSlots} from './ea-hall-interior.mjs';
 import {BUILDINGS} from './ea-data.mjs';
 import {buildingAccess,scenicCanStand,scenicSweep,scenicDistance,geometryRevision} from './ea-scene-geometry.mjs';
 export const FACILITY_MODEL_VERSION='courtyard-stations-1';
-export const facilityBodyKinds=new Set(['work','study','teach','cultivate','care','rest','heal']);
+export const facilityBodyKinds=new Set(['work','study','teach','cultivate','care','rest','heal','eat','treatment']);
 const suffixes={work:'work',study:'desk',teach:'teacher',cultivate:'mat',care:'care'};
 const cache=new WeakMap();
 function definitions(s){const revision=geometryRevision(s),old=cache.get(s);if(old?.revision===revision)return old;const value={revision,slots:new Map(),byId:null};cache.set(s,value);return value;}
 function compileSlots(s,b,kind){if(spatialEnabled(s))return spatialSlots(b,kind);
- if(!b||!facilityBodyKinds.has(kind))return [];
+ if(!b||!facilityBodyKinds.has(kind)||['eat','treatment'].includes(kind))return [];
  const inside=interiorSlots(s,b,kind);if(inside&&kind!=='care')return inside;
  if(['rest','heal'].includes(kind))return [];
  const entry=buildingAccess(s,b);if(!entry)return [];

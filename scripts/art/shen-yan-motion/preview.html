@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' file:; script-src 'self'; style-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'">
+  <title>沈砚·离线动作样片</title>
+  <link rel="stylesheet" href="./preview.css">
+</head>
+<body data-status="loading">
+  <header>
+    <h1>沈砚 · 行走样片</h1>
+    <p>离线动作样片 · 非游戏实机</p>
+  </header>
+  <main>
+    <div id="error" role="alert" hidden></div>
+    <p id="loading" role="status">正在读取动作帧…</p>
+    <div class="controls" aria-label="样片控制">
+      <label>标称人物高度 <select id="height" disabled><option value="111">111 px · 常规</option><option value="150">150 px</option><option value="222">222 px · 对照</option></select></label>
+      <button id="play" disabled>暂停</button>
+      <button id="previous" disabled aria-label="上一帧">上一帧</button>
+      <button id="next" disabled aria-label="下一帧">下一帧</button>
+      <label class="check"><input id="loop" type="checkbox" checked disabled>循环</label>
+      <button id="travel" aria-pressed="false" disabled>原地</button>
+      <button id="reload">重新读取</button>
+    </div>
+    <div class="timeline"><input id="frame" type="range" min="0" max="0" value="0" step="1" aria-label="动作帧" disabled><output id="frame-label">—</output></div>
+    <div class="comparison" aria-label="同背景人物对照">
+      <figure><figcaption>原参考 · 静态</figcaption><canvas id="reference" width="600" height="500" aria-label="原参考人物与山院背景"></canvas></figure>
+      <figure><figcaption id="candidate-label">沈砚 · 动作候选</figcaption><canvas id="candidate" width="600" height="500" aria-label="沈砚动作与同一山院背景"></canvas></figure>
+    </div>
+    <p id="metrics" class="note">背景按原像素显示，窗口较小时可横向滚动。</p>
+    <p id="travel-note" class="note"></p>
+    <p id="source" class="source"></p>
+  </main>
+  <script type="module" src="./preview.mjs"></script>
+</body>
+</html>

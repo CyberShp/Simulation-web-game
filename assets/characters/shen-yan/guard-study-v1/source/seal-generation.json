@@ -1,0 +1,14 @@
+{
+  "date": "2026-10-18",
+  "decision": "U-162",
+  "mode": "built-in-imagegen",
+  "useCase": "identity-preserve",
+  "prompt": "Use case: identity-preserve.\nAsset type: transparent pixel game animation master, full body, 1536x1024 canvas.\nInput image 1 is the approved identity/body texture reference; input image 2 is the exact placement and sheathed-sword reference to edit.\nEdit the SECOND image: change only the two arms and hands to a compact Daoist spell-seal pose in front of the chest. The viewer-left near arm bends up: elbow beside the lower ribs, forearm rises diagonally inward; right hand at sternum level, index and middle fingers joined straight upward, ring and little fingers naturally curled under the thumb. Make the joined two fingers clear. The far/left forearm bends across the lower torso and the relaxed left palm faces upward just below the right wrist at upper-abdomen level. The two hands remain visibly separate, exactly two arms with continuous sleeves and wrists. Both elbows stay close to the body; shoulders relaxed.\nKeep the exact face, eyes, hairstyle, flowing hair, body proportions, blue-white embroidered robe, bracers, belt, jade pendant, lower robe, boots, staggered foot stance and sheathed sword position from the references. Same fixed three-quarter front view facing right. Keep the head/feet at the same pixel positions as image 2 so parts can be layered together. Only the upper arms/sleeves/forearms/hands change. Preserve crisp detailed pixel-art contours, white sleeve borders and blue cloth folds matching image1. All head, hair, lower body and equipment fully visible inside canvas. One character only, no detached parts or inset panels, no spell effects, no glow, no background, no floor, no text, no watermark. Genuine transparent alpha.",
+  "referenceImages": [
+    "assets/characters/shen-yan/cast-study-v1/source/casting-master-v1.png",
+    "assets/characters/shen-yan/guard-study-v1/source/guard-master-v1.png"
+  ],
+  "generatedPath": "/Users/shepard/.codex/generated_images/01a144ea-e43f-7960-aba6-4800a2ad7db7/exec-fd0cb8fc-2e3e-437b-8ca6-fd60eaabf9c3.png",
+  "projectPath": "assets/characters/shen-yan/guard-study-v1/source/seal-master-v1.png",
+  "usage": "Two arms and hand-seal texture; body, face, hair and boots use the approved S01 source."
+}

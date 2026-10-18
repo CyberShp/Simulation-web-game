@@ -1,7 +1,10 @@
 /** SR-XF-007/008. Persistent identity recipes, semantic action fallback and deterministic voluntary invitations. */
 import {beginPersonBreakthrough,breakthroughView} from './ea-sr-cultivation.mjs';
 import {BUILDINGS} from './ea-data.mjs';
-import {workOpportunity} from './ea-life.mjs';
+import {workOpportunity,actorScenePosition} from './ea-life.mjs';
+import {facilitySlots} from './ea-facility-slots.mjs';
+import {scenicFindPath,scenicPathDistance} from './ea-scene-geometry.mjs';
+import {sceneUnits,spatialEnabled,COURTYARD_WALK_RATE} from './ea-sr-spatial.mjs';
 import {cloneState} from './ea-state-v6.mjs';
 import {releaseBodyActivity} from './ea-facility-activities.mjs';
 import {equippedAppearanceMounts} from './ea-sr-equipment.mjs';
@@ -12,6 +15,39 @@ export const APPEARANCE_CATALOG={id:'appearance:yunxiu:v1',body:['slim','regular
 export const ACTION_FRAMES={stand:{pose:'upright',tool:null,asset:'yunxiu-courtyard:characters:v1'},walk:{pose:'walk',tool:null,asset:'yunxiu-courtyard:characters:v1'},work:{pose:'working',tool:'facility-specific',asset:'yunxiu-courtyard:characters:v1'},plant:{pose:'stoop',tool:'hoe',asset:'yunxiu-courtyard:characters:v1'},gather:{pose:'reach',tool:'basket',asset:'yunxiu-courtyard:characters:v1'},study:{pose:'seated',tool:'book',asset:'yunxiu-courtyard:characters:v1'},rest:{pose:'recline',tool:null,asset:'yunxiu-courtyard:characters:v1'},heal:{pose:'seated',tool:'bandage',asset:'yunxiu-courtyard:characters:v1'},cast:{pose:'cast',tool:'equipped-focus',asset:'yunxiu-courtyard:characters:v1'},hit:{pose:'recoil',tool:null,asset:'yunxiu-courtyard:characters:v1'},transport:{pose:'walk',tool:'bundle',asset:'yunxiu-courtyard:characters:v1'},waiting:{pose:'upright',tool:null,asset:'yunxiu-courtyard:characters:v1'},groundRest:{pose:'ground-rest',tool:null,asset:'yunxiu-courtyard:characters:v1'},cultivate:{pose:'seated',tool:null,asset:'yunxiu-courtyard:characters:v1'},teach:{pose:'gesture',tool:'book',asset:'yunxiu-courtyard:characters:v1'},down:{pose:'ground-rest',tool:null,asset:'yunxiu-courtyard:characters:v1'}};
 export const AUTONOMY={version:'autonomy:yunxiu:v1',source:'U-63/R-25/T-03',commitTicks:240,retryTicks:120,switchThreshold:12,injuryInterrupt:20,energyMin:22,trustMin:15,dayPhases:[{from:0,to:.2,activity:'rest'},{from:.2,to:.55,activity:'work'},{from:.55,to:.8,activity:'study'},{from:.8,to:1,activity:'rest'}]};
 export const AUTONOMY_V2={version:'autonomy:yunxiu:v2',source:'U-63/R-25/T-03',commitTicks:240,switchThreshold:15,retryTicks:[150,300,600],invitationThreshold:42};
+// U-167/T-19: new work promises include a finite journey, then the existing
+// work period at the real station. Saved invitations without timing retain their terms.
+const WORK_TIMING_VERSION='work-arrival:yunxiu:v1';
+function beginWorkTiming(s,p,b){
+ delete p.schedule.workTiming;
+ const from=actorScenePosition(s,p),stepDistance=sceneUnits(s,46)*(spatialEnabled(s)?COURTYARD_WALK_RATE:1);
+ const distances=facilitySlots(s,b,'work').map(slot=>scenicPathDistance(scenicFindPath(s,from,slot.position),from)).filter(Number.isFinite);
+ if(!distances.length)return;
+ const travelTicks=(Math.ceil(Math.min(...distances)/stepDistance)+1)*10;
+ p.schedule.workTiming={version:WORK_TIMING_VERSION,targetId:b.instanceId,acceptedAtTick:s.worldTick,travelTicks,arrivalDeadlineTick:s.worldTick+travelTicks+AUTONOMY.commitTicks,arrivedAtTick:null,finishedAtTick:null};
+ p.schedule.commitUntilTick=p.schedule.workTiming.arrivalDeadlineTick;mind(p).commitUntil=s.time+(p.schedule.commitUntilTick-s.worldTick)/10;
+}
+function updateWorkTiming(s,p){
+ const timing=p.schedule?.workTiming;if(!timing||timing.finishedAtTick!==null)return;
+ const b=s.buildingsById[timing.targetId],m=mind(p),a=s.activitiesById[p.activityId];
+ const valid=p.lifeStatus!=='dead'&&s.homeMemberIds.includes(p.personId)&&!m.away&&!m.journey&&p.wound<=20&&p.energy>=22&&m.satiety>=20&&b&&b.enabled!==false&&b.condition>0&&!b.spatialLock&&p.job===b.id&&m.activity==='work'&&(!a||a.kind==='facility'&&a.targetId===b.instanceId);
+ const missedArrival=timing.arrivedAtTick===null&&s.worldTick>=timing.arrivalDeadlineTick;
+ if(!valid||missedArrival){
+  timing.finishedAtTick=s.worldTick;p.schedule.commitUntilTick=s.worldTick;m.commitUntil=s.time;
+  for(const c of Object.values(p.schedule.commitmentsById||{}))if(c.status==='active'&&c.targetId===timing.targetId&&c.startTick===timing.acceptedAtTick){c.status='interrupted';if(p.lifePlan?.currentStepId===c.id)p.lifePlan.currentStepId=null;}
+  return;
+ }
+ if(timing.arrivedAtTick===null&&a?.phase==='executing'&&a.action==='work'&&a.slotId&&s.reservationsById[a.reservationId]?.activityId===a.id){
+  timing.arrivedAtTick=s.worldTick;p.schedule.commitUntilTick=s.worldTick+AUTONOMY.commitTicks;m.commitUntil=s.time+AUTONOMY.commitTicks/10;
+  for(const c of Object.values(p.schedule.commitmentsById||{}))if(c.status==='active'&&c.targetId===timing.targetId&&c.startTick===timing.acceptedAtTick){c.endTick=p.schedule.commitUntilTick;if(p.lifePlan?.currentStepId===c.id)p.lifePlan.reviewAtTick=c.endTick;}
+ }
+ if(timing.arrivedAtTick!==null&&s.worldTick>=p.schedule.commitUntilTick)timing.finishedAtTick=s.worldTick;
+}
+function validateWorkTiming(s,p){
+ const t=p.schedule.workTiming;if(t===undefined)return;
+ const tick=n=>Number.isSafeInteger(n)&&n>=0;
+ if(t.version!==WORK_TIMING_VERSION||typeof t.targetId!=='string'||!tick(t.acceptedAtTick)||t.acceptedAtTick>s.worldTick||!tick(t.travelTicks)||t.travelTicks<10||t.travelTicks%10||t.arrivalDeadlineTick!==t.acceptedAtTick+t.travelTicks+AUTONOMY.commitTicks||t.arrivedAtTick!==null&&(!tick(t.arrivedAtTick)||t.arrivedAtTick<t.acceptedAtTick||t.arrivedAtTick>=t.arrivalDeadlineTick||t.arrivedAtTick>s.worldTick)||t.finishedAtTick!==null&&(!tick(t.finishedAtTick)||t.finishedAtTick<(t.arrivedAtTick??t.acceptedAtTick)||t.finishedAtTick>s.worldTick))throw Error('工作通勤与到场时序异常。');
+}
 const dayPhaseAtTick=s=>{const fraction=(s.worldTick%s.ticksPerDay)/s.ticksPerDay;return AUTONOMY.dayPhases.find(phase=>fraction>=phase.from&&fraction<phase.to).activity;};
 function upgradeLegacyClientRecipe(s,p){
  if(p.personId!=='person:late:chen-yuanshu'||s.srLateEconomy?.version!=='late-economy:qingxi:v1'||s.factsById?.['fact:late:registered-budget']?.actorId!==p.personId||p.appearance?.spriteIndex!==3||p.appearance.accent!=='#6696ad')return;
@@ -109,7 +145,7 @@ function inviteWorkV2(s,p,b){
  const candidate=workCandidateV2(s,p.personId,b.instanceId);
  const inputs=candidate.inputs;
  const sig=JSON.stringify([candidate.id,candidate.available,candidate.willing,candidate.reason,b.enabled,b.condition>0,b.spatialLock||null,inputs&&[inputs.need,inputs.aspiration,Math.floor(inputs.ability/10),Math.floor(inputs.relation/10),inputs.responsibility,inputs.timeMatch,Math.floor(inputs.risk/10),inputs.switchCost]]);
- if(prior?.signature===sig)return clone(prior);
+ if(prior?.signature===sig&&!prior.accepted)return clone(prior);
  const accepted=candidate.available&&candidate.willing;
  const earlier=p.schedule.retriesByTarget[key],failures=accepted?0:Math.min(3,(earlier?.consecutiveFailures||0)+1);
  const retryAfterTick=accepted?null:s.worldTick+AUTONOMY_V2.retryTicks[failures-1];
@@ -121,13 +157,13 @@ function inviteWorkV2(s,p,b){
  p.schedule.invitations[key]=result;
  if(!accepted){p.schedule.retriesByTarget[key]={signature:sig,consecutiveFailures:failures,nextReviewTick:retryAfterTick,sourceFactId};m.reason=publicReason;p.schedule.lastReason=publicReason;return clone(result);}
  delete p.schedule.retriesByTarget[key];releaseBodyActivity(s,p);p.job=b.id;m.activity='work';m.reason=publicReason;p.schedule.lastReason=publicReason;
- m.commitUntil=s.time+AUTONOMY_V2.commitTicks/10;m.lastDecision=s.time;p.schedule.commitUntilTick=s.worldTick+AUTONOMY_V2.commitTicks;
+ m.commitUntil=s.time+AUTONOMY_V2.commitTicks/10;m.lastDecision=s.time;p.schedule.commitUntilTick=s.worldTick+AUTONOMY_V2.commitTicks;beginWorkTiming(s,p,b);
  const id=`commitment:autonomy:work:${p.personId}:${b.instanceId}:${s.worldTick}:${s.transactions.nextCommandId}`;
  p.schedule.commitmentsById[id]={id,sourceFactId,activity:'work',targetId:b.instanceId,startTick:s.worldTick,endTick:p.schedule.commitUntilTick,accepted:true,status:'active'};
  p.lifePlan.commitmentIds.push(id);p.lifePlan.currentStepId=id;p.lifePlan.reviewAtTick=p.schedule.commitUntilTick;
  return clone(result);
 }
-export function inviteWork(s,personId,buildingId){initPersons(s);const p=s.personsById[personId],b=s.buildings.find(b=>b.id===buildingId||b.instanceId===buildingId);if(!p||p===s.master||!s.homeMemberIds.includes(personId)||!b)throw Error('只能向在院门人提供真实差事。');if(p.schedule?.definitionId===AUTONOMY_V2.version)return inviteWorkV2(s,p,b);const opportunity=workOpportunity(s,p,b);if(p.lifeStatus==='dead'||p.mind?.scenic?.spatialEvacuationOrderId){opportunity.available=false;opportunity.reason=p.lifeStatus==='dead'?'此人已经身死。':'正在实际撤离施工占地，离开后再商议。';}if(p.schedule?.aftermath?.untilTick>s.worldTick){opportunity.available=false;opportunity.reason='正在整理已经核实的亲人/老师身后事务，暂不承诺新差事。';}const key=`work:${b.instanceId}`,sig=signature(s,p,b,opportunity),prior=p.schedule.invitations[key],m=mind(p);const promiseCurrent=prior?.accepted&&s.worldTick<prior.atTick+AUTONOMY.commitTicks&&s.worldTick<p.schedule.commitUntilTick&&p.job===b.id&&m.activity==='work';if(prior?.signature===sig&&(!prior.accepted||promiseCurrent))return clone(prior);const score=(m.traits?.[3]??60)*.3+(m.traits?.[0]??55)*.1+(m.relationships?.master?.trust??55)*.4+(m.goal?.includes('草木')&&b.type==='farm'?15:0);const willing=opportunity.available&&score>=42;const result={accepted:willing,available:opportunity.available,signature:sig,atTick:s.worldTick,score,publicReason:!opportunity.available?opportunity.reason:willing?'我愿在承诺期内承担这份差事。':'我更想先顾及自己的修行与生活。',retryAfterTick:s.worldTick+AUTONOMY.retryTicks};p.schedule.invitations[key]=result;if(willing){releaseBodyActivity(s,p);p.job=b.id;m.activity='work';m.reason=result.publicReason;p.schedule.lastReason=result.publicReason;m.commitUntil=s.time+AUTONOMY.commitTicks/10;m.lastDecision=s.time;p.schedule.commitUntilTick=s.worldTick+AUTONOMY.commitTicks;}return clone(result);}
+export function inviteWork(s,personId,buildingId){initPersons(s);const p=s.personsById[personId],b=s.buildings.find(b=>b.id===buildingId||b.instanceId===buildingId);if(!p||p===s.master||!s.homeMemberIds.includes(personId)||!b)throw Error('只能向在院门人提供真实差事。');if(p.schedule?.definitionId===AUTONOMY_V2.version)return inviteWorkV2(s,p,b);const opportunity=workOpportunity(s,p,b);if(p.lifeStatus==='dead'||p.mind?.scenic?.spatialEvacuationOrderId){opportunity.available=false;opportunity.reason=p.lifeStatus==='dead'?'此人已经身死。':'正在实际撤离施工占地，离开后再商议。';}if(p.schedule?.aftermath?.untilTick>s.worldTick){opportunity.available=false;opportunity.reason='正在整理已经核实的亲人/老师身后事务，暂不承诺新差事。';}const key=`work:${b.instanceId}`,sig=signature(s,p,b,opportunity),prior=p.schedule.invitations[key],m=mind(p);const promiseCurrent=prior?.accepted&&(p.schedule.workTiming?.acceptedAtTick===prior.atTick&&p.schedule.workTiming?.targetId===b.instanceId&&p.schedule.workTiming.finishedAtTick===null||s.worldTick<prior.atTick+AUTONOMY.commitTicks)&&s.worldTick<p.schedule.commitUntilTick&&p.job===b.id&&m.activity==='work';if(prior?.signature===sig&&(!prior.accepted||promiseCurrent))return clone(prior);const score=(m.traits?.[3]??60)*.3+(m.traits?.[0]??55)*.1+(m.relationships?.master?.trust??55)*.4+(m.goal?.includes('草木')&&b.type==='farm'?15:0);const willing=opportunity.available&&score>=42;const result={accepted:willing,available:opportunity.available,signature:sig,atTick:s.worldTick,score,publicReason:!opportunity.available?opportunity.reason:willing?'我愿在承诺期内承担这份差事。':'我更想先顾及自己的修行与生活。',retryAfterTick:s.worldTick+AUTONOMY.retryTicks};p.schedule.invitations[key]=result;if(willing){releaseBodyActivity(s,p);p.job=b.id;m.activity='work';m.reason=result.publicReason;p.schedule.lastReason=result.publicReason;m.commitUntil=s.time+AUTONOMY.commitTicks/10;m.lastDecision=s.time;p.schedule.commitUntilTick=s.worldTick+AUTONOMY.commitTicks;beginWorkTiming(s,p,b);}return clone(result);}
 /** Optional decision hook for the EXISTING society owner. It never executes or produces. */
 export function npcScheduleDecision(s,p){if(p.schedule?.definitionId===AUTONOMY_V2.version)p.schedule.phase=dayPhaseAtTick(s);if(aftermathDecision(s,p))return true;if(!p.schedule)return false;const m=mind(p),a=s.activitiesById[p.activityId];if(m.scenic?.spatialEvacuationOrderId)return true;if(a?.kind?.startsWith('sr-'))return true;if(m.away||m.journey)return false;
  if(p.schedule.definitionId===AUTONOMY_V2.version){
@@ -154,7 +190,7 @@ export function reconcileAutonomyV2Commitments(s){
   }
  }
 }
-export function tickPersons(s){initPersons(s);tickAftermath(s);reconcileAutonomyV2Commitments(s);for(const p of Object.values(s.personsById)){if(!p.schedule)continue;if(p.schedule.definitionId===AUTONOMY_V2.version)p.schedule.phase=dayPhaseAtTick(s);p.schedule.updatedThroughTick=s.worldTick;const a=s.activitiesById[p.activityId];p.schedule.lastReason=a?.reason||mind(p).reason||'按本人选择继续。';}}
+export function tickPersons(s){initPersons(s);tickAftermath(s);for(const p of Object.values(s.personsById))updateWorkTiming(s,p);reconcileAutonomyV2Commitments(s);for(const p of Object.values(s.personsById)){if(!p.schedule)continue;if(p.schedule.definitionId===AUTONOMY_V2.version)p.schedule.phase=dayPhaseAtTick(s);p.schedule.updatedThroughTick=s.worldTick;const a=s.activitiesById[p.activityId];p.schedule.lastReason=a?.reason||mind(p).reason||'按本人选择继续。';}}
 export function viewPersons(s){const reactions=viewAftermath(s).reactions;return Object.values(s.personsById).filter(p=>p===s.master||s.homeMemberIds.includes(p.personId)).map(p=>{const m=mind(p),a=s.activitiesById[p.activityId],schedule=p.schedule;const visibleUntil=m.away||m.journey||!(m.commitUntil>0)?s.worldTick:schedule?.commitUntilTick;return {personId:p.personId,name:p.name,appearance:appearanceView(s,p.personId),schedule:schedule?{phase:schedule.definitionId===AUTONOMY_V2.version?dayPhaseAtTick(s):schedule.phase,commitUntilTick:visibleUntil,reason:a?.reason||m.reason||schedule.lastReason,aftermath:reactions.filter(r=>r.observerId===p.personId).map(clone),invitations:Object.values(schedule.invitations).map(i=>({accepted:i.accepted,available:i.available,atTick:i.atTick,reason:i.publicReason}))}:null,activityId:p.activityId,office:m.office||null};});}
 function validateAutonomyV2(s,p){
  const schedule=p.schedule,plan=p.lifePlan,validTick=n=>Number.isSafeInteger(n)&&n>=0;
@@ -168,5 +204,5 @@ function validateAutonomyV2(s,p){
  if(plan.commitmentIds.some(id=>!schedule.commitmentsById[id])||plan.currentStepId!==null&&schedule.commitmentsById[plan.currentStepId]?.status!=='active')throw Error('人物阶段计划承诺引用异常。');
  for(const retry of Object.values(schedule.retriesByTarget))if(!retry||typeof retry.signature!=='string'||!validTick(retry.consecutiveFailures)||retry.consecutiveFailures>3||!validTick(retry.nextReviewTick)||s.factsById?.[retry.sourceFactId]?.kind!=='autonomy-work-choice'||s.factsById[retry.sourceFactId].personId!==p.personId||s.factsById[retry.sourceFactId].accepted!==false)throw Error('人物失败退避记录异常。');
 }
-export function validatePersons(s){validateAftermath(s);for(const p of Object.values(s.personsById)){if(!p.schedule)continue;const r=p.appearance?.recipe;if(!r||typeof r!=='object'||Array.isArray(r)||r.id!==`appearance:${p.personId}:v1`||!APPEARANCE_CATALOG.body.includes(r.body)||!APPEARANCE_CATALOG.face.includes(r.face)||!APPEARANCE_CATALOG.hair.includes(r.hair)||!APPEARANCE_CATALOG.outfit.includes(r.outfit)||!Number.isSafeInteger(r.faceMark)||r.faceMark<0||r.faceMark>4||!Number.isFinite(r.height)||r.height<1.6||r.height>1.9||!Number.isSafeInteger(p.schedule.commitUntilTick)||p.schedule.commitUntilTick<0||p.schedule.updatedThroughTick>s.worldTick||![AUTONOMY.version,AUTONOMY_V2.version].includes(p.schedule.definitionId))throw Error('人物外观配方或自主日程异常。');if(p.schedule.definitionId===AUTONOMY_V2.version)validateAutonomyV2(s,p);}return true;}
+export function validatePersons(s){validateAftermath(s);for(const p of Object.values(s.personsById)){if(!p.schedule)continue;const r=p.appearance?.recipe;if(!r||typeof r!=='object'||Array.isArray(r)||r.id!==`appearance:${p.personId}:v1`||!APPEARANCE_CATALOG.body.includes(r.body)||!APPEARANCE_CATALOG.face.includes(r.face)||!APPEARANCE_CATALOG.hair.includes(r.hair)||!APPEARANCE_CATALOG.outfit.includes(r.outfit)||!Number.isSafeInteger(r.faceMark)||r.faceMark<0||r.faceMark>4||!Number.isFinite(r.height)||r.height<1.6||r.height>1.9||!Number.isSafeInteger(p.schedule.commitUntilTick)||p.schedule.commitUntilTick<0||p.schedule.updatedThroughTick>s.worldTick||![AUTONOMY.version,AUTONOMY_V2.version].includes(p.schedule.definitionId))throw Error('人物外观配方或自主日程异常。');validateWorkTiming(s,p);if(p.schedule.definitionId===AUTONOMY_V2.version)validateAutonomyV2(s,p);}return true;}
 export const personsHandlers={inviteWork,aftermathAction};

@@ -1,0 +1,34 @@
+{
+  "initialPrompt": "Use case: precise-object-edit. Edit this existing fixed-camera 1672x941 HD pixel-art game terrain. Preserve the entire image camera, terrain, forest, rocks, distant mountains, sunshine, and the existing dirt roads at their exact positions. Make just ONE local ground change in the very small native image rectangle x904..980,y778..838: create a short plain compacted-earth walkway from the low grassy construction reserve at (940,785) straight south into the existing horizontal public road at (940,835). Its clear walking surface should be 64 pixels wide, centered x940, spanning x908..972. Remove the flower clump and row of rounded curb stones where this short strip crosses y800..823. Replace that small rectangle of flowers and stones with level warm brown ochre compacted dirt and a few flat inset stepping stones flush with the ground. The path must be visibly continuous from grass to the public road, with NO curb stone or bush blocking the feet centered at (940,804.575) or crossing toward (940,844). Keep all other curb stones, flowers, path shape and image pixels unchanged. Keep the shared road center y844. This is a tiny service entrance on an already level grassy terrace, so no stairs, no building, no additional structures, no border raised across the path, no character, no text, no guides or labels, no glow. Keep crisp matching pixel texture and same camera. Return the same full composition; only the specified short walkway is edited.",
+  "guidePrompt": "Use case: precise-object-edit. Image 1 is the unmarked original terrain to edit. Image 2 is ONLY a location guide showing a magenta rectangle and a white arrow; remove all guide graphics from the result. The required new path is at the magenta rectangle, EAST/RIGHT of the existing long central vertical access path, separated from it by approximately 140 pixels. Keep the existing central access path exactly unchanged. In the marked tiny rectangle around x904..980,y778..838, REMOVE that 76-pixel stretch of flowers and rounded road curb. Replace it with one SHORT 64-pixel-wide compacted ochre dirt entry through the curb, centered x940, extending just from y785 to y838 into the existing horizontal road. It is a SECOND entrance, a small side notch/opening in the north curb, distinctly to the right of the existing tall path. The grassy land behind the new notch stays grass. Existing horizontal road center is y844. Clear ground must cover feet (940,804.575) and its full ellipse radius 21px horizontal and8px vertical; no stone edge or flower can sit within this patch. Everything outside that tiny marked rectangle must match the unmarked original. Same HD pixel art and fixed camera; no person, lettering, arrows, guides, labels or extra object in final image. Return original full canvas. The important operation is opening the north curb at the location marked in Image2, not widening or editing the already existing central path.",
+  "selectedPrompt": "Use case: precise-object-edit. Edit this close crop of pixel-art terrain, keeping the same crop dimensions and perspective. The image has green grass on its top half, a horizontal line of rounded curb stones across its middle-lower part, and an orange earth road across its bottom. Cut ONE open dirt entrance through the CENTER of the curb line. The entrance is centered at x480 in this 1040x960 image, with a clear width of 512px, between x224 and x736. This short flat dirt strip must run continuously from the green grass at y230, through the former curb at y500..620, into the existing road below y620, ending naturally in that road at y720. Completely remove every rounded curb stone, flower, shrub or raised lip within x224..736,y230..720 and fill the opening with flat warm ochre compacted earth matching the road. The top end transitions into short low grass; stones and flowers remain only to either side. Keep the other regions and original camera unchanged. Pixel art medium, retain the intentionally enlarged crisp pixel texture because this crop will be displayed small in a game. No additional objects, no labels, people, arrows, guide lines or effects.",
+  "selectedSource": "/Users/shepard/.codex/generated_images/01a14dcf-90c6-7111-8b50-41d9a8e32a92/exec-d759c16e-a2bb-498a-9622-1631a6c6cfa1.png",
+  "reference": "entry3-close-reference.png",
+  "referenceCrop": {
+    "from": "empty-v1.png",
+    "normalizedRect": [
+      880,
+      750,
+      130,
+      120
+    ],
+    "guideSize": [
+      1040,
+      960
+    ]
+  },
+  "outputSize": [
+    1305,
+    1205
+  ],
+  "runtimeDrawSize": [
+    130,
+    120
+  ],
+  "runtimeOrigin": [
+    1716,
+    -1098
+  ],
+  "tool": "built-in image_gen",
+  "acceptance": "Four static Canvas stages and source survey body circles"
+}

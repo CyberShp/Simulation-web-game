@@ -1,0 +1,1006 @@
+{
+  "version": "north-meditation-author-candidate-1",
+  "date": "2026-10-18",
+  "source": "U-167 / 58 / 63 / author placement candidate",
+  "status": "author geometry prior to pixel and core collision review",
+  "runtimeVerified": false,
+  "pixelGroundVerified": false,
+  "baseline": "north-library-v3",
+  "tile": {
+    "x": 836,
+    "y": -1848,
+    "width": 1672,
+    "height": 941
+  },
+  "worldNorth": -52,
+  "site": {
+    "id": "site:domain:gc-03",
+    "planId": "GC-03",
+    "type": "meditation",
+    "x": 44,
+    "y": -46,
+    "maxLevel": 3
+  },
+  "levels": [
+    {
+      "level": 1,
+      "width": 6,
+      "height": 6,
+      "footprint": [
+        {
+          "world": {
+            "x": 44,
+            "y": -46
+          },
+          "art": {
+            "x": 1376,
+            "y": -1362.75
+          },
+          "native": [
+            540,
+            485.25
+          ]
+        },
+        {
+          "world": {
+            "x": 50,
+            "y": -46
+          },
+          "art": {
+            "x": 1856,
+            "y": -1362.75
+          },
+          "native": [
+            1020,
+            485.25
+          ]
+        },
+        {
+          "world": {
+            "x": 50,
+            "y": -40
+          },
+          "art": {
+            "x": 1856,
+            "y": -1182
+          },
+          "native": [
+            1020,
+            666
+          ]
+        },
+        {
+          "world": {
+            "x": 44,
+            "y": -40
+          },
+          "art": {
+            "x": 1376,
+            "y": -1182
+          },
+          "native": [
+            540,
+            666
+          ]
+        }
+      ],
+      "entry": {
+        "world": {
+          "x": 47,
+          "y": -39.4
+        },
+        "art": {
+          "x": 1616,
+          "y": -1163.925
+        },
+        "native": [
+          780,
+          684.075
+        ]
+      },
+      "slots": [
+        {
+          "kind": "cultivate",
+          "suffix": "mat:1",
+          "position": {
+            "x": 0.8,
+            "y": 3.8
+          },
+          "label": "蒲团 1",
+          "capacity": 1,
+          "facing": 1,
+          "world": {
+            "x": 44.8,
+            "y": -42.2
+          },
+          "art": {
+            "x": 1439.9999999999998,
+            "y": -1248.275
+          },
+          "native": [
+            603.9999999999998,
+            599.7249999999999
+          ]
+        },
+        {
+          "kind": "cultivate",
+          "suffix": "mat:2",
+          "position": {
+            "x": 2.2666666666666666,
+            "y": 3.8
+          },
+          "label": "蒲团 2",
+          "capacity": 1,
+          "facing": 1,
+          "world": {
+            "x": 46.266666666666666,
+            "y": -42.2
+          },
+          "art": {
+            "x": 1557.3333333333333,
+            "y": -1248.275
+          },
+          "native": [
+            721.3333333333333,
+            599.7249999999999
+          ]
+        },
+        {
+          "kind": "cultivate",
+          "suffix": "mat:3",
+          "position": {
+            "x": 3.7333333333333334,
+            "y": 3.8
+          },
+          "label": "蒲团 3",
+          "capacity": 1,
+          "facing": 1,
+          "world": {
+            "x": 47.733333333333334,
+            "y": -42.2
+          },
+          "art": {
+            "x": 1674.6666666666667,
+            "y": -1248.275
+          },
+          "native": [
+            838.6666666666667,
+            599.7249999999999
+          ]
+        },
+        {
+          "kind": "cultivate",
+          "suffix": "mat:4",
+          "position": {
+            "x": 5.2,
+            "y": 3.8
+          },
+          "label": "蒲团 4",
+          "capacity": 1,
+          "facing": 1,
+          "world": {
+            "x": 49.2,
+            "y": -42.2
+          },
+          "art": {
+            "x": 1792.0000000000002,
+            "y": -1248.275
+          },
+          "native": [
+            956.0000000000002,
+            599.7249999999999
+          ]
+        },
+        {
+          "kind": "work",
+          "suffix": "work:1",
+          "position": {
+            "x": 0.9,
+            "y": 1.2
+          },
+          "label": "作业工位 1",
+          "capacity": 1,
+          "facing": 1,
+          "world": {
+            "x": 44.9,
+            "y": -44.8
+          },
+          "art": {
+            "x": 1448,
+            "y": -1326.6
+          },
+          "native": [
+            612,
+            521.4000000000001
+          ]
+        },
+        {
+          "kind": "work",
+          "suffix": "work:2",
+          "position": {
+            "x": 5.1000000000000005,
+            "y": 1.2
+          },
+          "label": "作业工位 2",
+          "capacity": 1,
+          "facing": 1,
+          "world": {
+            "x": 49.1,
+            "y": -44.8
+          },
+          "art": {
+            "x": 1784,
+            "y": -1326.6
+          },
+          "native": [
+            948,
+            521.4000000000001
+          ]
+        }
+      ]
+    },
+    {
+      "level": 2,
+      "width": 8,
+      "height": 8,
+      "footprint": [
+        {
+          "world": {
+            "x": 44,
+            "y": -46
+          },
+          "art": {
+            "x": 1376,
+            "y": -1362.75
+          },
+          "native": [
+            540,
+            485.25
+          ]
+        },
+        {
+          "world": {
+            "x": 52,
+            "y": -46
+          },
+          "art": {
+            "x": 2016,
+            "y": -1362.75
+          },
+          "native": [
+            1180,
+            485.25
+          ]
+        },
+        {
+          "world": {
+            "x": 52,
+            "y": -38
+          },
+          "art": {
+            "x": 2016,
+            "y": -1121.75
+          },
+          "native": [
+            1180,
+            726.25
+          ]
+        },
+        {
+          "world": {
+            "x": 44,
+            "y": -38
+          },
+          "art": {
+            "x": 1376,
+            "y": -1121.75
+          },
+          "native": [
+            540,
+            726.25
+          ]
+        }
+      ],
+      "entry": {
+        "world": {
+          "x": 48,
+          "y": -37.4
+        },
+        "art": {
+          "x": 1696,
+          "y": -1103.675
+        },
+        "native": [
+          860,
+          744.325
+        ]
+      },
+      "slots": [
+        {
+          "kind": "cultivate",
+          "suffix": "mat:1",
+          "position": {
+            "x": 0.8,
+            "y": 5.8
+          },
+          "label": "蒲团 1",
+          "capacity": 1,
+          "facing": 1,
+          "world": {
+            "x": 44.8,
+            "y": -40.2
+          },
+          "art": {
+            "x": 1439.9999999999998,
+            "y": -1188.025
+          },
+          "native": [
+            603.9999999999998,
+            659.9749999999999
+          ]
+        },
+        {
+          "kind": "cultivate",
+          "suffix": "mat:2",
+          "position": {
+            "x": 2.9333333333333336,
+            "y": 5.8
+          },
+          "label": "蒲团 2",
+          "capacity": 1,
+          "facing": 1,
+          "world": {
+            "x": 46.93333333333334,
+            "y": -40.2
+          },
+          "art": {
+            "x": 1610.666666666667,
+            "y": -1188.025
+          },
+          "native": [
+            774.666666666667,
+            659.9749999999999
+          ]
+        },
+        {
+          "kind": "cultivate",
+          "suffix": "mat:3",
+          "position": {
+            "x": 5.066666666666666,
+            "y": 5.8
+          },
+          "label": "蒲团 3",
+          "capacity": 1,
+          "facing": 1,
+          "world": {
+            "x": 49.06666666666666,
+            "y": -40.2
+          },
+          "art": {
+            "x": 1781.333333333333,
+            "y": -1188.025
+          },
+          "native": [
+            945.333333333333,
+            659.9749999999999
+          ]
+        },
+        {
+          "kind": "cultivate",
+          "suffix": "mat:4",
+          "position": {
+            "x": 7.200000000000001,
+            "y": 5.8
+          },
+          "label": "蒲团 4",
+          "capacity": 1,
+          "facing": 1,
+          "world": {
+            "x": 51.2,
+            "y": -40.2
+          },
+          "art": {
+            "x": 1952.0000000000002,
+            "y": -1188.025
+          },
+          "native": [
+            1116.0000000000002,
+            659.9749999999999
+          ]
+        },
+        {
+          "kind": "work",
+          "suffix": "work:1",
+          "position": {
+            "x": 0.9,
+            "y": 1.2
+          },
+          "label": "作业工位 1",
+          "capacity": 1,
+          "facing": 1,
+          "world": {
+            "x": 44.9,
+            "y": -44.8
+          },
+          "art": {
+            "x": 1448,
+            "y": -1326.6
+          },
+          "native": [
+            612,
+            521.4000000000001
+          ]
+        },
+        {
+          "kind": "work",
+          "suffix": "work:2",
+          "position": {
+            "x": 7.1000000000000005,
+            "y": 1.2
+          },
+          "label": "作业工位 2",
+          "capacity": 1,
+          "facing": 1,
+          "world": {
+            "x": 51.1,
+            "y": -44.8
+          },
+          "art": {
+            "x": 1944,
+            "y": -1326.6
+          },
+          "native": [
+            1108,
+            521.4000000000001
+          ]
+        }
+      ]
+    },
+    {
+      "level": 3,
+      "width": 10,
+      "height": 10,
+      "footprint": [
+        {
+          "world": {
+            "x": 44,
+            "y": -46
+          },
+          "art": {
+            "x": 1376,
+            "y": -1362.75
+          },
+          "native": [
+            540,
+            485.25
+          ]
+        },
+        {
+          "world": {
+            "x": 54,
+            "y": -46
+          },
+          "art": {
+            "x": 2176,
+            "y": -1362.75
+          },
+          "native": [
+            1340,
+            485.25
+          ]
+        },
+        {
+          "world": {
+            "x": 54,
+            "y": -36
+          },
+          "art": {
+            "x": 2176,
+            "y": -1061.5
+          },
+          "native": [
+            1340,
+            786.5
+          ]
+        },
+        {
+          "world": {
+            "x": 44,
+            "y": -36
+          },
+          "art": {
+            "x": 1376,
+            "y": -1061.5
+          },
+          "native": [
+            540,
+            786.5
+          ]
+        }
+      ],
+      "entry": {
+        "world": {
+          "x": 49,
+          "y": -35.4
+        },
+        "art": {
+          "x": 1776,
+          "y": -1043.425
+        },
+        "native": [
+          940,
+          804.575
+        ]
+      },
+      "slots": [
+        {
+          "kind": "cultivate",
+          "suffix": "mat:1",
+          "position": {
+            "x": 0.8,
+            "y": 7.8
+          },
+          "label": "蒲团 1",
+          "capacity": 1,
+          "facing": 1,
+          "world": {
+            "x": 44.8,
+            "y": -38.2
+          },
+          "art": {
+            "x": 1439.9999999999998,
+            "y": -1127.775
+          },
+          "native": [
+            603.9999999999998,
+            720.2249999999999
+          ]
+        },
+        {
+          "kind": "cultivate",
+          "suffix": "mat:2",
+          "position": {
+            "x": 3.6000000000000005,
+            "y": 7.8
+          },
+          "label": "蒲团 2",
+          "capacity": 1,
+          "facing": 1,
+          "world": {
+            "x": 47.6,
+            "y": -38.2
+          },
+          "art": {
+            "x": 1664,
+            "y": -1127.775
+          },
+          "native": [
+            828,
+            720.2249999999999
+          ]
+        },
+        {
+          "kind": "cultivate",
+          "suffix": "mat:3",
+          "position": {
+            "x": 6.4,
+            "y": 7.8
+          },
+          "label": "蒲团 3",
+          "capacity": 1,
+          "facing": 1,
+          "world": {
+            "x": 50.4,
+            "y": -38.2
+          },
+          "art": {
+            "x": 1888,
+            "y": -1127.775
+          },
+          "native": [
+            1052,
+            720.2249999999999
+          ]
+        },
+        {
+          "kind": "cultivate",
+          "suffix": "mat:4",
+          "position": {
+            "x": 9.200000000000001,
+            "y": 7.8
+          },
+          "label": "蒲团 4",
+          "capacity": 1,
+          "facing": 1,
+          "world": {
+            "x": 53.2,
+            "y": -38.2
+          },
+          "art": {
+            "x": 2112,
+            "y": -1127.775
+          },
+          "native": [
+            1276,
+            720.2249999999999
+          ]
+        },
+        {
+          "kind": "work",
+          "suffix": "work:1",
+          "position": {
+            "x": 0.9,
+            "y": 1.2
+          },
+          "label": "作业工位 1",
+          "capacity": 1,
+          "facing": 1,
+          "world": {
+            "x": 44.9,
+            "y": -44.8
+          },
+          "art": {
+            "x": 1448,
+            "y": -1326.6
+          },
+          "native": [
+            612,
+            521.4000000000001
+          ]
+        },
+        {
+          "kind": "work",
+          "suffix": "work:2",
+          "position": {
+            "x": 9.1,
+            "y": 1.2
+          },
+          "label": "作业工位 2",
+          "capacity": 1,
+          "facing": 1,
+          "world": {
+            "x": 53.1,
+            "y": -44.8
+          },
+          "art": {
+            "x": 2104,
+            "y": -1326.6
+          },
+          "native": [
+            1268,
+            521.4000000000001
+          ]
+        }
+      ]
+    }
+  ],
+  "ground": {
+    "native": [
+      [
+        450,
+        430
+      ],
+      [
+        1410,
+        430
+      ],
+      [
+        1440,
+        835
+      ],
+      [
+        450,
+        835
+      ]
+    ],
+    "purpose": "clear level ground covering maximum 10m footprint and entrance apron; scenery outside remains separate"
+  },
+  "roads": [
+    {
+      "id": "library-west-ascent",
+      "halfWidthMetres": 0.75,
+      "art": [
+        [
+          1180,
+          -211
+        ],
+        [
+          1180,
+          -290
+        ],
+        [
+          1160,
+          -380
+        ],
+        [
+          1150,
+          -480
+        ],
+        [
+          1150,
+          -600
+        ],
+        [
+          1166,
+          -720
+        ],
+        [
+          1166,
+          -840
+        ],
+        [
+          1166,
+          -907
+        ],
+        [
+          1166,
+          -971.125
+        ]
+      ],
+      "world": [
+        {
+          "x": 37.599999999999994,
+          "y": -3.000000000000001
+        },
+        {
+          "x": 38.568246568246565,
+          "y": -5.154545454545456
+        },
+        {
+          "x": 38.01398601398601,
+          "y": -9.82
+        },
+        {
+          "x": 37.73685573685573,
+          "y": -15.640000000000004
+        },
+        {
+          "x": 37.73685573685573,
+          "y": -20.26168224299066
+        },
+        {
+          "x": 38.180264180264174,
+          "y": -24.663900414937764
+        },
+        {
+          "x": 38.180264180264174,
+          "y": -28.64730290456432
+        },
+        {
+          "x": 38.180264180264174,
+          "y": -30.871369294605813
+        },
+        {
+          "x": 38.180264180264174,
+          "y": -33
+        }
+      ],
+      "native": [
+        [
+          344,
+          1637
+        ],
+        [
+          344,
+          1558
+        ],
+        [
+          324,
+          1468
+        ],
+        [
+          314,
+          1368
+        ],
+        [
+          314,
+          1248
+        ],
+        [
+          330,
+          1128
+        ],
+        [
+          330,
+          1008
+        ],
+        [
+          330,
+          941
+        ],
+        [
+          330,
+          876.875
+        ]
+      ]
+    },
+    {
+      "id": "meditation-south-road",
+      "halfWidthMetres": 0.75,
+      "art": [
+        [
+          1166,
+          -971.125
+        ],
+        [
+          1400,
+          -971.125
+        ],
+        [
+          1616,
+          -971.125
+        ],
+        [
+          2000,
+          -971.125
+        ],
+        [
+          2250,
+          -971.125
+        ]
+      ],
+      "world": [
+        {
+          "x": 38.180264180264174,
+          "y": -33
+        },
+        {
+          "x": 44.3,
+          "y": -33
+        },
+        {
+          "x": 47,
+          "y": -33
+        },
+        {
+          "x": 51.8,
+          "y": -33
+        },
+        {
+          "x": 61.49727185732925,
+          "y": -33
+        }
+      ],
+      "native": [
+        [
+          330,
+          876.875
+        ],
+        [
+          564,
+          876.875
+        ],
+        [
+          780,
+          876.875
+        ],
+        [
+          1164,
+          876.875
+        ],
+        [
+          1414,
+          876.875
+        ]
+      ]
+    },
+    {
+      "id": "meditation-entry-1",
+      "level": 1,
+      "halfWidthMetres": 0.75,
+      "art": [
+        [
+          1616,
+          -971.125
+        ],
+        [
+          1616,
+          -1163.925
+        ]
+      ],
+      "world": [
+        {
+          "x": 47,
+          "y": -33
+        },
+        {
+          "x": 47,
+          "y": -39.400000000000006
+        }
+      ],
+      "native": [
+        [
+          780,
+          876.875
+        ],
+        [
+          780,
+          684.075
+        ]
+      ]
+    },
+    {
+      "id": "meditation-entry-2",
+      "level": 2,
+      "halfWidthMetres": 0.75,
+      "art": [
+        [
+          1696,
+          -971.125
+        ],
+        [
+          1696,
+          -1103.675
+        ]
+      ],
+      "world": [
+        {
+          "x": 48,
+          "y": -33
+        },
+        {
+          "x": 48,
+          "y": -37.400000000000006
+        }
+      ],
+      "native": [
+        [
+          860,
+          876.875
+        ],
+        [
+          860,
+          744.325
+        ]
+      ]
+    },
+    {
+      "id": "meditation-entry-3",
+      "level": 3,
+      "halfWidthMetres": 0.75,
+      "art": [
+        [
+          1776,
+          -971.125
+        ],
+        [
+          1776,
+          -1043.425
+        ]
+      ],
+      "world": [
+        {
+          "x": 49,
+          "y": -33
+        },
+        {
+          "x": 49,
+          "y": -35.400000000000006
+        }
+      ],
+      "native": [
+        [
+          940,
+          876.875
+        ],
+        [
+          940,
+          804.575
+        ]
+      ]
+    }
+  ],
+  "projection": {
+    "strategy": "exact existing north-library toArt/toWorld including bounded negative-y extrapolation; no mapping change",
+    "source": "apps/courtyard/courtyard-space.mjs",
+    "sha256": "ce1460051233f9c2189eba9577ada598ae53c3e7863cde8008cd9a8971760373"
+  },
+  "visual": {
+    "personHeight": 111,
+    "platform": "open pale-grey stone terrace, front steps, four independent woven mats, two supply/maintenance positions",
+    "energy": "unlit base material; operational effects derive from actual energy state",
+    "material": "approved courtyard/east terrace/north library pixel palette",
+    "drawPeople": false
+  },
+  "evidenceBoundary": "geometric fabrication target; physical reachability and generated foot surface require separate validation"
+}

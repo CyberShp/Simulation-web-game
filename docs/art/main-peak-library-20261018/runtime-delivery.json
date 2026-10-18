@@ -1,0 +1,49 @@
+{
+  "version": "north-library-art-implementation-1",
+  "date": "2026-10-18",
+  "root": "/Volumes/Media/immortal-qa/main-peak-library-implementation-20261018",
+  "status": "frozen for root review and runtime integration",
+  "evidence": "/Volumes/Media/immortal-qa/north-library-canvas-20261018",
+  "files": [
+    {
+      "path": "apps/courtyard/courtyard-north-library-layout.mjs",
+      "bytes": 5495,
+      "sha256": "c16aa4255a5c5b50aa4ff2576ee2e4966b9ecf7b13b2adf08c4a133ea565cb9c"
+    },
+    {
+      "path": "apps/courtyard/courtyard-space.mjs",
+      "bytes": 23390,
+      "sha256": "ce1460051233f9c2189eba9577ada598ae53c3e7863cde8008cd9a8971760373"
+    },
+    {
+      "path": "apps/courtyard/courtyard-renderer.mjs",
+      "bytes": 42176,
+      "sha256": "eea9ec7c4387ed8ed1d258993e9c7255b6049b92e8321e1a1f546f07ae9c6234"
+    },
+    {
+      "path": "apps/courtyard/courtyard-main.mjs",
+      "bytes": 23183,
+      "sha256": "2c6bb12767254511294955fb6f19c7f03d45ea37aad3767a872de302cfdc7e98"
+    },
+    {
+      "path": "assets/courtyard/north-library-complete-v6.png",
+      "bytes": 3744801,
+      "sha256": "b54b1b9c256f009243b91891be01b948f2abede3b2d305dc2188c3e9b75e20c6"
+    },
+    {
+      "path": "assets/courtyard/north-library-empty-v1.png",
+      "bytes": 3800963,
+      "sha256": "9922f01265335931fe6256f2f807a573c1a7e7315bedc72c00a1fef8ef1f1035"
+    },
+    {
+      "path": "assets/courtyard/north-library-construction-v1.png",
+      "bytes": 3734589,
+      "sha256": "bde2fc6aa6b7bfbc370fed928bedf20ede7319f375afc6660d828b8a5947f90a"
+    },
+    {
+      "path": "assets/courtyard/north-library-join-v3.png",
+      "bytes": 3834633,
+      "sha256": "c7e39d80f38d47c3e88dd98116b964781d3634cf22993fc5c9feaf8816f055af"
+    }
+  ]
+}

@@ -1,4 +1,5 @@
 import { rng, day, log, pay, canPay, grant, capacity } from './ea-data.mjs';
+import {residentialHousingApplicable,residentialProjectionState,residentialAdmissionView,residentialHousingView} from './ea-residential-housing.mjs';
 import { EXPEDITIONS as LEGACY_ROUTES } from './world.mjs';
 import { combatField, combatGeometryId, combatCanStand, combatClearLine, combatPath, moveCombatActor, dodgeEndpoint } from './ea-combat-geometry.mjs';
 import { appearance } from './ea-scenic.mjs';
@@ -122,6 +123,10 @@ export function campaignSummary(s) {
 export function storyReady(s) { return campaignSummary(s).ready; }
 export function acknowledgeIntro(s){s.story.intro=true;return true;}
 function roomForFollower(s) {
+  if(residentialHousingApplicable(s)){
+    const preview=residentialProjectionState(s),candidate=s.story?.step===1?s.story.opening?.visitorId:s.story?.step===2?s.story.opening?.secondVisitorId:null;
+    return candidate?residentialAdmissionView(preview,candidate).available:residentialHousingView(preview).counts.freeForAdmission>0;
+  }
   return s.disciples.length < (hooks.capacity || capacity)(s);
 }
 export function advanceStory(s, choice) {

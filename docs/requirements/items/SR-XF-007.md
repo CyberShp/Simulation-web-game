@@ -14,7 +14,7 @@
 
 纳入云岫前期，按依赖推进。
 
-决策来源：U-63, U-93, R-25, U-94, U-96, U-97, R-27, U-100, R-29, R-30, U-101, U-102, U-103, U-104, U-118, U-120, U-125, U-126, U-127, U-128, U-129, U-130, U-131, U-132, U-138, U-142, U-143, U-144, U-149, R-49, U-150, R-50, U-155。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
+决策来源：U-63, U-93, R-25, U-94, U-96, U-97, R-27, U-100, R-29, R-30, U-101, U-102, U-103, U-104, U-118, U-120, U-125, U-126, U-127, U-128, U-129, U-130, U-131, U-132, U-138, U-142, U-143, U-144, U-149, R-49, U-150, R-50, U-155, U-157, U-158, R-51, T-17, U-159, U-160, U-161, U-162。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
 
 规格：[01-CHARACTERS.md](../../../docs/design/01-CHARACTERS.md)、[02-EQUIPMENT-ARTS.md](../../../docs/design/02-EQUIPMENT-ARTS.md)、[03-SPATIAL-ART.md](../../../docs/design/03-SPATIAL-ART.md)、[14-EARLY-GAME-DETAILED-DESIGN.md](../../../docs/design/14-EARLY-GAME-DETAILED-DESIGN.md)、[06-OPENING-ACCEPTANCE.md](../../../docs/design/06-OPENING-ACCEPTANCE.md)、[GODOT-MIGRATION.md](../../../docs/GODOT-MIGRATION.md)、[ART-REALTIME-TRIAL.md](../../../docs/ART-REALTIME-TRIAL.md)、[42-CHARACTER-DIALOGUE.md](../../../docs/design/42-CHARACTER-DIALOGUE.md)、[51-COURTYARD-MANAGEMENT-INTEGRATION.md](../../../docs/design/51-COURTYARD-MANAGEMENT-INTEGRATION.md)、[46-CONTINUOUS-DOMAIN-FOUNDATION.md](../../../docs/design/46-CONTINUOUS-DOMAIN-FOUNDATION.md)、[52-EAST-TERRACE-INTEGRATION.md](../../../docs/design/52-EAST-TERRACE-INTEGRATION.md)。
 
@@ -174,6 +174,22 @@ SR-XF-007-V01证据：tests/acceptance/ea-courtyard-rest-render-acceptance.mjs�
 - docs/design/52-EAST-TERRACE-INTEGRATION.md
 - tests/acceptance/courtyard-east-desktop.mjs
 - docs/design/54-COURTYARD-OPENING-DEMO.md；2026-10-17 U-155：三张守阵/逃离v3画帧、四类访客真实山路入离场、相向让行与旧档保护。基础143/143、定向17/17；最终macOS包序章17/17八次重启、同一普通新档陆知微入场4/4与99个在途脚点、暂停跨进程恢复/点选/走近通过。赠药仅同源隔离副本命令门槛证据；Windows、桌面完整交谈链、既有网页择法暂停提示和完整SR/AC状态保持。
+- docs/art/shen-yan-model-reference-20261017/README.md
+- assets/characters/shen-yan/hunyuan-v1/README.md
+- assets/characters/shen-yan/hunyuan-v2/README.md
+- assets/characters/shen-yan/walk-study-v1/README.md
+- assets/characters/shen-yan/pixel-walk-study-v1/README.md
+- assets/characters/shen-yan/pixel-walk-study-v1/provenance.json
+- docs/design/55-CHARACTER-ACTION-LIBRARY.md
+- docs/design/character-actions/WEAPONS-AND-SUPERNATURAL.md
+- docs/design/character-actions/CRAFTS.md
+- docs/design/character-actions/craft-coverage.json
+- docs/art/character-actions-20261017/README.md
+- docs/art/character-actions-20261017/review.json
+- assets/characters/shen-yan/cast-study-v1/README.md
+- assets/characters/shen-yan/cast-study-v1/review.json
+- assets/characters/shen-yan/guard-study-v1/README.md
+- assets/characters/shen-yan/guard-study-v1/review.json
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
@@ -204,5 +220,15 @@ SR-XF-007-V01证据：tests/acceptance/ea-courtyard-rest-render-acceptance.mjs�
 - 2026-10-15：U-148：记录四页及关联入口设计审查、操作断点和R-48重整提案；未修运行代码，完整D/I/V/R与AC状态保持。
 - 2026-10-15：U-149：接续远端main并完成当前山院管理和取消回收、保存恢复的局部桌面验证；完整状态保持。
 - 2026-10-16：U-150/R-50：追加连续东路、实际分趟运料施工、四床启用与同源macOS存读往返局部证据。流程两段308.849秒，最终包阶段6项及往返9项，错误0；保留验收脚本中断记录。完整SR/AC与D/I/V/R状态保持。
+- 2026-10-17：按用户要求生成沈砚序章形象的去头全身三视图、头部五视图与面部细节。原图和提示词已保存，属于供评看的建模参考；完整SR/AC及运行实现状态保持。
+- 2026-10-17：按用户要求实际调用Hunyuan生成沈砚序章模型并完成基础绑骨，保存原始GLB/OBJ/FBX及整理后的GLB和Blender工程。实物重新导入核对19978三角面、28骨骼、三张4K PBR、全顶点权重；整体朝向、材质和权重已整理，肩肘静态随动正常，屈膝长袍局部拉扯与手指/面部/衣摆控制留待动作细化。运行接入、连续动作与完整SR/AC状态保持。
+- 2026-10-17：按用户确认的细节重做方案，完成沈砚头身分件生成、发髻与面部材质修整、颈根拼合和基础绑骨。完整绑定母模995874三角面；工作副本200000三角面、七张4K材质、28骨骼（22根变形）。母模重开核对几何/UV/法线一致；实际导出GLB重导核对全顶点归一权重，静态站立、抬臂屈肘、轻度屈膝和转头点头已检查。输入、原始云文件、任务与散列记录保留。外观待用户评看，手指/表情/衣料控制、连续动作、运行接入和完整SR/AC状态保持。
+- 2026-10-17：按固定视角与近景立绘方向复用沈砚v2，完成一次Hunyuan行走动作生成、22关节适配与贴地/闭合修正，保存1.366667秒Blender循环及16张2D透明帧。83半帧重开检查、独立桌面控件14项与最终111/150/222像素播放/循环检查完成，独立静态复核可交候选。用户画面评看、手型与衣褶细线、连续闪烁/水平滑移、换装复用和正式运行接入继续分项处理；完整SR/AC状态保持。
+- 2026-10-17：U-157：按用户指定的原像素外观与已生成行走动作，保存原图纹理二维网格小样，实际骨架关节投影驱动16帧，周期1.366667秒，位移和转角幅度适配为0.6倍。源图和动作散列保持；独立静态复核原形象、双脚交替和剑发完整，最终资产本地Electron三档111/150/222像素加载、播放、步进、暂停及单次结束通过，页面错误0。008–011帧裤腿仍有单图拉伸感；连续滑步与闪边、补图屈膝、更多方向、换装、用户画面批准及正式接入继续分项处理，完整SR/AC状态保持。
+- 2026-10-17：U-158/R-51/T-17：登记人物动作设计稿及兵器神通、百艺分册，100动作组区分姿势、手位、物件、作用事件及中断收势；172项百艺草案按工序和阵法组对应。本批只检查设计覆盖、引用与同源时钟/身体活动/封闭建筑/知情等契约。具体姿势、八向建议与制作批次待评看，新动作素材和正常/失败/存读及设备验证待后续；完整SR/AC与任务状态保持。
+- 2026-10-17：U-159：按用户确认制作引诀、护持、落旗、撑阵、放蛊、掷符和操偶七组关键姿势图，每组四格，共28格；原像素外观、双手分工、承力与实物去向已逐张静态评看并独立复核。图片、完整提示词、来源与散列已保存。供用户美术评看；尺寸与脚点对齐、透明拆层、过渡帧、111像素辨识、连续动画及正常/失败/存读接入另行完成，完整SR/AC与任务状态保持。
+- 2026-10-18：U-160：完成S01引诀点发12帧、1.28秒的分层动画小样与本地Electron播放器。人物、剑、法术独立；12帧靴部像素相同、首尾像素差0，49项资源散列一致。最终素材三档尺寸、播放/暂停/步进/单次/循环/半速/效果开关20项通过，页面错误0；收诀袖口、释放手腕与握剑经独立静态复核。用户美术认可、深草/工位背景、更多方向及正式释放/存读接入继续接续，完整SR/AC和任务状态保持。
+- 2026-10-18：U-161：用户确认沿用S01人物外观，完成S04双掌护持12帧、1.76秒分层动画小样。双掌、袖口、腰侧剑鞘及护障已复核；全部靴区像素一致、首尾差0、61项资源散列一致。门前对照将本小样人物标尺校到80母稿像素，阶前脚点落在平地；人物与环境共同缩放。最终macOS Electron正常27项、缺失素材4项检查通过，页面错误0，六张场景截图经独立复核。S04用户画面认可、其他朝向、破障/取消、正式护持事件与存读接入继续推进；正式桌面比例和完整SR/AC、任务状态保持。
+- 2026-10-18：U-162：S04按护盾作用修订为掐诀护身，12帧、1.76秒涵盖胸前结诀、脚边升盾、合顶包身、持诀、盾面受击及收诀消散；沿用S01人物与U-161的80母稿像素标尺。成盾帧全部人物/装备可见像素在盾内，12帧靴区相同、首尾差0，61项资源散列一致。实际macOS Electron正常30项、缺失清单4项检查通过，页面错误0；整套姿势及场景截图复核。用户美术认可、其他朝向、破盾/取消、正式护持事件和存读接入分别推进，完整SR/AC与任务状态保持。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python scripts/requirements/sr-manager.py refresh`，不单独修改此派生页。

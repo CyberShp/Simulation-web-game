@@ -1,0 +1,63 @@
+{
+  "date": "2026-10-17",
+  "decision": "U-157",
+  "sourceAtlas": {
+    "path": "assets/courtyard/cultivator-v1.png",
+    "sha256": "2da0c19428bce30330055e4b24a9d0b3dbf68835099648191a5b1849e76d9467",
+    "crop": [
+      70,
+      660,
+      218,
+      335
+    ],
+    "foot": [
+      134,
+      329
+    ],
+    "sourceHeight": 323
+  },
+  "texture": {
+    "path": "source/pixel-identity-reference.png",
+    "sha256": "18e411ef9d3941c769bf6cf975f24766a83809cb0d1ca23b6a63bf27bee704e2"
+  },
+  "motion": {
+    "path": "../walk-study-v1/motion/shen-yan-walk.blend",
+    "sha256": "f78d4eb666da1bc326a3e6470d3f14f6884616d37d2f8c011ab0a8eb3db6cd17",
+    "frames": [
+      1,
+      42
+    ],
+    "durationSeconds": 1.3666666666666667,
+    "samples": [
+      1,
+      3.5625,
+      6.125,
+      8.6875,
+      11.25,
+      13.8125,
+      16.375,
+      18.9375,
+      21.5,
+      24.0625,
+      26.625,
+      29.1875,
+      31.75,
+      34.3125,
+      36.875,
+      39.4375
+    ],
+    "amplitudeScale": 0.6
+  },
+  "method": "Original pixel texture on four 2D mesh regions, driven by projected joints from the verified walking cycle. Manual region masks and attachment landmarks; fixed view.",
+  "output": {
+    "blendSha256": "b231b5405a3cd3f25ccc6ec76b1fa9c0eb7a710b4dbc1a092de29d66c59c137a",
+    "manifestSha256": "2c5148a9420dbc1d0c0c885cd4c29e51b12b10d92da83541bbb31152a40e8c85",
+    "atlasSha256": "7018c405982b2bbd7d6bc25177cb86b9477fe8d1c953d39e1579ce4f37379900"
+  },
+  "qaDirectory": "/Volumes/Media/immortal-qa/shen-yan-motion-study-20261017",
+  "renderVerification": "/Volumes/Media/immortal-qa/shen-yan-motion-study-20261017/pixel-mesh/round-02/verification.json",
+  "limitations": [
+    "Covered thighs and knees have no independent source texture; visible pant regions stretch to keep boot attachments covered.",
+    "One fixed-view 2D mesh study; occluded body surfaces and additional views require separate artwork."
+  ]
+}

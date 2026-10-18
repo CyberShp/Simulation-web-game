@@ -1,0 +1,14 @@
+{
+  "date": "2026-10-18",
+  "tool": "image_gen.imagegen",
+  "prompt": "Use case: identity-preserve. Create a production-ready transparent pixel sprite based on Image 1's original character and Image 2's approved casting pose board.\nONE full-body character only, in the straight LEFT casting arm pose of panel02 of Image2, with the original character identity from Image1: same youthful Chinese male face, dark topknot, long dark hair swept screen-left, teal-blue outer robe, white lapels and center robe, pale hem embroidery, dark leather belt with gold cord, one front jade pendant, dark boots. Same fixed slightly elevated three-quarter camera facing screen-right. Match original fine crisp pixel clusters and dark outline, moderate detail, no smooth render. Full body, sword and every fingertip contained with generous transparent padding.\nStable staggered feet, torso nearly upright, knees relaxed. Anatomical RIGHT near-side arm on SCREEN-LEFT rests low, gripping exactly one straight sword angled DOWN-LEFT away from boots, same simple bronze hilt and pale silver-blue blade as reference. Anatomical LEFT far-side arm on SCREEN-RIGHT is extended horizontally toward screen-right at chest height: upper arm, elbow, forearm and wrist in a clear straight line, index and middle fingers together point toward screen-right, other fingers folded. Casting wrist bare hand clearly connected to dark bracer, wide blue sleeve drapes below elbow, white cuff. Two arms and hands total.\nCharacter should occupy about 75 percent of canvas height, tall enough for detailed consistent pixel art. Long hair silhouette distinct behind torso, hem clear of boots. Keep large portions of torso visible below and above casting arm attachment so it can be animated. This is one clean isolated sprite master, no magic effects, no scenery, no ground shadow, no text, no frame, no extra views or figures. Genuinely transparent RGBA background.",
+  "transparent_background": true,
+  "referencePaths": [
+    "assets/characters/shen-yan/pixel-walk-study-v1/source/pixel-identity-reference.png",
+    "docs/art/character-actions-20261017/s01-keyposes-v1.png"
+  ],
+  "output": "casting-master-v1.png",
+  "generatedOriginal": "/Users/shepard/.codex/generated_images/01a144ea-e43f-7960-aba6-4800a2ad7db7/exec-8a52c43a-9d70-404a-9e96-a162bdb6f347.png",
+  "selection": "first-master",
+  "renderMethod": "Source PNG preserved; Blender textured 2D mesh, alpha-cutout 0.65; arm depth ordering; rigid sword; explicit pose holds in sprites/manifest.json."
+}

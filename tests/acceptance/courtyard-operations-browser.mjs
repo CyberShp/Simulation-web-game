@@ -164,7 +164,7 @@ try {
   await body().locator('[name=spendingCap]').fill('16');
   await body().locator('[name=risk]').selectOption('balanced');
   await button('保存安排').click();
-  assert.deepEqual((await view()).policy, { herbTarget: 42, spendingCap: 16, risk: 'balanced' });
+  assert.deepEqual((await view()).policy, { herbTarget: 42, foodTarget: 32, spendingCap: 16, risk: 'balanced' });
   await body().locator('[name=herbTarget]').fill('501');
   await button('保存安排').click();
   assert.equal((await view()).policy.herbTarget, 42, 'invalid form leaves real policy unchanged');

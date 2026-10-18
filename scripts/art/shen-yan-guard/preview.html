@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' file:; script-src 'self'; style-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'">
+  <title>沈砚·掐诀护身</title>
+  <link rel="stylesheet" href="./preview.css">
+</head>
+<body data-status="loading">
+  <header><h1>沈砚 · 掐诀护身</h1><p>S04 动画小样 · 固定右前侧</p></header>
+  <main>
+    <p id="loading" role="status">正在读取动作帧…</p>
+    <div id="error" role="alert" hidden></div>
+    <div class="controls" aria-label="动画控制">
+      <button id="play" disabled>暂停</button>
+      <button id="restart" disabled>重播</button>
+      <button id="previous" disabled>上一帧</button>
+      <button id="next" disabled>下一帧</button>
+      <label>播放 <select id="loop" disabled><option value="loop">循环</option><option value="once">单次</option></select></label>
+      <label>速度 <select id="speed" disabled><option value="0.5">0.5×</option><option value="1" selected>1×</option></select></label>
+      <label>场景缩放 <select id="zoom" disabled><option value="1">100%</option><option value="1.35">135%</option><option value="2">200%</option></select></label>
+      <label>位置 <select id="viewpoint" disabled><option value="courtyard">院中石地</option><option value="hall">主殿台阶前</option></select></label>
+      <label class="check"><input id="effects" type="checkbox" checked disabled>护盾效果</label>
+      <button id="reload">重新读取</button>
+    </div>
+    <div class="timeline"><input id="frame" type="range" min="0" max="0" step="1" value="0" aria-label="动作帧" disabled><output id="frame-label">—</output></div>
+    <div class="stage-scroll"><canvas id="stage" width="1180" height="570" aria-label="沈砚在山院演示掐诀护身"></canvas></div>
+    <footer><p id="phase" aria-live="polite">掐诀护身</p><p id="metrics">人物与山院共同缩放</p></footer>
+  </main>
+  <script type="module" src="./preview.mjs"></script>
+</body>
+</html>

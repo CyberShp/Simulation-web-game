@@ -272,6 +272,90 @@
     {
       "path": "docs/design/54-COURTYARD-OPENING-DEMO.md",
       "role": "desktop-opening-and-demo-evidence"
+    },
+    {
+      "path": "docs/design/55-CHARACTER-ACTION-LIBRARY.md",
+      "role": "character-action-library-design-proposal"
+    },
+    {
+      "path": "docs/design/character-actions/WEAPONS-AND-SUPERNATURAL.md",
+      "role": "weapon-and-supernatural-action-design"
+    },
+    {
+      "path": "docs/design/character-actions/CRAFTS.md",
+      "role": "craft-action-design"
+    },
+    {
+      "path": "docs/design/character-actions/craft-coverage.json",
+      "role": "craft-action-design-coverage"
+    },
+    {
+      "path": "docs/art/character-actions-20261017/README.md",
+      "role": "character-action-keypose-gallery"
+    },
+    {
+      "path": "docs/art/character-actions-20261017/prompts.json",
+      "role": "character-action-keypose-prompts-provenance"
+    },
+    {
+      "path": "docs/art/character-actions-20261017/review.json",
+      "role": "character-action-keypose-static-review"
+    },
+    {
+      "path": "docs/design/56-COURTYARD-FOOD-SUPPLY.md",
+      "role": "courtyard-food-supply-policy-and-acceptance"
+    },
+    {
+      "path": "docs/design/57-THREE-RESIDENT-COURTYARD.md",
+      "role": "three-resident-admission-and-preset-lumber-site"
+    },
+    {
+      "path": "docs/design/58-GOLDEN-CORE-PRESET-BUILDINGS.md",
+      "role": "golden-core-building-and-preset-site-plan"
+    },
+    {
+      "path": "docs/art/golden-core-domain-20261018/README.md",
+      "role": "golden-core-domain-art-and-layout-review"
+    },
+    {
+      "path": "docs/design/59-WEST-FOREST-INTEGRATION.md",
+      "role": "west-forest-construction-production-and-save-validation"
+    },
+    {
+      "path": "docs/design/60-WEST-VALLEY-INTEGRATION.md",
+      "role": "west-valley-stone-rice-storage-and-physical-logistics"
+    },
+    {
+      "path": "docs/design/61-RESIDENTIAL-INTEGRATION.md",
+      "role": "residential-beds-admission-local-trade-integration"
+    },
+    {
+      "path": "docs/design/62-EAST-SERVICES-INTEGRATION.md",
+      "role": "east-services-physical-work-and-supplies"
+    },
+    {
+      "path": "docs/design/63-NORMAL-GROWTH-FACILITY-PATH.md",
+      "role": "normal-growth-facility-prerequisites"
+    },
+    {
+      "path": "docs/design/64-NORTH-LIBRARY-INTEGRATION.md",
+      "role": "north-library-work-and-acceptance"
+    },
+    {
+      "path": "docs/design/65-COURTYARD-SEEKERS.md",
+      "role": "physical-seekers-and-admission"
+    },
+    {
+      "path": "docs/design/66-NORTH-MEDITATION-INTEGRATION.md",
+      "role": "finite-spirit-supply-and-meditation"
+    },
+    {
+      "path": "docs/design/67-COURTYARD-BREAKTHROUGH.md",
+      "role": "physical-master-breakthrough"
+    },
+    {
+      "path": "docs/design/68-WEST-WORKSHOPS-INTEGRATION.md",
+      "role": "western-alchemy-and-workshop"
     }
   ],
   "taskRead": {
@@ -285,7 +369,8 @@
       "09-INTRIGUE-OPPORTUNITIES.md",
       "10-CRISES-RESCUE-DEATH.md",
       "13-WORLDVIEW-DISCUSSION.md",
-      "14-EARLY-GAME-DETAILED-DESIGN.md"
+      "14-EARLY-GAME-DETAILED-DESIGN.md",
+      "55-CHARACTER-ACTION-LIBRARY.md"
     ],
     "character_dialogue": [
       "42-CHARACTER-DIALOGUE.md",
@@ -307,7 +392,8 @@
       "12-CONTENT-AUTHORING.md",
       "13-WORLDVIEW-DISCUSSION.md",
       "14-EARLY-GAME-DETAILED-DESIGN.md",
-      "19-FIVE-CONTINENT-ARTS.md"
+      "19-FIVE-CONTINENT-ARTS.md",
+      "55-CHARACTER-ACTION-LIBRARY.md"
     ],
     "space_art_input": [
       "../PAINTED-COURTYARD.md",
@@ -319,7 +405,8 @@
       "08-LIVING-WORLD.md",
       "10-CRISES-RESCUE-DEATH.md",
       "13-WORLDVIEW-DISCUSSION.md",
-      "14-EARLY-GAME-DETAILED-DESIGN.md"
+      "14-EARLY-GAME-DETAILED-DESIGN.md",
+      "55-CHARACTER-ACTION-LIBRARY.md"
     ],
     "world_story": [
       "01-CHARACTERS.md",
@@ -347,7 +434,9 @@
       "09-INTRIGUE-OPPORTUNITIES.md",
       "10-CRISES-RESCUE-DEATH.md",
       "13-WORLDVIEW-DISCUSSION.md",
-      "14-EARLY-GAME-DETAILED-DESIGN.md"
+      "14-EARLY-GAME-DETAILED-DESIGN.md",
+      "55-CHARACTER-ACTION-LIBRARY.md",
+      "docs/design/56-COURTYARD-FOOD-SUPPLY.md"
     ],
     "save_runtime": [
       "01-CHARACTERS.md",
@@ -363,7 +452,8 @@
       "11-AI-CONTENT-CONTRACT.md",
       "12-CONTENT-AUTHORING.md",
       "13-WORLDVIEW-DISCUSSION.md",
-      "14-EARLY-GAME-DETAILED-DESIGN.md"
+      "14-EARLY-GAME-DETAILED-DESIGN.md",
+      "docs/design/56-COURTYARD-FOOD-SUPPLY.md"
     ],
     "living_world": [
       "01-CHARACTERS.md",
@@ -1455,7 +1545,7 @@
     "styleAlignmentEvidence": "docs/art/hd-pixel-trail-20261014/STAIR-CONNECTION.md"
   },
   "currentHandoff": {
-    "updatedAt": "2026-10-17",
+    "updatedAt": "2026-10-18",
     "entry": "AGENTS.md",
     "handoff": "docs/CODEX-HANDOFF.md",
     "deliveryPlan": "docs/DELIVERY-PLAN.md",
@@ -1483,10 +1573,10 @@
     "layoutRefinementId": "R-32",
     "currentAlignmentDecisionId": "U-107",
     "mountainDomain": "docs/MOUNTAIN-DOMAIN.md",
-    "currentSpatialDecisionId": "U-150",
+    "currentSpatialDecisionId": "U-167",
     "currentSpatialSourceCommit": null,
     "preservedSpatialSourceCommit": "3a930ea55d66244cb24cfcfef52cbc3e6d1b8b88",
-    "currentSpatialReference": "docs/design/46-CONTINUOUS-DOMAIN-FOUNDATION.md",
+    "currentSpatialReference": "docs/design/61-RESIDENTIAL-INTEGRATION.md",
     "currentArtsDecisionId": "U-115",
     "currentArtsReference": "docs/design/19-FIVE-CONTINENT-ARTS.md",
     "currentArtsBalanceReference": "docs/design/20-ARTS-GROWTH-COMBAT.md",
@@ -1497,7 +1587,7 @@
     "currentOpeningAcceptanceStatus": "single-normal-new-save-local-chain-verified-public-opening-smoke-verified",
     "currentCharacterDialogueDecisionId": "U-125",
     "currentCharacterDialogueReference": "docs/design/42-CHARACTER-DIALOGUE.md",
-    "currentSequence": "sustained-food-supply-then-three-to-five-residents",
+    "currentSequence": "approved-golden-core-preset-domain-staged-integration-and-three-residents",
     "currentArtsLedger": "docs/design/28-FIVE-CONTINENT-ARTS-LEDGER.md",
     "estateSourceScene": "archive/godot/estate_2d/estate.tscn",
     "estateSiteLayout": "archive/godot/estate_2d/estate-sites.json",
@@ -1566,11 +1656,11 @@
     "preservedSceneEntry": "archive/prototypes/pixel_scene_validation/index.html",
     "preservedSceneLaunchArgument": "--scene",
     "currentGoal": {
-      "decisionId": "U-152",
-      "mode": "task",
-      "status": "completed",
-      "objective": "Reorganize the complete repository, validate commands and compatibility, preserve prior work, and push reviewed source.",
-      "reference": "docs/engineering/MIGRATION-20261016.md",
+      "decisionId": "U-167",
+      "mode": "goal",
+      "status": "active",
+      "objective": "Implement the approved 25 facility groups and 31 fixed sites through Golden Core, with real paths, construction, supply, work and save continuity.",
+      "reference": "docs/design/58-GOLDEN-CORE-PRESET-BUILDINGS.md",
       "closesWholeRequirements": false
     },
     "currentArenaValidation": {
@@ -1892,6 +1982,730 @@
         "windows": "not-run",
         "wholeRequirementStatusesChanged": false
       }
+    },
+    "currentCharacterActionDesign": {
+      "decisionId": "U-158",
+      "proposalId": "R-51",
+      "tuningId": "T-17",
+      "reference": "docs/design/55-CHARACTER-ACTION-LIBRARY.md",
+      "status": "s04-shield-animation-awaiting-art-review",
+      "actionGroups": 100,
+      "productionStatus": "seven-keypose-boards-and-two-animation-studies",
+      "keyposes": {
+        "decisionId": "U-159",
+        "reference": "docs/art/character-actions-20261017/README.md",
+        "actionIds": [
+          "S01",
+          "S04",
+          "A02",
+          "A04",
+          "G01",
+          "F01",
+          "P03"
+        ],
+        "boards": 7,
+        "posesPerBoard": 4,
+        "continuousAnimations": 0,
+        "runtimeIntegrated": false,
+        "userArtApproval": "pending"
+      },
+      "animationStudy": {
+        "decisionId": "U-160",
+        "actionId": "S01",
+        "reference": "assets/characters/shen-yan/cast-study-v1/README.md",
+        "frames": 12,
+        "durationMs": 1280,
+        "entry": "scripts/art/shen-yan-cast/preview-host.cjs",
+        "validation": "macos-electron-20-checks-passed",
+        "runtimeIntegrated": false,
+        "userArtApproval": "pending",
+        "characterAppearanceApproval": "approved-in-U-161"
+      },
+      "guardStudy": {
+        "decisionId": "U-162",
+        "actionId": "S04",
+        "reference": "assets/characters/shen-yan/guard-study-v1/README.md",
+        "frames": 12,
+        "durationMs": 1760,
+        "entry": "scripts/art/shen-yan-guard/preview-host.cjs",
+        "nominalHeight": 80,
+        "runtimeReferenceHeight": 111,
+        "wholeSceneZooms": [
+          1,
+          1.35,
+          2
+        ],
+        "validation": "macos-electron-30-normal-and-4-load-error-checks-passed",
+        "runtimeIntegrated": false,
+        "userArtApproval": "pending",
+        "qaRoot": "/Volumes/Media/immortal-qa/shen-yan-shield-20261018",
+        "name": "掐诀护身",
+        "shieldCoverage": "full-body",
+        "visualEventFrames": {
+          "guard-start": 5,
+          "pressure": 7,
+          "guard-end": 9
+        }
+      }
+    },
+    "currentFoodSupply": {
+      "decisionId": "U-163",
+      "implementationId": "R-52",
+      "tuningId": "T-18",
+      "reference": "docs/design/56-COURTYARD-FOOD-SUPPLY.md",
+      "status": "two-resident-desktop-verified",
+      "sourceBaseCommit": "f891f4c",
+      "defaultTarget": 32,
+      "unitChecks": 8,
+      "relatedChecks": 17,
+      "defaultCoreChecks": 152,
+      "runtime": "source-electron-macos",
+      "desktopEvidence": "/Volumes/Media/immortal-qa/food-supply-20261018/run-2",
+      "windows": "not-run",
+      "wholeRequirementStatusChanged": false,
+      "autonomousSeconds": 1200.016159,
+      "desktopChecks": 11,
+      "independentEvidenceChecks": 12,
+      "uiChecks": 7,
+      "packageSmokeChecks": 6,
+      "packageSmokeSeconds": 10.246034,
+      "initialFood": 3,
+      "finalFood": 43,
+      "harvestedFood": 80,
+      "consumedFood": 40,
+      "finalStarvation": 0,
+      "successfulReplenishment": "public-command-rule-test-passed-desktop-not-run",
+      "packageEvidence": "/Volumes/Media/immortal-qa/food-supply-20261018/package-smoke",
+      "sourceCommitStatus": "uncommitted",
+      "nextStep": "three-to-five-residents"
+    },
+    "currentThreeResidentStatus": "admission-partial-west-lumber-two-resident-chain-verified-three-resident-long-run-pending",
+    "currentSpatialPrototype": "docs/art/golden-core-domain-20261018/README.md",
+    "currentBuildingPlan": {
+      "decisionId": "U-167",
+      "proposalId": "R-54",
+      "status": "approved-layout-staged-runtime-integration",
+      "facilityGroups": 25,
+      "presetPositions": 31,
+      "existingRuntimeTypesCovered": 14,
+      "reference": "docs/design/58-GOLDEN-CORE-PRESET-BUILDINGS.md",
+      "art": "docs/art/golden-core-domain-20261018/README.md",
+      "runtimeIntegrated": "partial",
+      "wholeRequirementStatusChanged": false,
+      "runtimeCatalogPositions": 31,
+      "runtimeExistingPositions": [
+        "GC-01",
+        "GC-20"
+      ],
+      "runtimeOpenPositions": [
+        "GC-02",
+        "GC-03",
+        "GC-09",
+        "GC-10",
+        "GC-11",
+        "GC-12",
+        "GC-13",
+        "GC-14",
+        "GC-16",
+        "GC-17",
+        "GC-18",
+        "GC-19",
+        "GC-24",
+        "GC-25",
+        "GC-26"
+      ],
+      "pendingPositions": 14,
+      "runtimeEvidence": "docs/design/61-RESIDENTIAL-INTEGRATION.md",
+      "currentBatchStatus": "west-workshops-l1-integrated-seekers-approach-repair",
+      "runtimeTypesCovered": 15,
+      "previousWestForestDesktopValidation": {
+        "platform": "macOS-source-Electron",
+        "checksPassed": 10,
+        "checksTotal": 10,
+        "wallSeconds": 100.894,
+        "evidence": "/Volumes/Media/immortal-qa/west-forest-20261018/run-03/report.json",
+        "scope": "GC-16 west forest level-one construction and production"
+      },
+      "currentDesktopValidation": {
+        "status": "passed",
+        "scope": "GC-17/18/19/24 level-one construction, production and actual deliveries",
+        "platform": "macOS-source-Electron",
+        "checksPassed": 31,
+        "checksTotal": 31,
+        "wallSeconds": 1219.061,
+        "reopens": 7,
+        "runtimeErrors": 0,
+        "evidence": "/Volumes/Media/immortal-qa/west-valley-desktop-20261018/run-03/report.json",
+        "runtimeHashManifest": "/Volumes/Media/immortal-qa/west-valley-desktop-20261018/run-03/verified-runtime-sha256.json"
+      },
+      "nextResidentialPreparation": {
+        "reference": "docs/design/61-RESIDENTIAL-INTEGRATION.md",
+        "status": "level-one-desktop-verified",
+        "ruleTestsPassed": 10,
+        "ruleTestsTotal": 10,
+        "art": "docs/art/east-residences-runtime-20261018/README.md",
+        "runtimeIntegrated": true,
+        "localTrade": {
+          "status": "verified",
+          "unitPassed": 5,
+          "desktopPassed": 11,
+          "desktopTotal": 11,
+          "platform": "macOS-source-Electron",
+          "reopens": 2,
+          "runtimeErrors": 0,
+          "scope": "Separate normal-source local physical trade, not residential construction",
+          "evidence": "/Volumes/Media/immortal-qa/local-trade-desktop-20261018/run-02/report.json",
+          "merchantReturnChecks": 12,
+          "merchantReturnRepairEvidence": "/Volumes/Media/immortal-qa/residential-funding-20261018/repair-replay/"
+        },
+        "integrationChecksPassed": 27,
+        "relatedRegressionPassed": 8,
+        "desktopRest": {
+          "status": "passed",
+          "checksPassed": 6,
+          "checksTotal": 6,
+          "platform": "macOS-source-Electron",
+          "reopens": 1,
+          "runtimeErrors": 0,
+          "scope": "Existing hall: master selects a bed, walks there and persists accommodation",
+          "evidence": "/Volumes/Media/immortal-qa/residential-rest-desktop-20261018/run-01/report.json"
+        },
+        "spatialChecks": {
+          "passed": 34,
+          "total": 34,
+          "scope": "9 residential plus 25 direct old spatial checks; independent fixtures and public-command paths"
+        },
+        "queryCacheChecks": {
+          "passed": 20,
+          "total": 20,
+          "scope": "Housing rules, integration and projection; private preview and unchanged original save"
+        },
+        "funding": {
+          "status": "passed",
+          "kind": "Node-public-world-steps",
+          "source": "/Volumes/Media/immortal-qa/west-valley-desktop-20261018/run-03/13-complete.json",
+          "checkpoint": "/Volumes/Media/immortal-qa/residential-funding-20261018/run-02/03-four-residences-ready.json",
+          "tick": 31015,
+          "home": {
+            "jade": 181.4,
+            "wood": 44,
+            "stone": 20
+          },
+          "warehouse": {
+            "wood": 120,
+            "stone": 60
+          },
+          "evidence": "/Volumes/Media/immortal-qa/residential-funding-20261018/README.md"
+        },
+        "currentDesktopConstruction": {
+          "status": "passed",
+          "platform": "macOS-source-Electron",
+          "evidence": "/Volumes/Media/immortal-qa/residential-build-desktop-20261018/run-05/report.json",
+          "readbackEvidence": "/Volumes/Media/immortal-qa/residential-build-desktop-20261018/run-05/sealed-readback.json",
+          "checksPassed": 28,
+          "checksTotal": 28,
+          "priorSuccessfulChecks": 5,
+          "reopens": 5,
+          "runtimeErrors": 0,
+          "source": "/Volumes/Media/immortal-qa/residential-funding-20261018/run-02/03-four-residences-ready.json",
+          "sourceSha256": "49ec96c0026fdfdb88a0f3da805b1355ec78927c79a0eb16a8e93af7d4ecbb07",
+          "sourceUnchanged": true,
+          "segments": [
+            {
+              "reportPath": "/Volumes/Media/immortal-qa/residential-build-desktop-20261018/run-04/report.json",
+              "wallSeconds": 233.52,
+              "fromTick": 31015,
+              "toTick": 32606
+            },
+            {
+              "reportPath": "/Volumes/Media/immortal-qa/residential-build-desktop-20261018/run-05/report.json",
+              "wallSeconds": 2008.656,
+              "fromTick": 32606,
+              "toTick": 46427
+            }
+          ],
+          "wallSeconds": 2008.656,
+          "totalActiveWallSeconds": 2242.176,
+          "initialTick": 31015,
+          "segmentInitialTick": 32606,
+          "finalTick": 46427,
+          "simulatedSeconds": 1541.2,
+          "runtimeAndAssetFiles": 101,
+          "runtimeHashesUnchanged": true,
+          "resourceCost": {
+            "jade": 180,
+            "wood": 160,
+            "stone": 80
+          },
+          "physicalBeds": 20,
+          "usableBeds": 20,
+          "settledResidents": 2,
+          "pendingResidents": 0,
+          "masterHome": {
+            "buildingId": "building:yunxiu:10",
+            "slotId": "building:yunxiu:10/slot:bed:1",
+            "atTick": 46400,
+            "source": "arrived"
+          },
+          "scope": "Same-world native continuation from run04; four level-one residences with actual hauling, construction and master arrival at a new bed; five complete-world restore checks. Larger population, upgraded stage art, Windows and installed packages remain separate."
+        },
+        "desktopRoads": {
+          "status": "passed",
+          "checksPassed": 9,
+          "checksTotal": 9,
+          "platform": "macOS-source-Electron",
+          "wallSeconds": 237.286,
+          "reopens": 2,
+          "runtimeErrors": 0,
+          "scope": "Historical run02 before final shared west-route repair; run03 on final code was interrupted by window close",
+          "evidence": "/Volumes/Media/immortal-qa/residential-roads-desktop-20261018/run-02/report.json"
+        },
+        "latestDefaultRegression": {
+          "passed": 239,
+          "total": 239,
+          "status": "passed",
+          "evidence": "/Volumes/Media/immortal-qa/residential-final-default-20261018-r2.log",
+          "scope": "Existing evidence on the residential frozen runtime, before isolated service integration; not rerun for this documentation update"
+        },
+        "sharedRoadRepair": {
+          "passed": 32,
+          "total": 32,
+          "scope": "Existing rule and saved-state replay evidence on residential frozen runtime: HOME west departure, field join, opposing worker yield and one movement per world step",
+          "evidence": "/Volumes/Media/immortal-qa/residential-build-desktop-20261018/spatial-repair-02/report.json"
+        },
+        "latestDesktopRoads": {
+          "status": "interrupted-window-closed",
+          "scope": "Three residential entrances reached and one exact reopen; complete route remains unverified on final code",
+          "evidence": "/Volumes/Media/immortal-qa/residential-roads-desktop-20261018/run-03/"
+        },
+        "previousInterruptedConstruction": {
+          "status": "interrupted-window-closed",
+          "evidence": "/Volumes/Media/immortal-qa/residential-build-desktop-20261018/run-04/report.json",
+          "wallSeconds": 233.52,
+          "initialTick": 31015,
+          "finalTick": 32606,
+          "sourceUnchanged": true,
+          "scope": "GC09 actual hauling and construction completed with four beds, new domain formally enabled; GC10-12 and relocation chain incomplete; window close trigger unconfirmed",
+          "continuedBy": "/Volumes/Media/immortal-qa/residential-build-desktop-20261018/run-05/report.json"
+        }
+      },
+      "nextServicePreparation": {
+        "reference": "docs/design/62-EAST-SERVICES-INTEGRATION.md",
+        "tunableDecision": "T-21",
+        "status": "integrated-desktop-kitchen-acceptance-running",
+        "runtimeIntegrated": true,
+        "isolatedRuleTests": {
+          "passed": 8,
+          "total": 8
+        },
+        "isolatedRelatedRegression": {
+          "passed": 48,
+          "total": 48
+        },
+        "implementationDraft": "/Volumes/Media/immortal-qa/east-services-implementation-20261018/README.md",
+        "art": "docs/art/east-services-20261018/README.md",
+        "scope": "GC13/14 preset geometry and real service operations integrated; GC13 same-world macOS source Electron cooking/dining chain completed; GC14 normal unlock and treatment desktop chain pending",
+        "integratedFiles": 31,
+        "remainingPlanningSites": 18,
+        "integrationEvidence": "/Volumes/Media/immortal-qa/east-services-implementation-20261018/integration-readback.json",
+        "latestDefaultRegression": {
+          "total": 277,
+          "passed": 276,
+          "failed": 1,
+          "evidence": "/Volumes/Media/immortal-qa/east-services-integrated-default-tests.log",
+          "failure": "preset planning count expected 20 before GC13/14 integration",
+          "followup": {
+            "passed": 5,
+            "total": 5,
+            "evidence": "/Volumes/Media/immortal-qa/east-services-integrated-preset-regression-r2.log",
+            "scope": "updated catalogue count and stage/road atomic rejection assertions; other 276 original results retained"
+          }
+        },
+        "serviceOperationChecks": {
+          "passed": 14,
+          "total": 14,
+          "independentReproductionsPassed": 3,
+          "evidence": "/Volumes/Media/immortal-qa/east-services-implementation-20261018/service-rules-final.log"
+        },
+        "normalFunding": {
+          "source": "/Volumes/Media/immortal-qa/residential-build-desktop-20261018/run-05/final-recovery-reopened.json",
+          "checkpoint": "/Volumes/Media/immortal-qa/kitchen-funding-20261018/run-01/02-kitchen-materials-ready.json",
+          "commands": 39,
+          "initialTick": 46427,
+          "finalTick": 59648,
+          "nodeWallSeconds": 66.10318825,
+          "sourceUnchanged": true
+        },
+        "desktop": {
+          "status": "kitchen-completed-clinic-pending",
+          "platform": "macOS-source-Electron",
+          "evidence": "/Volumes/Media/immortal-qa/kitchen-desktop-20261018/",
+          "scope": "same-world construction, finite delivered water purchase, inputs delivery, two meals batches, dining and exact reopens",
+          "completedKitchenTick": 62106,
+          "continuationTick": 75625,
+          "continuationEvidence": "/Volumes/Media/immortal-qa/kitchen-desktop-20261018/run-07/root-sealed-audit.json",
+          "passed": 12,
+          "total": 12,
+          "runtimeErrors": 0,
+          "finalCheckpoint": "/Volumes/Media/immortal-qa/kitchen-desktop-20261018/run-07/kitchen-complete.json",
+          "finalCheckpointSha256": "6814920e12bbadbbb280717f172ccc26ef35d1bd4c80a5e007d0559dcc01a946",
+          "cookedMeals": 20,
+          "consumedMeals": 2,
+          "storedMeals": 18,
+          "exactReopens": 3
+        },
+        "performanceRepair": {
+          "integrated": true,
+          "files": 7,
+          "focusedTestsPassed": 17,
+          "reference": "docs/design/62-EAST-SERVICES-INTEGRATION.md#10",
+          "evidence": "/Volumes/Media/immortal-qa/kitchen-view-performance-20261018/integration-readback.json",
+          "desktopStatus": "initial pause response improved; normal chain still running",
+          "coldStartRemaining": true
+        },
+        "serviceViewRepair": {
+          "integrated": true,
+          "focusedPassed": 21,
+          "sameWorldSamples": 7,
+          "evidence": "/Volumes/Media/immortal-qa/kitchen-service-performance-20261018/comparison-report.json",
+          "coldReadRemaining": true
+        },
+        "waypointRepair": {
+          "integrated": true,
+          "rulesPassed": 5,
+          "replayCases": 6,
+          "evidence": "/Volumes/Media/immortal-qa/kitchen-merchant-route-20261018/integration-readback.json",
+          "electronPending": true
+        },
+        "pathCacheRepair": {
+          "integrated": true,
+          "focusedPassed": 37,
+          "sameWorldSamples": 6,
+          "coldNodeBeforeMs": 37715.35,
+          "coldNodeAfterMs": 4322.25,
+          "sourceAndViewEqual": true,
+          "electronColdReadPending": false,
+          "evidence": "/Volumes/Media/immortal-qa/kitchen-cold-view-20261018/integration-readback.json",
+          "electronReadyMs": [
+            4237.714792,
+            3294.701459,
+            3304.565917
+          ],
+          "electronEvidence": "/Volumes/Media/immortal-qa/library-desktop-20261018/run-01/report.json",
+          "electronScope": "same funded source startup and two reopened checkpoints; application ready time only"
+        },
+        "longRouteSaveRepair": {
+          "integrated": true,
+          "expandedLimit": 512,
+          "oldSceneLimit": 80,
+          "originalLegalPoints": 176,
+          "focusedPassed": 18,
+          "originalFailureExactRestored": true,
+          "evidence": "/Volumes/Media/immortal-qa/courtyard-long-route-save-20261018/integration-readback.json"
+        }
+      },
+      "nextLibraryPreparation": {
+        "reference": "docs/design/64-NORTH-LIBRARY-INTEGRATION.md",
+        "status": "integrated-level1-normal-desktop-passed",
+        "runtimeIntegrated": true,
+        "spaceTests": {
+          "northAndPresetPassed": 14,
+          "relatedRegionsPassed": 22,
+          "relatedRegionsScope": "earlier wireframe iteration"
+        },
+        "evidence": "/Volumes/Media/immortal-qa/main-peak-library-implementation-20261018/integration-readback.json",
+        "scope": "preset L1 construction, family notes and two spring studies observed in one normal Electron world; copying supplies, rooms and higher-level art remain",
+        "integratedFocusedPassed": 30,
+        "canvasEvidence": "/Volumes/Media/immortal-qa/north-library-canvas-20261018/report.json",
+        "normalFunding": {
+          "status": "passed",
+          "source": "/Volumes/Media/immortal-qa/kitchen-desktop-20261018/run-07/kitchen-complete.json",
+          "checkpoint": "/Volumes/Media/immortal-qa/library-funding-20261018/run-02/02-library-and-lumber-materials-ready.json",
+          "checkpointSha256": "24fe28706c2ce2f894183b1abb144e6491aae5406520e471714f777662875876",
+          "tick": 90001,
+          "commands": 33,
+          "exactFullRestore": true,
+          "evidence": "/Volumes/Media/immortal-qa/library-funding-20261018/run-02/root-sealed-audit.json"
+        },
+        "normalDesktop": {
+          "status": "passed",
+          "tick": 91743,
+          "checkpoint": "/Volumes/Media/immortal-qa/library-desktop-20261018/run-05/library-complete.json",
+          "checkpointSha256": "579a941694df6a0e95ecf85cc99121a5191b75fdf6aa42f60aa51b14eff7a6a6",
+          "evidence": "/Volumes/Media/immortal-qa/library-desktop-20261018/run-05/report.json",
+          "independentReadback": "/Volumes/Media/immortal-qa/library-desktop-20261018/run-05/root-readback.json",
+          "checksPassed": 11,
+          "pageErrors": 0,
+          "runtimeFileCount": 120,
+          "finalSegmentWallSeconds": 225.566,
+          "activeSegmentsWallSeconds": 755.165,
+          "completed": [
+            "GC16 actual construction",
+            "Lin outer-rank admission",
+            "GC02 actual material hauling and L1 construction",
+            "family notes at actual reading seat",
+            "two spring studies to understanding 24",
+            "three residents and 20 physical beds",
+            "precise save/reopen"
+          ],
+          "remaining": [
+            "copying paper and ink",
+            "specialized library rooms",
+            "higher-level art",
+            "Windows and installed package"
+          ],
+          "preservedApproachFailure": {
+            "status": "preserved-approach-failure-repairing",
+            "completed": [
+              "GC16 actual construction",
+              "materials-carrying and construction exact reopens",
+              "Lin outer-rank admission",
+              "three-person exact reopen",
+              "GC02 road opening and 65/45/20 material reservation"
+            ],
+            "tick": 90667,
+            "checkpoint": "/Volumes/Media/immortal-qa/library-desktop-20261018/run-02/failure-world.json",
+            "checkpointSha256": "5c2c37a656476281e29b9dadabf7c5fc42924d36007d3d9f32358c5b5a33ebcb",
+            "evidence": "/Volumes/Media/immortal-qa/library-desktop-20261018/run-02/report.json",
+            "remaining": [
+              "GC02 completion",
+              "family notes",
+              "spring study"
+            ]
+          }
+        }
+      },
+      "nextMeditationPreparation": {
+        "reference": "docs/design/66-NORTH-MEDITATION-INTEGRATION.md",
+        "status": "integrated-l1-same-source-desktop-passed",
+        "runtimeIntegrated": true,
+        "directory": "/Volumes/Media/immortal-qa/main-peak-meditation-implementation-20261018/",
+        "rootBasicChecksPassed": 5,
+        "sourceRules": "13 focused and 32 related passed",
+        "art": "57 actual renderer Canvas checks passed; L1 four stages, common entry, six visible seats and scale reviewed",
+        "normalDesktop": "GC03 L1 survey/build/qi-layer/finite-supply/onsite-maintenance passed; final171973",
+        "mergedSpatialAndSupplyChecksPassed": 20,
+        "controllerChecksPassed": 2,
+        "breakthroughEntry": "integrated and same-source desktop180-tick qi-layer passed",
+        "integratedRuntimeArtFiles": 30,
+        "loadedRuntimeFiles": 131,
+        "integratedFocusedChecksPassed": 15,
+        "engineeringChecksPassed": true,
+        "integrationEvidence": "/Volumes/Media/immortal-qa/main-peak-meditation-implementation-20261018/root-main-integration.json",
+        "runtimeTransition": "/Volumes/Media/immortal-qa/main-peak-meditation-implementation-20261018/runtime-transition-library-to-meditation.json",
+        "funding": {
+          "status": "passed",
+          "kind": "Node-public-command-world-steps",
+          "sourceTick": 91743,
+          "finalTick": 168109,
+          "activeNodeSeconds": 391.290635124,
+          "evidence": "/Volumes/Media/immortal-qa/meditation-funding-20261018/run-03/sealed-readback.json",
+          "independentReadback": "/Volumes/Media/immortal-qa/meditation-funding-20261018/run-03/root-readback.json",
+          "retainedFailedFinalTicks": [
+            117712,
+            167589
+          ]
+        },
+        "desktopStop": {
+          "run": 6,
+          "kind": "hall-doorway-foot-circle-review",
+          "initialTick": 170401,
+          "finalTick": 170563,
+          "wallSeconds": 32.927,
+          "pageErrors": 0,
+          "source": "/Volumes/Media/immortal-qa/meditation-desktop-20261018/run-06/failure-world.json",
+          "sha256": "c360f53a344100123bfbec535dfd86b96c808da88fdf2a1cf12617a06e584b4e",
+          "report": "/Volumes/Media/immortal-qa/meditation-desktop-20261018/run-06/report.json",
+          "seal": "/Volumes/Media/immortal-qa/meditation-desktop-20261018/run-06/sealed-readback.json",
+          "resolvedBy": "run07 retained original transport347; exact doorway fixture audit and resumed maintenance passed"
+        },
+        "routeRepair": {
+          "status": "integrated-main-replay-passed",
+          "evidence": "/Volumes/Media/immortal-qa/north-meditation-route-repair-20261018/handoff.json",
+          "runtimeFiles": 2,
+          "candidateDirectChecks": 6,
+          "mainFocusedPassed": 5,
+          "originalWorldSteps": 94,
+          "exactReopens": 4
+        },
+        "performanceDiagnosis": {
+          "evidence": "/Volumes/Media/immortal-qa/meditation-view-performance-20261018/READOUT.md",
+          "status": "integrated-static-index-and-external-harness-projection",
+          "nodeControlledPauseRefreshReductionPercent": 38,
+          "desktopPauseToRafMs": [
+            498.6,
+            528.6,
+            524.9,
+            512.8
+          ],
+          "scope": "Node controlled state comparison and distinct desktop response samples; no FPS claim"
+        },
+        "desktopSegments": [
+          {
+            "run": 1,
+            "kind": "north-approach-body-edge",
+            "initialTick": 168109,
+            "finalTick": 168489,
+            "wallSeconds": 116.242,
+            "pageErrors": 0,
+            "source": "/Volumes/Media/immortal-qa/meditation-desktop-20261018/run-01/failure-world.json",
+            "sha256": "bdb7a82b123df8dcc3b084a6d38385202a1ed467068283bd0e189a074bfab4f5",
+            "report": "/Volumes/Media/immortal-qa/meditation-desktop-20261018/run-01/report.json",
+            "seal": "/Volumes/Media/immortal-qa/meditation-desktop-20261018/run-01/sealed-readback.json"
+          },
+          {
+            "run": 2,
+            "kind": "harness-missing-leave-survey-step",
+            "initialTick": 168489,
+            "finalTick": 168584,
+            "wallSeconds": 32.744,
+            "pageErrors": 0,
+            "source": "/Volumes/Media/immortal-qa/meditation-desktop-20261018/run-02/failure-world.json",
+            "sha256": "9b8ffda93710c326712e19169296cb641f747f143993009199ed9e1ee8d37c8f",
+            "report": "/Volumes/Media/immortal-qa/meditation-desktop-20261018/run-02/report.json",
+            "seal": "/Volumes/Media/immortal-qa/meditation-desktop-20261018/run-02/sealed-readback.json"
+          },
+          {
+            "run": 3,
+            "kind": "harness-route-projection-field",
+            "initialTick": 168584,
+            "finalTick": 168599,
+            "wallSeconds": 16.508,
+            "pageErrors": 0,
+            "source": "/Volumes/Media/immortal-qa/meditation-desktop-20261018/run-03/failure-world.json",
+            "sha256": "d91b2f63ac32366f19d691c17ff9ebcbb2390fc7d3d39b9ba4022363b883dd4a",
+            "report": "/Volumes/Media/immortal-qa/meditation-desktop-20261018/run-03/report.json",
+            "seal": "/Volumes/Media/immortal-qa/meditation-desktop-20261018/run-03/sealed-readback.json"
+          },
+          {
+            "run": 4,
+            "kind": "lin-return-bed-foot-check",
+            "initialTick": 168599,
+            "finalTick": 168803,
+            "wallSeconds": 47.004,
+            "pageErrors": 0,
+            "source": "/Volumes/Media/immortal-qa/meditation-desktop-20261018/run-04/failure-world.json",
+            "sha256": "fe60c016d14b0dc9dc9ec82b0fca7596c7c1bfb8e2cf0228ca4db1d0aeaf9711",
+            "report": "/Volumes/Media/immortal-qa/meditation-desktop-20261018/run-04/report.json",
+            "seal": "/Volumes/Media/immortal-qa/meditation-desktop-20261018/run-04/sealed-readback.json"
+          },
+          {
+            "run": 5,
+            "kind": "maintenance-destination-ui-omission",
+            "initialTick": 168803,
+            "finalTick": 170401,
+            "wallSeconds": 322.342,
+            "pageErrors": 0,
+            "source": "/Volumes/Media/immortal-qa/meditation-desktop-20261018/run-05/failure-world.json",
+            "sha256": "116d517e90f8ef638f38a4d0eafa4ac19356758e3002854c386895077d22a0e3",
+            "report": "/Volumes/Media/immortal-qa/meditation-desktop-20261018/run-05/report.json",
+            "seal": "/Volumes/Media/immortal-qa/meditation-desktop-20261018/run-05/sealed-readback.json"
+          },
+          {
+            "run": 6,
+            "kind": "hall-doorway-foot-circle-review",
+            "initialTick": 170401,
+            "finalTick": 170563,
+            "wallSeconds": 32.927,
+            "pageErrors": 0,
+            "source": "/Volumes/Media/immortal-qa/meditation-desktop-20261018/run-06/failure-world.json",
+            "sha256": "c360f53a344100123bfbec535dfd86b96c808da88fdf2a1cf12617a06e584b4e",
+            "report": "/Volumes/Media/immortal-qa/meditation-desktop-20261018/run-06/report.json",
+            "seal": "/Volumes/Media/immortal-qa/meditation-desktop-20261018/run-06/sealed-readback.json"
+          },
+          {
+            "run": 7,
+            "kind": "passed-l1-normal-chain",
+            "initialTick": 170563,
+            "finalTick": 171973,
+            "wallSeconds": 209.943,
+            "pageErrors": 0,
+            "source": "/Volumes/Media/immortal-qa/meditation-desktop-20261018/run-07/meditation-complete.json",
+            "sha256": "1b9bcbee52bbcf241bf44c98aee15ef7d2569ae45aba9f1291486fdb754dd931",
+            "report": "/Volumes/Media/immortal-qa/meditation-desktop-20261018/run-07/report.json",
+            "seal": "/Volumes/Media/immortal-qa/meditation-desktop-20261018/run-07/sealed-readback.json"
+          }
+        ],
+        "returnRouteRepair": {
+          "status": "integrated-and-desktop-recovered",
+          "mainFocusedPassed": 8,
+          "evidence": "/Volumes/Media/immortal-qa/north-library-return-repair-20261018/research/root-main-recovery-report.json",
+          "actualRecoveredTick": 168830
+        },
+        "independentDesktopReadback": "/Volumes/Media/immortal-qa/meditation-desktop-20261018/root-readback-run07.json",
+        "desktopFinal": {
+          "run": 7,
+          "kind": "passed-l1-normal-chain",
+          "initialTick": 170563,
+          "finalTick": 171973,
+          "wallSeconds": 209.943,
+          "pageErrors": 0,
+          "source": "/Volumes/Media/immortal-qa/meditation-desktop-20261018/run-07/meditation-complete.json",
+          "sha256": "1b9bcbee52bbcf241bf44c98aee15ef7d2569ae45aba9f1291486fdb754dd931",
+          "report": "/Volumes/Media/immortal-qa/meditation-desktop-20261018/run-07/report.json",
+          "seal": "/Volumes/Media/immortal-qa/meditation-desktop-20261018/run-07/sealed-readback.json"
+        },
+        "activeDesktopWallSecondsBySegmentSum": 777.71
+      },
+      "nextWestWorkshopsPreparation": {
+        "reference": "docs/design/68-WEST-WORKSHOPS-INTEGRATION.md",
+        "status": "l1-integrated-awaiting-normal-desktop",
+        "runtimeIntegrated": true,
+        "directory": "/Volumes/Media/immortal-qa/west-workshops-implementation-20261018",
+        "artDirectory": "/Volumes/Media/immortal-qa/west-workshops-study-20261018",
+        "sites": [
+          "GC-25",
+          "GC-26"
+        ],
+        "spatialGround": "L1 shared terrain, bridge, four-stage exterior collision and all real workstation routes passed",
+        "alchemyEntryChecksPassed": 3,
+        "normalDesktop": "pending",
+        "alchemySupplyPreviewChecksPassed": 3,
+        "alchemySupplyBoundary": "canonical negative-site finite fixture completed real construction, four-stage processing and exact full saves; normal funding/desktop pending",
+        "artScale": "L1 four stages and filled camera bounds inspected in candidate renderer; 111px adult /140px doors; higher-level art pending",
+        "candidateManifest": "/Volumes/Media/immortal-qa/west-workshops-implementation-20261018/research/main-l1-integration/manifest.json",
+        "candidateManifestSha256": "81e67740b7824f128f99fcf14ca58f8d653fed1a422e1376394d97303f60c51d",
+        "previousFoundationManifest": {
+          "path": "/Volumes/Media/immortal-qa/west-workshops-implementation-20261018/research/current-main-handoff/manifest.json",
+          "sha256": "814d6e9b718b9be0637a69daadd2068ec30b429d0215f1efc5abfa15fc207306"
+        },
+        "integratedSourceFiles": 23,
+        "integratedArtFiles": 14,
+        "rootIntegratedTestsPassed": 30,
+        "engineeringChecksPassed": true
+      },
+      "seekersDesktop": {
+        "status": "stopped-for-north-stair-approach-repair",
+        "latestSource": "/Volumes/Media/immortal-qa/seekers-desktop-20261018/run-02/stopped-world.json",
+        "latestSourceSHA256": "a95ea5946d7d7471bd75835c9b0a5d55714c168e528a5f2d60224e6ccc414751",
+        "latestTick": 174422,
+        "runs": [
+          {
+            "run": 1,
+            "initialTick": 171973,
+            "finalTick": 171973,
+            "wallSeconds": 10.99
+          },
+          {
+            "run": 2,
+            "initialTick": 171973,
+            "finalTick": 174422,
+            "wallSeconds": 287.382,
+            "pageErrors": 0,
+            "exactReopens": 2
+          }
+        ],
+        "rootReadback": "/Volumes/Media/immortal-qa/seekers-desktop-20261018/root-readback-run02.json",
+        "admittedNewPeople": 0
+      }
+    },
+    "previousEngineeringGoal": {
+      "decisionId": "U-152",
+      "mode": "task",
+      "status": "completed",
+      "objective": "Reorganize the complete repository, validate commands and compatibility, preserve prior work, and push reviewed source.",
+      "reference": "docs/engineering/MIGRATION-20261016.md",
+      "closesWholeRequirements": false
     }
   },
   "characterDialogue": {

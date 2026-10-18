@@ -5,6 +5,8 @@ import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { FRAME_TABLE } from '../apps/courtyard/courtyard-layers.mjs';
 import { EAST_IMAGES, EAST_SEAMS } from '../apps/courtyard/courtyard-east-layout.mjs';
+import { WEST_IMAGES, WEST_JOIN, DOMAIN_PLAN } from '../apps/courtyard/courtyard-west-layout.mjs';
+import { VALLEY_IMAGES, VALLEY_JOIN, VALLEY_SERVICE_PATH } from '../apps/courtyard/courtyard-valley-layout.mjs';
 
 export const repositoryRoot = fileURLToPath(new URL('../', import.meta.url));
 const sourceExtensions = /\.(?:mjs|cjs|js|css|html)$/;
@@ -62,6 +64,7 @@ export function checkSources(root = repositoryRoot) {
     }
   }
   const courtyardAssets = new Set(['courtyard-master-v2.png', 'courtyard-clean-v2.png', 'courtyard-fallow-v2.png', 'courtyard-domain-v1.png',
+    ...Object.values(WEST_IMAGES), WEST_JOIN.image, DOMAIN_PLAN.image, ...Object.values(VALLEY_IMAGES), VALLEY_JOIN.image, VALLEY_SERVICE_PATH.image,
     ...Object.values(EAST_IMAGES), ...EAST_SEAMS.map(seam => seam.image), ...Object.values(FRAME_TABLE).map(frame => frame.atlas.replace(/^assets\//, ''))]);
   for (const name of courtyardAssets) requireFile(path.join(root, 'assets/courtyard', name), `courtyard image ${name}`);
   const design = JSON.parse(readFileSync(path.join(root, 'docs/design/manifest.json'), 'utf8'));

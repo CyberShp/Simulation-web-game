@@ -1,5 +1,6 @@
 import {spatialEnabled,sceneUnits,spatialAccess,SPATIAL_VERSION,COURTYARD_WALK_RATE,meterBodyBlocker,meterLocalBodyDetour,metreWalkTarget,requestBodyYield,meterDoorPermit,meterDoorMoved} from './ea-sr-spatial.mjs';
 import {slotById} from './ea-facility-slots.mjs';
+import {domainResidencesEnabled,domainNorthLibraryEnabled,domainWestWorkshopsEnabled} from './ea-sect-domain.mjs';
 import {point,findPath,sweep,canStand,distance,LANDMARKS} from './yunxiu-courtyard/navigation.mjs';
 import {SCENE_GEOMETRY,SCENIC_PLOTS,scenicCanStand,scenicFindPath,scenicSweep,scenicNearest,buildingAccess,geometryRevision,scenicDistance} from './ea-scene-geometry.mjs';
 export {SCENE_GEOMETRY,scenicPoint,scenicInverse,scenicCanStand,scenicFindPath,scenicNearest,scenicDistance,scenicPathDistance,buildingAccess,geometryRevision} from './ea-scene-geometry.mjs';
@@ -25,7 +26,10 @@ export function advanceScenic(actor,budget,s){budget=sceneUnits(s,budget)*(spati
 }
 export function validateScenic(a,s){
  if(a===undefined||a===null)return true;
- if(!(s?scenicCanStand(s,a):canStand(a))||!Number.isFinite(a.steps)||a.steps<0||![1,-1].includes(a.facing)||typeof a.back!=='boolean'||!Array.isArray(a.path)||a.path.length>80)return false;
+ // A cross-domain trip preserves the painted-road waypoints, including long
+ // service-to-quarry journeys. Every point and segment remains geometry checked.
+ const maxPathPoints=domainResidencesEnabled(s?.spatial?.eastResidences?.version)||domainNorthLibraryEnabled(s?.spatial?.northLibrary?.version)||domainWestWorkshopsEnabled(s?.spatial?.westWorkshops?.version)?512:80;
+ if(!(s?scenicCanStand(s,a):canStand(a))||!Number.isFinite(a.steps)||a.steps<0||![1,-1].includes(a.facing)||typeof a.back!=='boolean'||!Array.isArray(a.path)||a.path.length>maxPathPoints)return false;
  let p=a;for(const next of a.path){if(!Number.isFinite(next.x)||!Number.isFinite(next.y)||(s?scenicSweep(s,p,next):sweep(p,next)).blocked)return false;p=next;}return true;
 }
 export function repairScenicActor(a,s){

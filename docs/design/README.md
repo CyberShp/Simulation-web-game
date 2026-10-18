@@ -26,6 +26,34 @@
 | [52 东台扩建](52-EAST-TERRACE-INTEGRATION.md) | 批准母稿、道路、分趟运输、施工与往返 |
 | [53 两人自主长验](53-COURTYARD-AUTONOMY-ACCEPTANCE.md) | 同源二十分钟长验、原脚本误报和粮食供给边界 |
 | [54 桌面开局演示](54-COURTYARD-OPENING-DEMO.md) | 六幕连环画、包裹展开、落脚疗伤、遗卷选择、主殿营造与同档实机录像 |
+| [55 人物动作库设计稿](55-CHARACTER-ACTION-LIBRARY.md) | 施术、阵法、蛊、符、傀儡、百兵攻防、神通与百艺；[首批七组关键姿势](../art/character-actions-20261017/README.md) |
+
+[56 两人小院持续供粮](56-COURTYARD-FOOD-SUPPLY.md)：当前U-163主线批次，口粮目标、真实采粮搬运、有限来源补种与同档验证。
+
+[57 三人山院与预设采伐场](57-THREE-RESIDENT-COURTYARD.md)：当前U-165接续，先确认主殿山域扩展与整体场景，再接预设营造、正式收录及三人经营。
+
+[58 金丹篇全建筑与预设建位](58-GOLDEN-CORE-PRESET-BUILDINGS.md)：U-166将整体规划扩至金丹篇，R-54含25项设施、31处位置及百艺工位归属，U-167已批准分期开发；[整体场景与编号图](../art/golden-core-domain-20261018/README.md)为布局依据。
+
+[59 西林采伐场接入](59-WEST-FOREST-INTEGRATION.md)：31号目录、负坐标山域与西桥，一级采伐场的实际营造、现场生产搬回及同源桌面存读验证。
+
+[60 西谷石场、稻田与公库](60-WEST-VALLEY-INTEGRATION.md)：四处固定建位、有限石层、现场种粮、作物成长与独立仓储，当前开发和分层验证记录。
+
+[61 东台住宅与真实入住](61-RESIDENTIAL-INTEGRATION.md)：GC09–12住宅、实体床位、入住与安置、正常筹资接缝；当前完成独立床位规则和新区域母稿，运行接入随西谷连续验收接续。
+
+[62 东台膳房与医庐](62-EAST-SERVICES-INTEGRATION.md)：现场库存、有限洁水、炊事用膳与诊疗。
+
+[63 正常成长接续](63-NORMAL-GROWTH-FACILITY-PATH.md)：成员、知识和突破等建筑开放依赖。
+
+[64 主峰藏经阁](64-NORTH-LIBRARY-INTEGRATION.md)：北台道路、实体阅卷席、家传整理与正常桌面封存。
+
+[65 山门求道者](65-COURTYARD-SEEKERS.md)：持久候选身份、沿路到访和当面收录。
+
+[66 聚灵台](66-NORTH-MEDITATION-INTEGRATION.md)：固定台地、有限脉眼供能与现场检修。
+
+[67 掌门突破](67-COURTYARD-BREAKTHROUGH.md)：实际练位、材料预约和调息炼化稳固。
+
+[68 西谷丹房与百工坊](68-WEST-WORKSHOPS-INTEGRATION.md)：隔离制作的桥路、固定双院与现场工序。
+
 
 ## 分系统与来源索引
 

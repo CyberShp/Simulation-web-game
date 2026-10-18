@@ -1,0 +1,357 @@
+{
+  "kind": "projected-motion-textured-2d-mesh",
+  "frames": [
+    "walk-000.png",
+    "walk-001.png",
+    "walk-002.png",
+    "walk-003.png",
+    "walk-004.png",
+    "walk-005.png",
+    "walk-006.png",
+    "walk-007.png",
+    "walk-008.png",
+    "walk-009.png",
+    "walk-010.png",
+    "walk-011.png",
+    "walk-012.png",
+    "walk-013.png",
+    "walk-014.png",
+    "walk-015.png"
+  ],
+  "fps": 11.707317073170731,
+  "frameSize": [
+    512,
+    512
+  ],
+  "pivot": [
+    256,
+    460
+  ],
+  "sourceHeight": 323,
+  "nominalHeight": 111,
+  "duration": 1.3666666666666667,
+  "strideWorld": 0.6537131329074296,
+  "motionAmplitudeScale": 0.6,
+  "worldHeight": 1.3340018207381945,
+  "forwardScreenPerWorld": [
+    171.72672408649584,
+    86.49133777598622
+  ],
+  "camera": {
+    "projection": "orthographic-joint-projection-onto-image-plane",
+    "yawDegrees": 40,
+    "elevationDegrees": 25,
+    "pixelsPerWorldUnit": 267.1593563700455,
+    "fixedForEveryFrame": true
+  },
+  "inputTexture": "../source/pixel-identity-reference.png",
+  "inputMotion": "../../walk-study-v1/motion/shen-yan-walk.blend",
+  "sourceHashes": {
+    "image": "18e411ef9d3941c769bf6cf975f24766a83809cb0d1ca23b6a63bf27bee704e2",
+    "motion": "f78d4eb666da1bc326a3e6470d3f14f6884616d37d2f8c011ab0a8eb3db6cd17"
+  },
+  "sourceFrames": [
+    1,
+    3.5625,
+    6.125,
+    8.6875,
+    11.25,
+    13.8125,
+    16.375,
+    18.9375,
+    21.5,
+    24.0625,
+    26.625,
+    29.1875,
+    31.75,
+    34.3125,
+    36.875,
+    39.4375
+  ],
+  "anatomicalMapping": {
+    "screenLeftSword": "RightHand",
+    "screenLeftLeg": "RightFoot",
+    "screenRightLeg": "LeftFoot"
+  },
+  "meshRegions": {
+    "sword": [
+      [
+        42,
+        190
+      ],
+      [
+        55,
+        163
+      ],
+      [
+        82,
+        163
+      ],
+      [
+        86,
+        181
+      ],
+      [
+        80,
+        199
+      ],
+      [
+        70,
+        208
+      ],
+      [
+        26,
+        290
+      ],
+      [
+        19,
+        305
+      ],
+      [
+        0,
+        310
+      ],
+      [
+        0,
+        275
+      ],
+      [
+        35,
+        205
+      ]
+    ],
+    "rightLeg": [
+      [
+        88,
+        284
+      ],
+      [
+        107,
+        285
+      ],
+      [
+        113,
+        297
+      ],
+      [
+        115,
+        335
+      ],
+      [
+        62,
+        335
+      ],
+      [
+        62,
+        305
+      ],
+      [
+        78,
+        297
+      ]
+    ],
+    "leftLeg": [
+      [
+        169,
+        282
+      ],
+      [
+        187,
+        282
+      ],
+      [
+        194,
+        295
+      ],
+      [
+        218,
+        303
+      ],
+      [
+        218,
+        335
+      ],
+      [
+        155,
+        335
+      ],
+      [
+        155,
+        311
+      ],
+      [
+        162,
+        302
+      ]
+    ]
+  },
+  "anchors": {
+    "head": [
+      139,
+      82
+    ],
+    "hips": [
+      133,
+      170
+    ],
+    "right_shoulder": [
+      101,
+      94
+    ],
+    "right_elbow": [
+      78,
+      144
+    ],
+    "right_hand": [
+      68,
+      174
+    ],
+    "left_shoulder": [
+      164,
+      99
+    ],
+    "left_elbow": [
+      184,
+      137
+    ],
+    "left_hand": [
+      194,
+      161
+    ],
+    "right_ankle": [
+      87,
+      309
+    ],
+    "left_ankle": [
+      176,
+      298
+    ]
+  },
+  "method": "Original RGBA sampled with emission and closest filtering. Projected joint displacement relative to cycle mean drives four source-UV mesh regions. Sword/hand use one rigid transform; front robe has continuous lower-leg blending.",
+  "limitations": [
+    "Covered thighs and knees have no independent source texture; visible pant regions stretch to keep boot attachments covered.",
+    "One fixed-view 2D mesh study; occluded body surfaces and additional views require separate artwork."
+  ],
+  "atlas": "walk-atlas.png",
+  "frameRects": [
+    [
+      0,
+      0,
+      512,
+      512
+    ],
+    [
+      512,
+      0,
+      512,
+      512
+    ],
+    [
+      1024,
+      0,
+      512,
+      512
+    ],
+    [
+      1536,
+      0,
+      512,
+      512
+    ],
+    [
+      0,
+      512,
+      512,
+      512
+    ],
+    [
+      512,
+      512,
+      512,
+      512
+    ],
+    [
+      1024,
+      512,
+      512,
+      512
+    ],
+    [
+      1536,
+      512,
+      512,
+      512
+    ],
+    [
+      0,
+      1024,
+      512,
+      512
+    ],
+    [
+      512,
+      1024,
+      512,
+      512
+    ],
+    [
+      1024,
+      1024,
+      512,
+      512
+    ],
+    [
+      1536,
+      1024,
+      512,
+      512
+    ],
+    [
+      0,
+      1536,
+      512,
+      512
+    ],
+    [
+      512,
+      1536,
+      512,
+      512
+    ],
+    [
+      1024,
+      1536,
+      512,
+      512
+    ],
+    [
+      1536,
+      1536,
+      512,
+      512
+    ]
+  ],
+  "frameSha256": [
+    "549a3569ac7e9766fb7f464f64facb259c2ed0f9be3bce88c5c92f9fb04eb478",
+    "d495f36fcb8cf12f8a583e75ca2f9190e8a555cd84bfffa677dfe7538747ce8d",
+    "9a9174cda3e1f1c57192be0f1ab4d2a8e6a17cdf869df5d57dff136fb65ded32",
+    "174ece4ad6a0f53f5639fa14ea98136947f9ebfbc92c2d442c46c344fb49ea55",
+    "d903857fa652b22c217cce94073ea9bde3cfe4acf6d876f1b812c0b925804506",
+    "8773d6920c410ae009184ac38fbee4b4022f9f2ad80513c9fecc388d85274d1e",
+    "3967af9372107a0fbb04cdeeb9a131688b83bafd7bba2f7e5fbc8d80b3f999c5",
+    "bdf1c7f180ea3b39ea09251a358e029fde87486e47e0ddc46857243eb491dfbd",
+    "28bf764a7e60a6aa4b0f169363d092dc41b4515bd3ca50d97d4915e1d5b64afb",
+    "e8a6b3e9a2f21d32ba6345772b27973835b225b7e092ef9bf4744a1afa0e54af",
+    "29ed8cf1d45c1cd8990390600ca314ddc64eb17a33cf1ca897848e7bd779c9e2",
+    "f58a8258cde4e500238051fca409adf571db071bf0364d169f69609a47fc94c2",
+    "b21717289ae147034e4d3ea383f389e913a1161512b50d4ebe919380592ef085",
+    "f0907b37594b7b411b4fe30ef4f2e720881dcbc85e8a2a0e8649555a0808a632",
+    "7e536eb816e429cefb682b4fd940dc1404f5655040dc3c8f87ee23159363b979",
+    "e100c63961c4df56a566f8e67952beee5cff14f4ec6c0af09b2f54c4d65be27b"
+  ],
+  "stridePixels": [
+    112.26001480651294,
+    56.54052338689467
+  ],
+  "label": "原像素人物 · 行走候选"
+}

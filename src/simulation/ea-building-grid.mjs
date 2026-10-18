@@ -4,7 +4,7 @@ export const BUILDING_GRID=Object.freeze({version:'building-units-1',metres:2,co
 export const BUILDING_CELLS=Object.freeze(Object.fromEntries(Object.entries({
  hall:[4,4],farm:[2,2],lumber:[2,2],quarry:[2,2],house:[3,3],
  meditation:[3,3],alchemy:[3,3],library:[3,3],well:[1,1],granary:[2,2],
- kitchen:[3,3],clinic:[3,3],workshop:[3,3],watchtower:[2,2]
+ kitchen:[3,3],clinic:[3,3],workshop:[3,3],watchtower:[2,2],warehouse:[2,2]
 }).map(([type,[columns,rows]])=>[type,Object.freeze({columns,rows})])));
 export const buildingGridEnabled=s=>s?.spatial?.buildingGridVersion===BUILDING_GRID.version;
 export function buildingCellSize(type,level=1){

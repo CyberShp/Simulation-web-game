@@ -1,0 +1,125 @@
+{
+  "kind": "Survey polygon body-circle check; formal simulation collision and Electron acceptance separate",
+  "bodyRadius": 0.26,
+  "directions": 32,
+  "stepMax": 0.025,
+  "feet": [
+    {
+      "kind": "cultivate",
+      "suffix": "mat:1",
+      "native": [
+        632,
+        605
+      ],
+      "world": {
+        "x": 45.14999999999999,
+        "y": -42.02489626556017
+      },
+      "bodyRadiusMetres": 0.26,
+      "bodyRadiiPixels": [
+        20.8,
+        7.8325
+      ],
+      "nearestSolidBodyClearanceMetres": 1.3266831526948983,
+      "failures": []
+    },
+    {
+      "kind": "cultivate",
+      "suffix": "mat:2",
+      "native": [
+        747,
+        605
+      ],
+      "world": {
+        "x": 46.58749999999999,
+        "y": -42.02489626556017
+      },
+      "bodyRadiusMetres": 0.26,
+      "bodyRadiiPixels": [
+        20.8,
+        7.8325
+      ],
+      "nearestSolidBodyClearanceMetres": 1.16744062398838,
+      "failures": []
+    },
+    {
+      "kind": "cultivate",
+      "suffix": "mat:3",
+      "native": [
+        866,
+        605
+      ],
+      "world": {
+        "x": 48.075,
+        "y": -42.02489626556017
+      },
+      "bodyRadiusMetres": 0.26,
+      "bodyRadiiPixels": [
+        20.8,
+        7.8325
+      ],
+      "nearestSolidBodyClearanceMetres": 1.167604807015,
+      "failures": []
+    },
+    {
+      "kind": "cultivate",
+      "suffix": "mat:4",
+      "native": [
+        982,
+        605
+      ],
+      "world": {
+        "x": 49.52499999999999,
+        "y": -42.02489626556017
+      },
+      "bodyRadiusMetres": 0.26,
+      "bodyRadiiPixels": [
+        20.8,
+        7.8325
+      ],
+      "nearestSolidBodyClearanceMetres": 1.3732677144442231,
+      "failures": []
+    },
+    {
+      "kind": "work",
+      "suffix": "work:1",
+      "native": [
+        635,
+        540
+      ],
+      "world": {
+        "x": 45.1875,
+        "y": -44.18257261410788
+      },
+      "bodyRadiusMetres": 0.26,
+      "bodyRadiiPixels": [
+        20.8,
+        7.8325
+      ],
+      "nearestSolidBodyClearanceMetres": 0.5698755186722104,
+      "failures": []
+    },
+    {
+      "kind": "work",
+      "suffix": "work:2",
+      "native": [
+        980,
+        540
+      ],
+      "world": {
+        "x": 49.5,
+        "y": -44.18257261410788
+      },
+      "bodyRadiusMetres": 0.26,
+      "bodyRadiiPixels": [
+        20.8,
+        7.8325
+      ],
+      "nearestSolidBodyClearanceMetres": 0.5698755186722104,
+      "failures": []
+    }
+  ],
+  "routeSamples": 3319,
+  "routeFailureCount": 0,
+  "routeFailures": []
+}

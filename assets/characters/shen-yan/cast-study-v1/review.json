@@ -1,0 +1,60 @@
+{
+  "date": "2026-10-18",
+  "decision": "U-160",
+  "action": "S01",
+  "frameCount": 12,
+  "durationMs": 1280,
+  "sourceSha256": "f3696e131bd0ce47d4c31dfe124502ed05579da1fdadc000f34e51d3806a6b65",
+  "manifestSha256": "3ff194032a65b25a607016ab4bde881527a3156135955c367e9e1c0e55cb96b8",
+  "referenceSha256": "18e411ef9d3941c769bf6cf975f24766a83809cb0d1ca23b6a63bf27bee704e2",
+  "originalAtlasSha256": "2da0c19428bce30330055e4b24a9d0b3dbf68835099648191a5b1849e76d9467",
+  "bootRegion": {
+    "rectangle": [
+      0,
+      416,
+      640,
+      96
+    ],
+    "changedChannelsByFrame": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "preview": {
+    "passed": true,
+    "checks": 20,
+    "errors": [],
+    "platform": "darwin",
+    "protocol": "file:",
+    "dpr": 1,
+    "canvasCSSSize": [
+      1180,
+      570
+    ],
+    "report": "/Volumes/Media/immortal-qa/shen-yan-cast-20261018/preview-final/smoke-report.json"
+  },
+  "independentReview": {
+    "reviewer": "cast_render_review",
+    "frames": [
+      0,
+      2,
+      5
+    ],
+    "allFrameBootPixels": true,
+    "findings": "Folded cuff and extended wrist continuous; stable sword; isolated contour fragments resolved.",
+    "scope": "static sprite and script review"
+  },
+  "artApproval": "pending-user-review",
+  "runtimeIntegration": "pending",
+  "qaRoot": "/Volumes/Media/immortal-qa/shen-yan-cast-20261018/"
+}

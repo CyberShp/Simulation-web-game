@@ -1,0 +1,2137 @@
+{
+  "version": "east-services-spatial-candidate-1",
+  "status": "spatial-calibration",
+  "scope": "GC13 kitchen and GC14 clinic; documentation-only candidate",
+  "source": {
+    "complete": "complete-v2.png",
+    "empty": "empty-v5.png",
+    "measurements": "candidate-measurements.json",
+    "nativeSize": [
+      1670,
+      941
+    ],
+    "logicalSize": [
+      1672,
+      941
+    ],
+    "artOrigin": [
+      8360,
+      0
+    ],
+    "measurementTolerancePx": 6,
+    "groundNativeSize": [
+      1669,
+      942
+    ],
+    "groundNativeFromAuthor": [
+      0.9994011976047904,
+      1.0010626992561105
+    ],
+    "survey": "ground-and-join-survey.json",
+    "construction": {
+      "file": "construction-v1.png",
+      "nativeSize": [
+        1670,
+        942
+      ],
+      "nativeFromAuthor": [
+        1,
+        1.0010626992561105
+      ]
+    }
+  },
+  "projection": {
+    "delegateWorldXThrough": 186,
+    "delegateArtXThrough": 8360,
+    "transitionNativeX": [
+      0,
+      112
+    ],
+    "horizontalNativeColumns": [
+      {
+        "worldY": 54,
+        "anchors": [
+          [
+            186,
+            0
+          ],
+          [
+            188,
+            112
+          ],
+          [
+            192,
+            340
+          ],
+          [
+            194,
+            452.5
+          ],
+          [
+            195,
+            508.75
+          ],
+          [
+            196,
+            565
+          ],
+          [
+            198,
+            731.6666666666666
+          ],
+          [
+            199,
+            815
+          ],
+          [
+            200,
+            903.3333333333334
+          ],
+          [
+            202,
+            1080
+          ],
+          [
+            204,
+            1255
+          ],
+          [
+            206,
+            1430
+          ],
+          [
+            210,
+            1550
+          ],
+          [
+            214,
+            1670
+          ]
+        ]
+      },
+      {
+        "worldY": 60,
+        "anchors": [
+          [
+            186,
+            0
+          ],
+          [
+            188,
+            112
+          ],
+          [
+            192,
+            365
+          ],
+          [
+            194,
+            535
+          ],
+          [
+            195,
+            620
+          ],
+          [
+            196,
+            703.3333333333334
+          ],
+          [
+            198,
+            870
+          ],
+          [
+            199,
+            953.75
+          ],
+          [
+            200,
+            1037.5
+          ],
+          [
+            202,
+            1205
+          ],
+          [
+            204,
+            1320
+          ],
+          [
+            206,
+            1430
+          ],
+          [
+            210,
+            1550
+          ],
+          [
+            214,
+            1670
+          ]
+        ]
+      }
+    ],
+    "depth": [
+      [
+        0,
+        -300
+      ],
+      [
+        4,
+        -200
+      ],
+      [
+        12,
+        -60
+      ],
+      [
+        12.6,
+        65
+      ],
+      [
+        20,
+        125
+      ],
+      [
+        28,
+        190
+      ],
+      [
+        36,
+        260
+      ],
+      [
+        40,
+        313
+      ],
+      [
+        46,
+        380
+      ],
+      [
+        46.6,
+        386
+      ],
+      [
+        48,
+        403
+      ],
+      [
+        50,
+        420
+      ],
+      [
+        50.6,
+        426
+      ],
+      [
+        54,
+        466
+      ],
+      [
+        60,
+        719
+      ],
+      [
+        66,
+        779
+      ],
+      [
+        66.6,
+        783
+      ],
+      [
+        68,
+        790
+      ],
+      [
+        70,
+        797
+      ],
+      [
+        70.6,
+        803
+      ],
+      [
+        72,
+        820
+      ],
+      [
+        96,
+        1225
+      ]
+    ],
+    "worldBoundsProposal": {
+      "east": 214,
+      "south": 96
+    },
+    "boundsDoNotAuthorizeTerrain": true
+  },
+  "sites": [
+    {
+      "id": "site:domain:gc-14",
+      "planId": "GC-14",
+      "type": "clinic",
+      "world": {
+        "x": 196,
+        "y": 40,
+        "orientation": "south"
+      },
+      "levelSizes": [
+        6,
+        8,
+        10
+      ],
+      "level1MeasuredMainHouseNative": {
+        "left": 565,
+        "right": 1080,
+        "frontBaseY": [
+          313,
+          343
+        ],
+        "stairFoot": [
+          815,
+          386
+        ]
+      },
+      "footprintInterpretation": "Construction envelope includes the front stair; the hidden rear plane is an author calibration, not a surveyed rear wall.",
+      "level1Slots": [
+        {
+          "suffix": "bed:1",
+          "kind": "rest",
+          "local": [
+            0.95,
+            3
+          ],
+          "physicalBed": "bed:1",
+          "origin": "existing adult-furniture-1"
+        },
+        {
+          "suffix": "bed-care:1",
+          "kind": "heal",
+          "local": [
+            0.95,
+            3
+          ],
+          "physicalBed": "bed:1",
+          "origin": "existing adult-furniture-1"
+        },
+        {
+          "suffix": "bed:2",
+          "kind": "rest",
+          "local": [
+            2.3166666666666664,
+            3
+          ],
+          "physicalBed": "bed:2",
+          "origin": "existing adult-furniture-1"
+        },
+        {
+          "suffix": "bed-care:2",
+          "kind": "heal",
+          "local": [
+            2.3166666666666664,
+            3
+          ],
+          "physicalBed": "bed:2",
+          "origin": "existing adult-furniture-1"
+        },
+        {
+          "suffix": "bed:3",
+          "kind": "rest",
+          "local": [
+            3.683333333333333,
+            3
+          ],
+          "physicalBed": "bed:3",
+          "origin": "existing adult-furniture-1"
+        },
+        {
+          "suffix": "bed-care:3",
+          "kind": "heal",
+          "local": [
+            3.683333333333333,
+            3
+          ],
+          "physicalBed": "bed:3",
+          "origin": "existing adult-furniture-1"
+        },
+        {
+          "suffix": "bed:4",
+          "kind": "rest",
+          "local": [
+            5.05,
+            3
+          ],
+          "physicalBed": "bed:4",
+          "origin": "existing adult-furniture-1"
+        },
+        {
+          "suffix": "bed-care:4",
+          "kind": "heal",
+          "local": [
+            5.05,
+            3
+          ],
+          "physicalBed": "bed:4",
+          "origin": "existing adult-furniture-1"
+        },
+        {
+          "suffix": "doctor:1",
+          "kind": "work",
+          "local": [
+            1.5,
+            4.7
+          ],
+          "origin": "new service-layout candidate"
+        },
+        {
+          "suffix": "consult:1",
+          "kind": "heal",
+          "local": [
+            2.4,
+            4.7
+          ],
+          "origin": "new service-layout candidate; same treatment pair as doctor:1"
+        }
+      ],
+      "bedPolicy": "Four physical treatment beds at level 1, eight at level 2, twelve at level 3. Rest/heal aliases share each bed. No permanent residence capacity.",
+      "level1SeparateExteriorObjectsNative": [
+        {
+          "id": "medicine-racks-west",
+          "polygon": [
+            [
+              490,
+              316
+            ],
+            [
+              564,
+              316
+            ],
+            [
+              573,
+              349
+            ],
+            [
+              554,
+              365
+            ],
+            [
+              491,
+              354
+            ]
+          ]
+        },
+        {
+          "id": "medicine-canopy-east",
+          "polygon": [
+            [
+              1064,
+              321
+            ],
+            [
+              1142,
+              321
+            ],
+            [
+              1152,
+              373
+            ],
+            [
+              1090,
+              382
+            ],
+            [
+              1064,
+              358
+            ]
+          ]
+        },
+        {
+          "id": "front-lantern-west",
+          "polygon": [
+            [
+              660,
+              372
+            ],
+            [
+              710,
+              372
+            ],
+            [
+              710,
+              397
+            ],
+            [
+              660,
+              397
+            ]
+          ]
+        },
+        {
+          "id": "front-lantern-east",
+          "polygon": [
+            [
+              934,
+              372
+            ],
+            [
+              989,
+              372
+            ],
+            [
+              989,
+              400
+            ],
+            [
+              934,
+              400
+            ]
+          ]
+        }
+      ],
+      "groundStatus": "Final empty-v5 clearing and surveyed boundary; static 0.26m body-circle samples passed. Kitchen west edge retains a runtime visual check due to small margin relative to trace tolerance.",
+      "clearanceFocusNative": [
+        [
+          1080,
+          300
+        ],
+        [
+          1445,
+          300
+        ],
+        [
+          1445,
+          430
+        ],
+        [
+          1080,
+          430
+        ]
+      ],
+      "upgradeArtStatus": "level 2 and 3 door branches and closed bodies pending",
+      "queuePolicy": {
+        "version": "new service-layout candidate",
+        "location": "public-road waiting feet; independent of entrance and working slots",
+        "levels": [
+          {
+            "level": 1,
+            "world": [
+              [
+                198.3,
+                54
+              ],
+              [
+                199.7,
+                54
+              ]
+            ]
+          },
+          {
+            "level": 2,
+            "world": [
+              [
+                199.3,
+                54
+              ],
+              [
+                200.7,
+                54
+              ]
+            ]
+          },
+          {
+            "level": 3,
+            "world": [
+              [
+                200.3,
+                54
+              ],
+              [
+                201.7,
+                54
+              ]
+            ]
+          }
+        ]
+      },
+      "serviceSlotsByLevel": [
+        {
+          "level": 1,
+          "doctor": {
+            "suffix": "doctor:1",
+            "kind": "work",
+            "local": [
+              1.5,
+              4.7
+            ]
+          },
+          "patient": {
+            "suffix": "consult:1",
+            "kind": "heal",
+            "local": [
+              2.4,
+              4.7
+            ]
+          }
+        },
+        {
+          "level": 2,
+          "doctor": {
+            "suffix": "doctor:1",
+            "kind": "work",
+            "local": [
+              1.5,
+              6.7
+            ]
+          },
+          "patient": {
+            "suffix": "consult:1",
+            "kind": "heal",
+            "local": [
+              2.4,
+              6.7
+            ]
+          }
+        },
+        {
+          "level": 3,
+          "doctor": {
+            "suffix": "doctor:1",
+            "kind": "work",
+            "local": [
+              1.5,
+              9.3
+            ]
+          },
+          "patient": {
+            "suffix": "consult:1",
+            "kind": "heal",
+            "local": [
+              2.4,
+              9.3
+            ]
+          }
+        }
+      ],
+      "bathPolicy": "A medicinal bath reserves one existing physical treatment bed and conflicts with that bed rest/heal occupancy. No additional bed capacity.",
+      "stagePatches": {
+        "complete": [
+          [
+            490,
+            126
+          ],
+          [
+            526,
+            113
+          ],
+          [
+            560,
+            78
+          ],
+          [
+            575,
+            32
+          ],
+          [
+            605,
+            21
+          ],
+          [
+            616,
+            0
+          ],
+          [
+            641,
+            0
+          ],
+          [
+            644,
+            19
+          ],
+          [
+            994,
+            19
+          ],
+          [
+            1007,
+            0
+          ],
+          [
+            1043,
+            0
+          ],
+          [
+            1046,
+            34
+          ],
+          [
+            1076,
+            88
+          ],
+          [
+            1104,
+            115
+          ],
+          [
+            1145,
+            120
+          ],
+          [
+            1135,
+            151
+          ],
+          [
+            1091,
+            176
+          ],
+          [
+            1081,
+            218
+          ],
+          [
+            1134,
+            226
+          ],
+          [
+            1145,
+            253
+          ],
+          [
+            1149,
+            329
+          ],
+          [
+            1157,
+            375
+          ],
+          [
+            1138,
+            397
+          ],
+          [
+            1082,
+            428
+          ],
+          [
+            899,
+            428
+          ],
+          [
+            864,
+            402
+          ],
+          [
+            772,
+            402
+          ],
+          [
+            738,
+            427
+          ],
+          [
+            550,
+            424
+          ],
+          [
+            536,
+            391
+          ],
+          [
+            488,
+            366
+          ],
+          [
+            484,
+            317
+          ],
+          [
+            493,
+            220
+          ],
+          [
+            556,
+            221
+          ],
+          [
+            557,
+            179
+          ],
+          [
+            513,
+            161
+          ]
+        ]
+      }
+    },
+    {
+      "id": "site:domain:gc-13",
+      "planId": "GC-13",
+      "type": "kitchen",
+      "world": {
+        "x": 192,
+        "y": 60,
+        "orientation": "south"
+      },
+      "levelSizes": [
+        6,
+        8,
+        10
+      ],
+      "level1MeasuredMainHouseNative": {
+        "left": 365,
+        "right": 870,
+        "frontBaseY": [
+          719,
+          751
+        ],
+        "stairFoot": [
+          620,
+          783
+        ]
+      },
+      "footprintInterpretation": "Construction envelope includes the front stair. Wood shelter and east service wing have separate ground obstacles.",
+      "level1Slots": [
+        {
+          "suffix": "work:1",
+          "kind": "work",
+          "local": [
+            1.4,
+            1.9
+          ],
+          "origin": "existing kitchen stove position"
+        }
+      ],
+      "level1SeparateExteriorObjectsNative": [
+        {
+          "id": "wood-shelter-west",
+          "polygon": [
+            [
+              250,
+              714
+            ],
+            [
+              370,
+              714
+            ],
+            [
+              371,
+              763
+            ],
+            [
+              253,
+              772
+            ]
+          ]
+        },
+        {
+          "id": "service-wing-east",
+          "polygon": [
+            [
+              867,
+              714
+            ],
+            [
+              1001,
+              714
+            ],
+            [
+              1008,
+              775
+            ],
+            [
+              925,
+              788
+            ],
+            [
+              867,
+              764
+            ]
+          ]
+        },
+        {
+          "id": "jars-west",
+          "polygon": [
+            [
+              374,
+              739
+            ],
+            [
+              547,
+              739
+            ],
+            [
+              548,
+              782
+            ],
+            [
+              374,
+              786
+            ]
+          ]
+        },
+        {
+          "id": "basins-east",
+          "polygon": [
+            [
+              704,
+              738
+            ],
+            [
+              866,
+              738
+            ],
+            [
+              867,
+              783
+            ],
+            [
+              704,
+              784
+            ]
+          ]
+        }
+      ],
+      "groundStatus": "Final empty-v5 clearing and surveyed boundary; static 0.26m body-circle samples passed. Kitchen west edge retains a runtime visual check due to small margin relative to trace tolerance.",
+      "clearanceFocusNative": [
+        [
+          350,
+          706
+        ],
+        [
+          1220,
+          706
+        ],
+        [
+          1220,
+          807
+        ],
+        [
+          350,
+          807
+        ]
+      ],
+      "upgradeArtStatus": "level 2 and 3 door branches and closed bodies pending",
+      "queuePolicy": {
+        "version": "new service-layout candidate",
+        "location": "public-road waiting feet; independent of entrance and working slots",
+        "levels": [
+          {
+            "level": 1,
+            "world": [
+              [
+                194.3,
+                72
+              ],
+              [
+                195.7,
+                72
+              ]
+            ]
+          },
+          {
+            "level": 2,
+            "world": [
+              [
+                195.3,
+                72
+              ],
+              [
+                196.7,
+                72
+              ]
+            ]
+          },
+          {
+            "level": 3,
+            "world": [
+              [
+                196.3,
+                72
+              ],
+              [
+                197.7,
+                72
+              ]
+            ]
+          }
+        ]
+      },
+      "serviceLayoutByLevel": [
+        {
+          "level": 1,
+          "additionalFurniture": [
+            {
+              "id": "stove:special:1",
+              "kind": "stove",
+              "rect": [
+                4,
+                0.8,
+                1.2,
+                0.6
+              ]
+            },
+            {
+              "id": "dining-table:1",
+              "kind": "table",
+              "rect": [
+                2.1,
+                3.2,
+                1.8,
+                0.7
+              ]
+            }
+          ],
+          "additionalSlots": [
+            {
+              "suffix": "work:special:1",
+              "kind": "work",
+              "role": "special-cuisine-stove",
+              "local": [
+                4.6,
+                1.9
+              ]
+            },
+            {
+              "suffix": "dining:1",
+              "kind": "eat",
+              "role": "meal-seat",
+              "local": [
+                1.55,
+                3.5500000000000003
+              ]
+            },
+            {
+              "suffix": "dining:2",
+              "kind": "eat",
+              "role": "meal-seat",
+              "local": [
+                4.45,
+                3.5500000000000003
+              ]
+            },
+            {
+              "suffix": "dining:3",
+              "kind": "eat",
+              "role": "meal-seat",
+              "local": [
+                2.45,
+                4.5
+              ]
+            },
+            {
+              "suffix": "dining:4",
+              "kind": "eat",
+              "role": "meal-seat",
+              "local": [
+                3.55,
+                4.5
+              ]
+            }
+          ],
+          "seatCount": 4
+        },
+        {
+          "level": 2,
+          "additionalFurniture": [
+            {
+              "id": "stove:special:1",
+              "kind": "stove",
+              "rect": [
+                6,
+                0.8,
+                1.2,
+                0.6
+              ]
+            },
+            {
+              "id": "dining-table:1",
+              "kind": "table",
+              "rect": [
+                1.1,
+                3.2,
+                1.8,
+                0.7
+              ]
+            },
+            {
+              "id": "dining-table:2",
+              "kind": "table",
+              "rect": [
+                5.1,
+                3.2,
+                1.8,
+                0.7
+              ]
+            }
+          ],
+          "additionalSlots": [
+            {
+              "suffix": "work:special:1",
+              "kind": "work",
+              "role": "special-cuisine-stove",
+              "local": [
+                6.6,
+                1.9
+              ]
+            },
+            {
+              "suffix": "dining:1",
+              "kind": "eat",
+              "role": "meal-seat",
+              "local": [
+                0.55,
+                3.5500000000000003
+              ]
+            },
+            {
+              "suffix": "dining:2",
+              "kind": "eat",
+              "role": "meal-seat",
+              "local": [
+                3.45,
+                3.5500000000000003
+              ]
+            },
+            {
+              "suffix": "dining:3",
+              "kind": "eat",
+              "role": "meal-seat",
+              "local": [
+                1.45,
+                4.5
+              ]
+            },
+            {
+              "suffix": "dining:4",
+              "kind": "eat",
+              "role": "meal-seat",
+              "local": [
+                2.55,
+                4.5
+              ]
+            },
+            {
+              "suffix": "dining:5",
+              "kind": "eat",
+              "role": "meal-seat",
+              "local": [
+                4.55,
+                3.5500000000000003
+              ]
+            },
+            {
+              "suffix": "dining:6",
+              "kind": "eat",
+              "role": "meal-seat",
+              "local": [
+                7.45,
+                3.5500000000000003
+              ]
+            },
+            {
+              "suffix": "dining:7",
+              "kind": "eat",
+              "role": "meal-seat",
+              "local": [
+                5.45,
+                4.5
+              ]
+            },
+            {
+              "suffix": "dining:8",
+              "kind": "eat",
+              "role": "meal-seat",
+              "local": [
+                6.55,
+                4.5
+              ]
+            }
+          ],
+          "seatCount": 8
+        },
+        {
+          "level": 3,
+          "additionalFurniture": [
+            {
+              "id": "stove:special:1",
+              "kind": "stove",
+              "rect": [
+                8,
+                0.8,
+                1.2,
+                0.6
+              ]
+            },
+            {
+              "id": "dining-table:1",
+              "kind": "table",
+              "rect": [
+                1.6,
+                3.2,
+                1.8,
+                0.7
+              ]
+            },
+            {
+              "id": "dining-table:2",
+              "kind": "table",
+              "rect": [
+                6.6,
+                3.2,
+                1.8,
+                0.7
+              ]
+            },
+            {
+              "id": "dining-table:3",
+              "kind": "table",
+              "rect": [
+                4.1,
+                6.7,
+                1.8,
+                0.7
+              ]
+            }
+          ],
+          "additionalSlots": [
+            {
+              "suffix": "work:special:1",
+              "kind": "work",
+              "role": "special-cuisine-stove",
+              "local": [
+                8.6,
+                1.9
+              ]
+            },
+            {
+              "suffix": "dining:1",
+              "kind": "eat",
+              "role": "meal-seat",
+              "local": [
+                1.05,
+                3.5500000000000003
+              ]
+            },
+            {
+              "suffix": "dining:2",
+              "kind": "eat",
+              "role": "meal-seat",
+              "local": [
+                3.95,
+                3.5500000000000003
+              ]
+            },
+            {
+              "suffix": "dining:3",
+              "kind": "eat",
+              "role": "meal-seat",
+              "local": [
+                1.95,
+                4.5
+              ]
+            },
+            {
+              "suffix": "dining:4",
+              "kind": "eat",
+              "role": "meal-seat",
+              "local": [
+                3.05,
+                4.5
+              ]
+            },
+            {
+              "suffix": "dining:5",
+              "kind": "eat",
+              "role": "meal-seat",
+              "local": [
+                6.05,
+                3.5500000000000003
+              ]
+            },
+            {
+              "suffix": "dining:6",
+              "kind": "eat",
+              "role": "meal-seat",
+              "local": [
+                8.95,
+                3.5500000000000003
+              ]
+            },
+            {
+              "suffix": "dining:7",
+              "kind": "eat",
+              "role": "meal-seat",
+              "local": [
+                6.95,
+                4.5
+              ]
+            },
+            {
+              "suffix": "dining:8",
+              "kind": "eat",
+              "role": "meal-seat",
+              "local": [
+                8.05,
+                4.5
+              ]
+            },
+            {
+              "suffix": "dining:9",
+              "kind": "eat",
+              "role": "meal-seat",
+              "local": [
+                3.55,
+                7.05
+              ]
+            },
+            {
+              "suffix": "dining:10",
+              "kind": "eat",
+              "role": "meal-seat",
+              "local": [
+                6.45,
+                7.05
+              ]
+            },
+            {
+              "suffix": "dining:11",
+              "kind": "eat",
+              "role": "meal-seat",
+              "local": [
+                4.45,
+                8.0
+              ]
+            },
+            {
+              "suffix": "dining:12",
+              "kind": "eat",
+              "role": "meal-seat",
+              "local": [
+                5.55,
+                8.0
+              ]
+            }
+          ],
+          "seatCount": 12
+        }
+      ],
+      "serviceLayoutPolicy": "Apply only to explicit new service-layout instances. Retain existing work:1 and its stove; the separate special-cuisine stove has its own exclusive slot. Meal seats use actual body occupancy.",
+      "stagePatches": {
+        "complete": [
+          [
+            314,
+            522
+          ],
+          [
+            360,
+            505
+          ],
+          [
+            395,
+            481
+          ],
+          [
+            416,
+            451
+          ],
+          [
+            433,
+            438
+          ],
+          [
+            449,
+            446
+          ],
+          [
+            454,
+            463
+          ],
+          [
+            786,
+            463
+          ],
+          [
+            801,
+            441
+          ],
+          [
+            820,
+            438
+          ],
+          [
+            831,
+            451
+          ],
+          [
+            830,
+            485
+          ],
+          [
+            856,
+            510
+          ],
+          [
+            888,
+            522
+          ],
+          [
+            894,
+            476
+          ],
+          [
+            912,
+            475
+          ],
+          [
+            914,
+            458
+          ],
+          [
+            925,
+            445
+          ],
+          [
+            937,
+            448
+          ],
+          [
+            938,
+            460
+          ],
+          [
+            928,
+            479
+          ],
+          [
+            936,
+            483
+          ],
+          [
+            937,
+            548
+          ],
+          [
+            927,
+            586
+          ],
+          [
+            1001,
+            611
+          ],
+          [
+            1009,
+            747
+          ],
+          [
+            1006,
+            785
+          ],
+          [
+            962,
+            794
+          ],
+          [
+            707,
+            791
+          ],
+          [
+            691,
+            783
+          ],
+          [
+            551,
+            783
+          ],
+          [
+            534,
+            791
+          ],
+          [
+            245,
+            789
+          ],
+          [
+            239,
+            762
+          ],
+          [
+            251,
+            730
+          ],
+          [
+            245,
+            637
+          ],
+          [
+            250,
+            619
+          ],
+          [
+            369,
+            596
+          ],
+          [
+            366,
+            587
+          ],
+          [
+            329,
+            568
+          ]
+        ]
+      }
+    }
+  ],
+  "roadsNative": [
+    {
+      "id": "upper",
+      "center": [
+        [
+          0,
+          452
+        ],
+        [
+          280,
+          464
+        ],
+        [
+          600,
+          463
+        ],
+        [
+          815,
+          466
+        ],
+        [
+          1200,
+          467
+        ],
+        [
+          1510,
+          466
+        ]
+      ],
+      "polygons": [
+        [
+          [
+            0,
+            433
+          ],
+          [
+            235,
+            440
+          ],
+          [
+            369,
+            440
+          ],
+          [
+            760,
+            438
+          ],
+          [
+            865,
+            438
+          ],
+          [
+            1485,
+            443
+          ],
+          [
+            1538,
+            453
+          ],
+          [
+            1541,
+            483
+          ],
+          [
+            1485,
+            491
+          ],
+          [
+            920,
+            495
+          ],
+          [
+            450,
+            495
+          ],
+          [
+            220,
+            492
+          ],
+          [
+            0,
+            473
+          ]
+        ]
+      ],
+      "status": "visually surveyed centre and ground; candidate metre foot-circle sampling passed"
+    },
+    {
+      "id": "lower",
+      "center": [
+        [
+          0,
+          804
+        ],
+        [
+          280,
+          812
+        ],
+        [
+          620,
+          820
+        ],
+        [
+          1000,
+          826
+        ],
+        [
+          1400,
+          830
+        ],
+        [
+          1670,
+          830
+        ]
+      ],
+      "polygons": [
+        [
+          [
+            0,
+            784
+          ],
+          [
+            280,
+            788
+          ],
+          [
+            600,
+            789
+          ],
+          [
+            1000,
+            793
+          ],
+          [
+            1430,
+            800
+          ],
+          [
+            1670,
+            808
+          ],
+          [
+            1670,
+            852
+          ],
+          [
+            1430,
+            854
+          ],
+          [
+            1000,
+            850
+          ],
+          [
+            600,
+            846
+          ],
+          [
+            280,
+            838
+          ],
+          [
+            0,
+            828
+          ]
+        ]
+      ],
+      "status": "visually surveyed centre and ground; candidate metre foot-circle sampling passed"
+    },
+    {
+      "id": "west-connector",
+      "center": [
+        [
+          150,
+          810
+        ],
+        [
+          145,
+          750
+        ],
+        [
+          150,
+          650
+        ],
+        [
+          155,
+          550
+        ],
+        [
+          180,
+          495
+        ],
+        [
+          215,
+          465
+        ]
+      ],
+      "polygons": [
+        [
+          [
+            117,
+            806
+          ],
+          [
+            111,
+            746
+          ],
+          [
+            117,
+            640
+          ],
+          [
+            124,
+            545
+          ],
+          [
+            148,
+            491
+          ],
+          [
+            190,
+            446
+          ],
+          [
+            240,
+            453
+          ],
+          [
+            211,
+            492
+          ],
+          [
+            185,
+            550
+          ],
+          [
+            180,
+            650
+          ],
+          [
+            175,
+            750
+          ],
+          [
+            181,
+            814
+          ]
+        ]
+      ],
+      "status": "visually surveyed centre and ground; candidate metre foot-circle sampling passed"
+    },
+    {
+      "id": "rescue",
+      "center": [
+        [
+          280,
+          464
+        ],
+        [
+          301,
+          380
+        ],
+        [
+          312,
+          307
+        ],
+        [
+          245,
+          258
+        ],
+        [
+          113,
+          205
+        ],
+        [
+          0,
+          194
+        ]
+      ],
+      "polygons": [
+        [
+          [
+            252,
+            470
+          ],
+          [
+            268,
+            387
+          ],
+          [
+            281,
+            316
+          ],
+          [
+            230,
+            282
+          ],
+          [
+            104,
+            232
+          ],
+          [
+            0,
+            222
+          ],
+          [
+            0,
+            170
+          ],
+          [
+            123,
+            180
+          ],
+          [
+            265,
+            232
+          ],
+          [
+            341,
+            289
+          ],
+          [
+            340,
+            330
+          ],
+          [
+            329,
+            387
+          ],
+          [
+            309,
+            466
+          ]
+        ]
+      ],
+      "status": "visually surveyed centre and ground; candidate metre foot-circle sampling passed"
+    },
+    {
+      "id": "clinic-level1-branch",
+      "center": [
+        [
+          815,
+          386
+        ],
+        [
+          815,
+          420
+        ],
+        [
+          815,
+          466
+        ]
+      ],
+      "polygons": [
+        [
+          [
+            780,
+            352
+          ],
+          [
+            854,
+            352
+          ],
+          [
+            853,
+            446
+          ],
+          [
+            780,
+            446
+          ]
+        ]
+      ],
+      "status": "visually surveyed centre and ground; candidate metre foot-circle sampling passed"
+    },
+    {
+      "id": "kitchen-level1-approach",
+      "center": [
+        [
+          620,
+          783
+        ],
+        [
+          620,
+          803
+        ],
+        [
+          620,
+          820
+        ]
+      ],
+      "polygons": [
+        [
+          [
+            589,
+            775
+          ],
+          [
+            650,
+            775
+          ],
+          [
+            651,
+            829
+          ],
+          [
+            589,
+            829
+          ]
+        ]
+      ],
+      "status": "visually surveyed centre and ground; candidate metre foot-circle sampling passed"
+    }
+  ],
+  "residencesJoinsGlobal": [
+    {
+      "id": "upper-join",
+      "existingVisibleEnd": [
+        8193,
+        478
+      ],
+      "newVisibleStart": [
+        8360,
+        461
+      ],
+      "centerProposal": [
+        [
+          8154,
+          478
+        ],
+        [
+          8193,
+          478
+        ],
+        [
+          8254,
+          474
+        ],
+        [
+          8314,
+          465
+        ],
+        [
+          8360,
+          461
+        ],
+        [
+          8454,
+          464
+        ],
+        [
+          8544,
+          464
+        ],
+        [
+          8640,
+          464
+        ]
+      ],
+      "walkPolygon": [
+        [
+          8134,
+          458
+        ],
+        [
+          8194,
+          456
+        ],
+        [
+          8255,
+          450
+        ],
+        [
+          8324,
+          443
+        ],
+        [
+          8424,
+          443
+        ],
+        [
+          8564,
+          444
+        ],
+        [
+          8674,
+          444
+        ],
+        [
+          8674,
+          485
+        ],
+        [
+          8554,
+          487
+        ],
+        [
+          8449,
+          486
+        ],
+        [
+          8360,
+          486
+        ],
+        [
+          8314,
+          490
+        ],
+        [
+          8254,
+          498
+        ],
+        [
+          8194,
+          502
+        ],
+        [
+          8134,
+          502
+        ]
+      ],
+      "status": "join-v2 measured centre; sampled metre foot circles passed"
+    },
+    {
+      "id": "lower-join",
+      "existingVisibleEnd": [
+        8278,
+        840
+      ],
+      "newVisibleStart": [
+        8360,
+        815
+      ],
+      "centerProposal": [
+        [
+          8224,
+          844
+        ],
+        [
+          8278,
+          839
+        ],
+        [
+          8319,
+          825
+        ],
+        [
+          8360,
+          815
+        ],
+        [
+          8424,
+          808
+        ],
+        [
+          8510,
+          809
+        ],
+        [
+          8604,
+          812
+        ]
+      ],
+      "walkPolygon": [
+        [
+          8206,
+          822
+        ],
+        [
+          8272,
+          816
+        ],
+        [
+          8321,
+          801
+        ],
+        [
+          8364,
+          792
+        ],
+        [
+          8424,
+          789
+        ],
+        [
+          8504,
+          787
+        ],
+        [
+          8624,
+          789
+        ],
+        [
+          8624,
+          834
+        ],
+        [
+          8514,
+          833
+        ],
+        [
+          8434,
+          833
+        ],
+        [
+          8374,
+          837
+        ],
+        [
+          8329,
+          846
+        ],
+        [
+          8282,
+          859
+        ],
+        [
+          8206,
+          864
+        ]
+      ],
+      "status": "join-v2 measured centre; sampled metre foot circles passed"
+    }
+  ],
+  "compatibility": {
+    "oldProjection": "Delegate original toArt for every world x <= 186, and original toWorld for art x <= 8360.",
+    "oldInstances": "Keep all existing kitchen/clinic identities, world coordinates, slot IDs and active treatments. Apply additional service slots only to explicitly versioned new layouts.",
+    "kitchenUnique": "Existing kitchen reaches GC13 only through the formal relocation flow.",
+    "activation": "A future explicit services activation controls the extension; reading a save creates no field, resource, bed, terrain or active order."
+  },
+  "pendingNaturalConnections": [
+    "No natural water source or extraction worksite is established by this tile.",
+    "GC23 has no surveyed road connection in this candidate; supply integration is the next separate step.",
+    "The rescue stub does not yet establish arrival at GC04."
+  ],
+  "futureRuntimeInterface": {
+    "spatialRecord": {
+      "version": "east-services-1",
+      "enabledAtTick": "current worldTick at explicit activation"
+    },
+    "recordField": "spatial.eastServices",
+    "command": "enableEastServices",
+    "query": "domainServicesEnabled",
+    "prerequisite": "eastResidences version enabled; preserve all existing extent and area switches",
+    "passage": "courtyardServicesPassage(fromWorld,toWorld) returns only surveyed shared-road key points; each local connector still uses normal meter path/sweep",
+    "areaMarker": "services:true",
+    "instanceLayoutVersion": "east-services-layout-1",
+    "activationDoesNotBuildSites": true,
+    "status": "integration candidate"
+  },
+  "stagePatches": null
+}

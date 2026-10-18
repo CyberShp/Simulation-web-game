@@ -1,0 +1,98 @@
+{
+  "status": "visual-candidate-measurements",
+  "coordinateSpace": "native image pixels",
+  "nativeSize": [
+    1670,
+    941
+  ],
+  "proposedLogicalSize": [
+    1672,
+    941
+  ],
+  "logicalScaleX": 1.0011976047904192,
+  "proposedAdjacentArtOrigin": [
+    8360,
+    0
+  ],
+  "originStatus": "proposal",
+  "source": "complete-v2.png",
+  "method": "Visual candidate estimates; entrance tolerance about6px, doorway height about4px. Formal surveyed polygons and metre coordinates pending.",
+  "sites": [
+    {
+      "planId": "GC-14",
+      "type": "clinic",
+      "positionInComposition": "upper",
+      "entranceEstimate": [
+        815,
+        386
+      ],
+      "doorNetHeightEstimatePx": 130,
+      "adultReferencePx": 111,
+      "reserveIntentMetres": [
+        10,
+        10
+      ],
+      "visibleIdentity": [
+        "enclosed blue-grey roof and timber body",
+        "medicine drying trays and baskets",
+        "north-west rescue path"
+      ]
+    },
+    {
+      "planId": "GC-13",
+      "type": "kitchen",
+      "positionInComposition": "lower",
+      "entranceEstimate": [
+        620,
+        783
+      ],
+      "doorNetHeightEstimatePx": 120,
+      "adultReferencePx": 111,
+      "reserveIntentMetres": [
+        10,
+        10
+      ],
+      "visibleIdentity": [
+        "enclosed blue-grey roof and timber body",
+        "chimney",
+        "firewood shelter",
+        "grain jars and washing basin"
+      ]
+    }
+  ],
+  "sharedRoads": {
+    "westUpperEntryEstimate": [
+      0,
+      450
+    ],
+    "westLowerEntryEstimate": [
+      0,
+      800
+    ],
+    "northWestRescueEntryEstimate": [
+      0,
+      200
+    ],
+    "note": "Native source road levels differ from requested target levels; measure and create the joining transition against the approved residential road endpoints before runtime use."
+  },
+  "previousTileVisibleRoadEnds": {
+    "coordinateSpace": "east-residences local art pixels",
+    "upper": [
+      1505,
+      478
+    ],
+    "lower": [
+      1590,
+      840
+    ],
+    "boundaryX": 1672
+  },
+  "checks": {
+    "sourceFilesDimensionsEqual": true,
+    "closedBodiesViewed": true,
+    "emptyFacilitiesRemoved": true,
+    "sharedRoadsVisuallyRetained": true,
+    "formalFootprintProof": false,
+    "runtimeIntegrated": false
+  }
+}

@@ -1,4 +1,10 @@
+import {spiritSourceHandlers,advanceSpiritSources,validateSpiritSources} from './ea-spirit-sources.mjs';
+export {surveyMeditationSource,cancelMeditationSourceOrder,startMeditationMaintenance,startMeditationCultivation,meditationSourceView,meditationCultivationView} from './ea-spirit-sources.mjs';
+import {setCourtyardReception,answerCourtyardSeeker,advanceCourtyardSeekers,validateCourtyardSeekers,courtyardSeekerBodyReason} from './ea-courtyard-seekers.mjs';
+export {setCourtyardReception,answerCourtyardSeeker,courtyardReceptionView,courtyardSeekerView,COURTYARD_SEEKERS_VERSION,SEEKER_RULES} from './ea-courtyard-seekers.mjs';
 import {initOpeningVisitors,advanceOpeningVisitors,validateCourtyardVisitors,courtyardVisitorReady,departCourtyardVisitor} from './ea-courtyard-visitors.mjs';
+import {initCourtyardAdmissions,validateCourtyardAdmissions,commitCourtyardAdmission} from './ea-courtyard-admission.mjs';
+export {courtyardAdmissionView,COURTYARD_ADMISSION_VERSION,COURTYARD_ADMISSION_RANKS} from './ea-courtyard-admission.mjs';
 import {initRainArtisan,advanceRainArtisan,validateRainArtisan,offerArtisanCare,cancelArtisanCare,declineArtisanCare,treatmentStatus} from './ea-rain-artisan.mjs';
 export {artisanCareView,treatmentStatus,offerArtisanCare,cancelArtisanCare,declineArtisanCare} from './ea-rain-artisan.mjs';
 import {prepareFacilityActivity,releaseBodyActivity,reconcileActivities,validateFacilityActivities,upgradeProductionRecipeSnapshots,cancelProduction} from './ea-facility-activities.mjs';
@@ -21,6 +27,8 @@ import {teachingQualificationSR} from './ea-sr-cultivation.mjs';
 import {prepareAutonomyV2 as prepareAutonomyV2Checked,reconcileAutonomyV2Commitments} from './ea-sr-persons.mjs';
 import {upgradeEquipmentRecipeSnapshots} from './ea-sr-equipment.mjs';
 import {beginOpeningInheritance,chooseOpeningInheritance,recoverOpeningInheritance,validateOpeningInheritance} from './ea-opening-inheritance.mjs';
+import {residentialHousingApplicable,ensureResidentialHousing,residentialAdmissionView,reserveResidentialBed,reconcileResidentialHousing} from './ea-residential-housing.mjs';
+export {residentialHousingApplicable,residentialProjectionState,residentialHousingView,residentialAdmissionView,residentialRestView,residentialBuildingChangeView} from './ea-residential-housing.mjs';
 export {openingInheritanceView,openingRecoveryOptions} from './ea-opening-inheritance.mjs';
 export * from './ea-sr-equipment.mjs';
 export * from './ea-sr-cultivation.mjs';
@@ -39,10 +47,10 @@ export * from './ea-sr-late-economy.mjs';
 export {srEnabled,initSR};
 export {cloneState,SCHEMA_VERSION,CONTENT_VERSION};
 const LEGACY_COMMAND_NAMES=['recoverOpeningInheritance','chooseOpeningInheritance','setSpeed','setIntroPage','acknowledgeOnboarding','requestSceneInteraction','cancelSceneInteraction','setNarrativePage','acknowledgeNarrative','acknowledgeIntro','advanceStory','build','cancelConstruction','cancelProduction','offerArtisanCare','cancelArtisanCare','declineArtisanCare','upgrade','toggleBuilding','repairBuilding','relocate','demolish','recruit','obtainBook','sealBook','masterStudy','forgetSupport','returnToBasics','masterBreakthrough','masterRiskBreakthrough','masterPill','masterAction','masterTeach','moveMaster','moveScenicMaster','craft','trade','fulfill','claim','setPolicy','offerRoute','upgradeSect','societyCommand','foundSect','inviteOffice','foundPeak','inviteMentor','setSocietyPolicy','settleIncident','resolvePersonalQuest','resolveWorldVisitor','resolveSocietyVisitor','startExploration','moveExploration','resolveExploration','leaveRegion','combatAction','acknowledgeCombat','startMasterTravel','resolveMasterEncounter','cancelMasterTravel'];
-export const COMMAND_NAMES=[...new Set([...LEGACY_COMMAND_NAMES,...Object.keys(SR_HANDLERS)])];
-const bodyCommands=new Set(['build','buildDomainSite','establishHall','upgrade','repairBuilding','relocate','demolish','masterStudy','masterAction','masterTeach','masterBreakthrough','masterRiskBreakthrough','masterPill','moveMaster','moveScenicMaster','requestSceneInteraction','startExploration','startMasterTravel','craft','advanceStory','offerArtisanCare','declineArtisanCare']);
+export const COMMAND_NAMES=[...new Set([...LEGACY_COMMAND_NAMES,'admitCourtyardVisitor','setCourtyardReception','answerCourtyardSeeker',...Object.keys(SR_HANDLERS),...Object.keys(spiritSourceHandlers)])];
+const bodyCommands=new Set(['build','buildDomainSite','establishHall','upgrade','repairBuilding','relocate','demolish','masterStudy','masterAction','masterTeach','masterBreakthrough','masterRiskBreakthrough','masterPill','moveMaster','moveScenicMaster','requestSceneInteraction','startExploration','startMasterTravel','craft','advanceStory','admitCourtyardVisitor','answerCourtyardSeeker','offerArtisanCare','declineArtisanCare']);
 const MASTER_AUTO_DELAY_MS=30000;
-const directMasterCommands=new Set([...bodyCommands,...SR_BODY_COMMANDS,'chooseOpeningInheritance','cancelConstruction','cancelSceneInteraction','cancelArtisanCare','cancelProduction','cancelMasterTravel']);
+const directMasterCommands=new Set([...Object.keys(spiritSourceHandlers),...bodyCommands,...SR_BODY_COMMANDS,'chooseOpeningInheritance','cancelConstruction','cancelSceneInteraction','cancelArtisanCare','cancelProduction','cancelMasterTravel']);
 function resetMasterControl(s){s.masterControl={mode:'manual',idleMs:0};}
 function advanceMasterControl(s){
  if(!s.masterControl)resetMasterControl(s);
@@ -51,6 +59,7 @@ function advanceMasterControl(s){
  if(control.idleMs===MASTER_AUTO_DELAY_MS)control.mode='auto';
  if(control.mode!=='auto')return;
  const m=s.master,activity=s.activitiesById[m.activityId];
+ if(activity?.kind==='facility'&&activity.action==='rest'&&activity.phase!=='executing'&&s.residentialHousing?.recordsByPersonId[m.personId]?.pending)return;
  if(m.action==='cultivate'&&m.xp>=base.xpNeed(m.realm)){
   releaseBodyActivity(s,m);m.action='rest';
  }
@@ -74,7 +83,7 @@ export function initial(options={}){
  resetMasterControl(s);
  s.master.main=null;s.master.knowledge={};s.master.artsById={};s.doctrine.books=[];
  s.stockpilesById['stockpile:lu-zhiwei']={id:'stockpile:lu-zhiwei',ownerId:visitor.personId,resources:Object.fromEntries(Object.keys(base.RESOURCES).map(k=>[k,0]))};
- initRainArtisan(s,base.addDisciple);s.rulesetVersion='opening-runtime-3';repairScenicState(s);if(options.sr)initSR(s,{newGame:true});if(options.sr)initOpeningVisitors(s);return s;
+ initRainArtisan(s,base.addDisciple);s.rulesetVersion='opening-runtime-3';repairScenicState(s);if(options.sr)initSR(s,{newGame:true});if(options.sr)initOpeningVisitors(s);initCourtyardAdmissions(s);return s;
 }
 
 function normalizeOpeningHallPhase(s){
@@ -83,7 +92,7 @@ function normalizeOpeningHallPhase(s){
 }
 
 function validateOpeningRecords(s){
- validateOpeningInheritance(s);validateCourtyardVisitors(s);
+ validateSpiritSources(s);validateOpeningInheritance(s);validateCourtyardVisitors(s);validateCourtyardAdmissions(s);validateCourtyardSeekers(s);initCourtyardAdmissions(s);
  const opening=s.story.opening;
  if(opening){
   const establishing=s.workOrdersById?.['work:construction:1']?.operation==='establish';
@@ -131,6 +140,13 @@ function validateMasterControl(s){
 
 export function prepareAutonomyV2(input){return prepareAutonomyV2Checked(input,validateSave);}
 
+export function admitCourtyardVisitor(s,selection){return commitCourtyardAdmission(s,selection,()=>advanceStory(s));}
+function reserveOpeningResidence(s,personId){
+ if(!residentialHousingApplicable(s))return;
+ ensureResidentialHousing(s);const housing=residentialAdmissionView(s,personId);if(!housing.available)throw Error(housing.reason);
+ reserveResidentialBed(s,personId,housing.candidate.slotId,{source:'admission'});
+}
+
 export function advanceStory(s,choice){
  if(srEnabled(s)&&s.story.step>=3)return advanceSRStory(s,choice);
  if(s.story.opening&&s.story.step===2){
@@ -139,7 +155,7 @@ export function advanceStory(s,choice){
   const visitor=s.personsById[s.story.opening.secondVisitorId],position=visitor.mind.scenic;
   if(!courtyardVisitorReady(visitor))throw Error('林长风尚在山路上，等他抵达院前再商议。');
   if(s.world.exploration||s.master.journey||Math.hypot(s.master.scenic.x-position.x,s.master.scenic.y-position.y)>sceneUnits(s,48))throw Error('先到林长风身边，再商议入院。');
-  s.homeMemberIds.push(visitor.personId);visitor.mind.reason='山院给了我安身与传承的机会，我愿靠自己的选择求道。';
+  reserveOpeningResidence(s,visitor.personId);s.homeMemberIds.push(visitor.personId);visitor.mind.reason='山院给了我安身与传承的机会，我愿靠自己的选择求道。';
   base.rememberPerson(s,visitor,visitor.mind.reason,{important:true,key:'opening:changfeng-join'});
   s.story.claimed.push('story:2');s.story.step=3;base.log(s,'林长风自愿留下，原来的身份、外观与经历一并保留。');return base.campaignSummary(s);
  }
@@ -160,7 +176,8 @@ export function advanceStory(s,choice){
  if(!['invite','decline'].includes(choice))throw Error('请选择商议入院，或让她先回去照应家人。');
  if(choice==='invite'){
   if(o.hallPhase!=='complete')throw Error('先营造主殿，才能请她安心入院。');
-  if(s.disciples.length>=base.capacity(s))throw Error('居所不足，赠药仍已送达，可营造居所后再商议。');
+  if(!residentialHousingApplicable(s)&&s.disciples.length>=base.capacity(s))throw Error('居所不足，赠药仍已送达，可营造居所后再商议。');
+  reserveOpeningResidence(s,visitor.personId);
   s.homeMemberIds.push(visitor.personId);o.invitation='joined';visitor.mind.reason='药材已备好，山院提供药理与住处，我愿留下求道；同行仍另作决定。';
   base.rememberPerson(s,visitor,visitor.mind.reason,{important:true,key:'opening:voluntary-join'});
   base.log(s,'陆知微自愿入院研习药理。赠药、入院和参与复仇各是一次选择。');
@@ -240,9 +257,9 @@ function validateConstruction(s){
  for(const [id,r]of Object.entries(s.reservationsById))if(!r.kind&&id!==a.reservationId)throw Error('存档校验失败：未知材料预约');
 }
 
-function openingMasterAction(s,action){
+function openingMasterAction(s,action,options){
  const wasSealed=s.story?.opening?.inheritance?.status==='sealed';
- const result=base.masterAction(s,action);
+ const result=base.masterAction(s,action,options);
  if(wasSealed&&action==='heal')beginOpeningInheritance(s);
  return result;
 }
@@ -255,15 +272,19 @@ export function tick(s,dt){
  for(let n=0;n<count;n++){
   if(s.speed===0)break;
   s.worldTick++;s.revision++;
+  if(residentialHousingApplicable(s))ensureResidentialHousing(s);
   advanceMasterControl(s);
   if(srEnabled(s))beforeSRSecond(s);
+  advanceSpiritSources(s);
   if((s.worldTick-s.schemaMigration.clockOriginTick)%10===0)base.advanceWorldSecond(s,{advanceCombat:!srEnabled(s),advanceFreeWalk:false});
   if(srEnabled(s)){tickCampaignCombat(s,.1);tickSR(s);}else advanceConstruction(s);
   base.advanceMasterFreeWalk(s,4.6);
   advanceOpeningVisitors(s);
+  advanceCourtyardSeekers(s);
   advanceRainArtisan(s);
   if(srEnabled(s))settleCombatBodyProjection(s);
   reconcileActivities(s);
+  if(s.residentialHousing)reconcileResidentialHousing(s);
   if(srEnabled(s))pruneHistory(s);
  }
 }
@@ -276,6 +297,7 @@ export function dispatchCommand(s,{name,args=[],id=`command:${s.transactions.nex
    // current gameplay gates: the first healing command itself opens this gate.
    if(next.story?.opening?.inheritance?.status==='pending'&&command!=='chooseOpeningInheritance')throw Error('先在包裹中择定一条传承。');
    if(next.master.sceneIntent&&!['requestSceneInteraction','cancelSceneInteraction','setNarrativePage','acknowledgeNarrative','acknowledgeIntro'].includes(command))base.cancelSceneInteraction(next);
+   if(['admitCourtyardVisitor','answerCourtyardSeeker'].includes(command)&&next.courtyardSeekers?.recordsByPersonId[values[0]?.personId]){const reason=courtyardSeekerBodyReason(next,values[0].personId);if(reason)throw Error(reason);}
    if(bodyCommands.has(command)||SR_BODY_COMMANDS.has(command)){
     const a=next.activitiesById[next.master.activityId];
     if(a?.kind==='facility')releaseBodyActivity(next,next.master);
@@ -284,11 +306,16 @@ export function dispatchCommand(s,{name,args=[],id=`command:${s.transactions.nex
     if(a&&a.kind!=='facility'&&!cancelling&&!currentCombatAction&&!command.startsWith('cancel')&&!['srCrisisCommand','srWorldCommand','srStoryCommand'].includes(command))throw Error('掌门已有身体活动，先完成或中止。');
    }
    if(command==='build'){const lock=base.buildingLock(next,values[0]);if(lock)throw Error(lock);}
-   if(command==='buildDomainSite'){const site=SECT_DOMAIN.sites.find(value=>value.id===values[0]);if(!site)throw Error('营造地不存在。');const lock=base.buildingLock(next,site.type);if(lock)throw Error(lock);}
+   if(command==='buildDomainSite'){
+    const site=SECT_DOMAIN.plannedSites.find(value=>value.id===values[0]);
+    if(!site)throw Error('营造地不存在。');
+    if(site.runtimeStatus!=='open'||!SECT_DOMAIN.sites.some(value=>value.id===site.id)||!base.BUILDINGS[site.type])throw Error('此处正在筹备，场地、工位与供给条件齐备后开放营造。');
+    const lock=base.buildingLock(next,site.type);if(lock)throw Error(lock);
+   }
    if(['build','buildDomainSite','upgrade','recruit'].includes(command)&&next.story?.opening&&next.story.opening.hallPhase!=='complete')throw Error('先营造主殿，再安排其他院务。');
-   const fn=command==='recoverOpeningInheritance'?recoverOpeningInheritance:command==='chooseOpeningInheritance'?chooseOpeningInheritance:command==='masterAction'?openingMasterAction:command==='advanceStory'?advanceStory:SR_HANDLERS[command]||({setSpeed,offerArtisanCare,cancelArtisanCare,declineArtisanCare,cancelProduction}[command])||base[command];
+   const fn=command==='recoverOpeningInheritance'?recoverOpeningInheritance:command==='chooseOpeningInheritance'?chooseOpeningInheritance:command==='masterAction'?openingMasterAction:command==='advanceStory'?advanceStory:command==='admitCourtyardVisitor'?admitCourtyardVisitor:spiritSourceHandlers[command]||SR_HANDLERS[command]||({setCourtyardReception,answerCourtyardSeeker,setSpeed,offerArtisanCare,cancelArtisanCare,declineArtisanCare,cancelProduction}[command])||base[command];
    if(typeof fn!=='function')throw Error('操作尚未接入。');
-   const result=fn(next,...values);if(result!==false&&directMasterCommands.has(command))resetMasterControl(next);reconcileActivities(next);reconcileAutonomyV2Commitments(next);return result;
+   const result=fn(next,...values);if(result!==false&&directMasterCommands.has(command))resetMasterControl(next);reconcileActivities(next);reconcileAutonomyV2Commitments(next);if(next.residentialHousing)reconcileResidentialHousing(next);return result;
   }]));
   const committed=executeContractCommand(s,{name,args,id,expectedRevision},{handlers,clone:value=>initSR(cloneState(value)),validate:validateSave});
   if(committed.status==='rejected')throw Error(committed.message);return committed;
@@ -303,7 +330,7 @@ export function dispatchCommand(s,{name,args=[],id=`command:${s.transactions.nex
  const next=cloneState(s);
  if(next.master.sceneIntent&&!['requestSceneInteraction','setNarrativePage','acknowledgeNarrative','acknowledgeIntro'].includes(name))base.cancelSceneInteraction(next);
  if(bodyCommands.has(name)&&!constructionStatus(next))releaseBodyActivity(next,next.master);
- const fn=name==='recoverOpeningInheritance'?recoverOpeningInheritance:name==='chooseOpeningInheritance'?chooseOpeningInheritance:name==='masterAction'?openingMasterAction:name==='offerArtisanCare'?offerArtisanCare:name==='cancelArtisanCare'?cancelArtisanCare:name==='declineArtisanCare'?declineArtisanCare:name==='cancelProduction'?cancelProduction:name==='setSpeed'?setSpeed:name==='advanceStory'?advanceStory:name==='build'?build:name==='cancelConstruction'?cancelConstruction:name==='masterStudy'?masterStudy:base[name];
+ const fn=name==='recoverOpeningInheritance'?recoverOpeningInheritance:name==='chooseOpeningInheritance'?chooseOpeningInheritance:name==='masterAction'?openingMasterAction:name==='offerArtisanCare'?offerArtisanCare:name==='cancelArtisanCare'?cancelArtisanCare:name==='declineArtisanCare'?declineArtisanCare:name==='cancelProduction'?cancelProduction:name==='setSpeed'?setSpeed:name==='advanceStory'?advanceStory:name==='admitCourtyardVisitor'?admitCourtyardVisitor:name==='setCourtyardReception'?setCourtyardReception:name==='answerCourtyardSeeker'?answerCourtyardSeeker:name==='build'?build:name==='cancelConstruction'?cancelConstruction:name==='masterStudy'?masterStudy:base[name];
  if(['demolish','relocate'].includes(name)){const b=next.buildings.find(b=>b.id===args[0]),o=b&&next.workOrdersById[`work:production:${b.instanceId}`];if(o){if(o.phase!=='completed')cancelProduction(next,b.id);else delete next.workOrdersById[o.id];}}
  const value=fn(next,...args),result=value===undefined?true:structuredClone(value);
  if(result!==false&&directMasterCommands.has(name))resetMasterControl(next);

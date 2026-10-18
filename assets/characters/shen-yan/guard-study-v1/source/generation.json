@@ -1,0 +1,21 @@
+{
+  "date": "2026-10-18",
+  "tool": "image_gen.imagegen",
+  "baseIdentity": "assets/characters/shen-yan/cast-study-v1/source/casting-master-v1.png",
+  "outputs": [
+    {
+      "file": "guard-master-v1.png",
+      "prompt": "Use case: identity-preserve.\nEdit target: first image, the approved Shen Yan full-body transparent pixel character.\nSupporting pose reference: second image, a four-panel double-palm barrier storyboard. Use only its double-palm arm language and sheathed-sword idea; preserve the FIRST image's face, body, clothes, rendering, proportions, scale and camera.\n\nCreate ONE full-body transparent game sprite master in the EXTENDED TWO OPEN PALMS guarding pose. Both arms reach toward screen-right at chest level, elbows slightly bent rather than locked. The near/right arm passes in front of the chest and reaches to the lower palm; the far/left arm reaches to the higher palm. Keep the two five-finger open hands individually readable, facing right, with a clear vertical gap. Palms are parallel in direction. Staggered planted legs with a subtle bent-knee brace, same boot positions and body height as the first image. A single sword is entirely sheathed in a dark teal scabbard with small gold fittings on the waist, pointing back/down toward screen-left. Hands are empty.\n\nIdentity invariants: same youthful man, exact black topknot and swept long hair, blue/teal robe, white lapels and white front panel, pale embroidered sleeve/hem borders, brown-gold belt and small jade pendant, dark trousers and brown-black boots. Keep head, facial features, hairstyle, torso/waist, hanging cloth and lower body from the FIRST image as unchanged as possible. Fixed slightly overhead three-quarter view facing screen-right. Full figure including hair, fingertips, scabbard and both soles entirely inside the canvas. Crisp detailed pixel clusters and outlines, matching the first image, no blur or 3D look.\n\nCanvas: landscape 1536x1024, retain first image's character placement and scale. Genuine transparent RGBA background with clean cutout edges. No ground, shadow, backplate, haze, aura, glow, barrier, beams, particles, labels or text; these are separate animation layers. Exactly one person, two arms and two hands.",
+      "transparent_background": true,
+      "usage": "Near/right arm and sheathed equipment; body/face/legs use approved S01 texture.",
+      "original": "/Users/shepard/.codex/generated_images/01a144ea-e43f-7960-aba6-4800a2ad7db7/exec-91d52a40-cb51-458f-bb35-8396e06e1bf0.png"
+    },
+    {
+      "file": "far-sleeve-v1.png",
+      "prompt": "Use case: precise-object-edit. This is a technical hidden-surface art source for a layered animation.\nEdit the provided transparent character master. Remove ONLY the near foreground right arm that crosses the chest and ends in the LOWER open palm. Reconstruct the underlying blue-white chest robe and the FULL blue/white hanging sleeve of the remaining far left arm where they were occluded. Keep the remaining far left arm EXTENDED toward screen-right with its original upper open palm. The far sleeve must be continuous, with clean white trim all the way down to its pointed lower hem, and a connected dark forearm/wrist. This source will only supply the hidden far sleeve to a two-arm animation.\n\nKeep absolutely the same camera, pixel style, scale and position of the remaining arm/hand; keep the first image's face, hair, waist, scabbard, lower body and foot placement. 1536x1024 landscape with exact same subject placement as input. Genuine transparent RGBA background. Crisp detailed pixel-art cutout with hard alpha edges. No background, haze, glow, effects, text, labels or ground shadow.",
+      "transparent_background": true,
+      "usage": "Completed far/left sleeve and open palm only, including previously occluded cloth.",
+      "original": "/Users/shepard/.codex/generated_images/01a144ea-e43f-7960-aba6-4800a2ad7db7/exec-94bdc436-36af-4638-a578-74e7b7886418.png"
+    }
+  ]
+}

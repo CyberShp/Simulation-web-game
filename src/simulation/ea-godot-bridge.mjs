@@ -7,7 +7,7 @@ import {scenicHomeActors, nextObjective} from './ea-scene-state.mjs';
 import {SPATIAL_SCENE, spatialTerrain, spatialRoom, spatialPrefab, spatialTransform, polygonContains, viewSpatial, sceneUnits} from './ea-sr-spatial.mjs';
 import {artView, teachingQualificationSR} from './ea-sr-cultivation.mjs';
 import {openingInheritanceView} from './ea-opening-inheritance.mjs';
-import {FARM_CROP_RECIPE, HARVEST_BATCH, harvestAvailable, viewEconomy} from './ea-sr-economy.mjs';
+import {FARM_CROP_RECIPE, HARVEST_BATCH, harvestAvailable, viewEconomy, craftProcessView} from './ea-sr-economy.mjs';
 import {viewPersons} from './ea-sr-persons.mjs';
 import {personLifeSummary, workOpportunity} from './ea-life.mjs';
 import {viewPublicDiscipleLearning} from './ea-society.mjs';
@@ -72,7 +72,7 @@ function projectOpeningJourney(state) {
 }
 
 function farmCropVisual(state, building) {
-  if (building.type !== 'farm') return null;
+  if (!['farm', 'granary'].includes(building.type)) return null;
   const order = state.workOrdersById?.[`work:production:${building.instanceId}`];
   const crop = order?.crop;
   if (!crop || ['completed', 'cancelled'].includes(order.phase) || crop.harvestedAtTick != null) return 'empty';
@@ -128,7 +128,7 @@ function projectBuilding(state, building, visualStage) {
     indoor: prefab.indoor, level: building.level, condition: building.condition,
     capacity: established ? (BUILDINGS[building.type].capacity || 0) * building.level : 0,
     workSlots: established ? facilitySlots(state, building, 'work').length : 0,
-    ...(building.type === 'farm' ? {cropVisual: farmCropVisual(state, building)} : {}),
+    ...(['farm', 'granary'].includes(building.type) ? {cropVisual: farmCropVisual(state, building)} : {}),
     stage: visualStage || (building.type === 'hall' && hallPhase === 'shelter' ? 'shelter' : operation === 'upgrade' ? 'upgrade' :
       building.type === 'hall' && state.spatial?.estateCollisionVersion === 'estate-gate-1' && building.condition < 100 ? 'damaged' :
       building.condition < 50 ? 'damaged' : 'complete'),
@@ -251,8 +251,8 @@ function projectCrafting(state, economy) {
   const orders = Object.values(state.workOrdersById || {}).filter(order => order.kind === 'sr-crafting')
     .map(order => {
       const activity = state.activitiesById?.[order.activityId];
-      return {id: order.id, recipeId: order.recipeId, recipeName: RECIPES[order.recipeId]?.name || order.recipeId,
-        phase: order.phase, activityPhase: activity?.phase || null, reason: activity?.reason || order.reason || '',
+      return {id: order.id, recipeId: order.recipeId, recipeVersion: order.recipeVersion, recipeName: RECIPES[order.recipeId]?.name || order.recipeId,
+        process: craftProcessView(state,order), phase: order.phase, activityPhase: activity?.phase || null, reason: activity?.reason || order.reason || '',
         personId: order.personId, buildingId: order.targetId, stockpileId: `stockpile:${order.targetId}`,
         progressTicks: order.progressTicks, durationTicks: order.durationTicks, yield: order.yield,
         cost: {...order.cost}, sourceStockpileIds: {...order.sourceStockpileIds},
@@ -265,11 +265,11 @@ function projectCrafting(state, economy) {
       enabled: furnace.enabled !== false && !furnace.spatialLock,
       workSlots: facilitySlots(state, furnace, 'work').length,
       resources: stockpile ? {...stockpile.resources} : null, pills: stockpile ? {...stockpile.pills} : null} : null,
-    recipes: (economy.craftRecipes || []).map(recipe => ({id: recipe.id, name: recipe.name,
+    recipes: (economy.craftRecipes || []).map(recipe => ({id: recipe.id, recipeVersion: recipe.recipeVersion, name: recipe.name,
       description: RECIPES[recipe.id]?.description || '', available: recipe.available,
       reasons: [...recipe.reasons], cost: {...recipe.cost}, durationTicks: recipe.durationTicks,
       yield: recipe.yield, buildingId: recipe.buildingId,
-      physicalStockpileId: recipe.physicalStockpileId, effect: {...(RECIPES[recipe.id]?.effect || {})}})),
+      physicalStockpileId: recipe.physicalStockpileId,...(recipe.processStages?{processStages:structuredClone(recipe.processStages),furnaceTicks:recipe.furnaceTicks}:{}), effect: {...(RECIPES[recipe.id]?.effect || {})}})),
     orders,
   };
 }

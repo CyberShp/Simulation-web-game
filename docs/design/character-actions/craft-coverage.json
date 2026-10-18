@@ -1,0 +1,3553 @@
+{
+  "schemaVersion": "character-craft-action-coverage-1",
+  "title": "百艺工序动作设计覆盖索引",
+  "date": "2026-10-17",
+  "authority": "R-51 作者动作提案；T-17 样片参数另见主稿",
+  "status": "design-only",
+  "meaning": "用于现有百艺目录到拟议动作组的设计追踪；映射完成不表示动画制作、运行接入或实机验收完成。",
+  "master": "../55-CHARACTER-ACTION-LIBRARY.md",
+  "source": {
+    "path": "../content/golden-core-arts-draft-v0.2.json",
+    "filter": {
+      "type": "百艺"
+    },
+    "catalogueVersion": "0.2"
+  },
+  "summary": {
+    "catalogueEntries": 172,
+    "craftEntries": 148,
+    "craftGroups": 23,
+    "formationEntries": 24,
+    "formationGroups": 8,
+    "uniqueIds": 172,
+    "missingIds": 0,
+    "duplicateIds": 0
+  },
+  "groupSemantics": "primaryGroup 用于唯一统计；groups 允许同一法门引用多个实际工序。组内子动作依据 specificProcess 与来源工序分别制作。",
+  "groups": [
+    {
+      "id": "C01",
+      "name": "灵植与采药",
+      "status": "design-only",
+      "entryIds": [
+        "Y-016",
+        "Y-034",
+        "Y-116",
+        "C2-082",
+        "C2-083",
+        "C2-084"
+      ],
+      "prepare": "蹲身查叶、开篮分种，确认本株与本畦。",
+      "loop": "开穴定植、提壶浇根、剪取采收；嫁接另做削口绑扎，育种另做细笔触蕊、套袋；养土分样施肥，护圃立牌清具。",
+      "success": "收获入袋、苗盘放稳、留本株批签；生长与嫁接成活由后续真实状态呈现。",
+      "interrupt": "放稳剪铲、盖样袋，标记待续植株或隔离区。",
+      "workstationAndTools": "田垄、苗架；短铲、剪、壶、篮、细笔。",
+      "readability111px": "蹲姿与扶枝形成低轮廓；壶嘴倾斜长弧、剪取短合、授粉抬肘分别可辨。"
+    },
+    {
+      "id": "C02",
+      "name": "林木与分料",
+      "status": "design-only",
+      "entryIds": [
+        "Y-018",
+        "W2-077",
+        "C2-086"
+      ],
+      "prepare": "绕树看纹、尺量落墨、确认伐向与支撑。",
+      "loop": "双手斧伐、弓步锯切、顺纹刨削；活枝营造扶枝弯形、绑撑验载；排料按墨线切分。",
+      "success": "梁材碎枝分堆，工件或支撑检验后留标记。",
+      "interrupt": "落斧停锯；固定未稳工件，人员退至合法位置。",
+      "workstationAndTools": "林地、木工台、撑架；斧、锯、刨、尺、绳。",
+      "readability111px": "斧的斜向大弧、锯的水平往复、刨的双臂前推分别制作。"
+    },
+    {
+      "id": "C03",
+      "name": "采石与辨料",
+      "status": "design-only",
+      "entryIds": [
+        "Y-019",
+        "Y-110",
+        "W2-070"
+      ],
+      "prepare": "低身敲听、翻样片，选定真实接触点。",
+      "loop": "短锤打楔、持镐凿取、双手筛洗、试锻试压并挑杂。",
+      "success": "按实检结果分级装筐，废料保留原地。",
+      "interrupt": "收锤停凿，封存可疑样，危险岩面保留警示。",
+      "workstationAndTools": "岩面、试料台、筛槽；镐、锤、楔、筛、钳。",
+      "readability111px": "试料贴台面短动；采掘以肩髋带重心下压；筛洗双臂左右摇。"
+    },
+    {
+      "id": "C04",
+      "name": "测勘与验载",
+      "status": "design-only",
+      "entryIds": [
+        "Y-131",
+        "Y-150",
+        "C2-005",
+        "C2-019",
+        "C2-087"
+      ],
+      "prepare": "展尺落桩、放测具、设置实际试验隔离。",
+      "loop": "拉线垂测、叩探杆、分层取土、逐级下放试重。",
+      "success": "封样、落图、记录误差，按实际结果留可用或停用牌。",
+      "interrupt": "固定试重与探具，保存已测部分，挂待检标记。",
+      "workstationAndTools": "地基、土层、桥锚、阵位；测杆、线坠、土钻、试重绞盘。",
+      "readability111px": "直杆垂线、蹲姿取样、后仰牵重各有轮廓；测点位置必须真实。"
+    },
+    {
+      "id": "C05",
+      "name": "取水净水与水工",
+      "status": "design-only",
+      "entryIds": [
+        "Y-017",
+        "Y-079",
+        "Y-040",
+        "Y-121",
+        "W2-084"
+      ],
+      "prepare": "查水位、摆桶滤槽，核对沟线与闸位。",
+      "loop": "提桶清淤、倒砂铺布、换滤层；掘槽垫石、砌堰调闸；蒸馏添水调灶、接露。",
+      "success": "封缸、收桶或查验真实水流与凝液。",
+      "interrupt": "关阀落桶、停火，保留未完沟槽与滤材状态。",
+      "workstationAndTools": "井泉、滤槽、渠道、双锅；桶、绳、铲、闸柄、接露盏。",
+      "readability111px": "提桶竖直牵拉、倒水持续倾斜、调闸抵身用力，蒸汽来自实灶。"
+    },
+    {
+      "id": "C06",
+      "name": "丹药加工与配伍",
+      "status": "design-only",
+      "entryIds": [
+        "Y-008",
+        "Y-142",
+        "C2-068",
+        "C2-069",
+        "C2-070"
+      ],
+      "prepare": "查方、分药盘、核对样药与诊查记录。",
+      "loop": "称取研磨、滤液添料；开炉门、添燃料、察药液；配伍逐次查反应并记录。",
+      "success": "取样验性、分丸封瓶、留下批次标记。",
+      "interrupt": "按当前工序封料、收火或留废批；已产生损耗保留。",
+      "workstationAndTools": "药案、研钵、滤盏、丹炉；药匙、杵、炉钳、样瓶。",
+      "readability111px": "研磨圆周、添料倾手、弓身察炉分别制作；火候变化落在炉上。"
+    },
+    {
+      "id": "C07",
+      "name": "锻造与铸匣",
+      "status": "design-only",
+      "entryIds": [
+        "GC-C02",
+        "Y-164",
+        "C2-054",
+        "W2-049",
+        "C2-040"
+      ],
+      "prepare": "夹坯定砧，核对火色与材料批次。",
+      "loop": "高低锤击、翻坯、拉风箱、淬火、刻灵路；铸匣磨轴嵌触点，回炉分拣封渣。",
+      "success": "冷检、弯测与试注，合格器坯归架、废坯另放。",
+      "interrupt": "钳离热坯、断供或闭炉，未完件停在合法位置。",
+      "workstationAndTools": "炉、砧、淬槽、刻台；锤、钳、刻刀、风箱柄。",
+      "readability111px": "锤击开肩起落、淬水低位俯送、刻纹伏案短动，器坯随钳保持刚性。"
+    },
+    {
+      "id": "C08",
+      "name": "兵器与护具修造",
+      "status": "design-only",
+      "entryIds": [
+        "W2-007",
+        "W2-021",
+        "W2-042",
+        "W2-063",
+        "C2-055",
+        "C2-056"
+      ],
+      "prepare": "解扣验裂、量体，固定当前兵器或甲具。",
+      "loop": "磨刃推拉、校杆敲楔、转箭校直补羽、换盾片铆接、温扣调衬、轻敲验甲。",
+      "success": "试握试拉、试射或屈伸检验，再归架或交还。",
+      "interrupt": "收好拆下件，修具留架，未检部位保持待检状态。",
+      "workstationAndTools": "磨台、箭架、甲架；磨石、木槌、胶刷、铆锤、软尺。",
+      "readability111px": "剑横推、箭轴旋转、甲扣近身收合；试射沿用真实弓箭动作与安全靶位。"
+    },
+    {
+      "id": "C09",
+      "name": "绳索与缝制",
+      "status": "design-only",
+      "entryIds": [
+        "C2-012",
+        "W2-014",
+        "W2-056",
+        "W2-135",
+        "W2-136"
+      ],
+      "prepare": "分纤量长、展开料面、固定张力端。",
+      "loop": "搓捻编绳、双手打结、换接索段、绷弦、裁皮缝鞘。",
+      "success": "拉力验样、卷束留签或合鞘扣。",
+      "interrupt": "固定张力端，收针护刃并封存未完件。",
+      "workstationAndTools": "绳架、拉力架、裁案；纤束、针、剪、皮料、护指。",
+      "readability111px": "扭搓、张臂拉验、低幅穿针三种主姿势；绳始终连接真实固定点。"
+    },
+    {
+      "id": "C10",
+      "name": "陶土与雷具附件",
+      "status": "design-only",
+      "entryIds": [
+        "C2-088",
+        "W2-035",
+        "W2-098",
+        "W2-119"
+      ],
+      "prepare": "配土分批、摆试坯和槽件。",
+      "loop": "揉压制胎、刻槽、分区上釉、装窑；嵌铜道或将陶片嵌进护手。",
+      "success": "冷却验裂、试压验流，再归盘或装衬。",
+      "interrupt": "关闭窑口或隔离坏坯，冷却阶段保留。",
+      "workstationAndTools": "制坯台、窑、装配案；刮板、刻针、釉刷、炉钳。",
+      "readability111px": "双手抱圆坯、单手沿槽刻、夹片装配；热态颜色跟随实际阶段。"
+    },
+    {
+      "id": "C11",
+      "name": "傀儡制造与校修",
+      "status": "design-only",
+      "entryIds": [
+        "Y-029",
+        "Y-030",
+        "C2-033",
+        "C2-034",
+        "C2-035",
+        "C2-047",
+        "C2-048",
+        "C2-049"
+      ],
+      "prepare": "同一偶体入架、卸武具断能，摆放图样与料盘。",
+      "loop": "刨木制榫、装节穿线、逐轴牵验；退钉开壳换轴换路；鸟偶裁绢弯骨、装铰磨眼；勘路操作接本人实际记录。",
+      "success": "低速试动、试飞校晶或收成实测图，检验后交付。",
+      "interrupt": "落闸停机、收好拆件，原偶与旧损痕保留。",
+      "workstationAndTools": "工台、偶架、低速试台、标靶；刨、探针、线环、刻刀、绢。",
+      "readability111px": "制作时双手贴偶体；试验时人物退开，偶体独立动作；鸟翼与轮偶各用对应器形。"
+    },
+    {
+      "id": "C12",
+      "name": "机关装载与维护",
+      "status": "design-only",
+      "entryIds": [
+        "C2-026",
+        "C2-027",
+        "C2-041",
+        "C2-042",
+        "C2-061",
+        "C2-062",
+        "C2-063",
+        "W2-105"
+      ],
+      "prepare": "架起固定、查储能与承重，清出试转空间。",
+      "loop": "切齿试合、装离合、旋紧轮、调滴漏、称量绑载、清轴上油；拆簧先卡止牙再逐段泄力；飞具展骨绷绢验载。",
+      "success": "空载试转、逐级验载、验停后收架或交付。",
+      "interrupt": "落闸固定；未释放余力与未验载状态持续保留。",
+      "workstationAndTools": "架台、轮轴、滴漏、秤、翼架；划针、旋柄、油壶、绳。",
+      "readability111px": "拧轴肘部小圆、配载弯腰抱物、跨身绑绳、展翼张臂分别表现。"
+    },
+    {
+      "id": "C13",
+      "name": "灯器声器与镜具",
+      "status": "design-only",
+      "entryIds": [
+        "Y-172",
+        "W2-091",
+        "H2-007",
+        "H2-014",
+        "H2-028",
+        "H2-035",
+        "H2-042"
+      ],
+      "prepare": "器物上台，核对火源、张力或镜面状态。",
+      "loop": "裁芯添油擦罩；琴逐弦调张、鼓环周调箍；响石刻磨，镜片推磨与遮幕缝补。",
+      "success": "试灯、试音、校光后收具。",
+      "interrupt": "熄灯、稳住张力部件、罩护器面。",
+      "workstationAndTools": "器台；剪、油壶、调弦轴、鼓槌、刻针、磨布。",
+      "readability111px": "举灯查焰、拨弦听音、俯身轻敲、推镜的肩肘与接触方向各自清楚。"
+    },
+    {
+      "id": "C14",
+      "name": "勘查图文与卜算",
+      "status": "design-only",
+      "entryIds": [
+        "Y-039",
+        "Y-054",
+        "Y-097",
+        "H2-075",
+        "H2-076",
+        "H2-111",
+        "C2-089",
+        "H2-104",
+        "H2-107",
+        "W2-140"
+      ],
+      "prepare": "展纸摆册、放关联物、调平观测盘或踏查测点。",
+      "loop": "润碑覆纸拓印、移筹察烟、转盘记候、逐行校文；路况遗骸量取封样，刻石留向。",
+      "success": "卷图、封样、留带观察时间的记录。",
+      "interrupt": "盖册收筹、护样停刻，未查区域保持空项。",
+      "workstationAndTools": "碑、书案、观测点；拓包、软刷、筹盘、星盘、尺、斜灯、刻刀。",
+      "readability111px": "拍拓向壁、移筹向桌、调盘抬手、查痕低身有不同轮廓；未知结论不画成确定连线。"
+    },
+    {
+      "id": "C15",
+      "name": "御兽与驯养",
+      "status": "design-only",
+      "entryIds": [
+        "GC-C01",
+        "H2-084",
+        "H2-090",
+        "H2-091",
+        "H2-097",
+        "H2-098",
+        "H2-110"
+      ],
+      "prepare": "放食示意，等待动物回应；观察真实兽迹。",
+      "loop": "绕桩引导、衔物奖励、梳羽清栖；扶蹄清污、查鞍量载；迁护搭巢铺草并引导实际迁移。",
+      "success": "动物完成动作后给食、归栏或记录当次载荷。",
+      "interrupt": "收回指令、退让或引回休息；动物反应照实保留。",
+      "workstationAndTools": "兽栏、栖架、鞍架；食盆、刷、尺、牵绳、草料。",
+      "readability111px": "人物引导与动物响应配对；扶蹄深俯、梳羽低抬臂、远指示意分别呈现。"
+    },
+    {
+      "id": "C16",
+      "name": "医疗与搬救",
+      "status": "design-only",
+      "entryIds": [
+        "Y-053",
+        "Y-091",
+        "C2-075",
+        "C2-076",
+        "C2-077",
+        "H2-105"
+      ],
+      "prepare": "展医具、询问并靠近患处，确认双方位置。",
+      "loop": "触腕察脉、取样滴液、清创止血、缝合包扎、量板固定；搬救解甲、绑担架、共同抬行。",
+      "success": "系结检查、覆药布、封样，按实际结果观察伤者。",
+      "interrupt": "稳住伤者当前姿态、收针封样；已发生伤势与治疗进度保留。",
+      "workstationAndTools": "诊床、担架、样盘；药布、瓶、镊、夹板。",
+      "readability111px": "低姿贴身、双手稳定、伤者响应优先；细针手指由150/222像素复看补充。"
+    },
+    {
+      "id": "C17",
+      "name": "灵毒隔离与净护",
+      "status": "design-only",
+      "entryIds": [
+        "H2-048",
+        "H2-049",
+        "H2-056",
+        "H2-070",
+        "H2-106"
+      ],
+      "prepare": "分置容器、记录标签、核对隔离部位。",
+      "loop": "对照滴样、封瓶、分段收炉料、铺隔离垫；衣物分盆洗拧、晾挂。",
+      "success": "封瓶装格、挂标记或归晾架。",
+      "interrupt": "盖严容器、暂停取样，污净器具保持分置。",
+      "workstationAndTools": "检样案、隔离架、洗盆；瓷瓶、滴管、长钎、夹、洗布。",
+      "readability111px": "取样近台短动、长钎远距探入、洗拧双手扭转；可见光效只落于实际样本。"
+    },
+    {
+      "id": "C18",
+      "name": "灵膳烹制",
+      "status": "design-only",
+      "entryIds": [
+        "C2-090",
+        "H2-063"
+      ],
+      "prepare": "洗切备料、生熟分案。",
+      "loop": "切配、翻炒、搅煮、添火、盛装。",
+      "success": "分碗装袋、收灶，食物留在合法容器。",
+      "interrupt": "离火盖锅、收刀，食物当前熟度与温度保持。",
+      "workstationAndTools": "灶、案、锅；刀、铲、勺、碗。",
+      "readability111px": "横切、持柄翻锅、长勺绕锅分别制作；成品热汽对应实际热度。"
+    },
+    {
+      "id": "C19",
+      "name": "种材与冷湿保管",
+      "status": "design-only",
+      "entryIds": [
+        "C2-085",
+        "W2-112",
+        "W2-126"
+      ],
+      "prepare": "验湿、分批开瓮开箱。",
+      "loop": "筛种分层装瓮、填干料；冷箱装格压毡验排水；收露倾盏、替换湿布。",
+      "success": "封盖留批签，合格批次按实际账目入位。",
+      "interrupt": "盖好当前容器，保留未完成装填与未入库批次。",
+      "workstationAndTools": "仓案、瓮、冷箱、筛架；瓢、布、泥封、露盏。",
+      "readability111px": "容器开合、双手压封、倾盏与塞填动作清楚，箱瓮体积维持真实比例。"
+    },
+    {
+      "id": "C20",
+      "name": "工序安排与协作指示",
+      "status": "design-only",
+      "entryIds": [
+        "H2-021",
+        "C2-013"
+      ],
+      "prepare": "展简、举手示意，等待实际参与者。",
+      "loop": "指点工序格、传手势节拍、举哨并等回应。",
+      "success": "收简放哨，记录已完成段与实际回应。",
+      "interrupt": "给停手信号，未响应者保持原有状态。",
+      "workstationAndTools": "工序板、训练场；木简、哨。",
+      "readability111px": "抬手角度、哨到嘴的轮廓和同伴回应可辨；双方脚点各自成立。"
+    },
+    {
+      "id": "C21",
+      "name": "阵材续纹与撤收",
+      "status": "design-only",
+      "entryIds": [
+        "C2-006",
+        "C2-007"
+      ],
+      "prepare": "确认停阵、摆砂盘与工具。",
+      "loop": "夹线剥焦纹、针尖接线、逐段低流复验；沿阵图泄流、逐枚拔筹。",
+      "success": "收线入匣、工具归位，保留可用回收材。",
+      "interrupt": "关断当前段，停在已确认安全节点；未修段仍失效。",
+      "workstationAndTools": "实际阵脚、修理台；线钳、针、验流石、砂盘。",
+      "readability111px": "蹲姿贴地补线、近身夹线、拔筹直起区别于站立操阵；与A08共享工具接触段。"
+    },
+    {
+      "id": "C22",
+      "name": "制符与安装",
+      "status": "design-only",
+      "entryIds": [
+        "Y-020",
+        "Y-049",
+        "Y-126",
+        "Y-037",
+        "F2-005",
+        "F2-012",
+        "F2-019",
+        "F2-026",
+        "F2-033",
+        "F2-040",
+        "F2-047",
+        "F2-054",
+        "F2-061",
+        "F2-068",
+        "F2-075",
+        "F2-082",
+        "F2-089",
+        "F2-096",
+        "F2-099",
+        "F2-100",
+        "F2-107"
+      ],
+      "prepare": "铺胎调墨、固定图样，核对载体与用料。",
+      "loop": "按材料工序制胎，再书符注灵、逐段验符；安装按目标压贴、钉定、抹角；修符先卸能补线。",
+      "success": "成符入匣或完成实际安装；回收料分级归盘。",
+      "interrupt": "悬笔离纸、按规则卸能，封存未成符与实际废料。",
+      "workstationAndTools": "符案、压台、晾架、目标物；笔、压板、刷、针、钳。",
+      "readability111px": "案上连续运笔、双手压胎、穿针与现场压贴分别制作；符纸有实际来处与去处。"
+    },
+    {
+      "id": "C23",
+      "name": "育蛊与分巢",
+      "status": "design-only",
+      "entryIds": [
+        "Y-154",
+        "G2-006",
+        "G2-013",
+        "G2-020",
+        "G2-027",
+        "G2-034",
+        "G2-041",
+        "G2-048",
+        "G2-055",
+        "G2-062",
+        "G2-069",
+        "G2-076",
+        "G2-083",
+        "G2-090",
+        "G2-092",
+        "G2-094",
+        "G2-095",
+        "G2-096",
+        "G2-098",
+        "G2-099"
+      ],
+      "prepare": "放稳虫匣，查活体、饲料与标签。",
+      "loop": "分种投饵、换水、刷洗、夹样、采丝、采成熟刺、分巢隔离；按种类调温试鸣及护理。",
+      "success": "称量产物、盖匣记批，活体回到实际容器或池位。",
+      "interrupt": "关闭通道、盖匣隔离，受伤蛊按规则停役照护。",
+      "workstationAndTools": "饲匣、养池、暖床、冷砂、量轴；匙、筛、柔刷、钳。",
+      "readability111px": "人物俯身照护；器匣、虫体独立，采丝牵线与刷洗轻抚、分池长柄操作分别可辨。"
+    }
+  ],
+  "formationGroups": [
+    {
+      "id": "A01",
+      "name": "勘位",
+      "source": "../55-CHARACTER-ACTION-LIBRARY.md",
+      "status": "design-only"
+    },
+    {
+      "id": "A02",
+      "name": "部署节点",
+      "source": "../55-CHARACTER-ACTION-LIBRARY.md",
+      "status": "design-only"
+    },
+    {
+      "id": "A03",
+      "name": "点阵",
+      "source": "../55-CHARACTER-ACTION-LIBRARY.md",
+      "status": "design-only"
+    },
+    {
+      "id": "A04",
+      "name": "维持与收阵",
+      "source": "../55-CHARACTER-ACTION-LIBRARY.md",
+      "status": "design-only"
+    },
+    {
+      "id": "A05",
+      "name": "多人合势",
+      "source": "../55-CHARACTER-ACTION-LIBRARY.md",
+      "status": "design-only"
+    },
+    {
+      "id": "A06",
+      "name": "阵中换位",
+      "source": "../55-CHARACTER-ACTION-LIBRARY.md",
+      "status": "design-only"
+    },
+    {
+      "id": "A07",
+      "name": "护山启枢",
+      "source": "../55-CHARACTER-ACTION-LIBRARY.md",
+      "status": "design-only"
+    },
+    {
+      "id": "A08",
+      "name": "巡检补阵",
+      "source": "../55-CHARACTER-ACTION-LIBRARY.md",
+      "status": "design-only"
+    }
+  ],
+  "entries": [
+    {
+      "id": "Y-008",
+      "name": "丹霞药理经",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C06",
+      "groups": [
+        "C06"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "Y-008",
+        "detailPath": "../47-GOLDEN-CORE-ARTS-CATALOGUE-DRAFT.md"
+      },
+      "specificProcess": "在药案与丹炉完成止血散、养脉丸；筑基篇开放筑基丹配伍与试炼，金丹准备校验凝元护脉散，均记录用料、火候及药性。",
+      "sourceVfx": "药案逐味分盘、研钵落粉→炉口按火候出现细密橙星→开炉药丸落入瓷盘；错配先冒灰烟，废品保留可检外观。"
+    },
+    {
+      "id": "Y-016",
+      "name": "春草辨药谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C01",
+      "groups": [
+        "C01"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "Y-016",
+        "detailPath": "../47-GOLDEN-CORE-ARTS-CATALOGUE-DRAFT.md"
+      },
+      "specificProcess": "在近山药坡逐株辨识灵草、止血叶及引气根，产出有采地与成熟度记录的药材；可标出混采批次供丹房复检。",
+      "sourceVfx": "蹲下翻叶、对照纸册→样本边缘浮现淡绿细点→剪取后装入标签布袋；疑似株呈斑黄提示，尚未确认不亮资源轮廓。"
+    },
+    {
+      "id": "Y-017",
+      "name": "山泉澄水法",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C05",
+      "groups": [
+        "C05"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "Y-017",
+        "detailPath": "../47-GOLDEN-CORE-ARTS-CATALOGUE-DRAFT.md"
+      },
+      "specificProcess": "在水槽铺砂炭滤层并定期煮滤，产出可饮清水及低阶丹房洁水；支持药田、厨房、筑基丹配料的实际用水需求。",
+      "sourceVfx": "水匠铺布倒砂→浊水缓缓穿过分层槽→清水积入有盖陶缸；滤层积黑后水速下降，换材时有可见污泥。"
+    },
+    {
+      "id": "Y-018",
+      "name": "木脉辨伐术",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C02",
+      "groups": [
+        "C02"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "Y-018",
+        "detailPath": "../47-GOLDEN-CORE-ARTS-CATALOGUE-DRAFT.md"
+      },
+      "specificProcess": "在林地选伐成熟木，定向放倒并分出梁材、偶材、燃料；减少幼木与道路损伤，为院屋及护卫偶供真实木料。",
+      "sourceVfx": "触树看纹、绕树定线→斧口木屑按节奏落下→树沿已标方向倒伏，梁材与碎枝在原地分堆等待搬运。"
+    },
+    {
+      "id": "Y-019",
+      "name": "青石听纹谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C03",
+      "groups": [
+        "C03"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "Y-019",
+        "detailPath": "../47-GOLDEN-CORE-ARTS-CATALOGUE-DRAFT.md"
+      },
+      "specificProcess": "对已勘岩面试敲、打楔，产出建筑石、阵基坯石并记裂隙方向；可为护脉阵选择不易暗裂的基材。",
+      "sourceVfx": "石锤轻点→沿接触点扩散短促灰白声纹→打楔后石块依纹裂开；危险裂口以碎屑与低沉异响提示，背景不发光。"
+    },
+    {
+      "id": "Y-020",
+      "name": "归仓护符法",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C22",
+      "groups": [
+        "C22"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "Y-020",
+        "detailPath": "../47-GOLDEN-CORE-ARTS-CATALOGUE-DRAFT.md"
+      },
+      "specificProcess": "在实际仓房贴制短效护符，减缓药材、粮袋受潮和虫耗；留下维护时刻，支撑筑基与凝丹材料长期备库。",
+      "sourceVfx": "蘸朱砂画封角纹→符纸贴上门梁后细光沿仓角走一圈→亮点收回纸面；受潮时边角卷黑，过期纹色变淡。"
+    },
+    {
+      "id": "Y-034",
+      "name": "青溪移露育苗谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C01",
+      "groups": [
+        "C01"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "Y-034",
+        "detailPath": "../47-GOLDEN-CORE-ARTS-CATALOGUE-DRAFT.md"
+      },
+      "specificProcess": "在苗圃和药田培育灵草、护脉藤、凝露花（材料提案）；后两者供筑基配伍与凝元辅药，产量受种源、土、水及成熟期限制。",
+      "sourceVfx": "翻土开畦、分根定植→叶尖露珠缓慢汇入根旁→健康苗挺叶，病苗留下可见黄斑；成长分时段变化，不瞬间满田开花。"
+    },
+    {
+      "id": "Y-079",
+      "name": "井脉取水法",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C05",
+      "groups": [
+        "C05"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "Y-079",
+        "detailPath": "../47-GOLDEN-CORE-ARTS-CATALOGUE-DRAFT.md"
+      },
+      "specificProcess": "在实际井位试掘、清淤、护壁，恢复旧井出水并记录枯丰变化；为无近泉的营地提供备用水源与蓄水预案。",
+      "sourceVfx": "探杆下井、试取湿土→井绳逐桶带出淤泥→护壁完成后水面回升至真实水位；缺水时桶内只有湿沙。"
+    },
+    {
+      "id": "Y-110",
+      "name": "冷锻辨杂谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C03",
+      "groups": [
+        "C03"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "Y-110",
+        "detailPath": "../47-GOLDEN-CORE-ARTS-CATALOGUE-DRAFT.md"
+      },
+      "specificProcess": "在炉台试锻矿样，分出可锻兵器坯、阵旗杆的金料与需退炉杂料；筑基篇识别两种合金混配风险，服务法器制造前验料。",
+      "sourceVfx": "刮取样片、敲击比纹→火星与断面杂色逐步显露→合格金块打上炉记，废杂料单独归筐；过程没有全矿发光。"
+    },
+    {
+      "id": "Y-131",
+      "name": "坡基测沉谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C04",
+      "groups": [
+        "C04"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "Y-131",
+        "detailPath": "../47-GOLDEN-CORE-ARTS-CATALOGUE-DRAFT.md"
+      },
+      "specificProcess": "在拟建院屋、阵基与采石路设标复测，输出需停工或加固的位置；为凝丹静室选稳定基位，防止施工掏空护脉节点。",
+      "sourceVfx": "打木桩、拉细绳、垂测坠→复测在纸尺上留下不同日期刻记→下陷处出现实际歪桩与松土，提示加固区域。"
+    },
+    {
+      "id": "GC-C01",
+      "name": "伴灵驯养谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C15",
+      "groups": [
+        "C15"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "GC-C01",
+        "detailPath": "../47-GOLDEN-CORE-ARTS-CATALOGUE-DRAFT.md"
+      },
+      "specificProcess": "在兽栏训练已合法拥有或自愿结伴的驮鹿、巡林犬、信隼（物种提案），形成驮运、示警、短程传信；能力受物种身体限制。",
+      "sourceVfx": "掌门放下食盆、保持安全距离→反复以手势引导真实绕桩或衔物→成功后动物放松尾翼并取食；拒令时后退或警鸣。"
+    },
+    {
+      "id": "GC-C02",
+      "name": "百炼合纹谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C07",
+      "groups": [
+        "C07"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "GC-C02",
+        "detailPath": "../47-GOLDEN-CORE-ARTS-CATALOGUE-DRAFT.md"
+      },
+      "specificProcess": "在炉坊制造法剑、护腕、阵旗杆与小阵盘；筑基开放复合材器胚，金丹仅精炼自用兵器承灵路，不自造无来源的本命法宝。",
+      "sourceVfx": "锻锤压坯、淬水定形→刻刀沿实器留下细亮灵纹→试注灵力时光只沿完整线路流动；裂纹处短闪停亮，废坯留在台上。"
+    },
+    {
+      "id": "Y-029",
+      "name": "百机刻偶谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C11",
+      "groups": [
+        "C11"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "Y-029",
+        "detailPath": "../47-GOLDEN-CORE-ARTS-CATALOGUE-DRAFT.md"
+      },
+      "specificProcess": "在机坊依图制作木甲护卫偶与承重搬运附件；筑基篇改为石甲护卫偶，提供近身守门能力，需另学御偶令或聘操偶者。",
+      "sourceVfx": "工台刻木、逐节装配→铜线按身体结构依次点亮→护卫偶试步、停机验关节；失败处火花短闪后局部肢节失去响应。"
+    },
+    {
+      "id": "Y-030",
+      "name": "机芯换路术",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C11",
+      "groups": [
+        "C11"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "Y-030",
+        "detailPath": "../47-GOLDEN-CORE-ARTS-CATALOGUE-DRAFT.md"
+      },
+      "specificProcess": "在修理台停机拆检，换回路片、关节线与损坏传感件，恢复护卫偶已有动作；可拆取未损备件供同型号修理。",
+      "sourceVfx": "断供挂牌、打开偶胸→探针沿断路留下微弱蓝点→更换线片后逐节试动；旧件留在料盘，原偶仍保留旧损痕。"
+    },
+    {
+      "id": "Y-039",
+      "name": "听雨观纹术",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C14",
+      "groups": [
+        "C14"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "Y-039",
+        "detailPath": "../47-GOLDEN-CORE-ARTS-CATALOGUE-DRAFT.md"
+      },
+      "specificProcess": "在原碑或可信拓片上分层润纹、比对笔划，校验家传续篇和听雨旧阵文字；输出差异位置及可信度，帮助发现假续页。",
+      "sourceVfx": "软刷润碑、薄纸覆刻→水痕把浅槽逐渐显出→新旧拓片叠放时错笔以细朱圈标注；清水干后碑面恢复平常。"
+    },
+    {
+      "id": "Y-040",
+      "name": "潜泉引水诀",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C05",
+      "groups": [
+        "C05"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "Y-040",
+        "detailPath": "../47-GOLDEN-CORE-ARTS-CATALOGUE-DRAFT.md"
+      },
+      "specificProcess": "勘坡后开槽、铺管并设分水口，形成药田、厨房和丹房供水线；可切换真实支流优先级而不增加泉量。",
+      "sourceVfx": "拉线定坡、掘槽垫石→首股水沿已完工管槽缓慢流动→分水闸开启后对应田渠湿润；破口有真实积水而非光效。"
+    },
+    {
+      "id": "Y-049",
+      "name": "踏火明符法",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C22",
+      "groups": [
+        "C22"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "Y-049",
+        "detailPath": "../47-GOLDEN-CORE-ARTS-CATALOGUE-DRAFT.md"
+      },
+      "specificProcess": "在符案制成避焰符，贴于实际鞋衣后削弱短时接触焰热，供丹房救火、穿越燃草和从火线撤离使用。",
+      "sourceVfx": "符笔画双折焰纹→贴上衣角后生成贴体薄橙边→触火时边缘逐段焦黑，额度耗尽纸符化灰，无全身无敌光罩。"
+    },
+    {
+      "id": "Y-053",
+      "name": "行脚辨蛊谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C16",
+      "groups": [
+        "C16"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "Y-053",
+        "detailPath": "../47-GOLDEN-CORE-ARTS-CATALOGUE-DRAFT.md"
+      },
+      "specificProcess": "在诊台查患者、隔离虫样并核对食物批次，区分食毒与低阶寄生蛊；给出封样、隔离和下一步救治清单。",
+      "sourceVfx": "取样入浅白瓷盘→放大水镜只映出样本细节→病纹与册中图样逐项对照；未确认的虫样保留问号签而不揭示真凶。"
+    },
+    {
+      "id": "Y-054",
+      "name": "青岚听息卜痕法",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C14",
+      "groups": [
+        "C14"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "Y-054",
+        "detailPath": "../47-GOLDEN-CORE-ARTS-CATALOGUE-DRAFT.md"
+      },
+      "specificProcess": "在卜案围绕真实关联物推演时间窗、方向与矛盾点；筑基可交叉两锚，金丹篇只提高旧痕辨析，仍不能读取责任人实时行踪。",
+      "sourceVfx": "把旧物置纸圈中央、点一炷短香→烟丝沿若干不完整方向停顿→落灰留有限扇形痕；锚假时灰散无指向。"
+    },
+    {
+      "id": "Y-091",
+      "name": "轻盐定蛊方",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C16",
+      "groups": [
+        "C16"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "Y-091",
+        "detailPath": "../47-GOLDEN-CORE-ARTS-CATALOGUE-DRAFT.md"
+      },
+      "specificProcess": "辨明虫类后配轻盐液封入药罐，短时降低低阶活蛊活动，保留检验和取出条件；与辨蛊谱配合处理被污染食料样本。",
+      "sourceVfx": "滴盐药入透明浅罐→虫足逐渐收拢但仍微动→封盖挂种类和配液时刻签；过浓时虫体变色明确提示失败。"
+    },
+    {
+      "id": "Y-097",
+      "name": "星盘辨候谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C14",
+      "groups": [
+        "C14"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "Y-097",
+        "detailPath": "../47-GOLDEN-CORE-ARTS-CATALOGUE-DRAFT.md"
+      },
+      "specificProcess": "在无遮挡观测点记星位、风向和日期，输出数日晴雨倾向与误差，用于采药、晒药和阵基施工排班。",
+      "sourceVfx": "支盘调平、转动刻环→稀疏银点依实际天空位置落盘→纸上画出晴雨区间；云遮时星点缺失，预测范围变宽。"
+    },
+    {
+      "id": "Y-116",
+      "name": "嫁枝续芽谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C01",
+      "groups": [
+        "C01"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "Y-116",
+        "detailPath": "../47-GOLDEN-CORE-ARTS-CATALOGUE-DRAFT.md"
+      },
+      "specificProcess": "在苗圃隔离病枝、保留健康母株，再嫁接相容枝；可为护脉藤、凝露花保种，减少主线备药被单次病害清空的风险。",
+      "sourceVfx": "剪除病枝、削出平整接面→麻绳和药泥包住嫁口→数日后新芽缓慢展叶；坏接先出现褐色断口，不弹出即刻成功。"
+    },
+    {
+      "id": "Y-121",
+      "name": "汛痕量堰谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C05",
+      "groups": [
+        "C05"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "Y-121",
+        "detailPath": "../47-GOLDEN-CORE-ARTS-CATALOGUE-DRAFT.md"
+      },
+      "specificProcess": "实测溪岸水痕并设计堰顶、溢流口，指导药田护堰施工；在雨季来前安排泄水，降低田地、仓房与丹材被倒灌风险。",
+      "sourceVfx": "立尺比对旧水线→石木堰逐段砌成并留出泄口→试放水时支渠依坡分流；超顶时翻涌水带清楚显示溢流方向。"
+    },
+    {
+      "id": "Y-126",
+      "name": "余焰护窑符谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C22",
+      "groups": [
+        "C22"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "Y-126",
+        "detailPath": "../47-GOLDEN-CORE-ARTS-CATALOGUE-DRAFT.md"
+      },
+      "specificProcess": "在符案制温差符贴窑口，记录炉外余热变化；支持药器烧造、阵石退火和法器坯淬炼，不直接改变炉温。",
+      "sourceVfx": "符面画叠焰短线→贴于窑口后朱线由红渐暗并留下分层刻痕→冷却至可开温区时末线稳定；读符人再开窑。"
+    },
+    {
+      "id": "Y-172",
+      "name": "墓灯校芯谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C13",
+      "groups": [
+        "C13"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "Y-172",
+        "detailPath": "../47-GOLDEN-CORE-ARTS-CATALOGUE-DRAFT.md"
+      },
+      "specificProcess": "在灯具工台裁芯、调油、补罩，使现有护魂灯稳定燃烧与照明；为残魂暂存与夜巡提供器物条件，不产生或召回魂魄。",
+      "sourceVfx": "剪短灯芯、添油并擦罩→试灯火苗从摇晃渐稳→转灯罩后照明落在预定通路；熄灯时余烟向上散尽。"
+    },
+    {
+      "id": "Y-037",
+      "name": "官驿寻踪符谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C22",
+      "groups": [
+        "C22"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "Y-037",
+        "detailPath": "../47-GOLDEN-CORE-ARTS-CATALOGUE-DRAFT.md"
+      },
+      "specificProcess": "在获准路口制作并布设寻踪符，记录经过者留下的脚印、车辙或灵力擦痕，供对照押货与旧案交通线索。",
+      "sourceVfx": "在路石压符、钉定方位→被实际通行触发时纸面添细短划→回收时墨迹按方向展开，缺损处保留空白。"
+    },
+    {
+      "id": "Y-150",
+      "name": "瘴土分层谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C04",
+      "groups": [
+        "C04"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "Y-150",
+        "detailPath": "../47-GOLDEN-CORE-ARTS-CATALOGUE-DRAFT.md"
+      },
+      "specificProcess": "在疑污染田地、旧工坊和行动营地按深度取土，分出安全表土与需封存毒泥；为复仇备战营地清理和药田复垦提供依据。",
+      "sourceVfx": "探铲逐层取土→各层样本分入带色封罐→试剂出现不同斑点后绘剖面；清地者再按标线挖运，不出现自动净土光环。"
+    },
+    {
+      "id": "Y-154",
+      "name": "虫圃分巢谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C23",
+      "groups": [
+        "C23"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "Y-154",
+        "detailPath": "../47-GOLDEN-CORE-ARTS-CATALOGUE-DRAFT.md"
+      },
+      "specificProcess": "在获准虫圃分养食腐蛊和丝蛊（物种提案），产出肥化残渣与符线原丝；可培育战用蛊群的合格幼虫，驱蛊仍须独立术法。",
+      "sourceVfx": "刷匣消毒、分种投饵→虫群按各自匣道缓慢进食结丝→收取丝束与残渣时逐批称量；病匣出现稀疏暗斑并停止出料。"
+    },
+    {
+      "id": "Y-164",
+      "name": "黑砂回炉谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C07",
+      "groups": [
+        "C07",
+        "C17"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "Y-164",
+        "detailPath": "../47-GOLDEN-CORE-ARTS-CATALOGUE-DRAFT.md"
+      },
+      "specificProcess": "在封煞炉分拣、回炼并验金，回收护具和阵器所需灵金；金丹篇可分离更细残煞，但出材不超过原料可回收量。",
+      "sourceVfx": "炉渣称量分筐→封炉细孔排出暗灰煞烟并被罐吸收→验金台留下少量净亮金锭与更大封渣箱；封条破裂有可见灰尘。"
+    },
+    {
+      "id": "Y-142",
+      "name": "五候辨药经",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C06",
+      "groups": [
+        "C06",
+        "C16"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "Y-142",
+        "detailPath": "../47-GOLDEN-CORE-ARTS-CATALOGUE-DRAFT.md"
+      },
+      "specificProcess": "在诊台用药样及随访辨过寒、燥热与灵息积滞，校验筑基丹风险，确定凝元护脉散、清浊汤（配方提案）的配伍和间隔。",
+      "sourceVfx": "样药分五盘、医师逐次试诊→脉枕上显出不同强弱的细色脉点→纸上标出减量、间隔与禁配；错误反应先出现紊乱脉点。"
+    },
+    {
+      "id": "GC-A01",
+      "name": "响铃警界阵",
+      "status": "design-only",
+      "kind": "formation",
+      "primaryGroup": "A01",
+      "groups": [
+        "A01",
+        "A02",
+        "A03",
+        "A04",
+        "A08"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "GC-A01",
+        "detailPath": "../47-GOLDEN-CORE-ARTS-CATALOGUE-DRAFT.md"
+      },
+      "specificProcess": "一人勘界后将铃桩、细感应线与阵盘设于院路，物体跨线或大幅扰动时按方向响铃；只报位置与轻重，不能判定善恶身份。",
+      "sourceVfx": "埋线立桩、挂好铜铃→布成时沿边界短亮一次细青线→越界后对应铃摆动并发近距离声波，线恢复不显，损桩可见歪折。"
+    },
+    {
+      "id": "Y-007",
+      "name": "护脉阵诀",
+      "status": "design-only",
+      "kind": "formation",
+      "primaryGroup": "A01",
+      "groups": [
+        "A01",
+        "A02",
+        "A03",
+        "A04",
+        "A08"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "Y-007",
+        "detailPath": "../47-GOLDEN-CORE-ARTS-CATALOGUE-DRAFT.md"
+      },
+      "specificProcess": "在可达节点定三阵石、两面阵旗并接实际供能，护住阵内一段窄路或练位的正面；可供筑基、凝丹静修时抵御外来侵扰。",
+      "sourceVfx": "量节点、搬石插旗→细青线按实际节点依次接通→前向受击处浮起短弧护纹后消散；断旗处线立即熄灭，只保留实体旗石。"
+    },
+    {
+      "id": "GC-A02",
+      "name": "缚影锁步阵",
+      "status": "design-only",
+      "kind": "formation",
+      "primaryGroup": "A01",
+      "groups": [
+        "A01",
+        "A02",
+        "A03",
+        "A04",
+        "A08"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "GC-A02",
+        "detailPath": "../47-GOLDEN-CORE-ARTS-CATALOGUE-DRAFT.md"
+      },
+      "specificProcess": "一人在窄道布四墨钉、银丝和遮影片，踏入者触发脚下灵丝牵缚，拖慢转身与撤离；受术者可挣脱、斩丝或退出触发带。",
+      "sourceVfx": "钉阵穿丝、调遮影片→入界时脚影旁出现暗银交叉细线→灵丝实际收紧，挣断后碎丝散落；不冻住身体、不封所有动作。"
+    },
+    {
+      "id": "Y-022",
+      "name": "承霄剑阵谱",
+      "status": "design-only",
+      "kind": "formation",
+      "primaryGroup": "A05",
+      "groups": [
+        "A05",
+        "A06",
+        "A04"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "Y-022",
+        "detailPath": "../47-GOLDEN-CORE-ARTS-CATALOGUE-DRAFT.md"
+      },
+      "specificProcess": "至少两名自愿、懂同图的持剑者按可达阵位交替格挡与回剑，减少守路换手空挡并掩护撤离；每人仍以自身修为出剑。",
+      "sourceVfx": "各人举剑示意并踏实阵位→短白剑弧按轮次接续而非同时灌入一人→成功挡击只在接剑点闪火星，缺位时对应地标熄灭。"
+    },
+    {
+      "id": "Y-190",
+      "name": "堤尺分涌阵图",
+      "status": "design-only",
+      "kind": "formation",
+      "primaryGroup": "A01",
+      "groups": [
+        "A01",
+        "A02",
+        "A03",
+        "A04",
+        "A08"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "Y-190",
+        "detailPath": "../47-GOLDEN-CORE-ARTS-CATALOGUE-DRAFT.md"
+      },
+      "specificProcess": "一人勘堤、开槽并以阵旗与石槽分导一股真实来水，为药田抢修、涉水撤离或清算前布置安全退路争取时间。",
+      "sourceVfx": "量尺定坡、沿堤铺槽→两旗接起低蓝光线→水流顺真实低口改向；拔旗后光线消散，水按剩余地形继续流动。"
+    },
+    {
+      "id": "Y-201",
+      "name": "双岸递护阵图",
+      "status": "design-only",
+      "kind": "formation",
+      "primaryGroup": "A05",
+      "groups": [
+        "A05",
+        "A06",
+        "A04"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "Y-201",
+        "detailPath": "../47-GOLDEN-CORE-ARTS-CATALOGUE-DRAFT.md"
+      },
+      "specificProcess": "至少两名自愿且懂同图的修士实际站两端，以未断桥身互见信号并轮流护持，减少撤离者过桥时的换防空挡，不生成护罩。",
+      "sourceVfx": "两岸成员交替抬手示意→桥头地面各亮一小段交接纹→实体身体轮换接护撤离者，桥上保留真实拥堵和落脚位。"
+    },
+    {
+      "id": "Y-206",
+      "name": "折角遮矢阵图",
+      "status": "design-only",
+      "kind": "formation",
+      "primaryGroup": "A01",
+      "groups": [
+        "A01",
+        "A02",
+        "A03",
+        "A04",
+        "A08"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "Y-206",
+        "detailPath": "../47-GOLDEN-CORE-ARTS-CATALOGUE-DRAFT.md"
+      },
+      "specificProcess": "一人勘定墙角并安阵盘、两护板，阻挡指定方向的轻矢，掩护同伴越过短露空段；用于仓门撤物与栖霞据点攻退。",
+      "sourceVfx": "护板斜置、阵盘固定→浅金线只连接盘与板边→来矢在实际护板前擦出火花落地；板碎后对应通路立即暴露。"
+    },
+    {
+      "id": "GC-A03",
+      "name": "三炉离火阵",
+      "status": "design-only",
+      "kind": "formation",
+      "primaryGroup": "A01",
+      "groups": [
+        "A01",
+        "A02",
+        "A03",
+        "A04",
+        "A08"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "GC-A03",
+        "detailPath": "../47-GOLDEN-CORE-ARTS-CATALOGUE-DRAFT.md"
+      },
+      "specificProcess": "一人勘定空场，接三炉、导火槽和阵旗，启动后把实际燃料热量导入扇形火带；用于拒止追兵或迫使固定守位转移。",
+      "sourceVfx": "布炉、铺槽、插旗→炉火依三段顺序沿地槽爬行→敌人接触处出局部焰花，燃料下降后火带分段收缩，残灰与焦土留在原地。"
+    },
+    {
+      "id": "GC-A04",
+      "name": "云岫守院阵",
+      "status": "design-only",
+      "kind": "formation",
+      "primaryGroup": "A01",
+      "groups": [
+        "A01",
+        "A02",
+        "A07",
+        "A04",
+        "A08"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "GC-A04",
+        "detailPath": "../47-GOLDEN-CORE-ARTS-CATALOGUE-DRAFT.md"
+      },
+      "specificProcess": "在自有院界建四组阵基与定向护壁，按值守预算保护门路、静室和仓外通道；一处组件损坏只削弱对应防区，允许分区停供维修。",
+      "sourceVfx": "工人逐基施工、导线接入已建石渠→值守点依预算亮起对应区符标→受击处护壁只在短线段显出青灰裂纹，坏基区立即漏出缺口。"
+    },
+    {
+      "id": "Y-099",
+      "name": "百伍同节阵图",
+      "status": "design-only",
+      "kind": "formation",
+      "primaryGroup": "A05",
+      "groups": [
+        "A05",
+        "A06",
+        "A04"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "Y-099",
+        "detailPath": "../47-GOLDEN-CORE-ARTS-CATALOGUE-DRAFT.md"
+      },
+      "specificProcess": "五名以上自愿修士理解同图并在可达队形共同起势，轮换护位与行进次序；金丹篇改善复杂地形信号交接，不叠加修为。",
+      "sourceVfx": "五人按节拍拍击护具→脚下短地标依轮次亮起、身体实际换位→敌击被当前守位者接下；失联者地标淡去，队形留下真实缺口。"
+    },
+    {
+      "id": "Y-141",
+      "name": "五井分流阵图",
+      "status": "design-only",
+      "kind": "formation",
+      "primaryGroup": "A01",
+      "groups": [
+        "A01",
+        "A02",
+        "A03",
+        "A04",
+        "A08"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "Y-141",
+        "detailPath": "../47-GOLDEN-CORE-ARTS-CATALOGUE-DRAFT.md"
+      },
+      "specificProcess": "一人在五个获准井位设阵材并调闸，将现有水与灵气分配给药田、丹房、练位；凝丹准备可暂停他项预约集中供给，但总量不增。",
+      "sourceVfx": "在各井落尺插旗→细蓝流线沿已通水槽亮起→闸口按预约分配真实水流，忙碌端标出使用者；停一井后对应支线熄灭。"
+    },
+    {
+      "id": "Y-314",
+      "name": "三炬同壕阵图",
+      "status": "design-only",
+      "kind": "formation",
+      "primaryGroup": "A02",
+      "groups": [
+        "A02",
+        "A05",
+        "A06",
+        "A04"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "Y-314",
+        "detailPath": "../47-GOLDEN-CORE-ARTS-CATALOGUE-DRAFT.md"
+      },
+      "specificProcess": "三名以上自愿、懂同图成员站在壕沟两侧与后撤口，共同起势、按火光递换守位，改善夜战识别与火线撤离顺序。额外成员只按已练岗位轮换，不因人数叠加修为或重复协同。",
+      "sourceVfx": "三炬点火、阵员持械示位→火光按交接次序被手势短遮短明→每次换防由真人沿壕移动；一炬灭后地面指示渐退。"
+    },
+    {
+      "id": "F2-005",
+      "name": "三折硬纸法",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C22",
+      "groups": [
+        "C22"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "F2-005",
+        "detailPath": "../arts-v02/talisman.md"
+      },
+      "specificProcess": "辨纤维、上胶、交错压折并定时晾干，制得可反复折叠的空白符胎；提升机械耐用性，不直接生成符效。",
+      "sourceVfx": "像素浆条交错入模，压板落下，成纸角边闪过细密平行亮纹。"
+    },
+    {
+      "id": "F2-012",
+      "name": "层箔蓄雷制符法",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C22",
+      "groups": [
+        "C22",
+        "C12"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "F2-012",
+        "detailPath": "../arts-v02/talisman.md"
+      },
+      "specificProcess": "按容量压箔、覆绝缘层、刻泄流口，制成能预蓄雷力的空符；出厂逐张验漏，充能另耗实际真气与时间。",
+      "sourceVfx": "铜色薄层叠入纸胎，验针沿边巡行，合格纹路亮成封闭细框。"
+    },
+    {
+      "id": "F2-019",
+      "name": "桑纸润层法",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C22",
+      "groups": [
+        "C22"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "F2-019",
+        "detailPath": "../arts-v02/talisman.md"
+      },
+      "specificProcess": "按纤维厚度刷胶并分层晾干，做成内吸外缓渗的水墨符胎；水量变化可预测，防止一沾水就散墨。",
+      "sourceVfx": "桑纤维一层层铺平，胶刷拖出浅蓝带，晾干时外圈水光缓慢收退。"
+    },
+    {
+      "id": "F2-026",
+      "name": "石粉厚胎法",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C22",
+      "groups": [
+        "C22"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "F2-026",
+        "detailPath": "../arts-v02/talisman.md"
+      },
+      "specificProcess": "筛分粒径后分层填粉、压制与烘干，制出可贴承板的厚符；耐磨性提升，折叠及快速飘投能力明显下降。",
+      "sourceVfx": "麻浆中落入细灰粒，压板慢合，脱模厚纸边缘亮起均匀暗金点。"
+    },
+    {
+      "id": "F2-033",
+      "name": "贯丝留眼法",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C22",
+      "groups": [
+        "C22",
+        "C09"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "F2-033",
+        "detailPath": "../arts-v02/talisman.md"
+      },
+      "specificProcess": "先定受力孔、铺导丝再封纸边，把机械拉力避开符路关键笔画；使载体可回收，未免除施术后的符力消耗。",
+      "sourceVfx": "针光穿纸留出整齐小眼，浅金丝埋入边缘，拉力测试时两角交替发亮。"
+    },
+    {
+      "id": "F2-040",
+      "name": "云母透符法",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C22",
+      "groups": [
+        "C22",
+        "C13"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "F2-040",
+        "detailPath": "../arts-v02/talisman.md"
+      },
+      "specificProcess": "挑选云母层、磨平折射面并以透明胶封墨，使光路随符角稳定变化；校准偏差写在实物上，便于施术者瞄准。",
+      "sourceVfx": "薄片旋在磨台上，像素亮条变直，封胶后边沿浮出微小校准刻点。"
+    },
+    {
+      "id": "F2-047",
+      "name": "覆灰耐火符胎法",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C22",
+      "groups": [
+        "C22"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "F2-047",
+        "detailPath": "../arts-v02/talisman.md"
+      },
+      "specificProcess": "筛取无残火细灰，混矿胶覆在纤维纸外，留出进气与导灵孔后烘定，获得可短时近炉使用的符胎。",
+      "sourceVfx": "灰浆刷过纸面留下细孔，烘台浮出暖红小点，脱台时表层转为哑灰。"
+    },
+    {
+      "id": "F2-054",
+      "name": "绷膜调音符法",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C22",
+      "groups": [
+        "C22",
+        "C13"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "F2-054",
+        "detailPath": "../arts-v02/talisman.md"
+      },
+      "specificProcess": "按框径与纸厚绷膜、封边、试音并标注频段，使施术者有可预测的起振范围；不等于学会攻击声诀。",
+      "sourceVfx": "纸膜一点点绷平，音叉触边后现同心细圈，合格频段刻成短横标记。"
+    },
+    {
+      "id": "F2-061",
+      "name": "断续封线制符法",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C22",
+      "groups": [
+        "C22"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "F2-061",
+        "detailPath": "../arts-v02/talisman.md"
+      },
+      "specificProcess": "按真实功能刻主线、留断口、覆封泥并逐段验流，制作可局部停用的符器封条；只能服务已理解的线路结构。",
+      "sourceVfx": "朱笔画线后留出整齐空格，印泥逐口压平，验光按段前进再有序停下。"
+    },
+    {
+      "id": "F2-068",
+      "name": "分极磁砂箔法",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C22",
+      "groups": [
+        "C22"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "F2-068",
+        "detailPath": "../arts-v02/talisman.md"
+      },
+      "specificProcess": "筛磁砂、辨极、按层胶封并压入铜隔片，制作极向清楚的磁符胎；逐张标记可牵质量与安全工作距离。",
+      "sourceVfx": "细砂在托盘排成两向短纹，铜箔压过成形，符边出现红蓝双点标记。"
+    },
+    {
+      "id": "F2-075",
+      "name": "活纤芽纸法",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C22",
+      "groups": [
+        "C22",
+        "C01"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "F2-075",
+        "detailPath": "../arts-v02/talisman.md"
+      },
+      "specificProcess": "先育细茎、剥离适龄纤层，再在湿纸胎中铺通水路并留根口，制得需日常养护的芽纸；纸成不代表新植株成熟。",
+      "sourceVfx": "湿纸里细绿纤维逐条铺平，根口吸入水点，成品仅在活纤处微微泛绿。"
+    },
+    {
+      "id": "F2-082",
+      "name": "无创转纹制法",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C22",
+      "groups": [
+        "C22",
+        "C09"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "F2-082",
+        "detailPath": "../arts-v02/talisman.md"
+      },
+      "specificProcess": "选择柔布与可洗胶，分区转印、缝接和低能验路，制成能随关节弯曲的贴纹载体；成品是否合身需本人试用。",
+      "sourceVfx": "细线穿过布衬边，转纸轻揭留下白纹，弯折测试时光从关节缝平稳滑过。"
+    },
+    {
+      "id": "F2-089",
+      "name": "刻胎留釉制符法",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C22",
+      "groups": [
+        "C22",
+        "C10"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "F2-089",
+        "detailPath": "../arts-v02/talisman.md"
+      },
+      "specificProcess": "制胎、刻槽、分釉、烧成与冷却后验裂，使陶符兼有保护层和露出导口；炉次记录决定可用负载范围。",
+      "sourceVfx": "刻针划出暗槽，釉笔绕开导口，出窑陶片透暖红后缓缓降成土灰。"
+    },
+    {
+      "id": "F2-096",
+      "name": "风雨驿纸制法",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C22",
+      "groups": [
+        "C22"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "F2-096",
+        "detailPath": "../arts-v02/talisman.md"
+      },
+      "specificProcess": "以薄蜡分区覆纸，避开导口并压入粗纤护边，制成适合携行的符胎；验纸同时标注可淋时长与折叠次数。",
+      "sourceVfx": "蜡刷在纸外留下浅黄色边，导口保持暗色，洒水测试时水珠滚到纸角。"
+    },
+    {
+      "id": "F2-099",
+      "name": "正墨成符初解",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C22",
+      "groups": [
+        "C22"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "F2-099",
+        "detailPath": "../arts-v02/talisman.md"
+      },
+      "specificProcess": "按已获具体图样练握毫、调墨、接笔、注灵与逐段验符，把空胎制为实际功能符；不自动获得任何未学符路或越境配方。",
+      "sourceVfx": "笔端蘸墨沿纸行进，符线由暗到亮逐段连通，验成后微光缩回墨迹。"
+    },
+    {
+      "id": "F2-100",
+      "name": "悬毫补线法",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C22",
+      "groups": [
+        "C22"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "F2-100",
+        "detailPath": "../arts-v02/talisman.md"
+      },
+      "specificProcess": "先卸能再清除松墨，按原图样从断口两端补线并低能复验，修好轻度磨损符器；烧空的符、失去结构的裂胎不可复原。",
+      "sourceVfx": "悬笔在断口两端各点微光，细墨桥缓慢接合，复验光点平稳穿过后停暗。"
+    },
+    {
+      "id": "F2-107",
+      "name": "败符拆墨法",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C22",
+      "groups": [
+        "C22"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "F2-107",
+        "detailPath": "../arts-v02/talisman.md"
+      },
+      "specificProcess": "逐张卸能、分材、浸洗并筛取可用矿粒与金属薄片，记录回收纯度后用于允许的低要求工序；不回收已消耗真气。",
+      "sourceVfx": "废符在盘中逐层剥开，暗墨散入液体，筛网留下少量有光矿点与薄片。"
+    },
+    {
+      "id": "G2-006",
+      "name": "石粉养甲谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C23",
+      "groups": [
+        "C23"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "G2-006",
+        "detailPath": "../arts-v02/gu.md"
+      },
+      "specificProcess": "辨认软壳、定壳与老甲三期，调整石粉粒度和湿度；提高养成存活率与可用甲厚，不能即时造出成蛊。",
+      "sourceVfx": "筛粉落成浅色细堆，蛊背分节点亮，养成以逐日壳纹变化呈现。"
+    },
+    {
+      "id": "G2-013",
+      "name": "分腹续丝谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C23",
+      "groups": [
+        "C23"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "G2-013",
+        "detailPath": "../arts-v02/gu.md"
+      },
+      "specificProcess": "测定腹丝余量后分批采线，逐段验实际线长与承载，再安排休养；多采当日可售丝线会减少可用于护网和牵索的战斗储量。",
+      "sourceVfx": "量轴逐圈绕入实线，试重后坏段剪落，蛊腹余纹减少并标出待休养状态。"
+    },
+    {
+      "id": "G2-020",
+      "name": "鸣膜护养谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C23",
+      "groups": [
+        "C23"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "G2-020",
+        "detailPath": "../arts-v02/gu.md"
+      },
+      "specificProcess": "通过湿度、饲料与间隔试鸣养护声膜，筛出破膜个体并校正合拍组；只减少失谐，不立即治好裂膜。",
+      "sourceVfx": "蛊笼覆薄纱，试鸣形成高低短格，伤膜蛊亮点稀疏后停鸣休养。"
+    },
+    {
+      "id": "G2-027",
+      "name": "分匣净蛊谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C23",
+      "groups": [
+        "C23"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "G2-027",
+        "detailPath": "../arts-v02/gu.md"
+      },
+      "specificProcess": "按接触记录清洗蛊匣并分期观察，筛出能安全回到医用组的蛊；有助保持治疗供给，不会凭洗浴抹除病原。",
+      "sourceVfx": "三只不同纹章匣依次开合，药液细泡升起，隔离蛊旁留醒目小签。"
+    },
+    {
+      "id": "G2-034",
+      "name": "净腐熟壤谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C23",
+      "groups": [
+        "C23",
+        "C01"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "G2-034",
+        "detailPath": "../arts-v02/gu.md"
+      },
+      "specificProcess": "分层投料并控制温湿，使耘壤蛊将已有有机料化为熟壤；产出受原料、群体食量与实际发酵时间限制。",
+      "sourceVfx": "腐叶堆由粗纹变成细粒层，蛊往返翻土，成熟处逐日显柔和土光。"
+    },
+    {
+      "id": "G2-041",
+      "name": "分池养鳃谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C23",
+      "groups": [
+        "C23"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "G2-041",
+        "detailPath": "../arts-v02/gu.md"
+      },
+      "specificProcess": "将幼蛊、服役蛊和伤鳃蛊分池控水，维持换气能力并减少交叉病害；成蛊数量只能由实际繁育与购入增加。",
+      "sourceVfx": "浅池分栏见不同蛊群，水面细泡疏密变化，滤槽清净后水色渐透。"
+    },
+    {
+      "id": "G2-048",
+      "name": "温腹退火谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C23",
+      "groups": [
+        "C23"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "G2-048",
+        "detailPath": "../arts-v02/gu.md"
+      },
+      "specificProcess": "以小剂量炭热、药脂和冷砂交替养腹，记录每蛊安全热容；可延长服役寿命，不能把一次装热永久保留。",
+      "sourceVfx": "炭盆与冷砂床交替近景，蛊腹红纹逐次稳定，退热时细灰光慢慢散尽。"
+    },
+    {
+      "id": "G2-055",
+      "name": "留根育刺谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C23",
+      "groups": [
+        "C23"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "G2-055",
+        "detailPath": "../arts-v02/gu.md"
+      },
+      "specificProcess": "辨别可脱成熟刺和未成软刺，按角粉配比轮养，恢复可用实刺库存；过程需生长时间，回收坏刺不能直接接活。",
+      "sourceVfx": "针背上软刺由暗转亮，成熟刺被钳下入盒，留根处保持细小浅点。"
+    },
+    {
+      "id": "G2-062",
+      "name": "冷鳞磨光谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C23",
+      "groups": [
+        "C23"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "G2-062",
+        "detailPath": "../arts-v02/gu.md"
+      },
+      "specificProcess": "调配晶藻饲料并清除旧鳞污膜，维持活鳞光泽与开合；不同反光角通过训练形成，不能洗出新的蛊种。",
+      "sourceVfx": "薄刷掠过蛊背，混浊面逐点澄亮，脱鳞空处保留哑色而非瞬间补满。"
+    },
+    {
+      "id": "G2-069",
+      "name": "三验养露谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C23",
+      "groups": [
+        "C23"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "G2-069",
+        "detailPath": "../arts-v02/gu.md"
+      },
+      "specificProcess": "依先净露、后微量样气、再净露复测，分辨不耐受杂气与腹损；提升安全饲养效率，不能保证未知灵气绝对安全。",
+      "sourceVfx": "三只小盏依次移近，蛊腹光点由稳到乱再复测，异常处留下红色木签。"
+    },
+    {
+      "id": "G2-076",
+      "name": "分毒清囊谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C23",
+      "groups": [
+        "C23"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "G2-076",
+        "detailPath": "../arts-v02/gu.md"
+      },
+      "specificProcess": "标记每蛊当前药料和产毒批次，换料前排空隔养，避免混毒改变效用；成毒产量受食料、健康和养护时长限制。",
+      "sourceVfx": "蛊匣木签逐个更换，废液落入封瓶，空囊纹暗下后才添新料。"
+    },
+    {
+      "id": "G2-083",
+      "name": "分槽长驮谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C23",
+      "groups": [
+        "C23"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "G2-083",
+        "detailPath": "../arts-v02/gu.md"
+      },
+      "specificProcess": "依成年体格和足部磨损分配口粮与休息，维持可持续载重；幼蛊须长成才可上架，不能靠投粮即时长为巨蛊。",
+      "sourceVfx": "长槽中蛊逐段进食，足部有伤处留下包护小结，休养后步点逐日整齐。"
+    },
+    {
+      "id": "G2-090",
+      "name": "三巢备粮谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C23",
+      "groups": [
+        "C23"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "G2-090",
+        "detailPath": "../arts-v02/gu.md"
+      },
+      "specificProcess": "按驻蛊数、行程和食耗给三巢分粮与通气，降低远行断粮风险；巢只存真实虫粮与蛊体，不远距复制补给。",
+      "sourceVfx": "三座小巢逐个添粮封顶，粮纹随进食减少，缺粮巢口仅余稀疏虫影。"
+    },
+    {
+      "id": "G2-092",
+      "name": "辨卵定温谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C23",
+      "groups": [
+        "C23"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "G2-092",
+        "detailPath": "../arts-v02/gu.md"
+      },
+      "specificProcess": "辨认受精卵与坏卵，依物种记录温湿和换气，减少孵化失败；一枚卵仅产生实际孵出的幼体，不把品相当功法升级。",
+      "sourceVfx": "小卵置暖砂上，壳纹随日数细变，孵出时裂口与幼蛊逐帧出现。"
+    },
+    {
+      "id": "G2-094",
+      "name": "陌群缓驯法",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C23",
+      "groups": [
+        "C23"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "G2-094",
+        "detailPath": "../arts-v02/gu.md"
+      },
+      "specificProcess": "对合法购入或原主同意转交的蛊逐只建立喂食与停令反馈，降低混群争斗；不瞬间认主，也不抹去旧训练习惯。",
+      "sourceVfx": "新蛊与旧群隔纱相望，喂食小点分次递入，接受停令后才移开一层纱。"
+    },
+    {
+      "id": "G2-095",
+      "name": "寒匣缓蜕谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C23",
+      "groups": [
+        "C23"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "G2-095",
+        "detailPath": "../arts-v02/gu.md"
+      },
+      "specificProcess": "针对已有耐寒记录的蛊缓降温度以减少短途运粮耗，抵达后渐暖复苏；只延缓活动，年龄与病伤照常演变。",
+      "sourceVfx": "匣上霜点缓结，蛊足逐步停伏，回温后触须先动再依次展足。"
+    },
+    {
+      "id": "G2-096",
+      "name": "毒尘净须诀",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C23",
+      "groups": [
+        "C23"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "G2-096",
+        "detailPath": "../arts-v02/gu.md"
+      },
+      "specificProcess": "把受污蛊停于浅皿，以已确认适配的清液逐段洗掉外附粉尘，恢复部分感知；不能治入体毒或洗去所有咒印。",
+      "sourceVfx": "小蛊伏皿，细水沿触须滴落，污点流入废液杯，洗净须端恢复轻摆。"
+    },
+    {
+      "id": "G2-098",
+      "name": "余蜕封存谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C23",
+      "groups": [
+        "C23"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "G2-098",
+        "detailPath": "../arts-v02/gu.md"
+      },
+      "specificProcess": "按脱壳记录和病迹整理遗蜕，洁净甲蜕可作材料，病死蛊连同匣料封存处置；不从空蜕恢复生命或繁出新蛊。",
+      "sourceVfx": "遗蜕逐片落在净盘，病体连匣封签，材料堆按实际数量缓缓增加。"
+    },
+    {
+      "id": "G2-099",
+      "name": "拆匣避瘟术",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C23",
+      "groups": [
+        "C23"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "G2-099",
+        "detailPath": "../arts-v02/gu.md"
+      },
+      "specificProcess": "识别一匣异常后迅速关闭相邻通气槽并令未染蛊转入洁匣，降低接触传播；只隔离尚未传播部分，不能消除已中毒害。",
+      "sourceVfx": "虫匣之间连线逐段熄灭，洁蛊转到另一匣口，病匣上保留明显封签。"
+    },
+    {
+      "id": "W2-007",
+      "name": "春竹养刃谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C08",
+      "groups": [
+        "C08"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "W2-007",
+        "detailPath": "../arts-v02/weapons.md"
+      },
+      "specificProcess": "检查细刃缺口后分区磨修并涂薄层防潮膜，延缓轻剑锈蚀；只恢复可修刃口，断裂主材仍需铸匠处理。",
+      "sourceVfx": "剑刃置磨石缓推，灰屑沿缺口落下，末尾出现连续清亮细边。"
+    },
+    {
+      "id": "W2-014",
+      "name": "驮索快结谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C09",
+      "groups": [
+        "C09"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "W2-014",
+        "detailPath": "../arts-v02/weapons.md"
+      },
+      "specificProcess": "依据货物重心布置不同受力结，可提前设置一处手动快解端；受潮后检查松紧，不能远程让所有货物脱扣。",
+      "sourceVfx": "绳线按实际受力一段段绷直，快解端结扣留红布，释放时逐环松开。"
+    },
+    {
+      "id": "W2-021",
+      "name": "油杆续纹谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C08",
+      "groups": [
+        "C08"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "W2-021",
+        "detailPath": "../arts-v02/weapons.md"
+      },
+      "specificProcess": "将轻微起丝磨平封油并校正枪头装配，减少湿水弯曲与松脱；纵向深裂只能截短或换杆，不可抹油复原。",
+      "sourceVfx": "油沿木纹渐深，楔头被轻敲入槽，晾干后枪杆保持原木细纹。"
+    },
+    {
+      "id": "W2-035",
+      "name": "陶骨护手谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C10",
+      "groups": [
+        "C10",
+        "C09"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "W2-035",
+        "detailPath": "../arts-v02/weapons.md"
+      },
+      "specificProcess": "将分片薄陶嵌入布革护手，保护易撞部位并保留腕部活动；受重击后碎片留在衬层，必须及时换片。",
+      "sourceVfx": "陶片由泥褐烧至赭红，逐片嵌入布格，成品只在棱边留细亮点。"
+    },
+    {
+      "id": "W2-042",
+      "name": "续羽校矢谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C08",
+      "groups": [
+        "C08",
+        "C09"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "W2-042",
+        "detailPath": "../arts-v02/weapons.md"
+      },
+      "specificProcess": "将可修旧箭分拆校直，补羽后试射分级，恢复稳定弹道；折断箭杆与变形箭簇需新料，不把拾箭变成无限补给。",
+      "sourceVfx": "箭杆缓慢旋转，偏心处显短金标，补羽压胶后试射留下真实落靶孔。"
+    },
+    {
+      "id": "W2-049",
+      "name": "分温锻柄谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C07",
+      "groups": [
+        "C07"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "W2-049",
+        "detailPath": "../arts-v02/weapons.md"
+      },
+      "specificProcess": "分别预热金属套与干燥木柄，利用收缩与楔合减少松头；可制造锤柄或修理套箍，不凭此提升所有器物品阶。",
+      "sourceVfx": "锤套由橙变暗红，木楔依次嵌入，冷却后边缘只剩一线微光。"
+    },
+    {
+      "id": "W2-056",
+      "name": "潮湿护索谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C09",
+      "groups": [
+        "C09"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "W2-056",
+        "detailPath": "../arts-v02/weapons.md"
+      },
+      "specificProcess": "逐段检查纤维、晾索与换接磨损处，标定剩余承重；接头会降低整索能力，不能把短碎索无损拼回完整长索。",
+      "sourceVfx": "湿索水点逐渐减少，换编段显新旧色差，合格段加上真实布签。"
+    },
+    {
+      "id": "W2-063",
+      "name": "活鳞换盾谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C08",
+      "groups": [
+        "C08"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "W2-063",
+        "detailPath": "../arts-v02/weapons.md"
+      },
+      "specificProcess": "把小块金木鳞片固定在可检查的底架上，损坏时逐片替换并复验绑带；兼顾轻便与维护，但接缝仍是弱点。",
+      "sourceVfx": "盾片按真实顺序入框，铆点依次闪小白点，最后带扣拉紧成形。"
+    },
+    {
+      "id": "W2-070",
+      "name": "分砂辨脆谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C03",
+      "groups": [
+        "C03"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "W2-070",
+        "detailPath": "../arts-v02/weapons.md"
+      },
+      "specificProcess": "利用筛洗、试压与火色辨料，得到适合磨削、箔片和锻补的分级原料；产量来自真实来料，不把普通沙变灵金。",
+      "sourceVfx": "砂在筛面形成不同密度点群，试压碎点被挑出，成料落入标记小格。"
+    },
+    {
+      "id": "W2-077",
+      "name": "活构分枝谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C02",
+      "groups": [
+        "C02"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "W2-077",
+        "detailPath": "../arts-v02/weapons.md"
+      },
+      "specificProcess": "在既有活枝上设可拆撑件，分段弯形绑联、逐点吊载验强，培成苗棚或低架；按最弱分枝标限载，不负责嫁接成活。",
+      "sourceVfx": "真枝按工期缓慢成弧，吊载时各撑点逐一微亮，验毕留下实体限载牌。"
+    },
+    {
+      "id": "W2-084",
+      "name": "舟灶蒸露谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C05",
+      "groups": [
+        "C05"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "W2-084",
+        "detailPath": "../arts-v02/weapons.md"
+      },
+      "specificProcess": "以双锅冷盖收集真实水汽凝液，分离原水盐分与不挥发杂质，解决缺淡水时的补给；挥发毒物仍可随汽进入，须另检水源。",
+      "sourceVfx": "锅口白汽沿冷盖凝成水珠，逐滴落入洁盏，原锅盐垢随余水减少显现。"
+    },
+    {
+      "id": "W2-091",
+      "name": "稳芯制灯谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C13",
+      "groups": [
+        "C13"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "W2-091",
+        "detailPath": "../arts-v02/weapons.md"
+      },
+      "specificProcess": "以隔油小仓、稳芯座与可收口盏盖控制火源，供夜行或火术练习；倾覆仍可能漏油，必须检查密封与材质。",
+      "sourceVfx": "小仓与芯座逐件装入，试灯由抖动变稳，盖合时火焰缩成一点。"
+    },
+    {
+      "id": "W2-098",
+      "name": "试坯定土谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C10",
+      "groups": [
+        "C10"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "W2-098",
+        "detailPath": "../arts-v02/weapons.md"
+      },
+      "specificProcess": "制不同配比试坯并干燥受压，选择适合低垒、炉基或泥砖的配方；结论限同批土料，不能保证未测地基安全。",
+      "sourceVfx": "不同试坯并排干燥，受压时裂纹逐条显出，合格样仅贴真实布签。"
+    },
+    {
+      "id": "W2-105",
+      "name": "折鸢配骨谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C12",
+      "groups": [
+        "C12"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "W2-105",
+        "detailPath": "../arts-v02/weapons.md"
+      },
+      "specificProcess": "选竹骨、绢面与扣件配重，反复吊载验收后制成个人缓降具；只提供材料性能，不使未学身法者自动安全飞行。",
+      "sourceVfx": "竹骨逐节展开，绢面绷平显细格，吊载合格时边角保持平直。"
+    },
+    {
+      "id": "W2-112",
+      "name": "雪箱分仓谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C19",
+      "groups": [
+        "C19"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "W2-112",
+        "detailPath": "../arts-v02/weapons.md"
+      },
+      "specificProcess": "制作冷热隔离的小仓与排水层，防止融水浸坏药物，标明可保存时长；依实际冷材和箱体，不提供永久保鲜。",
+      "sourceVfx": "分仓木格逐个装入，毛毡压实后排水口显露，试冰融水从实口流出。"
+    },
+    {
+      "id": "W2-119",
+      "name": "盐陶隔流谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C10",
+      "groups": [
+        "C10"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "W2-119",
+        "detailPath": "../arts-v02/weapons.md"
+      },
+      "specificProcess": "将铜道嵌在干燥陶槽并保留检修口，配盐水试片检验泄漏，制作低阶雷具附件；不会让普通陶永久绝缘所有雷力。",
+      "sourceVfx": "铜道按槽逐段嵌入，试流小紫点只走预定线，漏点用真实红签标出。"
+    },
+    {
+      "id": "W2-126",
+      "name": "收露护茶谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C19",
+      "groups": [
+        "C19"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "W2-126",
+        "detailPath": "../arts-v02/weapons.md"
+      },
+      "specificProcess": "利用真实温差收集洁露，并按原料需求调节储箱水分，减少过干与霉坏；不同批次先检验，不把坏茶重新变好。",
+      "sourceVfx": "筛面露珠逐粒汇入盏，储箱湿布由深转浅，合格茶叶保留自然颜色。"
+    },
+    {
+      "id": "W2-135",
+      "name": "平弦护指谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C09",
+      "groups": [
+        "C09"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "W2-135",
+        "detailPath": "../arts-v02/weapons.md"
+      },
+      "specificProcess": "测弓弯曲再选纤维股数与编法，配合皮指护减少割伤；弦力、伸长与湿敏性彼此取舍，不同时最轻最强。",
+      "sourceVfx": "纤维按股扭合成弦，试拉时中段细亮，指护缝边逐针成形。"
+    },
+    {
+      "id": "W2-136",
+      "name": "软鞘安刃谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C09",
+      "groups": [
+        "C09"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "W2-136",
+        "detailPath": "../arts-v02/weapons.md"
+      },
+      "specificProcess": "按实际刃弧拼接软硬内衬并设锁扣，让短镰、钩与环可安全携行；鞘套增加拔取步骤，不能兼得随时出刃。",
+      "sourceVfx": "刃形描线落在皮面，衬片依次缝合，合扣时刀尖完全没入实套。"
+    },
+    {
+      "id": "W2-140",
+      "name": "篆石留向谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C14",
+      "groups": [
+        "C14"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "W2-140",
+        "detailPath": "../arts-v02/weapons.md"
+      },
+      "specificProcess": "按可见地标建立少量朝向与危险记号，刻槽涂可清除颜料方便返程；记号只能提供当时信息，不保证后续道路未变。",
+      "sourceVfx": "刻刀在实石上落浅槽，颜料沿槽显色，完成后保持静态可见标识。"
+    },
+    {
+      "id": "H2-007",
+      "name": "养芯收阴谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C13",
+      "groups": [
+        "C13"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "H2-007",
+        "detailPath": "../arts-v02/heterodox.md"
+      },
+      "specificProcess": "通过分层浸养、试燃和剔除浊芯制作收阴灯芯，标明容量与损耗；灯芯不产阴气，需现场缓收。",
+      "sourceVfx": "细芯浸入浅皿，青点慢慢沿纤维串起；试燃后截下黑头。"
+    },
+    {
+      "id": "H2-014",
+      "name": "留声验石谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C13",
+      "groups": [
+        "C13"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "H2-014",
+        "detailPath": "../arts-v02/heterodox.md"
+      },
+      "specificProcess": "刻磨响石并标定留存时长，可记录一次接触声用于比较施工裂响；记录有衰减，不能凭空复原历史对话。",
+      "sourceVfx": "刻针划过石纹，细波沉入石心；回放时石表逐点闪亮并耗尽。"
+    },
+    {
+      "id": "H2-021",
+      "name": "分务定神简",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C20",
+      "groups": [
+        "C20"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "H2-021",
+        "detailPath": "../arts-v02/heterodox.md"
+      },
+      "specificProcess": "按本人耐受记录分段工序和休息节点，减少疲劳引起的漏步；NPC可自行拒绝安排，无法越过实际工时。",
+      "sourceVfx": "指在木简依次点亮短格，完成一段后墨点封存；不出现自动操控连线。"
+    },
+    {
+      "id": "H2-028",
+      "name": "温弦补岳谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C13",
+      "groups": [
+        "C13"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "H2-028",
+        "detailPath": "../arts-v02/heterodox.md"
+      },
+      "specificProcess": "通过张力复测、桥位校准和局部补料修复实体琴器，保留既有灵纹；不能把低阶木料无耗升品。",
+      "sourceVfx": "琴上细光随校弦逐条拉直，补料处呈暗色接痕；试奏后亮点稳定。"
+    },
+    {
+      "id": "H2-035",
+      "name": "整皮复鼓谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C13",
+      "groups": [
+        "C13"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "H2-035",
+        "detailPath": "../arts-v02/heterodox.md"
+      },
+      "specificProcess": "检皮、调箍与分次复张，使松鼓恢复标定音高并记录余寿；裂口超过限度必须换皮，不以法力永久补材。",
+      "sourceVfx": "手抹鼓缘，细光沿皮面纹理散开；调箍后轻敲，浑环收成圆环。"
+    },
+    {
+      "id": "H2-042",
+      "name": "补镜定幕谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C13",
+      "groups": [
+        "C13",
+        "C09"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "H2-042",
+        "detailPath": "../arts-v02/heterodox.md"
+      },
+      "specificProcess": "磨平镜片、标注反光角和拼接遮光幕，得到可重复布设的幻景器具；不直接生成幻术，也不复制法器品阶。",
+      "sourceVfx": "细砂推镜面发出短亮带，针脚逐段闭合幕孔；校光后光斑定在刻点。"
+    },
+    {
+      "id": "H2-048",
+      "name": "析露寻毒法",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C17",
+      "groups": [
+        "C17"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "H2-048",
+        "detailPath": "../arts-v02/heterodox.md"
+      },
+      "specificProcess": "分瓶取样、加入对照灵露并计时比色，区分已入谱灵毒和普通污渍；未知物只标异常，不自动给出凶手或配方。",
+      "sourceVfx": "露滴悬在白瓷上由清转浑，边缘跳出不同短芒；结论后封存样瓶。"
+    },
+    {
+      "id": "H2-049",
+      "name": "分瓷封毒谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C17",
+      "groups": [
+        "C17"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "H2-049",
+        "detailPath": "../arts-v02/heterodox.md"
+      },
+      "specificProcess": "以独立工位完成虚构灵材的定量封装与效性检验，记录批次和解毒配套；每瓶实际消耗材料，不直接产战斗伤害。",
+      "sourceVfx": "瓷瓶逐个亮起封口细圈，检验失败者置入暗格；合格后光圈闭合。"
+    },
+    {
+      "id": "H2-056",
+      "name": "净炉留锋谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C17",
+      "groups": [
+        "C17"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "H2-056",
+        "detailPath": "../arts-v02/heterodox.md"
+      },
+      "specificProcess": "按勘测、隔离、收取和封罐次序处理炉场，产出实测煞料并降低作业区残留；不会凭死物无限生成煞。",
+      "sourceVfx": "铁钎沿炉壁点亮分段灰纹，残煞卷入封罐；净处露出普通暗红炉砖。"
+    },
+    {
+      "id": "H2-063",
+      "name": "护血温食谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C18",
+      "groups": [
+        "C18"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "H2-063",
+        "detailPath": "../arts-v02/heterodox.md"
+      },
+      "specificProcess": "记录消耗并加工适量灵谷与合法药食，提供血气休养所需营养；效果依真实进食消化，不以食谱保送突破。",
+      "sourceVfx": "灶上赤光只绕锅沿，食材实际入碗；成品温气呈细缕，离灶渐散。"
+    },
+    {
+      "id": "H2-070",
+      "name": "隔印藏匣谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C17",
+      "groups": [
+        "C17"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "H2-070",
+        "detailPath": "../arts-v02/heterodox.md"
+      },
+      "specificProcess": "按活印位置制作隔离垫与检视口，降低保管期间意外触发；匣体不取消诅咒，开匣仍须依法拆印。",
+      "sourceVfx": "匣内分格逐层铺开暗纸，印光被遮在内层；关盖后检视孔保留一线微光。"
+    },
+    {
+      "id": "H2-075",
+      "name": "覆盘辨诈法",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C14",
+      "groups": [
+        "C14"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "H2-075",
+        "detailPath": "../arts-v02/heterodox.md"
+      },
+      "specificProcess": "用筹盘逐项归算现场测值、旧记录与误差范围，再做反例复算，标出矛盾处；不自动判谁说谎或给唯一真相。",
+      "sourceVfx": "两列实筹逐枚移位，矛盾处放空心木圈；复算完成后收筹，纸上保留墨记。"
+    },
+    {
+      "id": "H2-076",
+      "name": "闻候记天谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C14",
+      "groups": [
+        "C14"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "H2-076",
+        "detailPath": "../arts-v02/heterodox.md"
+      },
+      "specificProcess": "布置地表风幡与温湿测点，按坡口、林隙和水洼对照记录，产出数小时内泥滑、贴地雾与迎风路段图；不推演天象数日趋势。",
+      "sourceVfx": "风幡与地表小盘逐点亮起，实测路段被描入简图；离地未测区域保持空白。"
+    },
+    {
+      "id": "H2-084",
+      "name": "兽迹辨栖谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C15",
+      "groups": [
+        "C15"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "H2-084",
+        "detailPath": "../arts-v02/heterodox.md"
+      },
+      "specificProcess": "对照足印、落毛和啃食痕，估计种类、数量区间与新旧时间；不锁定所有兽位，不因见迹自动成为兽主。",
+      "sourceVfx": "蹲身以尺比足印，淡黄轮廓沿真实痕迹描边；记简后光痕消散。"
+    },
+    {
+      "id": "H2-090",
+      "name": "高栖报影训",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C15",
+      "groups": [
+        "C15"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "H2-090",
+        "detailPath": "../arts-v02/heterodox.md"
+      },
+      "specificProcess": "以长期奖励教会灵禽用盘旋、短鸣报告陌生大群或道路阻碍；报告只含受训类别，不能翻译成精确全知地图。",
+      "sourceVfx": "高处禽影短盘一圈，发出一枚小光点伴叫声；主人接收后仅留方位提示。"
+    },
+    {
+      "id": "H2-091",
+      "name": "护羽留栖谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C15",
+      "groups": [
+        "C15"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "H2-091",
+        "detailPath": "../arts-v02/heterodox.md"
+      },
+      "specificProcess": "逐项检羽、清栖、配食并记录健康，减少照护不当导致的飞行损伤；不能催出新禽、瞬间长羽或保证繁育。",
+      "sourceVfx": "梳羽时羽缘点点闪过，栖架真实清理后露出木色；喂食后碗中数量减少。"
+    },
+    {
+      "id": "H2-097",
+      "name": "辨蹄量载谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C15",
+      "groups": [
+        "C15"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "H2-097",
+        "detailPath": "../arts-v02/heterodox.md"
+      },
+      "specificProcess": "检查蹄磨、呼吸、鞍压与行程坡度，给出当次载重和休息建议；结果随伤病天气变化，不发永久超载许可。",
+      "sourceVfx": "量尺贴近鞍包与蹄缘，黄点显示实测位置；建议只落在记录简上。"
+    },
+    {
+      "id": "H2-098",
+      "name": "清蹄续草谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C15",
+      "groups": [
+        "C15"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "H2-098",
+        "detailPath": "../arts-v02/heterodox.md"
+      },
+      "specificProcess": "清理蹄内异物、检查鞍伤并按个体供草饮水，维持长期驮运能力；治疗复杂伤病需兽医，不能当天恢复断足。",
+      "sourceVfx": "刷具从蹄边带走真实泥屑，水槽与草架逐项补入；护理后只显干净毛蹄。"
+    },
+    {
+      "id": "H2-104",
+      "name": "轮望查隘法",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C14",
+      "groups": [
+        "C14"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "H2-104",
+        "detailPath": "../arts-v02/heterodox.md"
+      },
+      "specificProcess": "安排愿意轮值的人在可达点依次观察并记录盲区，减轻单人久盯漏察；缺员时观察范围真实缩小，不自动发现暗敌。",
+      "sourceVfx": "望者抬手示意，地图简只添亲眼确认的短线；未到达区域继续空白。"
+    },
+    {
+      "id": "H2-105",
+      "name": "解甲分担法",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C16",
+      "groups": [
+        "C16"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "H2-105",
+        "detailPath": "../arts-v02/heterodox.md"
+      },
+      "specificProcess": "由愿意施救者现场卸除不必要外甲、固定担架并分配抬位，减少搬运再伤；不改变伤员所有权，也不远程救回。",
+      "sourceVfx": "扣带逐件解开，真实甲片置地；担架绑结亮短白点，抬起后跟随实际行程。"
+    },
+    {
+      "id": "H2-106",
+      "name": "无香掩衣法",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C17",
+      "groups": [
+        "C17"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "H2-106",
+        "detailPath": "../arts-v02/heterodox.md"
+      },
+      "specificProcess": "将衣物上的食物、药草和兽料气味分开处理，减轻普通嗅踪识别；只降低残留强度，不抹除人本身气息或血迹。",
+      "sourceVfx": "洗盆细白光随水面散开，衣上暗点实际落入污水；晾干后不留法术光。"
+    },
+    {
+      "id": "H2-107",
+      "name": "识骨留名谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C14",
+      "groups": [
+        "C14"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "H2-107",
+        "detailPath": "../arts-v02/heterodox.md"
+      },
+      "specificProcess": "记录骨伤、随身物与埋藏层位，用独立记录交叉缩小身份范围；无法凭一根骨头读取死者记忆，无法保证确定身份。",
+      "sourceVfx": "细尺沿样材边缘描出短白线，证物逐件落入标盒；合盖后只留墨字。"
+    },
+    {
+      "id": "H2-110",
+      "name": "移巢暂栖谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C15",
+      "groups": [
+        "C15",
+        "C02"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "H2-110",
+        "detailPath": "../arts-v02/heterodox.md"
+      },
+      "specificProcess": "先辨繁育期与领地，再建成适配暂栖点，邀请或引导愿意迁移的灵兽；成功需真实通路、食水和长期适应，不直接生成兽群。",
+      "sourceVfx": "新巢实际搭起，食水落在固定位置；兽沿真实路径进入，入口叶影轻晃。"
+    },
+    {
+      "id": "H2-111",
+      "name": "察契释疑简",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C14",
+      "groups": [
+        "C14"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "H2-111",
+        "detailPath": "../arts-v02/heterodox.md"
+      },
+      "specificProcess": "按逐条对读检查期限、代价与真实活印是否相符，标出歧义供当事人自主决定；不自动鉴真善恶，也不废除已成立的天道誓言。",
+      "sourceVfx": "指尖沿墨行依次点亮短线，疑处留一枚空圈；收简后光灭，原字不变。"
+    },
+    {
+      "id": "C2-002",
+      "name": "弦角折砂阵",
+      "status": "design-only",
+      "kind": "formation",
+      "primaryGroup": "A01",
+      "groups": [
+        "A01",
+        "A02",
+        "A03",
+        "A04"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "C2-002",
+        "detailPath": "../arts-v02/crafts.md"
+      },
+      "specificProcess": "三筹围出开放折角，操阵者在敌人经过时注入灵砂，砂束沿两段通道急扫；可绕单块小障碍，但不能自动追敌。",
+      "sourceVfx": "插筹拉线—土黄细砂沿折角亮起—末段砂刃撞盾散成颗粒。"
+    },
+    {
+      "id": "C2-003",
+      "name": "倚石回斜阵",
+      "status": "design-only",
+      "kind": "formation",
+      "primaryGroup": "A01",
+      "groups": [
+        "A01",
+        "A02",
+        "A03",
+        "A04"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "C2-003",
+        "detailPath": "../arts-v02/crafts.md"
+      },
+      "specificProcess": "两筹倚石形成单向斜幕，持续付灵可把进入幕面的轻型飞物压向石侧；重物仍会透入，术法爆炸照常扩散。",
+      "sourceVfx": "摸石定位—灰白斜纹贴地展开—飞矢擦石溅屑，过载纹路逐段熄灭。"
+    },
+    {
+      "id": "C2-005",
+      "name": "布筹校位法",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C04",
+      "groups": [
+        "C04"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "C2-005",
+        "detailPath": "../arts-v02/crafts.md"
+      },
+      "specificProcess": "依地坡、石质和实际距离校验阵筹位置，算出可布与须补基础的点位；产出勘位图，不能替代后续购材和施工。",
+      "sourceVfx": "展尺落筹—地面虚点逐个对齐—误差点闪琥珀，收成带尺线的卷图。"
+    },
+    {
+      "id": "C2-006",
+      "name": "芒线续纹谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C21",
+      "groups": [
+        "C21",
+        "A08"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "C2-006",
+        "detailPath": "../arts-v02/crafts.md"
+      },
+      "specificProcess": "停阵后剥去焦纹，按原线路重接灵线并逐段低流验通；可修局部断路，无法凭一截残纹推演整座陌生大阵。",
+      "sourceVfx": "夹线停光—针尖补入细金芒—试流依次通过，接反处短闪后冒烟。"
+    },
+    {
+      "id": "C2-007",
+      "name": "卸筹封流诀",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C21",
+      "groups": [
+        "C21",
+        "A04"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "C2-007",
+        "detailPath": "../arts-v02/crafts.md"
+      },
+      "specificProcess": "按阵图逆序引余流入可承载的散流砂盘，确认熄流再取筹；降低己方阵材回收损耗，陌生阵需先读懂流向。",
+      "sourceVfx": "指捻阵尾—细流汇入砂盘逐渐暗下—末筹拔起，地面残光一寸寸收尽。"
+    },
+    {
+      "id": "C2-009",
+      "name": "三帆绞浪阵",
+      "status": "design-only",
+      "kind": "formation",
+      "primaryGroup": "A05",
+      "groups": [
+        "A05",
+        "A04"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "C2-009",
+        "detailPath": "../arts-v02/crafts.md"
+      },
+      "specificProcess": "三人自愿守三角位，轮流导起携带水囊或河面之水，合成横向推切水束；只能攻击共同看见的窄扇面。",
+      "sourceVfx": "三处帆结亮蓝—水束依次接起绞成横浪—撞击后水珠落地，断角即散。"
+    },
+    {
+      "id": "C2-010",
+      "name": "背帆兜风阵",
+      "status": "design-only",
+      "kind": "formation",
+      "primaryGroup": "A02",
+      "groups": [
+        "A02",
+        "A05",
+        "A04"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "C2-010",
+        "detailPath": "../arts-v02/crafts.md"
+      },
+      "specificProcess": "两名阵员撑住帆面并交替注灵，使飞矢与轻碎片先陷帆褶减速；帆后仍可能遭穿刺，燃烧和重击持续损坏帆布。",
+      "sourceVfx": "两手展帆—布面浮起浅灰弧纹—箭头陷褶抖落，受火处透出焦洞。"
+    },
+    {
+      "id": "C2-012",
+      "name": "帆绳养韧谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C09",
+      "groups": [
+        "C09"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "C2-012",
+        "detailPath": "../arts-v02/crafts.md"
+      },
+      "specificProcess": "分束去脆纤，依用途复捻并以灵胶固结，干燥后实测拉力；可做阵绳与护运绳，不会把普通麻绳化为无断仙索。",
+      "sourceVfx": "掌搓纤束—淡青灵纹随捻绳旋入—拉力架逐格发亮，断样裂出毛絮。"
+    },
+    {
+      "id": "C2-013",
+      "name": "哨位传拍谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C20",
+      "groups": [
+        "C20"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "C2-013",
+        "detailPath": "../arts-v02/crafts.md"
+      },
+      "specificProcess": "设计短哨与手势的互备节拍，逐人练熟入位和停阵响应；只传播已约定信号，不能替人决定行动或强迫接阵。",
+      "sourceVfx": "铜哨举唇—扇形细波遇障截断—听见者各自回应腕灯，失联处不亮。"
+    },
+    {
+      "id": "C2-014",
+      "name": "联帆卸载阵",
+      "status": "design-only",
+      "kind": "formation",
+      "primaryGroup": "A01",
+      "groups": [
+        "A01",
+        "A02",
+        "A05",
+        "A04"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "C2-014",
+        "detailPath": "../arts-v02/crafts.md"
+      },
+      "specificProcess": "四人守地面牵绳位，只抑制真实吊具下货物的侧摆，帮助稳落；重量仍由吊具与地基承受，不把众人修为相加举山。",
+      "sourceVfx": "四绳端点亮—浅青纹贴吊货四角—货物减摆下落，落稳后四角光依次熄灭。"
+    },
+    {
+      "id": "C2-016",
+      "name": "回槽压涌阵",
+      "status": "design-only",
+      "kind": "formation",
+      "primaryGroup": "A01",
+      "groups": [
+        "A01",
+        "A02",
+        "A03",
+        "A04",
+        "A08"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "C2-016",
+        "detailPath": "../arts-v02/crafts.md"
+      },
+      "specificProcess": "预埋槽口与闸桩积存可测水头，起阵后一次放出低位冲流打乱进入者；水只沿真实低处流动，友方也会受冲击。",
+      "sourceVfx": "闸桩蓝纹爬升—槽口逐个吐出贴地水浪—命中溅开泥沙，渠水随后下降。"
+    },
+    {
+      "id": "C2-017",
+      "name": "沉桩卸震阵",
+      "status": "design-only",
+      "kind": "formation",
+      "primaryGroup": "A01",
+      "groups": [
+        "A01",
+        "A02",
+        "A03",
+        "A04",
+        "A08"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "C2-017",
+        "detailPath": "../arts-v02/crafts.md"
+      },
+      "specificProcess": "埋设经勘测的桩组，将某一侧撞击传入可承载土层，减轻墙根受震；不能拦空袭、隔绝毒雾或承受已超限的山体崩落。",
+      "sourceVfx": "桩帽沉亮—黄灰波纹沿地下桩线分散—墙脚落少量尘，超载桩纹转红裂开。"
+    },
+    {
+      "id": "C2-019",
+      "name": "听泥探桩法",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C04",
+      "groups": [
+        "C04"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "C2-019",
+        "detailPath": "../arts-v02/crafts.md"
+      },
+      "specificProcess": "沿预计阵基打小孔留土样，再以短震回声比对土层；划出须加固或禁落桩区域，只能确认本次采样覆盖的深度。",
+      "sourceVfx": "短锤叩探杆—泥面晕出小圈—土样按深浅列盘，空响处显断续灰线。"
+    },
+    {
+      "id": "C2-020",
+      "name": "分畦匀露阵",
+      "status": "design-only",
+      "kind": "formation",
+      "primaryGroup": "A01",
+      "groups": [
+        "A01",
+        "A02",
+        "A03",
+        "A04",
+        "A08"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "C2-020",
+        "detailPath": "../arts-v02/crafts.md"
+      },
+      "specificProcess": "借低压槽和分流桩均匀灌溉相邻田畦，可逐畦关闭；只分配实际来水和养分，不增生灵水，不会自动把幼苗催熟。",
+      "sourceVfx": "槽桩淡绿闪起—水线依地势分入各畦—湿润边界渐进，关畦后末端光点熄止。"
+    },
+    {
+      "id": "C2-021",
+      "name": "泄火归槽阵",
+      "status": "design-only",
+      "kind": "formation",
+      "primaryGroup": "A01",
+      "groups": [
+        "A01",
+        "A02",
+        "A03",
+        "A04",
+        "A08"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "C2-021",
+        "detailPath": "../arts-v02/crafts.md"
+      },
+      "specificProcess": "在炉外铺耐火槽并接入散热池，将可控余热导离作业面；与炉体独立验收，火灾超出槽容量时仍需停炉疏散。",
+      "sourceVfx": "赤纹从炉底入槽—光带沿白石蜿蜒—池面升细汽，干池时末槽变亮并告警。"
+    },
+    {
+      "id": "C2-023",
+      "name": "错拍弹石阵",
+      "status": "design-only",
+      "kind": "formation",
+      "primaryGroup": "A01",
+      "groups": [
+        "A01",
+        "A02",
+        "A03",
+        "A04",
+        "A08"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "C2-023",
+        "detailPath": "../arts-v02/crafts.md"
+      },
+      "specificProcess": "小轮驱动三个弹槽按可调间隔发射石弹，操阵者只在发射前选定扇面；可诱使敌人过早防守，但不能让石弹暂停空中。",
+      "sourceVfx": "漏滴敲盘—三条灰线先后弹出—石弹撞墙碎屑飞散，空槽只轻颤不出弹。"
+    },
+    {
+      "id": "C2-024",
+      "name": "垂轮叠障阵",
+      "status": "design-only",
+      "kind": "formation",
+      "primaryGroup": "A01",
+      "groups": [
+        "A01",
+        "A02",
+        "A03",
+        "A04",
+        "A08"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "C2-024",
+        "detailPath": "../arts-v02/crafts.md"
+      },
+      "specificProcess": "以吊轮驱动预置护板交替遮住同一狭口，未当值护板可卸力散热；板面仍各受真实损伤，不能重置旧裂口。",
+      "sourceVfx": "垂轮浅金转动—三面护板依拍合拢—箭火打出各自裂痕，停阵后板片垂落。"
+    },
+    {
+      "id": "C2-026",
+      "name": "水衡定轮谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C12",
+      "groups": [
+        "C12"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "C2-026",
+        "detailPath": "../arts-v02/crafts.md"
+      },
+      "specificProcess": "测定水头、孔径与轮轴摩擦，把可接受误差写成器物刻度；可为生产和候阵提供计时参照，计量本身不推进世界。",
+      "sourceVfx": "倾水入罐—水滴敲轮带动细针—刻度点逐个校亮，误差段以橙点标出。"
+    },
+    {
+      "id": "C2-027",
+      "name": "闰轮缓冲谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C12",
+      "groups": [
+        "C12"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "C2-027",
+        "detailPath": "../arts-v02/crafts.md"
+      },
+      "specificProcess": "锻制弹片、安装离合与验载，使突发输入先存为有限机械势能再释放；可保护织机和阵器，不能凭空增加输出总能量。",
+      "sourceVfx": "旋紧小轮—内圈金芒逐层压密—缓释时轮齿逐齿亮起，停机后指针归零。"
+    },
+    {
+      "id": "C2-028",
+      "name": "分候烘匣阵",
+      "status": "design-only",
+      "kind": "formation",
+      "primaryGroup": "A01",
+      "groups": [
+        "A01",
+        "A02",
+        "A03",
+        "A04",
+        "A08"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "C2-028",
+        "detailPath": "../arts-v02/crafts.md"
+      },
+      "specificProcess": "漏轮推动匣内风门按工艺分段开合，控制真实热源与湿气排出；用于药材或木料烘干，工艺不同需重新设拍与验样。",
+      "sourceVfx": "漏轮滴响—烘匣侧窗分段透出暖光—湿汽依次排出，干样表面光泽趋于均匀。"
+    },
+    {
+      "id": "C2-033",
+      "name": "桑偶合榫谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C11",
+      "groups": [
+        "C11"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "C2-033",
+        "detailPath": "../arts-v02/crafts.md"
+      },
+      "specificProcess": "从干木选纹后制骨架与可换榫节，装配成可被外线操纵的偶躯；谱载结构尺度与验载法，成品须另装武具和控制线。",
+      "sourceVfx": "刨刀顺木落屑—榫口微光查缝—拼成小偶后逐节转动，卡点泛出橙亮。"
+    },
+    {
+      "id": "C2-034",
+      "name": "弦目验控谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C11",
+      "groups": [
+        "C11"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "C2-034",
+        "detailPath": "../arts-v02/crafts.md"
+      },
+      "specificProcess": "在低速试台逐轴测操线张力、回差和极限，编成偶体专属操控表；换线换偶后需重测，不会替操作者学会战斗。",
+      "sourceVfx": "线环逐根牵动—偶目在当前轴亮起—角度尺留细点，超限时试台木闸落下。"
+    },
+    {
+      "id": "C2-035",
+      "name": "三轴换肩法",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C11",
+      "groups": [
+        "C11"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "C2-035",
+        "detailPath": "../arts-v02/crafts.md"
+      },
+      "specificProcess": "卸除武具与操线后更换磨损肩轴，校齐三向止挡再恢复负载；可保留未坏构件，无法恢复已经焚毁的材质和灵纹。",
+      "sourceVfx": "偶肩熄光卸刃—铜钉依序退入盘中—新轴转动发出三段青点，验完才重新挂刃。"
+    },
+    {
+      "id": "C2-040",
+      "name": "沉枢铸匣谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C07",
+      "groups": [
+        "C07",
+        "C12"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "C2-040",
+        "detailPath": "../arts-v02/crafts.md"
+      },
+      "specificProcess": "铸匣、磨轴、嵌有限灵石触点并验绝缘，使供能按额定扭力送至传动轴；能量耗尽便停，不从环境无限吸灵。",
+      "sourceVfx": "炉钳取赤匣—触点逐格嵌入冷亮—空转轴拖出短金弧，超温时红点先亮再断能。"
+    },
+    {
+      "id": "C2-041",
+      "name": "秤梁配载谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C12",
+      "groups": [
+        "C12"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "C2-041",
+        "detailPath": "../arts-v02/crafts.md"
+      },
+      "specificProcess": "称量货物并测各轮承重，固定重物后编成可行坡度和转弯限制；可减少翻载，不能让低额定货偶承载超量货物。",
+      "sourceVfx": "秤梁微摆—轮下四个淡点随重量改变—捆绳束紧后重心点定在车盘内。"
+    },
+    {
+      "id": "C2-042",
+      "name": "回闸养轴谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C12",
+      "groups": [
+        "C12"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "C2-042",
+        "detailPath": "../arts-v02/crafts.md"
+      },
+      "specificProcess": "断能架起轮偶，清轴上油并验闸齿磨损，再以小载荷测停止距离；把不能安全停车的偶标为停用，维修不抹去旧损伤。",
+      "sourceVfx": "架台顶轮—油点沿轴缝闪亮—小轮停在标尺前，磨损闸齿单独收入红框盘。"
+    },
+    {
+      "id": "C2-047",
+      "name": "绢翼成禽谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C11",
+      "groups": [
+        "C11"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "C2-047",
+        "detailPath": "../arts-v02/crafts.md"
+      },
+      "specificProcess": "依翼载裁绢、弯骨、装铰并做低空滑翔试验，形成可挂驱动和眼晶的鸟躯；种类外形只是同一工艺的图样，不另算法门。",
+      "sourceVfx": "细竹逐根弯合—绢面刷过淡绿光—试飞偶翼轻振，落架时胶缝显示验检细点。"
+    },
+    {
+      "id": "C2-048",
+      "name": "晴眼校晶法",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C11",
+      "groups": [
+        "C11"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "C2-048",
+        "detailPath": "../arts-v02/crafts.md"
+      },
+      "specificProcess": "磨制小晶并校正近远焦点与观察角度，再测遮挡下可用回传范围；只传实际所见画面，不能识别墙后人物和伪装真心。",
+      "sourceVfx": "晶片转向标靶—小窗影像由糊转清—遮挡板落下时画面缺失，回传线同时断续。"
+    },
+    {
+      "id": "C2-049",
+      "name": "羽程记路谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C11",
+      "groups": [
+        "C11",
+        "C14"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "C2-049",
+        "detailPath": "../arts-v02/crafts.md"
+      },
+      "specificProcess": "记录鸟偶经过的可见路段，结合本人地面步测标出障碍和观察时间；生成有置信边界的路线图，未知遮挡不自行补成通路。",
+      "sourceVfx": "偶眼扫过林隙—卷图留下断续墨线—实测段收成实线，未见区保持淡灰空白。"
+    },
+    {
+      "id": "C2-054",
+      "name": "叠鳞分层锻谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C07",
+      "groups": [
+        "C07"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "C2-054",
+        "detailPath": "../arts-v02/crafts.md"
+      },
+      "specificProcess": "分料试折后叠锻薄片，控制火候并留出可换连接边，再实测弯曲与疲劳；同炉各片仍有差异，不能因图谱相同自动同品。",
+      "sourceVfx": "红片叠落砧面—锤下金线沿层延展—淬后逐片弯测，脆片裂口泛出灰白点。"
+    },
+    {
+      "id": "C2-055",
+      "name": "寒砧听伤法",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C08",
+      "groups": [
+        "C08"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "C2-055",
+        "detailPath": "../arts-v02/crafts.md"
+      },
+      "specificProcess": "先轻敲比对同材标准片，再压测试角并必要时取样，识别局部暗裂和异常夹层；只能判断实检区域，不直接读出卖家动机。",
+      "sourceVfx": "铜锤轻点甲片—短银圈随清浊音改变—试样裂纹被细线标出，未知内层仍留空。"
+    },
+    {
+      "id": "C2-056",
+      "name": "温扣再配谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C08",
+      "groups": [
+        "C08"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "C2-056",
+        "detailPath": "../arts-v02/crafts.md"
+      },
+      "specificProcess": "量体后局部温软连接件，重排鳞距与衬层再验屈伸；改善合身与承重分布，不能让过小甲片覆盖凭空增加的面积。",
+      "sourceVfx": "软尺贴甲量距—扣边透温红再夹紧—穿戴者屈肘转肩，紧绷处亮点随改配消失。"
+    },
+    {
+      "id": "C2-061",
+      "name": "百齿咬合谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C12",
+      "groups": [
+        "C12"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "C2-061",
+        "detailPath": "../arts-v02/crafts.md"
+      },
+      "specificProcess": "以轮径、齿距和材料强度计算传动，切齿后逐对试合并加护罩；可改变速度与力矩比例，不能同时无代价增大二者。",
+      "sourceVfx": "划针围轮分点—刀齿逐格切入—两轮咬合闪出相接细线，卡齿处留下橙色止点。"
+    },
+    {
+      "id": "C2-062",
+      "name": "止牙泄簧谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C12",
+      "groups": [
+        "C12"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "C2-062",
+        "detailPath": "../arts-v02/crafts.md"
+      },
+      "specificProcess": "先用止牙固定传动，再以消能轮逐段释放弹簧和绞索余力，最后拆件；可处理已知构造，陌生机关须先勘查而不能一按拆除。",
+      "sourceVfx": "止牙卡住轮齿—消能盘缓慢转亮—簧片由紧回松，确认零位后才逐枚取下。"
+    },
+    {
+      "id": "C2-063",
+      "name": "折架藏轮谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C12",
+      "groups": [
+        "C12"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "C2-063",
+        "detailPath": "../arts-v02/crafts.md"
+      },
+      "specificProcess": "设计交叉撑与锁销，展开后承载磨具、绞盘或小型机括，收起方便运送；折叠结构只节省体积，不消除物体重量。",
+      "sourceVfx": "木架逐节撑开—铜销落孔闪一小点—脚撑稳固后卷轮入座，收架时零件依序折回。"
+    },
+    {
+      "id": "C2-068",
+      "name": "清渣析液谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C06",
+      "groups": [
+        "C06"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "C2-068",
+        "detailPath": "../arts-v02/crafts.md"
+      },
+      "specificProcess": "按实物药材批次浸取、控温沉降和分层过滤，保留所需成分并测残渣；用于多种丹方前处理，不能把未知药混炼成万能药。",
+      "sourceVfx": "药液入漏盏—细绿光标出分层界面—清液流入新瓶，滤渣真实留在绢层上。"
+    },
+    {
+      "id": "C2-069",
+      "name": "文武递火谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C06",
+      "groups": [
+        "C06"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "C2-069",
+        "detailPath": "../arts-v02/crafts.md"
+      },
+      "specificProcess": "记录药液状态，调炉气和燃料实现升温、持温、降温的连续工序；可减少温差坏药，仍须符合对应丹方而非一谱炼尽万丹。",
+      "sourceVfx": "炉门开合—橙红火光随刻度逐级变化—药面泡纹由密转疏，关火后余辉仍存。"
+    },
+    {
+      "id": "C2-070",
+      "name": "封丸察效法",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C06",
+      "groups": [
+        "C06"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "C2-070",
+        "detailPath": "../arts-v02/crafts.md"
+      },
+      "specificProcess": "检查均匀度和含湿量，取规定小样验效后按批次封藏并标时限；保存合格丹药不代表服用者必突破，也不改既有突破条件。",
+      "sourceVfx": "药丸分入浅盘—透光照出裂缝湿点—合格丸封入瓷瓶，瓶口留下批次墨记。"
+    },
+    {
+      "id": "C2-075",
+      "name": "四候辨伤谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C16",
+      "groups": [
+        "C16"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "C2-075",
+        "detailPath": "../arts-v02/crafts.md"
+      },
+      "specificProcess": "按实际症状交叉判断出血、失温、骨伤和药物反应，给出有不确定性的处理优先级；不能读心，未显露内伤需后续检查。",
+      "sourceVfx": "药灯近照—指腹触腕停留—四枚小色点依检查逐亮，未查项保持空心。"
+    },
+    {
+      "id": "C2-076",
+      "name": "净创接络术",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C16",
+      "groups": [
+        "C16"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "C2-076",
+        "detailPath": "../arts-v02/crafts.md"
+      },
+      "specificProcess": "清创后按组织层次止血缝合，以细灵流辅助存活组织贴合；需真实药械与恢复时间，坏死组织不可硬接，更不能复活亡者。",
+      "sourceVfx": "净水洗去污点—针线逐层收拢细玉光—伤口留真实缝痕，药布覆上后微光渐隐。"
+    },
+    {
+      "id": "C2-077",
+      "name": "悬骨定架谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C16",
+      "groups": [
+        "C16",
+        "C02",
+        "C09"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "C2-077",
+        "detailPath": "../arts-v02/crafts.md"
+      },
+      "specificProcess": "量取未伤侧尺寸制作木竹夹板，垫软层并校正固定压力，保护骨伤在恢复期少移位；不使断骨即时长合，需持续复查。",
+      "sourceVfx": "薄板贴模裁形—软垫沿伤肢轻合—绑带节点亮短青线，指端仍保留血色示意。"
+    },
+    {
+      "id": "C2-082",
+      "name": "轮畦养土谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C01",
+      "groups": [
+        "C01"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "C2-082",
+        "detailPath": "../arts-v02/crafts.md"
+      },
+      "specificProcess": "采样辨土后按种植批次消耗补给肥水，安排不同根深作物轮换与休养；改善可持续产量，肥料和土地面积都须实际存在。",
+      "sourceVfx": "土样分盘—褐绿微光标出差异—肥料撒入真实田沟，地色只随后续养护逐步变化。"
+    },
+    {
+      "id": "C2-083",
+      "name": "择蕊留种谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C01",
+      "groups": [
+        "C01"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "C2-083",
+        "detailPath": "../arts-v02/crafts.md"
+      },
+      "specificProcess": "挑选性状稳定的母株，做人工授粉与隔离，收种后实种验证后代；只提高定向筛选效率，不保证每代必得高阶灵种。",
+      "sourceVfx": "细笔触蕊—花口浅金粉点短亮—套袋扎紧留下批签，成籽待真实生长期后才出现。"
+    },
+    {
+      "id": "C2-084",
+      "name": "圃棚分疫法",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C01",
+      "groups": [
+        "C01"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "C2-084",
+        "detailPath": "../arts-v02/crafts.md"
+      },
+      "specificProcess": "记录病株斑痕与扩散位置，分区隔离并按已辨病因处理土具，减少病害传播；未知病仍需采样请教，不自动净化整片山林。",
+      "sourceVfx": "叶面斑点被灯照亮—竹牌沿实际病区插下—清洗水流带走泥屑，隔离线不变成发光屏障。"
+    },
+    {
+      "id": "C2-085",
+      "name": "灰瓮保种术",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C19",
+      "groups": [
+        "C19"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "C2-085",
+        "detailPath": "../arts-v02/crafts.md"
+      },
+      "specificProcess": "检验种子含水后配干燥填料分层装瓮，按批次留萌发样；延长适储种的可用时间，不保活所有湿生种，也不能停止自然衰败。",
+      "sourceVfx": "干籽落瓮—细灰光检查潮点—封泥压实留下日期，抽样苗需真实时间才发芽。"
+    },
+    {
+      "id": "C2-086",
+      "name": "尺影分料法",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C02",
+      "groups": [
+        "C02"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "C2-086",
+        "detailPath": "../arts-v02/crafts.md"
+      },
+      "specificProcess": "量每根原料的弯翘和缺陷，按所需受力长度排切并保留损耗记录；减少无谓边角料，不提高原材强度或把废料重新变完整。",
+      "sourceVfx": "木尺滑过料面—墨线绕开节疤逐段落下—切后边角单独入筐，不出现消失的损耗。"
+    },
+    {
+      "id": "C2-087",
+      "name": "桥索验荷谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C04",
+      "groups": [
+        "C04"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "C2-087",
+        "detailPath": "../arts-v02/crafts.md"
+      },
+      "specificProcess": "检查锚固与股丝后逐级施加真实试重，观察伸长和残余变形，划定可通行负载；只能验已检查结构，不承诺暴洪中永不失效。",
+      "sourceVfx": "试重缓缓下放—索上细白刻点拉开距离—卸载后残差标橙，停用桥口挂实际木牌。"
+    },
+    {
+      "id": "C2-088",
+      "name": "青窑辨釉法",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C10",
+      "groups": [
+        "C10"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "C2-088",
+        "detailPath": "../arts-v02/crafts.md"
+      },
+      "specificProcess": "对泥釉分批试烧记录温度、气氛和开裂，再选择适合药罐或阵瓷的组合；产物需真实窑烧，不会自动成为储物或法宝器皿。",
+      "sourceVfx": "试片点釉入窑—窑口橙光渐稳—开窑后釉面分出光泽与裂线，坏片单独留下。"
+    },
+    {
+      "id": "C2-089",
+      "name": "静纹辨契谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C14",
+      "groups": [
+        "C14"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "C2-089",
+        "detailPath": "../arts-v02/crafts.md"
+      },
+      "specificProcess": "逐段比对器物可见铭纹、磨损与已获原册，发现控制条件或断裂段；只能给出证据与未知项，不读主人心念，不擅自解除合法器契。",
+      "sourceVfx": "斜灯扫过铭面—细蓝线逐段描出已读纹—断缺处保留空隙，疑文收在卷图旁栏。"
+    },
+    {
+      "id": "C2-090",
+      "name": "野灶净食谱",
+      "status": "design-only",
+      "kind": "craft",
+      "primaryGroup": "C18",
+      "groups": [
+        "C18"
+      ],
+      "source": {
+        "path": "../content/golden-core-arts-draft-v0.2.json",
+        "entryId": "C2-090",
+        "detailPath": "../arts-v02/crafts.md"
+      },
+      "specificProcess": "按食材来源去污、分生熟并控制实灶火候，做适合行旅储带的熟食；补充真实营养与体力恢复条件，不让饥渴瞬间归满。",
+      "sourceVfx": "清水滤去泥屑—灶火分为文武两口—熟食起短白汽，装袋后只留真实热度与香气。"
+    }
+  ]
+}

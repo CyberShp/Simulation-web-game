@@ -1,10 +1,12 @@
 /** Canonical identity tables. Legacy modules use non-serialized live adapters. */
 import {appearance} from './ea-scenic.mjs';
 import {RESOURCES} from './ea-data.mjs';
+import {SERVICE_RESOURCE_VERSION,validResourceMap,validateServiceResources} from './ea-resource-types.mjs';
 import {hydratePillTotals} from './ea-sr-economy.mjs';
 import {ContractError,initContracts,validateContracts,SR_CONTENT_VERSION,SR_RULESET_VERSION} from './ea-sr-contracts.mjs';
-import {DOMAIN_EXTENT_VERSION,DOMAIN_LAYOUT_VERSION} from './ea-sect-domain.mjs';
+import {DOMAIN_LAYOUT_VERSION,domainExtentEnabled} from './ea-sect-domain.mjs';
 import {validateCourtyardTerrainRecord} from './ea-courtyard-master-terrain.mjs';
+import {RESIDENTIAL_HOUSING_VERSION,validateResidentialHousing} from './ea-residential-housing.mjs';
 
 export const SCHEMA_VERSION=6;
 export const CONTENT_VERSION='opening-v1.2';
@@ -32,6 +34,8 @@ function validateVersionCombination(s){
  if(!content.includes(s.contentVersion))unsupported('contentVersion',s.contentVersion);
  if(!versionPairs.has(`${s.rulesetVersion}/${s.contentVersion}`))unsupported('rulesetVersion+contentVersion',`${s.rulesetVersion}/${s.contentVersion}`);
  const sr=s.contentVersion===SR_CONTENT_VERSION;
+ if(s.serviceResources!==undefined){if(!sr)unsupported('serviceResources.version',s.serviceResources?.version);versionField(s.serviceResources,'version',SERVICE_RESOURCE_VERSION,'serviceResources.version');}validateServiceResources(s);
+ if(s.residentialHousing!==undefined){if(!sr)unsupported('residentialHousing.version',s.residentialHousing?.version);versionField(s.residentialHousing,'version',RESIDENTIAL_HOUSING_VERSION,'residentialHousing.version');}
  if(!sr){
   if(s.spatial!==undefined)unsupported('spatial.version',s.spatial?.version);
   for(const field of [...Object.keys(srCoreVersions),...Object.keys(srLaterVersions)])if(s[field]!==undefined)unsupported(`${field}.version`,s[field]?.version);
@@ -40,8 +44,8 @@ function validateVersionCombination(s){
  if(s.migrationLedger!==undefined||sr)versionField(s.migrationLedger,'version',1,'migrationLedger.version',{required:sr});
  if(s.spatial!==undefined||sr){
   versionField(s.spatial,'version','spatial-metres-1','spatial.version',{required:sr});
-  const domain=s.spatial?.extentVersion===DOMAIN_EXTENT_VERSION;
-  versionField(s.spatial,'extentVersion',domain?DOMAIN_EXTENT_VERSION:'courtyard-96-1','spatial.extentVersion',{optionalField:true});
+  const domain=domainExtentEnabled(s.spatial?.extentVersion);
+  versionField(s.spatial,'extentVersion',domain?s.spatial.extentVersion:'courtyard-96-1','spatial.extentVersion',{optionalField:true});
   if(domain)versionField(s.spatial.domain,'layoutVersion',DOMAIN_LAYOUT_VERSION,'spatial.domain.layoutVersion',{required:true});
   else if(s.spatial?.domain!==undefined)unsupported('spatial.domain',s.spatial.domain.layoutVersion);
   versionField(s.spatial,'buildingGridVersion','building-units-1','spatial.buildingGridVersion',{optionalField:true});
@@ -69,6 +73,12 @@ function registerPerson(s,p){
  p.appearance??={spriteIndex:appearance(p.id===undefined?'master':p.id),accent:accents[(p.id||0)%accents.length]};
  s.personsById[p.personId]=p;
  return p.personId;
+}
+/** Explicitly register a newly constructed world person without joining the roster. */
+export function registerWorldPerson(s,p){
+ const id=personKey(p);
+ if(!s.personsById||s.personsById[id]||Object.values(s.personsById).some(other=>other.id===p.id))throw Error('人物身份已登记。');
+ return registerPerson(s,p);
 }
 function registerBuilding(s,b){b.instanceId=buildingKey(b);s.buildingsById[b.instanceId]=b;return b.instanceId;}
 function arrayView(s,ids,table,register){
@@ -154,7 +164,7 @@ export function validateV6Shape(s){
  for(const field of ['personsById','buildingsById','activitiesById','workOrdersById','reservationsById','stockpilesById','factsById'])if(!s[field]||typeof s[field]!=='object'||Array.isArray(s[field]))fail('主表容器异常');
  for(const a of Object.values(s.activitiesById))if(a?.kind==='construction'&&a.workOrderId&&Object.keys(a).some(k=>['progressTicks','totalTicks'].includes(k)))fail('营造含重复进度字段');
  if(!s.stockpilesById['stockpile:yunxiu'])fail('山院库存缺失');
- for(const [id,stockpile]of Object.entries(s.stockpilesById))if(stockpile?.id!==id||![s.personsById,s.organizationsById,s.factionsById].some(table=>table&&Object.hasOwn(table,stockpile.ownerId))||!stockpile.resources||Object.keys(stockpile.resources).length!==Object.keys(RESOURCES).length||!Object.keys(RESOURCES).every(k=>Number.isFinite(stockpile.resources[k])&&stockpile.resources[k]>=0))fail('库存归属或数量异常');
+ for(const [id,stockpile]of Object.entries(s.stockpilesById))if(stockpile?.id!==id||![s.personsById,s.organizationsById,s.factionsById].some(table=>table&&Object.hasOwn(table,stockpile.ownerId))||!validResourceMap(s,stockpile.resources,{max:Infinity}))fail('库存归属或数量异常');
  if(!Array.isArray(s.homeMemberIds)||new Set(s.homeMemberIds).size!==s.homeMemberIds.length||s.homeMemberIds.includes('person:master')||!s.homeMemberIds.every(id=>s.personsById[id]))fail('人物引用异常');
  if(!s.personsById['person:master'])fail('掌门身份缺失');
  const ids=new Set();
@@ -171,5 +181,6 @@ export function validateV6Shape(s){
  if(!t||!Number.isSafeInteger(t.nextCommandId)||t.nextCommandId<1||!Array.isArray(t.receipts)||t.receipts.length>128||new Set(t.receipts.map(r=>r.id)).size!==t.receipts.length)fail('命令记录异常');
  for(const r of t.receipts)if(typeof r.id!=='string'||!/^command:[a-z0-9:-]{1,100}$/i.test(r.id)||/^command:[1-9][0-9]*$/.test(r.id)&&Number(r.id.slice(8))>=t.nextCommandId||!Number.isSafeInteger(r.revision)||r.revision<1||r.revision>s.revision||typeof r.signature!=='string'||r.signature.length>20000)fail('命令回执异常');
  validateContracts(s);
+ validateResidentialHousing(s);
  return true;
 }

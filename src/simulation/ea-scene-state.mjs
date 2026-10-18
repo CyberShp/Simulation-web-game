@@ -1,4 +1,5 @@
 import {courtyardVisitorVisible} from './ea-courtyard-visitors.mjs';
+import {SPATIAL_SCENE} from './ea-sr-spatial.mjs';
 import {artisanPresent} from './ea-rain-artisan.mjs';
 import {facilitySlotView} from './ea-facility-slots.mjs';
 import {productionOrder} from './ea-facility-activities.mjs';
@@ -32,7 +33,12 @@ export function scenicHomeActors(s){
  if(s.story.opening?.invitation==='unasked'&&s.story.step<=1&&s.personsById){const visitor=s.personsById[s.story.opening.visitorId];if(visitor&&!people.includes(visitor))people.push(visitor);}
  if(s.story.opening&&s.story.step===2){const visitor=s.personsById[s.story.opening.secondVisitorId];if(visitor&&!people.includes(visitor))people.push(visitor);}
  if(artisanPresent(s)){const artisan=s.personsById[s.story.artisan.personId];if(!people.includes(artisan))people.push(artisan);}
- for(const person of Object.values(s.personsById||{}))if(['arriving','departing'].includes(person.courtyardVisit?.phase)&&!people.includes(person))people.push(person);
+ for(const person of Object.values(s.personsById||{})){
+  const visiting=['arriving','departing'].includes(person.courtyardVisit?.phase),seekerPresent=person.courtyardVisit?.phase==='present'&&!!s.courtyardSeekers?.recordsByPersonId?.[person.personId]
+   &&!s.courtyardAdmissions?.recordsByPersonId?.[person.personId]&&person.lifeStatus!=='dead'&&!person.left&&!person.mind?.away&&!person.mind?.journey&&person.mind?.activity!=='travel'
+   &&person.position?.kind==='scene'&&person.position.sceneId===SPATIAL_SCENE.id;
+  if((visiting||seekerPresent)&&!people.includes(person))people.push(person);
+ }
  return people.filter(courtyardVisitorVisible);
 }
 export function routeDiscovered(s,id){return !!ROUTES[id]&&(s.story.step>=(ROUTES[id].scene==='lake'?4:2)||!!s.migration);}

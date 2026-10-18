@@ -32,8 +32,10 @@ test('two-member checkpoint is reproduced with the recorded official command lin
   assert.equal(seed.state.story.opening.invitation, 'joined');
   assert.deepEqual(Object.values(seed.state.buildingsById).map(b => b.type), ['hall', 'farm']);
   assert.equal(seed.provenance.trace.at(-1).name, 'enableSectDomain');
-  const domain = viewSect(createSectSession()).domain;
+  const legacyView = viewSect(createSectSession()), domain = legacyView.domain;
   assert.equal(domain.enabled, true);
+  assert.equal(domain.westEnabled, false);
+  assert.deepEqual(legacyView.bounds, { x: 0, y: 0, width: 160, height: 96 });
   assert.equal(domain.sites[0].status, 'available');
   assert.deepEqual(domain.sites[0].cost, { jade: 45, wood: 40, stone: 20 });
 });
@@ -49,7 +51,7 @@ test('an existing courtyard save opens the east domain only through its explicit
   assert.equal(commandSect(s, { type: 'enable-domain' }).ok, true);
   const expanded = viewSect(s);
   assert.equal(expanded.domain.enabled, true);
-  assert.deepEqual(expanded.bounds, { x: 0, y: 0, width: 160, height: 96 });
+  assert.deepEqual(expanded.bounds, { x: -34, y: 0, width: 194, height: 96 });
   assert.deepEqual(s.state.personsById, before.state.personsById);
   assert.deepEqual(s.state.stockpilesById, before.state.stockpilesById);
   assert.deepEqual(s.state.buildingsById, before.state.buildingsById);

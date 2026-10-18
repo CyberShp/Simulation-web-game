@@ -1,8 +1,9 @@
 /** EA data is independent of legacy shared objects. All randomness is state-owned. */
 import {addAmounts,subtractAmounts} from './ea-resource-amounts.mjs';
+import {BASE_RESOURCES,knownResource,resourceTypes,resourceBalance} from './ea-resource-types.mjs';
 export const GAME_VERSION='1.6.0-dev';
 export const DAY_LENGTH=120;
-export const RESOURCES={jade:'灵石',wood:'灵木',stone:'青石',herb:'灵草',crystal:'灵晶',insight:'道韵',food:'口粮'};
+export const RESOURCES=BASE_RESOURCES;
 export const RESOURCE=RESOURCES;
 export const CELLS=[];
 for(let x=0;x<12;x++)for(let y=0;y<10;y++)if(!((x===0&&y<2)||(x===7&&y>4&&y<7)||(y===0&&x>5)||(x===11&&y>7)))CELLS.push({x,y});
@@ -17,6 +18,8 @@ export const BUILDINGS={
  alchemy:building('丹霞炉','丹房',6,'以丹方和炼丹知识开炉，升级缩短炼制时间。药圃相邻提高炼制效率。',{jade:65,wood:35,stone:30},{},false,{stage:1,unique:true,upkeep:{jade:2,wood:1},tags:['craft']}),
  library:building('藏经阁','藏经',7,'提供典籍接触与研读空间，整理典籍产出道韵。藏书不等于有人能授业。',{jade:65,wood:45,stone:20},{insight:6},true,{stage:1,upkeep:{jade:1},tags:['learning']}),
  well:building('灵泉','灵泉',8,'筑基修士以护脉知识接引灵脉，稳定凝聚灵晶并滋养周边灵植。',{jade:130,stone:65,insight:15},{crystal:4},true,{stage:2,realm:10,upkeep:{jade:3},tags:['water']}),
+ // U-63/U-167/T-19: first storage court, physical capacity separate from beds.
+ warehouse:building('公库与储运院','公库',4,'分区收存建材、食粮与药材，物资实际送达后才可取用。',{jade:25,wood:30,stone:12},{},false,{storageCapacity:2400,tags:['storage']}),
  granary:building('灵稻田','稻田',1,'门人自主种植口粮。每人每日需两份，膳房可减少消耗。',{jade:25,wood:20,stone:5},{food:22},true,{upkeep:{jade:1},tags:['plant','food']}),
  kitchen:building('山院膳房','膳房',4,'炊食减少口粮消耗，改善门人休息。每级基础节省一成口粮；近居供膳更省粮，采石干扰则降低效益。',{jade:45,wood:35,stone:20},{},false,{stage:1,unique:true,upkeep:{wood:2},tags:['home','food']}),
  clinic:building('济生医庐','医庐',6,'减少掌门疗伤所需时间；门人伤势也可自主在此休養。需有人掌握养脉或药理。',{jade:90,wood:45,stone:30,herb:15},{},false,{stage:2,upkeep:{herb:2},tags:['home','medicine']}),
@@ -77,8 +80,8 @@ export const clamp=(n,min,max)=>Math.max(min,Math.min(max,n));
 export function rng(s){let x=s.sim.seed>>>0;x^=x<<13;x^=x>>>17;x^=x<<5;s.sim.seed=(x>>>0)||1;return s.sim.seed/4294967296;}
 export function log(s,text){s.logs.unshift({time:s.time,text:String(text).slice(0,500)});s.logs=s.logs.slice(0,100);}
 export const addLog=log;
-export function canPay(s,c={}){return c&&Object.entries(c).every(([k,v])=>Object.hasOwn(RESOURCES,k)&&finite(v)&&finite(s.resources[k])&&s.resources[k]>=v);}
-export function pay(s,c={}){if(!canPay(s,c))throw Error('物资不足：'+Object.entries(c).filter(([k,v])=>!finite(v)||s.resources[k]<v).map(([k,v])=>`${RESOURCES[k]||k} ${Math.ceil(Math.max(0,v-(s.resources[k]||0)))}`).join('、'));for(const[k,v]of Object.entries(c)){s.resources[k]=s.srEconomy?subtractAmounts(s.resources[k],v):s.resources[k]-v;if(s.economy)s.economy.expense[k]=s.srEconomy?addAmounts(s.economy.expense[k]||0,v):(s.economy.expense[k]||0)+v;}}
-export function grant(s,c={}){for(const[k,v]of Object.entries(c)){if(!Object.hasOwn(RESOURCES,k)||!finite(v))throw Error('资源收益无效。');s.resources[k]=Math.min(1e12,s.srEconomy?addAmounts(s.resources[k],v):s.resources[k]+v);if(s.economy)s.economy.income[k]=s.srEconomy?addAmounts(s.economy.income[k]||0,v):(s.economy.income[k]||0)+v;}}
+export function canPay(s,c={}){return !!c&&typeof c==='object'&&!Array.isArray(c)&&Object.entries(c).every(([k,v])=>knownResource(s,k)&&finite(v)&&finite(resourceBalance(s,s.resources,k))&&resourceBalance(s,s.resources,k)>=v);}
+export function pay(s,c={}){if(!canPay(s,c))throw Error('物资不足：'+Object.entries(c||{}).filter(([k,v])=>!knownResource(s,k)||!finite(v)||(s.resources[k]||0)<v).map(([k,v])=>`${resourceTypes(s)[k]||k} ${Math.ceil(Math.max(0,v-(s.resources[k]||0)))}`).join('、'));for(const[k,v]of Object.entries(c)){const before=resourceBalance(s,s.resources,k);s.resources[k]=s.srEconomy?subtractAmounts(before,v):before-v;if(s.economy)s.economy.expense[k]=s.srEconomy?addAmounts(s.economy.expense[k]||0,v):(s.economy.expense[k]||0)+v;}}
+export function grant(s,c={}){if(!c||typeof c!=='object'||Array.isArray(c)||!Object.entries(c).every(([k,v])=>knownResource(s,k)&&finite(v)&&finite(resourceBalance(s,s.resources,k))))throw Error('资源收益无效。');for(const[k,v]of Object.entries(c)){const before=resourceBalance(s,s.resources,k);s.resources[k]=Math.min(1e12,s.srEconomy?addAmounts(before,v):before+v);if(s.economy)s.economy.income[k]=s.srEconomy?addAmounts(s.economy.income[k]||0,v):(s.economy.income[k]||0)+v;}}
 export function capacity(s){return s.buildings.reduce((n,b)=>n+(BUILDINGS[b.type]?.capacity||0)*b.level,0);}
 export function stage(s){if((s.society?.peaks?.length||0)>=2)return 4;if(s.sect.founded||s.sect.level>=2)return 3;if(s.disciples.length>=5&&(s.story?.step||0)>=3)return 2;return(s.story?.step||0)>=2||s.disciples.length>0?1:0;}

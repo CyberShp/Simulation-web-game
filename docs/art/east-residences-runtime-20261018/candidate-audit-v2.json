@@ -1,0 +1,1577 @@
+{
+  "status": "static-candidate-v2-review",
+  "basis": "61 + complete-v2, empty-v4, construction-v1, join-v3; no world step or pathfinding invoked",
+  "sources": {
+    "complete": {
+      "path": "assets/courtyard/east-residences-complete-v2.png",
+      "sha256": "16fac6edbe0a558a70cbe1dfb61562fbec922321195a45cbc699c2a56fb22791"
+    },
+    "empty": {
+      "path": "assets/courtyard/east-residences-empty-v4.png",
+      "sha256": "8d8eff3a6e8e037c50044b1b26aedddf35f11d0e407d5d53a75550b8a93a3c75"
+    },
+    "construction": {
+      "path": "assets/courtyard/east-residences-construction-v1.png",
+      "sha256": "1da02dca84adbb7b9e3f7a4f575300320611103bf360cf8936e040aa77ca8c37"
+    },
+    "join": {
+      "path": "assets/courtyard/east-residences-join-v3.png",
+      "sha256": "36cf379c8bd86db817c81efbd2d8f9ae2bb97ae4a3ae256d70296b44e5423d60"
+    },
+    "measurements": "b347b9e950b8bb6df7923a9e64221a038d1a794ee33e9a007c97fe6020783b9c",
+    "candidateModule": "63ddbce291e63d5e13a5bd6fd3b210062ab0ccc586b18e66396629e2d7654374"
+  },
+  "projection": {
+    "version": "residences-projection-candidate-v2",
+    "horizontalColumns": [
+      {
+        "worldY": 50,
+        "anchors": [
+          [
+            160,
+            6808
+          ],
+          [
+            162,
+            6906
+          ],
+          [
+            165,
+            7106
+          ],
+          [
+            168,
+            7290
+          ],
+          [
+            171,
+            7449.5
+          ],
+          [
+            174,
+            7609
+          ],
+          [
+            177,
+            7806
+          ],
+          [
+            180,
+            7992
+          ],
+          [
+            184,
+            8248
+          ],
+          [
+            186,
+            8360
+          ]
+        ]
+      },
+      {
+        "worldY": 60,
+        "anchors": [
+          [
+            160,
+            6808
+          ],
+          [
+            162,
+            6906
+          ],
+          [
+            165,
+            7072
+          ],
+          [
+            168,
+            7238
+          ],
+          [
+            171,
+            7467
+          ],
+          [
+            174,
+            7687
+          ],
+          [
+            177,
+            7839.5
+          ],
+          [
+            180,
+            7992
+          ],
+          [
+            184,
+            8248
+          ],
+          [
+            186,
+            8360
+          ]
+        ]
+      }
+    ],
+    "transitionArtX": [
+      6808,
+      6906
+    ],
+    "depth": [
+      [
+        0,
+        -300
+      ],
+      [
+        4,
+        -200
+      ],
+      [
+        12,
+        -60
+      ],
+      [
+        12.6,
+        65
+      ],
+      [
+        20,
+        125
+      ],
+      [
+        28,
+        190
+      ],
+      [
+        36,
+        260
+      ],
+      [
+        40,
+        309
+      ],
+      [
+        44,
+        357.6666666666667
+      ],
+      [
+        44.6,
+        364.96666666666664
+      ],
+      [
+        45.5,
+        375.9166666666667
+      ],
+      [
+        46,
+        382
+      ],
+      [
+        46.6,
+        386
+      ],
+      [
+        48,
+        404.2
+      ],
+      [
+        50,
+        430.2
+      ],
+      [
+        50.6,
+        438
+      ],
+      [
+        52,
+        454.47058823529414
+      ],
+      [
+        54,
+        478
+      ],
+      [
+        60,
+        710
+      ],
+      [
+        66,
+        779
+      ],
+      [
+        66.6,
+        788
+      ],
+      [
+        70,
+        806.7
+      ],
+      [
+        70.6,
+        810
+      ],
+      [
+        72,
+        847
+      ],
+      [
+        96,
+        1225
+      ]
+    ],
+    "personRadiusMetres": 0.26,
+    "transitionWorld": [
+      160,
+      162
+    ],
+    "inverseMethod": "Invert blended depth at fixed artX, then invert the horizontal row at recovered worldY; piecewise-linear analytic inversion."
+  },
+  "checks": {
+    "legacyDelegation": {
+      "sampleCount": 325,
+      "failures": []
+    },
+    "invertibility": {
+      "sampleGrid": "x160..186 step0.25,y0..96 step0.2",
+      "maxRoundTripErrorMetres": 5.684341886080802e-14,
+      "monotoneFailures": [],
+      "boundaryChecks": 2520,
+      "boundaryMaxWorldError": 5.684341886080802e-14,
+      "boundaryMaxPixelError": 1.8189894035458565e-12,
+      "extrapolationMaxError": 0,
+      "invalidInputReturnsNull": true
+    },
+    "maxPlotPairs": [
+      {
+        "plans": [
+          "GC-11",
+          "GC-12"
+        ],
+        "overlap": false,
+        "axisGapMetres": [
+          2,
+          0
+        ],
+        "shortestDistanceMetres": 2
+      },
+      {
+        "plans": [
+          "GC-11",
+          "GC-10"
+        ],
+        "overlap": false,
+        "axisGapMetres": [
+          0,
+          10
+        ],
+        "shortestDistanceMetres": 10
+      },
+      {
+        "plans": [
+          "GC-12",
+          "GC-10"
+        ],
+        "overlap": false,
+        "axisGapMetres": [
+          0,
+          10
+        ],
+        "shortestDistanceMetres": 10
+      }
+    ],
+    "publicRoadIntersectionCount": 0,
+    "join": {
+      "sampleCount": 195,
+      "world": [
+        [
+          141.29864,
+          64.375
+        ],
+        [
+          142.47964,
+          64.9375
+        ],
+        [
+          147.36652,
+          66.625
+        ],
+        [
+          156,
+          67.50025
+        ],
+        [
+          157.4,
+          66.4
+        ],
+        [
+          158.5,
+          64.9375
+        ]
+      ],
+      "footCircleRadiusMetres": 0.26,
+      "failures": []
+    }
+  },
+  "sites": [
+    {
+      "planId": "GC-11",
+      "id": "site:domain:gc-11",
+      "levels": [
+        {
+          "level": 1,
+          "sizeMetres": 6,
+          "worldPolygon": [
+            [
+              162,
+              40
+            ],
+            [
+              168,
+              40
+            ],
+            [
+              168,
+              46
+            ],
+            [
+              162,
+              46
+            ]
+          ],
+          "artPolygon": [
+            [
+              218,
+              309
+            ],
+            [
+              602,
+              309
+            ],
+            [
+              602,
+              382
+            ],
+            [
+              218,
+              382
+            ]
+          ],
+          "artBounds": [
+            218,
+            309,
+            602,
+            382
+          ],
+          "entranceWorld": [
+            165,
+            46.6
+          ],
+          "entranceArt": [
+            418,
+            386
+          ],
+          "entranceCircleArtBounds": [
+            400.66667,
+            384.26667,
+            433.94667,
+            389.38
+          ],
+          "entryOnMeasuredWalk": true,
+          "entryOnOriginalBranch": true,
+          "entryCircleWithinLevel1Standing": true,
+          "minimumStandingMarginPx": 2.26667,
+          "publicRoadIntersections": [],
+          "roadNorthernEdgeGapPx": 67
+        },
+        {
+          "level": 2,
+          "sizeMetres": 8,
+          "worldPolygon": [
+            [
+              162,
+              40
+            ],
+            [
+              170,
+              40
+            ],
+            [
+              170,
+              48
+            ],
+            [
+              162,
+              48
+            ]
+          ],
+          "artPolygon": [
+            [
+              218,
+              309
+            ],
+            [
+              708.33333,
+              309
+            ],
+            [
+              708.33333,
+              404.2
+            ],
+            [
+              218,
+              404.2
+            ]
+          ],
+          "artBounds": [
+            218,
+            309,
+            708.33333,
+            404.2
+          ],
+          "entranceWorld": [
+            166,
+            48.6
+          ],
+          "entranceArt": [
+            479.33333,
+            412
+          ],
+          "entranceCircleArtBounds": [
+            463.38667,
+            408.62,
+            495.28,
+            415.38
+          ],
+          "entryOnMeasuredWalk": true,
+          "entryOnOriginalBranch": false,
+          "entryCircleWithinLevel1Standing": false,
+          "minimumStandingMarginPx": -42.4303,
+          "publicRoadIntersections": [],
+          "roadNorthernEdgeGapPx": 44.8
+        },
+        {
+          "level": 3,
+          "sizeMetres": 10,
+          "worldPolygon": [
+            [
+              162,
+              40
+            ],
+            [
+              172,
+              40
+            ],
+            [
+              172,
+              50
+            ],
+            [
+              162,
+              50
+            ]
+          ],
+          "artPolygon": [
+            [
+              218,
+              309
+            ],
+            [
+              814.66667,
+              309
+            ],
+            [
+              814.66667,
+              430.2
+            ],
+            [
+              218,
+              430.2
+            ]
+          ],
+          "artBounds": [
+            218,
+            309,
+            814.66667,
+            430.2
+          ],
+          "entranceWorld": [
+            167,
+            50.6
+          ],
+          "entranceArt": [
+            537.90667,
+            438
+          ],
+          "entranceCircleArtBounds": [
+            522.016,
+            434.62,
+            553.80458,
+            441.05882
+          ],
+          "entryOnMeasuredWalk": true,
+          "entryOnOriginalBranch": false,
+          "entryCircleWithinLevel1Standing": false,
+          "minimumStandingMarginPx": -102.73411,
+          "publicRoadIntersections": [],
+          "roadNorthernEdgeGapPx": 18.8
+        }
+      ],
+      "measuredEntrance": [
+        418,
+        386
+      ],
+      "entranceDeltaPx": [
+        0,
+        0
+      ],
+      "doorNetHeightPx": 119,
+      "adultHeightPx": 111,
+      "verticalDoorSparePx": 8,
+      "level1BodyGroundComparison": {
+        "measuredBounds": [
+          218,
+          309,
+          602,
+          382
+        ],
+        "candidateBounds": [
+          218,
+          309,
+          602,
+          382
+        ],
+        "measuredWidth": 384,
+        "candidateWidth": 384,
+        "leftInsetPx": 0,
+        "rightInsetPx": 0,
+        "measuredVerticesOutsideCandidate": []
+      }
+    },
+    {
+      "planId": "GC-12",
+      "id": "site:domain:gc-12",
+      "levels": [
+        {
+          "level": 1,
+          "sizeMetres": 6,
+          "worldPolygon": [
+            [
+              174,
+              40
+            ],
+            [
+              180,
+              40
+            ],
+            [
+              180,
+              46
+            ],
+            [
+              174,
+              46
+            ]
+          ],
+          "artPolygon": [
+            [
+              921,
+              309
+            ],
+            [
+              1304,
+              309
+            ],
+            [
+              1304,
+              382
+            ],
+            [
+              921,
+              382
+            ]
+          ],
+          "artBounds": [
+            921,
+            309,
+            1304,
+            382
+          ],
+          "entranceWorld": [
+            177,
+            46.6
+          ],
+          "entranceArt": [
+            1118,
+            386
+          ],
+          "entranceCircleArtBounds": [
+            1100.92667,
+            384.26667,
+            1134.12,
+            389.38
+          ],
+          "entryOnMeasuredWalk": true,
+          "entryOnOriginalBranch": true,
+          "entryCircleWithinLevel1Standing": true,
+          "minimumStandingMarginPx": 2.26667,
+          "publicRoadIntersections": [],
+          "roadNorthernEdgeGapPx": 68
+        },
+        {
+          "level": 2,
+          "sizeMetres": 8,
+          "worldPolygon": [
+            [
+              174,
+              40
+            ],
+            [
+              182,
+              40
+            ],
+            [
+              182,
+              48
+            ],
+            [
+              174,
+              48
+            ]
+          ],
+          "artPolygon": [
+            [
+              921,
+              309
+            ],
+            [
+              1432,
+              309
+            ],
+            [
+              1432,
+              404.2
+            ],
+            [
+              921,
+              404.2
+            ]
+          ],
+          "artBounds": [
+            921,
+            309,
+            1432,
+            404.2
+          ],
+          "entranceWorld": [
+            178,
+            48.6
+          ],
+          "entranceArt": [
+            1180,
+            412
+          ],
+          "entranceCircleArtBounds": [
+            1163.88,
+            408.62,
+            1196.12,
+            415.38
+          ],
+          "entryOnMeasuredWalk": true,
+          "entryOnOriginalBranch": false,
+          "entryCircleWithinLevel1Standing": false,
+          "minimumStandingMarginPx": -40.93754,
+          "publicRoadIntersections": [],
+          "roadNorthernEdgeGapPx": 45.8
+        },
+        {
+          "level": 3,
+          "sizeMetres": 10,
+          "worldPolygon": [
+            [
+              174,
+              40
+            ],
+            [
+              184,
+              40
+            ],
+            [
+              184,
+              50
+            ],
+            [
+              174,
+              50
+            ]
+          ],
+          "artPolygon": [
+            [
+              921,
+              309
+            ],
+            [
+              1560,
+              309
+            ],
+            [
+              1560,
+              430.2
+            ],
+            [
+              921,
+              430.2
+            ]
+          ],
+          "artBounds": [
+            921,
+            309,
+            1560,
+            430.2
+          ],
+          "entranceWorld": [
+            179,
+            50.6
+          ],
+          "entranceArt": [
+            1242.67,
+            438
+          ],
+          "entranceCircleArtBounds": [
+            1226.7242,
+            434.62,
+            1258.6158,
+            441.05882
+          ],
+          "entryOnMeasuredWalk": true,
+          "entryOnOriginalBranch": false,
+          "entryCircleWithinLevel1Standing": false,
+          "minimumStandingMarginPx": -105.5484,
+          "publicRoadIntersections": [],
+          "roadNorthernEdgeGapPx": 19.8
+        }
+      ],
+      "measuredEntrance": [
+        1118,
+        386
+      ],
+      "entranceDeltaPx": [
+        0,
+        0
+      ],
+      "doorNetHeightPx": 119,
+      "adultHeightPx": 111,
+      "verticalDoorSparePx": 8,
+      "level1BodyGroundComparison": {
+        "measuredBounds": [
+          921,
+          309,
+          1304,
+          382
+        ],
+        "candidateBounds": [
+          921,
+          309,
+          1304,
+          382
+        ],
+        "measuredWidth": 383,
+        "candidateWidth": 383,
+        "leftInsetPx": 0,
+        "rightInsetPx": 0,
+        "measuredVerticesOutsideCandidate": []
+      }
+    },
+    {
+      "planId": "GC-10",
+      "id": "site:domain:gc-10",
+      "levels": [
+        {
+          "level": 1,
+          "sizeMetres": 6,
+          "worldPolygon": [
+            [
+              168,
+              60
+            ],
+            [
+              174,
+              60
+            ],
+            [
+              174,
+              66
+            ],
+            [
+              168,
+              66
+            ]
+          ],
+          "artPolygon": [
+            [
+              550,
+              710
+            ],
+            [
+              999,
+              710
+            ],
+            [
+              999,
+              779
+            ],
+            [
+              550,
+              779
+            ]
+          ],
+          "artBounds": [
+            550,
+            710,
+            999,
+            779
+          ],
+          "entranceWorld": [
+            171,
+            66.6
+          ],
+          "entranceArt": [
+            779,
+            788
+          ],
+          "entranceCircleArtBounds": [
+            759.15333,
+            784.1,
+            798.06667,
+            789.43
+          ],
+          "entryOnMeasuredWalk": true,
+          "entryOnOriginalBranch": true,
+          "entryCircleWithinLevel1Standing": true,
+          "minimumStandingMarginPx": 4.1,
+          "publicRoadIntersections": [],
+          "roadNorthernEdgeGapPx": 37.40278
+        },
+        {
+          "level": 2,
+          "sizeMetres": 8,
+          "worldPolygon": [
+            [
+              168,
+              60
+            ],
+            [
+              176,
+              60
+            ],
+            [
+              176,
+              68
+            ],
+            [
+              168,
+              68
+            ]
+          ],
+          "artPolygon": [
+            [
+              550,
+              710
+            ],
+            [
+              1100.66667,
+              710
+            ],
+            [
+              1100.66667,
+              795.7
+            ],
+            [
+              550,
+              795.7
+            ]
+          ],
+          "artBounds": [
+            550,
+            710,
+            1100.66667,
+            795.7
+          ],
+          "entranceWorld": [
+            172,
+            68.6
+          ],
+          "entranceArt": [
+            852.33333,
+            799
+          ],
+          "entranceCircleArtBounds": [
+            833.26667,
+            797.57,
+            871.4,
+            800.43
+          ],
+          "entryOnMeasuredWalk": true,
+          "entryOnOriginalBranch": false,
+          "entryCircleWithinLevel1Standing": false,
+          "minimumStandingMarginPx": -55.79863,
+          "publicRoadIntersections": [],
+          "roadNorthernEdgeGapPx": 19.3
+        },
+        {
+          "level": 3,
+          "sizeMetres": 10,
+          "worldPolygon": [
+            [
+              168,
+              60
+            ],
+            [
+              178,
+              60
+            ],
+            [
+              178,
+              70
+            ],
+            [
+              168,
+              70
+            ]
+          ],
+          "artPolygon": [
+            [
+              550,
+              710
+            ],
+            [
+              1202.33333,
+              710
+            ],
+            [
+              1202.33333,
+              806.7
+            ],
+            [
+              550,
+              806.7
+            ]
+          ],
+          "artBounds": [
+            550,
+            710,
+            1202.33333,
+            806.7
+          ],
+          "entranceWorld": [
+            173,
+            70.6
+          ],
+          "entranceArt": [
+            925.66667,
+            810
+          ],
+          "entranceCircleArtBounds": [
+            906.6,
+            808.57,
+            944.73333,
+            816.87143
+          ],
+          "entryOnMeasuredWalk": true,
+          "entryOnOriginalBranch": false,
+          "entryCircleWithinLevel1Standing": false,
+          "minimumStandingMarginPx": -128.76828,
+          "publicRoadIntersections": [],
+          "roadNorthernEdgeGapPx": 8.3
+        }
+      ],
+      "measuredEntrance": [
+        779,
+        788
+      ],
+      "entranceDeltaPx": [
+        0,
+        0
+      ],
+      "doorNetHeightPx": 123,
+      "adultHeightPx": 111,
+      "verticalDoorSparePx": 12,
+      "level1BodyGroundComparison": {
+        "measuredBounds": [
+          550,
+          710,
+          999,
+          779
+        ],
+        "candidateBounds": [
+          550,
+          710,
+          999,
+          779
+        ],
+        "measuredWidth": 449,
+        "candidateWidth": 449,
+        "leftInsetPx": 0,
+        "rightInsetPx": 0,
+        "measuredVerticesOutsideCandidate": []
+      }
+    }
+  ],
+  "roads": [
+    {
+      "id": "upper",
+      "center": [
+        {
+          "art": [
+            100,
+            478
+          ],
+          "world": [
+            159.33333,
+            49.02222
+          ]
+        },
+        {
+          "art": [
+            300,
+            478
+          ],
+          "world": [
+            163.31974,
+            54
+          ]
+        },
+        {
+          "art": [
+            418,
+            478
+          ],
+          "world": [
+            165.23077,
+            54
+          ]
+        },
+        {
+          "art": [
+            545,
+            478
+          ],
+          "world": [
+            167.38575,
+            54
+          ]
+        },
+        {
+          "art": [
+            700,
+            478
+          ],
+          "world": [
+            169.90283,
+            54
+          ]
+        },
+        {
+          "art": [
+            900,
+            478
+          ],
+          "world": [
+            173.14752,
+            54
+          ]
+        },
+        {
+          "art": [
+            1118,
+            478
+          ],
+          "world": [
+            176.77567,
+            54
+          ]
+        },
+        {
+          "art": [
+            1380,
+            478
+          ],
+          "world": [
+            181.1875,
+            54
+          ]
+        },
+        {
+          "art": [
+            1505,
+            478
+          ],
+          "world": [
+            183.14063,
+            54
+          ]
+        }
+      ],
+      "centerOutsideMeasuredWalk": []
+    },
+    {
+      "id": "lower",
+      "center": [
+        {
+          "art": [
+            112,
+            844
+          ],
+          "world": [
+            159.73333,
+            68.81875
+          ]
+        },
+        {
+          "art": [
+            350,
+            847
+          ],
+          "world": [
+            164.38554,
+            72
+          ]
+        },
+        {
+          "art": [
+            600,
+            847
+          ],
+          "world": [
+            168.65502,
+            72
+          ]
+        },
+        {
+          "art": [
+            850,
+            847
+          ],
+          "world": [
+            171.96818,
+            72
+          ]
+        },
+        {
+          "art": [
+            1100,
+            847
+          ],
+          "world": [
+            175.98689,
+            72
+          ]
+        },
+        {
+          "art": [
+            1400,
+            845
+          ],
+          "world": [
+            181.5,
+            71.92432
+          ]
+        },
+        {
+          "art": [
+            1590,
+            840
+          ],
+          "world": [
+            184.53571,
+            71.73514
+          ]
+        }
+      ],
+      "centerOutsideMeasuredWalk": []
+    },
+    {
+      "id": "west",
+      "center": [
+        {
+          "art": [
+            80,
+            478
+          ],
+          "world": [
+            158.66667,
+            49.02222
+          ]
+        },
+        {
+          "art": [
+            75,
+            550
+          ],
+          "world": [
+            158.5,
+            52.28125
+          ]
+        },
+        {
+          "art": [
+            75,
+            650
+          ],
+          "world": [
+            158.5,
+            57.90625
+          ]
+        },
+        {
+          "art": [
+            75,
+            735
+          ],
+          "world": [
+            158.5,
+            62.6875
+          ]
+        },
+        {
+          "art": [
+            75,
+            775
+          ],
+          "world": [
+            158.5,
+            64.9375
+          ]
+        },
+        {
+          "art": [
+            84,
+            813
+          ],
+          "world": [
+            158.8,
+            67.075
+          ]
+        },
+        {
+          "art": [
+            112,
+            844
+          ],
+          "world": [
+            159.73333,
+            68.81875
+          ]
+        }
+      ],
+      "centerOutsideMeasuredWalk": []
+    },
+    {
+      "id": "west-entry",
+      "center": [
+        {
+          "art": [
+            0,
+            775
+          ],
+          "world": [
+            156,
+            64.9375
+          ]
+        },
+        {
+          "art": [
+            75,
+            775
+          ],
+          "world": [
+            158.5,
+            64.9375
+          ]
+        }
+      ],
+      "centerOutsideMeasuredWalk": []
+    },
+    {
+      "id": "branch:GC-11",
+      "center": [
+        {
+          "art": [
+            418,
+            386
+          ],
+          "world": [
+            165,
+            46.6
+          ]
+        },
+        {
+          "art": [
+            418,
+            440
+          ],
+          "world": [
+            165.04301,
+            50.77
+          ]
+        },
+        {
+          "art": [
+            418,
+            478
+          ],
+          "world": [
+            165.23077,
+            54
+          ]
+        }
+      ],
+      "centerOutsideMeasuredWalk": []
+    },
+    {
+      "id": "branch:GC-12",
+      "center": [
+        {
+          "art": [
+            1118,
+            386
+          ],
+          "world": [
+            177,
+            46.6
+          ]
+        },
+        {
+          "art": [
+            1118,
+            439
+          ],
+          "world": [
+            176.96451,
+            50.685
+          ]
+        },
+        {
+          "art": [
+            1118,
+            478
+          ],
+          "world": [
+            176.77567,
+            54
+          ]
+        }
+      ],
+      "centerOutsideMeasuredWalk": []
+    },
+    {
+      "id": "branch:GC-10",
+      "center": [
+        {
+          "art": [
+            779,
+            788
+          ],
+          "world": [
+            171,
+            66.6
+          ]
+        },
+        {
+          "art": [
+            779,
+            818
+          ],
+          "world": [
+            171,
+            70.9027
+          ]
+        },
+        {
+          "art": [
+            779,
+            847
+          ],
+          "world": [
+            171,
+            72
+          ]
+        }
+      ],
+      "centerOutsideMeasuredWalk": []
+    }
+  ],
+  "join": {
+    "image": "east-residences-join-v3.png",
+    "x": 5852,
+    "y": 0,
+    "width": 1672,
+    "height": 941,
+    "feather": 20,
+    "sceneryLeft": 6632,
+    "sceneryRight": 6744,
+    "sceneryFeather": 24,
+    "polygon": [
+      [
+        6307,
+        720
+      ],
+      [
+        6392,
+        720
+      ],
+      [
+        6492,
+        740
+      ],
+      [
+        6672,
+        755
+      ],
+      [
+        6752,
+        750
+      ],
+      [
+        6802,
+        740
+      ],
+      [
+        6842,
+        800
+      ],
+      [
+        6822,
+        855
+      ],
+      [
+        6692,
+        870
+      ],
+      [
+        6532,
+        850
+      ],
+      [
+        6412,
+        825
+      ],
+      [
+        6322,
+        805
+      ]
+    ],
+    "walkPolygon": [
+      [
+        6312,
+        750
+      ],
+      [
+        6342,
+        738
+      ],
+      [
+        6407,
+        750
+      ],
+      [
+        6477,
+        770
+      ],
+      [
+        6612,
+        785
+      ],
+      [
+        6692,
+        785
+      ],
+      [
+        6732,
+        770
+      ],
+      [
+        6767,
+        755
+      ],
+      [
+        6792,
+        765
+      ],
+      [
+        6772,
+        815
+      ],
+      [
+        6722,
+        844
+      ],
+      [
+        6657,
+        845
+      ],
+      [
+        6552,
+        828
+      ],
+      [
+        6472,
+        815
+      ],
+      [
+        6412,
+        798
+      ],
+      [
+        6352,
+        795
+      ],
+      [
+        6322,
+        780
+      ]
+    ],
+    "center": [
+      [
+        6327,
+        765
+      ],
+      [
+        6356,
+        775
+      ],
+      [
+        6476,
+        805
+      ],
+      [
+        6688,
+        820.56
+      ],
+      [
+        6730,
+        801
+      ],
+      [
+        6763,
+        775
+      ]
+    ]
+  },
+  "pending": [
+    {
+      "id": "upgrade-artwork",
+      "detail": "Future level2/3 houses and their moving door/step geometry must be authored. Cleared approach ground exists; current artwork is level1."
+    },
+    {
+      "id": "runtime-stage-composition",
+      "detail": "Scene combinations and final joining blend require renderer inspection. This report describes static images and coordinates."
+    }
+  ],
+  "limits": [
+    "Imported legacy functions are the current callback baseline; the old-domain test verifies unchanged delegation, not a historical runtime snapshot.",
+    "Footprints are calibrated to measured ground-contact bounds. Roof occlusion and indoor wall geometry remain separate.",
+    "The terrain polygons are candidates measured on empty-v4; formal navigation evidence belongs to the spatial task."
+  ]
+}

@@ -14,9 +14,9 @@
 
 纳入云岫前期，按依赖推进。
 
-决策来源：U-63, U-93, R-25, U-94, U-98, U-99, R-28, U-105, R-32, U-123, U-124, U-149, R-49, U-151, R-43。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
+决策来源：U-63, U-93, R-25, U-94, U-98, U-99, R-28, U-105, R-32, U-123, U-124, U-149, R-49, U-151, R-43, U-158, R-51, T-17, U-163, R-52, T-18, U-166, R-54, U-167, T-20, T-21。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
 
-规格：[02-EQUIPMENT-ARTS.md](../../../docs/design/02-EQUIPMENT-ARTS.md)、[07-ECONOMY-ORGANIZATION.md](../../../docs/design/07-ECONOMY-ORGANIZATION.md)、[14-EARLY-GAME-DETAILED-DESIGN.md](../../../docs/design/14-EARLY-GAME-DETAILED-DESIGN.md)、[06-OPENING-ACCEPTANCE.md](../../../docs/design/06-OPENING-ACCEPTANCE.md)、[SECT-GROWTH-PLAN.md](../../../docs/SECT-GROWTH-PLAN.md)、[41-COURTYARD-VALLEY-IMPLEMENTATION.md](../../../docs/design/41-COURTYARD-VALLEY-IMPLEMENTATION.md)、[51-COURTYARD-MANAGEMENT-INTEGRATION.md](../../../docs/design/51-COURTYARD-MANAGEMENT-INTEGRATION.md)、[45-SECT-IDLE-SLICE.md](../../../docs/design/45-SECT-IDLE-SLICE.md)、[53-COURTYARD-AUTONOMY-ACCEPTANCE.md](../../../docs/design/53-COURTYARD-AUTONOMY-ACCEPTANCE.md)。
+规格：[02-EQUIPMENT-ARTS.md](../../../docs/design/02-EQUIPMENT-ARTS.md)、[07-ECONOMY-ORGANIZATION.md](../../../docs/design/07-ECONOMY-ORGANIZATION.md)、[14-EARLY-GAME-DETAILED-DESIGN.md](../../../docs/design/14-EARLY-GAME-DETAILED-DESIGN.md)、[06-OPENING-ACCEPTANCE.md](../../../docs/design/06-OPENING-ACCEPTANCE.md)、[SECT-GROWTH-PLAN.md](../../../docs/SECT-GROWTH-PLAN.md)、[41-COURTYARD-VALLEY-IMPLEMENTATION.md](../../../docs/design/41-COURTYARD-VALLEY-IMPLEMENTATION.md)、[51-COURTYARD-MANAGEMENT-INTEGRATION.md](../../../docs/design/51-COURTYARD-MANAGEMENT-INTEGRATION.md)、[45-SECT-IDLE-SLICE.md](../../../docs/design/45-SECT-IDLE-SLICE.md)、[53-COURTYARD-AUTONOMY-ACCEPTANCE.md](../../../docs/design/53-COURTYARD-AUTONOMY-ACCEPTANCE.md)、[56-COURTYARD-FOOD-SUPPLY.md](../../../docs/design/56-COURTYARD-FOOD-SUPPLY.md)、[58-GOLDEN-CORE-PRESET-BUILDINGS.md](../../../docs/design/58-GOLDEN-CORE-PRESET-BUILDINGS.md)、[59-WEST-FOREST-INTEGRATION.md](../../../docs/design/59-WEST-FOREST-INTEGRATION.md)、[60-WEST-VALLEY-INTEGRATION.md](../../../docs/design/60-WEST-VALLEY-INTEGRATION.md)、[61-RESIDENTIAL-INTEGRATION.md](../../../docs/design/61-RESIDENTIAL-INTEGRATION.md)、[62-EAST-SERVICES-INTEGRATION.md](../../../docs/design/62-EAST-SERVICES-INTEGRATION.md)。
 
 依赖：[SR-XF-002](SR-XF-002.md)、[SR-XF-004](SR-XF-004.md)。
 
@@ -74,6 +74,8 @@ SR-XF-009-AC-03证据：tests/acceptance/ea-sr-009-reservation-competition-publi
 2026-10-12 U-123：田边10份灵草实运到炉边，掌门单炉炼得回春散2份；炼药定向2／2。完整产能与供给链继续。 局部证据见 docs/art/COURTYARD-VALLEY-2026-10-12.md；整项 D/I/V/R 与 AC 状态不变。
 2026-10-12 Issue #5：最新main6000秒实验16笔生产/14笔微量灵石，修复显式receipt、9位新计算精度、工资封顶、事务提交与运输严格余额。专项12/12，正常公开开局2/2、丹炉公开链1/1；旧数量和事实逐字保留，不推进完整SR状态。见 docs/design/ISSUE-5-PRODUCTION-ACCOUNTING.md。
 
+2026-10-18 U-167局部：批准25项设施/31预设建位布局并分期开发；31目录已接入，原殿/药圃/东台保留身份，西林一级完成真实西桥运料、到场施工、两工位产木与搬回公库，其余27处待接。默认170/170、相关31项及地面校准后6+10项复验通过。macOS源码Electron同一两人来源档10/10、100.894秒，投入25灵石20木8石，6木实际回库，三次存读精确，页面/运行错误0。证据docs/design/59-WEST-FOREST-INTEGRATION.md；升级画层、三人长验、Windows及当前包另验，整项D/I/V/R与AC状态保持。 2026-10-18 U-167西谷GC-17/18/19/24开发中：显式扩谷、固定施工、有限石源、现场种粮及独立分类公库已写入。同源30条公开命令连续营造四处并精确存读，证据/Volumes/Media/immortal-qa/west-valley-prepared-20261018-v2/。阶段美术及完整桌面验收继续；远路邀请已改为有限通勤、到岗后计劳动承诺，旧邀请期限保留，公库口粮纳入实际回运；整项SR/AC状态保持。
+
 ## 开发任务
 
 | 任务 | 工作 | 状态 | 前置 | 责任人 |
@@ -86,9 +88,9 @@ SR-XF-009-AC-03证据：tests/acceptance/ea-sr-009-reservation-competition-publi
 
 SR-XF-009-D01证据：docs/SECT-GROWTH-PLAN.md；docs/design/47-GOLDEN-CORE-ARTS-CATALOGUE-DRAFT.md；2026-10-15 U-145/R-45：169项修行内容草案、五脉续篇、获取替代、百艺阵法、暗线与特效；仅补设计证据，金丹运行与完整D/I/V/R、AC状态保持。；docs/design/48-GOLDEN-CORE-WORLD-ARTS-V02.md；2026-10-15 U-146/R-46：720项玩家/NPC世界修行库、72新增来源谱系，符箓蛊道心法攻防及获取特效补齐；仅设计字段、来源与引用检查，运行及完整D/I/V/R、AC状态保持。；docs/design/50-COURTYARD-UI-DESIGN-AUDIT.md；2026-10-15 U-148/R-48：四页及关联入口30项设计审查与7条后续场景；两处物流问题由正常命令复现，运行代码未修，实际UI未验，完整状态保持。
 
-SR-XF-009-I01证据：src/simulation/ea-sr-economy.mjs；src/simulation/ea-sr-persons.mjs；tests/unit/web/ea-activity-truth.test.mjs；tests/acceptance/ea-sr-economy-acceptance.mjs；2026-10-08 r19: tests/acceptance/ea-sr-009-herb-crop-public-acceptance.mjs 5/5; adjacent production 5/5, facility and door 17/17, opt-in v2 work route 1/1; local Chromium memory import showed crop status and cancellation; source c9be1d476311a558e7a37a4e0305e5086b71a369, Pages 15ec91db21b8f4b37f30accdd5ac643e024a160d built；2026-10-08 r23: ordinary production recipe:v2 snapshots, old active v1 migration, tamper rejection and scoped independent replay; runtime main dc1ff06670f569be34f836580ce83c31f1c92150, Pages e7f6a8a55f2e7bbd74d33d6a33563d885bd17b27 built; construction/craft/equipment snapshots and full new-game unlock remain open；2026-10-08 r26 局部装备配方：七件配方的新制作单冻结投入、工时、槽位、关键实物 claim、来源仓及产权；旧活跃已付费制作单在克隆读档时一次迁移，旧已完成物品保持，坏快照或重复结果拒载。有来源正常公开命令百工坊 checkpoint（worldTick31820）实际备料、制作行山轻衣、开工前/后取消、25步旧活跃单接续及成品唯一事实；根专项1/1，10条补充公开命令、6次精确存读，界面17通过/4待设备。本地Chromium导入真实在制档，七件报价、进度及取消可见；零进度取消实点后灵石98→110、木11→17，控制台0错误/0警告（1条浏览器autocomplete提示）。源码94986d3、Pages fa17a3b built，162文本blob与两个公网模块字节匹配。基线新档建坊处旧门道候位读档差异另案处理；本批没有测试七件分别全链或施工配方/跨仓物流/完整新档解锁，SR009整体状态不提升。证据 tests/acceptance/ea-sr-009-equipment-recipe-public-acceptance.mjs、/tmp/immortal-sr009-root-r26/.playwright-cli/page-2026-10-08T11-52-40-680Z.yml。；docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。
+SR-XF-009-I01证据：src/simulation/ea-sr-economy.mjs；src/simulation/ea-sr-persons.mjs；tests/unit/web/ea-activity-truth.test.mjs；tests/acceptance/ea-sr-economy-acceptance.mjs；2026-10-08 r19: tests/acceptance/ea-sr-009-herb-crop-public-acceptance.mjs 5/5; adjacent production 5/5, facility and door 17/17, opt-in v2 work route 1/1; local Chromium memory import showed crop status and cancellation; source c9be1d476311a558e7a37a4e0305e5086b71a369, Pages 15ec91db21b8f4b37f30accdd5ac643e024a160d built；2026-10-08 r23: ordinary production recipe:v2 snapshots, old active v1 migration, tamper rejection and scoped independent replay; runtime main dc1ff06670f569be34f836580ce83c31f1c92150, Pages e7f6a8a55f2e7bbd74d33d6a33563d885bd17b27 built; construction/craft/equipment snapshots and full new-game unlock remain open；2026-10-08 r26 局部装备配方：七件配方的新制作单冻结投入、工时、槽位、关键实物 claim、来源仓及产权；旧活跃已付费制作单在克隆读档时一次迁移，旧已完成物品保持，坏快照或重复结果拒载。有来源正常公开命令百工坊 checkpoint（worldTick31820）实际备料、制作行山轻衣、开工前/后取消、25步旧活跃单接续及成品唯一事实；根专项1/1，10条补充公开命令、6次精确存读，界面17通过/4待设备。本地Chromium导入真实在制档，七件报价、进度及取消可见；零进度取消实点后灵石98→110、木11→17，控制台0错误/0警告（1条浏览器autocomplete提示）。源码94986d3、Pages fa17a3b built，162文本blob与两个公网模块字节匹配。基线新档建坊处旧门道候位读档差异另案处理；本批没有测试七件分别全链或施工配方/跨仓物流/完整新档解锁，SR009整体状态不提升。证据 tests/acceptance/ea-sr-009-equipment-recipe-public-acceptance.mjs、/tmp/immortal-sr009-root-r26/.playwright-cli/page-2026-10-08T11-52-40-680Z.yml。；docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。；docs/design/59-WEST-FOREST-INTEGRATION.md；tests/acceptance/courtyard-west-desktop.mjs；2026-10-18 U-167西谷GC-17/18/19/24开发中：显式扩谷、固定施工、有限石源、现场种粮及独立分类公库已写入。同源30条公开命令连续营造四处并精确存读，证据/Volumes/Media/immortal-qa/west-valley-prepared-20261018-v2/。阶段美术及完整桌面验收继续；远路邀请已改为有限通勤、到岗后计劳动承诺，旧邀请期限保留，公库口粮纳入实际回运；整项SR/AC状态保持。；2026-10-18 U-167/T-20住宅接续：GC09–12沿固定建位建设，四院一级16实体床；独立床位模块10/10规则检查，含只读旧档、唯一床位、真实到床、途中存读与失效恢复。三院完工及空地母稿已制作，世界位置与升级占地待校准。正式运行接缝、近身有限交易筹资和同源桌面营建入住尚待完成；本条只登记住宅局部准备，不推进完整SR/AC状态。；2026-10-18 U-167/T-19西谷一级批：同一未改正常来源macOS源码Electron连续31/31，墙钟1219.061秒、tick646→10944、7次精确关闭重开、错误0。四址实际运料施工，有限采石18.4及两田实际收获后35.2593256粮搬入新公库，两田各留2种粮。根独立读回来源SHA/最终状态/截图，源码与素材hash随run03封存；完整SR/AC、升级损坏图、供水保鲜、Windows和安装包仍按原范围接续。详见docs/design/60-WEST-VALLEY-INTEGRATION.md。；2026-10-18 U-167/T-20住宅筹资接缝：掌门从公库实际取货到随身，统一人物窗近身买卖、有限库存/本金及实际回款。专项5/5含重试一次结算；macOS源码Electron独立来源连续11/11、两次精确重开、错误0。20石换18灵石，买10粮花10，余8灵石实际入HOME。见61§10；该轨道不代替住宅营建或完整SR/AC验收。
 
-SR-XF-009-V01证据：src/simulation/ea-sr-economy.mjs；src/simulation/ea-sr-persons.mjs；tests/unit/web/ea-activity-truth.test.mjs；tests/acceptance/ea-sr-economy-acceptance.mjs；tests/acceptance/ea-sr-integration-acceptance.mjs；docs/design/STATUS.md；2026-10-08 r24 局部丹炉：正常公开开局建炉/运草/成丹59命令、39次精确存读；v1及旧已付费迁移、取消余料一次返还、满仓同地同产权暂存、完成/取消坏事实拒载。根1/1、独立1/1，本地Chromium导入/刷新续档4/20。施工/装备和完整新档解锁未验，整项状态不提升。；2026-10-08 r26 局部装备配方：七件配方的新制作单冻结投入、工时、槽位、关键实物 claim、来源仓及产权；旧活跃已付费制作单在克隆读档时一次迁移，旧已完成物品保持，坏快照或重复结果拒载。有来源正常公开命令百工坊 checkpoint（worldTick31820）实际备料、制作行山轻衣、开工前/后取消、25步旧活跃单接续及成品唯一事实；根专项1/1，10条补充公开命令、6次精确存读，界面17通过/4待设备。本地Chromium导入真实在制档，七件报价、进度及取消可见；零进度取消实点后灵石98→110、木11→17，控制台0错误/0警告（1条浏览器autocomplete提示）。源码94986d3、Pages fa17a3b built，162文本blob与两个公网模块字节匹配。基线新档建坊处旧门道候位读档差异另案处理；本批没有测试七件分别全链或施工配方/跨仓物流/完整新档解锁，SR009整体状态不提升。证据 tests/acceptance/ea-sr-009-equipment-recipe-public-acceptance.mjs、/tmp/immortal-sr009-root-r26/.playwright-cli/page-2026-10-08T11-52-40-680Z.yml。；docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。
+SR-XF-009-V01证据：src/simulation/ea-sr-economy.mjs；src/simulation/ea-sr-persons.mjs；tests/unit/web/ea-activity-truth.test.mjs；tests/acceptance/ea-sr-economy-acceptance.mjs；tests/acceptance/ea-sr-integration-acceptance.mjs；docs/design/STATUS.md；2026-10-08 r24 局部丹炉：正常公开开局建炉/运草/成丹59命令、39次精确存读；v1及旧已付费迁移、取消余料一次返还、满仓同地同产权暂存、完成/取消坏事实拒载。根1/1、独立1/1，本地Chromium导入/刷新续档4/20。施工/装备和完整新档解锁未验，整项状态不提升。；2026-10-08 r26 局部装备配方：七件配方的新制作单冻结投入、工时、槽位、关键实物 claim、来源仓及产权；旧活跃已付费制作单在克隆读档时一次迁移，旧已完成物品保持，坏快照或重复结果拒载。有来源正常公开命令百工坊 checkpoint（worldTick31820）实际备料、制作行山轻衣、开工前/后取消、25步旧活跃单接续及成品唯一事实；根专项1/1，10条补充公开命令、6次精确存读，界面17通过/4待设备。本地Chromium导入真实在制档，七件报价、进度及取消可见；零进度取消实点后灵石98→110、木11→17，控制台0错误/0警告（1条浏览器autocomplete提示）。源码94986d3、Pages fa17a3b built，162文本blob与两个公网模块字节匹配。基线新档建坊处旧门道候位读档差异另案处理；本批没有测试七件分别全链或施工配方/跨仓物流/完整新档解锁，SR009整体状态不提升。证据 tests/acceptance/ea-sr-009-equipment-recipe-public-acceptance.mjs、/tmp/immortal-sr009-root-r26/.playwright-cli/page-2026-10-08T11-52-40-680Z.yml。；docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。；docs/design/59-WEST-FOREST-INTEGRATION.md；tests/acceptance/courtyard-west-desktop.mjs；2026-10-18 U-167西谷GC-17/18/19/24开发中：显式扩谷、固定施工、有限石源、现场种粮及独立分类公库已写入。同源30条公开命令连续营造四处并精确存读，证据/Volumes/Media/immortal-qa/west-valley-prepared-20261018-v2/。阶段美术及完整桌面验收继续；远路邀请已改为有限通勤、到岗后计劳动承诺，旧邀请期限保留，公库口粮纳入实际回运；整项SR/AC状态保持。；2026-10-18 U-167/T-20住宅接续：GC09–12沿固定建位建设，四院一级16实体床；独立床位模块10/10规则检查，含只读旧档、唯一床位、真实到床、途中存读与失效恢复。三院完工及空地母稿已制作，世界位置与升级占地待校准。正式运行接缝、近身有限交易筹资和同源桌面营建入住尚待完成；本条只登记住宅局部准备，不推进完整SR/AC状态。；2026-10-18 U-167/T-19西谷一级批：同一未改正常来源macOS源码Electron连续31/31，墙钟1219.061秒、tick646→10944、7次精确关闭重开、错误0。四址实际运料施工，有限采石18.4及两田实际收获后35.2593256粮搬入新公库，两田各留2种粮。根独立读回来源SHA/最终状态/截图，源码与素材hash随run03封存；完整SR/AC、升级损坏图、供水保鲜、Windows和安装包仍按原范围接续。详见docs/design/60-WEST-VALLEY-INTEGRATION.md。；2026-10-18 U-167/T-20住宅筹资接缝：掌门从公库实际取货到随身，统一人物窗近身买卖、有限库存/本金及实际回款。专项5/5含重试一次结算；macOS源码Electron独立来源连续11/11、两次精确重开、错误0。20石换18灵石，买10粮花10，余8灵石实际入HOME。见61§10；该轨道不代替住宅营建或完整SR/AC验收。
 
 ## 可进入开发的条件
 
@@ -144,6 +146,29 @@ SR-XF-009-V01证据：src/simulation/ea-sr-economy.mjs；src/simulation/ea-sr-pe
 - docs/design/53-COURTYARD-AUTONOMY-ACCEPTANCE.md
 - tests/acceptance/courtyard-autonomy-desktop.mjs
 - tests/acceptance/courtyard-autonomy-audit.py
+- docs/design/55-CHARACTER-ACTION-LIBRARY.md
+- docs/design/character-actions/WEAPONS-AND-SUPERNATURAL.md
+- docs/design/character-actions/CRAFTS.md
+- docs/design/character-actions/craft-coverage.json
+- docs/design/56-COURTYARD-FOOD-SUPPLY.md
+- tests/unit/courtyard/sect-food.test.mjs
+- tests/acceptance/courtyard-food-desktop.mjs
+- docs/design/58-GOLDEN-CORE-PRESET-BUILDINGS.md
+- docs/art/golden-core-domain-20261018/README.md
+- docs/design/60-WEST-VALLEY-INTEGRATION.md
+- docs/design/61-RESIDENTIAL-INTEGRATION.md
+- 2026-10-18 U-167/T-20住宅接续：GC09–12沿固定建位建设，四院一级16实体床；独立床位模块10/10规则检查，含只读旧档、唯一床位、真实到床、途中存读与失效恢复。三院完工及空地母稿已制作，世界位置与升级占地待校准。正式运行接缝、近身有限交易筹资和同源桌面营建入住尚待完成；本条只登记住宅局部准备，不推进完整SR/AC状态。
+- 2026-10-18 U-167/T-19西谷一级批：同一未改正常来源macOS源码Electron连续31/31，墙钟1219.061秒、tick646→10944、7次精确关闭重开、错误0。四址实际运料施工，有限采石18.4及两田实际收获后35.2593256粮搬入新公库，两田各留2种粮。根独立读回来源SHA/最终状态/截图，源码与素材hash随run03封存；完整SR/AC、升级损坏图、供水保鲜、Windows和安装包仍按原范围接续。详见docs/design/60-WEST-VALLEY-INTEGRATION.md。
+- tests/unit/courtyard/courtyard-local-trade.test.mjs
+- tests/acceptance/courtyard-local-trade-desktop.mjs
+- tests/unit/courtyard/courtyard-east-residences-domain.test.mjs
+- tests/unit/courtyard/courtyard-housing-presentation.test.mjs
+- tests/acceptance/courtyard-residential-funding-public.mjs
+- tests/acceptance/courtyard-residential-roads-desktop.mjs
+- tests/acceptance/courtyard-residential-build-desktop.mjs
+- docs/design/62-EAST-SERVICES-INTEGRATION.md
+- docs/design/66-NORTH-MEDITATION-INTEGRATION.md
+- docs/design/68-WEST-WORKSHOPS-INTEGRATION.md
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
@@ -169,5 +194,13 @@ SR-XF-009-V01证据：src/simulation/ea-sr-economy.mjs；src/simulation/ea-sr-pe
 - 2026-10-15：U-148：记录四页及关联入口设计审查、操作断点和R-48重整提案；未修运行代码，完整D/I/V/R与AC状态保持。
 - 2026-10-15：U-149：接续远端main并完成当前山院管理和取消回收、保存恢复的局部桌面验证；完整状态保持。
 - 2026-10-16：U-151/R-43：同一东台完成档实际自主1200.036秒，后台180.857秒、接管、预算风险、生产搬运及关闭重开。原脚本末段分类失败保留，同轮证据补核验38项；同档手动补粮恢复5项。持续公库供给仍有缺口，完整SR/AC与D/I/V/R状态保持。
+- 2026-10-17：U-158/R-51/T-17：登记人物动作设计稿及兵器神通、百艺分册，100动作组区分姿势、手位、物件、作用事件及中断收势；172项百艺草案按工序和阵法组对应。本批只检查设计覆盖、引用与同源时钟/身体活动/封闭建筑/知情等契约。具体姿势、八向建议与制作批次待评看，新动作素材和正常/失败/存读及设备验证待后续；完整SR/AC与任务状态保持。
+- 2026-10-18：U-163/R-52/T-18：口粮目标、有限采粮与实际送库、保留生活粮的付费补种、预算与旧策略兼容已接入。供粮8项、相关17项、默认核心152/152通过。macOS源码Electron同源实际自主1200.016秒，实采送库80、消费40、公库3→43，解除饥荒后持续为0；长验11/11、证据核对12/12、界面7/7、macOS包同档短复验6/6，暂停关闭重开精确恢复。成功付费补种实机、三至五人、Windows及完整SR/AC状态保持。
+- 2026-10-18：U-166/R-54将金丹篇建筑纳入同一预设山域规划：25项设施、31处编号位置，覆盖14类现行类型及专门工位。完成目录核对、编号图与整体场景概念；布局待评看，米制校准、施工接入和运行验收继续推进，本SR及AC状态保持。
+- 2026-10-18：U-167 GC03同源公开筹料91743→117712→167589→168109完成，前两段失败及自然人物成长保持。macOS Electron run01勘察途中身体边缘检查失败，实际168489原生档封存，页面错误0；道路中心修复已合入、实机接续待验。GC25/26在隔离副本制作，完整SR/AC状态保持。
+- 2026-10-18：U-167 GC03北台路心与静态地面查询修复合入，主树5项及原168489实际94步/4次存读通过。桌面原勘察1170在168583完成，施工14仅扣60灵石40木25石一次；实际168803封存后定位林长风自主回床路线检查失败。run02离开建位缺步及run03热字段遗漏为验收脚本问题，全部实际来源、进度及失败保留。完整经营与SR/AC继续验收。
+- 2026-10-18：U-167 GC03原施工14已在同源桌面完成；四蒲团/两检修位、180步炼气6→7层、有限供灵与四次关闭重开通过。北路返床/绕人修复主树8项及实际27步回路成立。现场货位目的地过滤已补；当前170563检修运输347续接核对主殿门槛圈样本，维护全链未完成。丹房四阶段四工位16项为隔离候选证据。完整SR/AC状态保持。
+- 2026-10-18：U-167 GC03一级同源macOS源码桌面链完成：最终171973，run07为10/10、错误0、209.943秒，七段实际逐项合计777.710秒。勘察/施工、180步6→7层、有限供灵、原运输347与348送2木1石、80步维护均成立，携货及活动中多次精确重开。Lu门槛为外部脚圈检查室内边界遗漏，已按正式预约/holder/floor纠正且保留离路反例。整体建筑与完整SR/AC继续。
+- 2026-10-19：U-167 GC25/26一级道路、四阶段、真实工位与四段炼丹已合入23源码/测试和14图，主树30项及工程检查通过；有限供料负坐标整档完成施工到唯一两份成药，正常桌面生产另验。求见链真实续至174422，首位来客到时离开、第二位入院，未新增收录；绕柱导航已修，北坡迎面互等继续验证。完整SR/AC状态保持。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python scripts/requirements/sr-manager.py refresh`，不单独修改此派生页。

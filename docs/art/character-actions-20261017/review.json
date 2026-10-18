@@ -1,0 +1,55 @@
+{
+  "date": "2026-10-17",
+  "kind": "static-key-pose-design-review",
+  "status": "pass-for-key-pose-design",
+  "reviewer": "/root/keypose_review",
+  "rootVisualInspection": true,
+  "scope": {
+    "boards": 7,
+    "poses": 28,
+    "identityReference": "assets/characters/shen-yan/pixel-walk-study-v1/source/pixel-identity-reference.png"
+  },
+  "observations": [
+    {
+      "id": "S01",
+      "result": "右手持剑、左手引诀；直送、离手物效与收手清楚。"
+    },
+    {
+      "id": "S04",
+      "result": "双掌前撑、承击后坐与卸力可辨；剑保持入鞘。"
+    },
+    {
+      "id": "A02",
+      "result": "左手持旗连续，插稳与松手后留地成立。"
+    },
+    {
+      "id": "A04",
+      "result": "三节点关系可辨，宽站撑阵与前推护障轮廓分开，受损与卸势清楚。"
+    },
+    {
+      "id": "G01",
+      "result": "右手持续托匣，左手启盖、低送引蛊、合盖；出匣路径清楚。"
+    },
+    {
+      "id": "F01",
+      "result": "符囊四格持续；右手肩侧蓄势、符纸离手和收势成立。"
+    },
+    {
+      "id": "P03",
+      "result": "人物留后侧操控，木偶在前进攻与回防，人偶分工清楚。"
+    }
+  ],
+  "productionNotes": [
+    "统一各格人物尺寸、头身、剑长、衣纹、佩饰位置及脚底锚点。",
+    "补齐袍下腿、袖内手臂与动作过渡，再制作透明人物和道具分层。",
+    "P03第04格下方控制线的手腕起点需进一步明确。",
+    "A02便携阵旗与A04带基座阵节点须按实际器材统一成品规格。"
+  ],
+  "pending": [
+    "用户美术评看",
+    "111/150/222像素实际尺寸辨识",
+    "连续播放与首尾衔接",
+    "正式游戏正常/失败/中断/存读及设备验证"
+  ],
+  "runtimeAcceptanceStatusChanged": false
+}

@@ -1,0 +1,445 @@
+{
+  "decision": "U-167",
+  "proposal": "R-54",
+  "facilityGroups": 25,
+  "plotCount": 31,
+  "status": "approved-layout",
+  "runtimeIntegrated": false,
+  "plots": [
+    {
+      "id": "GC-01",
+      "number": 1,
+      "name": "主殿",
+      "zone": "主峰",
+      "existingRuntimeType": "hall",
+      "suggestedPhase": "起步",
+      "diagramPosition": [
+        950,
+        430
+      ],
+      "coordinateSpace": "diagram-only",
+      "layoutStatus": "approved-under-U-167"
+    },
+    {
+      "id": "GC-02",
+      "number": 2,
+      "name": "藏经阁·讲习院",
+      "zone": "主峰",
+      "existingRuntimeType": "library",
+      "suggestedPhase": "发展",
+      "diagramPosition": [
+        1120,
+        285
+      ],
+      "coordinateSpace": "diagram-only",
+      "layoutStatus": "approved-under-U-167"
+    },
+    {
+      "id": "GC-03",
+      "number": 3,
+      "name": "聚灵台",
+      "zone": "主峰",
+      "existingRuntimeType": "meditation",
+      "suggestedPhase": "发展",
+      "diagramPosition": [
+        885,
+        205
+      ],
+      "coordinateSpace": "diagram-only",
+      "layoutStatus": "approved-under-U-167"
+    },
+    {
+      "id": "GC-04",
+      "number": 4,
+      "name": "闭关静修院",
+      "zone": "主峰",
+      "existingRuntimeType": null,
+      "suggestedPhase": "凝丹准备",
+      "diagramPosition": [
+        1080,
+        110
+      ],
+      "coordinateSpace": "diagram-only",
+      "layoutStatus": "approved-under-U-167"
+    },
+    {
+      "id": "GC-05",
+      "number": 5,
+      "name": "演武场",
+      "zone": "主峰",
+      "existingRuntimeType": null,
+      "suggestedPhase": "发展",
+      "diagramPosition": [
+        1170,
+        430
+      ],
+      "coordinateSpace": "diagram-only",
+      "layoutStatus": "approved-under-U-167"
+    },
+    {
+      "id": "GC-06",
+      "number": 6,
+      "name": "护山阵枢",
+      "zone": "主峰",
+      "existingRuntimeType": null,
+      "suggestedPhase": "专项",
+      "diagramPosition": [
+        735,
+        300
+      ],
+      "coordinateSpace": "diagram-only",
+      "layoutStatus": "approved-under-U-167"
+    },
+    {
+      "id": "GC-07",
+      "number": 7,
+      "name": "山门",
+      "zone": "主峰",
+      "existingRuntimeType": null,
+      "suggestedPhase": "起步",
+      "diagramPosition": [
+        950,
+        875
+      ],
+      "coordinateSpace": "diagram-only",
+      "layoutStatus": "approved-under-U-167"
+    },
+    {
+      "id": "GC-08",
+      "number": 8,
+      "name": "护山亭",
+      "zone": "主峰",
+      "existingRuntimeType": "watchtower",
+      "suggestedPhase": "发展",
+      "diagramPosition": [
+        1120,
+        790
+      ],
+      "coordinateSpace": "diagram-only",
+      "layoutStatus": "approved-under-U-167"
+    },
+    {
+      "id": "GC-09",
+      "number": 9,
+      "name": "门人居一",
+      "zone": "东台",
+      "existingRuntimeType": "house",
+      "suggestedPhase": "起步",
+      "diagramPosition": [
+        1370,
+        545
+      ],
+      "coordinateSpace": "diagram-only",
+      "layoutStatus": "approved-under-U-167",
+      "existingSiteId": "site:domain:east-residence-1"
+    },
+    {
+      "id": "GC-10",
+      "number": 10,
+      "name": "门人居二",
+      "zone": "东台",
+      "existingRuntimeType": "house",
+      "suggestedPhase": "发展",
+      "diagramPosition": [
+        1580,
+        545
+      ],
+      "coordinateSpace": "diagram-only",
+      "layoutStatus": "approved-under-U-167"
+    },
+    {
+      "id": "GC-11",
+      "number": 11,
+      "name": "门人居三",
+      "zone": "东台",
+      "existingRuntimeType": "house",
+      "suggestedPhase": "发展",
+      "diagramPosition": [
+        1370,
+        410
+      ],
+      "coordinateSpace": "diagram-only",
+      "layoutStatus": "approved-under-U-167"
+    },
+    {
+      "id": "GC-12",
+      "number": 12,
+      "name": "门人居四",
+      "zone": "东台",
+      "existingRuntimeType": "house",
+      "suggestedPhase": "发展",
+      "diagramPosition": [
+        1580,
+        410
+      ],
+      "coordinateSpace": "diagram-only",
+      "layoutStatus": "approved-under-U-167"
+    },
+    {
+      "id": "GC-13",
+      "number": 13,
+      "name": "膳房",
+      "zone": "东台",
+      "existingRuntimeType": "kitchen",
+      "suggestedPhase": "发展",
+      "diagramPosition": [
+        1450,
+        710
+      ],
+      "coordinateSpace": "diagram-only",
+      "layoutStatus": "approved-under-U-167"
+    },
+    {
+      "id": "GC-14",
+      "number": 14,
+      "name": "医庐",
+      "zone": "东台",
+      "existingRuntimeType": "clinic",
+      "suggestedPhase": "发展",
+      "diagramPosition": [
+        1440,
+        255
+      ],
+      "coordinateSpace": "diagram-only",
+      "layoutStatus": "approved-under-U-167"
+    },
+    {
+      "id": "GC-15",
+      "number": 15,
+      "name": "客院",
+      "zone": "东台",
+      "existingRuntimeType": null,
+      "suggestedPhase": "专项",
+      "diagramPosition": [
+        1620,
+        805
+      ],
+      "coordinateSpace": "diagram-only",
+      "layoutStatus": "approved-under-U-167"
+    },
+    {
+      "id": "GC-16",
+      "number": 16,
+      "name": "采伐场",
+      "zone": "西谷",
+      "existingRuntimeType": "lumber",
+      "suggestedPhase": "起步",
+      "diagramPosition": [
+        550,
+        470
+      ],
+      "coordinateSpace": "diagram-only",
+      "layoutStatus": "approved-under-U-167"
+    },
+    {
+      "id": "GC-17",
+      "number": 17,
+      "name": "采石场",
+      "zone": "西谷",
+      "existingRuntimeType": "quarry",
+      "suggestedPhase": "起步",
+      "diagramPosition": [
+        230,
+        280
+      ],
+      "coordinateSpace": "diagram-only",
+      "layoutStatus": "approved-under-U-167"
+    },
+    {
+      "id": "GC-18",
+      "number": 18,
+      "name": "灵稻田一",
+      "zone": "西谷",
+      "existingRuntimeType": "granary",
+      "suggestedPhase": "起步",
+      "diagramPosition": [
+        420,
+        775
+      ],
+      "coordinateSpace": "diagram-only",
+      "layoutStatus": "approved-under-U-167"
+    },
+    {
+      "id": "GC-19",
+      "number": 19,
+      "name": "灵稻田二",
+      "zone": "西谷",
+      "existingRuntimeType": "granary",
+      "suggestedPhase": "发展",
+      "diagramPosition": [
+        215,
+        845
+      ],
+      "coordinateSpace": "diagram-only",
+      "layoutStatus": "approved-under-U-167"
+    },
+    {
+      "id": "GC-20",
+      "number": 20,
+      "name": "原院药圃",
+      "zone": "主峰",
+      "existingRuntimeType": "farm",
+      "suggestedPhase": "起步",
+      "diagramPosition": [
+        785,
+        600
+      ],
+      "coordinateSpace": "diagram-only",
+      "layoutStatus": "approved-under-U-167"
+    },
+    {
+      "id": "GC-21",
+      "number": 21,
+      "name": "西谷药圃",
+      "zone": "西谷",
+      "existingRuntimeType": "farm",
+      "suggestedPhase": "发展",
+      "diagramPosition": [
+        390,
+        560
+      ],
+      "coordinateSpace": "diagram-only",
+      "layoutStatus": "approved-under-U-167"
+    },
+    {
+      "id": "GC-22",
+      "number": 22,
+      "name": "育苗药圃",
+      "zone": "西谷",
+      "existingRuntimeType": "farm",
+      "suggestedPhase": "专项",
+      "diagramPosition": [
+        240,
+        455
+      ],
+      "coordinateSpace": "diagram-only",
+      "layoutStatus": "approved-under-U-167"
+    },
+    {
+      "id": "GC-23",
+      "number": 23,
+      "name": "灵泉",
+      "zone": "西谷",
+      "existingRuntimeType": "well",
+      "suggestedPhase": "发展",
+      "diagramPosition": [
+        520,
+        160
+      ],
+      "coordinateSpace": "diagram-only",
+      "layoutStatus": "approved-under-U-167"
+    },
+    {
+      "id": "GC-24",
+      "number": 24,
+      "name": "公库与储运院",
+      "zone": "西谷",
+      "existingRuntimeType": null,
+      "suggestedPhase": "起步",
+      "diagramPosition": [
+        650,
+        695
+      ],
+      "coordinateSpace": "diagram-only",
+      "layoutStatus": "approved-under-U-167"
+    },
+    {
+      "id": "GC-25",
+      "number": 25,
+      "name": "百工坊",
+      "zone": "西谷",
+      "existingRuntimeType": "workshop",
+      "suggestedPhase": "发展",
+      "diagramPosition": [
+        410,
+        660
+      ],
+      "coordinateSpace": "diagram-only",
+      "layoutStatus": "approved-under-U-167"
+    },
+    {
+      "id": "GC-26",
+      "number": 26,
+      "name": "丹房",
+      "zone": "西谷",
+      "existingRuntimeType": "alchemy",
+      "suggestedPhase": "发展",
+      "diagramPosition": [
+        430,
+        330
+      ],
+      "coordinateSpace": "diagram-only",
+      "layoutStatus": "approved-under-U-167"
+    },
+    {
+      "id": "GC-27",
+      "number": 27,
+      "name": "炼器窑院",
+      "zone": "西谷",
+      "existingRuntimeType": null,
+      "suggestedPhase": "专项",
+      "diagramPosition": [
+        140,
+        650
+      ],
+      "coordinateSpace": "diagram-only",
+      "layoutStatus": "approved-under-U-167"
+    },
+    {
+      "id": "GC-28",
+      "number": 28,
+      "name": "符阵工坊",
+      "zone": "西谷",
+      "existingRuntimeType": null,
+      "suggestedPhase": "专项",
+      "diagramPosition": [
+        655,
+        370
+      ],
+      "coordinateSpace": "diagram-only",
+      "layoutStatus": "approved-under-U-167"
+    },
+    {
+      "id": "GC-29",
+      "number": 29,
+      "name": "傀儡工坊",
+      "zone": "西谷",
+      "existingRuntimeType": null,
+      "suggestedPhase": "专项",
+      "diagramPosition": [
+        180,
+        560
+      ],
+      "coordinateSpace": "diagram-only",
+      "layoutStatus": "approved-under-U-167"
+    },
+    {
+      "id": "GC-30",
+      "number": 30,
+      "name": "灵兽苑",
+      "zone": "西谷",
+      "existingRuntimeType": null,
+      "suggestedPhase": "专项",
+      "diagramPosition": [
+        700,
+        825
+      ],
+      "coordinateSpace": "diagram-only",
+      "layoutStatus": "approved-under-U-167"
+    },
+    {
+      "id": "GC-31",
+      "number": 31,
+      "name": "蛊苑",
+      "zone": "西谷",
+      "existingRuntimeType": null,
+      "suggestedPhase": "专项",
+      "diagramPosition": [
+        150,
+        150
+      ],
+      "coordinateSpace": "diagram-only",
+      "layoutStatus": "approved-under-U-167"
+    }
+  ]
+}

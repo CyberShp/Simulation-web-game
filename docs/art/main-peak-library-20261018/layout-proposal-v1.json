@@ -1,0 +1,314 @@
+{
+  "version": "library-art-layout-proposal-1",
+  "status": "author layout candidate",
+  "source": [
+    "docs/design/58-GOLDEN-CORE-PRESET-BUILDINGS.md",
+    "assets/courtyard/courtyard-master-v2.png",
+    "src/simulation/ea-building-grid.mjs",
+    "src/simulation/ea-sr-spatial.mjs"
+  ],
+  "planId": "GC-02",
+  "siteId": "site:domain:gc-02",
+  "tile": {
+    "x": 836,
+    "y": -941,
+    "width": 1672,
+    "height": 941
+  },
+  "coordinates": "tile-local authored target pixels; metre projection pending",
+  "join": {
+    "newLocal": [
+      189,
+      941
+    ],
+    "oldGlobal": [
+      1025,
+      0
+    ],
+    "roadWidthPixels": 60,
+    "oldPathVisibility": "rear stairs visible; pine-covered link requires joint ground/occlusion survey"
+  },
+  "levels": [
+    {
+      "level": 1,
+      "metres": [
+        6,
+        6
+      ],
+      "footprint": [
+        [
+          540,
+          505
+        ],
+        [
+          1020,
+          505
+        ],
+        [
+          1020,
+          605
+        ],
+        [
+          540,
+          605
+        ]
+      ],
+      "entrance": [
+        780,
+        625
+      ],
+      "branch": [
+        [
+          780,
+          625
+        ],
+        [
+          780,
+          700
+        ],
+        [
+          800,
+          780
+        ]
+      ]
+    },
+    {
+      "level": 2,
+      "metres": [
+        8,
+        8
+      ],
+      "footprint": [
+        [
+          540,
+          505
+        ],
+        [
+          1180,
+          505
+        ],
+        [
+          1180,
+          638
+        ],
+        [
+          540,
+          638
+        ]
+      ],
+      "entrance": [
+        860,
+        658
+      ],
+      "branch": [
+        [
+          860,
+          658
+        ],
+        [
+          860,
+          720
+        ],
+        [
+          860,
+          780
+        ]
+      ]
+    },
+    {
+      "level": 3,
+      "metres": [
+        10,
+        10
+      ],
+      "footprint": [
+        [
+          540,
+          505
+        ],
+        [
+          1340,
+          505
+        ],
+        [
+          1340,
+          672
+        ],
+        [
+          540,
+          672
+        ]
+      ],
+      "entrance": [
+        940,
+        692
+      ],
+      "branch": [
+        [
+          940,
+          692
+        ],
+        [
+          940,
+          735
+        ],
+        [
+          940,
+          780
+        ]
+      ]
+    }
+  ],
+  "roads": [
+    {
+      "id": "rear-stair-approach",
+      "center": [
+        [
+          189,
+          941
+        ],
+        [
+          190,
+          870
+        ],
+        [
+          330,
+          810
+        ],
+        [
+          520,
+          780
+        ]
+      ],
+      "width": 60
+    },
+    {
+      "id": "court-road",
+      "center": [
+        [
+          520,
+          780
+        ],
+        [
+          800,
+          780
+        ],
+        [
+          1100,
+          780
+        ],
+        [
+          1460,
+          780
+        ]
+      ],
+      "width": 60
+    }
+  ],
+  "maximumGround": [
+    [
+      430,
+      450
+    ],
+    [
+      1450,
+      450
+    ],
+    [
+      1450,
+      745
+    ],
+    [
+      430,
+      745
+    ]
+  ],
+  "level1BuildingEnvelope": [
+    [
+      485,
+      230
+    ],
+    [
+      1080,
+      230
+    ],
+    [
+      1080,
+      625
+    ],
+    [
+      485,
+      625
+    ]
+  ],
+  "maxBuildingEnvelope": [
+    [
+      470,
+      190
+    ],
+    [
+      1420,
+      190
+    ],
+    [
+      1420,
+      710
+    ],
+    [
+      470,
+      710
+    ]
+  ],
+  "characterHeight": 111,
+  "doorNetHeightTarget": [
+    130,
+    140
+  ],
+  "level1SlotsMetres": {
+    "study": [
+      [
+        0.95,
+        5.2
+      ],
+      [
+        5.05,
+        5.2
+      ]
+    ],
+    "teach": [
+      [
+        3,
+        5
+      ]
+    ],
+    "work": [
+      [
+        1.1,
+        1.6
+      ]
+    ],
+    "entrance": [
+      3,
+      6.6
+    ],
+    "waiting": [
+      [
+        2,
+        7
+      ],
+      [
+        4,
+        7
+      ]
+    ]
+  },
+  "authorItem": "T-LIB-ART-01",
+  "dependencies": [
+    "negative art-y camera and bounds",
+    "north domain and monotone projection preserving old entities",
+    "visible pine-covered road survey",
+    "indoor per-level access checks"
+  ],
+  "generatedArt": false,
+  "runtimeIntegrated": false
+}

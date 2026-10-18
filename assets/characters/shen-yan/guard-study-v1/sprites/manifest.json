@@ -1,0 +1,1438 @@
+{
+  "kind": "s04-hand-seal-shield-2d-study",
+  "actionId": "S04",
+  "frameSize": [
+    640,
+    512
+  ],
+  "sourceHeight": 384,
+  "frameCount": 12,
+  "fps": 12,
+  "timingMode": "per-frame-duration",
+  "durationMs": 1760,
+  "anchor": [
+    255,
+    456
+  ],
+  "nominalHeight": 80,
+  "runtimeReferenceHeight": 111,
+  "layerOrder": [
+    "effectBehind",
+    "equipment",
+    "body",
+    "effectFront"
+  ],
+  "holdRange": [
+    5,
+    8
+  ],
+  "frames": [
+    {
+      "index": 0,
+      "phase": "凝神",
+      "durationMs": 140,
+      "body": "body-000.png",
+      "equipment": "equipment-000.png",
+      "effectBehind": "effect-behind-000.png",
+      "effectFront": "effect-front-000.png",
+      "palms": [
+        [
+          293.5292,
+          221.917
+        ],
+        [
+          275.7603,
+          222.139
+        ]
+      ],
+      "foot": [
+        255,
+        456
+      ],
+      "guardStrength": 0,
+      "pressure": 0,
+      "shieldRise": 0,
+      "composite": "guard-000.png",
+      "sha256": {
+        "body": "aa6fb2ca6dc1d44d0950bc2cc6d10bd6c4a294032732540ad0495c88e404550a",
+        "equipment": "307ec32e357203afc256707fe3db312e25aa6f9da54293c4a5755eb1bf8bed3b",
+        "effectBehind": "039e0ce49079a167ea3fd1c4656de0b80636a44953f71946cade2e6a3f4b4e48",
+        "effectFront": "039e0ce49079a167ea3fd1c4656de0b80636a44953f71946cade2e6a3f4b4e48",
+        "composite": "e4ac5c250e175bfc1ef039b3e17d5ae4292ad94917901ec3e37ced83bea28675"
+      }
+    },
+    {
+      "index": 1,
+      "phase": "抬手",
+      "durationMs": 110,
+      "body": "body-001.png",
+      "equipment": "equipment-001.png",
+      "effectBehind": "effect-behind-001.png",
+      "effectFront": "effect-front-001.png",
+      "palms": [
+        [
+          292.4258,
+          206.6546
+        ],
+        [
+          275.7563,
+          221.6703
+        ]
+      ],
+      "foot": [
+        255,
+        456
+      ],
+      "guardStrength": 0,
+      "pressure": 0,
+      "shieldRise": 0,
+      "composite": "guard-001.png",
+      "sha256": {
+        "body": "ef48ceb568c6b0f997737f291b629f853d776eadeb50f735b52ad3140633ab59",
+        "equipment": "4049a6a98af9460bec88d8549b9c33160baeaee891f881cfae3dbdf2d4ec9ad6",
+        "effectBehind": "039e0ce49079a167ea3fd1c4656de0b80636a44953f71946cade2e6a3f4b4e48",
+        "effectFront": "039e0ce49079a167ea3fd1c4656de0b80636a44953f71946cade2e6a3f4b4e48",
+        "composite": "7fc2904ac794da91f26873210f6abc6b4a3f84550f227de485f41dd3a501c707"
+      }
+    },
+    {
+      "index": 2,
+      "phase": "掐诀",
+      "durationMs": 150,
+      "body": "body-002.png",
+      "equipment": "equipment-002.png",
+      "effectBehind": "effect-behind-002.png",
+      "effectFront": "effect-front-002.png",
+      "palms": [
+        [
+          282.923,
+          185.7812
+        ],
+        [
+          275.8098,
+          219.6319
+        ]
+      ],
+      "foot": [
+        255,
+        456
+      ],
+      "guardStrength": 0.25,
+      "pressure": 0,
+      "shieldRise": 0.06,
+      "composite": "guard-002.png",
+      "sha256": {
+        "body": "09c19bbc3af2b15087b3899d48c94a9f26be3e42a77dcd12cd65e5d8bc6b72b1",
+        "equipment": "efc919b0f725f32f708082fcfbc5991768109cb7452cd685f9be06934aeaa442",
+        "effectBehind": "c5bf9ee9ccf1665e1dc16ca4ed3950b65ae119471ec497edd704be1d21ac0eae",
+        "effectFront": "293e320085d9dd7fc514d4b3cfcaac991ac6c243485415c1b026e30ce0d285c8",
+        "composite": "1f71720920be320e2980009893d1f2028b8947f3c8a720b3bc97f285f6ef120b"
+      }
+    },
+    {
+      "index": 3,
+      "phase": "起盾",
+      "durationMs": 100,
+      "body": "body-003.png",
+      "equipment": "equipment-003.png",
+      "effectBehind": "effect-behind-003.png",
+      "effectFront": "effect-front-003.png",
+      "palms": [
+        [
+          283.2699,
+          185.0798
+        ],
+        [
+          276.2025,
+          218.8466
+        ]
+      ],
+      "foot": [
+        255,
+        456
+      ],
+      "guardStrength": 0.65,
+      "pressure": 0,
+      "shieldRise": 0.32,
+      "composite": "guard-003.png",
+      "sha256": {
+        "body": "e753138ca9d38b298f39dd924c9067b851d8c2bac7833da247a5f9214d4222d9",
+        "equipment": "2f44d114294d4caa0d91c5cb1509e90dad12ff19b1cb4d08497e28a1f2a8e892",
+        "effectBehind": "b85d96be7b8d88a4a8b1b42c0cebe4215c00dfc548fee4a5fca9ce6128b6158a",
+        "effectFront": "466f1b23d26019833a0e2b9942f947274da46e3656ebe8ca58328fcf76c84811",
+        "composite": "4895d6b63fd088d4394f1aa0b7ba0423a82fc002ff6b31517669be089c7bff80"
+      }
+    },
+    {
+      "index": 4,
+      "phase": "护盾升起",
+      "durationMs": 140,
+      "body": "body-004.png",
+      "equipment": "equipment-004.png",
+      "effectBehind": "effect-behind-004.png",
+      "effectFront": "effect-front-004.png",
+      "palms": [
+        [
+          283.6168,
+          185.1636
+        ],
+        [
+          276.5951,
+          218.8466
+        ]
+      ],
+      "foot": [
+        255,
+        456
+      ],
+      "guardStrength": 0.9,
+      "pressure": 0,
+      "shieldRise": 0.68,
+      "composite": "guard-004.png",
+      "sha256": {
+        "body": "a5799f942eee5c2e8bcb240808e2ccdefdf521a81d9c3b4509738f07e19aafb6",
+        "equipment": "2c6c800a131e19e38ac175506e956720fd987e58b51559c9fbad43fa1b2a3a02",
+        "effectBehind": "a5396912d2fb211a76b9a4c40d926241be0bfd0675417300d19f313cc60daa98",
+        "effectFront": "ed0788a69a2861cdb9bbc2e0b6fef110b13d702a9dcb0fd70dc1c560e3d40c0d",
+        "composite": "90b33c5ae5b5320d82869b33f29a7b0ce2c05df23364362994e7e772b0a8123b"
+      }
+    },
+    {
+      "index": 5,
+      "phase": "合顶护身",
+      "durationMs": 200,
+      "body": "body-005.png",
+      "equipment": "equipment-005.png",
+      "effectBehind": "effect-behind-005.png",
+      "effectFront": "effect-front-005.png",
+      "palms": [
+        [
+          283.2013,
+          185.2055
+        ],
+        [
+          276.2025,
+          218.8466
+        ]
+      ],
+      "foot": [
+        255,
+        456
+      ],
+      "guardStrength": 1,
+      "pressure": 0,
+      "shieldRise": 1,
+      "event": "guard-start",
+      "composite": "guard-005.png",
+      "sha256": {
+        "body": "7d14d1d0d91f132c38d1626f5aa7701e9c8463596504c0a229260ed2f5adb734",
+        "equipment": "2e8f86aaeca1428ab3bbb0ab107ec69e3721b6a8c8aa7bd8a4f02f4c032cfc15",
+        "effectBehind": "f31f26b2e0c9b97c5c7d082f7f1ff43f4bcd43b9ca1d39e77f4ae2826433be56",
+        "effectFront": "7a3af335396f0aa9278c88e3687c10581f6eddffeb95a90f808119e23cefbd03",
+        "composite": "e7273a5f1a4e06617d848141ef5550b014a9f658cb7c860016344e01cceb18c9"
+      }
+    },
+    {
+      "index": 6,
+      "phase": "持诀",
+      "durationMs": 180,
+      "body": "body-006.png",
+      "equipment": "equipment-006.png",
+      "effectBehind": "effect-behind-006.png",
+      "effectFront": "effect-front-006.png",
+      "palms": [
+        [
+          282.8544,
+          185.5143
+        ],
+        [
+          275.8098,
+          219.2393
+        ]
+      ],
+      "foot": [
+        255,
+        456
+      ],
+      "guardStrength": 1,
+      "pressure": 0,
+      "shieldRise": 1,
+      "composite": "guard-006.png",
+      "sha256": {
+        "body": "a9c4e85313e32574726704fc5dbe1514ee8adf01430d76372f393b5af6195fa0",
+        "equipment": "20c1ee3ba6b38056d74da4064817562652d01f4895b7beb4d73a7d49aac12fd8",
+        "effectBehind": "41b36bee3217b5b594c1df7f7ca2c1cc278f6ebfdcb34afcde4e05d5b8c1b69e",
+        "effectFront": "d76512baff5a98d948fa7763bbbcdd3890dd598ace66d9f886c6f18a45cce829",
+        "composite": "dea4bf55327013dec91c08e41c17b221f58b06a09f0bdf16b2772f8aa53741e0"
+      }
+    },
+    {
+      "index": 7,
+      "phase": "盾面受击",
+      "durationMs": 140,
+      "body": "body-007.png",
+      "equipment": "equipment-007.png",
+      "effectBehind": "effect-behind-007.png",
+      "effectFront": "effect-front-007.png",
+      "palms": [
+        [
+          282.8281,
+          187.9819
+        ],
+        [
+          274.6319,
+          220.0245
+        ]
+      ],
+      "foot": [
+        255,
+        456
+      ],
+      "guardStrength": 1,
+      "pressure": 1,
+      "shieldRise": 1,
+      "event": "pressure",
+      "composite": "guard-007.png",
+      "sha256": {
+        "body": "1a5ecf52b9d1541f53b8e17162a25313ff5303519149c3fd37166e7fdc5099e6",
+        "equipment": "71f1f7d1be09a52e4f78dac12f151840361107747a316c7288c46034d6a0ef0d",
+        "effectBehind": "f31f26b2e0c9b97c5c7d082f7f1ff43f4bcd43b9ca1d39e77f4ae2826433be56",
+        "effectFront": "504a7d124a6e1dfb5e8b7d83c9dff24c50ec743de6dd6be618937f500b418379",
+        "composite": "e5bd34b9057939f79c438e8eb8929392f56222d6eb5f3bf9c66422617ddde043"
+      }
+    },
+    {
+      "index": 8,
+      "phase": "护盾复稳",
+      "durationMs": 200,
+      "body": "body-008.png",
+      "equipment": "equipment-008.png",
+      "effectBehind": "effect-behind-008.png",
+      "effectFront": "effect-front-008.png",
+      "palms": [
+        [
+          282.8316,
+          185.5562
+        ],
+        [
+          275.8098,
+          219.2393
+        ]
+      ],
+      "foot": [
+        255,
+        456
+      ],
+      "guardStrength": 1,
+      "pressure": 0.2,
+      "shieldRise": 1,
+      "composite": "guard-008.png",
+      "sha256": {
+        "body": "121155662b64027568309571addccb47ec2b77b04e27577786edf583fcd49fb7",
+        "equipment": "f0742fdb3bc0915c29e80e20e6e190a3bfe488cbbf3f340113289425ed6aba50",
+        "effectBehind": "a7210cc9cb50b22c75ac9178550c265046c26cdeff8a584906bb8c17245a4bb5",
+        "effectFront": "f44fe1d21cccee27099196c967ba1f77ad4fbc775fa475f3487549b7fe03f8eb",
+        "composite": "1b66a2e81e6ccdf9887e34b310f4f76ea5c3c475a9bbd9f6f3b11c758088caf3"
+      }
+    },
+    {
+      "index": 9,
+      "phase": "收诀散盾",
+      "durationMs": 120,
+      "body": "body-009.png",
+      "equipment": "equipment-009.png",
+      "effectBehind": "effect-behind-009.png",
+      "effectFront": "effect-front-009.png",
+      "palms": [
+        [
+          286.3483,
+          190.3067
+        ],
+        [
+          275.7759,
+          220.0619
+        ]
+      ],
+      "foot": [
+        255,
+        456
+      ],
+      "guardStrength": 0.4,
+      "pressure": 0,
+      "shieldRise": 1,
+      "event": "guard-end",
+      "composite": "guard-009.png",
+      "sha256": {
+        "body": "3972a78312cd54a302542a2dbed4fe27eafb6e8d805defde3e36ae861cde7174",
+        "equipment": "c8db56bba7f3970d2491f69ec6aca09b21ce02f7921048df1a5e806e1861009e",
+        "effectBehind": "050d837e8582fd1dd02c2d330f6062e2afba9c503bc0099b13eff157d55415a6",
+        "effectFront": "b8bc8ce3093a0955ff408c64aa5a6453a33d2ea3c68314001a9cc89923068ad8",
+        "composite": "c321340c6b8f0c26b96989c246f1502759554f544cc26f0815231ba6e6a2be81"
+      }
+    },
+    {
+      "index": 10,
+      "phase": "落手",
+      "durationMs": 140,
+      "body": "body-010.png",
+      "equipment": "equipment-010.png",
+      "effectBehind": "effect-behind-010.png",
+      "effectFront": "effect-front-010.png",
+      "palms": [
+        [
+          292.4029,
+          206.3039
+        ],
+        [
+          275.7563,
+          221.2777
+        ]
+      ],
+      "foot": [
+        255,
+        456
+      ],
+      "guardStrength": 0,
+      "pressure": 0,
+      "shieldRise": 0,
+      "composite": "guard-010.png",
+      "sha256": {
+        "body": "deb385eabab290d05bd3ef07b91abd24f217d1c8ce21247140c150bbc325e367",
+        "equipment": "63cc3a656dd282ba89069a7c73d03ff3af3f179bf110bb659b380a4c4e6a0f8f",
+        "effectBehind": "039e0ce49079a167ea3fd1c4656de0b80636a44953f71946cade2e6a3f4b4e48",
+        "effectFront": "039e0ce49079a167ea3fd1c4656de0b80636a44953f71946cade2e6a3f4b4e48",
+        "composite": "384aa1dd8d6bb35d87a5f1a109eba7bb417ab83f7ab728812706811a999c7207"
+      }
+    },
+    {
+      "index": 11,
+      "phase": "归势",
+      "durationMs": 140,
+      "body": "body-011.png",
+      "equipment": "equipment-011.png",
+      "effectBehind": "effect-behind-011.png",
+      "effectFront": "effect-front-011.png",
+      "palms": [
+        [
+          293.5292,
+          221.917
+        ],
+        [
+          275.7603,
+          222.139
+        ]
+      ],
+      "foot": [
+        255,
+        456
+      ],
+      "guardStrength": 0,
+      "pressure": 0,
+      "shieldRise": 0,
+      "composite": "guard-011.png",
+      "sha256": {
+        "body": "f2f04c359696969ca8f22337f555302b12808c314134550b6fcae8937f689e9f",
+        "equipment": "71d7e5583045b0e7444cf3da75ad3d713fa14e13028d79129a23288b8f315b49",
+        "effectBehind": "039e0ce49079a167ea3fd1c4656de0b80636a44953f71946cade2e6a3f4b4e48",
+        "effectFront": "039e0ce49079a167ea3fd1c4656de0b80636a44953f71946cade2e6a3f4b4e48",
+        "composite": "e4ac5c250e175bfc1ef039b3e17d5ae4292ad94917901ec3e37ced83bea28675"
+      }
+    }
+  ],
+  "sourceSha256": {
+    "assets/characters/shen-yan/cast-study-v1/source/casting-master-v1.png": "f3696e131bd0ce47d4c31dfe124502ed05579da1fdadc000f34e51d3806a6b65",
+    "assets/characters/shen-yan/guard-study-v1/source/guard-master-v1.png": "153f62fe317362c92923e75f840a3a8ce784f856f483b015d5795b41ba87b28f",
+    "assets/characters/shen-yan/guard-study-v1/source/seal-master-v1.png": "b2a29beac8be83815cda4fb2823ba2a9159c2d8aa41310826263f416b59851eb"
+  },
+  "poses": [
+    {
+      "near": [
+        0,
+        42,
+        0.94
+      ],
+      "far": [
+        0,
+        -4,
+        1
+      ],
+      "lean": 0,
+      "dip": 0,
+      "lag": 0,
+      "phase": "凝神",
+      "ms": 140,
+      "strength": 0,
+      "rise": 0
+    },
+    {
+      "near": [
+        0,
+        24,
+        0.97
+      ],
+      "far": [
+        0,
+        -2,
+        1
+      ],
+      "lean": 0,
+      "dip": 3,
+      "lag": -1,
+      "phase": "抬手",
+      "ms": 110,
+      "strength": 0,
+      "rise": 0
+    },
+    {
+      "near": [
+        0,
+        0,
+        1
+      ],
+      "far": [
+        0,
+        0,
+        1
+      ],
+      "lean": 0,
+      "dip": 2,
+      "lag": -2,
+      "phase": "掐诀",
+      "ms": 150,
+      "strength": 0.25,
+      "rise": 0.06
+    },
+    {
+      "near": [
+        0,
+        0,
+        1
+      ],
+      "far": [
+        0,
+        0,
+        1
+      ],
+      "lean": 1,
+      "dip": 0,
+      "lag": 0,
+      "phase": "起盾",
+      "ms": 100,
+      "strength": 0.65,
+      "rise": 0.32
+    },
+    {
+      "near": [
+        0,
+        0,
+        1
+      ],
+      "far": [
+        0,
+        0,
+        1
+      ],
+      "lean": 2,
+      "dip": 0,
+      "lag": 2,
+      "phase": "护盾升起",
+      "ms": 140,
+      "strength": 0.9,
+      "rise": 0.68
+    },
+    {
+      "near": [
+        0,
+        0,
+        1
+      ],
+      "far": [
+        0,
+        0,
+        1
+      ],
+      "lean": 1,
+      "dip": 0,
+      "lag": 3,
+      "phase": "合顶护身",
+      "ms": 200,
+      "strength": 1,
+      "rise": 1,
+      "event": "guard-start"
+    },
+    {
+      "near": [
+        0,
+        0,
+        1
+      ],
+      "far": [
+        0,
+        0,
+        1
+      ],
+      "lean": 0,
+      "dip": 1,
+      "lag": 1,
+      "phase": "持诀",
+      "ms": 180,
+      "strength": 1,
+      "rise": 1
+    },
+    {
+      "near": [
+        0,
+        2,
+        1
+      ],
+      "far": [
+        0,
+        0,
+        1
+      ],
+      "lean": -3,
+      "dip": 3,
+      "lag": 4,
+      "phase": "盾面受击",
+      "ms": 140,
+      "strength": 1,
+      "rise": 1,
+      "pressure": 1,
+      "event": "pressure"
+    },
+    {
+      "near": [
+        0,
+        0,
+        1
+      ],
+      "far": [
+        0,
+        0,
+        1
+      ],
+      "lean": 0,
+      "dip": 1,
+      "lag": 2,
+      "phase": "护盾复稳",
+      "ms": 200,
+      "strength": 1,
+      "rise": 1,
+      "pressure": 0.2
+    },
+    {
+      "near": [
+        0,
+        6,
+        1
+      ],
+      "far": [
+        0,
+        -1,
+        1
+      ],
+      "lean": 0,
+      "dip": 1,
+      "lag": 1,
+      "phase": "收诀散盾",
+      "ms": 120,
+      "strength": 0.4,
+      "rise": 1,
+      "event": "guard-end"
+    },
+    {
+      "near": [
+        0,
+        24,
+        0.97
+      ],
+      "far": [
+        0,
+        -2,
+        1
+      ],
+      "lean": 0,
+      "dip": 2,
+      "lag": 0,
+      "phase": "落手",
+      "ms": 140,
+      "strength": 0,
+      "rise": 0
+    },
+    {
+      "near": [
+        0,
+        42,
+        0.94
+      ],
+      "far": [
+        0,
+        -4,
+        1
+      ],
+      "lean": 0,
+      "dip": 0,
+      "lag": 0,
+      "phase": "归势",
+      "ms": 140,
+      "strength": 0,
+      "rise": 0
+    }
+  ],
+  "sourceScale": 0.39263803680981596,
+  "sourceAnchor": [
+    765,
+    993
+  ],
+  "sourceJointAnchors": {
+    "near": {
+      "shoulder": [
+        675,
+        270
+      ],
+      "elbow": [
+        724,
+        394
+      ],
+      "palm": [
+        836,
+        303
+      ]
+    },
+    "far": {
+      "shoulder": [
+        865,
+        252
+      ],
+      "elbow": [
+        938,
+        395
+      ],
+      "palm": [
+        818,
+        389
+      ]
+    }
+  },
+  "handRoles": {
+    "right": "chest-level two-finger seal",
+    "left": "supporting palm at upper abdomen"
+  },
+  "equipmentState": "sword-sheathed-at-start",
+  "sourceBody": "../../cast-study-v1/source/casting-master-v1.png",
+  "sourceArms": "../source/seal-master-v1.png",
+  "sourceEquipment": "../source/guard-master-v1.png",
+  "motionFile": "../motion/s04-guard-mesh.blend",
+  "blendFrameRate": 1000,
+  "blendPoseFrames": [
+    1,
+    141,
+    251,
+    401,
+    501,
+    641,
+    841,
+    1021,
+    1161,
+    1361,
+    1481,
+    1621
+  ],
+  "alphaMode": {
+    "renderCutoff": 0.65,
+    "sourcesPreserved": true
+  },
+  "integrationStatus": "offline-art-study",
+  "atlas": "guard-atlas.png",
+  "frameRects": [
+    [
+      0,
+      0,
+      640,
+      512
+    ],
+    [
+      640,
+      0,
+      640,
+      512
+    ],
+    [
+      1280,
+      0,
+      640,
+      512
+    ],
+    [
+      1920,
+      0,
+      640,
+      512
+    ],
+    [
+      0,
+      512,
+      640,
+      512
+    ],
+    [
+      640,
+      512,
+      640,
+      512
+    ],
+    [
+      1280,
+      512,
+      640,
+      512
+    ],
+    [
+      1920,
+      512,
+      640,
+      512
+    ],
+    [
+      0,
+      1024,
+      640,
+      512
+    ],
+    [
+      640,
+      1024,
+      640,
+      512
+    ],
+    [
+      1280,
+      1024,
+      640,
+      512
+    ],
+    [
+      1920,
+      1024,
+      640,
+      512
+    ]
+  ],
+  "frameSha256": [
+    "e4ac5c250e175bfc1ef039b3e17d5ae4292ad94917901ec3e37ced83bea28675",
+    "7fc2904ac794da91f26873210f6abc6b4a3f84550f227de485f41dd3a501c707",
+    "1f71720920be320e2980009893d1f2028b8947f3c8a720b3bc97f285f6ef120b",
+    "4895d6b63fd088d4394f1aa0b7ba0423a82fc002ff6b31517669be089c7bff80",
+    "90b33c5ae5b5320d82869b33f29a7b0ce2c05df23364362994e7e772b0a8123b",
+    "e7273a5f1a4e06617d848141ef5550b014a9f658cb7c860016344e01cceb18c9",
+    "dea4bf55327013dec91c08e41c17b221f58b06a09f0bdf16b2772f8aa53741e0",
+    "e5bd34b9057939f79c438e8eb8929392f56222d6eb5f3bf9c66422617ddde043",
+    "1b66a2e81e6ccdf9887e34b310f4f76ea5c3c475a9bbd9f6f3b11c758088caf3",
+    "c321340c6b8f0c26b96989c246f1502759554f544cc26f0815231ba6e6a2be81",
+    "384aa1dd8d6bb35d87a5f1a109eba7bb417ab83f7ab728812706811a999c7207",
+    "e4ac5c250e175bfc1ef039b3e17d5ae4292ad94917901ec3e37ced83bea28675"
+  ],
+  "sha256": {
+    "body-000.png": "aa6fb2ca6dc1d44d0950bc2cc6d10bd6c4a294032732540ad0495c88e404550a",
+    "equipment-000.png": "307ec32e357203afc256707fe3db312e25aa6f9da54293c4a5755eb1bf8bed3b",
+    "body-001.png": "ef48ceb568c6b0f997737f291b629f853d776eadeb50f735b52ad3140633ab59",
+    "equipment-001.png": "4049a6a98af9460bec88d8549b9c33160baeaee891f881cfae3dbdf2d4ec9ad6",
+    "body-002.png": "09c19bbc3af2b15087b3899d48c94a9f26be3e42a77dcd12cd65e5d8bc6b72b1",
+    "equipment-002.png": "efc919b0f725f32f708082fcfbc5991768109cb7452cd685f9be06934aeaa442",
+    "body-003.png": "e753138ca9d38b298f39dd924c9067b851d8c2bac7833da247a5f9214d4222d9",
+    "equipment-003.png": "2f44d114294d4caa0d91c5cb1509e90dad12ff19b1cb4d08497e28a1f2a8e892",
+    "body-004.png": "a5799f942eee5c2e8bcb240808e2ccdefdf521a81d9c3b4509738f07e19aafb6",
+    "equipment-004.png": "2c6c800a131e19e38ac175506e956720fd987e58b51559c9fbad43fa1b2a3a02",
+    "body-005.png": "7d14d1d0d91f132c38d1626f5aa7701e9c8463596504c0a229260ed2f5adb734",
+    "equipment-005.png": "2e8f86aaeca1428ab3bbb0ab107ec69e3721b6a8c8aa7bd8a4f02f4c032cfc15",
+    "body-006.png": "a9c4e85313e32574726704fc5dbe1514ee8adf01430d76372f393b5af6195fa0",
+    "equipment-006.png": "20c1ee3ba6b38056d74da4064817562652d01f4895b7beb4d73a7d49aac12fd8",
+    "body-007.png": "1a5ecf52b9d1541f53b8e17162a25313ff5303519149c3fd37166e7fdc5099e6",
+    "equipment-007.png": "71f1f7d1be09a52e4f78dac12f151840361107747a316c7288c46034d6a0ef0d",
+    "body-008.png": "121155662b64027568309571addccb47ec2b77b04e27577786edf583fcd49fb7",
+    "equipment-008.png": "f0742fdb3bc0915c29e80e20e6e190a3bfe488cbbf3f340113289425ed6aba50",
+    "body-009.png": "3972a78312cd54a302542a2dbed4fe27eafb6e8d805defde3e36ae861cde7174",
+    "equipment-009.png": "c8db56bba7f3970d2491f69ec6aca09b21ce02f7921048df1a5e806e1861009e",
+    "body-010.png": "deb385eabab290d05bd3ef07b91abd24f217d1c8ce21247140c150bbc325e367",
+    "equipment-010.png": "63cc3a656dd282ba89069a7c73d03ff3af3f179bf110bb659b380a4c4e6a0f8f",
+    "body-011.png": "f2f04c359696969ca8f22337f555302b12808c314134550b6fcae8937f689e9f",
+    "equipment-011.png": "71d7e5583045b0e7444cf3da75ad3d713fa14e13028d79129a23288b8f315b49",
+    "effect-behind-000.png": "039e0ce49079a167ea3fd1c4656de0b80636a44953f71946cade2e6a3f4b4e48",
+    "effect-front-000.png": "039e0ce49079a167ea3fd1c4656de0b80636a44953f71946cade2e6a3f4b4e48",
+    "guard-000.png": "e4ac5c250e175bfc1ef039b3e17d5ae4292ad94917901ec3e37ced83bea28675",
+    "effect-behind-001.png": "039e0ce49079a167ea3fd1c4656de0b80636a44953f71946cade2e6a3f4b4e48",
+    "effect-front-001.png": "039e0ce49079a167ea3fd1c4656de0b80636a44953f71946cade2e6a3f4b4e48",
+    "guard-001.png": "7fc2904ac794da91f26873210f6abc6b4a3f84550f227de485f41dd3a501c707",
+    "effect-behind-002.png": "c5bf9ee9ccf1665e1dc16ca4ed3950b65ae119471ec497edd704be1d21ac0eae",
+    "effect-front-002.png": "293e320085d9dd7fc514d4b3cfcaac991ac6c243485415c1b026e30ce0d285c8",
+    "guard-002.png": "1f71720920be320e2980009893d1f2028b8947f3c8a720b3bc97f285f6ef120b",
+    "effect-behind-003.png": "b85d96be7b8d88a4a8b1b42c0cebe4215c00dfc548fee4a5fca9ce6128b6158a",
+    "effect-front-003.png": "466f1b23d26019833a0e2b9942f947274da46e3656ebe8ca58328fcf76c84811",
+    "guard-003.png": "4895d6b63fd088d4394f1aa0b7ba0423a82fc002ff6b31517669be089c7bff80",
+    "effect-behind-004.png": "a5396912d2fb211a76b9a4c40d926241be0bfd0675417300d19f313cc60daa98",
+    "effect-front-004.png": "ed0788a69a2861cdb9bbc2e0b6fef110b13d702a9dcb0fd70dc1c560e3d40c0d",
+    "guard-004.png": "90b33c5ae5b5320d82869b33f29a7b0ce2c05df23364362994e7e772b0a8123b",
+    "effect-behind-005.png": "f31f26b2e0c9b97c5c7d082f7f1ff43f4bcd43b9ca1d39e77f4ae2826433be56",
+    "effect-front-005.png": "7a3af335396f0aa9278c88e3687c10581f6eddffeb95a90f808119e23cefbd03",
+    "guard-005.png": "e7273a5f1a4e06617d848141ef5550b014a9f658cb7c860016344e01cceb18c9",
+    "effect-behind-006.png": "41b36bee3217b5b594c1df7f7ca2c1cc278f6ebfdcb34afcde4e05d5b8c1b69e",
+    "effect-front-006.png": "d76512baff5a98d948fa7763bbbcdd3890dd598ace66d9f886c6f18a45cce829",
+    "guard-006.png": "dea4bf55327013dec91c08e41c17b221f58b06a09f0bdf16b2772f8aa53741e0",
+    "effect-behind-007.png": "f31f26b2e0c9b97c5c7d082f7f1ff43f4bcd43b9ca1d39e77f4ae2826433be56",
+    "effect-front-007.png": "504a7d124a6e1dfb5e8b7d83c9dff24c50ec743de6dd6be618937f500b418379",
+    "guard-007.png": "e5bd34b9057939f79c438e8eb8929392f56222d6eb5f3bf9c66422617ddde043",
+    "effect-behind-008.png": "a7210cc9cb50b22c75ac9178550c265046c26cdeff8a584906bb8c17245a4bb5",
+    "effect-front-008.png": "f44fe1d21cccee27099196c967ba1f77ad4fbc775fa475f3487549b7fe03f8eb",
+    "guard-008.png": "1b66a2e81e6ccdf9887e34b310f4f76ea5c3c475a9bbd9f6f3b11c758088caf3",
+    "effect-behind-009.png": "050d837e8582fd1dd02c2d330f6062e2afba9c503bc0099b13eff157d55415a6",
+    "effect-front-009.png": "b8bc8ce3093a0955ff408c64aa5a6453a33d2ea3c68314001a9cc89923068ad8",
+    "guard-009.png": "c321340c6b8f0c26b96989c246f1502759554f544cc26f0815231ba6e6a2be81",
+    "effect-behind-010.png": "039e0ce49079a167ea3fd1c4656de0b80636a44953f71946cade2e6a3f4b4e48",
+    "effect-front-010.png": "039e0ce49079a167ea3fd1c4656de0b80636a44953f71946cade2e6a3f4b4e48",
+    "guard-010.png": "384aa1dd8d6bb35d87a5f1a109eba7bb417ab83f7ab728812706811a999c7207",
+    "effect-behind-011.png": "039e0ce49079a167ea3fd1c4656de0b80636a44953f71946cade2e6a3f4b4e48",
+    "effect-front-011.png": "039e0ce49079a167ea3fd1c4656de0b80636a44953f71946cade2e6a3f4b4e48",
+    "guard-011.png": "e4ac5c250e175bfc1ef039b3e17d5ae4292ad94917901ec3e37ced83bea28675",
+    "guard-atlas.png": "62ef2a1e5a20454cc7be3a6e7b3ec38cbbe9330fadca1a9ecb9fc325d144879f"
+  },
+  "effectStudy": {
+    "method": "procedural-pixel-canvas",
+    "shape": "full-body-ellipsoid",
+    "riseDirection": [
+      0,
+      -1
+    ],
+    "activeFrames": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "guardStartFrame": 5,
+    "pressureFrame": 7,
+    "pressureDecayFrame": 8,
+    "guardEndFrame": 9,
+    "geometry": [
+      {
+        "frame": 0,
+        "strength": 0,
+        "pressure": 0,
+        "shieldRise": 0,
+        "center": [
+          255,
+          265
+        ],
+        "radius": [
+          220,
+          235
+        ],
+        "shear": 0,
+        "top": 30,
+        "bottom": 500,
+        "revealTop": 500,
+        "palms": [
+          [
+            294,
+            222
+          ],
+          [
+            276,
+            222
+          ]
+        ],
+        "groundRing": {
+          "cx": 255,
+          "cy": 464,
+          "rx": 124,
+          "ry": 29,
+          "shear": 0
+        },
+        "enclosedSilhouette": {
+          "visiblePixels": 53403,
+          "outsidePixels": 0,
+          "maximumRadius": 0.9641873245857124
+        },
+        "centerFillMaximumAlpha": 0,
+        "pulse": 1,
+        "pressureRipple": false
+      },
+      {
+        "frame": 1,
+        "strength": 0,
+        "pressure": 0,
+        "shieldRise": 0,
+        "center": [
+          255,
+          265
+        ],
+        "radius": [
+          220,
+          235
+        ],
+        "shear": 0,
+        "top": 30,
+        "bottom": 500,
+        "revealTop": 500,
+        "palms": [
+          [
+            292,
+            207
+          ],
+          [
+            276,
+            222
+          ]
+        ],
+        "groundRing": {
+          "cx": 255,
+          "cy": 464,
+          "rx": 124,
+          "ry": 29,
+          "shear": 0
+        },
+        "enclosedSilhouette": {
+          "visiblePixels": 53420,
+          "outsidePixels": 0,
+          "maximumRadius": 0.9641873245857124
+        },
+        "centerFillMaximumAlpha": 0,
+        "pulse": 1,
+        "pressureRipple": false
+      },
+      {
+        "frame": 2,
+        "strength": 0.25,
+        "pressure": 0,
+        "shieldRise": 0.06,
+        "center": [
+          255,
+          265
+        ],
+        "radius": [
+          220,
+          235
+        ],
+        "shear": 0,
+        "top": 30,
+        "bottom": 500,
+        "revealTop": 471.8,
+        "palms": [
+          [
+            283,
+            186
+          ],
+          [
+            276,
+            220
+          ]
+        ],
+        "groundRing": {
+          "cx": 255,
+          "cy": 464,
+          "rx": 124,
+          "ry": 29,
+          "shear": 0
+        },
+        "enclosedSilhouette": {
+          "visiblePixels": 53337,
+          "outsidePixels": 0,
+          "maximumRadius": 0.9641873245857124
+        },
+        "centerFillMaximumAlpha": 0,
+        "pulse": 1,
+        "pressureRipple": false
+      },
+      {
+        "frame": 3,
+        "strength": 0.65,
+        "pressure": 0,
+        "shieldRise": 0.32,
+        "center": [
+          255,
+          265
+        ],
+        "radius": [
+          220,
+          235
+        ],
+        "shear": 0,
+        "top": 30,
+        "bottom": 500,
+        "revealTop": 349.6,
+        "palms": [
+          [
+            283,
+            185
+          ],
+          [
+            276,
+            219
+          ]
+        ],
+        "groundRing": {
+          "cx": 255,
+          "cy": 464,
+          "rx": 124,
+          "ry": 29,
+          "shear": 0
+        },
+        "enclosedSilhouette": {
+          "visiblePixels": 53413,
+          "outsidePixels": 0,
+          "maximumRadius": 0.9641873245857124
+        },
+        "centerFillMaximumAlpha": 11,
+        "pulse": 1,
+        "pressureRipple": false
+      },
+      {
+        "frame": 4,
+        "strength": 0.9,
+        "pressure": 0,
+        "shieldRise": 0.68,
+        "center": [
+          255,
+          265
+        ],
+        "radius": [
+          220,
+          235
+        ],
+        "shear": 0,
+        "top": 30,
+        "bottom": 500,
+        "revealTop": 180.39999999999998,
+        "palms": [
+          [
+            284,
+            185
+          ],
+          [
+            277,
+            219
+          ]
+        ],
+        "groundRing": {
+          "cx": 255,
+          "cy": 464,
+          "rx": 124,
+          "ry": 29,
+          "shear": 0
+        },
+        "enclosedSilhouette": {
+          "visiblePixels": 53422,
+          "outsidePixels": 0,
+          "maximumRadius": 0.9641873245857124
+        },
+        "centerFillMaximumAlpha": 15,
+        "pulse": 1,
+        "pressureRipple": false
+      },
+      {
+        "frame": 5,
+        "strength": 1,
+        "pressure": 0,
+        "shieldRise": 1,
+        "center": [
+          255,
+          265
+        ],
+        "radius": [
+          220,
+          235
+        ],
+        "shear": 0,
+        "top": 30,
+        "bottom": 500,
+        "revealTop": 30,
+        "palms": [
+          [
+            283,
+            185
+          ],
+          [
+            276,
+            219
+          ]
+        ],
+        "groundRing": {
+          "cx": 255,
+          "cy": 464,
+          "rx": 124,
+          "ry": 29,
+          "shear": 0
+        },
+        "enclosedSilhouette": {
+          "visiblePixels": 53449,
+          "outsidePixels": 0,
+          "maximumRadius": 0.9641873245857124
+        },
+        "centerFillMaximumAlpha": 17,
+        "pulse": 1,
+        "pressureRipple": false
+      },
+      {
+        "frame": 6,
+        "strength": 1,
+        "pressure": 0,
+        "shieldRise": 1,
+        "center": [
+          255,
+          265
+        ],
+        "radius": [
+          220,
+          235
+        ],
+        "shear": 0,
+        "top": 30,
+        "bottom": 500,
+        "revealTop": 30,
+        "palms": [
+          [
+            283,
+            186
+          ],
+          [
+            276,
+            219
+          ]
+        ],
+        "groundRing": {
+          "cx": 255,
+          "cy": 464,
+          "rx": 124,
+          "ry": 29,
+          "shear": 0
+        },
+        "enclosedSilhouette": {
+          "visiblePixels": 53379,
+          "outsidePixels": 0,
+          "maximumRadius": 0.9641873245857124
+        },
+        "centerFillMaximumAlpha": 16,
+        "pulse": 0.95,
+        "pressureRipple": false
+      },
+      {
+        "frame": 7,
+        "strength": 1,
+        "pressure": 1,
+        "shieldRise": 1,
+        "center": [
+          255,
+          265
+        ],
+        "radius": [
+          220,
+          235
+        ],
+        "shear": 0,
+        "top": 30,
+        "bottom": 500,
+        "revealTop": 30,
+        "palms": [
+          [
+            283,
+            188
+          ],
+          [
+            275,
+            220
+          ]
+        ],
+        "groundRing": {
+          "cx": 255,
+          "cy": 464,
+          "rx": 124,
+          "ry": 29,
+          "shear": 0
+        },
+        "enclosedSilhouette": {
+          "visiblePixels": 53253,
+          "outsidePixels": 0,
+          "maximumRadius": 0.9641873245857124
+        },
+        "centerFillMaximumAlpha": 17,
+        "pulse": 1,
+        "pressureRipple": true
+      },
+      {
+        "frame": 8,
+        "strength": 1,
+        "pressure": 0.2,
+        "shieldRise": 1,
+        "center": [
+          255,
+          265
+        ],
+        "radius": [
+          220,
+          235
+        ],
+        "shear": 0,
+        "top": 30,
+        "bottom": 500,
+        "revealTop": 30,
+        "palms": [
+          [
+            283,
+            186
+          ],
+          [
+            276,
+            219
+          ]
+        ],
+        "groundRing": {
+          "cx": 255,
+          "cy": 464,
+          "rx": 124,
+          "ry": 29,
+          "shear": 0
+        },
+        "enclosedSilhouette": {
+          "visiblePixels": 53391,
+          "outsidePixels": 0,
+          "maximumRadius": 0.9641873245857124
+        },
+        "centerFillMaximumAlpha": 16,
+        "pulse": 0.97,
+        "pressureRipple": true
+      },
+      {
+        "frame": 9,
+        "strength": 0.4,
+        "pressure": 0,
+        "shieldRise": 1,
+        "center": [
+          255,
+          265
+        ],
+        "radius": [
+          220,
+          235
+        ],
+        "shear": 0,
+        "top": 30,
+        "bottom": 500,
+        "revealTop": 30,
+        "palms": [
+          [
+            286,
+            190
+          ],
+          [
+            276,
+            220
+          ]
+        ],
+        "groundRing": {
+          "cx": 255,
+          "cy": 464,
+          "rx": 124,
+          "ry": 29,
+          "shear": 0
+        },
+        "enclosedSilhouette": {
+          "visiblePixels": 53468,
+          "outsidePixels": 0,
+          "maximumRadius": 0.9641873245857124
+        },
+        "centerFillMaximumAlpha": 7,
+        "pulse": 1,
+        "pressureRipple": false
+      },
+      {
+        "frame": 10,
+        "strength": 0,
+        "pressure": 0,
+        "shieldRise": 0,
+        "center": [
+          255,
+          265
+        ],
+        "radius": [
+          220,
+          235
+        ],
+        "shear": 0,
+        "top": 30,
+        "bottom": 500,
+        "revealTop": 500,
+        "palms": [
+          [
+            292,
+            206
+          ],
+          [
+            276,
+            221
+          ]
+        ],
+        "groundRing": {
+          "cx": 255,
+          "cy": 464,
+          "rx": 124,
+          "ry": 29,
+          "shear": 0
+        },
+        "enclosedSilhouette": {
+          "visiblePixels": 53496,
+          "outsidePixels": 0,
+          "maximumRadius": 0.9641873245857124
+        },
+        "centerFillMaximumAlpha": 0,
+        "pulse": 1,
+        "pressureRipple": false
+      },
+      {
+        "frame": 11,
+        "strength": 0,
+        "pressure": 0,
+        "shieldRise": 0,
+        "center": [
+          255,
+          265
+        ],
+        "radius": [
+          220,
+          235
+        ],
+        "shear": 0,
+        "top": 30,
+        "bottom": 500,
+        "revealTop": 500,
+        "palms": [
+          [
+            294,
+            222
+          ],
+          [
+            276,
+            222
+          ]
+        ],
+        "groundRing": {
+          "cx": 255,
+          "cy": 464,
+          "rx": 124,
+          "ry": 29,
+          "shear": 0
+        },
+        "enclosedSilhouette": {
+          "visiblePixels": 53403,
+          "outsidePixels": 0,
+          "maximumRadius": 0.9641873245857124
+        },
+        "centerFillMaximumAlpha": 0,
+        "pulse": 1,
+        "pressureRipple": false
+      }
+    ]
+  }
+}

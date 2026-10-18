@@ -1,0 +1,28 @@
+import fs from 'node:fs/promises';import {fileURLToPath} from 'node:url';
+import {createCanvas,Image,loadImage} from '/Volumes/Media/immortal/node_modules/@napi-rs/canvas/index.js';
+import {CourtyardRenderer} from '../../../apps/courtyard/courtyard-renderer.mjs';
+import {toWorld,toArt} from '../../../apps/courtyard/courtyard-space.mjs';
+import {NORTH_MEDITATION_LAYOUT as L,NORTH_MEDITATION_IMAGES as IM,NORTH_MEDITATION_SITE as S,NORTH_MEDITATION_JOIN as J,NORTH_MEDITATION_SHARED_GROUND as G} from '../../../apps/courtyard/courtyard-north-meditation-layout.mjs';
+import {NORTH_LIBRARY_LAYOUT as OL,NORTH_LIBRARY_IMAGES as OIM} from '../../../apps/courtyard/courtyard-north-library-layout.mjs';
+const dir=new URL('./canvas/',import.meta.url);await fs.mkdir(dir,{recursive:true});
+const asset=name=>new URL('../../../assets/courtyard/'+name,import.meta.url).pathname;
+const images=Object.fromEntries(await Promise.all([...Object.values(IM),J.image,G.image,OIM.complete].map(async n=>[n,await loadImage(asset(n))])));
+const trace=(c,p)=>{c.beginPath();p.forEach(([x,y],i)=>i?c.lineTo(x,y):c.moveTo(x,y));c.closePath();};
+globalThis.document={createElement:()=>createCanvas(1,1)};
+globalThis.Image=class extends Image{set src(v){super.src=fileURLToPath(v).replace('/apps/courtyard/assets/','/assets/courtyard/');}};
+const base=createCanvas(1672,941);base.getBoundingClientRect=()=>({width:1672,height:941});
+const r=new CourtyardRenderer(base);await r.load();r.view={tick:0,paused:true,people:[],buildings:[],domain:{enabled:true,northLibraryEnabled:true}};
+// This technical fixture uses existing actor drawing at the proposed new art bounds.
+r.sceneTop=()=>L.y;r.actorMemory=new Map();r.hitRegions=[];
+const join=createCanvas(J.width,J.height),jc=join.getContext('2d');
+for(const p of J.polygons){const layer=createCanvas(J.width,J.height),c=layer.getContext('2d');c.drawImage(images[J.image],0,0,J.width,J.height);trace(c,p.map(([x,y])=>[x-J.x,y-J.y]));c.globalCompositeOperation='destination-in';c.fill();c.globalCompositeOperation='destination-out';c.lineJoin='round';for(let w=J.feather;w>=1;w--){c.lineWidth=w*2;c.globalAlpha=1/(w+1);c.stroke();}c.globalAlpha=1;for(const exclude of J.excludePolygons||[]){trace(c,exclude.map(([x,y])=>[x-J.x,y-J.y]));c.fill();}jc.drawImage(layer,0,0);}
+const ground=createCanvas(G.width,G.height),gc=ground.getContext('2d');gc.drawImage(images[G.image],0,0,G.width,G.height);trace(gc,G.polygon.map(([x,y])=>[x-G.x,y-G.y]));gc.globalCompositeOperation='destination-in';gc.fill();gc.globalCompositeOperation='destination-out';gc.lineJoin='round';for(let w=G.feather;w>=1;w--){gc.lineWidth=w*2;gc.globalAlpha=1/(w+1);gc.stroke();}
+function paint(c,stage){c.drawImage(images[IM.empty],L.x,L.y,L.width,L.height);if(stage!=='empty'){c.save();trace(c,S.stagePatches[stage].map(([x,y])=>[x+L.x,y+L.y]));c.clip();c.drawImage(images[IM[stage]],L.x,L.y,L.width,L.height);c.restore();}c.drawImage(images[OIM.complete],OL.x,OL.y,OL.width,OL.height);c.drawImage(join,J.x,J.y);c.drawImage(ground,G.x,G.y);}
+function people(c,points,complete=true){r.ctx=c;r.hitRegions=[];const actors=points.map((q,i)=>{const p=q.world||toWorld(...q);return {depth:toArt(p.x,p.y).y,person:{id:i===0?'person:master':`fixture:${i}`,appearance:i%2,x:p.x,y:p.y,indoor:false}};});const objects=complete?S.solids.map(s=>({depth:L.y+s.feetY,solid:s})):[];for(const item of [...actors,...objects].sort((a,b)=>a.depth-b.depth)){if(item.person)r.drawActor(item.person);else{c.save();trace(c,item.solid.occlusion.map(([x,y])=>[L.x+x,L.y+y]));c.clip();c.drawImage(images[IM.complete],L.x,L.y,L.width,L.height);c.restore();}}return r.hitRegions.length;}
+const stageReport=[];
+for(const stage of ['empty','foundation','construction','complete']){const c=createCanvas(1672,941),ctx=c.getContext('2d');ctx.translate(-L.x,-L.y);paint(ctx,stage);const actors=people(ctx,stage==='complete'?S.feet:[{world:{x:47,y:-39.4}}],stage==='complete');await fs.writeFile(new URL(`${stage}.png`,dir),c.toBuffer('image/png'));stageReport.push({stage,actors});}
+const all=createCanvas(1672,1882),a=all.getContext('2d');a.translate(-L.x,-L.y);paint(a,'complete');const stairs=[[1252,-211],[1213,-455],[1256,-701],[1142,-971]].map(p=>({world:toWorld(...p)}));people(a,[...S.feet,...stairs]);await fs.writeFile(new URL('full-connection-scale.png',dir),all.toBuffer('image/png'));
+const close=createCanvas(850,480),cc=close.getContext('2d');cc.translate(-L.x-420,-L.y-310);paint(cc,'complete');people(cc,S.feet);await fs.writeFile(new URL('platform-scale.png',dir),close.toBuffer('image/png'));
+const seam=createCanvas(740,941),sc=seam.getContext('2d');sc.translate(-J.x-100,-J.y);paint(sc,'complete');people(sc,stairs);await fs.writeFile(new URL('join-scale.png',dir),seam.toBuffer('image/png'));
+const e=createCanvas(800,600),ec=e.getContext('2d');ec.scale(4,4);ec.translate(-L.x-850,-L.y-720);paint(ec,'empty');ec.strokeStyle='#ff0055';ec.lineWidth=.5;ec.beginPath();ec.ellipse(L.x+940,L.y+804.575,20.8,7.8325,0,0,7);ec.stroke();ec.strokeStyle='#00baff';trace(ec,[[914,794],[972,794],[972,838],[914,838]].map(([x,y])=>[L.x+x,L.y+y]));ec.stroke();await fs.writeFile(new URL('l3-entry-ground-circle.png',dir),e.toBuffer('image/png'));
+const report={kind:'Static Canvas fixture using measured image patches and existing drawActor; not an Electron gameplay result',stages:stageReport,adultPixels:111,bodyRadius:.26,oldLibraryDoorPixels:140,newPlatformRisePixels:38,sourceWidths:L.sourceWidths,sharedGround:{file:G.image,source:[images[G.image].width,images[G.image].height],draw:[G.width,G.height],afterJoin:true},joinExcludesOldLibrary:true};await fs.writeFile(new URL('report.json',dir),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report));

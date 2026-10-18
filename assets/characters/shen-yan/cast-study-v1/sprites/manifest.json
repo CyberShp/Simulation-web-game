@@ -1,0 +1,748 @@
+{
+  "kind": "s01-fixed-view-textured-2d-animation-study",
+  "frameCount": 12,
+  "fps": 12,
+  "frameSize": [
+    640,
+    512
+  ],
+  "sourceHeight": 384,
+  "anchor": [
+    255,
+    456
+  ],
+  "nominalHeight": 111,
+  "layerOrder": [
+    "weapon",
+    "body",
+    "effect"
+  ],
+  "frames": [
+    {
+      "body": "body-000.png",
+      "weapon": "weapon-000.png",
+      "effect": "effect-000.png",
+      "durationMs": 130,
+      "phase": "起势",
+      "finger": [
+        319.0701,
+        152.841
+      ],
+      "grip": [
+        147.8098,
+        274.2086
+      ],
+      "index": 0,
+      "composite": "cast-000.png",
+      "sha256": {
+        "body": "edcaa95a6a15c80420da51e48eb25d56381645a5607122bf392ec3c1b51f4c09",
+        "weapon": "7bd7ad2f7932269eb2e7ac7f92d5c12edf49d91282539acb8a10c203879d2361",
+        "effect": "039e0ce49079a167ea3fd1c4656de0b80636a44953f71946cade2e6a3f4b4e48",
+        "composite": "371f74a33e2fb1a7a2006a713187d059f91ba5955d19489f51b40cd2e60d4173"
+      }
+    },
+    {
+      "body": "body-001.png",
+      "weapon": "weapon-001.png",
+      "effect": "effect-001.png",
+      "durationMs": 100,
+      "phase": "收诀",
+      "finger": [
+        301.3218,
+        158.7007
+      ],
+      "grip": [
+        146.4928,
+        275.2959
+      ],
+      "index": 1,
+      "composite": "cast-001.png",
+      "sha256": {
+        "body": "2b817bf6bf241cf3d9c2284622c749af666474ea4dc7c4b8181745a1c8df4338",
+        "weapon": "b336695ab7188c8ff098068162b3b111db5fdd3445f1af6d79a2bf3e8f6d8f91",
+        "effect": "039e0ce49079a167ea3fd1c4656de0b80636a44953f71946cade2e6a3f4b4e48",
+        "composite": "4350445a59ef183e2ed8c1ebe71768019384038ce39c41e41ddb48d8304dc5d4"
+      }
+    },
+    {
+      "body": "body-002.png",
+      "weapon": "weapon-002.png",
+      "effect": "effect-002.png",
+      "durationMs": 110,
+      "phase": "蓄势",
+      "finger": [
+        292.2263,
+        160.5513
+      ],
+      "grip": [
+        145.4897,
+        276.3832
+      ],
+      "index": 2,
+      "composite": "cast-002.png",
+      "sha256": {
+        "body": "6004287ef080a0c08e8bf5b3bc361292d39f40a1bc0485d5a9df5d06dc1b4e99",
+        "weapon": "1c4c446e47371e8b901a6236997922cf7014f0992148052ee9ce24efd13f3654",
+        "effect": "039e0ce49079a167ea3fd1c4656de0b80636a44953f71946cade2e6a3f4b4e48",
+        "composite": "a8b04c87f9692b8ef16a6c03e5978132ded202a9d0573cc173de43d4e9e996d6"
+      }
+    },
+    {
+      "body": "body-003.png",
+      "weapon": "weapon-003.png",
+      "effect": "effect-003.png",
+      "durationMs": 100,
+      "phase": "开肘",
+      "finger": [
+        364.619,
+        141.0808
+      ],
+      "grip": [
+        146.933,
+        275.5677
+      ],
+      "index": 3,
+      "composite": "cast-003.png",
+      "sha256": {
+        "body": "3c4c3cae746865faa9e52dc378cf9dfba9217ea79e473479e1894b81cb0a808d",
+        "weapon": "09cf34e0219bbb799226c5cc285e5565b04b37880b6a12109195a37f770b4080",
+        "effect": "662158a2c4a2803b5d87c80fe769041efefe430d1618f6ef35c4cf7c45a29126",
+        "composite": "b49b341646b83e1eea10816b6f0e047ff929a64a200e5afcb56dfa46faf0e498"
+      }
+    },
+    {
+      "body": "body-004.png",
+      "weapon": "weapon-004.png",
+      "effect": "effect-004.png",
+      "durationMs": 60,
+      "phase": "送臂",
+      "finger": [
+        433.4354,
+        139.4351
+      ],
+      "grip": [
+        149.525,
+        274.4804
+      ],
+      "index": 4,
+      "composite": "cast-004.png",
+      "sha256": {
+        "body": "0c3babba296972bdb9115cf164024808d72a8a3b76a528018b1378d8534dcabc",
+        "weapon": "627dd5475b25d0f8b74d91e609dbe7ff199e1125ab97cfc845d760b52184269c",
+        "effect": "bec9d30e8c82fc19a7a777c088e7c73e5746dbcc867864673e66e212692f67ca",
+        "composite": "38dc997ee492d81d0a92e1aaa7c3b1dfe969e74bcfbb8e1242db3065724e29c8"
+      }
+    },
+    {
+      "body": "body-005.png",
+      "weapon": "weapon-005.png",
+      "effect": "effect-005.png",
+      "durationMs": 60,
+      "phase": "释放",
+      "finger": [
+        452.8896,
+        142.2822
+      ],
+      "grip": [
+        151.7188,
+        274.2086
+      ],
+      "event": "release",
+      "index": 5,
+      "composite": "cast-005.png",
+      "sha256": {
+        "body": "b36638b6546a5de50510242ea320585e33410822982afde7dc96bc19cf777a9b",
+        "weapon": "691e502f9210fee4155a786067de0c78a70316214eb444789035c8d4170122d9",
+        "effect": "db6cbdc1e3ac69ee62adc7f7b4e0f710d97cc9f9257b814b05ec78670d29c212",
+        "composite": "457603d22904600c7416676a82d0111ff9fbb6d496caa3b32937f1185c08fad7"
+      }
+    },
+    {
+      "body": "body-006.png",
+      "weapon": "weapon-006.png",
+      "effect": "effect-006.png",
+      "durationMs": 90,
+      "phase": "随势",
+      "finger": [
+        454.4812,
+        143.5674
+      ],
+      "grip": [
+        152.3659,
+        274.4804
+      ],
+      "index": 6,
+      "composite": "cast-006.png",
+      "sha256": {
+        "body": "ae4510f026aec96fd4316a410f3ecb5cc7c8669f45d69f672aa0072cd03d3f6f",
+        "weapon": "57a02b44a5fb1b039bae4b84f8b8c42d5027c51ff541107efcb3ec50eb8d3d15",
+        "effect": "f3dc4094e09ef465ea37e9a450f58ea31c482c1fffbe696ec75e68595153085c",
+        "composite": "b452e69eede9b4df1b1c45988c9c6fc6b37fd74be1e435ad28bcbcddef2b604b"
+      }
+    },
+    {
+      "body": "body-007.png",
+      "weapon": "weapon-007.png",
+      "effect": "effect-007.png",
+      "durationMs": 100,
+      "phase": "卸力",
+      "finger": [
+        442.9674,
+        136.7271
+      ],
+      "grip": [
+        150.6928,
+        274.7522
+      ],
+      "index": 7,
+      "composite": "cast-007.png",
+      "sha256": {
+        "body": "b7c0d05fcb2d6a27ac10353bc788e48856b42492d15fe5459e5358a4bc13b4ff",
+        "weapon": "99455b64feb4e55108e8c2b222a2f30cf14c4248dfd21ea1789c0076f8e66410",
+        "effect": "d9d799b0a16235d33528addf46748f239c5abfbdbb6ad5a4ed0818e68f98bc07",
+        "composite": "875eaa87d87fdacc222c572e47f71f3e11fa578baf3960131631ef2d1a631396"
+      }
+    },
+    {
+      "body": "body-008.png",
+      "weapon": "weapon-008.png",
+      "effect": "effect-008.png",
+      "durationMs": 110,
+      "phase": "收臂",
+      "finger": [
+        407.5118,
+        136.4226
+      ],
+      "grip": [
+        149.4179,
+        274.7522
+      ],
+      "index": 8,
+      "composite": "cast-008.png",
+      "sha256": {
+        "body": "f8a402c7679833fc27c7bf2c3eb6f22938b3af0a2a338604a5a10785bbac3bd0",
+        "weapon": "6f6ff3bba85608f157c7e470ea53f8fe88a6dcb6bee49d285385be4138ac1ac6",
+        "effect": "78dd6b24c7061512f7f0f3b6d0da585b637612cc91a57807d439ada5cd27b019",
+        "composite": "279a748cc018fbcf0cfb264ec12af199b8211a80b47539f38229a8e8dc42c807"
+      }
+    },
+    {
+      "body": "body-009.png",
+      "weapon": "weapon-009.png",
+      "effect": "effect-009.png",
+      "durationMs": 120,
+      "phase": "回诀",
+      "finger": [
+        356.7612,
+        142.6642
+      ],
+      "grip": [
+        148.499,
+        274.4804
+      ],
+      "index": 9,
+      "composite": "cast-009.png",
+      "sha256": {
+        "body": "0b0b7c8b92886ce74a6beeb43e40a8aceaaf25c8dc2197c1fb29efca943fc71a",
+        "weapon": "a6d7e384333d14637560f5f4fa04569357cbfa41cada7716e8d07d32e8af2eac",
+        "effect": "039e0ce49079a167ea3fd1c4656de0b80636a44953f71946cade2e6a3f4b4e48",
+        "composite": "a44adc8b24e5ff223d68021c7fe135cde9f4676fac7926e67446be7442b0cc25"
+      }
+    },
+    {
+      "body": "body-010.png",
+      "weapon": "weapon-010.png",
+      "effect": "effect-010.png",
+      "durationMs": 120,
+      "phase": "归位",
+      "finger": [
+        323.8057,
+        150.8395
+      ],
+      "grip": [
+        147.7677,
+        274.2086
+      ],
+      "index": 10,
+      "composite": "cast-010.png",
+      "sha256": {
+        "body": "ffef59d095c3d784aff97eba449279cb49e04955cee0aa8200cf91183d31dbd4",
+        "weapon": "f42dcfb774fd523866a4745d326f4ed5c28fab4cc785747f85f7237b0b1ae384",
+        "effect": "039e0ce49079a167ea3fd1c4656de0b80636a44953f71946cade2e6a3f4b4e48",
+        "composite": "7ccf2f1751c642620daa60fc908ab9e24c4a14a2545a4faa03d428c48e664a08"
+      }
+    },
+    {
+      "body": "body-011.png",
+      "weapon": "weapon-011.png",
+      "effect": "effect-011.png",
+      "durationMs": 180,
+      "phase": "收势",
+      "finger": [
+        319.0701,
+        152.841
+      ],
+      "grip": [
+        147.8098,
+        274.2086
+      ],
+      "index": 11,
+      "composite": "cast-011.png",
+      "sha256": {
+        "body": "515db6943f1b38b8286600478c7d9d5de1155fe016a3b70c966708f4153bbc48",
+        "weapon": "5af2948b78d6f4f8965ce68f294d9aed56eeb5046109dc46b70384bfa721e387",
+        "effect": "039e0ce49079a167ea3fd1c4656de0b80636a44953f71946cade2e6a3f4b4e48",
+        "composite": "371f74a33e2fb1a7a2006a713187d059f91ba5955d19489f51b40cd2e60d4173"
+      }
+    }
+  ],
+  "durationMs": 1280,
+  "inputTexture": "../source/casting-master-v1.png",
+  "sourceSha256": "f3696e131bd0ce47d4c31dfe124502ed05579da1fdadc000f34e51d3806a6b65",
+  "motionFile": "../motion/s01-cast-mesh.blend",
+  "direction": "fixed-front-right",
+  "handRoles": {
+    "right": "sword",
+    "left": "casting"
+  },
+  "alphaMode": {
+    "renderCutoff": 0.65,
+    "sourcePreserved": true
+  },
+  "footAnchors": [
+    [
+      510,
+      980
+    ],
+    [
+      1000,
+      930
+    ]
+  ],
+  "sourceScale": 0.39263803680981596,
+  "sourceAnchor": [
+    765,
+    993
+  ],
+  "sourceJointAnchors": {
+    "shoulder": [
+      864,
+      259
+    ],
+    "elbow": [
+      1027,
+      245
+    ],
+    "grip": [
+      492,
+      530
+    ]
+  },
+  "poses": [
+    {
+      "upper": 68,
+      "lower": -77,
+      "reach": 0.78,
+      "lean": 0,
+      "dip": 0,
+      "lag": 0,
+      "phase": "起势",
+      "ms": 130
+    },
+    {
+      "upper": 76,
+      "lower": -83,
+      "reach": 0.78,
+      "lean": -5,
+      "dip": 4,
+      "lag": -1,
+      "phase": "收诀",
+      "ms": 100
+    },
+    {
+      "upper": 82,
+      "lower": -84,
+      "reach": 0.8,
+      "lean": -9,
+      "dip": 8,
+      "lag": -3,
+      "phase": "蓄势",
+      "ms": 110
+    },
+    {
+      "upper": 52,
+      "lower": -55,
+      "reach": 0.88,
+      "lean": -4,
+      "dip": 5,
+      "lag": -5,
+      "phase": "开肘",
+      "ms": 100
+    },
+    {
+      "upper": 20,
+      "lower": -18,
+      "reach": 0.96,
+      "lean": 6,
+      "dip": 1,
+      "lag": -2,
+      "phase": "送臂",
+      "ms": 60
+    },
+    {
+      "upper": 0,
+      "lower": 0,
+      "reach": 1,
+      "lean": 15,
+      "dip": 0,
+      "lag": 4,
+      "phase": "释放",
+      "ms": 60
+    },
+    {
+      "upper": -2,
+      "lower": 2,
+      "reach": 1,
+      "lean": 18,
+      "dip": 1,
+      "lag": 8,
+      "phase": "随势",
+      "ms": 90
+    },
+    {
+      "upper": 10,
+      "lower": -12,
+      "reach": 0.97,
+      "lean": 12,
+      "dip": 2,
+      "lag": 9,
+      "phase": "卸力",
+      "ms": 100
+    },
+    {
+      "upper": 33,
+      "lower": -35,
+      "reach": 0.9,
+      "lean": 7,
+      "dip": 2,
+      "lag": 7,
+      "phase": "收臂",
+      "ms": 110
+    },
+    {
+      "upper": 54,
+      "lower": -60,
+      "reach": 0.83,
+      "lean": 3,
+      "dip": 1,
+      "lag": 3,
+      "phase": "回诀",
+      "ms": 120
+    },
+    {
+      "upper": 66,
+      "lower": -75,
+      "reach": 0.79,
+      "lean": 0,
+      "dip": 0,
+      "lag": 1,
+      "phase": "归位",
+      "ms": 120
+    },
+    {
+      "upper": 68,
+      "lower": -77,
+      "reach": 0.78,
+      "lean": 0,
+      "dip": 0,
+      "lag": 0,
+      "phase": "收势",
+      "ms": 180
+    }
+  ],
+  "integrationStatus": "offline-art-study",
+  "atlas": "cast-atlas.png",
+  "frameRects": [
+    [
+      0,
+      0,
+      640,
+      512
+    ],
+    [
+      640,
+      0,
+      640,
+      512
+    ],
+    [
+      1280,
+      0,
+      640,
+      512
+    ],
+    [
+      1920,
+      0,
+      640,
+      512
+    ],
+    [
+      0,
+      512,
+      640,
+      512
+    ],
+    [
+      640,
+      512,
+      640,
+      512
+    ],
+    [
+      1280,
+      512,
+      640,
+      512
+    ],
+    [
+      1920,
+      512,
+      640,
+      512
+    ],
+    [
+      0,
+      1024,
+      640,
+      512
+    ],
+    [
+      640,
+      1024,
+      640,
+      512
+    ],
+    [
+      1280,
+      1024,
+      640,
+      512
+    ],
+    [
+      1920,
+      1024,
+      640,
+      512
+    ]
+  ],
+  "frameSha256": [
+    "371f74a33e2fb1a7a2006a713187d059f91ba5955d19489f51b40cd2e60d4173",
+    "4350445a59ef183e2ed8c1ebe71768019384038ce39c41e41ddb48d8304dc5d4",
+    "a8b04c87f9692b8ef16a6c03e5978132ded202a9d0573cc173de43d4e9e996d6",
+    "b49b341646b83e1eea10816b6f0e047ff929a64a200e5afcb56dfa46faf0e498",
+    "38dc997ee492d81d0a92e1aaa7c3b1dfe969e74bcfbb8e1242db3065724e29c8",
+    "457603d22904600c7416676a82d0111ff9fbb6d496caa3b32937f1185c08fad7",
+    "b452e69eede9b4df1b1c45988c9c6fc6b37fd74be1e435ad28bcbcddef2b604b",
+    "875eaa87d87fdacc222c572e47f71f3e11fa578baf3960131631ef2d1a631396",
+    "279a748cc018fbcf0cfb264ec12af199b8211a80b47539f38229a8e8dc42c807",
+    "a44adc8b24e5ff223d68021c7fe135cde9f4676fac7926e67446be7442b0cc25",
+    "7ccf2f1751c642620daa60fc908ab9e24c4a14a2545a4faa03d428c48e664a08",
+    "371f74a33e2fb1a7a2006a713187d059f91ba5955d19489f51b40cd2e60d4173"
+  ],
+  "sha256": {
+    "body-000.png": "edcaa95a6a15c80420da51e48eb25d56381645a5607122bf392ec3c1b51f4c09",
+    "weapon-000.png": "7bd7ad2f7932269eb2e7ac7f92d5c12edf49d91282539acb8a10c203879d2361",
+    "body-001.png": "2b817bf6bf241cf3d9c2284622c749af666474ea4dc7c4b8181745a1c8df4338",
+    "weapon-001.png": "b336695ab7188c8ff098068162b3b111db5fdd3445f1af6d79a2bf3e8f6d8f91",
+    "body-002.png": "6004287ef080a0c08e8bf5b3bc361292d39f40a1bc0485d5a9df5d06dc1b4e99",
+    "weapon-002.png": "1c4c446e47371e8b901a6236997922cf7014f0992148052ee9ce24efd13f3654",
+    "body-003.png": "3c4c3cae746865faa9e52dc378cf9dfba9217ea79e473479e1894b81cb0a808d",
+    "weapon-003.png": "09cf34e0219bbb799226c5cc285e5565b04b37880b6a12109195a37f770b4080",
+    "body-004.png": "0c3babba296972bdb9115cf164024808d72a8a3b76a528018b1378d8534dcabc",
+    "weapon-004.png": "627dd5475b25d0f8b74d91e609dbe7ff199e1125ab97cfc845d760b52184269c",
+    "body-005.png": "b36638b6546a5de50510242ea320585e33410822982afde7dc96bc19cf777a9b",
+    "weapon-005.png": "691e502f9210fee4155a786067de0c78a70316214eb444789035c8d4170122d9",
+    "body-006.png": "ae4510f026aec96fd4316a410f3ecb5cc7c8669f45d69f672aa0072cd03d3f6f",
+    "weapon-006.png": "57a02b44a5fb1b039bae4b84f8b8c42d5027c51ff541107efcb3ec50eb8d3d15",
+    "body-007.png": "b7c0d05fcb2d6a27ac10353bc788e48856b42492d15fe5459e5358a4bc13b4ff",
+    "weapon-007.png": "99455b64feb4e55108e8c2b222a2f30cf14c4248dfd21ea1789c0076f8e66410",
+    "body-008.png": "f8a402c7679833fc27c7bf2c3eb6f22938b3af0a2a338604a5a10785bbac3bd0",
+    "weapon-008.png": "6f6ff3bba85608f157c7e470ea53f8fe88a6dcb6bee49d285385be4138ac1ac6",
+    "body-009.png": "0b0b7c8b92886ce74a6beeb43e40a8aceaaf25c8dc2197c1fb29efca943fc71a",
+    "weapon-009.png": "a6d7e384333d14637560f5f4fa04569357cbfa41cada7716e8d07d32e8af2eac",
+    "body-010.png": "ffef59d095c3d784aff97eba449279cb49e04955cee0aa8200cf91183d31dbd4",
+    "weapon-010.png": "f42dcfb774fd523866a4745d326f4ed5c28fab4cc785747f85f7237b0b1ae384",
+    "body-011.png": "515db6943f1b38b8286600478c7d9d5de1155fe016a3b70c966708f4153bbc48",
+    "weapon-011.png": "5af2948b78d6f4f8965ce68f294d9aed56eeb5046109dc46b70384bfa721e387",
+    "effect-000.png": "039e0ce49079a167ea3fd1c4656de0b80636a44953f71946cade2e6a3f4b4e48",
+    "cast-000.png": "371f74a33e2fb1a7a2006a713187d059f91ba5955d19489f51b40cd2e60d4173",
+    "effect-001.png": "039e0ce49079a167ea3fd1c4656de0b80636a44953f71946cade2e6a3f4b4e48",
+    "cast-001.png": "4350445a59ef183e2ed8c1ebe71768019384038ce39c41e41ddb48d8304dc5d4",
+    "effect-002.png": "039e0ce49079a167ea3fd1c4656de0b80636a44953f71946cade2e6a3f4b4e48",
+    "cast-002.png": "a8b04c87f9692b8ef16a6c03e5978132ded202a9d0573cc173de43d4e9e996d6",
+    "effect-003.png": "662158a2c4a2803b5d87c80fe769041efefe430d1618f6ef35c4cf7c45a29126",
+    "cast-003.png": "b49b341646b83e1eea10816b6f0e047ff929a64a200e5afcb56dfa46faf0e498",
+    "effect-004.png": "bec9d30e8c82fc19a7a777c088e7c73e5746dbcc867864673e66e212692f67ca",
+    "cast-004.png": "38dc997ee492d81d0a92e1aaa7c3b1dfe969e74bcfbb8e1242db3065724e29c8",
+    "effect-005.png": "db6cbdc1e3ac69ee62adc7f7b4e0f710d97cc9f9257b814b05ec78670d29c212",
+    "cast-005.png": "457603d22904600c7416676a82d0111ff9fbb6d496caa3b32937f1185c08fad7",
+    "effect-006.png": "f3dc4094e09ef465ea37e9a450f58ea31c482c1fffbe696ec75e68595153085c",
+    "cast-006.png": "b452e69eede9b4df1b1c45988c9c6fc6b37fd74be1e435ad28bcbcddef2b604b",
+    "effect-007.png": "d9d799b0a16235d33528addf46748f239c5abfbdbb6ad5a4ed0818e68f98bc07",
+    "cast-007.png": "875eaa87d87fdacc222c572e47f71f3e11fa578baf3960131631ef2d1a631396",
+    "effect-008.png": "78dd6b24c7061512f7f0f3b6d0da585b637612cc91a57807d439ada5cd27b019",
+    "cast-008.png": "279a748cc018fbcf0cfb264ec12af199b8211a80b47539f38229a8e8dc42c807",
+    "effect-009.png": "039e0ce49079a167ea3fd1c4656de0b80636a44953f71946cade2e6a3f4b4e48",
+    "cast-009.png": "a44adc8b24e5ff223d68021c7fe135cde9f4676fac7926e67446be7442b0cc25",
+    "effect-010.png": "039e0ce49079a167ea3fd1c4656de0b80636a44953f71946cade2e6a3f4b4e48",
+    "cast-010.png": "7ccf2f1751c642620daa60fc908ab9e24c4a14a2545a4faa03d428c48e664a08",
+    "effect-011.png": "039e0ce49079a167ea3fd1c4656de0b80636a44953f71946cade2e6a3f4b4e48",
+    "cast-011.png": "371f74a33e2fb1a7a2006a713187d059f91ba5955d19489f51b40cd2e60d4173",
+    "cast-atlas.png": "a39cabe8f047c4d945c7e36dec2e5f6ba8cd02adba8f83e980df7945e50663a7"
+  },
+  "effectStudy": {
+    "method": "procedural-pixel-canvas",
+    "releaseFrame": 5,
+    "releasePoint": [
+      453,
+      142
+    ],
+    "direction": [
+      1,
+      0
+    ],
+    "chargeFrames": [
+      3,
+      4
+    ],
+    "projectileFrames": [
+      5,
+      6,
+      7,
+      8
+    ],
+    "trajectory": [
+      {
+        "frame": 0,
+        "release": false,
+        "origin": [
+          453,
+          142
+        ],
+        "head": null
+      },
+      {
+        "frame": 1,
+        "release": false,
+        "origin": [
+          453,
+          142
+        ],
+        "head": null
+      },
+      {
+        "frame": 2,
+        "release": false,
+        "origin": [
+          453,
+          142
+        ],
+        "head": null
+      },
+      {
+        "frame": 3,
+        "release": false,
+        "origin": [
+          453,
+          142
+        ],
+        "head": null
+      },
+      {
+        "frame": 4,
+        "release": false,
+        "origin": [
+          453,
+          142
+        ],
+        "head": null
+      },
+      {
+        "frame": 5,
+        "release": true,
+        "origin": [
+          453,
+          142
+        ],
+        "head": [
+          493,
+          142
+        ]
+      },
+      {
+        "frame": 6,
+        "release": false,
+        "origin": [
+          453,
+          142
+        ],
+        "head": [
+          529,
+          142
+        ]
+      },
+      {
+        "frame": 7,
+        "release": false,
+        "origin": [
+          453,
+          142
+        ],
+        "head": [
+          558,
+          142
+        ]
+      },
+      {
+        "frame": 8,
+        "release": false,
+        "origin": [
+          453,
+          142
+        ],
+        "head": [
+          587,
+          142
+        ]
+      },
+      {
+        "frame": 9,
+        "release": false,
+        "origin": [
+          453,
+          142
+        ],
+        "head": null
+      },
+      {
+        "frame": 10,
+        "release": false,
+        "origin": [
+          453,
+          142
+        ],
+        "head": null
+      },
+      {
+        "frame": 11,
+        "release": false,
+        "origin": [
+          453,
+          142
+        ],
+        "head": null
+      }
+    ]
+  }
+}

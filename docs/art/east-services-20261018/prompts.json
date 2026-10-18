@@ -1,0 +1,184 @@
+{
+  "date": "2026-10-18",
+  "tool": "built-in image_gen",
+  "authority": [
+    "U-167",
+    "U-63",
+    "R-54",
+    "docs/design/58-GOLDEN-CORE-PRESET-BUILDINGS.md",
+    "docs/design/62-EAST-SERVICES-INTEGRATION.md"
+  ],
+  "scope": "art candidates in this directory; world locations and runtime integration pending",
+  "authorT": [
+    {
+      "id": "T-ES-ART-01",
+      "scope": "local art study",
+      "status": "tunable",
+      "source": "U-63 author detail under U-167 / R-54 / 58",
+      "detail": "Two independent enclosed courts: upper clinic with rescue approach, lower kitchen with cargo court. Fixed view, 111px adult reference, 6m first-level and 10m maximum reserves to be calibrated."
+    },
+    {
+      "id": "T-ES-ART-02",
+      "scope": "local art study",
+      "status": "tunable",
+      "source": "Visual measurements of complete-v2 / empty-v2",
+      "detail": "Native paired canvas1670x941; proposed logical tile1672x941. If logical width is used, multiply all native x coordinates by1672/1670. Entrance measurements remain approximate until formal projection calibration."
+    },
+    {
+      "id": "T-ES-ART-03",
+      "scope": "asset authoring",
+      "source": "U-63, U-167, 58, 62 and the shared spatial candidate",
+      "decision": "Use the maximum plot rectangles for cleared grass/soil and keep the public roads continuous; preserve closed level-one bodies as the complete source."
+    },
+    {
+      "id": "T-ES-ART-04",
+      "scope": "asset authoring",
+      "source": "U-101 and current fixed-camera stage contract",
+      "decision": "Level-one construction uses low foundations and open timber frames at the complete-source footprints; layer terrain, per-site stages and joining roads separately."
+    }
+  ],
+  "outputs": [
+    {
+      "version": "complete-v1",
+      "path": "complete-v1.png",
+      "nativeSize": [
+        1671,
+        941
+      ],
+      "source": "/Users/shepard/.codex/generated_images/01a14dcf-90c6-7111-8b50-41d9a8e32a92/exec-5a6a6333-0dfb-42e2-9e9f-b25ae15ec974.png",
+      "sha256": "b71038048f26b7ba1cd4604eb4cf7d5babf1e6ec8e7747805d1e57168f8a7f05",
+      "prompt": "Use case: stylized-concept / precise-object-edit.\nCreate a new adjacent east-services tile for the same fixed-camera Chinese xianxia settlement game, as a substantial scene edit/recomposition of input 1. Output exactly 1672 x 941 pixels, one complete landscape, opaque.\nInput 1 east-residences-complete-v2: authoritative pixel-art camera, building scale, blue-grey tiles, timber, stone and daylight. Input 2 east-terrace-clean: matching natural mountain materials and restrained enclosed architecture. These are style and scale inputs; make the NEW neighbouring two-facility terrace, not a copy of the three residences.\nThe tile will sit immediately to the right of the three residences. A broad upper dirt-and-stone walking road enters the left boundary at (0,478) and continues mostly horizontally to the right; another enters at (0,840) and continues horizontally. Both roads must have visible usable flat surfaces, roughly 45-65 pixels deep in the image, with connected side paths. A left-side connecting path at about x120 links them. Keep rocky cliff and pine scenery around the perimeter, but use the central tile for continuous flat buildable grassy-soil terraces.\nThere are EXACTLY TWO full enclosed functional buildings:\n1. Upper calm medical lodge, GC14. Center its main south-facing door around x550, with external stair foot/standing ground around (550,415). Blue-grey tiled complete roof, warm brown timber, pale stone plinth, visible enclosed front and side walls; roughly 350-380 pixels total building height. Net doorway height about 140-150 pixels, scaled for a 111-pixel standing adult (do not draw people). This is a substantial four-care-bed lodge. A few herb drying trays, medicine baskets and a quiet sheltered entrance identify it. Enclosed rooms stay behind walls. Preserve broad level expansion lawn around its 6x6m first building so a future 10x10m plot can fit, approximately across x280-1040, y270-445, with no boulders/trees blocking that reserve. Keep the upper common road outside the reserve's south edge. A usable rescue path goes around the lodge's west side and exits the upper-left edge near (0,235), for a future connection toward the mountain retreat; use a visible broad soil/stone path, no tiny decorative ladder.\n2. Lower kitchen/dining lodge, GC13. Center main south-facing door near x1090, external steps/standing ground near (1090,787). Complete blue-grey roof and enclosed timber-and-stone body, about 350-380 pixels tall, net door height140-150 pixels. Show depth and sidewall volume, one modest cooking chimney, a small integrated sheltered firewood stack, grain jars and a water basin on the service side. Let these functional objects distinguish the kitchen from the clinic; keep the primary dining/cooking rooms fully enclosed. It has its own separate courtyard and a flat unloading area adjacent to the lower common road. Reserve broad flat grass/soil toward its right side for 10x10m growth (approximately x750-1520, y650-810), with rocks and trees outside. Connect its front steps by a short broad path to lower road y840. The main cargo road bypasses the yard so waiting deliveries do not block household passage.\nSpace the two independent courts with natural lawn and a low band of rocks/pines outside their plot reserves. Avoid making a large scenic empty abyss through the middle: most middle ground should be usable terrace. Match the existing fixed oblique camera, richly detailed crisp high-definition pixel painting, natural blue-grey roof tiles, warm sunlight, lush pine and pale stone. Keep gold details sparse. Road edges and ground must be clear enough to place real character feet later.\nNo people, animals, labels, writing, number markers, UI, construction signs, grids, arrows, cutaway interiors, or foreground objects obstructing either entrance. No extra third building. Whole roofs and both staircase foot areas are inside the frame. This is the LEVEL-ONE COMPLETE master composition; later empty and construction images will keep this exact camera and geometry.",
+      "references": [
+        "/Volumes/Media/immortal/assets/courtyard/east-residences-complete-v2.png",
+        "/Volumes/Media/immortal/assets/courtyard/east-terrace-clean.png"
+      ],
+      "status": "composition-study"
+    },
+    {
+      "version": "complete-v2",
+      "path": "complete-v2.png",
+      "nativeSize": [
+        1670,
+        941
+      ],
+      "source": "/Users/shepard/.codex/generated_images/01a14dcf-90c6-7111-8b50-41d9a8e32a92/exec-9ed49a2e-3a66-43ba-b8a0-4bdc785ba9a0.png",
+      "sha256": "85289f3185bd0eb30485c9af85d387c21f844bb5c7294ca02f0087b28ec289e3",
+      "prompt": "Use case: precise-object-edit.\nEdit this exact 1672x941 east-services master image. Preserve the fixed camera, crisp high-definition pixel-painting texture, mountain scenery, clinic/kitchen identities, all public roads, vegetation outside the two building envelopes, and both road entry heights.\nMake ONLY this architectural calibration:\nA. Translate the entire LOWER kitchen building, its attached woodshed/service wing, front steps, jars, water basin, and immediate apron 180 pixels LEFT. Keep the main stair-foot depth at about y775. The door/stair center becomes about x1030. Reconstruct level grassy-soil ground where its old rightmost yard was, leaving generous clear growth space to the right up to x1580. The common lower road y840 remains in exactly the same position. Reconnect the short doorway path to it.\nB. Give BOTH buildings visibly adult-scale doorways: net doorway height 140-150 pixels, width about130-145 pixels, measured from the clear top opening to threshold. Keep their door thresholds and stair feet at the same y coordinates. Increase the timber wall height upward and raise each whole roof accordingly by about30-40 pixels so the actual doorway is taller, not only ornamentally framed. The upper clinic full building height should be about370pixels with the roof crown still inside the frame (top approx20); the lower kitchen full building height about365pixels. Keep the upper clinic centered where it is, around x815. Preserve full closed front and side walls and complete blue-grey roofs. All roof finials must stay in the canvas.\nKeep functional outdoor items at correct adult scale. Do not draw people, text, UI or number markers. Maintain the entire north-west rescue path and upper/lower common road alignments. The broad lawns around both courts must remain level and usable. This remains a complete first-level master, with realistic compact building bodies and ample future plot ground.",
+      "references": [
+        "/Volumes/Media/immortal/docs/art/east-services-20261018/complete-v1.png"
+      ],
+      "status": "selected-calibration-master"
+    },
+    {
+      "version": "empty-v2",
+      "path": "empty-v2.png",
+      "nativeSize": [
+        1670,
+        941
+      ],
+      "source": "/Users/shepard/.codex/generated_images/01a14dcf-90c6-7111-8b50-41d9a8e32a92/exec-69a94071-c58a-411d-aa04-38724dcdeea2.png",
+      "sha256": "fdde006afce352d2c3b84fd6af9ee59e0d73332e7e00086cbd9f60ca5fac6d4c",
+      "prompt": "Use case: precise-object-edit.\nMake the EMPTY GROUND stage of this exact 1672x941 east-services complete-v2 master. This is a registered same-camera game layer. Preserve every public dirt/stone road, all mountains, lighting, pixel texture, rescue trail, road edge stones, perimeter pines/rocks, and exact perspective/scale.\nRemove the upper medical lodge completely: entire roof, closed walls, foundation/plinth, steps, clinic lantern posts, herb racks/drying shelter, baskets, pots, medicine items, private paving and building shadows. Remove the lower kitchen lodge completely: entire roof, walls, chimney/smoke, side service wing, woodshed/firewood, jars, water basin, tables/baskets, foundation, front steps, private paving, building shadows. Remove ALL facility-specific fragments.\nReplace these private facility areas with continuous level grassy-soil buildable terrace, matching the adjacent ground and cleanly joining the retained short entrance paths. The upper broad reserve should stay clear of solid trees/boulders across approximately x520..1400,y270..435. The lower reserve should stay clear across approximately x340..1260,y650..800. Existing natural rocks or bushes inside those two construction reserves should become flat natural soil/short grass; retain the forest perimeter beyond the reserves.\nPrecisely preserve: the upper east-west road at yabout470, lower road at yabout830, left connecting road and upper-left rescue path. Where the lower roof used to cover the upper common road, reveal that road's continuous matching width and edge stones. Keep the short clinic entry branch at xabout815 and lower kitchen entry at xabout620 ending naturally at the unbuilt grassy-soil site; road alignment must match the complete source.\nNo new structures, people, animals, signs, labels, plot markers, grids or UI. Keep all terrain coordinates and image framing locked to the source. Output the full opaque 1672x941 image.",
+      "references": [
+        "/Volumes/Media/immortal/docs/art/east-services-20261018/complete-v2.png"
+      ],
+      "status": "same-view-ground-candidate"
+    }
+  ],
+  "terrainAndStageBatch": [
+    {
+      "file": "empty-v3.png",
+      "prompt": "Use case: precise-object-edit.\nAsset type: fixed-camera high-definition pixel-art terrain layer for a Chinese mountain sect game.\nEdit target: the referenced empty-v2 image, native 1670 by 941 pixels. Preserve its exact camera, canvas, mountain silhouettes, lighting, fine pixel texture, shared dirt roads, the western rescue path and stone lanterns. Produce the same full-canvas terrain with only these ground-clearance corrections:\n1. The upper clinic future building plot must be genuinely continuous level short-grass and pale packed-soil ground across the rectangle x=545..1450, y=293..430. Remove all boulders, tree trunks, shrubs and heavy flowers in that footprint, especially the northeast part x=1180..1450,y=293..370. Continue the grass terrace naturally. Keep the forest and large rocks behind/north of y=280 and outside this building envelope. Use a natural irregular grass edge, not a drawn rectangle.\n2. The lower kitchen maximum building plot x=345..1225,y=699..797 must be continuous level low grass/soil with all rocks and dense shrubs removed from the plot. Maintain the lower public dirt road at exactly the existing y=804..850 area, with a clean unobstructed approach to the plot around x=620,y=783. The road remains visible and continuous.\nAll public roads and junctions stay at their exact existing locations and widths. Upper road center about y=465, lower road about y=820, west road and rescue branch unchanged. Preserve the upper doorway branch at x=815, y=386..465. This is an empty ground layer: only natural terrain and shared roads, no buildings, people, construction materials, boundary lines, labels, lettering or signs. Do not change the whole composition, scale, weather, or color grading. Keep every unaffected detail pixel-aligned. Output one 1670x941 full scene.",
+      "references": [
+        "/Volumes/Media/immortal/docs/art/east-services-20261018/empty-v2.png"
+      ],
+      "generatedSource": "/Users/shepard/.codex/generated_images/01a14dcf-90c6-7111-8b50-41d9a8e32a92/exec-707df25d-3eeb-4727-8435-9dc4b756f3aa.png",
+      "nativeSize": [
+        1670,
+        941
+      ],
+      "sha256": "da2b373d3bbc6ebdb0b0e3199cb8b82165a1545a4b02523759a27b5438a2f570",
+      "tool": "built-in imagegen"
+    },
+    {
+      "file": "join-study-v1.png",
+      "prompt": "Use case: compositing.\nAsset type: fixed-camera high-definition pixel terrain joining layer for a continuous Chinese mountain sect game.\nInputs: image 1 is the existing residential empty terrain, 1672x941. Image 2 is the adjoining services empty terrain, 1670x941. Use the actual terrain from both references; preserve their camera, pixel scale, ground texture and lighting.\nCreate ONE seamless 1672x941 joining scene. Its LEFT HALF (output x0..835) must represent the RIGHT HALF of image 1 (source x836..1671, y0..940). Its RIGHT HALF (output x836..1671) must represent the LEFT HALF of image 2 (source x0..835, y0..940). This is a horizontal crop-and-join view across the shared border, NOT two complete images side-by-side and NOT a new repeating landscape. Keep vertical pixel coordinates unchanged.\nConnect the two actual public dirt roads across the center seam:\nUpper road: retain the existing road through output (550,478) and its old end near (669,478); extend a broad level packed-earth road with stone shoulders via (730,474), (790,462), (836,452), (930,457), then into the existing services-road junction near (1116,464). Keep at least 55px of walkable width. Clear the rock obstruction at the old road's east end. The path crosses continuous solid ground; make the cliff/forest join natural around it.\nLower road: retain the existing residential road through output (650,845) and (754,840); extend through (795,827), (836,804), then (930,808), into the existing services lower-road junction near (986,810). Keep at least 60px walkable width. Clear only the old end's fence/rocks that block this connection.\nPreserve the services western vertical path and its upward rescue branch, now on the RIGHT half. Preserve the scenery and roads outside the narrow joining region as closely as possible. Blend the upper mountain/forest silhouettes and lower cliff vegetation across the center seam so this reads as one coherent plateau.\nNo buildings, people, construction props, labels, grids, signs, panels or visible vertical seam. Same bright clear weather and crisp finely controlled pixel art as both references. Do not reduce the scale of the original terrain; output exactly the specified half-crop composition.",
+      "references": [
+        "/Volumes/Media/immortal/assets/courtyard/east-residences-empty-v4.png",
+        "/Volumes/Media/immortal/docs/art/east-services-20261018/empty-v3.png"
+      ],
+      "generatedSource": "/Users/shepard/.codex/generated_images/01a14dcf-90c6-7111-8b50-41d9a8e32a92/exec-0c4337bd-a008-4dfa-87fd-f3afb3797892.png",
+      "nativeSize": [
+        1672,
+        941
+      ],
+      "sha256": "51263742afc6c772169f5336372e68472e5de62df0c12f42cca22c8c5940dbc4",
+      "tool": "built-in imagegen"
+    },
+    {
+      "file": "join-v2.png",
+      "prompt": "Use case: compositing.\nMake a precisely cropped 1672x941 continuous game terrain strip from the two source images. Keep the original pixel scale. Image 1 supplies only its RIGHT 836-pixel-wide half, placed in the LEFT half of the output. Image 2 supplies only its LEFT 836-pixel-wide half, placed in the RIGHT half of the output. Do not shrink either entire image to fit a half.\nCritical crop landmarks, all measured in output pixels:\n- In the left half, image 1's RIGHT residential entrance branch at source x1118 must appear at output x282, going from y386 down to the upper road at y478.\n- The western vertical road from source image 1 is completely outside this crop. There must be NO vertical road near the output left edge.\n- Image 1's LOWER residential entrance branch at source x779 is also outside this crop. The lower-left part has low grass above a horizontal road y845.\n- In the right half, image 2's WESTERN road junction at source x280 must appear at output x1116, y464. Its vertical connecting road continues below through x986,y810, and its curved rescue branch goes upward near x1136,y307 toward x836,y194.\n- Image 2's upper clinic entrance branch at source x815 appears near the far RIGHT output edge x1651,y386..465.\nPreserve these landmarks and the unchanged y coordinates exactly. This represents a fixed one-to-one terrain crop, not an invented composition.\nConnect the two upper road ends from output (669,478) to (836,452), smoothly joining the roads at both sides with a 55-65px wide solid dirt path. Connect the lower roads from (754,840) to (836,804), with a 60-70px wide path. Replace rocks/fences only in those joining gaps. Naturally blend the trees, distant cliffs and grass on either side of output x836.\nMatch the fine pixel texture, sunlight and colors of the sources. No buildings, people, labels or signs. The final image must be a correctly cropped close terrain join with the right-hand residential entrance still visible in its left half.",
+      "references": [
+        "/Volumes/Media/immortal/assets/courtyard/east-residences-empty-v4.png",
+        "/Volumes/Media/immortal/docs/art/east-services-20261018/empty-v3.png"
+      ],
+      "generatedSource": "/Users/shepard/.codex/generated_images/01a14dcf-90c6-7111-8b50-41d9a8e32a92/exec-781c088a-9982-49fb-af20-34c458debb49.png",
+      "nativeSize": [
+        1672,
+        941
+      ],
+      "sha256": "60b51f00b853b3b76a8bdd68a5a3de7e07ad325361fe488f210938cb2ba48b1c",
+      "tool": "built-in imagegen"
+    },
+    {
+      "file": "empty-v4.png",
+      "prompt": "Use case: precise-object-edit.\nEdit target: the attached empty ground image. Keep exact 1670x941 canvas, pixel scale, camera, lighting, every upper-plateau detail, all western roads and background.\nMake one small terrain correction ONLY along the lower building plot's south edge: across x=335..1235 and y=775..813, remove the raised line of border rocks, clumps and boulders between the low-grass buildable terrace and the lower dirt road. Replace this narrow strip with smooth level short grass blending into compacted dirt. It must be a continuous flat walkable shoulder, easy for an adult to step directly from the grass to the dirt road anywhere across that span. Small flat gravel texture is fine; no upright stones or curb remain in this span.\nPreserve the lower road center around y=825 and its entire width and course. Preserve the northern part of the lower plot, both outer ends of the road, upper plot, tree lines, mountains, rescue path and all other scenery exactly. No new road stripe, construction marks, buildings, people, objects or text. Retain crisp detailed pixel art. Output full same-scene image.",
+      "references": [
+        "/Volumes/Media/immortal/docs/art/east-services-20261018/empty-v3.png"
+      ],
+      "generatedSource": "/Users/shepard/.codex/generated_images/01a14dcf-90c6-7111-8b50-41d9a8e32a92/exec-1dfbe0a0-e835-4b48-b1ac-b257578b347e.png",
+      "nativeSize": [
+        1670,
+        942
+      ],
+      "sha256": "2539d73b4e047336fd4175dbbc3c38394c3dc3dbf377974326b526e7c591a61c",
+      "tool": "built-in imagegen"
+    },
+    {
+      "file": "construction-v1.png",
+      "prompt": "Use case: precise-object-edit.\nAsset type: fixed-camera high-definition pixel-art construction-stage layer for two Chinese mountain sect facilities.\nInputs: image 1, complete-v2, is the exact building layout and scale target; image 2, empty-v4, is the common cleared terrain/background target. Output one 1670x941 full scene in exactly the same camera.\nReplace the two completed facilities in image 1 by their EARLY CONSTRUCTION stages, each at exactly the same footprint and entrance. Use the cleared terrain of image 2 for all shared background and public roads.\nUpper clinic: preserve main foundation footprint at x565..1080,y313..343, the front stair footprint x740..895,y327..386, and front entrance foot (815,386). Show a low stone foundation and partially erected open timber posts/beams, with no roof tiles, no enclosed walls, no completed door. Keep all frame/base geometry readable. The side medicine canopy/racks are not operational yet; use a few appropriate stacked timbers and stone in their small ground areas, no dried herbs.\nLower kitchen: preserve main foundation x365..870,y719..751, front stairs x550..700,y735..783, entrance foot (620,783), small western wood-shelter footprint x250..370,y714..770 and eastern service-wing footprint x870..1008,y714..788. Show low stone foundations and open wooden posts/beams on those exact sites. No finished kitchen roof, chimney smoke, ready stoves, operating cooking table, jars of food, or completed doors. Stacked construction stone/timber may remain close to the foundations.\nWood frame height should be plausible at the established 111px adult scale, with main posts about180..220px tall above each foundation, no exaggerated towers. Keep the two construction sites separate. Keep all public dirt roads and all forest/cliff scenery from image 2 stable; maintain the newly cleared upper northeast expansion ground and smooth lower south shoulder. Do not add fences across paths. No people, text, labels, grids, flags or construction-site signs. Match the existing blue-green mountain atmosphere, warm soil, timber texture and fine pixel detail. Keep exact full-canvas framing.",
+      "references": [
+        "/Volumes/Media/immortal/docs/art/east-services-20261018/complete-v2.png",
+        "/Volumes/Media/immortal/docs/art/east-services-20261018/empty-v4.png"
+      ],
+      "generatedSource": "/Users/shepard/.codex/generated_images/01a14dcf-90c6-7111-8b50-41d9a8e32a92/exec-88c3a190-c844-4f38-8a2a-1ae7b0d58c5d.png",
+      "nativeSize": [
+        1670,
+        942
+      ],
+      "sha256": "1bba093d786b180bdb02b0c5068d4cf986b56581183f27da49a6ce1161fe7461",
+      "tool": "built-in imagegen"
+    },
+    {
+      "file": "empty-v5.png",
+      "prompt": "Use case: precise-object-edit.\nEdit the attached 1670x942 empty terrain image. Preserve the whole image exactly except a small patch on the upper terrace's northeast edge: x=1340..1495,y=278..350. In that patch replace all bush/branch clutter, large rocks and raised stones with clearly level, unobstructed short grass and a little pale compacted soil, continuous with the central upper building clearing. The exact positions (1430,313) and (1448,300), and a 28-pixel surrounding horizontal margin, must visibly lie on this flat low grass. The forest/rock edge may remain only north of y=270 or east of x=1500 around this patch. Blend naturally into neighboring grass; do not draw any rectangle boundary.\nKeep every other region unchanged: both public roads, the lower terrace and its smooth south shoulder, the west vertical road, rescue branch, mountains, sky and lighting. Same pixel detail and unchanged camera. No added objects, buildings, people or text. Output the same 1670x942 full scene.",
+      "references": [
+        "/Volumes/Media/immortal/docs/art/east-services-20261018/empty-v4.png"
+      ],
+      "generatedSource": "/Users/shepard/.codex/generated_images/01a14dcf-90c6-7111-8b50-41d9a8e32a92/exec-38133884-6199-47ea-8bb5-1a366b8e2e58.png",
+      "nativeSize": [
+        1669,
+        942
+      ],
+      "sha256": "01b968b6bd34b066eb6bebc1d548b25db1c3c898e2b625dae72ba02602546ce5",
+      "tool": "built-in imagegen"
+    }
+  ],
+  "selected": {
+    "complete": "complete-v2.png",
+    "empty": "empty-v5.png",
+    "construction": "construction-v1.png",
+    "join": "join-v2.png",
+    "status": "integration candidates, visual survey"
+  }
+}

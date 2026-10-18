@@ -1,0 +1,2634 @@
+{
+  "kind": "documentation-only spatial audit",
+  "sourceHashes": {
+    "spatial-proposal.json": "16b15f52562025495ba7247832015efe970be68afdb79a52063dadaf6a69d183",
+    "complete-v2.png": "85289f3185bd0eb30485c9af85d387c21f844bb5c7294ca02f0087b28ec289e3",
+    "empty-v5.png": "01b968b6bd34b066eb6bebc1d548b25db1c3c898e2b625dae72ba02602546ce5",
+    "candidate-measurements.json": "46db627e265444e81f1b2fa1ae77e83b48514bc43a3e0be4abc4b8a8970cb4bc",
+    "../../../apps/courtyard/courtyard-space.mjs": "198ae6c37cdba77601f4edba3d3149eb15cd71c0e44701577debf2b4701caf97",
+    "../../../apps/courtyard/courtyard-residences-layout.mjs": "63ddbce291e63d5e13a5bd6fd3b210062ab0ccc586b18e66396629e2d7654374",
+    "../../../src/simulation/ea-sr-spatial.mjs": "e4b882bee3567e2bbc05462f70c0b49f8a6bce7db5a3ddc1e6c76e733ef5d167",
+    "../../../src/simulation/ea-sect-domain.mjs": "11975795dcbf47f5362e7d52e4a3105cfc3336449cd725fb5532aeb57725df10",
+    "../../../src/simulation/ea-building-grid.mjs": "10adb1099a938367869cbf4a7d3d51be3b91741e6ca98eea858929d694e111b8"
+  },
+  "checks": [
+    {
+      "name": "old projection delegated exactly",
+      "samples": 6223,
+      "passed": true
+    },
+    {
+      "name": "new projection round trip",
+      "samples": 26096,
+      "maxErrorMetres": 3.1776437161565096e-14,
+      "passed": true
+    },
+    {
+      "name": "monotone horizontal rows and depth",
+      "passed": true
+    },
+    {
+      "name": "all six level envelopes separated from surveyed public road centres with 0.26m margin",
+      "passed": true
+    },
+    {
+      "name": "level-one doors match measured stair feet",
+      "passed": true
+    },
+    {
+      "name": "distinct physical bed and treatment feet retain two 0.26m body circles",
+      "passed": true
+    },
+    {
+      "name": "isolated real prefab entrance to every level 1-3 existing slot and proposed treatment pair",
+      "passed": true,
+      "limitation": "Room-only collision check; final outdoor ground and active-body occupancy require integration validation."
+    }
+  ],
+  "levels": [
+    {
+      "siteId": "site:domain:gc-14",
+      "planId": "GC-14",
+      "level": 1,
+      "size": 6,
+      "footprintWorld": [
+        [
+          196,
+          40
+        ],
+        [
+          202,
+          40
+        ],
+        [
+          202,
+          46
+        ],
+        [
+          196,
+          46
+        ]
+      ],
+      "footprintNative": [
+        [
+          564.9999999999994,
+          313
+        ],
+        [
+          1080.0000000000002,
+          313
+        ],
+        [
+          1080.0000000000002,
+          380
+        ],
+        [
+          564.9999999999994,
+          380
+        ]
+      ],
+      "entranceWorld": {
+        "x": 199,
+        "y": 46.6
+      },
+      "entranceNative": [
+        815.0000000000008,
+        386
+      ],
+      "slots": [
+        {
+          "suffix": "bed:1",
+          "kind": "rest",
+          "origin": "existing prefab",
+          "local": {
+            "x": 0.95,
+            "y": 3
+          },
+          "world": {
+            "x": 196.95,
+            "y": 43
+          },
+          "nativeArt": [
+            644.1666666666656,
+            346.5
+          ],
+          "routeLocal": [
+            [
+              2.5,
+              5.5
+            ],
+            [
+              0.9499999999999993,
+              3
+            ]
+          ]
+        },
+        {
+          "suffix": "bed-care:1",
+          "kind": "heal",
+          "origin": "existing prefab",
+          "local": {
+            "x": 0.95,
+            "y": 3
+          },
+          "world": {
+            "x": 196.95,
+            "y": 43
+          },
+          "nativeArt": [
+            644.1666666666656,
+            346.5
+          ],
+          "routeLocal": [
+            [
+              2.5,
+              5.5
+            ],
+            [
+              0.9499999999999993,
+              3
+            ]
+          ]
+        },
+        {
+          "suffix": "bed:2",
+          "kind": "rest",
+          "origin": "existing prefab",
+          "local": {
+            "x": 2.3166666666666664,
+            "y": 3
+          },
+          "world": {
+            "x": 198.31666666666666,
+            "y": 43
+          },
+          "nativeArt": [
+            758.0555555555545,
+            346.5
+          ],
+          "routeLocal": [
+            [
+              2.3166666666666664,
+              3
+            ]
+          ]
+        },
+        {
+          "suffix": "bed-care:2",
+          "kind": "heal",
+          "origin": "existing prefab",
+          "local": {
+            "x": 2.3166666666666664,
+            "y": 3
+          },
+          "world": {
+            "x": 198.31666666666666,
+            "y": 43
+          },
+          "nativeArt": [
+            758.0555555555545,
+            346.5
+          ],
+          "routeLocal": [
+            [
+              2.3166666666666664,
+              3
+            ]
+          ]
+        },
+        {
+          "suffix": "bed:3",
+          "kind": "rest",
+          "origin": "existing prefab",
+          "local": {
+            "x": 3.6833333333333327,
+            "y": 3
+          },
+          "world": {
+            "x": 199.68333333333334,
+            "y": 43
+          },
+          "nativeArt": [
+            875.3611111111109,
+            346.5
+          ],
+          "routeLocal": [
+            [
+              3.6833333333333336,
+              3
+            ]
+          ]
+        },
+        {
+          "suffix": "bed-care:3",
+          "kind": "heal",
+          "origin": "existing prefab",
+          "local": {
+            "x": 3.6833333333333327,
+            "y": 3
+          },
+          "world": {
+            "x": 199.68333333333334,
+            "y": 43
+          },
+          "nativeArt": [
+            875.3611111111109,
+            346.5
+          ],
+          "routeLocal": [
+            [
+              3.6833333333333336,
+              3
+            ]
+          ]
+        },
+        {
+          "suffix": "bed:4",
+          "kind": "rest",
+          "origin": "existing prefab",
+          "local": {
+            "x": 5.05,
+            "y": 3
+          },
+          "world": {
+            "x": 201.05,
+            "y": 43
+          },
+          "nativeArt": [
+            996.0833333333345,
+            346.5
+          ],
+          "routeLocal": [
+            [
+              3.5,
+              5.5
+            ],
+            [
+              5.050000000000001,
+              3
+            ]
+          ]
+        },
+        {
+          "suffix": "bed-care:4",
+          "kind": "heal",
+          "origin": "existing prefab",
+          "local": {
+            "x": 5.05,
+            "y": 3
+          },
+          "world": {
+            "x": 201.05,
+            "y": 43
+          },
+          "nativeArt": [
+            996.0833333333345,
+            346.5
+          ],
+          "routeLocal": [
+            [
+              3.5,
+              5.5
+            ],
+            [
+              5.050000000000001,
+              3
+            ]
+          ]
+        },
+        {
+          "suffix": "doctor:1",
+          "kind": "work",
+          "origin": "new service-layout candidate",
+          "local": {
+            "x": 1.5,
+            "y": 4.7
+          },
+          "world": {
+            "x": 197.5,
+            "y": 44.7
+          },
+          "nativeArt": [
+            689.9999999999992,
+            365.48333333333335
+          ],
+          "routeLocal": [
+            [
+              2.5,
+              5.5
+            ],
+            [
+              1.5,
+              4.700000000000003
+            ]
+          ]
+        },
+        {
+          "suffix": "consult:1",
+          "kind": "treatment",
+          "origin": "new service-layout candidate",
+          "local": {
+            "x": 2.4,
+            "y": 4.7
+          },
+          "world": {
+            "x": 198.4,
+            "y": 44.7
+          },
+          "nativeArt": [
+            765.0000000000002,
+            365.48333333333335
+          ],
+          "routeLocal": [
+            [
+              2.4000000000000004,
+              4.700000000000003
+            ]
+          ]
+        }
+      ],
+      "isolatedRoomRoutesPassed": true,
+      "publicRoadCenterSeparationSamples": 2784,
+      "groundStatus": "Final empty-v5 clearing and surveyed boundary; static 0.26m body-circle samples passed. Kitchen west edge retains a runtime visual check due to small margin relative to trace tolerance."
+    },
+    {
+      "siteId": "site:domain:gc-14",
+      "planId": "GC-14",
+      "level": 2,
+      "size": 8,
+      "footprintWorld": [
+        [
+          196,
+          40
+        ],
+        [
+          204,
+          40
+        ],
+        [
+          204,
+          48
+        ],
+        [
+          196,
+          48
+        ]
+      ],
+      "footprintNative": [
+        [
+          564.9999999999994,
+          313
+        ],
+        [
+          1255.0000000000005,
+          313
+        ],
+        [
+          1255.0000000000005,
+          403
+        ],
+        [
+          564.9999999999994,
+          403
+        ]
+      ],
+      "entranceWorld": {
+        "x": 200,
+        "y": 48.6
+      },
+      "entranceNative": [
+        903.3333333333334,
+        408.1
+      ],
+      "slots": [
+        {
+          "suffix": "bed:1",
+          "kind": "rest",
+          "origin": "existing prefab",
+          "local": {
+            "x": 0.95,
+            "y": 3
+          },
+          "world": {
+            "x": 196.95,
+            "y": 43
+          },
+          "nativeArt": [
+            644.1666666666656,
+            346.5
+          ],
+          "routeLocal": [
+            [
+              3.5,
+              7.5
+            ],
+            [
+              2,
+              5.5
+            ],
+            [
+              2,
+              3.5
+            ],
+            [
+              1.5,
+              3
+            ],
+            [
+              0.9499999999999993,
+              3
+            ]
+          ]
+        },
+        {
+          "suffix": "bed-care:1",
+          "kind": "heal",
+          "origin": "existing prefab",
+          "local": {
+            "x": 0.95,
+            "y": 3
+          },
+          "world": {
+            "x": 196.95,
+            "y": 43
+          },
+          "nativeArt": [
+            644.1666666666656,
+            346.5
+          ],
+          "routeLocal": [
+            [
+              3.5,
+              7.5
+            ],
+            [
+              2,
+              5.5
+            ],
+            [
+              2,
+              3.5
+            ],
+            [
+              1.5,
+              3
+            ],
+            [
+              0.9499999999999993,
+              3
+            ]
+          ]
+        },
+        {
+          "suffix": "bed:2",
+          "kind": "rest",
+          "origin": "existing prefab",
+          "local": {
+            "x": 2.9833333333333334,
+            "y": 3
+          },
+          "world": {
+            "x": 198.98333333333332,
+            "y": 43
+          },
+          "nativeArt": [
+            813.6111111111106,
+            346.5
+          ],
+          "routeLocal": [
+            [
+              4,
+              3.5
+            ],
+            [
+              3.5,
+              3
+            ],
+            [
+              2.9833333333333343,
+              3
+            ]
+          ]
+        },
+        {
+          "suffix": "bed-care:2",
+          "kind": "heal",
+          "origin": "existing prefab",
+          "local": {
+            "x": 2.9833333333333334,
+            "y": 3
+          },
+          "world": {
+            "x": 198.98333333333332,
+            "y": 43
+          },
+          "nativeArt": [
+            813.6111111111106,
+            346.5
+          ],
+          "routeLocal": [
+            [
+              4,
+              3.5
+            ],
+            [
+              3.5,
+              3
+            ],
+            [
+              2.9833333333333343,
+              3
+            ]
+          ]
+        },
+        {
+          "suffix": "bed:3",
+          "kind": "rest",
+          "origin": "existing prefab",
+          "local": {
+            "x": 5.016666666666667,
+            "y": 3
+          },
+          "world": {
+            "x": 201.01666666666668,
+            "y": 43
+          },
+          "nativeArt": [
+            993.1388888888905,
+            346.5
+          ],
+          "routeLocal": [
+            [
+              4,
+              3.5
+            ],
+            [
+              4.5,
+              3
+            ],
+            [
+              5.016666666666666,
+              3
+            ]
+          ]
+        },
+        {
+          "suffix": "bed-care:3",
+          "kind": "heal",
+          "origin": "existing prefab",
+          "local": {
+            "x": 5.016666666666667,
+            "y": 3
+          },
+          "world": {
+            "x": 201.01666666666668,
+            "y": 43
+          },
+          "nativeArt": [
+            993.1388888888905,
+            346.5
+          ],
+          "routeLocal": [
+            [
+              4,
+              3.5
+            ],
+            [
+              4.5,
+              3
+            ],
+            [
+              5.016666666666666,
+              3
+            ]
+          ]
+        },
+        {
+          "suffix": "bed:4",
+          "kind": "rest",
+          "origin": "existing prefab",
+          "local": {
+            "x": 7.049999999999999,
+            "y": 3
+          },
+          "world": {
+            "x": 203.05,
+            "y": 43
+          },
+          "nativeArt": [
+            1171.875000000001,
+            346.5
+          ],
+          "routeLocal": [
+            [
+              4.5,
+              7.5
+            ],
+            [
+              6,
+              5.5
+            ],
+            [
+              6,
+              3.5
+            ],
+            [
+              6.5,
+              3
+            ],
+            [
+              7.049999999999997,
+              3
+            ]
+          ]
+        },
+        {
+          "suffix": "bed-care:4",
+          "kind": "heal",
+          "origin": "existing prefab",
+          "local": {
+            "x": 7.049999999999999,
+            "y": 3
+          },
+          "world": {
+            "x": 203.05,
+            "y": 43
+          },
+          "nativeArt": [
+            1171.875000000001,
+            346.5
+          ],
+          "routeLocal": [
+            [
+              4.5,
+              7.5
+            ],
+            [
+              6,
+              5.5
+            ],
+            [
+              6,
+              3.5
+            ],
+            [
+              6.5,
+              3
+            ],
+            [
+              7.049999999999997,
+              3
+            ]
+          ]
+        },
+        {
+          "suffix": "bed:5",
+          "kind": "rest",
+          "origin": "existing prefab",
+          "local": {
+            "x": 0.95,
+            "y": 6
+          },
+          "world": {
+            "x": 196.95,
+            "y": 46
+          },
+          "nativeArt": [
+            644.1666666666656,
+            380
+          ],
+          "routeLocal": [
+            [
+              3.5,
+              7.5
+            ],
+            [
+              0.9499999999999993,
+              6
+            ]
+          ]
+        },
+        {
+          "suffix": "bed-care:5",
+          "kind": "heal",
+          "origin": "existing prefab",
+          "local": {
+            "x": 0.95,
+            "y": 6
+          },
+          "world": {
+            "x": 196.95,
+            "y": 46
+          },
+          "nativeArt": [
+            644.1666666666656,
+            380
+          ],
+          "routeLocal": [
+            [
+              3.5,
+              7.5
+            ],
+            [
+              0.9499999999999993,
+              6
+            ]
+          ]
+        },
+        {
+          "suffix": "bed:6",
+          "kind": "rest",
+          "origin": "existing prefab",
+          "local": {
+            "x": 2.9833333333333334,
+            "y": 6
+          },
+          "world": {
+            "x": 198.98333333333332,
+            "y": 46
+          },
+          "nativeArt": [
+            813.6111111111106,
+            380
+          ],
+          "routeLocal": [
+            [
+              2.9833333333333343,
+              6
+            ]
+          ]
+        },
+        {
+          "suffix": "bed-care:6",
+          "kind": "heal",
+          "origin": "existing prefab",
+          "local": {
+            "x": 2.9833333333333334,
+            "y": 6
+          },
+          "world": {
+            "x": 198.98333333333332,
+            "y": 46
+          },
+          "nativeArt": [
+            813.6111111111106,
+            380
+          ],
+          "routeLocal": [
+            [
+              2.9833333333333343,
+              6
+            ]
+          ]
+        },
+        {
+          "suffix": "bed:7",
+          "kind": "rest",
+          "origin": "existing prefab",
+          "local": {
+            "x": 5.016666666666667,
+            "y": 6
+          },
+          "world": {
+            "x": 201.01666666666668,
+            "y": 46
+          },
+          "nativeArt": [
+            993.1388888888905,
+            380
+          ],
+          "routeLocal": [
+            [
+              5.016666666666666,
+              6
+            ]
+          ]
+        },
+        {
+          "suffix": "bed-care:7",
+          "kind": "heal",
+          "origin": "existing prefab",
+          "local": {
+            "x": 5.016666666666667,
+            "y": 6
+          },
+          "world": {
+            "x": 201.01666666666668,
+            "y": 46
+          },
+          "nativeArt": [
+            993.1388888888905,
+            380
+          ],
+          "routeLocal": [
+            [
+              5.016666666666666,
+              6
+            ]
+          ]
+        },
+        {
+          "suffix": "bed:8",
+          "kind": "rest",
+          "origin": "existing prefab",
+          "local": {
+            "x": 7.049999999999999,
+            "y": 6
+          },
+          "world": {
+            "x": 203.05,
+            "y": 46
+          },
+          "nativeArt": [
+            1171.875000000001,
+            380
+          ],
+          "routeLocal": [
+            [
+              4.5,
+              7.5
+            ],
+            [
+              7.049999999999997,
+              6
+            ]
+          ]
+        },
+        {
+          "suffix": "bed-care:8",
+          "kind": "heal",
+          "origin": "existing prefab",
+          "local": {
+            "x": 7.049999999999999,
+            "y": 6
+          },
+          "world": {
+            "x": 203.05,
+            "y": 46
+          },
+          "nativeArt": [
+            1171.875000000001,
+            380
+          ],
+          "routeLocal": [
+            [
+              4.5,
+              7.5
+            ],
+            [
+              7.049999999999997,
+              6
+            ]
+          ]
+        },
+        {
+          "suffix": "doctor:1",
+          "kind": "work",
+          "origin": "new service-layout candidate",
+          "local": {
+            "x": 1.5,
+            "y": 6.7
+          },
+          "world": {
+            "x": 197.5,
+            "y": 46.7
+          },
+          "nativeArt": [
+            689.9999999999992,
+            387.2142857142857
+          ],
+          "routeLocal": [
+            [
+              3.5,
+              7.5
+            ],
+            [
+              1.5,
+              6.700000000000003
+            ]
+          ]
+        },
+        {
+          "suffix": "consult:1",
+          "kind": "treatment",
+          "origin": "new service-layout candidate",
+          "local": {
+            "x": 2.4,
+            "y": 6.7
+          },
+          "world": {
+            "x": 198.4,
+            "y": 46.7
+          },
+          "nativeArt": [
+            765.0000000000002,
+            387.2142857142857
+          ],
+          "routeLocal": [
+            [
+              3.5,
+              7.5
+            ],
+            [
+              2.4000000000000004,
+              6.700000000000003
+            ]
+          ]
+        }
+      ],
+      "isolatedRoomRoutesPassed": true,
+      "publicRoadCenterSeparationSamples": 2784,
+      "groundStatus": "Final empty-v5 clearing and surveyed boundary; static 0.26m body-circle samples passed. Kitchen west edge retains a runtime visual check due to small margin relative to trace tolerance."
+    },
+    {
+      "siteId": "site:domain:gc-14",
+      "planId": "GC-14",
+      "level": 3,
+      "size": 10,
+      "footprintWorld": [
+        [
+          196,
+          40
+        ],
+        [
+          206,
+          40
+        ],
+        [
+          206,
+          50
+        ],
+        [
+          196,
+          50
+        ]
+      ],
+      "footprintNative": [
+        [
+          564.9999999999994,
+          313
+        ],
+        [
+          1429.999999999999,
+          313
+        ],
+        [
+          1429.999999999999,
+          420
+        ],
+        [
+          564.9999999999994,
+          420
+        ]
+      ],
+      "entranceWorld": {
+        "x": 201,
+        "y": 50.6
+      },
+      "entranceNative": [
+        991.6666666666677,
+        426
+      ],
+      "slots": [
+        {
+          "suffix": "bed:1",
+          "kind": "rest",
+          "origin": "existing prefab",
+          "local": {
+            "x": 0.95,
+            "y": 3
+          },
+          "world": {
+            "x": 196.95,
+            "y": 43
+          },
+          "nativeArt": [
+            644.1666666666656,
+            346.5
+          ],
+          "routeLocal": [
+            [
+              4.5,
+              9.5
+            ],
+            [
+              3,
+              9
+            ],
+            [
+              2,
+              4.5
+            ],
+            [
+              2,
+              3.5
+            ],
+            [
+              1.5,
+              3
+            ],
+            [
+              0.9499999999999993,
+              3
+            ]
+          ]
+        },
+        {
+          "suffix": "bed-care:1",
+          "kind": "heal",
+          "origin": "existing prefab",
+          "local": {
+            "x": 0.95,
+            "y": 3
+          },
+          "world": {
+            "x": 196.95,
+            "y": 43
+          },
+          "nativeArt": [
+            644.1666666666656,
+            346.5
+          ],
+          "routeLocal": [
+            [
+              4.5,
+              9.5
+            ],
+            [
+              3,
+              9
+            ],
+            [
+              2,
+              4.5
+            ],
+            [
+              2,
+              3.5
+            ],
+            [
+              1.5,
+              3
+            ],
+            [
+              0.9499999999999993,
+              3
+            ]
+          ]
+        },
+        {
+          "suffix": "bed:2",
+          "kind": "rest",
+          "origin": "existing prefab",
+          "local": {
+            "x": 3.6499999999999995,
+            "y": 3
+          },
+          "world": {
+            "x": 199.65,
+            "y": 43
+          },
+          "nativeArt": [
+            872.4166666666669,
+            346.5
+          ],
+          "routeLocal": [
+            [
+              4.5,
+              3.5
+            ],
+            [
+              4,
+              3
+            ],
+            [
+              3.6499999999999986,
+              3
+            ]
+          ]
+        },
+        {
+          "suffix": "bed-care:2",
+          "kind": "heal",
+          "origin": "existing prefab",
+          "local": {
+            "x": 3.6499999999999995,
+            "y": 3
+          },
+          "world": {
+            "x": 199.65,
+            "y": 43
+          },
+          "nativeArt": [
+            872.4166666666669,
+            346.5
+          ],
+          "routeLocal": [
+            [
+              4.5,
+              3.5
+            ],
+            [
+              4,
+              3
+            ],
+            [
+              3.6499999999999986,
+              3
+            ]
+          ]
+        },
+        {
+          "suffix": "bed:3",
+          "kind": "rest",
+          "origin": "existing prefab",
+          "local": {
+            "x": 6.35,
+            "y": 3
+          },
+          "world": {
+            "x": 202.35,
+            "y": 43
+          },
+          "nativeArt": [
+            1110.6250000000005,
+            346.5
+          ],
+          "routeLocal": [
+            [
+              5.5,
+              3.5
+            ],
+            [
+              6,
+              3
+            ],
+            [
+              6.350000000000001,
+              3
+            ]
+          ]
+        },
+        {
+          "suffix": "bed-care:3",
+          "kind": "heal",
+          "origin": "existing prefab",
+          "local": {
+            "x": 6.35,
+            "y": 3
+          },
+          "world": {
+            "x": 202.35,
+            "y": 43
+          },
+          "nativeArt": [
+            1110.6250000000005,
+            346.5
+          ],
+          "routeLocal": [
+            [
+              5.5,
+              3.5
+            ],
+            [
+              6,
+              3
+            ],
+            [
+              6.350000000000001,
+              3
+            ]
+          ]
+        },
+        {
+          "suffix": "bed:4",
+          "kind": "rest",
+          "origin": "existing prefab",
+          "local": {
+            "x": 9.049999999999999,
+            "y": 3
+          },
+          "world": {
+            "x": 205.05,
+            "y": 43
+          },
+          "nativeArt": [
+            1346.8750000000014,
+            346.5
+          ],
+          "routeLocal": [
+            [
+              5.5,
+              9.5
+            ],
+            [
+              7,
+              9
+            ],
+            [
+              8,
+              4.5
+            ],
+            [
+              8,
+              3.5
+            ],
+            [
+              8.5,
+              3
+            ],
+            [
+              9.049999999999997,
+              3
+            ]
+          ]
+        },
+        {
+          "suffix": "bed-care:4",
+          "kind": "heal",
+          "origin": "existing prefab",
+          "local": {
+            "x": 9.049999999999999,
+            "y": 3
+          },
+          "world": {
+            "x": 205.05,
+            "y": 43
+          },
+          "nativeArt": [
+            1346.8750000000014,
+            346.5
+          ],
+          "routeLocal": [
+            [
+              5.5,
+              9.5
+            ],
+            [
+              7,
+              9
+            ],
+            [
+              8,
+              4.5
+            ],
+            [
+              8,
+              3.5
+            ],
+            [
+              8.5,
+              3
+            ],
+            [
+              9.049999999999997,
+              3
+            ]
+          ]
+        },
+        {
+          "suffix": "bed:5",
+          "kind": "rest",
+          "origin": "existing prefab",
+          "local": {
+            "x": 0.95,
+            "y": 6
+          },
+          "world": {
+            "x": 196.95,
+            "y": 46
+          },
+          "nativeArt": [
+            644.1666666666656,
+            380
+          ],
+          "routeLocal": [
+            [
+              4.5,
+              9.5
+            ],
+            [
+              3,
+              9
+            ],
+            [
+              1.5,
+              6
+            ],
+            [
+              0.9499999999999993,
+              6
+            ]
+          ]
+        },
+        {
+          "suffix": "bed-care:5",
+          "kind": "heal",
+          "origin": "existing prefab",
+          "local": {
+            "x": 0.95,
+            "y": 6
+          },
+          "world": {
+            "x": 196.95,
+            "y": 46
+          },
+          "nativeArt": [
+            644.1666666666656,
+            380
+          ],
+          "routeLocal": [
+            [
+              4.5,
+              9.5
+            ],
+            [
+              3,
+              9
+            ],
+            [
+              1.5,
+              6
+            ],
+            [
+              0.9499999999999993,
+              6
+            ]
+          ]
+        },
+        {
+          "suffix": "bed:6",
+          "kind": "rest",
+          "origin": "existing prefab",
+          "local": {
+            "x": 3.6499999999999995,
+            "y": 6
+          },
+          "world": {
+            "x": 199.65,
+            "y": 46
+          },
+          "nativeArt": [
+            872.4166666666669,
+            380
+          ],
+          "routeLocal": [
+            [
+              4.5,
+              6.5
+            ],
+            [
+              4,
+              6
+            ],
+            [
+              3.6499999999999986,
+              6
+            ]
+          ]
+        },
+        {
+          "suffix": "bed-care:6",
+          "kind": "heal",
+          "origin": "existing prefab",
+          "local": {
+            "x": 3.6499999999999995,
+            "y": 6
+          },
+          "world": {
+            "x": 199.65,
+            "y": 46
+          },
+          "nativeArt": [
+            872.4166666666669,
+            380
+          ],
+          "routeLocal": [
+            [
+              4.5,
+              6.5
+            ],
+            [
+              4,
+              6
+            ],
+            [
+              3.6499999999999986,
+              6
+            ]
+          ]
+        },
+        {
+          "suffix": "bed:7",
+          "kind": "rest",
+          "origin": "existing prefab",
+          "local": {
+            "x": 6.35,
+            "y": 6
+          },
+          "world": {
+            "x": 202.35,
+            "y": 46
+          },
+          "nativeArt": [
+            1110.6250000000005,
+            380
+          ],
+          "routeLocal": [
+            [
+              5.5,
+              6.5
+            ],
+            [
+              6,
+              6
+            ],
+            [
+              6.350000000000001,
+              6
+            ]
+          ]
+        },
+        {
+          "suffix": "bed-care:7",
+          "kind": "heal",
+          "origin": "existing prefab",
+          "local": {
+            "x": 6.35,
+            "y": 6
+          },
+          "world": {
+            "x": 202.35,
+            "y": 46
+          },
+          "nativeArt": [
+            1110.6250000000005,
+            380
+          ],
+          "routeLocal": [
+            [
+              5.5,
+              6.5
+            ],
+            [
+              6,
+              6
+            ],
+            [
+              6.350000000000001,
+              6
+            ]
+          ]
+        },
+        {
+          "suffix": "bed:8",
+          "kind": "rest",
+          "origin": "existing prefab",
+          "local": {
+            "x": 9.049999999999999,
+            "y": 6
+          },
+          "world": {
+            "x": 205.05,
+            "y": 46
+          },
+          "nativeArt": [
+            1346.8750000000014,
+            380
+          ],
+          "routeLocal": [
+            [
+              5.5,
+              9.5
+            ],
+            [
+              7,
+              9
+            ],
+            [
+              8.5,
+              6
+            ],
+            [
+              9.049999999999997,
+              6
+            ]
+          ]
+        },
+        {
+          "suffix": "bed-care:8",
+          "kind": "heal",
+          "origin": "existing prefab",
+          "local": {
+            "x": 9.049999999999999,
+            "y": 6
+          },
+          "world": {
+            "x": 205.05,
+            "y": 46
+          },
+          "nativeArt": [
+            1346.8750000000014,
+            380
+          ],
+          "routeLocal": [
+            [
+              5.5,
+              9.5
+            ],
+            [
+              7,
+              9
+            ],
+            [
+              8.5,
+              6
+            ],
+            [
+              9.049999999999997,
+              6
+            ]
+          ]
+        },
+        {
+          "suffix": "bed:9",
+          "kind": "rest",
+          "origin": "existing prefab",
+          "local": {
+            "x": 0.95,
+            "y": 9
+          },
+          "world": {
+            "x": 196.95,
+            "y": 49
+          },
+          "nativeArt": [
+            644.1666666666656,
+            411.5
+          ],
+          "routeLocal": [
+            [
+              4.5,
+              9.5
+            ],
+            [
+              0.9499999999999993,
+              9
+            ]
+          ]
+        },
+        {
+          "suffix": "bed-care:9",
+          "kind": "heal",
+          "origin": "existing prefab",
+          "local": {
+            "x": 0.95,
+            "y": 9
+          },
+          "world": {
+            "x": 196.95,
+            "y": 49
+          },
+          "nativeArt": [
+            644.1666666666656,
+            411.5
+          ],
+          "routeLocal": [
+            [
+              4.5,
+              9.5
+            ],
+            [
+              0.9499999999999993,
+              9
+            ]
+          ]
+        },
+        {
+          "suffix": "bed:10",
+          "kind": "rest",
+          "origin": "existing prefab",
+          "local": {
+            "x": 3.6499999999999995,
+            "y": 9
+          },
+          "world": {
+            "x": 199.65,
+            "y": 49
+          },
+          "nativeArt": [
+            872.4166666666669,
+            411.5
+          ],
+          "routeLocal": [
+            [
+              4.5,
+              9.5
+            ],
+            [
+              3.6499999999999986,
+              9
+            ]
+          ]
+        },
+        {
+          "suffix": "bed-care:10",
+          "kind": "heal",
+          "origin": "existing prefab",
+          "local": {
+            "x": 3.6499999999999995,
+            "y": 9
+          },
+          "world": {
+            "x": 199.65,
+            "y": 49
+          },
+          "nativeArt": [
+            872.4166666666669,
+            411.5
+          ],
+          "routeLocal": [
+            [
+              4.5,
+              9.5
+            ],
+            [
+              3.6499999999999986,
+              9
+            ]
+          ]
+        },
+        {
+          "suffix": "bed:11",
+          "kind": "rest",
+          "origin": "existing prefab",
+          "local": {
+            "x": 6.35,
+            "y": 9
+          },
+          "world": {
+            "x": 202.35,
+            "y": 49
+          },
+          "nativeArt": [
+            1110.6250000000005,
+            411.5
+          ],
+          "routeLocal": [
+            [
+              5.5,
+              9.5
+            ],
+            [
+              6.350000000000001,
+              9
+            ]
+          ]
+        },
+        {
+          "suffix": "bed-care:11",
+          "kind": "heal",
+          "origin": "existing prefab",
+          "local": {
+            "x": 6.35,
+            "y": 9
+          },
+          "world": {
+            "x": 202.35,
+            "y": 49
+          },
+          "nativeArt": [
+            1110.6250000000005,
+            411.5
+          ],
+          "routeLocal": [
+            [
+              5.5,
+              9.5
+            ],
+            [
+              6.350000000000001,
+              9
+            ]
+          ]
+        },
+        {
+          "suffix": "bed:12",
+          "kind": "rest",
+          "origin": "existing prefab",
+          "local": {
+            "x": 9.049999999999999,
+            "y": 9
+          },
+          "world": {
+            "x": 205.05,
+            "y": 49
+          },
+          "nativeArt": [
+            1346.8750000000014,
+            411.5
+          ],
+          "routeLocal": [
+            [
+              5.5,
+              9.5
+            ],
+            [
+              9.049999999999997,
+              9
+            ]
+          ]
+        },
+        {
+          "suffix": "bed-care:12",
+          "kind": "heal",
+          "origin": "existing prefab",
+          "local": {
+            "x": 9.049999999999999,
+            "y": 9
+          },
+          "world": {
+            "x": 205.05,
+            "y": 49
+          },
+          "nativeArt": [
+            1346.8750000000014,
+            411.5
+          ],
+          "routeLocal": [
+            [
+              5.5,
+              9.5
+            ],
+            [
+              9.049999999999997,
+              9
+            ]
+          ]
+        },
+        {
+          "suffix": "doctor:1",
+          "kind": "work",
+          "origin": "new service-layout candidate",
+          "local": {
+            "x": 1.5,
+            "y": 9.3
+          },
+          "world": {
+            "x": 197.5,
+            "y": 49.3
+          },
+          "nativeArt": [
+            689.9999999999992,
+            414.04999999999995
+          ],
+          "routeLocal": [
+            [
+              4.5,
+              9.5
+            ],
+            [
+              1.5,
+              9.299999999999997
+            ]
+          ]
+        },
+        {
+          "suffix": "consult:1",
+          "kind": "treatment",
+          "origin": "new service-layout candidate",
+          "local": {
+            "x": 2.4,
+            "y": 9.3
+          },
+          "world": {
+            "x": 198.4,
+            "y": 49.3
+          },
+          "nativeArt": [
+            765.0000000000002,
+            414.04999999999995
+          ],
+          "routeLocal": [
+            [
+              4.5,
+              9.5
+            ],
+            [
+              2.4000000000000004,
+              9.299999999999997
+            ]
+          ]
+        }
+      ],
+      "isolatedRoomRoutesPassed": true,
+      "publicRoadCenterSeparationSamples": 2784,
+      "groundStatus": "Final empty-v5 clearing and surveyed boundary; static 0.26m body-circle samples passed. Kitchen west edge retains a runtime visual check due to small margin relative to trace tolerance."
+    },
+    {
+      "siteId": "site:domain:gc-13",
+      "planId": "GC-13",
+      "level": 1,
+      "size": 6,
+      "footprintWorld": [
+        [
+          192,
+          60
+        ],
+        [
+          198,
+          60
+        ],
+        [
+          198,
+          66
+        ],
+        [
+          192,
+          66
+        ]
+      ],
+      "footprintNative": [
+        [
+          365.0000000000006,
+          719
+        ],
+        [
+          870.0000000000008,
+          719
+        ],
+        [
+          870.0000000000008,
+          779
+        ],
+        [
+          365.0000000000006,
+          779
+        ]
+      ],
+      "entranceWorld": {
+        "x": 195,
+        "y": 66.6
+      },
+      "entranceNative": [
+        619.9999999999994,
+        783
+      ],
+      "slots": [
+        {
+          "suffix": "work:1",
+          "kind": "work",
+          "origin": "existing prefab",
+          "local": {
+            "x": 1.4,
+            "y": 1.9
+          },
+          "world": {
+            "x": 193.4,
+            "y": 61.9
+          },
+          "nativeArt": [
+            483.9999999999997,
+            738
+          ],
+          "routeLocal": [
+            [
+              1.4000000000000004,
+              1.8999999999999986
+            ]
+          ]
+        }
+      ],
+      "isolatedRoomRoutesPassed": true,
+      "publicRoadCenterSeparationSamples": 2784,
+      "groundStatus": "Final empty-v5 clearing and surveyed boundary; static 0.26m body-circle samples passed. Kitchen west edge retains a runtime visual check due to small margin relative to trace tolerance."
+    },
+    {
+      "siteId": "site:domain:gc-13",
+      "planId": "GC-13",
+      "level": 2,
+      "size": 8,
+      "footprintWorld": [
+        [
+          192,
+          60
+        ],
+        [
+          200,
+          60
+        ],
+        [
+          200,
+          68
+        ],
+        [
+          192,
+          68
+        ]
+      ],
+      "footprintNative": [
+        [
+          365.0000000000006,
+          719
+        ],
+        [
+          1037.4999999999995,
+          719
+        ],
+        [
+          1037.4999999999995,
+          790
+        ],
+        [
+          365.0000000000006,
+          790
+        ]
+      ],
+      "entranceWorld": {
+        "x": 196,
+        "y": 68.6
+      },
+      "entranceNative": [
+        703.3333333333326,
+        792.1
+      ],
+      "slots": [
+        {
+          "suffix": "work:1",
+          "kind": "work",
+          "origin": "existing prefab",
+          "local": {
+            "x": 1.4,
+            "y": 1.9
+          },
+          "world": {
+            "x": 193.4,
+            "y": 61.9
+          },
+          "nativeArt": [
+            483.9999999999997,
+            738
+          ],
+          "routeLocal": [
+            [
+              1.4000000000000004,
+              1.8999999999999986
+            ]
+          ]
+        }
+      ],
+      "isolatedRoomRoutesPassed": true,
+      "publicRoadCenterSeparationSamples": 2784,
+      "groundStatus": "Final empty-v5 clearing and surveyed boundary; static 0.26m body-circle samples passed. Kitchen west edge retains a runtime visual check due to small margin relative to trace tolerance."
+    },
+    {
+      "siteId": "site:domain:gc-13",
+      "planId": "GC-13",
+      "level": 3,
+      "size": 10,
+      "footprintWorld": [
+        [
+          192,
+          60
+        ],
+        [
+          202,
+          60
+        ],
+        [
+          202,
+          70
+        ],
+        [
+          192,
+          70
+        ]
+      ],
+      "footprintNative": [
+        [
+          365.0000000000006,
+          719
+        ],
+        [
+          1205,
+          719
+        ],
+        [
+          1205,
+          797
+        ],
+        [
+          365.0000000000006,
+          797
+        ]
+      ],
+      "entranceWorld": {
+        "x": 197,
+        "y": 70.6
+      },
+      "entranceNative": [
+        786.6666666666677,
+        803
+      ],
+      "slots": [
+        {
+          "suffix": "work:1",
+          "kind": "work",
+          "origin": "existing prefab",
+          "local": {
+            "x": 1.4,
+            "y": 1.9
+          },
+          "world": {
+            "x": 193.4,
+            "y": 61.9
+          },
+          "nativeArt": [
+            483.9999999999997,
+            738
+          ],
+          "routeLocal": [
+            [
+              1.4000000000000004,
+              1.8999999999999986
+            ]
+          ]
+        }
+      ],
+      "isolatedRoomRoutesPassed": true,
+      "publicRoadCenterSeparationSamples": 2784,
+      "groundStatus": "Final empty-v5 clearing and surveyed boundary; static 0.26m body-circle samples passed. Kitchen west edge retains a runtime visual check due to small margin relative to trace tolerance."
+    }
+  ],
+  "roads": [
+    {
+      "id": "upper",
+      "native": [
+        [
+          0,
+          452
+        ],
+        [
+          280,
+          464
+        ],
+        [
+          600,
+          463
+        ],
+        [
+          815,
+          466
+        ],
+        [
+          1200,
+          467
+        ],
+        [
+          1510,
+          466
+        ]
+      ],
+      "world": [
+        {
+          "x": 186,
+          "y": 51.79
+        },
+        {
+          "x": 190.9473684210526,
+          "y": 53.83
+        },
+        {
+          "x": 196.42000000000002,
+          "y": 53.745
+        },
+        {
+          "x": 199,
+          "y": 54
+        },
+        {
+          "x": 203.36763541784464,
+          "y": 54.023715415019765
+        },
+        {
+          "x": 208.66666666666666,
+          "y": 54
+        }
+      ],
+      "status": "visually surveyed centre and ground; candidate metre foot-circle sampling passed"
+    },
+    {
+      "id": "lower",
+      "native": [
+        [
+          0,
+          804
+        ],
+        [
+          280,
+          812
+        ],
+        [
+          620,
+          820
+        ],
+        [
+          1000,
+          826
+        ],
+        [
+          1400,
+          830
+        ],
+        [
+          1670,
+          830
+        ]
+      ],
+      "world": [
+        {
+          "x": 186,
+          "y": 69.5090909090909
+        },
+        {
+          "x": 190.6561264822134,
+          "y": 71.34117647058824
+        },
+        {
+          "x": 195,
+          "y": 72
+        },
+        {
+          "x": 199.55223880597015,
+          "y": 72.35555555555555
+        },
+        {
+          "x": 205.45454545454547,
+          "y": 72.5925925925926
+        },
+        {
+          "x": 214,
+          "y": 72.5925925925926
+        }
+      ],
+      "status": "visually surveyed centre and ground; candidate metre foot-circle sampling passed"
+    },
+    {
+      "id": "west-connector",
+      "native": [
+        [
+          150,
+          810
+        ],
+        [
+          145,
+          750
+        ],
+        [
+          150,
+          650
+        ],
+        [
+          155,
+          550
+        ],
+        [
+          180,
+          495
+        ],
+        [
+          215,
+          465
+        ]
+      ],
+      "world": [
+        {
+          "x": 188.60079051383397,
+          "y": 71.17647058823529
+        },
+        {
+          "x": 188.52173913043478,
+          "y": 63.1
+        },
+        {
+          "x": 188.61742983751844,
+          "y": 58.36363636363636
+        },
+        {
+          "x": 188.72788706008294,
+          "y": 55.99209486166008
+        },
+        {
+          "x": 189.17817459638067,
+          "y": 54.687747035573125
+        },
+        {
+          "x": 189.80701754385964,
+          "y": 53.915
+        }
+      ],
+      "status": "visually surveyed centre and ground; candidate metre foot-circle sampling passed"
+    },
+    {
+      "id": "rescue",
+      "native": [
+        [
+          280,
+          464
+        ],
+        [
+          301,
+          380
+        ],
+        [
+          312,
+          307
+        ],
+        [
+          245,
+          258
+        ],
+        [
+          113,
+          205
+        ],
+        [
+          0,
+          194
+        ]
+      ],
+      "world": [
+        {
+          "x": 190.9473684210526,
+          "y": 53.83
+        },
+        {
+          "x": 191.3157894736842,
+          "y": 46
+        },
+        {
+          "x": 191.50877192982455,
+          "y": 39.54716981132076
+        },
+        {
+          "x": 190.33333333333331,
+          "y": 35.77142857142857
+        },
+        {
+          "x": 188.01754385964912,
+          "y": 29.714285714285715
+        },
+        {
+          "x": 186,
+          "y": 28.457142857142856
+        }
+      ],
+      "status": "visually surveyed centre and ground; candidate metre foot-circle sampling passed"
+    },
+    {
+      "id": "clinic-level1-branch",
+      "native": [
+        [
+          815,
+          386
+        ],
+        [
+          815,
+          420
+        ],
+        [
+          815,
+          466
+        ]
+      ],
+      "world": [
+        {
+          "x": 199,
+          "y": 46.6
+        },
+        {
+          "x": 199,
+          "y": 50
+        },
+        {
+          "x": 199,
+          "y": 54
+        }
+      ],
+      "status": "visually surveyed centre and ground; candidate metre foot-circle sampling passed"
+    },
+    {
+      "id": "kitchen-level1-approach",
+      "native": [
+        [
+          620,
+          783
+        ],
+        [
+          620,
+          803
+        ],
+        [
+          620,
+          820
+        ]
+      ],
+      "world": [
+        {
+          "x": 195,
+          "y": 66.6
+        },
+        {
+          "x": 195,
+          "y": 70.6
+        },
+        {
+          "x": 195,
+          "y": 72
+        }
+      ],
+      "status": "visually surveyed centre and ground; candidate metre foot-circle sampling passed"
+    }
+  ],
+  "joins": [
+    {
+      "id": "upper-join",
+      "existingVisibleEnd": [
+        8193,
+        478
+      ],
+      "newVisibleStart": [
+        8360,
+        461
+      ],
+      "centerProposal": [
+        [
+          8154,
+          478
+        ],
+        [
+          8193,
+          478
+        ],
+        [
+          8254,
+          474
+        ],
+        [
+          8314,
+          465
+        ],
+        [
+          8360,
+          461
+        ],
+        [
+          8454,
+          464
+        ],
+        [
+          8544,
+          464
+        ],
+        [
+          8640,
+          464
+        ]
+      ],
+      "walkPolygon": [
+        [
+          8134,
+          458
+        ],
+        [
+          8194,
+          456
+        ],
+        [
+          8255,
+          450
+        ],
+        [
+          8324,
+          443
+        ],
+        [
+          8424,
+          443
+        ],
+        [
+          8564,
+          444
+        ],
+        [
+          8674,
+          444
+        ],
+        [
+          8674,
+          485
+        ],
+        [
+          8554,
+          487
+        ],
+        [
+          8449,
+          486
+        ],
+        [
+          8360,
+          486
+        ],
+        [
+          8314,
+          490
+        ],
+        [
+          8254,
+          498
+        ],
+        [
+          8194,
+          502
+        ],
+        [
+          8134,
+          502
+        ]
+      ],
+      "status": "join-v2 measured centre; sampled metre foot circles passed",
+      "world": [
+        {
+          "x": 182.53125,
+          "y": 54
+        },
+        {
+          "x": 183.140625,
+          "y": 54
+        },
+        {
+          "x": 184.10714285714286,
+          "y": 53.66
+        },
+        {
+          "x": 185.17857142857142,
+          "y": 52.894999999999996
+        },
+        {
+          "x": 186,
+          "y": 52.555
+        },
+        {
+          "x": 187.67656356801092,
+          "y": 53.66504741968557
+        },
+        {
+          "x": 189.2592965667758,
+          "y": 53.83
+        },
+        {
+          "x": 190.94149248719884,
+          "y": 53.83
+        }
+      ]
+    },
+    {
+      "id": "lower-join",
+      "existingVisibleEnd": [
+        8278,
+        840
+      ],
+      "newVisibleStart": [
+        8360,
+        815
+      ],
+      "centerProposal": [
+        [
+          8224,
+          844
+        ],
+        [
+          8278,
+          839
+        ],
+        [
+          8319,
+          825
+        ],
+        [
+          8360,
+          815
+        ],
+        [
+          8424,
+          808
+        ],
+        [
+          8510,
+          809
+        ],
+        [
+          8604,
+          812
+        ]
+      ],
+      "walkPolygon": [
+        [
+          8206,
+          822
+        ],
+        [
+          8272,
+          816
+        ],
+        [
+          8321,
+          801
+        ],
+        [
+          8364,
+          792
+        ],
+        [
+          8424,
+          789
+        ],
+        [
+          8504,
+          787
+        ],
+        [
+          8624,
+          789
+        ],
+        [
+          8624,
+          834
+        ],
+        [
+          8514,
+          833
+        ],
+        [
+          8434,
+          833
+        ],
+        [
+          8374,
+          837
+        ],
+        [
+          8329,
+          846
+        ],
+        [
+          8282,
+          859
+        ],
+        [
+          8206,
+          864
+        ]
+      ],
+      "status": "join-v2 measured centre; sampled metre foot circles passed",
+      "world": [
+        {
+          "x": 183.625,
+          "y": 71.88648648648649
+        },
+        {
+          "x": 184.53571428571428,
+          "y": 71.6972972972973
+        },
+        {
+          "x": 185.26785714285714,
+          "y": 71.16756756756756
+        },
+        {
+          "x": 186,
+          "y": 70.78918918918919
+        },
+        {
+          "x": 187.1414900888585,
+          "y": 70.70917688546926
+        },
+        {
+          "x": 188.59795374170244,
+          "y": 71.09411764705882
+        },
+        {
+          "x": 190.0823420390718,
+          "y": 71.34117647058824
+        }
+      ]
+    }
+  ],
+  "pending": [
+    "Static stage-patch composite and final runtime terrain/path integration.",
+    "Stage-specific exterior obstacles and level 2/3 closed bodies, entrance branches and waiting feet.",
+    "No natural water source or extraction worksite is established by this tile.",
+    "GC23 has no surveyed road connection in this candidate; supply integration is the next separate step.",
+    "The rescue stub does not yet establish arrival at GC04."
+  ]
+}

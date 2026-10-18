@@ -1,0 +1,94 @@
+{
+  "date": "2026-10-18",
+  "scope": "GC03 L1 fixed-camera art/layout with shared upgrade-entry ground in isolated QA copy",
+  "status": "generated and static Canvas reviewed",
+  "runtimeAcceptance": false,
+  "assetCount": 6,
+  "siteId": "site:domain:gc-03",
+  "sourceFiles": [
+    {
+      "path": "apps/courtyard/courtyard-north-meditation-layout.mjs",
+      "bytes": 96468,
+      "sha256": "cbb1fe0b8734920acd63cea2f87a665fd40bbf0addf33b79cb7ae6b997303f1b"
+    },
+    {
+      "path": "assets/courtyard/north-meditation-complete-v4.png",
+      "bytes": 3640562,
+      "sha256": "eb6d9a55f261a71d04f482896a170718175a9134737b7f52d62fef2d578401a2"
+    },
+    {
+      "path": "assets/courtyard/north-meditation-empty-v1.png",
+      "bytes": 3563885,
+      "sha256": "a0dda13977bd0355d041023dd5dca64f05b503ed91a9caf08602ba6300c3076c"
+    },
+    {
+      "path": "assets/courtyard/north-meditation-foundation-v1.png",
+      "bytes": 3535312,
+      "sha256": "603540eeb793f655c68b938435822d89eabf98beff53dcaad0a3aee6541de012"
+    },
+    {
+      "path": "assets/courtyard/north-meditation-construction-v1.png",
+      "bytes": 3527565,
+      "sha256": "fdd4eba063a69054e72c741a9091b6e2ef95cba2061b3cecc74b2fc4ea4521db"
+    },
+    {
+      "path": "assets/courtyard/north-meditation-join-v2.png",
+      "bytes": 3700017,
+      "sha256": "ee722380b2d373131a36843902b8b2f42be6c55ae7780419ed0efecf06094198"
+    },
+    {
+      "path": "assets/courtyard/north-meditation-entry3-ground-v3.png",
+      "bytes": 1593349,
+      "sha256": "f5462fd6d249ef61893fca37fefdd10f6ed1a461f10b5c9b50b0479b648dac20"
+    },
+    {
+      "path": "docs/art/main-peak-meditation-20261018/ground-and-join-survey.json",
+      "bytes": 192455,
+      "sha256": "9299e56de3551db5ce9d01218f2ca2565ca0a920704e971800156171c8abd668"
+    },
+    {
+      "path": "docs/art/main-peak-meditation-20261018/geometry-candidate.json",
+      "bytes": 19329,
+      "sha256": "a0cb557e3a41f01a57852c9a960ecec9240eb99df5c076faf33a72671c506da0"
+    },
+    {
+      "path": "docs/art/main-peak-meditation-20261018/projection-survey.json",
+      "bytes": 1098,
+      "sha256": "811f30e54095647aac599821ca3ce174fdb55efeb216b0aaff31a56606c1c786"
+    },
+    {
+      "path": "docs/art/main-peak-meditation-20261018/body-clearance-audit.json",
+      "bytes": 2530,
+      "sha256": "c9af4b35e1b39fad6f19d99d819938cd3c8862c3a63fe484b22ce5318746008e"
+    },
+    {
+      "path": "docs/art/main-peak-meditation-20261018/generation-prompts.json",
+      "bytes": 16339,
+      "sha256": "672769596f0f5d53eef185500fe32b73792cb41f9a6a12cc576985bf452fcc65"
+    },
+    {
+      "path": "docs/art/main-peak-meditation-20261018/entry-ground-provenance.json",
+      "bytes": 4742,
+      "sha256": "34ff18334ba9f9c99fc862d6fe2339a107d8f87344fa9dccd07c559851b34b59"
+    },
+    {
+      "path": "docs/art/main-peak-meditation-20261018/README.md",
+      "bytes": 5864,
+      "sha256": "279ea9b630a61090ebe14bb28bf55da9eaaecdaec3dd50cb1942ea05b7bb2dce"
+    },
+    {
+      "path": "docs/art/main-peak-meditation-20261018/canvas/report.json",
+      "bytes": 819,
+      "sha256": "e1fb120f00e9451886603bc898e71623ce5fec9dc2806d636f60e813fbbb54c1"
+    }
+  ],
+  "authorOwnership": [
+    "apps/courtyard/courtyard-north-meditation-layout.mjs",
+    "assets/courtyard/north-meditation-*",
+    "docs/art/main-peak-meditation-20261018/*"
+  ],
+  "boundaries": [
+    "L2/L3 platform visual stages remain future work; default entrance ground is present.",
+    "Simulation, renderer, camera, and runtime acceptance are integrated separately by root."
+  ]
+}

@@ -1,3 +1,7 @@
+import {serviceTradeEnabled,enableServiceTrade,validateServiceTrade,SERVICE_TRADE_GOODS,SERVICE_WATER_SOURCE} from './ea-service-trade.mjs';
+import {siteServiceEnabled} from './ea-service-definitions.mjs';
+import {WEST_ALCHEMY_RECIPE_VERSION,WEST_ALCHEMY_PROCESS_RECIPE_VERSION,WEST_ALCHEMY_PROCESS_VERSION,WEST_ALCHEMY_SUPPLIES,westAlchemyEnabled,alchemyProcessDefinition} from './ea-alchemy-definitions.mjs';
+import {knownResource,resourceTypes,serviceResourcesEnabled,SERVICE_RESOURCES,enableServiceResources} from './ea-resource-types.mjs';
 import {beginCourtyardVisit,departCourtyardVisitor,advanceCourtyardVisitor,courtyardVisitorReady} from './ea-courtyard-visitors.mjs';
 /** SR-XF-009/010/011. U-63 author defaults (R/T), one world clock and one resource authority. */
 import {RESOURCES,GOODS,BUILDINGS,RECIPES,TECHNIQUES} from './ea-data.mjs';
@@ -5,7 +9,7 @@ import {buildingAccess,scenicFindPath,scenicDistance,geometryRevision,scenicNear
 import {advanceScenic,syncScenicPosition} from './ea-scenic.mjs';
 import {facilitySlots,slotReservation} from './ea-facility-slots.mjs';
 import {cloneState,commitStateDraft} from './ea-state-v6.mjs';
-import {RESOURCE_ACCOUNTING_VERSION,addAmounts,subtractAmounts,canonicalProductionAmount} from './ea-resource-amounts.mjs';
+import {RESOURCE_ACCOUNTING_VERSION,addAmounts,subtractAmounts,canonicalProductionAmount,productionAmount} from './ea-resource-amounts.mjs';
 import {CLIMATE,weatherModifiers} from './ea-sr-weather.mjs';
 import {travelPreviewSR,travelSR} from './ea-sr-world.mjs';
 const zeros=()=>Object.fromEntries(Object.keys(RESOURCES).map(k=>[k,0]));
@@ -13,6 +17,11 @@ const MARKET_SUPPLY_VERSION='market-supply:physical:v1',MARKET_SUPPLIER='person:
 const MARKET_SUPPLIER_STOCK='stockpile:qingxi-supplier',MARKET_SUPPLIER_WALLET='stockpile:qingxi-supplier-wallet',MARKET_TOLL_STOCK='stockpile:chizhang-market-toll';
 const marketSupplyStockpile=id=>id===MARKET_SUPPLIER_STOCK||id===MARKET_SUPPLIER_WALLET||id===MARKET_TOLL_STOCK||typeof id==='string'&&id.startsWith('stockpile:market-supply:');
 const MARKET_SOURCE_GOODS=['food','wood','stone','herb','crystal'];
+const marketSourceGoods=s=>serviceTradeEnabled(s)?[...MARKET_SOURCE_GOODS,'cleanWater']:MARKET_SOURCE_GOODS;
+export const marketGoods=s=>serviceTradeEnabled(s)?{...GOODS,...SERVICE_TRADE_GOODS}:GOODS;
+export function enableServiceSupplies(s){
+ const draft=cloneState(s);enableServiceResources(draft);const added=enableServiceTrade(draft);validateEconomy(draft);commitStateDraft(s,draft);return {enabled:true,alreadyEnabled:!added};
+}
 const MARKET_SUPPLY_OUT=['route:valley-market','route:bridge','route:quarry-supply'];
 const MARKET_SUPPLY_BACK=[...MARKET_SUPPLY_OUT].reverse();
 const MARKET_ROUTE_TICKS={'route:valley-market':100,'route:bridge':90,'route:quarry-supply':110};
@@ -23,6 +32,45 @@ const fail=m=>{throw Error(m);};
 export const WHOLESALE_DEFINITION={id:'wholesale:qingxi:v1',source:'U-63/R-25/T-04 author finite regional trade budget',periodTicks:2400,periodBudget:1200,lifetimeTreasury:90000,maximumUnitsPerGood:40,toolkitMargin:1.1};
 export const ECONOMY_DEFINITION={id:'economy:yunxiu:v1',source:'U-63/R-25/T-04',units:'resource units; fractional legacy balances retained',capacity:2400,carryCapacity:40,replenishTicks:150,recipes:Object.fromEntries(Object.entries(BUILDINGS).filter(([,b])=>b.work).map(([id,b])=>[id,{id:`recipe:${id}:v1`,durationTicks:b.duration*10,input:copy(b.input||{}),output:copy(b.out),capacity:'exclusive declared facility slots',cancel:'unworked proportion returned exactly once',skill:id==='farm'?'plant':'industry'}]))};
 export const FARM_CROP_RECIPE={recipeId:'recipe:farm',recipeVersion:'herb-crop:yunxiu:v1',seedCost:{herb:2},maturityRequiredTicks:10,careRequired:200,contributionPerWorker:10,output:{herb:12},skill:'plant'};
+// U-63/U-167/T-19: grain seed, field labor and growth use the existing crop clock.
+export const GRANARY_CROP_RECIPE=Object.freeze({recipeId:'recipe:granary',recipeVersion:'grain-crop:yunxiu:v1',seedCost:Object.freeze({food:2}),maturityRequiredTicks:120,careRequired:200,contributionPerWorker:10,output:Object.freeze({food:22}),skill:'plant'});
+export function cropRecipeFor(building,order=null){
+ const recipe=building?.type==='farm'?FARM_CROP_RECIPE:building?.type==='granary'?GRANARY_CROP_RECIPE:null;
+ return recipe&&(!order||order.phase==='completed'||order.recipeSnapshot?.recipeVersion===recipe.recipeVersion)?recipe:null;
+}
+export function cropRecipeByVersion(type,version){const recipe=cropRecipeFor({type});return recipe?.recipeVersion===version?recipe:null;}
+export const WAREHOUSE_STORAGE=Object.freeze({version:'warehouse-storage:v1',source:'U-63/U-167/T-19',categories:Object.freeze([
+ Object.freeze({id:'materials',label:'木石料区',capacity:1200,resources:Object.freeze(['wood','stone'])}),
+ Object.freeze({id:'grain',label:'口粮与留种区',capacity:600,resources:Object.freeze(['food'])}),
+ Object.freeze({id:'medicine',label:'药材与灵晶区',capacity:600,resources:Object.freeze(['herb','crystal']),pills:true})
+])});
+export const WAREHOUSE_SERVICE_STORAGE=Object.freeze({version:'warehouse-storage:v2',source:'U-63/U-167/T-21',categories:Object.freeze([
+ Object.freeze({id:'materials',label:'木石料区',capacity:1200,resources:Object.freeze(['wood','stone'])}),
+ Object.freeze({id:'grain',label:'粮食与饭食区',capacity:400,resources:Object.freeze(['food','meal','spiritMeal'])}),
+ Object.freeze({id:'medicine',label:'药材与灵晶区',capacity:600,resources:Object.freeze(['herb','crystal']),pills:true}),
+ Object.freeze({id:'water',label:'原水与洁水区',capacity:200,resources:Object.freeze(['rawWater','cleanWater'])})
+])});
+const warehouseStorageDefinition=st=>st.storageVersion===WAREHOUSE_STORAGE.version?WAREHOUSE_STORAGE:st.storageVersion===WAREHOUSE_SERVICE_STORAGE.version?WAREHOUSE_SERVICE_STORAGE:null;
+export function warehouseServiceStoragePreview(s,stockpileId){
+ const st=s.stockpilesById[stockpileId],b=s.buildingsById[st?.buildingId],enabled=st?.storageVersion===WAREHOUSE_SERVICE_STORAGE.version;
+ let reason=!serviceResourcesEnabled(s)?'先启用山院生活物资。':!st||st.ownerId!=='person:master'||st.access!=='public'||!b||b.type!=='warehouse'||b.enabled===false||b.condition<=0||b.spatialLock?'储运院尚未可用。':!enabled&&st.storageVersion!==WAREHOUSE_STORAGE.version?'公库容量版本异常。':'';
+ const proposed=!reason?stockpileReceiptPreview(s,{...st,storageVersion:WAREHOUSE_SERVICE_STORAGE.version}):null;
+ if(!reason&&(proposed.used+proposed.reserved>proposed.capacity||proposed.categories.some(c=>c.used+c.reserved>c.capacity)))reason='现存货物或在途预约超出新库位；先实际搬出后再划分。';
+ if(!reason&&!enabled&&s.factsById[`fact:storage-services:${st.id}`])reason='公库划分事实与版本不符。';
+ return {enabled,available:!reason,reason,capacity:proposed?.capacity||0,categories:proposed?.categories||[]};
+}
+export function enableWarehouseServiceStorage(s,stockpileId){
+ const preview=warehouseServiceStoragePreview(s,stockpileId);if(!preview.available)fail(preview.reason);
+ if(preview.enabled)return {enabled:true,alreadyEnabled:true};
+ const st=s.stockpilesById[stockpileId],factId=`fact:storage-services:${st.id}`;
+ s.factsById[factId]={id:factId,kind:'warehouse-service-layout',version:WAREHOUSE_SERVICE_STORAGE.version,stockpileId:st.id,atTick:s.worldTick};
+ st.storageVersion=WAREHOUSE_SERVICE_STORAGE.version;st.storageUpgradeFactId=factId;
+ return {enabled:true,alreadyEnabled:false};
+}
+export function serviceSupplyView(s){
+ const enabled=serviceTradeEnabled(s),source=s.stockpilesById?.[MARKET_SUPPLIER_STOCK],market=s.stockpilesById?.['stockpile:qingxi'];
+ return {enabled,available:!!s.srEconomy&&!!source,reason:source?'':'青溪供货来源尚未建立。',supplierWater:enabled?source?.resources.cleanWater||0:0,merchantWater:market?.resources.cleanWater||0,merchantId:'person:merchant-qingxi',contact:merchantPresent(s)};
+}
 export const FARM_V1_RECIPE={recipeId:'recipe:farm:v1',recipeVersion:'economy:yunxiu:v1',inputCost:{},durationUnit:'contribution',durationValue:200,outputDefinition:{herb:12},skillRuleVersion:'production-skill:v1'};
 // Keep the shipped v1 definitions independent of later BUILDINGS tuning so a
 // paid, active batch can be checked against the rules that opened it.
@@ -45,12 +93,30 @@ const PILL_RECIPES_V1=Object.freeze(Object.fromEntries(Object.entries({
  heal:{cost:{jade:10,herb:10},duration:20,yield:2,realm:1,effect:{xp:0,energy:15,wound:25}},
  foundation:{cost:{jade:180,herb:75,crystal:12,insight:15},duration:70,yield:1,realm:9,knowledge:'alchemy',mastery:35,effect:{xp:0,energy:0,wound:0}}
 }).map(([id,row])=>[id,Object.freeze({...row,cost:Object.freeze({...row.cost}),effect:Object.freeze({...row.effect})})])));
-const PILL_RECIPE_CATALOG=Object.freeze({'pill-recipes:yunxiu:v1':PILL_RECIPES_V1,[PILL_RECIPE_VERSION]:PILL_RECIPES_V1});
+const WEST_PILL_RECIPES=Object.freeze(Object.fromEntries(Object.entries(PILL_RECIPES_V1).map(([id,row])=>[id,Object.freeze({...row,cost:Object.freeze({...row.cost,...WEST_ALCHEMY_SUPPLIES[id]})})])));
+const PILL_RECIPE_CATALOG=Object.freeze({'pill-recipes:yunxiu:v1':PILL_RECIPES_V1,[PILL_RECIPE_VERSION]:PILL_RECIPES_V1,[WEST_ALCHEMY_RECIPE_VERSION]:WEST_PILL_RECIPES,[WEST_ALCHEMY_PROCESS_RECIPE_VERSION]:WEST_PILL_RECIPES});
+const pillRecipeVersion=b=>westAlchemyEnabled(b)?WEST_ALCHEMY_PROCESS_RECIPE_VERSION:PILL_RECIPE_VERSION;
 const pillDurationAtLevel=(row,level)=>Math.ceil(row.duration*10/(1+.25*(level-1)));
+const sequentialCraft=w=>w?.recipeVersion===WEST_ALCHEMY_PROCESS_RECIPE_VERSION;
+const pillTotalDuration=(version,row,level)=>pillDurationAtLevel(row,level)+(version===WEST_ALCHEMY_PROCESS_RECIPE_VERSION?80:0);
+export function craftRefundPreview(s,orderOrId){
+ const w=typeof orderOrId==='string'?s.workOrdersById?.[orderOrId]:orderOrId;if(!w)return null;
+ const consumed={},refundable={};
+ if(sequentialCraft(w)){
+  const stages=w.recipeSnapshot.process.stages,p=w.process;
+  for(const[k,q]of Object.entries(w.cost)){const index=stages.findIndex(stage=>Object.hasOwn(stage.inputCost,k)),stage=stages[index],worked=index<p.stageIndex?stage.durationTicks:index===p.stageIndex?p.stageProgressTicks:0;consumed[k]=worked===stage.durationTicks?q:productionAmount(q*worked/stage.durationTicks);refundable[k]=subtractAmounts(q,consumed[k]);}
+ }else for(const[k,q]of Object.entries(w.cost)){refundable[k]=q*(1-w.progressTicks/w.durationTicks);consumed[k]=q-refundable[k];}
+ return {consumed,refundable,refundSources:copy(w.sourceStockpileIds)};
+}
+export function craftProcessView(s,orderOrId){
+ const w=typeof orderOrId==='string'?s.workOrdersById?.[orderOrId]:orderOrId;if(!w)return null;
+ const p=sequentialCraft(w)?w.process:null,stage=p?w.recipeSnapshot.process.stages[p.stageIndex]:null,a=s.activitiesById?.[w.activityId],amounts=craftRefundPreview(s,w);
+ return {version:p?.version||w.recipeVersion,stageId:stage?.id||'fire',stageLabel:stage?.label||'丹炉火候',stageIndex:p?.stageIndex||0,stageCount:p?w.recipeSnapshot.process.stages.length:1,slotId:stage?`${w.targetId}/slot:${stage.slotSuffix}`:a?.slotId||`${w.targetId}/slot:work:1`,progressTicks:p?p.stageProgressTicks:w.progressTicks,durationTicks:stage?.durationTicks||w.durationTicks,totalProgressTicks:w.progressTicks,totalDurationTicks:w.durationTicks,consumed:amounts.consumed,remaining:amounts.refundable,reason:a?.reason||w.reason||''};
+}
 function pillRecipeSnapshot(s,b,id,{version=PILL_RECIPE_VERSION,cost=null,yieldCount=null,durationTicks=null,createdTick=s.worldTick}={}){
  const row=PILL_RECIPE_CATALOG[version]?.[id];if(!row)fail('丹方版本不存在。');
- const inputCost=copy(cost||row.cost);
- return {recipeId:id,recipeVersion:version,inputCost,sourceStockpileIds:Object.fromEntries(Object.keys(inputCost).map(k=>[k,['jade','insight'].includes(k)?'stockpile:yunxiu':`stockpile:${b.instanceId}`])),outputCount:yieldCount??row.yield,effectDefinition:copy(row.effect),durationUnit:'world-tick',durationTicks:durationTicks??pillDurationAtLevel(row,b.level),buildingLevel:b.level,workstationRule:'facility:alchemy:exclusive-slot',realmGate:row.realm,knowledgeGate:row.knowledge||null,masteryGate:row.mastery||0,createdTick};
+ const inputCost=copy(cost||row.cost),process=version===WEST_ALCHEMY_PROCESS_RECIPE_VERSION?alchemyProcessDefinition(inputCost,pillDurationAtLevel(row,b.level)):null;
+ return {recipeId:id,recipeVersion:version,inputCost,sourceStockpileIds:Object.fromEntries(Object.keys(inputCost).map(k=>[k,['jade','insight'].includes(k)?'stockpile:yunxiu':`stockpile:${b.instanceId}`])),outputCount:yieldCount??row.yield,effectDefinition:copy(row.effect),durationUnit:'world-tick',durationTicks:durationTicks??pillTotalDuration(version,row,b.level),buildingLevel:b.level,...(process?{process}:{}),workstationRule:process?'facility:alchemy:sequential-slots':'facility:alchemy:exclusive-slot',realmGate:row.realm,knowledgeGate:row.knowledge||null,masteryGate:row.mastery||0,createdTick};
 }
 function upgradePillRecipeSnapshots(s){
  for(const w of Object.values(s.workOrdersById||{}))if(w.kind==='sr-crafting'&&!w.recipeSnapshot){
@@ -69,7 +135,7 @@ function validatePillRecipeSnapshot(s,w){
  if(!row||!b||b.type!=='alchemy')fail('丹炉配方快照异常。');
  const expectedSources=pillRecipeSnapshot(s,b,w.recipeId,{version:snap.recipeVersion,cost:w.cost}).sourceStockpileIds;
  const invalid=snap.recipeId!==w.recipeId||snap.recipeVersion!==w.recipeVersion||
-  snap.durationUnit!=='world-tick'||snap.workstationRule!=='facility:alchemy:exclusive-slot'||
+  snap.durationUnit!=='world-tick'||snap.workstationRule!==(sequentialCraft(w)?'facility:alchemy:sequential-slots':'facility:alchemy:exclusive-slot')||
   !Number.isSafeInteger(snap.buildingLevel)||snap.buildingLevel<1||snap.buildingLevel>b.level||
   !Number.isSafeInteger(snap.createdTick)||snap.createdTick<0||snap.createdTick>s.worldTick||snap.createdTick!==(w.startedTick??0)||
   snap.realmGate!==row.realm||snap.knowledgeGate!==(row.knowledge||null)||snap.masteryGate!==(row.mastery||0)||
@@ -79,8 +145,24 @@ function validatePillRecipeSnapshot(s,w){
   !sameFields(snap.sourceStockpileIds,w.sourceStockpileIds)||
   !sameFields(snap.sourceStockpileIds,expectedSources);
  if(invalid)fail('丹炉配方快照异常。');
- if(snap.recipeVersion===PILL_RECIPE_VERSION&&(snap.outputCount!==row.yield||snap.durationTicks!==pillDurationAtLevel(row,snap.buildingLevel)))fail('丹炉配方快照异常。');
+ if([WEST_ALCHEMY_RECIPE_VERSION,WEST_ALCHEMY_PROCESS_RECIPE_VERSION].includes(snap.recipeVersion)&&(!westAlchemyEnabled(b)||!serviceResourcesEnabled(s)||w.legacyPaid))fail('西谷丹炉配方与设施来源异常。');
+ if(snap.recipeVersion!=='pill-recipes:yunxiu:v1'&&(snap.outputCount!==row.yield||snap.durationTicks!==pillTotalDuration(snap.recipeVersion,row,snap.buildingLevel)))fail('丹炉配方快照异常。');
+ if(sequentialCraft(w))validateCraftProcess(s,w,b,row);
  if(snap.recipeVersion==='pill-recipes:yunxiu:v1'&&(!w.legacyPaid&&(snap.outputCount!==row.yield||snap.durationTicks!==pillDurationAtLevel(row,snap.buildingLevel))||w.legacyPaid&&![1,row.yield].includes(snap.outputCount)))fail('旧丹炉配方快照异常。');
+}
+function validateCraftProcess(s,w,b,row){
+ const expected=alchemyProcessDefinition(w.cost,pillDurationAtLevel(row,w.recipeSnapshot.buildingLevel)),p=w.process;
+ if(JSON.stringify(w.recipeSnapshot.process)!==JSON.stringify(expected)||p?.version!==WEST_ALCHEMY_PROCESS_VERSION||!Number.isSafeInteger(p.stageIndex)||p.stageIndex<0||p.stageIndex>=expected.stages.length||!Array.isArray(p.completedStages))fail('丹房顺序工序快照或阶段异常。');
+ const stage=expected.stages[p.stageIndex],worked=p.stageProgressTicks,ended=worked===stage.durationTicks;
+ if(!Number.isSafeInteger(worked)||worked<0||worked>stage.durationTicks||w.progressTicks!==expected.stages.slice(0,p.stageIndex).reduce((n,x)=>n+x.durationTicks,0)+worked||w.durationTicks!==expected.stages.reduce((n,x)=>n+x.durationTicks,0)||p.completedStages.length!==p.stageIndex+(ended?1:0))fail('丹房顺序工序进度异常。');
+ if(worked===0?p.stageStartedTick!==null:!Number.isSafeInteger(p.stageStartedTick)||p.stageStartedTick<w.startedTick||p.stageStartedTick>s.worldTick||p.stageStartedTick+worked-1>s.worldTick)fail('丹房到位工序时刻异常。');
+ let previous=w.startedTick-1;for(let i=0;i<p.completedStages.length;i++){const done=p.completedStages[i],def=expected.stages[i];if(done.id!==def.id||done.slotId!==`${w.targetId}/slot:${def.slotSuffix}`||!Number.isSafeInteger(done.startedTick)||!Number.isSafeInteger(done.finishedTick)||done.startedTick<=previous||done.finishedTick<done.startedTick+def.durationTicks-1||done.finishedTick>s.worldTick)fail('丹房已完成工序记录异常。');previous=done.finishedTick;}
+ if(worked>0&&p.stageIndex>0&&p.stageStartedTick<=p.completedStages[p.stageIndex-1].finishedTick||ended&&p.completedStages.at(-1).startedTick!==p.stageStartedTick)fail('丹房换工位顺序异常。');
+ if(w.phase==='completed'&&(p.stageIndex!==3||!ended))fail('丹房封藏尚未完成。');
+ if(w.phase==='active'){
+  const a=s.activitiesById[w.activityId],r=s.reservationsById[w.reservationId],slot=facilitySlots(s,b,'work').find(x=>x.id===`${w.targetId}/slot:${stage.slotSuffix}`),amounts=craftRefundPreview(s,w);
+  if(!slot||a?.slotId!==slot.id||!sameFields(r?.remainingCost,amounts.refundable)||b.level!==w.recipeSnapshot.buildingLevel)fail('丹房阶段工位或未用材料预约异常。');
+ }
 }
 function validCompletedPillFact(s,w){
  const fact=s.factsById[`fact:craft:${w.id}`],oldVersion=w.recipeVersion==='pill-recipes:yunxiu:v1';
@@ -91,15 +173,17 @@ function validCompletedPillFact(s,w){
   fact.count===w.recipeSnapshot.outputCount&&sameFields(fact.cost,w.recipeSnapshot.inputCost)&&
   (fact.recipeVersion===w.recipeVersion||oldVersion&&fact.recipeVersion===undefined)&&
   (fact.targetStockpileId===`stockpile:${w.targetId}`||oldVersion&&fact.targetStockpileId===undefined)&&
+  (!sequentialCraft(w)||fact.processVersion===w.process.version&&JSON.stringify(fact.completedStages)===JSON.stringify(w.process.completedStages))&&
   fact.atTick===w.finishedTick;
 }
 function validCancelledPillFact(s,w){
  const fact=s.factsById[`fact:craft-cancel:${w.id}`],expected={},oldVersion=w.recipeVersion==='pill-recipes:yunxiu:v1';
- for(const [key,quantity] of Object.entries(w.recipeSnapshot.inputCost))expected[key]=quantity*(1-w.progressTicks/w.durationTicks);
+ Object.assign(expected,craftRefundPreview(s,w).refundable);
  const sameAmounts=actual=>!!actual&&Object.keys(actual).length===Object.keys(expected).length&&Object.entries(expected).every(([key,quantity])=>Number.isFinite(actual[key])&&Math.abs(actual[key]-quantity)<1e-8);
  if(fact?.id!==`fact:craft-cancel:${w.id}`||fact.kind!=='inventory-transaction'||fact.operation!=='craft-cancel'||fact.workOrderId!==w.id||fact.actorId!==w.personId||fact.atTick!==w.finishedTick||!sameAmounts(w.refund)||!sameAmounts(fact.refund))return false;
  if(w.cancelRecordVersion===undefined)return oldVersion&&w.refundStockpileIds===undefined&&fact.refundStockpileIds===undefined&&w.refundTemporaryPlacements===undefined&&fact.refundTemporaryPlacements===undefined;
- if(w.cancelRecordVersion!=='craft-cancel:v2'||!sameFields(w.refundStockpileIds,fact.refundStockpileIds)||JSON.stringify(w.refundTemporaryPlacements)!==JSON.stringify(fact.refundTemporaryPlacements)||!w.refundTemporaryPlacements)return false;
+ if(sequentialCraft(w)&&(w.cancelRecordVersion!=='craft-cancel:v3'||fact.recipeVersion!==w.recipeVersion||!sameFields(fact.consumed,craftRefundPreview(s,w).consumed)||!sameFields(w.consumed,craftRefundPreview(s,w).consumed)))return false;
+ if(w.cancelRecordVersion!==(sequentialCraft(w)?'craft-cancel:v3':'craft-cancel:v2')||!sameFields(w.refundStockpileIds,fact.refundStockpileIds)||JSON.stringify(w.refundTemporaryPlacements)!==JSON.stringify(fact.refundTemporaryPlacements)||!w.refundTemporaryPlacements)return false;
  return Object.keys(expected).every(key=>{
   const destination=w.refundStockpileIds[key],source=s.stockpilesById[w.sourceStockpileIds[key]],place=s.stockpilesById[destination];
   if(!source||!place||place.ownerId!==source.ownerId||place.access!==source.access)return false;
@@ -119,8 +203,8 @@ export function productionRecipeSnapshot(s,b,version=PRODUCTION_RECIPE_VERSION){
 }
 export function farmWaterlogged(s){return (s.ecologiesBySceneId?.['scene:yunxiu-courtyard']?.surfaceZones?.['zone:yard-path']?.wetness||0)>CLIMATE.floodThreshold;}
 export function advanceFarmCrops(s){for(const order of Object.values(s.workOrdersById||{})){
- if(order.kind!=='production'||order.recipeSnapshot?.recipeVersion!==FARM_CROP_RECIPE.recipeVersion||!order.crop||order.phase==='completed')continue;
- const crop=order.crop,b=s.buildingsById[order.targetId];if(!b||b.type!=='farm')continue;
+ if(order.kind!=='production'||!order.crop||order.phase==='completed')continue;
+ const crop=order.crop,b=s.buildingsById[order.targetId];if(!b||!cropRecipeByVersion(b.type,order.recipeSnapshot?.recipeVersion))continue;
  if(s.worldTick<=crop.sownAtTick)continue;
  if(b.enabled===false||b.condition<=0||b.spatialLock){crop.phase='paused:facility';crop.weatherPauseReason=null;continue;}
  if(farmWaterlogged(s)){crop.phase='paused:waterlogged';crop.weatherPauseReason='waterlogged';continue;}
@@ -138,9 +222,38 @@ function total(st){return addAmounts(...Object.values(st.resources),...Object.va
 // SR-XF-009/010: a dose has exactly one physical stock or reserved allocation.
 const pillZeros=()=>Object.fromEntries(Object.keys(RECIPES).map(id=>[id,0]));
 const pillId=k=>typeof k==='string'&&k.startsWith('pill:')?k.slice(5):null;
-const legalCargoKey=k=>!!RESOURCES[k]||!!RECIPES[pillId(k)];
-const physicalTransportKey=k=>k!=='insight'&&legalCargoKey(k);
+const legalCargoKey=(s,k)=>knownResource(s,k)||!!RECIPES[pillId(k)];
+const physicalTransportKey=(s,k)=>k!=='insight'&&legalCargoKey(s,k);
 const physicalOutputTotal=(b,out)=>addAmounts(...Object.entries(out).map(([k,quantity])=>b.type==='library'&&k==='insight'?0:quantity));
+export function stockpileReceiptPreview(s,stockpileId,cargo={}, {exceptWorkOrderId=null}={}){
+ const st=typeof stockpileId==='object'?stockpileId:s.stockpilesById?.[stockpileId];
+ if(!st)return {available:false,reason:'仓储不存在。',capacity:0,used:0,remaining:0,freeCapacity:0,categories:[],maximumByResource:{},receivable:{}};
+ const reservedCargo={},heldCargo={};
+ for(const order of Object.values(s.workOrdersById||{}))if(order.kind==='transport'&&!['delivered','cancelled'].includes(order.phase)){
+  if(order.id!==exceptWorkOrderId&&order.targetStockpileId===st.id)for(const[k,v]of Object.entries(order.cargo))reservedCargo[k]=addAmounts(reservedCargo[k]||0,v);
+  if(order.sourceStockpileId===st.id&&order.phase==='to-source')for(const[k,v]of Object.entries(order.cargo))heldCargo[k]=addAmounts(heldCargo[k]||0,v);
+ }
+ for(const order of Object.values(s.workOrdersById||{}))if(['sr-site-service','sr-site-meal','sr-meditation-maintenance'].includes(order.kind)&&order.sourceStockpileId===st.id&&order.id!==exceptWorkOrderId){
+  const reservation=s.reservationsById?.[order.reservationId];
+  if(reservation?.kind==='sr-site-service-input')for(const[k,v]of Object.entries(reservation.remainingCost||{}))heldCargo[k]=addAmounts(heldCargo[k]||0,v);
+ }
+ for(const order of Object.values(s.workOrdersById||{}))if(sequentialCraft(order)&&order.phase==='active'&&order.id!==exceptWorkOrderId)for(const[k,v]of Object.entries(s.reservationsById[order.reservationId]?.remainingCost||{}))if(order.sourceStockpileIds[k]===st.id)heldCargo[k]=addAmounts(heldCargo[k]||0,v);
+ for(const order of Object.values(s.srCultivation?.orders||{}))if(order.breakthroughVersion==='breakthrough:yunxiu:v1'&&order.kind==='breakthrough'&&!['completed','cancelled'].includes(order.phase)&&!order.consumed&&order.sourceStockpileId===st.id)for(const[k,v]of Object.entries(order.cost))heldCargo[k]=addAmounts(heldCargo[k]||0,v);
+ const reservedAtSource=addAmounts(...Object.values(heldCargo)),used=addAmounts(total(st),reservedAtSource),reserved=addAmounts(...Object.values(reservedCargo)),remaining=Math.max(0,addAmounts(st.capacity,-used,-reserved)),quantity=addAmounts(...Object.values(cargo)),b=s.buildingsById?.[st.buildingId];
+ const storageDefinition=warehouseStorageDefinition(st);
+ const categories=storageDefinition?storageDefinition.categories.map(c=>{
+  const count=values=>addAmounts(...c.resources.map(k=>values[k]||0),...(c.pills?Object.entries(values).filter(([k])=>pillId(k)).map(([,v])=>v):[]));
+  const used=addAmounts(count(st.resources),count(heldCargo),...(c.pills?Object.values(st.pills||{}):[])),reserved=count(reservedCargo),incoming=count(cargo),capacity=c.capacity*st.storageLevel,freeCapacity=Math.max(0,addAmounts(capacity,-used,-reserved));
+  return {id:c.id,label:c.label,resources:[...c.resources],pills:!!c.pills,capacity,used,reserved,remaining:freeCapacity,freeCapacity,incoming};
+ }):[];
+ let reason=quantity>remaining?'目的仓储容量不足。':'';
+ if(st.storageVersion===WAREHOUSE_STORAGE.version&&Object.entries(cargo).some(([key,q])=>Object.hasOwn(SERVICE_RESOURCES,key)&&q>0))reason='公库尚未划出生活物资库位；先在库务中启用。';
+ if(st.storageVersion&&(!b||b.type!=='warehouse'||b.enabled===false||b.condition<=0||b.spatialLock))reason='储运院尚未可用，货物保留在原处。';
+ const full=categories.find(c=>c.incoming>c.remaining);if(full)reason=`${full.label}容量不足，先腾出库位。`;
+ const maximumByResource=Object.fromEntries([...Object.keys(resourceTypes(s)),...Object.keys(RECIPES).map(k=>`pill:${k}`)].map(k=>[k,st.storageVersion===WAREHOUSE_STORAGE.version&&Object.hasOwn(SERVICE_RESOURCES,k)?0:Math.max(0,Math.min(remaining,categories.find(c=>c.resources.includes(k)||c.pills&&pillId(k))?.remaining??remaining))]));
+ return {available:!reason,reason,capacity:st.capacity,used,reservedAtSource,reserved,remaining,freeCapacity:remaining,categories,maximumByResource,receivable:maximumByResource};
+}
+export function stockStorageView(s,stockId){return stockpileReceiptPreview(s,stockId);}
 function cargoBin(st,k){return pillId(k)?(st.pills??=pillZeros()):st.resources;}
 function cargoAmount(st,k){return cargoBin(st,k)[pillId(k)||k]||0;}
 function changeCargo(st,k,delta){const bin=cargoBin(st,k),id=pillId(k)||k,next=addAmounts(bin[id]||0,delta);if(next<0)fail('可用库存不足。');bin[id]=next;}
@@ -197,7 +310,14 @@ function initMarketSupply(s){
  delete e.marketSourceRemaining;delete e.marketRestockTick;
  ledger(s,'fact:market-supply-migration:v1',{operation:'market-supply-migration',sourceStockpileId:MARKET_SUPPLIER_STOCK,quantities:copy(old),merchantStockpileId:'stockpile:qingxi'});
 }
+function validateServiceStockBindings(s){
+ for(const b of s.buildings)if(siteServiceEnabled(b)){
+  const id=`stockpile:${b.instanceId}`,st=s.stockpilesById[id],entry=buildingAccess(s,b);
+  if(!st||st.id!==id||st.buildingId!==b.instanceId||st.ownerId!=='person:master'||st.custodianId!=='person:master'||st.access!=='public'||st.capacity!==320||st.carrierId!==undefined||st.position?.sceneId!=='scene:yunxiu-courtyard'||st.position?.kind!==undefined&&st.position.kind!=='scene'||st.position?.x!==entry.x||st.position?.y!==entry.y)fail('服务设施现场货位缺失或与真实入口不符，原存档保留。');
+ }
+}
 export function initEconomy(s){
+ validateServiceStockBindings(s);
  if(!s.srEconomy)s.srEconomy={version:'economy:yunxiu:v1',nextId:1,updatedThroughTick:s.worldTick,merchantArrivalTick:s.worldTick+300,merchantVisitEndsTick:s.worldTick+1200,marketRestockTick:s.worldTick+2400,marketSourceRemaining:{food:160,wood:120,stone:120,herb:120,crystal:24,insight:12},patches:{wood:{remaining:720,max:720},stone:{remaining:960,max:960},herb:{remaining:160,max:160},food:{remaining:320,max:320},crystal:{remaining:80,max:80},insight:{remaining:72,max:72}},orders:{},tradeHistory:[]};
  s.srEconomy.resaleInventory??=zeros();s.srEconomy.commonGoods??=[];s.srEconomy.wholesale??={nextMarketTick:s.worldTick+WHOLESALE_DEFINITION.periodTicks,windowStartedTick:s.worldTick,windowSpent:0,spentLifetime:0};
  const hall=s.buildings.find(b=>b.type==='hall');if(hall&&s.stockpilesById['stockpile:yunxiu'])s.stockpilesById['stockpile:yunxiu'].buildingId=hall.instanceId;
@@ -206,7 +326,9 @@ export function initEconomy(s){
  if(s.stockpilesById['stockpile:qingxi']){s.stockpilesById['stockpile:qingxi'].ownerId='person:merchant-qingxi';s.stockpilesById['stockpile:qingxi'].custodianId='person:merchant-qingxi';delete s.stockpilesById['stockpile:qingxi'].legalOwnerId;}
  if(!s.stockpilesById['stockpile:qingxi'])s.stockpilesById['stockpile:qingxi']={id:'stockpile:qingxi',ownerId:'person:merchant-qingxi',custodianId:'person:merchant-qingxi',access:'merchant',capacity:4000,position:{sceneId:'scene:market',x:0,y:0},resources:{...zeros(),jade:600,food:80,wood:60,stone:60,herb:60,crystal:12,insight:6}};
  if(!s.personsById['person:wholesale-buyer']){const source=s.personsById['person:merchant-qingxi'],p=copy(source);p.id=s.society.nextPersonId++;p.personId='person:wholesale-buyer';p.name='青溪商会批发执事';p.lifeStatus='alive';p.activityId=null;p.job=null;delete p.location;p.position={kind:'scene',sceneId:s.scenesById?.['scene:market']?'scene:market':'scene:yunxiu-courtyard',x:17,y:25};p.appearance={spriteIndex:2,accent:'#777b96'};delete p.schedule;s.personsById[p.personId]=p;}s.stockpilesById['stockpile:wholesale-treasury']??={id:'stockpile:wholesale-treasury',ownerId:'person:wholesale-buyer',custodianId:'person:wholesale-buyer',access:'private',capacity:WHOLESALE_DEFINITION.lifetimeTreasury,position:{sceneId:'scene:market',x:17,y:25},resources:{...zeros(),jade:WHOLESALE_DEFINITION.lifetimeTreasury}};
- for(const b of s.buildings)if(BUILDINGS[b.type].work||b.type==='alchemy'){const id=`stockpile:${b.instanceId}`;s.stockpilesById[id]??={id,ownerId:'person:master',custodianId:'person:master',access:'public',buildingId:b.instanceId,position:{sceneId:'scene:yunxiu-courtyard',...buildingAccess(s,b)},capacity:320,resources:zeros()};}
+ for(const b of s.buildings)if(BUILDINGS[b.type].work||b.type==='alchemy'||b.type==='warehouse'){
+  const id=`stockpile:${b.instanceId}`;s.stockpilesById[id]??={id,ownerId:'person:master',custodianId:'person:master',access:'public',buildingId:b.instanceId,position:{sceneId:'scene:yunxiu-courtyard',...buildingAccess(s,b)},capacity:b.type==='warehouse'?BUILDINGS.warehouse.storageCapacity*b.level:320,resources:zeros(),...(b.type==='warehouse'?{storageVersion:WAREHOUSE_STORAGE.version,storageLevel:b.level}:{})};
+ }
  // Earlier library batches already earned a study budget; fold only the public
  // library balance into the public ledger, leaving reserved transport cargo alone.
  const publicBudget=s.stockpilesById['stockpile:yunxiu'];
@@ -235,7 +357,7 @@ export function productionAvailability(s,b){if(!s.srEconomy)return {available:tr
 /** One explicit receipt, one isolated execution, one atomic posting. */
 export function settleFiniteProduction(s,b,settle,participants){
  if(!s.srEconomy)return settle(participants);initEconomy(s);const order=s.workOrdersById[`work:production:${b.instanceId}`];if(!order||s.factsById[`fact:production:${b.instanceId}:${order.batch}`])return false;
- if(b.type!=='farm'||order.recipeSnapshot?.recipeVersion!==FARM_CROP_RECIPE.recipeVersion){const availability=productionAvailability(s,b);if(!availability.available)return false;}
+ if(!cropRecipeByVersion(b.type,order.recipeSnapshot?.recipeVersion)){const availability=productionAvailability(s,b);if(!availability.available)return false;}
  const trial=cloneState(s),trialParticipants=participants.map(x=>({person:trial.personsById[x.person.personId],share:x.share,...(x.skillAtFirstContribution===undefined?{}:{skillAtFirstContribution:x.skillAtFirstContribution})}));
  const receipt=settle(trialParticipants,trial);if(!receipt)return false;
  const out=receipt.grossOutput,wages=receipt.wages,recipeVersion=order.recipeSnapshot?.recipeVersion||(b.type==='farm'?'economy:yunxiu:v1':PRODUCTION_RECIPE_VERSION),definition=order.recipeSnapshot?.outputDefinition||productionRecipeDefinition(recipeVersion,b.type)?.outputDefinition;
@@ -270,11 +392,11 @@ export function cancelReplenish(s){const a=s.activitiesById[s.master.activityId]
 function advanceReplenish(s){const a=s.activitiesById[s.master.activityId];if(a?.kind!=='sr-replenish')return;if(!atHome(s,s.master)||s.master.scenic?.spatialEvacuationOrderId||s.master.wound>20||s.master.energy<5){a.phase='paused';a.reason='本人外出、受伤或精力不足，保留恢复进度。';return;}if(!close(s,s.master.scenic,a.target)){const sc=s.master.scenic;if(sc.revision!==geometryRevision(s)||!sc.path.length){const path=scenicFindPath(s,sc,a.target);if(path===null){a.phase='blocked';a.reason='通路受阻，先疏通或取消。';return;}sc.path=path;sc.goal={...a.target};sc.revision=geometryRevision(s);}advanceScenic(sc,4.6,s);syncScenicPosition(s,s.master);a.phase='moving';return;}a.phase='working';a.reason='已到现场恢复有限来源。';a.progressTicks++;s.master.energy=Math.max(0,s.master.energy-.02);if(a.progressTicks<a.durationTicks)return;s.srEconomy.patches[a.resource].remaining=s.srEconomy.patches[a.resource].max;ledger(s,`fact:patch:${a.id}`,{operation:'replenish',resource:a.resource,cost:copy(s.reservationsById[a.reservationId].cost),actorId:'person:master',sourcePosition:copy(a.target)});delete s.reservationsById[a.reservationId];delete s.activitiesById[a.id];s.master.activityId=null;s.master.action='rest';}
 export function startTransport(s,sourceId,targetId,carrierId='person:master',cargo={},authorization=null){
  initEconomy(s);if(marketSupplyStockpile(sourceId)||marketSupplyStockpile(targetId))fail('青溪供货仓及运单货位须按具名交易结算，不能由普通搬运处置。');const source=stock(s,sourceId),newMasterCarry=targetId==='stockpile:carried:master'&&carrierId==='person:master'&&!s.stockpilesById[targetId],target=newMasterCarry?carriedStockpileDraft(s,carrierId):stock(s,targetId),p=s.personsById[carrierId];if(orderV2ReserveLocked(s,sourceId)||orderV2ReserveLocked(s,targetId))fail('此货位已由商单预留，须先履约或取消。');if(position(s,source)?.sceneId!==position(s,target)?.sceneId)fail('跨地点运输须通过真实旅程；不能在院中瞬间到远方取料。');if(position(s,source)?.sceneId!=='scene:yunxiu-courtyard')fail('这里只能搬运当前院落物资。');if(!p||sourceId===targetId)fail('搬运人物或目的地无效。');if(!canUse(source,carrierId)||!canUse(target,carrierId))fail('无权取用或投放个人/商人物资。');
- const pairs=Object.entries(cargo);if(!pairs.length||!pairs.every(([k,v])=>physicalTransportKey(k)&&Number.isFinite(v)&&v>0&&(!pillId(k)||Number.isSafeInteger(v)))||addAmounts(...pairs.map(([,v])=>v))>40)fail('每次搬运1至40份实际物资；道韵作为研习预算留在账本。');
+ const pairs=Object.entries(cargo);if(!pairs.length||!pairs.every(([k,v])=>physicalTransportKey(s,k)&&Number.isFinite(v)&&v>0&&(!pillId(k)||Number.isSafeInteger(v)))||addAmounts(...pairs.map(([,v])=>v))>40)fail('每次搬运1至40份实际物资；道韵作为研习预算留在账本。');
  const npcPrivateTransfer=source.ownerId!==target.ownerId&&[source,target].some(st=>st.access==='private'&&st.ownerId!=='person:master');
  const npcMedicinePickup=authorization===autonomousPillPickup&&p!==s.master&&source.access==='public'&&target.access==='private'&&target.ownerId===carrierId&&target.carrierId===carrierId&&target.id===`stockpile:carried:${carrierId.slice(7)}`&&pairs.length===1&&pillId(pairs[0][0])&&pairs[0][1]===1&&usablePillStocks(s,carrierId,pillId(pairs[0][0]),{near:false}).some(st=>st.id===sourceId);
  if(npcPrivateTransfer&&!npcMedicinePickup)fail('跨所有者财物须当面赠予或按授权转让；搬运不改变归属。');
- if(addAmounts(total(target),...pairs.map(([,v])=>v))>target.capacity)fail('目的仓储容量不足。');
+ const receipt=stockpileReceiptPreview(s,target,cargo);if(!receipt.available)fail(receipt.reason);
  const o=body(s,p);if(o.scenic?.spatialEvacuationOrderId)fail('先完成实际撤离施工占地。');if(!atHome(s,p))fail('搬运人须真实在院，不能从山外操控留影搬运。');if(source.buildingId&&s.buildingsById[source.buildingId]?.spatialLock||target.buildingId&&s.buildingsById[target.buildingId]?.spatialLock)fail('源或目的设施正迁建，先恢复可用位置。');if(p.activityId&&s.activitiesById[p.activityId]?.kind!=='facility'||o.away||o.journey||p.wound>(pairs.every(([k])=>pillId(k))?85:20)||p.energy<(pairs.every(([k])=>pillId(k))?5:15))fail('此人正在履约、外出或需要休整。');if(p!==s.master){const trust=o.relationships?.master?.trust??55;if(trust<35||o.traits?.[3]<40) return {accepted:false,reason:'本人暂不愿承担搬运。'};}
  const sourceAccess=stockAccess(s,source);if(!sourceAccess)fail('源仓接触范围没有合法脚点，先清出通路。');const route=scenicFindPath(s,o.scenic,sourceAccess,{maxSnap:0});if(route===null)fail('无法抵达取料位置。');for(const[k,v]of pairs)if(cargoAmount(source,k)<v)fail('可用库存不足，已有物资可能已被预留。');
  if(newMasterCarry)carriedStockpile(s,carrierId);
@@ -287,12 +409,13 @@ export function cancelTransport(s,id){const w=s.workOrdersById[id];if(w?.kind!==
  const source=stock(s,w.sourceStockpileId);if(w.phase==='to-source'){for(const[k,v]of Object.entries(w.cargo))changeCargo(source,k,v);w.returnedTo=source.id;}else{const p=s.personsById[w.carrierId],pid=`stockpile:dropped:${id}`,place=p.location?.kind==='travel'||p.position?.kind==='worldTravel'?{kind:'travel',travelId:p.location?.travelId||p.position.travelId}:{sceneId:personScene(s,p),x:personFeet(s,p).x,y:personFeet(s,p).y};s.stockpilesById[pid]={id:pid,ownerId:source.ownerId,access:source.access,capacity:80,custodianId:w.carrierId,position:place,resources:zeros(),pills:pillZeros()};for(const[k,v]of Object.entries(w.cargo))changeCargo(s.stockpilesById[pid],k,v);w.returnedTo=pid;}
  w.phase='cancelled';w.finishedTick=s.worldTick;w.reason='未取料归原仓；已取料留在人物所在位置。';releaseTransport(s,w);ledger(s,`fact:transport-cancel:${id}`,{operation:'cancel',...(w.accountingVersion?{accountingVersion:w.accountingVersion}:{}),workOrderId:id,targetStockpileId:w.returnedTo,quantities:copy(w.cargo)});return {returnedTo:w.returnedTo};}
 export function transferProperty(s,sourceId,targetId,resource,quantity,mode='gift'){
- initEconomy(s);if(marketSupplyStockpile(sourceId)||marketSupplyStockpile(targetId))fail('青溪供货仓及运单货位须按具名交易结算，不能作为普通赠借对象。');const a=stock(s,sourceId),b=stock(s,targetId);if(orderV2ReserveLocked(s,sourceId)||orderV2ReserveLocked(s,targetId))fail('此货位已由商单预留，须先履约或取消。');if(!['gift','loan','return'].includes(mode)||!legalCargoKey(resource)||!Number.isFinite(quantity)||quantity<=0||pillId(resource)&&!Number.isSafeInteger(quantity))fail('赠借参数无效。');if(!canUse(a,'person:master'))fail('掌门无权处置此份个人财物。');if(personScene(s,s.master)!==position(s,a)?.sceneId||personScene(s,s.master)!==position(s,b)?.sceneId)fail('须与源及受赠对象在同一实际地点。');const reach=s.spatial?.version==='spatial-metres-1'?1.5:48;if(scenicDistance(personFeet(s,s.master),position(s,a))>reach||scenicDistance(personFeet(s,s.master),position(s,b))>reach)fail('先携带物资与受赠人同地交付。');if(cargoAmount(a,resource)<quantity||total(b)+quantity>b.capacity)fail('可用库存或容量不足。');if(mode==='loan')fail('可消耗物资须赠予；借器使用装备实例所有权接口。');changeCargo(a,resource,-quantity);changeCargo(b,resource,quantity);const id=`fact:property:${s.srEconomy.nextId++}`;ledger(s,id,{operation:mode,sourceStockpileId:sourceId,targetStockpileId:targetId,resource,quantity});return {id};}
+ initEconomy(s);if(marketSupplyStockpile(sourceId)||marketSupplyStockpile(targetId))fail('青溪供货仓及运单货位须按具名交易结算，不能作为普通赠借对象。');const a=stock(s,sourceId),b=stock(s,targetId);if(orderV2ReserveLocked(s,sourceId)||orderV2ReserveLocked(s,targetId))fail('此货位已由商单预留，须先履约或取消。');if(!['gift','loan','return'].includes(mode)||!legalCargoKey(s,resource)||!Number.isFinite(quantity)||quantity<=0||pillId(resource)&&!Number.isSafeInteger(quantity))fail('赠借参数无效。');if(!canUse(a,'person:master'))fail('掌门无权处置此份个人财物。');if(personScene(s,s.master)!==position(s,a)?.sceneId||personScene(s,s.master)!==position(s,b)?.sceneId)fail('须与源及受赠对象在同一实际地点。');const reach=s.spatial?.version==='spatial-metres-1'?1.5:48;if(scenicDistance(personFeet(s,s.master),position(s,a))>reach||scenicDistance(personFeet(s,s.master),position(s,b))>reach)fail('先携带物资与受赠人同地交付。');if(cargoAmount(a,resource)<quantity)fail('可用库存不足。');const receipt=stockpileReceiptPreview(s,b,{[resource]:quantity});if(!receipt.available)fail(receipt.reason);if(mode==='loan')fail('可消耗物资须赠予；借器使用装备实例所有权接口。');changeCargo(a,resource,-quantity);changeCargo(b,resource,quantity);const id=`fact:property:${s.srEconomy.nextId++}`;ledger(s,id,{operation:mode,sourceStockpileId:sourceId,targetStockpileId:targetId,resource,quantity});return {id};}
 /** SR-XF-009 finite onsite pill crafting; s.pills remains the sole count authority. */
 export function craftAvailabilitySR(s,id){
- const r=PILL_RECIPE_CATALOG[PILL_RECIPE_VERSION][id],b=s.buildings.find(b=>b.type==='alchemy'&&b.enabled!==false&&b.condition>0&&!b.spatialLock),reasons=[];
+ const b=s.buildings.find(b=>b.type==='alchemy'&&b.enabled!==false&&b.condition>0&&!b.spatialLock),version=pillRecipeVersion(b),r=PILL_RECIPE_CATALOG[version][id],reasons=[];
  if(!r)reasons.push('丹方不存在。');
  if(!b)reasons.push('需可运行且未迁建的丹炉。');
+ if(westAlchemyEnabled(b)&&!serviceResourcesEnabled(s))reasons.push('先开通生活物资，按实际来源筹备洁水。');
  if(!atHome(s,s.master))reasons.push('掌门须真实归院操作丹炉。');
  if(s.master.activityId&&s.activitiesById[s.master.activityId]?.kind!=='facility')reasons.push('先完成或取消当前身体活动。');
  if(s.crafting)reasons.push('旧丹炉工序尚待现场接续。');
@@ -302,25 +425,28 @@ export function craftAvailabilitySR(s,id){
   if(r.knowledge&&(s.master.knowledge[r.knowledge]||0)<r.mastery)reasons.push(`掌门需理解《${TECHNIQUES[r.knowledge]?.name||r.knowledge}》${r.mastery}。`);
   if(id==='foundation'&&!s.doctrine.books.includes('foundation'))reasons.push('先取得可靠筑基丹方。');
   if(b){
-   if(!facilitySlots(s,b,'work').some(slot=>!slotReservation(s,slot.id)))reasons.push('丹炉操作工位已被预约。');
-   for(const[k,v]of Object.entries(r.cost))if((s.stockpilesById[['jade','insight'].includes(k)?'stockpile:yunxiu':`stockpile:${b.instanceId}`]?.resources[k]||0)<v)reasons.push(`${RESOURCES[k]}需${v}：${['jade','insight'].includes(k)?'院中公共预算不足':'先实际搬入丹炉工位缓存'}。`);
+   const slots=facilitySlots(s,b,'work'),process=version===WEST_ALCHEMY_PROCESS_RECIPE_VERSION?alchemyProcessDefinition(r.cost,pillDurationAtLevel(r,b.level)):null,first=process?slots.find(slot=>slot.id===`${b.instanceId}/slot:${process.stages[0].slotSuffix}`):slots.find(slot=>!slotReservation(s,slot.id));
+   if(process&&!process.stages.every(stage=>slots.some(slot=>slot.id===`${b.instanceId}/slot:${stage.slotSuffix}`)))reasons.push('丹房药案、浸滤、丹炉和封藏工位尚未齐备。');
+   if(!first||slotReservation(s,first.id))reasons.push('本段操作工位已被预约。');
+   for(const[k,v]of Object.entries(r.cost))if((s.stockpilesById[['jade','insight'].includes(k)?'stockpile:yunxiu':`stockpile:${b.instanceId}`]?.resources[k]||0)<v)reasons.push(`${RESOURCES[k]||SERVICE_RESOURCES[k]}需${v}：${['jade','insight'].includes(k)?'院中公共预算不足':'先实际搬入丹炉工位缓存'}。`);
   }
  }
- return {available:!reasons.length,reasons,recipeId:id,buildingId:b?.instanceId||null,cost:copy(r?.cost||{}),durationTicks:r?Math.ceil(r.duration*10/(1+.25*((b?.level||1)-1))):0,yield:r?.yield||0,physicalStockpileId:b?`stockpile:${b.instanceId}`:null};
+ return {available:!reasons.length,reasons,recipeId:id,recipeVersion:version,buildingId:b?.instanceId||null,cost:copy(r?.cost||{}),durationTicks:r?pillTotalDuration(version,r,b?.level||1):0,yield:r?.yield||0,physicalStockpileId:b?`stockpile:${b.instanceId}`:null,...(r&&version===WEST_ALCHEMY_PROCESS_RECIPE_VERSION?{processStages:alchemyProcessDefinition(r.cost,pillDurationAtLevel(r,b?.level||1)).stages.map(({id,label,durationTicks})=>({id,label,durationTicks})),furnaceTicks:pillDurationAtLevel(r,b?.level||1)}:{})};
 }
 function createCraft(s,b,id,{legacy=null}={}){
- const recipe=PILL_RECIPE_CATALOG[legacy?'pill-recipes:yunxiu:v1':PILL_RECIPE_VERSION][id],sc=s.master.scenic;if(!recipe)fail('丹方不存在。');
- const slot=facilitySlots(s,b,'work').find(slot=>!slotReservation(s,slot.id));if(!slot)fail('丹炉工位正在使用。');
+ const version=legacy?'pill-recipes:yunxiu:v1':pillRecipeVersion(b),recipe=PILL_RECIPE_CATALOG[version][id],sc=s.master.scenic;if(!recipe)fail('丹方不存在。');
+ const process=version===WEST_ALCHEMY_PROCESS_RECIPE_VERSION?alchemyProcessDefinition(recipe.cost,pillDurationAtLevel(recipe,b.level)):null,slots=facilitySlots(s,b,'work');
+ if(process&&!process.stages.every(stage=>slots.some(slot=>slot.id===`${b.instanceId}/slot:${stage.slotSuffix}`)))fail('丹房顺序工位尚未齐备。');
+ const slot=slots.find(slot=>(!process||slot.id===`${b.instanceId}/slot:${process.stages[0].slotSuffix}`)&&!slotReservation(s,slot.id));if(!slot)fail('丹炉工位正在使用。');
  const path=scenicFindPath(s,sc,slot.position,{maxSnap:s.spatial?.version==='spatial-metres-1'?.04:1});if(path===null)fail('丹炉工位通路受阻。');
  if(s.master.activityId){const a=s.activitiesById[s.master.activityId];if(a?.kind!=='facility')fail('掌门正在履行其他身体事务。');if(a.reservationId)delete s.reservationsById[a.reservationId];delete s.activitiesById[a.id];}
- const n=s.srEconomy.nextId++,wid=`work:craft:${n}`,aid=`activity:craft:${n}`,rid=`reservation:craft:${n}`,sid=`reservation:craft-slot:${n}`,durationTicks=legacy?Math.round(legacy.total*10):Math.ceil(recipe.duration*10/(1+.25*(b.level-1))),progressTicks=legacy?Math.round((legacy.total-legacy.remaining)*10):0;
- const version=legacy?'pill-recipes:yunxiu:v1':PILL_RECIPE_VERSION;
+ const n=s.srEconomy.nextId++,wid=`work:craft:${n}`,aid=`activity:craft:${n}`,rid=`reservation:craft:${n}`,sid=`reservation:craft-slot:${n}`,durationTicks=legacy?Math.round(legacy.total*10):pillTotalDuration(version,recipe,b.level),progressTicks=legacy?Math.round((legacy.total-legacy.remaining)*10):0;
  const snapshot=pillRecipeSnapshot(s,b,id,{version,cost:recipe.cost,yieldCount:legacy?.yield??recipe.yield,durationTicks});
  const sourceStockpileIds=copy(snapshot.sourceStockpileIds);for(const[k,v]of Object.entries(snapshot.inputCost))if(!legacy){const source=stock(s,sourceStockpileIds[k]);source.resources[k]=subtractAmounts(source.resources[k],v);}
- s.workOrdersById[wid]={id:wid,kind:'sr-crafting',recipeId:id,recipeVersion:version,recipeSnapshot:snapshot,personId:'person:master',targetId:b.instanceId,phase:'active',progressTicks,durationTicks,yield:snapshot.outputCount,cost:copy(snapshot.inputCost),sourceStockpileIds,reservationId:rid,slotReservationId:sid,activityId:aid,startedTick:s.worldTick,legacyPaid:!!legacy,resultFactId:null};
- s.reservationsById[rid]={id:rid,kind:'sr-craft-material',workOrderId:wid,cost:copy(snapshot.inputCost)};
+ s.workOrdersById[wid]={id:wid,kind:'sr-crafting',recipeId:id,recipeVersion:version,recipeSnapshot:snapshot,personId:'person:master',targetId:b.instanceId,phase:'active',progressTicks,durationTicks,yield:snapshot.outputCount,cost:copy(snapshot.inputCost),sourceStockpileIds,reservationId:rid,slotReservationId:sid,activityId:aid,startedTick:s.worldTick,legacyPaid:!!legacy,resultFactId:null,...(process?{process:{version:WEST_ALCHEMY_PROCESS_VERSION,stageIndex:0,stageProgressTicks:0,stageStartedTick:null,completedStages:[]}}:{})};
+ s.reservationsById[rid]={id:rid,kind:'sr-craft-material',workOrderId:wid,cost:copy(snapshot.inputCost),...(process?{remainingCost:copy(snapshot.inputCost)}:{})};
  s.reservationsById[sid]={id:sid,kind:'sr-slot',personId:'person:master',activityId:aid,slotId:slot.id};
- s.activitiesById[aid]={id:aid,kind:'sr-craft',personId:'person:master',workOrderId:wid,targetId:b.instanceId,slotId:slot.id,phase:path.length?'moving':'working',reason:'前往丹炉工位，实际照料这一批药物。'};
+ s.activitiesById[aid]={id:aid,kind:'sr-craft',personId:'person:master',workOrderId:wid,targetId:b.instanceId,slotId:slot.id,phase:path.length?'moving':'working',reason:process?'前往药案整理本批药材。':'前往丹炉工位，实际照料这一批药物。'};
  s.master.activityId=aid;sc.path=path;sc.goal=copy(slot.position);sc.revision=geometryRevision(s);return {id:wid,pending:true,durationTicks,progressTicks};
 }
 export function craftSR(s,id){initEconomy(s);const v=craftAvailabilitySR(s,id);if(!v.available)fail(v.reasons.join('；'));return createCraft(s,s.buildingsById[v.buildingId],id);}
@@ -329,26 +455,114 @@ function releaseCraft(s,w){delete s.reservationsById[w.reservationId];delete s.r
 export function cancelCraftSR(s){
  const a=s.activitiesById[s.master.activityId],w=a?.kind==='sr-craft'&&s.workOrdersById[a.workOrderId];
  if(!w||w.phase!=='active')fail('没有正在进行的丹炉工序。');
- const refund={},refundStockpileIds={},refundTemporaryPlacements={};
+ const refund={},refundStockpileIds={},refundTemporaryPlacements={},preview=craftRefundPreview(s,w);
  for(const [key,quantity] of Object.entries(w.cost)){
-  const amount=quantity*(1-w.progressTicks/w.durationTicks),source=stock(s,w.sourceStockpileIds[key]);
+  const amount=preview.refundable[key],source=stock(s,w.sourceStockpileIds[key]);
   refund[key]=amount;
-  if(total(source)+amount<=source.capacity+1e-9){source.resources[key]=addAmounts(source.resources[key],amount);refundStockpileIds[key]=source.id;continue;}
+  if(total(source)+amount<=source.capacity+1e-9){source.resources[key]=addAmounts(source.resources[key]??0,amount);refundStockpileIds[key]=source.id;continue;}
   const id=`stockpile:craft-refund:${w.id}:${key}`;
   if(s.stockpilesById[id])fail('丹炉退料暂存已存在。');
   const temporary={id,label:'丹炉退料暂存',sourceStockpileId:source.id,ownerId:source.ownerId,custodianId:source.custodianId,access:source.access,position:copy(position(s,source)),capacity:Math.max(1,amount),resources:zeros(),pills:pillZeros()};
   temporary.resources[key]=amount;s.stockpilesById[id]=temporary;refundStockpileIds[key]=id;
   refundTemporaryPlacements[key]={custodianId:temporary.custodianId,position:copy(temporary.position)};
  }
- w.phase='cancelled';w.finishedTick=s.worldTick;w.refund=refund;w.refundStockpileIds=refundStockpileIds;w.refundTemporaryPlacements=refundTemporaryPlacements;w.cancelRecordVersion='craft-cancel:v2';
+ w.phase='cancelled';w.finishedTick=s.worldTick;w.refund=refund;w.refundStockpileIds=refundStockpileIds;w.refundTemporaryPlacements=refundTemporaryPlacements;w.cancelRecordVersion=sequentialCraft(w)?'craft-cancel:v3':'craft-cancel:v2';if(sequentialCraft(w))w.consumed=copy(preview.consumed);
  releaseCraft(s,w);
- ledger(s,`fact:craft-cancel:${w.id}`,{operation:'craft-cancel',actorId:w.personId,workOrderId:w.id,refund:copy(refund),refundStockpileIds:copy(refundStockpileIds),refundTemporaryPlacements:copy(refundTemporaryPlacements)});
+ ledger(s,`fact:craft-cancel:${w.id}`,{operation:'craft-cancel',actorId:w.personId,workOrderId:w.id,refund:copy(refund),refundStockpileIds:copy(refundStockpileIds),refundTemporaryPlacements:copy(refundTemporaryPlacements),...(sequentialCraft(w)?{recipeVersion:w.recipeVersion,consumed:copy(preview.consumed)}:{})});
  return {cancelled:true,refund};
 }
-function advanceCraft(s){const a=s.activitiesById[s.master.activityId],w=a?.kind==='sr-craft'&&s.workOrdersById[a.workOrderId];if(!w||w.phase!=='active')return;const b=s.buildingsById[w.targetId],slot=b&&facilitySlots(s,b,'work').find(slot=>slot.id===a.slotId);if(!atHome(s,s.master)||s.master.wound>20||s.master.energy<5||s.master.scenic.spatialEvacuationOrderId||!b||b.enabled===false||b.condition<=0||b.spatialLock||!slot){a.phase='paused';a.reason='身体、设施或工位暂不可用，保留投入与剩余工序。';return;}const sc=s.master.scenic;if(scenicDistance(sc,slot.position)>(s.spatial?.version==='spatial-metres-1'?.04:.5)){if(sc.revision!==geometryRevision(s)||!sc.path.length){const path=scenicFindPath(s,sc,slot.position,{maxSnap:s.spatial?.version==='spatial-metres-1'?.04:1});if(path===null){a.phase='blocked';a.reason='丹炉工位通路受阻，保留材料与进度。';return;}sc.path=path;sc.goal=copy(slot.position);sc.revision=geometryRevision(s);}advanceScenic(sc,4.6,s);syncScenicPosition(s,s.master);a.phase='moving';return;}a.phase='working';a.reason='掌门在独立丹炉工位实际照料药物。';w.progressTicks=Math.min(w.durationTicks,w.progressTicks+1);s.master.energy=Math.max(0,s.master.energy-.02);if(w.progressTicks<w.durationTicks)return;const fid=`fact:craft:${w.id}`;if(!s.factsById[fid]){try{grantPills(s,`stockpile:${b.instanceId}`,w.recipeSnapshot.recipeId,w.recipeSnapshot.outputCount,{factId:fid});}catch(error){a.reason=error.message;return;}s.stats.crafted++;Object.assign(s.factsById[fid],{count:w.recipeSnapshot.outputCount,workOrderId:w.id,cost:copy(w.recipeSnapshot.inputCost),recipeVersion:w.recipeSnapshot.recipeVersion});}w.phase='completed';w.resultFactId=fid;w.finishedTick=s.worldTick;releaseCraft(s,w);s.master.action='rest';}
-export function settleEconomyDeath(s,personId){if(!s.srEconomy)return;const supply=s.srEconomy.marketSupply,run=personId===MARKET_CARRIER&&supply?.runs[supply.activeRunId];if(run&&run.phase!=='completed'){const travel=s.travelsById?.[run.travelId];if(travel?.status==='traveling')travel.status='blocked';run.reason='承运人身死，货款与货物留在最后实际货位，等待有权接续或取回。';}for(const w of Object.values(s.workOrdersById))if(w.kind==='transport'&&w.carrierId===personId&&!['delivered','cancelled'].includes(w.phase))cancelTransport(s,w.id);const p=s.personsById[personId],a=p&&s.activitiesById[p.activityId];if(a?.kind==='sr-merchant-collection'){const w=s.workOrdersById[a.workOrderId];if(w){w.phase=w.phase==='carrying'?'interrupted':'cancelled';w.reason='收货者身死，已付器物仍归其遗产且留在实际位置；未交付未付款保持原方。';w.finishedTick=s.worldTick;}delete s.activitiesById[a.id];p.activityId=null;}if(a?.kind==='sr-craft'){const w=s.workOrdersById[a.workOrderId];w.phase='interrupted';w.finishedTick=s.worldTick;releaseCraft(s,w);}if(a?.kind==='sr-replenish'){delete s.reservationsById[a.reservationId];delete s.activitiesById[a.id];p.activityId=null;}}
+function advanceCraftProcess(s,a,w){
+ const b=s.buildingsById[w.targetId],p=w.process,stages=w.recipeSnapshot.process.stages;
+ if(!atHome(s,s.master)||s.master.wound>20||s.master.energy<5||s.master.scenic.spatialEvacuationOrderId||!b||b.enabled===false||b.condition<=0||b.spatialLock){a.phase='paused';a.reason='身体或丹房暂不可用，保留当前工序与未用材料。';return;}
+ let stage=stages[p.stageIndex],slot=facilitySlots(s,b,'work').find(slot=>slot.id===`${b.instanceId}/slot:${stage.slotSuffix}`);
+ if(!slot||s.reservationsById[w.slotReservationId]?.slotId!==slot.id){a.phase='blocked';a.reason='本段工位预约不可用，保留本批进度。';return;}
+ const sc=s.master.scenic;
+ if(p.stageProgressTicks===stage.durationTicks&&p.stageIndex<stages.length-1){
+  const next=stages[p.stageIndex+1],nextSlot=facilitySlots(s,b,'work').find(slot=>slot.id===`${b.instanceId}/slot:${next.slotSuffix}`);
+  if(!nextSlot||slotReservation(s,nextSlot.id)){a.phase='blocked';a.reason=`${next.label}工位暂不可用，保留已完成工序。`;return;}
+  const route=scenicFindPath(s,sc,nextSlot.position,{maxSnap:.04});if(route===null){a.phase='blocked';a.reason=`通往${next.label}工位的路受阻，保留本批材料与进度。`;return;}
+  s.reservationsById[w.slotReservationId].slotId=nextSlot.id;a.slotId=nextSlot.id;p.stageIndex++;p.stageProgressTicks=0;p.stageStartedTick=null;sc.path=route;sc.goal=copy(nextSlot.position);sc.revision=geometryRevision(s);a.phase=route.length?'moving':'working';a.reason=`前往${next.label}工位。`;return;
+ }
+ if(scenicDistance(sc,slot.position)>.04){
+  if(sc.revision!==geometryRevision(s)||!sc.path.length){const route=scenicFindPath(s,sc,slot.position,{maxSnap:.04});if(route===null){a.phase='blocked';a.reason=`${stage.label}工位通路受阻。`;return;}sc.path=route;sc.goal=copy(slot.position);sc.revision=geometryRevision(s);}
+  advanceScenic(sc,4.6,s);syncScenicPosition(s,s.master);a.phase='moving';a.reason=`前往${stage.label}工位，实际到位后继续。`;return;
+ }
+ a.phase='working';a.reason=`掌门在${stage.label}工位实际操作。`;
+ if(p.stageProgressTicks<stage.durationTicks){p.stageStartedTick??=s.worldTick;p.stageProgressTicks++;w.progressTicks++;s.master.energy=Math.max(0,s.master.energy-.02);s.reservationsById[w.reservationId].remainingCost=craftRefundPreview(s,w).refundable;
+  if(p.stageProgressTicks===stage.durationTicks)p.completedStages.push({id:stage.id,slotId:slot.id,startedTick:p.stageStartedTick,finishedTick:s.worldTick});
+ }
+ if(p.stageIndex!==stages.length-1||p.stageProgressTicks!==stage.durationTicks)return;
+ const fid=`fact:craft:${w.id}`;
+ if(!s.factsById[fid]){try{grantPills(s,`stockpile:${b.instanceId}`,w.recipeId,w.yield,{factId:fid});}catch(error){a.phase='blocked';a.reason=`封藏完成，等待现场药库接收：${error.message}`;return;}
+  s.stats.crafted++;Object.assign(s.factsById[fid],{count:w.yield,workOrderId:w.id,cost:copy(w.cost),recipeVersion:w.recipeVersion,processVersion:p.version,completedStages:copy(p.completedStages)});
+ }
+ w.phase='completed';w.resultFactId=fid;w.finishedTick=s.worldTick;releaseCraft(s,w);s.master.action='rest';
+}
+function advanceCraft(s){const a=s.activitiesById[s.master.activityId],w=a?.kind==='sr-craft'&&s.workOrdersById[a.workOrderId];if(!w||w.phase!=='active')return;if(sequentialCraft(w))return advanceCraftProcess(s,a,w);const b=s.buildingsById[w.targetId],slot=b&&facilitySlots(s,b,'work').find(slot=>slot.id===a.slotId);if(!atHome(s,s.master)||s.master.wound>20||s.master.energy<5||s.master.scenic.spatialEvacuationOrderId||!b||b.enabled===false||b.condition<=0||b.spatialLock||!slot){a.phase='paused';a.reason='身体、设施或工位暂不可用，保留投入与剩余工序。';return;}const sc=s.master.scenic;if(scenicDistance(sc,slot.position)>(s.spatial?.version==='spatial-metres-1'?.04:.5)){if(sc.revision!==geometryRevision(s)||!sc.path.length){const path=scenicFindPath(s,sc,slot.position,{maxSnap:s.spatial?.version==='spatial-metres-1'?.04:1});if(path===null){a.phase='blocked';a.reason='丹炉工位通路受阻，保留材料与进度。';return;}sc.path=path;sc.goal=copy(slot.position);sc.revision=geometryRevision(s);}advanceScenic(sc,4.6,s);syncScenicPosition(s,s.master);a.phase='moving';return;}a.phase='working';a.reason='掌门在独立丹炉工位实际照料药物。';w.progressTicks=Math.min(w.durationTicks,w.progressTicks+1);s.master.energy=Math.max(0,s.master.energy-.02);if(w.progressTicks<w.durationTicks)return;const fid=`fact:craft:${w.id}`;if(!s.factsById[fid]){try{grantPills(s,`stockpile:${b.instanceId}`,w.recipeSnapshot.recipeId,w.recipeSnapshot.outputCount,{factId:fid});}catch(error){a.reason=error.message;return;}s.stats.crafted++;Object.assign(s.factsById[fid],{count:w.recipeSnapshot.outputCount,workOrderId:w.id,cost:copy(w.recipeSnapshot.inputCost),recipeVersion:w.recipeSnapshot.recipeVersion});}w.phase='completed';w.resultFactId=fid;w.finishedTick=s.worldTick;releaseCraft(s,w);s.master.action='rest';}
+export function settleEconomyDeath(s,personId){if(!s.srEconomy)return;const supply=s.srEconomy.marketSupply,run=personId===MARKET_CARRIER&&supply?.runs[supply.activeRunId];if(run&&run.phase!=='completed'){const travel=s.travelsById?.[run.travelId];if(travel?.status==='traveling')travel.status='blocked';run.reason='承运人身死，货款与货物留在最后实际货位，等待有权接续或取回。';}for(const w of Object.values(s.workOrdersById))if(w.kind==='transport'&&w.carrierId===personId&&!['delivered','cancelled'].includes(w.phase))cancelTransport(s,w.id);const p=s.personsById[personId],a=p&&s.activitiesById[p.activityId];if(a?.kind==='sr-merchant-collection'){const w=s.workOrdersById[a.workOrderId];if(w){w.phase=w.phase==='carrying'?'interrupted':'cancelled';w.reason='收货者身死，已付器物仍归其遗产且留在实际位置；未交付未付款保持原方。';w.finishedTick=s.worldTick;}delete s.activitiesById[a.id];p.activityId=null;}if(a?.kind==='sr-craft'){const w=s.workOrdersById[a.workOrderId];if(sequentialCraft(w))cancelCraftSR(s);w.phase='interrupted';w.finishedTick=s.worldTick;releaseCraft(s,w);}if(a?.kind==='sr-replenish'){delete s.reservationsById[a.reservationId];delete s.activitiesById[a.id];p.activityId=null;}}
 export function merchantPresent(s){if(s.srWorld){const p=s.personsById['person:merchant-qingxi'],loc=s.master.location;if(!courtyardVisitorReady(p)||!loc||loc.kind!=='local'||p?.position?.kind!=='scene'||p.position.sceneId!==loc.sceneId)return false;const current=loc.sceneId==='scene:yunxiu-courtyard'?s.master.scenic:loc,target=p.position;return scenicDistance(current,target)<3;}return marketRouteOpen(s)&&s.worldTick>=s.srEconomy.merchantArrivalTick&&s.worldTick<s.srEconomy.merchantVisitEndsTick;}
-export function marketTrade(s,resource,side,batches=1){initEconomy(s);if(!merchantPresent(s))fail('须亲自到商人身边，或等真实商队抵院后靠近交易。');const g=GOODS[resource],m=stock(s,'stockpile:qingxi'),home=stock(s,s.master.location?.sceneId==='scene:market'?'stockpile:sr-party':'stockpile:yunxiu');if(!g||!['buy','sell'].includes(side)||!Number.isSafeInteger(batches)||batches<1||batches>8)fail('交易参数无效。');const q=10*batches,price=g[side]*batches;if(side==='buy'){if(m.resources[resource]<q)fail('商人现货不足，补货须走实际可用道路。');if(home.resources.jade<price)fail('公库灵石不足。');if(total(m)-q+price>m.capacity)fail('商人货仓容量不足。');if(total(home)+q-price>home.capacity)fail('公库容量不足。');home.resources.jade-=price;m.resources.jade+=price;m.resources[resource]-=q;home.resources[resource]+=q;}else{if(home.resources[resource]<q)fail('公库可售物资不足；在途、个人和借器不可出售。');if(m.resources.jade<price)fail('商人本金不足，暂不收购。');if(total(m)+q-price>m.capacity||total(home)-q+price>home.capacity)fail('交付后仓储容量不足。');home.resources[resource]-=q;m.resources[resource]+=q;m.resources.jade-=price;home.resources.jade+=price;s.srEconomy.resaleInventory[resource]+=q;}
+// T-20 / design 61: desktop trade uses the master's physical carried stock.
+export const LOCAL_MARKET_GOODS=Object.freeze(['food','wood','stone','herb','crystal']);
+export const localMarketGoods=s=>serviceTradeEnabled(s)?[...LOCAL_MARKET_GOODS,'cleanWater']:LOCAL_MARKET_GOODS;
+function localTradeContext(s,stockpileId){
+ const master=s.master,merchant=s.personsById?.['person:merchant-qingxi'];
+ if(!s.srEconomy||!s.srWorld)return {reason:'当前尚不能办理现场交易。'};
+ if(!master||master.lifeStatus==='dead'||!merchant||merchant.lifeStatus==='dead')return {reason:'本人或商人当前无法交谈。'};
+ if(!merchantPresent(s))return {reason:'先走到已经抵院的商人身边，再商议交易。'};
+ const action=s.activitiesById?.[master.activityId],merchantAction=s.activitiesById?.[merchant.activityId];
+ if(action&&action.kind!=='facility'||master.scenic?.spatialEvacuationOrderId)return {reason:'掌门正在履行其他身体事务，完成后再交易。'};
+ if(merchantAction)return {reason:'商人正忙于已有事务，稍后再商议。'};
+ const source=s.stockpilesById?.[stockpileId]||(stockpileId==='stockpile:carried:master'?carriedStockpileDraft(s,'person:master'):null),market=s.stockpilesById?.['stockpile:qingxi'];
+ if(stockpileId!=='stockpile:carried:master'||!source||source.ownerId!=='person:master'||source.custodianId!=='person:master'||source.carrierId!=='person:master'||source.access!=='private')return {reason:'请携带本人有权处置的实物，在现场使用掌门随身货位交易。'};
+ if(!market||market.ownerId!=='person:merchant-qingxi'||market.custodianId!=='person:merchant-qingxi'||market.access!=='merchant')return {reason:'商人现场货位当前不可用。'};
+ const feet=personFeet(s,master),target=personFeet(s,merchant),sourceAt=position(s,source),marketAt=position(s,market),scene=personScene(s,master);
+ if(scene!=='scene:yunxiu-courtyard'||master.location?.kind!=='local'||master.position?.kind!=='scene'||merchant.position?.kind!=='scene'||merchant.position.sceneId!==scene||sourceAt?.sceneId!==scene||marketAt?.sceneId!==scene||scenicDistance(feet,sourceAt)>.01||scenicDistance(target,marketAt)>.12)return {reason:'双方实物须实际在当前交易现场。'};
+ const path=scenicFindPath(s,feet,target,{maxSnap:0});
+ if(path===null)return {reason:'到商人身边的通路受阻，先恢复通路。'};
+ let length=0,previous=feet;for(const point of path){length+=scenicDistance(previous,point);previous=point;}
+ if(length>=3)return {reason:'先沿可走道路到商人身边，再交付随身物资。'};
+ return {source,market,feet:copy(feet),merchantFeet:copy(target),reason:null};
+}
+function localTradeBatch(s,context,resource,side,batches){
+ const {source,market}=context,quantity=10*batches,price=marketGoods(s)[resource][side]*batches;
+ if(side==='buy'){
+  if((market.resources[resource]||0)<quantity)return '商人现货不足，补货须走实际可用道路。';
+  if((source.resources.jade||0)<price)return '随身灵石不足，先实际取来所需货款。';
+ }else{
+  if((source.resources[resource]||0)<quantity)return '随身可售物资不足，先实际取货。';
+  if((market.resources.jade||0)<price)return '商人本金不足，暂不收购。';
+ }
+ const sourceDelta=side==='buy'?{[resource]:quantity,jade:-price}:{[resource]:-quantity,jade:price};
+ const marketDelta=Object.fromEntries(Object.entries(sourceDelta).map(([key,value])=>[key,-value]));
+ if(!stockpileReceiptPreview(s,source,sourceDelta).available)return '成交后的随身容量不足，先存放其它物资。';
+ if(!stockpileReceiptPreview(s,market,marketDelta).available)return '成交后的商人货仓容量不足。';
+ return null;
+}
+/** Read-only and recomputed on commit; no stock initialization or hidden sale. */
+export function localMarketQuote(s,{resource,side,batches=1,stockpileId}={}){
+ const valid=localMarketGoods(s).includes(resource)&&['buy','sell'].includes(side)&&Number.isSafeInteger(batches)&&batches>=1&&batches<=8;
+ const result={available:false,reason:null,resource,side,quantity:valid?10*batches:0,price:valid?marketGoods(s)[resource][side]*batches:0,maxBatches:0,merchantStock:null,merchantCash:null,sourceStockpileId:stockpileId||null};
+ if(!valid)return {...result,reason:'请选择有效的实物交易及一至八批数量。'};
+ const context=localTradeContext(s,stockpileId);if(context.reason)return {...result,reason:context.reason};
+ result.merchantStock=context.market.resources[resource]||0;result.merchantCash=context.market.resources.jade||0;
+ for(let count=1;count<=8;count++)if(!localTradeBatch(s,context,resource,side,count))result.maxBatches=count;
+ result.reason=localTradeBatch(s,context,resource,side,batches);result.available=!result.reason;return result;
+}
+function localMarketTrade(s,resource,side,batches,options){
+ if(!options||typeof options!=='object'||Array.isArray(options)||Object.keys(options).some(key=>key!=='stockpileId'))fail('现场交易参数无效。');
+ const quote=localMarketQuote(s,{resource,side,batches,stockpileId:options.stockpileId});if(!quote.available)fail(quote.reason);
+ const source=stock(s,options.stockpileId),market=stock(s,'stockpile:qingxi'),sign=side==='buy'?1:-1;
+ changeCargo(source,resource,quote.quantity*sign);changeCargo(market,resource,-quote.quantity*sign);
+ changeCargo(source,'jade',-quote.price*sign);changeCargo(market,'jade',quote.price*sign);
+ if(side==='sell')s.srEconomy.resaleInventory[resource]=addAmounts(s.srEconomy.resaleInventory[resource]||0,quote.quantity);
+ const id=`fact:trade:${s.srEconomy.nextId++}`;
+ ledger(s,id,{operation:side,tradeVersion:'onsite-carried:v1',actorId:'person:master',merchantPersonId:'person:merchant-qingxi',merchantId:'faction:qingxi-market',resource,quantity:quote.quantity,price:quote.price,
+  sourceStockpileId:side==='buy'?market.id:source.id,targetStockpileId:side==='buy'?source.id:market.id,paymentSourceStockpileId:side==='buy'?source.id:market.id,paymentTargetStockpileId:side==='buy'?market.id:source.id,
+  actorPosition:copy(position(s,source)),merchantPosition:copy(position(s,market))});
+ s.srEconomy.tradeHistory.push(id);s.stats.trades+=batches;return {id,quantity:quote.quantity,price:quote.price,stockpileId:source.id};
+}
+
+export function marketTrade(s,resource,side,batches=1,options){if(options!==undefined)return localMarketTrade(s,resource,side,batches,options);initEconomy(s);if(!merchantPresent(s))fail('须亲自到商人身边，或等真实商队抵院后靠近交易。');const g=GOODS[resource],m=stock(s,'stockpile:qingxi'),home=stock(s,s.master.location?.sceneId==='scene:market'?'stockpile:sr-party':'stockpile:yunxiu');if(!g||!['buy','sell'].includes(side)||!Number.isSafeInteger(batches)||batches<1||batches>8)fail('交易参数无效。');const q=10*batches,price=g[side]*batches;if(side==='buy'){if(m.resources[resource]<q)fail('商人现货不足，补货须走实际可用道路。');if(home.resources.jade<price)fail('公库灵石不足。');if(total(m)-q+price>m.capacity)fail('商人货仓容量不足。');if(total(home)+q-price>home.capacity)fail('公库容量不足。');home.resources.jade-=price;m.resources.jade+=price;m.resources[resource]-=q;home.resources[resource]+=q;}else{if(home.resources[resource]<q)fail('公库可售物资不足；在途、个人和借器不可出售。');if(m.resources.jade<price)fail('商人本金不足，暂不收购。');if(total(m)+q-price>m.capacity||total(home)-q+price>home.capacity)fail('交付后仓储容量不足。');home.resources[resource]-=q;m.resources[resource]+=q;m.resources.jade-=price;home.resources.jade+=price;s.srEconomy.resaleInventory[resource]+=q;}
  const id=`fact:trade:${s.srEconomy.nextId++}`;ledger(s,id,{operation:side,merchantId:'faction:qingxi-market',resource,quantity:q,price});s.srEconomy.tradeHistory.push(id);s.stats.trades+=batches;return {id,quantity:q,price};}
 export const ORDER_DEFINITIONS={gu_medicine:{name:'顾氏供药',cost:{herb:20},reward:{jade:24},rep:2},artisan_tools:{name:'百工用材',cost:{wood:20,stone:10},reward:{jade:30},rep:2},ghost_shelter:{name:'安息院灯火',cost:{wood:10,food:10},reward:{jade:18},rep:1}};
 export function marketOrder(s,id,choice='accept',options={}){initEconomy(s);const def=ORDER_DEFINITIONS[id];if(!def)fail('订单不存在。');if(typeof choice!=='string')fail('订单动作无效。');let o=s.srEconomy.orders[id];if(choice.endsWith('-v2')||o?.version==='market-order:v2')return marketOrderV2(s,id,choice,options);if(['completed','declined'].includes(o?.phase))fail('该订单已结算或拒绝。');if(choice==='decline'){if(o?.phase==='accepted')for(const[k,v]of Object.entries(o.cargo))stock(s,o.sourceStockpileId||'stockpile:yunxiu').resources[k]+=v;s.srEconomy.orders[id]={id,phase:'declined',atTick:s.worldTick};delete s.reservationsById[`reservation:order:${id}`];return {phase:'declined'};}
@@ -613,6 +827,13 @@ function advanceMerchant(s){
  e.merchantSchedulePhase??=p.position?.kind==='scene'&&p.position.sceneId==='scene:yunxiu-courtyard'?'home':s.worldTick<e.merchantVisitEndsTick?'arriving':'market';
  if(e.merchantSchedulePhase==='home'&&s.worldTick>=e.merchantVisitEndsTick&&p.courtyardVisit?.phase!=='arriving'){e.merchantSchedulePhase='leaving';e.merchantJourneyId=null;departCourtyardVisitor(s,p);}
  if(e.merchantSchedulePhase==='leaving'&&p.courtyardVisit?.phase==='departing'){advanceCourtyardVisitor(s,p);st.position={sceneId:'scene:yunxiu-courtyard',x:p.mind.scenic.x,y:p.mind.scenic.y};return;}
+ // U-63/R-25/T-04: retain the existing 2400-tick visit cadence, 300-tick
+ // journey and 900-tick stay independently of finite upstream purchases.
+ // An overdue saved window schedules a future journey on this world step.
+ if(e.merchantSchedulePhase==='market'&&s.worldTick>=e.merchantVisitEndsTick&&['jade',...MARKET_SOURCE_GOODS].some(k=>st.resources[k]>0)){
+  const periods=Math.max(1,Math.ceil((s.worldTick+300-e.merchantArrivalTick)/2400));
+  e.merchantArrivalTick+=periods*2400;e.merchantVisitEndsTick=e.merchantArrivalTick+900;
+ }
  if(e.merchantSchedulePhase==='market'&&s.worldTick>=e.merchantArrivalTick-300&&s.worldTick<e.merchantVisitEndsTick){e.merchantSchedulePhase='arriving';e.merchantJourneyId=null;}
  if(['arriving','leaving'].includes(e.merchantSchedulePhase)){
  const arriving=e.merchantSchedulePhase==='arriving';s.travelsById??={};if(!e.merchantJourneyId){const begin=arriving?Math.max(0,e.merchantArrivalTick-300):s.worldTick;e.merchantJourneyId=`travel:merchant:${arriving?'in':'out'}:${begin}`;s.travelsById[e.merchantJourneyId]={id:e.merchantJourneyId,kind:'merchant-travel',participantIds:[p.personId],sourceSceneId:arriving?'scene:market':'scene:yunxiu-courtyard',destinationSceneId:arriving?'scene:yunxiu-courtyard':'scene:market',startedTick:begin,durationTicks:300,progressTicks:0,cargoStockpileId:st.id,status:'traveling',lastStepTick:begin};}
@@ -631,9 +852,9 @@ function advanceMerchant(s){
 /** External cash is a persistent finite customer's payment for actual resold cargo, never a periodic grant. */
 function settleWholesale(s){const e=s.srEconomy,w=e.wholesale,m=stock(s,'stockpile:qingxi'),customer=stock(s,'stockpile:wholesale-treasury');if(s.worldTick<w.nextMarketTick||!marketRouteOpen(s)||s.srWorld&&s.personsById['person:merchant-qingxi'].position?.sceneId!=='scene:market')return;
  if(s.worldTick-w.windowStartedTick>=WHOLESALE_DEFINITION.periodTicks){w.windowStartedTick=s.worldTick;w.windowSpent=0;}let budget=Math.min(WHOLESALE_DEFINITION.periodBudget-w.windowSpent,customer.resources.jade,Math.max(0,m.capacity-total(m))),cargo={},payment=0,toolkits=[];
- for(const resource of ['wood','stone','herb','crystal','food','insight']){const rate=GOODS[resource].buy/10,q=Math.min(WHOLESALE_DEFINITION.maximumUnitsPerGood,e.resaleInventory[resource],m.resources[resource],Math.floor(budget/rate));if(q<=0)continue;m.resources[resource]-=q;e.resaleInventory[resource]-=q;cargo[resource]=q;const p=q*rate;budget-=p;payment+=p;}
+ for(const resource of ['wood','stone','herb','crystal','food','insight',...(serviceTradeEnabled(s)?['cleanWater']:[])]){const rate=marketGoods(s)[resource].buy/10,q=Math.min(WHOLESALE_DEFINITION.maximumUnitsPerGood,(e.resaleInventory[resource]||0),(m.resources[resource]||0),Math.floor(budget/rate));if(q<=0)continue;m.resources[resource]-=q;e.resaleInventory[resource]-=q;cargo[resource]=q;const p=q*rate;budget-=p;payment+=p;}
  for(const g of e.commonGoods){if(g.phase!=='stocked')continue;const price=g.costPaid*WHOLESALE_DEFINITION.toolkitMargin;if(price>budget)continue;g.phase='delivered';g.ownerId='person:wholesale-buyer';g.stockpileId=customer.id;g.deliveredTick=s.worldTick;g.buyerId='person:wholesale-buyer';toolkits.push(g.id);budget-=price;payment+=price;}
- if(payment>0){customer.resources.jade-=payment;m.resources.jade+=payment;w.windowSpent+=payment;w.spentLifetime+=payment;const id=`fact:wholesale:${s.worldTick}`;ledger(s,id,{operation:'wholesale-delivery',actorId:'person:merchant-qingxi',buyerId:'person:wholesale-buyer',sourceStockpileId:m.id,paymentSourceStockpileId:customer.id,payment,cargo,toolkitIds:toolkits,source:'finite regional customer treasury; actual consumed/delivered goods'});for(const[k,v]of Object.entries(cargo))customer.resources[k]+=v;}
+ if(payment>0){customer.resources.jade-=payment;m.resources.jade+=payment;w.windowSpent+=payment;w.spentLifetime+=payment;const id=`fact:wholesale:${s.worldTick}`;ledger(s,id,{operation:'wholesale-delivery',actorId:'person:merchant-qingxi',buyerId:'person:wholesale-buyer',sourceStockpileId:m.id,paymentSourceStockpileId:customer.id,payment,cargo,toolkitIds:toolkits,source:'finite regional customer treasury; actual consumed/delivered goods'});for(const[k,v]of Object.entries(cargo))changeCargo(customer,k,v);}
  w.nextMarketTick=s.worldTick+WHOLESALE_DEFINITION.periodTicks;
 }
 function marketSupplyReason(s){
@@ -641,7 +862,7 @@ function marketSupplyReason(s){
  if(!marketRouteOpen(s))return '石桥路段不能通行，供货车与货物在原位置等待；山院仍可实际采集基本材料。';
  if(merchant?.lifeStatus!=='alive'||clerk?.lifeStatus!=='alive'||carrier?.lifeStatus!=='alive')return '交易或承运当事人已失能，原货物和预留款保持原位置。';
  if(carrier.wound>20||carrier.energy<5||carrier.activityId)return '承运人受伤、疲乏或有其他身体活动，尚不能预留新供货；恢复后可继续报价。';
- if(!MARKET_SOURCE_GOODS.some(k=>source.resources[k]>0))return '青溪供货仓的实物来源已用尽。';
+ if(!marketSourceGoods(s).some(k=>source.resources[k]>0))return '青溪供货仓的实物来源已用尽。';
  if(m.resources.food<6)return `商人路粮不足：出发须先从其现货预留6口粮，当前${m.resources.food}；可从山院实际采粮后当面售给商人。`;
  if(m.resources.jade<2)return '商人本金不足以预留关口费和购货款。';
  if(total(m)>=m.capacity)return '商人货仓已满，须先实际售出或转走货物。';
@@ -652,13 +873,13 @@ function quoteMarketSupply(s){
  const e=s.srEconomy,m=stock(s,'stockpile:qingxi'),source=stock(s,MARKET_SUPPLIER_STOCK),state=e.marketSupply;
  if(s.worldTick<e.nextMarketSourceQuoteTick||state.activeRunId||state.queue.length)return;
  const reason=marketSupplyReason(s);if(reason){state.lastReason=reason;return;}
- const left=Object.fromEntries(MARKET_SOURCE_GOODS.map(k=>[k,Math.min(20,source.resources[k])])),plans=[];
+ const left=Object.fromEntries(marketSourceGoods(s).map(k=>[k,Math.min(20,(source.resources[k]||0))])),plans=[];
  let cash=m.resources.jade,food=m.resources.food,capacity=m.capacity-total(m);
- while(MARKET_SOURCE_GOODS.some(k=>left[k]>0)&&food>=6&&capacity>0){
+ while(marketSourceGoods(s).some(k=>left[k]>0)&&food>=6&&capacity>0){
   const cargo={},room=Math.min(40,capacity);let used=0;
-  for(const k of MARKET_SOURCE_GOODS){const q=Math.min(left[k],room-used);if(q>0){cargo[k]=q;used+=q;}if(used>=room)break;}
+  for(const k of marketSourceGoods(s)){const q=Math.min(left[k],room-used);if(q>0){cargo[k]=q;used+=q;}if(used>=room)break;}
   if(!used)break;
-  const price=Object.entries(cargo).reduce((n,[k,q])=>n+q*GOODS[k].sell/10,0);
+  const price=Object.entries(cargo).reduce((n,[k,q])=>n+q*marketGoods(s)[k].sell/10,0);
   if(cash+1e-9<price+2)break;
   plans.push({cargo,price,quantity:used});cash-=price+2;food-=6;capacity-=used;
   for(const[k,q]of Object.entries(cargo))left[k]-=q;
@@ -675,7 +896,7 @@ function quoteMarketSupply(s){
   state.queue.push(id);
   ledger(s,`fact:supply-quote:${id}`,{operation:'supplier-quote',sourceStockpileId:source.id,sourceReserveId,fundStockpileId,cargo:copy(plan.cargo),goodsPrice:plan.price,tollLimit:2,foodReserved:6});
  }
- e.nextMarketSourceQuoteTick=s.worldTick+2400;e.merchantArrivalTick=s.worldTick+300;e.merchantVisitEndsTick=s.worldTick+1200;state.lastReason=null;
+ e.nextMarketSourceQuoteTick=s.worldTick+2400;state.lastReason=null;
 }
 function departMarketSupply(s,run,direction){
  const carrier=s.personsById[MARKET_CARRIER],clerk=s.personsById[MARKET_SUPPLIER],from=direction==='out'?'scene:market':'scene:supply',to=direction==='out'?'scene:supply':'scene:market';
@@ -729,8 +950,8 @@ function deliverMarketSupply(s,run){
  const m=stock(s,'stockpile:qingxi'),merchant=s.personsById['person:merchant-qingxi'],carrier=s.personsById[MARKET_CARRIER],cargo=stock(s,run.cargoStockpileId),fund=stock(s,run.fundStockpileId);
  if(merchant?.lifeStatus!=='alive'||merchant.position?.sceneId!=='scene:market'){run.reason='商人未在坊市接货，实物由承运人原位保管。';return;}
  if(total(m)+total(cargo)+total(fund)>m.capacity){run.reason='商人目标仓已满，实物与未用款保留在承运人货位。';return;}
- for(const[k,q]of Object.entries(cargo.resources))if(q>0){m.resources[k]+=q;cargo.resources[k]=0;}
- for(const[k,q]of Object.entries(fund.resources))if(q>0){m.resources[k]+=q;fund.resources[k]=0;}
+ for(const[k,q]of Object.entries(cargo.resources))if(q>0){changeCargo(m,k,q);cargo.resources[k]=0;}
+ for(const[k,q]of Object.entries(fund.resources))if(q>0){changeCargo(m,k,q);fund.resources[k]=0;}
  cargo.carrierId=null;fund.carrierId=null;cargo.custodianId=merchant.personId;fund.custodianId=merchant.personId;
  cargo.position={sceneId:'scene:market',x:37,y:25};fund.position={sceneId:'scene:market',x:37,y:25};run.cargoPosition=copy(cargo.position);run.cargoCustodianId=merchant.personId;
  run.phase='completed';run.completedTick=s.worldTick;run.reason='商人同场验收，真实货物入现货仓；未用费用原产权返仓。';run.settlementFactId=`fact:supply-delivery:${run.id}`;
@@ -776,12 +997,12 @@ function advanceMarketSupply(s){
 function advanceMarketOrdersV2(s){for(const o of Object.values(s.srEconomy.orders))if(o.version===ORDER_V2&&!['completed','cancelled','declined'].includes(o.phase)){orderV2Sync(s,o);advanceOrderV2Deadline(s,o);advanceOrderV2MerchantResponse(s,o);advanceOrderV2Amendment(s,o);}}
 export function tickEconomy(s){if(!s.srEconomy||s.srEconomy.updatedThroughTick>=s.worldTick)return;const e=s.srEconomy;e.updatedThroughTick=s.worldTick;initEconomy(s);advanceFarmCrops(s);advanceMerchant(s);advanceMasterHarvest(s);advanceReplenish(s);advanceCraft(s);settleWholesale(s);advanceMarketSupply(s);advanceMarketOrdersV2(s);
  for(const w of Object.values(s.workOrdersById))if(w.kind==='transport'&&!['delivered','cancelled'].includes(w.phase)){const p=s.personsById[w.carrierId],o=p&&body(s,p);if(!p||!atHome(s,p)||o.scenic?.spatialEvacuationOrderId||p.wound>(Object.keys(w.cargo).every(pillId)?85:20)||p.energy<5||o.away||o.journey){w.reason='搬运者外出、受伤或精力不足；货物保留在预约或本人身上。';continue;}const endpoint=stock(s,w.phase==='to-source'?w.sourceStockpileId:w.targetStockpileId);if(endpoint.buildingId&&s.buildingsById[endpoint.buildingId]?.spatialLock){w.reason='源或目的设施正迁建，保持预约/携带等待或取消。';continue;}const target=stockAccess(s,endpoint);if(!target){w.reason='仓储接触范围没有合法脚点，货物保留，可清出通路或取消。';o.scenic.path=[];o.scenic.goal=null;continue;}if(!close(s,o.scenic,target)){if(o.scenic.revision!==geometryRevision(s)||!o.scenic.path.length||!o.scenic.goal||scenicDistance(o.scenic.goal,target)>.01){const path=scenicFindPath(s,o.scenic,target,{maxSnap:0});if(path===null){w.reason='道路不通，货物与进度保留。';o.scenic.path=[];o.scenic.goal=null;o.scenic.revision=geometryRevision(s);continue;}o.scenic.path=path;o.scenic.goal=copy(target);o.scenic.revision=geometryRevision(s);}advanceScenic(o.scenic,4.6,s);syncScenicPosition(s,p);p.energy=Math.max(0,p.energy-.01);continue;}
- if(w.phase==='to-source'){w.phase='carrying';w.reason='已实际取料，携带前往交付地点。';o.scenic.path=[];continue;}const targetStock=stock(s,w.targetStockpileId);if(addAmounts(total(targetStock),...Object.values(w.cargo))>targetStock.capacity){w.reason='目的仓储已满，保持携带。';continue;}for(const[k,v]of Object.entries(w.cargo))changeCargo(targetStock,k,v);w.phase='delivered';w.finishedTick=s.worldTick;w.reason='已到场交付，可供目的工序使用。';releaseTransport(s,w);ledger(s,`fact:transport:${w.id}`,{operation:'delivery',...(w.accountingVersion?{accountingVersion:w.accountingVersion}:{}),workOrderId:w.id,sourceStockpileId:w.sourceStockpileId,targetStockpileId:w.targetStockpileId,quantities:copy(w.cargo)});}
+ if(w.phase==='to-source'){w.phase='carrying';w.reason='已实际取料，携带前往交付地点。';o.scenic.path=[];continue;}const targetStock=stock(s,w.targetStockpileId);const receipt=stockpileReceiptPreview(s,targetStock,w.cargo,{exceptWorkOrderId:w.id});if(!receipt.available){w.reason=`${receipt.reason}保持携带。`;continue;}for(const[k,v]of Object.entries(w.cargo))changeCargo(targetStock,k,v);w.phase='delivered';w.finishedTick=s.worldTick;w.reason='已到场交付，可供目的工序使用。';releaseTransport(s,w);ledger(s,`fact:transport:${w.id}`,{operation:'delivery',...(w.accountingVersion?{accountingVersion:w.accountingVersion}:{}),workOrderId:w.id,sourceStockpileId:w.sourceStockpileId,targetStockpileId:w.targetStockpileId,quantities:copy(w.cargo)});}
 }
 export function viewConstructionMaterials(s){return Object.values(s.workOrdersById||{}).filter(o=>o.kind==='construction'&&o.materialFlow).map(o=>{const flow=o.materialFlow,source=s.stockpilesById[flow.sourceStockpileId],site=s.stockpilesById[flow.siteStockpileId];return {workOrderId:o.id,phase:flow.phase,cancelRequested:flow.cancelRequested,carrierId:flow.carrierId,sourceStockpileId:flow.sourceStockpileId,siteStockpileId:flow.siteStockpileId,reservedAtSource:copy(source?.resources||zeros()),inTransit:copy(flow.cargo),deliveredAtSite:copy(site?.resources||zeros()),installed:copy(o.usedCost),trips:copy(flow.trips)};});}
 // SR-XF-010-I01 / ECON-02/03: derive the visible ledger from one physical holder per unit.
 export function viewInventorySummary(s){
- const keys=[...Object.keys(RESOURCES),...Object.keys(RECIPES).map(id=>`pill:${id}`)],fields=['available','reserved','inTransit','shortage'];
+ const keys=[...Object.keys(resourceTypes(s)),...Object.keys(RECIPES).map(id=>`pill:${id}`)],fields=['available','reserved','inTransit','shortage'];
  const groups=Object.fromEntries(['public','personal','merchant'].map(id=>[id,{id,amounts:Object.fromEntries(keys.map(k=>[k,Object.fromEntries(fields.map(f=>[f,0]))])),shortageReasons:[]}]));
  const scope=st=>st?.access==='public'&&st.ownerId==='person:master'?'public':['merchant','private'].includes(st?.access)&&st.ownerId==='person:merchant-qingxi'?'merchant':st?.access==='private'&&st.ownerId==='person:master'?'personal':null;
  const add=(id,key,field,quantity)=>{if(id&&groups[id]?.amounts[key]&&Number.isFinite(quantity)&&quantity>0)groups[id].amounts[key][field]+=quantity;};
@@ -813,15 +1034,17 @@ export function viewInventorySummary(s){
    const r=s.reservationsById?.[w.reservationId],id=scope(s.stockpilesById?.[`stockpile:${w.targetId}`])||'public';
    for(const[k,v]of Object.entries(r?.cost||{}))add(id,k,'reserved',r.remainingCost?.[k]??v*Math.max(0,1-w.progressTicks/w.durationTicks));
   }
-  if(w.kind==='sr-crafting'&&w.phase==='active')for(const[k,v]of Object.entries(w.cost||{}))add(scope(s.stockpilesById[w.sourceStockpileIds[k]]),k,'reserved',v*Math.max(0,1-w.progressTicks/w.durationTicks));
+  if(['sr-site-service','sr-site-meal','sr-meditation-maintenance'].includes(w.kind))for(const[k,v]of Object.entries(s.reservationsById?.[w.reservationId]?.remainingCost||{}))add(scope(s.stockpilesById[w.sourceStockpileId]),k,'reserved',v);
+  if(w.kind==='sr-crafting'&&w.phase==='active')for(const[k,v]of Object.entries(w.cost||{}))add(scope(s.stockpilesById[w.sourceStockpileIds[k]]),k,'reserved',craftRefundPreview(s,w).refundable[k]);
  }
  for(const o of Object.values(s.srEconomy?.orders||{}))if(o.version!=='market-order:v2'&&o.phase==='accepted')for(const[k,v]of Object.entries(o.cargo||{}))add(scope(s.stockpilesById[o.sourceStockpileId||'stockpile:yunxiu']),k,'reserved',v);
+ for(const order of Object.values(s.srCultivation?.orders||{}))if(order.breakthroughVersion==='breakthrough:yunxiu:v1'&&order.kind==='breakthrough'&&!['completed','cancelled'].includes(order.phase)&&!order.consumed)for(const[k,v]of Object.entries(order.cost))add(scope(s.stockpilesById[order.sourceStockpileId]),k,'reserved',v);
  for(const a of Object.values(s.srEconomy?.pillAllocations||{}))if(a.phase==='reserved')for(const p of a.parts||[])add(scope(s.stockpilesById[p.stockpileId]),`pill:${a.recipeId}`,'reserved',p.quantity);
  for(const a of Object.values(s.activitiesById||{}))if(a.kind==='sr-replenish')for(const[k,v]of Object.entries(s.reservationsById?.[a.reservationId]?.cost||{}))add('public',k,'reserved',v*Math.max(0,1-a.progressTicks/a.durationTicks));
  for(const b of Object.values(s.buildingsById||{})){
   const st=s.stockpilesById?.[`stockpile:${b.instanceId}`],order=s.workOrdersById?.[`work:production:${b.instanceId}`];
   if(!BUILDINGS[b.type]?.work||b.enabled===false||b.condition<=0||b.constructionWorkOrderId||!st||scope(st)!=='public'||order&&order.phase!=='completed')continue;
-  const need=b.type==='farm'?FARM_CROP_RECIPE.seedCost:productionRecipeDefinition(PRODUCTION_RECIPE_VERSION,b.type)?.inputCost||{};
+  const need=cropRecipeFor(b)?.seedCost||productionRecipeDefinition(PRODUCTION_RECIPE_VERSION,b.type)?.inputCost||{};
   for(const[k,v]of Object.entries(need)){const missing=Math.max(0,v-(st.resources?.[k]||0));if(missing){add('public',k,'shortage',missing);groups.public.shortageReasons.push({targetId:b.instanceId,targetName:BUILDINGS[b.type].name,resource:k,quantity:missing,reason:'下一批需先将材料实际搬到工位。'});}}
  }
  return Object.values(groups).map(g=>({...g,amounts:Object.fromEntries(Object.entries(g.amounts).map(([k,a])=>[k,{...a,total:a.available+a.reserved+a.inTransit}]))}));
@@ -830,11 +1053,11 @@ function marketOrderPreviewV2(s,id){if(id!==ORDER_V2_ID)return null;const prior=
 function viewMarketSupply(s){
  if(s.contentVersion!=='sr-content-v1.2')return null;
  const e=s.srEconomy,ms=e.marketSupply,source=stock(s,MARKET_SUPPLIER_STOCK),active=ms.activeRunId&&ms.runs[ms.activeRunId];
- const reserved=Object.fromEntries(MARKET_SOURCE_GOODS.map(k=>[k,0])),inTransit={...reserved};
+ const reserved=Object.fromEntries(marketSourceGoods(s).map(k=>[k,0])),inTransit={...reserved};
  for(const run of Object.values(ms.runs))if(run.phase!=='completed')for(const[k,q]of Object.entries(run.cargo)){const field=run.phase==='quoted'?'reserved':'inTransit';(field==='reserved'?reserved:inTransit)[k]+=q;}
  return {sourceId:source.id,sourceSceneId:'scene:supply',source:copy(source.resources),insightBudget:e.marketInsightSource.balance,reserved,inTransit,shop:copy(stock(s,'stockpile:qingxi').resources),nextQuoteTick:e.nextMarketSourceQuoteTick,carrierName:s.personsById[MARKET_CARRIER].name,clerkName:s.personsById[MARKET_SUPPLIER].name,active:active?{id:active.id,phase:active.phase,reason:active.reason,cargo:copy(active.cargo),travelId:active.travelId||null}:null,queued:ms.queue.length,reason:ms.lastReason||(!marketRouteOpen(s)?marketSupplyReason(s):null),localFoodRemaining:e.patches.food.remaining};
 }
-export function viewEconomy(s){if(!s.srEconomy)return {enabled:false};return {enabled:true,inventorySummary:viewInventorySummary(s),constructionMaterials:viewConstructionMaterials(s),definition:ECONOMY_DEFINITION,pillAccess:Object.entries(RECIPES).map(([id,r])=>({recipeId:id,name:r.name,available:availablePills(s,'person:master',id),total:s.pills[id],reason:availablePills(s,'person:master',id)>0?'本人身边有合法可达药物。':'须实际取药或携到当前地点。'})),craft:Object.values(s.workOrdersById).find(w=>w.kind==='sr-crafting'&&w.phase==='active')?copy(Object.values(s.workOrdersById).find(w=>w.kind==='sr-crafting'&&w.phase==='active')):null,craftRecipes:Object.entries(RECIPES).map(([id,r])=>({id,name:r.name,...craftAvailabilitySR(s,id)})),giftRecipients:Object.values(s.stockpilesById).filter(st=>st.access==='private'&&!marketSupplyStockpile(st.id)&&st.ownerId!=='person:master'&&s.personsById[st.ownerId]&&s.personsById[st.ownerId].lifeStatus!=='dead'&&position(s,st)?.sceneId===personScene(s,s.master)&&(s.homeMemberIds.includes(st.ownerId)||s.personsById[st.ownerId].visibility!=='author-private')).map(st=>({stockpileId:st.id,personId:st.ownerId,name:s.personsById[st.ownerId].name,position:copy(position(s,st))})),stockpiles:Object.values(s.stockpilesById).filter(st=>st.access!=='private'||st.ownerId==='person:master').map(st=>({id:st.id,label:st.label||ORDER_V2_STOCK_LABELS[st.id]||(st.buildingId?BUILDINGS[s.buildingsById[st.buildingId]?.type]?.name||st.id:st.id),orderReserved:orderV2ReserveLocked(s,st.id),resources:copy(st.resources),pills:copy(st.pills||pillZeros()),ownerId:st.legalOwnerId||st.ownerId,access:st.access,capacity:st.capacity,position:copy(position(s,st))})),merchantCollections:Object.values(s.workOrdersById).filter(w=>w.kind==='sr-merchant-collection').map(copy),transports:Object.values(s.workOrdersById).filter(w=>w.kind==='transport').map(copy),patches:copy(s.srEconomy.patches),market:{goods:copy(GOODS),supply:viewMarketSupply(s),wholesale:{definition:WHOLESALE_DEFINITION,lastKnownPayments:s.srEconomy.wholesale.spentLifetime,rule:'只在商人实际回到坊市后，以已收购材料/器物向有限客户交付取得付款；无货不补本金。'},orders:Object.entries(ORDER_DEFINITIONS).map(([id,d])=>({id,...copy(d),state:copy(s.srEconomy.orders[id]||{phase:'available'}),quoteV2:marketOrderPreviewV2(s,id)})),routeOpen:marketRouteOpen(s),merchantPresent:merchantPresent(s),arrivalTick:s.srEconomy.merchantArrivalTick,departureTick:s.srEconomy.merchantVisitEndsTick},ledger:Object.values(s.factsById).filter(f=>f.kind==='inventory-transaction').slice(-20).map(copy)};}
+export function viewEconomy(s){if(!s.srEconomy)return {enabled:false};return {enabled:true,inventorySummary:viewInventorySummary(s),constructionMaterials:viewConstructionMaterials(s),definition:ECONOMY_DEFINITION,pillAccess:Object.entries(RECIPES).map(([id,r])=>({recipeId:id,name:r.name,available:availablePills(s,'person:master',id),total:s.pills[id],reason:availablePills(s,'person:master',id)>0?'本人身边有合法可达药物。':'须实际取药或携到当前地点。'})),craft:Object.values(s.workOrdersById).find(w=>w.kind==='sr-crafting'&&w.phase==='active')?copy(Object.values(s.workOrdersById).find(w=>w.kind==='sr-crafting'&&w.phase==='active')):null,craftRecipes:Object.entries(RECIPES).map(([id,r])=>({id,name:r.name,...craftAvailabilitySR(s,id)})),giftRecipients:Object.values(s.stockpilesById).filter(st=>st.access==='private'&&!marketSupplyStockpile(st.id)&&st.ownerId!=='person:master'&&s.personsById[st.ownerId]&&s.personsById[st.ownerId].lifeStatus!=='dead'&&position(s,st)?.sceneId===personScene(s,s.master)&&(s.homeMemberIds.includes(st.ownerId)||s.personsById[st.ownerId].visibility!=='author-private')).map(st=>({stockpileId:st.id,personId:st.ownerId,name:s.personsById[st.ownerId].name,position:copy(position(s,st))})),stockpiles:Object.values(s.stockpilesById).filter(st=>st.access!=='private'||st.ownerId==='person:master').map(st=>({id:st.id,label:st.label||ORDER_V2_STOCK_LABELS[st.id]||(st.buildingId?BUILDINGS[s.buildingsById[st.buildingId]?.type]?.name||st.id:st.id),orderReserved:orderV2ReserveLocked(s,st.id),resources:copy(st.resources),pills:copy(st.pills||pillZeros()),ownerId:st.legalOwnerId||st.ownerId,access:st.access,capacity:st.capacity,position:copy(position(s,st))})),merchantCollections:Object.values(s.workOrdersById).filter(w=>w.kind==='sr-merchant-collection').map(copy),transports:Object.values(s.workOrdersById).filter(w=>w.kind==='transport').map(copy),patches:copy(s.srEconomy.patches),market:{goods:copy(marketGoods(s)),supply:viewMarketSupply(s),wholesale:{definition:WHOLESALE_DEFINITION,lastKnownPayments:s.srEconomy.wholesale.spentLifetime,rule:'只在商人实际回到坊市后，以已收购材料/器物向有限客户交付取得付款；无货不补本金。'},orders:Object.entries(ORDER_DEFINITIONS).map(([id,d])=>({id,...copy(d),state:copy(s.srEconomy.orders[id]||{phase:'available'}),quoteV2:marketOrderPreviewV2(s,id)})),routeOpen:marketRouteOpen(s),merchantPresent:merchantPresent(s),arrivalTick:s.srEconomy.merchantArrivalTick,departureTick:s.srEconomy.merchantVisitEndsTick},ledger:Object.values(s.factsById).filter(f=>f.kind==='inventory-transaction').slice(-20).map(copy)};}
 function validateMarketOrderV2(s,id,o){
  const q=o.quote,active=!['completed','cancelled','declined'].includes(o.phase);
  if(id!==ORDER_V2_ID||o.id!==id||q?.version!==ORDER_V2||q.priceVersion!=='artisan-tools:home-market:v1'||q.orderId!==id||q.sellerId!=='person:master'||q.buyerId!=='person:merchant-qingxi'||q.carrierId!=='person:master'||q.sourceStockpileId!==ORDER_V2_SOURCE||q.deliveryCostStockpileId!==ORDER_V2_SOURCE||q.targetStockpileId!==ORDER_V2_DESTINATION||JSON.stringify(q.cargo)!==JSON.stringify(ORDER_DEFINITIONS[id].cost)||q.payment?.jade!==30||q.reputation!==2||q.foodCost!==2||JSON.stringify(q.routeIds)!==JSON.stringify(['route:home-valley','route:valley-market'])||!Array.isArray(q.routeFoodBySegment)||q.routeFoodBySegment.length!==2||q.routeFoodBySegment.some(v=>!Number.isSafeInteger(v)||v<0)||q.routeFoodBySegment.reduce((n,v)=>n+v,0)!==q.foodCost||!['accepted','in_transit','blocked','delivered','completed','declined','cancelled'].includes(o.phase))fail('跨场景商单报价或阶段异常。');
@@ -886,7 +1109,7 @@ function validateMarketOrderV2(s,id,o){
 function validateProductionAccounting(s){
  for(const [factId,fact]of Object.entries(s.factsById)){
   if(fact.operation!=='production'||fact.accountingVersion===undefined)continue;
-  const recipe=fact.recipeVersion===FARM_CROP_RECIPE.recipeVersion&&fact.buildingType==='farm'?{outputDefinition:FARM_CROP_RECIPE.output}:productionRecipeDefinition(fact.recipeVersion,fact.buildingType);
+  const crop=cropRecipeByVersion(fact.buildingType,fact.recipeVersion),recipe=crop?{outputDefinition:crop.output}:productionRecipeDefinition(fact.recipeVersion,fact.buildingType);
   const amounts=map=>map&&typeof map==='object'&&!Array.isArray(map)&&Object.entries(map).every(([key,value])=>RESOURCES[key]&&Number.isFinite(value)&&value>0);
   if(fact.id!==factId||fact.accountingVersion!==RESOURCE_ACCOUNTING_VERSION||fact.kind!=='inventory-transaction'||!recipe||!sameFields(fact.recipeOutputDefinition,recipe.outputDefinition)||!amounts(fact.grossOutput)||!Object.keys(fact.grossOutput).length||!amounts(fact.quantities)||!Object.entries(fact.grossOutput).every(([key,value])=>Object.hasOwn(recipe.outputDefinition,key)&&canonicalProductionAmount(value))||!Array.isArray(fact.participantIds)||!fact.participantIds.length||new Set(fact.participantIds).size!==fact.participantIds.length||!fact.participantIds.every(id=>s.personsById[id])||!Array.isArray(fact.wages)||new Set(fact.wages.map(w=>w.personId)).size!==fact.wages.length||!fact.wages.every(w=>fact.participantIds.includes(w.personId)&&Number.isFinite(w.quantity)&&w.quantity>0)||!Number.isFinite(fact.wagesFromPublic)||fact.wagesFromPublic<0||!Number.isFinite(fact.wagesFromProceeds)||fact.wagesFromProceeds<0||addAmounts(fact.wagesFromPublic,fact.wagesFromProceeds)!==addAmounts(...fact.wages.map(w=>w.quantity)))fail('生产结算分录或配方异常。');
   for(const key of new Set([...Object.keys(fact.grossOutput),...Object.keys(fact.quantities)]))if(addAmounts(fact.quantities[key]||0,key==='jade'?fact.wagesFromProceeds:0)!==(fact.grossOutput[key]||0))fail('生产毛产出、净入库与工资不守恒。');
@@ -907,6 +1130,16 @@ function validateTransportAccounting(s){
  }
 }
 function validateStockpile(s,st){
+ if(s.factsById[`fact:storage-services:${st.id}`]&&st.storageVersion!==WAREHOUSE_SERVICE_STORAGE.version)fail('生活物资划库事实与当前版本不符。');
+ if(s.buildingsById[st.buildingId]?.type==='warehouse'&&st.id===`stockpile:${st.buildingId}`&&st.storageVersion===undefined)fail('储运院库存缺少容量版本。');
+ if(st.storageVersion!==undefined){
+  const b=s.buildingsById[st.buildingId];
+  if(!warehouseStorageDefinition(st)||!Number.isSafeInteger(st.storageLevel)||st.storageLevel<1||st.storageLevel>BUILDINGS.warehouse.max||b&&(b.type!=='warehouse'||b.level!==st.storageLevel)||st.capacity!==BUILDINGS.warehouse.storageCapacity*st.storageLevel||total(st)>st.capacity+1e-8)fail('储运院容量配置或存量异常。');
+  if(st.storageVersion===WAREHOUSE_SERVICE_STORAGE.version){const fact=s.factsById[st.storageUpgradeFactId];if(!serviceResourcesEnabled(s)||st.storageUpgradeFactId!==`fact:storage-services:${st.id}`||fact?.kind!=='warehouse-service-layout'||fact.id!==st.storageUpgradeFactId||fact.version!==st.storageVersion||fact.stockpileId!==st.id||!Number.isSafeInteger(fact.atTick)||fact.atTick<s.serviceResources.enabledAtTick||fact.atTick>s.worldTick)fail('生活物资库位版本或事实异常。');}
+  else if(st.storageUpgradeFactId!==undefined||Object.entries(st.resources).some(([key,q])=>Object.hasOwn(SERVICE_RESOURCES,key)&&q>0))fail('原公库尚未启用生活物资库位。');
+  const view=stockStorageView(s,st);if(addAmounts(view.used,view.reserved)>view.capacity||view.categories.some(c=>addAmounts(c.used,c.reserved)>c.capacity))fail('储运院分类库位或预约超量。');
+ }
+ if(siteServiceEnabled(s.buildingsById[st.buildingId])&&st.id===`stockpile:${st.buildingId}`){const view=stockStorageView(s,st);if(st.capacity!==320||addAmounts(view.used,view.reserved)>view.capacity+1e-8)fail('服务设施库存或预约超量。');}
  if(!Number.isFinite(st.capacity)||st.capacity<0||!st.position||!Object.values(st.resources).every(v=>Number.isFinite(v)&&v>=0))fail('仓储位置、容量或数量异常：'+st.id);
  if(typeof st.ownerId!=='string'||![s.personsById,s.organizationsById,s.factionsById].some(table=>table&&Object.hasOwn(table,st.ownerId)))fail('仓储所有者引用异常：'+st.id);
  if(typeof st.custodianId!=='string'||!s.personsById[st.custodianId])fail('仓储保管者引用异常：'+st.id);
@@ -934,11 +1167,12 @@ function validateMarketSupply(s){
  const active=ms.activeRunId,queued=new Set(ms.queue);
  if(queued.size!==ms.queue.length||active!==null&&!ms.runs[active]||active!==null&&queued.has(active)||ms.queue.some(id=>ms.runs[id]?.phase!=='quoted'))fail('供货队列或活跃批次异常。');
  const expectedInternalIds=new Set([source.id,wallet.id,toll.id]);
- const sourceBalance=Object.fromEntries(MARKET_SOURCE_GOODS.map(k=>[k,source.resources[k]]));
+ const sourceGoods=marketSourceGoods(s),sourceBalance=Object.fromEntries(sourceGoods.map(k=>[k,source.resources[k]||0]));
  let paidGoods=0,paidToll=0;
  for(const [id,r] of Object.entries(ms.runs)){
   const reserve=s.stockpilesById[r.sourceReserveId],fund=s.stockpilesById[r.fundStockpileId],cargo=r.cargoStockpileId&&s.stockpilesById[r.cargoStockpileId],completed=r.phase==='completed';
-  if(r.id!==id||r.carrierId!==MARKET_CARRIER||!['quoted','outbound','at-source','purchased','returning','awaiting-delivery','completed','blocked'].includes(r.phase)||!Number.isSafeInteger(r.quotedTick)||r.quotedTick>s.worldTick||!Number.isSafeInteger(r.quantity)||r.quantity<1||r.quantity>40||!nonnegative(r.price)||!nonnegative(r.paidGoodsJade)||!nonnegative(r.paidTollJade)||!Number.isSafeInteger(r.consumedFood)||r.consumedFood<0||r.consumedFood>6||!reserve||!fund||reserve.ownerId!==MARKET_SUPPLIER||fund.ownerId!=='person:merchant-qingxi'||Object.entries(r.cargo||{}).some(([k,q])=>!MARKET_SOURCE_GOODS.includes(k)||!Number.isSafeInteger(q)||q<1)||Object.values(r.cargo).reduce((a,b)=>a+b,0)!==r.quantity||Math.abs(Object.entries(r.cargo).reduce((n,[k,q])=>n+q*GOODS[k].sell/10,0)-r.price)>1e-9||!s.factsById[`fact:supply-quote:${id}`])fail('供货报价或货位异常。');
+  if(r.id!==id||r.carrierId!==MARKET_CARRIER||!['quoted','outbound','at-source','purchased','returning','awaiting-delivery','completed','blocked'].includes(r.phase)||!Number.isSafeInteger(r.quotedTick)||r.quotedTick>s.worldTick||!Number.isSafeInteger(r.quantity)||r.quantity<1||r.quantity>40||!nonnegative(r.price)||!nonnegative(r.paidGoodsJade)||!nonnegative(r.paidTollJade)||!Number.isSafeInteger(r.consumedFood)||r.consumedFood<0||r.consumedFood>6||!reserve||!fund||reserve.ownerId!==MARKET_SUPPLIER||fund.ownerId!=='person:merchant-qingxi'||Object.entries(r.cargo||{}).some(([k,q])=>!sourceGoods.includes(k)||!Number.isSafeInteger(q)||q<1)||Object.values(r.cargo).reduce((a,b)=>a+b,0)!==r.quantity||Math.abs(Object.entries(r.cargo).reduce((n,[k,q])=>n+q*marketGoods(s)[k].sell/10,0)-r.price)>1e-9||!s.factsById[`fact:supply-quote:${id}`])fail('供货报价或货位异常。');
+  if(r.cargo.cleanWater&&r.quotedTick<s.srEconomy.serviceTrade.enabledAtTick)fail('洁水供货早于来源登记。');
   const purchased=['purchased','returning','awaiting-delivery','completed'].includes(r.phase);
   const actualCargo=purchased?cargo:reserve,expectedCustodian=completed?'person:merchant-qingxi':purchased?MARKET_CARRIER:MARKET_SUPPLIER;
   expectedInternalIds.add(r.sourceReserveId);expectedInternalIds.add(r.fundStockpileId);if(purchased)expectedInternalIds.add(r.cargoStockpileId);
@@ -948,7 +1182,7 @@ function validateMarketSupply(s){
   if(r.cargoOwnerId!==actualCargo?.ownerId||r.cargoCustodianId!==expectedCustodian||JSON.stringify(r.cargoPosition)!==JSON.stringify(actualCargo?.position)||actualCargo?.custodianId!==expectedCustodian||reserve.access!=='private'||fund.access!=='private'||cargo&&cargo.access!=='private')fail('补货货位产权、保管或位置异常。');
   if(purchased!==!!cargo||r.paidGoodsJade!==(cargo?r.price:0)||![0,2].includes(r.paidTollJade)||!completed&&(r.consumedFood+fund.resources.food!==6||Math.abs(fund.resources.jade-(r.price+2-r.paidGoodsJade-r.paidTollJade))>1e-9)||completed&&(fund.resources.food!==0||fund.resources.jade!==0)||completed!==!!s.factsById[`fact:supply-delivery:${id}`]||completed&&r.settlementFactId!==`fact:supply-delivery:${id}`)fail('供货付款、货物或交付事实异常。');
   for(const[k,q]of Object.entries(r.cargo))if(reserve.resources[k]!== (purchased?0:q)||cargo&&cargo.resources[k]!== (completed?0:q))fail('供货批次预约或承运实物异常。');
-  for(const k of MARKET_SOURCE_GOODS)sourceBalance[k]+=(completed?r.cargo[k]||0:purchased?cargo.resources[k]:reserve.resources[k]);
+  for(const k of sourceGoods)sourceBalance[k]+=(completed?r.cargo[k]||0:purchased?cargo.resources[k]||0:reserve.resources[k]||0);
   if(Object.entries(reserve.resources).some(([k,q])=>q!==(purchased?0:r.cargo[k]||0))||cargo&&Object.entries(cargo.resources).some(([k,q])=>q!==(completed?0:r.cargo[k]||0))||Object.entries(fund.resources).some(([k,q])=>!['jade','food'].includes(k)&&q!==0))fail('供货专用货位出现未登记物资。');
   const quote=fact(`fact:supply-quote:${id}`,{operation:'supplier-quote',sourceStockpileId:source.id,sourceReserveId:reserve.id,fundStockpileId:fund.id,cargo:r.cargo,goodsPrice:r.price,tollLimit:2,foodReserved:6});
   if(quote.atTick!==r.quotedTick)fail('供货报价时刻异常。');
@@ -969,7 +1203,7 @@ function validateMarketSupply(s){
   if(['outbound','returning'].includes(r.phase)){const t=s.travelsById[r.travelId],direction=r.phase==='outbound'?'out':'back',routeIds=direction==='out'?MARKET_SUPPLY_OUT:MARKET_SUPPLY_BACK;if(!t||t.id!==`travel:${id}:${direction}`||t.kind!=='market-supply-travel'||t.participantIds?.[0]!==MARKET_CARRIER||!['traveling','blocked'].includes(t.status)||JSON.stringify(t.routeIds)!==JSON.stringify(routeIds)||t.durationTicks!==300||!nonnegative(t.progressTicks)||t.progressTicks>300||fund.position?.travelId!==t.id||cargo&&cargo.position?.travelId!==t.id||!Number.isSafeInteger(t.segmentIndex)||t.segmentIndex<0||t.segmentIndex>2||!nonnegative(t.segmentWork)||t.segmentWork>=MARKET_ROUTE_TICKS[t.routeIds[t.segmentIndex]]||s.personsById[MARKET_CARRIER].position?.travelId!==t.id)fail('补货实体旅程异常。');}
   if(!completed&&!queued.has(id)&&active!==id)fail('未完成供货批次失去承运引用。');
  }
- if(Object.keys(s.stockpilesById).filter(marketSupplyStockpile).some(id=>!expectedInternalIds.has(id))||MARKET_SOURCE_GOODS.some(k=>Math.abs(sourceBalance[k]-migration.oldRemaining[k])>1e-9)||Object.entries(source.resources).some(([k,q])=>!MARKET_SOURCE_GOODS.includes(k)&&q!==0))fail('供货迁移余额与实体来源不守恒。');
+ if(Object.keys(s.stockpilesById).filter(marketSupplyStockpile).some(id=>!expectedInternalIds.has(id))||sourceGoods.some(k=>Math.abs(sourceBalance[k]-(k==='cleanWater'?SERVICE_WATER_SOURCE.quantity:migration.oldRemaining[k]))>1e-9)||Object.entries(source.resources).some(([k,q])=>!sourceGoods.includes(k)&&q!==0))fail('供货迁移余额与实体来源不守恒。');
  let insightPaid=0,insightDelivered=0;
  for(const [id,record] of Object.entries(s.factsById).filter(([id])=>id.startsWith('fact:supply-insight:'))){
   if(!Number.isFinite(record.quantity)||record.quantity<=0||!Number.isFinite(record.payment)||record.payment<=0)fail('供货研学预算数量异常。');
@@ -978,5 +1212,5 @@ function validateMarketSupply(s){
  }
  if(Math.abs(e.marketInsightSource.balance+insightDelivered-migration.oldRemaining.insight)>1e-9||Math.abs(wallet.resources.jade-paidGoods-insightPaid)>1e-9||Math.abs(toll.resources.jade-paidToll)>1e-9||Object.entries(wallet.resources).some(([k,q])=>k!=='jade'&&q!==0)||Object.entries(toll.resources).some(([k,q])=>k!=='jade'&&q!==0))fail('供货价款、关口费或研学预算不守恒。');
 }
-export function validateEconomy(s){if(!s.srEconomy)return true;const e=s.srEconomy;validateMarketSupply(s);validateProductionAccounting(s);validateTransportAccounting(s);if(e.version!=='economy:yunxiu:v1'||!Number.isSafeInteger(e.nextId)||e.nextId<1||e.updatedThroughTick>s.worldTick)fail('经济版本/游标异常。');if(!e.wholesale||e.wholesale.windowSpent<0||e.wholesale.windowSpent>WHOLESALE_DEFINITION.periodBudget+1e-9||e.wholesale.spentLifetime>WHOLESALE_DEFINITION.lifetimeTreasury+1e-9||!Object.entries(e.resaleInventory).every(([k,v])=>RESOURCES[k]&&Number.isFinite(v)&&v>=-1e-9))fail('批发库存/周期预算异常。');if(e.pillInventoryVersion){if(e.pillInventoryVersion!=='positioned-pills:v1'||!s.factsById['fact:pill-stock-migration:v1'])fail('药物位置迁移标记或事实异常。');for(const st of Object.values(s.stockpilesById))if(st.pills&&(Object.keys(st.pills).length!==Object.keys(RECIPES).length||!Object.entries(st.pills).every(([id,q])=>RECIPES[id]&&Number.isSafeInteger(q)&&q>=0)))fail('实际药库计数异常：'+st.id);for(const[id,a]of Object.entries(e.pillAllocations)){if(a.id!==id||!s.personsById[a.personId]||!RECIPES[a.recipeId]||!Number.isSafeInteger(a.quantity)||a.quantity<1||!['reserved','consumed','refunded'].includes(a.phase)||!Array.isArray(a.parts)||new Set(a.parts.map(p=>p.stockpileId)).size!==a.parts.length||!a.parts.every(p=>s.stockpilesById[p.stockpileId]&&Number.isSafeInteger(p.quantity)&&p.quantity>0)||a.parts.reduce((n,p)=>n+p.quantity,0)!==a.quantity)fail('药物预约引用或数量异常。');if(a.phase==='consumed'&&!s.factsById[`fact:pill-consume:${id}`]||a.phase==='refunded'&&!s.factsById[`fact:pill-refund:${id}`])fail('药物消费或退款事实缺失。');}}for(const p of Object.values(e.patches))if(!Number.isFinite(p.remaining)||p.remaining<0||p.remaining>p.max)fail('有限资源来源异常。');for(const a of Object.values(s.activitiesById||{}))if(a.kind==='sr-harvest'&&a.reservedQuantity!==undefined&&a.reservedQuantity!==HARVEST_BATCH[a.resource])fail('采集整批预约数量异常。');for(const st of Object.values(s.stockpilesById))validateStockpile(s,st);for(const w of Object.values(s.workOrdersById))if(w.kind==='transport'){if(!s.personsById[w.carrierId]||!s.stockpilesById[w.sourceStockpileId]||!s.stockpilesById[w.targetStockpileId]||!['to-source','carrying','delivered','cancelled'].includes(w.phase)||!Object.entries(w.cargo).every(([k,v])=>legalCargoKey(k)&&v>0&&Number.isFinite(v)&&(!pillId(k)||Number.isSafeInteger(v))))fail('运输引用或状态异常。');const r=s.reservationsById[w.reservationId];if(['delivered','cancelled'].includes(w.phase)?!!r:!r||JSON.stringify(r.cost)!==JSON.stringify(w.cargo))fail('运输物资预约异常。');}for(const w of Object.values(s.workOrdersById))if(w.kind==='sr-merchant-collection'){if(!s.personsById[w.carrierId]||!s.buildingsById[w.targetId]||!s.stockpilesById[w.sourceStockpileId]||['to-source','waiting-for-goods'].includes(w.phase)&&!s.workOrdersById[w.productionWorkOrderId]||!['to-source','waiting-for-goods','carrying','delivered','cancelled','interrupted'].includes(w.phase)||!Number.isFinite(w.expectedPayment)||w.expectedPayment<0)fail('商人取货约定引用或阶段异常。');const a=s.activitiesById[w.activityId];if(['to-source','waiting-for-goods','carrying'].includes(w.phase)){if(a?.kind!=='sr-merchant-collection'||a.workOrderId!==w.id||s.personsById[w.carrierId].activityId!==a.id)fail('商人取货身体所有权异常。');}else if(a)fail('商人结束取货未清理身体活动。');if(['carrying','delivered','interrupted'].includes(w.phase)&&(!Number.isFinite(w.actualPayment)||!s.factsById[w.productionFactId]||!e.commonGoods.some(g=>g.id===`common-good:${w.targetId}:${w.productionBatch}`)))fail('已付款器物或实际付款事实缺失。');}for(const[id,o]of Object.entries(e.orders)){if(o.version===ORDER_V2){validateMarketOrderV2(s,id,o);continue;}if(!ORDER_DEFINITIONS[id]||!['accepted','completed','declined'].includes(o.phase))fail('商单异常。');if(o.phase==='completed'&&!s.factsById[o.resultTransactionId])fail('商单结算事实缺失。');}for(const w of Object.values(s.workOrdersById))if(w.kind==='sr-crafting'){validatePillRecipeSnapshot(s,w);if(!RECIPES[w.recipeId]||!s.personsById[w.personId]||!s.buildingsById[w.targetId]||!['active','completed','cancelled','interrupted'].includes(w.phase)||!Number.isSafeInteger(w.durationTicks)||w.durationTicks<1||!Number.isSafeInteger(w.progressTicks)||w.progressTicks<0||w.progressTicks>w.durationTicks||!Number.isSafeInteger(w.yield)||w.yield<1||!Object.entries(w.cost).every(([k,v])=>RESOURCES[k]&&Number.isFinite(v)&&v>=0&&s.stockpilesById[w.sourceStockpileIds[k]]))fail('丹炉批次引用、成本或进度异常。');if(w.phase==='active'){const a=s.activitiesById[w.activityId],r=s.reservationsById[w.reservationId],slot=s.reservationsById[w.slotReservationId];if(a?.kind!=='sr-craft'||a.workOrderId!==w.id||s.master.activityId!==a.id||r?.kind!=='sr-craft-material'||JSON.stringify(r.cost)!==JSON.stringify(w.cost)||slot?.kind!=='sr-slot'||slot.activityId!==a.id||slot.slotId!==a.slotId)fail('丹炉材料/工位预约异常。');}else if(s.reservationsById[w.reservationId]||s.reservationsById[w.slotReservationId]||s.activitiesById[w.activityId]||w.phase==='completed'&&(!validCompletedPillFact(s,w)||w.progressTicks!==w.durationTicks)||w.phase==='cancelled'&&!validCancelledPillFact(s,w))fail('已结束丹炉批次清理或产物事实异常。');}for(const a of Object.values(s.activitiesById))if(a.kind==='sr-replenish'&&(!e.patches[a.resource]||!Number.isSafeInteger(a.progressTicks)||a.progressTicks<0||a.progressTicks>=a.durationTicks||a.durationTicks!==ECONOMY_DEFINITION.replenishTicks||s.master.activityId!==a.id||s.reservationsById[a.reservationId]?.activityId!==a.id))fail('来源恢复事务异常。');return true;}
-export const economyHandlers={preparePillUse,craftSR,cancelCraftSR,cancelMerchantCollection,startMasterHarvest,cancelMasterHarvest,startTransport,cancelTransport,transferProperty,replenishPatch,cancelReplenish,marketTrade,marketOrder};
+export function validateEconomy(s){if(!s.srEconomy)return true;validateServiceStockBindings(s);const e=s.srEconomy;validateServiceTrade(s);validateMarketSupply(s);validateProductionAccounting(s);validateTransportAccounting(s);if(e.version!=='economy:yunxiu:v1'||!Number.isSafeInteger(e.nextId)||e.nextId<1||e.updatedThroughTick>s.worldTick)fail('经济版本/游标异常。');if(!e.wholesale||e.wholesale.windowSpent<0||e.wholesale.windowSpent>WHOLESALE_DEFINITION.periodBudget+1e-9||e.wholesale.spentLifetime>WHOLESALE_DEFINITION.lifetimeTreasury+1e-9||!Object.entries(e.resaleInventory).every(([k,v])=>(Object.hasOwn(RESOURCES,k)||Object.hasOwn(marketGoods(s),k))&&Number.isFinite(v)&&v>=-1e-9))fail('批发库存/周期预算异常。');if(e.pillInventoryVersion){if(e.pillInventoryVersion!=='positioned-pills:v1'||!s.factsById['fact:pill-stock-migration:v1'])fail('药物位置迁移标记或事实异常。');for(const st of Object.values(s.stockpilesById))if(st.pills&&(Object.keys(st.pills).length!==Object.keys(RECIPES).length||!Object.entries(st.pills).every(([id,q])=>RECIPES[id]&&Number.isSafeInteger(q)&&q>=0)))fail('实际药库计数异常：'+st.id);for(const[id,a]of Object.entries(e.pillAllocations)){if(a.id!==id||!s.personsById[a.personId]||!RECIPES[a.recipeId]||!Number.isSafeInteger(a.quantity)||a.quantity<1||!['reserved','consumed','refunded'].includes(a.phase)||!Array.isArray(a.parts)||new Set(a.parts.map(p=>p.stockpileId)).size!==a.parts.length||!a.parts.every(p=>s.stockpilesById[p.stockpileId]&&Number.isSafeInteger(p.quantity)&&p.quantity>0)||a.parts.reduce((n,p)=>n+p.quantity,0)!==a.quantity)fail('药物预约引用或数量异常。');if(a.phase==='consumed'&&!s.factsById[`fact:pill-consume:${id}`]||a.phase==='refunded'&&!s.factsById[`fact:pill-refund:${id}`])fail('药物消费或退款事实缺失。');}}for(const p of Object.values(e.patches))if(!Number.isFinite(p.remaining)||p.remaining<0||p.remaining>p.max)fail('有限资源来源异常。');for(const a of Object.values(s.activitiesById||{}))if(a.kind==='sr-harvest'&&a.reservedQuantity!==undefined&&a.reservedQuantity!==HARVEST_BATCH[a.resource])fail('采集整批预约数量异常。');for(const st of Object.values(s.stockpilesById))validateStockpile(s,st);for(const w of Object.values(s.workOrdersById))if(w.kind==='transport'){if(!s.personsById[w.carrierId]||!s.stockpilesById[w.sourceStockpileId]||!s.stockpilesById[w.targetStockpileId]||!['to-source','carrying','delivered','cancelled'].includes(w.phase)||!Object.entries(w.cargo).every(([k,v])=>legalCargoKey(s,k)&&v>0&&Number.isFinite(v)&&(!pillId(k)||Number.isSafeInteger(v))))fail('运输引用或状态异常。');const r=s.reservationsById[w.reservationId];if(['delivered','cancelled'].includes(w.phase)?!!r:!r||JSON.stringify(r.cost)!==JSON.stringify(w.cargo))fail('运输物资预约异常。');}for(const w of Object.values(s.workOrdersById))if(w.kind==='sr-merchant-collection'){if(!s.personsById[w.carrierId]||!s.buildingsById[w.targetId]||!s.stockpilesById[w.sourceStockpileId]||['to-source','waiting-for-goods'].includes(w.phase)&&!s.workOrdersById[w.productionWorkOrderId]||!['to-source','waiting-for-goods','carrying','delivered','cancelled','interrupted'].includes(w.phase)||!Number.isFinite(w.expectedPayment)||w.expectedPayment<0)fail('商人取货约定引用或阶段异常。');const a=s.activitiesById[w.activityId];if(['to-source','waiting-for-goods','carrying'].includes(w.phase)){if(a?.kind!=='sr-merchant-collection'||a.workOrderId!==w.id||s.personsById[w.carrierId].activityId!==a.id)fail('商人取货身体所有权异常。');}else if(a)fail('商人结束取货未清理身体活动。');if(['carrying','delivered','interrupted'].includes(w.phase)&&(!Number.isFinite(w.actualPayment)||!s.factsById[w.productionFactId]||!e.commonGoods.some(g=>g.id===`common-good:${w.targetId}:${w.productionBatch}`)))fail('已付款器物或实际付款事实缺失。');}for(const[id,o]of Object.entries(e.orders)){if(o.version===ORDER_V2){validateMarketOrderV2(s,id,o);continue;}if(!ORDER_DEFINITIONS[id]||!['accepted','completed','declined'].includes(o.phase))fail('商单异常。');if(o.phase==='completed'&&!s.factsById[o.resultTransactionId])fail('商单结算事实缺失。');}for(const w of Object.values(s.workOrdersById))if(w.kind==='sr-crafting'){validatePillRecipeSnapshot(s,w);if(!RECIPES[w.recipeId]||!s.personsById[w.personId]||!s.buildingsById[w.targetId]||!['active','completed','cancelled','interrupted'].includes(w.phase)||!Number.isSafeInteger(w.durationTicks)||w.durationTicks<1||!Number.isSafeInteger(w.progressTicks)||w.progressTicks<0||w.progressTicks>w.durationTicks||!Number.isSafeInteger(w.yield)||w.yield<1||!Object.entries(w.cost).every(([k,v])=>knownResource(s,k)&&Number.isFinite(v)&&v>=0&&s.stockpilesById[w.sourceStockpileIds[k]]))fail('丹炉批次引用、成本或进度异常。');if(w.phase==='active'){const a=s.activitiesById[w.activityId],r=s.reservationsById[w.reservationId],slot=s.reservationsById[w.slotReservationId];if(a?.kind!=='sr-craft'||a.workOrderId!==w.id||s.master.activityId!==a.id||r?.kind!=='sr-craft-material'||JSON.stringify(r.cost)!==JSON.stringify(w.cost)||slot?.kind!=='sr-slot'||slot.activityId!==a.id||slot.slotId!==a.slotId)fail('丹炉材料/工位预约异常。');}else if(s.reservationsById[w.reservationId]||s.reservationsById[w.slotReservationId]||s.activitiesById[w.activityId]||w.phase==='completed'&&(!validCompletedPillFact(s,w)||w.progressTicks!==w.durationTicks)||(w.phase==='cancelled'||w.phase==='interrupted'&&sequentialCraft(w))&&!validCancelledPillFact(s,w))fail('已结束丹炉批次清理或产物事实异常。');}for(const a of Object.values(s.activitiesById))if(a.kind==='sr-replenish'&&(!e.patches[a.resource]||!Number.isSafeInteger(a.progressTicks)||a.progressTicks<0||a.progressTicks>=a.durationTicks||a.durationTicks!==ECONOMY_DEFINITION.replenishTicks||s.master.activityId!==a.id||s.reservationsById[a.reservationId]?.activityId!==a.id))fail('来源恢复事务异常。');return true;}
+export const economyHandlers={enableServiceSupplies,enableWarehouseServiceStorage,preparePillUse,craftSR,cancelCraftSR,cancelMerchantCollection,startMasterHarvest,cancelMasterHarvest,startTransport,cancelTransport,transferProperty,replenishPatch,cancelReplenish,marketTrade,marketOrder};

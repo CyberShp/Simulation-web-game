@@ -1,0 +1,339 @@
+{
+  "kind": "proposed service furniture geometry",
+  "bodyRadiusMetres": 0.26,
+  "gridMetres": 0.5,
+  "sweepStepMetres": 0.025,
+  "rooms": [
+    {
+      "level": 1,
+      "width": 6,
+      "height": 6,
+      "seats": 4,
+      "cookingStations": 2,
+      "paths": [
+        {
+          "slotId": "work:1",
+          "position": {
+            "x": 1.4,
+            "y": 1.9
+          },
+          "allOtherStationsOccupied": true,
+          "lengthMetres": 5.649537379838987,
+          "samplePoints": 11
+        },
+        {
+          "slotId": "work:special:1",
+          "position": {
+            "x": 4.6,
+            "y": 1.9
+          },
+          "allOtherStationsOccupied": true,
+          "lengthMetres": 5.649537379838987,
+          "samplePoints": 11
+        },
+        {
+          "slotId": "dining:1",
+          "position": {
+            "x": 1.55,
+            "y": 3.5500000000000003
+          },
+          "allOtherStationsOccupied": true,
+          "lengthMetres": 3.6740896004665125,
+          "samplePoints": 8
+        },
+        {
+          "slotId": "dining:2",
+          "position": {
+            "x": 4.45,
+            "y": 3.5500000000000003
+          },
+          "allOtherStationsOccupied": true,
+          "lengthMetres": 3.6740896004665125,
+          "samplePoints": 8
+        },
+        {
+          "slotId": "dining:3",
+          "position": {
+            "x": 2.45,
+            "y": 4.5
+          },
+          "allOtherStationsOccupied": true,
+          "lengthMetres": 2.3433034373659245,
+          "samplePoints": 6
+        },
+        {
+          "slotId": "dining:4",
+          "position": {
+            "x": 3.55,
+            "y": 4.5
+          },
+          "allOtherStationsOccupied": true,
+          "lengthMetres": 2.3433034373659245,
+          "samplePoints": 6
+        }
+      ],
+      "passed": true
+    },
+    {
+      "level": 2,
+      "width": 8,
+      "height": 8,
+      "seats": 8,
+      "cookingStations": 2,
+      "paths": [
+        {
+          "slotId": "work:1",
+          "position": {
+            "x": 1.4,
+            "y": 1.9
+          },
+          "allOtherStationsOccupied": true,
+          "lengthMetres": 8.622489815402918,
+          "samplePoints": 18
+        },
+        {
+          "slotId": "work:special:1",
+          "position": {
+            "x": 6.6,
+            "y": 1.9
+          },
+          "allOtherStationsOccupied": true,
+          "lengthMetres": 8.622489815402917,
+          "samplePoints": 18
+        },
+        {
+          "slotId": "dining:1",
+          "position": {
+            "x": 0.55,
+            "y": 3.5500000000000003
+          },
+          "allOtherStationsOccupied": true,
+          "lengthMetres": 6.502516725212704,
+          "samplePoints": 12
+        },
+        {
+          "slotId": "dining:2",
+          "position": {
+            "x": 3.45,
+            "y": 3.5500000000000003
+          },
+          "allOtherStationsOccupied": true,
+          "lengthMetres": 5.3106335201775945,
+          "samplePoints": 12
+        },
+        {
+          "slotId": "dining:3",
+          "position": {
+            "x": 1.45,
+            "y": 4.5
+          },
+          "allOtherStationsOccupied": true,
+          "lengthMetres": 5.171730562112115,
+          "samplePoints": 10
+        },
+        {
+          "slotId": "dining:4",
+          "position": {
+            "x": 2.55,
+            "y": 4.5
+          },
+          "allOtherStationsOccupied": true,
+          "lengthMetres": 4.68689476472678,
+          "samplePoints": 10
+        },
+        {
+          "slotId": "dining:5",
+          "position": {
+            "x": 4.55,
+            "y": 3.5500000000000003
+          },
+          "allOtherStationsOccupied": true,
+          "lengthMetres": 5.3106335201775945,
+          "samplePoints": 12
+        },
+        {
+          "slotId": "dining:6",
+          "position": {
+            "x": 7.45,
+            "y": 3.5500000000000003
+          },
+          "allOtherStationsOccupied": true,
+          "lengthMetres": 6.502516725212704,
+          "samplePoints": 12
+        },
+        {
+          "slotId": "dining:7",
+          "position": {
+            "x": 5.45,
+            "y": 4.5
+          },
+          "allOtherStationsOccupied": true,
+          "lengthMetres": 4.68689476472678,
+          "samplePoints": 10
+        },
+        {
+          "slotId": "dining:8",
+          "position": {
+            "x": 6.55,
+            "y": 4.5
+          },
+          "allOtherStationsOccupied": true,
+          "lengthMetres": 5.171730562112114,
+          "samplePoints": 10
+        }
+      ],
+      "passed": true
+    },
+    {
+      "level": 3,
+      "width": 10,
+      "height": 10,
+      "seats": 12,
+      "cookingStations": 2,
+      "paths": [
+        {
+          "slotId": "work:1",
+          "position": {
+            "x": 1.4,
+            "y": 1.9
+          },
+          "allOtherStationsOccupied": true,
+          "lengthMetres": 10.892178066958275,
+          "samplePoints": 19
+        },
+        {
+          "slotId": "work:special:1",
+          "position": {
+            "x": 8.6,
+            "y": 1.9
+          },
+          "allOtherStationsOccupied": true,
+          "lengthMetres": 10.892178066958275,
+          "samplePoints": 19
+        },
+        {
+          "slotId": "dining:1",
+          "position": {
+            "x": 1.05,
+            "y": 3.5500000000000003
+          },
+          "allOtherStationsOccupied": true,
+          "lengthMetres": 8.709623506399252,
+          "samplePoints": 16
+        },
+        {
+          "slotId": "dining:2",
+          "position": {
+            "x": 3.95,
+            "y": 3.5500000000000003
+          },
+          "allOtherStationsOccupied": true,
+          "lengthMetres": 9.174594550856524,
+          "samplePoints": 16
+        },
+        {
+          "slotId": "dining:3",
+          "position": {
+            "x": 1.95,
+            "y": 4.5
+          },
+          "allOtherStationsOccupied": true,
+          "lengthMetres": 7.378837343298663,
+          "samplePoints": 14
+        },
+        {
+          "slotId": "dining:4",
+          "position": {
+            "x": 3.05,
+            "y": 4.5
+          },
+          "allOtherStationsOccupied": true,
+          "lengthMetres": 6.930920905802234,
+          "samplePoints": 14
+        },
+        {
+          "slotId": "dining:5",
+          "position": {
+            "x": 6.05,
+            "y": 3.5500000000000003
+          },
+          "allOtherStationsOccupied": true,
+          "lengthMetres": 8.295409944026156,
+          "samplePoints": 16
+        },
+        {
+          "slotId": "dining:6",
+          "position": {
+            "x": 8.95,
+            "y": 3.5500000000000003
+          },
+          "allOtherStationsOccupied": true,
+          "lengthMetres": 8.709623506399252,
+          "samplePoints": 16
+        },
+        {
+          "slotId": "dining:7",
+          "position": {
+            "x": 6.95,
+            "y": 4.5
+          },
+          "allOtherStationsOccupied": true,
+          "lengthMetres": 6.930920905802234,
+          "samplePoints": 14
+        },
+        {
+          "slotId": "dining:8",
+          "position": {
+            "x": 8.05,
+            "y": 4.5
+          },
+          "allOtherStationsOccupied": true,
+          "lengthMetres": 7.378837343298663,
+          "samplePoints": 14
+        },
+        {
+          "slotId": "dining:9",
+          "position": {
+            "x": 3.55,
+            "y": 7.05
+          },
+          "allOtherStationsOccupied": true,
+          "lengthMetres": 4.174089600466513,
+          "samplePoints": 9
+        },
+        {
+          "slotId": "dining:10",
+          "position": {
+            "x": 6.45,
+            "y": 7.05
+          },
+          "allOtherStationsOccupied": true,
+          "lengthMetres": 4.174089600466513,
+          "samplePoints": 9
+        },
+        {
+          "slotId": "dining:11",
+          "position": {
+            "x": 4.45,
+            "y": 8
+          },
+          "allOtherStationsOccupied": true,
+          "lengthMetres": 2.8433034373659245,
+          "samplePoints": 7
+        },
+        {
+          "slotId": "dining:12",
+          "position": {
+            "x": 5.55,
+            "y": 8
+          },
+          "allOtherStationsOccupied": true,
+          "lengthMetres": 2.8433034373659245,
+          "samplePoints": 7
+        }
+      ],
+      "passed": true
+    }
+  ],
+  "limitation": "Candidate sampler uses current prefab walls/furniture plus proposed stove/tables and occupied body circles. Runtime implementation and simultaneous movement remain pending."
+}
