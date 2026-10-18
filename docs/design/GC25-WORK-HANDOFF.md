@@ -13,7 +13,7 @@
 
 验证：`courtyard-preset-sites` 5/5、`courtyard-west-workshops-domain` 4/4、`ea-west-valley-economy` 11/11、`npm run check` 通过。CI run `39151740353` 结论未取到。
 
-本文件随后续提交 `feat(courtyard): start and cancel workshop production from the panel` 更新：作业区投影补 `recipe`（投料、产出、工时、技艺）、`missingCost`、`cancelable`；面板按缺料给出“送入”入口（公库→工位货位，实际搬运）与“中止本批生产”；新增 `cancel-production` 公开请求，转 `cancelProduction`，按进度退回未耗原料。验证 `courtyard-workplace-production` 2/2。
+本文件随后续提交 `feat(courtyard): start and cancel workshop production from the panel` 更新：作业区投影补 `recipe`（投料、产出、工时、技艺）、`missingCost`、`cancelable`；面板按缺料给出“送入”入口（公库→工位货位，实际搬运）与“中止本批生产”；新增 `cancel-production` 公开请求，转 `cancelProduction`，按进度退回未耗原料。验证 `courtyard-workplace-production` 2/2。作业区面板同时补齐“搬回”入口：现场货位逐项按统一搬运页搬回公库，伐木场、采石场与百工坊共用，仅呈现层改动。
 
 ## 剩余步骤
 
