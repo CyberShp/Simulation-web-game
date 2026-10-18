@@ -2,7 +2,7 @@ import {meditationSupplyEnabled} from './ea-meditation-definitions.mjs';
 import {siteServiceEnabled} from './ea-service-definitions.mjs';
 /** Body activities and exclusive work stations, called only by the world owner. */
 import {BUILDINGS,canPay,pay,grant} from './ea-data.mjs';
-import {productionAvailability,settleFiniteProduction,initEconomy,productionInputAvailable,reserveProductionInput,refundProductionInput,cancelMerchantCollection,farmWaterlogged,cropRecipeFor,cropRecipeByVersion,FARM_V1_RECIPE,PRODUCTION_RECIPE_VERSION,productionRecipeDefinition,productionRecipeSnapshot,productionSkillVersion} from './ea-sr-economy.mjs';
+import {productionAvailability,settleFiniteProduction,initEconomy,productionInputAvailable,reserveProductionInput,refundProductionInput,cancelMerchantCollection,farmWaterlogged,cropRecipeFor,cropRecipeByVersion,FARM_V1_RECIPE,PRODUCTION_RECIPE_VERSION,productionRecipeDefinition,productionRecipeSnapshot,productionSkillVersion,productionVersionFor} from './ea-sr-economy.mjs';
 const units=(s,pixels)=>s.spatial?.version==='spatial-metres-1'?pixels/32:pixels;
 const spacing=s=>s.spatial?.version==='spatial-metres-1'?.5:8;
 const arrival=s=>s.spatial?.version==='spatial-metres-1'?.04:.5;
@@ -81,7 +81,7 @@ export function prepareFacilityActivity(s,p,b,action,budget=46,options={}){
  position.path=[];position.goal={...slot.position};a.phase='executing';a.reason='正在使用'+slot.label+'。';if(s.residentialHousing&&['rest','heal'].includes(action))settleResidentialArrival(s,p.personId);return true;
 }
 export function productionOrder(s,b){return s.workOrdersById?.[`work:production:${b.instanceId}`]||null;}
-const ordinaryRecipe=(b,version=PRODUCTION_RECIPE_VERSION)=>productionRecipeDefinition(version,b.type);
+const ordinaryRecipe=(b,version=productionVersionFor(b))=>productionRecipeDefinition(version,b.type);
 function snapshotOrdinaryBatch(s,b,order){
  if(b.type==='farm'||!s.srEconomy)return;
  order.recipeSnapshot=productionRecipeSnapshot(s,b);

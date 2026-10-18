@@ -105,6 +105,12 @@ export const WORKSHOP_PROCESSES=Object.freeze([
  workshopProcess('instrument','乐器','workshop-recipes:instrument:v1',{wood:4,crystal:1},{jade:48},260)
 ]);
 export const WORKSHOP_PROCESS_VERSIONS=Object.freeze(WORKSHOP_PROCESSES.map(process=>process.version));
+// U-63/T-28: the future GC23 spring draws clean water at the fixed site; it is
+// offered only after the optional life-supply resources exist.
+export const SPRING_SITE_ID='site:domain:gc-23';
+export const SPRING_WATER_RECIPE_VERSION='spring-water:yunxiu:v1';
+const SPRING_WATER_RECIPE=Object.freeze({inputCost:Object.freeze({}),outputDefinition:Object.freeze({cleanWater:12}),durationValue:200,skill:'array'});
+export function productionVersionFor(b){return b?.type==='well'&&b.domainSiteId===SPRING_SITE_ID?SPRING_WATER_RECIPE_VERSION:PRODUCTION_RECIPE_VERSION;}
 const PRODUCTION_SKILL_VERSIONS=new Set([PRODUCTION_RECIPE_VERSION,...WORKSHOP_PROCESS_VERSIONS]);
 export const productionSkillVersion=version=>PRODUCTION_SKILL_VERSIONS.has(version);
 export const PILL_RECIPE_VERSION='supply-recipes:yunxiu:v2';
@@ -215,9 +221,9 @@ function validCancelledPillFact(s,w){
  });
 }
 // A later tune adds a new catalogue/version; existing entries are never edited.
-const PRODUCTION_RECIPE_CATALOG=Object.freeze({'economy:yunxiu:v1':PRODUCTION_RECIPES_V1,[PRODUCTION_RECIPE_VERSION]:PRODUCTION_RECIPES_V1,...Object.fromEntries(WORKSHOP_PROCESSES.map(process=>[process.version,Object.freeze({workshop:process.recipe})]))});
+const PRODUCTION_RECIPE_CATALOG=Object.freeze({'economy:yunxiu:v1':PRODUCTION_RECIPES_V1,[PRODUCTION_RECIPE_VERSION]:PRODUCTION_RECIPES_V1,...Object.fromEntries(WORKSHOP_PROCESSES.map(process=>[process.version,Object.freeze({workshop:process.recipe})])),[SPRING_WATER_RECIPE_VERSION]:Object.freeze({well:SPRING_WATER_RECIPE})});
 export function productionRecipeDefinition(version,type){return PRODUCTION_RECIPE_CATALOG[version]?.[type]||null;}
-export function productionRecipeSnapshot(s,b,version=PRODUCTION_RECIPE_VERSION){
+export function productionRecipeSnapshot(s,b,version=productionVersionFor(b)){
  const recipe=productionRecipeDefinition(version,b.type),siteId=`stockpile:${b.instanceId}`;
  if(!recipe)fail('生产配方不存在。');
  return {recipeId:`recipe:${b.type}`,recipeVersion:version,inputCost:copy(recipe.inputCost),durationUnit:'contribution',durationValue:recipe.durationValue,outputDefinition:copy(recipe.outputDefinition),outputRuleVersion:'production-yield:v1',skillRuleVersion:'production-skill:v1',skillKey:recipe.skill,skillGate:0,workstationRule:`facility:${b.type}:exclusive-slots`,sourceStockpileIds:Object.fromEntries(Object.keys(recipe.inputCost).map(k=>[k,siteId])),ownerId:'person:master',createdTick:s.worldTick};
@@ -374,7 +380,7 @@ export function productionInputAvailable(s,b,cost=BUILDINGS[b.type]?.input||{}){
 export function reserveProductionInput(s,b,cost){if(!productionInputAvailable(s,b,cost))return false;const source=productionInputResources(s,b);for(const[k,v]of Object.entries(cost))source[k]=subtractAmounts(source[k],v);return true;}
 export function refundProductionInput(s,b,cost){const target=productionInputResources(s,b);for(const[k,v]of Object.entries(cost))target[k]=addAmounts(target[k]||0,v);}
 function workshopBuyerAvailable(s){if(s.srWorld)return courtyardVisitorReady(s.personsById['person:merchant-qingxi'])&&s.personsById['person:merchant-qingxi']?.lifeStatus!=='dead'&&s.personsById['person:merchant-qingxi']?.position?.kind==='scene'&&s.personsById['person:merchant-qingxi'].position.sceneId==='scene:yunxiu-courtyard'&&marketRouteOpen(s);return merchantPresent(s);}
-export function productionAvailability(s,b,version=PRODUCTION_RECIPE_VERSION){if(!s.srEconomy)return {available:true,reason:''};if(b.type==='workshop'&&!workshopBuyerAvailable(s))return {available:false,reason:'器物买方尚未实际到达；等商人抵院后交货收款。'};if(b.type==='workshop'&&stock(s,'stockpile:qingxi').resources.jade<=0)return {available:false,reason:'器物买方本金不足，保留投入等待。'};const order=s.workOrdersById?.[`work:production:${b.instanceId}`],out=(order?.phase!=='completed'&&order?.recipeSnapshot?.outputDefinition)||cropRecipeFor(b)?.output||productionRecipeDefinition(version,b.type)?.outputDefinition||{},st=s.stockpilesById[`stockpile:${b.instanceId}`];if(st&&total(st)+physicalOutputTotal(b,out)>st.capacity)return {available:false,reason:'成品存放处已满，先搬入府库。'};if(b.type==='library'){const home=stock(s,'stockpile:yunxiu');if(total(home)+(out.insight||0)>home.capacity+1e-9)return {available:false,reason:'院中公库研习预算容量已满，先腾出容量。'};}for(const[k,v]of Object.entries(out))if(!harvestAvailable(s,k,v))return {available:false,reason:`${RESOURCES[k]}来源已耗尽；补种、采购或另寻供给。`};return {available:true,reason:''};}
+export function productionAvailability(s,b,version=productionVersionFor(b)){if(!s.srEconomy)return {available:true,reason:''};if(version===SPRING_WATER_RECIPE_VERSION&&!serviceResourcesEnabled(s))return {available:false,reason:'灵泉供水须先启用生活物资。'};if(b.type==='workshop'&&!workshopBuyerAvailable(s))return {available:false,reason:'器物买方尚未实际到达；等商人抵院后交货收款。'};if(b.type==='workshop'&&stock(s,'stockpile:qingxi').resources.jade<=0)return {available:false,reason:'器物买方本金不足，保留投入等待。'};const order=s.workOrdersById?.[`work:production:${b.instanceId}`],out=(order?.phase!=='completed'&&order?.recipeSnapshot?.outputDefinition)||cropRecipeFor(b)?.output||productionRecipeDefinition(version,b.type)?.outputDefinition||{},st=s.stockpilesById[`stockpile:${b.instanceId}`];if(st&&total(st)+physicalOutputTotal(b,out)>st.capacity)return {available:false,reason:'成品存放处已满，先搬入府库。'};if(b.type==='library'){const home=stock(s,'stockpile:yunxiu');if(total(home)+(out.insight||0)>home.capacity+1e-9)return {available:false,reason:'院中公库研习预算容量已满，先腾出容量。'};}for(const[k,v]of Object.entries(out))if(!harvestAvailable(s,k,v))return {available:false,reason:`${RESOURCES[k]||SERVICE_RESOURCES[k]}来源已耗尽；补种、采购或另寻供给。`};return {available:true,reason:''};}
 /** U-63/T-26: the steward commissions one GC25 professional batch. Materials must
  * already sit in the workshop stockpile; workers still walk over and start it. */
 export function startWorkshopProcess(s,instanceId,processId){
@@ -402,7 +408,7 @@ export function settleFiniteProduction(s,b,settle,participants){
  const trial=cloneState(s),trialParticipants=participants.map(x=>({person:trial.personsById[x.person.personId],share:x.share,...(x.skillAtFirstContribution===undefined?{}:{skillAtFirstContribution:x.skillAtFirstContribution})}));
  const receipt=settle(trialParticipants,trial);if(!receipt)return false;
  const out=receipt.grossOutput,wages=receipt.wages,recipeVersion=order.recipeSnapshot?.recipeVersion||(b.type==='farm'?'economy:yunxiu:v1':PRODUCTION_RECIPE_VERSION),definition=order.recipeSnapshot?.outputDefinition||productionRecipeDefinition(recipeVersion,b.type)?.outputDefinition;
- if(!out||!definition||!Array.isArray(wages)||!Object.entries(out).every(([k,v])=>RESOURCES[k]&&Object.hasOwn(definition,k)&&v>0&&canonicalProductionAmount(v))||new Set(wages.map(w=>w.personId)).size!==wages.length||!wages.every(w=>participants.some(p=>p.person.personId===w.personId)&&Number.isFinite(w.quantity)&&w.quantity>0))fail('生产结算必须返回明确的产出与工资分录。');
+ if(!out||!definition||!Array.isArray(wages)||!Object.entries(out).every(([k,v])=>knownResource(s,k)&&Object.hasOwn(definition,k)&&v>0&&canonicalProductionAmount(v))||new Set(wages.map(w=>w.personId)).size!==wages.length||!wages.every(w=>participants.some(p=>p.person.personId===w.personId)&&Number.isFinite(w.quantity)&&w.quantity>0))fail('生产结算必须返回明确的产出与工资分录。');
  // The callback computes output and personal effects, but cannot post inventory.
  for(const [id,original]of Object.entries(s.stockpilesById))if(JSON.stringify(original.resources)!==JSON.stringify(trial.stockpilesById[id]?.resources))fail('生产回调不能直接修改库存。');
  for(const [id,person]of Object.entries(s.personsById))if(person.mind){const wage=wages.find(w=>w.personId===id)?.quantity||0;if(trial.personsById[id]?.mind?.purse!==addAmounts(person.mind.purse||0,wage)||trial.personsById[id].mind.purse>10000)fail('生产工资与人物钱包分录不一致。');}
@@ -1151,7 +1157,7 @@ function validateProductionAccounting(s){
  for(const [factId,fact]of Object.entries(s.factsById)){
   if(fact.operation!=='production'||fact.accountingVersion===undefined)continue;
   const crop=cropRecipeByVersion(fact.buildingType,fact.recipeVersion),recipe=crop?{outputDefinition:crop.output}:productionRecipeDefinition(fact.recipeVersion,fact.buildingType);
-  const amounts=map=>map&&typeof map==='object'&&!Array.isArray(map)&&Object.entries(map).every(([key,value])=>RESOURCES[key]&&Number.isFinite(value)&&value>0);
+  const amounts=map=>map&&typeof map==='object'&&!Array.isArray(map)&&Object.entries(map).every(([key,value])=>knownResource(s,key)&&Number.isFinite(value)&&value>0);
   if(fact.id!==factId||fact.accountingVersion!==RESOURCE_ACCOUNTING_VERSION||fact.kind!=='inventory-transaction'||!recipe||!sameFields(fact.recipeOutputDefinition,recipe.outputDefinition)||!amounts(fact.grossOutput)||!Object.keys(fact.grossOutput).length||!amounts(fact.quantities)||!Object.entries(fact.grossOutput).every(([key,value])=>Object.hasOwn(recipe.outputDefinition,key)&&canonicalProductionAmount(value))||!Array.isArray(fact.participantIds)||!fact.participantIds.length||new Set(fact.participantIds).size!==fact.participantIds.length||!fact.participantIds.every(id=>s.personsById[id])||!Array.isArray(fact.wages)||new Set(fact.wages.map(w=>w.personId)).size!==fact.wages.length||!fact.wages.every(w=>fact.participantIds.includes(w.personId)&&Number.isFinite(w.quantity)&&w.quantity>0)||!Number.isFinite(fact.wagesFromPublic)||fact.wagesFromPublic<0||!Number.isFinite(fact.wagesFromProceeds)||fact.wagesFromProceeds<0||addAmounts(fact.wagesFromPublic,fact.wagesFromProceeds)!==addAmounts(...fact.wages.map(w=>w.quantity)))fail('生产结算分录或配方异常。');
   for(const key of new Set([...Object.keys(fact.grossOutput),...Object.keys(fact.quantities)]))if(addAmounts(fact.quantities[key]||0,key==='jade'?fact.wagesFromProceeds:0)!==(fact.grossOutput[key]||0))fail('生产毛产出、净入库与工资不守恒。');
   const buildingId=fact.workOrderId?.slice('work:production:'.length);
