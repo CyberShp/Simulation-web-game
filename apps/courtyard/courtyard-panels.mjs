@@ -613,6 +613,9 @@ export function createCourtyardPanels({ getView, inspect, command, openPerson, f
       const siteStock = Object.entries(workplace.resources || {}).filter(([, quantity]) => quantity > 0).map(([id, quantity]) => `${resourceName(id)} ${number(quantity)}`).join('、') || '空';
       facts(work, [['当前作业', `${workplace.workers?.length || 0} 人`], ['生产状态', workplace.enabled === false ? '已暂停' : '开放作业'], ['现场物资', siteStock]]);
       commandAction(work, workplace.enabled === false ? '恢复生产' : '暂停生产', { type: 'toggle-building', buildingId: workplace.buildingId }, 'workplace:toggle');
+      const order = workplace.order;
+      if (order) facts(work, [['在制批次', `第 ${number(order.batch ?? 1)} 批`], ['加工进度', `${number(order.progressTicks || 0)} / ${number(order.durationTicks || 0)}`], ['工单状态', order.phase === 'completed' ? '已完工，待搬入府库' : '加工中']]);
+      else note(work, '当前没有在制工单；投料与开工入口待接。');
       for (const invite of workplace.invites || []) {
         const row = node('div', undefined, 'invite-row'); row.append(node('strong', invite.name));
         if (invite.lastResult) note(row, `上次答复：${invite.lastResult.accepted ? '愿意接受' : '暂未接受'} · ${invite.lastResult.reason || ''}`);
