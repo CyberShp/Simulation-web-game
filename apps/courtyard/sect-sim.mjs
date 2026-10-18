@@ -959,7 +959,7 @@ function operationsView(s, projection) {
     const reason = b.enabled === false ? `${name}已暂停，可恢复使用。` : b.condition <= 0 || b.spatialLock ? `${name}当前不可用。` : source.reason;
     const stockpileId = `stockpile:${b.instanceId}`, stock = s.stockpilesById[stockpileId];
     return { buildingId: b.instanceId, name: SIM.BUILDINGS[b.type].name, enabled: b.enabled !== false, availability: availability(reason),
-      stockpileId, resources: clone(stock?.resources || {}),
+      stockpileId, resources: clone(stock?.resources || {}), order: clone(s.workOrdersById[`work:production:${b.instanceId}`] || null),
       workers: projection.systemPeople.persons.filter(p => s.activitiesById[p.currentActivity?.id]?.targetId === b.instanceId).map(p => ({ id: p.id, name: p.name, activity: clone(p.currentActivity) })),
       invites: s.homeMemberIds.map(id => {
         const p = s.personsById[id], opportunity = workOpportunity(s, p, b), answer = p.schedule?.invitations?.[`work:${b.instanceId}`];
