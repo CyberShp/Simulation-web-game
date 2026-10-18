@@ -949,16 +949,17 @@ function operationsView(s, projection) {
     const stockpileId = `stockpile:${b.instanceId}`, stock = s.stockpilesById[stockpileId];
     const order = s.workOrdersById[`work:production:${b.instanceId}`];
     const resource = b.type === 'granary' ? 'food' : 'herb', seedName = resource === 'food' ? '种粮' : '种苗', productOnSite = stock?.resources[resource] || 0, name = buildingName(b);
+    const seedRequirement = SIM.cropRecipeFor(b)?.seedCost?.[resource] ?? 2;
     const source = SIM.productionAvailability(s, b);
     const reason = b.enabled === false ? `${name}已暂停，可恢复使用。` : b.condition <= 0 || b.spatialLock ? `${name}当前不可用。` :
-      order && !terminal(order.phase) ? order.waitingReason || '' : productOnSite < 2 ? `${name}缺少田边${seedName}2份，先实际搬入。` : source.reason;
-    const harvestQuantity = roundAmount(Math.max(0, Math.min(40, productOnSite - 2)));
+      order && !terminal(order.phase) ? order.waitingReason || '' : productOnSite < seedRequirement ? `${name}缺少田边${seedName}${seedRequirement}份，先实际搬入。` : source.reason;
+    const harvestQuantity = roundAmount(Math.max(0, Math.min(40, productOnSite - seedRequirement)));
     return { id: b.instanceId, buildingId: b.instanceId, name, resource, seedName, productOnSite, enabled: b.enabled !== false,
-      stockpileId, seedNeeded: Math.max(0, 2 - productOnSite), seedRequirement: 2,
+      stockpileId, seedNeeded: Math.max(0, seedRequirement - productOnSite), seedRequirement,
       seedScope: `${order && !terminal(order.phase) ? '下一轮' : '本轮'}${seedName}`, crop: clone(order?.crop || null),
       herbOnSite: stock?.resources.herb || 0, availability: availability(reason),
-      harvestTransport: { quantity: harvestQuantity, retained: 2, remaining: roundAmount(Math.max(0, productOnSite - 2 - harvestQuantity)),
-        sourceStockpileId: stockpileId, targetStockpileId: HOME, ...availability(local || busy || (harvestQuantity > 0 ? '' : `田边需留下两份${seedName}，当前没有可搬收成。`)) },
+      harvestTransport: { quantity: harvestQuantity, retained: seedRequirement, remaining: roundAmount(Math.max(0, productOnSite - seedRequirement - harvestQuantity)),
+        sourceStockpileId: stockpileId, targetStockpileId: HOME, ...availability(local || busy || (harvestQuantity > 0 ? '' : `田边需留下${seedRequirement}份${seedName}，当前没有可搬收成。`)) },
       workers: projection.systemPeople.persons.filter(p => s.activitiesById[p.currentActivity?.id]?.targetId === b.instanceId)
         .map(p => ({ id: p.id, name: p.name, activity: clone(p.currentActivity) })),
       invites: s.homeMemberIds.map(id => {

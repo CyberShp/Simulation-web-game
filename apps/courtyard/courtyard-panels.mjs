@@ -592,9 +592,9 @@ export function createCourtyardPanels({ getView, inspect, command, openPerson, f
       const seedDelivery = Math.max(1, Math.min(40, farm.seedNeeded));
       action(row, `送入${seedName}`, () => transfer(HOME, farm.stockpileId, resource, 0, seedDelivery), 'farm:seed', { available: farm.seedNeeded > 0 && view.operations.canTransport.available && view.resources[resource] >= seedDelivery,
         reason: farm.seedNeeded <= 0 ? `田边${seedName}已足。` : view.operations.canTransport.reason || (view.resources[resource] < seedDelivery ? `公库${seedName}不足本趟补给。` : '') }, 'primary');
-      const harvest = farm.harvestTransport, harvestMax = harvest?.quantity ?? transportLimit(productOnSite, 2);
-      action(row, `收成入库 · 本趟最多${number(harvestMax)}份`, () => transfer(farm.stockpileId, HOME, resource, 2), 'farm:harvest', { available: harvest ? harvest.available : harvestMax >= 1 && view.operations.canTransport.available,
-        reason: harvest?.reason || (harvestMax < 1 ? `田边留两份${seedName}，可搬余量不足1份。` : view.operations.canTransport.reason) }); production.append(row);
+      const harvest = farm.harvestTransport, harvestMax = harvest?.quantity ?? transportLimit(productOnSite, farm.seedRequirement);
+      action(row, `收成入库 · 本趟最多${number(harvestMax)}份`, () => transfer(farm.stockpileId, HOME, resource, farm.seedRequirement || 2), 'farm:harvest', { available: harvest ? harvest.available : harvestMax >= 1 && view.operations.canTransport.available,
+        reason: harvest?.reason || (harvestMax < 1 ? `田边留${number(farm.seedRequirement)}份${seedName}，可搬余量不足1份。` : view.operations.canTransport.reason) }); production.append(row);
       const tail = node('div', undefined, 'management-actions');
       commandAction(tail, farm.enabled ? '暂停生产' : '恢复生产', { type: 'toggle-building', buildingId: farm.buildingId }, 'farm:toggle'); tail.append(button('查看田边货位', () => stockPage(farm.stockpileId), 'farm:stock')); production.append(tail); body.append(production);
       const invites = section('商议照料', '由本人根据当前身体、已有安排与作业条件答复。');
