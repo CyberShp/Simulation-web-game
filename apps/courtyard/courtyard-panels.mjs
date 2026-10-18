@@ -610,7 +610,8 @@ export function createCourtyardPanels({ getView, inspect, command, openPerson, f
     if (workplace && !farm) {
       const work = section(`${entry.name}作业`, '由本人根据身体、已有安排与工位条件答复邀请。');
       note(work, workplace.availability?.reason, workplace.availability?.available === false ? 'action-reason' : 'muted');
-      facts(work, [['当前作业', `${workplace.workers?.length || 0} 人`], ['生产状态', workplace.enabled === false ? '已暂停' : '开放作业']]);
+      const siteStock = Object.entries(workplace.resources || {}).filter(([, quantity]) => quantity > 0).map(([id, quantity]) => `${resourceName(id)} ${number(quantity)}`).join('、') || '空';
+      facts(work, [['当前作业', `${workplace.workers?.length || 0} 人`], ['生产状态', workplace.enabled === false ? '已暂停' : '开放作业'], ['现场物资', siteStock]]);
       commandAction(work, workplace.enabled === false ? '恢复生产' : '暂停生产', { type: 'toggle-building', buildingId: workplace.buildingId }, 'workplace:toggle');
       for (const invite of workplace.invites || []) {
         const row = node('div', undefined, 'invite-row'); row.append(node('strong', invite.name));
