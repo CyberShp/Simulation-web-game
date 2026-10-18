@@ -89,6 +89,10 @@ test('a commissioned process reserves materials, reloads, cancels and actually r
   assert.ok(fact.grossOutput.jade > 0);
   assert.equal(loaded.state.workOrdersById[orderId].phase, 'completed');
   assert.equal(SIM.validateSave(copy(loaded.state)).revision, loaded.state.revision);
+  const collected = workplace(loaded);
+  assert.equal(collected.collection?.phase, 'carrying');
+  assert.equal(collected.collection.payment, fact.payment);
+  assert.equal(collected.collection.carrierName, loaded.state.personsById['person:merchant-qingxi'].name);
   // A second session from the same yard proves a mid-batch cancel refunds only
   // the unused part and still reloads exactly.
   const mid = sessionFor(yard), midView = workplace(mid), midOrderId = `work:production:${midView.buildingId}`;

@@ -648,6 +648,10 @@ export function createCourtyardPanels({ getView, inspect, command, openPerson, f
       if (order) {
         const processName = workplace.selectedProcess ? processes.find(process => process.id === workplace.selectedProcess)?.name || '常规器物' : '常规器物';
         facts(work, [['本批工序', processName], ['在制批次', `第 ${number(order.batch ?? 1)} 批`], ['加工进度', `${number(order.progressTicks || 0)} / ${number(order.durationTicks || 0)}`], ['工单状态', order.phase === 'completed' ? (workplace.recipe ? '已完工，商人到坊取货付款' : '已完工，待搬入府库') : order.phase === 'waiting' ? '已委托，待本人到岗' : '加工中']]);
+        if (workplace.collection) {
+          const phaseLabel = { 'to-source': '前往工坊取货', 'waiting-for-goods': '在坊等候交货', carrying: '搬运器物并付款', delivered: '已交付' }[workplace.collection.phase] || workplace.collection.phase;
+          facts(work, [['商人取货', phaseLabel], ['取货商人', workplace.collection.carrierName]]);
+        }
         commandAction(work, '中止本批生产', { type: 'cancel-production', buildingId: workplace.buildingId }, 'workplace:cancel',
           { available: order.phase !== 'completed', reason: order.phase === 'completed' ? '本批已完工，无需中止。' : '' });
       } else note(work, '当前没有在制工单；材料送到工位、本人到岗后开工。');

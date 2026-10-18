@@ -989,8 +989,11 @@ function operationsView(s, projection) {
         missingCost: processMissing, availability: availability(gate.available && !Object.keys(processMissing).length ? '' : gate.available ? '工位原料未齐，先从公库搬入。' : gate.reason) };
     }) : [];
     const selectedProcess = processes.find(process => process.version === order?.recipeSnapshot?.recipeVersion) || null;
+    const collection = Object.values(s.workOrdersById).find(candidate => candidate.kind === 'sr-merchant-collection' && candidate.productionWorkOrderId === `work:production:${b.instanceId}` && !['cancelled', 'delivered'].includes(candidate.phase)) || null;
     return { buildingId: b.instanceId, name: SIM.BUILDINGS[b.type].name, enabled: b.enabled !== false, availability: availability(reason),
       stockpileId, resources: clone(onsite), order: clone(order), processes, selectedProcess: selectedProcess?.id || null,
+      collection: collection ? { phase: collection.phase, reason: collection.reason || '', carrierName: s.personsById[collection.carrierId]?.name || '商人',
+        payment: collection.actualPayment ?? collection.expectedPayment ?? 0 } : null,
       recipe: recipe ? { inputCost: clone(recipe.inputCost), outputDefinition: clone(recipe.outputDefinition), durationTicks: recipe.durationValue, skillKey: recipe.skill } : null,
       missingCost, cancelable: !!order && order.phase !== 'completed',
       workers: projection.systemPeople.persons.filter(p => s.activitiesById[p.currentActivity?.id]?.targetId === b.instanceId).map(p => ({ id: p.id, name: p.name, activity: clone(p.currentActivity) })),
