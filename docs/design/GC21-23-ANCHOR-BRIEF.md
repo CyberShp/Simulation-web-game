@@ -41,7 +41,7 @@
 1. 在 `src/simulation/ea-sect-domain.mjs` 的 `westValleySites` 或 `ea-west-workshops-geometry.mjs` 登记三处 `site:domain:gc-2x`（类型 farm／farm／well，含 `domainSiteId` 身份、占地、入口、`reserveWidth/Height`）。
 2. 在 `docs` 目录数据（`ea-golden-core-sites.mjs`）把 `runtimeStatus` 改为 open；同步 58／队列／STATUS 的 17→20 计数。
 3. 在 `apps/courtyard/courtyard-valley-layout.mjs` 或工坊 layout 登记 `VALLEY_SITES`／`WEST_WORKSHOPS_SITES` 的裁剪与阶段图；补 `WEST_VALLEY_WALK_POLYGONS` 或工坊步行面。
-4. 面板：GC-22 沿用田地卡片（T-27 已让 `seedRequirement` 随作物变化）；GC-23 需要把该灵泉加入作业区投影（目前只列伐木、采石、百工坊）。
+4. 面板：GC-22 沿用田地卡片（T-27 已让 `seedRequirement` 随作物变化）；GC-23 已把 `site:domain:gc-23` 的灵泉并入作业区投影（配方按 T-28 版本读取，未登记前不会出现），锚点到位即可显示取水、现场洁水与中止。
 5. 验证：定向测试 + 正常来源档的种／育苗→收获→送库、取水→净水→送到丹房／膳房，两次关闭重开；失败路径含未启用生活物资、缺料与途中取消。
 
 ## 5. 不做的事
