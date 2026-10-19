@@ -8,14 +8,56 @@ const spacing=s=>s.spatial?.version==='spatial-metres-1'?.5:8;
 const arrival=s=>s.spatial?.version==='spatial-metres-1'?.04:.5;
 import {facilitySlots,slotById,slotReservation,facilityBodyKinds} from './ea-facility-slots.mjs';
 import {geometryRevision,buildingAccess,scenicFindPath,scenicDistance,scenicSweep,scenicNearest} from './ea-scene-geometry.mjs';
+import {visibleBodyPointClear,visibleBodyRouteClear,nearestVisibleBodyGround} from './ea-sr-spatial.mjs';
 import {advanceScenic,syncScenicPosition} from './ea-scenic.mjs';
 import {chooseResidentialBed,reserveResidentialBed,settleResidentialArrival,residentialSlotAvailable} from './ea-residential-housing.mjs';
 const owner=(s,p)=>p===s.master?p:p.mind;
+const REST_TRAVEL=new Set(['rest','heal']);
+// Session-only facts. The measured recovery step and route proofs are rebuilt
+// from the actual position, so no escape mode is ever written into the world.
+const restRecovery=new WeakMap(),restRouteProofs=new WeakMap();
+const goalAtSlot=(s,position,slot)=>!!position.goal&&scenicDistance(position.goal,slot.position)<=units(s,.01);
+const onSegment=(p,a,b,tolerance=.02)=>{
+ const dx=b.x-a.x,dy=b.y-a.y,length=dx*dx+dy*dy;
+ const t=length?Math.max(0,Math.min(1,((p.x-a.x)*dx+(p.y-a.y)*dy)/length)):0;
+ return Math.hypot(p.x-a.x-dx*t,p.y-a.y-dy*t)<=tolerance+1e-9;
+};
+function restRouteClear(s,position,slot){
+ if(!position.path?.length||!goalAtSlot(s,position,slot)||!visibleBodyRouteClear(s,position,position.path))return false;
+ let at=position;for(const next of position.path){if(scenicSweep(s,at,next).blocked)return false;at=next;}
+ return true;
+}
+// A retained route keeps its proof until the geometry revision changes. The proof
+// also carries the planning start and every waypoint: walking only removes a
+// prefix, so the body must still stand on the current segment. A yield or door
+// displacement that keeps the same path array cannot reuse the old proof.
+function retainedRestRouteClear(s,position,slot){
+ const revision=geometryRevision(s),held=restRouteProofs.get(position.path);
+ if(held&&held.revision===revision&&position.path.length<=held.path.length){
+  const index=held.path.length-position.path.length;
+  const start=index>0?held.path[index-1]:held.from;
+  const end=index<held.path.length?held.path[index]:held.path.at(-1);
+  if(onSegment(position,start,end))return true;
+ }
+ if(!restRouteClear(s,position,slot))return false;
+ restRouteProofs.set(position.path,{revision,from:{x:position.x,y:position.y},path:position.path.map(p=>({x:p.x,y:p.y}))});return true;
+}
+function recoveryTarget(position){
+ const held=restRecovery.get(position);if(!held||position.path?.length!==1)return null;
+ const next=position.path[0];
+ if(Math.abs(next.x-held.x)>1e-9||Math.abs(next.y-held.y)>1e-9)return null;
+ return onSegment(position,held.from,{x:held.x,y:held.y})?held:null;
+}
+function restRecoveryPlan(s,position){
+ const target=nearestVisibleBodyGround(s,position);if(!target)return null;
+ const path=[{x:target.x,y:target.y}];if(scenicSweep(s,position,path[0]).blocked)return null;
+ restRecovery.set(position,{x:target.x,y:target.y,from:{x:position.x,y:position.y},distance:target.distance});return path;
+}
 export function bodyActivity(s,p){const a=s.activitiesById?.[p.activityId];return a?.kind==='facility'?a:null;}
 export function releaseBodyActivity(s,p){
  const a=bodyActivity(s,p);if(!a)return;
  if(a.reservationId)delete s.reservationsById[a.reservationId];delete s.activitiesById[a.id];p.activityId=null;
- const o=owner(s,p);if(o.scenic){o.scenic.path=[];o.scenic.goal=null;delete o.scenic.activitySlotId;}
+ const o=owner(s,p);if(o.scenic){restRecovery.delete(o.scenic);o.scenic.path=[];o.scenic.goal=null;delete o.scenic.activitySlotId;}
 }
 // SR-XF-008-AC-03: an injury ends this person's work promise before another contribution.
 // The shared production order and its material reservation belong to the batch.
@@ -52,7 +94,7 @@ export function prepareFacilityActivity(s,p,b,action,budget=46,options={}){
  let a=bodyActivity(s,p);
  if(!b||b.spatialLock&&!a||!facilityBodyKinds.has(action)||b.enabled===false||b.condition<=0){releaseBodyActivity(s,p);return false;}
  if(a&&(a.targetId!==b.instanceId||a.action!==action||exactSlotId&&a.slotId&&a.slotId!==exactSlotId)){releaseBodyActivity(s,p);a=null;}
- if(!a){a={id:`activity:body:${p.personId}`,kind:'facility',personId:p.personId,action,phase:'waiting',targetId:b.instanceId,slotId:null,reservationId:null,startedTick:s.worldTick,reason:'等待工位。'};s.activitiesById[a.id]=a;p.activityId=a.id;}
+ if(!a){a={id:`activity:body:${p.personId}`,kind:'facility',personId:p.personId,action,phase:'waiting',targetId:b.instanceId,slotId:null,reservationId:null,startedTick:s.worldTick,reason:'等待工位。'};s.activitiesById[a.id]=a;p.activityId=a.id}
  let slot=a.slotId&&slotById(s,a.slotId);
  if(slot&&!slotReservation(s,slot.id)){a.slotId=null;a.reservationId=null;slot=null;}
  if(!slot){
@@ -67,18 +109,33 @@ export function prepareFacilityActivity(s,p,b,action,budget=46,options={}){
  if(position.bodyYield?.kind==='mutual-corridor'){a.phase='waiting';a.reason='正在给同行者让路，随后继续前往原工位。';return false;}
  const arrived=()=>scenicDistance(position,slot.position)<arrival(s)&&!scenicSweep(s,position,slot.position).blocked;
  if(!arrived()){
-  if(position.revision!==geometryRevision(s)||!position.goal||scenicDistance(position.goal,slot.position)>units(s,.01)||!position.path.length){
-   const path=scenicFindPath(s,position,slot.position,{maxSnap:units(s,1)});
-   if(path===null){a.phase='waiting';a.reason='工位通路受阻。';position.path=[];position.goal=null;return false;}
-   position.path=path;position.goal={...slot.position};position.revision=geometryRevision(s);position.destinationId=b.id;
+  const restTravel=REST_TRAVEL.has(action),revision=geometryRevision(s),offGround=restTravel&&!visibleBodyPointClear(s,position);
+  if(restTravel&&position.path?.length){
+   // A retained route may predate measured-ground enforcement. Validate the
+   // whole remaining route before it can move, not only when a replan happens.
+   if(!offGround)restRecovery.delete(position);
+   if(!recoveryTarget(position)&&(position.revision!==revision||!goalAtSlot(s,position,slot)||!retainedRestRouteClear(s,position,slot))){position.path=[];position.goal=null;}
   }
-  a.phase='navigating';a.reason='前往'+slot.label+'。';
+  if(position.revision!==revision||!position.goal||scenicDistance(position.goal,slot.position)>units(s,.01)||!position.path.length){
+   let path=null,proven=false;
+   if(offGround){
+    path=restRecoveryPlan(s,position);
+    if(path===null){a.phase='waiting';a.reason='已被地形边缘挡在可见地面外，附近没有可走的落地位置。';position.path=[];position.goal=null;return false;}
+   }else if(restTravel){
+    const access=buildingAccess(s,b),first=access&&scenicFindPath(s,position,access,{maxSnap:units(s,1),visibleBody:true}),second=first&&scenicFindPath(s,access,slot.position,{maxSnap:units(s,1)});
+    if(first&&second&&restRouteClear(s,{...position,path:[...first,...second],goal:{...slot.position}},slot)){path=[...first,...second];proven=true;}
+   }else path=scenicFindPath(s,position,slot.position,{maxSnap:units(s,1)});
+   if(path===null){a.phase='waiting';a.reason='工位通路受阻。';position.path=[];position.goal=null;return false;}
+   position.path=path;position.goal={...slot.position};position.revision=revision;position.destinationId=b.id;
+   if(proven)restRouteProofs.set(path,{revision,from:{x:position.x,y:position.y},path:path.map(p=>({x:p.x,y:p.y}))});
+  }
+  a.phase='navigating';a.reason=(recoveryTarget(position)?'先返回可见地面，再':'')+'前往'+slot.label+'。';
   if(budget>0){const moved=advanceScenic(position,budget,s);p.energy=Math.max(0,p.energy-moved/46*.04);syncScenicPosition(s,p);if(position.waitingForPersonId){a.phase='waiting';a.reason=`${s.personsById[position.waitingForPersonId]?.name||'同行者'}暂占通路，等待其移动。`;}}
   if(p===s.master&&!position.path.length&&action==='study')p.action='study';
   // Arrival itself spends this world step, never also a full second of work.
   return false;
  }
- position.path=[];position.goal={...slot.position};a.phase='executing';a.reason='正在使用'+slot.label+'。';if(s.residentialHousing&&['rest','heal'].includes(action))settleResidentialArrival(s,p.personId);return true;
+ restRecovery.delete(position);position.path=[];position.goal={...slot.position};a.phase='executing';a.reason='正在使用'+slot.label+'。';if(s.residentialHousing&&['rest','heal'].includes(action))settleResidentialArrival(s,p.personId);return true;
 }
 export function productionOrder(s,b){return s.workOrdersById?.[`work:production:${b.instanceId}`]||null;}
 const ordinaryRecipe=(b,version=productionVersionFor(b))=>productionRecipeDefinition(version,b.type);

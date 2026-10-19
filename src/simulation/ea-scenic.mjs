@@ -1,6 +1,6 @@
-import {spatialEnabled,sceneUnits,spatialAccess,SPATIAL_VERSION,COURTYARD_WALK_RATE,meterBodyBlocker,meterLocalBodyDetour,metreWalkTarget,requestBodyYield,meterDoorPermit,meterDoorMoved} from './ea-sr-spatial.mjs';
+import {spatialEnabled,sceneUnits,spatialAccess,SPATIAL_VERSION,COURTYARD_WALK_RATE,meterBodyBlocker,meterLocalBodyDetour,metreWalkTarget,requestBodyYield,meterDoorPermit,meterDoorMoved,visibleBodyRouteClear,visibleBodyWalkPath} from './ea-sr-spatial.mjs';
 import {slotById} from './ea-facility-slots.mjs';
-import {domainResidencesEnabled,domainNorthLibraryEnabled,domainWestWorkshopsEnabled} from './ea-sect-domain.mjs';
+import {domainResidencesEnabled,domainNorthLibraryEnabled,domainWestWorkshopsEnabled,northLibraryApproachSurfaceContains} from './ea-sect-domain.mjs';
 import {point,findPath,sweep,canStand,distance,LANDMARKS} from './yunxiu-courtyard/navigation.mjs';
 import {SCENE_GEOMETRY,SCENIC_PLOTS,scenicCanStand,scenicFindPath,scenicSweep,scenicNearest,buildingAccess,geometryRevision,scenicDistance} from './ea-scene-geometry.mjs';
 export {SCENE_GEOMETRY,scenicPoint,scenicInverse,scenicCanStand,scenicFindPath,scenicNearest,scenicDistance,scenicPathDistance,buildingAccess,geometryRevision} from './ea-scene-geometry.mjs';
@@ -10,13 +10,22 @@ export const areaPoint=id=>point(LANDMARKS.find(l=>l.id===id)?.node||'centre');
 export const appearance=id=>id==='master'?0:1+((Number(id)-1)%5);
 export function scenicPosition(master){return master.scenic||{...point('mainDoor'),path:[],steps:0,facing:1,back:false};}
 export function startScenicWalk(master,goal,s){
- const a=scenicPosition(master),target=s&&spatialEnabled(s)?metreWalkTarget(s,a,goal):goal,path=s?scenicFindPath(s,a,target):findPath(a,target);if(!path)return false;
+ const a=scenicPosition(master),target=s&&spatialEnabled(s)?metreWalkTarget(s,a,goal):goal,
+  // North-band walks keep the measured body over every later sample. A legal
+  // start plans directly; an inherited off-ground start gets one short recovery
+  // landing first. No legal route means the command is refused, not shortened.
+  path=s&&spatialEnabled(s)&&domainNorthLibraryEnabled(s.spatial?.northLibrary?.version)?visibleBodyWalkPath(s,a,target):s?scenicFindPath(s,a,target):findPath(a,target);
+ if(!path)return false;
  master.scenic={...a,path,...(s?{geometry:spatialEnabled(s)?SPATIAL_VERSION:SCENE_GEOMETRY,revision:geometryRevision(s),goal:path.at(-1)||{x:a.x,y:a.y}}:{})};master.path=[];master.action=path.length?'walk':'rest';master.learning=null;master.teaching=null;return true;
 }
 export function advanceScenic(actor,budget,s){budget=sceneUnits(s,budget)*(spatialEnabled(s)?COURTYARD_WALK_RATE:1);
  if(s&&actor.revision!==geometryRevision(s)){repairScenicActor(actor,s);}
  let used=0,detours=0;while(actor.path.length&&budget>.001){const target=actor.path[0],d=distance(actor,target);if(d<.001){actor.path.shift();continue;}
  const step=Math.min(budget,d),next={x:actor.x+(target.x-actor.x)*step/d,y:actor.y+(target.y-actor.y)*step/d},moved=s?scenicSweep(s,actor,next):sweep(actor,next);
+ // One step may start or end indoors. Interior samples stay exempt, while every
+// outdoor sample of that same step keeps the full .26 m / sixteen-point body.
+ const northWatched=s&&domainNorthLibraryEnabled(s.spatial?.northLibrary?.version)&&actor.goal?.y<1&&(northLibraryApproachSurfaceContains(actor,0)||northLibraryApproachSurfaceContains(next,0));
+ if(northWatched&&!visibleBodyRouteClear(s,{x:actor.x,y:actor.y},[next])){actor.path=[];actor.goal=null;break;}
  if(moved.blocked){if(s){actor.path=[];actor.goal=null;break;}throw Error('山道路径越过通行边界。');}
  if(s&&!meterDoorPermit(s,actor,actor,actor.path,next))break;
  const blocker=s&&meterBodyBlocker(s,actor,actor,next);

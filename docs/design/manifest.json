@@ -1545,7 +1545,7 @@
     "styleAlignmentEvidence": "docs/art/hd-pixel-trail-20261014/STAIR-CONNECTION.md"
   },
   "currentHandoff": {
-    "updatedAt": "2026-10-18",
+    "updatedAt": "2026-10-20",
     "entry": "AGENTS.md",
     "handoff": "docs/CODEX-HANDOFF.md",
     "deliveryPlan": "docs/DELIVERY-PLAN.md",
@@ -1558,7 +1558,7 @@
     "appliesTo": "all agents, including Sol high and extra-high reasoning settings",
     "workingTree": "/Volumes/Media/immortal",
     "preserveUncommittedChanges": true,
-    "sourceBaseCommit": "e5f0d78358ab42fefbd2b5e3c516465bff115f8b",
+    "sourceBaseCommit": "88ee118a94d9bec8ad1a0a4ff6a3dbf390c722b5",
     "scopePerBatch": [
       "SR and AC",
       "design clause and U/R/T",
@@ -1658,10 +1658,12 @@
     "currentGoal": {
       "decisionId": "U-167",
       "mode": "goal",
-      "status": "active",
+      "status": "paused",
       "objective": "Implement the approved 25 facility groups and 31 fixed sites through Golden Core, with real paths, construction, supply, work and save continuity.",
       "reference": "docs/design/58-GOLDEN-CORE-PRESET-BUILDINGS.md",
-      "closesWholeRequirements": false
+      "closesWholeRequirements": false,
+      "resumePolicy": "needs-explicit-user-resume",
+      "statusNote": "Automation paused after merchant-harvest-01; no world advance until an explicit new user authorization."
     },
     "currentArenaValidation": {
       "componentChecks": {
@@ -2116,7 +2118,7 @@
       ],
       "pendingPositions": 14,
       "runtimeEvidence": "docs/design/61-RESIDENTIAL-INTEGRATION.md",
-      "currentBatchStatus": "west-workshops-l1-integrated-seekers-approach-repair",
+      "currentBatchStatus": "merchant-harvest-01-passed-paused-5-members-food16-source304",
       "runtimeTypesCovered": 15,
       "previousWestForestDesktopValidation": {
         "platform": "macOS-source-Electron",
@@ -2675,10 +2677,10 @@
         "engineeringChecksPassed": true
       },
       "seekersDesktop": {
-        "status": "stopped-for-north-stair-approach-repair",
-        "latestSource": "/Volumes/Media/immortal-qa/seekers-desktop-20261018/run-02/stopped-world.json",
-        "latestSourceSHA256": "a95ea5946d7d7471bd75835c9b0a5d55714c168e528a5f2d60224e6ccc414751",
-        "latestTick": 174422,
+        "status": "merchant-harvest-01-passed-paused-five-members",
+        "latestSource": "/Volumes/Media/immortal/.qa-dsh-parallel/15-funding/runs/merchant-harvest-01/world/sect-save.json",
+        "latestSourceSHA256": "e76e9dd8a5c9642e50fff100febadb04c49f2b0dbc11e87ad662cb9bff2218e6",
+        "latestTick": 189867,
         "runs": [
           {
             "run": 1,
@@ -2693,10 +2695,372 @@
             "wallSeconds": 287.382,
             "pageErrors": 0,
             "exactReopens": 2
+          },
+          {
+            "run": 3,
+            "initialTick": 174422,
+            "finalTick": 174422,
+            "wallSeconds": 2.579,
+            "status": "failed-launch",
+            "pageErrors": 1,
+            "exactReopens": 0
+          },
+          {
+            "run": 4,
+            "initialTick": 174422,
+            "finalTick": 176699,
+            "wallSeconds": 253.176,
+            "totalActiveWallSeconds": 554.127,
+            "status": "stopped-bed-pending",
+            "exactReopens": 1,
+            "members": 3,
+            "naturalVisits": 3
+          },
+          {
+            "run": 5,
+            "initialTick": 176960,
+            "finalTick": 177153,
+            "wallSeconds": 97.434,
+            "totalActiveWallSeconds": 651.561,
+            "status": "failed-hang-preserved",
+            "exactReopens": 0,
+            "note": "last report observation only; no complete 177153 save"
+          },
+          {
+            "run": 6,
+            "initialTick": 176960,
+            "finalTick": 177171,
+            "wallSeconds": 38.747,
+            "totalActiveWallSeconds": 987.764004,
+            "status": "failed-approach-reciprocal-block",
+            "exactReopens": 1
+          },
+          {
+            "run": 7,
+            "initialTick": 177171,
+            "finalTick": 177361,
+            "wallSeconds": 38.437,
+            "totalActiveWallSeconds": 1026.201004,
+            "status": "failed-approach-side-step-not-accepted",
+            "exactReopens": 1
+          },
+          {
+            "run": 8,
+            "initialTick": 177361,
+            "finalTick": 177595,
+            "wallSeconds": 44.721,
+            "totalActiveWallSeconds": 1070.922004,
+            "status": "failed-visible-ground-after-side-step",
+            "exactReopens": 1
           }
         ],
         "rootReadback": "/Volumes/Media/immortal-qa/seekers-desktop-20261018/root-readback-run02.json",
-        "admittedNewPeople": 0
+        "admittedNewPeople": 3,
+        "yieldRepairIntegration": {
+          "batch": "/Volumes/Media/immortal-qa/dsh-supervision-20261019",
+          "report": "/Volumes/Media/immortal-qa/dsh-supervision-20261019/integration/report.json",
+          "sourceHead": "88ee118a94d9bec8ad1a0a4ff6a3dbf390c722b5",
+          "patch": "/Volumes/Media/immortal-qa/seekers-body-yield-repair-20261019/minimal-repair.patch",
+          "patchSha256": "3ff3cfe945a615b37e49c9726f15cf07cb8ab84619fde8664e641727b9c193d6",
+          "files": [
+            {
+              "path": "src/simulation/ea-sect-domain.mjs",
+              "sha256": "f2eda3d4be78f61dfc03d846fde65e9873c9306841acb0579f23fc8ba2532c6c"
+            },
+            {
+              "path": "src/simulation/ea-sr-spatial.mjs",
+              "sha256": "83646e0c7c53f694fb709b65cd7d418e0ba0d40ced5d18ce9fb76a9e982d4d3e"
+            },
+            {
+              "path": "src/simulation/ea-north-yield-ground.mjs",
+              "sha256": "ba7ed756b5f8cae9b944ed671fb0901379ce50cabe63284b465f695575fbc6ea"
+            },
+            {
+              "path": "tests/unit/courtyard/courtyard-mutual-yield.test.mjs",
+              "sha256": "77926f76c7870486bbb95b33f252b7dee0b69f7bedc2a50cf733f18b10e9e7d5"
+            }
+          ],
+          "isolatedChecksPassed": 11,
+          "mainNewRulesPassed": 4,
+          "mainRelatedOldRulesPassed": 2,
+          "engineeringChecksPassed": true,
+          "committed": false,
+          "pushed": false
+        },
+        "desktopRun03": {
+          "status": "failed-launch-preserved",
+          "path": "/Volumes/Media/immortal-qa/dsh-supervision-20261019/desktop/run-03",
+          "report": "/Volumes/Media/immortal-qa/dsh-supervision-20261019/desktop/run-03/report.json",
+          "finalTick": 174422,
+          "wallSeconds": 2.579,
+          "nativeEqualsSource": true,
+          "reason": "Electron launch failed before the page loaded; the world did not advance."
+        },
+        "desktopRun04": {
+          "status": "stopped-bed-pending",
+          "path": "/Volumes/Media/immortal-qa/dsh-supervision-20261019/desktop/run-04",
+          "report": "/Volumes/Media/immortal-qa/dsh-supervision-20261019/desktop/run-04/report.json",
+          "reportSha256": "d9ba2d51b35143b5725e2f1ab1f57454b8e9d6146c93f50c29f11fac53496e83",
+          "native": "/Volumes/Media/immortal-qa/dsh-supervision-20261019/desktop/run-04/world/sect-save.json",
+          "nativeSha256": "eea60b997715687b32c3fe21493ed4f730a19ee75f298b14afd532e6d66b5522",
+          "seal": "/Volumes/Media/immortal-qa/dsh-supervision-20261019/desktop/run-04/sealed-readback.json",
+          "sealSha256": "3f5f97fc8929f1ef6aed2ecbb45a831732a2df350e662f2ad71033edaba4b27b",
+          "finalTick": 176699,
+          "wallSeconds": 253.176,
+          "totalActiveWallSeconds": 554.127,
+          "exactReopens": 1,
+          "members": 3,
+          "naturalVisits": 3,
+          "admitted": "person:yunxiu:71",
+          "pendingBed": "building:yunxiu:7/slot:bed:3",
+          "stopReason": "Bounded wait: new member actually reaches the promised bed",
+          "presentVisitor": "person:yunxiu:72",
+          "presentVisitorName": "徐闻溪",
+          "presentVisitorArrivedTick": 176280,
+          "food": {
+            "jade": 14.4,
+            "wood": 20,
+            "stone": 4,
+            "herb": 2,
+            "food": 20
+          }
+        },
+        "desktopRun05": {
+          "status": "failed-hang-preserved",
+          "path": "/Volumes/Media/immortal-qa/dsh-supervision-20261019/desktop/run-05",
+          "report": "/Volumes/Media/immortal-qa/dsh-supervision-20261019/desktop/run-05/report.json",
+          "preservation": "/Volumes/Media/immortal-qa/dsh-supervision-20261019/desktop/run05-hang-preservation/preservation.json",
+          "nativeTick": 176960,
+          "nativeSha256": "57187d2fb5e5e90679ae999d079d3b048e02fdc5bca455613b343bc1f87099f1",
+          "lastObservedTick": 177153,
+          "completeFinalStateAvailable": false,
+          "termination": "SIGKILL after renderer remained unresponsive; not a normal close."
+        },
+        "sourceFix": {
+          "file": "src/simulation/ea-sect-domain.mjs",
+          "sha256": "ac8761e40bc4feeef05a267169e9b2e01e3f6ea434f1837f5ba0bef5dc38467f",
+          "previous": "f2eda3d4be78f61dfc03d846fde65e9873c9306841acb0579f23fc8ba2532c6c",
+          "change": "bounded northSurfacePoint cache and no per-call northPassageRoad slice",
+          "navigation": {
+            "file": "apps/courtyard/courtyard-navigation.mjs",
+            "sha256": "64b40a0be53f783d257126553e98f8c8245da54ed81b271d2e037492ba9c8707",
+            "change": "bodyGroundClear always checks accepted landing and every path sample; .26 m body must stay on measured visible ground"
+          },
+          "npc": [
+            {
+              "file": "src/simulation/ea-scenic.mjs",
+              "sha256": "8bc90b32aca01b2d0ea24f091cdf9da47f4971acf6ee6cb848947ad6a7ed2aae"
+            }
+          ],
+          "transport": [
+            {
+              "file": "src/simulation/ea-sr-economy.mjs",
+              "sha256": "f8ca9a34f0aae3a988aec2a6b0c70e34b832ba795dbda0d190b4bfea74ce4296"
+            },
+            {
+              "file": "src/simulation/ea-scene-geometry.mjs",
+              "sha256": "b7576619b10f5e3e593cfe4f7dcabce1edfa86f462d54a7e20da07783febab80"
+            },
+            {
+              "file": "src/simulation/ea-sr-spatial.mjs",
+              "sha256": "531e82a93274fd3776ebeec3fdcb6246066da03624c5f24a88026f22f789d8a3"
+            }
+          ]
+        },
+        "desktopRecovery01": {
+          "status": "failed-approach-reciprocal-block",
+          "path": "/Volumes/Media/immortal-qa/dsh-supervision-20261019/desktop/recovery-01",
+          "report": "/Volumes/Media/immortal-qa/dsh-supervision-20261019/desktop/recovery-01/report.json",
+          "reportSha256": "8086870f4118546f29d8e7dd59ab170846b68c426fcc09cc649f62a18e368c0b",
+          "native": "/Volumes/Media/immortal-qa/dsh-supervision-20261019/desktop/recovery-01/world/sect-save.json",
+          "nativeSha256": "4c0f52e3f1f3d7db84c8db60f08fa60697d6996323145aeca10ec2b11220174a",
+          "checkpointSha256": "d28703dd457d9ab3b69eb0f8a131fc62107c0e3d3abff139a537aac4fe8c0374",
+          "sealSha256": "44264a03287a0bce7b39e9585ddb0353c2fb3a02fa491d4d4a5bd2ddff4e1286",
+          "finalTick": 177171,
+          "totalActiveWallSeconds": 987.764004,
+          "reopenCount": 1,
+          "stopReason": "Public approach route stopped",
+          "complete": false
+        },
+        "desktopRecovery02": {
+          "status": "failed-approach-side-step-not-accepted",
+          "path": "/Volumes/Media/immortal-qa/dsh-supervision-20261019/desktop/recovery-02",
+          "report": "/Volumes/Media/immortal-qa/dsh-supervision-20261019/desktop/recovery-02/report.json",
+          "reportSha256": "194b70c7034c5f4e18fbd37751f89751c78b72690984c7dea5b6a7ba8d377ef8",
+          "native": "/Volumes/Media/immortal-qa/dsh-supervision-20261019/desktop/recovery-02/world/sect-save.json",
+          "nativeSha256": "a117dcca1481fdea3264ad0f82fede2fbea4cc6975ac24708c5bc46d7b7d990a",
+          "checkpointSha256": "58cc5192411beb1bd7538da6e085b2aaeccfd0d672705ee760a04f03db74bbce",
+          "sealSha256": "6bbc0c2f9317c11fc4dc4884f31726be2886cc4ccc97531e656957ab599b3f19",
+          "finalTick": 177361,
+          "totalActiveWallSeconds": 1026.201004,
+          "reopenCount": 1,
+          "stopReason": "Public approach route stopped",
+          "complete": false
+        },
+        "desktopRecovery03": {
+          "status": "failed-visible-ground-after-side-step",
+          "path": "/Volumes/Media/immortal-qa/dsh-supervision-20261019/desktop/recovery-03",
+          "report": "/Volumes/Media/immortal-qa/dsh-supervision-20261019/desktop/recovery-03/report.json",
+          "reportSha256": "d1d6245966e1be371dbcbf29784ab97940a467039a715269396b0afee2ddae2c",
+          "native": "/Volumes/Media/immortal-qa/dsh-supervision-20261019/desktop/recovery-03/world/sect-save.json",
+          "nativeSha256": "57186e926a378fad3f68e4a92c2eaf8f39bb059cc26dd0814de925719d719567",
+          "checkpointSha256": "e9d1828b1ff2c4412279ceff1c027a6fe8dc7432518de25b315c2e973e51f04e",
+          "sealSha256": "d2f0d64f68346c3ae7af4c86d61b093d79e79e5799425ffa16c851e71c622143",
+          "finalTick": 177595,
+          "totalActiveWallSeconds": 1070.922004,
+          "reopenCount": 1,
+          "stopReason": "person:master remains on active visible ground",
+          "complete": false
+        },
+        "observerFix": {
+          "status": "retracted: lotus inset and observer widening removed",
+          "analysis": "/Volumes/Media/immortal-qa/dsh-supervision-20261019/desktop/hang-repair/observer-mapping-analysis.json",
+          "analysisSha256": "4765c50b3b52a8b7671947d2d7b9e3697e33349090892663c7a4de7c27792fe8",
+          "reason": "lotus-crop shows mud/vegetation/stone; saved camera projects 177581 off screenshot; three body samples outside measured walk polygons"
+        },
+        "desktopRecovery04": {
+          "status": "failed-npc-body-edge",
+          "path": "/Volumes/Media/immortal-qa/dsh-supervision-20261019/desktop/recovery-04",
+          "report": "/Volumes/Media/immortal-qa/dsh-supervision-20261019/desktop/recovery-04/report.json",
+          "reportSha256": "345831314f2525a56676bfbf5798e3838751c15b7cb4cf9b6fc67bb6ca1516be",
+          "native": "/Volumes/Media/immortal-qa/dsh-supervision-20261019/desktop/recovery-04/world/sect-save.json",
+          "nativeSha256": "91bfbb3e41d6a12515d93f22c1ce92f40b0b10fdbbcb647a79bcff19ccf1d274",
+          "checkpointSha256": "ba2d461b4961aba60b150ab986a4242f80065006a91329e5a8e959fafae0ff2c",
+          "sealSha256": "e88989e64a7a2cffd81bc5c2173397baeccc23ab8ef1359e9201381cfe9c64a2",
+          "finalTick": 177626,
+          "totalActiveWallSeconds": 1097.878004,
+          "reopenCount": 1,
+          "stopReason": "person:lu-zhiwei remains on active visible ground",
+          "complete": false
+        },
+        "routeGate": {
+          "evidence": "/Volumes/Media/immortal-qa/dsh-supervision-20261019/desktop/hang-repair/route-body-gate-test2.json",
+          "sha256": "72b3f5ebda67bfd14772d8f095ed2f0a8327b06639418231a0a69a118af7433c",
+          "researchRoute": "/Volumes/Media/immortal-qa/dsh-supervision-20261019/desktop/hang-repair/research-public-route.json",
+          "researchRouteSha256": "584376cf6b00c79b1e5e6d27aa2a8f0fede3f5bd896269d64aa86494ad13e4ba",
+          "result": "177581 endpoint rejected; legal 40,6 route walked 18 normal ticks with 0 body failures; Lu activity/reservation preserved",
+          "regression": "/Volumes/Media/immortal-qa/dsh-supervision-20261019/desktop/hang-repair/route-body-regression-2.log",
+          "regressionSha256": "9f107c113d9afef939af3eb5ead0c535944b5ec75f1f97c359a78add00b2f901",
+          "testsPassed": 19,
+          "engineering": "/Volumes/Media/immortal-qa/dsh-supervision-20261019/desktop/hang-repair/npm-check-route-body-2.log",
+          "engineeringSha256": "71f217d8169784b6ac15a6ee5caa205a5f7e18e4ba40d57be029792b607177e7"
+        },
+        "npcRouteFix": {
+          "evidence": "/Volumes/Media/immortal-qa/dsh-supervision-20261019/desktop/hang-repair/research-npc-177595.json",
+          "evidenceSha256": "1faacd8019f2a097d003d1374648e9a4b70fcf7bdc47f8d5f049c5a888da9d31",
+          "latestEvidence": "/Volumes/Media/immortal-qa/dsh-supervision-20261019/desktop/hang-repair/research-npc-route.json",
+          "latestEvidenceSha256": "b5a456418d70592d45384ad6b7654a8d5f3ad431152abdb07a1b156c4f0cc4fb",
+          "hallAccess": "/Volumes/Media/immortal-qa/dsh-supervision-20261019/desktop/hang-repair/hall-access-regression.json",
+          "hallAccessSha256": "8a0fdc433b9705976e6540a78f83dcbc11ee5b99996aee05142e789445c35fbc",
+          "result": "177595 research 145 steps and 177626 research 104 steps reach the desk executing with 0 body failures and reservation retained; hall door 28,12.6 reached in 5 steps",
+          "regression": "/Volumes/Media/immortal-qa/dsh-supervision-20261019/desktop/hang-repair/npc-route-regression-4.log",
+          "regressionSha256": "93333a0b913f04fc8f9c2c8286d3d8a7a8918a9cf7b50da12ebf39796d635546",
+          "engineering": "/Volumes/Media/immortal-qa/dsh-supervision-20261019/desktop/hang-repair/npm-check-npc-route-2.log",
+          "engineeringSha256": "71f217d8169784b6ac15a6ee5caa205a5f7e18e4ba40d57be029792b607177e7"
+        },
+        "desktopRecovery05": {
+          "status": "stopped-master-activity-before-npc-route",
+          "path": "/Volumes/Media/immortal-qa/dsh-supervision-20261019/desktop/recovery-05",
+          "report": "/Volumes/Media/immortal-qa/dsh-supervision-20261019/desktop/recovery-05/report.json",
+          "reportSha256": "7c60c0779957d301fa14470a0367ae2966402941f23b680bdd1baa7893410a04",
+          "native": "/Volumes/Media/immortal-qa/dsh-supervision-20261019/desktop/recovery-05/world/sect-save.json",
+          "nativeSha256": "97769b91f82ceb7d06d127a2a31ce183c3b69ef7d1adb47fc8b78365e6c163b0",
+          "finalTick": 177626,
+          "totalActiveWallSeconds": 1118.589004,
+          "reopenCount": 1,
+          "stopReason": "Master body needs its current activity completed",
+          "complete": false
+        },
+        "resumeActivityResearch": {
+          "evidence": "/Volumes/Media/immortal-qa/dsh-supervision-20261019/desktop/hang-repair/research-resume-active.json",
+          "sha256": "45269d338a2f97a8a325e116b482afb614844e6739e40a970441dbf316aab7e6",
+          "result": "177626 + 218 normal steps: master harvest completes, carried food 0->16; Lu reaches desk executing at 177730; 0 body failures; reservation retained"
+        },
+        "desktopRecovery06": {
+          "status": "failed-master-transfer-body",
+          "path": "/Volumes/Media/immortal-qa/dsh-supervision-20261019/desktop/recovery-06",
+          "report": "/Volumes/Media/immortal-qa/dsh-supervision-20261019/desktop/recovery-06/report.json",
+          "reportSha256": "849c7efeaa9f41f134bbaede1c389a64bb46d7c5b67a7240acde6e0e98e41754",
+          "native": "/Volumes/Media/immortal-qa/dsh-supervision-20261019/desktop/recovery-06/world/sect-save.json",
+          "nativeSha256": "065e0950da9aee705a19c869513efe7869717d044be510b13cf2720d1f709c5b",
+          "finalTick": 177979,
+          "totalActiveWallSeconds": 1186.906004,
+          "reopenCount": 1,
+          "stopReason": "person:master remains on active visible ground",
+          "complete": false,
+          "batchSeconds": 68.317,
+          "batchBudgetSeconds": 300,
+          "remainingBatchSeconds": 231.683
+        },
+        "desktopRecovery07": {
+          "status": "failed-lu-rest-body-after-transfer-and-4-members",
+          "path": "/Volumes/Media/immortal-qa/dsh-supervision-20261019/desktop/recovery-07",
+          "report": "/Volumes/Media/immortal-qa/dsh-supervision-20261019/desktop/recovery-07/report.json",
+          "reportSha256": "910c562bc4dfc27000802fb2f80050e709574e532bac6d81461077674cff3ddd",
+          "native": "/Volumes/Media/immortal-qa/dsh-supervision-20261019/desktop/recovery-07/world/sect-save.json",
+          "nativeSha256": "dcd9be70da2a293ed82ae1cd87dcfb1401a92e0a7bf184c1dad072d441ec837c",
+          "finalTick": 178693,
+          "totalActiveWallSeconds": 1300.159004,
+          "batchSeconds": 113.253,
+          "batchBudgetSeconds": 300,
+          "remainingBatchSeconds": 186.747,
+          "complete": false
+        },
+        "finalChain": {
+          "status": "passed-paused",
+          "fiveMembers": [
+            "person:lu-zhiwei",
+            "person:lin-changfeng",
+            "person:yunxiu:71",
+            "person:yunxiu:73",
+            "person:yunxiu:75"
+          ],
+          "homeFood": 16,
+          "carried": 0,
+          "foodSource": 304,
+          "harvestFact": "fact:manual-harvest:activity:manual-harvest:366",
+          "harvestTick": 189831,
+          "transport": "work:transport:367",
+          "deliveredTick": 189858,
+          "pendingBeds": [
+            "person:yunxiu:73:building:yunxiu:7/slot:bed:1",
+            "person:yunxiu:75:building:yunxiu:7/slot:bed:4"
+          ],
+          "time": {
+            "segmentSeconds": 41.400066,
+            "laterClosedIncrementSeconds": 370.287718,
+            "sumMeasuredSegmentsSeconds": 2777.050227,
+            "currentChainLowerBoundSeconds": 2854.560517,
+            "mtimeFloorLowerBoundSeconds": 2874.609517,
+            "unknownTailSeconds": null,
+            "overallExactSeconds": null,
+            "segmentIds": 7
+          },
+          "note": "unknownTailSeconds=null means feed01 save/close tail unknown, not no gap; 190800 daily settlement, bed admission and sustained supply remain unverified.",
+          "provenance": {
+            "handoff": "/Volumes/Media/immortal/.qa-dsh-parallel/08-provenance/handoff-merchant-harvest-01.json",
+            "handoffSha256": "1a6d4b52ccca4dc44191235b6de4b14b4a3f5cbf7580b4a63fcfcf400418cf61",
+            "ledger": "/Volumes/Media/immortal/.qa-dsh-parallel/08-provenance/ledger-v9-merchant-harvest-01.json",
+            "ledgerSha256": "23ae57dc1ef91f1f7e1fdc421629f9d75ff27f1e6e5cf55badec30e647e328d2",
+            "markdown": "/Volumes/Media/immortal/.qa-dsh-parallel/08-provenance/handoff-merchant-harvest-01.md",
+            "markdownSha256": "f4f63d479d8cb0a1179e08c392d9f5ebaff3c8913ff045a6c6550349eefc67e2",
+            "bindings": "30",
+            "mismatches": 0
+          },
+          "verification": {
+            "npmTest": "408/408 pass, fail 0",
+            "npmCheck": "Engineering checks passed",
+            "requirementsRefreshValidate": "40 requirements / 200 tasks / 120 acceptance criteria; dependencies acyclic; source paths valid",
+            "automation": "paused; needs explicit user resume",
+            "note": "No Electron run during documentation closeout."
+          }
+        },
+        "admittedNewPersonIds": [
+          "person:yunxiu:71",
+          "person:yunxiu:73",
+          "person:yunxiu:75"
+        ],
+        "totalMembers": 5
       }
     },
     "previousEngineeringGoal": {

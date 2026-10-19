@@ -209,6 +209,12 @@ SR-XF-003-V01证据：tests/acceptance/ea-indoor-furniture-acceptance.mjs；test
 - docs/design/64-NORTH-LIBRARY-INTEGRATION.md
 - docs/design/66-NORTH-MEDITATION-INTEGRATION.md
 - docs/design/68-WEST-WORKSHOPS-INTEGRATION.md
+- docs/design/65-COURTYARD-SEEKERS.md；2026-10-19 U-167/T-23：北阶迎面互等与让路脚圈修复已合入主树88ee118a（ea-sect-domain、ea-sr-spatial、新ea-north-yield-ground、新courtyard-mutual-yield.test），主树新4项、旧2项与工程检查通过，隔离11/11保留；run03沿174422冻结149运行文件并完成只读预检，Electron走近/空间续接待验。局部合入不改变整项SR/AC。
+- docs/design/65-COURTYARD-SEEKERS.md；2026-10-19 实际桌面run04：174422→176699，253.176秒；approach-midway原生重开174501，身体/脚点/来源字节与149运行文件封存；run04在入住等待处stopped，run05从run04原生保存续接，空间/走近已实测。局部通过不改变整项SR/AC。
+- docs/design/65-COURTYARD-SEEKERS.md；2026-10-19 run05卡顿定位：CPU profile显示northSurfacePoint/inPolygon重复几何；ea-sect-domain最小修复（有界缓存、去slice）SHA ac8761e4…，9项相关+旧2项+工程检查通过；recovery-01从176960→177171因master↔陆清和互等停路失败，native4c0f52e3…保存；recovery-02尚未获运行许可。局部修复不改变整项SR/AC。
+- docs/design/65-COURTYARD-SEEKERS.md；2026-10-19 recovery-02实际从177171 native继续至177361，公开approach仍停路，旁步候选未被moveArt接受；native a117dcca…与checkpoint一致，累计1026.201004秒、剩余173.798996秒。recovery-03已准备从177361原字节继续，等待单次许可；五门人/GC26生产未完成。
+- docs/design/65-COURTYARD-SEEKERS.md；2026-10-19 transferFood修复/recovery-06及recovery-07实机：运输visibleBody寻路与旧路径校验重算；transport351的food18属recovery-06最终源并在recovery-06完成，HOME 12→30，不是run07新增；recovery-07新增transport352 6粮@178180与transport353 8粮@178436，HOME30→44；并收录顾听澜iv73为第四名门人；累计1300.159004秒(本批113.253/300，余186.747秒)，native dcd9be70…。随后陆知微rest去building:yunxiu:1/slot:bed:1在178680(42.944230,12.790354)身体越界，停178693；五门人/GC26未完成。
+- docs/design/65-COURTYARD-SEEKERS.md；2026-10-20收口：merchant-harvest-01 native tick189867 SHA e76e9dd8a5c9642e50fff100febadb04c49f2b0dbc11e87ad662cb9bff2218e6，HOME food16/carried0/source304/5门人；366采16@189831、367 delivered16@189858；完整41.400066s、later370.287718、sumMeasured2777.050227、currentChainLB2854.560517、floor2874.609517、7IDs；unknownTail/overallExact=null（前者为feed01尾段未知，不是无缺口）。73/75 pending；190800日结、床位入住与持续供粮未验，整项SR/AC不提升。
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
@@ -256,5 +262,6 @@ SR-XF-003-V01证据：tests/acceptance/ea-indoor-furniture-acceptance.mjs；test
 - 2026-10-18：U-167 GC03原施工14已在同源桌面完成；四蒲团/两检修位、180步炼气6→7层、有限供灵与四次关闭重开通过。北路返床/绕人修复主树8项及实际27步回路成立。现场货位目的地过滤已补；当前170563检修运输347续接核对主殿门槛圈样本，维护全链未完成。丹房四阶段四工位16项为隔离候选证据。完整SR/AC状态保持。
 - 2026-10-18：U-167 GC03一级同源macOS源码桌面链完成：最终171973，run07为10/10、错误0、209.943秒，七段实际逐项合计777.710秒。勘察/施工、180步6→7层、有限供灵、原运输347与348送2木1石、80步维护均成立，携货及活动中多次精确重开。Lu门槛为外部脚圈检查室内边界遗漏，已按正式预约/holder/floor纠正且保留离路反例。整体建筑与完整SR/AC继续。
 - 2026-10-19：U-167 GC25/26一级道路、四阶段、真实工位与四段炼丹已合入23源码/测试和14图，主树30项及工程检查通过；有限供料负坐标整档完成施工到唯一两份成药，正常桌面生产另验。求见链真实续至174422，首位来客到时离开、第二位入院，未新增收录；绕柱导航已修，北坡迎面互等继续验证。完整SR/AC状态保持。
+- 2026-10-20：2026-10-20 收口到merchant-harvest-01：五门人/食物同档链停止在paused；真实food16入库、source304；未知尾段与整体exact保持null；不把pending当入住、不把补种成功当供粮恢复。历史更正：recovery-04失败人为陆知微，transport351/18属recovery-06而非run07新增。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python scripts/requirements/sr-manager.py refresh`，不单独修改此派生页。

@@ -8,7 +8,7 @@ GC02同源桌面已完成并封存于tick91743，GC03公开筹料后，一级勘
 
 GC25/26一级源与14张素材已接入：独立道路、两院四阶段、真实工位与丹房四段工序。主树30项直接检查及工程检查通过，固定负坐标整档夹具已完成施工至成药；正常来源筹材和桌面生产待沿当前世界继续。当前目录17处已接运行、14处仍为规划，完整目标保持进行。详见[68西谷双院](68-WEST-WORKSHOPS-INTEGRATION.md)。
 
-正常求见链已续至174422：第一位实际入院后到时离开，第二位正在南路入院。走近路线曾撞聚灵台阶西柱，绕柱改线已合入主树；当前继续处理迎面互等与让路时身体边缘越出道路。尚未新增收录。唯一活动源及独立读回见[接手指南](../CODEX-HANDOFF.md)和[65求见记录](65-COURTYARD-SEEKERS.md)。
+正常求见/同档恢复链已收口到merchant-harvest-01（自动化PAUSED）：最终native tick189867、SHA `e76e9dd8…`、HOME food16、carried0、food source304、5门人。实际366采food16于189831，367 delivered16于189858；完整段41.400066秒、later370.287718、sumMeasured2777.050227、当前链下限2854.560517、floor2874.609517、7个segment ID。`unknownTailSeconds`与`overallExactSeconds`仍为null——前者表示feed01保存关闭尾段未知，不是“无缺口”。190800日结、床位入住与持续供粮未验，世界暂停等待交付。整项SR/AC不因局部通过提升。 08 v9交接/账本/MD已绑定并冻结（30绑定0不符）：`1a6d4b52…`/`23ae57dc…`/`f4f63d47…`。 本轮交付检查：npm test 408/408、fail 0；npm run check 通过；requirements refresh/validate 通过（40/200/120，acyclic）；自动化保持 PAUSED，需用户显式新的 resuming 授权才可继续。
 
 纯 2D 高清像素桌面山院位于 `apps/courtyard/`，读取 `src/simulation/` 共用规则。Windows 为主力平台，macOS 是已开展前期验证的平台。当前具备原山院、人物与建筑查看、院务/修行/物资操作、实际供苗与劳动、收成搬回、存档恢复及东台首处扩建。
 

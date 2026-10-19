@@ -100,7 +100,7 @@ function graph(s){
  }
  return g.graph={nodes,edges};
 }
-export function scenicFindPath(s,from,goal,{maxSnap=70}={}){if(spatialEnabled(s))return meterFindPath(s,from,goal,{maxSnap:maxSnap===70?2:maxSnap});
+export function scenicFindPath(s,from,goal,{maxSnap=70,...rest}={}){if(spatialEnabled(s))return meterFindPath(s,from,goal,{...rest,maxSnap:maxSnap===70?2:maxSnap});
  if(!scenicCanStand(s,from))return null;if(distance(from,goal)<.001)return[];
  const g=sceneGeometry(s),routeKey=`${key(from)}>${key(goal)}:${maxSnap}`,held=g.routes?.get(routeKey);if(held!==undefined)return held===null?null:held.map(p=>({...p}));
  const remember=value=>{g.routes??=new Map();if(g.routes.size>1024)g.routes.clear();g.routes.set(routeKey,value);return value===null?null:value.map(p=>({...p}));};

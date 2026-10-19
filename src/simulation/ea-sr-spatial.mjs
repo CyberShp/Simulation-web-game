@@ -10,7 +10,7 @@ import {DOMAIN_LAYOUT_VERSION,DOMAIN_EXTENT_VERSION,DOMAIN_EAST_EXTENT_VERSION,D
 import {COURTYARD_MASTER_TERRAIN_VERSION,courtyardTerrainSolids,validateCourtyardTerrainRecord,courtyardPassage} from './ea-courtyard-master-terrain.mjs';
 import {EAST_RESIDENCES_VERSION,domainResidencesEnabled,domainBounds,domainTerrainBarriers,eastResidencesTerrainContains,courtyardResidencesPassage} from './ea-sect-domain.mjs';
 import {EAST_SERVICES_VERSION,domainServicesEnabled,eastServicesTerrainContains,courtyardServicesPassage,EAST_SERVICES_EXTERIOR_SOLIDS} from './ea-sect-domain.mjs';
-import {NORTH_LIBRARY_VERSION,NORTH_LIBRARY_APPROACH_VERSION,domainNorthLibraryEnabled,NORTH_LIBRARY_SLOPE_APERTURE,northLibraryTerrainContains,courtyardNorthLibraryPassage,northLibraryLocalBypassClear} from './ea-sect-domain.mjs';
+import {NORTH_LIBRARY_VERSION,NORTH_LIBRARY_APPROACH_VERSION,domainNorthLibraryEnabled,NORTH_LIBRARY_SLOPE_APERTURE,northLibraryTerrainContains,courtyardNorthLibraryPassage,northLibraryLocalBypassClear,northLibraryYieldRouteClear} from './ea-sect-domain.mjs';
 import {SITE_SERVICE_VERSION,siteServiceEnabled} from './ea-service-definitions.mjs';
 import {residentialBuildingChangeView} from './ea-residential-housing.mjs';
 export const SPATIAL_VERSION='spatial-metres-1';
@@ -152,53 +152,52 @@ function heapPop(heap){const first=heap[0],last=heap.pop();if(heap.length){let i
 // All routes depend only on these geometry polygons and explicit route options.
 // Keep reusable passage legs outside world state; each caller owns its returned points.
 const pathCache=new WeakMap();
-export function meterFindPath(s,from,goal,{maxSnap=2,radius=.26,throughCourtyardPassage=true,throughEastPassage=true,throughWestPassage=true,throughValleyPassage=true,throughResidencesPassage=true,throughServicesPassage=true,throughNorthLibraryPassage=true,throughNorthMeditationPassage=true,throughWestWorkshopsPassage=true}={}){
+export function meterFindPath(s,from,goal,{maxSnap=2,radius=.26,throughCourtyardPassage=true,throughEastPassage=true,throughWestPassage=true,throughValleyPassage=true,throughResidencesPassage=true,throughServicesPassage=true,throughNorthLibraryPassage=true,throughNorthMeditationPassage=true,throughWestWorkshopsPassage=true,visibleBody=false}={}){
  const geometry=obstacles(s);let paths=pathCache.get(geometry);if(!paths){paths=new Map();pathCache.set(geometry,paths);}
- const options={maxSnap,radius,throughCourtyardPassage,throughEastPassage,throughWestPassage,throughValleyPassage,throughResidencesPassage,throughServicesPassage,throughNorthLibraryPassage,throughNorthMeditationPassage,throughWestWorkshopsPassage};
+ const options={maxSnap,radius,throughCourtyardPassage,throughEastPassage,throughWestPassage,throughValleyPassage,throughResidencesPassage,throughServicesPassage,throughNorthLibraryPassage,throughNorthMeditationPassage,throughWestWorkshopsPassage,visibleBody};
  if(![from?.x,from?.y,goal?.x,goal?.y].every(Number.isFinite))return findMeterPath(s,from,goal,options);
  const key=[from.x,from.y,goal.x,goal.y,...Object.values(options)].join('/');
  if(!paths.has(key)){const path=findMeterPath(s,from,goal,options);if(paths.size>=1024)paths.clear();paths.set(key,path);}
  const path=paths.get(key);return path===null?null:path.map(point=>({...point}));
 }
-function findMeterPath(s,from,goal,{maxSnap=2,radius=.26,throughCourtyardPassage=true,throughEastPassage=true,throughWestPassage=true,throughValleyPassage=true,throughResidencesPassage=true,throughServicesPassage=true,throughNorthLibraryPassage=true,throughNorthMeditationPassage=true,throughWestWorkshopsPassage=true}={}){
- const polygons=obstacles(s),clear=p=>clearPoint(polygons,p,radius),sweep=(a,b)=>({blocked:!clear(a)||!continuousClear(polygons,a,b,radius)});if(!clear(from))return null;const to=clear(goal)?{x:goal.x,y:goal.y}:meterNearest(s,goal,{maxDistance:maxSnap,radius});if(!to)return null;if(distance(from,to)<.001)return [];
+function findMeterPath(s,from,goal,{maxSnap=2,radius=.26,throughCourtyardPassage=true,throughEastPassage=true,throughWestPassage=true,throughValleyPassage=true,throughResidencesPassage=true,throughServicesPassage=true,throughNorthLibraryPassage=true,throughNorthMeditationPassage=true,throughWestWorkshopsPassage=true,visibleBody=false}={}){
+ const polygons=obstacles(s),clear=p=>clearPoint(polygons,p,radius),visibleBodySweep=(a,b)=>!visibleBody||visibleBodySegmentClear(s,a,b),sweep=(a,b)=>({blocked:!clear(a)||!continuousClear(polygons,a,b,radius)||!visibleBodySweep(a,b)});if(!clear(from))return null;const to=clear(goal)?{x:goal.x,y:goal.y}:meterNearest(s,goal,{maxDistance:maxSnap,radius});if(!to)return null;if(distance(from,to)<.001)return [];const northLocal=polygons.northLibrary&&(from.y<0||to.y<0);
  if(throughNorthMeditationPassage&&domainNorthMeditationEnabled(s.spatial?.northMeditation?.version)){
   const passage=courtyardNorthMeditationPassage(from,to);
-  if(passage){const result=[];let at=from;for(const point of [...passage,to]){const route=meterFindPath(s,at,point,{maxSnap:0,radius,throughCourtyardPassage,throughEastPassage,throughWestPassage,throughValleyPassage,throughResidencesPassage,throughServicesPassage,throughNorthLibraryPassage,throughNorthMeditationPassage:false,throughWestWorkshopsPassage});if(route===null)return null;result.push(...route);at=point;}return result;}
+  if(passage){const result=[];let at=from;for(const point of [...passage,to]){const route=meterFindPath(s,at,point,{maxSnap:0,radius,throughCourtyardPassage,throughEastPassage,throughWestPassage,throughValleyPassage,throughResidencesPassage,throughServicesPassage,throughNorthLibraryPassage,throughNorthMeditationPassage:false,throughWestWorkshopsPassage,visibleBody});if(route===null)return null;result.push(...route);at=point;}return result;}
  }
- const northLocal=polygons.northLibrary&&(from.y<0||to.y<0);
  if(throughNorthLibraryPassage&&domainNorthLibraryEnabled(s.spatial?.northLibrary?.version)){
   const passage=courtyardNorthLibraryPassage(from,to,{canStand:clear,canConnect:(a,b)=>!sweep(a,b).blocked});
-  if(passage){const result=[];let at=from;for(const point of [...passage,to]){const route=meterFindPath(s,at,point,{maxSnap:0,radius,throughCourtyardPassage,throughEastPassage,throughWestPassage,throughValleyPassage,throughResidencesPassage,throughServicesPassage,throughNorthLibraryPassage:false,throughNorthMeditationPassage,throughWestWorkshopsPassage});if(route===null)return null;result.push(...route);at=point;}return result;}
+  if(passage){const result=[];let at=from;for(const point of [...passage,to]){const route=meterFindPath(s,at,point,{maxSnap:0,radius,throughCourtyardPassage,throughEastPassage,throughWestPassage,throughValleyPassage,throughResidencesPassage,throughServicesPassage,throughNorthLibraryPassage:false,throughNorthMeditationPassage,throughWestWorkshopsPassage,visibleBody});if(route===null)return null;result.push(...route);at=point;}return result;}
  }
  if(!northLocal&&throughServicesPassage&&domainServicesEnabled(s.spatial?.eastServices?.version)){
   const passage=courtyardServicesPassage(from,to);
-  if(passage){const result=[];let at=from;for(const point of [...passage,to]){const route=meterFindPath(s,at,point,{maxSnap:0,radius,throughCourtyardPassage,throughEastPassage,throughWestPassage,throughValleyPassage,throughResidencesPassage,throughServicesPassage:false,throughNorthLibraryPassage,throughNorthMeditationPassage,throughWestWorkshopsPassage});if(route===null)return null;result.push(...route);at=point;}return result;}
+  if(passage){const result=[];let at=from;for(const point of [...passage,to]){const route=meterFindPath(s,at,point,{maxSnap:0,radius,throughCourtyardPassage,throughEastPassage,throughWestPassage,throughValleyPassage,throughResidencesPassage,throughServicesPassage:false,throughNorthLibraryPassage,throughNorthMeditationPassage,throughWestWorkshopsPassage,visibleBody});if(route===null)return null;result.push(...route);at=point;}return result;}
  }
  if(!northLocal&&throughResidencesPassage&&domainResidencesEnabled(s.spatial?.eastResidences?.version)){
   const passage=courtyardResidencesPassage(from,to);
-  if(passage){const result=[];let at=from;for(const point of [...passage,to]){const route=meterFindPath(s,at,point,{maxSnap:0,radius,throughCourtyardPassage,throughEastPassage,throughWestPassage,throughValleyPassage,throughResidencesPassage:false,throughServicesPassage,throughNorthLibraryPassage,throughNorthMeditationPassage,throughWestWorkshopsPassage});if(route===null)return null;result.push(...route);at=point;}return result;}
+  if(passage){const result=[];let at=from;for(const point of [...passage,to]){const route=meterFindPath(s,at,point,{maxSnap:0,radius,throughCourtyardPassage,throughEastPassage,throughWestPassage,throughValleyPassage,throughResidencesPassage:false,throughServicesPassage,throughNorthLibraryPassage,throughNorthMeditationPassage,throughWestWorkshopsPassage,visibleBody});if(route===null)return null;result.push(...route);at=point;}return result;}
  }
  if(!northLocal&&throughWestWorkshopsPassage&&domainWestWorkshopsEnabled(s.spatial?.westWorkshops?.version)){
   const passage=courtyardWestWorkshopsPassage(from,to);
-  if(passage){const result=[];let at=from;for(const point of [...passage,to]){const local=westWorkshopsPointOpen(at)&&westWorkshopsPointOpen(point),route=meterFindPath(s,at,point,{maxSnap:0,radius,throughCourtyardPassage,throughEastPassage,throughWestPassage,throughValleyPassage:throughValleyPassage&&!local,throughResidencesPassage,throughServicesPassage,throughNorthLibraryPassage,throughNorthMeditationPassage,throughWestWorkshopsPassage:false});if(route===null)return null;result.push(...route);at=point;}return result;}
+  if(passage){const result=[];let at=from;for(const point of [...passage,to]){const local=westWorkshopsPointOpen(at)&&westWorkshopsPointOpen(point),route=meterFindPath(s,at,point,{maxSnap:0,radius,throughCourtyardPassage,throughEastPassage,throughWestPassage,throughValleyPassage:throughValleyPassage&&!local,throughResidencesPassage,throughServicesPassage,throughNorthLibraryPassage,throughNorthMeditationPassage,throughWestWorkshopsPassage:false,visibleBody});if(route===null)return null;result.push(...route);at=point;}return result;}
  }
  if(!northLocal&&throughValleyPassage&&domainValleyEnabled(s.spatial?.extentVersion)){
   const passage=courtyardValleyPassage(from,to);
-  if(passage){const result=[];let at=from;for(const point of [...passage,to]){const route=meterFindPath(s,at,point,{maxSnap:0,radius,throughCourtyardPassage,throughEastPassage,throughWestPassage,throughValleyPassage:false,throughResidencesPassage,throughServicesPassage,throughNorthLibraryPassage,throughNorthMeditationPassage,throughWestWorkshopsPassage});if(route===null)return null;result.push(...route);at=point;}return result;}
+  if(passage){const result=[];let at=from;for(const point of [...passage,to]){const route=meterFindPath(s,at,point,{maxSnap:0,radius,throughCourtyardPassage,throughEastPassage,throughWestPassage,throughValleyPassage:false,throughResidencesPassage,throughServicesPassage,throughNorthLibraryPassage,throughNorthMeditationPassage,throughWestWorkshopsPassage,visibleBody});if(route===null)return null;result.push(...route);at=point;}return result;}
  }
  if(!northLocal&&throughWestPassage&&domainWestEnabled(s.spatial?.extentVersion)){
   const passage=courtyardWestPassage(from,to);
-  if(passage){const result=[];let at=from;for(const point of [...passage,to]){const route=meterFindPath(s,at,point,{maxSnap:0,radius,throughCourtyardPassage,throughEastPassage,throughWestPassage:false,throughValleyPassage,throughResidencesPassage,throughServicesPassage,throughNorthLibraryPassage,throughNorthMeditationPassage,throughWestWorkshopsPassage});if(route===null)return null;result.push(...route);at=point;}return result;}
+  if(passage){const result=[];let at=from;for(const point of [...passage,to]){const route=meterFindPath(s,at,point,{maxSnap:0,radius,throughCourtyardPassage,throughEastPassage,throughWestPassage:false,throughValleyPassage,throughResidencesPassage,throughServicesPassage,throughNorthLibraryPassage,throughNorthMeditationPassage,throughWestWorkshopsPassage,visibleBody});if(route===null)return null;result.push(...route);at=point;}return result;}
  }
  if(!northLocal&&throughEastPassage&&domainExtentEnabled(s.spatial?.extentVersion)&&courtyardTerrainSolids(s.spatial?.courtyardTerrain?.version).length){
   const passage=courtyardEastPassage(from,to);
-  if(passage){const result=[];let at=from;for(const point of [...passage,to]){const route=meterFindPath(s,at,point,{maxSnap:0,radius,throughCourtyardPassage,throughEastPassage:false,throughWestPassage,throughValleyPassage,throughResidencesPassage,throughServicesPassage,throughNorthLibraryPassage,throughNorthMeditationPassage,throughWestWorkshopsPassage});if(route===null)return null;result.push(...route);at=point;}return result;}
+  if(passage){const result=[];let at=from;for(const point of [...passage,to]){const route=meterFindPath(s,at,point,{maxSnap:0,radius,throughCourtyardPassage,throughEastPassage:false,throughWestPassage,throughValleyPassage,throughResidencesPassage,throughServicesPassage,throughNorthLibraryPassage,throughNorthMeditationPassage,throughWestWorkshopsPassage,visibleBody});if(route===null)return null;result.push(...route);at=point;}return result;}
  }
  if(!sweep(from,to).blocked)return [to];
  if(!northLocal&&throughCourtyardPassage&&courtyardTerrainSolids(s.spatial?.courtyardTerrain?.version).length){
   const passage=courtyardPassage(from,to);
-  if(passage){const result=[];let at=from;for(const point of [...passage,to]){const route=meterFindPath(s,at,point,{maxSnap:0,radius,throughCourtyardPassage:false,throughEastPassage,throughWestPassage,throughValleyPassage,throughResidencesPassage,throughServicesPassage,throughNorthLibraryPassage,throughNorthMeditationPassage,throughWestWorkshopsPassage});if(route===null)return null;result.push(...route);at=point;}return result;}
+  if(passage){const result=[];let at=from;for(const point of [...passage,to]){const route=meterFindPath(s,at,point,{maxSnap:0,radius,throughCourtyardPassage:false,throughEastPassage,throughWestPassage,throughValleyPassage,throughResidencesPassage,throughServicesPassage,throughNorthLibraryPassage,throughNorthMeditationPassage,throughWestWorkshopsPassage,visibleBody});if(route===null)return null;result.push(...route);at=point;}return result;}
  }
  const step=SPATIAL_SCENE.grid,minX=Math.floor((polygons.bounds.x||0)/step)+1,minY=Math.floor((polygons.bounds.y||0)/step)+1,maxX=Math.ceil(((polygons.bounds.x||0)+polygons.bounds.width)/step)-1,maxY=Math.ceil(((polygons.bounds.y||0)+polygons.bounds.height)/step)-1,stride=maxX-minX+1;
  const k=(x,y)=>(y-minY)*stride+x-minX,open=[],cost=new Map(),parents=new Map(),points=new Map(),closed=new Set();
@@ -209,10 +208,51 @@ function findMeterPath(s,from,goal,{maxSnap=2,radius=.26,throughCourtyardPassage
 const personPosition=(s,p)=>p===s.master?p.scenic:p.mind?.scenic;
 const people=s=>Object.values(s.personsById||{}).filter(p=>!['waiting','departed'].includes(p.courtyardVisit?.phase)&&p.lifeStatus!=='dead'&&!p.left&&!p.mind?.away&&!p.mind?.journey&&(!p.location||p.location.kind==='local'&&p.location.sceneId===SPATIAL_SCENE.id)&&(p===s.master||s.homeMemberIds?.includes(p.personId)||p.mind?.scenic));
 const walkingPerson=(s,actor)=>people(s).find(p=>personPosition(s,p)===actor);
+/** Click-to-walk resolves to a measured standing point. A click whose own body
+ * hangs off the visible paving otherwise stops on that half-body edge, where no
+ * legal detour exists; the nearest real standing point within two metres is
+ * used instead. Body collision and visible ground stay exactly as measured. */
+function nearestVisibleBodyTarget(s,actor,goal,occupied,{maxDistance=2,step=.25}={}){
+ const rooms=roomFrames(s),outdoors=!insideRoomOf(rooms,goal),reachable=p=>meterFindPath(s,actor,p,{maxSnap:0})!==null,
+  free=p=>distance(goal,p)<=maxDistance+1e-9&&meterCanStand(s,p)&&!occupied.some(a=>distance(a,p)<.53)&&(outdoors?!insideRoomOf(rooms,p)&&visibleBodyAt(rooms,false,p):visibleBodyPointClear(s,p))&&reachable(p);
+ if(free(goal))return {x:goal.x,y:goal.y};
+ let best=null,bd=Infinity;
+ const consider=p=>{const d=distance(goal,p),q={x:p.x,y:p.y};if(d<bd&&free(q)){best=q;bd=d;}};
+ for(let radius=step;radius<=maxDistance+1e-9&&!best;radius+=step){
+  const count=Math.max(8,Math.ceil(2*Math.PI*radius/step));
+  for(let i=0;i<count;i++){const angle=i*2*Math.PI/count;consider({x:goal.x+Math.cos(angle)*radius,y:goal.y+Math.sin(angle)*radius});}
+ }
+ if(!best)return null;
+ const fine=step/5;
+ for(let dy=-step;dy<=step+1e-9;dy+=fine)for(let dx=-step;dx<=step+1e-9;dx+=fine)consider({x:best.x+dx,y:best.y+dy});
+ return best;
+}
 export function metreWalkTarget(s,actor,goal){
- const mover=walkingPerson(s,actor);if(!mover||!people(s).some(p=>p!==mover&&personPosition(s,p)&&distance(personPosition(s,p),goal)<.53))return goal;
- const occupied=people(s).filter(p=>p!==mover).map(p=>personPosition(s,p)).filter(Boolean);
+ const mover=walkingPerson(s,actor);if(!mover||![goal?.x,goal?.y].every(Number.isFinite))return goal;
+ const occupied=people(s).filter(p=>p!==mover).map(p=>personPosition(s,p)).filter(Boolean),
+  near=occupied.some(a=>distance(a,goal)<.53);
+ if(domainNorthLibraryEnabled(s.spatial?.northLibrary?.version)){const nearest=nearestVisibleBodyTarget(s,actor,goal,occupied);if(nearest)return nearest;}
+ if(!near)return goal;
  return meterNearest(s,goal,{maxDistance:2,occupied})||goal;
+}
+/** Walk routes in the north body band use the same five-centimetre measured
+ * body as the desktop observer. An off-ground start first takes one short
+ * recovery step to the nearest legal ground; every later sample must stay on
+ * the visible body. Null means no legal route, so callers do not silently fall
+ * back to a centre-only path. */
+export function visibleBodyWalkPath(s,from,goal,{maxRecovery=8}={}){
+ if(!spatialEnabled(s)||![from?.x,from?.y,goal?.x,goal?.y].every(Number.isFinite))return null;
+ let start=from;
+ if(!visibleBodyPointClear(s,from)){
+  start=nearestVisibleBodyGround(s,from,{maxDistance:maxRecovery});if(!start)return null;
+  // The recovery prefix may leave the original off-ground stance, but once it
+  // touches visible ground it must not step back out before the landing.
+  const count=Math.max(1,Math.ceil(distance(from,start)/.05));let legal=false;
+  for(let i=0;i<=count;i++){const p={x:from.x+(start.x-from.x)*i/count,y:from.y+(start.y-from.y)*i/count},ok=visibleBodyPointClear(s,p);if(ok)legal=true;else if(legal)return null;}
+ }
+ const route=meterFindPath(s,start,goal,{maxSnap:0,visibleBody:true});
+ if(route===null)return null;
+ return start===from?route:[{x:start.x,y:start.y},...route];
 }
 function pointSegmentDistance(p,a,b){const dx=b.x-a.x,dy=b.y-a.y,t=Math.max(0,Math.min(1,((p.x-a.x)*dx+(p.y-a.y)*dy)/(dx*dx+dy*dy||1)));return Math.hypot(p.x-a.x-t*dx,p.y-a.y-t*dy);}
 const doorCache=new WeakMap();
@@ -250,7 +290,7 @@ function requestDoorWaitingStep(s,p,q,door,phase){
  for(let y=snap(door.y-2);y<=snap(door.y+2);y+=.5)for(let x=snap(door.x-2);x<=snap(door.x+2);x+=.5){const at={x,y};
   if(phase==='in'?y<door.y+.8:y>door.y-.8)continue;
   if(Math.abs(x-door.x)<.8||distance(a,at)<.2||distance(a,at)>2.5||holderAt&&distance(holderAt,at)<.8||!meterCanStand(s,at)||people(s).some(other=>other!==p&&personPosition(s,other)?.bodyYield?.target&&distance(personPosition(s,other).bodyYield.target,at)<.53))continue;
-  const path=meterFindPath(s,a,at,{maxSnap:0});if(path===null||doorCrossing(s,a,path,at)||path.some((end,i)=>meterBodyBlocker(s,a,i?path[i-1]:a,end)))continue;
+  const path=meterFindPath(s,a,at,{maxSnap:0});if(path===null||!visibleBodyRouteClear(s,a,path)||doorCrossing(s,a,path,at)||path.some((end,i)=>meterBodyBlocker(s,a,i?path[i-1]:a,end)))continue;
   candidates.push({at,path,cost:path.reduce((sum,end,i)=>sum+distance(i?path[i-1]:a,end),0)});
  }
  candidates.sort((a,b)=>a.cost-b.cost||a.at.y-b.at.y||a.at.x-b.at.x);
@@ -287,6 +327,63 @@ export function meterBodyBlocker(s,actor,from,to){
   return !(before<.53-1e-7&&after>before+1e-7)&&pointSegmentDistance(q,from,to)<.53-1e-7;
  })||null;
 }
+// Interior floors and the real door threshold are not outdoor paving. Room
+// frames follow the same geometry revision as collision and door ownership.
+const roomFrameCache=new WeakMap();
+function roomFrames(s){
+ const revision=spatialRevision(s),held=roomFrameCache.get(s);if(held?.revision===revision)return held.rooms;
+ const rooms=(s.buildings||[]).flatMap(b=>{const room=spatialRoom(b);return room?[{bounds:room.bounds,door:room.door}]:[];});
+ roomFrameCache.set(s,{revision,rooms});return rooms;
+}
+const internalAt=(rooms,p)=>(insideRoomOf(rooms,p)||doorwayOf(rooms,p));
+const insideRoomOf=(rooms,p)=>rooms.some(({bounds:r})=>p.x>r.x&&p.x<r.x+r.width&&p.y>r.y&&p.y<r.y+r.height);
+const doorwayOf=(rooms,p)=>rooms.some(({door:d})=>Math.abs(p.x-d.x)<=.7+1e-9&&Math.abs(p.y-d.y)<=.3+1e-9);
+const visibleBodyAt=(rooms,indoor,p)=>indoor&&internalAt(rooms,p)||northLibraryYieldRouteClear(p,[p]);
+/** The measured visible body at one position: .26 m, sixteen samples. Floors and
+ * the 1.4 m door threshold are interior space, so they are exempt by location. */
+export function visibleBodyPointClear(s,p,{indoor=true}={}){
+ if(!spatialEnabled(s)||!p||!Number.isFinite(p.x)||!Number.isFinite(p.y))return true;
+ return visibleBodyAt(roomFrames(s),indoor,p);
+}
+/** Full remaining route, sampled every 5 cm, with the same .26 m sixteen-point
+ * body rule. The planner samples the same spacing, so its chosen polyline and
+ * the retained-route proof agree. */
+export function visibleBodyRouteClear(s,from,route,{indoor=true}={}){
+ if(!route?.length)return true;
+ const rooms=roomFrames(s);let start=from;
+ for(const end of route){
+  const n=Math.max(1,Math.ceil(Math.hypot(end.x-start.x,end.y-start.y)/.05));
+  for(let i=0;i<=n;i++){const p={x:start.x+(end.x-start.x)*i/n,y:start.y+(end.y-start.y)*i/n};if(!visibleBodyAt(rooms,indoor,p))return false;}
+  start=end;
+ }
+ return true;
+}
+/** Nearest measured foot point that an already off-ground body can actually
+ * walk to. Returns one straight, solid-free step target; null leaves the body
+ * where it is instead of silently accepting a route across open ground. */
+export function nearestVisibleBodyGround(s,from,{maxDistance=8,step=.25}={}){
+ if(!spatialEnabled(s)||!from||!Number.isFinite(from.x)||!Number.isFinite(from.y))return null;
+ if(northLibraryYieldRouteClear(from,[from]))return null;
+ const rooms=roomFrames(s),reachable=p=>!insideRoomOf(rooms,p)&&northLibraryYieldRouteClear(p,[p])&&meterCanStand(s,p)&&!meterSweep(s,from,p).blocked;
+ for(let radius=step;radius<=maxDistance+1e-9;radius+=step){
+  const count=Math.max(8,Math.ceil(2*Math.PI*radius/step));let best=null;
+  for(let i=0;i<count;i++){const angle=i*2*Math.PI/count,p={x:from.x+Math.cos(angle)*radius,y:from.y+Math.sin(angle)*radius};
+   if(!reachable(p))continue;const d=distance(from,p);if(!best||d<best.distance)best={x:p.x,y:p.y,distance:d};
+  }
+  if(!best)continue;
+  const fine=step/5;
+  for(let dy=-step;dy<=step+1e-9;dy+=fine)for(let dx=-step;dx<=step+1e-9;dx+=fine){const p={x:best.x+dx,y:best.y+dy};
+   if(!reachable(p))continue;const d=distance(from,p);if(d<best.distance)best={x:p.x,y:p.y,distance:d};
+  }
+  return best;
+ }
+ return null;
+}
+function visibleBodySegmentClear(s,a,b){
+ const rooms=roomFrames(s),n=Math.max(1,Math.ceil(Math.hypot(b.x-a.x,b.y-a.y)/.05));
+ for(let i=0;i<=n;i++){const p={x:a.x+(b.x-a.x)*i/n,y:a.y+(b.y-a.y)*i/n};if(!visibleBodyAt(rooms,true,p))return false;}
+ return true;
+}
 /** A bounded half-metre bypass rejoins the original route without changing its goal. */
 export function meterLocalBodyDetour(s,actor,from,route){
  if(!spatialEnabled(s)||!walkingPerson(s,actor)||!route?.length)return null;
@@ -297,26 +394,85 @@ export function meterLocalBodyDetour(s,actor,from,route){
  for(let i=0;i<route.length;i++){const end=route[i],length=distance(previous,end);if(length>=remaining){const t=remaining/length;rejoin={x:previous.x+(end.x-previous.x)*t,y:previous.y+(end.y-previous.y)*t};suffix=route.slice(i+(length-remaining<.001?1:0));break;}remaining-=length;previous=end;}
  const q=personPosition(s,blocker),candidates=[];
  for(let y=snap(q.y-1.5);y<=snap(q.y+1.5);y+=.5)for(let x=snap(q.x-1.5);x<=snap(q.x+1.5);x+=.5){const at={x,y},first=distance(from,at);if(first<.05||first>2.5||!meterCanStand(s,at)||meterSweep(s,from,at).blocked||meterBodyBlocker(s,actor,from,at))continue;
-  if(meterSweep(s,at,rejoin).blocked||meterBodyBlocker(s,actor,at,rejoin)||domainNorthLibraryEnabled(s.spatial?.northLibrary?.version)&&!northLibraryLocalBypassClear(from,[at,rejoin]))continue;candidates.push({path:[at,rejoin,...suffix],cost:first+distance(at,rejoin),x,y});
+  if(meterSweep(s,at,rejoin).blocked||meterBodyBlocker(s,actor,at,rejoin)||domainNorthLibraryEnabled(s.spatial?.northLibrary?.version)&&(!northLibraryLocalBypassClear(from,[at,rejoin])||!visibleBodyRouteClear(s,from,[at,rejoin])))continue;candidates.push({path:[at,rejoin,...suffix],cost:first+distance(at,rejoin),x,y});
  }
  candidates.sort((a,b)=>a.cost-b.cost||a.y-b.y||a.x-b.x);return candidates[0]?.path||null;
 }
 const facilityTraveller=a=>a?.kind==='facility'&&['waiting','navigating'].includes(a.phase);
 const constructionTraveller=a=>['construction','sr-construction'].includes(a?.kind)&&a.phase==='moving';
+/** A stationless, stationary facility waiter outside a station building. The
+ * blocker keeps its own waiting activity; only a short legal side step is added. */
+function stationlessFacilityWaiter(s,p){
+ const activity=s.activitiesById[p?.activityId],a=personPosition(s,p);
+ return !!activity&&activity.kind==='facility'&&activity.phase==='waiting'&&!activity.slotId&&!activity.reservationId&&
+  !!a&&!a.path?.length&&!a.goal&&!a.waitingForPersonId&&
+  !p.mind?.away&&!p.mind?.journey&&people(s).includes(p);
+}
+/** Strict entrance case: the mover holds the building's valid exclusive station
+ * reservation and is still outside, while the blocker is a stationless static
+ * waiter standing in that building's entrance approach. */
+function validStationEntrant(s,mover,blocker,route){
+ if(!mover||!blocker||blocker===s.master||!route?.length)return false;
+ const activity=s.activitiesById[mover.activityId],reservation=s.reservationsById[activity?.reservationId];
+ if(!activity||activity.kind!=='facility'||!facilityTraveller(activity)||!activity.targetId||!activity.slotId||!reservation)return false;
+ if(reservation.kind!=='slot'||reservation.personId!==mover.personId||reservation.activityId!==activity.id||reservation.slotId!==activity.slotId)return false;
+ if(!activity.slotId.startsWith(activity.targetId+'/'))return false;
+ const building=s.buildingsById[activity.targetId],room=building&&spatialRoom(building);
+ if(!building||!room)return false;
+ const blockerActivity=s.activitiesById[blocker.activityId];
+ if(!blockerActivity||blockerActivity.kind!=='facility'||blockerActivity.phase!=='waiting'||blockerActivity.slotId||blockerActivity.reservationId||blockerActivity.targetId!==activity.targetId)return false;
+ if(!stationlessFacilityWaiter(s,blocker))return false;
+ const access=spatialAccess(building),moverAt=personPosition(s,mover),blockerAt=personPosition(s,blocker);
+ if(!access||!moverAt||!blockerAt||distance(blockerAt,access)>3||distance(moverAt,access)>5)return false;
+ const r=room.bounds,inside=p=>p.x>r.x&&p.x<r.x+r.width&&p.y>r.y&&p.y<r.y+r.height;
+ if(inside(moverAt)||inside(blockerAt))return false;
+ if(!route.some((end,i)=>pointSegmentDistance(blockerAt,i?route[i-1]:moverAt,end)<=1))return false;
+ return true;
+}
 /** A mutually blocked traveller keeps the original activity while stepping aside. */
 export function requestBodyYield(s,actor,blocker,route){
  const mover=walkingPerson(s,actor),q=personPosition(s,blocker);
- const activity=s.activitiesById[blocker.activityId],moving=s.activitiesById[mover?.activityId],visitorPassing=['arriving','departing'].includes(mover?.courtyardVisit?.phase)&&['arriving','departing'].includes(blocker.courtyardVisit?.phase),constructionPassing=constructionTraveller(activity)&&constructionTraveller(moving)&&activity.workOrderId===moving.workOrderId,canPause=(visitorPassing||facilityTraveller(activity)||constructionPassing)&&q?.waitingForPersonId===mover?.personId;
- if(!mover||!q||blocker===mover||blocker.activityId&&!canPause||q.path?.length&&!canPause||q.bodyYield||!route?.length)return false;
- const from={x:q.x,y:q.y},points=[];
- for(let y=snap(from.y-2);y<=snap(from.y+2);y+=.5)for(let x=snap(from.x-2);x<=snap(from.x+2);x+=.5){const at={x,y},away=distance(from,at);if(away<.53||away>2.25||!meterCanStand(s,at))continue;
+ const activity=s.activitiesById[blocker.activityId],moving=s.activitiesById[mover?.activityId],visitorPassing=['arriving','departing'].includes(mover?.courtyardVisit?.phase)&&['arriving','departing'].includes(blocker.courtyardVisit?.phase),constructionPassing=constructionTraveller(activity)&&constructionTraveller(moving)&&activity.workOrderId===moving.workOrderId,canPause=(visitorPassing||facilityTraveller(activity)||constructionPassing)&&q?.waitingForPersonId===mover?.personId,entranceClear=validStationEntrant(s,mover,blocker,route);
+ if(!mover||!q||blocker===mover||blocker.activityId&&!canPause&&!entranceClear||q.path?.length&&!canPause&&!entranceClear||q.bodyYield||!route?.length)return false;
+ const from={x:q.x,y:q.y},points=[],mutual=canPause&&actor.waitingForPersonId===blocker.personId;
+ const collect=(radius,limit)=>{
+ for(let y=snap(from.y-radius);y<=snap(from.y+radius);y+=.5)for(let x=snap(from.x-radius);x<=snap(from.x+radius);x+=.5){const at={x,y},away=distance(from,at);if(away<.53||away>limit||!meterCanStand(s,at))continue;
   if(pointSegmentDistance(at,actor,route[0])<.8||route.some((end,i)=>pointSegmentDistance(at,i?route[i-1]:actor,end)<.8))continue;
-  const path=meterFindPath(s,from,at,{maxSnap:0});if(path===null||!path.length||domainNorthLibraryEnabled(s.spatial?.northLibrary?.version)&&!northLibraryLocalBypassClear(from,path)||doorCrossing(s,from,path,at)||closedDoors(s).some(d=>distance(at,d.door)<.8)||path.some((end,i)=>meterBodyBlocker(s,q,i?path[i-1]:from,end)))continue;
+  const path=meterFindPath(s,from,at,{maxSnap:0});if(path===null||!path.length||domainNorthLibraryEnabled(s.spatial?.northLibrary?.version)&&(!northLibraryLocalBypassClear(from,path)||!visibleBodyRouteClear(s,from,path))||doorCrossing(s,from,path,at)||closedDoors(s).some(d=>distance(at,d.door)<.8)||path.some((end,i)=>meterBodyBlocker(s,q,i?path[i-1]:from,end)))continue;
   points.push({at,path,cost:path.reduce((sum,end,i)=>sum+distance(i?path[i-1]:from,end),0)});
  }
+ };
+ collect(2,2.25);
+ // A narrow entrance may need a real retreat beyond the nearest landing.
+ if(!points.length&&(mutual||entranceClear))collect(4,4);
  points.sort((a,b)=>a.cost-b.cost||a.at.y-b.at.y||a.at.x-b.at.x);
  if(!points.length)return false;
- q.bodyYield={...(canPause?{kind:'mutual-corridor'}:{}),requestedBy:mover.personId,startedTick:s.worldTick,target:points[0].at,path:points[0].path};return true;
+ const kind=entranceClear?'entrance-clear':canPause?'mutual-corridor':undefined;
+ q.bodyYield={...(kind?{kind}:{}),requestedBy:mover.personId,startedTick:s.worldTick,target:points[0].at,path:points[0].path};return true;
+}
+/** A mutual-corridor step blocked by the requester's own body: search a small
+ * legal retreat for the requester. Hard checks only (bodies/static/visible/door/
+ * road); future activity paths are not current body occupancy. */
+function findRequesterClear(s,yielderAt,yielderStep,requester){
+ const requesterAt=personPosition(s,requester);
+ if(!requesterAt||requester===s.master||requesterAt.bodyYield)return null;
+ const from={x:requesterAt.x,y:requesterAt.y};
+ const ax=yielderAt.x,ay=yielderAt.y,bx=yielderStep.x,by=yielderStep.y,dx=bx-ax,dy=by-ay,den=dx*dx+dy*dy||1,t=Math.max(0,Math.min(1,((from.x-ax)*dx+(from.y-ay)*dy)/den)),closest={x:ax+t*dx,y:ay+t*dy};
+ let awayX=from.x-closest.x,awayY=from.y-closest.y;if(Math.hypot(awayX,awayY)<1e-9){awayX=0;awayY=1;}
+ const awayAngle=Math.atan2(awayY,awayX),clear=SPATIAL_SCENE.personRadius*2+.01,angles=[];
+ for(let i=0;i<24;i++){const angle=awayAngle+i*Math.PI*2/24;angles.push({angle,pref:Math.cos(angle-awayAngle)});}
+ angles.sort((a,b)=>b.pref-a.pref);
+ for(const radius of [.05,.1,.15,.2,.25,.3,.35,.4,.45,.5,.55,.6]){
+  for(const {angle} of angles){
+   const at={x:from.x+Math.cos(angle)*radius,y:from.y+Math.sin(angle)*radius},path=meterFindPath(s,from,at,{maxSnap:0});
+   if(path===null||!path.length||!meterCanStand(s,at)||pointSegmentDistance(at,{x:ax,y:ay},yielderStep)<=clear||!visibleBodyPointClear(s,at))continue;
+   if(domainNorthLibraryEnabled(s.spatial?.northLibrary?.version)&&(!northLibraryLocalBypassClear(from,path)||!visibleBodyRouteClear(s,from,path)))continue;
+   if(doorCrossing(s,from,path,at)||closedDoors(s).some(d=>distance(at,d.door)<.8))continue;
+   if(path.some((end,i)=>meterBodyBlocker(s,requesterAt,i?path[i-1]:from,end))||path.some((end,i)=>meterSweep(s,i?path[i-1]:from,end).blocked))continue;
+   return {at,path};
+  }
+ }
+ return null;
 }
 function syncPosition(s,p){const a=personPosition(s,p);if(a&&(!p.location||p.location.kind==='local'&&p.location.sceneId===SPATIAL_SCENE.id)&&p.position?.kind!=='travel'&&(!p.position?.sceneId||p.position.sceneId===SPATIAL_SCENE.id))p.position={kind:'scene',sceneId:SPATIAL_SCENE.id,x:a.x,y:a.y};}
 function overlaps(a,b){return a.x<b.x+b.w-.001&&a.x+a.w>b.x+.001&&a.y<b.y+b.h-.001&&a.y+a.h>b.y+.001;}
@@ -715,7 +871,7 @@ function releaseConstructionHelper(s,o,activity){
 }
 function cleanup(s,a){const o=s.workOrdersById[a.workOrderId],flow=o?.materialFlow;for(const id of [...(o?.activityIds||[])]){const helper=s.activitiesById[id];if(helper?.kind==='sr-construction')releaseConstructionHelper(s,o,helper);}for(const p of people(s)){const q=personPosition(s,p);if(q?.spatialEvacuationOrderId===a.workOrderId){delete q.spatialEvacuationOrderId;q.path=[];q.goal=null;}}if(flow){delete s.stockpilesById[flow.sourceStockpileId];delete s.stockpilesById[flow.siteStockpileId];}delete s.reservationsById[a.reservationId];delete s.workOrdersById[a.workOrderId];delete s.activitiesById[a.id];s.master.activityId=null;s.master.action='rest';s.master.scenic.path=[];s.master.scenic.goal=null;s.spatial.completedOrders=s.spatial.completedOrders.slice(-128);}
 function moveActor(s,a,budget){
- if(a.bodyYield?.kind==='mutual-corridor')return false;
+ if(a.bodyYield?.kind==='mutual-corridor'||a.bodyYield?.kind==='requester-clear')return false;
  budget*=COURTYARD_WALK_RATE;
  const revision=spatialRevision(s);
  if(a.path?.length&&a.revision!==revision){
@@ -726,9 +882,10 @@ function moveActor(s,a,budget){
  }
  let detours=0;while(a.path?.length&&budget>.001){const q=a.path[0],d=distance(a,q);if(d<.001){a.path.shift();continue;}const n=Math.min(d,budget),to={x:a.x+(q.x-a.x)*n/d,y:a.y+(q.y-a.y)*n/d},r=meterSweep(s,a,to);if(r.blocked){a.path=[];return false;}if(!meterDoorPermit(s,a,a,a.path,to))return false;const blocker=meterBodyBlocker(s,a,a,to);if(blocker){const detour=detours<2&&meterLocalBodyDetour(s,a,a,a.path);if(detour){a.path=detour;detours++;continue;}requestBodyYield(s,a,blocker,a.path);a.waitingForPersonId=blocker.personId;return false;}delete a.waitingForPersonId;a.facing=to.x<a.x?-1:1;a.back=to.y<a.y;a.x=r.x;a.y=r.y;a.steps=(a.steps||0)+n;budget-=n;if(n>=d-.001)a.path.shift();meterDoorMoved(s,a);}return !a.path?.length;
 }
-function pruneBodyYields(s){for(const p of Object.values(s.personsById||{})){const a=personPosition(s,p),yielding=a?.bodyYield;if(!yielding)continue;const local=people(s).includes(p),queue=yielding.kind==='door-wait'&&doorRecord(s,p),activity=s.activitiesById[p.activityId],canPause=yielding.kind==='mutual-corridor'&&(facilityTraveller(activity)||constructionTraveller(activity));if(!local||a.spatialEvacuationOrderId||!s.personsById[yielding.requestedBy]||yielding.kind==='door-wait'&&!queue?.waiting.some(w=>w.personId===p.personId)||yielding.kind!=='door-wait'&&p.activityId&&!canPause)delete a.bodyYield;}}
+function pruneBodyYields(s){for(const p of Object.values(s.personsById||{})){const a=personPosition(s,p),yielding=a?.bodyYield;if(!yielding)continue;const local=people(s).includes(p),queue=yielding.kind==='door-wait'&&doorRecord(s,p),activity=s.activitiesById[p.activityId],canPause=yielding.kind==='mutual-corridor'&&(facilityTraveller(activity)||constructionTraveller(activity)),entranceClear=yielding.kind==='entrance-clear'&&stationlessFacilityWaiter(s,p),yielder=yielding.kind==='requester-clear'&&s.personsById[yielding.forYieldPersonId],yielderAt=yielder&&personPosition(s,yielder),requesterClear=!!(yielderAt?.bodyYield?.kind==='mutual-corridor'&&yielderAt.bodyYield.requestedBy===p.personId);if(!local||a.spatialEvacuationOrderId||!s.personsById[yielding.requestedBy]||yielding.kind==='door-wait'&&!queue?.waiting.some(w=>w.personId===p.personId)||yielding.kind!=='door-wait'&&p.activityId&&!canPause&&!entranceClear&&!requesterClear)delete a.bodyYield;}}
 // An empty yield path retains this step's body ownership; the next step releases it.
-function tickBodyYields(s){pruneBodyYields(s);for(const p of people(s)){const a=personPosition(s,p),yielding=a?.bodyYield;if(!yielding)continue;const next=yielding.path[0];if(!next){delete a.bodyYield;continue;}const d=distance(a,next);if(d<.001){yielding.path.shift();if(!yielding.path.length)delete a.bodyYield;continue;}const n=Math.min(.13*COURTYARD_WALK_RATE,d),to={x:a.x+(next.x-a.x)*n/d,y:a.y+(next.y-a.y)*n/d};if(!meterSweep(s,a,to).blocked&&!meterBodyBlocker(s,a,a,to)){a.facing=to.x<a.x?-1:1;a.back=to.y<a.y;a.x=to.x;a.y=to.y;a.steps=(a.steps||0)+n;if(n>=d-.001)yielding.path.shift();syncPosition(s,p);if(p.location?.kind==='local'&&p.location.sceneId===SPATIAL_SCENE.id){p.location.x=a.x;p.location.y=a.y;}if(a.goal&&a.path?.length&&meterSweep(s,a,a.path[0]).blocked)a.path=meterFindPath(s,a,a.goal,{maxSnap:0})||[];}}}
+function tickBodyYields(s){pruneBodyYields(s);for(const p of people(s)){const a=personPosition(s,p),yielding=a?.bodyYield;if(!yielding)continue;const next=yielding.path[0];if(!next){delete a.bodyYield;continue;}const d=distance(a,next);if(d<.001){yielding.path.shift();if(!yielding.path.length)delete a.bodyYield;continue;}const n=Math.min(.13*COURTYARD_WALK_RATE,d),to={x:a.x+(next.x-a.x)*n/d,y:a.y+(next.y-a.y)*n/d},blocker=meterBodyBlocker(s,a,a,to);if(!meterSweep(s,a,to).blocked&&!blocker&&visibleBodyRouteClear(s,a,[to])){a.facing=to.x<a.x?-1:1;a.back=to.y<a.y;a.x=to.x;a.y=to.y;a.steps=(a.steps||0)+n;if(n>=d-.001)yielding.path.shift();syncPosition(s,p);if(p.location?.kind==='local'&&p.location.sceneId===SPATIAL_SCENE.id){p.location.x=a.x;p.location.y=a.y;}if(a.goal&&a.path?.length&&meterSweep(s,a,a.path[0]).blocked)a.path=meterFindPath(s,a,a.goal,{maxSnap:0})||[];}else if(!visibleBodyRouteClear(s,a,[to]))delete a.bodyYield;
+ else if(blocker&&yielding.kind==='mutual-corridor'&&blocker.personId===yielding.requestedBy&&!yielding.requesterClearTried){yielding.requesterClearTried=true;const requester=s.personsById[yielding.requestedBy],retreat=requester&&findRequesterClear(s,a,to,requester);if(retreat){const requesterAt=personPosition(s,requester);requesterAt.bodyYield={kind:'requester-clear',requestedBy:p.personId,forYieldPersonId:p.personId,startedTick:s.worldTick,target:retreat.at,path:retreat.path};}}}}
 const materialTotal=resources=>Object.values(resources).reduce((sum,quantity)=>sum+quantity,0);
 function constructionRefund(o,r){return Object.fromEntries(Object.entries(r.cost).map(([k,v])=>[k,v-(o.usedCost[k]||0)]));}
 function finishConstructionCancellation(s,a,o){
@@ -985,7 +1142,7 @@ export function validateSpatial(s){
   for(const record of q.waiting){if(previous&&(previous.firstArrivalTick>record.firstArrivalTick||previous.firstArrivalTick===record.firstArrivalTick&&previous.personId.localeCompare(record.personId)>0))throw Error('门道候选队序异常。');previous=record;}
  }}
  for(const b of s.buildings){const t=b.transform,d=spatialPrefab(b);if(!t||![t.x,t.y].every(Number.isFinite)||snap(t.x)!==t.x||snap(t.y)!==t.y||t.orientation!=='south'||b.prefabId!==prefabId(b)||b.buildingGridVersion&&!buildingGridEnabled(s)||buildingGridEnabled(s)&&(b.buildingGridVersion!==BUILDING_GRID.version||!onBuildingGrid(t.x)||!onBuildingGrid(t.y))||t.x<(bounds.x||0)+1||t.y<(bounds.y||0)+1||t.x+d.width>(bounds.x||0)+bounds.width-1||t.y+d.height+1>(bounds.y||0)+bounds.height-1)throw Error(`米制建筑位置异常：${b.instanceId}`);const issue=placementIssue(s,b.type,t.x,t.y,{ignoreId:b.id,level:b.level,checkPeople:false,checkReservations:false,checkConnectivity:false,checkPreset:false});if(issue||!meterCanStand(s,spatialAccess(b)))throw Error(`米制建筑占地或入口异常：${b.instanceId} ${issue}`);const site=domainSiteAt(b.type,t.x,t.y);if(b.domainSiteId!==undefined&&b.domainSiteId!==site?.id||(t.x<0||t.y<0||t.x>=SPATIAL_SCENE.width)&&b.domainSiteId!==site?.id)throw Error('建筑与山域营造地身份不一致。');}
- for(const p of people(s)){const a=personPosition(s,p);if(a&&!meterCanStand(s,a))throw Error(`人物米制脚点不合法：${p.personId}`);let from=a;for(const q of a?.path||[]){if(meterSweep(s,from,q).blocked)throw Error('米制路径穿越障碍。');from=q;}if(a?.bodyYield){const y=a.bodyYield;if(!['door-wait','mutual-corridor',undefined].includes(y.kind)||typeof y.requestedBy!=='string'||!Number.isSafeInteger(y.startedTick)||y.startedTick<0||y.startedTick>s.worldTick||!Number.isFinite(y.target?.x)||!Number.isFinite(y.target?.y)||!Array.isArray(y.path)||y.path.length>24||y.path.some(q=>!Number.isFinite(q?.x)||!Number.isFinite(q?.y)))throw Error('人物真实让行路径异常。');}}
+ for(const p of people(s)){const a=personPosition(s,p);if(a&&!meterCanStand(s,a))throw Error(`人物米制脚点不合法：${p.personId}`);let from=a;for(const q of a?.path||[]){if(meterSweep(s,from,q).blocked)throw Error('米制路径穿越障碍。');from=q;}if(a?.bodyYield){const y=a.bodyYield;if(!['door-wait','mutual-corridor','entrance-clear','requester-clear',undefined].includes(y.kind)||typeof y.requestedBy!=='string'||!Number.isSafeInteger(y.startedTick)||y.startedTick<0||y.startedTick>s.worldTick||!Number.isFinite(y.target?.x)||!Number.isFinite(y.target?.y)||!Array.isArray(y.path)||y.path.length>24||y.path.some(q=>!Number.isFinite(q?.x)||!Number.isFinite(q?.y)))throw Error('人物真实让行路径异常。');}}
  const active=Object.values(s.workOrdersById).filter(o=>o.spatial&&o.kind==='construction');if(active.length>1)throw Error('重复施工工作单。');
  for(const o of active){const a=s.activitiesById[o.activityIds?.[0]],r=s.reservationsById[o.reservationId],source=s.buildingsById?.[o.targetId];
   if((o.domainSiteId!==undefined||o.targetTransform?.y<0)&&o.domainSiteId!==domainSiteAt(o.buildingType,o.targetTransform?.x,o.targetTransform?.y)?.id)throw Error('施工与山域营造地身份不一致。');

@@ -2,7 +2,7 @@
   "schema_version": 1,
   "registry_id": "SR-XF-2026-10-06",
   "design_baseline": "DB-2026-10-05 v1.2",
-  "updated": "2026-10-19",
+  "updated": "2026-10-20",
   "authoritative": "registry.json for requirement records and task states; derived Markdown rendered by scripts/requirements/sr-manager.py refresh",
   "source_runtime": {
     "main": "7d27532bf22e8c6064281e12b390edb8370abce9",
@@ -1390,7 +1390,13 @@
         "docs/design/62-EAST-SERVICES-INTEGRATION.md",
         "docs/design/64-NORTH-LIBRARY-INTEGRATION.md",
         "docs/design/66-NORTH-MEDITATION-INTEGRATION.md",
-        "docs/design/68-WEST-WORKSHOPS-INTEGRATION.md"
+        "docs/design/68-WEST-WORKSHOPS-INTEGRATION.md",
+        "docs/design/65-COURTYARD-SEEKERS.md；2026-10-19 U-167/T-23：北阶迎面互等与让路脚圈修复已合入主树88ee118a（ea-sect-domain、ea-sr-spatial、新ea-north-yield-ground、新courtyard-mutual-yield.test），主树新4项、旧2项与工程检查通过，隔离11/11保留；run03沿174422冻结149运行文件并完成只读预检，Electron走近/空间续接待验。局部合入不改变整项SR/AC。",
+        "docs/design/65-COURTYARD-SEEKERS.md；2026-10-19 实际桌面run04：174422→176699，253.176秒；approach-midway原生重开174501，身体/脚点/来源字节与149运行文件封存；run04在入住等待处stopped，run05从run04原生保存续接，空间/走近已实测。局部通过不改变整项SR/AC。",
+        "docs/design/65-COURTYARD-SEEKERS.md；2026-10-19 run05卡顿定位：CPU profile显示northSurfacePoint/inPolygon重复几何；ea-sect-domain最小修复（有界缓存、去slice）SHA ac8761e4…，9项相关+旧2项+工程检查通过；recovery-01从176960→177171因master↔陆清和互等停路失败，native4c0f52e3…保存；recovery-02尚未获运行许可。局部修复不改变整项SR/AC。",
+        "docs/design/65-COURTYARD-SEEKERS.md；2026-10-19 recovery-02实际从177171 native继续至177361，公开approach仍停路，旁步候选未被moveArt接受；native a117dcca…与checkpoint一致，累计1026.201004秒、剩余173.798996秒。recovery-03已准备从177361原字节继续，等待单次许可；五门人/GC26生产未完成。",
+        "docs/design/65-COURTYARD-SEEKERS.md；2026-10-19 transferFood修复/recovery-06及recovery-07实机：运输visibleBody寻路与旧路径校验重算；transport351的food18属recovery-06最终源并在recovery-06完成，HOME 12→30，不是run07新增；recovery-07新增transport352 6粮@178180与transport353 8粮@178436，HOME30→44；并收录顾听澜iv73为第四名门人；累计1300.159004秒(本批113.253/300，余186.747秒)，native dcd9be70…。随后陆知微rest去building:yunxiu:1/slot:bed:1在178680(42.944230,12.790354)身体越界，停178693；五门人/GC26未完成。",
+        "docs/design/65-COURTYARD-SEEKERS.md；2026-10-20收口：merchant-harvest-01 native tick189867 SHA e76e9dd8a5c9642e50fff100febadb04c49f2b0dbc11e87ad662cb9bff2218e6，HOME food16/carried0/source304/5门人；366采16@189831、367 delivered16@189858；完整41.400066s、later370.287718、sumMeasured2777.050227、currentChainLB2854.560517、floor2874.609517、7IDs；unknownTail/overallExact=null（前者为feed01尾段未知，不是无缺口）。73/75 pending；190800日结、床位入住与持续供粮未验，整项SR/AC不提升。"
       ],
       "change_log": [
         {
@@ -1576,6 +1582,10 @@
         {
           "date": "2026-10-19",
           "reason": "U-167 GC25/26一级道路、四阶段、真实工位与四段炼丹已合入23源码/测试和14图，主树30项及工程检查通过；有限供料负坐标整档完成施工到唯一两份成药，正常桌面生产另验。求见链真实续至174422，首位来客到时离开、第二位入院，未新增收录；绕柱导航已修，北坡迎面互等继续验证。完整SR/AC状态保持。"
+        },
+        {
+          "date": "2026-10-20",
+          "reason": "2026-10-20 收口到merchant-harvest-01：五门人/食物同档链停止在paused；真实food16入库、source304；未知尾段与整体exact保持null；不把pending当入住、不把补种成功当供粮恢复。历史更正：recovery-04失败人为陆知微，transport351/18属recovery-06而非run07新增。"
         }
       ],
       "tasks": [
@@ -4466,7 +4476,13 @@
         "docs/design/62-EAST-SERVICES-INTEGRATION.md",
         "docs/design/64-NORTH-LIBRARY-INTEGRATION.md",
         "docs/design/66-NORTH-MEDITATION-INTEGRATION.md",
-        "docs/design/68-WEST-WORKSHOPS-INTEGRATION.md"
+        "docs/design/68-WEST-WORKSHOPS-INTEGRATION.md",
+        "docs/design/65-COURTYARD-SEEKERS.md；2026-10-19 U-167/T-23：门人迎面互等、四米内退让和可见身体边缘检查已合入主树88ee118a，主树新4项、旧2项与工程检查通过，隔离11/11保留；run03只从174422验陆清和一次公开来访和两次原生重开，实际桌面日程/收录待验。局部合入不改变整项SR/AC。",
+        "docs/design/65-COURTYARD-SEEKERS.md；2026-10-19 实际桌面run04：陆清和174884当面npc-accept并outer收录，但随后按自主研习日程（commitUntil 176900）行动，180秒入住窗口到176699时床位仍pending；第三位徐闻溪176280到院。该停点作为自主日程与入住时序证据，run05续接验证，不据此改源码。局部通过不改变整项SR/AC。",
+        "docs/design/65-COURTYARD-SEEKERS.md；2026-10-19 run05卡顿修复保持NPC自主活动与入住偏好，不强制首次入住；recovery-01公开approach在互等处停路，报告failed；工具新增公开旁步重试、15秒UI截止与最后观测/native保全，尚未实际执行。局部不改变整项SR/AC。",
+        "docs/design/65-COURTYARD-SEEKERS.md；2026-10-19 recovery-02实际从177171 native继续至177361，公开approach仍停路，旁步候选未被moveArt接受；native a117dcca…与checkpoint一致，累计1026.201004秒、剩余173.798996秒。recovery-03已准备从177361原字节继续，等待单次许可；五门人/GC26生产未完成。",
+        "docs/design/65-COURTYARD-SEEKERS.md；2026-10-19 transferFood修复/recovery-06及recovery-07实机：运输visibleBody寻路与旧路径校验重算；transport351的food18属recovery-06最终源并在recovery-06完成，HOME 12→30，不是run07新增；recovery-07新增transport352 6粮@178180与transport353 8粮@178436，HOME30→44；并收录顾听澜iv73为第四名门人；累计1300.159004秒(本批113.253/300，余186.747秒)，native dcd9be70…。随后陆知微rest去building:yunxiu:1/slot:bed:1在178680(42.944230,12.790354)身体越界，停178693；五门人/GC26未完成。",
+        "docs/design/65-COURTYARD-SEEKERS.md；2026-10-20收口：merchant-harvest-01 native tick189867 SHA e76e9dd8a5c9642e50fff100febadb04c49f2b0dbc11e87ad662cb9bff2218e6，HOME food16/carried0/source304/5门人；366采16@189831、367 delivered16@189858；完整41.400066s、later370.287718、sumMeasured2777.050227、currentChainLB2854.560517、floor2874.609517、7IDs；unknownTail/overallExact=null（前者为feed01尾段未知，不是无缺口）。73/75 pending；190800日结、床位入住与持续供粮未验，整项SR/AC不提升。"
       ],
       "change_log": [
         {
@@ -4568,6 +4584,10 @@
         {
           "date": "2026-10-19",
           "reason": "U-167 GC25/26一级道路、四阶段、真实工位与四段炼丹已合入23源码/测试和14图，主树30项及工程检查通过；有限供料负坐标整档完成施工到唯一两份成药，正常桌面生产另验。求见链真实续至174422，首位来客到时离开、第二位入院，未新增收录；绕柱导航已修，北坡迎面互等继续验证。完整SR/AC状态保持。"
+        },
+        {
+          "date": "2026-10-20",
+          "reason": "2026-10-20 收口到merchant-harvest-01：五门人/食物同档链停止在paused；真实food16入库、source304；未知尾段与整体exact保持null；不把pending当入住、不把补种成功当供粮恢复。历史更正：recovery-04失败人为陆知微，transport351/18属recovery-06而非run07新增。"
         }
       ],
       "tasks": [
@@ -9207,7 +9227,13 @@
         "docs/art/golden-core-domain-20261018/README.md",
         "docs/design/64-NORTH-LIBRARY-INTEGRATION.md",
         "docs/design/66-NORTH-MEDITATION-INTEGRATION.md",
-        "docs/design/68-WEST-WORKSHOPS-INTEGRATION.md"
+        "docs/design/68-WEST-WORKSHOPS-INTEGRATION.md",
+        "docs/design/65-COURTYARD-SEEKERS.md；2026-10-19 U-167/T-23：求见修复已合入主树88ee118a；run03工具冻结当前149运行文件（run02为131，新增18/变更14/删除0）并完成只读预检，尚未启动Electron。陆清和公开走近、当面答复/按意愿收录、真实床位承诺与入住、途中及最终两次原生关闭重开待实际桌面验收；不运行五门人循环。局部合入与预检不改变整项SR/AC。",
+        "docs/design/65-COURTYARD-SEEKERS.md；2026-10-19 实际桌面run04：同档174422→176699，1次原生重开；陆清和outer收录、具体床号building:yunxiu:7/slot:bed:3，入住仍pending；家库14.4灵石/20木/4石/2草/20粮，自然来访3/6。run05已从run04原生保存准备续接，目标5门人/6居民并记录多人食粮/日结/实际床位，尚未启动。局部通过不改变整项SR/AC。",
+        "docs/design/65-COURTYARD-SEEKERS.md；2026-10-19 run05卡顿后recovery-01实际native177171 SHA4c0f52e3…，与checkpoint一致但批报告failed；176960 SHA57187d2f…仍为唯一卡死前可恢复源，177153仅为最后观测。recovery-02从177171原字节准备，累计987.764004秒、剩余212.235996秒，等待单次许可；五门人/GC26/生产未完成。",
+        "docs/design/65-COURTYARD-SEEKERS.md；2026-10-19 recovery-02实际从177171 native继续至177361，公开approach仍停路，旁步候选未被moveArt接受；native a117dcca…与checkpoint一致，累计1026.201004秒、剩余173.798996秒。recovery-03已准备从177361原字节继续，等待单次许可；五门人/GC26生产未完成。",
+        "docs/design/65-COURTYARD-SEEKERS.md；2026-10-19 transferFood修复/recovery-06及recovery-07实机：运输visibleBody寻路与旧路径校验重算；transport351的food18属recovery-06最终源并在recovery-06完成，HOME 12→30，不是run07新增；recovery-07新增transport352 6粮@178180与transport353 8粮@178436，HOME30→44；并收录顾听澜iv73为第四名门人；累计1300.159004秒(本批113.253/300，余186.747秒)，native dcd9be70…。随后陆知微rest去building:yunxiu:1/slot:bed:1在178680(42.944230,12.790354)身体越界，停178693；五门人/GC26未完成。",
+        "docs/design/65-COURTYARD-SEEKERS.md；2026-10-20收口：merchant-harvest-01 native tick189867 SHA e76e9dd8a5c9642e50fff100febadb04c49f2b0dbc11e87ad662cb9bff2218e6，HOME food16/carried0/source304/5门人；366采16@189831、367 delivered16@189858；完整41.400066s、later370.287718、sumMeasured2777.050227、currentChainLB2854.560517、floor2874.609517、7IDs；unknownTail/overallExact=null（前者为feed01尾段未知，不是无缺口）。73/75 pending；190800日结、床位入住与持续供粮未验，整项SR/AC不提升。"
       ],
       "change_log": [
         {
@@ -9249,6 +9275,10 @@
         {
           "date": "2026-10-19",
           "reason": "U-167 GC25/26一级道路、四阶段、真实工位与四段炼丹已合入23源码/测试和14图，主树30项及工程检查通过；有限供料负坐标整档完成施工到唯一两份成药，正常桌面生产另验。求见链真实续至174422，首位来客到时离开、第二位入院，未新增收录；绕柱导航已修，北坡迎面互等继续验证。完整SR/AC状态保持。"
+        },
+        {
+          "date": "2026-10-20",
+          "reason": "2026-10-20 收口到merchant-harvest-01：五门人/食物同档链停止在paused；真实food16入库、source304；未知尾段与整体exact保持null；不把pending当入住、不把补种成功当供粮恢复。历史更正：recovery-04失败人为陆知微，transport351/18属recovery-06而非run07新增。"
         }
       ],
       "tasks": [
