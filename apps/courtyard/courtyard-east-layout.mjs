@@ -1,9 +1,5 @@
+export {EAST_LAYOUT,EAST_PATH_CENTER,EAST_TERRACE_WALK} from '../../src/simulation/ea-courtyard-east-visible-geometry.mjs';
 /** Source-pixel layout of the opened east road and residence terrace. */
-export const EAST_LAYOUT = Object.freeze({ width: 6688, height: 941, tileWidth: 1672,
-  terraceX: 5016, siteId: 'site:domain:east-residence-1',
-  entrance: Object.freeze({ x: 135, y: 46.6 }),
-  entranceArt: Object.freeze({ x: 6021, y: 420 }),
-});
 export const EAST_IMAGES = Object.freeze({
   pathA: 'east-path-a.png', pathB: 'east-path-b.png',
   terrace: 'east-terrace-v2.png', clean: 'east-terrace-clean.png',
@@ -14,18 +10,6 @@ const SEAM_CROPS = {"1672":[[618,0],[618,12],[618,24],[618,36],[618,48],[620,60]
 export const EAST_SEAMS = Object.freeze([1672,3344,5016].map(x=>Object.freeze({
   x,image:`east-seam-${x}.png`,sourceX:586,width:500,polygon:SEAM_CROPS[x],
 })));
-export const EAST_PATH_CENTER = Object.freeze([
-  [1457,410],[1536,380],[1565,350],[1672,334],
-  [1972,400],[2322,452],[2672,555],[3022,580],[3344,610],
-  [3684,580],[4024,510],[4364,435],[4684,380],[5016,395],
-]);
-export const EAST_TERRACE_WALK = Object.freeze([
-  [[0,380],[270,465],[535,518],[590,510],[635,540],[790,565],[1000,585],
-    [1150,665],[1310,715],[1340,775],[1240,773],[1120,710],[900,645],
-    [700,608],[500,570],[270,515],[0,440]],
-  [[490,480],[770,405],[935,415],[970,405],[1070,405],[1115,426],
-    [1245,470],[1190,525],[1120,565],[810,566],[640,530]],
-]);
 export const EAST_HOUSE_POLYGON = Object.freeze([[715,60],[1162,45],[1285,155],
   [1225,205],[1225,362],[1100,420],[945,420],[775,375],[774,207],[720,184]]);
 export const EAST_SITE_POLYGON = Object.freeze([[775,340],[1225,340],[1225,422],[775,422]]);

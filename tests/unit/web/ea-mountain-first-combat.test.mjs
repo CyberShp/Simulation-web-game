@@ -15,6 +15,7 @@ function valley(kit='qinglan'){
 }
 function walk(p,x,y){p.world({action:'move',x,y});p.until(s=>!s.srWorld.interaction,'valley movement');}
 function battle(kit='qinglan',x=24.5){const p=valley(kit);walk(p,x,36);p.world({action:'engage',objectId:OBJECT});return p;}
+function closeForMelee(p){for(let n=0;n<80;n++){const c=p.state.combat,m=c.player,e=c.enemies.find(e=>e.hp>0),d=Math.hypot(e.x-m.x,e.y-m.y),range=S.viewSRCombat(p.state).actions.find(a=>a.id==='attack').range;if(d<=range)break;p.send('setSRCombatInput',{x:(e.x-m.x)/d,y:(e.y-m.y)/d});p.step();}p.send('setSRCombatInput',{x:0,y:0});}
 function assertFeet(s){
  const c=s.combat;
  for(const actor of [c.player,...c.enemies])assert.deepEqual(s.personsById[actor.personId].location,{kind:'local',sceneId:'scene:valley',x:c.sceneFrame.origin.x+actor.x,y:c.sceneFrame.origin.y+actor.y});
@@ -53,13 +54,14 @@ test('attack, timed guard and dodge change actual damage, wounds and valley feet
  const beforeDodge=p.state.combat.player.hp,feet={...p.state.master.location};
  p.send('combatAction','dodge',{x:p.state.combat.player.x,y:6.7});p.step(2);p.restore();p.step(18);
  assert.equal(p.state.combat.player.hp,beforeDodge);assert.notDeepEqual(p.state.master.location,feet);assertFeet(p.state);
- p.until(s=>!s.srCombat.pending&&S.viewSRCombat(s).actions.find(a=>a.id==='attack').disabled===false,'melee range');
+ closeForMelee(p);p.until(s=>!s.srCombat.pending&&S.viewSRCombat(s).actions.find(a=>a.id==='attack').disabled===false,'melee range');
  const enemyHp=p.state.combat.enemies[0].hp;p.send('combatAction','attack','enemy-1');p.step(4);
  assert.ok(p.state.combat.enemies[0].hp<enemyHp);assert.ok(p.state.personsById[FOE].wound>0);assertFeet(p.state);p.restore();
 });
 
 test('retreat walks to the valley escape point and returns the injured same master for treatment',()=>{
  const p=battle();p.until(s=>s.master.wound>0,'take a real hit');const wound=p.state.master.wound,feet={...p.state.master.location};
+ p.until(s=>!(s.combat.player.staggerUntilTick>s.worldTick),'stand after the actual hit');
  p.send('combatAction','retreat');assert.deepEqual(p.state.master.location,feet);assert.equal(p.state.combat.status,'active');
  p.step(3);p.restore();p.until(s=>s.combat.status==='retreated','walk out of combat');
  assert.ok(p.state.master.wound>=wound);assertFeet(p.state);assert.ok(Math.hypot(p.state.master.location.x-21.7,p.state.master.location.y-36)<.4);

@@ -261,15 +261,15 @@ export const plannedSites=freeze([
     "name": "客院",
     "region": "东台",
     "zoneId": "Z-02",
-    "type": null,
+    "type": "guesthouse",
     "suggestedPhase": "专项",
     "diagramPosition": [
       1620,
       805
     ],
     "diagramOffsetY": 115,
-    "runtimeStatus": "planning",
-    "status": "planning",
+    "runtimeStatus": "open",
+    "status": "open",
     "description": "规划用途：安置短住来客和外来教习，初期设置两张客床，按实际接待需要建设。"
   },
   {

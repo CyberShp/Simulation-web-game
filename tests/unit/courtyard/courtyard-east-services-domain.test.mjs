@@ -90,3 +90,17 @@ test('valley to service public routes keep the existing 160-point save contract'
  const run=enabled();run.command('enableSectDomain');run.command('enableWestValley');
  const from={x:-34,y:28.6};for(const site of eastServiceSites){const path=route(run.state,from,site.entrance,site.id);assert.ok(path.length>80&&path.length<=160);assert.equal(validateScenic({...run.state.master.scenic,...from,path,goal:site.entrance},run.state),true);}
 });
+
+test('service construction walks a person clear of future exterior solids before changing geometry',()=>{
+ const run=enabled(),s=run.state;Object.assign(s.stockpilesById['stockpile:yunxiu'].resources,{jade:100,wood:35,stone:20,food:500});
+ const {workOrderId:id}=run.command('buildDomainSite','site:domain:gc-13');run.until(s=>s.workOrdersById[id]?.progressTicks>=180,'construction reaches final work');
+ const state=run.state,o=state.workOrdersById[id],p=state.personsById['person:lu-zhiwei'],future=building(eastServiceSites[0],o.targetId.split(':').at(-1));
+ const solid=spatialExteriorSolids(future).find(solid=>solid.id==='jars-west');assert(solid);
+ const point=solid.polygon.reduce((a,q)=>({x:a.x+q[0]/solid.polygon.length,y:a.y+q[1]/solid.polygon.length}),{x:0,y:0});
+ // Rule fixture places a resting person on ground that becomes solid only at completion.
+ const oldActivity=state.activitiesById[p.activityId];if(oldActivity?.kind==='sr-construction'){o.activityIds=o.activityIds.filter(id=>id!==oldActivity.id);for(const slot of o.workSlots)if(slot.occupantId===p.personId){slot.occupantId=null;slot.firstArrivalTick=null;}}
+ if(oldActivity?.reservationId)delete state.reservationsById[oldActivity.reservationId];delete state.activitiesById[p.activityId];p.activityId=null;p.job=null;p.mind.activity='rest';p.mind.commitUntil=state.time+100;
+ Object.assign(p.mind.scenic,point,{path:[],goal:null});Object.assign(p.position,point);if(p.location?.kind==='local')Object.assign(p.location,point);
+ assert(meterCanStand(state,p.mind.scenic));run.until(s=>!s.workOrdersById[id],'person walks clear and construction completes',1000);
+ const at=run.state.personsById[p.personId].mind.scenic;assert(Math.hypot(at.x-point.x,at.y-point.y)>0);assert(meterCanStand(run.state,at));run.restore();
+});

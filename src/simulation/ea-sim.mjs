@@ -187,7 +187,7 @@ export function teachers(s,id){const t=TECHNIQUES[id];if(!t)return[];return[s.ma
 export function studyLock(s,person,id,isMaster=false){
  const t=TECHNIQUES[id],p=isMaster?person:stateMind(person);if(!t||!s.doctrine.books.includes(id))return '府中尚无此传承';if(person.realm<t.realm)return `需${realmName(t.realm)}`;
  if(isMaster&&s.doctrine.sealed.includes(id))return '典籍已封存，先重新开放';
- if(knowledge(person,id)>=100&&learned(p,id))return '已融会贯通';
+ if(knowledge(person,id)>=100&&(['spell','martial'].includes(t.kind)||learned(p,id)))return '已融会贯通';
  if(!compatible(p,id))return '与现有功体或辅修存在特殊禁忌';
  if(t.kind==='support'&&!p.support.includes(id)&&p.support.length>=supportLimit(person))return '辅修精力已满，可先停止一门辅修';
  if(id!=='qingyuan'&&!s.buildings.some(b=>b.type==='library'&&active(b)))return '需运行中的藏经阁';

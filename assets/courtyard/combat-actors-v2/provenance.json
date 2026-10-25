@@ -1,0 +1,29 @@
+{
+  "date": "2026-10-23",
+  "purpose": "layered limbs for fixed-view continuous combat body motion",
+  "basis": [
+    "U-157",
+    "U-158",
+    "docs/design/55-CHARACTER-ACTION-LIBRARY.md",
+    "docs/design/70-COURTYARD-FIRST-COMBAT.md"
+  ],
+  "identitySource": "assets/courtyard/cultivator-v1.png",
+  "leftIdentitySource": "assets/courtyard/combat-actors-v1/master-left-actions.png",
+  "generation": {
+    "tool": "built-in image_gen",
+    "source": "/Users/shepard/.codex/generated_images/01a16937-a40a-7cc0-ab16-a53c2d3d0d6a/exec-571fa602-c638-40ae-a4bf-b23abbdcd25b.png",
+    "sha256": "21b3aa911dc1f6cbd8c0d0fb9dacd76aaa892cef17f295a72b51cbbb585e15a0",
+    "prompt": "Production 2D pixel game skeletal character limb sheet. Use cultivator-v1.png as exact character and costume reference. Transparent 4 columns by 2 rows. Row 1 screen right, row 2 screen left, independent anatomical right sword hand. Columns: complete right gripping arm, complete left open-palm arm, complete near hip-to-boot leg, complete far hip-to-boot leg. Match blue upper sleeves, white cuffs, dark bracers, warm fingers, white trousers, black boots with gold trim. Include normal elbow/knee joins and hidden shoulder/hip material for overlaps. Preserve fixed elevated three-quarter camera, crisp pixel shading and palette. Character torso, face, hair and rigid sword remain from the existing identity sources."
+  },
+  "runtime": "apps/courtyard/courtyard-combat-rig.mjs",
+  "runtimeAlphaThreshold": 166,
+  "layout": {
+    "columns": 4,
+    "rows": 2
+  },
+  "review": {
+    "offline": "author reviewed 111 and 222 pixel continuous phase strips",
+    "native": "separate QA",
+    "userArtApproval": "pending"
+  }
+}

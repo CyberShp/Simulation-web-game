@@ -1,0 +1,208 @@
+{
+  "schema": "combat-pixel-v003-check/v1",
+  "syntheticTestsPassed": 4,
+  "normalizedManifests": 40,
+  "nonDodgeManifestsByteUnchanged": 36,
+  "frameReferences": 198,
+  "dodge": [
+    {
+      "direction": "up",
+      "phases": [
+        "windup",
+        "release",
+        "recovery",
+        "evade"
+      ],
+      "sourceColumns": [
+        4,
+        5,
+        5,
+        5
+      ],
+      "durationMs": [
+        100,
+        100,
+        100,
+        500
+      ],
+      "atlasCrops": [
+        [
+          768,
+          1728,
+          192,
+          192
+        ],
+        [
+          960,
+          1728,
+          192,
+          192
+        ],
+        [
+          960,
+          1728,
+          192,
+          192
+        ],
+        [
+          960,
+          1728,
+          192,
+          192
+        ]
+      ]
+    },
+    {
+      "direction": "left",
+      "phases": [
+        "windup",
+        "release",
+        "recovery",
+        "evade"
+      ],
+      "sourceColumns": [
+        4,
+        5,
+        5,
+        5
+      ],
+      "durationMs": [
+        100,
+        100,
+        100,
+        500
+      ],
+      "atlasCrops": [
+        [
+          1152,
+          1728,
+          192,
+          192
+        ],
+        [
+          1344,
+          1728,
+          192,
+          192
+        ],
+        [
+          1344,
+          1728,
+          192,
+          192
+        ],
+        [
+          1344,
+          1728,
+          192,
+          192
+        ]
+      ]
+    },
+    {
+      "direction": "down",
+      "phases": [
+        "windup",
+        "release",
+        "recovery",
+        "evade"
+      ],
+      "sourceColumns": [
+        4,
+        5,
+        5,
+        5
+      ],
+      "durationMs": [
+        100,
+        100,
+        100,
+        500
+      ],
+      "atlasCrops": [
+        [
+          1536,
+          1728,
+          192,
+          192
+        ],
+        [
+          1728,
+          1728,
+          192,
+          192
+        ],
+        [
+          1728,
+          1728,
+          192,
+          192
+        ],
+        [
+          1728,
+          1728,
+          192,
+          192
+        ]
+      ]
+    },
+    {
+      "direction": "right",
+      "phases": [
+        "windup",
+        "release",
+        "recovery",
+        "evade"
+      ],
+      "sourceColumns": [
+        4,
+        5,
+        5,
+        5
+      ],
+      "durationMs": [
+        100,
+        100,
+        100,
+        500
+      ],
+      "atlasCrops": [
+        [
+          1920,
+          1728,
+          192,
+          192
+        ],
+        [
+          2112,
+          1728,
+          192,
+          192
+        ],
+        [
+          2112,
+          1728,
+          192,
+          192
+        ],
+        [
+          2112,
+          1728,
+          192,
+          192
+        ]
+      ]
+    }
+  ],
+  "actorAtlasByteUnchanged": {
+    "shen-yan": true,
+    "shanxiao": true
+  },
+  "environmentByteUnchanged": true,
+  "creditsByteUnchanged": true,
+  "v002Preserved": true,
+  "sourceUnchanged": true,
+  "worldTimingAuthorityUnchanged": true,
+  "scriptSha256": "f6be97ffe7383fb9b98c3d2e9b19d76ee5d77cecff7c989662e56ec07cd523ff",
+  "recipeSha256": "49e181a168a484ea5850330c5027eafd0a04ec7fc1b72dc1e86bff75ddc56052"
+}

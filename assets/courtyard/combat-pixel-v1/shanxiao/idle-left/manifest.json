@@ -1,0 +1,55 @@
+{
+  "schema": "combat-frame-atlas/v1",
+  "id": "pixel-v1-shanxiao-idle-left",
+  "visualIdentity": "shanxiao",
+  "action": "idle",
+  "direction": "left",
+  "atlas": "../atlas.png",
+  "frameSize": [
+    192,
+    192
+  ],
+  "sourceHeight": 45,
+  "foot": [
+    96,
+    126
+  ],
+  "durationMs": 1000,
+  "loop": true,
+  "holdLast": false,
+  "directionalFallback": false,
+  "frames": [
+    {
+      "index": 0,
+      "x": 192,
+      "y": 0,
+      "w": 192,
+      "h": 192,
+      "durationMs": 1000,
+      "phase": "idle",
+      "sourceFrame": {
+        "row": 9,
+        "column": 0,
+        "cellSize": 64
+      },
+      "pixelBounds": [
+        87,
+        84,
+        107,
+        126
+      ]
+    }
+  ],
+  "source": {
+    "repository": "LiberatedPixelCup/Universal-LPC-Spritesheet-Character-Generator",
+    "commit": "95c338c84d55cd3e6790d9eddfa3e22c5a0fb91f",
+    "selectedLicense": "CC-BY-SA-3.0",
+    "bodyOffset": [
+      64,
+      64
+    ],
+    "wholeFrameOnly": true,
+    "reuse": null,
+    "timingAuthority": "Runtime combat phases; frame durations are phase weights."
+  }
+}

@@ -1,0 +1,427 @@
+{
+  "schema": "combat-frame-atlas/v1",
+  "atlas": "atlas.png",
+  "frameSize": [
+    400,
+    300
+  ],
+  "sourceHeight": 212.5,
+  "foot": [
+    220,
+    260
+  ],
+  "durationMs": 500,
+  "loop": false,
+  "frames": [
+    {
+      "index": 0,
+      "file": "frames/0000.png",
+      "x": 0,
+      "y": 0,
+      "w": 400,
+      "h": 300,
+      "sourceHeight": 212.5,
+      "foot": [
+        220,
+        260
+      ],
+      "durationMs": 40,
+      "phase": "windup",
+      "anchors": {
+        "hand": [
+          149.0,
+          120.0
+        ],
+        "grip": [
+          141.5,
+          112.5
+        ],
+        "tip": [
+          75.5,
+          52.0
+        ]
+      }
+    },
+    {
+      "index": 1,
+      "file": "frames/0001.png",
+      "x": 400,
+      "y": 0,
+      "w": 400,
+      "h": 300,
+      "sourceHeight": 212.5,
+      "foot": [
+        220,
+        260
+      ],
+      "durationMs": 60,
+      "phase": "windup",
+      "anchors": {
+        "hand": [
+          188.5,
+          44.0
+        ],
+        "grip": [
+          204.5,
+          43.0
+        ],
+        "tip": [
+          314.5,
+          60.5
+        ]
+      },
+      "source": {
+        "file": "inputs/000-exec-0d875487-d729-46b0-a882-053b127562ad.png",
+        "crop": [
+          550,
+          0,
+          474,
+          512
+        ],
+        "clipPolygon": [
+          [
+            0,
+            0
+          ],
+          [
+            474,
+            0
+          ],
+          [
+            474,
+            174
+          ],
+          [
+            385,
+            174
+          ],
+          [
+            385,
+            216
+          ],
+          [
+            474,
+            216
+          ],
+          [
+            474,
+            512
+          ],
+          [
+            0,
+            512
+          ]
+        ]
+      }
+    },
+    {
+      "index": 2,
+      "file": "frames/0002.png",
+      "x": 800,
+      "y": 0,
+      "w": 400,
+      "h": 300,
+      "sourceHeight": 212.5,
+      "foot": [
+        220,
+        260
+      ],
+      "durationMs": 100,
+      "phase": "release",
+      "event": "release",
+      "anchors": {
+        "hand": [
+          124.0,
+          112.0
+        ],
+        "grip": [
+          112.5,
+          110.0
+        ],
+        "tip": [
+          18.0,
+          109.0
+        ]
+      },
+      "source": {
+        "file": "inputs/000-exec-0d875487-d729-46b0-a882-053b127562ad.png",
+        "crop": [
+          930,
+          0,
+          606,
+          512
+        ],
+        "clipPolygon": [
+          [
+            94,
+            0
+          ],
+          [
+            606,
+            0
+          ],
+          [
+            606,
+            512
+          ],
+          [
+            94,
+            512
+          ],
+          [
+            94,
+            216
+          ],
+          [
+            0,
+            216
+          ],
+          [
+            0,
+            174
+          ],
+          [
+            94,
+            174
+          ]
+        ]
+      }
+    },
+    {
+      "index": 3,
+      "file": "frames/0003.png",
+      "x": 1200,
+      "y": 0,
+      "w": 400,
+      "h": 300,
+      "sourceHeight": 212.5,
+      "foot": [
+        220,
+        260
+      ],
+      "durationMs": 100,
+      "phase": "recovery",
+      "anchors": {
+        "hand": [
+          144.0,
+          174.0
+        ],
+        "grip": [
+          134.5,
+          177.5
+        ],
+        "tip": [
+          67.5,
+          235.5
+        ]
+      },
+      "source": {
+        "file": "inputs/000-exec-0d875487-d729-46b0-a882-053b127562ad.png",
+        "crop": [
+          0,
+          512,
+          570,
+          512
+        ],
+        "clipPolygon": [
+          [
+            0,
+            0
+          ],
+          [
+            550,
+            0
+          ],
+          [
+            550,
+            210
+          ],
+          [
+            570,
+            210
+          ],
+          [
+            570,
+            512
+          ],
+          [
+            0,
+            512
+          ]
+        ]
+      }
+    },
+    {
+      "index": 4,
+      "file": "frames/0004.png",
+      "x": 0,
+      "y": 300,
+      "w": 400,
+      "h": 300,
+      "sourceHeight": 212.5,
+      "foot": [
+        220,
+        260
+      ],
+      "durationMs": 100,
+      "phase": "recovery",
+      "anchors": {
+        "hand": [
+          205.0,
+          142.5
+        ],
+        "grip": [
+          197.0,
+          134.5
+        ],
+        "tip": [
+          115.0,
+          82.0
+        ]
+      },
+      "source": {
+        "file": "inputs/000-exec-0d875487-d729-46b0-a882-053b127562ad.png",
+        "crop": [
+          550,
+          512,
+          465,
+          512
+        ],
+        "clipPolygon": [
+          [
+            0,
+            0
+          ],
+          [
+            440,
+            0
+          ],
+          [
+            440,
+            180
+          ],
+          [
+            465,
+            180
+          ],
+          [
+            465,
+            512
+          ],
+          [
+            20,
+            512
+          ],
+          [
+            20,
+            180
+          ],
+          [
+            0,
+            180
+          ]
+        ]
+      }
+    },
+    {
+      "index": 5,
+      "file": "frames/0005.png",
+      "x": 400,
+      "y": 300,
+      "w": 400,
+      "h": 300,
+      "sourceHeight": 212.5,
+      "foot": [
+        220,
+        260
+      ],
+      "durationMs": 100,
+      "phase": "recovery",
+      "anchors": {
+        "hand": [
+          146.0,
+          125.0
+        ],
+        "grip": [
+          137.5,
+          117.5
+        ],
+        "tip": [
+          65.0,
+          54.0
+        ]
+      },
+      "source": {
+        "file": "inputs/000-exec-0d875487-d729-46b0-a882-053b127562ad.png",
+        "crop": [
+          990,
+          512,
+          546,
+          512
+        ],
+        "clipPolygon": [
+          [
+            0,
+            0
+          ],
+          [
+            546,
+            0
+          ],
+          [
+            546,
+            512
+          ],
+          [
+            25,
+            512
+          ],
+          [
+            25,
+            180
+          ],
+          [
+            0,
+            180
+          ]
+        ]
+      }
+    }
+  ],
+  "metadata": {
+    "sourceReview": "key-poses-selected-for-sequence-review",
+    "author": "root",
+    "generatedBy": "built-in image_gen",
+    "date": "2026-10-24"
+  },
+  "sources": [
+    {
+      "file": "inputs/000-exec-0d875487-d729-46b0-a882-053b127562ad.png",
+      "sha256": "24ec6a731aa56500c5d4e70f2f67bb2ab2e94f043178499433a1f5ce1977e99e"
+    }
+  ],
+  "provenance": {
+    "pipeline": "combat-frame-pipeline/1",
+    "python": "3.12.14",
+    "pillow": "12.3.0",
+    "scriptSha256": "870275d7b2c0504dea2418f47854326f4a75ea5aead0419072ff31be87e25e13",
+    "workflowReference": {
+      "repository": "https://github.com/0x0funky/agent-sprite-forge",
+      "revision": "5324342fdfab72430f4e9604f3fe427009f8596d"
+    },
+    "sourceHeightBeforeScale": 425,
+    "uniformScale": 0.5,
+    "pixelOperations": [
+      "explicit-crop",
+      "authored-polygon-alpha-clip",
+      "uniform-nearest-scale",
+      "fixed-foot-translation",
+      "whole-frame-pack"
+    ]
+  },
+  "id": "shen-yan-attack-left-v3",
+  "visualIdentity": "shen-yan",
+  "action": "attack",
+  "direction": "left",
+  "phase": "idle"
+}

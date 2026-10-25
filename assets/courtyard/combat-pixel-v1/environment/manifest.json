@@ -1,0 +1,184 @@
+{
+  "schema": "combat-pixel-environment/v1",
+  "commit": "f07f7f5892e67c932c68f70bb04472f2c64e46bc",
+  "license": "OGA-BY-3.0",
+  "atlas": "atlas.png",
+  "assets": {
+    "grass": {
+      "file": "grass.png",
+      "source": "Terrain/terrain_summer.png",
+      "crop": [
+        128,
+        32,
+        32,
+        32
+      ],
+      "repeat": 4,
+      "size": [
+        128,
+        128
+      ],
+      "foot": [
+        0,
+        0
+      ],
+      "alphaCounts": {
+        "255": 16384
+      },
+      "sourceRect": [
+        0,
+        0,
+        128,
+        128
+      ]
+    },
+    "pine": {
+      "file": "pine.png",
+      "source": "Terrain/trees_summer.png",
+      "crop": [
+        128,
+        384,
+        96,
+        128
+      ],
+      "repeat": 1,
+      "size": [
+        96,
+        128
+      ],
+      "foot": [
+        48,
+        110
+      ],
+      "alphaCounts": {
+        "0": 7182,
+        "255": 5106
+      },
+      "sourceRect": [
+        128,
+        0,
+        96,
+        128
+      ]
+    },
+    "herbs": {
+      "file": "herbs.png",
+      "source": "Terrain/flowers.png",
+      "crop": [
+        96,
+        0,
+        32,
+        32
+      ],
+      "placements": [
+        [
+          0,
+          16
+        ],
+        [
+          32,
+          0
+        ],
+        [
+          64,
+          24
+        ],
+        [
+          96,
+          8
+        ]
+      ],
+      "size": [
+        128,
+        64
+      ],
+      "foot": [
+        64,
+        58
+      ],
+      "sourceRect": [
+        224,
+        0,
+        128,
+        64
+      ]
+    },
+    "bridge": {
+      "file": "bridge.png",
+      "source": "Structure/Bridges/Wood Bridge A - No Rails.png",
+      "crop": [
+        0,
+        0,
+        128,
+        80
+      ],
+      "middleColumnRepeat": 5,
+      "size": [
+        224,
+        80
+      ],
+      "foot": [
+        112,
+        80
+      ],
+      "sourceRect": [
+        0,
+        128,
+        224,
+        80
+      ]
+    },
+    "cave": {
+      "file": "cave.png",
+      "source": "Terrain/cliff_summer.png",
+      "wallCrop": [
+        320,
+        288,
+        32,
+        64
+      ],
+      "wallRepeat": 6,
+      "openingCrop": [
+        224,
+        288,
+        96,
+        64
+      ],
+      "openingOffset": [
+        48,
+        0
+      ],
+      "size": [
+        192,
+        64
+      ],
+      "foot": [
+        96,
+        64
+      ],
+      "sourceRect": [
+        224,
+        128,
+        192,
+        64
+      ]
+    },
+    "rocks": {
+      "file": "rocks-source.png",
+      "source": "Terrain/Rocks, Grasslands.png",
+      "crop": null,
+      "size": [
+        192,
+        384
+      ],
+      "foot": null,
+      "usage": "Original reference sheet; root selects a rock crop.",
+      "sourceRect": [
+        0,
+        208,
+        192,
+        384
+      ]
+    }
+  }
+}

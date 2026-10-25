@@ -101,3 +101,16 @@ test('an NPC who actually ate both portions keeps personal supply when another r
  // Explicit shortage fixture after the NPC's two portions have physically been consumed.
  s.resources.food=0;s=roundtrip(s);until(s,x=>day(x)>suppliedDay);assert(s.economy.starvation>0);const person=s.personsById[lu.personId],fact=s.factsById[`fact:person-daily-supply:${lu.personId}:${day(s)}`];assert.equal(fact.supplied,true);assert.equal(fact.mealCredit.factIds.length,2);assert(person.mind.satiety>=satiety);assert(person.mind.relationships.master.trust>=trust);roundtrip(s);
 });
+
+test('present injured artisan receives one clinic treatment with arrival and work restores',()=>{
+ let {s,b,sid}=fixture('clinic');const p=s.personsById['person:cheng-wenzhou'];
+ s.story.artisan.phase='present';s.story.artisan.arrivedTick=s.worldTick;p.position={kind:'scene',sceneId:'scene:yunxiu-courtyard',x:28,y:25};p.wound=35;s.master.knowledge.spring=24;
+ assert(viewSiteServices(s,b.instanceId).patients.some(x=>x.personId===p.personId&&x.available));
+ const herbs=s.stockpilesById[sid].resources.herb;s.stockpilesById[sid].resources.herb=0;
+ assert.throws(()=>startSiteService(s,{buildingId:b.instanceId,recipeId:'treatment',patientId:p.personId}),/材料/);s.stockpilesById[sid].resources.herb=herbs;
+ s.story.artisan.phase='arriving';assert.throws(()=>startSiteService(s,{buildingId:b.instanceId,recipeId:'treatment',patientId:p.personId}),/患者/);s.story.artisan.phase='present';
+ s=SIM.validateSave(copy(s));const {id}=startSiteService(s,{buildingId:b.instanceId,recipeId:'treatment',patientId:p.personId});masterSiteService(s,id);s=roundtrip(s);
+ until(s,x=>x.workOrdersById[id].progressTicks>=10);s=roundtrip(s);until(s,x=>x.workOrdersById[id].phase==='completed');
+ assert.equal(s.personsById[p.personId].wound,31);assert.equal(s.story.artisan.phase,'present');assert(!s.homeMemberIds.includes(p.personId));assert.equal(s.stockpilesById[sid].resources.herb,herbs-1);assert.equal(s.stockpilesById[sid].resources.cleanWater,39);s=roundtrip(s);
+ SIM.tick(s,.1);assert.equal(s.personsById[p.personId].wound,31);assert.equal(Object.values(s.factsById).filter(f=>f.workOrderId===id&&f.kind==='site-service-completed').length,1);
+});

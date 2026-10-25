@@ -14,9 +14,9 @@
 
 纳入云岫前期，按依赖推进。
 
-决策来源：U-63, U-75, R-25, U-94, U-123。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
+决策来源：U-63, U-75, R-25, U-94, U-123, U-168, U-172。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
 
-规格：[04-WORLD-STORY.md](../../../docs/design/04-WORLD-STORY.md)、[05-RUNTIME-CONTRACTS.md](../../../docs/design/05-RUNTIME-CONTRACTS.md)、[08-LIVING-WORLD.md](../../../docs/design/08-LIVING-WORLD.md)、[10-CRISES-RESCUE-DEATH.md](../../../docs/design/10-CRISES-RESCUE-DEATH.md)、[14-EARLY-GAME-DETAILED-DESIGN.md](../../../docs/design/14-EARLY-GAME-DETAILED-DESIGN.md)、[03-SPATIAL-ART.md](../../../docs/design/03-SPATIAL-ART.md)、[06-OPENING-ACCEPTANCE.md](../../../docs/design/06-OPENING-ACCEPTANCE.md)、[41-COURTYARD-VALLEY-IMPLEMENTATION.md](../../../docs/design/41-COURTYARD-VALLEY-IMPLEMENTATION.md)。
+规格：[04-WORLD-STORY.md](../../../docs/design/04-WORLD-STORY.md)、[05-RUNTIME-CONTRACTS.md](../../../docs/design/05-RUNTIME-CONTRACTS.md)、[08-LIVING-WORLD.md](../../../docs/design/08-LIVING-WORLD.md)、[10-CRISES-RESCUE-DEATH.md](../../../docs/design/10-CRISES-RESCUE-DEATH.md)、[14-EARLY-GAME-DETAILED-DESIGN.md](../../../docs/design/14-EARLY-GAME-DETAILED-DESIGN.md)、[03-SPATIAL-ART.md](../../../docs/design/03-SPATIAL-ART.md)、[06-OPENING-ACCEPTANCE.md](../../../docs/design/06-OPENING-ACCEPTANCE.md)、[41-COURTYARD-VALLEY-IMPLEMENTATION.md](../../../docs/design/41-COURTYARD-VALLEY-IMPLEMENTATION.md)、[72-DISCIPLE-EXPEDITIONS.md](../../../docs/design/72-DISCIPLE-EXPEDITIONS.md)、[80-EXPEDITION-RECOVERY.md](../../../docs/design/80-EXPEDITION-RECOVERY.md)、[82-EXPEDITION-PURPOSE.md](../../../docs/design/82-EXPEDITION-PURPOSE.md)、[83-ENCOUNTER-DISTANCE.md](../../../docs/design/83-ENCOUNTER-DISTANCE.md)、[84-EXPEDITION-MEDICINE.md](../../../docs/design/84-EXPEDITION-MEDICINE.md)、[85-MEDICINE-SUPPLY.md](../../../docs/design/85-MEDICINE-SUPPLY.md)、[88-SECT-CONCURRENCY.md](../../../docs/design/88-SECT-CONCURRENCY.md)、[91-EXPEDITION-GROWTH.md](../../../docs/design/91-EXPEDITION-GROWTH.md)、[92-EXPEDITION-COMPANIONS.md](../../../docs/design/92-EXPEDITION-COMPANIONS.md)。
 
 依赖：[SR-XF-002](SR-XF-002.md)、[SR-XF-003](SR-XF-003.md)、[SR-XF-010](SR-XF-010.md)。
 
@@ -53,9 +53,24 @@ SR-XF-015-REQ-03：断路和拒绝同行有可行替代，关闭/后台不补算
 | SR-XF-015-AC-02 | 桥断选择修复/绕行/返回 | 预告并实际结算对应时间与成本，路线状态持久。 | not_run |
 | SR-XF-015-AC-03 | 未知外出者查询人物栏 | 只展示已知最后消息，不泄露实时坐标或未知死亡。 | not_run |
 
+SR-XF-015-AC-01证据：docs/design/91-EXPEDITION-GROWTH.md；docs/design/92-EXPEDITION-COMPANIONS.md
+
+SR-XF-015-AC-03证据：docs/design/91-EXPEDITION-GROWTH.md；docs/design/92-EXPEDITION-COMPANIONS.md
+
 2026-10-12 U-123：正式界面山院赴山门、8秒入谷、34米返程出口及8秒返院已实走；谷内存读保同一人物和地点，山谷定向5／5。 局部证据见 docs/art/COURTYARD-VALLEY-2026-10-12.md；整项 D/I/V/R 与 AC 状态不变。
 
 2026-10-12 U-123 首战本地网页：最终本地战斗网页撤退保留谷内同一掌门脚点，确认战报后实走17.3米至归院道，按当时天气约9秒返院；完整旅行定位 AC 状态保持。 证据见 docs/art/COURTYARD-VALLEY-2026-10-12.md；整项 D/I/V/R 与 AC 状态不变。
+
+2026-10-24 U-168 门人自主经营与一次山谷历练已完成开发和 macOS 源码 Electron 验收。裴照雪实际出院、从有限药丛取得6份药草，感知山魈风险后退回，tick263500实际交库，经验增加8、伤势0→0；留守陆清和与陆知微产生6条真实生产事实，伐木场木材17.870030169→163.39977615。desktop-04从保全准备现场261473续接至263635，388.786318708秒、错误0；准备261473、谷内261865、归院263538三次完整原生重开一致。21项定向与相邻回归通过，GPT-6.1-sol独立复核通过。434份冻结文件保持，本批8个运行文件与主树一致；早先失败与在途重开按原版本范围保留。Windows及完整SR/AC状态保持。 详见 docs/design/72-DISCIPLE-EXPEDITIONS.md。
+
+2026-10-25 门人自主历练目的已接入：根据公库缺口、本人志向和本人既往风险见闻选择采药补给或探索修行。定向场景验证采6草返院与实际到点观察60步分别结算8经验；遇险未完成及新采药空药丛不发完成经验。新增及独立边界9/9、归院恢复回归7/7、三场景9项及实际浏览器组件通过。相邻19项18通过，唯一5.3米近身受伤断言在入口同样失败，保留待修。完整SR/AC及发布状态保持。
+
+2026-10-25 历练距离修复完成：近身伤害恢复原3米，感知6米，应战交互9米各自独立。默认怪位置下正式探索在6米发现后撤退，1279步归院伤0；配置2米接触的行程实际伤10，589步归院后保留养伤意图。两场景7项、根距离10/10、目的与恢复16/16、原历练回归7/7通过。82记录的5.3米旧失败已修复；历史结果保持，完整SR/AC及发布状态保持。
+
+2026-10-25 历练备药至恢复经营闭环完成：实际到公库按许可领一份回春散，个人随身药优先；受伤后退到安全处停20世界步服药，沿原路归院，未用公药实际归还。四场景均到真实工位产生新生产贡献：有药伤10→0；缺药/无许可归院伤10，实际到床恢复至4.9后返工；平安未用归库1。根新增及相邻39/39、四场景11类检查和实际浏览器组件通过；私药、每日限制、死亡、取消及旧行程兼容独立核验。完整SR/AC与发布状态保持。
+
+2026-10-25 回春散供给闭环完成本批开发与针对性验收：正式院务设置0–10份公库目标，门人自愿搬运有限原料、完成四阶段280工步、成药实际归库，达标停产。场景陆知微耗10草/2水/1木及10灵石炼2份，tick2207归库；林长风2374领1份、2823安全处服药伤10→0、3103归院，公库余1。缺水实际补运后恢复、无人愿意、既有在制、防重复、关闭保留投入等通过。根61项单测，最后提示优先级修正后6项边界复验，四场景10类检查及实际浏览器组件通过，14文件散列一致、错误0。按U-172配置场景，未做原生整局或存读；完整SR/AC及发布状态保持。
+2026-10-25 三至五人并行经营完成本批：3/5名门人另加掌门，同钟生产、修行与历练均有实际进度；各跨三次日结，每日分别8/12粮，全程饥荒0。两档均炼2药于2168归库，三人实运11粮后余35；五人两次真实伤10→0服药并归院、本人返工，实运13粮后余23，药物总账1+2−2=1。修复未完功课和有效承诺被出游抢占，以及承诺到期先续约导致无法出游；既有夜休/恢复/突破优先。根61项定向及相邻单测、独立6项复核、最终两场景11类检查通过，17份散列前后及当前一致，工程检查通过。初始住宅非法入口和验收器遗漏夜休条件的失败报告保留；按U-172配置场景，原生整局、Windows、存读长链及长期平衡未验，完整SR/AC及发布状态保持。
 
 ## 开发任务
 
@@ -93,10 +108,40 @@ SR-XF-015-REQ-03：断路和拒绝同行有可行替代，关闭/后台不补算
 - docs/art/COURTYARD-VALLEY-2026-10-12.md
 - tests/unit/web/ea-mountain-valley.test.mjs
 - tests/unit/web/ea-godot-valley-projection.test.mjs
+- docs/design/72-DISCIPLE-EXPEDITIONS.md
+- src/simulation/ea-disciple-expeditions.mjs
+- src/simulation/ea-disciple-encounters.mjs
+- tests/acceptance/courtyard-disciple-expeditions-desktop.mjs
+- tests/unit/courtyard/courtyard-disciple-expeditions.test.mjs
+- tests/unit/courtyard/courtyard-disciple-encounters.test.mjs
+- tests/unit/courtyard/courtyard-disciple-expedition-boundaries.test.mjs
+- tests/unit/courtyard/courtyard-disciple-expedition-visibility.test.mjs
+- 2026-10-24 U-168 门人自主经营与一次山谷历练已完成开发和 macOS 源码 Electron 验收。裴照雪实际出院、从有限药丛取得6份药草，感知山魈风险后退回，tick263500实际交库，经验增加8、伤势0→0；留守陆清和与陆知微产生6条真实生产事实，伐木场木材17.870030169→163.39977615。desktop-04从保全准备现场261473续接至263635，388.786318708秒、错误0；准备261473、谷内261865、归院263538三次完整原生重开一致。21项定向与相邻回归通过，GPT-6.1-sol独立复核通过。434份冻结文件保持，本批8个运行文件与主树一致；早先失败与在途重开按原版本范围保留。Windows及完整SR/AC状态保持。
+- docs/design/80-EXPEDITION-RECOVERY.md
+- 2026-10-25 历练归来恢复已接入：真实归院伤势大于5时保留养伤意图，有药按既有规则耗草，缺药自然调养，恢复后回到日常自主决策；健康同伴按现有供给与意愿接活。按U-172配置三场景验证归库、真实床位恢复及生产补位，饥饿可优先解决而保留恢复意图。完整SR/AC与发布状态保持。
+- docs/design/82-EXPEDITION-PURPOSE.md
+- 2026-10-25 门人自主历练目的已接入：根据公库缺口、本人志向和本人既往风险见闻选择采药补给或探索修行。定向场景验证采6草返院与实际到点观察60步分别结算8经验；遇险未完成及新采药空药丛不发完成经验。新增及独立边界9/9、归院恢复回归7/7、三场景9项及实际浏览器组件通过。相邻19项18通过，唯一5.3米近身受伤断言在入口同样失败，保留待修。完整SR/AC及发布状态保持。
+- docs/design/83-ENCOUNTER-DISTANCE.md
+- 2026-10-25 历练距离修复完成：近身伤害恢复原3米，感知6米，应战交互9米各自独立。默认怪位置下正式探索在6米发现后撤退，1279步归院伤0；配置2米接触的行程实际伤10，589步归院后保留养伤意图。两场景7项、根距离10/10、目的与恢复16/16、原历练回归7/7通过。82记录的5.3米旧失败已修复；历史结果保持，完整SR/AC及发布状态保持。
+- docs/design/84-EXPEDITION-MEDICINE.md
+- 2026-10-25 历练备药至恢复经营闭环完成：实际到公库按许可领一份回春散，个人随身药优先；受伤后退到安全处停20世界步服药，沿原路归院，未用公药实际归还。四场景均到真实工位产生新生产贡献：有药伤10→0；缺药/无许可归院伤10，实际到床恢复至4.9后返工；平安未用归库1。根新增及相邻39/39、四场景11类检查和实际浏览器组件通过；私药、每日限制、死亡、取消及旧行程兼容独立核验。完整SR/AC与发布状态保持。
+- docs/design/85-MEDICINE-SUPPLY.md
+- 2026-10-25 回春散供给闭环完成本批开发与针对性验收：正式院务设置0–10份公库目标，门人自愿搬运有限原料、完成四阶段280工步、成药实际归库，达标停产。场景陆知微耗10草/2水/1木及10灵石炼2份，tick2207归库；林长风2374领1份、2823安全处服药伤10→0、3103归院，公库余1。缺水实际补运后恢复、无人愿意、既有在制、防重复、关闭保留投入等通过。根61项单测，最后提示优先级修正后6项边界复验，四场景10类检查及实际浏览器组件通过，14文件散列一致、错误0。按U-172配置场景，未做原生整局或存读；完整SR/AC及发布状态保持。
+- 2026-10-25 三至五人并行经营完成本批：3/5名门人另加掌门，同钟生产、修行与历练均有实际进度；各跨三次日结，每日分别8/12粮，全程饥荒0。两档均炼2药于2168归库，三人实运11粮后余35；五人两次真实伤10→0服药并归院、本人返工，实运13粮后余23，药物总账1+2−2=1。修复未完功课和有效承诺被出游抢占，以及承诺到期先续约导致无法出游；既有夜休/恢复/突破优先。根61项定向及相邻单测、独立6项复核、最终两场景11类检查通过，17份散列前后及当前一致，工程检查通过。初始住宅非法入口和验收器遗漏夜休条件的失败报告保留；按U-172配置场景，原生整局、Windows、存读长链及长期平衡未验，完整SR/AC及发布状态保持。 证据：/Users/shepard/.codex/tmp/immortal-sect-concurrency-20261025/scenario-04/report.json。
+- 2026-10-26 历练收获反哺成长完成本批：真实采6草于1729归库，当面筹备一炉并保留本人旧承诺，2545实运材料到丹房，3428完成原四阶段780工步，4020成药归库，林长风4112收入随身、4120开始突破、4310完成180工步升至筑基。掌门正式搬40木腾库后，5080本人实际参与生产，贡献90%、百工增长0.54；灵草总账119+6−75−50=0。筹备可撤回，已接运输保留；修复休息续约饿死取丹机会、交库容量/产权检查及运输提示滞后。根116项定向/相邻测试、最终投影14项复验、三场景9项检查和实际Chromium人物窗组件通过；23源码散列一致、14完整快照、6截图及独立复核通过。按U-172配置初始条件；原生整局、Windows、存读长链与长期平衡未验，完整SR/AC及发布状态保持。 证据：/Users/shepard/.codex/tmp/immortal-expedition-growth-20261026/scenario-04/report.json；/Users/shepard/.codex/tmp/immortal-expedition-growth-20261026/final-independent-audit.json。
+- 2026-10-26 门人结伴历练完成本批：院务开放结伴机会，近身且同目的的两位门人分别自愿，至少一人留守；各自准备2粮8精力、独立身体与药囊。平安场景1925双人归院，各得8经验并各退1药，2400共同生产木21.384；遇险两人各伤10，陆知微1139–1158实际安全服唯一药，林长风等候19步，1424/1427分别归院，林1470到床养伤，陆1730产木、林1860产水。近距提醒与亲见分开；拒绝、失散120步独自返、死亡不复活及临时交接不可达恢复通过。修复两人公库互堵、观察脚点及返回入口接缝。主Agent54项定向/相邻测试、最终三场景12项检查通过，19源码散列一致、32完整快照、5实际Chromium组件截图，错误0。谷口有0.04米短暂交叉，通用身体净距未验；原生整局、Windows、存读长链及长期平衡未验，完整SR/AC与发布状态保持。 证据：/Users/shepard/.codex/tmp/immortal-expedition-companions-20261026/scenario-02/report.json。
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
 - 2026-10-12：2026-10-12 U-123：正式界面山院赴山门、8秒入谷、34米返程出口及8秒返院已实走；谷内存读保同一人物和地点，山谷定向5／5。 局部证据见 docs/art/COURTYARD-VALLEY-2026-10-12.md；整项 D/I/V/R 与 AC 状态不变。
 - 2026-10-12：2026-10-12 U-123 首战本地网页：最终本地战斗网页撤退保留谷内同一掌门脚点，确认战报后实走17.3米至归院道，按当时天气约9秒返院；完整旅行定位 AC 状态保持。 证据见 docs/art/COURTYARD-VALLEY-2026-10-12.md；整项 D/I/V/R 与 AC 状态不变。
+- 2026-10-24：2026-10-24 U-168 门人自主经营与一次山谷历练已完成开发和 macOS 源码 Electron 验收。裴照雪实际出院、从有限药丛取得6份药草，感知山魈风险后退回，tick263500实际交库，经验增加8、伤势0→0；留守陆清和与陆知微产生6条真实生产事实，伐木场木材17.870030169→163.39977615。desktop-04从保全准备现场261473续接至263635，388.786318708秒、错误0；准备261473、谷内261865、归院263538三次完整原生重开一致。21项定向与相邻回归通过，GPT-6.1-sol独立复核通过。434份冻结文件保持，本批8个运行文件与主树一致；早先失败与在途重开按原版本范围保留。Windows及完整SR/AC状态保持。
+- 2026-10-25：登记历练自主目的、实际采药/观察结果及局部证据；保留既有接触半径失败和整项状态。
+- 2026-10-25：登记历练距离修复及安全/受伤归院局部证据，完整SR/AC状态保持。
+- 2026-10-25：登记历练实体携药/使用/归还与恢复生产闭环证据，完整SR/AC状态保持。
+- 2026-10-25：登记回春散库存目标、实体备料、自主四阶段炼制、归库及历练实用证据，完整SR/AC状态保持。
+- 2026-10-25：登记三/五人并行经营、粮药实际收支与承诺到期接缝；完整SR/AC状态保持。
+- 2026-10-26：登记历练实采、单炉筹备、真实交付、自主筑基及返工针对性验证；完整SR/AC状态保持。
+- 2026-10-26：登记门人自主结伴、近距协作、逐人用药/死亡/返院恢复及生产针对性验证；完整SR/AC状态保持。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python scripts/requirements/sr-manager.py refresh`，不单独修改此派生页。

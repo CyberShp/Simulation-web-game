@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import seed from '../../../apps/courtyard/sect-seed.mjs';
 import {validateSave,dispatchCommand,tick} from '../../../src/simulation/ea-opening-sim.mjs';
-import {meterFindPath,meterSweep,spatialRevision} from '../../../src/simulation/ea-sr-spatial.mjs';
+import {meterFindPath,meterSweep,spatialRevision,visibleBodyRouteClear} from '../../../src/simulation/ea-sr-spatial.mjs';
 import {NORTH_LIBRARY_APPROACH_VERSION,COURTYARD_EAST_ROAD,northLibrarySites} from '../../../src/simulation/ea-sect-domain.mjs';
 import {toArt,isArtWalkable} from '../../../apps/courtyard/courtyard-space.mjs';
 
@@ -47,4 +47,20 @@ test('an active legacy northern material trip recovers by actual steps and keeps
   if(i===0||i===6||i===100)r.restore();
  }
  assert.ok(recovered!==null&&recovered-originTick<30);assert.ok(maxStep>0);const current=r.state.workOrdersById[id],flow=current.materialFlow;for(const [resource,quantity]of Object.entries(cargo))assert.equal((flow.cargo[resource]||0)+(r.state.stockpilesById[flow.siteStockpileId].resources[resource]||0),quantity);assert.equal(current.progressTicks,0);
+});
+
+test('construction warehouse return rejoins the measured road from a legal boundary stance',()=>{
+ const r=enabled();r.command('enableEastResidences');r.command('enableEastServices');Object.assign(r.state.stockpilesById[HOME].resources,{jade:65,wood:45,stone:20});
+ const {workOrderId:id}=r.command('buildDomainSite',northLibrarySites[0].id),p=r.state.master;
+ // A rule fixture reproduces a saved legal road stance; the order and material reservations are real.
+ const origin={x:50.44237537561094,y:12.146878315716327};Object.assign(p.scenic,origin,{path:[],goal:null});Object.assign(p.position,origin);if(p.location?.kind==='local')Object.assign(p.location,origin);
+ const materials=copy(r.state.stockpilesById[r.state.workOrdersById[id].materialFlow.sourceStockpileId].resources);r.restore();
+ for(let i=0;i<250&&r.state.workOrdersById[id].materialFlow.phase==='to-source';i++){
+  const before={...r.state.master.scenic};r.step();const after=r.state.master.scenic;
+  assert.equal(meterSweep(r.state,before,after).blocked,false);assert.ok(visibleBodyRouteClear(r.state,before,[after]));assert.ok(Math.hypot(after.x-before.x,after.y-before.y)<=.316801);
+  if(i===0||i===50)r.restore();
+ }
+ const flow=r.state.workOrdersById[id].materialFlow;assert.equal(flow.phase,'carrying');assert.equal(flow.trips.length,1);
+ for(const [key,value]of Object.entries(materials))assert.equal((flow.cargo[key]||0)+r.state.stockpilesById[flow.sourceStockpileId].resources[key],value);
+ r.restore();
 });

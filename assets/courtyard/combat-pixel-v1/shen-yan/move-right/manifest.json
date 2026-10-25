@@ -1,0 +1,195 @@
+{
+  "schema": "combat-frame-atlas/v1",
+  "id": "pixel-v1-shen-yan-move-right",
+  "visualIdentity": "shen-yan",
+  "action": "move",
+  "direction": "right",
+  "atlas": "../atlas.png",
+  "frameSize": [
+    192,
+    192
+  ],
+  "sourceHeight": 49,
+  "foot": [
+    96,
+    126
+  ],
+  "durationMs": 460.0,
+  "loop": true,
+  "holdLast": false,
+  "directionalFallback": false,
+  "frames": [
+    {
+      "index": 0,
+      "x": 768,
+      "y": 384,
+      "w": 192,
+      "h": 192,
+      "durationMs": 57.5,
+      "phase": "move",
+      "sourceFrame": {
+        "row": 11,
+        "column": 1,
+        "cellSize": 64
+      },
+      "pixelBounds": [
+        84,
+        78,
+        128,
+        126
+      ]
+    },
+    {
+      "index": 1,
+      "x": 960,
+      "y": 384,
+      "w": 192,
+      "h": 192,
+      "durationMs": 57.5,
+      "phase": "move",
+      "sourceFrame": {
+        "row": 11,
+        "column": 2,
+        "cellSize": 64
+      },
+      "pixelBounds": [
+        85,
+        77,
+        128,
+        125
+      ]
+    },
+    {
+      "index": 2,
+      "x": 1152,
+      "y": 384,
+      "w": 192,
+      "h": 192,
+      "durationMs": 57.5,
+      "phase": "move",
+      "sourceFrame": {
+        "row": 11,
+        "column": 3,
+        "cellSize": 64
+      },
+      "pixelBounds": [
+        83,
+        77,
+        127,
+        125
+      ]
+    },
+    {
+      "index": 3,
+      "x": 1344,
+      "y": 384,
+      "w": 192,
+      "h": 192,
+      "durationMs": 57.5,
+      "phase": "move",
+      "sourceFrame": {
+        "row": 11,
+        "column": 4,
+        "cellSize": 64
+      },
+      "pixelBounds": [
+        82,
+        75,
+        122,
+        126
+      ]
+    },
+    {
+      "index": 4,
+      "x": 1536,
+      "y": 384,
+      "w": 192,
+      "h": 192,
+      "durationMs": 57.5,
+      "phase": "move",
+      "sourceFrame": {
+        "row": 11,
+        "column": 5,
+        "cellSize": 64
+      },
+      "pixelBounds": [
+        80,
+        75,
+        114,
+        126
+      ]
+    },
+    {
+      "index": 5,
+      "x": 1728,
+      "y": 384,
+      "w": 192,
+      "h": 192,
+      "durationMs": 57.5,
+      "phase": "move",
+      "sourceFrame": {
+        "row": 11,
+        "column": 6,
+        "cellSize": 64
+      },
+      "pixelBounds": [
+        82,
+        75,
+        120,
+        126
+      ]
+    },
+    {
+      "index": 6,
+      "x": 1920,
+      "y": 384,
+      "w": 192,
+      "h": 192,
+      "durationMs": 57.5,
+      "phase": "move",
+      "sourceFrame": {
+        "row": 11,
+        "column": 7,
+        "cellSize": 64
+      },
+      "pixelBounds": [
+        83,
+        77,
+        126,
+        126
+      ]
+    },
+    {
+      "index": 7,
+      "x": 2112,
+      "y": 384,
+      "w": 192,
+      "h": 192,
+      "durationMs": 57.5,
+      "phase": "move",
+      "sourceFrame": {
+        "row": 11,
+        "column": 8,
+        "cellSize": 64
+      },
+      "pixelBounds": [
+        84,
+        77,
+        128,
+        126
+      ]
+    }
+  ],
+  "source": {
+    "repository": "LiberatedPixelCup/Universal-LPC-Spritesheet-Character-Generator",
+    "commit": "95c338c84d55cd3e6790d9eddfa3e22c5a0fb91f",
+    "selectedLicense": "CC-BY-SA-3.0",
+    "bodyOffset": [
+      64,
+      64
+    ],
+    "wholeFrameOnly": true,
+    "reuse": "Original walk columns1..8 played in460ms; brisk walk source.",
+    "timingAuthority": "Runtime combat phases; frame durations are phase weights."
+  }
+}

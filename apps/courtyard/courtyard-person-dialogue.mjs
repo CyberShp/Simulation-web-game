@@ -1,3 +1,4 @@
+import { renderPersonDevelopment } from './courtyard-development-panel.mjs';
 /** U-111 / U-125: one persistent person, observed facts and explicit admission. */
 const MASTER = 'person:master';
 const $ = id => document.getElementById(id);
@@ -16,8 +17,8 @@ export function membershipSummary(membership) {
   return [membership.rankLabel, membership.affiliationLabel, membership.mentorName ? `师父 ${membership.mentorName}` : ''].filter(Boolean).join(' · ');
 }
 
-export function createCourtyardPersonDialogue({ getView, inspect, command, quoteTrade, drawPortrait, announce }) {
-  let personId = null, draft = null, tradeDraft = null, feedback = null, signature = '';
+export function createCourtyardPersonDialogue({ getView, inspect, command, quoteTrade, drawPortrait, announce, navigatePerson }) {
+  let personId = null, draft = null, tradeDraft = null, craftRecipeId = null, feedback = null, signature = '';
   const content = $('person-content');
   function action(parent, label, key, run, { disabled = false, primary = false } = {}) {
     const button = keyed(node('button', label, primary ? 'primary' : ''), key);
@@ -44,6 +45,35 @@ export function createCourtyardPersonDialogue({ getView, inspect, command, quote
     feedback = { ok: result.ok, message: result.ok ? result.message : result.error };
     if (result.ok) draft = null;
     announce(feedback.message); render(true);
+  }
+  function offerLodging() {
+    const result = command({ type: 'offer-guest-lodging', personId });
+    feedback = { ok: result.ok || result.refused, message: result.ok ? result.message : result.error };
+    announce(feedback.message); render(true);
+  }
+  function recommend(techniqueId) {
+    const result = command({ type: 'recommend-disciple-technique', personId, techniqueId });
+    feedback = { ok: result.ok || result.refused, message: result.message || result.result?.publicReason || result.result?.reason || result.error || '已记录本次答复。' };
+    announce(feedback.message); render(true);
+  }
+  function requestCraft(recipeId, buildingId) {
+    const result = command({ type: 'request-disciple-craft', personId, recipeId, buildingId });
+    feedback = { ok: result.ok || result.refused, message: result.message || result.result?.publicReason || result.result?.reason || result.error || '已记录本次炼药商议。' };
+    announce(feedback.message); render(true);
+  }
+  function prepareCraft(recipeId, buildingId) {
+    const result = command({ type: 'prepare-disciple-craft', personId, recipeId, buildingId });
+    feedback = { ok: result.ok || result.refused, message: result.message || result.result?.reason || result.error || '已记录本炉筹备答复。' };
+    announce(feedback.message); render(true);
+  }
+  function cancelPreparation(requestId) {
+    const result = command({ type: 'cancel-disciple-craft-preparation', requestId });
+    feedback = { ok: result.ok, message: result.message || result.result?.reason || result.error || '已记录筹备变更。' };
+    announce(feedback.message); render(true);
+  }
+  function navigateCraftPerson(id, recipeId) {
+    if (navigatePerson) navigatePerson(id, recipeId);
+    else open(id, { recipeId });
   }
   function submitTrade() {
     if (!tradeDraft) return;
@@ -86,10 +116,13 @@ export function createCourtyardPersonDialogue({ getView, inspect, command, quote
   function render(force = false) {
     const person = getView().people.find(item => item.id === personId);
     if (!person) return;
-    const known = inspect().people.find(item => item.id === personId), admission = person.admission, membership = admission?.membership;
+    const known = inspect().people.find(item => item.id === personId), admission = person.admission, membership = admission?.membership, lodging = person.lodging;
     const housing = getView().housing?.residents.find(resident => resident.personId === personId && resident.isResident);
     const market = personId === 'person:merchant-qingxi' && quoteTrade ? quoteTrade(tradeDraft || {}) : null;
-    const nextSignature = JSON.stringify([personId, person.name, known, admission, housing, draft, tradeDraft, market, feedback]);
+    const development = getView().discipleDevelopment?.members?.find(member => member.personId === personId);
+    const craftRequests = getView().discipleCraftRequests?.members?.find(member => member.personId === personId);
+    const advancement = getView().discipleAdvancement?.members?.find(member => member.personId === personId);
+    const nextSignature = JSON.stringify([personId, person.name, known, admission, housing, lodging, draft, tradeDraft, craftRecipeId, market, development, craftRequests, advancement, feedback]);
     if (!force && signature === nextSignature) return;
     signature = nextSignature;
     const active = content.contains(document.activeElement) ? document.activeElement.dataset.uiKey : null;
@@ -100,16 +133,22 @@ export function createCourtyardPersonDialogue({ getView, inspect, command, quote
     $('person-speech').textContent = admission?.publicReason || (admission?.status === 'candidate' && admission.summary ? '已知来意：' + admission.summary : '当前观察：' + (known?.detail || '在山院稍作停留。'));
     $('person-detail').textContent = `${known?.location?.label || '院中'} · ${known?.activityLabel || '料理事务'}　精力 ${Math.round(person.energy)}　伤势 ${Math.round(person.wound)}`;
     $('focus-person').textContent = known?.indoor ? '定位所在建筑' : '看看位置';
-    $('approach-person').textContent = personId === MASTER ? '安排修行' : known?.indoor ? '走到所在建筑门前' : admission ? '走近交谈' : '走近查看';
+    $('approach-person').textContent = personId === MASTER ? '安排修行' : lodging?.conversationPoint ? '走近客院交谈' : known?.indoor ? '走到所在建筑门前' : admission ? '走近交谈' : '走近查看';
     $('approach-person').hidden = personId !== MASTER && (market ? market.contact : admission?.distance?.near === true);
     drawPortrait($('portrait'), person);
     content.replaceChildren();
     if (feedback) { const message = node('p', feedback.message, `person-feedback ${feedback.ok ? '' : 'failure'}`); message.setAttribute('role', 'status'); content.append(message); }
     if (housing) fields(content, [['安置', housing.statusLabel], ['住处', housing.homeLabel || '尚未入住'], ...(housing.pendingLabel ? [['待入住', housing.pendingLabel]] : [])]);
+    if (lodging?.phase) {
+      const building = getView().buildings.find(item => `building:yunxiu:${item.id}` === lodging.buildingId);
+      fields(content, [['客院住宿', lodging.phase === 'staying' ? '已入住' : '正在前往客床'], ['客床', `${building?.name || '客院'} · 第${lodging.slotId?.split(':').at(-1) || ''}床`]]);
+      content.append(node('p', '按本次来访约定的期限退房。', 'person-note'));
+    }
     if (market) renderTrade(market);
-    else if (membership) {
-      fields(content, [['门籍', membership.rankLabel], ['归属', membership.affiliationLabel], ...(membership.mentorName ? [['师父', membership.mentorName]] : [])]);
+    else if (membership || development) {
+      if (membership) fields(content, [['门籍', membership.rankLabel], ['归属', membership.affiliationLabel], ...(membership.mentorName ? [['师父', membership.mentorName]] : [])]);
       content.append(node('p', known?.detail || '依当前身体、意愿与院中事务自行安排。', 'person-note'));
+      renderPersonDevelopment(content, { member: development, recommend, craftRequests, requestCraft, prepareCraft, cancelPreparation, advancement, navigateCraftPerson, selectedCraftRecipe: craftRecipeId, changeCraftRecipe: id => { craftRecipeId = id; feedback = null; render(true); } });
     } else if (admission?.status === 'candidate') {
       if (!admission.distance?.near) {
         content.append(node('p', admission.distance?.reason || '掌门尚未走到可交谈的位置。', 'person-distance'));
@@ -153,6 +192,10 @@ export function createCourtyardPersonDialogue({ getView, inspect, command, quote
         }
         if (admission.canTalk !== undefined && !draft) {
           const row = node('div', undefined, 'person-actions');
+          if (lodging && !lodging.phase) {
+            action(row, '邀请客院暂住', 'person:guest-lodging', offerLodging, { disabled: !lodging.canOffer });
+            if (!lodging.canOffer && lodging.reason) content.append(node('p', lodging.reason, 'person-note'));
+          }
           action(row, admission.deferred ? '本次已请稍候' : '请稍候', 'person:seeker-defer', () => answerSeeker('defer'), { disabled: !admission.canTalk || admission.deferred });
           action(row, '婉拒来意', 'person:seeker-decline', () => answerSeeker('decline'), { disabled: !admission.canTalk });
           content.append(row);
@@ -162,9 +205,10 @@ export function createCourtyardPersonDialogue({ getView, inspect, command, quote
     if (active) [...content.querySelectorAll('[data-ui-key]')].find(element => element.dataset.uiKey === active)?.focus({ preventScroll: true });
     $('person-reading').scrollTop = scroll;
   }
+  function open(id, { recipeId = null } = {}) { personId = id; draft = null; tradeDraft = null; craftRecipeId = recipeId; feedback = null; signature = ''; render(true); $('person-reading').scrollTop = 0; }
   return {
-    open(id) { personId = id; draft = null; tradeDraft = null; feedback = null; signature = ''; render(true); $('person-reading').scrollTop = 0; },
+    open,
     render,
-    close() { personId = null; draft = null; tradeDraft = null; feedback = null; signature = ''; },
+    close() { personId = null; draft = null; tradeDraft = null; craftRecipeId = null; feedback = null; signature = ''; },
   };
 }

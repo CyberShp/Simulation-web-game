@@ -143,3 +143,18 @@ run07完成12/12检查，运行错误0，最终tick75625正式暂停。原工单
 以§12最终档筹资run01，正式卸下随身16洁水至膳房现场仓，并收集至主殿公库75木30石18粮；掌门随后实际携40石等商人到院。tick78738的正式移动被存档校验拒绝：陆知微自主由膳房前往采石场，剩余176个山路转折点全部合法，超过旧扩域160点上限。失败世界SHA为`ddb2e6fc92a345d7bb7745d6ec28b1107a188bfda596a5148468b8cb527f8ee5`，保留于`/Volumes/Media/immortal-qa/library-funding-20261018/run-01/failure-state.json`。
 
 显式住宅或北台扩域允许最多512路径点，原场景80点保持；每点有限数值与每段实际碰撞校验继续生效。原176点路线、资源、时钟和人物数据完整恢复，读取视图不改世界，实际推进一步后重开精确一致；阻挡、非法数值和超限数据仍拒绝。新增2项与直接北台/生活院回归合计18/18，独立复核和主工程检查通过。修复只改路径容量校验及对应测试，证据`/Volumes/Media/immortal-qa/courtyard-long-route-save-20261018/integration-readback.json`、`failure-readback.json`。筹资run02按显式运行转换继续原失败档及同批40石；GC16、林长风和GC02正式桌面链仍待该筹资完成后接续。
+
+
+## 14. 医庐正常营建与一次诊疗
+
+2026-10-23，同源正常成长链从heal-11的tick237899接续，公开筹材营建GC14。三趟交付分别发生于247960、252972、254586，实际投入90灵石、45木、30石、15草，累计200施工步，医庐在254687落成。陆知微先按真实步长离开门前灯笼占地，再切换完工几何，存档保持严格位置校验。
+
+本批运行接缝：现有在院、自愿求助的具名伤匠可作为医庐患者；患者枚举、正式提交和持续疗程共用条件，非成员身份及原伤匠剧情结果保留。施工回仓在原道路连接边界重接合法短段；施工／学习迎面互等复用实际让行，载货施工归属及第三身体短退均保留货物、预约和工单。让行候选先廉价筛选再检查首个完整合法路径，同一Node异常帧59.830秒降为36.361毫秒，属于该帧规则耗时，不能解释为桌面帧率改善。完工撤离覆盖主体与同源室外实体。
+
+supplies-clinic-01为交接保全的stopped段，source/runtime/nativeExact均true、错误0。supplies-clinic-02先经正式运输563把随身16粮送入HOME，再继续采粮、实际到床休息和现场草水供给。掌门与程问舟在261183只读记录到各自真实医者／患者工位：掌门(197.5,44.7)、doctor:1，患者(198.4,44.7)、consult:1；工单`work:site-service:building:yunxiu:17:6681`累计80步，于261247完成，仅消耗1草和1洁水，伤势35→31，唯一结果事实保留，未自动完成伤匠全事件。
+
+最终supplies-clinic-02报告passed，256270→261253，实际678.224527秒；sourceUnchanged、runtimeUnchanged、nativeExact均true，errors与finalizationErrors均空。最终来源为`/Users/shepard/.codex/tmp/immortal-clinic-20261023/supplies-clinic-02/world/sect-save.json`，SHA `528dd6cb30967438310afc15787ac57a4388e9a671e302ae21d8b27c6fe1ae56`；完整世界保存、关闭重开逐值一致。医患工位原始观测与材料／疗效事实见`/Users/shepard/.codex/tmp/immortal-clinic-20261023/supplies-clinic-02/report.json`。Node规则中间档仅作诊断，后续正常运行从各段原生档接续。
+
+各失败分段保留范围：build14-04因历史day210供粮事实被有限日志淘汰而被验收器误停；build14-05曾在落成后因陆知微脚点进入门前灯笼实体导致真实存档失败，原生254666与内存诊断分别保全，修复后正常重放于254687落成。build14-06的落成、三趟交付和材料结果成立，但完成后长帧采样到255249，超过续接口粮deadline，整体报告仍为failed；该段source/runtime/nativeExact均true、finalizationErrors为空，原生255249 speed0、HOME粮16、starvation0。不能将这些段拼作一次连续成功。
+
+直接检查：服务15/15、退让9/9、同路边界回仓1/1、室外实体撤离1/1；原有商人步进脚点与旧北路恢复时限两项失败均在本批baseline重现。完整SR003/004/005/008/009/010/029/030及各AC状态保持，Windows、升级层级、完整生产与迁移范围另计。独立终审`/Users/shepard/.codex/tmp/immortal-clinic-20261023/research/audit-clinic-final.json`的complete、sourceProtected、sourceChain、fullStateReopen、constructionMaterials、gc14Completed、treatment、physicalSlots均为true。当前工作区集成读取／存读已单独通过：`/Users/shepard/.codex/tmp/immortal-clinic-20261023/current-integration-01/report.json`为passed，261253→261253、73.481916秒，nativeExact、sourceUnchanged、runtimeUnchanged均true，errors与finalizationErrors均空；只验证精确加载、保存及关闭重开，没有推进或重算治疗。该次runtime-final包含并行战斗增量，冻结清单为`/Users/shepard/.codex/tmp/immortal-clinic-20261023/final-runtime-snapshot-sha256.json`，其集成证据与原诊疗运行冻结分别保留。

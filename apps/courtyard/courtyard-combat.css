@@ -1,0 +1,67 @@
+#expedition{position:absolute;inset:90px 0 35px;z-index:4;background:#172d26;isolation:isolate;overflow:hidden}
+#expedition[hidden],#expedition [hidden]{display:none!important}
+#expedition-canvas{display:block;width:100%;height:100%;cursor:crosshair;outline:none}
+#expedition-heading{position:absolute;left:26px;top:16px;pointer-events:none;text-shadow:0 2px 5px #071b12}
+#expedition-heading h2{margin:0;color:#f2dfad;font:24px serif;letter-spacing:4px}
+#expedition-heading p{margin:7px 0;color:#f0ebd0;font-size:12px;text-shadow:0 1px 3px #10291b,0 0 5px #10291b}
+#combat-art-credits-open{pointer-events:auto;padding:2px 0;border:0;background:transparent;color:#c8d8b8;font:inherit;font-size:11px;text-decoration:underline;cursor:pointer}
+#combat-art-credits-open:focus-visible{outline:2px solid #f5d38e;outline-offset:3px}
+#combat-art-credits-dialog{box-sizing:border-box;width:min(650px,calc(100vw - 32px));max-height:80vh;padding:22px;background:#172d26;color:#e4dfbf;border:1px solid #a79a6e;font-family:inherit}
+#combat-art-credits-dialog::backdrop{background:#071810a6}
+#combat-art-credits-dialog h2{margin:0 0 14px;font:22px serif;color:#f0dfb0}
+#combat-art-credits-content{max-height:56vh;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;font:12px/1.7 sans-serif}
+#combat-art-credits-dialog button{min-height:34px;padding:6px 16px;background:#304b3d;color:#eee0b9;border:1px solid #aaa071;font:inherit;cursor:pointer}
+#combat-enemy-status{position:absolute;right:24px;top:15px;padding:10px 16px;background:#342f24e3;border-bottom:2px solid #bd8165;color:#f2debd;font-size:14px;font-variant-numeric:tabular-nums}
+#expedition-controls{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);width:max-content;max-width:calc(100% - 40px);box-sizing:border-box;padding:10px 18px;background:#142c27eb;border:1px solid #bfa97788;color:#e5dfbf;box-shadow:0 6px 20px #071b1299}
+#expedition-controls p{margin:3px 0 6px;font-size:13px;line-height:1.5}
+#combat-state{font-variant-numeric:tabular-nums;color:#eee2b4}
+#combat-message{color:#c9d9c6;min-height:20px}
+#expedition-controls button{font-family:inherit;min-height:38px;padding:7px 13px;color:#eee2bb;background:#314c3e;border:1px solid #b5aa77;cursor:pointer;font-size:13px}
+#expedition-controls button:disabled{opacity:.5;cursor:not-allowed}
+#expedition-controls button:focus-visible{outline:2px solid #f5d38e;outline-offset:2px}
+#expedition-controls button:hover:enabled{background:#4b6650}
+#combat-actions{display:flex;align-items:center;gap:13px}
+.combat-buttons{display:flex;align-items:stretch;gap:5px}
+.combat-buttons button{position:relative;min-width:110px;display:grid;grid-template-columns:auto 1fr;gap:4px 8px;text-align:left}
+.combat-buttons kbd{font:11px sans-serif;padding:2px 4px;border:1px solid #b3ae7e66;color:#c8d3bd;align-self:start}
+.skill-name{align-self:center}.skill-cooldown{grid-column:2;color:#b7c9b1;font-size:11px;font-variant-numeric:tabular-nums}
+#combat-auto[aria-pressed=true]{border-color:#b2d89a;color:#e4f2b5;background:#3c5c3c}
+#combat-squad-controls{display:flex;gap:18px;align-items:center;margin:0 0 8px;color:#cbd7bd;font-size:12px}
+#combat-squad-controls label{display:flex;align-items:center;gap:6px}
+#combat-squad-controls select{max-width:230px;min-height:30px;padding:3px 22px 3px 7px;border:1px solid #9e9a6d88;border-radius:0;background:#233e32;color:#e7dfb9;font:inherit}
+#combat-squad-controls select:focus-visible{outline:2px solid #f5d38e;outline-offset:2px}
+#expedition-departure{box-sizing:border-box;width:min(510px,calc(100vw - 32px));max-height:80vh;padding:25px 28px;overflow:auto;background:#172d26;color:#e4dfbf;border:1px solid #a79a6e;box-shadow:0 14px 65px #06130ecc;font-family:inherit}
+#expedition-departure::backdrop{background:#071810a6}
+#expedition-departure h2{margin:0 0 14px;font:24px serif;letter-spacing:3px;color:#f0dfb0}
+#expedition-departure p{font-size:13px;line-height:1.7}
+#expedition-party-candidates{display:grid;gap:7px;margin:18px 0}
+.expedition-party-candidate{display:flex;gap:12px;align-items:center;padding:11px 12px;border:1px solid #6a785b80;background:#203b30}
+.expedition-party-candidate input{width:18px;height:18px;accent-color:#b9cc98}
+.expedition-party-candidate strong{display:block;font-size:15px;font-weight:500;color:#eadcb3}
+.expedition-party-candidate small{display:block;margin-top:5px;font-size:12px;line-height:1.5;color:#b9c6ae}
+.expedition-party-candidate:has(input:disabled){opacity:.65}
+#expedition-party-message{min-height:22px;color:#efba91}
+.expedition-departure-actions{display:flex;justify-content:flex-end;gap:12px;margin-top:18px}
+.expedition-departure-actions button{padding:8px 15px;min-height:38px;border:1px solid #aaa071;background:#304b3d;color:#eee0b9;font:inherit;cursor:pointer}
+.expedition-departure-actions button:disabled{opacity:.5;cursor:not-allowed}
+.expedition-departure-actions button:focus-visible{outline:2px solid #f5d38e;outline-offset:2px}
+#expedition-party-status{color:#c7d5ba;font-size:12px!important}
+#expedition-world-actions{display:flex;gap:10px}
+#expedition-encounter{position:absolute;left:7%;top:28%;max-width:330px;padding:22px 26px;background:#172d26e8;border-left:2px solid #b6a06c;box-shadow:0 8px 30px #10201670;color:#d6dfc7}
+#expedition-encounter .encounter-eyebrow{font-size:12px;letter-spacing:3px;color:#c7b98a}
+#expedition-encounter h3{font:28px serif;letter-spacing:4px;color:#eee0b3;margin:12px 0}
+#expedition-encounter p{font-size:14px;line-height:1.8}
+.expedition-away #scene{visibility:hidden}
+.expedition-away #title strong{font-size:19px}
+.expedition-away #hint{pointer-events:none}
+.expedition-away .view-tools,.expedition-away .system-tools{display:none}
+.combat-active #action{visibility:hidden}
+@media(max-width:1000px){#expedition{inset:85px 0 30px}#expedition-controls{padding:8px 10px;max-width:calc(100% - 16px)}#combat-actions{gap:7px}.combat-buttons button{min-width:85px;padding:6px 8px}.combat-buttons{gap:3px}#combat-auto{max-width:95px}#expedition-heading p{max-width:65vw;font-size:11px}#combat-enemy-status{right:12px;top:60px}#expedition-encounter{left:4%;top:24%;max-width:270px;padding:15px 20px}}
+@media(max-width:700px){#combat-squad-controls{gap:10px;margin-bottom:5px}#combat-squad-controls select{max-width:160px}}
+@media(max-height:650px){#expedition{inset:75px 0 25px}#expedition-controls{bottom:6px;padding:6px 12px}#combat-message{font-size:11px!important;margin-bottom:3px!important}.combat-buttons button{min-height:43px!important;padding:4px 8px!important}#expedition-heading{top:10px}#expedition-heading h2{font-size:20px}}
+
+.encounter-person{display:flex;align-items:center;gap:12px;color:#eee0b3;font-size:14px;height:72px;overflow:hidden}.encounter-person img{object-fit:none;object-position:-20px -174px;width:66px;height:72px;transform:scale(.22);transform-origin:top left;position:absolute;visibility:hidden}.encounter-person:before{content:"";display:block;width:50px;height:72px;background:url("assets/cultivator-v1.png") -15px -146px / 338px 225px no-repeat}.encounter-foe{position:absolute;left:calc(100% + 100px);top:55px;width:220px;height:auto;filter:drop-shadow(0 6px 5px #0d22198c);pointer-events:none}
+@media(max-width:900px){.encounter-foe{left:calc(100% + 30px);width:170px;top:85px}}
+
+#expedition-heading{padding:12px 16px;background:#10271fd9;border-left:1px solid #b9aa7180;max-width:calc(100% - 390px);box-sizing:border-box}
+@media(max-width:900px){#expedition-heading{left:12px;max-width:calc(100% - 24px);padding:8px 12px}}

@@ -10,6 +10,8 @@
 
 迁移前已记录 macOS 山院管理、东台扩建与同一世界二十分钟自主经营的实际证据。持续口粮供给、完整桌面新档流程、三至五人长期经营、Windows 真机及完整游戏验收继续接续。具体范围见 [当前状态](docs/design/STATUS.md)；工程迁移已完成干净检出安装、根检查、124 项核心测试、macOS 同档恢复与网页操作复验，源码远端核对另见 [迁移记录](docs/engineering/MIGRATION-20261016.md)。
 
+当前同档接续为五门人加掌门共6居民：living-04生活验证通过，funding-01既有奖励领取通过、后续不响应失败保留。recover-01已通过公开暂停和精确原生重开；唯一接续启动档为`/Volumes/Media/immortal-qa/sol-production-20261020/recover-01/world/sect-save.json`（tick192068，manualPause=true，SHA `796a659e63472a706606271077f0c77752d98421d46b8afec8d1bfbb8690f984`）。GC25/26正常营建及生产接续见[本批记录](docs/design/69-SIX-RESIDENTS-AND-WORKSHOPS-ACCEPTANCE.md)。
+
 ## 本地运行
 
 需要 Node.js 22.12 或以上、npm；需求台账检查和部分历史构建使用 Python 3。在仓库根目录执行：
@@ -42,6 +44,8 @@ npm start
 | `docs/` | 设计、需求、工程说明、美术依据与历史记录 |
 
 ## 接续开发
+
+当前批次见[六居民生活与西谷生产](docs/design/69-SIX-RESIDENTS-AND-WORKSHOPS-ACCEPTANCE.md)：两名新门人实际入住、自主采粮送库、后续日结与原生重开已通过同档桌面验证。院务奖励实际领取、筹料和西谷双院正式生产继续验证；GC21–23为布局候选。
 
 先读 [AGENTS.md](AGENTS.md) 与 [Codex 接手指南](docs/CODEX-HANDOFF.md)，再查 [设计入口](docs/design/README.md)、[决策登记](docs/design/DECISIONS.md) 和 [需求台账](docs/requirements/registry.json)。设计基线为 DB-2026-10-05 v1.2，共用运行时为 EA 1.6.0-dev / schema 6。
 

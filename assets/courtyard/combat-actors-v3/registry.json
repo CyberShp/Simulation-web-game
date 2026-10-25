@@ -1,0 +1,116 @@
+{
+  "schema": "combat-actor-registry/v1",
+  "actors": {
+    "shen-yan": {
+      "clips": [
+        {
+          "manifest": "shen-yan/attack-right/manifest.json"
+        },
+        {
+          "manifest": "shen-yan/attack-left/manifest.json"
+        },
+        {
+          "manifest": "shen-yan/spell-right/manifest.json"
+        },
+        {
+          "manifest": "shen-yan/attack-up-right/manifest.json"
+        },
+        {
+          "manifest": "shen-yan/hit-right/manifest.json"
+        },
+        {
+          "manifest": "shen-yan/down-right/manifest.json"
+        },
+        {
+          "manifest": "shen-yan/hit-left/manifest.json"
+        },
+        {
+          "manifest": "shen-yan/down-left/manifest.json"
+        },
+        {
+          "manifest": "shen-yan/dodge-right/manifest.json"
+        },
+        {
+          "manifest": "shen-yan/dodge-left/manifest.json"
+        },
+        {
+          "manifest": "shen-yan/spell-left/manifest.json"
+        },
+        {
+          "manifest": "shen-yan/idle-right/manifest.json"
+        },
+        {
+          "manifest": "shen-yan/run-down-right/manifest.json"
+        },
+        {
+          "manifest": "shen-yan/run-down-left/manifest.json"
+        }
+      ]
+    },
+    "shanxiao": {
+      "clips": [
+        {
+          "manifest": "shanxiao/attack-left/manifest.json"
+        }
+      ]
+    },
+    "person:lu-zhiwei": {
+      "clips": [
+        {
+          "manifest": "lu-zhiwei/attack-right/manifest.json"
+        },
+        {
+          "manifest": "lu-zhiwei/attack-up-right/manifest.json"
+        }
+      ]
+    },
+    "person:lin-changfeng": {
+      "clips": [
+        {
+          "manifest": "lin-changfeng/attack-right/manifest.json"
+        },
+        {
+          "manifest": "lin-changfeng/attack-left/manifest.json"
+        }
+      ]
+    },
+    "prison-guard-armored": {
+      "clips": [
+        {
+          "manifest": "prison-guard-armored/attack-left/manifest.json"
+        },
+        {
+          "manifest": "prison-guard-armored/idle-left/manifest.json"
+        },
+        {
+          "manifest": "prison-guard-armored/hit-left/manifest.json"
+        },
+        {
+          "manifest": "prison-guard-armored/down-left/manifest.json"
+        },
+        {
+          "manifest": "prison-guard-armored/attack-right/manifest.json"
+        },
+        {
+          "manifest": "prison-guard-armored/idle-right/manifest.json"
+        }
+      ]
+    },
+    "prison-guard-cloth": {
+      "clips": [
+        {
+          "manifest": "prison-guard-cloth/attack-left/manifest.json"
+        },
+        {
+          "manifest": "prison-guard-cloth/idle-left/manifest.json"
+        },
+        {
+          "manifest": "prison-guard-cloth/hit-left/manifest.json"
+        },
+        {
+          "manifest": "prison-guard-cloth/down-left/manifest.json"
+        }
+      ]
+    }
+  }
+}

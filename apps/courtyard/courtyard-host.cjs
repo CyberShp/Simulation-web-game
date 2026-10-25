@@ -3,6 +3,7 @@ const http = require('node:http');
 const fs = require('node:fs');
 const path = require('node:path');
 const { createSectStorage } = require('./sect-storage.cjs');
+const { saveSerializedSect } = require('./courtyard-save-transport.cjs');
 const { exportCourtyardRecovery, readCourtyardRecovery, restoreCourtyardRecovery } = require('./courtyard-recovery.cjs');
 const { createHash, randomUUID } = require('node:crypto');
 
@@ -58,7 +59,7 @@ const sendPower = type => {
 };
 const mimeTypes = {
   '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8',
-  '.mjs': 'text/javascript; charset=utf-8', '.css': 'text/css; charset=utf-8',
+  '.mjs': 'text/javascript; charset=utf-8', '.css': 'text/css; charset=utf-8', '.txt': 'text/plain; charset=utf-8',
   '.json': 'application/json; charset=utf-8', '.png': 'image/png', '.jpg': 'image/jpeg',
   '.jpeg': 'image/jpeg', '.webp': 'image/webp', '.svg': 'image/svg+xml',
   '.ttf': 'font/ttf', '.woff2': 'font/woff2', '.webm': 'video/webm'
@@ -134,6 +135,7 @@ else {
     });
     handle('sect:load', () => storage.load());
     handle('sect:save', state => storage.save(state));
+    handle('sect:save-serialized', text => saveSerializedSect(storage, text));
     handle('sect:export-recovery', async state => {
       const chosen = await dialog.showSaveDialog(sceneWindow, { title: '另存山院恢复文件',
         defaultPath: path.join(app.getPath('documents'), `云岫山院-恢复-${Date.now()}.json`),

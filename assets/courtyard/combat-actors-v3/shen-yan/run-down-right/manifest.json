@@ -1,0 +1,290 @@
+{
+  "schema": "combat-frame-atlas/v1",
+  "atlas": "atlas.png",
+  "frameSize": [
+    320,
+    380
+  ],
+  "sourceHeight": 280,
+  "foot": [
+    160,
+    340
+  ],
+  "durationMs": 465,
+  "loop": true,
+  "frames": [
+    {
+      "index": 0,
+      "file": "frames/0000.png",
+      "x": 0,
+      "y": 0,
+      "w": 320,
+      "h": 380,
+      "sourceHeight": 280,
+      "foot": [
+        160,
+        340
+      ],
+      "durationMs": 29,
+      "phase": "move"
+    },
+    {
+      "index": 1,
+      "file": "frames/0001.png",
+      "x": 320,
+      "y": 0,
+      "w": 320,
+      "h": 380,
+      "sourceHeight": 280,
+      "foot": [
+        160,
+        340
+      ],
+      "durationMs": 29,
+      "phase": "move"
+    },
+    {
+      "index": 2,
+      "file": "frames/0002.png",
+      "x": 640,
+      "y": 0,
+      "w": 320,
+      "h": 380,
+      "sourceHeight": 280,
+      "foot": [
+        160,
+        340
+      ],
+      "durationMs": 29,
+      "phase": "move"
+    },
+    {
+      "index": 3,
+      "file": "frames/0003.png",
+      "x": 960,
+      "y": 0,
+      "w": 320,
+      "h": 380,
+      "sourceHeight": 280,
+      "foot": [
+        160,
+        340
+      ],
+      "durationMs": 29,
+      "phase": "move"
+    },
+    {
+      "index": 4,
+      "file": "frames/0004.png",
+      "x": 0,
+      "y": 380,
+      "w": 320,
+      "h": 380,
+      "sourceHeight": 280,
+      "foot": [
+        160,
+        340
+      ],
+      "durationMs": 29,
+      "phase": "move"
+    },
+    {
+      "index": 5,
+      "file": "frames/0005.png",
+      "x": 320,
+      "y": 380,
+      "w": 320,
+      "h": 380,
+      "sourceHeight": 280,
+      "foot": [
+        160,
+        340
+      ],
+      "durationMs": 29,
+      "phase": "move"
+    },
+    {
+      "index": 6,
+      "file": "frames/0006.png",
+      "x": 640,
+      "y": 380,
+      "w": 320,
+      "h": 380,
+      "sourceHeight": 280,
+      "foot": [
+        160,
+        340
+      ],
+      "durationMs": 29,
+      "phase": "move"
+    },
+    {
+      "index": 7,
+      "file": "frames/0007.png",
+      "x": 960,
+      "y": 380,
+      "w": 320,
+      "h": 380,
+      "sourceHeight": 280,
+      "foot": [
+        160,
+        340
+      ],
+      "durationMs": 29,
+      "phase": "move"
+    },
+    {
+      "index": 8,
+      "file": "frames/0008.png",
+      "x": 0,
+      "y": 760,
+      "w": 320,
+      "h": 380,
+      "sourceHeight": 280,
+      "foot": [
+        160,
+        340
+      ],
+      "durationMs": 29,
+      "phase": "move"
+    },
+    {
+      "index": 9,
+      "file": "frames/0009.png",
+      "x": 320,
+      "y": 760,
+      "w": 320,
+      "h": 380,
+      "sourceHeight": 280,
+      "foot": [
+        160,
+        340
+      ],
+      "durationMs": 29,
+      "phase": "move"
+    },
+    {
+      "index": 10,
+      "file": "frames/0010.png",
+      "x": 640,
+      "y": 760,
+      "w": 320,
+      "h": 380,
+      "sourceHeight": 280,
+      "foot": [
+        160,
+        340
+      ],
+      "durationMs": 29,
+      "phase": "move"
+    },
+    {
+      "index": 11,
+      "file": "frames/0011.png",
+      "x": 960,
+      "y": 760,
+      "w": 320,
+      "h": 380,
+      "sourceHeight": 280,
+      "foot": [
+        160,
+        340
+      ],
+      "durationMs": 29,
+      "phase": "move"
+    },
+    {
+      "index": 12,
+      "file": "frames/0012.png",
+      "x": 0,
+      "y": 1140,
+      "w": 320,
+      "h": 380,
+      "sourceHeight": 280,
+      "foot": [
+        160,
+        340
+      ],
+      "durationMs": 29,
+      "phase": "move"
+    },
+    {
+      "index": 13,
+      "file": "frames/0013.png",
+      "x": 320,
+      "y": 1140,
+      "w": 320,
+      "h": 380,
+      "sourceHeight": 280,
+      "foot": [
+        160,
+        340
+      ],
+      "durationMs": 29,
+      "phase": "move"
+    },
+    {
+      "index": 14,
+      "file": "frames/0014.png",
+      "x": 640,
+      "y": 1140,
+      "w": 320,
+      "h": 380,
+      "sourceHeight": 280,
+      "foot": [
+        160,
+        340
+      ],
+      "durationMs": 29,
+      "phase": "move"
+    },
+    {
+      "index": 15,
+      "file": "frames/0015.png",
+      "x": 960,
+      "y": 1140,
+      "w": 320,
+      "h": 380,
+      "sourceHeight": 280,
+      "foot": [
+        160,
+        340
+      ],
+      "durationMs": 30,
+      "phase": "move"
+    }
+  ],
+  "metadata": {
+    "sourceReview": "root-selected-for-native-sample",
+    "generatedBy": "imagegen over measured stabilized motion",
+    "timingBasis": "measured stride at 3.3 m/s"
+  },
+  "sources": [
+    {
+      "file": "inputs/000-exec-4e8165c9-3316-491f-a303-11f354f6888f.png",
+      "sha256": "97acbfa2b3a6443541466e237911741f86f52fbdb20ac7ea31d28b5d48afff70"
+    }
+  ],
+  "provenance": {
+    "pipeline": "combat-frame-pipeline/1",
+    "python": "3.12.14",
+    "pillow": "12.3.0",
+    "scriptSha256": "870275d7b2c0504dea2418f47854326f4a75ea5aead0419072ff31be87e25e13",
+    "workflowReference": {
+      "repository": "https://github.com/0x0funky/agent-sprite-forge",
+      "revision": "5324342fdfab72430f4e9604f3fe427009f8596d"
+    },
+    "sourceHeightBeforeScale": 280,
+    "uniformScale": 1,
+    "pixelOperations": [
+      "explicit-crop",
+      "fixed-foot-translation",
+      "whole-frame-pack"
+    ]
+  },
+  "id": "shen-yan-run-down-right",
+  "visualIdentity": "shen-yan",
+  "action": "move",
+  "direction": "down-right",
+  "phase": "idle"
+}

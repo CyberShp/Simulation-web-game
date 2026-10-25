@@ -1,7 +1,22 @@
-<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; media-src 'self' blob:; style-src 'self'; script-src 'self'; object-src 'none'; base-uri 'self'; frame-src 'none'"><meta name="viewport" content="width=device-width,initial-scale=1"><title>云岫山院 · 山院实景</title><link rel="stylesheet" href="courtyard.css"><link rel="stylesheet" href="courtyard-opening.css"></head><body>
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; media-src 'self' blob:; style-src 'self'; script-src 'self'; object-src 'none'; base-uri 'self'; frame-src 'none'"><meta name="viewport" content="width=device-width,initial-scale=1"><title>云岫山院 · 山院实景</title><link rel="stylesheet" href="courtyard.css"><link rel="stylesheet" href="courtyard-opening.css"><link rel="stylesheet" href="courtyard-combat.css"></head><body>
 <canvas id="scene" aria-label="云岫山院，点击地面行走，点击人物查看近况"></canvas>
 <header id="title"><strong>云岫山院</strong><span id="clock"></span><p id="simulation-status" role="status">正在入院</p></header>
-<nav id="tools" aria-label="山院镜头与院务"><div class="tool-group system-tools"><button id="affairs">院务</button><button id="people">人物</button><button id="growth">修行</button><button id="supply">物资</button></div><div class="tool-group view-tools"><button id="home">回小院</button><button id="domain">山域规划</button><button id="follow">寻掌门</button><button id="compare">原稿对照</button></div><div class="tool-group session-tools"><button id="pause">暂停</button><button id="save">保存</button><button id="recovery-open">恢复文件</button></div></nav>
+<nav id="tools" aria-label="山院镜头与院务"><div class="tool-group system-tools"><button id="affairs">院务</button><button id="people">人物</button><button id="growth">修行</button><button id="supply">物资</button><button id="expedition-open">去山门</button></div><div class="tool-group view-tools"><button id="home">回小院</button><button id="domain">山域规划</button><button id="follow">寻掌门</button><button id="compare">原稿对照</button></div><div class="tool-group session-tools"><button id="pause">暂停</button><button id="save">保存</button><button id="recovery-open">恢复文件</button></div></nav>
+<section id="expedition" hidden aria-label="掌门山外行程">
+<canvas id="expedition-canvas" tabindex="0" aria-label="独立林间战场，WASD移动，鼠标瞄准，数字键施技"></canvas>
+<div id="expedition-heading"><h2 id="expedition-name">云岫山谷</h2><p id="expedition-help"></p></div>
+<p id="combat-enemy-status" hidden></p>
+<div id="expedition-encounter"><div class="encounter-person"><img src="assets/cultivator-v1.png" alt="掌门蓝白袍持剑形象"><span id="encounter-person-name">掌门</span></div><p class="encounter-eyebrow">山谷遭遇</p><h3 id="encounter-name">伤人山魈</h3><p id="encounter-description"></p><p id="encounter-position"></p><img id="encounter-foe" class="encounter-foe" src="assets/valley-shanxiao-pixel-v1.png" alt="林间山魈观察"></div>
+<div id="expedition-controls"><p id="combat-state"></p><p id="combat-message" role="status"></p>
+<div id="expedition-world-actions"><button id="expedition-approach">走近山魈</button><button id="expedition-engage">应战</button><button id="expedition-exit">走向归院道</button></div>
+<div id="combat-actions" hidden><div class="combat-buttons">
+<button data-combat-action="attack"><kbd>1</kbd><span class="skill-name">基础剑式</span><small class="skill-cooldown">就绪</small></button>
+<button data-combat-action="spell"><kbd>2</kbd><span class="skill-name">青岚术</span><small class="skill-cooldown">就绪</small></button>
+<button data-combat-action="guard"><kbd>3</kbd><span class="skill-name">护持</span><small class="skill-cooldown">就绪</small></button>
+<button data-combat-action="dodge"><kbd>Space</kbd><span class="skill-name">短步</span><small class="skill-cooldown">就绪</small></button>
+</div><button id="combat-auto" aria-pressed="false">自动普攻 · 关</button><button data-combat-action="retreat"><span class="skill-name">撤退</span></button></div>
+<button id="combat-acknowledge" hidden>确认战报</button><button id="expedition-return" hidden>中止行程，沿来路返回</button></div>
+</section>
 <aside id="management" aria-label="山院管理" hidden>
   <header><h2>山院簿</h2><button id="close-management" aria-label="收起山院簿">×</button></header>
   <div class="management-tabs" role="tablist" aria-label="院务分类"><button data-tab="affairs" role="tab">院务</button><button data-tab="people" role="tab">人物</button><button data-tab="growth" role="tab">修行</button><button data-tab="supply" role="tab">物资</button></div>

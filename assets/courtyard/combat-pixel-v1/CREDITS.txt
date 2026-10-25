@@ -1,0 +1,206 @@
+Pixel sample artwork attribution
+
+Character composites and adapted atlases: CC-BY-SA3.0; https://creativecommons.org/licenses/by-sa/3.0/
+Environment derivatives: OGA-BY3.0; https://static.opengameart.org/OGA-BY-3.0.txt
+
+Original complete CREDITS.csv and CREDITS.TXT, source PNGs, license texts, precise per-file authors and source URLs accompany this pack.
+See ATTRIBUTION.json for each original author and source credit scope.
+Adaptation: original layers composited into whole192px frames; fixed canvas padding and tile crops/repetition.
+
+spritesheets/body/bodies/male/green.png
+Authors: bluecarrot16, Benjamin K. Smith (BenCreating), Evert, Eliza Wyatt (ElizaWy), TheraHedwig, MuffinElZangano, Durrani, Johannes Sj?lund (wulax), Stephen Challener (Redshrike)
+Source credit scope: body/bodies/male
+Original license options: CC-BY-SA 3.0, GPL 3.0
+Selected license: CC-BY-SA 3.0
+Source URLs: https://opengameart.org/content/liberated-pixel-cup-lpc-base-assets-sprites-map-tiles ; https://opengameart.org/content/lpc-medieval-fantasy-character-sprites ; https://opengameart.org/content/lpc-male-jumping-animation-by-durrani ; https://opengameart.org/content/lpc-runcycle-and-diagonal-walkcycle ; https://opengameart.org/content/lpc-revised-character-basics ; https://opengameart.org/content/lpc-be-seated ; https://opengameart.org/content/lpc-runcycle-for-male-muscular-and-pregnant-character-bases-with-modular-heads ; https://opengameart.org/content/lpc-jump-expanded ; https://opengameart.org/content/lpc-character-bases
+
+spritesheets/body/bodies/male/light.png
+Authors: bluecarrot16, Benjamin K. Smith (BenCreating), Evert, Eliza Wyatt (ElizaWy), TheraHedwig, MuffinElZangano, Durrani, Johannes Sj?lund (wulax), Stephen Challener (Redshrike)
+Source credit scope: body/bodies/male
+Original license options: CC-BY-SA 3.0, GPL 3.0
+Selected license: CC-BY-SA 3.0
+Source URLs: https://opengameart.org/content/liberated-pixel-cup-lpc-base-assets-sprites-map-tiles ; https://opengameart.org/content/lpc-medieval-fantasy-character-sprites ; https://opengameart.org/content/lpc-male-jumping-animation-by-durrani ; https://opengameart.org/content/lpc-runcycle-and-diagonal-walkcycle ; https://opengameart.org/content/lpc-revised-character-basics ; https://opengameart.org/content/lpc-be-seated ; https://opengameart.org/content/lpc-runcycle-for-male-muscular-and-pregnant-character-bases-with-modular-heads ; https://opengameart.org/content/lpc-jump-expanded ; https://opengameart.org/content/lpc-character-bases
+
+spritesheets/feet/shoes/male/black.png
+Authors: bluecarrot16, Johannes Sjölund (wulax)
+Source credit scope: feet/shoes/male/black.png
+Original license options: OGA-BY 3.0, CC-BY-SA 3.0, GPL 3.0
+Selected license: CC-BY-SA 3.0
+Source URLs: https://opengameart.org/content/lpc-medieval-fantasy-character-sprites ; http://opengameart.org/content/lpc-clothing-updates
+
+spritesheets/hair/long/male/black.png
+Authors: Manuel Riecke (MrBeast)
+Source credit scope: hair/long/male/black.png
+Original license options: CC-BY-SA 3.0, GPL 3.0
+Selected license: CC-BY-SA 3.0
+Source URLs: https://opengameart.org/content/liberated-pixel-cup-lpc-base-assets-sprites-map-tiles
+
+spritesheets/head/heads/human/male/light.png
+Authors: bluecarrot16, Benjamin K. Smith (BenCreating), Stephen Challener (Redshrike)
+Source credit scope: head/heads/human/male
+Original license options: OGA-BY 3.0, CC-BY-SA 3.0, GPL 3.0
+Selected license: CC-BY-SA 3.0
+Source URLs: https://opengameart.org/content/liberated-pixel-cup-lpc-base-assets-sprites-map-tiles ; https://opengameart.org/content/lpc-character-bases
+
+spritesheets/head/heads/orc/male/green.png
+Authors: bluecarrot16, Matthew Krohn (makrohn), Stephen Challener (Redshrike), Zi Ye
+Source credit scope: head/heads/orc/male
+Original license options: CC-BY-SA 3.0, GPL 3.0
+Selected license: CC-BY-SA 3.0
+Source URLs: https://opengameart.org/content/four-characters-my-lpc-entries ; https://opengameart.org/content/sinbad-the-ogre ; https://opengameart.org/content/lpc-male-sheets ; https://opengameart.org/content/lpc-character-bases
+
+spritesheets/legs/pants/male/brown.png
+Authors: bluecarrot16, JaidynReiman, ElizaWy, Matthew Krohn (makrohn), Johannes Sjölund (wulax)
+Source credit scope: legs/pants/male
+Original license options: OGA-BY 3.0, GPL 3.0, CC-BY-SA 3.0
+Selected license: CC-BY-SA 3.0
+Source URLs: https://opengameart.org/content/liberated-pixel-cup-lpc-base-assets-sprites-map-tiles ; https://opengameart.org/content/lpc-medieval-fantasy-character-sprites
+
+spritesheets/legs/pants/male/white.png
+Authors: bluecarrot16, JaidynReiman, ElizaWy, Matthew Krohn (makrohn), Johannes Sjölund (wulax)
+Source credit scope: legs/pants/male
+Original license options: OGA-BY 3.0, GPL 3.0, CC-BY-SA 3.0
+Selected license: CC-BY-SA 3.0
+Source URLs: https://opengameart.org/content/liberated-pixel-cup-lpc-base-assets-sprites-map-tiles ; https://opengameart.org/content/lpc-medieval-fantasy-character-sprites
+
+spritesheets/torso/clothes/longsleeve/longsleeve/male/teal.png
+Authors: JaidynReiman, Johannes Sjölund (wulax)
+Source credit scope: torso/clothes/longsleeve/longsleeve/male
+Original license options: CC-BY-SA 3.0, GPL 3.0
+Selected license: CC-BY-SA 3.0
+Source URLs: https://opengameart.org/content/lpc-medieval-fantasy-character-sprites ; http://opengameart.org/content/lpc-clothing-updates
+
+spritesheets/weapon/sword/longsword/attack_slash/behind/longsword.png
+Authors: Johannes Sjölund (wulax), bluecarrot16
+Source credit scope: weapon/sword/longsword/attack_slash/behind/longsword.png
+Original license options: CC-BY-SA 3.0
+Selected license: CC-BY-SA 3.0
+Source URLs: https://opengameart.org/content/lpc-medieval-fantasy-character-sprites ; https://opengameart.org/content/lpc-extended-weapon-animations
+
+spritesheets/weapon/sword/longsword/attack_slash/longsword.png
+Authors: Johannes Sjölund (wulax), bluecarrot16
+Source credit scope: weapon/sword/longsword/attack_slash/longsword.png
+Original license options: CC-BY-SA 3.0
+Selected license: CC-BY-SA 3.0
+Source URLs: https://opengameart.org/content/lpc-medieval-fantasy-character-sprites ; https://opengameart.org/content/lpc-extended-weapon-animations
+
+spritesheets/weapon/sword/longsword/longsword.png
+Authors: Johannes Sjölund (wulax), bluecarrot16
+Source credit scope: weapon/sword/longsword/longsword.png
+Original license options: CC-BY-SA 3.0
+Selected license: CC-BY-SA 3.0
+Source URLs: https://opengameart.org/content/lpc-medieval-fantasy-character-sprites ; https://opengameart.org/content/lpc-extended-weapon-animations
+
+spritesheets/weapon/sword/longsword/universal_behind/longsword.png
+Authors: Johannes Sjölund (wulax), bluecarrot16
+Source credit scope: weapon/sword/longsword/universal_behind/longsword.png
+Original license options: CC-BY-SA 3.0
+Selected license: CC-BY-SA 3.0
+Source URLs: https://opengameart.org/content/lpc-medieval-fantasy-character-sprites ; https://opengameart.org/content/lpc-extended-weapon-animations
+
+Environment original authors and notices:
+Note: Hyptosis has given permission to use his CC-by 3 work under the OGA-by 3 license instead.
+
+
+Cliff (all seasons)
+-------------------
+  ARTIST(S): Eliza Wyatt (DeathsDarling), Lanea Zimmerman (Sharm)
+  LICENSE: OGA-BY 3.0
+  DETAILS: Original by Eliza Wyatt. Lanea Zimmerman's dirt and grass integrated.
+
+Flowers
+-------------------
+  ARTIST(S): Lanea Zimmerman (Sharm), Hyptosis, Eliza Wyatt (DeathsDarling)
+  SOURCE: https://opengameart.org/content/lpc-interior-castle-tiles
+  SOURCE: https://opengameart.org/content/lots-of-free-2d-tiles-and-sprites-by-hyptosis
+  LICENSE: OGA-BY 3.0
+  DETAILS: 
+	Row 1: Rose bush CC0 by BlueCarrot16, edited and recolored by Eliza Wyatt. Non-flowering version by Eliza Wyatt.
+	Row 2: Small rose bush, derived from the large one by Eliza Wyatt.
+	Row 3: Flowers by Sharm, recolored by Eliza Wyatt. Non-flowering version by Eliza Wyatt.
+	Row 4 & 5: Flowers by Hyptosis, edited and recolored by Eliza Wyatt.
+
+
+Ice-Shallows
+-------------------
+  ARTIST(S): Eliza Wyatt (DeathsDarling)
+  LICENSE: OGA-BY 3.0
+  DETAILS: Original by Eliza Wyatt.
+
+Mushrooms
+-------------------
+  ARTIST(S): Eliza Wyatt (DeathsDarling), Hyptosis
+  SOURCE: https://opengameart.org/content/lots-of-free-2d-tiles-and-sprites-by-hyptosis
+  LICENSE: OGA-BY 3.0
+  DETAILS: Original large pointed mushroom by Hyptosis, edited and recolored by Eliza Wyatt. All others are original art by Eliza Wyatt.
+
+Plants (all seasons)
+-------------------
+  ARTIST(S): Lanea Zimmerman (Sharm), Eliza Wyatt (DeathsDarling), Hyptosis
+  SOURCE: https://opengameart.org/content/lots-of-free-2d-tiles-and-sprites-by-hyptosis
+  LICENSE: OGA-BY 3.0
+  DETAILS: Tropical bush, small tree, shrub, and first tall grasses by Hyptosis. All other plants by Eliza Wyatt. Edited, recolored, and animated by Eliza Wyatt.
+
+Rocks
+-------------------
+  ARTIST(S): Eliza Wyatt (DeathsDarling)
+  LICENSE: OGA-BY 3.0
+  DETAILS: Original by Eliza Wyatt.
+
+Terrain (all seasons)
+-------------------
+  ARTIST(S): Lanea Zimmerman (Sharm), Eliza Wyatt (DeathsDarling)
+  SOURCE: https://opengameart.org/content/liberated-pixel-cup-lpc-base-assets-sprites-map-tiles
+  LICENSE: OGA-BY 3.0
+  DETAILS: Original grass, dirt, and shallows by Lanea Zimmerman. Edited, animated, and recolored by Eliza Wyatt.
+
+Tilled Soil
+-------------------
+  ARTIST(S): Eliza Wyatt (DeathsDarling)
+  LICENSE: OGA-BY 3.0
+  DETAILS: Original by Eliza Wyatt.
+
+Trees (all seasons)
+-------------------
+  ARTIST(S): Lanea Zimmerman (Sharm), Eliza Wyatt (DeathsDarling)
+  SOURCE: https://opengameart.org/content/liberated-pixel-cup-lpc-base-assets-sprites-map-tiles
+  LICENSE: OGA-BY 3.0
+  DETAILS: Original trees by Lanea Zimmerman. Leafless tree and thick trunk by Eliza Wyatt. Reconfigured and recolored by Eliza Wyatt.
+
+Waterfall
+-------------------
+  ARTIST(S): Eliza Wyatt (DeathsDarling)
+  LICENSE: OGA-BY 3.0
+  DETAILS: Original by Eliza Wyatt.
+
+Wildflowers
+-------------------
+  ARTIST(S): Lanea Zimmerman (Sharm), Eliza Wyatt (DeathsDarling), Demetrius
+  SOURCE: https://opengameart.org/content/liberated-pixel-cup-lpc-base-assets-sprites-map-tiles
+  SOURCE: https://opengameart.org/content/lpc-winter-tiles
+  LICENSE: OGA-BY 3.0
+  DETAILS: Original wildflowers by Lanea Zimmerman, as part of the grass. Original winter stems by Demetrius. Reconfigured and recolored by Eliza Wyatt.
+
+Drawbridge A
+-------------------
+  ARTIST(S): Lanea Zimmerman (Sharm), Eliza Wyatt (DeathsDarling)
+  SOURCE: https://opengameart.org/content/liberated-pixel-cup-lpc-base-assets-sprites-map-tiles
+  LICENSE: OGA-BY 3.0
+  DETAILS: Original by Lanea Zimmerman. Reworked for tiling by Eliza Wyatt. Recolors by Eliza Wyatt.
+
+Rope Bridge A (rails, no rails)
+-------------------
+  ARTIST(S): Lanea Zimmerman (Sharm), Eliza Wyatt (DeathsDarling)
+  SOURCE: https://opengameart.org/content/liberated-pixel-cup-lpc-base-assets-sprites-map-tiles
+  LICENSE: OGA-BY 3.0
+  DETAILS: Original by Lanea Zimmerman. Reworked for tiling by Eliza Wyatt. Recolors by Eliza Wyatt.
+
+Wood Bridge A (rails, no rails)
+-------------------
+  ARTIST(S): Lanea Zimmerman (Sharm), Eliza Wyatt (DeathsDarling)
+  SOURCE: https://opengameart.org/content/liberated-pixel-cup-lpc-base-assets-sprites-map-tiles
+  LICENSE: OGA-BY 3.0
+  DETAILS: Original by Lanea Zimmerman. Reworked for tiling by Eliza Wyatt. Recolors by Eliza Wyatt.
+
+Pinned character repository: https://github.com/LiberatedPixelCup/Universal-LPC-Spritesheet-Character-Generator/tree/95c338c84d55cd3e6790d9eddfa3e22c5a0fb91f
+Pinned environment repository: https://github.com/ElizaWy/LPC/tree/f07f7f5892e67c932c68f70bb04472f2c64e46bc

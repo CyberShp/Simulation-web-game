@@ -1,0 +1,19 @@
+{
+  "asset": "valley-shanxiao-pixel-v1.png",
+  "created": "2026-10-23",
+  "tool": "built-in image_gen",
+  "useCase": "style-transfer",
+  "source": "/Users/shepard/.codex/generated_images/01a1688d-90fd-7e31-a0ec-278d90406f2f/exec-ec4173ac-842a-4a7e-be3d-f0d1b027a8f7.png",
+  "sha256": "7aec24c1efe5c226b84909ebd56bf08b56cd8b7f03663c76bd0eb944403b341d",
+  "references": [
+    "archive/godot/estate_2d/assets/flat-valley-shanxiao-v1.png",
+    "assets/courtyard/cultivator-v1.png",
+    "assets/courtyard/west-forest-empty-v1.png"
+  ],
+  "prompt": "Use case: style-transfer. Asset type: transparent HD pixel-art game enemy sprite for an actual 2D xianxia desktop game. Image 1 is the subject identity reference (white-furred mountain ape, moss-backed shanxiao); images 2 and 3 are style references only. Redraw ONE full-body mountain ape with the same white-grey fur, mossy green shoulder/back, reddish fierce face, long muscular forearms and low hunched stance. Match the crisp hand-placed pixel clusters, dark thin outlines and finely shaded HD pixel-art of images 2 and 3, NOT smooth painting. Fixed slightly elevated three-quarter front camera, face looking left toward a player; all feet and hands visible, compact game-readable silhouette; daylight upper-left illumination. Single idle battle-ready pose, no effects, no weapons, no scenery, no labels, no frame. Actual transparent alpha background, generous transparent margin around the complete creature. The output is intended to be displayed around 120 pixels tall next to the blue-robed swordsman.",
+  "review": {
+    "visualInspection": "Full body, white fur, moss back and face retained; crisp pixel shading and transparent background inspected from generated image.",
+    "userArtApproval": "pending",
+    "animation": "single pose; attack telegraph, health and impact are formal event projections"
+  }
+}

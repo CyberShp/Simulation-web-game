@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import * as S from '../../../src/simulation/ea-opening-sim.mjs';
-import {projectedCombatHp,setCombatActorHp,executeSpatialCombatAction} from '../../../src/simulation/ea-sr-combat.mjs';
+import {projectedCombatHp,setCombatActorHp,executeSpatialCombatAction,COMBAT_ACTIONS} from '../../../src/simulation/ea-sr-combat.mjs';
 import {carriedStockpile,grantPills} from '../../../src/simulation/ea-sr-economy.mjs';
 import {COVENANT_TEMPLATES} from '../../../src/simulation/ea-sr-covenants.mjs';
 
@@ -97,8 +97,9 @@ test('a winning strike and later same-tick fatal injury resolve as loss without 
  enemy.x=s.combat.player.x+1;enemy.y=s.combat.player.y;
  setCombatActorHp(s,enemy,1);
  s=S.dispatchCommand(s,{name:'srCombatAction',args:['attack',enemy.id]}).state;
- step(s,3);
+ step(s,COMBAT_ACTIONS.attack.windup);
  assert.equal(s.combat.status,'active');
+ assert.equal(s.srCombat.pending.executed,false);
  const id='covenant:test:winning-strike',terms=COVENANT_TEMPLATES['clause:supply-herbs'];
  s.master.wound=99.95;
  s.srCovenants.records[id]={id,mode:'oath',templateId:'clause:supply-herbs',debtorId:'person:master',creditorId:'person:su-yelan',phase:'breached',informed:true,terms:structuredClone(terms),delivered:0,deadlineTick:0,graceUsed:false,consequence:{cause:'deliberate',createdTick:s.worldTick,remainingTicks:1,appliedWound:0,totalWound:18,relationApplied:true},formedTick:0};

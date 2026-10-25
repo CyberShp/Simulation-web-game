@@ -14,9 +14,9 @@
 
 纳入云岫前期，按依赖推进。
 
-决策来源：U-63, U-65, U-73, R-25, R-26, U-94, U-114, R-37, U-123, U-149, R-49, U-158, R-51, T-17, U-166, R-54, T-22。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
+决策来源：U-63, U-65, U-73, R-25, R-26, U-94, U-114, R-37, U-123, U-149, R-49, U-158, R-51, T-17, U-166, R-54, T-22, U-169, U-172。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
 
-规格：[01-CHARACTERS.md](../../../docs/design/01-CHARACTERS.md)、[02-EQUIPMENT-ARTS.md](../../../docs/design/02-EQUIPMENT-ARTS.md)、[05-RUNTIME-CONTRACTS.md](../../../docs/design/05-RUNTIME-CONTRACTS.md)、[14-EARLY-GAME-DETAILED-DESIGN.md](../../../docs/design/14-EARLY-GAME-DETAILED-DESIGN.md)、[06-OPENING-ACCEPTANCE.md](../../../docs/design/06-OPENING-ACCEPTANCE.md)、[19-FIVE-CONTINENT-ARTS.md](../../../docs/design/19-FIVE-CONTINENT-ARTS.md)、[20-ARTS-GROWTH-COMBAT.md](../../../docs/design/20-ARTS-GROWTH-COMBAT.md)、[41-COURTYARD-VALLEY-IMPLEMENTATION.md](../../../docs/design/41-COURTYARD-VALLEY-IMPLEMENTATION.md)、[51-COURTYARD-MANAGEMENT-INTEGRATION.md](../../../docs/design/51-COURTYARD-MANAGEMENT-INTEGRATION.md)、[58-GOLDEN-CORE-PRESET-BUILDINGS.md](../../../docs/design/58-GOLDEN-CORE-PRESET-BUILDINGS.md)、[64-NORTH-LIBRARY-INTEGRATION.md](../../../docs/design/64-NORTH-LIBRARY-INTEGRATION.md)。
+规格：[01-CHARACTERS.md](../../../docs/design/01-CHARACTERS.md)、[02-EQUIPMENT-ARTS.md](../../../docs/design/02-EQUIPMENT-ARTS.md)、[05-RUNTIME-CONTRACTS.md](../../../docs/design/05-RUNTIME-CONTRACTS.md)、[14-EARLY-GAME-DETAILED-DESIGN.md](../../../docs/design/14-EARLY-GAME-DETAILED-DESIGN.md)、[06-OPENING-ACCEPTANCE.md](../../../docs/design/06-OPENING-ACCEPTANCE.md)、[19-FIVE-CONTINENT-ARTS.md](../../../docs/design/19-FIVE-CONTINENT-ARTS.md)、[20-ARTS-GROWTH-COMBAT.md](../../../docs/design/20-ARTS-GROWTH-COMBAT.md)、[41-COURTYARD-VALLEY-IMPLEMENTATION.md](../../../docs/design/41-COURTYARD-VALLEY-IMPLEMENTATION.md)、[51-COURTYARD-MANAGEMENT-INTEGRATION.md](../../../docs/design/51-COURTYARD-MANAGEMENT-INTEGRATION.md)、[58-GOLDEN-CORE-PRESET-BUILDINGS.md](../../../docs/design/58-GOLDEN-CORE-PRESET-BUILDINGS.md)、[64-NORTH-LIBRARY-INTEGRATION.md](../../../docs/design/64-NORTH-LIBRARY-INTEGRATION.md)、[74-DISCIPLE-DEVELOPMENT.md](../../../docs/design/74-DISCIPLE-DEVELOPMENT.md)、[76-DISCIPLE-CULTIVATION-PROGRESSION.md](../../../docs/design/76-DISCIPLE-CULTIVATION-PROGRESSION.md)、[77-DISCIPLE-BREAKTHROUGH-LOOP.md](../../../docs/design/77-DISCIPLE-BREAKTHROUGH-LOOP.md)、[79-DISCIPLE-WORK-SPECIALIZATION.md](../../../docs/design/79-DISCIPLE-WORK-SPECIALIZATION.md)、[81-DISCIPLE-ONBOARDING.md](../../../docs/design/81-DISCIPLE-ONBOARDING.md)、[87-PHARMACIST-DEVELOPMENT.md](../../../docs/design/87-PHARMACIST-DEVELOPMENT.md)、[88-SECT-CONCURRENCY.md](../../../docs/design/88-SECT-CONCURRENCY.md)、[89-DISCIPLE-CRAFT-REQUEST.md](../../../docs/design/89-DISCIPLE-CRAFT-REQUEST.md)、[90-DISCIPLE-ADVANCEMENT.md](../../../docs/design/90-DISCIPLE-ADVANCEMENT.md)、[91-EXPEDITION-GROWTH.md](../../../docs/design/91-EXPEDITION-GROWTH.md)。
 
 依赖：[SR-XF-002](SR-XF-002.md)、[SR-XF-009](SR-XF-009.md)、[SR-XF-012](SR-XF-012.md)。
 
@@ -53,11 +53,18 @@ SR-XF-014-REQ-03：转修有可查成本和可靠转回途径，普通资质仍�
 | SR-XF-014-AC-02 | 炼化前后各取消、重载、再继续 | 按阶段只消耗已经发生的成本，不重复扣丹/奖励境界。 | not_run |
 | SR-XF-014-AC-03 | 授课、低难重复练习和转修 | 资格真实、无空转成长，无限自伤治疗/重复换装不刷满熟练。 | not_run |
 
-SR-XF-014-AC-03证据：局部：docs/art/SYSTEM-UI-2026-10-10.md（真实研习、拒绝授业、暂停取消与资源回退；转修和熟练收益仍待）
+SR-XF-014-AC-03证据：局部：docs/art/SYSTEM-UI-2026-10-10.md（真实研习、拒绝授业、暂停取消与资源回退；转修和熟练收益仍待）；docs/design/90-DISCIPLE-ADVANCEMENT.md；docs/design/91-EXPEDITION-GROWTH.md
 
 2026-10-12 U-123：五条开局攻守在山谷首战专项中经正式规则定向6／6；战斗网页及完整学习成长 AC 仍待验。 局部证据见 docs/art/COURTYARD-VALLEY-2026-10-12.md；整项 D/I/V/R 与 AC 状态不变。
 
 2026-10-12 U-123 首战本地网页：最终本地网页实点青岚术、剑式与护息，效果读取正式战斗结算；五条开局攻守的定向6／6仍属局部，完整学习／转修与成长 AC 状态保持。 证据见 docs/art/COURTYARD-VALLEY-2026-10-12.md；整项 D/I/V/R 与 AC 状态不变。
+
+2026-10-25 U-169 门人培养与宗门分工已接入并完成macOS源码桌面局部验收：正式院务选择经营侧重，近身推荐已有法门，保留本人意愿、原课和身体工位约束。顾听澜推荐后养元诀理解60→80；裴照雪保留旧护息印功课及引风术待执行建议；陆知微9批真实生产，木材163.39977615→303.078163692、百工37.44→42.84。同源desktop-02保存264262后由desktop-03续接至267998，5对分段原生存读一致；03错误0且正常关闭，早先脚本失败保留。68项集成、19项空间、1项DOM检查通过（分组有交叉）；独立审计17项通过。当前整合版200步完整状态等价及最终档零推进原生读回通过。Windows、完整SR/AC及发布状态保持。
+
+2026-10-25 宗门供给与门人自主突破本批完成：补齐既有炼丹院务奖励入口、修复突破通勤互等及让行工位接缝；正常桌面源280680经实际补种/两批采粮交库至282724，再自主修炼、唯一扣24灵石/8灵草，于284309完成180工步升至炼气二层。最终284504，五人供给正常、饥荒0；准备及核心共5组原生保存/关闭重开一致，公开人物窗只读正确，两个成功段errors均0。原走近超时场景现点击3.72秒通过15秒门限，仍有明显等待。空间相邻37/37、根奖励/突破/通勤16/16通过；旧requester-clear基线失败、Windows、长期平衡、完整SR/AC及发布状态保持。 详见 docs/design/77-DISCIPLE-BREAKTHROUGH-LOOP.md。
+2026-10-25 药师实操成长与供给接续完成本批：实际完工唯一增加医理，已学药理通过实操加深；场景34.5→35.1达到原资格后真实炼成筑基丹1份。伤停、真实外出、半炉中断三种替补均另起自愿炉单并实际归库2药；半炉0.5草损耗及余料退款保持。修复替补赴炉与伤者返床的真实窄路互堵，退让不计工时。根69项不同定向/相邻单测、四场景11类检查、实际Chrome组件6类及原培养DOM1项通过；最终16份场景/7份组件散列一致，失败报告保留。自动储备仍为回春散；按U-172配置初始条件，原生整局、Windows、存读长链与长期平衡未验，完整SR/AC及发布状态保持。
+2026-10-25 三至五人并行经营完成本批：3/5名门人另加掌门，同钟生产、修行与历练均有实际进度；各跨三次日结，每日分别8/12粮，全程饥荒0。两档均炼2药于2168归库，三人实运11粮后余35；五人两次真实伤10→0服药并归院、本人返工，实运13粮后余23，药物总账1+2−2=1。修复未完功课和有效承诺被出游抢占，以及承诺到期先续约导致无法出游；既有夜休/恢复/突破优先。根61项定向及相邻单测、独立6项复核、最终两场景11类检查通过，17份散列前后及当前一致，工程检查通过。初始住宅非法入口和验收器遗漏夜休条件的失败报告保留；按U-172配置场景，原生整局、Windows、存读长链及长期平衡未验，完整SR/AC及发布状态保持。
+2026-10-25 当面商议炼丹与成药交付完成本批：统一人物窗选丹方、看实际费用与现场缺口，由门人按资格、意愿及原承诺答复。正式商议筑基丹后，本人完成四阶段780工步，2099现场成药1、2689实际运抵公库、2690登记交付；医理80→80.6、药理35.1→35.7。缺料/资格/承诺不足与本人不愿分别反馈，远距和隐藏药理禁止商议，重复请求不另开炉；重伤退款和途中中止保留实际投入与实物。共同生活成员的完整人物窗入口已补齐；阅读暂停下进度直接投影实际炉单与运单。根53项不同定向/相邻测试、末次8项投影相关复验、实际Chromium人物窗与七场景11类检查通过；16份散列前后及当前一致，浏览器错误0。按U-172配置初始条件；原生整局、Windows、存读长链及长期平衡未验，完整SR/AC与发布状态保持。
 
 ## 开发任务
 
@@ -71,9 +78,9 @@ SR-XF-014-AC-03证据：局部：docs/art/SYSTEM-UI-2026-10-10.md（真实研习
 
 SR-XF-014-D01证据：docs/design/19-FIVE-CONTINENT-ARTS.md（分类与云岫首批机制初稿，章节等继续）；docs/design/20-ARTS-GROWTH-COMBAT.md（成长与数值首稿，实机调校继续）；docs/design/29-ARTS-SAMPLE-QINGLAN-REALM-STOP.md（青岚与止步心法样例，非完整D01）；docs/design/30-ARTS-SAMPLE-LINEAGE-PERSONAL-ARRAY.md（跨境传承与个人阵样例，非完整D01）；docs/design/47-GOLDEN-CORE-ARTS-CATALOGUE-DRAFT.md；2026-10-15 U-145/R-45：169项修行内容草案、五脉续篇、获取替代、百艺阵法、暗线与特效；仅补设计证据，金丹运行与完整D/I/V/R、AC状态保持。；docs/design/48-GOLDEN-CORE-WORLD-ARTS-V02.md；2026-10-15 U-146/R-46：720项玩家/NPC世界修行库、72新增来源谱系，符箓蛊道心法攻防及获取特效补齐；仅设计字段、来源与引用检查，运行及完整D/I/V/R、AC状态保持。；docs/design/50-COURTYARD-UI-DESIGN-AUDIT.md；2026-10-15 U-148/R-48：四页及关联入口30项设计审查与7条后续场景；两处物流问题由正常命令复现，运行代码未修，实际UI未验，完整状态保持。
 
-SR-XF-014-I01证据：docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。
+SR-XF-014-I01证据：docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。；docs/design/74-DISCIPLE-DEVELOPMENT.md；2026-10-25 U-169 门人培养与宗门分工已接入并完成macOS源码桌面局部验收：正式院务选择经营侧重，近身推荐已有法门，保留本人意愿、原课和身体工位约束。顾听澜推荐后养元诀理解60→80；裴照雪保留旧护息印功课及引风术待执行建议；陆知微9批真实生产，木材163.39977615→303.078163692、百工37.44→42.84。同源desktop-02保存264262后由desktop-03续接至267998，5对分段原生存读一致；03错误0且正常关闭，早先脚本失败保留。68项集成、19项空间、1项DOM检查通过（分组有交叉）；独立审计17项通过。当前整合版200步完整状态等价及最终档零推进原生读回通过。Windows、完整SR/AC及发布状态保持。
 
-SR-XF-014-V01证据：docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。
+SR-XF-014-V01证据：docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-147/R-47：院务/人物/工位/物资/研习操作、保存失败保护和疗伤收据重放；47/47 Node检查。浏览器内核缺失且官方下载失败，实际UI与桌面未验，完整P0—P2及SR/AC状态保持。；docs/design/74-DISCIPLE-DEVELOPMENT.md；2026-10-25 U-169 门人培养与宗门分工已接入并完成macOS源码桌面局部验收：正式院务选择经营侧重，近身推荐已有法门，保留本人意愿、原课和身体工位约束。顾听澜推荐后养元诀理解60→80；裴照雪保留旧护息印功课及引风术待执行建议；陆知微9批真实生产，木材163.39977615→303.078163692、百工37.44→42.84。同源desktop-02保存264262后由desktop-03续接至267998，5对分段原生存读一致；03错误0且正常关闭，早先脚本失败保留。68项集成、19项空间、1项DOM检查通过（分组有交叉）；独立审计17项通过。当前整合版200步完整状态等价及最终档零推进原生读回通过。Windows、完整SR/AC及发布状态保持。
 
 ## 可进入开发的条件
 
@@ -121,6 +128,20 @@ SR-XF-014-V01证据：docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-
 - docs/design/64-NORTH-LIBRARY-INTEGRATION.md
 - docs/design/66-NORTH-MEDITATION-INTEGRATION.md
 - docs/design/68-WEST-WORKSHOPS-INTEGRATION.md
+- 2026-10-25 U-169 门人培养与宗门分工已接入并完成macOS源码桌面局部验收：正式院务选择经营侧重，近身推荐已有法门，保留本人意愿、原课和身体工位约束。顾听澜推荐后养元诀理解60→80；裴照雪保留旧护息印功课及引风术待执行建议；陆知微9批真实生产，木材163.39977615→303.078163692、百工37.44→42.84。同源desktop-02保存264262后由desktop-03续接至267998，5对分段原生存读一致；03错误0且正常关闭，早先脚本失败保留。68项集成、19项空间、1项DOM检查通过（分组有交叉）；独立审计17项通过。当前整合版200步完整状态等价及最终档零推进原生读回通过。Windows、完整SR/AC及发布状态保持。
+- docs/design/76-DISCIPLE-CULTIVATION-PROGRESSION.md
+- tests/acceptance/courtyard-disciple-cultivation-desktop.mjs
+- tests/acceptance/courtyard-disciple-cultivation-reopen.mjs
+- 2026-10-25 宗门供给与门人自主突破局部：docs/design/77-DISCIPLE-BREAKTHROUGH-LOOP.md；普通源280680→桌面准备282724→桌面终档284504，唯一180工步升至二层、5组原生存读一致。完整SR/AC状态保持。
+- docs/design/79-DISCIPLE-WORK-SPECIALIZATION.md
+- 2026-10-25 门人生产专长已参与v1自主择业，最多12分软偏好；按U-172配置场景，正式世界步646→910验证不同专长择业、真实工位生产、两人对应技能80→80.6及下一次决策。同种子只交换技能，岗位随之互换。实际浏览器组件近身理由、远处保密和只读通过；修复v2日程字段过滤接缝。此为针对性模拟与组件证据，完整SR/AC及发布状态保持。
+- docs/design/81-DISCIPLE-ONBOARDING.md
+- 2026-10-25 新门人安置与首次贡献针对性验证：普通求见工厂生成同一身份，正式收录提交唯一门籍与具体待入住床，本人实际到床才登记入住，随后自主到生产工位贡献并取得对应技艺成长。缺床/缺粮拒绝不改世界，本人拒绝及重复收录保持边界。现有产品逻辑成立，本批增加可复用夹具和专项场景；完整SR/AC与发布状态保持。
+- 2026-10-25 药师实操成长与供给接续完成本批：实际完工唯一增加医理，已学药理通过实操加深；场景34.5→35.1达到原资格后真实炼成筑基丹1份。伤停、真实外出、半炉中断三种替补均另起自愿炉单并实际归库2药；半炉0.5草损耗及余料退款保持。修复替补赴炉与伤者返床的真实窄路互堵，退让不计工时。根69项不同定向/相邻单测、四场景11类检查、实际Chrome组件6类及原培养DOM1项通过；最终16份场景/7份组件散列一致，失败报告保留。自动储备仍为回春散；按U-172配置初始条件，原生整局、Windows、存读长链与长期平衡未验，完整SR/AC及发布状态保持。 证据：/Users/shepard/.codex/tmp/immortal-pharmacist-development-20261025/scenario-03/report.json；/Users/shepard/.codex/tmp/immortal-pharmacist-development-20261025/panel-06/report.json。
+- 2026-10-25 三至五人并行经营完成本批：3/5名门人另加掌门，同钟生产、修行与历练均有实际进度；各跨三次日结，每日分别8/12粮，全程饥荒0。两档均炼2药于2168归库，三人实运11粮后余35；五人两次真实伤10→0服药并归院、本人返工，实运13粮后余23，药物总账1+2−2=1。修复未完功课和有效承诺被出游抢占，以及承诺到期先续约导致无法出游；既有夜休/恢复/突破优先。根61项定向及相邻单测、独立6项复核、最终两场景11类检查通过，17份散列前后及当前一致，工程检查通过。初始住宅非法入口和验收器遗漏夜休条件的失败报告保留；按U-172配置场景，原生整局、Windows、存读长链及长期平衡未验，完整SR/AC及发布状态保持。 证据：/Users/shepard/.codex/tmp/immortal-sect-concurrency-20261025/scenario-04/report.json。
+- 2026-10-25 当面商议炼丹与成药交付完成本批：统一人物窗选丹方、看实际费用与现场缺口，由门人按资格、意愿及原承诺答复。正式商议筑基丹后，本人完成四阶段780工步，2099现场成药1、2689实际运抵公库、2690登记交付；医理80→80.6、药理35.1→35.7。缺料/资格/承诺不足与本人不愿分别反馈，远距和隐藏药理禁止商议，重复请求不另开炉；重伤退款和途中中止保留实际投入与实物。共同生活成员的完整人物窗入口已补齐；阅读暂停下进度直接投影实际炉单与运单。根53项不同定向/相邻测试、末次8项投影相关复验、实际Chromium人物窗与七场景11类检查通过；16份散列前后及当前一致，浏览器错误0。按U-172配置初始条件；原生整局、Windows、存读长链及长期平衡未验，完整SR/AC与发布状态保持。 证据：/Users/shepard/.codex/tmp/immortal-disciple-craft-request-20261025/scenario-05/report.json。
+- 2026-10-26 门人进阶需求与自主筑基完成本批：人物窗从缺丹需求导航到同门并预选筑基丹，正式自愿炼制780工步，2692本人运药归公库；另一门人2750自主取丹、2772收入随身，2780开启突破，2825实际炼化、2975完成180工步升至筑基，3150本人再参与生产并按贡献成长。近身和远取统一公药许可，保本人私药、旧承诺与实际身体；唯一丹竞争、满袋拒绝、炼化前后取消及执事继续成长通过。根77项不同定向/相邻单测、六场景12类检查及实际Chromium人物窗组件通过；main选中/走近薄接缝受控执行核验，16份散列前后与当前一致，13完整快照、6截图，浏览器错误0。主Agent发现首轮旧缺丹提示与在途冲突后修正，最终scenario-02通过，旧记录保留。按U-172配置初始条件；原生整局、Windows、存读长链和长期平衡未验，完整SR/AC与发布状态保持。 证据：/Users/shepard/.codex/tmp/immortal-disciple-advancement-20261025/scenario-02/report.json。
+- 2026-10-26 历练收获反哺成长完成本批：真实采6草于1729归库，当面筹备一炉并保留本人旧承诺，2545实运材料到丹房，3428完成原四阶段780工步，4020成药归库，林长风4112收入随身、4120开始突破、4310完成180工步升至筑基。掌门正式搬40木腾库后，5080本人实际参与生产，贡献90%、百工增长0.54；灵草总账119+6−75−50=0。筹备可撤回，已接运输保留；修复休息续约饿死取丹机会、交库容量/产权检查及运输提示滞后。根116项定向/相邻测试、最终投影14项复验、三场景9项检查和实际Chromium人物窗组件通过；23源码散列一致、14完整快照、6截图及独立复核通过。按U-172配置初始条件；原生整局、Windows、存读长链与长期平衡未验，完整SR/AC及发布状态保持。 证据：/Users/shepard/.codex/tmp/immortal-expedition-growth-20261026/scenario-04/report.json；/Users/shepard/.codex/tmp/immortal-expedition-growth-20261026/final-independent-audit.json。
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
@@ -142,5 +163,12 @@ SR-XF-014-V01证据：docs/design/49-P0-P2-COURTYARD-PROGRESS.md；2026-10-15 U-
 - 2026-10-18：U-167 GC03北台路心与静态地面查询修复合入，主树5项及原168489实际94步/4次存读通过。桌面原勘察1170在168583完成，施工14仅扣60灵石40木25石一次；实际168803封存后定位林长风自主回床路线检查失败。run02离开建位缺步及run03热字段遗漏为验收脚本问题，全部实际来源、进度及失败保留。完整经营与SR/AC继续验收。
 - 2026-10-18：U-167 GC03原施工14已在同源桌面完成；四蒲团/两检修位、180步炼气6→7层、有限供灵与四次关闭重开通过。北路返床/绕人修复主树8项及实际27步回路成立。现场货位目的地过滤已补；当前170563检修运输347续接核对主殿门槛圈样本，维护全链未完成。丹房四阶段四工位16项为隔离候选证据。完整SR/AC状态保持。
 - 2026-10-18：U-167 GC03一级同源macOS源码桌面链完成：最终171973，run07为10/10、错误0、209.943秒，七段实际逐项合计777.710秒。勘察/施工、180步6→7层、有限供灵、原运输347与348送2木1石、80步维护均成立，携货及活动中多次精确重开。Lu门槛为外部脚圈检查室内边界遗漏，已按正式预约/holder/floor纠正且保留离路反例。整体建筑与完整SR/AC继续。
+- 2026-10-25：2026-10-25 U-169 门人培养与宗门分工已接入并完成macOS源码桌面局部验收：正式院务选择经营侧重，近身推荐已有法门，保留本人意愿、原课和身体工位约束。顾听澜推荐后养元诀理解60→80；裴照雪保留旧护息印功课及引风术待执行建议；陆知微9批真实生产，木材163.39977615→303.078163692、百工37.44→42.84。同源desktop-02保存264262后由desktop-03续接至267998，5对分段原生存读一致；03错误0且正常关闭，早先脚本失败保留。68项集成、19项空间、1项DOM检查通过（分组有交叉）；独立审计17项通过。当前整合版200步完整状态等价及最终档零推进原生读回通过。Windows、完整SR/AC及发布状态保持。
+- 2026-10-25：登记正常供给与门人自主突破的局部实现/原生证据；保持整项与AC状态。
+- 2026-10-25：登记真实炼药成长、原进阶资格、伤停外出补位及初次赴炉通勤修复；完整SR/AC状态保持。
+- 2026-10-25：登记三/五人并行经营、粮药实际收支与承诺到期接缝；完整SR/AC状态保持。
+- 2026-10-25：登记当面自愿炼丹、完整人物窗入口及本人实运交付；完整SR/AC状态保持。
+- 2026-10-26：登记进阶需求、同门商议、实际取丹与原阶段自主突破后恢复经营；完整SR/AC状态保持。
+- 2026-10-26：登记历练实采、单炉筹备、真实交付、自主筑基及返工针对性验证；完整SR/AC状态保持。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python scripts/requirements/sr-manager.py refresh`，不单独修改此派生页。

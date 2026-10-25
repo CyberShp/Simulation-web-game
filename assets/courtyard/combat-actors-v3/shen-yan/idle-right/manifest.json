@@ -1,0 +1,111 @@
+{
+  "schema": "combat-frame-atlas/v1",
+  "atlas": "atlas.png",
+  "frameSize": [
+    360,
+    340
+  ],
+  "sourceHeight": 255.0,
+  "foot": [
+    180,
+    300
+  ],
+  "durationMs": 1200,
+  "loop": true,
+  "frames": [
+    {
+      "index": 0,
+      "file": "frames/0000.png",
+      "x": 0,
+      "y": 0,
+      "w": 360,
+      "h": 340,
+      "sourceHeight": 255.0,
+      "foot": [
+        180,
+        300
+      ],
+      "durationMs": 300,
+      "phase": "idle"
+    },
+    {
+      "index": 1,
+      "file": "frames/0001.png",
+      "x": 360,
+      "y": 0,
+      "w": 360,
+      "h": 340,
+      "sourceHeight": 255.0,
+      "foot": [
+        180,
+        300
+      ],
+      "durationMs": 300,
+      "phase": "idle"
+    },
+    {
+      "index": 2,
+      "file": "frames/0002.png",
+      "x": 720,
+      "y": 0,
+      "w": 360,
+      "h": 340,
+      "sourceHeight": 255.0,
+      "foot": [
+        180,
+        300
+      ],
+      "durationMs": 300,
+      "phase": "idle"
+    },
+    {
+      "index": 3,
+      "file": "frames/0003.png",
+      "x": 1080,
+      "y": 0,
+      "w": 360,
+      "h": 340,
+      "sourceHeight": 255.0,
+      "foot": [
+        180,
+        300
+      ],
+      "durationMs": 300,
+      "phase": "idle"
+    }
+  ],
+  "metadata": {
+    "sourceReview": "external breathing-loop candidate; root visual review pending",
+    "generatedBy": "built-in image_gen with approved attack-right frame0 reference",
+    "date": "2026-10-25"
+  },
+  "sources": [
+    {
+      "file": "inputs/000-exec-975abf21-0406-45a7-af4c-7bf40d5f1fbc.png",
+      "sha256": "f77e3c8a2a54a6304e0503150ba374860ba351dd76360c900745bbdef92dca8b"
+    }
+  ],
+  "provenance": {
+    "pipeline": "combat-frame-pipeline/1",
+    "python": "3.12.14",
+    "pillow": "12.3.0",
+    "scriptSha256": "870275d7b2c0504dea2418f47854326f4a75ea5aead0419072ff31be87e25e13",
+    "workflowReference": {
+      "repository": "https://github.com/0x0funky/agent-sprite-forge",
+      "revision": "5324342fdfab72430f4e9604f3fe427009f8596d"
+    },
+    "sourceHeightBeforeScale": 510,
+    "uniformScale": 0.5,
+    "pixelOperations": [
+      "explicit-crop",
+      "uniform-nearest-scale",
+      "fixed-foot-translation",
+      "whole-frame-pack"
+    ]
+  },
+  "id": "shen-yan-idle-right-v3",
+  "visualIdentity": "shen-yan",
+  "action": "idle",
+  "direction": "right",
+  "phase": "idle"
+}

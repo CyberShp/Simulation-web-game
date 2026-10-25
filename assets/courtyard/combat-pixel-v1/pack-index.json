@@ -1,0 +1,134 @@
+{
+  "schema": "combat-pixel-pack/v1",
+  "actors": {
+    "shen-yan": {
+      "clips": [
+        {
+          "manifest": "shen-yan/idle-up/manifest.json"
+        },
+        {
+          "manifest": "shen-yan/idle-left/manifest.json"
+        },
+        {
+          "manifest": "shen-yan/idle-down/manifest.json"
+        },
+        {
+          "manifest": "shen-yan/idle-right/manifest.json"
+        },
+        {
+          "manifest": "shen-yan/move-up/manifest.json"
+        },
+        {
+          "manifest": "shen-yan/move-left/manifest.json"
+        },
+        {
+          "manifest": "shen-yan/move-down/manifest.json"
+        },
+        {
+          "manifest": "shen-yan/move-right/manifest.json"
+        },
+        {
+          "manifest": "shen-yan/attack-up/manifest.json"
+        },
+        {
+          "manifest": "shen-yan/attack-left/manifest.json"
+        },
+        {
+          "manifest": "shen-yan/attack-down/manifest.json"
+        },
+        {
+          "manifest": "shen-yan/attack-right/manifest.json"
+        },
+        {
+          "manifest": "shen-yan/spell-up/manifest.json"
+        },
+        {
+          "manifest": "shen-yan/spell-left/manifest.json"
+        },
+        {
+          "manifest": "shen-yan/spell-down/manifest.json"
+        },
+        {
+          "manifest": "shen-yan/spell-right/manifest.json"
+        },
+        {
+          "manifest": "shen-yan/guard-up/manifest.json"
+        },
+        {
+          "manifest": "shen-yan/guard-left/manifest.json"
+        },
+        {
+          "manifest": "shen-yan/guard-down/manifest.json"
+        },
+        {
+          "manifest": "shen-yan/guard-right/manifest.json"
+        },
+        {
+          "manifest": "shen-yan/dodge-up/manifest.json"
+        },
+        {
+          "manifest": "shen-yan/dodge-left/manifest.json"
+        },
+        {
+          "manifest": "shen-yan/dodge-down/manifest.json"
+        },
+        {
+          "manifest": "shen-yan/dodge-right/manifest.json"
+        },
+        {
+          "manifest": "shen-yan/hit-down/manifest.json"
+        },
+        {
+          "manifest": "shen-yan/down-down/manifest.json"
+        }
+      ]
+    },
+    "shanxiao": {
+      "clips": [
+        {
+          "manifest": "shanxiao/idle-up/manifest.json"
+        },
+        {
+          "manifest": "shanxiao/idle-left/manifest.json"
+        },
+        {
+          "manifest": "shanxiao/idle-down/manifest.json"
+        },
+        {
+          "manifest": "shanxiao/idle-right/manifest.json"
+        },
+        {
+          "manifest": "shanxiao/move-up/manifest.json"
+        },
+        {
+          "manifest": "shanxiao/move-left/manifest.json"
+        },
+        {
+          "manifest": "shanxiao/move-down/manifest.json"
+        },
+        {
+          "manifest": "shanxiao/move-right/manifest.json"
+        },
+        {
+          "manifest": "shanxiao/attack-up/manifest.json"
+        },
+        {
+          "manifest": "shanxiao/attack-left/manifest.json"
+        },
+        {
+          "manifest": "shanxiao/attack-down/manifest.json"
+        },
+        {
+          "manifest": "shanxiao/attack-right/manifest.json"
+        },
+        {
+          "manifest": "shanxiao/hit-down/manifest.json"
+        },
+        {
+          "manifest": "shanxiao/down-down/manifest.json"
+        }
+      ]
+    }
+  },
+  "environment": "environment/manifest.json"
+}

@@ -1,3 +1,17 @@
+import {requestDiscipleCraft,requestDiscipleCraftPreparation,cancelDiscipleCraftPreparation,advanceDiscipleCraftRequests,validateDiscipleCraftRequests} from './ea-disciple-craft-request.mjs';
+export {requestDiscipleCraft,requestDiscipleCraftPreparation,cancelDiscipleCraftPreparation,discipleCraftRequestsView} from './ea-disciple-craft-request.mjs';
+import {setWellProduction} from './ea-sr-economy.mjs';
+import {setMedicineSupply,advanceMedicineSupply,validateMedicineSupply} from './ea-medicine-supply.mjs';
+export {setMedicineSupply,medicineSupplyView} from './ea-medicine-supply.mjs';
+import {configureDiscipleDevelopment,setDiscipleWorkFocus,recommendDiscipleTechnique,validateDiscipleDevelopment} from './ea-disciple-development.mjs';
+export {setDiscipleWorkFocus,recommendDiscipleTechnique,discipleDevelopmentView} from './ea-disciple-development.mjs';
+import {validateSRCombat} from './ea-sr-combat.mjs';
+import {offerGuestLodging,advanceGuestLodging,validateGuestLodging} from './ea-guest-lodging.mjs';
+import {setDiscipleExpeditions,advanceDiscipleExpeditions,validateDiscipleExpeditions,configureDiscipleExpeditions} from './ea-disciple-expeditions.mjs';
+import {encounterStep} from './ea-disciple-encounters.mjs';
+configureDiscipleExpeditions({encounterStep});
+export {setDiscipleExpeditions,discipleExpeditionsView} from './ea-disciple-expeditions.mjs';
+export {guestLodgingView,offerGuestLodging} from './ea-guest-lodging.mjs';
 import {spiritSourceHandlers,advanceSpiritSources,validateSpiritSources} from './ea-spirit-sources.mjs';
 export {surveyMeditationSource,cancelMeditationSourceOrder,startMeditationMaintenance,startMeditationCultivation,meditationSourceView,meditationCultivationView} from './ea-spirit-sources.mjs';
 import {setCourtyardReception,answerCourtyardSeeker,advanceCourtyardSeekers,validateCourtyardSeekers,courtyardSeekerBodyReason} from './ea-courtyard-seekers.mjs';
@@ -11,6 +25,7 @@ import {prepareFacilityActivity,releaseBodyActivity,reconcileActivities,validate
 export {cancelProduction};
 /** DB v1.2 first development slice, wired into the actual EA application. */
 import * as base from './ea-sim.mjs';
+configureDiscipleDevelopment({studyLock:base.studyLock});
 import {cloneState,hydrateState,migrateState,legacyProjection,validateV6Shape,SCHEMA_VERSION,CONTENT_VERSION} from './ea-state-v6.mjs';
 import {startScenicWalk,scenicPosition,advanceScenic,syncScenicPosition,buildingAccess,repairScenicState,scenicNearest} from './ea-scenic.mjs';
 export * from './ea-sim.mjs';
@@ -24,10 +39,10 @@ import {SECT_DOMAIN} from './ea-sect-domain.mjs';
 import {advanceSRStory} from './ea-sr-story.mjs';
 import {tickCampaignCombat,settleCombatBodyProjection} from './ea-campaign.mjs';
 import {teachingQualificationSR} from './ea-sr-cultivation.mjs';
-import {prepareAutonomyV2 as prepareAutonomyV2Checked,reconcileAutonomyV2Commitments} from './ea-sr-persons.mjs';
+import {prepareAutonomyV2 as prepareAutonomyV2Checked,reconcileAutonomyV2Commitments,validatePersons} from './ea-sr-persons.mjs';
 import {upgradeEquipmentRecipeSnapshots} from './ea-sr-equipment.mjs';
 import {beginOpeningInheritance,chooseOpeningInheritance,recoverOpeningInheritance,validateOpeningInheritance} from './ea-opening-inheritance.mjs';
-import {residentialHousingApplicable,ensureResidentialHousing,residentialAdmissionView,reserveResidentialBed,reconcileResidentialHousing} from './ea-residential-housing.mjs';
+import {residentialHousingApplicable,ensureResidentialHousing,residentialAdmissionView,reserveResidentialBed,reconcileResidentialHousing,validateResidentialHousing} from './ea-residential-housing.mjs';
 export {residentialHousingApplicable,residentialProjectionState,residentialHousingView,residentialAdmissionView,residentialRestView,residentialBuildingChangeView} from './ea-residential-housing.mjs';
 export {openingInheritanceView,openingRecoveryOptions} from './ea-opening-inheritance.mjs';
 export * from './ea-sr-equipment.mjs';
@@ -47,7 +62,7 @@ export * from './ea-sr-late-economy.mjs';
 export {srEnabled,initSR};
 export {cloneState,SCHEMA_VERSION,CONTENT_VERSION};
 const LEGACY_COMMAND_NAMES=['recoverOpeningInheritance','chooseOpeningInheritance','setSpeed','setIntroPage','acknowledgeOnboarding','requestSceneInteraction','cancelSceneInteraction','setNarrativePage','acknowledgeNarrative','acknowledgeIntro','advanceStory','build','cancelConstruction','cancelProduction','offerArtisanCare','cancelArtisanCare','declineArtisanCare','upgrade','toggleBuilding','repairBuilding','relocate','demolish','recruit','obtainBook','sealBook','masterStudy','forgetSupport','returnToBasics','masterBreakthrough','masterRiskBreakthrough','masterPill','masterAction','masterTeach','moveMaster','moveScenicMaster','craft','trade','fulfill','claim','setPolicy','offerRoute','upgradeSect','societyCommand','foundSect','inviteOffice','foundPeak','inviteMentor','setSocietyPolicy','settleIncident','resolvePersonalQuest','resolveWorldVisitor','resolveSocietyVisitor','startExploration','moveExploration','resolveExploration','leaveRegion','combatAction','acknowledgeCombat','startMasterTravel','resolveMasterEncounter','cancelMasterTravel'];
-export const COMMAND_NAMES=[...new Set([...LEGACY_COMMAND_NAMES,'admitCourtyardVisitor','setCourtyardReception','answerCourtyardSeeker',...Object.keys(SR_HANDLERS),...Object.keys(spiritSourceHandlers)])];
+export const COMMAND_NAMES=[...new Set([...LEGACY_COMMAND_NAMES,'admitCourtyardVisitor','setCourtyardReception','answerCourtyardSeeker','offerGuestLodging','setDiscipleExpeditions','setMedicineSupply','setWellProduction','setDiscipleWorkFocus','recommendDiscipleTechnique','requestDiscipleCraft','requestDiscipleCraftPreparation','cancelDiscipleCraftPreparation',...Object.keys(SR_HANDLERS),...Object.keys(spiritSourceHandlers)])];
 const bodyCommands=new Set(['build','buildDomainSite','establishHall','upgrade','repairBuilding','relocate','demolish','masterStudy','masterAction','masterTeach','masterBreakthrough','masterRiskBreakthrough','masterPill','moveMaster','moveScenicMaster','requestSceneInteraction','startExploration','startMasterTravel','craft','advanceStory','admitCourtyardVisitor','answerCourtyardSeeker','offerArtisanCare','declineArtisanCare']);
 const MASTER_AUTO_DELAY_MS=30000;
 const directMasterCommands=new Set([...Object.keys(spiritSourceHandlers),...bodyCommands,...SR_BODY_COMMANDS,'chooseOpeningInheritance','cancelConstruction','cancelSceneInteraction','cancelArtisanCare','cancelProduction','cancelMasterTravel']);
@@ -92,7 +107,11 @@ function normalizeOpeningHallPhase(s){
 }
 
 function validateOpeningRecords(s){
- validateSpiritSources(s);validateOpeningInheritance(s);validateCourtyardVisitors(s);validateCourtyardAdmissions(s);validateCourtyardSeekers(s);initCourtyardAdmissions(s);
+ validateDiscipleExpeditions(s);
+ validateMedicineSupply(s);
+ validateDiscipleCraftRequests(s);
+ validateDiscipleDevelopment(s);
+ validateSpiritSources(s);validateOpeningInheritance(s);validateCourtyardVisitors(s);validateCourtyardAdmissions(s);validateCourtyardSeekers(s);validateGuestLodging(s);initCourtyardAdmissions(s);
  const opening=s.story.opening;
  if(opening){
   const establishing=s.workOrdersById?.['work:construction:1']?.operation==='establish';
@@ -273,6 +292,8 @@ export function tick(s,dt){
   if(s.speed===0)break;
   s.worldTick++;s.revision++;
   if(residentialHousingApplicable(s))ensureResidentialHousing(s);
+  advanceDiscipleCraftRequests(s);
+  advanceMedicineSupply(s);
   advanceMasterControl(s);
   if(srEnabled(s))beforeSRSecond(s);
   advanceSpiritSources(s);
@@ -281,6 +302,8 @@ export function tick(s,dt){
   base.advanceMasterFreeWalk(s,4.6);
   advanceOpeningVisitors(s);
   advanceCourtyardSeekers(s);
+  advanceGuestLodging(s);
+  advanceDiscipleExpeditions(s);
   advanceRainArtisan(s);
   if(srEnabled(s))settleCombatBodyProjection(s);
   reconcileActivities(s);
@@ -289,10 +312,7 @@ export function tick(s,dt){
  }
 }
 
-/** Atomic, revision-checked, retry-safe command gateway used by the browser. */
-export function dispatchCommand(s,{name,args=[],id=`command:${s.transactions.nextCommandId}`,expectedRevision=s.revision}={}){
- if(srEnabled(s)){
-  const handlers=Object.fromEntries(COMMAND_NAMES.map(command=>[command,(next,...values)=>{
+function contractHandlers(){return Object.fromEntries(COMMAND_NAMES.map(command=>[command,(next,...values)=>{
    // The transaction gateway must resolve an existing receipt before applying
    // current gameplay gates: the first healing command itself opens this gate.
    if(next.story?.opening?.inheritance?.status==='pending'&&command!=='chooseOpeningInheritance')throw Error('先在包裹中择定一条传承。');
@@ -313,10 +333,15 @@ export function dispatchCommand(s,{name,args=[],id=`command:${s.transactions.nex
     const lock=base.buildingLock(next,site.type);if(lock)throw Error(lock);
    }
    if(['build','buildDomainSite','upgrade','recruit'].includes(command)&&next.story?.opening&&next.story.opening.hallPhase!=='complete')throw Error('先营造主殿，再安排其他院务。');
-   const fn=command==='recoverOpeningInheritance'?recoverOpeningInheritance:command==='chooseOpeningInheritance'?chooseOpeningInheritance:command==='masterAction'?openingMasterAction:command==='advanceStory'?advanceStory:command==='admitCourtyardVisitor'?admitCourtyardVisitor:spiritSourceHandlers[command]||SR_HANDLERS[command]||({setCourtyardReception,answerCourtyardSeeker,setSpeed,offerArtisanCare,cancelArtisanCare,declineArtisanCare,cancelProduction}[command])||base[command];
+   const fn=command==='recoverOpeningInheritance'?recoverOpeningInheritance:command==='chooseOpeningInheritance'?chooseOpeningInheritance:command==='masterAction'?openingMasterAction:command==='advanceStory'?advanceStory:command==='admitCourtyardVisitor'?admitCourtyardVisitor:spiritSourceHandlers[command]||SR_HANDLERS[command]||({requestDiscipleCraft,requestDiscipleCraftPreparation,cancelDiscipleCraftPreparation,setMedicineSupply,setWellProduction,setDiscipleWorkFocus,recommendDiscipleTechnique,setDiscipleExpeditions,offerGuestLodging,setCourtyardReception,answerCourtyardSeeker,setSpeed,offerArtisanCare,cancelArtisanCare,declineArtisanCare,cancelProduction}[command])||base[command];
    if(typeof fn!=='function')throw Error('操作尚未接入。');
-   const result=fn(next,...values);if(result!==false&&directMasterCommands.has(command))resetMasterControl(next);reconcileActivities(next);reconcileAutonomyV2Commitments(next);if(next.residentialHousing)reconcileResidentialHousing(next);return result;
-  }]));
+   const result=fn(next,...values);if(result!==false&&(bodyCommands.has(command)||SR_BODY_COMMANDS.has(command))&&next.master.scenic?.bodyYield?.manualWalk===true)delete next.master.scenic.bodyYield;advanceGuestLodging(next,{reconcileOnly:true});if(result!==false&&directMasterCommands.has(command))resetMasterControl(next);reconcileActivities(next);reconcileAutonomyV2Commitments(next);if(next.residentialHousing)reconcileResidentialHousing(next);return result;
+  }]));}
+
+/** Atomic, revision-checked, retry-safe command gateway used by the browser. */
+export function dispatchCommand(s,{name,args=[],id=`command:${s.transactions.nextCommandId}`,expectedRevision=s.revision}={}){
+ if(srEnabled(s)){
+  const handlers=contractHandlers();
   const committed=executeContractCommand(s,{name,args,id,expectedRevision},{handlers,clone:value=>initSR(cloneState(value)),validate:validateSave});
   if(committed.status==='rejected')throw Error(committed.message);return committed;
  }
@@ -330,14 +355,31 @@ export function dispatchCommand(s,{name,args=[],id=`command:${s.transactions.nex
  const next=cloneState(s);
  if(next.master.sceneIntent&&!['requestSceneInteraction','setNarrativePage','acknowledgeNarrative','acknowledgeIntro'].includes(name))base.cancelSceneInteraction(next);
  if(bodyCommands.has(name)&&!constructionStatus(next))releaseBodyActivity(next,next.master);
- const fn=name==='recoverOpeningInheritance'?recoverOpeningInheritance:name==='chooseOpeningInheritance'?chooseOpeningInheritance:name==='masterAction'?openingMasterAction:name==='offerArtisanCare'?offerArtisanCare:name==='cancelArtisanCare'?cancelArtisanCare:name==='declineArtisanCare'?declineArtisanCare:name==='cancelProduction'?cancelProduction:name==='setSpeed'?setSpeed:name==='advanceStory'?advanceStory:name==='admitCourtyardVisitor'?admitCourtyardVisitor:name==='setCourtyardReception'?setCourtyardReception:name==='answerCourtyardSeeker'?answerCourtyardSeeker:name==='build'?build:name==='cancelConstruction'?cancelConstruction:name==='masterStudy'?masterStudy:base[name];
+ const fn=name==='recoverOpeningInheritance'?recoverOpeningInheritance:name==='chooseOpeningInheritance'?chooseOpeningInheritance:name==='masterAction'?openingMasterAction:name==='offerArtisanCare'?offerArtisanCare:name==='cancelArtisanCare'?cancelArtisanCare:name==='declineArtisanCare'?declineArtisanCare:name==='cancelProduction'?cancelProduction:name==='setSpeed'?setSpeed:name==='advanceStory'?advanceStory:name==='admitCourtyardVisitor'?admitCourtyardVisitor:name==='offerGuestLodging'?offerGuestLodging:name==='setCourtyardReception'?setCourtyardReception:name==='answerCourtyardSeeker'?answerCourtyardSeeker:name==='build'?build:name==='cancelConstruction'?cancelConstruction:name==='masterStudy'?masterStudy:base[name];
  if(['demolish','relocate'].includes(name)){const b=next.buildings.find(b=>b.id===args[0]),o=b&&next.workOrdersById[`work:production:${b.instanceId}`];if(o){if(o.phase!=='completed')cancelProduction(next,b.id);else delete next.workOrdersById[o.id];}}
  const value=fn(next,...args),result=value===undefined?true:structuredClone(value);
+ advanceGuestLodging(next,{reconcileOnly:true});
  if(result!==false&&directMasterCommands.has(name))resetMasterControl(next);
  reconcileActivities(next);
  next.revision++;next.transactions.nextCommandId++;
  next.transactions.receipts.push({id,signature,result,revision:next.revision});next.transactions.receipts=next.transactions.receipts.slice(-128);
  return {state:validateSave(next),result,replayed:false};
+}
+
+/** Internal desktop owner only. External states must use dispatchCommand/validateSave.
+ * One complete private draft retains every init/reconcile side effect and failure
+ * rollback; unchanged world/history need not be cloned and revalidated repeatedly.
+ */
+export function dispatchOwnedCombatCommand(s,command){
+ const names=new Set(['combatAction','setSRAutoAttack','setSpeed']);
+ if(!srEnabled(s)||s.combat?.status!=='active'||!s.combat.sessionId||!names.has(command?.name)||command.name==='combatAction'&&!['attack','spell','guard','dodge','retreat'].includes(command.args?.[0]))return dispatchCommand(s,command);
+ const committed=executeContractCommand(s,command,{handlers:contractHandlers(),clone:value=>initSR(cloneState(value)),validate:next=>{
+  // This retains the original complete JSON/reference/receipt checks once.
+  validateV6Shape(next);validateMasterControl(next);validateFacilityActivities(next);
+  validatePersons(next);validateSRCombat(next);validateGuestLodging(next);
+  return next;
+ }});
+ if(committed.status==='rejected')throw Error(committed.message);return committed;
 }
 
 export function placementLock(s,type,x,y,ignoreId=null,level=1){return srEnabled(s)?placementIssue(s,type,x,y,{ignoreId,level}):base.placementLock(s,type,x,y,ignoreId);}

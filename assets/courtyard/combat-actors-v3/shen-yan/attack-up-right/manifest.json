@@ -1,0 +1,237 @@
+{
+  "schema": "combat-frame-atlas/v1",
+  "atlas": "atlas.png",
+  "frameSize": [
+    420,
+    330
+  ],
+  "sourceHeight": 215.0,
+  "foot": [
+    190,
+    270
+  ],
+  "durationMs": 500,
+  "loop": false,
+  "frames": [
+    {
+      "index": 0,
+      "file": "frames/0000.png",
+      "x": 0,
+      "y": 0,
+      "w": 420,
+      "h": 330,
+      "sourceHeight": 215.0,
+      "foot": [
+        190,
+        270
+      ],
+      "durationMs": 40,
+      "phase": "windup"
+    },
+    {
+      "index": 1,
+      "file": "frames/0001.png",
+      "x": 420,
+      "y": 0,
+      "w": 420,
+      "h": 330,
+      "sourceHeight": 215.0,
+      "foot": [
+        190,
+        270
+      ],
+      "durationMs": 60,
+      "phase": "windup"
+    },
+    {
+      "index": 2,
+      "file": "frames/0002.png",
+      "x": 840,
+      "y": 0,
+      "w": 420,
+      "h": 330,
+      "sourceHeight": 215.0,
+      "foot": [
+        190,
+        270
+      ],
+      "durationMs": 100,
+      "phase": "release",
+      "event": "release",
+      "anchors": {
+        "hand": [
+          271.0,
+          97.5
+        ],
+        "grip": [
+          275.5,
+          92.0
+        ],
+        "tip": [
+          343.0,
+          41.0
+        ]
+      }
+    },
+    {
+      "index": 3,
+      "file": "frames/0003.png",
+      "x": 1260,
+      "y": 0,
+      "w": 420,
+      "h": 330,
+      "sourceHeight": 215.0,
+      "foot": [
+        190,
+        270
+      ],
+      "durationMs": 100,
+      "phase": "recovery",
+      "anchors": {
+        "hand": [
+          278.0,
+          85.0
+        ],
+        "grip": [
+          285.5,
+          77.5
+        ],
+        "tip": [
+          355.0,
+          37.0
+        ]
+      },
+      "source": {
+        "file": "inputs/000-exec-21accfb2-010c-49e8-8b0b-73fe0916a1d7.png",
+        "crop": [
+          0,
+          500,
+          580,
+          524
+        ],
+        "clipPolygon": [
+          [
+            0,
+            0
+          ],
+          [
+            580,
+            0
+          ],
+          [
+            580,
+            40
+          ],
+          [
+            512,
+            80
+          ],
+          [
+            512,
+            524
+          ],
+          [
+            0,
+            524
+          ]
+        ]
+      }
+    },
+    {
+      "index": 4,
+      "file": "frames/0004.png",
+      "x": 0,
+      "y": 330,
+      "w": 420,
+      "h": 330,
+      "sourceHeight": 215.0,
+      "foot": [
+        190,
+        270
+      ],
+      "durationMs": 100,
+      "phase": "recovery",
+      "source": {
+        "file": "inputs/000-exec-21accfb2-010c-49e8-8b0b-73fe0916a1d7.png",
+        "crop": [
+          512,
+          512,
+          512,
+          512
+        ],
+        "clipPolygon": [
+          [
+            70,
+            0
+          ],
+          [
+            512,
+            0
+          ],
+          [
+            512,
+            512
+          ],
+          [
+            0,
+            512
+          ],
+          [
+            0,
+            70
+          ]
+        ]
+      }
+    },
+    {
+      "index": 5,
+      "file": "frames/0005.png",
+      "x": 420,
+      "y": 330,
+      "w": 420,
+      "h": 330,
+      "sourceHeight": 215.0,
+      "foot": [
+        190,
+        270
+      ],
+      "durationMs": 100,
+      "phase": "recovery"
+    }
+  ],
+  "metadata": {
+    "sourceReview": "root-key-poses-selected-runtime-pending",
+    "generatedBy": "built-in image_gen",
+    "date": "2026-10-25"
+  },
+  "sources": [
+    {
+      "file": "inputs/000-exec-21accfb2-010c-49e8-8b0b-73fe0916a1d7.png",
+      "sha256": "70f93d4ab47c0b550f6ec47e6da6e3c9a7706460a759090d1e3ec4f00620392a"
+    }
+  ],
+  "provenance": {
+    "pipeline": "combat-frame-pipeline/1",
+    "python": "3.12.14",
+    "pillow": "12.3.0",
+    "scriptSha256": "870275d7b2c0504dea2418f47854326f4a75ea5aead0419072ff31be87e25e13",
+    "workflowReference": {
+      "repository": "https://github.com/0x0funky/agent-sprite-forge",
+      "revision": "5324342fdfab72430f4e9604f3fe427009f8596d"
+    },
+    "sourceHeightBeforeScale": 430,
+    "uniformScale": 0.5,
+    "pixelOperations": [
+      "explicit-crop",
+      "authored-polygon-alpha-clip",
+      "uniform-nearest-scale",
+      "fixed-foot-translation",
+      "whole-frame-pack"
+    ]
+  },
+  "id": "shen-yan-attack-up-right-v3",
+  "visualIdentity": "shen-yan",
+  "action": "attack",
+  "direction": "up-right",
+  "phase": "idle"
+}

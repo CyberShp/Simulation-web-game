@@ -1,0 +1,241 @@
+{
+  "schema": "combat-frame-atlas/v1",
+  "atlas": "atlas.png",
+  "frameSize": [
+    440,
+    320
+  ],
+  "sourceHeight": 210.0,
+  "foot": [
+    240,
+    270
+  ],
+  "durationMs": 500,
+  "loop": false,
+  "frames": [
+    {
+      "index": 0,
+      "file": "frames/0000.png",
+      "x": 0,
+      "y": 0,
+      "w": 440,
+      "h": 320,
+      "sourceHeight": 210.0,
+      "foot": [
+        240,
+        270
+      ],
+      "durationMs": 40,
+      "phase": "windup"
+    },
+    {
+      "index": 1,
+      "file": "frames/0001.png",
+      "x": 440,
+      "y": 0,
+      "w": 440,
+      "h": 320,
+      "sourceHeight": 210.0,
+      "foot": [
+        240,
+        270
+      ],
+      "durationMs": 60,
+      "phase": "windup",
+      "source": {
+        "file": "inputs/000-exec-9b7cdefb-33dc-4e17-a574-9837460bcb08.png",
+        "crop": [
+          512,
+          0,
+          512,
+          512
+        ],
+        "clipPolygon": [
+          [
+            0,
+            0
+          ],
+          [
+            424,
+            0
+          ],
+          [
+            424,
+            210
+          ],
+          [
+            512,
+            210
+          ],
+          [
+            512,
+            512
+          ],
+          [
+            0,
+            512
+          ]
+        ]
+      }
+    },
+    {
+      "index": 2,
+      "file": "frames/0002.png",
+      "x": 880,
+      "y": 0,
+      "w": 440,
+      "h": 320,
+      "sourceHeight": 210.0,
+      "foot": [
+        240,
+        270
+      ],
+      "durationMs": 100,
+      "phase": "release",
+      "event": "release",
+      "anchors": {
+        "hand": [
+          157.0,
+          131.5
+        ],
+        "grip": [
+          147.0,
+          131.5
+        ],
+        "tip": [
+          62.5,
+          131.5
+        ]
+      },
+      "source": {
+        "file": "inputs/000-exec-9b7cdefb-33dc-4e17-a574-9837460bcb08.png",
+        "crop": [
+          936,
+          0,
+          600,
+          512
+        ],
+        "clipPolygon": [
+          [
+            0,
+            0
+          ],
+          [
+            600,
+            0
+          ],
+          [
+            600,
+            512
+          ],
+          [
+            88,
+            512
+          ],
+          [
+            88,
+            210
+          ],
+          [
+            0,
+            210
+          ]
+        ]
+      }
+    },
+    {
+      "index": 3,
+      "file": "frames/0003.png",
+      "x": 1320,
+      "y": 0,
+      "w": 440,
+      "h": 320,
+      "sourceHeight": 210.0,
+      "foot": [
+        240,
+        270
+      ],
+      "durationMs": 100,
+      "phase": "recovery",
+      "anchors": {
+        "hand": [
+          147.0,
+          138.5
+        ],
+        "grip": [
+          137.0,
+          138.5
+        ],
+        "tip": [
+          66.0,
+          138.5
+        ]
+      }
+    },
+    {
+      "index": 4,
+      "file": "frames/0004.png",
+      "x": 0,
+      "y": 320,
+      "w": 440,
+      "h": 320,
+      "sourceHeight": 210.0,
+      "foot": [
+        240,
+        270
+      ],
+      "durationMs": 100,
+      "phase": "recovery"
+    },
+    {
+      "index": 5,
+      "file": "frames/0005.png",
+      "x": 440,
+      "y": 320,
+      "w": 440,
+      "h": 320,
+      "sourceHeight": 210.0,
+      "foot": [
+        240,
+        270
+      ],
+      "durationMs": 100,
+      "phase": "recovery"
+    }
+  ],
+  "metadata": {
+    "sourceReview": "root-arm-continuity-corrected-candidate",
+    "generatedBy": "built-in image_gen",
+    "date": "2026-10-25"
+  },
+  "sources": [
+    {
+      "file": "inputs/000-exec-9b7cdefb-33dc-4e17-a574-9837460bcb08.png",
+      "sha256": "b459eec206458f52714a27350a48b9ed5031b2533f0a0d15cd780bb0d1b41bc0"
+    }
+  ],
+  "provenance": {
+    "pipeline": "combat-frame-pipeline/1",
+    "python": "3.12.14",
+    "pillow": "12.3.0",
+    "scriptSha256": "870275d7b2c0504dea2418f47854326f4a75ea5aead0419072ff31be87e25e13",
+    "workflowReference": {
+      "repository": "https://github.com/0x0funky/agent-sprite-forge",
+      "revision": "5324342fdfab72430f4e9604f3fe427009f8596d"
+    },
+    "sourceHeightBeforeScale": 420,
+    "uniformScale": 0.5,
+    "pixelOperations": [
+      "explicit-crop",
+      "authored-polygon-alpha-clip",
+      "uniform-nearest-scale",
+      "fixed-foot-translation",
+      "whole-frame-pack"
+    ]
+  },
+  "id": "lin-changfeng-attack-left-v3",
+  "visualIdentity": "person:lin-changfeng",
+  "action": "attack",
+  "direction": "left",
+  "phase": "idle"
+}

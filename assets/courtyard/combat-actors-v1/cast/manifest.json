@@ -1,0 +1,194 @@
+{
+  "sourceHeight": 384,
+  "anchor": [
+    255,
+    456
+  ],
+  "frameSize": [
+    640,
+    512
+  ],
+  "frameCount": 12,
+  "frames": [
+    {
+      "index": 0,
+      "phase": "\u8d77\u52bf",
+      "durationMs": 130,
+      "finger": [
+        319.0701,
+        152.841
+      ],
+      "grip": [
+        147.8098,
+        274.2086
+      ],
+      "body": "body-000.png",
+      "weapon": "weapon-000.png"
+    },
+    {
+      "index": 1,
+      "phase": "\u6536\u8bc0",
+      "durationMs": 100,
+      "finger": [
+        301.3218,
+        158.7007
+      ],
+      "grip": [
+        146.4928,
+        275.2959
+      ],
+      "body": "body-001.png",
+      "weapon": "weapon-001.png"
+    },
+    {
+      "index": 2,
+      "phase": "\u84c4\u52bf",
+      "durationMs": 110,
+      "finger": [
+        292.2263,
+        160.5513
+      ],
+      "grip": [
+        145.4897,
+        276.3832
+      ],
+      "body": "body-002.png",
+      "weapon": "weapon-002.png"
+    },
+    {
+      "index": 3,
+      "phase": "\u5f00\u8098",
+      "durationMs": 100,
+      "finger": [
+        364.619,
+        141.0808
+      ],
+      "grip": [
+        146.933,
+        275.5677
+      ],
+      "body": "body-003.png",
+      "weapon": "weapon-003.png"
+    },
+    {
+      "index": 4,
+      "phase": "\u9001\u81c2",
+      "durationMs": 60,
+      "finger": [
+        433.4354,
+        139.4351
+      ],
+      "grip": [
+        149.525,
+        274.4804
+      ],
+      "body": "body-004.png",
+      "weapon": "weapon-004.png"
+    },
+    {
+      "index": 5,
+      "phase": "\u91ca\u653e",
+      "durationMs": 60,
+      "finger": [
+        452.8896,
+        142.2822
+      ],
+      "grip": [
+        151.7188,
+        274.2086
+      ],
+      "body": "body-005.png",
+      "weapon": "weapon-005.png"
+    },
+    {
+      "index": 6,
+      "phase": "\u968f\u52bf",
+      "durationMs": 90,
+      "finger": [
+        454.4812,
+        143.5674
+      ],
+      "grip": [
+        152.3659,
+        274.4804
+      ],
+      "body": "body-006.png",
+      "weapon": "weapon-006.png"
+    },
+    {
+      "index": 7,
+      "phase": "\u5378\u529b",
+      "durationMs": 100,
+      "finger": [
+        442.9674,
+        136.7271
+      ],
+      "grip": [
+        150.6928,
+        274.7522
+      ],
+      "body": "body-007.png",
+      "weapon": "weapon-007.png"
+    },
+    {
+      "index": 8,
+      "phase": "\u6536\u81c2",
+      "durationMs": 110,
+      "finger": [
+        407.5118,
+        136.4226
+      ],
+      "grip": [
+        149.4179,
+        274.7522
+      ],
+      "body": "body-008.png",
+      "weapon": "weapon-008.png"
+    },
+    {
+      "index": 9,
+      "phase": "\u56de\u8bc0",
+      "durationMs": 120,
+      "finger": [
+        356.7612,
+        142.6642
+      ],
+      "grip": [
+        148.499,
+        274.4804
+      ],
+      "body": "body-009.png",
+      "weapon": "weapon-009.png"
+    },
+    {
+      "index": 10,
+      "phase": "\u5f52\u4f4d",
+      "durationMs": 120,
+      "finger": [
+        323.8057,
+        150.8395
+      ],
+      "grip": [
+        147.7677,
+        274.2086
+      ],
+      "body": "body-010.png",
+      "weapon": "weapon-010.png"
+    },
+    {
+      "index": 11,
+      "phase": "\u6536\u52bf",
+      "durationMs": 180,
+      "finger": [
+        319.0701,
+        152.841
+      ],
+      "grip": [
+        147.8098,
+        274.2086
+      ],
+      "body": "body-011.png",
+      "weapon": "weapon-011.png"
+    }
+  ]
+}

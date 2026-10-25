@@ -4,7 +4,7 @@ import {interiorSlots} from './ea-hall-interior.mjs';
 import {BUILDINGS} from './ea-data.mjs';
 import {buildingAccess,scenicCanStand,scenicSweep,scenicDistance,geometryRevision} from './ea-scene-geometry.mjs';
 export const FACILITY_MODEL_VERSION='courtyard-stations-1';
-export const facilityBodyKinds=new Set(['work','study','teach','cultivate','care','rest','heal','eat','treatment']);
+export const facilityBodyKinds=new Set(['work','study','teach','cultivate','care','rest','heal','eat','treatment','guest-bed']);
 const suffixes={work:'work',study:'desk',teach:'teacher',cultivate:'mat',care:'care'};
 const cache=new WeakMap();
 function definitions(s){const revision=geometryRevision(s),old=cache.get(s);if(old?.revision===revision)return old;const value={revision,slots:new Map(),byId:null};cache.set(s,value);return value;}

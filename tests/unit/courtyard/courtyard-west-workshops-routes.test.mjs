@@ -42,7 +42,7 @@ test('empty, foundation, timber-frame and complete yards preserve the measured e
  for(const site of westWorkshopSites){const s=enabled(),b=building(site),a={id:'activity:stage',kind:'construction',workOrderId:'work:stage'},o={id:'work:stage',kind:'construction',spatial:true,operation:'build',phase:'active',domainSiteId:site.id,buildingType:site.type,targetLevel:1,targetTransform:b.transform,progressTicks:0,durationTicks:200};
   s.activitiesById[a.id]=a;s.master.activityId=a.id;s.workOrdersById[o.id]=o;
   let oldRevision=spatialRevision(s);
-  for(const progressTicks of [0,1,70]){o.progressTicks=progressTicks;const revision=spatialRevision(s);if(progressTicks)assert.notEqual(revision,oldRevision);oldRevision=revision;
+  for(const progressTicks of [0,1,70]){o.progressTicks=progressTicks;const revision=spatialRevision(s);if(progressTicks===1)assert.equal(revision,oldRevision);else if(progressTicks)assert.notEqual(revision,oldRevision);oldRevision=revision;
    const solids=spatialConstructionExteriorSolids(s);assert.equal(solids.length>0,progressTicks===70);for(const solid of solids)assert.equal(meterCanStand(s,centroid(solid),.1),false);route(s,home,site.entrance);route(s,site.entrance,home);
   }
   delete s.activitiesById[a.id];delete s.workOrdersById[o.id];s.master.activityId=null;s.buildings.push(b);s.spatial.geometryRevision++;

@@ -1,3 +1,5 @@
+import {HOME_STAIRS_WALK,WALK_POLYGONS,courtyardMainArtWalkable} from '../../src/simulation/ea-courtyard-visible-ground.mjs';
+export {HOME_STAIRS_WALK,WALK_POLYGONS};
 /** U-144 courtyard-v2 presentation coordinates. World positions remain metres.
  * This profile is read-only. Routes are input waypoints for official move commands.
  */
@@ -10,9 +12,11 @@ import {WEST_WORKSHOPS_VERSION,WEST_WORKSHOPS_WALK_POLYGONS,courtyardWestWorksho
 import {WEST_WORKSHOPS_ART_LEFT,WEST_WORKSHOPS_ART_TOP} from './courtyard-west-workshops-layout.mjs';
 import {NORTH_MEDITATION_LAYOUT} from './courtyard-north-meditation-layout.mjs';
 import {EAST_LAYOUT,EAST_PATH_CENTER,EAST_TERRACE_WALK} from './courtyard-east-layout.mjs';
+import {legacyToArt,legacyToWorld,previousEastArtToWorld,joinDepthShift,lerp,finitePoint,eastVisibleResidencePassage,eastVisibleBodyPoint,eastVisibleRoadInterior,eastRoadArtGroundPoint} from '../../src/simulation/ea-courtyard-east-visible-geometry.mjs';
 import {WEST_LAYOUT,WEST_PATH_CENTER,WEST_WALK_POLYGONS} from './courtyard-west-layout.mjs';
 import {createResidencesCandidateProjection} from './courtyard-residences-layout.mjs';
 import {createServicesProjection} from './courtyard-services-layout.mjs';
+import {compileStaticPolygon,compileStaticPolygonUnion} from '../../src/simulation/ea-static-polygon-index.mjs';
 export const ART_WIDTH = 1672;
 export const ART_HEIGHT = 941;
 export const DOMAIN_ART_WIDTH = EAST_LAYOUT.width;
@@ -24,106 +28,22 @@ export const NORTH_LIBRARY_ART_TOP = NORTH_LIBRARY_LAYOUT.y;
 export const NORTH_MEDITATION_ART_TOP = NORTH_MEDITATION_LAYOUT.y;
 export const COURTYARD_PROFILE = 'courtyard-v2-east-seams-1';
 
-const X = [0, 8, 12, 14, 16, 20, 24, 28, 32, 36, 44, 56, 96, 160];
-// Each row is monotone in both world depth and art depth. Interpolated X rows
-// stay strictly monotone, giving one exact inverse even between calibration rows.
-const ROWS = [
-  { y: 0, v: -120, x: [-800,-280,-100,0,100,300,500,680,900,1120,1420,1870,3370,5770] },
-  { y: 4, v: 130, x: [-800,-280,-100,0,100,300,500,680,900,1120,1420,1870,3370,5770] },
-  { y: 12, v: 315, x: [-800,-280,-100,0,100,300,500,680,900,1120,1420,1870,3370,5770] },
-  { y: 12.6, v: 407, x: [-800,-280,-100,0,100,300,500,680,900,1120,1420,1870,3370,5770] },
-  { y: 20, v: 475, x: [-560,-100,70,160,250,420,570,710,895,1080,1390,1840,3340,5740] },
-  { y: 28, v: 545, x: [-450,0,180,265,660,685,710,750,900,1060,1350,1800,3300,5700] },
-  { y: 36, v: 653, x: [-360,-20,160,250,710,730,755,805,945,1100,1430,1850,3350,5750] },
-  { y: 40, v: 750, x: [-300,-10,230,405,650,705,775,850,970,1120,1440,1870,3370,5770] },
-  { y: 44, v: 810, x: [-300,-10,230,405,580,685,790,875,1000,1150,1470,1900,3400,5800] },
-  { y: 44.6, v: 820, x: [-260,30,275,450,625,710,800,880,1005,1160,1480,1910,3410,5810] },
-  { y: 45.5, v: 860, x: [-220,50,550,590,625,720,810,890,1020,1180,1500,1930,3430,5830] },
-  { y: 48, v: 900, x: [-200,70,295,450,605,720,815,900,1030,1190,1510,1940,3440,5840] },
-  { y: 52, v: 980, x: [-180,100,300,450,600,715,810,900,1030,1190,1510,1940,3440,5840] },
-  { y: 96, v: 1860, x: [-180,100,300,450,600,715,810,900,1030,1190,1510,1940,3440,5840] },
-];
-const interval = (values, value) => {
-  let i = 0;
-  while (i < values.length - 2 && value > values[i + 1]) i++;
-  return i;
-};
-const lerp = (a,b,t) => a + (b-a)*t;
-const finitePoint = p => p && Number.isFinite(p.x) && Number.isFinite(p.y);
-function rowAt(value, key) {
-  const i = interval(ROWS.map(row => row[key]), value), a = ROWS[i], b = ROWS[i+1];
-  const t = (value-a[key])/(b[key]-a[key]);
-  return { y: lerp(a.y,b.y,t), v: lerp(a.v,b.v,t), x: a.x.map((x,n) => lerp(x,b.x[n],t)) };
-}
-function baseToArt(x,y) {
-  if (!Number.isFinite(x) || !Number.isFinite(y)) return null;
-  const row = rowAt(y,'y'), i = interval(X,x), t = (x-X[i])/(X[i+1]-X[i]);
-  return { x: lerp(row.x[i],row.x[i+1],t), y: row.v };
-}
-function baseToWorld(x,y) {
-  if (!Number.isFinite(x) || !Number.isFinite(y)) return null;
-  const row = rowAt(y,'v'), i = interval(row.x,x), t = (x-row.x[i])/(row.x[i+1]-row.x[i]);
-  return { x: lerp(X[i],X[i+1],t), y: row.y };
-}
-
-// Two triangular, monotone transforms keep the courtyard core calibrated and
-// give the opened road one reversible projection. Neither transform edits metres.
-const horizontalAnchors=[[50.72,1672],[90,3344],[120,5016],[126,5516],
-  [132,5796],[135,6021],[138,6246],[156,6688],[160,6808]];
-function interpolatePairs(pairs,value){const i=interval(pairs.map(p=>p[0]),value),a=pairs[i],b=pairs[i+1];return lerp(a[1],b[1],(value-a[0])/(b[0]-a[0]));}
-function horizontalProjection(baseX,baseY){
-  if(baseX<=ART_WIDTH)return baseX;
-  const worldX=baseToWorld(baseX,baseY).x,target=interpolatePairs(horizontalAnchors,worldX);
-  const fraction=Math.min(1,(baseX-ART_WIDTH)/528);
-  return lerp(baseX,target,fraction);
-}
-function inverseHorizontal(x,baseY){
-  if(x<=ART_WIDTH)return x;
-  if(x>=horizontalProjection(2200,baseY)){
-    const worldX=interpolatePairs(horizontalAnchors.map(([world,art])=>[art,world]),x);
-    return baseToArt(worldX,baseToWorld(0,baseY).y).x;
-  }
-  let lo=ART_WIDTH,hi=Math.max(8000,x*2);
-  while(horizontalProjection(hi,baseY)<x)hi*=2;
-  for(let n=0;n<48;n++){const mid=(lo+hi)/2;if(horizontalProjection(mid,baseY)<x)lo=mid;else hi=mid;}
-  return (lo+hi)/2;
-}
-const depthKeys=[-120,130,315,407,475,545,653,750,810,820,860,868,877.6,900,980,1340,1860];
-const terraceDepth=[-300,-200,-60,65,125,190,260,340,380,385,405,410,420,455,545,865,1225];
-const depthColumns=[{x:ART_WIDTH,values:depthKeys}];
-function roadSourceDepth(artX){
-  const road=COURTYARD_EAST_ROAD.filter(p=>p.x>=50.72&&p.x<=90).map(p=>[p.x,p.y]);
-  let lo=50.72,hi=90;
-  for(let n=0;n<44;n++){const x=(lo+hi)/2,y=interpolatePairs(road,x),p=baseToArt(x,y);if(horizontalProjection(p.x,p.y)<artX)lo=x;else hi=x;}
-  const x=(lo+hi)/2,y=interpolatePairs(road,x);
-  return baseToArt(x,y).y;
-}
-// Frequent road columns follow the formal diagonal's changes in depth, while
-// the authored centreline determines only its on-screen shape.
-for(let x=ART_WIDTH+1;x<3344;x+=x<1752?1:32){const y=interpolatePairs(EAST_PATH_CENTER,x),sourceY=roadSourceDepth(x);depthColumns.push({x,values:depthKeys.map(v=>y+(v-sourceY)*.8)});}
-depthColumns.push({x:3344,values:depthKeys.map(v=>interpolatePairs(EAST_PATH_CENTER,3344)+(v-810)*.8)});
-for(const [x,y] of EAST_PATH_CENTER.filter(p=>p[0]>3344))depthColumns.push({x,values:depthKeys.map(v=>y+(v-810)*.8)});
-depthColumns.push(
-  {x:5350,values:terraceDepth.map(v=>v+90)},
-  {x:5516,values:terraceDepth.map(v=>v+140)},
-  {x:5703,values:terraceDepth.map(v=>v+40)},
-  {x:5796,values:terraceDepth},
-  {x:6688,values:terraceDepth},
-);
-function columnAt(x){const i=interval(depthColumns.map(c=>c.x),x),a=depthColumns[i],b=depthColumns[i+1],t=(x-a.x)/(b.x-a.x);return a.values.map((v,n)=>lerp(v,b.values[n],t));}
-function projectDepth(x,baseY){if(x<=ART_WIDTH)return baseY;const values=columnAt(x);return interpolatePairs(depthKeys.map((v,n)=>[v,values[n]]),baseY);}
-function inverseDepth(x,y){if(x<=ART_WIDTH)return y;return interpolatePairs(columnAt(x).map((v,n)=>[v,depthKeys[n]]),y);}
-const joinDepth=[[1422,0],[1536,-6],[1597,18],[1672,49],[1747,42],[1822,33],[1922,0]];
-const joinDepthShift=x=>x<1422||x>1922?0:interpolatePairs(joinDepth,x);
-function legacyToArt(x,y){const base=baseToArt(x,y);if(!base)return null;const artX=horizontalProjection(base.x,base.y);return{x:artX,y:projectDepth(artX,base.y)+joinDepthShift(artX)};}
-function legacyToWorld(x,y){if(!Number.isFinite(x)||!Number.isFinite(y))return null;const baseY=inverseDepth(x,y-joinDepthShift(x));return baseToWorld(inverseHorizontal(x,baseY),baseY);}
 const residencesProjection=createResidencesCandidateProjection({legacyToArt,legacyToWorld});
 const servicesProjection=createServicesProjection({legacyToArt:residencesProjection.toArt,legacyToWorld:residencesProjection.toWorld});
 const northLibraryProjection=createNorthLibraryProjection(servicesProjection.toArt,servicesProjection.toWorld);
 export const toArt=(x,y)=>northLibraryProjection.toArt(x,y);
 export const toWorld=(x,y)=>northLibraryProjection.toWorld(x,y);
 // Version-1 presentation saves stored image points before the local seam shift.
-export function previousArtToWorld(x,y){if(!Number.isFinite(x)||!Number.isFinite(y))return null;const baseY=inverseDepth(x,y);return baseToWorld(inverseHorizontal(x,baseY),baseY);}
+export const previousArtToWorld=previousEastArtToWorld;
+
+// Authored inputs are deeply frozen. Candidate indexing retains the original
+// edge arithmetic; live buildings, bodies and enabled regions are not cached.
+const workshopsGround=compileStaticPolygonUnion(WEST_WORKSHOPS_WALK_POLYGONS);
+const meditationGround=compileStaticPolygonUnion(NORTH_MEDITATION_WALK_POLYGONS);
+const libraryGround=compileStaticPolygonUnion(NORTH_LIBRARY_WALK_POLYGONS);
+const servicesGround=compileStaticPolygonUnion(EAST_SERVICES_WALK_POLYGONS);
+const residencesPassage=compileStaticPolygon(EAST_RESIDENCES_WALK_POLYGONS.at(-1));
+const valleyGround=compileStaticPolygonUnion(WEST_VALLEY_WALK_POLYGONS);
 
 const inPolygon = (x,y,points) => {
   let inside = false;
@@ -138,53 +58,31 @@ const segmentDistance = (x,y,a,b) => {
   return Math.hypot(x-a[0]-dx*t,y-a[1]-dy*t);
 };
 
-// Surface boundaries follow the approved image. Stone, earth and field rows
-// share the same input space. Cliffs, trees, roofs and the four exits stay outside.
-export const HOME_STAIRS_WALK = Object.freeze([[650,315],[710,315],[742,322],[755,345],[774,419],[599,419],[592,346],[600,322]]);
-export const WALK_POLYGONS = Object.freeze([
-  HOME_STAIRS_WALK,
-  [[575,407],[790,407],[797,445],[569,445]],
-  [[485,432],[1007,430],[1100,542],[1021,592],[947,606],[902,651],[713,662],[620,622],[494,595],[449,555]],
-  [[219,675],[340,646],[593,699],[615,748],[572,805],[430,827],[254,781],[199,735]],
-  [[721,640],[887,640],[914,709],[900,743],[945,804],[960,848],[985,941],[798,941],[782,855],[760,803],[748,765],[710,721]],
-]);
-const CORRIDORS = [
-  { width: 24, points: [[485,524],[420,539],[342,565],[260,573],[195,601],[149,650],[106,698],[84,733],[120,772],[175,792]] },
-  { width: 20, points: [[191,603],[157,583],[114,564],[78,562]] },
-  { width: 25, points: [[1056,552],[1147,542],[1233,515],[1318,484],[1401,448],[1457,410],[1536,380]] },
-  { width: 20, points: [[705,610],[714,638],[713,656],[702,675],[682,700],[668,740],[650,755],[620,795],[674,792],[744,762]] },
-  { width: 22, points: [[632,757],[590,758],[545,783],[499,806],[450,820]] },
-  { width: 18, points: [[175,792],[250,821],[330,852],[390,857],[465,883],[534,870],[590,847],[620,819],[674,792]] },
-  { width: 18, points: [[550,865],[608,860],[633,847],[650,818],[628,805]] },
-  { width: 20, points: [[668,740],[695,722],[712,690]] },
-];
-const SOUTH_FOREGROUND_ROCKS=[[315,850],[395,829],[490,850],[515,941],[300,941]];
 export function isArtWalkable(x,y,{terrain=true,domain=true,west=true,valley=false,residences=false,services=false,northLibrary=false,northMeditation=false,westWorkshops=false}={}) {
   if(!domain&&(x<0||x>ART_WIDTH)||!west&&x<0)return false;
   if (!Number.isFinite(x)||!Number.isFinite(y)||x<(westWorkshops?WEST_WORKSHOPS_ART_LEFT:valley?VALLEY_ART_LEFT:DOMAIN_ART_LEFT)||y<(northMeditation?NORTH_MEDITATION_ART_TOP:northLibrary?NORTH_LIBRARY_ART_TOP:westWorkshops?WEST_WORKSHOPS_ART_TOP:0)||x>(services?SERVICES_ART_RIGHT:residences?RESIDENCES_ART_RIGHT:DOMAIN_ART_WIDTH)||y>ART_HEIGHT) return false;
   const artY=y;y-=joinDepthShift(x);
   const world=toWorld(x,artY),extent=valley?DOMAIN_VALLEY_EXTENT_VERSION:west?DOMAIN_EXTENT_VERSION:DOMAIN_EAST_EXTENT_VERSION,residenceVersion=residences?EAST_RESIDENCES_VERSION:null,serviceVersion=services?EAST_SERVICES_VERSION:null,northVersion=northLibrary?NORTH_LIBRARY_VERSION:null,meditationVersion=northMeditation?NORTH_MEDITATION_VERSION:null,workshopsVersion=westWorkshops?WEST_WORKSHOPS_VERSION:null;
-  if(westWorkshops&&WEST_WORKSHOPS_WALK_POLYGONS.some(p=>inPolygon(world.x,world.y,p)))return domainContains(world,.26,extent,residenceVersion,serviceVersion,northVersion,meditationVersion,workshopsVersion)&&(!terrain||courtyardTerrainPointClear(world));
-  if(northMeditation&&NORTH_MEDITATION_WALK_POLYGONS.some(p=>inPolygon(world.x,world.y,p)))return domainContains(world,.26,extent,residenceVersion,serviceVersion,northVersion,meditationVersion)&&(!terrain||courtyardTerrainPointClear(world));
-  if(northLibrary&&NORTH_LIBRARY_WALK_POLYGONS.some(p=>inPolygon(world.x,world.y,p)))return domainContains(world,.26,extent,residenceVersion,serviceVersion,northVersion,meditationVersion)&&(!terrain||courtyardTerrainPointClear(world));
-  if(services&&(x>=RESIDENCES_ART_RIGHT||EAST_SERVICES_WALK_POLYGONS.some(p=>inPolygon(world.x,world.y,p))))return domainContains(world,.26,extent,residenceVersion,serviceVersion);
-  if(residences&&(x>=6688||x>=6312&&inPolygon(world.x,world.y,EAST_RESIDENCES_WALK_POLYGONS.at(-1))))return domainContains(world,.26,extent,residenceVersion,serviceVersion);
-  if(valley&&west&&x<0&&WEST_VALLEY_WALK_POLYGONS.some(p=>inPolygon(world.x,world.y,p)))return domainContains(world,.26,extent);
+  if(westWorkshops&&workshopsGround.contains(world))return domainContains(world,.26,extent,residenceVersion,serviceVersion,northVersion,meditationVersion,workshopsVersion)&&(!terrain||courtyardTerrainPointClear(world));
+  if(northMeditation&&meditationGround.contains(world))return domainContains(world,.26,extent,residenceVersion,serviceVersion,northVersion,meditationVersion)&&(!terrain||courtyardTerrainPointClear(world));
+  if(northLibrary&&libraryGround.contains(world))return domainContains(world,.26,extent,residenceVersion,serviceVersion,northVersion,meditationVersion)&&(!terrain||courtyardTerrainPointClear(world));
+  if(services&&(x>=RESIDENCES_ART_RIGHT||servicesGround.contains(world)))return domainContains(world,.26,extent,residenceVersion,serviceVersion);
+  if(residences&&(x>=6688||x>=6312&&residencesPassage.contains(world)))return domainContains(world,.26,extent,residenceVersion,serviceVersion);
+  if(valley&&west&&x<0&&valleyGround.contains(world))return domainContains(world,.26,extent);
   if(west&&x<78){const local=x-WEST_LAYOUT.x;return (WEST_WALK_POLYGONS.some(p=>inPolygon(local,y,p))||WEST_PATH_CENTER.slice(1).some((b,i)=>segmentDistance(local,y,WEST_PATH_CENTER[i],b)<=24))&&domainContains(toWorld(x,artY),.26,extent,residenceVersion,serviceVersion);}
-  if(x>1440&&EAST_PATH_CENTER.slice(1).some((b,i)=>segmentDistance(x,y,EAST_PATH_CENTER[i],b)<=24))return domainContains(toWorld(x,artY),.26,extent,residenceVersion,serviceVersion);
+  if(x>1440&&eastRoadArtGroundPoint(x,y))return domainContains(toWorld(x,artY),.26,extent,residenceVersion,serviceVersion);
   if(x>=EAST_LAYOUT.terraceX)return EAST_TERRACE_WALK.some(p=>inPolygon(x-EAST_LAYOUT.terraceX,y,p))&&domainContains(toWorld(x,artY),.26,extent,residenceVersion,serviceVersion);
-  if(x>ART_WIDTH||y<407&&!inPolygon(x,y,HOME_STAIRS_WALK))return false;
-  if(inPolygon(x,y,SOUTH_FOREGROUND_ROCKS))return false;
   if (terrain&&!courtyardTerrainPointClear(toWorld(x,artY))) return false;
-  return WALK_POLYGONS.some(p=>inPolygon(x,y,p)) || CORRIDORS.some(c=>c.points.slice(1).some((b,i)=>segmentDistance(x,y,c.points[i],b)<=c.width));
+  return courtyardMainArtWalkable(x,y);
 }
 const distance = (a,b) => Math.hypot(a.x-b.x,a.y-b.y);
 export function artSegmentClear(a,b,options) {
   const wa=toWorld(a.x,a.y),wb=toWorld(b.x,b.y);
   if(options?.terrain!==false&&!courtyardTerrainSegmentClear(wa,wb))return false;
-  const n=Math.max(1,Math.ceil(distance(a,b)/3),Math.ceil(distance(wa,wb)/.05));
+  const n=2**Math.ceil(Math.log2(Math.max(1,Math.ceil(distance(a,b)/3),Math.ceil(distance(wa,wb)/.025))));
   for(let i=0;i<=n;i++) {
-    const p=toArt(lerp(wa.x,wb.x,i/n),lerp(wa.y,wb.y,i/n));
+    const world={x:lerp(wa.x,wb.x,i/n),y:lerp(wa.y,wb.y,i/n)},p=toArt(world.x,world.y);
+    if(!eastVisibleBodyPoint(world,.26,{residences:options?.residences===true}))return false;
     if(!isArtWalkable(lerp(a.x,b.x,i/n),lerp(a.y,b.y,i/n),options)||!isArtWalkable(p.x,p.y,options))return false;
   }
   return true;
@@ -253,8 +151,8 @@ function eastRoadRoute(from,to,maxStep,options){
   if(!first||!last)return null;
   const direction=Math.sign(b.index-a.index),inner=COURTYARD_EAST_ROAD.map((p,index)=>({p,index})).filter(({index})=>index>Math.min(a.index,b.index)&&index<Math.max(a.index,b.index));
   if(direction<0)inner.reverse();
-  const middle=shortWaypoints([start,...inner.map(({p})=>toArt(p.x,p.y)),end],maxStep);
-  if(!middle.every(p=>isArtWalkable(p.x,p.y,options)))return null;
+  const middle=shortWaypoints(eastVisibleRoadInterior([a.point,...inner.map(({p})=>p),b.point]).map(p=>toArt(p.x,p.y)),maxStep);
+  if(!middle.every(p=>isArtWalkable(p.x,p.y,options)&&eastVisibleBodyPoint(toWorld(p.x,p.y),.26,{residences:options.residences===true})))return null;
   return [...first,...middle,...last];
 }
 function westRoadRoute(from,to,maxStep,options){
@@ -265,7 +163,7 @@ function westRoadRoute(from,to,maxStep,options){
   const last=routeArt(points.at(-1),to,{...options,maxWaypointDistance:maxStep,useWestRoad:false});
   if(!first||!last)return null;
   const middle=shortWaypoints(points,maxStep);
-  if(!middle.every(p=>isArtWalkable(p.x,p.y,options)))return null;
+  if(!middle.every(p=>isArtWalkable(p.x,p.y,options)&&eastVisibleBodyPoint(toWorld(p.x,p.y),.26,{residences:options.residences===true})))return null;
   return [...first,...middle,...last];
 }
 /** Return art waypoints excluding the starting point; null means unavailable.
@@ -310,11 +208,11 @@ export function routeArt(from,to,{maxWaypointDistance=18,useEastRoad=true,useWes
     }
   }
   if(useResidencesRoad&&residences){
-    const passage=courtyardResidencesPassage(toWorld(from.x,from.y),toWorld(to.x,to.y));
+    const passage=eastVisibleResidencePassage(courtyardResidencesPassage(toWorld(from.x,from.y),toWorld(to.x,to.y)));
     if(passage?.length){
       const points=passage.map(p=>toArt(p.x,p.y)),caps={...options,maxWaypointDistance:maxStep,useEastRoad,useWestRoad,useValleyRoad,useServicesRoad,useResidencesRoad:false};
       const first=routeArt(from,points[0],caps),last=routeArt(points.at(-1),to,caps),middle=shortWaypoints(points,maxStep);
-      if(first&&last&&middle.every(p=>isArtWalkable(p.x,p.y,options)))return [...first,...middle,...last];
+      if(first&&last&&middle.every(p=>isArtWalkable(p.x,p.y,options)&&eastVisibleBodyPoint(toWorld(p.x,p.y),.26,{residences:options.residences===true})))return [...first,...middle,...last];
     }
   }
   if(useValleyRoad&&valley){
@@ -322,7 +220,7 @@ export function routeArt(from,to,{maxWaypointDistance=18,useEastRoad=true,useWes
     if(passage?.length){
       const points=passage.map(p=>toArt(p.x,p.y)),caps={...options,maxWaypointDistance:maxStep,useEastRoad,useWestRoad,useResidencesRoad,useServicesRoad,useValleyRoad:false};
       const first=routeArt(from,points[0],caps),last=routeArt(points.at(-1),to,caps),middle=shortWaypoints(points,maxStep);
-      if(first&&last&&middle.every(p=>isArtWalkable(p.x,p.y,options)))return [...first,...middle,...last];
+      if(first&&last&&middle.every(p=>isArtWalkable(p.x,p.y,options)&&eastVisibleBodyPoint(toWorld(p.x,p.y),.26,{residences:options.residences===true})))return [...first,...middle,...last];
     }
   }
   if(useWestRoad&&west&&Math.min(from.x,to.x)<0){
@@ -349,8 +247,8 @@ export function routeArt(from,to,{maxWaypointDistance=18,useEastRoad=true,useWes
     for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++){
       if(!dx&&!dy)continue;const nx=x+dx,ny=y+dy;if(nx<0||ny<0||nx>=COLS||ny>=ROW_COUNT)continue;
       const next=ny*COLS+nx;if(closed[next]||!walkCell(cells,next,options))continue;
-      const b=gridPoint(next);if(!artSegmentClear(a,b,options))continue;
-      const score=g[id]+distance(a,b);if(score>=g[next])continue;
+      const b=gridPoint(next),score=g[id]+distance(a,b);if(score>=g[next])continue;
+      if(!artSegmentClear(a,b,options))continue;
       g[next]=score;previous[next]=id;push(open,{id:next,f:score+distance(b,to)});
     }
   }

@@ -11,6 +11,8 @@ import {day} from './ea-data.mjs';
 const clone=x=>structuredClone(x),mind=p=>p.mind||p,active=o=>o&&!['completed','cancelled'].includes(o.phase),orders=s=>Object.values(s.workOrdersById||{}).filter(o=>o.kind==='sr-site-service'),mealOrders=s=>Object.values(s.workOrdersById||{}).filter(o=>o.kind==='sr-site-meal');
 const building=(s,id)=>s.buildingsById?.[id]||s.buildings.find(b=>b.id===id),stockId=b=>`stockpile:${b.instanceId}`,position=p=>mind(p).scenic,action=p=>p.mind?.activity||p.action;
 const alive=(s,p)=>p&&p.lifeStatus!=='dead'&&!mind(p).away&&!mind(p).journey&&(!p.location?.sceneId||p.location.sceneId==='scene:yunxiu-courtyard')&&(p===s.master||s.homeMemberIds.includes(p.personId));
+const patientPresent=(s,p)=>alive(s,p)||!!(p&&s.story?.artisan?.personId===p.personId&&s.story.artisan.phase==='present'&&p.lifeStatus!=='dead'&&!mind(p).away&&!mind(p).journey&&p.position?.kind==='scene'&&p.position.sceneId==='scene:yunxiu-courtyard');
+const patientIds=s=>[...new Set(['person:master',...s.homeMemberIds,...(patientPresent(s,s.personsById[s.story?.artisan?.personId])?[s.story.artisan.personId]:[])])];
 const availableBuilding=b=>siteServiceEnabled(b)&&b.enabled!==false&&!b.disabled&&b.condition>0&&!b.spatialLock;
 const known=(p,id)=>p.artsById?.[id]?.understanding??mind(p).knowledge?.[id]??0;
 const qualified=(p,r)=>!r.skillGate||(r.skills||[r.skill]).some(id=>known(p,id)>=r.skillGate);
@@ -52,7 +54,7 @@ export function startSiteService(s,{buildingId,recipeId,patientId}={}){
  let patient=null,patientSeat=null;
  if(r.patientSlotKind){
   patient=s.personsById[patientId||'person:master'];patientSeat=patientSlot(s,b,r);
-  if(!alive(s,patient)||patient.wound<=0||!bodyFree(s,patient)||!pathTo(s,patient,patientSeat))throw Error('患者伤情、身体活动或诊疗位置尚不具备条件。');
+  if(!patientPresent(s,patient)||patient.wound<=0||!bodyFree(s,patient)||!pathTo(s,patient,patientSeat))throw Error('患者伤情、身体活动或诊疗位置尚不具备条件。');
   if(patient!==s.master&&((mind(patient).relationships?.master?.trust??55)<15||(mind(patient).commitUntil||0)>s.time&&!['rest','heal'].includes(action(patient))))return {accepted:false,reason:'本人希望先完成现有事务，暂未接受诊疗。'};
  }
  reserveProductionInput(s,b,r.input);
@@ -129,7 +131,7 @@ export function tickSiteServices(s){
   if(!availableBuilding(b)){o.phase='waiting';o.reason='设施暂不可用，保留投入和工序。';continue;}
   if(!p){o.reason='等待本人承担工序。';continue;}
   if(!alive(s,p)||p.wound>20||p.energy<22||action(p)!=='work'||p.job!==b.id||s.activitiesById[p.activityId]?.serviceOrderId!==o.id){detach(s,p,o.id);o.workerId=null;o.phase='waiting';o.reason='工作已中断，保留已投入物资与进度。';continue;}
-  if(patient&&(!alive(s,patient)||s.activitiesById[patient.activityId]?.serviceOrderId!==o.id||action(patient)!==o.recipeSnapshot.patientSlotKind)){o.phase='waiting';o.reason='患者已离位，待双方重新到场或取消工单。';continue;}
+  if(patient&&(!patientPresent(s,patient)||s.activitiesById[patient.activityId]?.serviceOrderId!==o.id||action(patient)!==o.recipeSnapshot.patientSlotKind)){o.phase='waiting';o.reason='患者已离位，待双方重新到场或取消工单。';continue;}
   const workerReady=arrived(s,p,b,o,'worker'),patientReady=!patient||arrived(s,patient,b,o,'patient');if(!workerReady||!patientReady){o.phase='moving';o.reason='等待实际到齐各自工位。';continue;}
   if(o.progressTicks<o.durationTicks){const r=s.reservationsById[o.reservationId];if(!o.progressTicks){r.usedCost=clone(r.cost);r.remainingCost=Object.fromEntries(Object.keys(r.cost).map(k=>[k,0]));o.usedInput=clone(r.usedCost);addRecord(s,'expense',r.usedCost);}o.progressTicks++;p.energy=Math.max(0,p.energy-.032);o.phase='working';o.reason='本人已到场，正在实际劳动。';}
   if(o.progressTicks===o.durationTicks)finish(s,o,b);
@@ -143,7 +145,7 @@ export function tickSiteServices(s){
 }
 export function viewSiteServices(s,buildingId){
  const b=building(s,buildingId);if(!siteServiceEnabled(b))return {enabled:false,buildingId:b?.instanceId||buildingId,recipes:[],orders:[]};
- return {enabled:true,buildingId:b.instanceId,stockpileId:stockId(b),patients:b.type==='clinic'?['person:master',...s.homeMemberIds].map(id=>{const p=s.personsById[id],available=alive(s,p)&&p.wound>0&&bodyFree(s,p);return {personId:id,name:p.name,wound:p.wound,available,reason:available?'':'本人伤情或现有身体活动暂不适合诊疗。'};}):[],recipes:Object.values(SERVICE_RECIPES).filter(r=>r.buildingType===b.type).map(r=>{const recipe=serviceRecipe(r.id,b.level),busy=orders(s).some(o=>active(o)&&o.targetId===b.instanceId&&o.recipeSnapshot.slotKey===recipe.slotKey),reason=!availableBuilding(b)?'设施尚未可用。':busy?'工位已有未完工单。':!productionInputAvailable(s,b,recipe.input)?'现场材料不足，请实际搬入。':'';return {...recipe,available:!reason,reason};}),orders:orders(s).filter(o=>o.targetId===b.instanceId).map(o=>({id:o.id,recipeId:o.recipeId,phase:o.phase,progressTicks:o.progressTicks,durationTicks:o.durationTicks,workerId:o.workerId,patientId:o.patientId,reason:o.reason,masterWork:(()=>{const reason=active(o)?o.workerId&&o.workerId!=='person:master'?'已有本人承担该工序。':workerReason(s,s.master,o):'工单已经结束。';return {available:!reason,reason};})(),invites:s.homeMemberIds.map(pid=>{const p=s.personsById[pid],reason=active(o)?o.workerId&&o.workerId!==pid?'已有本人承担该工序。':workerReason(s,p,o):'工单已经结束。';return {personId:pid,name:p.name,available:!reason,reason,lastResult:clone(p.schedule?.invitations?.[`work:${b.instanceId}`]||null)};})})),meal:siteMealView(s,b),spiritMeal:siteMealView(s,b,'person:master','spiritMeal')};
+ return {enabled:true,buildingId:b.instanceId,stockpileId:stockId(b),patients:b.type==='clinic'?patientIds(s).map(id=>{const p=s.personsById[id],available=patientPresent(s,p)&&p.wound>0&&bodyFree(s,p);return {personId:id,name:p.name,wound:p.wound,available,reason:available?'':'本人伤情或现有身体活动暂不适合诊疗。'};}):[],recipes:Object.values(SERVICE_RECIPES).filter(r=>r.buildingType===b.type).map(r=>{const recipe=serviceRecipe(r.id,b.level),busy=orders(s).some(o=>active(o)&&o.targetId===b.instanceId&&o.recipeSnapshot.slotKey===recipe.slotKey),reason=!availableBuilding(b)?'设施尚未可用。':busy?'工位已有未完工单。':!productionInputAvailable(s,b,recipe.input)?'现场材料不足，请实际搬入。':'';return {...recipe,available:!reason,reason};}),orders:orders(s).filter(o=>o.targetId===b.instanceId).map(o=>({id:o.id,recipeId:o.recipeId,phase:o.phase,progressTicks:o.progressTicks,durationTicks:o.durationTicks,workerId:o.workerId,patientId:o.patientId,reason:o.reason,masterWork:(()=>{const reason=active(o)?o.workerId&&o.workerId!=='person:master'?'已有本人承担该工序。':workerReason(s,s.master,o):'工单已经结束。';return {available:!reason,reason};})(),invites:s.homeMemberIds.map(pid=>{const p=s.personsById[pid],reason=active(o)?o.workerId&&o.workerId!==pid?'已有本人承担该工序。':workerReason(s,p,o):'工单已经结束。';return {personId:pid,name:p.name,available:!reason,reason,lastResult:clone(p.schedule?.invitations?.[`work:${b.instanceId}`]||null)};})})),meal:siteMealView(s,b),spiritMeal:siteMealView(s,b,'person:master','spiritMeal')};
 }
 export function validateSiteServices(s){
  const fail=()=>{throw Error('现场服务工单、投入或用膳事实异常。');},tick=n=>Number.isSafeInteger(n)&&n>=0&&n<=s.worldTick,equal=(a,b)=>JSON.stringify(a)===JSON.stringify(b),occupied=new Set();

@@ -1,3 +1,5 @@
+import {compileStaticPolygon,compileStaticPolygonUnion,immutablePolygon} from './ea-static-polygon-index.mjs';
+import {GUESTHOUSE_CANDIDATE} from './ea-guesthouse-geometry.mjs';
 import {NORTH_YIELD_EAST_GROUND} from './ea-north-yield-ground.mjs';
 import {westWorkshopSites,domainWestWorkshopsEnabled,westWorkshopsPointOpen,WEST_WORKSHOPS_WALK_POLYGONS} from './ea-west-workshops-geometry.mjs';
 export {WEST_WORKSHOPS_VERSION,domainWestWorkshopsEnabled,westWorkshopSites,WEST_WORKSHOPS_WALK_POLYGONS,WEST_WORKSHOPS_ROADS,courtyardWestWorkshopsPassage} from './ea-west-workshops-geometry.mjs';
@@ -90,8 +92,8 @@ export const initialOpenAreas = freeze([...eastOpenAreas,
   {id:'area:yunxiu:west-forest',zoneId:'Z-03',status:'open',extentVersion:DOMAIN_EXTENT_VERSION,polygon:WEST_WALK_POLYGONS[0]},
   ...WEST_WALK_POLYGONS.slice(1).map((polygon,i)=>({id:`area:yunxiu:west-road:${i+1}`,zoneId:'Z-03',status:'open',extentVersion:DOMAIN_EXTENT_VERSION,polygon}))
 ]);
-const polygonBounds=new WeakMap();
-function inPolygon(point,polygon){let bounds=polygonBounds.get(polygon);if(!bounds){const xs=polygon.map(p=>p[0]),ys=polygon.map(p=>p[1]);bounds={left:Math.min(...xs),right:Math.max(...xs),top:Math.min(...ys),bottom:Math.max(...ys)};polygonBounds.set(polygon,bounds);}if(point.x<bounds.left||point.x>bounds.right||point.y<bounds.top||point.y>bounds.bottom)return false;let inside=false;for(let i=0,j=polygon.length-1;i<polygon.length;j=i++){const a=polygon[i],b=polygon[j];if((a[1]>point.y)!==(b[1]>point.y)&&point.x<(b[0]-a[0])*(point.y-a[1])/(b[1]-a[1])+a[0])inside=!inside;}return inside;}
+const polygonBounds=new WeakMap(),staticPolygonQueries=new WeakMap();
+function inPolygon(point,polygon){if(!staticPolygonQueries.has(polygon))staticPolygonQueries.set(polygon,immutablePolygon(polygon)?compileStaticPolygon(polygon):null);const indexed=staticPolygonQueries.get(polygon);if(indexed)return indexed.contains(point);let bounds=polygonBounds.get(polygon);if(!bounds){const xs=polygon.map(p=>p[0]),ys=polygon.map(p=>p[1]);bounds={left:Math.min(...xs),right:Math.max(...xs),top:Math.min(...ys),bottom:Math.max(...ys)};polygonBounds.set(polygon,bounds);}if(point.x<bounds.left||point.x>bounds.right||point.y<bounds.top||point.y>bounds.bottom)return false;let inside=false;for(let i=0,j=polygon.length-1;i<polygon.length;j=i++){const a=polygon[i],b=polygon[j];if((a[1]>point.y)!==(b[1]>point.y)&&point.x<(b[0]-a[0])*(point.y-a[1])/(b[1]-a[1])+a[0])inside=!inside;}return inside;}
 // T-19: complete-v1 ground and service-path-v2 steps share the metre road/canal projection.
 const valleyRoad = [{"x":-16,"y":32.6},{"x":-18.992164948453606,"y":31.333333333333332},{"x":-18.811404786680544,"y":28.37037037037037},{"x":-22.85572437,"y":29.25925926},{"x":-24.08964047,"y":30.19753086},{"x":-25.40180536,"y":31.13580247},{"x":-26.79990599,"y":32.07407407},{"x":-28.04960193,"y":32.81481481},{"x":-29.36743494,"y":33.55555556},{"x":-30.44261307,"y":33.92592593},{"x":-31.54792357,"y":34.2962963},{"x":-32.68465116,"y":34.66666667},{"x":-33.85415465,"y":35.03703704},{"x":-35.05787234,"y":35.40740741},{"x":-36.29732794,"y":35.77777778},{"x":-38.14366765,"y":36.59793814},{"x":-39.90771192,"y":37.31958763},{"x":-41.29838606,"y":37.64948454},{"x":-42.72544147,"y":37.97938144}];
 export const WEST_VALLEY_ROAD = freeze(valleyRoad);
@@ -237,6 +239,7 @@ export const eastServiceSites=freeze([
  {number:14,name:'医庐',type:'clinic',x:196,y:40},
 ].map(site=>({...site,id:`site:domain:gc-${site.number}`,planId:`GC-${site.number}`,zoneId:'Z-02',width:6,height:6,reserveWidth:10,reserveHeight:10,maxLevel:3,entrance:{x:site.x+3,y:site.y+6.6},status:'open',areaId:'area:yunxiu:east-services',services:true})));
 
+export const guesthouseSite=freeze({...GUESTHOUSE_CANDIDATE,id:'site:domain:gc-15',number:15,planId:'GC-15',name:'客院',zoneId:'Z-02',reserveWidth:6,reserveHeight:6,maxLevel:1,entrance:GUESTHOUSE_CANDIDATE.access,status:'open',guesthouse:true,areaId:'area:yunxiu:east-approach'});
 export const firstSite = freeze({id:'site:domain:east-residence-1',planId:'GC-09',number:9,name:'东台门人居',zoneId:'Z-02',type:'house',x:132,y:40,width:6,height:6,reserveWidth:12,reserveHeight:12,maxLevel:3,entrance:{x:135,y:46.6},status:'open',areaId:'area:yunxiu:east-terrace'});
 export const eastResidenceSites = freeze([
  {number:10,name:'门人居二',x:168,y:60},
@@ -285,9 +288,9 @@ export const NORTH_LIBRARY_WALK_POLYGONS = freeze([...NORTH_LIBRARY_GROUND_POLYG
 // Immutable terrain polygons share a spatial candidate index. The original
 // point-in-polygon predicate and live meditation-version branch remain exact;
 // building and furniture collisions are still checked by the caller.
-const northWalkIndex=new Map(),northWalkCell=2;
+const northWalkIndex=new Map(),northWalkCell=.25;
 for(const polygon of NORTH_LIBRARY_WALK_POLYGONS){
- const xs=polygon.map(p=>p[0]),ys=polygon.map(p=>p[1]),entry={polygon,left:Math.min(...xs),right:Math.max(...xs),top:Math.min(...ys),bottom:Math.max(...ys)};
+ const xs=polygon.map(p=>p[0]),ys=polygon.map(p=>p[1]),entry={polygon,query:compileStaticPolygon(polygon,{cellSize:northWalkCell}),left:Math.min(...xs),right:Math.max(...xs),top:Math.min(...ys),bottom:Math.max(...ys)};
  for(let y=Math.floor(entry.top/northWalkCell);y<=Math.floor(entry.bottom/northWalkCell);y++)for(let x=Math.floor(entry.left/northWalkCell);x<=Math.floor(entry.right/northWalkCell);x++){
   const key=x+'/'+y;if(!northWalkIndex.has(key))northWalkIndex.set(key,[]);northWalkIndex.get(key).push(entry);
  }
@@ -295,7 +298,7 @@ for(const polygon of NORTH_LIBRARY_WALK_POLYGONS){
 const northWalkPoints=new Map();
 function northWalkPointOpen(point){
  const key=point.x+'/'+point.y;if(northWalkPoints.has(key))return northWalkPoints.get(key);
- const open=(northWalkIndex.get(Math.floor(point.x/northWalkCell)+'/'+Math.floor(point.y/northWalkCell))||[]).some(entry=>point.x>=entry.left&&point.x<=entry.right&&point.y>=entry.top&&point.y<=entry.bottom&&inPolygon(point,entry.polygon));
+ const open=(northWalkIndex.get(Math.floor(point.x/northWalkCell)+'/'+Math.floor(point.y/northWalkCell))||[]).some(entry=>point.x>=entry.left&&point.x<=entry.right&&point.y>=entry.top&&point.y<=entry.bottom&&entry.query.contains(point));
  if(northWalkPoints.size>=32768)northWalkPoints.clear();northWalkPoints.set(key,open);return open;
 }
 const northPointOpen=(point,meditationVersion)=>point.y>=1||northWalkPointOpen(point)||domainNorthMeditationEnabled(meditationVersion)&&northMeditationPointOpen(point);
@@ -317,7 +320,7 @@ const northSurfacePoints=new Map();
 const northSurfacePoint=p=>{
  const key=p.x+'/'+p.y;
  if(northSurfacePoints.has(key))return northSurfacePoints.get(key);
- let open=northOriginalPaving.some(poly=>inPolygon(p,poly))||NORTH_LIBRARY_WALK_POLYGONS.some(poly=>inPolygon(p,poly));
+ let open=northOriginalPavingIndex.contains(p)||NORTH_LIBRARY_WALK_POLYGONS.some(poly=>inPolygon(p,poly));
  if(!open)for(let i=1;i<northPassageRoad.length;i++)if(pointSegmentDistance(p,northPassageRoad[i-1],northPassageRoad[i])<=.6){open=true;break;}
  if(northSurfacePoints.size>=262144)northSurfacePoints.clear();
  northSurfacePoints.set(key,open);
@@ -372,9 +375,10 @@ const northYieldGroundPoints=new Map();
 // so the measured-body predicate must end at the same place instead of rejecting
 // legal junction exits.
 const NORTH_YIELD_BODY_MAX_X=47.62;
+const northOriginalPavingIndex=compileStaticPolygonUnion(northOriginalPaving),northYieldEastIndex=compileStaticPolygonUnion(NORTH_YIELD_EAST_GROUND);
 function northYieldGroundPoint(p){
  const key=p.x+'/'+p.y,held=northYieldGroundPoints.get(key);if(held!==undefined)return held;
- const open=northWalkPointOpen(p)||northOriginalPaving.some(poly=>inPolygon(p,poly))||NORTH_YIELD_EAST_GROUND.some(poly=>inPolygon(p,poly));
+ const open=northWalkPointOpen(p)||northOriginalPavingIndex.contains(p)||northYieldEastIndex.contains(p);
  if(northYieldGroundPoints.size>=65536)northYieldGroundPoints.clear();
  northYieldGroundPoints.set(key,open);return open;
 }
@@ -387,7 +391,7 @@ export function northLibraryYieldRouteClear(from,route){
  }start=end;}return true;
 }
 export const northLibrarySites=freeze([{id:'site:domain:gc-02',planId:'GC-02',number:2,name:'藏经阁·讲习院',type:'library',zoneId:'Z-01',areaId:'area:yunxiu:north-library',northLibrary:true,x:44,y:-16,width:6,height:6,reserveWidth:10,reserveHeight:10,maxLevel:3,entrance:{x:47,y:-9.4},status:'open'}]);
-export const SECT_DOMAIN = freeze({id:'domain:yunxiu',sceneId:'scene:yunxiu-courtyard',coordinateUnit:'metre',layoutVersion:DOMAIN_LAYOUT_VERSION,extentVersion:DOMAIN_EXTENT_VERSION,valleyExtentVersion:DOMAIN_VALLEY_EXTENT_VERSION,originMetres,planningBounds,activeBounds,valleyActiveBounds,initialOpenAreas:[...initialOpenAreas,...WEST_WORKSHOPS_WALK_POLYGONS.map((polygon,index)=>({id:`area:yunxiu:west-workshops:${index}`,zoneId:'Z-03',status:'open',westWorkshops:true,polygon})),...NORTH_MEDITATION_WALK_POLYGONS.map((polygon,index)=>({id:`area:yunxiu:north-meditation:${index}`,zoneId:'Z-01',status:'open',northMeditation:true,polygon})),...NORTH_LIBRARY_WALK_POLYGONS.map((polygon,index)=>({id:`area:yunxiu:north-library:${index}`,zoneId:'Z-01',status:'open',northLibrary:true,polygon})),...EAST_SERVICES_WALK_POLYGONS.map((polygon,index)=>({id:`area:yunxiu:east-services:${index}`,zoneId:'Z-02',status:'open',services:true,polygon})),...EAST_RESIDENCES_WALK_POLYGONS.map((polygon,index)=>({id:`area:yunxiu:east-residences:${index}`,zoneId:'Z-02',status:'open',residences:true,polygon})),...WEST_VALLEY_WALK_POLYGONS.map((polygon,index)=>({id:`area:yunxiu:west-valley:${index}`,zoneId:'Z-03',status:'open',valley:true,extentVersion:DOMAIN_VALLEY_EXTENT_VERSION,polygon}))],openedRoad,firstSite,sites:[firstSite,westLumberSite,...westValleySites,...eastResidenceSites,...eastServiceSites,...northLibrarySites,...northMeditationSites,...westWorkshopSites],plannedSites,zones,planningRoads,chunkMetres:32});
+export const SECT_DOMAIN = freeze({id:'domain:yunxiu',sceneId:'scene:yunxiu-courtyard',coordinateUnit:'metre',layoutVersion:DOMAIN_LAYOUT_VERSION,extentVersion:DOMAIN_EXTENT_VERSION,valleyExtentVersion:DOMAIN_VALLEY_EXTENT_VERSION,originMetres,planningBounds,activeBounds,valleyActiveBounds,initialOpenAreas:[...initialOpenAreas,...WEST_WORKSHOPS_WALK_POLYGONS.map((polygon,index)=>({id:`area:yunxiu:west-workshops:${index}`,zoneId:'Z-03',status:'open',westWorkshops:true,polygon})),...NORTH_MEDITATION_WALK_POLYGONS.map((polygon,index)=>({id:`area:yunxiu:north-meditation:${index}`,zoneId:'Z-01',status:'open',northMeditation:true,polygon})),...NORTH_LIBRARY_WALK_POLYGONS.map((polygon,index)=>({id:`area:yunxiu:north-library:${index}`,zoneId:'Z-01',status:'open',northLibrary:true,polygon})),...EAST_SERVICES_WALK_POLYGONS.map((polygon,index)=>({id:`area:yunxiu:east-services:${index}`,zoneId:'Z-02',status:'open',services:true,polygon})),...EAST_RESIDENCES_WALK_POLYGONS.map((polygon,index)=>({id:`area:yunxiu:east-residences:${index}`,zoneId:'Z-02',status:'open',residences:true,polygon})),...WEST_VALLEY_WALK_POLYGONS.map((polygon,index)=>({id:`area:yunxiu:west-valley:${index}`,zoneId:'Z-03',status:'open',valley:true,extentVersion:DOMAIN_VALLEY_EXTENT_VERSION,polygon}))],openedRoad,firstSite,sites:[firstSite,guesthouseSite,westLumberSite,...westValleySites,...eastResidenceSites,...eastServiceSites,...northLibrarySites,...northMeditationSites,...westWorkshopSites],plannedSites,zones,planningRoads,chunkMetres:32});
 const residenceBarriers=freeze(domainBarriers.filter(b=>b.id!=='domain:terrace-east'));
 export const domainTerrainBarriers=version=>domainResidencesEnabled(version)?residenceBarriers:domainBarriers;
 export const domainPoint = ({x,y}) => ({x:x+originMetres.x,y:y+originMetres.y});

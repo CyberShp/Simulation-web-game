@@ -1,0 +1,154 @@
+{
+  "schema": "combat-frame-atlas/v1",
+  "atlas": "atlas.png",
+  "frameSize": [
+    380,
+    300
+  ],
+  "sourceHeight": 235.0,
+  "foot": [
+    175,
+    260
+  ],
+  "durationMs": 500,
+  "loop": false,
+  "frames": [
+    {
+      "index": 0,
+      "file": "frames/0000.png",
+      "x": 0,
+      "y": 0,
+      "w": 380,
+      "h": 300,
+      "sourceHeight": 235.0,
+      "foot": [
+        175,
+        260
+      ],
+      "durationMs": 40,
+      "phase": "windup"
+    },
+    {
+      "index": 1,
+      "file": "frames/0001.png",
+      "x": 380,
+      "y": 0,
+      "w": 380,
+      "h": 300,
+      "sourceHeight": 235.0,
+      "foot": [
+        175,
+        260
+      ],
+      "durationMs": 60,
+      "phase": "windup"
+    },
+    {
+      "index": 2,
+      "file": "frames/0002.png",
+      "x": 760,
+      "y": 0,
+      "w": 380,
+      "h": 300,
+      "sourceHeight": 235.0,
+      "foot": [
+        175,
+        260
+      ],
+      "durationMs": 100,
+      "phase": "release",
+      "event": "release",
+      "anchors": {
+        "hand": [
+          278.5,
+          68.0
+        ]
+      }
+    },
+    {
+      "index": 3,
+      "file": "frames/0003.png",
+      "x": 1140,
+      "y": 0,
+      "w": 380,
+      "h": 300,
+      "sourceHeight": 235.0,
+      "foot": [
+        175,
+        260
+      ],
+      "durationMs": 100,
+      "phase": "recovery",
+      "anchors": {
+        "hand": [
+          288.0,
+          60.0
+        ]
+      }
+    },
+    {
+      "index": 4,
+      "file": "frames/0004.png",
+      "x": 0,
+      "y": 300,
+      "w": 380,
+      "h": 300,
+      "sourceHeight": 235.0,
+      "foot": [
+        175,
+        260
+      ],
+      "durationMs": 100,
+      "phase": "recovery"
+    },
+    {
+      "index": 5,
+      "file": "frames/0005.png",
+      "x": 380,
+      "y": 300,
+      "w": 380,
+      "h": 300,
+      "sourceHeight": 235.0,
+      "foot": [
+        175,
+        260
+      ],
+      "durationMs": 100,
+      "phase": "recovery"
+    }
+  ],
+  "metadata": {
+    "sourceReview": "root-key-poses-selected-sequence-pending",
+    "generatedBy": "built-in image_gen",
+    "date": "2026-10-25"
+  },
+  "sources": [
+    {
+      "file": "inputs/000-exec-f4493e56-fe43-4436-844c-2cd88f0db6da.png",
+      "sha256": "140222d6027d2898673afeef27ed98bac3865ce142aef293f647198608e927a3"
+    }
+  ],
+  "provenance": {
+    "pipeline": "combat-frame-pipeline/1",
+    "python": "3.12.14",
+    "pillow": "12.3.0",
+    "scriptSha256": "870275d7b2c0504dea2418f47854326f4a75ea5aead0419072ff31be87e25e13",
+    "workflowReference": {
+      "repository": "https://github.com/0x0funky/agent-sprite-forge",
+      "revision": "5324342fdfab72430f4e9604f3fe427009f8596d"
+    },
+    "sourceHeightBeforeScale": 470,
+    "uniformScale": 0.5,
+    "pixelOperations": [
+      "explicit-crop",
+      "uniform-nearest-scale",
+      "fixed-foot-translation",
+      "whole-frame-pack"
+    ]
+  },
+  "id": "lu-zhiwei-attack-up-right-v3",
+  "visualIdentity": "person:lu-zhiwei",
+  "action": "attack",
+  "direction": "up-right",
+  "phase": "idle"
+}

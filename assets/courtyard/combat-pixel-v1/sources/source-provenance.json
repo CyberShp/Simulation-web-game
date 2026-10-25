@@ -1,0 +1,218 @@
+[
+  {
+    "repository": "LiberatedPixelCup/Universal-LPC-Spritesheet-Character-Generator",
+    "commit": "95c338c84d55cd3e6790d9eddfa3e22c5a0fb91f",
+    "path": "spritesheets/body/bodies/male/green.png",
+    "gitBlobSha1": "ff16bcf63948b2a913a954a2a2320cf679b94d7b",
+    "sha256": "8ffbe7016da71067a51c4e4a531ebfb942087d72241b16af43cfc88b6fc13a56",
+    "bytes": 162578
+  },
+  {
+    "repository": "LiberatedPixelCup/Universal-LPC-Spritesheet-Character-Generator",
+    "commit": "95c338c84d55cd3e6790d9eddfa3e22c5a0fb91f",
+    "path": "spritesheets/body/bodies/male/light.png",
+    "gitBlobSha1": "f8451d14126ca87790d7c042dc9a93266d8cd00f",
+    "sha256": "e8c9ccc5bd2d49474c6f2c8cc280f5049084d0d7eead02a5d807ccd00f436209",
+    "bytes": 160676
+  },
+  {
+    "repository": "LiberatedPixelCup/Universal-LPC-Spritesheet-Character-Generator",
+    "commit": "95c338c84d55cd3e6790d9eddfa3e22c5a0fb91f",
+    "path": "spritesheets/feet/shoes/male/black.png",
+    "gitBlobSha1": "8e161f7bdf67601c4d5c4a87fdff78a8280ee175",
+    "sha256": "8c22054155f547256cdeaf1f5363e0a1f1a53ac66e64c0430841241193679341",
+    "bytes": 17170
+  },
+  {
+    "repository": "LiberatedPixelCup/Universal-LPC-Spritesheet-Character-Generator",
+    "commit": "95c338c84d55cd3e6790d9eddfa3e22c5a0fb91f",
+    "path": "spritesheets/hair/long/male/black.png",
+    "gitBlobSha1": "2561d44f2c74a732917d0126cbd4365bebc123be",
+    "sha256": "7d9063e26f5944bf92e8a0d5a3d7f1edad5c289a558e2db05d0154fdbdb3610e",
+    "bytes": 34310
+  },
+  {
+    "repository": "LiberatedPixelCup/Universal-LPC-Spritesheet-Character-Generator",
+    "commit": "95c338c84d55cd3e6790d9eddfa3e22c5a0fb91f",
+    "path": "spritesheets/head/heads/human/male/light.png",
+    "gitBlobSha1": "821608f467dbb4cef2feddd1e8cfd9ea3c57cd03",
+    "sha256": "5f653cf98e7ebef66ddfc4433eb54c1780a793f563e68d047aa72dc4ffc10e06",
+    "bytes": 59823
+  },
+  {
+    "repository": "LiberatedPixelCup/Universal-LPC-Spritesheet-Character-Generator",
+    "commit": "95c338c84d55cd3e6790d9eddfa3e22c5a0fb91f",
+    "path": "spritesheets/head/heads/orc/male/green.png",
+    "gitBlobSha1": "bf5c467dc10ac250c58d653d6ce1632a6f1d129e",
+    "sha256": "624474fbe9a7936ef709179ccc138640830768c249a84eedb0d649033bd32603",
+    "bytes": 70808
+  },
+  {
+    "repository": "LiberatedPixelCup/Universal-LPC-Spritesheet-Character-Generator",
+    "commit": "95c338c84d55cd3e6790d9eddfa3e22c5a0fb91f",
+    "path": "spritesheets/legs/pants/male/brown.png",
+    "gitBlobSha1": "2a75a06bd5688eb84c9044bbda4eb2d6d2254d16",
+    "sha256": "68c21d23177315d07e95ed3b088beff1cd783432f805ce5e45d7b5a4690a5ec1",
+    "bytes": 59802
+  },
+  {
+    "repository": "LiberatedPixelCup/Universal-LPC-Spritesheet-Character-Generator",
+    "commit": "95c338c84d55cd3e6790d9eddfa3e22c5a0fb91f",
+    "path": "spritesheets/legs/pants/male/white.png",
+    "gitBlobSha1": "eefe9233a807b5a9b5f752252d2f15fa8b01fe38",
+    "sha256": "c0969b301d039b1971930ac8ae7b752fcd46dd43a7b7db4bef5345983095e172",
+    "bytes": 59416
+  },
+  {
+    "repository": "LiberatedPixelCup/Universal-LPC-Spritesheet-Character-Generator",
+    "commit": "95c338c84d55cd3e6790d9eddfa3e22c5a0fb91f",
+    "path": "spritesheets/torso/clothes/longsleeve/longsleeve/male/teal.png",
+    "gitBlobSha1": "3f31acb5e89c199c0ff54e763af4aadb76c32c48",
+    "sha256": "d7f1e9e04869593accece5215a205d5bcda86f37d61a682ab2e5670db8f03964",
+    "bytes": 36597
+  },
+  {
+    "repository": "LiberatedPixelCup/Universal-LPC-Spritesheet-Character-Generator",
+    "commit": "95c338c84d55cd3e6790d9eddfa3e22c5a0fb91f",
+    "path": "spritesheets/weapon/sword/longsword/attack_slash/behind/longsword.png",
+    "gitBlobSha1": "cb1d2456e7e3083c28b165a72a46654bd6491f9a",
+    "sha256": "a6a738ecf97a667feac2e5854a3b8030d22e0a9ff8e8034037d80aa8fd49ac47",
+    "bytes": 5980
+  },
+  {
+    "repository": "LiberatedPixelCup/Universal-LPC-Spritesheet-Character-Generator",
+    "commit": "95c338c84d55cd3e6790d9eddfa3e22c5a0fb91f",
+    "path": "spritesheets/weapon/sword/longsword/attack_slash/longsword.png",
+    "gitBlobSha1": "70e90a1d9bd46fa19ec83d7226a989960a68fa34",
+    "sha256": "8029f684fa9275bd459cafe5427a6d06a63bed4aa43d643537d75ca56db88fcd",
+    "bytes": 7030
+  },
+  {
+    "repository": "LiberatedPixelCup/Universal-LPC-Spritesheet-Character-Generator",
+    "commit": "95c338c84d55cd3e6790d9eddfa3e22c5a0fb91f",
+    "path": "spritesheets/weapon/sword/longsword/longsword.png",
+    "gitBlobSha1": "31b0a2f5e9b4330efcbf70205c4474ddac87f125",
+    "sha256": "b330ab46267534342e494373d9154309b50496759919240c92f8623c78f09c95",
+    "bytes": 6539
+  },
+  {
+    "repository": "LiberatedPixelCup/Universal-LPC-Spritesheet-Character-Generator",
+    "commit": "95c338c84d55cd3e6790d9eddfa3e22c5a0fb91f",
+    "path": "spritesheets/weapon/sword/longsword/universal_behind/longsword.png",
+    "gitBlobSha1": "ca49254a60fe974ffb127b9e209ee78eb2e83d95",
+    "sha256": "dddb1886273f79f73747d548b12cc561283e60362bb8c104dccb4fbf7cde4eac",
+    "bytes": 8206
+  },
+  {
+    "repository": "LiberatedPixelCup/Universal-LPC-Spritesheet-Character-Generator",
+    "commit": "95c338c84d55cd3e6790d9eddfa3e22c5a0fb91f",
+    "path": "CREDITS.csv",
+    "gitBlobSha1": "2b88f1e28e923993833bc47fa8358ae41665f17a",
+    "sha256": "3f5e58f8bf1d818cd87ee96f74fd3875b2277cf3f964649a976794d9ee73b83c",
+    "bytes": 1428291
+  },
+  {
+    "repository": "LiberatedPixelCup/Universal-LPC-Spritesheet-Character-Generator",
+    "commit": "95c338c84d55cd3e6790d9eddfa3e22c5a0fb91f",
+    "path": "CREDITS.TXT",
+    "gitBlobSha1": "1b3d3819c3859b73a0415d2105af6e0c3bf02163",
+    "sha256": "9a6ca0453799fba5103c318cfd9de786436de29cdbfe63f3a3e0e7dbed3b6cea",
+    "bytes": 165541
+  },
+  {
+    "repository": "LiberatedPixelCup/Universal-LPC-Spritesheet-Character-Generator",
+    "commit": "95c338c84d55cd3e6790d9eddfa3e22c5a0fb91f",
+    "path": "LICENSE",
+    "gitBlobSha1": "94a9ed024d3859793618152ea559a168bbcbb5e2",
+    "sha256": "8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903",
+    "bytes": 35147
+  },
+  {
+    "repository": "LiberatedPixelCup/Universal-LPC-Spritesheet-Character-Generator",
+    "commit": "95c338c84d55cd3e6790d9eddfa3e22c5a0fb91f",
+    "path": "README.md",
+    "gitBlobSha1": "59e32b36c863806954c7bd957ead2e9a5bfa0660",
+    "sha256": "e39b9c8faa71ac3cb00c2407f7de5cb7f3825848952cd483ea2946a7dad5820b",
+    "bytes": 7391
+  },
+  {
+    "repository": "LiberatedPixelCup/Universal-LPC-Spritesheet-Character-Generator",
+    "commit": "95c338c84d55cd3e6790d9eddfa3e22c5a0fb91f",
+    "path": "sources/custom-animations.js",
+    "gitBlobSha1": "0d54315a3ad1560a4bbd2189d347fb5e9c33071d",
+    "sha256": "0f97efdfad9fee36883fded80057406b69a977c9d959bd494d99152e74429993",
+    "bytes": 6626
+  },
+  {
+    "repository": "LiberatedPixelCup/Universal-LPC-Spritesheet-Character-Generator",
+    "commit": "95c338c84d55cd3e6790d9eddfa3e22c5a0fb91f",
+    "path": "sources/chargen.js",
+    "gitBlobSha1": "ecafa29b4f7d4ff6f2eab3e935060f75493d446c",
+    "sha256": "ca5959cfbcb56ca5aeb0b07a0684fb5981457449cb0b1ccb39881491e6f9d912",
+    "bytes": 27504
+  },
+  {
+    "repository": "ElizaWy/LPC",
+    "commit": "f07f7f5892e67c932c68f70bb04472f2c64e46bc",
+    "path": "Terrain/terrain_summer.png",
+    "gitBlobSha1": "10eafe26c76c8b81e38218770aa6d39469378bf2",
+    "sha256": "1251a6ea556330190ccb1e3af166eb69fbec4b7a3f7d51c1f54728abd75bd752",
+    "bytes": 71578
+  },
+  {
+    "repository": "ElizaWy/LPC",
+    "commit": "f07f7f5892e67c932c68f70bb04472f2c64e46bc",
+    "path": "Terrain/trees_summer.png",
+    "gitBlobSha1": "0d21b9ad0cb0e8adcc7049fe0004848dc8fdc169",
+    "sha256": "c00e3728ea975c05b77972e3bff1162ddb7eebcaf626046d1f0c81c6824af674",
+    "bytes": 46291
+  },
+  {
+    "repository": "ElizaWy/LPC",
+    "commit": "f07f7f5892e67c932c68f70bb04472f2c64e46bc",
+    "path": "Terrain/flowers.png",
+    "gitBlobSha1": "f76e7d5634e3518932284b8effe6614a7f2bab17",
+    "sha256": "e698d0db83e5238ea3fcc8783f1294b70312e2170a8856cb5a99ca40e7f6cddb",
+    "bytes": 30094
+  },
+  {
+    "repository": "ElizaWy/LPC",
+    "commit": "f07f7f5892e67c932c68f70bb04472f2c64e46bc",
+    "path": "Terrain/cliff_summer.png",
+    "gitBlobSha1": "2edaf327947e6108abfff0ce911e636321971482",
+    "sha256": "94bd2ddb2c51677498453486092ef28e57e0c1880f4334359189229590298147",
+    "bytes": 73503
+  },
+  {
+    "repository": "ElizaWy/LPC",
+    "commit": "f07f7f5892e67c932c68f70bb04472f2c64e46bc",
+    "path": "Terrain/Rocks, Grasslands.png",
+    "gitBlobSha1": "6b59efa39dd6980812e8faaccf5ea2c0118f23eb",
+    "sha256": "615a67744c0c57d14d009ced1ea4fab34b24560ad9c08812da7eb01f80082c1b",
+    "bytes": 29365
+  },
+  {
+    "repository": "ElizaWy/LPC",
+    "commit": "f07f7f5892e67c932c68f70bb04472f2c64e46bc",
+    "path": "Terrain/Credits.txt",
+    "gitBlobSha1": "4eaf185d3afbbe64cdd2595e14e19c65d72f4dac",
+    "sha256": "b0f3a11db7ece49cbf5483a36909a8c31310b9169932052710e6a76172d1a6c0",
+    "bytes": 3325
+  },
+  {
+    "repository": "ElizaWy/LPC",
+    "commit": "f07f7f5892e67c932c68f70bb04472f2c64e46bc",
+    "path": "Structure/Bridges/Credits.txt",
+    "gitBlobSha1": "71b6b7ad6165bdf4081b994495c49174275a9870",
+    "sha256": "7a304cfac3df7f7e81285a714a3b81ba67e7df22edce2a8f9ba66c890ef54d9e",
+    "bytes": 994
+  },
+  {
+    "repository": "ElizaWy/LPC",
+    "commit": "f07f7f5892e67c932c68f70bb04472f2c64e46bc",
+    "path": "Structure/Bridges/Wood Bridge A - No Rails.png",
+    "gitBlobSha1": "6354fd4c20203a83097180fe35a1421524815611",
+    "sha256": "f514822ea07fad29cdcf53c3e819f3c38fd49c20d9f74962cef806ed53425093",
+    "bytes": 9943
+  }
+]

@@ -1,0 +1,16 @@
+{
+  "asset": "valley-battlefield-v2.png",
+  "createdAt": "2026-10-24",
+  "generator": "built-in image_gen",
+  "source": "/Users/shepard/.codex/generated_images/01a1688b-282e-7033-b2ca-e9663044fed8/exec-6282a59c-a76e-4998-b22d-4070245182d1.png",
+  "reference": "assets/courtyard/valley-battlefield-v1.png",
+  "sha256": "65a8e3443ff5b181cb64b732a68ab3c124bbe4deacf0de5c483871a460275b30",
+  "transparentBackground": false,
+  "prompt": "Edit this game's forest combat background into a more readable production battlefield plate. Preserve the existing fixed elevated three-quarter camera, broad forest clearing, screen-left upper path entrance, enclosing ancient trees and grey crags at the extreme outer edges, Chinese mountain-valley setting and detailed 2D HD pixel-art style. Keep the entire central playable ground unobstructed, visually level, with enough room for multiple small fighters. Simplify the central 75 percent: broad muted warm earth and desaturated sage grass patches, very sparse small stones, no high-contrast flecks or tiny flowers across fighting ground. The floor should have quiet mid-values so blue-white characters and bright impacts are instantly legible. Preserve lush handcrafted vegetation and rocky detail at perimeter but lower yellow saturation and reduce blown-out highlights. Softer cool mountain daylight, ambient shadows only around perimeter. Give the scene a graceful irregular natural clearing silhouette rather than a bright golden arena. No people, animals, objects in central walkable space, buildings, effects, text, grid, UI or logos. Landscape approximately 16:10, same perspective and perimeter composition as input, full-bleed.",
+  "review": {
+    "reviewer": "root",
+    "status": "selected-for-runtime-check",
+    "observed": "中央地面亮点和黄绿色对比减少，外围林木与左上入口保持，中央无新增阻挡物。",
+    "pending": "实际人物、命中特效与多人遮挡的桌面同视口复看。"
+  }
+}

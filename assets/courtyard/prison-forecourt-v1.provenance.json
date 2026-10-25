@@ -1,0 +1,12 @@
+{
+  "asset": "prison-forecourt-v1.png",
+  "createdAt": "2026-10-24",
+  "generator": "built-in image_gen",
+  "source": "/Users/shepard/.codex/generated_images/01a1688b-282e-7033-b2ca-e9663044fed8/exec-1ae94d05-57ef-4768-9263-ccfa00c6008c.png",
+  "styleReference": "assets/courtyard/valley-battlefield-v2.png",
+  "sha256": "7cd18f657fda77a8ba4c62db0e94a32f32411d48e4a9c504b7a637f4fa2b9a13",
+  "transparentBackground": false,
+  "prompt": "Create a new production battle background for the same 2D HD pixel-art Chinese xianxia game. Reference image is ONLY for pixel rendering style, scale, fixed elevated three-quarter camera and quiet combat ground values. New place: outdoor forecourt SOUTH of a remote mountain prison's CLOSED gate. Landscape 16:10, camera looks north across a broad level rectangular forecourt. The playable empty rectangle occupies central ~80% width and from y20% to y90%; its world size is 12 metres wide by 8 metres deep. Absolutely clear traversal throughout this rectangle: low-contrast weathered grey-brown paving interspersed with packed earth, no raised objects, trees, staircases, pillars or hazards inside. Along the top OUTSIDE the playable floor stands a modest intimidating ancient Chinese fortified stone gatehouse, dark aged timber closed double doors with iron bosses, grey tiled complete roof and short grey stone walls extending left/right. Gate threshold at top edge of clear ground, no open interior. Subtle moss on wall bases, two restrained unlit iron lanterns on the wall, mountain vegetation only outside far left/right periphery. A visible flat retreat passage leaves along the LEFT edge midway down; do not enclose that passage. Top wall architecture provides recognizable location and scale while leaving broad readable ground for six small human fighters. Soft overcast mountain daylight, muted slate/earth/sage palette with a little dark red-brown timber. Detailed handcrafted clean pixel clusters, crisp coherent edges, not vector or 3D. No characters, corpses, weapon props, UI, text, signs, magic or effects. Keep floor quiet and mid-value, no repetitive bright flecks. Environmental plate only.",
+  "geometry": {"id": "prison-forecourt", "sceneId": "scene:prison", "origin": [20,19], "localBounds": [0.6,0.6,11.4,7.4], "screenInset": [0.22,0.32,0.78,0.65]},
+  "review": {"reviewer": "root", "status": "selected-for-runtime-check", "observed": "中央平坦空场、闭合牢门和西侧退路可辨；当前登记区域无图上阻挡物。", "pending": "正式多人场景脚点映射、遮挡与运行截图。"}
+}

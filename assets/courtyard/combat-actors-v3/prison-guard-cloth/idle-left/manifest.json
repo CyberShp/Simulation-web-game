@@ -1,0 +1,81 @@
+{
+  "schema": "combat-frame-atlas/v1",
+  "atlas": "atlas.png",
+  "frameSize": [
+    420,
+    300
+  ],
+  "sourceHeight": 230.0,
+  "foot": [
+    240,
+    260
+  ],
+  "durationMs": 200,
+  "loop": false,
+  "frames": [
+    {
+      "index": 0,
+      "file": "frames/0000.png",
+      "x": 0,
+      "y": 0,
+      "w": 420,
+      "h": 300,
+      "sourceHeight": 230.0,
+      "foot": [
+        240,
+        260
+      ],
+      "durationMs": 200,
+      "phase": "idle",
+      "anchors": {
+        "hand": [
+          170.0,
+          163.5
+        ],
+        "grip": [
+          161.0,
+          171.0
+        ],
+        "tip": [
+          94.5,
+          222.5
+        ]
+      }
+    }
+  ],
+  "metadata": {
+    "sourceReview": "four-consistent-key-poses-selected-for-sequence-review",
+    "author": "root",
+    "generatedBy": "built-in image_gen",
+    "date": "2026-10-24"
+  },
+  "sources": [
+    {
+      "file": "inputs/000-exec-c7d060f9-8e72-49fa-a483-628c92083526.png",
+      "sha256": "3ce1cb922c6ac20f1f50f87e0fb7483fd82443dde82d539dbda73d2dd3fb42c6"
+    }
+  ],
+  "provenance": {
+    "pipeline": "combat-frame-pipeline/1",
+    "python": "3.12.14",
+    "pillow": "12.3.0",
+    "scriptSha256": "870275d7b2c0504dea2418f47854326f4a75ea5aead0419072ff31be87e25e13",
+    "workflowReference": {
+      "repository": "https://github.com/0x0funky/agent-sprite-forge",
+      "revision": "5324342fdfab72430f4e9604f3fe427009f8596d"
+    },
+    "sourceHeightBeforeScale": 460,
+    "uniformScale": 0.5,
+    "pixelOperations": [
+      "explicit-crop",
+      "uniform-nearest-scale",
+      "fixed-foot-translation",
+      "whole-frame-pack"
+    ]
+  },
+  "id": "prison-guard-cloth-idle-left-v3",
+  "visualIdentity": "prison-guard-cloth",
+  "action": "idle",
+  "direction": "left",
+  "phase": "idle"
+}

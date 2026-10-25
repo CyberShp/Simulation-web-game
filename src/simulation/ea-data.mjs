@@ -14,6 +14,8 @@ export const BUILDINGS={
  lumber:building('伐木场','伐木',2,'门人采集营造所需灵木；远离膳房与居所可免喧扰。',{jade:25,wood:20,stone:8},{wood:18},true,{upkeep:{jade:1},tags:['industry']}),
  quarry:building('采石场','采石',3,'采集营造青石，匠坊附近运输更省力。',{jade:35,wood:25},{stone:16},true,{upkeep:{jade:1},tags:['industry']}),
  house:building('门人居','居所',4,'每级提供四个床位。膳房与医庐附近休憩效果更好。',{jade:45,wood:40,stone:20},{},false,{capacity:4,tags:['home']}),
+ // U-63/U-167/T-GC15-20261023: level-one guest court uses house material and stage baseline.
+ guesthouse:building('客院','客院',4,'供来访者短住，一级设两张客床。',{jade:45,wood:40,stone:20},{},false,{max:1,guestCapacity:2,tags:['guest']}),
  meditation:building('聚灵台','聚灵',5,'提供正式修行场地；灵泉与藏经阁相邻提高修行效率。',{jade:60,wood:40,stone:25},{},true,{stage:1,upkeep:{jade:2},tags:['cultivation']}),
  alchemy:building('丹霞炉','丹房',6,'以丹方和炼丹知识开炉，升级缩短炼制时间。药圃相邻提高炼制效率。',{jade:65,wood:35,stone:30},{},false,{stage:1,unique:true,upkeep:{jade:2,wood:1},tags:['craft']}),
  library:building('藏经阁','藏经',7,'提供典籍接触与研读空间，整理典籍产出道韵。藏书不等于有人能授业。',{jade:65,wood:45,stone:20},{insight:6},true,{stage:1,upkeep:{jade:1},tags:['learning']}),

@@ -1,0 +1,23 @@
+/** U-172 two residents: qualified craftsman and a distinct advancement need. */
+import {createDiscipleCraftRequestScenario} from './disciple-craft-request.mjs';
+import {validateSect} from '../../apps/courtyard/sect-sim.mjs';
+import {xpNeed} from '../../src/simulation/ea-data.mjs';
+import {initCultivation,breakthroughView} from '../../src/simulation/ea-sr-cultivation.mjs';
+import {prepareFacilityActivity} from '../../src/simulation/ea-facility-activities.mjs';
+import {geometryRevision} from '../../src/simulation/ea-scene-geometry.mjs';
+export const DISCIPLE_ADVANCEMENT_SCENARIO=Object.freeze({id:'disciple-advancement-v1',conditions:Object.freeze(['ready','no-permission','commitment','unwilling','remote','hidden']),maxWorldSteps:7000});
+export function createDiscipleAdvancementScenario({condition='ready',initialFoundation=0}={}){
+ if(!DISCIPLE_ADVANCEMENT_SCENARIO.conditions.includes(condition)||![0,1].includes(initialFoundation))throw Error('Invalid advancement scenario condition');
+ const f=createDiscipleCraftRequestScenario(),{session}=f,s=session.state,alchemistId=f.personId,targetId=f.replacementId,alchemist=s.personsById[alchemistId],target=s.personsById[targetId];
+ alchemist.realm=9;alchemist.xp=0;target.realm=9;target.xp=xpNeed(9);target.energy=100;target.wound=0;target.job=null;
+ Object.assign(target.mind,{main:'foundation',support:[],activity:'rest',learning:null,office:null,satiety:100,lastDecision:-100,commitUntil:0,goal:'安稳生活，精进所长',traits:[70,50,50,80,20]});target.mind.knowledge.foundation=100;target.mind.skills.industry=80;target.schedule.commitUntilTick=s.worldTick;
+ const point={x:25,y:17};Object.assign(target.mind.scenic,{...point,path:[],goal:null,revision:geometryRevision(s)});delete target.mind.scenic.bodyYield;target.position={kind:'scene',sceneId:'scene:yunxiu-courtyard',...point};target.location={kind:'local',sceneId:'scene:yunxiu-courtyard',...point};
+ Object.assign(s.resources,{jade:480,herb:60,crystal:10,insight:40,wood:5,food:200});s.stockpilesById[f.sourceStockpileId].pills.foundation=initialFoundation;s.doctrine.pillRule=condition==='no-permission'?'permission':'shared';target.mind.pillPermitDay=-1;target.mind.restrictedUntil=0;
+ if(condition==='unwilling')target.mind.traits=[70,10,50,80,20];
+ if(condition==='commitment'){target.mind.activity='work';target.job=80;target.mind.commitUntil=s.time+2000;target.schedule.commitUntilTick=s.worldTick+20000;target.mind.reason='先履行既有百工差事。';prepareFacilityActivity(s,target,s.buildingsById['building:yunxiu:80'],'work');}
+ if(condition==='hidden'){const secret={id:s.society.nextIncidentId++,discipleId:target.id,kind:'book',subject:'foundation',time:s.society.clock,discovered:false,discoveredAt:null,handled:false,outcome:null,evidenceProgress:0,motive:'既有私下续篇研习。',restitution:12};s.society.secrets.push(secret);target.mind.hiddenKnowledge.foundation=secret.id;s.incidentId=s.society.nextIncidentId;}
+ initCultivation(s);const observer=condition==='remote'?{x:57,y:31}:{x:26,y:16};Object.assign(s.master.scenic,{...observer,path:[],goal:null,revision:geometryRevision(s)});s.master.position={kind:'scene',sceneId:'scene:yunxiu-courtyard',...observer};s.master.location={kind:'local',sceneId:'scene:yunxiu-courtyard',...observer};validateSect(session);
+ return{...f,session,state:s,s,alchemistId,targetId,initialFoundation,metadata:{id:DISCIPLE_ADVANCEMENT_SCENARIO.id,condition,startTick:s.worldTick,alchemistId,targetId,buildingId:f.buildingId,siteStockpileId:f.siteStockpileId,sourceStockpileId:f.sourceStockpileId,
+  conditions:{alchemist:{realm:alchemist.realm,xp:alchemist.xp,alchemy:alchemist.mind.knowledge.alchemy,medicine:alchemist.mind.skills.medicine,position:structuredClone(alchemist.position)},target:{realm:target.realm,xp:target.xp,requiredXp:xpNeed(target.realm),main:target.mind.main,foundationUnderstanding:target.mind.knowledge.foundation,industry:target.mind.skills.industry,traits:target.mind.traits,position:structuredClone(target.position),initialBody:target.activityId,commitUntil:target.mind.commitUntil},initialFoundation,pillRule:s.doctrine.pillRule,permitDay:-1,publicResources:structuredClone(s.resources),siteMaterials:structuredClone(s.stockpilesById[f.siteStockpileId].resources),breakthroughCost:breakthroughView(s,targetId).cost,masterPosition:structuredClone(s.master.position),completedCanonicalGC26:structuredClone(s.buildingsById[f.buildingId].transform)},
+  scope:'Qualified ninth-layer alchemist starts at zero XP; a different ninth-layer resident has full XP and reliable continuation. Finite materials and initial conditions are configured. Public request, delivery, voluntary pickup, breakthrough and later production use official logic. initialFoundation=1 is only for isolated access boundaries.'}};
+}

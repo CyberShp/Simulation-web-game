@@ -1,6 +1,7 @@
 /** SR-XF-030 / PERSIST-02: keep save failure protection separate from user pause. */
-export function createCourtyardPersistence({ getSnapshot, saveSnapshot, exportSnapshot, onStateChange = () => {}, now = () => Date.now() }) {
+export function createCourtyardPersistence({ getSnapshot, saveSnapshot, exportSnapshot, snapshotOwnership = 'borrowed', onStateChange = () => {}, now = () => Date.now() }) {
   if (typeof getSnapshot !== 'function' || typeof saveSnapshot !== 'function') throw new TypeError('Snapshot and save callbacks are required');
+  if (!['borrowed', 'owned'].includes(snapshotOwnership)) throw new TypeError('Unknown snapshot ownership');
   const state = { protected: false, saving: false, pending: 0, error: null, lastSavedAt: null, lastSavedTick: null, recoveryExportedAt: null, recoveryPath: null };
   let queue = Promise.resolve();
   let exporting = null;
@@ -22,7 +23,9 @@ export function createCourtyardPersistence({ getSnapshot, saveSnapshot, exportSn
       notify();
       try {
         // Read at execution time so a queued close saves the latest frozen world.
-        const snapshot = structuredClone(getSnapshot());
+        // An owned snapshot is already detached and transferred by its producer.
+        const captured = getSnapshot();
+        const snapshot = snapshotOwnership === 'owned' ? captured : structuredClone(captured);
         const receipt = await saveSnapshot(snapshot);
         if (receipt?.ok !== true) throw Error(receipt?.error || '保存失败');
         state.lastSavedAt = now();

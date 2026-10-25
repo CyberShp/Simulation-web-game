@@ -5,6 +5,7 @@
  * belong in ea-integration.test.mjs and are not used to prove playability.
  */
 import assert from 'node:assert/strict';
+import {combatStaggered,combatWorldTick} from '../../src/simulation/ea-combat-impact.mjs';
 import { performance } from 'node:perf_hooks';
 import * as sim from '../../src/simulation/ea-sim.mjs';
 
@@ -279,7 +280,7 @@ export class Player {
       }
       if (this.state.combat?.status !== 'active') break;
       enemy = nearest();
-      if (enemy && (Math.hypot(enemy.x - player.x, enemy.y - player.y) > 1.85 || /遮挡/.test(sim.combatOptions(this.state).find(c => c.id === 'attack')?.reason || '')) && !danger) {
+      if (!combatStaggered(player,combatWorldTick(this.state)) && enemy && (Math.hypot(enemy.x - player.x, enemy.y - player.y) > sim.combatOptions(this.state).find(c => c.id === 'attack').range || /遮挡/.test(sim.combatOptions(this.state).find(c => c.id === 'attack')?.reason || '')) && !danger) {
         this.action('combatAction', 'move', { x: enemy.x, y: enemy.y });
       }
       this.tick(1);

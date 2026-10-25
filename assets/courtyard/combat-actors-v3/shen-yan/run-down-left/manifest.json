@@ -1,0 +1,851 @@
+{
+  "schema": "combat-frame-atlas/v1",
+  "atlas": "atlas.png",
+  "frameSize": [
+    350,
+    380
+  ],
+  "sourceHeight": 280,
+  "foot": [
+    160,
+    340
+  ],
+  "durationMs": 465,
+  "loop": true,
+  "frames": [
+    {
+      "index": 0,
+      "file": "frames/0000.png",
+      "x": 0,
+      "y": 0,
+      "w": 350,
+      "h": 380,
+      "sourceHeight": 280,
+      "foot": [
+        160,
+        340
+      ],
+      "durationMs": 29,
+      "phase": "move",
+      "source": {
+        "file": "inputs/000-exec-6f0d6b95-7b77-4b7a-8dac-4127b0d79958.png",
+        "crop": [
+          0,
+          0,
+          309,
+          350
+        ],
+        "clipPolygon": [
+          [
+            30,
+            0
+          ],
+          [
+            270,
+            0
+          ],
+          [
+            270,
+            180
+          ],
+          [
+            309,
+            230
+          ],
+          [
+            309,
+            350
+          ],
+          [
+            30,
+            350
+          ]
+        ]
+      }
+    },
+    {
+      "index": 1,
+      "file": "frames/0001.png",
+      "x": 350,
+      "y": 0,
+      "w": 350,
+      "h": 380,
+      "sourceHeight": 280,
+      "foot": [
+        160,
+        340
+      ],
+      "durationMs": 29,
+      "phase": "move",
+      "source": {
+        "file": "inputs/000-exec-6f0d6b95-7b77-4b7a-8dac-4127b0d79958.png",
+        "crop": [
+          281,
+          0,
+          309,
+          350
+        ],
+        "clipPolygon": [
+          [
+            30,
+            0
+          ],
+          [
+            270,
+            0
+          ],
+          [
+            270,
+            180
+          ],
+          [
+            309,
+            230
+          ],
+          [
+            309,
+            350
+          ],
+          [
+            30,
+            350
+          ]
+        ]
+      }
+    },
+    {
+      "index": 2,
+      "file": "frames/0002.png",
+      "x": 700,
+      "y": 0,
+      "w": 350,
+      "h": 380,
+      "sourceHeight": 280,
+      "foot": [
+        160,
+        340
+      ],
+      "durationMs": 29,
+      "phase": "move",
+      "source": {
+        "file": "inputs/000-exec-6f0d6b95-7b77-4b7a-8dac-4127b0d79958.png",
+        "crop": [
+          562,
+          0,
+          308,
+          350
+        ],
+        "clipPolygon": [
+          [
+            30,
+            0
+          ],
+          [
+            270,
+            0
+          ],
+          [
+            270,
+            180
+          ],
+          [
+            308,
+            230
+          ],
+          [
+            308,
+            350
+          ],
+          [
+            30,
+            350
+          ]
+        ]
+      }
+    },
+    {
+      "index": 3,
+      "file": "frames/0003.png",
+      "x": 1050,
+      "y": 0,
+      "w": 350,
+      "h": 380,
+      "sourceHeight": 280,
+      "foot": [
+        160,
+        340
+      ],
+      "durationMs": 29,
+      "phase": "move",
+      "source": {
+        "file": "inputs/000-exec-6f0d6b95-7b77-4b7a-8dac-4127b0d79958.png",
+        "crop": [
+          842,
+          0,
+          281,
+          350
+        ],
+        "clipPolygon": [
+          [
+            30,
+            0
+          ],
+          [
+            270,
+            0
+          ],
+          [
+            270,
+            180
+          ],
+          [
+            281,
+            230
+          ],
+          [
+            281,
+            350
+          ],
+          [
+            30,
+            350
+          ]
+        ]
+      }
+    },
+    {
+      "index": 4,
+      "file": "frames/0004.png",
+      "x": 0,
+      "y": 380,
+      "w": 350,
+      "h": 380,
+      "sourceHeight": 280,
+      "foot": [
+        160,
+        340
+      ],
+      "durationMs": 29,
+      "phase": "move",
+      "source": {
+        "file": "inputs/000-exec-6f0d6b95-7b77-4b7a-8dac-4127b0d79958.png",
+        "crop": [
+          0,
+          350,
+          309,
+          350
+        ],
+        "clipPolygon": [
+          [
+            30,
+            0
+          ],
+          [
+            270,
+            0
+          ],
+          [
+            270,
+            180
+          ],
+          [
+            309,
+            230
+          ],
+          [
+            309,
+            350
+          ],
+          [
+            30,
+            350
+          ]
+        ]
+      }
+    },
+    {
+      "index": 5,
+      "file": "frames/0005.png",
+      "x": 350,
+      "y": 380,
+      "w": 350,
+      "h": 380,
+      "sourceHeight": 280,
+      "foot": [
+        160,
+        340
+      ],
+      "durationMs": 29,
+      "phase": "move",
+      "source": {
+        "file": "inputs/000-exec-6f0d6b95-7b77-4b7a-8dac-4127b0d79958.png",
+        "crop": [
+          281,
+          350,
+          309,
+          350
+        ],
+        "clipPolygon": [
+          [
+            30,
+            0
+          ],
+          [
+            270,
+            0
+          ],
+          [
+            270,
+            180
+          ],
+          [
+            309,
+            230
+          ],
+          [
+            309,
+            350
+          ],
+          [
+            30,
+            350
+          ]
+        ]
+      }
+    },
+    {
+      "index": 6,
+      "file": "frames/0006.png",
+      "x": 700,
+      "y": 380,
+      "w": 350,
+      "h": 380,
+      "sourceHeight": 280,
+      "foot": [
+        160,
+        340
+      ],
+      "durationMs": 29,
+      "phase": "move",
+      "source": {
+        "file": "inputs/000-exec-6f0d6b95-7b77-4b7a-8dac-4127b0d79958.png",
+        "crop": [
+          562,
+          350,
+          308,
+          350
+        ],
+        "clipPolygon": [
+          [
+            30,
+            0
+          ],
+          [
+            270,
+            0
+          ],
+          [
+            270,
+            180
+          ],
+          [
+            308,
+            230
+          ],
+          [
+            308,
+            350
+          ],
+          [
+            30,
+            350
+          ]
+        ]
+      }
+    },
+    {
+      "index": 7,
+      "file": "frames/0007.png",
+      "x": 1050,
+      "y": 380,
+      "w": 350,
+      "h": 380,
+      "sourceHeight": 280,
+      "foot": [
+        160,
+        340
+      ],
+      "durationMs": 29,
+      "phase": "move",
+      "source": {
+        "file": "inputs/000-exec-6f0d6b95-7b77-4b7a-8dac-4127b0d79958.png",
+        "crop": [
+          842,
+          350,
+          281,
+          350
+        ],
+        "clipPolygon": [
+          [
+            30,
+            0
+          ],
+          [
+            270,
+            0
+          ],
+          [
+            270,
+            180
+          ],
+          [
+            281,
+            230
+          ],
+          [
+            281,
+            350
+          ],
+          [
+            30,
+            350
+          ]
+        ]
+      }
+    },
+    {
+      "index": 8,
+      "file": "frames/0008.png",
+      "x": 0,
+      "y": 760,
+      "w": 350,
+      "h": 380,
+      "sourceHeight": 280,
+      "foot": [
+        160,
+        340
+      ],
+      "durationMs": 29,
+      "phase": "move",
+      "source": {
+        "file": "inputs/000-exec-6f0d6b95-7b77-4b7a-8dac-4127b0d79958.png",
+        "crop": [
+          0,
+          700,
+          309,
+          351
+        ],
+        "clipPolygon": [
+          [
+            30,
+            0
+          ],
+          [
+            270,
+            0
+          ],
+          [
+            270,
+            180
+          ],
+          [
+            309,
+            230
+          ],
+          [
+            309,
+            351
+          ],
+          [
+            30,
+            351
+          ]
+        ]
+      }
+    },
+    {
+      "index": 9,
+      "file": "frames/0009.png",
+      "x": 350,
+      "y": 760,
+      "w": 350,
+      "h": 380,
+      "sourceHeight": 280,
+      "foot": [
+        160,
+        340
+      ],
+      "durationMs": 29,
+      "phase": "move",
+      "source": {
+        "file": "inputs/000-exec-6f0d6b95-7b77-4b7a-8dac-4127b0d79958.png",
+        "crop": [
+          281,
+          700,
+          309,
+          351
+        ],
+        "clipPolygon": [
+          [
+            30,
+            0
+          ],
+          [
+            270,
+            0
+          ],
+          [
+            270,
+            180
+          ],
+          [
+            309,
+            230
+          ],
+          [
+            309,
+            351
+          ],
+          [
+            30,
+            351
+          ]
+        ]
+      }
+    },
+    {
+      "index": 10,
+      "file": "frames/0010.png",
+      "x": 700,
+      "y": 760,
+      "w": 350,
+      "h": 380,
+      "sourceHeight": 280,
+      "foot": [
+        160,
+        340
+      ],
+      "durationMs": 29,
+      "phase": "move",
+      "source": {
+        "file": "inputs/000-exec-6f0d6b95-7b77-4b7a-8dac-4127b0d79958.png",
+        "crop": [
+          562,
+          700,
+          308,
+          351
+        ],
+        "clipPolygon": [
+          [
+            30,
+            0
+          ],
+          [
+            270,
+            0
+          ],
+          [
+            270,
+            180
+          ],
+          [
+            308,
+            230
+          ],
+          [
+            308,
+            351
+          ],
+          [
+            30,
+            351
+          ]
+        ]
+      }
+    },
+    {
+      "index": 11,
+      "file": "frames/0011.png",
+      "x": 1050,
+      "y": 760,
+      "w": 350,
+      "h": 380,
+      "sourceHeight": 280,
+      "foot": [
+        160,
+        340
+      ],
+      "durationMs": 29,
+      "phase": "move",
+      "source": {
+        "file": "inputs/000-exec-6f0d6b95-7b77-4b7a-8dac-4127b0d79958.png",
+        "crop": [
+          842,
+          700,
+          281,
+          351
+        ],
+        "clipPolygon": [
+          [
+            30,
+            0
+          ],
+          [
+            270,
+            0
+          ],
+          [
+            270,
+            180
+          ],
+          [
+            281,
+            230
+          ],
+          [
+            281,
+            351
+          ],
+          [
+            30,
+            351
+          ]
+        ]
+      }
+    },
+    {
+      "index": 12,
+      "file": "frames/0012.png",
+      "x": 0,
+      "y": 1140,
+      "w": 350,
+      "h": 380,
+      "sourceHeight": 280,
+      "foot": [
+        160,
+        340
+      ],
+      "durationMs": 29,
+      "phase": "move",
+      "source": {
+        "file": "inputs/000-exec-6f0d6b95-7b77-4b7a-8dac-4127b0d79958.png",
+        "crop": [
+          0,
+          1051,
+          309,
+          350
+        ],
+        "clipPolygon": [
+          [
+            30,
+            0
+          ],
+          [
+            270,
+            0
+          ],
+          [
+            270,
+            180
+          ],
+          [
+            309,
+            230
+          ],
+          [
+            309,
+            350
+          ],
+          [
+            30,
+            350
+          ]
+        ]
+      }
+    },
+    {
+      "index": 13,
+      "file": "frames/0013.png",
+      "x": 350,
+      "y": 1140,
+      "w": 350,
+      "h": 380,
+      "sourceHeight": 280,
+      "foot": [
+        160,
+        340
+      ],
+      "durationMs": 29,
+      "phase": "move",
+      "source": {
+        "file": "inputs/000-exec-6f0d6b95-7b77-4b7a-8dac-4127b0d79958.png",
+        "crop": [
+          281,
+          1051,
+          309,
+          350
+        ],
+        "clipPolygon": [
+          [
+            30,
+            0
+          ],
+          [
+            270,
+            0
+          ],
+          [
+            270,
+            180
+          ],
+          [
+            309,
+            230
+          ],
+          [
+            309,
+            350
+          ],
+          [
+            30,
+            350
+          ]
+        ]
+      }
+    },
+    {
+      "index": 14,
+      "file": "frames/0014.png",
+      "x": 700,
+      "y": 1140,
+      "w": 350,
+      "h": 380,
+      "sourceHeight": 280,
+      "foot": [
+        160,
+        340
+      ],
+      "durationMs": 29,
+      "phase": "move",
+      "source": {
+        "file": "inputs/000-exec-6f0d6b95-7b77-4b7a-8dac-4127b0d79958.png",
+        "crop": [
+          562,
+          1051,
+          308,
+          350
+        ],
+        "clipPolygon": [
+          [
+            30,
+            0
+          ],
+          [
+            270,
+            0
+          ],
+          [
+            270,
+            180
+          ],
+          [
+            308,
+            230
+          ],
+          [
+            308,
+            350
+          ],
+          [
+            30,
+            350
+          ]
+        ]
+      }
+    },
+    {
+      "index": 15,
+      "file": "frames/0015.png",
+      "x": 1050,
+      "y": 1140,
+      "w": 350,
+      "h": 380,
+      "sourceHeight": 280,
+      "foot": [
+        160,
+        340
+      ],
+      "durationMs": 30,
+      "phase": "move",
+      "source": {
+        "file": "inputs/000-exec-6f0d6b95-7b77-4b7a-8dac-4127b0d79958.png",
+        "crop": [
+          842,
+          1051,
+          281,
+          350
+        ],
+        "clipPolygon": [
+          [
+            30,
+            0
+          ],
+          [
+            270,
+            0
+          ],
+          [
+            270,
+            180
+          ],
+          [
+            281,
+            230
+          ],
+          [
+            281,
+            350
+          ],
+          [
+            30,
+            350
+          ]
+        ]
+      }
+    }
+  ],
+  "metadata": {
+    "sourceReview": "root-selected-for-native-sample",
+    "generatedBy": "imagegen over measured stabilized motion",
+    "timingBasis": "measured stride at 3.3 m/s"
+  },
+  "sources": [
+    {
+      "file": "inputs/000-exec-6f0d6b95-7b77-4b7a-8dac-4127b0d79958.png",
+      "sha256": "4e21ff682752ed3c285a4c435183c76c3b19ccc7c0a9e7c690c6a94a5b108287"
+    }
+  ],
+  "provenance": {
+    "pipeline": "combat-frame-pipeline/1",
+    "python": "3.12.14",
+    "pillow": "12.3.0",
+    "scriptSha256": "870275d7b2c0504dea2418f47854326f4a75ea5aead0419072ff31be87e25e13",
+    "workflowReference": {
+      "repository": "https://github.com/0x0funky/agent-sprite-forge",
+      "revision": "5324342fdfab72430f4e9604f3fe427009f8596d"
+    },
+    "sourceHeightBeforeScale": 280,
+    "uniformScale": 1,
+    "pixelOperations": [
+      "explicit-crop",
+      "authored-polygon-alpha-clip",
+      "fixed-foot-translation",
+      "whole-frame-pack"
+    ]
+  },
+  "id": "shen-yan-run-down-left",
+  "visualIdentity": "shen-yan",
+  "action": "move",
+  "direction": "down-left",
+  "phase": "idle"
+}

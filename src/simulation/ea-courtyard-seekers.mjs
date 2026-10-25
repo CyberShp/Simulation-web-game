@@ -87,7 +87,7 @@ function learningOpportunity(s,p){
  }
  return null;
 }
-function assessment(s,p){
+export function courtyardSeekerAssessment(s,p){
  const trust=p.mind.relationships.master.trust,discipline=p.mind.traits[3],kindness=p.mind.traits[0],opportunity=learningOpportunity(s,p);
  const components={discipline:discipline*.3,kindness:kindness*.1,trust:trust*.4,opportunity:opportunity?SEEKER_RULES.opportunityBonus:0};
  const score=Object.values(components).reduce((a,b)=>a+b,0),willing=score>=SEEKER_RULES.threshold;
@@ -96,16 +96,16 @@ function assessment(s,p){
  return {inputs,components,score,threshold:SEEKER_RULES.threshold,willing,reason};
 }
 function signatureInputs(inputs){const value=clone(inputs);if(value.opportunity){delete value.opportunity.mastery;delete value.opportunity.understanding;}return value;}
-function conditionSignature(s,p,a=assessment(s,p)){return JSON.stringify({assessment:signatureInputs(a.inputs),food:foodView(s).met,bed:housingView(s).counts.freeForAdmission>0});}
+function conditionSignature(s,p,a=courtyardSeekerAssessment(s,p)){return JSON.stringify({assessment:signatureInputs(a.inputs),food:foodView(s).met,bed:housingView(s).counts.freeForAdmission>0});}
 export function courtyardSeekerBodyReason(s,personId){
  const p=s.personsById[personId],master=s.personsById[MASTER],a=s.activitiesById[master?.activityId],other=s.activitiesById[p?.activityId];
- return !local(master)||!local(p)||s.world?.exploration||s.combat?.status==='active'||other||a&&!(a.kind==='facility'&&['rest','cultivate','social'].includes(a.action)&&!a.serviceOrderId)?'须双方当前身体能交谈，先完成正在进行的事务。':'';
+ return !local(master)||!local(p)||s.world?.exploration||s.combat?.status==='active'||other&&other.action!=='guest-bed'||a&&!(a.kind==='facility'&&['rest','cultivate','social'].includes(a.action)&&!a.serviceOrderId)?'须双方当前身体能交谈，先完成正在进行的事务。':'';
 }
 export function courtyardSeekerView(s,personId){
  const r=sourceRecord(s,personId),p=s.personsById?.[personId];if(!r||!p)return null;
  const v=current(r),master=s.personsById[MASTER],distance=local(master)&&local(p)?scenicDistance(mind(master).scenic,mind(p).scenic):null;
  const near=Number.isFinite(distance)&&distance<=1.5,member=s.homeMemberIds.includes(personId);
- const food=foodView(s),housing=housingView(s),a=assessment(s,p),bodyReason=courtyardSeekerBodyReason(s,personId);
+ const food=foodView(s),housing=housingView(s),a=courtyardSeekerAssessment(s,p),bodyReason=courtyardSeekerBodyReason(s,personId);
  const conditions=[
   {id:'member',met:!member&&!s.courtyardAdmissions?.recordsByPersonId?.[personId],reason:'此人已有正式收录记录。'},
   {id:'arrival',met:local(p)&&p.courtyardVisit?.phase==='present'&&v.endedAtTick===null,reason:'来客尚未在院前停留，请待实际抵达后再商议。'},
@@ -140,7 +140,7 @@ export function answerCourtyardSeeker(s,{personId,answer}={}){
 /** Called by the shared admission transaction; a refusal is a committed answer. */
 export function acceptCourtyardSeeker(s,personId){
  const r=sourceRecord(s,personId),view=courtyardSeekerView(s,personId);if(!view?.canRequestAdmission)throw Error(view?.reason||'此人没有山门求见约定。');
- const p=s.personsById[personId],a=assessment(s,p),signature=conditionSignature(s,p,a),v=current(r),prior=v.answers.findLast(answer=>answer.signature===signature&&answer.type.startsWith('npc-'));
+ const p=s.personsById[personId],a=courtyardSeekerAssessment(s,p),signature=conditionSignature(s,p,a),v=current(r),prior=v.answers.findLast(answer=>answer.signature===signature&&answer.type.startsWith('npc-'));
  if(prior&&!prior.assessment.willing)return {accepted:false,personId,reason:prior.reason,answer:publicAnswer(prior)};
  if(!a.willing){const answer=addAnswer(s,r,'npc-decline',a.reason,{assessment:a,signature});return {accepted:false,personId,reason:a.reason,answer:publicAnswer(answer)};}
  ensureResidentialHousing(s);const housing=residentialAdmissionView(s,personId);if(!housing.available)throw Error(housing.reason);

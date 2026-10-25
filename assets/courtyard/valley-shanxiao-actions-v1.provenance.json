@@ -1,0 +1,21 @@
+{
+  "asset": "valley-shanxiao-actions-v1.png",
+  "date": "2026-10-23",
+  "tool": "built-in image_gen",
+  "source": "/Users/shepard/.codex/generated_images/01a1688d-90fd-7e31-a0ec-278d90406f2f/exec-21d46855-6357-4568-b4eb-22bd3630228e.png",
+  "prompt": "Use case: identity-preserve. Transparent HD pixel-art game animation atlas. Reference is the approved-working mountain ape sprite identity to preserve EXACTLY: white-grey fur, red face, moss green back, huge forearms. Create a horizontal sprite sheet of THREE frames, equal-width cells, transparent actual alpha background. Fixed slightly elevated three-quarter camera facing left, consistent creature size, lighting, pixel scale and planted rear foot anchor across all three cells. Frame1 idle hunched combat stance with hands low. Frame2 attack WINDUP: lift both long forearms clearly up above its head, torso raised and weight back, rear feet stay in place. Frame3 attack IMPACT: both forearms slammed to the ground in front-left, crouched torso, rear feet stay in place. Keep full creature visible with generous margins in EACH equal cell, clean separated cells, no overlaps. Pixel art with crisp fine pixel clusters matching reference, no smooth painting. No effects, no rocks, no scenery, no labels, no text, no frame lines. Shape/action must be clear at120px high. Output wide3:1 atlas, each cell square.",
+  "review": {
+    "visual": "Generated image inspected; complete pixel scene / transparent three-pose atlas retained.",
+    "userApproval": "pending"
+  },
+  "atlas": {
+    "columns": 3,
+    "rows": 1,
+    "poses": [
+      "idle",
+      "windup",
+      "impact"
+    ]
+  },
+  "sha256": "867f5b21bbae05b27c76bf0c411e3c96e6ba13a595c3da34620b8ebf9e9de4bc"
+}

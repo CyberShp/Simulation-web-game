@@ -73,7 +73,7 @@ export function startMeditationCultivation(s,{buildingId,slotId}={}){
  const p=s.master,b=building(s,buildingId),v=meditationCultivationView(s,p.personId,buildingId,slotId);if(!v.available)throw Error(v.reason);
  releaseBodyActivity(s,p);p.action='cultivate';p.job=null;p.learning=null;p.path=[];prepareFacilityActivity(s,p,b,'cultivate',0,{slotId});return {accepted:true,buildingId:b.instanceId,slotId};
 }
-export function spiritSourcePersonBusy(s,p){const a=s.activitiesById[p?.activityId];return a?.kind==='sr-spirit-survey'||a?.kind==='facility'&&a.action==='work'&&meditationSupplyEnabled(s.buildingsById[a.targetId]);}
+export function spiritSourcePersonBusy(s,p){const a=s.activitiesById?.[p?.activityId];return a?.kind==='sr-spirit-survey'||a?.kind==='facility'&&a.action==='work'&&meditationSupplyEnabled(s.buildingsById?.[a.targetId]);}
 function tickSurvey(s,o){
  const p=s.personsById[o.personId],a=s.activitiesById[p?.activityId];if(a?.workOrderId!==o.id){o.phase='waiting';return;}
  if(!atHome(s,p)||p.wound>20||p.energy<5){o.phase='waiting';a.phase='waiting';a.reason='身体条件未恢复，保留勘察进度。';return;}

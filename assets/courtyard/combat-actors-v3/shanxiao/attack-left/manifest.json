@@ -1,0 +1,149 @@
+{
+  "schema": "combat-frame-atlas/v1",
+  "atlas": "atlas.png",
+  "frameSize": [
+    340,
+    320
+  ],
+  "sourceHeight": 175.0,
+  "foot": [
+    160,
+    280
+  ],
+  "durationMs": 900,
+  "loop": false,
+  "frames": [
+    {
+      "index": 0,
+      "file": "frames/0000.png",
+      "x": 0,
+      "y": 0,
+      "w": 340,
+      "h": 320,
+      "sourceHeight": 175.0,
+      "foot": [
+        160,
+        280
+      ],
+      "durationMs": 100,
+      "phase": "windup"
+    },
+    {
+      "index": 1,
+      "file": "frames/0001.png",
+      "x": 340,
+      "y": 0,
+      "w": 340,
+      "h": 320,
+      "sourceHeight": 175.0,
+      "foot": [
+        160,
+        280
+      ],
+      "durationMs": 150,
+      "phase": "windup"
+    },
+    {
+      "index": 2,
+      "file": "frames/0002.png",
+      "x": 680,
+      "y": 0,
+      "w": 340,
+      "h": 320,
+      "sourceHeight": 175.0,
+      "foot": [
+        160,
+        280
+      ],
+      "durationMs": 150,
+      "phase": "windup"
+    },
+    {
+      "index": 3,
+      "file": "frames/0003.png",
+      "x": 1020,
+      "y": 0,
+      "w": 340,
+      "h": 320,
+      "sourceHeight": 175.0,
+      "foot": [
+        160,
+        280
+      ],
+      "durationMs": 100,
+      "phase": "release",
+      "event": "release",
+      "anchors": {
+        "hand": [
+          118.0,
+          267.0
+        ]
+      }
+    },
+    {
+      "index": 4,
+      "file": "frames/0004.png",
+      "x": 0,
+      "y": 320,
+      "w": 340,
+      "h": 320,
+      "sourceHeight": 175.0,
+      "foot": [
+        160,
+        280
+      ],
+      "durationMs": 150,
+      "phase": "recovery"
+    },
+    {
+      "index": 5,
+      "file": "frames/0005.png",
+      "x": 340,
+      "y": 320,
+      "w": 340,
+      "h": 320,
+      "sourceHeight": 175.0,
+      "foot": [
+        160,
+        280
+      ],
+      "durationMs": 250,
+      "phase": "recovery"
+    }
+  ],
+  "metadata": {
+    "sourceReview": "key-poses-selected-for-sequence-review",
+    "author": "root",
+    "generatedBy": "built-in image_gen",
+    "date": "2026-10-24"
+  },
+  "sources": [
+    {
+      "file": "inputs/000-exec-9b603403-643b-49ca-b0e0-52d302fb19ec.png",
+      "sha256": "30d06acce5fefe6485ba009f7a38f6e2fe84d385ce3abf2abaeeab55186126fb"
+    }
+  ],
+  "provenance": {
+    "pipeline": "combat-frame-pipeline/1",
+    "python": "3.12.14",
+    "pillow": "12.3.0",
+    "scriptSha256": "870275d7b2c0504dea2418f47854326f4a75ea5aead0419072ff31be87e25e13",
+    "workflowReference": {
+      "repository": "https://github.com/0x0funky/agent-sprite-forge",
+      "revision": "5324342fdfab72430f4e9604f3fe427009f8596d"
+    },
+    "sourceHeightBeforeScale": 350,
+    "uniformScale": 0.5,
+    "pixelOperations": [
+      "explicit-crop",
+      "uniform-nearest-scale",
+      "fixed-foot-translation",
+      "whole-frame-pack"
+    ]
+  },
+  "id": "shanxiao-attack-left-v3",
+  "visualIdentity": "shanxiao",
+  "action": "attack",
+  "direction": "left",
+  "phase": "idle"
+}

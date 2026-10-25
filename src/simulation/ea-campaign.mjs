@@ -1,9 +1,14 @@
+import {basicCombatAttackProfile,enemyCombatAttackProfile,openValleyCombat} from './ea-combat-attack-profiles.mjs';
 import { rng, day, log, pay, canPay, grant, capacity } from './ea-data.mjs';
 import {residentialHousingApplicable,residentialProjectionState,residentialAdmissionView,residentialHousingView} from './ea-residential-housing.mjs';
 import { EXPEDITIONS as LEGACY_ROUTES } from './world.mjs';
-import { combatField, combatGeometryId, combatCanStand, combatClearLine, combatPath, moveCombatActor, dodgeEndpoint } from './ea-combat-geometry.mjs';
+import { combatField, combatGeometryId, combatCanStand, combatClearLine, combatPath, moveCombatActor, dodgeEndpoint, combatInRange, combatClamp, combatExit, combatRetreatReached, combatSpawn, VALLEY_COMBAT_V2 } from './ea-combat-geometry.mjs';
 import { appearance } from './ea-scenic.mjs';
-import {beginCombatSession,endCombatSession,initSRCombat,projectedCombatHp,setCombatActorHp,syncCombatBodyProjection} from './ea-sr-combat.mjs';
+import {beginCombatSession,endCombatSession,initSRCombat,projectedCombatHp,setCombatActorHp,syncCombatBodyProjection,recordAimedCombatHit,interruptSRCombatWindup,projectCombatActorMotion,combatMovementLocked,COMBAT_ACTIONS} from './ea-sr-combat.mjs';
+import {combatActorId,combatDirection,combatStaggered,receiveCombatImpact,combatWorldTick} from './ea-combat-impact.mjs';
+import {combatSide,chooseCombatTarget,selectedCombatEnemy} from './ea-combat-targeting.mjs';
+import {encounterCombatantId,settleEncounterCombatantDeaths,encounterCombatantVisualIdentity} from './ea-combat-participants.mjs';
+import {companionPositionPlans} from './ea-combat-companion-positioning.mjs';
 import {openingCombatProfile} from './ea-opening-inheritance.mjs';
 import {recordPermanentDeathSR} from './ea-sr-crises.mjs';
 
@@ -322,8 +327,9 @@ export function leaveRegion(s) {
 }
 
 // Author-tunable first encounter on the valley's actual metre grid.
-export function valleyEncounterDefinition(){return {id:'valley-shanxiao',objectId:'object:valley:shanxiao',personId:'person:valley-shanxiao',name:'伤人山魈',sceneId:'scene:valley',x:27,y:36,radius:3,realm:2,origin:Object.freeze({x:21,y:32}),safePoint:Object.freeze({x:21.7,y:36})};}
+export function valleyEncounterDefinition(){return {id:'valley-shanxiao',objectId:'object:valley:shanxiao',personId:'person:valley-shanxiao',name:'伤人山魈',sceneId:'scene:valley',x:27,y:36,radius:VALLEY_COMBAT_V2.interactionRadius,approach:{...VALLEY_COMBAT_V2.approach},realm:2,origin:Object.freeze({x:21,y:32}),safePoint:Object.freeze({x:21.7,y:36})};}
 export const VALLEY_ENCOUNTER=Object.freeze(valleyEncounterDefinition());
+export const PRISON_FORECOURT=Object.freeze({sceneId:'scene:prison',geometryId:'prison-forecourt',origin:Object.freeze({x:20,y:19}),safePoint:Object.freeze({x:20.7,y:23}),approach:Object.freeze({x:26,y:20.5}),source:'T-COMBAT-PARTY-20261024'});
 const ENCOUNTERS = {
   'valley-shanxiao':{name:'伤人山魈',hp:160,damage:10,count:1,personId:VALLEY_ENCOUNTER.personId,localEncounter:true},
   defend:{ name:'石桥追兵', hp:88, damage:13, count:1, clue:'testimony' },
@@ -334,19 +340,32 @@ const ENCOUNTERS = {
   shao:{name:'邵衡',hp:230,damage:20,count:1,personId:'person:shao-heng'},
   xing:{name:'邢烈',hp:340,damage:26,count:1,personId:'person:xing-lie'}
 };
+function valleyFrameV2(){return {sceneId:VALLEY_COMBAT_V2.sceneId,origin:{...VALLEY_COMBAT_V2.worldOrigin},safePoint:{...VALLEY_COMBAT_V2.worldSafePoint},source:VALLEY_COMBAT_V2.source};}
+function localCombatPoint(location,frame){return {x:location.x-frame.origin.x,y:location.y-frame.origin.y};}
+function assertValleyWorldObstacles(s){
+ const objects=s.scenesById?.[VALLEY_COMBAT_V2.sceneId]?.objects;
+ if(!Array.isArray(objects))throw Error('林间战场缺少真实场景物件，不能建立扩大场地。');
+ const solids=objects.filter(o=>o.kind!=='person');
+ if(solids.length!==VALLEY_COMBAT_V2.worldObstacles.length||VALLEY_COMBAT_V2.worldObstacles.some(expected=>{
+  const o=solids.find(value=>value.id===expected.id);
+  return !o||o.kind!==expected.kind||o.x-o.width/2!==expected.x||o.y-o.height/2!==expected.y||o.width!==expected.w||o.height!==expected.h;
+ }))throw Error('林间真实物件与战场阻挡定义不一致，保留原场景后停止应战。');
+}
 function startCombat(s, encounterId) {
   const e = s.world.exploration, def = ENCOUNTERS[encounterId], p = s.story.preparations;
   if (!e || !def || s.combat?.status === 'active') throw Error('当前无法开始战斗。');
+  const geometryId=def.localEncounter?VALLEY_COMBAT_V2.id:e.regionId,arena=combatField(geometryId),frame=def.localEncounter?valleyFrameV2():null;
+  const spawn=(location,fallback)=>frame&&location?.kind==='local'&&location.sceneId===frame.sceneId?localCombatPoint(location,frame):{x:fallback.x,y:fallback.y};
   const m = s.master, maxHp = 95 + m.realm * 8, maxQi = 60 + m.realm * 4;
   const enemies = [], count = def.count + (def.final && !p.public && !p.supply ? 1 : 0);
   for (let i = 0; i < count; i++) {
     const isBoss = !!def.final && i === 0;
-    const config=hooks.enemyCombatConfig?.(s,i===0?def.personId:null);
+    const config=enemyCombatAttackProfile({geometryId,geometryVersion:def.localEncounter?2:1},i===0?def.personId:null,hooks.enemyCombatConfig?.(s,i===0?def.personId:null));
     const hp = Math.round((i === 0 ? def.hp : def.hp * .62) * (def.final && p.supply ? .76 : 1));
-    enemies.push({ id:`enemy-${i + 1}`,personId:i===0?def.personId||null:null, name:isBoss ? '韩厉川 · 筑基后期' : def.final ? '赤嶂护卫' : `${def.name}${count > 1 ? i + 1 : ''}`, x:8.5 + i, y:3 + i * 2, facing:{x:-1,y:0},hp, maxHp:hp, damage:Math.round((i === 0 ? def.damage : def.damage * .7) * (def.final && p.array ? .7 : 1) * (1 + WEATHER[e.weather].risk * .5)), speed:isBoss ? 1.1 : 1.3, cooldown:1.6 + i, windup:0, telegraph:null, strikes:0, boss:isBoss, ...(config?{srMoves:{...config},damage:Math.round(config.damage*(p.array?.7:1)*(1+WEATHER[e.weather].risk*.5))}:{} ) });
+    enemies.push({ id:`enemy-${i + 1}`,personId:i===0?def.personId||null:null, name:isBoss ? '韩厉川 · 筑基后期' : def.final ? '赤嶂护卫' : `${def.name}${count > 1 ? i + 1 : ''}`, ...spawn(i===0?s.personsById?.[def.personId]?.location:null,combatSpawn(i,'enemy',geometryId)), facing:{x:-1,y:0},hp, maxHp:hp, damage:Math.round((i === 0 ? def.damage : def.damage * .7) * (def.final && p.array ? .7 : 1) * (1 + WEATHER[e.weather].risk * .5)), speed:isBoss ? 1.1 : 1.3, cooldown:1.6 + i, windup:0, telegraph:null, strikes:0, boss:isBoss, ...(config?{srMoves:{...config},damage:Math.round(config.damage*(p.array?.7:1)*(1+WEATHER[e.weather].risk*.5))}:{} ) });
   }
-  const allies = e.companionIds.map((id, i) => { const d = s.disciples.find(d => d.id === id), maxHp = 55 + d.realm * 5,hp=s.contentVersion==='sr-content-v1.2'?projectedCombatHp(d,maxHp):maxHp; return { id:d.id, personId:d.personId||null, name:d.name, x:2, y:2 + i * 3, facing:{x:1,y:0},hp, maxHp, damage:8 + d.realm, cooldown:.8 + i, knockedOut:hp===0 }; });
-  s.combat = { status:'active', geometryVersion:1, encounterId, regionId:e.regionId, journeyId:e.id, arena:{width:12,height:8}, player:{ personId:'person:master',x:e.position.x, y:e.position.y, target:null, hp:s.contentVersion==='sr-content-v1.2'?projectedCombatHp(m,maxHp):Math.min(maxHp,Math.round(maxHp * (.72 + m.energy / 360))), maxHp, qi:maxQi, maxQi, cooldowns:{attack:0,spell:0,dodge:0,guard:0}, guard:0, evade:0, facing:{x:1,y:0} }, enemies, allies, effects:[],nextEffectId:1,elapsed:0, retreatRequested:false, result:null, rewardApplied:false, message:`移动躲开红色落点；近身攻击或施展远程术法。货箱和碎石阻挡通行与直线攻击，可绕行；左侧可撤离。${WEATHER[e.weather].risk ? '风雨视线不利，敌方命中伤害略增。' : ''}`, prepared:{...p} };
+  const allies = e.companionIds.map((id, i) => { const d = s.disciples.find(d => d.id === id), maxHp = 55 + d.realm * 5,hp=s.contentVersion==='sr-content-v1.2'?projectedCombatHp(d,maxHp):maxHp; return { id:d.id, personId:d.personId||null, name:d.name, ...spawn(d.location,combatSpawn(i,'ally',geometryId)), facing:{x:1,y:0},hp, maxHp, damage:8 + d.realm, cooldown:.8 + i, knockedOut:hp===0 }; });
+  s.combat = { status:'active', geometryVersion:def.localEncounter?2:1, ...(def.localEncounter?{geometryId}:{}), encounterId, regionId:e.regionId, journeyId:e.id, arena:{width:arena.width,height:arena.height}, player:{ personId:'person:master',...spawn(s.master.location,e.position), target:null, hp:s.contentVersion==='sr-content-v1.2'?projectedCombatHp(m,maxHp):Math.min(maxHp,Math.round(maxHp * (.72 + m.energy / 360))), maxHp, qi:maxQi, maxQi, cooldowns:{attack:0,spell:0,dodge:0,guard:0}, guard:0, evade:0, facing:{x:1,y:0} }, enemies, allies, effects:[],nextEffectId:1,elapsed:0, retreatRequested:false, result:null, rewardApplied:false, message:`移动躲开红色落点；近身攻击或施展远程术法。货箱和碎石阻挡通行与直线攻击，可绕行；左侧可撤离。${WEATHER[e.weather].risk ? '风雨视线不利，敌方命中伤害略增。' : ''}`, prepared:{...p} };
   if(s.contentVersion==='sr-content-v1.2')beginCombatSession(s,s.combat);
   e.status = 'combat'; e.target = null;
   s.master.journey.status = 'combat';
@@ -360,23 +379,49 @@ export function startSRCombat(s,encounterId,{sceneId,companions=[]}={}){
  const regionId=sceneId?.replace('scene:','');if(!REGIONS[regionId])throw Error('此地未交付战斗空间');
  if(!def.localEncounter&&s.master.realm<10)throw Error('已知筑基责任人的差距明确，先完成可靠筑基准备');
  const pid=def.personId;if(pid&&s.personsById?.[pid]?.lifeStatus==='dead')throw Error(def.localEncounter?'这只山魈已身死，林间战果保留':'责任人已实际身死，不重开战斗');
+ const count=def.count+(def.final&&!s.story.preparations.public&&!s.story.preparations.supply?1:0);
+ if(!pid&&Array.from({length:count},(_,i)=>s.world.encounterCombatantsById?.[encounterCombatantId(encounterId,`enemy-${i+1}`)]).every(record=>record?.lifeStatus==='dead'))throw Error('此处原有敌人均已身死，既定战果保留。');
+ if(encounterId==='rescue'){
+  const loc=s.master.location;
+  if(sceneId!==PRISON_FORECOURT.sceneId||loc?.kind!=='local'||loc.sceneId!==sceneId||!combatCanStand({x:loc.x-PRISON_FORECOURT.origin.x,y:loc.y-PRISON_FORECOURT.origin.y},PRISON_FORECOURT.geometryId))throw Error('先实际走到偏牢门楼南侧可通行的户外空地。');
+ }
  if(def.localEncounter){
   const loc=s.master.location,foe=s.personsById[pid];
   if(sceneId!==VALLEY_ENCOUNTER.sceneId||loc?.kind!=='local'||loc.sceneId!==sceneId||foe?.location?.sceneId!==sceneId||distance(loc,foe.location)>VALLEY_ENCOUNTER.radius)throw Error('先走近山魈所在的林间空地，再决定应战');
   if(s.srWorld?.activeTravelId||s.srWorld?.interaction||s.srCrises?.activeTreatment||s.master.activityId||s.combat?.status==='active')throw Error('先结束当前身体活动');
   if(s.master.wound>=100)throw Error('伤势过重，先服药或回院疗伤');
   if(s.story.opening?.inheritance&&s.story.opening.inheritance.status!=='chosen')throw Error('先研读母亲遗卷，掌握入门攻守法');
-  const feet={x:loc.x-VALLEY_ENCOUNTER.origin.x,y:loc.y-VALLEY_ENCOUNTER.origin.y};
-  if(!combatCanStand(feet,'legacy'))throw Error('先走入山魈附近的林间空地');
+  assertValleyWorldObstacles(s);
+  const frame=valleyFrameV2();
+  if(!combatCanStand(localCombatPoint(loc,frame),VALLEY_COMBAT_V2.id)||!combatCanStand(localCombatPoint(foe.location,frame),VALLEY_COMBAT_V2.id))throw Error('先走入山魈附近真实可通行的林间战场');
  }
- const companionIds=companions.map(id=>s.personsById[id]?.id).filter(id=>s.disciples.some(p=>p.id===id));
+ if(!Array.isArray(companions)||companions.length>2||new Set(companions).size!==companions.length)throw Error('最多由两位不同门人自主同行。');
+ const companionIds=companions.map(id=>{
+  const person=s.personsById[id],loc=person?.location,master=s.master.location;
+  if(!person||!s.homeMemberIds.includes(id)||!s.disciples.includes(person)||person.lifeStatus==='dead')throw Error('同行者须为仍在宗门的同一位存活门人。');
+  if(loc?.kind!=='local'||master?.kind!=='local'||loc.sceneId!==sceneId||master.sceneId!==sceneId)throw Error(`${person.name}未实际抵达此处，不能隔空加入战斗。`);
+  if(person.activityId||person.combatSessionId||person.wound>15||person.energy<30||person.mind.caution>=85||person.mind.traits[0]<35)throw Error(`${person.name}当前无法或不愿参与斗法。`);
+  if(!def.localEncounter&&person.mind.revengeAttitude==='oppose')throw Error(`${person.name}不愿参与此次复仇斗法。`);
+  if(def.localEncounter&&!combatCanStand(localCombatPoint(loc,valleyFrameV2()),VALLEY_COMBAT_V2.id))throw Error(`${person.name}尚未实际走到林间战场。`);
+  if(encounterId==='rescue'&&!combatCanStand({x:loc.x-PRISON_FORECOURT.origin.x,y:loc.y-PRISON_FORECOURT.origin.y},PRISON_FORECOURT.geometryId))throw Error(`${person.name}尚未实际走到偏牢门前的户外战场。`);
+  return person.id;
+ });
  s.world.exploration={id:s.world.nextJourneyId++,regionId,status:'exploring',total:1,remaining:0,position:{x:1.3,y:4},target:null,eventId:'mission',visit:s.world.visits[regionId]||0,resolved:false,companionIds,companionInjuries:{},weather:s.world.weather.id,outcome:null,srOwned:true};
  s.master.journey={kind:'campaign',routeId:regionId,status:'exploring',total:1,remaining:0};
  for(const id of companionIds){const p=s.disciples.find(p=>p.id===id);p.mind.away={kind:'campaign',id:regionId};}
- const c=startCombat(s,encounterId);
+ const c=startCombat(s,encounterId);c.partyTravelId=s.srWorld?.localPartyTravelId||null;
+ if(encounterId==='rescue'){
+  c.geometryId=PRISON_FORECOURT.geometryId;c.sceneFrame={sceneId,...structuredClone({origin:PRISON_FORECOURT.origin,safePoint:PRISON_FORECOURT.safePoint}),source:PRISON_FORECOURT.source};
+  for(const actor of [c.player,...c.allies,...c.enemies]){
+   const loc=actor.personId?s.personsById[actor.personId]?.location:s.world.encounterCombatantsById?.[actor.combatantId]?.location;
+   if(loc?.kind==='local'&&loc.sceneId===sceneId){actor.x=loc.x-c.sceneFrame.origin.x;actor.y=loc.y-c.sceneFrame.origin.y;}
+   if(!combatCanStand(actor,c.geometryId))throw Error('偏牢参战人物的真实脚点不在已注册空地。');
+  }
+  s.world.exploration.position={x:c.player.x,y:c.player.y};syncLocalCombatPositions(s,c);
+  c.message='偏牢门前户外空地：门人自主配合，鼠标选敌或按落点出手；西侧退路可脱战。';
+ }
  if(def.localEncounter){
-  c.localEncounter=true;c.sceneFrame={sceneId,...structuredClone({origin:VALLEY_ENCOUNTER.origin,safePoint:VALLEY_ENCOUNTER.safePoint})};
-  delete c.geometryVersion;
+  c.localEncounter=true;c.sceneFrame=valleyFrameV2();
   for(const actor of [c.player,...c.allies,...c.enemies]){
    const loc=actor.personId&&s.personsById[actor.personId]?.location;
    if(loc?.kind==='local'&&loc.sceneId===sceneId){actor.x=loc.x-c.sceneFrame.origin.x;actor.y=loc.y-c.sceneFrame.origin.y;}
@@ -388,10 +433,10 @@ export function startSRCombat(s,encounterId,{sceneId,companions=[]}={}){
 }
 
 function syncLocalCombatPositions(s,c=s.combat){
- if(!c?.localEncounter||!c.sceneFrame)return;
+ if(!c?.sceneFrame)return;
  const {sceneId,origin}=c.sceneFrame;
  for(const actor of [c.player,...c.allies,...c.enemies]){
-  const person=actor.personId&&s.personsById[actor.personId];if(!person)continue;
+  const person=actor.personId?s.personsById[actor.personId]:s.world.encounterCombatantsById?.[actor.combatantId];if(!person)continue;
   person.location={kind:'local',sceneId,x:origin.x+actor.x,y:origin.y+actor.y};
  }
  const cargo=s.stockpilesById?.['stockpile:sr-party'];if(cargo)cargo.position={sceneId,x:origin.x+c.player.x,y:origin.y+c.player.y};
@@ -399,20 +444,60 @@ function syncLocalCombatPositions(s,c=s.combat){
 
 function nearestEnemy(c, target) {
   const alive = c.enemies.filter(e => e.hp > 0);
-  if (typeof target === 'string') return alive.find(e => e.id === target);
-  return alive.sort((a,b) => distance(a, c.player) - distance(b, c.player))[0];
+  if (typeof target === 'string') return alive.find(e => e.id === target||e.personId===target);
+  return selectedCombatEnemy(c)||chooseCombatTarget(c,c.player);
 }
-function effect(c,kind,source,target,amount=0){
+function effect(s,c,kind,source,target,amount=0,details={}){
   c.effects??=[];c.nextEffectId??=1;
-  c.effects.push({id:c.nextEffectId++,kind,sourceId:source?.id??'master',targetId:target?.id??'master',from:{x:source.x,y:source.y},to:{x:target.x,y:target.y},amount,remaining:kind==='down'?1.2:.75,total:kind==='down'?1.2:.75});
+  const id=c.nextEffectId++,direction=details.direction||combatDirection(source,target,source.facing),contact=details.contact||{x:target.x,y:target.y};
+  const event={id,eventId:`${c.sessionId||c.journeyId}:impact:${id}`,tick:combatWorldTick(s),kind,sourceId:combatActorId(source),targetId:combatActorId(target),from:{x:source.x,y:source.y},to:{x:target.x,y:target.y},direction:{...direction},contact:{...contact},contactHeight:target.hp!==undefined?.9:0,amount,remaining:kind==='down'?1.2:.75,total:kind==='down'?1.2:.75,...details};
+  c.effects.push(event);
   c.effects=c.effects.slice(-24);
+  return event;
 }
-function damageActor(s,c,source,target,amount,kind){
-  if(hooks.incomingDamage)amount=hooks.incomingDamage(s,c,source,target,amount,kind);
-  const beforeHp=target.hp;if(c.sessionId)setCombatActorHp(s,target,target.hp-amount);else target.hp=Math.max(0,target.hp-amount);const applied=beforeHp-target.hp;
-  effect(c,kind,source,target,applied);effect(c,'hit',source,target,applied);
+function damageActor(s,c,source,target,amount,kind,details={}){
+  const rawAmount=amount,outcome=target.evade>0?'evaded':target.guard>0?'guarded':'hit';
+  if(outcome==='evaded')amount=0;else if(outcome==='guarded')amount=Math.round(amount*.3);
+  if(amount>0&&hooks.incomingDamage)amount=hooks.incomingDamage(s,c,source,target,amount,kind);
+  const beforeHp=target.hp;if(amount>0){if(c.sessionId)setCombatActorHp(s,target,target.hp-amount);else target.hp=Math.max(0,target.hp-amount);}const applied=beforeHp-target.hp;
+  const direction=details.direction||combatDirection(source,target,source.facing),contact=details.contact||{x:target.x-direction.x*.35,y:target.y-direction.y*.35};
+  effect(s,c,kind,source,target,applied,{...details,direction,contact});
+  const event=effect(s,c,'hit',source,target,applied,{...details,direction,contact,rawAmount,preventedAmount:Math.max(0,rawAmount-applied),outcome,actionId:details.actionId||(source===c.player?s.srCombat?.pending?.id:source.motionAction?.id)||null,projectileId:details.projectileId||null});
+  const reaction=receiveCombatImpact(s,c,target,{...event,amount:applied,kind});
+  if(reaction.staggerTicks&&reaction.reaction==='heavy'&&target===c.player)reaction.interrupted=interruptSRCombatWindup(s);
+  Object.assign(event,reaction);if(target.hitReaction?.eventId===event.eventId)target.hitReaction.interrupted=reaction.interrupted;
   if(applied>0&&hooks.onEffectiveDamage)hooks.onEffectiveDamage(s,c,source,target,applied,kind);
-  if(target.hp===0){if(Object.hasOwn(target,'knockedOut'))target.knockedOut=true;if(Object.hasOwn(target,'telegraph')){target.telegraph=null;target.windup=0;}effect(c,'down',source,target,0);}
+  if(target.hp===0){if(Object.hasOwn(target,'knockedOut'))target.knockedOut=true;effect(s,c,'down',source,target,0,{direction,contact});}
+  return event;
+}
+function directionToward(from,aim,fallback={x:1,y:0}){const length=Math.hypot(aim.x-from.x,aim.y-from.y);return length>1e-8?{x:(aim.x-from.x)/length,y:(aim.y-from.y)/length}:{...fallback};}
+function fireAimedAction(s,c,kind,aim){
+ const p=c.player,art=openingCombatProfile(s),basic=basicCombatAttackProfile(c),swordQi=kind==='attack'&&basic.projectileKind==='sword-qi'&&(!s.srCombat?.pending||s.srCombat.pending.action==='attack'),range=kind==='attack'?(swordQi?basic.range:COMBAT_ACTIONS.attack.range):art.range,direction=swordQi?directionToward(p,aim,p.facing):s.srCombat?.pending?.direction||directionToward(p,aim,p.facing);
+ const end=dodgeEndpoint(p,combatClamp({x:p.x+direction.x*range,y:p.y+direction.y*range},combatGeometryId(c)),combatGeometryId(c));
+ p.facing={...direction};
+ if(swordQi&&s.srCombat?.pending?.targetMode==='direction')s.srCombat.pending.direction={...direction};
+ if(kind==='attack'&&!swordQi){
+  const enemy=c.enemies.filter(e=>e.hp>0&&combatInRange(p,e,range)&&combatClearLine(p,e,combatGeometryId(c))&&((e.x-p.x)*direction.x+(e.y-p.y)*direction.y)/Math.max(distance(p,e),.001)>=.5).sort((a,b)=>distance(p,a)-distance(p,b))[0];
+  effect(s,c,'attack',p,end,0,{actionId:s.srCombat?.pending?.id||null,direction:{...direction}});if(enemy){const before=enemy.hp;damageActor(s,c,p,enemy,13+s.master.realm*2,'attack');if(enemy.hp<before)recordAimedCombatHit(s,{actionId:s.srCombat?.pending?.id,artId:s.master.main});c.message='剑式实际命中'+enemy.name+'。';}else{effect(s,c,'miss',p,end,0,{actionId:s.srCombat?.pending?.id||null,direction:{...direction},outcome:'miss'});c.message='剑式挥空。';}
+  return {targetMode:'direction',aim:structuredClone(aim),direction:{...direction},hitIds:enemy?[enemy.id]:[]};
+ }
+ c.projectiles??=[];c.nextProjectileId??=1;
+ const projectile={id:c.nextProjectileId++,kind:swordQi?'sword-qi':'spell',sourceId:'master',ownerFaction:'sect',x:p.x,y:p.y,from:{x:p.x,y:p.y},aim:structuredClone(aim),direction:{...direction},speed:swordQi?basic.projectileSpeed:8,radius:swordQi?basic.projectileRadius:.45,remainingDistance:range,range,damage:swordQi?13+s.master.realm*2:art.damage+s.master.realm*2+(s.master.knowledge.sword||0)*.1,launchedTick:combatWorldTick(s),actionId:s.srCombat?.pending?.id||null,artId:swordQi?(s.master.main||null):art.attackArtId};
+ c.projectiles.push(projectile);c.message=(swordQi?'基础剑气':art.attackName)+'已朝瞄准方向发出。';
+ return {targetMode:'direction',aim:structuredClone(aim),direction:{...direction},projectileId:projectile.id};
+}
+function advanceProjectiles(s,c,dt){
+ if(!c.projectiles?.length)return;
+ const kept=[],geometry=combatGeometryId(c);
+ for(const shot of c.projectiles){
+  if(shot.launchedTick>=combatWorldTick(s)){kept.push(shot);continue;}
+  const from={x:shot.x,y:shot.y},step=Math.min(shot.remainingDistance,shot.speed*dt),end={x:from.x+shot.direction.x*step,y:from.y+shot.direction.y*step};
+  const hit=c.enemies.filter(e=>e.hp>0).map(e=>{const projection=(e.x-from.x)*shot.direction.x+(e.y-from.y)*shot.direction.y,perpendicularSquared=Math.max(0,(e.x-from.x)**2+(e.y-from.y)**2-projection**2),halfChord=Math.sqrt(Math.max(0,shot.radius**2-perpendicularSquared));return {e,along:Math.max(0,projection-halfChord),exit:projection+halfChord,perpendicularSquared};}).filter(v=>v.perpendicularSquared<=shot.radius**2&&v.along<=step&&v.exit>=0&&combatClearLine(from,v.e,geometry)).sort((a,b)=>a.along-b.along)[0];
+  if(hit){const before=hit.e.hp,contact={x:from.x+shot.direction.x*hit.along,y:from.y+shot.direction.y*hit.along};damageActor(s,c,c.player,hit.e,shot.damage,shot.kind==='sword-qi'?'attack':'spell',{...(shot.kind==='sword-qi'?{projectileKind:'sword-qi'}:{}),actionId:shot.actionId,projectileId:shot.id,direction:{...shot.direction},from:{...shot.from},contact});if(hit.e.hp<before)recordAimedCombatHit(s,shot);c.message=(shot.kind==='sword-qi'?'剑气':'术法')+'实际命中'+hit.e.name+'。';continue;}
+  const bounded=dodgeEndpoint(from,combatClamp(end,geometry),geometry),travelled=distance(from,bounded);shot.x=bounded.x;shot.y=bounded.y;shot.remainingDistance=Math.max(0,shot.remainingDistance-travelled);
+  if(travelled+1e-6<step||shot.remainingDistance<1e-6){effect(s,c,'miss',shot.from,bounded,0,{direction:{...shot.direction},contact:{...bounded},actionId:shot.actionId,projectileId:shot.id,outcome:'miss'});c.message=(shot.kind==='sword-qi'?'剑气':'术法')+'在射程内未命中。';}else kept.push(shot);
+ }
+ c.projectiles=kept;
 }
 export function combatOptions(s) {
   const c = s.combat;
@@ -420,11 +505,11 @@ export function combatOptions(s) {
   const p = c.player, enemy = nearestEnemy(c);
   const art=openingCombatProfile(s);
   return [
-    {id:'attack',label:'攻击',range:1.9,cost:0}, {id:'spell',label:art.attackName,range:art.range,cost:art.cost},
+    {id:'attack',label:basicCombatAttackProfile(c).projectileKind?'基础剑气':'攻击',range:basicCombatAttackProfile(c).range,cost:0}, {id:'spell',label:art.attackName,range:art.range,cost:art.cost},
     {id:'dodge',label:'闪避',cost:8}, {id:'guard',label:art.guardName,cost:4}, {id:'retreat',label:'沿退路撤离',cost:0}
   ].map(a => {
     const cooldown = p.cooldowns[a.id] || 0;
-    const reason = cooldown > .001 ? `调息 ${cooldown.toFixed(1)} 秒` : p.qi < a.cost ? `需灵力 ${a.cost}` : a.range && (!enemy || distance(p, enemy) > a.range) ? `需目标在 ${a.range} 步内` : a.range&&!combatClearLine(p,enemy,combatGeometryId(c))?'目标被货箱或碎石遮挡，请绕行':'';
+    const reason = combatStaggered(p,combatWorldTick(s))?'受击尚未站稳。':cooldown > .001 ? `调息 ${cooldown.toFixed(1)} 秒` : p.qi < a.cost ? `需灵力 ${a.cost}` : a.range && (!enemy || !combatInRange(p,enemy,a.range)) ? `需目标在 ${a.range} 步内` : a.range&&!combatClearLine(p,enemy,combatGeometryId(c))?'目标被货箱或碎石遮挡，请绕行':'';
     return {...a, cooldown, disabled:!!reason, reason};
   });
 }
@@ -432,9 +517,10 @@ export function combatAction(s, kind, target) {
   const c = s.combat;
   if (!c || c.status !== 'active') throw Error('当前没有需要掌门操作的战斗。');
   const p = c.player;
+  if(combatStaggered(p,combatWorldTick(s)))throw Error('受击尚未站稳。');
   if (kind === 'move') {
     if (!target || !Number.isFinite(target.x) || !Number.isFinite(target.y)) throw Error('移动目的地无效。');
-    const destination={x:clamp(target.x,.6,11.4),y:clamp(target.y,.6,7.4)};
+    const destination=combatClamp(target,combatGeometryId(c));
     if(!combatPath(p,destination,combatGeometryId(c)))throw Error('此处有货箱或碎石，选择旁边的可通行地面。');
     p.target = destination;
     c.retreatRequested = false;
@@ -443,9 +529,10 @@ export function combatAction(s, kind, target) {
   const option = combatOptions(s).find(o => o.id === kind);
   if (!option) throw Error('战斗行动不存在。');
   const enemy = nearestEnemy(c, target);
-  if (kind === 'attack' || kind === 'spell') {
+  const aimed=['attack','spell'].includes(kind)&&target&&typeof target==='object'&&Number.isFinite(target.x)&&Number.isFinite(target.y);
+  if ((kind === 'attack' || kind === 'spell')&&!aimed) {
     if (!enemy) throw Error('目标已经倒下或不存在。');
-    if (distance(p, enemy) > option.range) throw Error(`目标超出${kind === 'attack' ? '攻击' : '术法'}范围，请先靠近。`);
+    if (!combatInRange(p,enemy,option.range)) throw Error(`目标超出${kind === 'attack' ? '攻击' : '术法'}范围，请先靠近。`);
     if(!combatClearLine(p,enemy,combatGeometryId(c)))throw Error('目标被货箱或碎石遮挡，请绕行。');
   }
   // An explicitly selected enemy may be in range even if the default nearest
@@ -453,20 +540,21 @@ export function combatAction(s, kind, target) {
   if ((p.cooldowns[kind] || 0) > .001) throw Error(option.reason || '尚未调息完毕。');
   if (p.qi < option.cost) throw Error(`灵力不足，需要 ${option.cost}。`);
   p.qi -= option.cost;
+  if(aimed||kind==='attack'&&basicCombatAttackProfile(c).projectileKind==='sword-qi'&&(!s.srCombat?.pending||s.srCombat.pending.action==='attack')){const result=fireAimedAction(s,c,kind,aimed?target:{x:enemy.x,y:enemy.y});p.cooldowns[kind]=COMBAT_ACTIONS[kind].cooldown/10;return result;}
   if(['attack','spell'].includes(kind)){const length=distance(p,enemy);if(length>.001)p.facing={x:(enemy.x-p.x)/length,y:(enemy.y-p.y)/length};}
-  if (kind === 'attack') { damageActor(s,c,p,enemy,13 + s.master.realm * 2,'attack'); p.cooldowns.attack = 1.15; c.message = `攻击命中${enemy.name}。`; }
+  if (kind === 'attack') { damageActor(s,c,p,enemy,13 + s.master.realm * 2,'attack'); p.cooldowns.attack = COMBAT_ACTIONS.attack.cooldown/10; c.message = `攻击命中${enemy.name}。`; }
   if (kind === 'spell') {const art=openingCombatProfile(s);damageActor(s,c,p,enemy,art.damage + s.master.realm * 2 + (s.master.knowledge.sword || 0) * .1,'spell'); p.cooldowns.spell = 4.5; c.message = `${art.attackName}命中${enemy.name}。`; }
-  if (kind === 'guard') {const art=openingCombatProfile(s);p.guard = art.guardSeconds; p.cooldowns.guard = 5; effect(c,'guard',p,p);c.message = `${art.guardName}展开护持。`; }
+  if (kind === 'guard') {const art=openingCombatProfile(s);p.guard = art.guardSeconds; p.cooldowns.guard = 5; effect(s,c,'guard',p,p);c.message = `${art.guardName}展开护持。`; }
   if (kind === 'dodge') {
     let dx = target && Number.isFinite(target.x) ? target.x - p.x : -p.facing.x;
     let dy = target && Number.isFinite(target.y) ? target.y - p.y : -p.facing.y;
     if (Math.hypot(dx,dy) < .01) { dx = -1; dy = 0; }
     const length = Math.hypot(dx,dy), step = Math.min(2.8,length < 1 ? 2.8 : length);
-    const from={...p},end=dodgeEndpoint(p,{x:clamp(p.x + dx / length * step,.6,11.4),y:clamp(p.y + dy / length * step,.6,7.4)},combatGeometryId(c));
-    p.x=end.x;p.y=end.y;effect(c,'dodge',from,p);
+    const from={...p},end=dodgeEndpoint(p,combatClamp({x:p.x+dx/length*step,y:p.y+dy/length*step},combatGeometryId(c)),combatGeometryId(c));
+    p.x=end.x;p.y=end.y;p.dodgePath={from:{x:from.x,y:from.y},to:{...end},startedTick:combatWorldTick(s),durationTicks:2};p.movedTick=combatWorldTick(s);effect(s,c,'dodge',from,p);
     p.target = null; p.evade = .65; p.cooldowns.dodge = 3.2; c.message = '闪避展开，短暂避开伤害。';
   }
-  if (kind === 'retreat') { c.retreatRequested = true; p.target = {x:.7,y:4}; c.message = c.localEncounter?'正沿西侧林间小径撤离，脱战后可循山道归院。':'正沿左侧退路撤离，抵达出口后回山。'; }
+  if (kind === 'retreat') { const exit=combatExit(combatGeometryId(c));c.retreatRequested = true; p.target = {x:exit.x,y:exit.y}; c.message = c.localEncounter?'正沿西侧林间小径撤离，脱战后可循山道归院。':'正沿左侧退路撤离，抵达出口后回山。'; }
   syncLocalCombatPositions(s,c);
   if (c.enemies.every(e => e.hp <= 0)) finishCombat(s, 'won');
   return true;
@@ -498,8 +586,9 @@ function finishCombat(s, status, {settle=false}={}) {
     }
     c.result={title:status==='won'?'山道肃清':status==='retreated'?'退至林间':'伤重暂退',text,injury};
     const factId=`fact:${c.sessionId}:result`;
-    s.factsById[factId]??={id:factId,kind:'combat-result',actorId:'person:master',personId:def.personId,encounterId:c.encounterId,sessionId:c.sessionId,sceneId:c.sceneFrame.sceneId,result:status,atTick:s.worldTick,text};
+    s.factsById[factId]??={id:factId,kind:'combat-result',actorId:'person:master',personId:def.personId,encounterId:c.encounterId,sessionId:c.sessionId,sceneId:c.sceneFrame.sceneId,result:status,atTick:combatWorldTick(s),text};
     c.result.factId=factId;
+    for(const id of e.companionIds){const person=s.disciples.find(p=>p.id===id);if(person?.mind){person.mind.away=c.partyTravelId?{kind:'sr',id:c.partyTravelId}:null;person.mind.activity='rest';person.mind.reason='林间斗法已结束，伤势保留；继续随原路行动。';}}
     s.world.exploration=null;s.master.journey={kind:'sr',routeId:c.sceneFrame.sceneId,status:'exploring',remaining:0,total:1};s.master.action='rest';
     s.master.energy=Math.max(5,s.master.energy-(status==='lost'?18:8));
     if(session)endCombatSession(s,c);
@@ -530,6 +619,8 @@ function finishCombat(s, status, {settle=false}={}) {
     s.world.exploration = null; s.master.journey = e.srOwned?{kind:'sr',routeId:`scene:${e.regionId}`,status:'exploring',remaining:0,total:e.total}:null;s.master.action='rest';
     log(s,e.srOwned?'斗法暂退到场景安全处；须沿真实道路归院疗伤，证据与准备保留。':text);
   }
+  if(e.srOwned)for(const ally of c.allies){const person=s.personsById[ally.personId];if(person?.lifeStatus==='alive'&&person.mind){person.mind.away=c.partyTravelId?{kind:'sr',id:c.partyTravelId}:null;person.mind.activity='rest';}}
+  if(e.srOwned){hooks.onSRCombatOutcome?.(s,c);s.world.exploration=null;s.master.journey={kind:'sr',routeId:`scene:${e.regionId}`,status:'exploring',remaining:0,total:1};s.master.action='rest';}
   if(session)endCombatSession(s,c);
 }
 export function acknowledgeCombat(s) {
@@ -541,6 +632,7 @@ export function tickCampaignCombat(s, dt=.1) {
   const c = s.combat;
   if (!c || c.status !== 'active') return;
   syncCombatBodyProjection(s,c);
+  if(c.selectedTargetId&&!selectedCombatEnemy(c))c.selectedTargetId=null;
   const p = c.player;
   if(p.hp<=0)return finishCombat(s,'lost');
   c.elapsed += dt;
@@ -548,45 +640,74 @@ export function tickCampaignCombat(s, dt=.1) {
   for (const id of Object.keys(p.cooldowns)) p.cooldowns[id] = Math.max(0,p.cooldowns[id]-dt);
   p.guard = Math.max(0,p.guard-dt); p.evade = Math.max(0,p.evade-dt); p.qi = Math.min(p.maxQi,p.qi + dt * 3.2);
   const geometryId=combatGeometryId(c);
-  if (p.target && moveCombatActor(p,p.target,3.3,dt,geometryId)) p.target = null;
+  const input=c.controls;
+  if(input&&input.moveUntilTick<combatWorldTick(s))input.move={x:0,y:0};
+  if(p.dodgePath&&combatWorldTick(s)>p.dodgePath.startedTick+p.dodgePath.durationTicks)delete p.dodgePath;
+  const beforePlayer={x:p.x,y:p.y};
+  if(!combatStaggered(p,combatWorldTick(s))&&!combatMovementLocked(s)){
+   if(input&&(input.move.x||input.move.y)&&!c.retreatRequested){const end=dodgeEndpoint(p,combatClamp({x:p.x+input.move.x*3.3*dt,y:p.y+input.move.y*3.3*dt},geometryId),geometryId);p.x=end.x;p.y=end.y;p.facing={...input.move};}
+   else if (p.target && moveCombatActor(p,p.target,3.3,dt,geometryId)) p.target = null;
+  }
+  if(distance(beforePlayer,p)>1e-8)p.movedTick=combatWorldTick(s);
+  advanceProjectiles(s,c,dt);
   syncLocalCombatPositions(s,c);
-  if (c.retreatRequested && p.x <= 1 && Math.abs(p.y-4) < .5) return finishCombat(s,'retreated');
+  if (c.retreatRequested && combatRetreatReached(p,geometryId)) return finishCombat(s,'retreated');
   for (const enemy of c.enemies.filter(e => e.hp > 0)) {
     enemy.cooldown = Math.max(0,enemy.cooldown-dt);
+    if(combatStaggered(enemy,combatWorldTick(s)))continue;
+    const beforeEnemy={x:enemy.x,y:enemy.y};
+    const opponent=chooseCombatTarget(c,enemy);enemy.targetId=opponent?combatActorId(opponent):null;
+    if(!opponent)continue;
     if (enemy.telegraph) {
       enemy.telegraph.remaining = Math.max(0,enemy.telegraph.remaining-dt); enemy.windup = enemy.telegraph.remaining;
       if (enemy.windup <= .001) {
         const t = enemy.telegraph;
-        effect(c,'impact',enemy,t,t.damage);
-        if (distance(p,t) <= t.radius && p.evade <= 0 && combatClearLine(t,p,geometryId)) {
-          const damage = Math.round(t.damage * (p.guard > 0 ? .3 : 1));
-          damageActor(s,c,enemy,p,damage,'strike'); c.message = `受到 ${damage} 伤害。${p.guard > 0 ? '守御抵消了大部分冲击。' : '移动或闪避可离开预警圈。'}`;
-        }
+        effect(s,c,'impact',enemy,t,t.damage);
+        if (distance(p,t) <= t.radius && combatClearLine(t,p,geometryId)) {
+          const hit=damageActor(s,c,enemy,p,t.damage,'strike'); c.message = hit.outcome==='evaded'?'短步避开了这一击。':`受到 ${hit.amount} 伤害。${hit.outcome==='guarded' ? '守御抵消了大部分冲击。' : '移动或闪避可离开预警圈。'}`;
+        }else effect(s,c,'miss',enemy,t,0,{outcome:'miss'});
         for (const ally of c.allies) if (ally.hp > 0 && distance(ally,t) <= t.radius&&combatClearLine(t,ally,geometryId)) damageActor(s,c,enemy,ally,t.damage*.55,'strike');
         enemy.telegraph = null; enemy.cooldown = enemy.srMoves?enemy.srMoves.recoveryTicks/10:enemy.boss ? 1.9 : 2.1;
+        enemy.motionAction={...(enemy.motionAction||{id:`${c.sessionId||c.journeyId}:${enemy.id}:strike:${enemy.strikes}`,action:'strike',startedTick:combatWorldTick(s)}),releasedTick:combatWorldTick(s),recoveryUntilTick:combatWorldTick(s)+Math.round(enemy.cooldown*10),direction:combatDirection(enemy,t,enemy.facing)};
       }
-    } else if (distance(enemy,p) > (enemy.srMoves?.reach??(enemy.boss ? 3.3 : 1.7))||!combatClearLine(enemy,p,geometryId)) moveCombatActor(enemy,p,enemy.speed,dt,geometryId);
+    } else if (distance(enemy,opponent) > (enemy.srMoves?.reach??(enemy.boss ? 3.3 : 1.7))||!combatClearLine(enemy,opponent,geometryId)) moveCombatActor(enemy,opponent,enemy.speed,dt,geometryId);
     else if (enemy.cooldown <= .001) {
       enemy.strikes++;
       const heavy = enemy.boss && enemy.strikes % 3 === 0, duration = (enemy.srMoves?enemy.srMoves.windupTicks/10:(heavy ? 1.8 : 1.25)) + (c.prepared.witness ? .5 : 0);
       enemy.windup = duration;
-      enemy.telegraph = {x:p.x,y:p.y,radius:heavy ? 2.15 : 1.35,remaining:duration,total:duration,damage:Math.round(enemy.damage*(heavy?1.4:1)),kind:enemy.srMoves?.style||(heavy?'裂山术':'震脉击')};
+      enemy.telegraph = {x:opponent.x,y:opponent.y,radius:openValleyCombat(c)&&enemy.personId==='person:valley-shanxiao'?(enemy.srMoves?.radius??(heavy ? 2.15 : 1.35)):(heavy ? 2.15 : 1.35),remaining:duration,total:duration,damage:Math.round(enemy.damage*(heavy?1.4:1)),kind:enemy.srMoves?.style||(heavy?'裂山术':'震脉击'),targetId:combatActorId(opponent)};
+      enemy.facing=combatDirection(enemy,opponent,enemy.facing);
+      enemy.motionAction={id:`${c.sessionId||c.journeyId}:${enemy.id}:strike:${enemy.strikes}`,action:'strike',startedTick:combatWorldTick(s)};
     }
+    if(distance(beforeEnemy,enemy)>1e-8)enemy.movedTick=combatWorldTick(s);
   }
+  const companionPlanOptions={range:COMBAT_ACTIONS.attack.range,geometry:geometryId,tacticFor:ally=>hooks.companionTactic?.(s,ally)||'focus'},companionPlans=companionPositionPlans(c,companionPlanOptions);
   for (const ally of c.allies.filter(a => a.hp > 0)) {
     ally.cooldown = Math.max(0,ally.cooldown-dt);
-    const tactic=hooks.companionTactic?.(s,ally)||'focus';
+    if(combatStaggered(ally,combatWorldTick(s))){if(ally.pendingAttack)ally.pendingAttack.releaseTick+=Math.max(1,Math.round(dt*10));continue;}
+    const beforeAlly={x:ally.x,y:ally.y};
+    let plan=companionPlans.get(ally);if(plan.target?.hp<=0)plan=companionPositionPlans(c,companionPlanOptions).get(ally);
+    const tactic=plan.tactic;
     ally.tactic=tactic;
-    const target = c.enemies.filter(e=>e.hp>0).sort((a,b)=>distance(a,tactic==='focus'?p:ally)-distance(b,tactic==='focus'?p:ally))[0];
-    if (!target) break;
+    const target=plan.target;
+    ally.targetId=target?.id||null;
+    if (!target) continue;
+    if(ally.pendingAttack){
+     const action=ally.pendingAttack;
+     if(combatWorldTick(s)>=action.releaseTick){const enemy=c.enemies.find(e=>e.id===action.targetId&&e.hp>0);
+      ally.motionAction={id:action.id,action:'attack',startedTick:action.startedTick,releasedTick:combatWorldTick(s),recoveryUntilTick:combatWorldTick(s)+COMBAT_ACTIONS.attack.recovery+1,direction:action.direction};
+      if(enemy&&combatInRange(ally,enemy,COMBAT_ACTIONS.attack.range)&&combatClearLine(ally,enemy,geometryId))damageActor(s,c,ally,enemy,ally.damage,'attack',{actionId:action.id});
+      else effect(s,c,'miss',ally,ally,0,{actionId:action.id,direction:action.direction,outcome:'miss'});
+      delete ally.pendingAttack;ally.cooldown=2.1;
+     }
+     continue;
+    }
     const danger = c.enemies.find(e=>e.telegraph && distance(ally,e.telegraph)<e.telegraph.radius+.3);
-    if (danger){const direction={x:ally.x-danger.telegraph.x,y:ally.y-danger.telegraph.y},length=Math.hypot(direction.x,direction.y)||1,destination={x:clamp(ally.x+(length===1&&direction.x===0?-1.5:direction.x/length*1.5),.6,11.4),y:clamp(ally.y+(length===1&&direction.y===0?(ally.y<4?-1:1):direction.y/length),.6,7.4)};moveCombatActor(ally,dodgeEndpoint(ally,destination,geometryId),2.5,dt,geometryId);}
-    else if(tactic==='retreat'||ally.hp<ally.maxHp*.2){moveCombatActor(ally,{x:.7,y:4},2.5,dt,geometryId);ally.reason='沿约定退路自保';}
-    else if(tactic==='rally'){moveCombatActor(ally,dodgeEndpoint(ally,{x:clamp(p.x-1,.6,11.4),y:clamp(p.y+(ally.id%2?1:-1),.6,7.4)},geometryId),2,dt,geometryId);ally.reason='随队集结';}
-    else if(tactic==='guard'&&distance(ally,p)>2.5){moveCombatActor(ally,p,2,dt,geometryId);ally.reason='回护掌门';}
-    else if(tactic==='guard'&&distance(target,p)>4){ally.reason='守卫约定范围，不远追';}
-    else if (distance(ally,target)>2||!combatClearLine(ally,target,geometryId)) moveCombatActor(ally,target,2,dt,geometryId);
-    else if (ally.cooldown<=.001) { damageActor(s,c,ally,target,ally.damage,'attack'); ally.cooldown = 2.1; }
+    if (danger){const direction={x:ally.x-danger.telegraph.x,y:ally.y-danger.telegraph.y},length=Math.hypot(direction.x,direction.y)||1,destination=combatClamp({x:ally.x+(length===1&&direction.x===0?-1.5:direction.x/length*1.5),y:ally.y+(length===1&&direction.y===0?(ally.y<combatField(geometryId).height/2?-1:1):direction.y/length)},geometryId);moveCombatActor(ally,dodgeEndpoint(ally,destination,geometryId),2.5,dt,geometryId);}
+    else if(tactic==='retreat'||ally.hp<ally.maxHp*.2){moveCombatActor(ally,combatExit(geometryId),2.5,dt,geometryId);ally.reason='沿约定退路自保';}
+    else if(!plan.canAttack){if(plan.route?.length)moveCombatActor(ally,plan.route[0],2,dt,geometryId);ally.reason=plan.support?'在掌门侧方照应':plan.goal?'沿可通行侧翼接近':'等待可用攻击位置';}
+    else if (ally.cooldown<=.001) { const direction=combatDirection(ally,target,ally.facing);ally.facing={...direction};ally.pendingAttack={id:`${c.sessionId||c.journeyId}:${ally.id}:attack:${combatWorldTick(s)}`,targetId:target.id,startedTick:combatWorldTick(s),releaseTick:combatWorldTick(s)+COMBAT_ACTIONS.attack.windup+1,direction}; }
+    if(distance(beforeAlly,ally)>1e-8)ally.movedTick=combatWorldTick(s);
   }
   syncLocalCombatPositions(s,c);
   if (p.hp <= 0) finishCombat(s,'lost');
@@ -598,8 +719,9 @@ export function settleCombatBodyProjection(s){
  const c=s.combat;
  if(c?.status!=='active'||!c.sessionId)return;
  syncCombatBodyProjection(s,c);
+ settleEncounterCombatantDeaths(s,c);
  if(c.player.hp<=0)finishCombat(s,'lost',{settle:true});
- else if(c.retreatRequested&&c.player.x<=1&&Math.abs(c.player.y-4)<.5)finishCombat(s,'retreated',{settle:true});
+ else if(c.retreatRequested&&combatRetreatReached(c.player,combatGeometryId(c)))finishCombat(s,'retreated',{settle:true});
  else if(c.enemies.every(enemy=>enemy.hp<=0))finishCombat(s,'won',{settle:true});
  if(c.status!=='active')initSRCombat(s);
 }
@@ -662,7 +784,7 @@ export function tickCampaign(s, dt = 1, runtimeHooks = {}, {advanceCombat=true}=
   if (Object.keys(runtimeHooks).length) configureCampaign(runtimeHooks);
   const w=s.world.weather;
   const regional=s.weatherByRegionId?.['region:yunxiu'];
-  if(regional){w.id=({fog:'mist',rain:'rain',wind:'wind',clear:'clear'})[regional.phase]||'clear';w.remaining=Math.min(120,Math.max(.1,((regional.endTick||s.worldTick+1200)-s.worldTick)/10));}
+  if(regional){w.id=({fog:'mist',rain:'rain',wind:'wind',clear:'clear'})[regional.phase]||'clear';w.remaining=Math.min(120,Math.max(.1,((regional.endTick||combatWorldTick(s)+1200)-combatWorldTick(s))/10));}
   else w.remaining-=dt;
   while(!regional&&w.remaining<=0) { const ids=Object.keys(WEATHER);w.id=ids[Math.floor(rng(s)*ids.length)];w.remaining+=120;w.cycle++;record(s,`山中转为${WEATHER[w.id].name}：${WEATHER[w.id].text}`,'weather'); }
   if (day(s)>=s.world.nextVisitorDay) {
@@ -682,16 +804,22 @@ export function tickCampaign(s, dt = 1, runtimeHooks = {}, {advanceCombat=true}=
   let remaining=Math.min(dt,3600);
   while(advanceCombat && remaining>0 && s.combat?.status==='active') {const slice=Math.min(.1,remaining);tickCampaignCombat(s,slice);remaining-=slice;}
 }
+function combatActorProjection(s,c,actor){
+ const person=s.personsById?.[actor.personId];
+ const visualIdentity=person?.visualIdentity||person?.appearance?.visualIdentity||encounterCombatantVisualIdentity(s,actor)||actor.visualIdentity||(actor===c.player?'shen-yan':person?.entityKind==='beast'&&actor.personId==='person:valley-shanxiao'?'shanxiao':actor.personId||actor.combatantId||`combat:${c.journeyId}:${actor.id}`);
+ return {...actor,faction:combatSide(c,actor),visualIdentity,motion:projectCombatActorMotion(s,actor)};
+}
 export function getCampaignScene(s) {
   const c=s.combat,e=s.world.exploration;
-  if(c?.status==='active'||c?.localEncounter||c?.status==='won'&&e) {const geometryId=combatGeometryId(c),arena=combatField(geometryId);return {type:'combat',status:c.status,sessionId:c.sessionId||null,encounterId:c.encounterId,sceneFrame:c.sceneFrame?structuredClone(c.sceneFrame):null,result:c.result?structuredClone(c.result):null,interactive:c.status==='active',name:ENCOUNTERS[c.encounterId].name,regionId:c.regionId,geometryId,background:c.geometryVersion===1?'region':'arena',width:12,height:8,arena,player:{...c.player,id:'master',appearance:appearance('master')},enemies:c.enemies.map(v=>({...v,entityKind:s.personsById?.[v.personId]?.entityKind||'person',appearance:4})),allies:c.allies.map(a=>({...a,appearance:appearance(a.id)})),effects:c.effects||[],actionRanges:combatOptions(s).filter(a=>a.range).map(a=>({id:a.id,range:a.range,available:!a.disabled})),obstacles:arena.obstacles,landmarks:[{id:'exit',name:'撤离出口',x:.7,y:4,radius:.7}],weather:e?.weather||s.world.weather.id};}
+  if(c) {const geometryId=combatGeometryId(c),arena=combatField(geometryId);return {type:'combat',tick:combatWorldTick(s),status:c.status,selectedTargetId:selectedCombatEnemy(c)?.id||null,sessionId:c.sessionId||null,encounterId:c.encounterId,sceneFrame:c.sceneFrame?structuredClone(c.sceneFrame):null,result:c.result?structuredClone(c.result):null,interactive:c.status==='active',name:ENCOUNTERS[c.encounterId].name,regionId:c.regionId,geometryId,geometryVersion:c.geometryVersion??null,background:c.geometryVersion===1?'region':'arena',width:arena.width,height:arena.height,arena,player:{...combatActorProjection(s,c,c.player),id:'master',appearance:appearance('master')},enemies:c.enemies.map(v=>({...combatActorProjection(s,c,v),entityKind:s.personsById?.[v.personId]?.entityKind||'person',appearance:4})),allies:c.allies.map(a=>({...combatActorProjection(s,c,a),appearance:appearance(a.id)})),effects:c.effects||[],projectiles:structuredClone(c.projectiles||[]),presentation:'independent-arena',actionRanges:combatOptions(s).filter(a=>a.range).map(a=>({id:a.id,range:a.range,available:!a.disabled})),obstacles:arena.obstacles,landmarks:[{...arena.exit}],weather:e?.weather||s.world.weather.id};}
   if(!e || e.status==='traveling') return null;
   return {type:'region',name:REGIONS[e.regionId].name,regionId:e.regionId,background:e.regionId==='ruins'?'lake':e.regionId==='qixia'?'map':'valley',width:12,height:8,player:{...e.position,id:'master',appearance:appearance('master'),target:e.target},enemies:[],allies:e.companionIds.map((id,i)=>({id,appearance:appearance(id),name:s.disciples.find(d=>d.id===id)?.name||'同行者',x:Math.max(.2,e.position.x-.45*(i+1)),y:e.position.y})),obstacles:[],landmarks:[{id:'objective',name:REGIONS[e.regionId].landmark,x:8,y:4,radius:2.2},{id:'exit',name:'归山路',x:.7,y:4,radius:.7}],weather:e.weather};
 }
 
 export function validateCampaign(s) {
-  const bad=message=>{throw Error(`篇章存档异常：${message}`);},num=(v,min=0,max=1e12)=>typeof v==='number'&&Number.isFinite(v)&&v>=min&&v<=max,int=(v,min=0,max=1e12)=>Number.isSafeInteger(v)&&num(v,min,max),str=(v,max=400)=>typeof v==='string'&&v.length<=max,unique=a=>Array.isArray(a)&&new Set(a).size===a.length,point=p=>p&&num(p.x,.5,11.5)&&num(p.y,.5,7.5);
+  const bad=message=>{throw Error(`篇章存档异常：${message}`);},num=(v,min=0,max=1e12)=>typeof v==='number'&&Number.isFinite(v)&&v>=min&&v<=max,int=(v,min=0,max=1e12)=>Number.isSafeInteger(v)&&num(v,min,max),str=(v,max=400)=>typeof v==='string'&&v.length<=max,unique=a=>Array.isArray(a)&&new Set(a).size===a.length;
   const st=s.story,w=s.world,c=s.combat;
+  const arena=c?combatField(combatGeometryId(c)):{width:12,height:8},point=p=>p&&num(p.x,.5,arena.width-.5)&&num(p.y,.5,arena.height-.5);
   if(!st||!int(st.step,0,10)||typeof st.intro!=='boolean'||!unique(st.clues)||!st.clues.every(id=>CLUES[id])||!unique(st.claimed)||st.claimed.length>40||!st.claimed.every(id=>/^story:[0-9]$/.test(id)||Object.keys(ENCOUNTERS).some(e=>id===`battle:${e}`))||!st.preparations||!Object.keys(PREPARATIONS).every(k=>typeof st.preparations[k]==='boolean')||['gateCleared','revengeDone','completed'].some(k=>typeof st[k]!=='boolean')||![null,'rebuild','return'].includes(st.ending))bad('主线进度');
   if(st.completed!==(st.step===10)||st.completed!==!!st.ending||(st.step>=9&&!st.revengeDone)||(st.step>=8&&!st.gateCleared)||!Array.isArray(st.milestones)||st.milestones.length>30||!st.milestones.every(m=>str(m.id,80)&&str(m.text)&&num(m.time)))bad('章节结果');
   if(!st.revenge&&(Array.from({length:10},(_,i)=>i).some(i=>st.claimed.includes(`story:${i}`)!==(i<st.step))||(st.step>=5&&(st.clues.length<2||!s.doctrine.books.includes('foundation')))||(st.step>=6&&s.master.realm<10)||(st.step>=7&&prepCount(s)<2)||st.revengeDone!==st.claimed.includes('battle:challenge')||Object.keys(st.preparations).length!==4))bad('章节前置或一次性结果');
@@ -710,9 +838,14 @@ export function validateCampaign(s) {
     if(!s.master.journey||s.master.journey.routeId!==l.routeId||s.master.journey.remaining!==l.remaining||s.master.journey.status!==l.status)bad('旧版行程不同步');
   }
   if(c!==null) {
-    if(!c||!ENCOUNTERS[c.encounterId]||!REGIONS[c.regionId]||!['active','won','lost','retreated'].includes(c.status)||!int(c.journeyId,1)||c.arena?.width!==12||c.arena?.height!==8||!num(c.elapsed)||typeof c.retreatRequested!=='boolean'||typeof c.rewardApplied!=='boolean'||!str(c.message)||!c.prepared||!Object.keys(PREPARATIONS).every(k=>typeof c.prepared[k]==='boolean'))bad('战斗结构');
-    if(c.geometryVersion!==undefined&&c.geometryVersion!==1)bad('战场版本');
-    if(c.localEncounter!==undefined&&(c.localEncounter!==true||c.encounterId!==VALLEY_ENCOUNTER.id||c.sceneFrame?.sceneId!==VALLEY_ENCOUNTER.sceneId||c.sceneFrame?.origin?.x!==VALLEY_ENCOUNTER.origin.x||c.sceneFrame?.origin?.y!==VALLEY_ENCOUNTER.origin.y||c.sceneFrame?.safePoint?.x!==VALLEY_ENCOUNTER.safePoint.x||c.sceneFrame?.safePoint?.y!==VALLEY_ENCOUNTER.safePoint.y))bad('林间战场与山谷位置');
+    if(!c||!ENCOUNTERS[c.encounterId]||!REGIONS[c.regionId]||!['active','won','lost','retreated'].includes(c.status)||!int(c.journeyId,1)||c.arena?.width!==arena.width||c.arena?.height!==arena.height||!num(c.elapsed)||typeof c.retreatRequested!=='boolean'||typeof c.rewardApplied!=='boolean'||!str(c.message)||!c.prepared||!Object.keys(PREPARATIONS).every(k=>typeof c.prepared[k]==='boolean'))bad('战斗结构');
+    if(c.geometryVersion!==undefined&&![1,2].includes(c.geometryVersion)||(c.geometryVersion===2)!==(c.geometryId===VALLEY_COMBAT_V2.id))bad('战场版本');
+    if(c.geometryId!==undefined&&![PRISON_FORECOURT.geometryId,VALLEY_COMBAT_V2.id].includes(c.geometryId))bad('战场定义');
+    if(c.geometryId===PRISON_FORECOURT.geometryId&&(c.encounterId!=='rescue'||c.regionId!=='prison'||c.sceneFrame?.sceneId!==PRISON_FORECOURT.sceneId||c.sceneFrame?.origin?.x!==PRISON_FORECOURT.origin.x||c.sceneFrame?.origin?.y!==PRISON_FORECOURT.origin.y||c.sceneFrame?.safePoint?.x!==PRISON_FORECOURT.safePoint.x||c.sceneFrame?.safePoint?.y!==PRISON_FORECOURT.safePoint.y||c.sceneFrame?.source!==PRISON_FORECOURT.source))bad('偏牢户外战场与真实空间映射');
+    if(c.geometryId===VALLEY_COMBAT_V2.id&&(!c.localEncounter||c.regionId!=='valley'))bad('林间战场版本来源');
+    const valleyFrame=c.geometryId===VALLEY_COMBAT_V2.id?valleyFrameV2():{sceneId:VALLEY_ENCOUNTER.sceneId,origin:VALLEY_ENCOUNTER.origin,safePoint:VALLEY_ENCOUNTER.safePoint};
+    if(c.localEncounter!==undefined&&(c.localEncounter!==true||c.encounterId!==VALLEY_ENCOUNTER.id||c.sceneFrame?.sceneId!==valleyFrame.sceneId||c.sceneFrame?.origin?.x!==valleyFrame.origin.x||c.sceneFrame?.origin?.y!==valleyFrame.origin.y||c.sceneFrame?.safePoint?.x!==valleyFrame.safePoint.x||c.sceneFrame?.safePoint?.y!==valleyFrame.safePoint.y||valleyFrame.source&&c.sceneFrame?.source!==valleyFrame.source))bad('林间战场与山谷位置');
+    if(c.geometryId===VALLEY_COMBAT_V2.id)assertValleyWorldObstacles(s);
     const p=c.player;
     if(!point(p)||(p.target!==null&&!point(p.target))||!num(p.maxHp,1,1000)||!num(p.hp,0,p.maxHp)||!num(p.maxQi,1,1000)||!num(p.qi,0,p.maxQi)||!num(p.guard,0,3)||!num(p.evade,0,1)||!p.cooldowns||!['attack','spell','dodge','guard'].every(k=>num(p.cooldowns[k],0,6))||!num(p.facing?.x,-1,1)||!num(p.facing?.y,-1,1))bad('掌门战斗状态');
     if(!Array.isArray(c.enemies)||c.enemies.length<1||c.enemies.length>3||!unique(c.enemies.map(e=>e.id)))bad('敌方人数');
@@ -720,9 +853,15 @@ export function validateCampaign(s) {
     if(!Array.isArray(c.allies)||c.allies.length>2||!unique(c.allies.map(a=>a.id))||!c.allies.every(a=>(c.status!=='active'||s.disciples.some(d=>d.id===a.id))&&point(a)&&str(a.name,30)&&num(a.maxHp,1,1000)&&num(a.hp,0,a.maxHp)&&num(a.damage,1,100)&&num(a.cooldown,0,4)&&typeof a.knockedOut==='boolean'))bad('同行战斗状态');
     if([...c.allies,...c.enemies].some(a=>a.facing!==undefined&&(!num(a.facing?.x,-1,1)||!num(a.facing?.y,-1,1))))bad('人物战斗朝向');
     if(c.allies.some(a=>a.knockedOut!==(a.hp===0)))bad('同行者倒地状态');
-    if(c.geometryVersion===1&&[p,...c.allies,...c.enemies].some(actor=>!combatCanStand(actor,c.regionId)))bad('人物越过战场通行边界');
-    if(c.localEncounter&&[p,...c.allies,...c.enemies].some(actor=>!combatCanStand(actor,'legacy')))bad('林间人物越过战场通行边界');
-    if(c.effects!==undefined&&(!Array.isArray(c.effects)||c.effects.length>24||!int(c.nextEffectId,1)||!unique(c.effects.map(v=>v.id))||!c.effects.every(v=>int(v.id,1,c.nextEffectId-1)&&['attack','spell','guard','dodge','impact','strike','hit','down'].includes(v.kind)&&['master',...c.enemies.map(v=>v.id),...c.allies.map(v=>v.id)].includes(v.sourceId)&&['master',...c.enemies.map(v=>v.id),...c.allies.map(v=>v.id)].includes(v.targetId)&&point(v.from)&&point(v.to)&&num(v.amount,0,s.contentVersion==='sr-content-v1.2'?10000:150)&&num(v.total,.1,1.2)&&num(v.remaining,0,v.total))))bad('战斗表现事件');
+    if([1,2].includes(c.geometryVersion)&&[p,...c.allies,...c.enemies].some(actor=>!combatCanStand(actor,combatGeometryId(c))))bad('人物越过战场通行边界');
+    if(c.localEncounter&&[p,...c.allies,...c.enemies].some(actor=>!combatCanStand(actor,combatGeometryId(c))))bad('林间人物越过战场通行边界');
+    if(c.effects!==undefined&&(!Array.isArray(c.effects)||c.effects.length>24||!int(c.nextEffectId,1)||!unique(c.effects.map(v=>v.id))||!c.effects.every(v=>int(v.id,1,c.nextEffectId-1)&&['attack','spell','guard','dodge','impact','strike','hit','down','miss'].includes(v.kind)&&['master',...c.enemies.map(v=>v.id),...c.allies.map(v=>v.id)].includes(v.sourceId)&&['master',...c.enemies.map(v=>v.id),...c.allies.map(v=>v.id)].includes(v.targetId)&&point(v.from)&&point(v.to)&&num(v.amount,0,s.contentVersion==='sr-content-v1.2'?10000:150)&&num(v.total,.1,1.2)&&num(v.remaining,0,v.total))))bad('战斗表现事件');
+    for(const event of c.effects||[])if(event.eventId!==undefined){
+      if(event.eventId!==`${c.sessionId||c.journeyId}:impact:${event.id}`||!int(event.tick,0,combatWorldTick(s))||!num(event.direction?.x,-1,1)||!num(event.direction?.y,-1,1)||Math.abs(Math.hypot(event.direction.x,event.direction.y)-1)>1e-6||!num(event.contact?.x,0,arena.width)||!num(event.contact?.y,0,arena.height)||!num(event.contactHeight,0,2))bad('战斗接触事件');
+      if(event.kind==='hit'&&(!['hit','guarded','evaded'].includes(event.outcome)||!['light','heavy','guard','evade','down'].includes(event.reaction)||!num(event.rawAmount,0,10000)||!num(event.preventedAmount,0,10000)||!int(event.staggerTicks,0,3)||!int(event.staggerUntilTick,0,event.tick+3)||typeof event.interrupted!=='boolean'))bad('战斗受击结果');
+    }
+    for(const event of c.effects||[])if(event.projectileKind!==undefined&&(event.projectileKind!=='sword-qi'||!openValleyCombat(c)||!int(event.projectileId,1,(c.nextProjectileId||1)-1)))bad('剑气接触来源');
+    if(c.projectiles!==undefined&&(!Array.isArray(c.projectiles)||c.projectiles.length>32||!int(c.nextProjectileId,1)||!unique(c.projectiles.map(v=>v.id))||c.projectiles.some(v=>!int(v.id,1,c.nextProjectileId-1)||!['spell','sword-qi'].includes(v.kind)||v.sourceId!=='master'||!point(v)||!point(v.from)||!Number.isFinite(v.aim?.x)||!Number.isFinite(v.aim?.y)||!num(v.direction?.x,-1,1)||!num(v.direction?.y,-1,1)||Math.abs(Math.hypot(v.direction.x,v.direction.y)-1)>1e-6||(v.kind==='sword-qi'?(!openValleyCombat(c)||v.ownerFaction!=='sect'||v.speed!==basicCombatAttackProfile(c).projectileSpeed||v.radius!==basicCombatAttackProfile(c).projectileRadius||v.range!==basicCombatAttackProfile(c).range):v.speed!==8||v.radius!==.45)||!num(v.range,0,20)||!num(v.remainingDistance,0,v.range)||!num(v.damage,0,10000)||!int(v.launchedTick,0,combatWorldTick(s))||typeof v.actionId!=='string')))bad('术法飞行记录');
     if(c.status==='active'&&(!e||e.status!=='combat'||e.id!==c.journeyId||e.regionId!==c.regionId||c.rewardApplied||c.result!==null||p.hp<=0||c.allies.length!==e.companionIds.length||c.allies.some((a,i)=>a.id!==e.companionIds[i])))bad('战斗与探索关联');
     if(c.status!=='active'&&(!c.result||!str(c.result.title,40)||!str(c.result.text)||!num(c.result.injury,0,100)))bad('战斗结果');
     if(c.status==='won'&&(!c.rewardApplied||c.enemies.some(e=>e.hp>0)))bad('战斗奖励');

@@ -1,0 +1,184 @@
+{
+  "date": "2026-10-23",
+  "scope": "first-encounter actor keyposes and 12-frame S01 body/weapon reuse",
+  "basis": [
+    "U-157",
+    "U-158",
+    "U-160",
+    "docs/design/55-CHARACTER-ACTION-LIBRARY.md",
+    "docs/design/70-COURTYARD-FIRST-COMBAT.md"
+  ],
+  "identityReferences": {
+    "master": "assets/courtyard/cultivator-v1.png",
+    "shanxiao": "assets/courtyard/valley-shanxiao-actions-v1.png"
+  },
+  "generatedAssets": [
+    {
+      "path": "master-reactions.png",
+      "source": "/Users/shepard/.codex/generated_images/01a168e4-02eb-7fd0-baed-b8b9336029fc/exec-7a0732ff-199f-4a3d-b326-914f9a76834d.png",
+      "sha256": "df75a2650e9825c62c03f18e06c6ec67f8da38cce0cc5eb1027388c233daef29",
+      "tool": "built-in image_gen",
+      "prompt": "prompts.json#master"
+    },
+    {
+      "path": "shanxiao-motion.png",
+      "source": "/Users/shepard/.codex/generated_images/01a168e4-02eb-7fd0-baed-b8b9336029fc/exec-07e0e580-dd18-4d2c-97e1-df50c26d45cb.png",
+      "sha256": "47616a2fea41db60cc9289c6004cdf0fe7f42e271f65a4270b102473e3bdcec2",
+      "tool": "built-in image_gen",
+      "prompt": "prompts.json#shanxiao"
+    },
+    {
+      "path": "master-left-actions.png",
+      "source": "/Users/shepard/.codex/generated_images/01a168e4-02eb-7fd0-baed-b8b9336029fc/exec-040d8949-49cc-4d37-9c6c-7cb6ea4a2a15.png",
+      "sha256": "bdb7c5aa98970337d8d1b1ec87e4c1d308d9509c5544ac325877395a8708fc4d",
+      "tool": "built-in image_gen",
+      "prompt": "prompts.json#leftActions"
+    },
+    {
+      "path": "master-left-continuity.png",
+      "source": "/Users/shepard/.codex/generated_images/01a168e4-02eb-7fd0-baed-b8b9336029fc/exec-c9ac4773-ab5f-4716-8ad8-2eedff7aefdc.png",
+      "sha256": "b6dfc6cb49c4346369fa83733f3452746d240ece78a0b7b25568913ebf962ff1",
+      "tool": "built-in image_gen",
+      "prompt": "continuity-prompts.json#leftContinuity"
+    },
+    {
+      "path": "master-left-spell.png",
+      "source": "/Users/shepard/.codex/generated_images/01a168e4-02eb-7fd0-baed-b8b9336029fc/exec-054c0a68-72c2-4343-9c1d-2d9089d8e62c.png",
+      "sha256": "a39f3f75304a877dbdf50583f7df1e87bc5bff3b5d32743594215a2aad7b4fe5",
+      "tool": "built-in image_gen",
+      "prompt": "continuity-prompts.json#leftSpell"
+    }
+  ],
+  "copiedAnimationLayers": [
+    {
+      "path": "cast/body-000.png",
+      "source": "assets/characters/shen-yan/cast-study-v1/sprites/body-000.png",
+      "sha256": "edcaa95a6a15c80420da51e48eb25d56381645a5607122bf392ec3c1b51f4c09"
+    },
+    {
+      "path": "cast/body-001.png",
+      "source": "assets/characters/shen-yan/cast-study-v1/sprites/body-001.png",
+      "sha256": "2b817bf6bf241cf3d9c2284622c749af666474ea4dc7c4b8181745a1c8df4338"
+    },
+    {
+      "path": "cast/body-002.png",
+      "source": "assets/characters/shen-yan/cast-study-v1/sprites/body-002.png",
+      "sha256": "6004287ef080a0c08e8bf5b3bc361292d39f40a1bc0485d5a9df5d06dc1b4e99"
+    },
+    {
+      "path": "cast/body-003.png",
+      "source": "assets/characters/shen-yan/cast-study-v1/sprites/body-003.png",
+      "sha256": "3c4c3cae746865faa9e52dc378cf9dfba9217ea79e473479e1894b81cb0a808d"
+    },
+    {
+      "path": "cast/body-004.png",
+      "source": "assets/characters/shen-yan/cast-study-v1/sprites/body-004.png",
+      "sha256": "0c3babba296972bdb9115cf164024808d72a8a3b76a528018b1378d8534dcabc"
+    },
+    {
+      "path": "cast/body-005.png",
+      "source": "assets/characters/shen-yan/cast-study-v1/sprites/body-005.png",
+      "sha256": "b36638b6546a5de50510242ea320585e33410822982afde7dc96bc19cf777a9b"
+    },
+    {
+      "path": "cast/body-006.png",
+      "source": "assets/characters/shen-yan/cast-study-v1/sprites/body-006.png",
+      "sha256": "ae4510f026aec96fd4316a410f3ecb5cc7c8669f45d69f672aa0072cd03d3f6f"
+    },
+    {
+      "path": "cast/body-007.png",
+      "source": "assets/characters/shen-yan/cast-study-v1/sprites/body-007.png",
+      "sha256": "b7c0d05fcb2d6a27ac10353bc788e48856b42492d15fe5459e5358a4bc13b4ff"
+    },
+    {
+      "path": "cast/body-008.png",
+      "source": "assets/characters/shen-yan/cast-study-v1/sprites/body-008.png",
+      "sha256": "f8a402c7679833fc27c7bf2c3eb6f22938b3af0a2a338604a5a10785bbac3bd0"
+    },
+    {
+      "path": "cast/body-009.png",
+      "source": "assets/characters/shen-yan/cast-study-v1/sprites/body-009.png",
+      "sha256": "0b0b7c8b92886ce74a6beeb43e40a8aceaaf25c8dc2197c1fb29efca943fc71a"
+    },
+    {
+      "path": "cast/body-010.png",
+      "source": "assets/characters/shen-yan/cast-study-v1/sprites/body-010.png",
+      "sha256": "ffef59d095c3d784aff97eba449279cb49e04955cee0aa8200cf91183d31dbd4"
+    },
+    {
+      "path": "cast/body-011.png",
+      "source": "assets/characters/shen-yan/cast-study-v1/sprites/body-011.png",
+      "sha256": "515db6943f1b38b8286600478c7d9d5de1155fe016a3b70c966708f4153bbc48"
+    },
+    {
+      "path": "cast/weapon-000.png",
+      "source": "assets/characters/shen-yan/cast-study-v1/sprites/weapon-000.png",
+      "sha256": "7bd7ad2f7932269eb2e7ac7f92d5c12edf49d91282539acb8a10c203879d2361"
+    },
+    {
+      "path": "cast/weapon-001.png",
+      "source": "assets/characters/shen-yan/cast-study-v1/sprites/weapon-001.png",
+      "sha256": "b336695ab7188c8ff098068162b3b111db5fdd3445f1af6d79a2bf3e8f6d8f91"
+    },
+    {
+      "path": "cast/weapon-002.png",
+      "source": "assets/characters/shen-yan/cast-study-v1/sprites/weapon-002.png",
+      "sha256": "1c4c446e47371e8b901a6236997922cf7014f0992148052ee9ce24efd13f3654"
+    },
+    {
+      "path": "cast/weapon-003.png",
+      "source": "assets/characters/shen-yan/cast-study-v1/sprites/weapon-003.png",
+      "sha256": "09cf34e0219bbb799226c5cc285e5565b04b37880b6a12109195a37f770b4080"
+    },
+    {
+      "path": "cast/weapon-004.png",
+      "source": "assets/characters/shen-yan/cast-study-v1/sprites/weapon-004.png",
+      "sha256": "627dd5475b25d0f8b74d91e609dbe7ff199e1125ab97cfc845d760b52184269c"
+    },
+    {
+      "path": "cast/weapon-005.png",
+      "source": "assets/characters/shen-yan/cast-study-v1/sprites/weapon-005.png",
+      "sha256": "691e502f9210fee4155a786067de0c78a70316214eb444789035c8d4170122d9"
+    },
+    {
+      "path": "cast/weapon-006.png",
+      "source": "assets/characters/shen-yan/cast-study-v1/sprites/weapon-006.png",
+      "sha256": "57a02b44a5fb1b039bae4b84f8b8c42d5027c51ff541107efcb3ec50eb8d3d15"
+    },
+    {
+      "path": "cast/weapon-007.png",
+      "source": "assets/characters/shen-yan/cast-study-v1/sprites/weapon-007.png",
+      "sha256": "99455b64feb4e55108e8c2b222a2f30cf14c4248dfd21ea1789c0076f8e66410"
+    },
+    {
+      "path": "cast/weapon-008.png",
+      "source": "assets/characters/shen-yan/cast-study-v1/sprites/weapon-008.png",
+      "sha256": "6f6ff3bba85608f157c7e470ea53f8fe88a6dcb6bee49d285385be4138ac1ac6"
+    },
+    {
+      "path": "cast/weapon-009.png",
+      "source": "assets/characters/shen-yan/cast-study-v1/sprites/weapon-009.png",
+      "sha256": "a6d7e384333d14637560f5f4fa04569357cbfa41cada7716e8d07d32e8af2eac"
+    },
+    {
+      "path": "cast/weapon-010.png",
+      "source": "assets/characters/shen-yan/cast-study-v1/sprites/weapon-010.png",
+      "sha256": "f42dcfb774fd523866a4745d326f4ed5c28fab4cc785747f85f7237b0b1ae384"
+    },
+    {
+      "path": "cast/weapon-011.png",
+      "source": "assets/characters/shen-yan/cast-study-v1/sprites/weapon-011.png",
+      "sha256": "5af2948b78d6f4f8965ce68f294d9aed56eeb5046109dc46b70384bfa721e387"
+    }
+  ],
+  "castSourceManifest": {
+    "path": "assets/characters/shen-yan/cast-study-v1/sprites/manifest.json",
+    "sha256": "3ff194032a65b25a607016ab4bde881527a3156135955c367e9e1c0e55cb96b8"
+  },
+  "runtimeAlphaThreshold": 166,
+  "review": {
+    "offline": "111 CSS pixel runtime-renderer contact sheet inspected by implementer; 8 focused sampling checks passed",
+    "desktop": "separate serial QA",
+    "userArtApproval": "pending"
+  }
+}

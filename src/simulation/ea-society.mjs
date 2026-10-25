@@ -1,3 +1,8 @@
+import {considerDiscipleCraftPreparation} from './ea-disciple-craft-request.mjs';
+import {considerDiscipleExpeditionDeparture} from './ea-disciple-expeditions.mjs';
+import {medicineMaterialNeeds,medicineMaterialWorkCandidate,medicineMaterialTransportCandidate,beginMedicineMaterialTransport} from './ea-medicine-materials.mjs';
+import {sectSustenanceCandidate,beginSectSustenance} from './ea-sect-sustenance.mjs';
+import {advanceDiscipleDevelopment,DISCIPLE_DEVELOPMENT_RULES,DISCIPLE_WORK_FOCUS_OPTIONS} from './ea-disciple-development.mjs';
 import {meditationSupplyEnabled} from './ea-meditation-definitions.mjs';
 import {spiritSourcePersonBusy,queueMeditationCultivation} from './ea-spirit-sources.mjs';
 import {siteServicePersonBusy,considerSiteMeal,sitePersonalMealSupply} from './ea-site-services.mjs';
@@ -7,7 +12,7 @@ import {productionAmount,productionAmounts,addAmounts,subtractAmounts} from './e
 import {hallInteriorEnabled} from './ea-hall-interior.mjs';
 import {prepareFacilityActivity,releaseBodyActivity,contributeProduction} from './ea-facility-activities.mjs';
 import {sceneUnits} from './ea-sr-spatial.mjs';
-import {consumeHarvest,availablePills,ownAvailablePills,preparePillUse,consumeAccessiblePill} from './ea-sr-economy.mjs';
+import {consumeHarvest,availablePills,ownAvailablePills,preparePillUse,consumeAccessiblePill,cropRecipeFor,productionVersionFor,productionRecipeDefinition} from './ea-sr-economy.mjs';
 import {BUILDINGS, TECHNIQUES, RECIPES, ROUTES, CELLS, RESOURCES, TRAIT_NAMES,
   rng, day, log, pay, canPay, grant, capacity, xpNeed, clamp} from './ea-data.mjs';
 
@@ -28,11 +33,11 @@ export const PEAK_DIRECTIONS = {
 export const SOCIETY_RULE_OPTIONS = {
   pillRule:[{id:'shared',label:'按需共用'},{id:'permission',label:'登记获准'}],
   outingRule:[{id:'notice',label:'出行留讯'},{id:'open',label:'自由来往'},{id:'restricted',label:'暂缓外出'}],
-  workFocus:[{id:'balanced',label:'均衡差事'},...['food','wood','stone','herb','crystal','insight','jade'].map(id=>({id,label:`侧重${RESOURCES[id]}`}))],
+  workFocus:DISCIPLE_WORK_FOCUS_OPTIONS,
   enforcement:[{id:'restorative',label:'重解释与补偿'},{id:'strict',label:'重记录与约束'}]
 };
 const FOUNDING_COST = {jade:350,wood:100,stone:100,insight:30};
-const ACTIVITIES = new Set(['rest','heal','forage','work','study','cultivate','teach','travel','social','breakthrough','eat','treatment']);
+const ACTIVITIES = new Set(['rest','heal','forage','work','study','cultivate','teach','travel','walk','social','breakthrough','eat','treatment']);
 const profiles = [[82,44,78,68,62],[45,88,36,57,80],[65,60,70,85,48],[38,91,30,70,90]];
 const goals = ['精研草木','求取长生','守成护道','求索奇法'];
 const clock = s => s.society?.clock ?? s.time;
@@ -239,13 +244,19 @@ function lessonBonus(s,d,id) {
   if(peak&&PEAK_DIRECTIONS[peak.direction].techniques.includes(id))value+=.15+.08*peak.budget;
   return value;
 }
+// T-WORK-SPECIALIZATION-20261025: a soft preference below focus and scarcity.
+export const WORK_SPECIALIZATION_RULES=Object.freeze({bonusPerSkill:.12,maxBonus:12});
+export function productionWorkSkill(s,b) {
+  const tags=BUILDINGS[b.type]?.tags||[],order=s.workOrdersById?.[`work:production:${b.instanceId}`];
+  return order?.phase!=='completed'&&(order?.crop?'plant':order?.recipeSnapshot?.skillKey)||(tags.includes('plant')?'plant':tags.includes('learning')?'learning':tags.includes('water')?'array':'industry');
+}
 function production(s,d,b,hooks,participants=null) {
   const t=BUILDINGS[b.type];
   if(!participants&&t.input&&!canPay(s,t.input))return false;
   let out=hooks.buildingYield?hooks.buildingYield(s,b,d):Object.fromEntries(Object.entries(t.out).map(([k,v])=>[k,v*b.level*(.8+.2*d.talent)]));
   if(!Object.values(out).some(v=>v>0))return false;
   if(!participants&&t.input)pay(s,t.input);
-  const peak=peakFor(s,d), tags=t.tags||[], order=s.workOrdersById?.[`work:production:${b.instanceId}`],skill=order?.phase!=='completed'&&(order?.crop?'plant':order?.recipeSnapshot?.skillKey)||(tags.includes('plant')?'plant':tags.includes('learning')?'learning':tags.includes('water')?'array':'industry');
+  const peak=peakFor(s,d),skill=productionWorkSkill(s,b);
   out=Object.fromEntries(Object.entries(out).map(([k,v])=>[k,v*(1+d.mind.skills[skill]/250)*(peak&&PEAK_DIRECTIONS[peak.direction].outputs.includes(k)?1+.12*peak.budget:1)]));
   if(participants){const credited=participants.reduce((total,p)=>total+p.share,0);out={};for(const {person,share,skillAtFirstContribution}of participants){const yields=hooks.buildingYield?hooks.buildingYield(s,b,person):Object.fromEntries(Object.entries(t.out).map(([k,v])=>[k,v*b.level*(.8+.2*person.talent)])),pk=peakFor(s,person);for(const[k,v]of Object.entries(yields))out[k]=(out[k]||0)+v*share/credited*(1+(skillAtFirstContribution??person.mind.skills[skill])/250)*(pk&&PEAK_DIRECTIONS[pk.direction].outputs.includes(k)?1+.12*pk.budget:1);}}
   // SR settlement posts the explicit receipt directly to its physical holder.
@@ -310,6 +321,12 @@ function candidateStudy(s,d,hooks) {
     const research=s.society.quests.some(q=>q.discipleId===d.id&&q.status==='active'&&q.kind==='mastery'&&q.target===id)?20:0;
     choices.push({activity:'study',job:null,learning:{id,progress:0,total:Math.ceil(t.duration*(conversion?1.6:1)),mode:conversion?'convert':known(d,id)?'deepen':'learn'},score:(p.main?36:91)+p.traits[4]*.35+affinity+goalBonus+research-(sealed?15:0)+(id==='foundation'&&d.realm>=9?25:0)+(p.supportIntent===id?45:0),reason:sealed?'独处参悟，暂不愿详谈。':`${conversion?'考虑以更长时间转修':'愿意花时间研习'}《${t.name}》。`});
   }
+  const recommendation=p.developmentRecommendation;
+  if(recommendation?.status==='accepted') {
+    let candidate=choices.find(c=>c.learning?.id===recommendation.techniqueId);
+    if(!candidate&&[p.main,...p.support].includes(recommendation.techniqueId)&&known(d,recommendation.techniqueId)<100) {candidate={activity:'study',job:null,learning:{id:recommendation.techniqueId,progress:0,practice:true},score:35,reason:`愿意研考掌门推荐的《${TECHNIQUES[recommendation.techniqueId].name}》。`};choices.push(candidate);}
+    if(candidate){candidate.score+=DISCIPLE_DEVELOPMENT_RULES.recommendationBonus;candidate.reason=`愿意择时研习掌门推荐的《${TECHNIQUES[recommendation.techniqueId].name}》。`;}
+  }
   if(p.main&&known(d,p.main)<100)choices.push({activity:'study',job:null,learning:{id:p.main,progress:0,practice:true},score:22+p.traits[4]*.22+(known(d,p.main)<45?12:0),reason:hiddenBook(s,d,p.main)?'独处参悟，暂不愿详谈。':'反复研考已学功法，积累能够授业的理解。'});
   for(const id of p.support)if(known(d,id)<75&&!hiddenBook(s,d,id))choices.push({activity:'study',job:null,learning:{id,progress:0,practice:true},score:20+p.traits[4]*.22+(p.goal.includes('草木')&&['wood','alchemy'].includes(id)?15:0),reason:`研考已学的《${TECHNIQUES[id].name}》，积累授业能力。`});
   const research=s.society.quests.find(q=>q.discipleId===d.id&&q.status==='active'&&q.kind==='mastery');
@@ -356,7 +373,8 @@ function decide(s,d,hooks) {
     }
     if(quiet){p.activity='cultivate';d.job=quiet.id;p.reason='修为与材料已备妥，先自行前往安静处，准备突破。';p.path=[];p.scenic.path=lifeScenePath(s,d,quiet)||[];p.scenic.goal=buildingAccess(s,quiet);p.scenic.revision=geometryRevision(s);p.commitUntil=clock(s)+6;p.lastDecision=clock(s);return;}
   }
-  const urgent=d.energy<22||d.wound>45||p.satiety<22;
+  const recovering=p.recovering===true&&d.wound>5;
+  const urgent=recovering||d.energy<22||d.wound>45||p.satiety<22;
   if(!urgent&&p.reorientUntil>clock(s))return;
   if(!urgent&&clock(s)>=p.commitUntil&&considerSupportChange(s,d,hooks))return;
   if(!urgent&&clock(s)<p.commitUntil&&p.activity!=='rest'&&p.activity!=='social') {
@@ -365,12 +383,15 @@ function decide(s,d,hooks) {
   }
   let chosen;
   if(p.satiety<22)chosen={activity:'forage',job:null,score:200,reason:'口粮紧缺，先到院旁采寻野食，保障自己和同伴的生活。'};
-  else if(d.wound>20)chosen={activity:s.resources.herb>0?'heal':'rest',job:null,score:200,reason:s.resources.herb>0?'伤势需要照料，自行取用草药调养。':'伤势未愈且缺少草药，先静养等待恢复。'};
+  else if(recovering||d.wound>20){p.recovering=true;chosen={activity:'heal',job:null,score:200,reason:s.resources.herb>=1?'伤势需要照料，自行取用草药调养。':'伤势未愈且缺少草药，先自然调养，暂缓差事与出行。'};}
   else if(d.energy<22)chosen={activity:'rest',job:null,score:200,reason:'精力不足，先休息恢复，暂不接差事。'};
   if(!chosen) {
     const [kindness,ambition,,discipline,curiosity]=p.traits;
     const trust=relation(d).trust;
     const choices=[{activity:'rest',job:null,score:Math.max(0,78-d.energy)+(p.mood<30?12:0),reason:'留出休憩时间，恢复身心。'},...candidateStudy(s,d,hooks)];
+    const medicineNeeds=medicineMaterialNeeds(s),sustenance=sectSustenanceCandidate(s,d);
+    if(sustenance){if(medicineNeeds.enabled&&medicineNeeds.foodProtected)sustenance.score+=24;choices.push(sustenance);}
+    const medicineTransport=medicineMaterialTransportCandidate(s,d);if(medicineTransport)choices.push(medicineTransport);
     let unreachable=0;
     for(const b of s.buildings) {
       const t=BUILDINGS[b.type];if(!t||occupied(s,d,b)||!buildingActive(b))continue;
@@ -382,14 +403,19 @@ function decide(s,d,hooks) {
       } else {
         // A migrated v2 member takes production work through a sourced invite;
         // the legacy scorer cannot silently replace that person's answer.
-        if(p.schedule?.definitionId===AUTONOMY_V2.version)continue;
+        if(d.schedule?.definitionId===AUTONOMY_V2.version)continue;
         if(!workOpportunity(s,d,b,{checkPath:false}).available)continue;
-        const output=Object.keys(t.out)[0];if(!output)continue;
+        const medicineWork=medicineMaterialWorkCandidate(s,d,b);
+        const productionOrder=s.workOrdersById?.[`work:production:${b.instanceId}`];
+        const actualOutput=productionOrder&&productionOrder.phase!=='completed'&&productionOrder.recipeSnapshot?.outputDefinition||cropRecipeFor(b,productionOrder)?.output||productionRecipeDefinition(productionVersionFor(b),b.type)?.outputDefinition||t.out;
+        const output=medicineWork?.resource||Object.keys(actualOutput)[0];if(!output)continue;
+        const supplyPreference=medicineWork?.scoreBonus||(medicineNeeds.enabled&&medicineNeeds.foodProtected&&!sustenance&&output==='food'?24:0);
         const target={food:Math.max(35,s.disciples.length*7),jade:100,wood:90,stone:75,herb:Math.max(45,s.disciples.length*8),crystal:15,insight:30}[output]||50;
         const scarcity=clamp((target-(s.resources[output]||0))/target,0,1)*40;
         const focus=output===s.doctrine.workFocus?20:0;
         const steward=living(s,s.society.officers.steward)?5:0;
-        choices.push({activity:'work',job:b.id,score:11+discipline*.3+kindness*.1+scarcity+focus+steward+(d.job===b.id?10:0)+(p.restitutionBalance>0&&trust>25?12:0)+(p.goal.includes('草木')&&(t.tags||[]).includes('plant')?10:0),reason:`${focus?'响应公开差事，':scarcity>20?'看到供给紧缺，':'权衡生活与修行后，'}愿意到${t.name}做事。`});
+        const workSkill=productionWorkSkill(s,b),workExperience=clamp(p.skills[workSkill]??0,0,100),specialization=Math.min(WORK_SPECIALIZATION_RULES.maxBonus,workExperience*WORK_SPECIALIZATION_RULES.bonusPerSkill);
+        choices.push({activity:'work',job:b.id,workSkill,workExperience,score:11+discipline*.3+kindness*.1+scarcity+focus+steward+specialization+supplyPreference+(d.job===b.id?10:0)+(p.restitutionBalance>0&&trust>25?12:0)+(p.goal.includes('草木')&&(t.tags||[]).includes('plant')?10:0),reason:medicineWork?.reason||(supplyPreference?'公库口粮不足，愿先照料粮田，保障同门日常所需。':`${focus?'响应公开差事，':scarcity>20?'看到供给紧缺，':'权衡生活与修行后，'}愿意到${t.name}做事。`)});
       }
     }
     const pupils=s.disciples.filter(x=>x.id!==d.id&&x.mind.mentorId===d.id&&x.mind.activity==='study');
@@ -406,6 +432,15 @@ function decide(s,d,hooks) {
     choices.sort((a,b)=>b.score-a.score);chosen=choices.find(c=>{if(c.job===null)return true;const b=s.buildings.find(b=>b.id===c.job);c.path=lifeScenePath(s,d,b);if(c.path===null){unreachable++;return false;}return true;})||choices.find(c=>c.activity==='rest');
     if(chosen.activity==='rest'&&unreachable&&!choices.some(c=>c.activity==='work'))chosen.reason='现有差事的道路或条件不合适，暂歇并等待改善。';
   }
+  if(chosen.activity==='medicine-material-transport'){
+    try {if(beginMedicineMaterialTransport(s,d,chosen).accepted)return;}catch(error){p.reason=`药材筹运条件暂不成立：${error.message}`;}
+    p.lastDecision=clock(s);p.commitUntil=clock(s)+6;return;
+  }
+  if(chosen.activity==='transport'){
+    try {if(beginSectSustenance(s,d,chosen).accepted)return;}catch(error){p.reason=`运粮条件暂不成立：${error.message}`;}
+    p.lastDecision=clock(s);p.commitUntil=clock(s)+6;return;
+  }
+  if(chosen.activity==='work'&&chosen.workExperience>0)chosen.reason+=`已有${({plant:'灵植',industry:'百工',learning:'研习',array:'阵法',medicine:'医理'})[chosen.workSkill]||'生产'}经验，愿意用在这份差事上。`;
   const changed=p.activity!==chosen.activity||d.job!==chosen.job||p.learning?.id!==chosen.learning?.id;
   d.job=chosen.job??null;p.activity=chosen.activity;p.reason=chosen.reason;p.lastDecision=clock(s);
   p.commitUntil=clock(s)+(chosen.activity==='rest'?8:18+Math.floor(p.traits[3]/10));
@@ -478,7 +513,7 @@ function execute(s,d,hooks) {
     p.workProgress++;
     d.energy=clamp(d.energy+.55,0,100);d.wound=Math.max(0,d.wound-.1);
     if(p.workProgress>=8){p.workProgress=0;if(s.resources.herb>=1){pay(s,{herb:1});d.wound=Math.max(0,d.wound-(s.buildings.some(b=>b.type==='clinic'&&buildingActive(b)&&!siteServiceEnabled(b))?7:4));}else p.commitUntil=0;}
-    if(d.wound<=5){p.activity='rest';p.commitUntil=0;}
+    if(d.wound<=5){delete p.recovering;p.activity='rest';p.commitUntil=0;}
   } else if(p.activity==='forage') {
     p.workProgress++;d.energy=clamp(d.energy-.12,0,100);
     if(p.workProgress>=12){p.workProgress=0;if(consumeHarvest(s,'food',3)){grant(s,{food:3});p.satiety=clamp(p.satiety+24,0,100);}else p.reason='附近采食来源不足，等待种植或商队供给。';p.commitUntil=0;}
@@ -809,10 +844,19 @@ export function tickSociety(s,dt=1,hooks={}) {
   s.society.clock=Math.max(s.society.clock+dt,s.time);
   if(day(s)!==s.society.lastDay){s.society.lastDay=day(s);daily(s);}
   for(const d of [...s.disciples]) {
+    if(d.lifeStatus==='dead'||d.wound<=5)delete d.mind.recovering;
+    else if(d.mind.activity==='heal')d.mind.recovering=true;
     if(d.lifeStatus==='dead'||s.activitiesById?.[d.activityId]?.kind?.startsWith('sr-'))continue;
+    advanceDiscipleDevelopment(s,d);
     if(considerSiteMeal(s,d)||siteServicePersonBusy(s,d)&&d.mind.activity!=='work')continue;
-    if(!d.mind.away&&(clock(s)-d.mind.lastDecision>=6||d.mind.commitUntil<=clock(s))&&!npcScheduleDecision(s,d))decide(s,d,hooks);
+    if(!d.mind.away&&(clock(s)-d.mind.lastDecision>=6||d.mind.commitUntil<=clock(s))&&!npcScheduleDecision(s,d)) {
+      if(considerDiscipleCraftPreparation(s,d.personId))continue;
+      if(considerDiscipleExpeditionDeparture(s,d.personId))continue;
+      decide(s,d,hooks);
+    }
+    if(s.activitiesById?.[d.activityId]?.kind==='sr-transport')continue;
     execute(s,d,hooks);
+    advanceDiscipleDevelopment(s,d);
   }
   if(s.society.guestLesson?.until<=clock(s))delete s.society.guestLesson;
   investigate(s);tickQuests(s);maybeVisitor(s);

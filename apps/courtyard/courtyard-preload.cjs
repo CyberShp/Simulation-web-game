@@ -11,6 +11,7 @@ contextBridge.exposeInMainWorld('sectHost', {
   settings: () => ipcRenderer.invoke('sect:settings'),
   load: () => ipcRenderer.invoke('sect:load'),
   save: state => ipcRenderer.invoke('sect:save', state),
+  saveSerialized: text => ipcRenderer.invoke('sect:save-serialized', text),
   exportRecovery: state => ipcRenderer.invoke('sect:export-recovery', state),
   previewRecovery: () => ipcRenderer.invoke('sect:preview-recovery'),
   cancelRecovery: () => ipcRenderer.invoke('sect:cancel-recovery'),

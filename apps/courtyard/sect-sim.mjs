@@ -1,16 +1,21 @@
+import {discipleAdvancementView} from '../../src/simulation/ea-disciple-advancement.mjs';
+import {copyViewMetadata,viewWorkRouteAvailable,inheritViewWorkRouteProof} from './courtyard-view-proofs.mjs';
+import {day} from '../../src/simulation/ea-data.mjs';
 import {meditationSourceView,meditationCultivationView} from '../../src/simulation/ea-spirit-sources.mjs';
+import {expeditionAway, expeditionCommand, viewExpedition,clearCombatInput,commitCombatInput} from './sect-combat.mjs';
 import {meditationBuildView,meditationBuildingChangeView,meditationSupplyEnabled} from '../../src/simulation/ea-meditation-definitions.mjs';
 import {routeReachable,inheritReachabilityProof} from '../../src/simulation/ea-route-reachability.mjs';
 import {inheritResidentialGeometryCache} from '../../src/simulation/ea-residential-housing.mjs';
 import {viewSiteServices} from '../../src/simulation/ea-site-services.mjs';
+import {guesthouseGroundEnabled} from '../../src/simulation/ea-guesthouse-geometry.mjs';
 import {SITE_SERVICE_VERSION,siteServiceEnabled} from '../../src/simulation/ea-service-definitions.mjs';
-import {SERVICE_RESOURCES} from '../../src/simulation/ea-resource-types.mjs';
+import {SERVICE_RESOURCES,serviceResourcesEnabled} from '../../src/simulation/ea-resource-types.mjs';
 /** U-139 desktop policy adapter. All world facts are owned by the official SIM. */
 import * as SIM from '../../src/simulation/ea-opening-sim.mjs';
 import { projectGodotWorld } from '../../src/simulation/ea-godot-bridge.mjs';
 import { godotMoveCommand } from '../../src/simulation/ea-godot-world.mjs';
 import { SECT_DOMAIN, domainExtentEnabled, domainWestEnabled, domainValleyEnabled, domainResidencesEnabled, domainServicesEnabled, domainNorthLibraryEnabled, domainNorthMeditationEnabled, domainWestWorkshopsEnabled } from '../../src/simulation/ea-sect-domain.mjs';
-import { stockStorageView, localMarketQuote, localMarketGoods, marketGoods, merchantPresent, serviceSupplyView, warehouseServiceStoragePreview, craftAvailabilitySR, craftProcessView, craftRefundPreview } from '../../src/simulation/ea-sr-economy.mjs';
+import { stockStorageView, localMarketQuote, localMarketGoods, marketGoods, merchantPresent, serviceSupplyView, warehouseServiceStoragePreview, stockpileReceiptPreview, craftAvailabilitySR, craftProcessView, craftRefundPreview } from '../../src/simulation/ea-sr-economy.mjs';
 import { spatialAccess, spatialBounds, spatialPrefab, spatialRevision, placementIssue, meterFindPath } from '../../src/simulation/ea-sr-spatial.mjs';
 import { workOpportunity } from '../../src/simulation/ea-life.mjs';
 import { openingCombatProfile } from '../../src/simulation/ea-opening-inheritance.mjs';
@@ -29,11 +34,28 @@ export const SECT_TICK_SECONDS = .1;
 export const SECT_POLICY_DEFAULTS = Object.freeze({ herbTarget: 30, foodTarget: 32, spendingCap: 12, risk: 'cautious' });
 const MASTER = 'person:master', HOME = 'stockpile:yunxiu', CARRIED = 'stockpile:carried:master';
 const clone = value => structuredClone(value);
+const OWNED_COMBAT_COMMAND = Symbol('courtyard-owned-combat-command');
 const LIBRARY_KINDS = new Set(['study', 'teach', 'family-notes']);
 const managedCultivation = order => LIBRARY_KINDS.has(order?.kind) || order?.kind === 'breakthrough' && order.parameters.fromRealm <= 9;
 const libraryOrderName = order => order.kind === 'breakthrough' ? '突破调息' : order.kind === 'family-notes' ? '整理家传遗卷' : `${order.kind === 'teach' ? '讲习' : '研习'}《${SIM.TECHNIQUES[order.parameters.artId]?.name || '法门'}》`;
 const finite = (n, min, max) => Number.isFinite(n) && n >= min && n <= max;
 const terminal = phase => ['completed', 'cancelled', 'delivered'].includes(phase);
+const PROGRESS_REWARD_IDS = new Set(['quarry', 'meditation', 'breakthrough', 'food', 'alchemy']);
+function progressReward(s, id) {
+  const quest = PROGRESS_REWARD_IDS.has(id) && SIM.QUESTS.find(item => item.id === id);
+  if (!quest) return null;
+  const claimed = s.claimed.includes(id), eligible = quest.check(s);
+  const receipt = stockpileReceiptPreview(s, HOME, quest.reward);
+  const reason = claimed ? '奖励已领取。' : !eligible ? quest.text : receipt.reason || '';
+  return { id, name: quest.title, description: quest.text, resources: clone(quest.reward), claimed, eligible, ...availability(reason) };
+}
+function claimProgressReward(session, id, legacy = false) {
+  const reward = progressReward(session.state, id);
+  if (!reward) throw Error('当前没有这项院务奖励。');
+  if (!reward.available) throw Error(reward.reason);
+  return publicCommand(session, 'claim', [id], { reason: legacy ? '已领取开山取石的营造奖励，可用于后续营建。' : `已领取「${reward.name}」，所得已入公库。` });
+}
+
 function assert(condition, message) { if (!condition) throw Error(`宗门存档无效：${message}`); }
 // U-139's desktop policy owns the U-119 control entry point. This only mirrors
 // control metadata; official commands/ticks still own bodies and all world facts.
@@ -65,13 +87,14 @@ function note(session, kind, text, extra = {}) {
   if (session.ledger.length > 200) session.ledger.splice(0, session.ledger.length - 200);
   session.totals[kind] = (session.totals[kind] || 0) + 1;
 }
-function publicCommand(session, name, args, { autonomous = false, reason = name, actorId = MASTER } = {}) {
+function publicCommand(session, name, args, { autonomous = false, reason = name, actorId = MASTER, ownedCombat = false } = {}) {
   const state = session.state, id = `command:${state.transactions.nextCommandId}`;
   try {
-    const committed = SIM.dispatchCommand(state, { name, args, id, expectedRevision: state.revision });
+    const committed = (ownedCombat?SIM.dispatchOwnedCombatCommand:SIM.dispatchCommand)(state, { name, args, id, expectedRevision: state.revision });
     session.state = committed.state;
     inheritReachabilityProof(state, session.state);
     inheritResidentialGeometryCache(state, session.state);
+    inheritViewWorkRouteProof(state, session.state);
     syncControl(session);
     const result = clone(committed.result ?? null);
     if (result === false && name === 'moveScenicMaster' || result?.accepted === false) {
@@ -223,6 +246,7 @@ function supplyFood(session) {
 }
 function decide(session) {
   const s = session.state, master = s.master, a = s.activitiesById[master.activityId];
+  if (expeditionAway(s)) return;
   const publicHerb = s.stockpilesById[HOME].resources.herb;
   const farm = farmState(s), patch = s.srEconomy.patches.herb;
 
@@ -345,13 +369,35 @@ export function createOpeningSectSession({ name } = {}) {
   session.reason = '先读完序章，在云岫山中落脚。';
   return session;
 }
-export function commandSect(session, request) {
+/** Private desktop ownership boundary. The caller retains exclusive mutable
+ * ownership; UI, persistence and QA receive only detached views/snapshots. A new
+ * loaded session is fully checked before this closure accepts its first command.
+ * Public commandSect always retains its arbitrary-input validation contract.
+ */
+export function createSectCommandDriver(getSession){
+ let owner;
+ const adopt=()=>{const session=getSession();checkedSect(session);owner=session;};
+ const command=request=>{
+  const session=getSession();
+  if(session!==owner)adopt();
+  return commandSect(session,request,OWNED_COMBAT_COMMAND);
+ };
+ command.adopt=adopt;
+ return command;
+}
+export function commandSect(session, request, ownerToken) {
   try {
     if (!request || typeof request !== 'object') throw Error('操作格式无效。');
+    const ownedCombat=ownerToken===OWNED_COMBAT_COMMAND&&['combat','combat-auto','pause'].includes(request.type)&&(!request.actionId||['attack','spell','guard','dodge','retreat'].includes(request.actionId))&&session.state.combat?.status==='active'&&!!session.state.combat.sessionId&&session.state.activitiesById[session.state.master.activityId]?.kind==='sr-combat';
     const stage = openingStage(session), openingActive = isOpeningSession(session) && stage !== 'complete';
     if (openingActive && ['auto', 'return-auto'].includes(request.type)) throw Error('先完成落脚、疗伤与主殿营造，再交由掌门自主安排。');
     if (openingActive && ['intro', 'inheritance'].includes(stage) && !['opening-intro', 'choose-inheritance', 'pause', 'manual', 'policy'].includes(request.type)) {
       throw Error(stage === 'intro' ? '先读完序章，在山中落脚。' : '先确定遗卷传承。');
+    }
+    if(request.type==='combat-input'){
+      const result=commitCombatInput(session.state,request.move,{reset:request.reset??false});
+      session.control={mode:'manual',idleMs:0};syncControl(session);session.automation.activeAction=null;
+      return {ok:true,result};
     }
     if (request.type === 'policy') {
       session.policy = checkedPolicy({ ...session.policy, ...(request.policy || request.value || {}) });
@@ -374,7 +420,9 @@ export function commandSect(session, request) {
     }
     if (request.type === 'pause') {
       if (typeof request.paused !== 'boolean') throw Error('暂停须为布尔值。');
-      return publicCommand(session, 'setSpeed', [request.paused ? 0 : 1], { reason: request.paused ? '世界已手动暂停。' : '世界继续运行。' });
+      const result=publicCommand(session, 'setSpeed', [request.paused ? 0 : 1], { reason: request.paused ? '世界已手动暂停。' : '世界继续运行。', ownedCombat });
+      if(result.ok&&request.paused)clearCombatInput(session.state);
+      return result;
     }
     if (request.type === 'enable-domain') return publicCommand(session, 'enableSectDomain', [], { reason: '已启用东台与西林通路，沿原山院继续营造。' });
     if (request.type === 'enable-west-workshops') return publicCommand(session, 'enableWestWorkshops', [], { reason: '西谷工坊道路已开通，可前往丹房与百工坊的预设场地。' });
@@ -382,13 +430,15 @@ export function commandSect(session, request) {
     if (request.type === 'enable-north-meditation') return publicCommand(session, 'enableNorthMeditation', [], { reason: '聚灵台山道已开通，可前往北台勘察脉眼。' });
     if (request.type === 'enable-north-library') return publicCommand(session, 'enableNorthLibrary', [], { reason: '藏经阁北台道路已开通，可沿山后石阶抵达预设阁址。' });
     if (request.type === 'enable-services') return publicCommand(session, 'enableEastServices', [], { reason: '膳房与医庐道路已开通，可前往预设院址。' });
+    if (request.type === 'enable-guesthouse') return publicCommand(session, 'enableGuesthouse', [], { reason: '客院台地与石阶已开通，可前往东路院址。' });
     if (request.type === 'enable-service-supplies') return publicCommand(session, 'enableServiceSupplies', [], { reason: '生活物资采购已启用，洁水由青溪商人实际运来。' });
     if (request.type === 'enable-warehouse-services') return publicCommand(session, 'enableWarehouseServiceStorage', [request.stockpileId], { reason: '储运院已划出粮食、药材与水储库位。' });
     if (request.type === 'enable-residences') return publicCommand(session, 'enableEastResidences', [], { reason: '东台住宅道路已开通，可前往三处预设院址。' });
     if (request.type === 'claim-building-reward') {
       if (request.rewardId !== 'quarry') throw Error('当前没有这项营造奖励。');
-      return publicCommand(session, 'claim', [request.rewardId], { reason: '已领取开山取石的营造奖励，可用于后续营建。' });
+      return claimProgressReward(session, request.rewardId, true);
     }
+    if (request.type === 'claim-progress-reward') return claimProgressReward(session, request.rewardId);
     if (request.type === 'enable-courtyard-terrain') {
       const trial = transactionCopy(session);
       if (trial.state.spatial.courtyardTerrain?.version === COURTYARD_MASTER_TERRAIN_VERSION) return { ok: true, result: { enabled: true, alreadyEnabled: true, version: trial.state.spatial.courtyardTerrain.version } };
@@ -397,7 +447,9 @@ export function commandSect(session, request) {
       return result;
     }
     let command, reason, replacesBody = false, actorId = MASTER;
-    if (request.type === 'opening-intro') {
+    const expedition = expeditionCommand(request);
+    if (expedition) ({command, reason} = expedition);
+    else if (request.type === 'opening-intro') {
       if (!isOpeningSession(session) || stage !== 'intro') throw Error('序章已经读完。');
       if (request.complete === true) {
         if (session.state.story.onboarding.introPage !== 2) throw Error('先读至序章最后一幕。');
@@ -496,6 +548,10 @@ export function commandSect(session, request) {
       command = { name: 'cancelProduction', args: [building.id] };
       reason = `中止${SIM.BUILDINGS[building.type].name}本批生产；未耗原料按进度退回现场货位，已投入部分不退。`;
     }
+    else if (request.type === 'well-production') {
+      command = { name: 'setWellProduction', args: [request.buildingId, request.mode] };
+      reason = `灵泉工序已改为${request.mode === 'water' ? '取洁水' : '凝灵晶'}，由愿意的门人到真实工位作业。`;
+    }
     else if (request.type === 'start-workshop-process') {
       const building = session.state.buildingsById[request.buildingId];
       if (!building || building.type !== 'workshop') throw Error('只有百工坊可安排专业工序。');
@@ -525,6 +581,37 @@ export function commandSect(session, request) {
       command = { name: 'admitCourtyardVisitor', args: [{ personId, rank, affiliationId, mentorId }] };
       reason = '已当面确认门籍与归属，正式收录入院。'; actorId = personId;
     }
+    else if (request.type === 'disciple-expeditions') {
+      command = { name: 'setDiscipleExpeditions', args: [{ enabled: request.enabled, ...(request.allowCompanions === undefined ? {} : { allowCompanions: request.allowCompanions }) }] };
+      reason = request.enabled ? '已开放门人历练，门人将按职责、意愿和准备自行决定。' : '已暂停新的历练，已出行的门人继续按原安排归院。';
+    }
+    else if (request.type === 'medicine-supply') {
+      command = { name: 'setMedicineSupply', args: [{ enabled: request.enabled, target: request.target }] };
+      reason = '回春散储备目标已更新，由门人自主安排实际筹备与炼制。';
+    }
+    else if (request.type === 'disciple-work-focus') {
+      command = { name: 'setDiscipleWorkFocus', args: [request.value] };
+      reason = '经营侧重已公布，门人会结合当前承诺、身体和志向安排差事。';
+    }
+    else if (request.type === 'prepare-disciple-craft') {
+      command = { name: 'requestDiscipleCraftPreparation', args: [{ personId: request.personId, recipeId: request.recipeId, buildingId: request.buildingId }] };
+      actorId = request.personId;
+      reason = '已当面商议本炉筹备，按实际材料与本人安排接续。';
+    }
+    else if (request.type === 'cancel-disciple-craft-preparation') {
+      command = { name: 'cancelDiscipleCraftPreparation', args: [{ requestId: request.requestId }] };
+      reason = '已撤回本炉筹备，已接运输按实际安排交付。';
+    }
+    else if (request.type === 'request-disciple-craft') {
+      command = { name: 'requestDiscipleCraft', args: [{ personId: request.personId, recipeId: request.recipeId, buildingId: request.buildingId }] };
+      actorId = request.personId;
+      reason = '已当面商议本炉丹药，由本人答复并按实际工序炼制、交付。';
+    }
+    else if (request.type === 'recommend-disciple-technique') {
+      command = { name: 'recommendDiscipleTechnique', args: [{ personId: request.personId, techniqueId: request.techniqueId }] };
+      actorId = request.personId;
+      reason = '已当面商议研习机会，由本人说明意愿与当前安排。';
+    }
     else if (request.type === 'set-reception') {
       command = { name: 'setCourtyardReception', args: [{ enabled: request.enabled }] };
       reason = request.enabled ? '已安排山门接待，来客按行程沿南路入院。' : '已暂停接待新的求见，当前来访继续按原行程处理。';
@@ -532,6 +619,10 @@ export function commandSect(session, request) {
     else if (request.type === 'answer-seeker') {
       command = { name: 'answerCourtyardSeeker', args: [{ personId: request.personId, answer: request.answer }] };
       reason = request.answer === 'defer' ? '已当面请来客稍候，本次答复已记下。' : '已当面婉拒，来客将沿南路离院。'; actorId = request.personId;
+    }
+    else if (request.type === 'offer-guest-lodging') {
+      command = { name: 'offerGuestLodging', args: [{ personId: request.personId, buildingId: request.buildingId }] };
+      reason = '来客已接受客院邀请，将自行走到客床安顿。'; actorId = request.personId;
     }
     else if (request.type === 'market-trade') {
       if (request.personId !== 'person:merchant-qingxi') throw Error('当前交易对象不可用。');
@@ -547,19 +638,21 @@ export function commandSect(session, request) {
     else if (request.type === 'transport') { command = { name: 'startTransport', args: [request.sourceStockpileId, request.targetStockpileId, MASTER, request.cargo] }; reason = '掌门按玩家安排实际取料并送至指定仓储。'; }
     else throw Error('操作尚未接入。');
     // An invalid replacement must not abandon an existing transport or crop task.
-    const trial = transactionCopy(session);
+    const ownedMovement = ownerToken === OWNED_COMBAT_COMMAND && request.type === 'move' && command.name === 'moveScenicMaster';
+    const trial = ownedCombat ? { ...clone(Object.fromEntries(Object.entries(session).filter(([key])=>key!=='state'&&key!=='provenance'))), state:session.state, provenance:session.provenance } : ownedMovement ? isolatedMovementCopy(session) : transactionCopy(session);
     let consequences = null;
     if (replacesBody) { const cancelled = cancelMaster(trial); if (!cancelled.ok) return cancelled; consequences = cancelled.consequences || null; }
     if (request.type === 'establish-hall' && trial.state.story.step === 0) {
       const healed = publicCommand(trial, 'advanceStory', [], { reason: '伤势已愈，带着家传在云岫立足。' });
       if (!healed.ok) return healed;
     }
-    const result = publicCommand(trial, command.name, command.args, { reason, actorId });
+    const result = publicCommand(trial, command.name, command.args, { reason, actorId, ownedCombat });
     // A refusal is a committed NPC answer, not a failed transaction. Keep it so
     // repeated invitations and reloads cannot reroll the same conditions.
-    if (result.ok || ['invite-work', 'invite-service-work', 'start-service', 'teach-library', 'admit-visitor'].includes(request.type) && result.refused) {
+    if (result.ok || ['invite-work', 'invite-service-work', 'start-service', 'teach-library', 'admit-visitor', 'offer-guest-lodging', 'recommend-disciple-technique', 'request-disciple-craft', 'prepare-disciple-craft', 'cancel-disciple-craft-preparation'].includes(request.type) && result.refused) {
       trial.control = { mode: 'manual', idleMs: 0 };
       syncControl(trial);
+      if (expedition) trial.automation.activeAction = request.type === 'world' && result.result?.phase === 'approaching' ? 'manual-walk' : null;
       if (['move', 'rest', 'cultivate', 'study', 'breakthrough', 'craft-pill', 'collate-family', 'teach-library', 'heal', 'harvest', 'transport', 'replenish', 'build-site', 'establish-hall'].includes(request.type)) {
         trial.automation.activeAction = request.type === 'move' ? 'manual-walk' : null;
       }
@@ -574,7 +667,7 @@ export function commandSect(session, request) {
       result.consequences = consequences;
       result.message = `${consequences.resultMessage}${result.message}`;
     }
-    if (result.ok && ['invite-work', 'invite-service-work'].includes(request.type)) result.message = result.result?.publicReason || result.result?.reason || '本人已接受这次差事。';
+    if (result.ok && ['invite-work', 'invite-service-work', 'recommend-disciple-technique', 'request-disciple-craft', 'prepare-disciple-craft', 'cancel-disciple-craft-preparation'].includes(request.type)) result.message = result.result?.publicReason || result.result?.reason || '本人已接受这次商议。';
     return result;
   } catch (error) { return { ok: false, error: error.message }; }
 }
@@ -640,7 +733,7 @@ function checkedSect(input) {
 }
 export function validateSect(input) { checkedSect(input); return true; }
 export function snapshotSect(session) { return clone(session); }
-export function restoreSect(data) { return checkedSect(typeof data === 'string' ? JSON.parse(data) : data); }
+export function restoreSect(data) { const session=checkedSect(typeof data === 'string' ? JSON.parse(data) : data);clearCombatInput(session.state);return session; }
 function constructionView(s, projection) {
   const activity = s.activitiesById[s.master.activityId], order = activity && s.workOrdersById[activity.workOrderId];
   if (activity?.kind !== 'construction' || order?.kind !== 'construction') return null;
@@ -658,15 +751,28 @@ function constructionView(s, projection) {
     reason: order.waitingReason || activity.reason || projection?.label || '按正式工单继续营造。' };
 }
 function transactionCopy(session) {
-  const trial = restoreSect(snapshotSect(session));
+  const trial = checkedSect(snapshotSect(session));
   inheritReachabilityProof(session.state, trial.state);
   inheritResidentialGeometryCache(session.state, trial.state);
+  inheritViewWorkRouteProof(session.state, trial.state);
+  return trial;
+}
+// The desktop driver has already adopted this exclusively owned session.
+// Keep cancellation isolated, then let the formal command gateway validate its
+// complete result; movement does not need another pre-command save validation.
+function isolatedMovementCopy(session) {
+  const trial = clone(Object.fromEntries(Object.entries(session).filter(([key]) => key !== 'state')));
+  trial.state = SIM.cloneState(session.state);
+  inheritReachabilityProof(session.state, trial.state);
+  inheritResidentialGeometryCache(session.state, trial.state);
+  inheritViewWorkRouteProof(session.state, trial.state);
   return trial;
 }
 function canVisitDomainPoint(s, target) {
   return routeReachable(s, s.master.scenic, target, MASTER);
 }
 function domainView(s, construction) {
+  const guesthouseEnabled = guesthouseGroundEnabled(s);
   const enabled = domainExtentEnabled(s.spatial?.extentVersion), westEnabled = domainWestEnabled(s.spatial?.extentVersion), valleyEnabled = domainValleyEnabled(s.spatial?.extentVersion), residencesEnabled = domainResidencesEnabled(s.spatial?.eastResidences?.version), servicesEnabled = domainServicesEnabled(s.spatial?.eastServices?.version), northLibraryEnabled = domainNorthLibraryEnabled(s.spatial?.northLibrary?.version), northMeditationEnabled = domainNorthMeditationEnabled(s.spatial?.northMeditation?.version), westWorkshopsEnabled = domainWestWorkshopsEnabled(s.spatial?.westWorkshops?.version);
   const home = s.stockpilesById[HOME], activity = s.activitiesById[s.master.activityId];
   const projectSite = plan => {
@@ -676,7 +782,7 @@ function domainView(s, construction) {
     const order = Object.values(s.workOrdersById).find(item => item.kind === 'construction' && (item.domainSiteId === site.id || building && item.targetId === building.instanceId || runtime && item.buildingType === site.type && item.targetTransform?.x === site.x && item.targetTransform?.y === site.y));
     const definition = SIM.BUILDINGS[site.type], supported = !!runtime && !!definition && plan.runtimeStatus === 'open';
     const valleySite = ['GC-17', 'GC-18', 'GC-19', 'GC-24'].includes(site.planId);
-    const unlocked = supported && (site.westWorkshops ? westWorkshopsEnabled : site.northMeditation ? northMeditationEnabled : site.northLibrary ? northLibraryEnabled : site.services ? servicesEnabled : site.residences ? residencesEnabled : valleySite ? valleyEnabled : site.zoneId === 'Z-03' ? westEnabled : enabled);
+    const unlocked = supported && (site.guesthouse ? guesthouseEnabled : site.westWorkshops ? westWorkshopsEnabled : site.northMeditation ? northMeditationEnabled : site.northLibrary ? northLibraryEnabled : site.services ? servicesEnabled : site.residences ? residencesEnabled : valleySite ? valleyEnabled : site.zoneId === 'Z-03' ? westEnabled : enabled);
     const complete = !!building && !(building.type === 'hall' && s.story?.opening && s.story.opening.hallPhase !== 'complete');
     const cost = clone(supported ? definition.cost : {}), missingCost = {};
     if (!building && !order) for (const [resource, quantity] of Object.entries(cost)) {
@@ -695,32 +801,32 @@ function domainView(s, construction) {
     }
     const reason = order ? construction?.workOrderId === order.id ? construction.reason : '材料与施工按同一工单推进。' :
       complete ? `${site.name}已落成，可查看实际工位。` : existing ? '先完成主殿营造。' :
-      !supported ? '此处正在筹备，场地、工位与供给条件齐备后开放营造。' : !unlocked ? site.westWorkshops ? '先开通丹房与百工坊道路。' : site.northMeditation ? '先开通聚灵台山道。' : site.northLibrary ? '先开通藏经阁北台道路。' : site.services ? '先开通膳房与医庐道路。' : site.residences ? '先开通东台住宅道路。' : valleySite ? '先开通西谷道路。' : site.zoneId === 'Z-03' ? '先启用西林通路。' : '先启用东台通路。' :
+      !supported ? '此处正在筹备，场地、工位与供给条件齐备后开放营造。' : !unlocked ? site.guesthouse ? '先开通客院台地与石阶。' : site.westWorkshops ? '先开通丹房与百工坊道路。' : site.northMeditation ? '先开通聚灵台山道。' : site.northLibrary ? '先开通藏经阁北台道路。' : site.services ? '先开通膳房与医庐道路。' : site.residences ? '先开通东台住宅道路。' : valleySite ? '先开通西谷道路。' : site.zoneId === 'Z-03' ? '先启用西林通路。' : '先启用东台通路。' :
       s.story?.opening?.hallPhase && s.story.opening.hallPhase !== 'complete' ? '先营造主殿，再安排其他院务。' :
       rulesReason || localReason || bodyReason || (Object.keys(missingCost).length ? '公库尚需备足营造材料。' : '') || routeReason || '材料与通路已备好，可由掌门发起营造。';
     const buildReason = status === 'available' ? rulesReason || localReason || bodyReason || (s.story?.opening?.hallPhase && s.story.opening.hallPhase !== 'complete' ? '先完成主殿营造。' : '') || (Object.keys(missingCost).length ? '公库尚需备足营造材料。' : '') || routeReason : reason;
     const prefab = building ? spatialPrefab(building) : supported ? spatialPrefab({ type: site.type, level: 1, domainSiteId: site.id, buildingGridVersion: s.spatial?.buildingGridVersion, ...(site.services ? { serviceVersion: SITE_SERVICE_VERSION } : {}) }) : null;
     const capacity = { beds: ['hall', 'house'].includes(site.type) ? prefab?.slots.filter(slot => slot.kind === 'rest').length || 0 : 0,
       careBeds: site.type === 'clinic' ? prefab?.slots.filter(slot => slot.kind === 'heal').length || 0 : 0,
+      guestBeds: site.type === 'guesthouse' ? prefab?.slots.filter(slot => slot.kind === 'guest-bed').length || 0 : 0,
       work: prefab?.slots.filter(slot => slot.kind === 'work').length || 0,
       study: prefab?.slots.filter(slot => slot.kind === 'study').length || 0,
       cultivate: prefab?.slots.filter(slot => slot.kind === 'cultivate').length || 0,
       storage: (definition?.storageCapacity || 0) * (building?.level || 1) };
-    const capacityText = [[capacity.beds, '张常住床'], [capacity.careBeds, '张调养床'], [capacity.work, '处作业工位'], [capacity.study, '处阅卷席'], [capacity.cultivate, '处修行位'], [capacity.storage, '份仓储容量']]
+    const capacityText = [[capacity.beds, '张常住床'], [capacity.careBeds, '张调养床'], [capacity.guestBeds, '张客床'], [capacity.work, '处作业工位'], [capacity.study, '处阅卷席'], [capacity.cultivate, '处修行位'], [capacity.storage, '份仓储容量']]
       .filter(([count]) => count > 0).map(([count, label]) => `${count}${label}`).join('、');
     const navigationReason = !entrance ? '此处通路仍在筹备。' : !existing && !unlocked ? reason : localReason || (construction ? '先完成营造或中止后收回材料。' : '') ||
       (!canVisitDomainPoint(s, entrance) ? '当前路线无法抵达此处。' : '');
     const rewardDefinition = site.type === 'quarry' ? SIM.QUESTS.find(quest => quest.id === 'quarry') : null;
-    const reward = rewardDefinition ? { id: rewardDefinition.id, name: rewardDefinition.title, resources: clone(rewardDefinition.reward),
-      claimed: s.claimed.includes(rewardDefinition.id), ...availability(s.claimed.includes(rewardDefinition.id) ? '奖励已领取。' : rewardDefinition.check(s) ? '' : '采石场落成后可领取。') } : null;
+    const reward = rewardDefinition ? progressReward(s, rewardDefinition.id) : null;
     return { ...clone(site), status, supported, valleySite, entrance: clone(entrance), buildingId: building?.instanceId || order?.targetId || null, workOrderId: order?.id || null,
       progress: order ? order.progressTicks / order.durationTicks : complete ? 1 : 0, cost, missingCost, reason,
       buildAvailable: availability(buildReason), visitAvailable: availability(navigationReason), capacity, capacityText, reward,
       completedCapacity: complete ? capacity.beds : 0, materialFlow: order && construction?.workOrderId === order.id ? clone(construction.materialFlow) : null };
   };
   const plannedSites = SECT_DOMAIN.plannedSites.map(projectSite);
-  return { ...clone(SECT_DOMAIN), enabled, westEnabled, valleyEnabled, residencesEnabled, servicesEnabled, northLibraryEnabled, northMeditationEnabled, westWorkshopsEnabled,
-    openedAreas: clone(SECT_DOMAIN.initialOpenAreas.filter(area => area.westWorkshops ? westWorkshopsEnabled : area.northMeditation ? northMeditationEnabled : area.northLibrary ? northLibraryEnabled : area.services ? servicesEnabled : area.residences ? residencesEnabled : area.valley ? valleyEnabled : area.zoneId === 'Z-03' ? westEnabled : area.id === 'area:yunxiu:original-courtyard' || enabled)),
+  return { ...copyViewMetadata(SECT_DOMAIN), guesthouseEnabled, enabled, westEnabled, valleyEnabled, residencesEnabled, servicesEnabled, northLibraryEnabled, northMeditationEnabled, westWorkshopsEnabled,
+    openedAreas: clone(SECT_DOMAIN.initialOpenAreas.filter(area => area.guesthouse ? guesthouseEnabled : area.westWorkshops ? westWorkshopsEnabled : area.northMeditation ? northMeditationEnabled : area.northLibrary ? northLibraryEnabled : area.services ? servicesEnabled : area.residences ? residencesEnabled : area.valley ? valleyEnabled : area.zoneId === 'Z-03' ? westEnabled : area.id === 'area:yunxiu:original-courtyard' || enabled)),
     sites: SECT_DOMAIN.sites.map(site => plannedSites.find(plan => plan.id === site.id)), plannedSites };
 }
 // Presentation of the existing opening rules. Commands always revalidate these
@@ -744,6 +850,7 @@ function locationLabel(s, position) {
 function stockLabel(s, id) {
   if (id === HOME) return '山院公库';
   if (id === CARRIED) return '掌门随身';
+  if (id === 'stockpile:sr-party') return '出行物资';
   const st = s.stockpilesById[id];
   if (id?.startsWith('stockpile:dropped:')) return `${locationLabel(s, st?.position)}的落地包裹`;
   if (st?.buildingId) return `${buildingName(s.buildingsById[st.buildingId])}货位`;
@@ -963,14 +1070,14 @@ function operationsView(s, projection) {
       workers: projection.systemPeople.persons.filter(p => s.activitiesById[p.currentActivity?.id]?.targetId === b.instanceId)
         .map(p => ({ id: p.id, name: p.name, activity: clone(p.currentActivity) })),
       invites: s.homeMemberIds.map(id => {
-        const p = s.personsById[id], opportunity = workOpportunity(s, p, b), answer = p.schedule?.invitations?.[`work:${b.instanceId}`];
+        const p = s.personsById[id], opportunity = workOpportunity(s, p, b, {checkPath:viewWorkRouteAvailable}), answer = p.schedule?.invitations?.[`work:${b.instanceId}`];
         return { personId: id, name: p.name, ...availability(opportunity.reason), available: opportunity.available,
           lastResult: answer ? { accepted: answer.accepted, available: answer.available, atTick: answer.atTick,
             reason: answer.publicReason, retryAfterTick: answer.retryAfterTick } : null };
       }),
     };
   });
-  const workplaces = s.buildings.filter(b => ['lumber', 'quarry', 'workshop'].includes(b.type) || b.type === 'well' && b.domainSiteId === 'site:domain:gc-23').map(b => {
+  const workplaces = s.buildings.filter(b => ['lumber', 'quarry', 'workshop', 'well'].includes(b.type)).map(b => {
     const source = SIM.productionAvailability(s, b);
     const name = SIM.BUILDINGS[b.type].name;
     const reason = b.enabled === false ? `${name}已暂停，可恢复使用。` : b.condition <= 0 || b.spatialLock ? `${name}当前不可用。` : source.reason;
@@ -993,7 +1100,7 @@ function operationsView(s, projection) {
     const stations = facilitySlotView(s, b).filter(slot => slot.kind === 'work').map(slot => ({ id: slot.id, label: slot.label,
       personId: slot.personId || null, name: slot.personId ? s.personsById[slot.personId]?.name || '门人' : null, phase: slot.phase || 'free' }));
     return { buildingId: b.instanceId, name: SIM.BUILDINGS[b.type].name, enabled: b.enabled !== false, availability: availability(reason),
-      stockpileId, resources: clone(onsite), order: clone(order), processes, selectedProcess: selectedProcess?.id || null,
+      stockpileId, resources: clone(onsite), wellMode: b.type === 'well' ? (recipeVersion === SIM.SPRING_WATER_RECIPE_VERSION ? 'water' : 'crystal') : null, wellCanSwitch: b.type === 'well' && b.domainSiteId !== 'site:domain:gc-23' && (!order || order.phase === 'completed') && b.enabled !== false && b.condition > 0 && !b.spatialLock && serviceResourcesEnabled(s), order: clone(order), processes, selectedProcess: selectedProcess?.id || null,
       collection: collection ? { phase: collection.phase, reason: collection.reason || '', carrierName: s.personsById[collection.carrierId]?.name || '商人',
         payment: collection.actualPayment ?? collection.expectedPayment ?? 0 } : null,
       stations,
@@ -1001,7 +1108,7 @@ function operationsView(s, projection) {
       missingCost, cancelable: !!order && order.phase !== 'completed',
       workers: projection.systemPeople.persons.filter(p => s.activitiesById[p.currentActivity?.id]?.targetId === b.instanceId).map(p => ({ id: p.id, name: p.name, activity: clone(p.currentActivity) })),
       invites: s.homeMemberIds.map(id => {
-        const p = s.personsById[id], opportunity = workOpportunity(s, p, b), answer = p.schedule?.invitations?.[`work:${b.instanceId}`];
+        const p = s.personsById[id], opportunity = workOpportunity(s, p, b, {checkPath:viewWorkRouteAvailable}), answer = p.schedule?.invitations?.[`work:${b.instanceId}`];
         return { personId: id, name: p.name, ...availability(opportunity.reason), available: opportunity.available,
           lastResult: answer ? { accepted: answer.accepted, available: answer.available, atTick: answer.atTick, reason: answer.publicReason, retryAfterTick: answer.retryAfterTick } : null };
       }) };
@@ -1105,7 +1212,7 @@ function operationsView(s, projection) {
   const meditation = { ...meditationSourceView(s), buildings: s.buildings.filter(meditationSupplyEnabled).map(b=>{
     const source=meditationSourceView(s,b.instanceId),cost={jade:45*b.level,wood:30*b.level,stone:20*b.level};
     const reason=b.level>=SIM.BUILDINGS.meditation.max?'聚灵台已达当前最高等级。':local||busy||source.upgrade?.reason||(master.wound>0||master.energy<15?'先养伤并恢复精力。':'')||(Object.entries(cost).some(([k,n])=>(home[k]||0)<n)?'公库尚需备足扩建材料。':'');
-    return {...source,stockpileId:`stockpile:${b.instanceId}`,level:b.level,upgrade:{...availability(reason),cost},seats:facilitySlots(s,b,'cultivate').map(slot=>({label:slot.label,...meditationCultivationView(s,MASTER,b.instanceId,slot.id)})),invites:s.homeMemberIds.filter(id=>id!==MASTER).map(id=>{const p=s.personsById[id],v=workOpportunity(s,p,b);return {personId:id,name:p.name,...availability(v.reason),available:v.available};})};
+    return {...source,stockpileId:`stockpile:${b.instanceId}`,level:b.level,upgrade:{...availability(reason),cost},seats:facilitySlots(s,b,'cultivate').map(slot=>({label:slot.label,...meditationCultivationView(s,MASTER,b.instanceId,slot.id)})),invites:s.homeMemberIds.filter(id=>id!==MASTER).map(id=>{const p=s.personsById[id],v=workOpportunity(s,p,b,{checkPath:viewWorkRouteAvailable});return {personId:id,name:p.name,...availability(v.reason),available:v.available};})};
   }) };
   return {
     master: { id: MASTER, name: master.name, realmLabel: SIM.realmName(master.realm), xp: master.xp, xpNeed: SIM.xpNeed(master.realm),
@@ -1139,18 +1246,44 @@ function housingProjection(s, preparedState) {
     homePersonName: s.personsById[bed.homePersonId]?.name || '', pendingPersonName: s.personsById[bed.pendingPersonId]?.name || '', occupantPersonName: s.personsById[bed.occupantPersonId]?.name || '',
   })) };
 }
+/** Automatic battle presentation reads only the visible battle and host HUD.
+ * Complete queries continue through viewSect; every returned projection is detached. */
+export function viewSectCombat(session) {
+  const s = session.state, opening = openingView(session);
+  if (opening.stage !== 'complete' || !s.combat) return null;
+  const expedition = viewExpedition(s);
+  if (expedition.scene?.type !== 'combat') return null;
+  const activity = s.activitiesById[s.master.activityId];
+  return { tick: s.worldTick, time: s.time, timeLabel: `第 ${day(s) + 1} 日`, paused: s.speed === 0, masterWound: s.master.wound,
+    expedition, opening, masterActivityReason: activity ? activity.reason || s.workOrdersById[activity.workOrderId]?.reason || s.master.reason || '' : '' };
+}
+
+/** Host-local display reuse. Explicit reads request the complete projection;
+ * successful visible battle input can force a fresh projection without a tick. */
+export function createSectViewRefresh(getSession) {
+  let current = null, previousSession = null;
+  return function refresh({ automatic = false, advanced = false, full = false, force = false } = {}) {
+    const session = getSession();
+    if (automatic && !advanced && !full && !force && session === previousSession && current) return current;
+    current = automatic && !full ? viewSectCombat(session) || viewSect(session) : viewSect(session);
+    previousSession = session;
+    return current;
+  };
+}
+
 export function viewSect(session) {
   const s = session.state, view = projectGodotWorld(s), members = new Set([MASTER, ...s.homeMemberIds]);
   const knownStocks = [HOME, CARRIED, ...Object.keys(s.stockpilesById).filter(id => id.startsWith('stockpile:building:') || id.startsWith('stockpile:construction:') || id.startsWith('stockpile:dropped:'))];
   const construction = constructionView(s, view.construction);
   const bounds = spatialBounds(s), housingState = residentialHousingApplicable(s) ? residentialProjectionState(s) : null, housing = housingProjection(s, housingState);
   return {
-    tick: s.worldTick, time: s.time, timeLabel: view.timeLabel, paused: s.speed === 0,
+    tick: s.worldTick, time: s.time, timeLabel: view.timeLabel, paused: s.speed === 0, masterWound: s.master.wound, expedition: viewExpedition(s),
     width: bounds.width, height: bounds.height, sceneId: view.sceneId, terrain: clone(view.terrain),
     bounds: { x: bounds.x || 0, y: bounds.y || 0, width: bounds.width, height: bounds.height }, domain: domainView(s, construction), construction,
-    policy: clone(session.policy), foodSupply: foodSupply(session), control: clone(session.control), reason: session.reason, housing, reception: SIM.courtyardReceptionView(s),
+    progressRewards: [...PROGRESS_REWARD_IDS].map(id => progressReward(s, id)),
+    policy: clone(session.policy), foodSupply: foodSupply(session), control: clone(session.control), reason: session.reason, housing, reception: SIM.courtyardReceptionView(s), guestLodging: SIM.guestLodgingView(s), discipleExpeditions: SIM.discipleExpeditionsView(s), medicineSupply: SIM.medicineSupplyView(s), discipleDevelopment: SIM.discipleDevelopmentView(s), discipleCraftRequests: SIM.discipleCraftRequestsView(s), discipleAdvancement: discipleAdvancementView(s),
     resources: clone(s.stockpilesById[HOME].resources), baseline: clone(session.baseline),
-    people: view.people.map(p => { const official = s.personsById[p.id], body = p.id === MASTER ? official : official.mind, activity = s.activitiesById[official.activityId]; return { ...clone(p), resident: members.has(p.id), admission: SIM.courtyardAdmissionView(s, p.id, { preparedHousingState: housingState }), path: clone(body.scenic?.path || []), energy: official.energy, wound: official.wound, xp: official.xp, realm: official.realm, activityId: official.activityId, activityDetail: activity ? { id: activity.id, kind: activity.kind, phase: activity.phase, reason: activity.reason || s.workOrdersById[activity.workOrderId]?.reason || body.reason || '', target: clone(activity.target || null), progressTicks: activity.progressTicks ?? null, durationTicks: activity.durationTicks ?? null } : null, reason: p.id === MASTER ? session.reason : body.reason || official.schedule?.lastReason || '' }; }),
+    people: view.people.map(p => { const official = s.personsById[p.id], body = p.id === MASTER ? official : official.mind, activity = s.activitiesById[official.activityId]; return { ...clone(p), resident: members.has(p.id), admission: SIM.courtyardAdmissionView(s, p.id, { preparedHousingState: housingState }), lodging: s.courtyardSeekers?.recordsByPersonId?.[p.id] ? SIM.guestLodgingView(s, p.id) : null, path: clone(body.scenic?.path || []), energy: official.energy, wound: official.wound, xp: official.xp, realm: official.realm, activityId: official.activityId, activityDetail: activity ? { id: activity.id, kind: activity.kind, phase: activity.phase, reason: activity.reason || s.workOrdersById[activity.workOrderId]?.reason || body.reason || '', target: clone(activity.target || null), progressTicks: activity.progressTicks ?? null, durationTicks: activity.durationTicks ?? null } : null, reason: p.id === MASTER ? session.reason : body.reason || official.schedule?.lastReason || '' }; }),
     buildings: view.buildings.map(b => {
       const official = s.buildingsById[`building:yunxiu:${b.id}`];
       return { ...clone(b), name: official?.domainSiteId ? buildingName(official) : b.name, enabled: official?.enabled !== false, entrance: official ? clone(spatialAccess(official)) : null };
@@ -1158,7 +1291,7 @@ export function viewSect(session) {
     stockpiles: knownStocks.filter(id => s.stockpilesById[id]).map(id => { const st = s.stockpilesById[id]; return { id, resources: clone(st.resources), position: clone(st.carrierId ? { sceneId: s.personsById[st.carrierId].position.sceneId, ...s.personsById[st.carrierId].scenic } : st.position), capacity: st.capacity, buildingId: st.buildingId || null }; }),
     patches: clone(s.srEconomy.patches), budget: { ...clone(session.budget), remaining: Math.max(0, session.policy.spendingCap - session.budget.spent), label: '自主整备灵石额度', scope: '掌门自主发起的来源恢复支出；宗门日常供给和生产工资继续按正式规则结算。' },
     economy: { expenses: clone(s.economy.expense), previousExpenses: clone(s.economy.previous.expense), starvation: s.economy.starvation, productionWages: Object.values(s.factsById).filter(f => f.operation === 'production' && f.atTick >= session.baseline.tick).reduce((total, f) => total + (f.wagesFromPublic || 0), 0) },
-    ledger: clone(session.ledger), totals: clone(session.totals), provenance: clone(session.provenance),
+    ledger: clone(session.ledger), totals: clone(session.totals), provenance: copyViewMetadata(session.provenance),
     transports: Object.values(s.workOrdersById).filter(w => w.kind === 'transport').map(w => ({ id: w.id, phase: w.phase, carrierId: w.carrierId,
       sourceStockpileId: w.sourceStockpileId, sourceLabel: stockLabel(s, w.sourceStockpileId), targetStockpileId: w.targetStockpileId, targetLabel: stockLabel(s, w.targetStockpileId),
       carrierName: s.personsById[w.carrierId]?.name || '承运者', stageLabel: ({ 'to-source': '前往取货', carrying: '已取货，正在送达', delivered: '已送达', cancelled: '已中止' })[w.phase],

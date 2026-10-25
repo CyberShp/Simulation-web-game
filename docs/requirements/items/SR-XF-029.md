@@ -14,9 +14,9 @@
 
 纳入云岫前期，按依赖推进。
 
-决策来源：U-63, U-93, R-25, U-94, U-95, U-96, U-97, R-27, U-100, R-29, R-30, U-102, U-103, U-104, U-105, R-32, U-109, U-120, U-123, U-125, U-124, U-126, U-127, U-128, U-129, U-130, U-131, U-132, U-139, U-142, U-144, U-149, R-49, U-150, R-50, U-151, R-43, U-154, U-155, U-163, R-52, T-18, U-167, T-20, T-21, T-22。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
+决策来源：U-63, U-93, R-25, U-94, U-95, U-96, U-97, R-27, U-100, R-29, R-30, U-102, U-103, U-104, U-105, R-32, U-109, U-120, U-123, U-125, U-124, U-126, U-127, U-128, U-129, U-130, U-131, U-132, U-139, U-142, U-144, U-149, R-49, U-150, R-50, U-151, R-43, U-154, U-155, U-163, R-52, T-18, U-167, T-20, T-21, T-22, U-170, U-172。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
 
-规格：[01-CHARACTERS.md](../../../docs/design/01-CHARACTERS.md)、[03-SPATIAL-ART.md](../../../docs/design/03-SPATIAL-ART.md)、[06-OPENING-ACCEPTANCE.md](../../../docs/design/06-OPENING-ACCEPTANCE.md)、[14-EARLY-GAME-DETAILED-DESIGN.md](../../../docs/design/14-EARLY-GAME-DETAILED-DESIGN.md)、[GODOT-MIGRATION.md](../../../docs/GODOT-MIGRATION.md)、[ART-REALTIME-TRIAL.md](../../../docs/ART-REALTIME-TRIAL.md)、[SECT-GROWTH-PLAN.md](../../../docs/SECT-GROWTH-PLAN.md)、[41-COURTYARD-VALLEY-IMPLEMENTATION.md](../../../docs/design/41-COURTYARD-VALLEY-IMPLEMENTATION.md)、[42-CHARACTER-DIALOGUE.md](../../../docs/design/42-CHARACTER-DIALOGUE.md)、[51-COURTYARD-MANAGEMENT-INTEGRATION.md](../../../docs/design/51-COURTYARD-MANAGEMENT-INTEGRATION.md)、[46-CONTINUOUS-DOMAIN-FOUNDATION.md](../../../docs/design/46-CONTINUOUS-DOMAIN-FOUNDATION.md)、[52-EAST-TERRACE-INTEGRATION.md](../../../docs/design/52-EAST-TERRACE-INTEGRATION.md)、[45-SECT-IDLE-SLICE.md](../../../docs/design/45-SECT-IDLE-SLICE.md)、[53-COURTYARD-AUTONOMY-ACCEPTANCE.md](../../../docs/design/53-COURTYARD-AUTONOMY-ACCEPTANCE.md)、[56-COURTYARD-FOOD-SUPPLY.md](../../../docs/design/56-COURTYARD-FOOD-SUPPLY.md)、[59-WEST-FOREST-INTEGRATION.md](../../../docs/design/59-WEST-FOREST-INTEGRATION.md)、[60-WEST-VALLEY-INTEGRATION.md](../../../docs/design/60-WEST-VALLEY-INTEGRATION.md)、[61-RESIDENTIAL-INTEGRATION.md](../../../docs/design/61-RESIDENTIAL-INTEGRATION.md)、[62-EAST-SERVICES-INTEGRATION.md](../../../docs/design/62-EAST-SERVICES-INTEGRATION.md)、[64-NORTH-LIBRARY-INTEGRATION.md](../../../docs/design/64-NORTH-LIBRARY-INTEGRATION.md)。
+规格：[01-CHARACTERS.md](../../../docs/design/01-CHARACTERS.md)、[03-SPATIAL-ART.md](../../../docs/design/03-SPATIAL-ART.md)、[06-OPENING-ACCEPTANCE.md](../../../docs/design/06-OPENING-ACCEPTANCE.md)、[14-EARLY-GAME-DETAILED-DESIGN.md](../../../docs/design/14-EARLY-GAME-DETAILED-DESIGN.md)、[GODOT-MIGRATION.md](../../../docs/GODOT-MIGRATION.md)、[ART-REALTIME-TRIAL.md](../../../docs/ART-REALTIME-TRIAL.md)、[SECT-GROWTH-PLAN.md](../../../docs/SECT-GROWTH-PLAN.md)、[41-COURTYARD-VALLEY-IMPLEMENTATION.md](../../../docs/design/41-COURTYARD-VALLEY-IMPLEMENTATION.md)、[42-CHARACTER-DIALOGUE.md](../../../docs/design/42-CHARACTER-DIALOGUE.md)、[51-COURTYARD-MANAGEMENT-INTEGRATION.md](../../../docs/design/51-COURTYARD-MANAGEMENT-INTEGRATION.md)、[46-CONTINUOUS-DOMAIN-FOUNDATION.md](../../../docs/design/46-CONTINUOUS-DOMAIN-FOUNDATION.md)、[52-EAST-TERRACE-INTEGRATION.md](../../../docs/design/52-EAST-TERRACE-INTEGRATION.md)、[45-SECT-IDLE-SLICE.md](../../../docs/design/45-SECT-IDLE-SLICE.md)、[53-COURTYARD-AUTONOMY-ACCEPTANCE.md](../../../docs/design/53-COURTYARD-AUTONOMY-ACCEPTANCE.md)、[56-COURTYARD-FOOD-SUPPLY.md](../../../docs/design/56-COURTYARD-FOOD-SUPPLY.md)、[59-WEST-FOREST-INTEGRATION.md](../../../docs/design/59-WEST-FOREST-INTEGRATION.md)、[60-WEST-VALLEY-INTEGRATION.md](../../../docs/design/60-WEST-VALLEY-INTEGRATION.md)、[61-RESIDENTIAL-INTEGRATION.md](../../../docs/design/61-RESIDENTIAL-INTEGRATION.md)、[62-EAST-SERVICES-INTEGRATION.md](../../../docs/design/62-EAST-SERVICES-INTEGRATION.md)、[64-NORTH-LIBRARY-INTEGRATION.md](../../../docs/design/64-NORTH-LIBRARY-INTEGRATION.md)、[69-SIX-RESIDENTS-AND-WORKSHOPS-ACCEPTANCE.md](../../../docs/design/69-SIX-RESIDENTS-AND-WORKSHOPS-ACCEPTANCE.md)、[70-COURTYARD-FIRST-COMBAT.md](../../../docs/design/70-COURTYARD-FIRST-COMBAT.md)、[71-GUESTHOUSE-INTEGRATION.md](../../../docs/design/71-GUESTHOUSE-INTEGRATION.md)、[75-SECT-SUSTENANCE.md](../../../docs/design/75-SECT-SUSTENANCE.md)、[76-DISCIPLE-CULTIVATION-PROGRESSION.md](../../../docs/design/76-DISCIPLE-CULTIVATION-PROGRESSION.md)、[77-DISCIPLE-BREAKTHROUGH-LOOP.md](../../../docs/design/77-DISCIPLE-BREAKTHROUGH-LOOP.md)、[78-APPROACH-RESPONSE.md](../../../docs/design/78-APPROACH-RESPONSE.md)、[79-DISCIPLE-WORK-SPECIALIZATION.md](../../../docs/design/79-DISCIPLE-WORK-SPECIALIZATION.md)、[80-EXPEDITION-RECOVERY.md](../../../docs/design/80-EXPEDITION-RECOVERY.md)、[81-DISCIPLE-ONBOARDING.md](../../../docs/design/81-DISCIPLE-ONBOARDING.md)、[82-EXPEDITION-PURPOSE.md](../../../docs/design/82-EXPEDITION-PURPOSE.md)、[83-ENCOUNTER-DISTANCE.md](../../../docs/design/83-ENCOUNTER-DISTANCE.md)、[84-EXPEDITION-MEDICINE.md](../../../docs/design/84-EXPEDITION-MEDICINE.md)、[85-MEDICINE-SUPPLY.md](../../../docs/design/85-MEDICINE-SUPPLY.md)、[86-MEDICINE-MATERIALS.md](../../../docs/design/86-MEDICINE-MATERIALS.md)、[87-PHARMACIST-DEVELOPMENT.md](../../../docs/design/87-PHARMACIST-DEVELOPMENT.md)、[88-SECT-CONCURRENCY.md](../../../docs/design/88-SECT-CONCURRENCY.md)、[89-DISCIPLE-CRAFT-REQUEST.md](../../../docs/design/89-DISCIPLE-CRAFT-REQUEST.md)、[90-DISCIPLE-ADVANCEMENT.md](../../../docs/design/90-DISCIPLE-ADVANCEMENT.md)、[91-EXPEDITION-GROWTH.md](../../../docs/design/91-EXPEDITION-GROWTH.md)、[92-EXPEDITION-COMPANIONS.md](../../../docs/design/92-EXPEDITION-COMPANIONS.md)。
 
 依赖：[SR-XF-003](SR-XF-003.md)、[SR-XF-004](SR-XF-004.md)、[SR-XF-005](SR-XF-005.md)、[SR-XF-007](SR-XF-007.md)。
 
@@ -54,6 +54,8 @@ SR-XF-029-REQ-03：拖拽与手势不劫持侧栏/输入/弹窗；未开放、�
 | SR-XF-029-AC-02 | iPadOS横竖网页视口与Windows/macOS窗口缩放操作新系统 | 画布位图与实际CSS容器/DPR匹配，投影和命中保持；关键文本/按钮不被覆盖截断，可取消恢复；浏览器与三平台实机结果分列。 | not_run |
 | SR-XF-029-AC-03 | 关闭帮助/拒绝操作/保存失败 | 不会自动扣费或丢关键线索，能明确找到继续与恢复路径。 | not_run |
 
+SR-XF-029-AC-02证据：docs/design/90-DISCIPLE-ADVANCEMENT.md；docs/design/91-EXPEDITION-GROWTH.md；docs/design/92-EXPEDITION-COMPANIONS.md
+
 2026-10-07本地小院批次：成人家具/单位格/空间定向检查48/48（8/6/34），正常公开命令接受/拒绝邀请两路完成营造、产出搬运、研习、到床休息与迁建取消/续建；分别60命令/36次精确存读和61命令/37次精确存读。六身份卧姿与预约前提2/2，生产Canvas卧姿加载/只读/身体点选/缺图回退4/4，已读图。旧v5完成档40建筑30门人保留资源、时间和return结局，全部入口可达，二次存读一致。各SR仅登记适用子情景；完整AC、真机触摸/FPS和真人首次体验状态分别保留。 浏览器DPR1鼠标在1366×900、1180×820、820×1180点选床上掌门通过；正常推荐营造经Enter和鼠标确认、实际施工落成。一次动态模块加载失败经页面重载恢复同档，原因待定位。I/V证据为沿既有可用契约实施的本批子范围；完整D01/D02及I/V关闭门槛保持原状态。
 
 2026-10-07 M0/M1 接续批：鼠标自由营造误触拒绝、正常确认、施工详情和重载可用；双指合成输入13/13及生产Canvas显式锚点检查34/34。真iPad双指、三平台设备、全系统焦点/失败恢复仍未验，AC01/02/03状态不变；旧非schema6渲染委派分支尚未承诺指针锚点。
@@ -77,6 +79,25 @@ SR-XF-029-REQ-03：拖拽与手势不劫持侧栏/输入/弹窗；未开放、�
 2026-10-18 U-164/U-165局部：多Agent完成林长风门籍规则及同窗交互首轮，规则8/8、相关11/11，主Agent联合供粮/操作33/33；亲传Electron专项9项，范围限当时人物交互。用户明确扩大主殿山域、整体绘制采伐场、所有建筑完全预设并由人物实际到场修建；院前临时营造入口与独立素材已撤下。下一步先确认整体场景和稳定建位，再接施工与三人同源长验。二十分钟、当前桌面包、Windows及完整SR/AC尚未完成，整项状态保持。
 
 2026-10-18 U-167局部：批准25项设施/31预设建位布局并分期开发；31目录已接入，原殿/药圃/东台保留身份，西林一级完成真实西桥运料、到场施工、两工位产木与搬回公库，其余27处待接。默认170/170、相关31项及地面校准后6+10项复验通过。macOS源码Electron同一两人来源档10/10、100.894秒，投入25灵石20木8石，6木实际回库，三次存读精确，页面/运行错误0。证据docs/design/59-WEST-FOREST-INTEGRATION.md；升级画层、三人长验、Windows及当前包另验，整项D/I/V/R与AC状态保持。 2026-10-18 U-167西谷GC-17/18/19/24开发中：显式扩谷、固定施工、有限石源、现场种粮及独立分类公库已写入。同源30条公开命令连续营造四处并精确存读，证据/Volumes/Media/immortal-qa/west-valley-prepared-20261018-v2/。阶段美术及完整桌面验收继续；远路邀请已改为有限通勤、到岗后计劳动承诺，旧邀请期限保留，公库口粮纳入实际回运；整项SR/AC状态保持。
+
+2026-10-23 本轮战斗采用独立林间战场：WASD持续走位，鼠标落点／方向配合1／2／3技能与Space短步，自动攻击仅执行射程内普通攻击，走位和技能由玩家操作。真实投射物碰撞后结算；暂停、模态与原生失焦清输入，后台世界规则保持。本轮直接相关规则28/28及主Agent工程检查通过；正常开局Node术法与自动普攻两条胜利链均只有一次结算，身体释放并恢复谷内行走。macOS源码Electron分段完成移动、原生失焦及后续技能操作：direct-run-01前8项局部通过、direct-run-03原生失焦清键且后台续进5步、direct-run-04后续9项通过（834→972、24.511037秒、错误0）；各段失败与两处界面修复分别保留，不拼作一次连续通过。新控制下的存档、旧档入口与返院复验暂缓。run-04按钮／存读链按历史版本保留。主Agent独立目视最终投射物／护持及此前探索截图，构图、空地脚点、敌预警与技能栏可辨，八个主战斗源码SHA与最终冻结一致；新素材用户美术评看与完整SR/AC另计。
+
+2026-10-25 宗门供给与门人自主突破本批完成：补齐既有炼丹院务奖励入口、修复突破通勤互等及让行工位接缝；正常桌面源280680经实际补种/两批采粮交库至282724，再自主修炼、唯一扣24灵石/8灵草，于284309完成180工步升至炼气二层。最终284504，五人供给正常、饥荒0；准备及核心共5组原生保存/关闭重开一致，公开人物窗只读正确，两个成功段errors均0。原走近超时场景现点击3.72秒通过15秒门限，仍有明显等待。空间相邻37/37、根奖励/突破/通勤16/16通过；旧requester-clear基线失败、Windows、长期平衡、完整SR/AC及发布状态保持。 详见 docs/design/77-DISCIPLE-BREAKTHROUGH-LOOP.md。
+
+2026-10-25 人物走近已接入后台寻路，主线程保留正式身体校验与事务提交。macOS源码Electron两普通来源实际近身、途中及终点共4组原生保存/关闭重开通过，最终284802；首反馈约48–55ms。旧场景最长帧间隔206.5ms，最新经营档192.1ms，200ms响应目标尚未全部通过。根定向32/32；导航相邻9/10及命令相邻41/44的4项失败均在修前版本复现。原失败记录保留，完整流畅度、Windows、整项SR/AC及发布状态保持。 详见 docs/design/78-APPROACH-RESPONSE.md。
+
+2026-10-25 门人自主历练目的已接入：根据公库缺口、本人志向和本人既往风险见闻选择采药补给或探索修行。定向场景验证采6草返院与实际到点观察60步分别结算8经验；遇险未完成及新采药空药丛不发完成经验。新增及独立边界9/9、归院恢复回归7/7、三场景9项及实际浏览器组件通过。相邻19项18通过，唯一5.3米近身受伤断言在入口同样失败，保留待修。完整SR/AC及发布状态保持。
+
+2026-10-25 历练距离修复完成：近身伤害恢复原3米，感知6米，应战交互9米各自独立。默认怪位置下正式探索在6米发现后撤退，1279步归院伤0；配置2米接触的行程实际伤10，589步归院后保留养伤意图。两场景7项、根距离10/10、目的与恢复16/16、原历练回归7/7通过。82记录的5.3米旧失败已修复；历史结果保持，完整SR/AC及发布状态保持。
+
+2026-10-25 历练备药至恢复经营闭环完成：实际到公库按许可领一份回春散，个人随身药优先；受伤后退到安全处停20世界步服药，沿原路归院，未用公药实际归还。四场景均到真实工位产生新生产贡献：有药伤10→0；缺药/无许可归院伤10，实际到床恢复至4.9后返工；平安未用归库1。根新增及相邻39/39、四场景11类检查和实际浏览器组件通过；私药、每日限制、死亡、取消及旧行程兼容独立核验。完整SR/AC与发布状态保持。
+
+2026-10-25 回春散供给闭环完成本批开发与针对性验收：正式院务设置0–10份公库目标，门人自愿搬运有限原料、完成四阶段280工步、成药实际归库，达标停产。场景陆知微耗10草/2水/1木及10灵石炼2份，tick2207归库；林长风2374领1份、2823安全处服药伤10→0、3103归院，公库余1。缺水实际补运后恢复、无人愿意、既有在制、防重复、关闭保留投入等通过。根61项单测，最后提示优先级修正后6项边界复验，四场景10类检查及实际浏览器组件通过，14文件散列一致、错误0。按U-172配置场景，未做原生整局或存读；完整SR/AC及发布状态保持。
+
+2026-10-25 药物材料自主筹备与口粮保障完成本批：缺草/水通过既有生产候选、真实工位和运输补足；普通灵泉新增显式取洁水/凝灵晶选择，未完批次拒切。足粮场景从零公共草水经取水、种采、搬运、四阶段炼制，于4624公库入药2；低粮场景初始5粮，722实运30粮至35，727才开始药物任务，4909药2/粮41，全程饥荒0。缺人和旧承诺100步保持；61项独立定向/相邻单测、最终四场景10类检查、实际Chrome管理组件6类检查通过。修复首次洁水入库缺省键与种粮压过运粮的实际问题，原失败保留；最终场景14份/组件5份散列前后一致并匹配当前源码，错误为空。按U-172配置设施和初始物资，未做建井长链、原生整局、存读及长期供需平衡；完整SR/AC和发布状态保持。
+2026-10-25 药师实操成长与供给接续完成本批：实际完工唯一增加医理，已学药理通过实操加深；场景34.5→35.1达到原资格后真实炼成筑基丹1份。伤停、真实外出、半炉中断三种替补均另起自愿炉单并实际归库2药；半炉0.5草损耗及余料退款保持。修复替补赴炉与伤者返床的真实窄路互堵，退让不计工时。根69项不同定向/相邻单测、四场景11类检查、实际Chrome组件6类及原培养DOM1项通过；最终16份场景/7份组件散列一致，失败报告保留。自动储备仍为回春散；按U-172配置初始条件，原生整局、Windows、存读长链与长期平衡未验，完整SR/AC及发布状态保持。
+2026-10-25 三至五人并行经营完成本批：3/5名门人另加掌门，同钟生产、修行与历练均有实际进度；各跨三次日结，每日分别8/12粮，全程饥荒0。两档均炼2药于2168归库，三人实运11粮后余35；五人两次真实伤10→0服药并归院、本人返工，实运13粮后余23，药物总账1+2−2=1。修复未完功课和有效承诺被出游抢占，以及承诺到期先续约导致无法出游；既有夜休/恢复/突破优先。根61项定向及相邻单测、独立6项复核、最终两场景11类检查通过，17份散列前后及当前一致，工程检查通过。初始住宅非法入口和验收器遗漏夜休条件的失败报告保留；按U-172配置场景，原生整局、Windows、存读长链及长期平衡未验，完整SR/AC及发布状态保持。
+2026-10-25 当面商议炼丹与成药交付完成本批：统一人物窗选丹方、看实际费用与现场缺口，由门人按资格、意愿及原承诺答复。正式商议筑基丹后，本人完成四阶段780工步，2099现场成药1、2689实际运抵公库、2690登记交付；医理80→80.6、药理35.1→35.7。缺料/资格/承诺不足与本人不愿分别反馈，远距和隐藏药理禁止商议，重复请求不另开炉；重伤退款和途中中止保留实际投入与实物。共同生活成员的完整人物窗入口已补齐；阅读暂停下进度直接投影实际炉单与运单。根53项不同定向/相邻测试、末次8项投影相关复验、实际Chromium人物窗与七场景11类检查通过；16份散列前后及当前一致，浏览器错误0。按U-172配置初始条件；原生整局、Windows、存读长链及长期平衡未验，完整SR/AC与发布状态保持。
 
 ## 开发任务
 
@@ -118,6 +139,10 @@ SR-XF-029-V01证据：tests/unit/web/ea-scene-ui.test.mjs；tests/unit/web/map-i
 
 - docs/requirements/design/SR-XF-029-INPUT-FLOW.md
 - docs/requirements/design/SR-XF-029-032-034.md
+- docs/art/combat-field-study-20261025/README.md
+- docs/art/combat-motion-study-20261025/README.md
+- 2026-10-25 U-171最新接续：用户认可整体美术方向并授权校准后制作帧动画，非新尺度/动作/实机验收。40逻辑像素/米同网格静态图人101px/兽164px，主Agent审看可继续，用户新比例未评；阴影及原生像素密度一致性未验。跑步v1–v3均未通过，停止生成；白底/HTML/100ms诊断GIF保留，未完成连续播放或实机验收。仅离线局部证据，运行素材registry与全部D/I/V/R、AC及任务状态保持。
+- 2026-10-25 U-171静态美术候选：网站真实global prompt起步，三次内置image_gen生成/定向修订后展示1536×1024第三稿，主Agent已审图、用户评看待定；人物超过108px预算、严格像素网格未验，22米精确比例未锁定。原LPC人物、通用兽人及重复草地成品已被用户否决，原包和运行引用保留。本批仅静态构图与来源记录，无动作库、运行替换、性能或游戏存档操作；D/I/V/R与全部AC状态保持，详见73。
 - docs/requirements/IMPLEMENTATION-2026-10-06.md
 - docs/design/03-SPATIAL-ART.md
 - docs/design/STATUS.md
@@ -194,6 +219,50 @@ SR-XF-029-V01证据：tests/unit/web/ea-scene-ui.test.mjs；tests/unit/web/map-i
 - docs/design/64-NORTH-LIBRARY-INTEGRATION.md
 - docs/design/66-NORTH-MEDITATION-INTEGRATION.md
 - docs/design/68-WEST-WORKSHOPS-INTEGRATION.md
+- docs/design/69-SIX-RESIDENTS-AND-WORKSHOPS-ACCEPTANCE.md
+- docs/design/69-SIX-RESIDENTS-AND-WORKSHOPS-ACCEPTANCE.md；2026-10-20：六居民同源生活已完成settlement-02：tick190800公库食粮16→4，实际消耗12，5位门人供给事实均supplied且starvation=0，原生暂停与关闭重开完整世界相等。living-03在东台返院路触发身体走面失配，正常暂停保存至tick191089；路径与呈现修复仍待living-04同档实机复验。现有三项未领院务奖励（引灵入府、仙途初成、安居有粮）已接桌面入口与整包容量守卫；专项5/5、直接相关回归7/7，正常档实际领取未验。GC21–23仅布局候选。下一步接living-04、GC25/26正常筹料营建及纸胎实收、四段成药回库；完整SR/AC状态保持。
+- docs/design/69-SIX-RESIDENTS-AND-WORKSHOPS-ACCEPTANCE.md；2026-10-20：living-04从living-03原生停点继续并通过：顾听澜在tick191090实际使用床1；裴照雪tick191170完成床4入住，191171观测为executing。掌门真实采粮368于191593取得16份，运输369于191626送入公库；192000日结5位门人均supplied且starvation=0。实测118.716135秒，原生暂停与关闭重开完整世界相等，来源及运行文件散列不变，错误0。裴照雪继承的非法脚点在实际运行tick191090从(123.5,45)恢复至(123.5,45.1)，原活动、起始tick和床4预约继续；恢复后按严格身体、门槛与道路判据检查。living-03失败及原始快照继续保留。封存源tick192003 SHA 1b19735d324326bfb6682f60160229e26f054e24da46bd20551318a8b2e9ef42。筹料、奖励实际领取与GC25/26正式生产结果未验；完整SR/AC保持。
+- docs/design/69-SIX-RESIDENTS-AND-WORKSHOPS-ACCEPTANCE.md；funding-01在192003正式领取三项既有奖励并精确原生重开通过；随后renderer不响应，725.897205秒段以failed收口。lastHarnessObservedTick192200不代表落盘终点；当前可恢复来源为funding-01/native-preserved-while-waiting.json，tick192063，SHA cf63afd0879a0669f46d3724adb3e27204e770433d0616612af6fc9367b93430，manualPause=false，待公开recover阶段生成新的paused原生。STOP保存未完成，SIGTERM未退出后仅QA Electron树被SIGKILL，未落盘尾段时长及最终tick未知，不计连续成功。living-04通过保留，GC25/26正常筹料营建与生产未完成，完整SR/AC状态保持。
+- docs/design/69-SIX-RESIDENTS-AND-WORKSHOPS-ACCEPTANCE.md；recover-01已从保全的原生192063运行态通过公开暂停按钮自然推进5步至192068，暂停保存及精确关闭重开通过；实测25.840198秒，来源和运行散列保持、错误0。当前唯一接续启动档为/Volumes/Media/immortal-qa/sol-production-20261020/recover-01/world/sect-save.json，tick192068，SHA 796a659e63472a706606271077f0c77752d98421d46b8afec8d1bfbb8690f984，manualPause=true。原report的sourceManualPause=null为字段误读，独立metadata-correction.json绑定原source哈希并校正为false，原报告保持。funding-01失败与未知未落盘尾段证据继续保留；GC25/26正常筹料营建与生产待继续，完整SR/AC状态保持。
+- docs/design/70-COURTYARD-FIRST-COMBAT.md
+- apps/courtyard/sect-combat.mjs
+- apps/courtyard/courtyard-combat.mjs
+- tests/unit/courtyard/courtyard-combat-direct-controls.test.mjs
+- tests/acceptance/courtyard-combat-direct-desktop.mjs
+- assets/courtyard/valley-battlefield-v1.provenance.json
+- assets/courtyard/valley-shanxiao-actions-v1.provenance.json
+- docs/design/71-GUESTHOUSE-INTEGRATION.md
+- tests/unit/courtyard/courtyard-guest-lodging.test.mjs
+- tests/acceptance/courtyard-guesthouse-desktop.mjs
+- docs/design/75-SECT-SUSTENANCE.md
+- 2026-10-25 U-170留守供给与掌门外出：v1门人自主运回收成、桌面采寻入口及出行供给反馈已接入。普通源267998正常备粮，macOS源码Electron分段离院270016→实际归院272082，NPC实际送6粮、五人日结供给正常并继续成长；采6草返院实际交库，最终272332粮23。最后一段原生存读/正常关闭/来源及运行散列一致、错误0；早先脚本失败和精确续接证据保持。37项集成及4项采寻检查通过（有交叉）；独立审计10项、13对原生存读通过。并行美术署名弹窗不在本批冻结原生范围。长期供需平衡、Windows、完整SR/AC与发布状态保持，详见75。最终全仓check被并行署名CREDITS.md缺失阻塞；需求校验通过。
+- docs/design/76-DISCIPLE-CULTIVATION-PROGRESSION.md
+- tests/acceptance/courtyard-disciple-cultivation-desktop.mjs
+- tests/acceptance/courtyard-disciple-cultivation-reopen.mjs
+- 2026-10-25 宗门供给与门人自主突破局部：docs/design/77-DISCIPLE-BREAKTHROUGH-LOOP.md；普通源280680→桌面准备282724→桌面终档284504，唯一180工步升至二层、5组原生存读一致。完整SR/AC状态保持。
+- 2026-10-25 人物走近局部：docs/design/78-APPROACH-RESPONSE.md；两个普通来源实际近身、4组原生存读一致；反馈48–55ms，旧场景206.5ms峰值使200ms目标保持未通过。整项状态保持。
+- docs/design/79-DISCIPLE-WORK-SPECIALIZATION.md
+- 2026-10-25 门人生产专长已参与v1自主择业，最多12分软偏好；按U-172配置场景，正式世界步646→910验证不同专长择业、真实工位生产、两人对应技能80→80.6及下一次决策。同种子只交换技能，岗位随之互换。实际浏览器组件近身理由、远处保密和只读通过；修复v2日程字段过滤接缝。此为针对性模拟与组件证据，完整SR/AC及发布状态保持。
+- docs/design/80-EXPEDITION-RECOVERY.md
+- 2026-10-25 历练归来恢复已接入：真实归院伤势大于5时保留养伤意图，有药按既有规则耗草，缺药自然调养，恢复后回到日常自主决策；健康同伴按现有供给与意愿接活。按U-172配置三场景验证归库、真实床位恢复及生产补位，饥饿可优先解决而保留恢复意图。完整SR/AC与发布状态保持。
+- docs/design/81-DISCIPLE-ONBOARDING.md
+- 2026-10-25 新门人安置与首次贡献针对性验证：普通求见工厂生成同一身份，正式收录提交唯一门籍与具体待入住床，本人实际到床才登记入住，随后自主到生产工位贡献并取得对应技艺成长。缺床/缺粮拒绝不改世界，本人拒绝及重复收录保持边界。现有产品逻辑成立，本批增加可复用夹具和专项场景；完整SR/AC与发布状态保持。
+- docs/design/82-EXPEDITION-PURPOSE.md
+- 2026-10-25 门人自主历练目的已接入：根据公库缺口、本人志向和本人既往风险见闻选择采药补给或探索修行。定向场景验证采6草返院与实际到点观察60步分别结算8经验；遇险未完成及新采药空药丛不发完成经验。新增及独立边界9/9、归院恢复回归7/7、三场景9项及实际浏览器组件通过。相邻19项18通过，唯一5.3米近身受伤断言在入口同样失败，保留待修。完整SR/AC及发布状态保持。
+- docs/design/83-ENCOUNTER-DISTANCE.md
+- 2026-10-25 历练距离修复完成：近身伤害恢复原3米，感知6米，应战交互9米各自独立。默认怪位置下正式探索在6米发现后撤退，1279步归院伤0；配置2米接触的行程实际伤10，589步归院后保留养伤意图。两场景7项、根距离10/10、目的与恢复16/16、原历练回归7/7通过。82记录的5.3米旧失败已修复；历史结果保持，完整SR/AC及发布状态保持。
+- docs/design/84-EXPEDITION-MEDICINE.md
+- 2026-10-25 历练备药至恢复经营闭环完成：实际到公库按许可领一份回春散，个人随身药优先；受伤后退到安全处停20世界步服药，沿原路归院，未用公药实际归还。四场景均到真实工位产生新生产贡献：有药伤10→0；缺药/无许可归院伤10，实际到床恢复至4.9后返工；平安未用归库1。根新增及相邻39/39、四场景11类检查和实际浏览器组件通过；私药、每日限制、死亡、取消及旧行程兼容独立核验。完整SR/AC与发布状态保持。
+- docs/design/85-MEDICINE-SUPPLY.md
+- 2026-10-25 回春散供给闭环完成本批开发与针对性验收：正式院务设置0–10份公库目标，门人自愿搬运有限原料、完成四阶段280工步、成药实际归库，达标停产。场景陆知微耗10草/2水/1木及10灵石炼2份，tick2207归库；林长风2374领1份、2823安全处服药伤10→0、3103归院，公库余1。缺水实际补运后恢复、无人愿意、既有在制、防重复、关闭保留投入等通过。根61项单测，最后提示优先级修正后6项边界复验，四场景10类检查及实际浏览器组件通过，14文件散列一致、错误0。按U-172配置场景，未做原生整局或存读；完整SR/AC及发布状态保持。
+- docs/design/86-MEDICINE-MATERIALS.md
+- 2026-10-25 药物材料自主筹备与口粮保障完成本批：缺草/水通过既有生产候选、真实工位和运输补足；普通灵泉新增显式取洁水/凝灵晶选择，未完批次拒切。足粮场景从零公共草水经取水、种采、搬运、四阶段炼制，于4624公库入药2；低粮场景初始5粮，722实运30粮至35，727才开始药物任务，4909药2/粮41，全程饥荒0。缺人和旧承诺100步保持；61项独立定向/相邻单测、最终四场景10类检查、实际Chrome管理组件6类检查通过。修复首次洁水入库缺省键与种粮压过运粮的实际问题，原失败保留；最终场景14份/组件5份散列前后一致并匹配当前源码，错误为空。按U-172配置设施和初始物资，未做建井长链、原生整局、存读及长期供需平衡；完整SR/AC和发布状态保持。
+- 2026-10-25 药师实操成长与供给接续完成本批：实际完工唯一增加医理，已学药理通过实操加深；场景34.5→35.1达到原资格后真实炼成筑基丹1份。伤停、真实外出、半炉中断三种替补均另起自愿炉单并实际归库2药；半炉0.5草损耗及余料退款保持。修复替补赴炉与伤者返床的真实窄路互堵，退让不计工时。根69项不同定向/相邻单测、四场景11类检查、实际Chrome组件6类及原培养DOM1项通过；最终16份场景/7份组件散列一致，失败报告保留。自动储备仍为回春散；按U-172配置初始条件，原生整局、Windows、存读长链与长期平衡未验，完整SR/AC及发布状态保持。 证据：/Users/shepard/.codex/tmp/immortal-pharmacist-development-20261025/scenario-03/report.json；/Users/shepard/.codex/tmp/immortal-pharmacist-development-20261025/panel-06/report.json。
+- 2026-10-25 三至五人并行经营完成本批：3/5名门人另加掌门，同钟生产、修行与历练均有实际进度；各跨三次日结，每日分别8/12粮，全程饥荒0。两档均炼2药于2168归库，三人实运11粮后余35；五人两次真实伤10→0服药并归院、本人返工，实运13粮后余23，药物总账1+2−2=1。修复未完功课和有效承诺被出游抢占，以及承诺到期先续约导致无法出游；既有夜休/恢复/突破优先。根61项定向及相邻单测、独立6项复核、最终两场景11类检查通过，17份散列前后及当前一致，工程检查通过。初始住宅非法入口和验收器遗漏夜休条件的失败报告保留；按U-172配置场景，原生整局、Windows、存读长链及长期平衡未验，完整SR/AC及发布状态保持。 证据：/Users/shepard/.codex/tmp/immortal-sect-concurrency-20261025/scenario-04/report.json。
+- 2026-10-25 当面商议炼丹与成药交付完成本批：统一人物窗选丹方、看实际费用与现场缺口，由门人按资格、意愿及原承诺答复。正式商议筑基丹后，本人完成四阶段780工步，2099现场成药1、2689实际运抵公库、2690登记交付；医理80→80.6、药理35.1→35.7。缺料/资格/承诺不足与本人不愿分别反馈，远距和隐藏药理禁止商议，重复请求不另开炉；重伤退款和途中中止保留实际投入与实物。共同生活成员的完整人物窗入口已补齐；阅读暂停下进度直接投影实际炉单与运单。根53项不同定向/相邻测试、末次8项投影相关复验、实际Chromium人物窗与七场景11类检查通过；16份散列前后及当前一致，浏览器错误0。按U-172配置初始条件；原生整局、Windows、存读长链及长期平衡未验，完整SR/AC与发布状态保持。 证据：/Users/shepard/.codex/tmp/immortal-disciple-craft-request-20261025/scenario-05/report.json。
+- 2026-10-26 门人进阶需求与自主筑基完成本批：人物窗从缺丹需求导航到同门并预选筑基丹，正式自愿炼制780工步，2692本人运药归公库；另一门人2750自主取丹、2772收入随身，2780开启突破，2825实际炼化、2975完成180工步升至筑基，3150本人再参与生产并按贡献成长。近身和远取统一公药许可，保本人私药、旧承诺与实际身体；唯一丹竞争、满袋拒绝、炼化前后取消及执事继续成长通过。根77项不同定向/相邻单测、六场景12类检查及实际Chromium人物窗组件通过；main选中/走近薄接缝受控执行核验，16份散列前后与当前一致，13完整快照、6截图，浏览器错误0。主Agent发现首轮旧缺丹提示与在途冲突后修正，最终scenario-02通过，旧记录保留。按U-172配置初始条件；原生整局、Windows、存读长链和长期平衡未验，完整SR/AC与发布状态保持。 证据：/Users/shepard/.codex/tmp/immortal-disciple-advancement-20261025/scenario-02/report.json。
+- 2026-10-26 历练收获反哺成长完成本批：真实采6草于1729归库，当面筹备一炉并保留本人旧承诺，2545实运材料到丹房，3428完成原四阶段780工步，4020成药归库，林长风4112收入随身、4120开始突破、4310完成180工步升至筑基。掌门正式搬40木腾库后，5080本人实际参与生产，贡献90%、百工增长0.54；灵草总账119+6−75−50=0。筹备可撤回，已接运输保留；修复休息续约饿死取丹机会、交库容量/产权检查及运输提示滞后。根116项定向/相邻测试、最终投影14项复验、三场景9项检查和实际Chromium人物窗组件通过；23源码散列一致、14完整快照、6截图及独立复核通过。按U-172配置初始条件；原生整局、Windows、存读长链与长期平衡未验，完整SR/AC及发布状态保持。 证据：/Users/shepard/.codex/tmp/immortal-expedition-growth-20261026/scenario-04/report.json；/Users/shepard/.codex/tmp/immortal-expedition-growth-20261026/final-independent-audit.json。
+- 2026-10-26 门人结伴历练完成本批：院务开放结伴机会，近身且同目的的两位门人分别自愿，至少一人留守；各自准备2粮8精力、独立身体与药囊。平安场景1925双人归院，各得8经验并各退1药，2400共同生产木21.384；遇险两人各伤10，陆知微1139–1158实际安全服唯一药，林长风等候19步，1424/1427分别归院，林1470到床养伤，陆1730产木、林1860产水。近距提醒与亲见分开；拒绝、失散120步独自返、死亡不复活及临时交接不可达恢复通过。修复两人公库互堵、观察脚点及返回入口接缝。主Agent54项定向/相邻测试、最终三场景12项检查通过，19源码散列一致、32完整快照、5实际Chromium组件截图，错误0。谷口有0.04米短暂交叉，通用身体净距未验；原生整局、Windows、存读长链及长期平衡未验，完整SR/AC与发布状态保持。 证据：/Users/shepard/.codex/tmp/immortal-expedition-companions-20261026/scenario-02/report.json。
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
@@ -232,5 +301,22 @@ SR-XF-029-V01证据：tests/unit/web/ea-scene-ui.test.mjs；tests/unit/web/map-i
 - 2026-10-18：U-167 GC03原施工14已在同源桌面完成；四蒲团/两检修位、180步炼气6→7层、有限供灵与四次关闭重开通过。北路返床/绕人修复主树8项及实际27步回路成立。现场货位目的地过滤已补；当前170563检修运输347续接核对主殿门槛圈样本，维护全链未完成。丹房四阶段四工位16项为隔离候选证据。完整SR/AC状态保持。
 - 2026-10-18：U-167 GC03一级同源macOS源码桌面链完成：最终171973，run07为10/10、错误0、209.943秒，七段实际逐项合计777.710秒。勘察/施工、180步6→7层、有限供灵、原运输347与348送2木1石、80步维护均成立，携货及活动中多次精确重开。Lu门槛为外部脚圈检查室内边界遗漏，已按正式预约/holder/floor纠正且保留离路反例。整体建筑与完整SR/AC继续。
 - 2026-10-19：U-167 GC25/26一级道路、四阶段、真实工位与四段炼丹已合入23源码/测试和14图，主树30项及工程检查通过；有限供料负坐标整档完成施工到唯一两份成药，正常桌面生产另验。求见链真实续至174422，首位来客到时离开、第二位入院，未新增收录；绕柱导航已修，北坡迎面互等继续验证。完整SR/AC状态保持。
+- 2026-10-20：六居民同档日结与原生精确重开通过；living-03道路body失配保留tick191089，修复待living-04。院务奖励入口与容量边界规则检查通过，实际领取、GC25/26正常生产未验；GC21–23仅布局候选。完整SR/AC及任务状态保持。
+- 2026-10-20：living-04从191089同档完成73/75实际床位、自主16粮采送、192000五门人日结与精确原生重开，118.716135秒、错误0；living-03失败保留。只更新局部证据，不提升完整SR/AC；funding-01及GC25/26正式生产待验。
+- 2026-10-23：2026-10-23 本轮战斗采用独立林间战场：WASD持续走位，鼠标落点／方向配合1／2／3技能与Space短步，自动攻击仅执行射程内普通攻击，走位和技能由玩家操作。真实投射物碰撞后结算；暂停、模态与原生失焦清输入，后台世界规则保持。本轮直接相关规则28/28及主Agent工程检查通过；正常开局Node术法与自动普攻两条胜利链均只有一次结算，身体释放并恢复谷内行走。macOS源码Electron分段完成移动、原生失焦及后续技能操作：direct-run-01前8项局部通过、direct-run-03原生失焦清键且后台续进5步、direct-run-04后续9项通过（834→972、24.511037秒、错误0）；各段失败与两处界面修复分别保留，不拼作一次连续通过。新控制下的存档、旧档入口与返院复验暂缓。run-04按钮／存读链按历史版本保留。主Agent独立目视最终投射物／护持及此前探索截图，构图、空地脚点、敌预警与技能栏可辨，八个主战斗源码SHA与最终冻结一致；新素材用户美术评看与完整SR/AC另计。
+- 2026-10-23：2026-10-23 GC15一级客院已接入：两张独立客床、当面自愿邀请、实际步行入住、原来访期限退房下山及原生存读。macOS源码Electron有限夹具入住ui-fixture-03通过7项（1656→3851、235.557720083秒），施工build-fixture-01通过3项（646→1700、114.379689209秒）；唯一工单3投入45灵石/40木/20石，两趟实际送达后于1683完成200施工步。两段错误0，来源、运行文件与原生重开均一致。GPT-6.1-sol独立读回6个原生检查点及12个核心源码通过。正常世界仍保留医庐tick261253原档；该世界的筹资建设、Windows和完整SR/AC保持待验。 详见docs/design/71-GUESTHOUSE-INTEGRATION.md。
+- 2026-10-25：登记正常供给与门人自主突破的局部实现/原生证据；保持整项与AC状态。
+- 2026-10-25：登记人物走近后台规划、原生实际通行和响应测量的局部证据，200ms目标未全部通过，整项与AC状态保持。
+- 2026-10-25：登记历练自主目的、实际采药/观察结果及局部证据；保留既有接触半径失败和整项状态。
+- 2026-10-25：登记历练距离修复及安全/受伤归院局部证据，完整SR/AC状态保持。
+- 2026-10-25：登记历练实体携药/使用/归还与恢复生产闭环证据，完整SR/AC状态保持。
+- 2026-10-25：登记回春散库存目标、实体备料、自主四阶段炼制、归库及历练实用证据，完整SR/AC状态保持。
+- 2026-10-25：登记材料自主生产/运输、显式灵泉工序及粮食优先整链，完整SR/AC状态保持。
+- 2026-10-25：登记真实炼药成长、原进阶资格、伤停外出补位及初次赴炉通勤修复；完整SR/AC状态保持。
+- 2026-10-25：登记三/五人并行经营、粮药实际收支与承诺到期接缝；完整SR/AC状态保持。
+- 2026-10-25：登记当面自愿炼丹、完整人物窗入口及本人实运交付；完整SR/AC状态保持。
+- 2026-10-26：登记进阶需求、同门商议、实际取丹与原阶段自主突破后恢复经营；完整SR/AC状态保持。
+- 2026-10-26：登记历练实采、单炉筹备、真实交付、自主筑基及返工针对性验证；完整SR/AC状态保持。
+- 2026-10-26：登记门人自主结伴、近距协作、逐人用药/死亡/返院恢复及生产针对性验证；完整SR/AC状态保持。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python scripts/requirements/sr-manager.py refresh`，不单独修改此派生页。

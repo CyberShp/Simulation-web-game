@@ -14,9 +14,9 @@
 
 纳入云岫前期，按依赖推进。
 
-决策来源：U-63, U-93, R-25, U-94, U-105, R-32, U-166, R-54, T-22。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
+决策来源：U-63, U-93, R-25, U-94, U-105, R-32, U-166, R-54, T-22, U-172。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
 
-规格：[01-CHARACTERS.md](../../../docs/design/01-CHARACTERS.md)、[07-ECONOMY-ORGANIZATION.md](../../../docs/design/07-ECONOMY-ORGANIZATION.md)、[14-EARLY-GAME-DETAILED-DESIGN.md](../../../docs/design/14-EARLY-GAME-DETAILED-DESIGN.md)、[06-OPENING-ACCEPTANCE.md](../../../docs/design/06-OPENING-ACCEPTANCE.md)、[SECT-GROWTH-PLAN.md](../../../docs/SECT-GROWTH-PLAN.md)、[58-GOLDEN-CORE-PRESET-BUILDINGS.md](../../../docs/design/58-GOLDEN-CORE-PRESET-BUILDINGS.md)、[64-NORTH-LIBRARY-INTEGRATION.md](../../../docs/design/64-NORTH-LIBRARY-INTEGRATION.md)。
+规格：[01-CHARACTERS.md](../../../docs/design/01-CHARACTERS.md)、[07-ECONOMY-ORGANIZATION.md](../../../docs/design/07-ECONOMY-ORGANIZATION.md)、[14-EARLY-GAME-DETAILED-DESIGN.md](../../../docs/design/14-EARLY-GAME-DETAILED-DESIGN.md)、[06-OPENING-ACCEPTANCE.md](../../../docs/design/06-OPENING-ACCEPTANCE.md)、[SECT-GROWTH-PLAN.md](../../../docs/SECT-GROWTH-PLAN.md)、[58-GOLDEN-CORE-PRESET-BUILDINGS.md](../../../docs/design/58-GOLDEN-CORE-PRESET-BUILDINGS.md)、[64-NORTH-LIBRARY-INTEGRATION.md](../../../docs/design/64-NORTH-LIBRARY-INTEGRATION.md)、[71-GUESTHOUSE-INTEGRATION.md](../../../docs/design/71-GUESTHOUSE-INTEGRATION.md)、[81-DISCIPLE-ONBOARDING.md](../../../docs/design/81-DISCIPLE-ONBOARDING.md)。
 
 依赖：[SR-XF-008](SR-XF-008.md)、[SR-XF-009](SR-XF-009.md)、[SR-XF-010](SR-XF-010.md)、[SR-XF-014](SR-XF-014.md)、[SR-XF-020](SR-XF-020.md)。
 
@@ -106,6 +106,11 @@ SR-XF-026-D01证据：docs/SECT-GROWTH-PLAN.md
 - docs/design/65-COURTYARD-SEEKERS.md；2026-10-19 recovery-02实际从177171 native继续至177361，公开approach仍停路，旁步候选未被moveArt接受；native a117dcca…与checkpoint一致，累计1026.201004秒、剩余173.798996秒。recovery-03已准备从177361原字节继续，等待单次许可；五门人/GC26生产未完成。
 - docs/design/65-COURTYARD-SEEKERS.md；2026-10-19 transferFood修复/recovery-06及recovery-07实机：运输visibleBody寻路与旧路径校验重算；transport351的food18属recovery-06最终源并在recovery-06完成，HOME 12→30，不是run07新增；recovery-07新增transport352 6粮@178180与transport353 8粮@178436，HOME30→44；并收录顾听澜iv73为第四名门人；累计1300.159004秒(本批113.253/300，余186.747秒)，native dcd9be70…。随后陆知微rest去building:yunxiu:1/slot:bed:1在178680(42.944230,12.790354)身体越界，停178693；五门人/GC26未完成。
 - docs/design/65-COURTYARD-SEEKERS.md；2026-10-20收口：merchant-harvest-01 native tick189867 SHA e76e9dd8a5c9642e50fff100febadb04c49f2b0dbc11e87ad662cb9bff2218e6，HOME food16/carried0/source304/5门人；366采16@189831、367 delivered16@189858；完整41.400066s、later370.287718、sumMeasured2777.050227、currentChainLB2854.560517、floor2874.609517、7IDs；unknownTail/overallExact=null（前者为feed01尾段未知，不是无缺口）。73/75 pending；190800日结、床位入住与持续供粮未验，整项SR/AC不提升。
+- docs/design/71-GUESTHOUSE-INTEGRATION.md
+- tests/unit/courtyard/courtyard-guest-lodging.test.mjs
+- tests/acceptance/courtyard-guesthouse-desktop.mjs
+- docs/design/81-DISCIPLE-ONBOARDING.md
+- 2026-10-25 新门人安置与首次贡献针对性验证：普通求见工厂生成同一身份，正式收录提交唯一门籍与具体待入住床，本人实际到床才登记入住，随后自主到生产工位贡献并取得对应技艺成长。缺床/缺粮拒绝不改世界，本人拒绝及重复收录保持边界。现有产品逻辑成立，本批增加可复用夹具和专项场景；完整SR/AC与发布状态保持。
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
@@ -118,5 +123,6 @@ SR-XF-026-D01证据：docs/SECT-GROWTH-PLAN.md
 - 2026-10-18：U-167 GC03一级同源macOS源码桌面链完成：最终171973，run07为10/10、错误0、209.943秒，七段实际逐项合计777.710秒。勘察/施工、180步6→7层、有限供灵、原运输347与348送2木1石、80步维护均成立，携货及活动中多次精确重开。Lu门槛为外部脚圈检查室内边界遗漏，已按正式预约/holder/floor纠正且保留离路反例。整体建筑与完整SR/AC继续。
 - 2026-10-19：U-167 GC25/26一级道路、四阶段、真实工位与四段炼丹已合入23源码/测试和14图，主树30项及工程检查通过；有限供料负坐标整档完成施工到唯一两份成药，正常桌面生产另验。求见链真实续至174422，首位来客到时离开、第二位入院，未新增收录；绕柱导航已修，北坡迎面互等继续验证。完整SR/AC状态保持。
 - 2026-10-20：2026-10-20 收口到merchant-harvest-01：五门人/食物同档链停止在paused；真实food16入库、source304；未知尾段与整体exact保持null；不把pending当入住、不把补种成功当供粮恢复。历史更正：recovery-04失败人为陆知微，transport351/18属recovery-06而非run07新增。
+- 2026-10-23：2026-10-23 GC15一级客院已接入：两张独立客床、当面自愿邀请、实际步行入住、原来访期限退房下山及原生存读。macOS源码Electron有限夹具入住ui-fixture-03通过7项（1656→3851、235.557720083秒），施工build-fixture-01通过3项（646→1700、114.379689209秒）；唯一工单3投入45灵石/40木/20石，两趟实际送达后于1683完成200施工步。两段错误0，来源、运行文件与原生重开均一致。GPT-6.1-sol独立读回6个原生检查点及12个核心源码通过。正常世界仍保留医庐tick261253原档；该世界的筹资建设、Windows和完整SR/AC保持待验。 详见docs/design/71-GUESTHOUSE-INTEGRATION.md。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python scripts/requirements/sr-manager.py refresh`，不单独修改此派生页。

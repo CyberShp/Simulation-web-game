@@ -3,6 +3,8 @@ import {advanceScenic,scenicFindPath,scenicDistance,geometryRevision,scenicCanSt
 import {spatialEnabled,SPATIAL_SCENE} from './ea-sr-spatial.mjs';
 
 export const COURTYARD_VISIT_VERSION='courtyard-south-road-1';
+// Legacy drawing-unit budget per 100 ms world step; advanceScenic converts it.
+export const COURTYARD_VISITOR_WALK_BUDGET=3.6;
 // Metre coordinates calibrated to the existing southern steps and courtyard paving.
 export const COURTYARD_VISITOR_ROAD=Object.freeze([
  {x:26.62857142857143,y:50},{x:26.58823529411765,y:48},{x:26.125,y:45.275},
@@ -42,7 +44,7 @@ export function departCourtyardVisitor(s,p){
  visit.phase='departing';visit.waypoints=[...COURTYARD_VISITOR_ROAD].reverse().map(point);visit.waypointIndex=0;visit.lastTick=s.worldTick;
  body(p).scenic.path=[];body(p).scenic.goal=null;body(p).activity='walk';body(p).reason='沿山路下山。';return true;
 }
-export function advanceCourtyardVisitor(s,p,budget=3.6){
+export function advanceCourtyardVisitor(s,p,budget=COURTYARD_VISITOR_WALK_BUDGET){
  const visit=p?.courtyardVisit;if(!visit||!['arriving','departing'].includes(visit.phase)||visit.lastTick>=s.worldTick||p.lifeStatus==='dead')return false;
  visit.lastTick=s.worldTick;const sc=body(p).scenic,target=visit.waypoints[visit.waypointIndex];
  if(!target||sc.bodyYield)return false;

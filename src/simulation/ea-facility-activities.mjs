@@ -226,7 +226,8 @@ export function reconcileActivities(s){
   if(a.workOrderId&&!s.workOrdersById[a.workOrderId])delete a.workOrderId;
   const o=owner(s,p),b=s.buildingsById[a.targetId],careRole=(s.story.artisan?.phase==='care'&&[s.story.artisan.personId,'person:master'].includes(p.personId)||s.story.artisan?.phase==='recovering'&&s.story.artisan.personId===p.personId),action=careRole?'care':p===s.master?p.learning&&o.action==='walk'?'study':o.action:o.activity;
   if(b&&a.slotId&&a.phase==='executing'){const slot=slotById(s,a.slotId);if(!slot||o.scenic.path.length||scenicDistance(o.scenic,slot.position)>=arrival(s))a.phase='navigating';}
-  if(!b||b.enabled===false||b.condition<=0||o.away||o.journey||p!==s.master&&!s.homeMemberIds.includes(p.personId)&&!careRole||p===s.master&&(s.world.exploration||p.journey||s.combat?.status==='active')||action!==a.action)releaseBodyActivity(s,p);
+  const serviceOrder=s.workOrdersById[a.serviceOrderId],clinicPatientRole=s.story.artisan?.phase==='present'&&s.story.artisan.personId===p.personId&&serviceOrder?.kind==='sr-site-service'&&serviceOrder.patientId===p.personId&&serviceOrder.targetId===a.targetId&&!['completed','cancelled'].includes(serviceOrder.phase);
+  if(!b||b.enabled===false||b.condition<=0||o.away||o.journey||p!==s.master&&!s.homeMemberIds.includes(p.personId)&&!careRole&&!clinicPatientRole&&!(a.action==='guest-bed'&&s.guestLodging?.stays?.some(stay=>stay.personId===p.personId&&stay.releasedTick===null))||p===s.master&&(s.world.exploration||p.journey||s.combat?.status==='active')||action!==a.action)releaseBodyActivity(s,p);
  }
  for(const order of Object.values(s.workOrdersById))if(order.kind==='production'&&order.phase==='active'&&!Object.values(s.activitiesById).some(a=>a.workOrderId===order.id&&a.phase==='executing'))order.phase='waiting';
 }

@@ -1,0 +1,70 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs/promises';
+import vm from 'node:vm';
+const source=await fs.readFile(new URL('../../acceptance/courtyard-combat-party-desktop.mjs',import.meta.url),'utf8');
+// Exercise the CLI's actual pure decisions without executing its main routine
+// or loading Electron. These controlled projections are component fixtures.
+const decisions=source.slice(source.indexOf('function qaTarget('),source.indexOf('async function untilCombat('));
+const metrics=source.slice(source.indexOf('function statistics('),source.indexOf('try{\n lock='));
+const portableAssert=Object.assign((...args)=>assert(...args),assert,{deepEqual:(a,b,...args)=>assert.deepEqual(structuredClone(a),structuredClone(b),...args)});
+function context(extra={}){const c={assert:portableAssert,...extra};vm.createContext(c);vm.runInContext(decisions+metrics+';globalThis.helpers={qaApproach,qaSpellProof,qaDodgeEvidence,combatPerformance};',c);return c;}
+const projection=(x=3.5)=>({tick:0,status:'active',player:{x,y:4,motion:{movementLocked:false}},enemies:[{id:'foe',x:5.22,y:4,hp:100}],selectedTargetId:'foe',manualActions:[{id:'attack',range:1.2}],input:{held:[]},errors:[]});
+test('melee approach uses the public range and player keys instead of assuming an enemy walks into range',()=>{
+ const h=context().helpers,r=projection(),before=structuredClone(r);assert.equal(h.qaApproach(r).key,'KeyD');assert.equal(h.qaApproach(projection(4.16)).key,null);r.player={x:5.22,y:6};assert.equal(h.qaApproach(r).key,'KeyW');assert.equal(before.player.x,3.5);
+});
+test('spell proof requires held-but-stationary windup, a real release step and later physical movement',()=>{
+ const h=context().helpers,action={id:'spell:1',startedTick:0,executedTick:4},start={x:3.5,y:4},steps=[{tick:1,pending:{id:action.id,executed:false},held:['KeyA'],player:{...start,motion:{phase:'windup'}}},{tick:4,pending:{id:action.id,executed:true},held:['KeyA'],player:{...start,motion:{phase:'release'}}},{tick:5,held:['KeyA'],player:{x:3.17,y:4,motion:{moveIntent:{x:-1,y:0}}}}];
+ assert.deepEqual(JSON.parse(JSON.stringify(h.qaSpellProof(steps,action,start))),{windup:true,release:true,moving:true,firstMoveTick:5});const early=structuredClone(steps);early[0].player.x=3.17;assert.equal(h.qaSpellProof(early,action,start).windup,false);assert.equal(h.qaSpellProof(steps.filter(s=>s.tick!==4),action,start).release,false);assert.equal(h.qaSpellProof(steps.slice(0,2),action,start).moving,false);
+});
+test('performance deduplicates browser timestamps and pause boundaries while retaining genuine slow intervals',()=>{
+ const h=context().helpers,draw=(at,active,segment,cost=1)=>({at,active,segment,drawJsMs:cost,actors:3}),trace={draws:[draw(0,true,1),draw(16,true,1),draw(16,true,1,2),draw(32,false,1),draw(1000,true,2),draw(1016,true,2),draw(1216,true,2)],pumps:[{at:1020,end:1200,durationMs:180,paused:false,advancedTicks:2}],longTasks:[{at:1040,end:1190,durationMs:150}],observations:[{kind:'full-world-read',at:1060,end:1100,snapshotMs:30,viewMs:10,paused:false,combat:true,observed:true}],hits:[],longTasksSupported:true,capped:false},m=h.combatPerformance(trace);
+ assert.equal(m.canvasCallbacks,7);assert.equal(m.browserFrames,6);assert.equal(m.duplicateTimestampCallbacks,1);assert.equal(m.activeSegments,2);assert.equal(m.rafFrameIntervalMs.n,3);assert.equal(m.rafFrameIntervalMs.max,200);assert.equal(m.completedCanvasCallbackJsMs.max,2);assert.equal(m.canvasJsPerBrowserFrame.max,3);assert.equal(m.slowActiveIntervals[0].pumps.length,1);assert.equal(m.slowActiveIntervals[0].observations.length,1);assert.equal(m.worldPumpJsMs.max,180);assert.equal(m.activeCombatFullWorldReadCount,1);
+});
+function walkFixture({terminal=false,blocked=false}={}){
+ let r=projection(),paused=true,held=null;const calls=[],c=context({performance,sleep:async()=>{},actions:[],wall:()=>0,record:(...args)=>calls.push(['record',...args]),focusInput:async()=>calls.push('focus'),pause:async p=>{paused=p;calls.push(['pause',p]);},readCombat:async()=>{if(!paused&&held){r.tick++;if(terminal)r.status='won';else if(!blocked)r.player.x+=held==='KeyD'?.33:held==='KeyA'?-.33:0;}r.input.held=held?[held]:[];return structuredClone(r);},page:{keyboard:{down:async key=>{held=key;calls.push(['down',key]);},up:async key=>{held=null;calls.push(['up',key]);}}}});
+ vm.runInContext(source.slice(source.indexOf('async function untilCombat('),source.indexOf('async function aimEnemy('))+'\n'+source.slice(source.indexOf('async function walkIntoMelee('),source.indexOf('async function combatChecks('))+'\nglobalThis.walk=walkIntoMelee;',c);return {c,calls,state:()=>r,held:()=>held,paused:()=>paused};
+}
+test('real-key approach orchestration takes bounded player steps and releases every held key',async()=>{const f=walkFixture();assert.equal(await f.c.walk(),true);assert(Math.abs(f.state().player.x-4.16)<1e-8);assert.equal(f.held(),null);assert.equal(f.paused(),true);assert.equal(f.calls.filter(c=>c[0]==='down').length,2);});
+test('terminal result during approach immediately releases keys and reports an incomplete approach',async()=>{const f=walkFixture({terminal:true});assert.equal(await f.c.walk(),false);assert.equal(f.held(),null);assert.equal(f.paused(),true);assert.equal(f.calls.filter(c=>c[0]==='down').length,1);});
+test('no-progress approach fails early and still releases keys and pauses',async()=>{const f=walkFixture({blocked:true});await assert.rejects(f.c.walk(),/no real positional progress/);assert.equal(f.held(),null);assert.equal(f.paused(),true);});
+
+function spellFixture({earlyMovement=false,dodgeBatch=1,canonicalPatch={},spacePhase='recovery'}={}){
+ let tick=0,paused=true,held=null,pending=null,player={x:3.5,y:4,qi:88,motion:{}},dodgePath=null,readsAfterSpace=0;const actions=[],executions=[],projectiles=[],steps=[],inputs=[],calls=[];
+ const observe=()=>{if(pending){const index=actions.findIndex(a=>a.id===pending.id);if(index<0)actions.push(structuredClone(pending));else actions[index]=structuredClone(pending);}steps.push({tick,pending:structuredClone(pending),held:held?[held]:[],player:structuredClone(player)});};
+ const advance=()=>{if(paused)return;tick++;if(pending?.action==='spell'){
+  pending.progressTicks=tick;pending.phase=tick<4?'windup':tick===4?'release':'recovery';pending.executed=tick>=4;if(pending.executed){pending.executedTick=4;projectiles.push({id:1,actionId:'spell:1'});}if(held&&(tick>4||earlyMovement))player.x-=.33;
+  player.motion={action:'spell',phase:pending.phase,moveIntent:{x:held?-1:0,y:0}};
+ }else if(pending?.action==='dodge'){pending.executed=true;pending.executedTick??=tick;pending.phase='recovery';pending.result=true;dodgePath??={from:{x:player.x,y:player.y},to:{x:player.x-1,y:player.y+.9},startedTick:pending.executedTick,durationTicks:2};player={...player,...dodgePath.to,dodgePath,motion:{action:'dodge',phase:'evade',moveIntent:{x:0,y:0}}};if(tick>=pending.startedTick+3){executions.push(structuredClone(pending));pending=null;}}
+  if(dodgePath&&tick>dodgePath.startedTick+dodgePath.durationTicks){delete player.dodgePath;player.motion={action:'idle',phase:'idle'};}
+ };
+ const read=async()=>{const count=inputs.length&&++readsAfterSpace===1?dodgeBatch:1;for(let i=1;i<=count;i++){advance();if(i%3===0)observe();}if(count%3!==0)observe();return structuredClone({tick,status:'active',player,enemies:[{id:'foe',x:5.22,y:4,hp:100}],selectedTargetId:'foe',manualActions:[{id:'spell',range:6}],pending,buffered:null,observedActions:actions,observedProjectiles:projectiles,hits:[],steps,inputEvents:inputs,bounds:{left:.6,right:11.4,top:.6,bottom:7.4},errors:[]});};
+ const canonical=action=>action?.action==='dodge'?{...action,...canonicalPatch}:action;
+ const c=context({performance,sleep:async()=>{},actions:[],wall:()=>0,record:(...args)=>calls.push(args),focusInput:async()=>{},aimEnemy:async()=>{},pause:async p=>{paused=p;},readCombat:read,actionReady:()=>!pending,capture:async()=>({session:{state:{srCombat:{cooldowns:{spell:49,dodge:40},executions:executions.map(canonical),pending:canonical(pending)}}}}),page:{evaluate:async()=>{},keyboard:{down:async key=>{held=key;},up:async()=>{held=null;},press:async key=>{if(key==='Digit2')pending={id:'spell:1',action:'spell',startedTick:tick,executed:false};else if(key==='Space'){const prior={...structuredClone(pending),phase:spacePhase};pending={id:'dodge:1',action:'dodge',startedTick:tick,executed:false};inputs.push({code:'Space',before:{tick,player:{x:player.x,y:player.y},pending:prior},after:{pending:structuredClone(pending)}});observe();}}}}});
+ vm.runInContext(source.slice(source.indexOf('async function untilCombat('),source.indexOf('async function aimEnemy('))+'\n'+source.slice(source.indexOf('async function spellMoveDodgeChecks('),source.indexOf('async function walkIntoMelee('))+'\nglobalThis.runSpell=spellMoveDodgeChecks;',c);return{c,calls,held:()=>held,paused:()=>paused,readsAfterSpace:()=>readsAfterSpace};
+}
+test('spell continuation orchestration issues Space during the released spell recovery and retains paid projectile evidence',async()=>{const f=spellFixture();assert.equal(await f.c.runSpell(),true);assert.equal(f.held(),null);assert.equal(f.paused(),true);assert.equal(f.calls.length,2);assert.equal(f.c.actions.filter(a=>a.key==='Space').length,1);});
+test('an actual windup movement violation fails the continuation instead of being accepted as responsiveness',async()=>{const f=spellFixture({earlyMovement:true});await assert.rejects(f.c.runSpell(),/remain stopped/);assert.equal(f.held(),null);});
+test('a pump completing the whole short step consumes the already returned path without a redundant live read',async()=>{const f=spellFixture({dodgeBatch:3});assert.equal(await f.c.runSpell(),true);assert.equal(f.readsAfterSpace(),1);assert.equal(f.calls[1][1].pathEvidence,'current-projection');assert.equal(f.calls[1][1].executedTick,7);assert.equal(f.paused(),true);});
+test('a later live read retains the real short-step path observed before its presentation expired',async()=>{const f=spellFixture({dodgeBatch:6});assert.equal(await f.c.runSpell(),true);assert.equal(f.readsAfterSpace(),1);assert.equal(f.calls[1][1].pathEvidence,'observed-world-step');assert.equal(f.calls[1][1].pathObservedTick,9);assert.equal(f.paused(),true);});
+test('historical movement must match the exact accepted canonical action and execution step',async()=>{
+ for(const [canonicalPatch,message] of [[{id:'other-dodge'},/canonical execution/],[{executedTick:8},/that exact executed short step/],[{failure:'真实拒绝'},/真实拒绝/]]){const f=spellFixture({dodgeBatch:6,canonicalPatch});await assert.rejects(f.c.runSpell(),message);assert.equal(f.paused(),true);}
+});
+test('Space outside the original recovery stage is rejected even if a short step executes',async()=>{const f=spellFixture({spacePhase:'release'});await assert.rejects(f.c.runSpell(),/original recovery stage/);assert.equal(f.held(),null);});
+test('party06 step 371 remains usable at 374 with a stale action cache, while pre-input paths do not',()=>{
+ // Retained party-06 facts: request 265368, actual execution 265369,
+ // observed path 265371, expired by 265374. This runs no native process.
+ const h=context().helpers,path={from:{x:3.1700000196695326,y:4},to:{x:2.000000051485297,y:4.8999995066541215},startedTick:265369,durationTicks:2},accepted={id:'combat-action:3',action:'dodge',startedTick:265368,executed:false},input={before:{tick:265368,pending:{id:'combat-action:2',phase:'recovery'}},after:{pending:accepted}},value={tick:265374,player:{motion:{}},observedActions:[accepted],steps:[{tick:265371,player:{dodgePath:path}}]};
+ const proof=h.qaDodgeEvidence(value,input);assert.equal(proof.source,'observed-world-step');assert.equal(proof.observedTick,265371);assert.equal(proof.acceptedId,'combat-action:3');assert.equal(proof.path.startedTick,265369);assert.equal(proof.action,undefined);
+ const stale=structuredClone(value);stale.steps[0].player.dodgePath.startedTick=265368;assert.equal(h.qaDodgeEvidence(stale,input),null);
+ const mismatch=structuredClone(value);mismatch.observedActions=[{...accepted,executed:true,executedTick:265370}];assert.equal(h.qaDodgeEvidence(mismatch,input),null);
+});
+
+test('installed observation code records unique browser timestamps, actual draw callbacks and bounded motion captures',()=>{
+ const start=source.indexOf('  const qa=window.__combatPartyQA='),end=source.indexOf('\n });\n // Install once',start),callbacks=[],timers=[];let clock=0;
+ const qaView={tick:1,paused:false,expedition:{scene:{type:'combat',tick:1,status:'active',player:{x:3.5,y:4,motion:{actionId:'spell:1',action:'spell',phase:'release'}},allies:[],enemies:[],effects:[],projectiles:[]},combat:{pending:{id:'spell:1',action:'spell',executed:true,executedTick:1},controls:{move:{x:0,y:0}}}}};
+ const window={courtyardQA:{renderer:{view:qaView},expedition:{inputState:()=>({held:[]}),canvas:{toDataURL:()=> 'data:image/png;base64,AA=='},presentationState:()=>({})}}},c={window,structuredClone,performance:{now:()=>++clock},requestAnimationFrame:fn=>callbacks.push(fn),setInterval:fn=>timers.push(fn),PerformanceObserver:class{observe(){}}};vm.createContext(c);vm.runInContext(source.slice(start,end),c);const qa=window.__combatPartyQA;qa.enabled=true;qa.observationStart=0;qa.spellActionId='spell:1';qa.spellStart={x:3.5,y:4};
+ const frame=at=>{window.requestAnimationFrame(function frame(){});callbacks.shift()(at);};frame(16);frame(16);assert.equal(qa.frames.length,1);assert.equal(qa.draws.length,2);assert.equal(qa.motionCaptures[0].label,'spell-release');
+ qaView.tick=qaView.expedition.scene.tick=2;qaView.expedition.scene.player.x=3.17;qaView.expedition.scene.player.motion={action:'spell',actionId:'spell:1',phase:'recovery',moveIntent:{x:-1,y:0}};frame(32);assert.equal(qa.motionCaptures[1].label,'spell-moving');
+ window.setInterval(function pump(){window.courtyardQA.renderer.view={...qaView,tick:3};},50);timers.shift()();assert.equal(qa.pumps.length,1);assert.equal(qa.pumps[0].advancedTicks,1);assert(qa.draws[0].observerJsMs>=0);
+});

@@ -1,0 +1,173 @@
+{
+  "schema": "combat-frame-atlas/v1",
+  "id": "pixel-v1-shen-yan-guard-right",
+  "visualIdentity": "shen-yan",
+  "action": "guard",
+  "direction": "right",
+  "atlas": "../atlas.png",
+  "frameSize": [
+    192,
+    192
+  ],
+  "sourceHeight": 49,
+  "foot": [
+    96,
+    126
+  ],
+  "durationMs": 600,
+  "loop": false,
+  "holdLast": true,
+  "directionalFallback": false,
+  "frames": [
+    {
+      "index": 0,
+      "x": 1920,
+      "y": 1536,
+      "w": 192,
+      "h": 192,
+      "durationMs": 100,
+      "phase": "windup",
+      "sourceFrame": {
+        "row": 3,
+        "column": 1,
+        "cellSize": 64
+      },
+      "pixelBounds": [
+        84,
+        77,
+        107,
+        126
+      ]
+    },
+    {
+      "index": 1,
+      "x": 2112,
+      "y": 1536,
+      "w": 192,
+      "h": 192,
+      "durationMs": 100,
+      "phase": "windup",
+      "sourceFrame": {
+        "row": 3,
+        "column": 2,
+        "cellSize": 64
+      },
+      "pixelBounds": [
+        85,
+        77,
+        107,
+        126
+      ]
+    },
+    {
+      "index": 2,
+      "x": 0,
+      "y": 1728,
+      "w": 192,
+      "h": 192,
+      "durationMs": 100,
+      "phase": "release",
+      "sourceFrame": {
+        "row": 3,
+        "column": 3,
+        "cellSize": 64
+      },
+      "pixelBounds": [
+        82,
+        77,
+        108,
+        126
+      ],
+      "anchors": {
+        "hand": [
+          106,
+          106
+        ]
+      }
+    },
+    {
+      "index": 3,
+      "x": 192,
+      "y": 1728,
+      "w": 192,
+      "h": 192,
+      "durationMs": 100,
+      "phase": "recovery",
+      "sourceFrame": {
+        "row": 3,
+        "column": 4,
+        "cellSize": 64
+      },
+      "pixelBounds": [
+        77,
+        77,
+        110,
+        126
+      ],
+      "anchors": {
+        "hand": [
+          107,
+          100
+        ]
+      }
+    },
+    {
+      "index": 4,
+      "x": 384,
+      "y": 1728,
+      "w": 192,
+      "h": 192,
+      "durationMs": 100,
+      "phase": "recovery",
+      "sourceFrame": {
+        "row": 3,
+        "column": 6,
+        "cellSize": 64
+      },
+      "pixelBounds": [
+        80,
+        77,
+        108,
+        126
+      ]
+    },
+    {
+      "index": 5,
+      "x": 576,
+      "y": 1728,
+      "w": 192,
+      "h": 192,
+      "durationMs": 100,
+      "phase": "guard",
+      "sourceFrame": {
+        "row": 3,
+        "column": 3,
+        "cellSize": 64
+      },
+      "pixelBounds": [
+        82,
+        77,
+        108,
+        126
+      ],
+      "anchors": {
+        "hand": [
+          106,
+          106
+        ]
+      }
+    }
+  ],
+  "source": {
+    "repository": "LiberatedPixelCup/Universal-LPC-Spritesheet-Character-Generator",
+    "commit": "95c338c84d55cd3e6790d9eddfa3e22c5a0fb91f",
+    "selectedLicense": "CC-BY-SA-3.0",
+    "bodyOffset": [
+      64,
+      64
+    ],
+    "wholeFrameOnly": true,
+    "reuse": "Original spell columns1,2,3,4,6,3; terminal guard hold.",
+    "timingAuthority": "Runtime combat phases; frame durations are phase weights."
+  }
+}

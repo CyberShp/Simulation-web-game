@@ -16,7 +16,7 @@
 
 决策来源：U-63, U-93, R-25, U-94, U-96, U-97, R-27, U-100, R-29, R-30, U-101, U-102, U-103, U-104, U-118, U-120, U-125, U-126, U-127, U-128, U-129, U-130, U-131, U-132, U-138, U-142, U-143, U-144, U-149, R-49, U-150, R-50, U-155, U-157, U-158, R-51, T-17, U-159, U-160, U-161, U-162。这是继承的U项和作者实施默认；具体新增名称/数值不得伪装成用户逐项批准。
 
-规格：[01-CHARACTERS.md](../../../docs/design/01-CHARACTERS.md)、[02-EQUIPMENT-ARTS.md](../../../docs/design/02-EQUIPMENT-ARTS.md)、[03-SPATIAL-ART.md](../../../docs/design/03-SPATIAL-ART.md)、[14-EARLY-GAME-DETAILED-DESIGN.md](../../../docs/design/14-EARLY-GAME-DETAILED-DESIGN.md)、[06-OPENING-ACCEPTANCE.md](../../../docs/design/06-OPENING-ACCEPTANCE.md)、[GODOT-MIGRATION.md](../../../docs/GODOT-MIGRATION.md)、[ART-REALTIME-TRIAL.md](../../../docs/ART-REALTIME-TRIAL.md)、[42-CHARACTER-DIALOGUE.md](../../../docs/design/42-CHARACTER-DIALOGUE.md)、[51-COURTYARD-MANAGEMENT-INTEGRATION.md](../../../docs/design/51-COURTYARD-MANAGEMENT-INTEGRATION.md)、[46-CONTINUOUS-DOMAIN-FOUNDATION.md](../../../docs/design/46-CONTINUOUS-DOMAIN-FOUNDATION.md)、[52-EAST-TERRACE-INTEGRATION.md](../../../docs/design/52-EAST-TERRACE-INTEGRATION.md)。
+规格：[01-CHARACTERS.md](../../../docs/design/01-CHARACTERS.md)、[02-EQUIPMENT-ARTS.md](../../../docs/design/02-EQUIPMENT-ARTS.md)、[03-SPATIAL-ART.md](../../../docs/design/03-SPATIAL-ART.md)、[14-EARLY-GAME-DETAILED-DESIGN.md](../../../docs/design/14-EARLY-GAME-DETAILED-DESIGN.md)、[06-OPENING-ACCEPTANCE.md](../../../docs/design/06-OPENING-ACCEPTANCE.md)、[GODOT-MIGRATION.md](../../../docs/GODOT-MIGRATION.md)、[ART-REALTIME-TRIAL.md](../../../docs/ART-REALTIME-TRIAL.md)、[42-CHARACTER-DIALOGUE.md](../../../docs/design/42-CHARACTER-DIALOGUE.md)、[51-COURTYARD-MANAGEMENT-INTEGRATION.md](../../../docs/design/51-COURTYARD-MANAGEMENT-INTEGRATION.md)、[46-CONTINUOUS-DOMAIN-FOUNDATION.md](../../../docs/design/46-CONTINUOUS-DOMAIN-FOUNDATION.md)、[52-EAST-TERRACE-INTEGRATION.md](../../../docs/design/52-EAST-TERRACE-INTEGRATION.md)、[55-CHARACTER-ACTION-LIBRARY.md](../../../docs/design/55-CHARACTER-ACTION-LIBRARY.md)、[70-COURTYARD-FIRST-COMBAT.md](../../../docs/design/70-COURTYARD-FIRST-COMBAT.md)、[71-GUESTHOUSE-INTEGRATION.md](../../../docs/design/71-GUESTHOUSE-INTEGRATION.md)、[73-COMBAT-FRAME-PRODUCTION.md](../../../docs/design/73-COMBAT-FRAME-PRODUCTION.md)。
 
 依赖：[SR-XF-002](SR-XF-002.md)、[SR-XF-004](SR-XF-004.md)。
 
@@ -54,9 +54,9 @@ SR-XF-007-REQ-03：远景不破坏人类尺度；近景可区分至少三名人�
 | SR-XF-007-AC-02 | 换装备和切到战斗再返回 | 身份特征稳定，武器/法器外观与实际实例对应。 | passed |
 | SR-XF-007-AC-03 | 等待、睡眠和研习切换 | 动作/工具/标签与权威状态一致，回退不冒充完整动作。 | passed |
 
-SR-XF-007-AC-01证据：局部：tests/acceptance/ea-person-three-selection-acceptance.mjs（同场三人公开命令、精确存读、生产Canvas脚点）；局部：tests/unit/web/ea-scene-ui.test.mjs（肖像与当前动作只读点选）；局部：docs/design/STATUS.md（独立本地浏览器三人、重叠候选与续档；真人/真机仍待）；局部：docs/art/SYSTEM-UI-2026-10-10.md（宽庭院人物卷册读取正式身份、外观和活动；同场三人场景动作未验）
+SR-XF-007-AC-01证据：局部：tests/acceptance/ea-person-three-selection-acceptance.mjs（同场三人公开命令、精确存读、生产Canvas脚点）；局部：tests/unit/web/ea-scene-ui.test.mjs（肖像与当前动作只读点选）；局部：docs/design/STATUS.md（独立本地浏览器三人、重叠候选与续档；真人/真机仍待）；局部：docs/art/SYSTEM-UI-2026-10-10.md（宽庭院人物卷册读取正式身份、外观和活动；同场三人场景动作未验）；2026-10-24局部进度／未通过：docs/design/70-COURTYARD-FIRST-COMBAT.md；规则33、反馈9、山魈3分别检查，macOS源码Electron 03/04/05原failed保留；用户反馈手部变形，visual-failed、正在返工，非空短预输入暂停／失焦清理待验；本AC状态保持。；2026-10-24手修06局部：docs/design/70-COURTYARD-FIRST-COMBAT.md；离线4/4、缓存90采样／4绘制对照，根Agent有限目检。原失败及qa-hand-06失焦失败保持；新原生手部／buffer、用户视觉／声音与最大射程视觉距离继续待验，AC状态保持。；2026-10-24整帧局部：docs/design/70-COURTYARD-FIRST-COMBAT.md；整帧5/5与18组RGBA忠实性对照、反馈10/10。qa-frames-08右击774命中25，但0.79米未满足1–1.4米观察带、整体failed，其余方向／连续操作未执行；4步态候选均未通过，样板与用户认可未完成，AC状态保持。；docs/art/combat-minimum-20261025/README.md；docs/art/combat-minimum-20261025/review.json；docs/art/combat-minimum-20261025/review-v002.json；docs/art/combat-encounter-20261026/README.md；docs/art/combat-encounter-20261026/review.json；docs/art/combat-ranged-20261026/README.md；docs/art/combat-ranged-20261026/review.json
 
-SR-XF-007-AC-02证据：tests/acceptance/ea-person-equipment-battle-acceptance.mjs；tests/acceptance/ea-person-equipment-art-acceptance.mjs；src/simulation/ea-life.mjs；apps/web/ea-ui.mjs；docs/design/STATUS.md
+SR-XF-007-AC-02证据：tests/acceptance/ea-person-equipment-battle-acceptance.mjs；tests/acceptance/ea-person-equipment-art-acceptance.mjs；src/simulation/ea-life.mjs；apps/web/ea-ui.mjs；docs/design/STATUS.md；2026-10-24局部进度／未通过：docs/design/70-COURTYARD-FIRST-COMBAT.md；规则33、反馈9、山魈3分别检查，macOS源码Electron 03/04/05原failed保留；用户反馈手部变形，visual-failed、正在返工，非空短预输入暂停／失焦清理待验；本AC状态保持。；2026-10-24手修06局部：docs/design/70-COURTYARD-FIRST-COMBAT.md；离线4/4、缓存90采样／4绘制对照，根Agent有限目检。原失败及qa-hand-06失焦失败保持；新原生手部／buffer、用户视觉／声音与最大射程视觉距离继续待验，AC状态保持。；2026-10-24整帧局部：docs/design/70-COURTYARD-FIRST-COMBAT.md；整帧5/5与18组RGBA忠实性对照、反馈10/10。qa-frames-08右击774命中25，但0.79米未满足1–1.4米观察带、整体failed，其余方向／连续操作未执行；4步态候选均未通过，样板与用户认可未完成，AC状态保持。
 
 SR-XF-007-AC-03证据：tests/acceptance/ea-person-activity-switch-acceptance.mjs；tests/unit/web/ea-scene-ui.test.mjs；tests/acceptance/ea-courtyard-rest-render-acceptance.mjs；docs/design/STATUS.md
 
@@ -69,6 +69,14 @@ SR-XF-007-AC-03证据：tests/acceptance/ea-person-activity-switch-acceptance.mj
 2026-10-08 M1 第十批：AC02 由独立只读复核按原文通过。五份公开命令来源档精确存读，同一掌门换衣、真实制作装备法器、实战及返院；生产画布和隔离桌面浏览器核对身份与实际实例挂点，战斗活动提示按真实状态显示。战场远景法器细节需结合生产画布与状态；真机/真人及整项仍未关闭。
 2026-10-08 M1 r9 AC01 三人点选窄批：掌门、陆知微、林长风由正式公开开局 37 命令、24 次精确存读得到，生产 Canvas 真脚点 1/1；人物列表、档案、侧卡及重叠候选显示相同身份肖像与权威当前动作，不回写模拟。根独立复跑 scene UI 11/11、人物图集 6/6、Canvas 1/1。独立本地 Chromium 首载、三人实点、伐木工位1/2、掌门返床途中行走、保存刷新续档通过；196 请求全 200、控制台 0 错误/0 警告，报告 /private/tmp/immortal-sr007-r9-browser-review.json。公开网页验收另记。真人外观盲辨、真机触控和恢复世界步后的完整动作未验，AC01 not_run、I/V/R 原状态不变。
 2026-10-08 r9 公网独立验收：Pages 39ad10e34c6afa44821745cf6d7433ee4ebaedf7 built，四脚本 HTTP 200 且与发布树 blob 一致。隔离命名空间新档保存刷新续玩；合法第5日两门人来源档仅内存试读，实际点中陆知微采集/伐木工位1、林长风采集/工位2、重叠候选中掌门行走/前往主屋床位1，列表一致。198 请求全 200、控制台 0 消息，报告 /private/tmp/immortal-r9-public-review.json。来源档未写本机，也未验证其刷新；真人盲辨、真 iPadOS、全部动作分支仍待，AC01 not_run。
+
+2026-10-23 用户新续接聚焦掌门／山魈动作、命中特效与真实受击僵直，沿55动作库及同一100毫秒世界步实现。命中主事件补稳定编号、时步、双方身份、真实入射方向／接触点、伤害／护持／闪避／打断结果；人物提供只读动作阶段。作者试调 T-COMBAT-IMPACT-20261023：轻击僵直2步并保留蓄势，重击3步并取消未释放动作，站稳后保护12步，敌方打断后至少收势6步；已发射物继续，费用／冷却遵循真实释放。规则与相关回归25/25，三个规则模块语法检查通过；特效8种离线夹具重复像素一致且不回写世界。人物／山魈36姿离线检查8/8，已按只读动作阶段接入；388文件runtime-01冻结及6核心文件、规则报告5文件读回一致。macOS源码Electron三段分别通过：正常操作qa-run-01为33项（423→1087、108.629018秒），实际落败qa-defeat-01为3项（763→1333、64.839664秒），左右朝向停稳补帧qa-orientation-02为18项（763→881、42.211894秒）；各段错误0且source/runtime保持，分段证据不记为一次连续运行。补帧只调整检查脚本，251个功能／素材路径与首段一致。根Agent已独立目视最终画面，两份388文件清单仅检查脚本不同；仓库6核心源码及本批素材共40文件SHA与runtime-01一致。掌门左向受击为离线证据、实机受击为右向；完整僵直持续窗以规则证据覆盖，方向实机全矩阵另计。新控制下的存档、旧档入口与返院复验仍暂缓；生产／医庐沿各自来源，完整SR/AC状态保持。
+
+2026-10-24 流畅度返工按T-COMBAT-FEEL-20261023接入：持键保存移动意图，施法起手停脚、释放后恢复走位，合法短步接起手／收势，单槽2步预输入；真实结算仍用100毫秒世界步。规则33/33（新增8＋直接回归25）、反馈模块9/9、山魈模块3/3分别记录。人物离线6条及focused5条检查与公开规则时钟预览属离线证据。macOS源码Electron qa-feel-03、qa-feel-04、qa-buffer-05均保留failed，各已完成10、2、2项局部检查：03持键术法777释放、778恢复位移及释放后短步／接触／暂停等成立；05证明目标冻结与一次消费。非空短预输入的暂停／失焦清理尚未完成。用户明确反馈手部变形，qa-review.json冻结为visual-failed，QA窗口已关闭，当前手掌／腕／肘正在返工，不声明视觉通过或交付。证据根目录 /Users/shepard/.codex/tmp/immortal-combat-feel-20261023/，范围限macOS源码Electron；绘制JS耗时及rAF回调间隔不称实际显示FPS。修后视觉、完整存读／旧档／返院、用户评看与Windows继续待验，完整SR/AC及任务状态保持。
+
+2026-10-24 旧拆件rig版本手修06历史记录：固定手掌比例、24／21臂骨与70度腕限，校准贴图腕／握柄锚点、肘分支和左向施法层级，剑轨迹渐隐，完整动作bounds缓存保留剑尖。专项4/4、90个量化采样及4个Canvas draw对照通过，86项预热约27.29MiB，96项／40MiB上限，1000次闲置新增miss为0；根Agent及Astra完成有限离线复核。851／1001的0.381／0.259像素接触距离属于旧场景离线重绘。该版登记为hand-repair-offline-checked/native-pending；qa-hand-06在移动准备时原生失焦，以failed保留，未取得手部或buffer新证据，来源／运行文件保持、窗口已关闭。原03／04／05 failed及visual-failed汇总保持。右剑痕约领先可见剑尖3.8像素、最大水平1.9米处约10–30像素可达差仍open；用户视觉／声音认可、Windows、当前包与完整SR/AC仍待验。规则33、反馈9、山魈3的既有模块证据各自保留。详见70规格及 /Users/shepard/.codex/tmp/immortal-combat-feel-20261023/hand-fix-06/；该段当时登记离线修复，当前整帧证据另列。
+
+2026-10-24 人形整帧blit生产路径已接入，同一原帧统一缩放；释放当步保留出手，下一世界步按已接受的moveIntent切整身walk，短步／受击／倒下优先，同一100毫秒时钟、位置插值和暂停冻结保持。新专项5/5、9组原PNG裁切／合成在95／112像素身高共18组RGBA对照一致（排除脚影）；反馈10/10含正式投射物方向回归。S01仍为原单母稿离线网格烘焙PNG，离线小样仅作为接续基线，完整动作样板未完成。qa-frames-08整体failed：763→776、11.06978秒，右普攻774实际命中25，但中心距0.790000079米未满足专项1–1.4米观察带，左动作、施法→走位→短步和斜剑未执行；source/runtime保持、收尾错误0、未录像且窗口关闭。根Agent有限目检右起手／释放，敌我重叠遮挡手掌与剑，尚不能验证其质量。内置imagegen左右各两次共4张六格步态候选均未形成反相支撑腿，已停止并留外部。当前欠完整反相步态、左右攻击收势／连续剑路、左闪避／受击专图与斜向攻击图，swordTrail为空、真实接触光效保留。旧06／07及03／04／05失败按原版本保留；非空buffer原生清理、当前控制存读／旧档／返院、用户视觉／声音认可、Windows、当前包和完整SR/AC继续待验，状态不提升。 证据见docs/design/70-COURTYARD-FIRST-COMBAT.md。
 
 ## 开发任务
 
@@ -111,6 +119,21 @@ SR-XF-007-V01证据：tests/acceptance/ea-courtyard-rest-render-acceptance.mjs�
 
 - docs/requirements/design/SR-XF-007-011-019-026-027.md
 - docs/requirements/IMPLEMENTATION-2026-10-06.md
+- docs/art/kling-stop-supplement-20261025/README.md
+- 2026-10-25 收步返回片审看：主Agent审21点全片与首2秒49帧，首次落地后9–18又蹬离大跨步，未达当前脚直接收步；身份/剑保留，不整段加速、不批量抠底、不接D。用户要求无声，AVFoundation视频轨透传导出0音轨，241压缩视频包/PTS保持，Chrome加载可播；新提示候选从原frame52接地稳住仅收后脚，尚未发Kling。详见本目录review.json，旧输入包保持，全部D/I/V/R、AC及任务状态不推进。
+- 2026-10-25 55 B04收步补片输入：主Agent审原185–210全部26帧，185–197仍续原跑步半步、198后才连续回正，未见独立另一半步收步链。选原RGB48→240备单条Kling首末帧与提示词，两940图保持原字节/水印、来源与SHA随小ZIP留存；仅输入准备，新视频尚未返回，无动作或实机验收。原片/D样板/前批包保留，未接入运行；全部D/I/V/R、AC及任务状态保持。
+- docs/art/kling-motion-review-20261025/README.md
+- 2026-10-25 55 B03/B04右向离线样板：仅D，复用87帧，连续3.3m/s标尺与22m投影取证；contact只拟合5个人工水平端点，仍19帧480ms、保留equal。主Chrome实查keyup位置保持、A禁用及stop203→run63被新D打断；独立只读76边界/114矩阵通过、累计距离不随动画圈归零。正式100ms世界步/.045m预显/35–100ms收敛未改，任意相位视觉仍有腾空转站腿、腿位收缩与衣发回跳，不称整圈无滑步。QA页面与review留存，未接入runtime或改存档，不新增87帧ZIP；全部D/I/V/R、AC及任务状态保持。
+- 2026-10-25 Kling起停组合候选：用户确定19帧跑步480ms，新增待机/起跑/收步/回稳68帧；87原生RGB保持，H650/root[580,825]/BOX58。主Agent审13页68帧，Chrome观察idle11→start15、自动停240/110of110及滑块24→58、61→198，接受本批离线候选；独立只读核对87帧RGB/BOX/atlas、200散列、110帧序与197个GIF编码帧图像及时长通过，未做UI美术。小灰残点/浅边、任意相位起停/脚速与实机未验；PNG/GIF/HTML/ZIP留QA，未接入运行。全部D/I/V/R、AC及任务状态保持。
+- 2026-10-25 Kling透明跑步候选：用户选择脚本逐帧分离背景，frame48–66共19张940×940原生RGBA的RGB逐像素保持；固定H0=650/root[580,825]，BOX统一58逻辑像素、nearest呈现，人工衣物保护范围明记。主Agent审dark01–04全19帧，在Chrome播放观察52→57后暂停，切校准场景检查全身/比例，接受本轮透明跑步候选。轻微浅边仍在，闪烁完全消除、接缝/脚速和实机未验；PNG/atlas/GIF/HTML与ZIP留QA，未接入运行。全部D/I/V/R、AC及任务状态保持。
+- 2026-10-25 Kling原片接续：用户返回940×940/约24fps视频，实际解码241帧并保全原SHA和QA原字节备份。主Agent在Chrome播放/seek看原画面，另审21点全片表、跑步25帧及起停13/25帧密集表后，判断可继续帧制作；人工分段与frame48–66的19帧周期仅为候选。软化像素、RGB背景、接缝/滑步及实际尺度待验，未去背景或接入运行；全部D/I/V/R、AC及任务状态保持。
+- docs/art/kling-motion-input-20261025/PROMPTS.md
+- 2026-10-25 Kling接续：用户自行使用Kling制作动作；本批仅备提示词、1254×1254浅灰底首帧及身份/尺度/循环参考输入包，复制SHA一致。尚无Kling视频或动作验收，未上传、未操作账号或运行游戏；全部D/I/V/R、AC及任务状态保持。
+- 2026-10-25 U-171 / 55 B02：用户认可同标尺整体观感；v6四帧→v5四帧为首个单方向8帧候选，固定H0=500、统一58/500、60ms×8=480ms。主Agent已看源sheet/contact全8帧，在Chrome播放/暂停/下一帧、跨圈回1并对照2/6支撑，仅通过离线逐帧、播放器可播放和视觉初审。地面速度同步、起停、其余方向、完整动作及实机仍未验；源SHA/透明裁边/atlas一致与禁止覆盖失败检查通过，存读不适用。本批只补局部素材，D/I/V/R、AC及任务状态保持，详见docs/art/combat-motion-study-20261025/README.md及run-cycle-v001/review.json。
+- docs/art/combat-field-study-20261025/README.md
+- docs/art/combat-motion-study-20261025/README.md
+- 2026-10-25 U-171最新接续：用户认可整体美术方向并授权校准后制作帧动画，非新尺度/动作/实机验收。40逻辑像素/米同网格静态图人101px/兽164px，主Agent审看可继续，用户新比例未评；阴影及原生像素密度一致性未验。跑步v1–v3均未通过，v3后半圈换腿不足且帧8左手变剑诀，停止生成；原RGBA及诊断输出保留，未完成连续播放或实机验收。仅离线局部证据，运行素材registry与全部D/I/V/R、AC及任务状态保持。
+- 2026-10-25 U-171静态美术候选：网站真实global prompt起步，三次内置image_gen生成/定向修订后展示1536×1024第三稿，主Agent已审图、用户评看待定；人物超过108px预算、严格像素网格未验，22米精确比例未锁定。原LPC人物、通用兽人及重复草地成品已被用户否决，原包和运行引用保留。本批无动作库、运行替换、性能或游戏存档操作。native-01与独立reopen-01均保持failed，后者存读/关闭局部成立但署名请求失败，不合并动作/接触/性能证据；D/I/V/R与全部AC状态保持，详见73。
 - docs/design/03-SPATIAL-ART.md
 - docs/design/STATUS.md
 - apps/web/ea-character-art.mjs
@@ -190,6 +213,27 @@ SR-XF-007-V01证据：tests/acceptance/ea-courtyard-rest-render-acceptance.mjs�
 - assets/characters/shen-yan/cast-study-v1/review.json
 - assets/characters/shen-yan/guard-study-v1/README.md
 - assets/characters/shen-yan/guard-study-v1/review.json
+- docs/design/70-COURTYARD-FIRST-COMBAT.md
+- src/simulation/ea-combat-impact.mjs
+- apps/courtyard/courtyard-combat-actors.mjs
+- apps/courtyard/courtyard-combat-effects.mjs
+- tests/unit/courtyard/courtyard-combat-impact.test.mjs
+- assets/courtyard/combat-actors-v1/provenance.json
+- docs/design/71-GUESTHOUSE-INTEGRATION.md
+- tests/unit/courtyard/courtyard-guest-lodging.test.mjs
+- tests/acceptance/courtyard-guesthouse-desktop.mjs
+- apps/courtyard/courtyard-combat-presentation.mjs
+- apps/courtyard/courtyard-combat-rig.mjs
+- apps/courtyard/courtyard-combat-beast-rig.mjs
+- apps/courtyard/courtyard-combat-audio.mjs
+- tests/unit/courtyard/courtyard-combat-feel.test.mjs
+- tests/unit/courtyard/courtyard-combat-feedback.test.mjs
+- tests/unit/courtyard/courtyard-combat-beast-rig.test.mjs
+- tests/acceptance/courtyard-combat-feel-desktop.mjs
+- tests/acceptance/courtyard-combat-observations.mjs
+- tests/unit/courtyard/courtyard-combat-rig.test.mjs
+- apps/courtyard/courtyard-combat-frame-metadata.mjs
+- tests/unit/courtyard/courtyard-combat-frames.test.mjs
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
@@ -230,5 +274,28 @@ SR-XF-007-V01证据：tests/acceptance/ea-courtyard-rest-render-acceptance.mjs�
 - 2026-10-18：U-160：完成S01引诀点发12帧、1.28秒的分层动画小样与本地Electron播放器。人物、剑、法术独立；12帧靴部像素相同、首尾像素差0，49项资源散列一致。最终素材三档尺寸、播放/暂停/步进/单次/循环/半速/效果开关20项通过，页面错误0；收诀袖口、释放手腕与握剑经独立静态复核。用户美术认可、深草/工位背景、更多方向及正式释放/存读接入继续接续，完整SR/AC和任务状态保持。
 - 2026-10-18：U-161：用户确认沿用S01人物外观，完成S04双掌护持12帧、1.76秒分层动画小样。双掌、袖口、腰侧剑鞘及护障已复核；全部靴区像素一致、首尾差0、61项资源散列一致。门前对照将本小样人物标尺校到80母稿像素，阶前脚点落在平地；人物与环境共同缩放。最终macOS Electron正常27项、缺失素材4项检查通过，页面错误0，六张场景截图经独立复核。S04用户画面认可、其他朝向、破障/取消、正式护持事件与存读接入继续推进；正式桌面比例和完整SR/AC、任务状态保持。
 - 2026-10-18：U-162：S04按护盾作用修订为掐诀护身，12帧、1.76秒涵盖胸前结诀、脚边升盾、合顶包身、持诀、盾面受击及收诀消散；沿用S01人物与U-161的80母稿像素标尺。成盾帧全部人物/装备可见像素在盾内，12帧靴区相同、首尾差0，61项资源散列一致。实际macOS Electron正常30项、缺失清单4项检查通过，页面错误0；整套姿势及场景截图复核。用户美术认可、其他朝向、破盾/取消、正式护持事件和存读接入分别推进，完整SR/AC与任务状态保持。
+- 2026-10-23：2026-10-23 用户新续接聚焦掌门／山魈动作、命中特效与真实受击僵直，沿55动作库及同一100毫秒世界步实现。命中主事件补稳定编号、时步、双方身份、真实入射方向／接触点、伤害／护持／闪避／打断结果；人物提供只读动作阶段。作者试调 T-COMBAT-IMPACT-20261023：轻击僵直2步并保留蓄势，重击3步并取消未释放动作，站稳后保护12步，敌方打断后至少收势6步；已发射物继续，费用／冷却遵循真实释放。规则与相关回归25/25，三个规则模块语法检查通过；特效8种离线夹具重复像素一致且不回写世界。人物／山魈36姿离线检查8/8，已按只读动作阶段接入；388文件runtime-01冻结及6核心文件、规则报告5文件读回一致。macOS源码Electron三段分别通过：正常操作qa-run-01为33项（423→1087、108.629018秒），实际落败qa-defeat-01为3项（763→1333、64.839664秒），左右朝向停稳补帧qa-orientation-02为18项（763→881、42.211894秒）；各段错误0且source/runtime保持，分段证据不记为一次连续运行。补帧只调整检查脚本，251个功能／素材路径与首段一致。根Agent已独立目视最终画面，两份388文件清单仅检查脚本不同；仓库6核心源码及本批素材共40文件SHA与runtime-01一致。掌门左向受击为离线证据、实机受击为右向；完整僵直持续窗以规则证据覆盖，方向实机全矩阵另计。新控制下的存档、旧档入口与返院复验仍暂缓；生产／医庐沿各自来源，完整SR/AC状态保持。
+- 2026-10-23：2026-10-23 GC15一级客院已接入：两张独立客床、当面自愿邀请、实际步行入住、原来访期限退房下山及原生存读。macOS源码Electron有限夹具入住ui-fixture-03通过7项（1656→3851、235.557720083秒），施工build-fixture-01通过3项（646→1700、114.379689209秒）；唯一工单3投入45灵石/40木/20石，两趟实际送达后于1683完成200施工步。两段错误0，来源、运行文件与原生重开均一致。GPT-6.1-sol独立读回6个原生检查点及12个核心源码通过。正常世界仍保留医庐tick261253原档；该世界的筹资建设、Windows和完整SR/AC保持待验。 详见docs/design/71-GUESTHOUSE-INTEGRATION.md。
+- 2026-10-24：2026-10-24 流畅度返工按T-COMBAT-FEEL-20261023接入：持键保存移动意图，施法起手停脚、释放后恢复走位，合法短步接起手／收势，单槽2步预输入；真实结算仍用100毫秒世界步。规则33/33（新增8＋直接回归25）、反馈模块9/9、山魈模块3/3分别记录。人物离线6条及focused5条检查与公开规则时钟预览属离线证据。macOS源码Electron qa-feel-03、qa-feel-04、qa-buffer-05均保留failed，各已完成10、2、2项局部检查：03持键术法777释放、778恢复位移及释放后短步／接触／暂停等成立；05证明目标冻结与一次消费。非空短预输入的暂停／失焦清理尚未完成。用户明确反馈手部变形，qa-review.json冻结为visual-failed，QA窗口已关闭，当前手掌／腕／肘正在返工，不声明视觉通过或交付。证据根目录 /Users/shepard/.codex/tmp/immortal-combat-feel-20261023/，范围限macOS源码Electron；绘制JS耗时及rAF回调间隔不称实际显示FPS。修后视觉、完整存读／旧档／返院、用户评看与Windows继续待验，完整SR/AC及任务状态保持。
+- 2026-10-24：2026-10-24 手修06已完成有限离线检查：固定手掌比例、24／21臂骨与70度腕限，校准贴图腕／握柄锚点、肘分支和左向施法层级，剑轨迹渐隐，完整动作bounds缓存保留剑尖。专项4/4、90个量化采样及4个Canvas draw对照通过，86项预热约27.29MiB，96项／40MiB上限，1000次闲置新增miss为0；根Agent及Astra完成有限离线复核。851／1001的0.381／0.259像素接触距离属于旧场景离线重绘。当前为hand-repair-offline-checked/native-pending；qa-hand-06在移动准备时原生失焦，以failed保留，未取得手部或buffer新证据，来源／运行文件保持、窗口已关闭。原03／04／05 failed及visual-failed汇总保持。右剑痕约领先可见剑尖3.8像素、最大水平1.9米处约10–30像素可达差仍open；用户视觉／声音认可、Windows、当前包与完整SR/AC仍待验。规则33、反馈9、山魈3的既有模块证据各自保留。详见70规格及 /Users/shepard/.codex/tmp/immortal-combat-feel-20261023/hand-fix-06/；本次先登记离线修复，最终refresh／validate／check待新原生结果后统一执行。
+- 2026-10-24：2026-10-24 当前实施现有完整姿势PNG／图集的整帧blit样板，按只读动作阶段切换，人物运行时绕过IK、mesh变形及切腿；保留已批准的施法停脚→释放恢复走位→短步、权威100毫秒规则、位置插值与山魈呈现。旧S01共12张PNG，来源为单母稿离线二维网格，复用metadata须保留该来源；06拆件修复烘帧不计为本次新素材制作。补图范围为内置imagegen生成左右各6相完整步态候选，图审通过前不进入正式项目。样板实现、批准步态与连续运行／用户评看证据尚待记录。06有限离线及07的9项原生局部检查按旧版保留，07整体failed；原03／04／05／qa-hand-06失败与visual-failed汇总不改。右剑痕约领先可见tip3.8像素、最大水平1.9米处约10–30像素可达差仍open。用户视觉／声音认可、非空buffer暂停／失焦清理、存读／旧档／返院、Windows、当前包和完整SR/AC待验；不关闭需求或推进AC状态，最终refresh／validate／check待最终证据统一执行。
+- 2026-10-25：战斗帧制作继续：新标尺/1.2米接近规则与守卫、陆知微完整攻击帧进入候选；party-06原生动作记录确认短步执行，整段因QA观察漏读仍failed，世界推进最大296毫秒阻塞待定位。group-01初始状态契约失败后已生成修正fixture-03，仍为组件来源。完整动作、三规模实机终态及视觉质量尚未完成，SR/AC状态保持。详见docs/design/73-COMBAT-FRAME-PRODUCTION.md。
+- 2026-10-25：主Agent制作并抽帧：两守卫各hit-left1帧/down-left3帧，掌门attack-up-right6帧；原源和提示词摘要留在人物素材目录，均列运行候选。hit/down错误回退idle修复，根帧/manifest专项21/21；完整连续视觉与新native待验。正常长档同源投影性能优化在逐步等价验证中，未宣称最终实机改善。SR/AC状态保持，详见73制作记录。
+- 2026-10-25：party08同源实机17项通过，worldPump最大319.9→193.1ms，仍未达流畅目标；group03新反应素材18项通过并实见伏地；solo01正常独自出谷至返院22项通过，四项来源/运行/保存/关闭标志均true。甲衣右攻击6帧/待机1帧候选接入，完整16帧步态重绘候选仍外部待审。三规模功能证据不等于完整视觉交付，SR/AC保持。详见73制作记录。
+- 2026-10-25：2026-10-25动作续作：陆知微东北掌击六帧完成抽取、白底透明合成及222像素接触表检查，算法validate通过；已接入registry，18个阶段/方向采样及24项回归通过，native待验。最近角度选帧修复已应用、24项专项通过，原生待复验。16帧慢走候选核对发现原周期与3.3m/s移动不匹配，保持外部候选；详细证据见73。完整SR/AC状态保持。
+- 2026-10-25：2026-10-25快步制作：八帧生成候选因缺脚与腿相位问题未接入；已取得Hunyuan四秒连续慢跑FBX作为离线姿势参考，源文件散列与任务记录在73及外部QA。源动作检查、保留腾空的抽帧流程和暂停恢复显示相位修复正在进行，尚未作为正式动作验收；SR/AC保持。
+- 2026-10-25：2026-10-25接缝修正：陆知微东北掌击末帧脚点重标为v002，离线浏览器首尾对齐、24项回归通过；暂停恢复显示相位与命中保持年龄修复，根针对6项通过、相关40项通过，原生待验。根实际导入慢跑FBX，52骨映射完整，初选63–87帧作待试循环，适配和最终像素帧未批准。见73制作记录；SR/AC保持。
+- 2026-10-25：2026-10-25 party09同源同行实机17项通过，265353→265725，180.965秒，来源/运行/保存/关闭均保持、错误为空；worldPump峰195.4ms，与party08接近，交战卡顿未解决。纯多边形索引已冻结，等价通过、相邻177/178且唯一失败在原基线复现。慢跑16帧底稿已渲染及重绘，仍为外部候选。详见73；完整SR/AC保持。
+- 2026-10-25：2026-10-25掌门左右受击/倒地帧候选接入，registry21clips；右批24回归、左批840方向/阶段采样和直接帧5项通过，原生反应待验。慢跑16帧已离线评看，比例/滑步仍待验。性能只读定位每50ms完整山院投影及0tick重复刷新，正在限定main/sect-sim实施投影优化，权威世界活动与公开完整view保持。详见73；完整SR/AC保持。
+- 2026-10-25：2026-10-25林长风右剑击六帧接入，registry22clips；正式阶段180采样、身份隔离及帧5项通过，根核对registry与8素材散列一致，原生群战待验。慢跑同标尺比对发现偏小，另制sourceHeight260外部候选，未替换运行素材。刷新优化短测发现耗时转移到combat-input，正在修正并复测，不能认定流畅。详见73；完整SR/AC保持。
+- 2026-10-25：2026-10-25林长风左向六帧制作完成并复看222像素起收势，源与runtime候选已保存，registry及原生接触验证继续。成功移动输入采用即时战斗投影的短测已报告明显下降，尚待冻结、独立读回与同源桌面验证；暂停/恢复完整投影耗时仍待处理。详见73，SR/AC保持。
+- 2026-10-25：2026-10-25 party10 FAILED before ready: combat HUD still reads people.find from the new light projection. Real wound-field and DOM render regression fix is pending. Root closed the isolated QA window normally; lifecycle closed at 2026-10-24T18:19:00.899Z, process exited 1, source unchanged. Original failure report preserved; stale lock moved into the QA evidence directory. Lin left attack registered (23 clips), 556 direction/phase samples and 5 frame tests passed. Full SR/AC unchanged; see 73.
+- 2026-10-25：2026-10-25 user added a reusable-skill deliverable: first complete and verify one full sword-combat animation set, then distill the proven art/extraction/integration/repair workflow for other weapons and spells. Full solo/party/group goal remains. Root owns art and skill; code agents remain GPT-6.1-sol xhigh. Ground-preview inspection still suggests jogging foot slip; measurement is pending, runtime gait unchanged. See 73.
+- 2026-10-25：2026-10-25 full-sword sample: root produced and inspected four right-dodge poses; source saved, external pack only. Formal phase probe found repeated playback when all frames use evade; preparing explicit windup/release/recovery/evade mapping without changing movement rules. HUD real-DOM regression reproduced before repair and passed after adding authoritative masterWound; full native rerun remains pending. See 73. SR/AC unchanged.
+- 2026-10-25：2026-10-25 party11 native passed all 17 checks after the HUD repair: tick265353 to265721,179.475589s, source/runtime/native-save/closed all true, errors and finalizationErrors empty. WorldPump p50/p95/max1.3/16.3/42.7ms versus party09 15.5/107/195.4ms; rAF still peaks199.9ms, so full smoothness remains unproven. Root contact screenshot shows remaining close-body overlap. See73; full SR/AC unchanged.
+- 2026-10-25：2026-10-25 dodge sample: four explicit phases repacked and right clip registered; left four-frame asset prepared and registration pending. Root ran Blender foot measurement v2 successfully (measure02, inputs unchanged); original camera forward26.7324deg differs from formal30.3603deg, and measured sole motion still differs from ground. Repaint foot calibration remains unapproved. Remaining party11 long tasks correlate with pause/skills; QA readCombat hidden full query is being repaired before next performance run. See73; SR/AC unchanged.
+- 2026-10-25：party12 passed17 native checks, source/runtime/native-save/closed all true; root saw new left-dodge frame. Active status126 reads p95/max0.1ms, full reads0; rAF max460.6ms remains unresolved. Left spell registered; right-idle four-frame candidate prepared, fallback repair pending. Calibrated jog repaint still needs contact correction. Complete sword sample and reusable skill remain in progress; SR/AC unchanged. See73.
+- 2026-10-25：用户要求参照鬼谷八荒改为远程斗法及大场地。48×32米林间、跟随镜头、10米移动剑气已接入；victory-02原生19项流程通过，实际命中/施法接闪避/避岩刺/胜利返院与原生重开成立，来源和运行保持。同源worldPump尖峰1001.5→317.8ms，仍不流畅；跑步帧及整体美术未完成，完整SR/AC保持，详见73。
+- 2026-10-25：战斗integrated-01原生7项通过，265258→265600、active34.199秒，来源/运行/保存/正常关闭一致。首键1.1ms，世界步仍232ms、activity完整投影61ms；流畅度未通过。用户指出跑动帧尺度/上下抖动，当前转入Game Art Style全站与开源动效选型，素材未替换；完整动作库、美术和skill继续开放。详见73。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python scripts/requirements/sr-manager.py refresh`，不单独修改此派生页。

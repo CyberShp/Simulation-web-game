@@ -1,6 +1,8 @@
 /** U-149 / UIA-01–27: management reads public facts and submits official commands. */
 import { transportLimit, transportQuantity, filterPeople, filterArts, sameBuilding } from './courtyard-panel-state.mjs';
 import { membershipSummary } from './courtyard-person-dialogue.mjs';
+import { renderDiscipleDevelopment } from './courtyard-development-panel.mjs';
+import { renderDiscipleExpeditions } from './courtyard-expeditions-panel.mjs';
 const RESOURCE = { herb: '灵草', food: '食粮', jade: '灵石', wood: '木材', stone: '石料', ore: '矿料', crystal: '灵晶', insight: '感悟', rawWater: '原水', cleanWater: '洁水', meal: '饭食', spiritMeal: '灵膳', 'pill:qi': '聚气丹', 'pill:spirit': '灵息丹', 'pill:heal': '回春散', 'pill:foundation': '筑基丹' };
 const HOME = 'stockpile:yunxiu', CARRIED = 'stockpile:carried:master';
 const PAGE = { affairs: '院务', people: '人物', growth: '修行', supply: '物资' };
@@ -50,7 +52,7 @@ export function createCourtyardPanels({ getView, inspect, command, openPerson, f
   const tabs = [...panel.querySelectorAll('[data-tab]')], title = panel.querySelector('h2'), statusNote = panel.querySelector('.management-note');
   const states = { affairs: {}, people: { query: '', scope: 'all', activity: 'all', selected: null, ids: null },
     growth: { mode: 'current', query: '', kind: 'all', access: 'all', selected: null }, supply: { mode: 'summary', owner: 'all', selected: null } };
-  let current = { tab: 'affairs', page: 'index' }, history = [], scrolls = new Map(), listScrolls = new Map(), policyDraft = null, transferDrafts = new Map();
+  let current = { tab: 'affairs', page: 'index' }, history = [], scrolls = new Map(), listScrolls = new Map(), policyDraft = null, developmentDraft = null, transferDrafts = new Map();
   let lastSignature = '', interacting = false, rendering = false, reading = false, pending = null, feedback = null;
   const pageKey = state => `${state.tab}:${state.page}:${state.id || ''}:${state.source || ''}:${state.target || ''}:${state.resource || ''}`;
   const stocks = view => view.operations?.inventory?.stockpiles || view.stockpiles || [];
@@ -91,19 +93,24 @@ export function createCourtyardPanels({ getView, inspect, command, openPerson, f
       syncReading(); render(true); body.querySelector('[data-ui-key="confirm-action"]')?.focus(); return null;
     }
     pending = null;
-    const result = run ? run() : command(request);
+    syncReading();
+    const finish = result => {
+    if(result.cancelled)return result;
     const message = result.ok ? result.message || ({ policy: '自主安排已保存。', manual: '已由你亲自安排掌门行动。', auto: '掌门已按当前目标自主安排。', 'toggle-building': '生产设置已更新。' }[request.type] || '行动已安排，可在正在进行中查看进展。') : result.error || '当前无法执行。';
     feedback = { ok: result.ok, message, consequences: result.consequences || null };
     announce(message);
     if (result.ok && request.type === 'build') {
       remember(); current = { tab: 'affairs', page: 'construction', id: request.buildingType }; history = []; syncReading();
-    } else if (result.ok && ['enable-domain', 'enable-valley', 'enable-residences', 'enable-services', 'enable-north-library', 'enable-north-meditation', 'enable-west-workshops', 'build-site'].includes(request.type)) {
-      remember(); current = { tab: 'affairs', page: 'domain-site', id: request.siteId || (request.type === 'enable-west-workshops' ? current.id || view.domain?.sites?.find(site => site.westWorkshops)?.id : request.type === 'enable-north-meditation' ? current.id || view.domain?.sites?.find(site => site.northMeditation)?.id : request.type === 'enable-north-library' ? current.id || view.domain?.sites?.find(site => site.northLibrary)?.id : request.type === 'enable-services' ? current.id || view.domain?.sites?.find(site => site.services)?.id : request.type === 'enable-residences' ? current.id || view.domain?.sites?.find(site => site.residences)?.id : request.type === 'enable-valley' ? view.domain?.sites?.find(site => site.planId === 'GC-17')?.id : view.domain?.sites?.[0]?.id) }; history = []; syncReading();
-    } else if (result.ok && !['policy', 'manual', 'auto', 'toggle-building', 'invite-work', 'start-service', 'cancel-service', 'invite-service-work'].includes(request.type)) {
+    } else if (result.ok && ['enable-guesthouse', 'enable-domain', 'enable-valley', 'enable-residences', 'enable-services', 'enable-north-library', 'enable-north-meditation', 'enable-west-workshops', 'build-site'].includes(request.type)) {
+      remember(); current = { tab: 'affairs', page: 'domain-site', id: request.siteId || (request.type === 'enable-guesthouse' ? current.id || 'site:domain:gc-15' : request.type === 'enable-west-workshops' ? current.id || view.domain?.sites?.find(site => site.westWorkshops)?.id : request.type === 'enable-north-meditation' ? current.id || view.domain?.sites?.find(site => site.northMeditation)?.id : request.type === 'enable-north-library' ? current.id || view.domain?.sites?.find(site => site.northLibrary)?.id : request.type === 'enable-services' ? current.id || view.domain?.sites?.find(site => site.services)?.id : request.type === 'enable-residences' ? current.id || view.domain?.sites?.find(site => site.residences)?.id : request.type === 'enable-valley' ? view.domain?.sites?.find(site => site.planId === 'GC-17')?.id : view.domain?.sites?.[0]?.id) }; history = []; syncReading();
+    } else if (result.ok && !['policy', 'manual', 'auto', 'toggle-building', 'well-production', 'invite-work', 'start-service', 'cancel-service', 'invite-service-work'].includes(request.type)) {
       remember(); current = { tab: ['study', 'collate-family', 'teach-library', 'cultivate-meditation'].includes(request.type) || ['rest', 'cultivate', 'heal', 'cancel-activity'].includes(request.type) ? 'growth' : 'affairs', page: 'index' };
       states.growth.mode = 'current'; history = []; syncReading();
     }
     syncReading(); lastSignature = ''; render(true, result.ok && !reading); return result;
+    };
+    const result = run ? run() : command(request);
+    return typeof result?.then === 'function' ? result.then(finish, error => finish({ok:false,error:error?.message||String(error)})) : finish(result);
   }
   function commandAction(parent, text, request, key, condition = {}, className = '') {
     return action(parent, text, () => submit(request), key, condition, className);
@@ -131,6 +138,13 @@ export function createCourtyardPanels({ getView, inspect, command, openPerson, f
     currentSection.append(row); parent.append(currentSection);
   }
   function affairs(view) {
+    const readyRewards = (view.progressRewards || []).filter(reward => reward.eligible && !reward.claimed);
+    if (readyRewards.length) {
+      const rewards = section('院务所得', '已完成事项的所得须确认领取，进入主殿公库。');
+      for (const reward of readyRewards) commandAction(rewards, `${reward.name} · 领取${resources(reward.resources)}`,
+        { type: 'claim-progress-reward', rewardId: reward.id }, `progress:reward:${reward.id}`, reward, 'primary');
+      body.append(rewards);
+    }
     const projection = inspect(), farms = view.operations?.farms || [], currentSection = section('院中现状');
     const food = view.foodSupply;
     facts(currentSection, [['在院人物', `${projection.people.length} 人`], ['可用灵草', number(view.resources.herb)], ['公库食粮 / 目标', `${number(food.available)} / ${number(food.target)}`], ['预计每日消耗', `${number(food.dailyDemand)} 份食粮`]]);
@@ -142,14 +156,26 @@ export function createCourtyardPanels({ getView, inspect, command, openPerson, f
     if (view.economy.starvation > 0) note(currentSection, `饥荒 ${number(view.economy.starvation)}`, 'attention');
     note(currentSection, food.reason);
     const bar = node('div', undefined, 'section-tail'); bar.append(node('span', `掌门 · ${view.control.mode === 'auto' ? '自主安排' : '亲自安排'}`), button('自主设置', () => go({ tab: 'affairs', page: 'policy' }), 'affairs:policy', {}, 'text-button')); currentSection.append(bar); body.append(currentSection);
+    renderDiscipleDevelopment(body, { data: view.discipleDevelopment, openPerson, value: developmentDraft, change: value => { developmentDraft = value; }, save: value => {
+      const result = submit({ type: 'disciple-work-focus', value });
+      if (result?.ok) developmentDraft = null;
+      render(true);
+    } });
+    renderDiscipleExpeditions(body, { view, openPerson, command });
     if (view.reception) {
       const reception = view.reception, visitors = section('山门接待');
       note(visitors, reception.enabled ? '接待已开启。求道者沿南山道到访，走近后可商议入门。' : '备好空床和一日口粮，可安排接待求道者。');
       if (reception.reason) note(visitors, reception.reason, reception.canEnable ? '' : 'attention');
+      const lodging = view.guestLodging;
+      if (lodging?.counts.physical) {
+        const count = lodging.counts;
+        facts(visitors, [['客床', `${count.free} 空闲 / ${count.physical} 总数`], ['暂住', `${count.settled} 已入住 · ${count.pending} 正在前往`]]);
+      }
       commandAction(visitors, reception.enabled ? '暂停接待新来客' : '开启接待', { type: 'set-reception', enabled: !reception.enabled }, 'reception:toggle', { available: reception.enabled || reception.canEnable, reason: reception.reason });
       const phaseName = { approaching: '沿南路前来', arriving: '沿南路前来', present: '在院等候', departing: '正在离院' };
       for (const caller of reception.callers || []) if (!caller.admitted && view.people.some(person => person.id === caller.personId)) {
-        listEntry(visitors, caller.name, phaseName[caller.phase] || '来访途中', () => openPerson(caller.personId), `reception:person:${caller.personId}`);
+        const stay = lodging?.guests.find(item => item.personId === caller.personId);
+        listEntry(visitors, caller.name, stay ? stay.phase === 'staying' ? '客院暂住' : '前往客床' : phaseName[caller.phase] || '来访途中', () => openPerson(caller.personId), `reception:person:${caller.personId}`);
       }
       body.append(visitors);
     }
@@ -459,7 +485,7 @@ export function createCourtyardPanels({ getView, inspect, command, openPerson, f
         ['实际容量', site.capacityText ? `${site.capacityText}${site.status === 'complete' ? '已启用' : '，落成后启用'}` : '依设施工位开放'],
         ['施工进度', `${number(site.progress * 100)}%`]]);
     }
-    if (site.status === 'locked' && site.supported) commandAction(detail, site.westWorkshops ? '开通丹房与百工坊道路' : site.northMeditation ? '开通聚灵台山道' : site.northLibrary ? '开通藏经阁北台道路' : site.services ? '开通膳房与医庐道路' : site.residences ? '开通东台住宅道路' : site.valleySite ? '开通西谷道路' : site.zoneId === 'Z-03' ? '启用西林通路' : '启用山域通路', { type: site.westWorkshops ? 'enable-west-workshops' : site.northMeditation ? 'enable-north-meditation' : site.northLibrary ? 'enable-north-library' : site.services ? 'enable-services' : site.residences ? 'enable-residences' : site.valleySite ? 'enable-valley' : 'enable-domain' }, site.westWorkshops ? 'domain:enable-west-workshops' : site.northMeditation ? 'domain:enable-north-meditation' : site.northLibrary ? 'domain:enable-north-library' : site.services ? 'domain:enable-services' : site.residences ? 'domain:enable-residences' : site.valleySite ? 'domain:enable-valley' : 'domain:enable', {}, 'primary');
+    if (site.status === 'locked' && site.supported) commandAction(detail, site.guesthouse ? '开通客院台地与石阶' : site.westWorkshops ? '开通丹房与百工坊道路' : site.northMeditation ? '开通聚灵台山道' : site.northLibrary ? '开通藏经阁北台道路' : site.services ? '开通膳房与医庐道路' : site.residences ? '开通东台住宅道路' : site.valleySite ? '开通西谷道路' : site.zoneId === 'Z-03' ? '启用西林通路' : '启用山域通路', { type: site.guesthouse ? 'enable-guesthouse' : site.westWorkshops ? 'enable-west-workshops' : site.northMeditation ? 'enable-north-meditation' : site.northLibrary ? 'enable-north-library' : site.services ? 'enable-services' : site.residences ? 'enable-residences' : site.valleySite ? 'enable-valley' : 'enable-domain' }, site.guesthouse ? 'domain:enable-guesthouse' : site.westWorkshops ? 'domain:enable-west-workshops' : site.northMeditation ? 'domain:enable-north-meditation' : site.northLibrary ? 'domain:enable-north-library' : site.services ? 'domain:enable-services' : site.residences ? 'domain:enable-residences' : site.valleySite ? 'domain:enable-valley' : 'domain:enable', {}, 'primary');
     else if (site.status === 'available') {
       commandAction(detail, `营造${site.name}`, { type: 'build-site', siteId: site.id }, `domain:build:${site.id}`, site.buildAvailable, 'primary');
       note(detail, '确认后预留公库材料；掌门分趟运往工地，全部送达后到场施工。');
@@ -620,15 +646,19 @@ export function createCourtyardPanels({ getView, inspect, command, openPerson, f
           { available: movable >= 1 && view.operations.canTransport.available, reason: view.operations.canTransport.reason || (movable < 1 ? '现场可搬量不足1份。' : '') });
       }
       if (workplace.recipe) {
-        facts(work, [['每批投料', resources(workplace.recipe.inputCost)], ['每批产出', `${resources(workplace.recipe.outputDefinition)}　交来访商人取货付款`], ['单批工时', `${number(workplace.recipe.durationTicks / 10)} 秒`]]);
+        facts(work, [['每批投料', resources(workplace.recipe.inputCost)], ['每批产出', `${resources(workplace.recipe.outputDefinition)}${workplace.wellMode ? '　存入泉边货位' : '　交来访商人取货付款'}`], ['单批工时', `${number(workplace.recipe.durationTicks / 10)} 秒`]]);
         for (const [id, missing] of Object.entries(workplace.missingCost || {})) {
           const delivery = Math.min(40, missing, view.resources[id] || 0);
           action(work, `送入${resourceName(id)} · 缺${number(missing)}`, () => transfer(HOME, workplace.stockpileId, id, 0, Math.max(1, delivery)), `workplace:deliver:${id}`,
             { available: delivery > 0 && view.operations.canTransport.available, reason: view.operations.canTransport.reason || (delivery <= 0 ? `公库${resourceName(id)}不足。` : '') });
         }
-        note(work, '材料先实际送到工位；本人到岗后开工，成品由商人到坊取货付款。');
+        note(work, workplace.wellMode ? '本人实际到泉边工位作业；洁水或灵晶完成后进入现场库存。' : '材料先实际送到工位；本人到岗后开工，成品由商人到坊取货付款。');
       }
       const order = workplace.order;
+      if (workplace.wellMode) {
+        note(work, `当前工序：${workplace.wellMode === 'water' ? '取洁水' : '凝灵晶'}；产物留在泉边，须实际搬运。`);
+        for (const [mode,label] of [['water','取洁水'],['crystal','凝灵晶']]) commandAction(work, label, {type:'well-production',buildingId:workplace.buildingId,mode}, `workplace:well:${mode}`, {available:workplace.wellCanSwitch&&workplace.wellMode!==mode,reason:workplace.wellMode===mode?'当前已选择此工序。':workplace.wellCanSwitch?'':'先完成当前批次，并确保生活物资与灵泉可用。'});
+      }
       const processes = workplace.processes || [];
       if (processes.length) {
         const list = section('专业工序', '宗主指定本坊下一批工序；原料须已在坊内，本人到岗后开工。');
@@ -648,8 +678,8 @@ export function createCourtyardPanels({ getView, inspect, command, openPerson, f
       }
       commandAction(work, workplace.enabled === false ? '恢复生产' : '暂停生产', { type: 'toggle-building', buildingId: workplace.buildingId }, 'workplace:toggle');
       if (order) {
-        const processName = workplace.selectedProcess ? processes.find(process => process.id === workplace.selectedProcess)?.name || '常规器物' : '常规器物';
-        facts(work, [['本批工序', processName], ['在制批次', `第 ${number(order.batch ?? 1)} 批`], ['加工进度', `${number(order.progressTicks || 0)} / ${number(order.durationTicks || 0)}`], ['工单状态', order.phase === 'completed' ? (workplace.recipe ? '已完工，商人到坊取货付款' : '已完工，待搬入府库') : order.phase === 'waiting' ? '已委托，待本人到岗' : '加工中']]);
+        const processName = workplace.wellMode ? (workplace.wellMode === 'water' ? '取洁水' : '凝灵晶') : workplace.selectedProcess ? processes.find(process => process.id === workplace.selectedProcess)?.name || '常规器物' : '常规器物';
+        facts(work, [['本批工序', processName], ['在制批次', `第 ${number(order.batch ?? 1)} 批`], ['加工进度', `${number(order.progressTicks || 0)} / ${number(order.durationTicks || 0)}`], ['工单状态', order.phase === 'completed' ? (workplace.recipe && !workplace.wellMode ? '已完工，商人到坊取货付款' : '已完工，待实际搬运') : order.phase === 'waiting' ? '已委托，待本人到岗' : '加工中']]);
         if (workplace.collection) {
           const phaseLabel = { 'to-source': '前往工坊取货', 'waiting-for-goods': '在坊等候交货', carrying: '搬运器物并付款', delivered: '已交付' }[workplace.collection.phase] || workplace.collection.phase;
           facts(work, [['商人取货', phaseLabel], ['取货商人', workplace.collection.carrierName]]);
@@ -787,7 +817,7 @@ export function createCourtyardPanels({ getView, inspect, command, openPerson, f
   }
   function render(force = false, navigated = false) {
     if (panel.hidden || rendering) return;
-    const view = getView(), signature = JSON.stringify([current, states, Math.floor(view.tick / 10), view.control, view.policy, view.foodSupply, view.resources, view.operations, view.domain, view.construction, view.growth, view.housing, view.reception, view.people.map(person => person.admission)]);
+    const view = getView(), signature = JSON.stringify([current, states, Math.floor(view.tick / 10), view.control, view.policy, view.foodSupply, view.resources, view.operations, view.domain, view.construction, view.growth, view.housing, view.reception, view.guestLodging, view.discipleExpeditions, view.discipleDevelopment, view.people.map(person => person.admission)]);
     const editing = body.contains(document.activeElement) && /^(INPUT|SELECT|TEXTAREA)$/.test(document.activeElement.tagName);
     if (!force && (interacting || editing || signature === lastSignature)) return;
     rendering = true; lastSignature = signature; const focus = navigated ? null : captureFocus(), scroll = navigated ? scrolls.get(pageKey(current)) || 0 : body.scrollTop;
@@ -810,14 +840,18 @@ export function createCourtyardPanels({ getView, inspect, command, openPerson, f
     open(name = 'affairs', ids = null) { if (!PAGE[name]) name = 'affairs'; if (name === 'people') states.people.ids = ids; go({ tab: name, page: 'index' }, { push: false }); history = []; },
     openBuilding: building,
     openDomainSite: domainSite,
-    requestMove(location, { onStarted } = {}) {
+    requestMove(location, { onStarted, walk = walkTo } = {}) {
       const point = location?.focus || location;
       if (!Number.isFinite(point?.x) || !Number.isFinite(point?.y)) return { ok: false, error: '当前尚无可靠位置。' };
       if (getView().operations?.actionConsequences?.requiresConfirmation) {
         states.growth.mode = 'current'; go({ tab: 'growth', page: 'index' });
       }
       const request = { type: 'move', x: point.x, y: point.y };
-      return submit(request, { run: () => { const result = walkTo ? walkTo(location) : command(request); if (result.ok) { const message = onStarted?.(result); if (message) result.message = message; } return result; } });
+      return submit(request, { run: () => {
+        const started = result => { if (result.ok) { const message = onStarted?.(result); if (message) result.message = message; } return result; };
+        const result = walk ? walk(location) : command(request);
+        return typeof result?.then === 'function' ? result.then(started) : started(result);
+      } });
     },
     back, close, render,
   };

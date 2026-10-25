@@ -1,12 +1,14 @@
+import {prepareBreakthroughPillPickup} from './ea-sr-economy.mjs';
 /** SR-XF-007/008. Persistent identity recipes, semantic action fallback and deterministic voluntary invitations. */
-import {beginPersonBreakthrough,breakthroughView} from './ea-sr-cultivation.mjs';
-import {BUILDINGS} from './ea-data.mjs';
+import {beginPersonBreakthrough,breakthroughView,autonomousBreakthroughChoice} from './ea-sr-cultivation.mjs';
+import {BUILDINGS,xpNeed} from './ea-data.mjs';
 import {workOpportunity,actorScenePosition} from './ea-life.mjs';
 import {facilitySlots} from './ea-facility-slots.mjs';
 import {scenicFindPath,scenicPathDistance} from './ea-scene-geometry.mjs';
 import {sceneUnits,spatialEnabled,COURTYARD_WALK_RATE} from './ea-sr-spatial.mjs';
 import {cloneState} from './ea-state-v6.mjs';
 import {releaseBodyActivity} from './ea-facility-activities.mjs';
+import {chooseResidentialBed} from './ea-residential-housing.mjs';
 import {equippedAppearanceMounts} from './ea-sr-equipment.mjs';
 import {initAftermath,tickAftermath,validateAftermath,aftermathDecision,aftermathAction,viewAftermath} from './ea-sr-aftermath.mjs';
 export {viewAftermath,AFTERMATH_RULES} from './ea-sr-aftermath.mjs';
@@ -95,6 +97,7 @@ export function workCandidateV2(s,personId,buildingId){
  const blocked=reason=>({id,activity:'work',targetId:buildingId,available:false,willing:false,score:null,reason});
  if(p.lifeStatus==='dead'||!s.homeMemberIds.includes(personId))return blocked('本人已不在院内可接受差事的身份。');
  if(p.position?.kind!=='scene'||p.position.sceneId!=='scene:yunxiu-courtyard'||p.location?.sceneId&&p.location.sceneId!=='scene:yunxiu-courtyard')return blocked('本人尚未真实返回山院。');
+ if(m.recovering===true&&p.wound>5)return blocked('伤势未愈，先完成调养，再考虑差事。');
  if(m.scenic?.spatialEvacuationOrderId||p.schedule?.aftermath?.untilTick>s.worldTick)return blocked('当前已有优先处理的撤离或身后事务。');
  const opportunity=workOpportunity(s,p,b);
  const personalRefusal=!opportunity.available&&['先前分歧仍未缓和，暂不接差事。','对掌门缺乏信任，暂不愿响应差事。'].includes(opportunity.reason);
@@ -115,9 +118,10 @@ export function workCandidateV2(s,personId,buildingId){
  const responsibility=commitments.some(c=>c.status==='active'&&c.targetId===buildingId&&c.endTick>s.worldTick)?80:0;
  const dayFraction=(s.worldTick%s.ticksPerDay)/s.ticksPerDay,timeMatch=dayFraction>=.2&&dayFraction<.55?80:50;
  const risk=Math.max(0,Math.min(100,p.wound||0)),switchCost=m.activity==='work'&&p.job===b.id||['rest','social'].includes(m.activity)?0:15;
- const score=Math.max(0,Math.min(100,Math.round(need*.24+aspiration*.18+ability*.16+relation*.16+responsibility*.16+timeMatch*.10-risk*.20-switchCost)));
+ const focus=Object.hasOwn(BUILDINGS[b.type]?.out||{},s.doctrine.workFocus)?20:0;
+ const score=Math.max(0,Math.min(100,Math.round(focus+need*.24+aspiration*.18+ability*.16+relation*.16+responsibility*.16+timeMatch*.10-risk*.20-switchCost)));
  const willing=!personalRefusal&&score>=AUTONOMY_V2.invitationThreshold;
- return {id,activity:'work',targetId:buildingId,available:true,willing,score,reason:personalRefusal?opportunity.reason:willing?'我愿在现有承诺与体力允许时考虑这份差事。':'我更想先顾及自己的修行与生活。',inputs:{need,aspiration,ability,relation,responsibility,timeMatch,risk,switchCost}};
+ return {id,activity:'work',targetId:buildingId,available:true,willing,score,reason:personalRefusal?opportunity.reason:willing?(focus?'宗门正侧重这项供给，我愿在现有承诺与体力允许时考虑这份差事。':'我愿在现有承诺与体力允许时考虑这份差事。'):'我更想先顾及自己的修行与生活。',inputs:{need,aspiration,ability,relation,responsibility,timeMatch,risk,switchCost,focus}};
 }
 export function appearanceView(s,personId){const p=s.personsById[personId];if(!p)return null;const a=p.appearance||{},m=mind(p),activity=s.activitiesById[p.activityId];let action=m.activity||p.action||'stand';
  if(activity?.kind==='sr-harvest')action=activity.phase==='moving'?'walk':activity.phase==='working'?'gather':'waiting';
@@ -144,14 +148,14 @@ function inviteWorkV2(s,p,b){
  if(active&&p.job===b.id&&m.activity==='work'&&prior?.accepted)return clone(prior);
  const candidate=workCandidateV2(s,p.personId,b.instanceId);
  const inputs=candidate.inputs;
- const sig=JSON.stringify([candidate.id,candidate.available,candidate.willing,candidate.reason,b.enabled,b.condition>0,b.spatialLock||null,inputs&&[inputs.need,inputs.aspiration,Math.floor(inputs.ability/10),Math.floor(inputs.relation/10),inputs.responsibility,inputs.timeMatch,Math.floor(inputs.risk/10),inputs.switchCost]]);
+ const sig=JSON.stringify([candidate.id,candidate.available,candidate.willing,candidate.reason,b.enabled,b.condition>0,b.spatialLock||null,inputs&&[inputs.need,inputs.aspiration,Math.floor(inputs.ability/10),Math.floor(inputs.relation/10),inputs.responsibility,inputs.timeMatch,Math.floor(inputs.risk/10),inputs.switchCost,inputs.focus]]);
  if(prior?.signature===sig&&!prior.accepted)return clone(prior);
  const accepted=candidate.available&&candidate.willing;
  const earlier=p.schedule.retriesByTarget[key],failures=accepted?0:Math.min(3,(earlier?.consecutiveFailures||0)+1);
  const retryAfterTick=accepted?null:s.worldTick+AUTONOMY_V2.retryTicks[failures-1];
  const sourceFactId=`fact:autonomy:work-choice:${p.personId}:${b.instanceId}:${s.worldTick}:${s.transactions.nextCommandId}`;
  if(s.factsById[sourceFactId])throw Error('工作意愿来源事实重复。');
- const publicReason=!candidate.available?candidate.reason:accepted?'我愿在承诺期内承担这份差事。':candidate.reason;
+ const publicReason=!candidate.available?candidate.reason:accepted?(candidate.inputs.focus?'响应宗门经营侧重，我愿在承诺期内承担这份差事。':'我愿在承诺期内承担这份差事。'):candidate.reason;
  s.factsById[sourceFactId]={id:sourceFactId,kind:'autonomy-work-choice',personId:p.personId,targetId:b.instanceId,accepted,originalAtTick:s.worldTick,atTick:s.worldTick,sourceCommandId:`command:${s.transactions.nextCommandId}`,signature:sig,score:candidate.score,publicReason};
  const result={accepted,available:candidate.available,signature:sig,atTick:s.worldTick,score:candidate.score,publicReason,retryAfterTick,sourceFactId};
  p.schedule.invitations[key]=result;
@@ -163,9 +167,10 @@ function inviteWorkV2(s,p,b){
  p.lifePlan.commitmentIds.push(id);p.lifePlan.currentStepId=id;p.lifePlan.reviewAtTick=p.schedule.commitUntilTick;
  return clone(result);
 }
-export function inviteWork(s,personId,buildingId){initPersons(s);const p=s.personsById[personId],b=s.buildings.find(b=>b.id===buildingId||b.instanceId===buildingId);if(!p||p===s.master||!s.homeMemberIds.includes(personId)||!b)throw Error('只能向在院门人提供真实差事。');if(p.schedule?.definitionId===AUTONOMY_V2.version)return inviteWorkV2(s,p,b);const opportunity=workOpportunity(s,p,b);if(p.lifeStatus==='dead'||p.mind?.scenic?.spatialEvacuationOrderId){opportunity.available=false;opportunity.reason=p.lifeStatus==='dead'?'此人已经身死。':'正在实际撤离施工占地，离开后再商议。';}if(p.schedule?.aftermath?.untilTick>s.worldTick){opportunity.available=false;opportunity.reason='正在整理已经核实的亲人/老师身后事务，暂不承诺新差事。';}const key=`work:${b.instanceId}`,sig=signature(s,p,b,opportunity),prior=p.schedule.invitations[key],m=mind(p);const promiseCurrent=prior?.accepted&&(p.schedule.workTiming?.acceptedAtTick===prior.atTick&&p.schedule.workTiming?.targetId===b.instanceId&&p.schedule.workTiming.finishedAtTick===null||s.worldTick<prior.atTick+AUTONOMY.commitTicks)&&s.worldTick<p.schedule.commitUntilTick&&p.job===b.id&&m.activity==='work';if(prior?.signature===sig&&(!prior.accepted||promiseCurrent))return clone(prior);const score=(m.traits?.[3]??60)*.3+(m.traits?.[0]??55)*.1+(m.relationships?.master?.trust??55)*.4+(m.goal?.includes('草木')&&b.type==='farm'?15:0);const willing=opportunity.available&&score>=42;const result={accepted:willing,available:opportunity.available,signature:sig,atTick:s.worldTick,score,publicReason:!opportunity.available?opportunity.reason:willing?'我愿在承诺期内承担这份差事。':'我更想先顾及自己的修行与生活。',retryAfterTick:s.worldTick+AUTONOMY.retryTicks};p.schedule.invitations[key]=result;if(willing){releaseBodyActivity(s,p);p.job=b.id;m.activity='work';m.reason=result.publicReason;p.schedule.lastReason=result.publicReason;m.commitUntil=s.time+AUTONOMY.commitTicks/10;m.lastDecision=s.time;p.schedule.commitUntilTick=s.worldTick+AUTONOMY.commitTicks;beginWorkTiming(s,p,b);}return clone(result);}
+export function inviteWork(s,personId,buildingId){initPersons(s);const p=s.personsById[personId],b=s.buildings.find(b=>b.id===buildingId||b.instanceId===buildingId);if(!p||p===s.master||!s.homeMemberIds.includes(personId)||!b)throw Error('只能向在院门人提供真实差事。');if(p.schedule?.definitionId===AUTONOMY_V2.version)return inviteWorkV2(s,p,b);const opportunity=workOpportunity(s,p,b);if(p.mind?.recovering===true&&p.wound>5){opportunity.available=false;opportunity.reason='伤势未愈，先完成调养，再考虑差事。';}if(p.lifeStatus==='dead'||p.mind?.scenic?.spatialEvacuationOrderId){opportunity.available=false;opportunity.reason=p.lifeStatus==='dead'?'此人已经身死。':'正在实际撤离施工占地，离开后再商议。';}if(p.schedule?.aftermath?.untilTick>s.worldTick){opportunity.available=false;opportunity.reason='正在整理已经核实的亲人/老师身后事务，暂不承诺新差事。';}const key=`work:${b.instanceId}`,sig=signature(s,p,b,opportunity),prior=p.schedule.invitations[key],m=mind(p);const promiseCurrent=prior?.accepted&&(p.schedule.workTiming?.acceptedAtTick===prior.atTick&&p.schedule.workTiming?.targetId===b.instanceId&&p.schedule.workTiming.finishedAtTick===null||s.worldTick<prior.atTick+AUTONOMY.commitTicks)&&s.worldTick<p.schedule.commitUntilTick&&p.job===b.id&&m.activity==='work';if(prior?.signature===sig&&(!prior.accepted||promiseCurrent))return clone(prior);const score=(m.traits?.[3]??60)*.3+(m.traits?.[0]??55)*.1+(m.relationships?.master?.trust??55)*.4+(m.goal?.includes('草木')&&b.type==='farm'?15:0);const willing=opportunity.available&&score>=42;const result={accepted:willing,available:opportunity.available,signature:sig,atTick:s.worldTick,score,publicReason:!opportunity.available?opportunity.reason:willing?'我愿在承诺期内承担这份差事。':'我更想先顾及自己的修行与生活。',retryAfterTick:s.worldTick+AUTONOMY.retryTicks};p.schedule.invitations[key]=result;if(willing){releaseBodyActivity(s,p);p.job=b.id;m.activity='work';m.reason=result.publicReason;p.schedule.lastReason=result.publicReason;m.commitUntil=s.time+AUTONOMY.commitTicks/10;m.lastDecision=s.time;p.schedule.commitUntilTick=s.worldTick+AUTONOMY.commitTicks;beginWorkTiming(s,p,b);}return clone(result);}
 /** Optional decision hook for the EXISTING society owner. It never executes or produces. */
 export function npcScheduleDecision(s,p){if(p.schedule?.definitionId===AUTONOMY_V2.version)p.schedule.phase=dayPhaseAtTick(s);if(aftermathDecision(s,p))return true;if(!p.schedule)return false;const m=mind(p),a=s.activitiesById[p.activityId];if(m.scenic?.spatialEvacuationOrderId)return true;if(a?.kind?.startsWith('sr-'))return true;if(m.away||m.journey)return false;
+ if(p.wound>5&&(m.recovering===true||m.activity==='heal'))return false;
  if(p.schedule.definitionId===AUTONOMY_V2.version){
   const promise=Object.values(p.schedule.commitmentsById||{}).find(c=>c.status==='active'&&c.endTick>s.worldTick);
   if(promise){
@@ -173,7 +178,21 @@ export function npcScheduleDecision(s,p){if(p.schedule?.definitionId===AUTONOMY_
    if(m.activity==='work'&&s.buildingsById[promise.targetId]?.id===p.job)return true;
   }
  }
- if(s.srCultivation&&(m.traits?.[1]??50)>=30){const v=breakthroughView(s,p.personId);if(!v.locks.length&&Object.entries(v.cost).every(([k,v])=>s.resources[k]>=v)){releaseBodyActivity(s,p);beginPersonBreakthrough(s,p.personId,{autonomous:true});m.reason='积累与材料已足，我愿到静修位置按阶段突破。';return true;}}if(p.wound>AUTONOMY.injuryInterrupt||p.energy<8){releaseBodyActivity(s,p);m.activity=p.wound>20?'heal':'rest';p.job=null;p.schedule.commitUntilTick=s.worldTick;return false;}if(s.worldTick<p.schedule.commitUntilTick)return true;
+ if(s.srCultivation&&autonomousBreakthroughChoice(s,p.personId).available){const v=breakthroughView(s,p.personId),funded=Object.entries(v.cost).every(([k,v])=>s.resources[k]>=v);
+  if(!v.locks.length&&funded){releaseBodyActivity(s,p);p.job=null;beginPersonBreakthrough(s,p.personId,{autonomous:true});m.reason='积累与材料已足，我愿到静修位置按阶段突破。';return true;}
+  if(p.realm===9&&!v.locksWithoutPill.length&&funded&&v.pillAccess?.needsPickup){const pickup=prepareBreakthroughPillPickup(s,p.personId);if(pickup.accepted)return true;}
+ }if(p.wound>AUTONOMY.injuryInterrupt||p.energy<8){releaseBodyActivity(s,p);m.activity=p.wound>20?'heal':'rest';p.job=null;p.schedule.commitUntilTick=s.worldTick;return false;}
+ // Full foundation preparation waits out its actual rest promise instead of
+ // renewing an eight-second rest every six-second society reconsideration.
+ if(s.srCultivation&&p.realm===9&&p.xp>=xpNeed(p.realm)&&m.activity==='rest'&&m.commitUntil>s.time&&!m.learning&&!m.recovering&&m.satiety>=22&&p.energy>=35&&p.wound===0&&autonomousBreakthroughChoice(s,p.personId).willing&&(!a||a.kind==='facility'&&a.action==='rest'))return true;
+ // A resident already travelling to an accepted bed finishes that arrival.
+ // Waiting can restore energy above the usual rest threshold before entering.
+ const pending=s.residentialHousing?.recordsByPersonId?.[p.personId]?.pending;
+ if(pending&&m.activity==='rest'&&a?.kind==='facility'&&a.action==='rest'&&['navigating','waiting'].includes(a.phase)&&a.slotId===pending.slotId&&m.satiety>=22&&p.wound<=20){
+  const reservation=s.reservationsById[a.reservationId],bed=chooseResidentialBed(s,p.personId,'rest');
+  if(reservation?.kind==='slot'&&reservation.personId===p.personId&&reservation.activityId===a.id&&reservation.slotId===pending.slotId&&bed.slotId===pending.slotId)return true;
+ }
+ if(s.worldTick<p.schedule.commitUntilTick)return true;
  const phase=(s.worldTick%s.ticksPerDay)/s.ticksPerDay,wanted=AUTONOMY.dayPhases.find(q=>phase>=q.from&&phase<q.to).activity;p.schedule.phase=wanted;
  if(wanted==='rest'&&p.energy<92&&m.satiety>=22){const active=s.activitiesById[p.activityId],reservation=active?.reservationId?s.reservationsById[active.reservationId]:null,continuesRest=m.activity==='rest'&&active?.kind==='facility'&&active.action==='rest'&&['navigating','waiting','executing'].includes(active.phase)&&active.slotId&&reservation?.slotId===active.slotId&&s.buildingsById[active.targetId];if(continuesRest){m.commitUntil=s.time+12;p.schedule.commitUntilTick=s.worldTick+120;return true;}releaseBodyActivity(s,p);m.activity='rest';p.job=null;m.reason='夜间休整，白日再权衡工作与研习。';m.commitUntil=s.time+12;p.schedule.commitUntilTick=s.worldTick+120;return true;}return false;}
 export function reconcileAutonomyV2Commitments(s){
@@ -204,5 +223,5 @@ function validateAutonomyV2(s,p){
  if(plan.commitmentIds.some(id=>!schedule.commitmentsById[id])||plan.currentStepId!==null&&schedule.commitmentsById[plan.currentStepId]?.status!=='active')throw Error('人物阶段计划承诺引用异常。');
  for(const retry of Object.values(schedule.retriesByTarget))if(!retry||typeof retry.signature!=='string'||!validTick(retry.consecutiveFailures)||retry.consecutiveFailures>3||!validTick(retry.nextReviewTick)||s.factsById?.[retry.sourceFactId]?.kind!=='autonomy-work-choice'||s.factsById[retry.sourceFactId].personId!==p.personId||s.factsById[retry.sourceFactId].accepted!==false)throw Error('人物失败退避记录异常。');
 }
-export function validatePersons(s){validateAftermath(s);for(const p of Object.values(s.personsById)){if(!p.schedule)continue;const r=p.appearance?.recipe;if(!r||typeof r!=='object'||Array.isArray(r)||r.id!==`appearance:${p.personId}:v1`||!APPEARANCE_CATALOG.body.includes(r.body)||!APPEARANCE_CATALOG.face.includes(r.face)||!APPEARANCE_CATALOG.hair.includes(r.hair)||!APPEARANCE_CATALOG.outfit.includes(r.outfit)||!Number.isSafeInteger(r.faceMark)||r.faceMark<0||r.faceMark>4||!Number.isFinite(r.height)||r.height<1.6||r.height>1.9||!Number.isSafeInteger(p.schedule.commitUntilTick)||p.schedule.commitUntilTick<0||p.schedule.updatedThroughTick>s.worldTick||![AUTONOMY.version,AUTONOMY_V2.version].includes(p.schedule.definitionId))throw Error('人物外观配方或自主日程异常。');validateWorkTiming(s,p);if(p.schedule.definitionId===AUTONOMY_V2.version)validateAutonomyV2(s,p);}return true;}
+export function validatePersons(s){validateAftermath(s);for(const p of Object.values(s.personsById)){if(p.mind&&Object.hasOwn(p.mind,'recovering')&&typeof p.mind.recovering!=='boolean')throw Error('人物调养意图异常。');if(!p.schedule)continue;const r=p.appearance?.recipe;if(!r||typeof r!=='object'||Array.isArray(r)||r.id!==`appearance:${p.personId}:v1`||!APPEARANCE_CATALOG.body.includes(r.body)||!APPEARANCE_CATALOG.face.includes(r.face)||!APPEARANCE_CATALOG.hair.includes(r.hair)||!APPEARANCE_CATALOG.outfit.includes(r.outfit)||!Number.isSafeInteger(r.faceMark)||r.faceMark<0||r.faceMark>4||!Number.isFinite(r.height)||r.height<1.6||r.height>1.9||!Number.isSafeInteger(p.schedule.commitUntilTick)||p.schedule.commitUntilTick<0||p.schedule.updatedThroughTick>s.worldTick||![AUTONOMY.version,AUTONOMY_V2.version].includes(p.schedule.definitionId))throw Error('人物外观配方或自主日程异常。');validateWorkTiming(s,p);if(p.schedule.definitionId===AUTONOMY_V2.version)validateAutonomyV2(s,p);}return true;}
 export const personsHandlers={inviteWork,aftermathAction};

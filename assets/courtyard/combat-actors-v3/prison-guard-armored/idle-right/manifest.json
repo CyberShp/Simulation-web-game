@@ -1,0 +1,66 @@
+{
+  "schema": "combat-frame-atlas/v1",
+  "atlas": "atlas.png",
+  "frameSize": [
+    460,
+    320
+  ],
+  "sourceHeight": 220.0,
+  "foot": [
+    220,
+    270
+  ],
+  "durationMs": 100,
+  "loop": false,
+  "frames": [
+    {
+      "index": 0,
+      "file": "frames/0000.png",
+      "x": 0,
+      "y": 0,
+      "w": 460,
+      "h": 320,
+      "sourceHeight": 220.0,
+      "foot": [
+        220,
+        270
+      ],
+      "durationMs": 100,
+      "phase": "idle"
+    }
+  ],
+  "metadata": {
+    "sourceReview": "root-key-poses-selected-runtime-pending",
+    "generatedBy": "built-in image_gen",
+    "date": "2026-10-25"
+  },
+  "sources": [
+    {
+      "file": "inputs/000-exec-0682ef71-4053-478b-bb1c-8d9de50d3ab7.png",
+      "sha256": "6be437bf8bbd91e075feb7a12724b630aa0d3087f7b6f7d1c154a0d389418544"
+    }
+  ],
+  "provenance": {
+    "pipeline": "combat-frame-pipeline/1",
+    "python": "3.12.14",
+    "pillow": "12.3.0",
+    "scriptSha256": "870275d7b2c0504dea2418f47854326f4a75ea5aead0419072ff31be87e25e13",
+    "workflowReference": {
+      "repository": "https://github.com/0x0funky/agent-sprite-forge",
+      "revision": "5324342fdfab72430f4e9604f3fe427009f8596d"
+    },
+    "sourceHeightBeforeScale": 440,
+    "uniformScale": 0.5,
+    "pixelOperations": [
+      "explicit-crop",
+      "uniform-nearest-scale",
+      "fixed-foot-translation",
+      "whole-frame-pack"
+    ]
+  },
+  "id": "prison-guard-armored-idle-right-v3",
+  "visualIdentity": "prison-guard-armored",
+  "action": "idle",
+  "direction": "right",
+  "phase": "idle"
+}

@@ -1,0 +1,187 @@
+{
+  "schema": "combat-frame-atlas/v1",
+  "id": "pixel-v1-shen-yan-spell-down",
+  "visualIdentity": "shen-yan",
+  "action": "spell",
+  "direction": "down",
+  "atlas": "../atlas.png",
+  "frameSize": [
+    192,
+    192
+  ],
+  "sourceHeight": 49,
+  "foot": [
+    96,
+    126
+  ],
+  "durationMs": 700,
+  "loop": false,
+  "holdLast": false,
+  "directionalFallback": false,
+  "frames": [
+    {
+      "index": 0,
+      "x": 384,
+      "y": 1152,
+      "w": 192,
+      "h": 192,
+      "durationMs": 100,
+      "phase": "windup",
+      "sourceFrame": {
+        "row": 2,
+        "column": 0,
+        "cellSize": 64
+      },
+      "pixelBounds": [
+        81,
+        78,
+        111,
+        126
+      ]
+    },
+    {
+      "index": 1,
+      "x": 576,
+      "y": 1152,
+      "w": 192,
+      "h": 192,
+      "durationMs": 100,
+      "phase": "windup",
+      "sourceFrame": {
+        "row": 2,
+        "column": 1,
+        "cellSize": 64
+      },
+      "pixelBounds": [
+        81,
+        78,
+        111,
+        126
+      ]
+    },
+    {
+      "index": 2,
+      "x": 768,
+      "y": 1152,
+      "w": 192,
+      "h": 192,
+      "durationMs": 100,
+      "phase": "windup",
+      "sourceFrame": {
+        "row": 2,
+        "column": 2,
+        "cellSize": 64
+      },
+      "pixelBounds": [
+        82,
+        78,
+        110,
+        126
+      ]
+    },
+    {
+      "index": 3,
+      "x": 960,
+      "y": 1152,
+      "w": 192,
+      "h": 192,
+      "durationMs": 100,
+      "phase": "release",
+      "sourceFrame": {
+        "row": 2,
+        "column": 3,
+        "cellSize": 64
+      },
+      "pixelBounds": [
+        78,
+        78,
+        114,
+        126
+      ],
+      "anchors": {
+        "hand": [
+          82,
+          108
+        ]
+      }
+    },
+    {
+      "index": 4,
+      "x": 1152,
+      "y": 1152,
+      "w": 192,
+      "h": 192,
+      "durationMs": 100,
+      "phase": "release",
+      "sourceFrame": {
+        "row": 2,
+        "column": 4,
+        "cellSize": 64
+      },
+      "pixelBounds": [
+        71,
+        78,
+        121,
+        126
+      ],
+      "anchors": {
+        "hand": [
+          73,
+          97
+        ]
+      }
+    },
+    {
+      "index": 5,
+      "x": 1344,
+      "y": 1152,
+      "w": 192,
+      "h": 192,
+      "durationMs": 100,
+      "phase": "recovery",
+      "sourceFrame": {
+        "row": 2,
+        "column": 5,
+        "cellSize": 64
+      },
+      "pixelBounds": [
+        72,
+        78,
+        120,
+        126
+      ]
+    },
+    {
+      "index": 6,
+      "x": 1536,
+      "y": 1152,
+      "w": 192,
+      "h": 192,
+      "durationMs": 100,
+      "phase": "recovery",
+      "sourceFrame": {
+        "row": 2,
+        "column": 6,
+        "cellSize": 64
+      },
+      "pixelBounds": [
+        79,
+        78,
+        113,
+        126
+      ]
+    }
+  ],
+  "source": {
+    "repository": "LiberatedPixelCup/Universal-LPC-Spritesheet-Character-Generator",
+    "commit": "95c338c84d55cd3e6790d9eddfa3e22c5a0fb91f",
+    "selectedLicense": "CC-BY-SA-3.0",
+    "bodyOffset": [
+      64,
+      64
+    ],
+    "wholeFrameOnly": true,
+    "reuse": null,
+    "timingAuthority": "Runtime combat phases; frame durations are phase weights."
+  }
+}

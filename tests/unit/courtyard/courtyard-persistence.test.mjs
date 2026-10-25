@@ -129,3 +129,44 @@ test('snapshot and host errors protect memory; view callback failure cannot turn
   assert.equal(persistence.status().protected, false);
   assert.equal(persistence.status().lastSavedTick, 11);
 });
+
+test('owned detached snapshots retain execution-time queue capture and world isolation', async () => {
+  const gate = deferred(), entered = deferred(), current = world(1), produced = [], writes = [];
+  const persistence = createCourtyardPersistence({ snapshotOwnership: 'owned',
+    getSnapshot: () => { const snapshot = structuredClone(current); produced.push(snapshot); return snapshot; },
+    saveSnapshot: async snapshot => {
+      assert.strictEqual(snapshot, produced.at(-1), 'the detached producer transfers this snapshot without a second copy');
+      writes.push(snapshot);
+      if (writes.length === 1) { entered.resolve(); await gate.promise; }
+      return { ok: true };
+    }
+  });
+  const automatic = persistence.save({ reason: 'auto' });
+  await entered.promise;
+  const manual = persistence.save(), closing = persistence.save({ reason: 'closing' });
+  current.state.worldTick = 5; current.route[0].x = 3;
+  assert.equal(writes[0].state.worldTick, 1);
+  gate.resolve();
+  assert.deepEqual((await Promise.all([automatic, manual, closing])).map(r => r.ok), [true, true, true]);
+  assert.deepEqual(writes.map(w => w.state.worldTick), [1, 5, 5]);
+  assert.equal(writes[0].route[0].x, 1);
+  assert.equal(persistence.status().lastSavedTick, 5);
+});
+
+test('owned serialization failure protects the primary save and recovery export still copies', async () => {
+  const current = world(8), detached = structuredClone(current); let writes = 0, exported;
+  const persistence = createCourtyardPersistence({ snapshotOwnership: 'owned', getSnapshot: () => detached,
+    saveSnapshot: async () => { writes++; throw Error('serialization failed'); },
+    exportSnapshot: async snapshot => { exported = snapshot; return { ok: true, path: '/selected/recovery.json' }; }
+  });
+  assert.equal((await persistence.save()).protected, true);
+  assert.equal((await persistence.save({ reason: 'closing' })).protected, true);
+  assert.equal(writes, 1);
+  assert.equal((await persistence.exportRecovery()).ok, true);
+  assert.notStrictEqual(exported, detached, 'recovery export retains its defensive copy contract');
+  detached.state.worldTick = 9;
+  assert.equal(exported.state.worldTick, 8);
+  assert.equal(persistence.status().protected, true);
+  assert.deepEqual(current, world(8));
+  assert.throws(() => createCourtyardPersistence({ getSnapshot: () => current, saveSnapshot: () => ({}), snapshotOwnership: 'unknown' }), /ownership/);
+});

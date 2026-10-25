@@ -4,6 +4,7 @@ const fs = require('node:fs/promises');
 const os = require('node:os');
 const path = require('node:path');
 const { createSectStorage, SAVE_FILENAME, MAX_SAVE_BYTES } = require('../../../apps/courtyard/sect-storage.cjs');
+const { saveSerializedSect } = require('../../../apps/courtyard/courtyard-save-transport.cjs');
 
 const validate = state => {
   if (state?.schema !== 1 || !Number.isInteger(state.tick) || state.tick < 0) throw new Error('Invalid sect schema or tick');
@@ -137,6 +138,9 @@ test('real whole sect session survives views, atomic save, and restored continua
   assert.deepEqual(snapshotSect(session), original, 'view reads must preserve persisted facts');
   assert.deepEqual(await storage.save(original), { ok: true });
   const reopened = createSectStorage({ directory, validate: validateSect });
+  const objectChannelBytes = await fs.readFile(storage.filename);
+  assert.deepEqual(await saveSerializedSect(reopened, JSON.stringify(original)), { ok: true });
+  assert.deepEqual(await fs.readFile(storage.filename), objectChannelBytes, 'text transport retains the whole session and exact disk schema');
   const loaded = await reopened.load();
   assert.deepEqual(loaded, { ok: true, found: true, data: JSON.parse(JSON.stringify(original)) });
   const restored = restoreSect(loaded.data);

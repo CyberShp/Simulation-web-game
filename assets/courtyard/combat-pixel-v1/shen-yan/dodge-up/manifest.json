@@ -1,0 +1,115 @@
+{
+  "schema": "combat-frame-atlas/v1",
+  "id": "pixel-v1-shen-yan-dodge-up",
+  "visualIdentity": "shen-yan",
+  "action": "dodge",
+  "direction": "up",
+  "atlas": "../atlas.png",
+  "frameSize": [
+    192,
+    192
+  ],
+  "sourceHeight": 49,
+  "foot": [
+    96,
+    126
+  ],
+  "durationMs": 800,
+  "loop": false,
+  "holdLast": true,
+  "directionalFallback": false,
+  "frames": [
+    {
+      "index": 0,
+      "x": 768,
+      "y": 1728,
+      "w": 192,
+      "h": 192,
+      "durationMs": 100,
+      "phase": "windup",
+      "sourceFrame": {
+        "row": 8,
+        "column": 4,
+        "cellSize": 64
+      },
+      "pixelBounds": [
+        81,
+        73,
+        117,
+        126
+      ]
+    },
+    {
+      "index": 1,
+      "x": 960,
+      "y": 1728,
+      "w": 192,
+      "h": 192,
+      "durationMs": 100,
+      "phase": "release",
+      "sourceFrame": {
+        "row": 8,
+        "column": 5,
+        "cellSize": 64
+      },
+      "pixelBounds": [
+        81,
+        76,
+        117,
+        125
+      ]
+    },
+    {
+      "index": 2,
+      "x": 960,
+      "y": 1728,
+      "w": 192,
+      "h": 192,
+      "durationMs": 100,
+      "phase": "recovery",
+      "sourceFrame": {
+        "row": 8,
+        "column": 5,
+        "cellSize": 64
+      },
+      "pixelBounds": [
+        81,
+        76,
+        117,
+        125
+      ]
+    },
+    {
+      "index": 3,
+      "x": 960,
+      "y": 1728,
+      "w": 192,
+      "h": 192,
+      "durationMs": 500,
+      "phase": "evade",
+      "sourceFrame": {
+        "row": 8,
+        "column": 5,
+        "cellSize": 64
+      },
+      "pixelBounds": [
+        81,
+        76,
+        117,
+        125
+      ]
+    }
+  ],
+  "source": {
+    "repository": "LiberatedPixelCup/Universal-LPC-Spritesheet-Character-Generator",
+    "commit": "95c338c84d55cd3e6790d9eddfa3e22c5a0fb91f",
+    "selectedLicense": "CC-BY-SA-3.0",
+    "bodyOffset": [
+      64,
+      64
+    ],
+    "wholeFrameOnly": true,
+    "reuse": "Original walk columns4/5/5/5 map to windup/release/recovery/evade; repeated entries reuse the same complete crop; terminal hold.",
+    "timingAuthority": "Runtime combat phases; frame durations are phase weights."
+  }
+}

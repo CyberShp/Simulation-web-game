@@ -356,6 +356,98 @@
     {
       "path": "docs/design/68-WEST-WORKSHOPS-INTEGRATION.md",
       "role": "western-alchemy-and-workshop"
+    },
+    {
+      "path": "docs/design/69-SIX-RESIDENTS-AND-WORKSHOPS-ACCEPTANCE.md",
+      "role": "six-resident-same-world-living-and-workshop-acceptance"
+    },
+    {
+      "path": "docs/design/70-COURTYARD-FIRST-COMBAT.md",
+      "role": "courtyard-independent-first-combat-input-visual-and-scoped-acceptance"
+    },
+    {
+      "path": "docs/design/71-GUESTHOUSE-INTEGRATION.md",
+      "role": "guesthouse-physical-beds-voluntary-lodging-and-scoped-desktop-acceptance"
+    },
+    {
+      "path": "docs/design/72-DISCIPLE-EXPEDITIONS.md",
+      "role": "disciple-autonomous-sect-work-and-first-valley-expedition"
+    },
+    {
+      "path": "docs/design/74-DISCIPLE-DEVELOPMENT.md",
+      "role": "disciple-development-work-focus-voluntary-study-and-scoped-acceptance"
+    },
+    {
+      "path": "docs/design/75-SECT-SUSTENANCE.md",
+      "role": "resident-sustenance-and-master-expedition-scoped-acceptance"
+    },
+    {
+      "path": "docs/design/76-DISCIPLE-CULTIVATION-PROGRESSION.md",
+      "role": "disciple-cultivation-progression-scoped-acceptance"
+    },
+    {
+      "path": "docs/design/77-DISCIPLE-BREAKTHROUGH-LOOP.md",
+      "role": "normal-sect-resources-and-autonomous-disciple-breakthrough"
+    },
+    {
+      "path": "docs/design/78-APPROACH-RESPONSE.md",
+      "role": "approach-response-native-verification"
+    },
+    {
+      "path": "docs/design/79-DISCIPLE-WORK-SPECIALIZATION.md",
+      "role": "disciple-work-specialization-and-targeted-scenario-acceptance"
+    },
+    {
+      "path": "docs/design/80-EXPEDITION-RECOVERY.md",
+      "role": "expedition-return-recovery-and-voluntary-production"
+    },
+    {
+      "path": "docs/design/81-DISCIPLE-ONBOARDING.md",
+      "role": "ordinary-disciple-admission-residence-and-first-contribution"
+    },
+    {
+      "path": "docs/design/82-EXPEDITION-PURPOSE.md",
+      "role": "disciple-autonomous-expedition-purpose-and-result-source"
+    },
+    {
+      "path": "docs/design/83-ENCOUNTER-DISTANCE.md",
+      "role": "disciple-encounter-distance-and-retreat-validation"
+    },
+    {
+      "path": "docs/design/84-EXPEDITION-MEDICINE.md",
+      "role": "expedition-medicine-and-return-to-production"
+    },
+    {
+      "path": "docs/design/85-MEDICINE-SUPPLY.md",
+      "role": "medicine-stock-target-and-autonomous-supply"
+    },
+    {
+      "path": "docs/design/86-MEDICINE-MATERIALS.md",
+      "role": "medicine-material-production-and-food-priority"
+    },
+    {
+      "path": "docs/design/87-PHARMACIST-DEVELOPMENT.md",
+      "role": "pharmacist-growth-and-supply-succession"
+    },
+    {
+      "path": "docs/design/88-SECT-CONCURRENCY.md",
+      "role": "sect-concurrency-and-expedition-commitment"
+    },
+    {
+      "path": "docs/design/89-DISCIPLE-CRAFT-REQUEST.md",
+      "role": "disciple-craft-consultation-and-physical-delivery"
+    },
+    {
+      "path": "docs/design/90-DISCIPLE-ADVANCEMENT.md",
+      "role": "disciple-advancement-runtime-and-targeted-acceptance"
+    },
+    {
+      "path": "docs/design/91-EXPEDITION-GROWTH.md",
+      "role": "expedition-resource-craft-and-disciple-growth"
+    },
+    {
+      "path": "docs/design/92-EXPEDITION-COMPANIONS.md",
+      "role": "autonomous-expedition-companions-and-recovery"
     }
   ],
   "taskRead": {
@@ -393,7 +485,8 @@
       "13-WORLDVIEW-DISCUSSION.md",
       "14-EARLY-GAME-DETAILED-DESIGN.md",
       "19-FIVE-CONTINENT-ARTS.md",
-      "55-CHARACTER-ACTION-LIBRARY.md"
+      "55-CHARACTER-ACTION-LIBRARY.md",
+      "70-COURTYARD-FIRST-COMBAT.md"
     ],
     "space_art_input": [
       "../PAINTED-COURTYARD.md",
@@ -530,7 +623,8 @@
       "05-RUNTIME-CONTRACTS.md",
       "02-EQUIPMENT-ARTS.md",
       "20-ARTS-GROWTH-COMBAT.md",
-      "06-OPENING-ACCEPTANCE.md"
+      "06-OPENING-ACCEPTANCE.md",
+      "70-COURTYARD-FIRST-COMBAT.md"
     ]
   },
   "taskReadBase": "docs/design/",
@@ -1545,7 +1639,28 @@
     "styleAlignmentEvidence": "docs/art/hd-pixel-trail-20261014/STAIR-CONNECTION.md"
   },
   "currentHandoff": {
-    "updatedAt": "2026-10-20",
+    "currentCombatRangedStudy": {
+      "reference": "docs/art/combat-ranged-20261026/README.md",
+      "review": "docs/art/combat-ranged-20261026/review.json",
+      "qa": "/Volumes/Media/immortal-qa/combat-ranged-20261026-v001/index.html",
+      "status": "offline-projectile-heavy-impact-ui-reviewed-rough-candidate",
+      "closesWholeRequirements": false
+    },
+    "currentCombatEncounterStudy": {
+      "reference": "docs/art/combat-encounter-20261026/README.md",
+      "review": "docs/art/combat-encounter-20261026/review.json",
+      "qa": "/Volumes/Media/immortal-qa/combat-encounter-20261026-v001/index.html",
+      "status": "offline-moving-attack-encounter-ui-reviewed-rough-candidate",
+      "closesWholeRequirements": false
+    },
+    "currentCombatMinimumStudy": {
+      "reference": "docs/art/combat-minimum-20261025/README.md",
+      "qa": "/Volumes/Media/immortal-qa/combat-minimum-20261025-v002/index.html",
+      "status": "offline-stable-idle-counter-and-evade-ui-reviewed-rough-candidate",
+      "closesWholeRequirements": false,
+      "review": "docs/art/combat-minimum-20261025/review-v002.json"
+    },
+    "updatedAt": "2026-10-26",
     "entry": "AGENTS.md",
     "handoff": "docs/CODEX-HANDOFF.md",
     "deliveryPlan": "docs/DELIVERY-PLAN.md",
@@ -1563,7 +1678,7 @@
       "SR and AC",
       "design clause and U/R/T",
       "changed files and shared contracts",
-      "normal failure reload and UI evidence"
+      "normal failure and UI scenario evidence; persistence checks for storage changes; stage-end integration per U-172"
     ],
     "independentDesignReviewRequired": true,
     "historicalRecordsPolicy": "Versioned snapshots retain their original evidence scope; current state comes from actualStatus and requirements, verified against the working tree.",
@@ -1587,7 +1702,7 @@
     "currentOpeningAcceptanceStatus": "single-normal-new-save-local-chain-verified-public-opening-smoke-verified",
     "currentCharacterDialogueDecisionId": "U-125",
     "currentCharacterDialogueReference": "docs/design/42-CHARACTER-DIALOGUE.md",
-    "currentSequence": "approved-golden-core-preset-domain-staged-integration-and-three-residents",
+    "currentSequence": "disciple-cultivation-progression-functional-verified",
     "currentArtsLedger": "docs/design/28-FIVE-CONTINENT-ARTS-LEDGER.md",
     "estateSourceScene": "archive/godot/estate_2d/estate.tscn",
     "estateSiteLayout": "archive/godot/estate_2d/estate-sites.json",
@@ -1658,12 +1773,19 @@
     "currentGoal": {
       "decisionId": "U-167",
       "mode": "goal",
-      "status": "paused",
+      "status": "in-progress",
       "objective": "Implement the approved 25 facility groups and 31 fixed sites through Golden Core, with real paths, construction, supply, work and save continuity.",
-      "reference": "docs/design/58-GOLDEN-CORE-PRESET-BUILDINGS.md",
+      "reference": "docs/design/69-SIX-RESIDENTS-AND-WORKSHOPS-ACCEPTANCE.md",
       "closesWholeRequirements": false,
-      "resumePolicy": "needs-explicit-user-resume",
-      "statusNote": "Automation paused after merchant-harvest-01; no world advance until an explicit new user authorization."
+      "resumePolicy": "current-session-explicit-user-authorization; legacy automation remains paused",
+      "statusNote": "GC14 normal construction and one treatment passed with separate physical doctor/patient stations, 80 ticks, herb1/cleanWater1 and wound35-to31; final native tick261253 exact reopen. Whole SR/AC remain open.",
+      "activeSlice": {
+        "decisionId": "U-168",
+        "reference": "docs/design/72-DISCIPLE-EXPEDITIONS.md",
+        "status": "implemented-and-macos-desktop-verified",
+        "objective": "门人自主经营与一次外出历练",
+        "closesWholeRequirements": false
+      }
     },
     "currentArenaValidation": {
       "componentChecks": {
@@ -2108,6 +2230,7 @@
         "GC-12",
         "GC-13",
         "GC-14",
+        "GC-15",
         "GC-16",
         "GC-17",
         "GC-18",
@@ -2116,10 +2239,10 @@
         "GC-25",
         "GC-26"
       ],
-      "pendingPositions": 14,
+      "pendingPositions": 13,
       "runtimeEvidence": "docs/design/61-RESIDENTIAL-INTEGRATION.md",
-      "currentBatchStatus": "merchant-harvest-01-passed-paused-5-members-food16-source304",
-      "runtimeTypesCovered": 15,
+      "currentBatchStatus": "level-one-finite-fixture-desktop-verified",
+      "runtimeTypesCovered": 16,
       "previousWestForestDesktopValidation": {
         "platform": "macOS-source-Electron",
         "checksPassed": 10,
@@ -2294,7 +2417,7 @@
       "nextServicePreparation": {
         "reference": "docs/design/62-EAST-SERVICES-INTEGRATION.md",
         "tunableDecision": "T-21",
-        "status": "integrated-desktop-kitchen-acceptance-running",
+        "status": "integrated-kitchen-clinic-local-acceptance-passed",
         "runtimeIntegrated": true,
         "isolatedRuleTests": {
           "passed": 8,
@@ -2306,7 +2429,7 @@
         },
         "implementationDraft": "/Volumes/Media/immortal-qa/east-services-implementation-20261018/README.md",
         "art": "docs/art/east-services-20261018/README.md",
-        "scope": "GC13/14 preset geometry and real service operations integrated; GC13 same-world macOS source Electron cooking/dining chain completed; GC14 normal unlock and treatment desktop chain pending",
+        "scope": "GC13 cooking/dining and GC14 normal construction plus one treatment completed in same-world macOS source Electron; full SR/AC remain open",
         "integratedFiles": 31,
         "remainingPlanningSites": 18,
         "integrationEvidence": "/Volumes/Media/immortal-qa/east-services-implementation-20261018/integration-readback.json",
@@ -2404,7 +2527,8 @@
           "focusedPassed": 18,
           "originalFailureExactRestored": true,
           "evidence": "/Volumes/Media/immortal-qa/courtyard-long-route-save-20261018/integration-readback.json"
-        }
+        },
+        "clinicEvidence": "/Users/shepard/.codex/tmp/immortal-clinic-20261023/supplies-clinic-02/report.json"
       },
       "nextLibraryPreparation": {
         "reference": "docs/design/64-NORTH-LIBRARY-INTEGRATION.md",
@@ -3061,6 +3185,65 @@
           "person:yunxiu:75"
         ],
         "totalMembers": 5
+      },
+      "guesthouse": {
+        "reference": "docs/design/71-GUESTHOUSE-INTEGRATION.md",
+        "decisionId": "U-167",
+        "status": "level-one-finite-fixture-desktop-verified",
+        "platform": "macOS-source-Electron",
+        "physicalGuestBeds": 2,
+        "normalContinuationSource": "/Users/shepard/.codex/tmp/immortal-clinic-20261023/supplies-clinic-02/world/sect-save.json",
+        "normalContinuationSha256": "528dd6cb30967438310afc15787ac57a4388e9a671e302ae21d8b27c6fe1ae56",
+        "normalContinuationTick": 261253,
+        "normalSourceUnchanged": true,
+        "normalConstruction": "not-run",
+        "runtime": "/Users/shepard/.codex/tmp/immortal-guesthouse-20261023/runtime-ui-01",
+        "visualRuntime": "/Users/shepard/.codex/tmp/immortal-guesthouse-20261023/runtime-visual-02",
+        "visualEvidence": "/Users/shepard/.codex/tmp/immortal-guesthouse-20261023/visual-02/report.json",
+        "desktop": {
+          "lodging": {
+            "status": "passed",
+            "mode": "fixture",
+            "report": "/Users/shepard/.codex/tmp/immortal-guesthouse-20261023/ui-fixture-03/report.json",
+            "initialTick": 1656,
+            "finalTick": 3851,
+            "wallSeconds": 235.557720083,
+            "checksPassed": 7,
+            "errors": [],
+            "sourceUnchanged": true,
+            "runtimeUnchanged": true,
+            "nativeExact": true
+          },
+          "construction": {
+            "status": "passed",
+            "mode": "fixture",
+            "report": "/Users/shepard/.codex/tmp/immortal-guesthouse-20261023/build-fixture-01/report.json",
+            "initialTick": 646,
+            "finalTick": 1700,
+            "wallSeconds": 114.379689209,
+            "checksPassed": 3,
+            "errors": [],
+            "sourceUnchanged": true,
+            "runtimeUnchanged": true,
+            "nativeExact": true
+          }
+        },
+        "preservedFailedRuns": [
+          "ui-fixture-01",
+          "ui-fixture-02"
+        ],
+        "independentAudit": {
+          "agent": "GPT-6.1-sol / sol_next_stage_scope",
+          "result": "passed",
+          "nativeCheckpoints": 6,
+          "coreSourceFiles": 12
+        },
+        "remaining": [
+          "normal-source-funding-construction",
+          "Windows-device",
+          "full-SR-AC"
+        ],
+        "wholeRequirementStatusChanged": false
       }
     },
     "previousEngineeringGoal": {
@@ -3070,6 +3253,1972 @@
       "objective": "Reorganize the complete repository, validate commands and compatibility, preserve prior work, and push reviewed source.",
       "reference": "docs/engineering/MIGRATION-20261016.md",
       "closesWholeRequirements": false
+    },
+    "currentSixResidentWorkshops": {
+      "reference": "docs/design/69-SIX-RESIDENTS-AND-WORKSHOPS-ACCEPTANCE.md",
+      "updated": "2026-10-23",
+      "status": "gc26-heal-two-pills-home-native-reopen-passed",
+      "source": "/Users/shepard/.codex/tmp/immortal-workshops-20261021/heal-11/world/sect-save.json",
+      "sourceSha256": "97f83e7c9efbafb396ffae9829e3e310aa2e8d5ea61d36a1262965dc8d88d837",
+      "worldTick": 237899,
+      "paused": true,
+      "settlement": {
+        "run": "settlement-02",
+        "status": "passed",
+        "settlementTick": 190800,
+        "homeFoodBefore": 16,
+        "homeFoodAfter": 4,
+        "consumed": 12,
+        "membersSupplied": 5,
+        "starvation": 0,
+        "nativeSaveReopenExact": true,
+        "wallSeconds": 106.808193
+      },
+      "living": {
+        "run": "living-04",
+        "status": "passed",
+        "fromNativeTick": 191089,
+        "finalTick": 192003,
+        "wallSeconds": 118.716135,
+        "beds": {
+          "73": {
+            "executingObservedTick": 191090,
+            "slot": "bed:1"
+          },
+          "75": {
+            "arrivedTick": 191170,
+            "executingObservedTick": 191171,
+            "slot": "bed:4"
+          }
+        },
+        "inheritedRecovery75": {
+          "sourcePosition": [
+            123.5,
+            45
+          ],
+          "recoveredPosition": [
+            123.5,
+            45.1
+          ],
+          "recoveredObservedTick": 191090,
+          "activityAndReservationPreserved": true
+        },
+        "harvest": {
+          "id": 368,
+          "tick": 191593,
+          "food": 16
+        },
+        "delivery": {
+          "id": 369,
+          "tick": 191626,
+          "food": 16
+        },
+        "dailySupply": {
+          "tick": 192000,
+          "membersSupplied": 5,
+          "starvation": 0
+        },
+        "sourceUnchanged": true,
+        "runtimeUnchanged": true,
+        "nativeSaveReopenExact": true,
+        "errors": 0,
+        "previousFailure": {
+          "run": "living-03",
+          "pausedTick": 191089,
+          "nativeSha256": "00d613aa68a204e5a52c3545c65a8e5b5a9c5e219a0ca2e73b56be9fb4594083",
+          "retained": true
+        },
+        "sealedSource": "/Volumes/Media/immortal-qa/sol-six-residents-20261020/living-04/world/sect-save.json",
+        "sealedSourceSha256": "1b19735d324326bfb6682f60160229e26f054e24da46bd20551318a8b2e9ef42"
+      },
+      "progressRewards": {
+        "ids": [
+          "meditation",
+          "breakthrough",
+          "food"
+        ],
+        "implementation": "desktop-public-claim-with-full-bundle-capacity-guard",
+        "unitTests": "5/5",
+        "directRegressionTests": "7/7",
+        "normalDesktopClaim": "passed-at-192003-with-exact-native-reopen",
+        "claimedTick": 192003,
+        "rewards": {
+          "jade": 260,
+          "wood": 60,
+          "stone": 40,
+          "herb": 25,
+          "food": 40
+        },
+        "nativeSaveReopenExact": true,
+        "evidence": "/Volumes/Media/immortal-qa/sol-production-20261020/funding-01/report.json"
+      },
+      "gc21_23": "layout-candidate-only",
+      "next": [
+        "isolated runtime mutual-route recovery and independent verification",
+        "continue original transport499 herb10 then carriedwood1/water2 without reload",
+        "four-stage medicine280 and physical two-heal HOME delivery with native checkpoints"
+      ],
+      "closesWholeRequirements": false,
+      "legacyAutomation": "paused",
+      "homeFood": 80,
+      "sourceRole": "heal01-transport499-carrying-paused-native",
+      "recoveryRequired": false,
+      "funding": {
+        "run": "funding-01",
+        "status": "failed-unresponsive-renderer",
+        "report": "/Volumes/Media/immortal-qa/sol-production-20261020/funding-01/report.json",
+        "stopRecord": "/Volumes/Media/immortal-qa/sol-production-20261020/funding-01/unresponsive-stop.json",
+        "wallSeconds": 725.897205,
+        "lastHarnessObservedTick": 192200,
+        "recoverableNativeTick": 192063,
+        "recoverableNativeSha256": "cf63afd0879a0669f46d3724adb3e27204e770433d0616612af6fc9367b93430",
+        "manualPause": false,
+        "nativeSaveOnStopCompleted": false,
+        "nativeExact": false,
+        "unpersistedTailDurationSeconds": null,
+        "unpersistedTailLastActualTick": null,
+        "continuousSuccess": false,
+        "sourceUnchanged": true,
+        "runtimeUnchanged": true,
+        "termination": "SIGTERM did not exit; only preserved QA Electron tree stopped with SIGKILL",
+        "productionAcceptance": "not-completed"
+      },
+      "recovery": {
+        "run": "recover-01",
+        "status": "passed",
+        "sourceTick": 192063,
+        "sourceManualPause": false,
+        "pauseTick": 192068,
+        "naturallyAdvancedTicks": 5,
+        "manualPause": true,
+        "nativeExact": true,
+        "sourceUnchanged": true,
+        "runtimeUnchanged": true,
+        "wallSeconds": 25.840198,
+        "report": "/Volumes/Media/immortal-qa/sol-production-20261020/recover-01/report.json",
+        "metadataCorrection": "/Volumes/Media/immortal-qa/sol-production-20261020/recover-01/metadata-correction.json",
+        "source": "/Volumes/Media/immortal-qa/sol-production-20261020/recover-01/world/sect-save.json",
+        "sourceSha256": "796a659e63472a706606271077f0c77752d98421d46b8afec8d1bfbb8690f984"
+      },
+      "activeRun": "capital-07",
+      "runtimeMirror": {
+        "directory": "/Users/shepard/.codex/tmp/immortal-workshops-20261021/runtime",
+        "evidence": "/Users/shepard/.codex/tmp/immortal-workshops-20261021/mirror-evidence/mirror-report.json",
+        "runtimeIdentity": "per-run runtime hashes plus audited working, early-east and night-query fixes"
+      },
+      "validationBranch": {
+        "sourceTick": 201679,
+        "retainedCompletedBranches": [
+          {
+            "directory": "/Volumes/Media/immortal-qa/sol-workshops-20261021/build25-04",
+            "tick": 202148
+          },
+          {
+            "directory": "/Users/shepard/.codex/tmp/immortal-workshops-20261021/build25-06",
+            "tick": 202178
+          },
+          {
+            "directory": "/Users/shepard/.codex/tmp/immortal-workshops-20261021/build25-07",
+            "tick": 202174
+          }
+        ],
+        "meaning": "completed failed branches retained; next replay from verified original201679 ready checkpoint, not continuous continuation from202174"
+      },
+      "evidenceIndex": "/Users/shepard/.codex/tmp/immortal-workshops-20261021/batch-plan.json",
+      "runtimeDiagnostic": {
+        "report": "/Users/shepard/.codex/tmp/immortal-workshops-20261021/mirror-evidence/working-profile/report.md",
+        "initialViewSeconds": 10.797,
+        "firstWorkingViewSeconds": 11.95,
+        "firstWorkingAdvanceMilliseconds": 2.18,
+        "isolatedReadOnlySource": true,
+        "codeStatus": "audited-30-targeted-tests-pass-first-working-cache-fixed"
+      },
+      "gc25": {
+        "initialTick": 201679,
+        "finalTick": 202103,
+        "wallSeconds": 136.940231,
+        "status": "passed",
+        "nativeExact": true,
+        "sourceUnchanged": true,
+        "runtimeUnchanged": true,
+        "report": "/Users/shepard/.codex/tmp/immortal-workshops-20261021/build25-08/report.json",
+        "readyTick": 201679,
+        "onsiteTick": 201704,
+        "onsiteProgress": 20,
+        "nativeReopens": 3
+      },
+      "paper": {
+        "status": "passed",
+        "run": "paper-07",
+        "orderId": "work:production:building:yunxiu:15",
+        "batch": 1,
+        "progressTicks": 160,
+        "workerId": "person:lu-zhiwei",
+        "activeNativeTick": 215360,
+        "paidTick": 216360,
+        "payment": 27.681328,
+        "wages": 0.8,
+        "paidNativeTick": 217501,
+        "nativeExact": true,
+        "report": "/Users/shepard/.codex/tmp/immortal-workshops-20261021/paper-07/report.json"
+      },
+      "routeRecovery": {
+        "run": "route-recover-01",
+        "status": "passed",
+        "fromTick": 208167,
+        "toTick": 208191,
+        "sourceUnchanged": true,
+        "runtimeUnchanged": true,
+        "nativeExact": true,
+        "firstObservedLegal": {
+          "person:master": 208172,
+          "person:yunxiu:71": 208191
+        },
+        "sampleGaps": [
+          1,
+          4,
+          2,
+          1,
+          2,
+          2,
+          12
+        ],
+        "report": "/Users/shepard/.codex/tmp/immortal-workshops-20261021/route-recover-01/report.json"
+      },
+      "capital": {
+        "completed": "capital-08",
+        "latest": "capital-08",
+        "latestStatus": "passed",
+        "sourceNativeExact": true,
+        "actualStoneHome": 33,
+        "actualHerbHome": 19,
+        "actualJadeHome": 176.681328,
+        "actualLumberWood": 34.159921664,
+        "pending": "heal01 retainedtransport499 route recovery and four stages/heal2 HOME delivery pending",
+        "reports": [
+          "/Users/shepard/.codex/tmp/immortal-workshops-20261021/capital-01/report.json",
+          "/Users/shepard/.codex/tmp/immortal-workshops-20261021/capital-02/report.json",
+          "/Users/shepard/.codex/tmp/immortal-workshops-20261021/capital-03/report.json",
+          "/Users/shepard/.codex/tmp/immortal-workshops-20261021/capital-04/report.json",
+          "/Users/shepard/.codex/tmp/immortal-workshops-20261021/capital-05/report.json",
+          "/Users/shepard/.codex/tmp/immortal-workshops-20261021/capital-06/report.json",
+          "/Users/shepard/.codex/tmp/immortal-workshops-20261021/capital-07/report.json",
+          "/Users/shepard/.codex/tmp/immortal-workshops-20261021/capital-08/report.json"
+        ],
+        "conditionalJadeTarget": 170,
+        "wageBudget": "/Users/shepard/.codex/tmp/immortal-workshops-20261021/research/gc26-heal-wage-budget-appendix.json",
+        "actualWoodHome": 53,
+        "actualFoodHome": 108,
+        "masterEnergy": 92.77,
+        "independentAudits": [
+          "/Users/shepard/.codex/tmp/immortal-workshops-20261021/research/capital07-independent-audit.md",
+          "/Users/shepard/.codex/tmp/immortal-workshops-20261021/research/capital08-independent-audit.md"
+        ],
+        "capital07": {
+          "fromTick": 225534,
+          "toTick": 227547,
+          "wallSeconds": 676.546286,
+          "status": "passed",
+          "nativeSha256": "681410a8de4358d35c9a5d1cd98c7d300b430051dbf040e0310c336da60d7e13",
+          "membersSuppliedPerDay": 5,
+          "supplyTicks": [
+            225600,
+            226800
+          ],
+          "traceSamples": 1682,
+          "gapCount": 62,
+          "maxGapTicks": 20
+        },
+        "capital08": {
+          "fromTick": 227547,
+          "toTick": 227988,
+          "wallSeconds": 190.109431,
+          "status": "passed",
+          "nativeSha256": "76ced058c3498c9cad507db47e37818b7e90c7e5facc13cf06043deab2b9dc3e",
+          "crossedNewSupplyDay": false,
+          "traceSamples": 229,
+          "gapCount": 39,
+          "maxGapTicks": 19
+        }
+      },
+      "homeMemberCount": 5,
+      "residentCount": 6,
+      "gc26": {
+        "run": "build26-03",
+        "status": "passed",
+        "source": "/Users/shepard/.codex/tmp/immortal-workshops-20261021/build26-03/world/sect-save.json",
+        "sourceTick": 230531,
+        "sourceSha256": "71d2ae7a6c33d1cfadbe8fe21d8ef025a845bbcea47eac7780b3d88aa9519f1d",
+        "branchMode": "explicit replay branch from preserved carrying checkpoint; failed built branch retained",
+        "harnessSha256": "6538cfab6f0317269910ac2faaa29f2730962d8e83e662a741492891f94a877b",
+        "runtimeFilesUnchanged": 189,
+        "syncEvidence": "/Users/shepard/.codex/tmp/immortal-workshops-20261021/mirror-evidence/build26-02-pause-first/sync.json",
+        "failedAttempt": {
+          "run": "build26-01",
+          "status": "failed",
+          "initialTick": 227988,
+          "finalTick": 230457,
+          "wallSeconds": 308.604002,
+          "nativeExact": true,
+          "sourceUnchanged": true,
+          "runtimeUnchanged": true,
+          "finalNativeSha256": "f4d3592b54c36f6eb77161418f957563c185eff457a3eb209b14c9551295f763",
+          "buildingId": "building:yunxiu:16",
+          "builtAtTick": 229826,
+          "missingEvidence": [
+            "materials-ready native checkpoint",
+            "onsite unfinished native checkpoint"
+          ],
+          "lastFullBodyTick": 229704,
+          "traceSamples": 858,
+          "gapCount": 71,
+          "maxGapTicks": 336,
+          "report": "/Users/shepard/.codex/tmp/immortal-workshops-20261021/build26-01/report.json",
+          "independentAudit": "/Users/shepard/.codex/tmp/immortal-workshops-20261021/research/build26-01-independent-audit.md"
+        },
+        "coldRead": {
+          "sourceFinalTick": 230457,
+          "coldMs": 16628.347,
+          "hotMs": 29.553,
+          "viewsEqual": true,
+          "stateAndBytesUnchanged": true,
+          "advanceCalled": false,
+          "rendererGapMs": 33675.7,
+          "exactOriginalCallAttribution": false,
+          "analysis": "/Users/shepard/.codex/tmp/immortal-workshops-20261021/research/build26-01-cold-query-analysis.md"
+        },
+        "builtAtTick": 229826,
+        "buildingId": "building:yunxiu:16",
+        "finalTick": 230531,
+        "wallSeconds": 448.417836,
+        "nativeExact": true,
+        "sourceUnchanged": true,
+        "runtimeUnchanged": true,
+        "report": "/Users/shepard/.codex/tmp/immortal-workshops-20261021/build26-03/report.json",
+        "independentAudit": "/Users/shepard/.codex/tmp/immortal-workshops-20261021/research/build26-03-independent-audit.md",
+        "segment02": {
+          "status": "stopped",
+          "initialTick": 228018,
+          "finalTick": 228748,
+          "wallSeconds": 240.487456,
+          "sourceSha256": "debe422fe68e7d20d8d9661c575084537f0bea69dc1c03dd7d4f2ad8fd2169ba",
+          "finalNativeSha256": "7767e1482fc09cb8f77ccad92a8e4a20f7efc8034bf8943bc674356f43edacf0",
+          "firstTripDeliveredTick": 228567,
+          "materialFlow": "to-source",
+          "report": "/Users/shepard/.codex/tmp/immortal-workshops-20261021/build26-02/report.json",
+          "audit": "/Users/shepard/.codex/tmp/immortal-workshops-20261021/research/build26-02-independent-audit.md"
+        },
+        "segment03": {
+          "status": "passed",
+          "initialTick": 228748,
+          "finalTick": 230531,
+          "wallSeconds": 448.417836,
+          "secondCarryingNativeTick": 229286,
+          "secondTripDeliveredTick": 229723,
+          "readyAndOnsiteTick": 229749,
+          "readyAndOnsiteProgress": 47,
+          "readyAndOnsiteSameState": true,
+          "separateNativeReopens": 2,
+          "readyAndOnsiteSha256": "7645029ccb9bdf3d285c5124c528291d9c86d4f8a31feb7559edd181ff16972b",
+          "home": {
+            "jade": 91.081328,
+            "wood": 17,
+            "stone": 3,
+            "herb": 19,
+            "food": 72
+          },
+          "masterEnergy": 80.56,
+          "retainedActivity": "activity:manual-harvest:490",
+          "traceSamples": 433,
+          "gapCount": 48,
+          "maxGapTicks": 229,
+          "supplyTicks": [
+            229200,
+            230400
+          ],
+          "membersSuppliedPerDay": 5
+        }
+      },
+      "heal": {
+        "run": "heal-11",
+        "status": "passed",
+        "initialTick": 237275,
+        "finalTick": 237899,
+        "wallSeconds": 174.153025,
+        "nativeSha256": "97f83e7c9efbafb396ffae9829e3e310aa2e8d5ea61d36a1262965dc8d88d837",
+        "nativeExact": true,
+        "sourceUnchanged": true,
+        "runtimeUnchanged": true,
+        "report": "/Users/shepard/.codex/tmp/immortal-workshops-20261021/heal-11/report.json",
+        "craftOrderId": "work:craft:505",
+        "progressTicks": 280,
+        "outputCount": 2,
+        "homeHeal": 2,
+        "carriedHeal": 0,
+        "siteHeal": 0,
+        "stageNativeEvidence": {
+          "0": "heal-08",
+          "1": "heal-09",
+          "2": "heal-09",
+          "3": "heal-09"
+        },
+        "pickupOrderId": "work:transport:506",
+        "pickupCarryingNativeCheckpointObserved": false,
+        "homeDeliveryOrderId": "work:transport:507",
+        "continuationHarness": {
+          "sha256": "eea5c75d7dd55ffbf23e77c48114381fe82fdb80bb8b05d624ba24092087d8ae",
+          "status": "executed-live-final-home-native-reopen-pass"
+        },
+        "priorControlFixture": {
+          "sha256": "5915467e80e6b554c4c4d080a9b1d14dc2b0f7968600e72b0f971c0c0196ab91",
+          "status": "independent-static-and-control-fixture-pass-not-live-delivery",
+          "fixture": "/Users/shepard/.codex/tmp/immortal-workshops-20261021/research/heal-input499-continuation/check.mjs"
+        },
+        "closesWholeRequirements": false,
+        "remainingBoundaries": [
+          "slow-read performance",
+          "Windows device",
+          "complete SR and AC"
+        ]
+      },
+      "healHistoryBeforeFinal": {
+        "run": "heal-01",
+        "status": "stopped",
+        "initialTick": 230531,
+        "finalTick": 233030,
+        "wallSeconds": 686.308964,
+        "nativeSha256": "0f35a8b9172d2ddf3e764bc67e579facd30f254e2312b32129ea9c54572632c9",
+        "nativeExact": true,
+        "sourceUnchanged": true,
+        "runtimeUnchanged": true,
+        "report": "/Users/shepard/.codex/tmp/immortal-workshops-20261021/heal-01/report.json",
+        "independentAudit": "/Users/shepard/.codex/tmp/immortal-workshops-20261021/research/heal01-independent-audit.md",
+        "home": {
+          "jade": 69.481328,
+          "wood": 14,
+          "stone": 3,
+          "herb": 19,
+          "food": 80
+        },
+        "masterEnergy": 62.33,
+        "transport": {
+          "id": "work:transport:499",
+          "sourceStockpileId": "stockpile:carried:master",
+          "targetStockpileId": "stockpile:building:yunxiu:16",
+          "phase": "carrying",
+          "startedTick": 232066,
+          "cargo": {
+            "herb": 10
+          },
+          "reservationId": "reservation:transport:work:transport:499"
+        },
+        "carriedInputs": {
+          "wood": 1,
+          "cleanWater": 2
+        },
+        "targetIngredients": {
+          "herb": 0,
+          "wood": 0,
+          "cleanWater": 0
+        },
+        "craftOrderExists": false,
+        "routeBlock": {
+          "personIds": [
+            "person:master",
+            "person:yunxiu:71"
+          ],
+          "kind": "actual-mutual-wait-on-legal-corridor",
+          "runtimeFixStatus": "isolated-preparation-not-yet-live-accepted",
+          "diagnosis": "/Users/shepard/.codex/tmp/immortal-workshops-20261021/research/heal01-mutual-route-deadlock.md"
+        },
+        "continuationHarness": {
+          "sha256": "5915467e80e6b554c4c4d080a9b1d14dc2b0f7968600e72b0f971c0c0196ab91",
+          "status": "independent-static-and-control-fixture-pass-not-live-delivery",
+          "fixture": "/Users/shepard/.codex/tmp/immortal-workshops-20261021/research/heal-input499-continuation/check.mjs"
+        },
+        "fees": {
+          "maintenance": 16,
+          "productionWages": 5.6,
+          "craftCostNotYetPaid": 10
+        },
+        "supplyTicks": [
+          231600,
+          232800
+        ],
+        "membersSuppliedPerDay": 5,
+        "traceSamples": 1376,
+        "gapCount": 99,
+        "maxGapTicks": 172
+      }
+    },
+    "currentCourtyardCombat": {
+      "updatedAt": "2026-10-25",
+      "activeProductionReference": "docs/design/73-COMBAT-FRAME-PRODUCTION.md",
+      "activeProductionStatus": "kling-stop-return-reviewed-direct-stop-not-met-silent-copy-ready",
+      "stopSupplementInput": {
+        "reference": "docs/art/kling-stop-supplement-20261025/README.md",
+        "prompt": "docs/art/kling-stop-supplement-20261025/PROMPT.txt",
+        "source": "docs/art/kling-stop-supplement-20261025/source.json",
+        "firstSourceFrame": 48,
+        "lastSourceFrame": 240,
+        "qaRoot": "/Volumes/Media/immortal-qa/kling-stop-supplement-20261025-v001/",
+        "zip": "/Volumes/Media/immortal-qa/kling-stop-supplement-20261025-v001/kling-stop-input-v002.zip",
+        "zipSha256": "e397fd229b5736838dbf27ed8b85369d35050626f3937d40bc5721a37709bba9",
+        "status": "returned-video-reviewed-direct-stop-not-met",
+        "review": "docs/art/kling-stop-supplement-20261025/review.json",
+        "returnedSourceSha256": "9c1c8c5558df33f11aea17f0027a565c6fc8505c6bb119bb68925e3764f58f77",
+        "silentDisplayVideo": "/Volumes/Media/immortal-qa/kling-stop-review-20261025-v001/silent-source.mp4",
+        "silentDisplayVideoSha256": "8ca6e82d32ccc9cf209db5d27555634f2230a93ade41acf38b8b297d3ae0b70d",
+        "audioPolicy": "silent motion video; no voices, breathing, music or effects",
+        "nextCandidateFirstFrame": 52,
+        "nextCandidatePrompt": "docs/art/kling-stop-supplement-20261025/contact-stop-prompt-v2.txt",
+        "nextCandidateSentToKling": false,
+        "runtimeIntegration": false,
+        "closesWholeRequirements": false
+      },
+      "externalMotionReview": {
+        "reference": "docs/art/kling-motion-review-20261025/README.md",
+        "review": "docs/art/kling-motion-review-20261025/review.json",
+        "metadata": "docs/art/kling-motion-review-20261025/metadata.json",
+        "sourceSha256": "85fd646933c860531fb55fd2ab3230a2fa145cc5266145364edbb3d464d683db",
+        "qaRoot": "/Volumes/Media/immortal-qa/kling-review-20261025-v001/",
+        "status": "offline-action-sequence-main-agent-and-independent-technical-review-only",
+        "processingQaRoot": "/Volumes/Media/immortal-qa/kling-movement-20261025-v001/",
+        "previousActionQaRoot": "/Volumes/Media/immortal-qa/kling-actions-20261025-v001/",
+        "previousProcessingQaRoot": "/Volumes/Media/immortal-qa/kling-process-20261025-v001/",
+        "transparentCycleReviewField": "transparentRunCandidateReview",
+        "actionSequenceReviewField": "offlineActionSequenceReview",
+        "movementStudyReviewField": "rightwardMovementStudyReview",
+        "movementStudyPage": "/Volumes/Media/immortal-qa/kling-movement-20261025-v001/d-study-v001/index.html",
+        "movementStudyScope": "55 B03/B04; D only; continuous 3.3m/s ruler; formal100ms physics and presentation unchanged",
+        "movementTiming": "contact five horizontal endpoint intervals; all19 frames480ms; equal comparison retained",
+        "movementStopRule": "immediate nearest existing pose; no cycle wait; visual jumps remain",
+        "candidateZip": "/Volumes/Media/immortal-qa/kling-actions-20261025-v001/kling-actions-candidate-v001.zip",
+        "candidateZipSha256": "8a1d245c132df0935dfa47efdc177c474fb94acb199c857129dcb651a94a3435",
+        "cycleDurationMs": 480,
+        "offlinePhaseEntrySourceFrame": 58,
+        "offlinePhaseExitSourceFrame": 61,
+        "combinedEndHoldSourceFrame": 240,
+        "cycleCandidateFrames": [
+          48,
+          66
+        ],
+        "runtimeIntegration": false,
+        "closesWholeRequirements": false
+      },
+      "externalMotionInput": {
+        "reference": "docs/art/kling-motion-input-20261025/PROMPTS.md",
+        "firstFrame": "docs/art/kling-motion-input-20261025/01-idle-start.png",
+        "runFirstFrame": "docs/art/kling-motion-input-20261025/02-run-start.png",
+        "firstFrameSize": [
+          1254,
+          1254
+        ],
+        "zip": "/Volumes/Media/immortal-qa/kling-motion-input-20261025.zip",
+        "status": "input-package-only-user-generates-with-kling",
+        "alignment": "new-input-references-not-exact-foot-aligned-or-game-ready",
+        "klingVideoReceived": true,
+        "uploaded": false,
+        "runtimeIntegration": false,
+        "closesWholeRequirements": false
+      },
+      "currentArtStudy": {
+        "reference": "docs/art/combat-field-study-20261025/README.md",
+        "image": "docs/art/combat-field-study-20261025/battlefield-study.png",
+        "imageSize": [
+          1536,
+          1024
+        ],
+        "sourcePrompt": "https://gameartstyle.loopyhop.com/styles/topdown-tile-pixel/",
+        "production": "three-image-gen-generations-and-directed-revisions-v3-displayed",
+        "mainAgentReviewed": true,
+        "userReview": "overall-art-direction-approved-only",
+        "pixelDensity": "not-locked",
+        "figureBudget108px": "not-met",
+        "strictIntegerPixelGrid": "not-verified",
+        "precise22mScale": "not-locked",
+        "currentPixelMaterialsArtAcceptance": "user-rejected",
+        "runtimeReferencesPreserved": true,
+        "runtimeReplacement": false,
+        "performanceWork": false,
+        "closesWholeRequirements": false
+      },
+      "currentMotionStudy": {
+        "reference": "docs/art/combat-motion-study-20261025/README.md",
+        "calibratedScene": "docs/art/combat-motion-study-20261025/calibration/common-grid-v001/calibrated-scene.png",
+        "logicalPixelsPerMetre": 40,
+        "commonSpriteScale": "58/414",
+        "staticScaleReview": "main-agent-author-candidate-can-continue",
+        "userNewScaleReview": "overall-calibrated-look-approved",
+        "groundShadow": "missing",
+        "nativePixelDensityConsistency": "not-verified",
+        "runV1V2V3ArtReview": "failed-stopped-generation",
+        "runV3Reason": "insufficient-second-half-leg-swap-and-frame8-left-hand-sword-gesture",
+        "diagnosticHtml": "/Volumes/Media/immortal-qa/combat-direction-study-20261025/run-v3-diagnostic-01/index.html",
+        "diagnosticGif": "/Volumes/Media/immortal-qa/combat-direction-study-20261025/run-v3-diagnostic-01/diagnostic-100ms.gif",
+        "diagnosticFrameMs": 100,
+        "latestHalfCycle": {
+          "scope": "55 B02 / SR007 and SR013 local single-direction material candidate",
+          "directory": "docs/art/combat-motion-study-20261025/run-cycle-v001/",
+          "review": "docs/art/combat-motion-study-20261025/run-cycle-v001/review.json",
+          "status": "offline-frame-and-chrome-player-visual-initial-review-passed",
+          "frameOrder": "v6-four-frames-then-v5-four-frames",
+          "sourceStandingReference": 500,
+          "uniformScale": "58/500",
+          "frameCount": 8,
+          "frameDurationMs": 60,
+          "durationMs": 480,
+          "mainAgentChromeCrossLoop": true,
+          "supportFramesCompared": [
+            2,
+            6
+          ],
+          "pending": [
+            "ground-travel-speed-sync",
+            "start-stop",
+            "other-directions",
+            "runtime-validation"
+          ],
+          "runtimeIntegration": false,
+          "closesWholeRequirements": false
+        },
+        "playbackReview": "html-open-queued-gif-output-only-no-runtime-acceptance",
+        "runtimeIntegration": false,
+        "closesWholeRequirements": false
+      },
+      "pixelSampleNativeEvidence": {
+        "nativeReport": "/Volumes/Media/immortal-qa/combat-pixel-sample-20261025/native-01/report.json",
+        "nativeStatus": "failed",
+        "nativeChecksPassed": 14,
+        "nativeExact": false,
+        "nativeClosed": true,
+        "nativeFinalization": "explicit-save-wait-timeout",
+        "reopenReport": "/Volumes/Media/immortal-qa/combat-pixel-sample-20261025/reopen-01/report.json",
+        "reopenStatus": "failed",
+        "reopenChecksPassed": 3,
+        "reopenTick": 265613,
+        "reopenNativeExact": true,
+        "reopenNativeClosed": true,
+        "closeBytesExact": true,
+        "creditsStatus": "request-failed-invalid-user-agent-header-no-http-result",
+        "originalFailedReportPreserved": true,
+        "movementContactPerformanceRerun": false,
+        "visualAcceptance": "not-approved"
+      },
+      "latestScopedEvidence": {
+        "report": "/Volumes/Media/immortal-qa/combat-stall-20261025/integrated-01/report.json",
+        "tickRange": [
+          265258,
+          265600
+        ],
+        "activeSeconds": 34.199,
+        "checksPassed": 7,
+        "nativeClosed": true,
+        "firstKeyInputMs": 1.1,
+        "remainingWorldPumpPeakMs": 232.0,
+        "remainingActivityRefreshMs": 61.0,
+        "artReview": "run-body-scale-and-registration-open-style-selection-in-progress",
+        "closesWholeRequirements": false
+      },
+      "reference": "docs/design/70-COURTYARD-FIRST-COMBAT.md",
+      "source": "apps/courtyard/courtyard-combat.mjs",
+      "scope": "first-combat-input-continuity-cast-stop-release-move-dodge-and-one-action-sample",
+      "status": "whole-frame-runtime-implemented-offline-checked-native08-failed-sample-incomplete",
+      "closesWholeRequirements": false,
+      "artStatus": "static-look-approved-single-direction-cycle-offline-initial-review",
+      "controls": {
+        "movement": "WASD",
+        "aim": "mouse-world-point",
+        "attack": "Digit1",
+        "spell": "Digit2",
+        "guard": "Digit3",
+        "dodge": "Space-toward-mouse",
+        "pause": "Escape-or-explicit-button",
+        "autoAttack": "basic-only-in-range-no-chasing"
+      },
+      "clock": "shared-100ms-world-tick-rendering-does-not-advance",
+      "ruleChecks": {
+        "passed": 33,
+        "total": 33,
+        "newFeelCases": 8,
+        "directRegressionCases": 25,
+        "report": "/Users/shepard/.codex/tmp/immortal-combat-feel-20261023/rules-report.json",
+        "reportSha256": "ee8a94fcfce89121db79d2e0de47df4c4c68b36b90280496d0de55d7f38cdd54",
+        "log": "/Users/shepard/.codex/tmp/immortal-combat-feel-20261023/rules-tests.log",
+        "scope": "existing-100ms-feel-rules-unchanged-by-whole-frame-renderer"
+      },
+      "tuning": {
+        "source": "T-COMBAT-FEEL-20261023",
+        "worldStepMs": 100,
+        "attack": {
+          "windupTicks": 1,
+          "executeTicks": 1,
+          "recoveryTicks": 3,
+          "cooldownTicks": 5
+        },
+        "spell": {
+          "windupTicks": 3,
+          "executeTicks": 1,
+          "recoveryTicks": 3,
+          "cooldownTicks": 45
+        },
+        "dodge": {
+          "windupTicks": 0,
+          "executeTicks": 1,
+          "recoveryTicks": 2,
+          "cooldownTicks": 32,
+          "qiCost": 8
+        },
+        "bufferTicks": 2,
+        "enemyAndDamageValues": "unchanged"
+      },
+      "movement": "held-intent-preserved-spell-windup-locks-actual-position-release-unlocks-next-world-step-moves",
+      "dodge": "legal-dodge-replaces-windup-or-recovery-retains-released-cost-cooldown-and-projectiles-does-not-bypass-stagger",
+      "buffer": "single-slot-frozen-target-consume-once-2-world-steps-reset-distinct-from-keyup",
+      "motionContract": [
+        "movementLocked",
+        "moving",
+        "moveIntent",
+        "dodgePath.from/to/startedTick/durationTicks"
+      ],
+      "moduleEvidence": {
+        "feedback": {
+          "source": "apps/courtyard/courtyard-combat-effects.mjs",
+          "audioSource": "apps/courtyard/courtyard-combat-audio.mjs",
+          "unitChecks": 10,
+          "total": 10,
+          "research": "/Users/shepard/.codex/tmp/immortal-combat-feel-20261023/feedback/feedback-research.txt",
+          "offlineAudioSample": "/Users/shepard/.codex/tmp/immortal-combat-feel-20261023/feedback/combat-cues.wav",
+          "subjectiveAudioAccepted": false,
+          "previousBatchChecks": 9,
+          "currentRegression": "formal-shot-direction-keeps-release-origin-through-opposite-walk-dodge-and-paused-redraw",
+          "currentTestLog": "/Users/shepard/.codex/tmp/immortal-combat-frames-20261024/docs-close-01/direct-tests.log"
+        },
+        "humanPresentation": {
+          "offlineReport": "/Users/shepard/.codex/tmp/immortal-combat-feel-20261023/body-preview-02/report.json",
+          "offlineChecks": 6,
+          "focusedReport": "/Users/shepard/.codex/tmp/immortal-combat-feel-20261023/body-preview-02/focused-report.json",
+          "focusedChecks": 5,
+          "checksArePersistentNodeTests": false,
+          "publicRuleClockReport": "/Users/shepard/.codex/tmp/immortal-combat-feel-20261023/body-clock-03/report.json",
+          "status": "whole-frame-implemented-offline-checked-native-sample-incomplete",
+          "handRepairOffline": {
+            "report": "/Users/shepard/.codex/tmp/immortal-combat-feel-20261023/hand-fix-06/report.json",
+            "cacheReport": "/Users/shepard/.codex/tmp/immortal-combat-feel-20261023/hand-fix-06/cache-final-report.json",
+            "unitLog": "/Users/shepard/.codex/tmp/immortal-combat-feel-20261023/hand-fix-06/unit-tests.log",
+            "swordFeedbackReport": "/Users/shepard/.codex/tmp/immortal-combat-feel-20261023/sword-feedback-06/report.json",
+            "scope": "offline-public-rule-clock-and-redraw-of-recorded-native-scenes-not-new-native-acceptance",
+            "unitChecks": {
+              "passed": 4,
+              "total": 4
+            },
+            "armBoneLengths": [
+              24,
+              21
+            ],
+            "maxWristDegrees": 70,
+            "palmScale": "fixed",
+            "elbowBranch": "fixed",
+            "textureAnchors": "shoulder-elbow-wrist-and-black-hilt",
+            "leftSpellForearmLayer": "adjusted",
+            "bladeCacheBounds": "complete-action-bounds-and-origin",
+            "alphaRangeCheck": {
+              "actions": [
+                "right attack",
+                "left attack",
+                "left spell"
+              ],
+              "quantizedSamples": 90,
+              "referenceCanvas": {
+                "width": 768,
+                "height": 640
+              },
+              "bodyScale": 222,
+              "tipMarginPixels": 4,
+              "passed": true
+            },
+            "actorDrawAlphaCheck": {
+              "cases": 4,
+              "referenceCanvas": {
+                "width": 768,
+                "height": 640
+              },
+              "rasterizationMarginPixels": 1,
+              "passed": true
+            },
+            "warmCache": {
+              "entries": 86,
+              "limit": 96,
+              "pixelBytes": 28613460,
+              "pixelLimit": 41943040,
+              "hits": 0,
+              "misses": 86
+            },
+            "idleExtraMisses": 0,
+            "sourceHashes": {
+              "apps/courtyard/courtyard-combat-rig.mjs": "41a7d7f210da1fa9e615aabab9626022cc50c59464c716ab8a2e2921dc5b24a9",
+              "apps/courtyard/courtyard-combat-actors.mjs": "ab8c45b430bfcd6559e6075971c925f340c29e9515f1f60715741581eabbaf5d",
+              "tests/unit/courtyard/courtyard-combat-rig.test.mjs": "26f9a2a84b2207e899eb530b9d9bac8e4ca5d23041aeece65cd124e3933d61d3",
+              "apps/courtyard/courtyard-combat-effects.mjs": "f468971390cb31f39e2ce764ff9d7161ee69b4910b0f311d534f393773c2ed4b"
+            },
+            "rootReviewedOfflineNoFxAndFx": true,
+            "astraLimitedOfflineReview": true,
+            "recordedSceneRedrawContactDistancesPx": {
+              "851": 0.3811085940663226,
+              "1001": 0.25929389716222684
+            },
+            "contactDistanceScope": "old-native-scenes-offline-redraw-at-112px-reference-height"
+          },
+          "previousOfflineReportsScope": "historical-part-based-renderer-not-current-whole-frame-acceptance",
+          "completeFrameEvidence": {
+            "report": "/Users/shepard/.codex/tmp/immortal-combat-frames-20261024/whole-frame-01/report.json",
+            "sourceFidelityReport": "/Users/shepard/.codex/tmp/immortal-combat-frames-20261024/offline-tests-01/report.json",
+            "unitChecks": {
+              "passed": 5,
+              "total": 5
+            },
+            "sourcePixelFixtures": 9,
+            "scalesPx": [
+              95,
+              112
+            ],
+            "rgbaComparisons": 18,
+            "pixelScope": "body-weapon-and-transparent-background-above-ground-shadow-only",
+            "sourceHashes": {
+              "apps/courtyard/courtyard-combat-actors.mjs": "bbbd92f34888d571cedef7fe5aa41879338c47c87ab309dd745fbbe86746e7f3",
+              "apps/courtyard/courtyard-combat-frame-metadata.mjs": "f16da43f273beacac4328dd38f5c795fe137579a77633922ff60e57e289ed4e0"
+            },
+            "rootOfflineSampleReview": "accepted-continuation-baseline-not-complete-animation-art-acceptance",
+            "visualQualityAccepted": false
+          }
+        },
+        "beast": {
+          "source": "apps/courtyard/courtyard-combat-beast-rig.mjs",
+          "sourceSha256": "f66d0f9cc77201dcf93f28037806041d11f86bf405ea3b5c0e1e43d0fac5dec3",
+          "unitChecks": 3,
+          "total": 3,
+          "offlineReport": "/Users/shepard/.codex/tmp/immortal-combat-feel-20261023/beast-preview-03/report.json",
+          "rootReviewedOfflinePreviews": [
+            "beast-preview-02",
+            "beast-preview-03"
+          ],
+          "offlineOutputFrameRateIsRuntimeFps": false
+        }
+      },
+      "electronEvidence": {
+        "status": "historical-visual-failed-current-whole-frame08-failed-no-combined-acceptance",
+        "scope": "macos-source-electron-native-input-completed-canvas-draw-observations",
+        "review": "/Users/shepard/.codex/tmp/immortal-combat-feel-20261023/qa-review.json",
+        "source": "/Users/shepard/.codex/tmp/immortal-combat-motion-20261023/qa-run-01/engaged-native.json",
+        "sourceSha256": "0712ddf3af630b015dfe3d76c5e215350525fd02347392cbd68b4820f28e22cf",
+        "runs": {
+          "qa-feel-03": {
+            "report": "/Users/shepard/.codex/tmp/immortal-combat-feel-20261023/qa-feel-03/report.json",
+            "reportSha256": "4c0214b063901d93916027124c0f2946afc3e245c1c60439f5647422c623eed1",
+            "status": "failed",
+            "passedLocalChecks": 10,
+            "initialTick": 763,
+            "finalTick": 1135,
+            "wallSeconds": 52.874077,
+            "sourceUnchanged": true,
+            "runtimeUnchanged": true,
+            "failure": "Error: Timed out single short input at tick 1134"
+          },
+          "qa-feel-04": {
+            "report": "/Users/shepard/.codex/tmp/immortal-combat-feel-20261023/qa-feel-04/report.json",
+            "reportSha256": "097e7f8c1a03c43c959d5a1eab71f454acc3655eb2a66999f31916d5bd33f5c5",
+            "status": "failed",
+            "passedLocalChecks": 2,
+            "initialTick": 763,
+            "finalTick": 936,
+            "wallSeconds": 30.752478,
+            "sourceUnchanged": true,
+            "runtimeUnchanged": true,
+            "failure": "AssertionError [ERR_ASSERTION]: renderer input observation must prove a real short buffer"
+          },
+          "qa-buffer-05": {
+            "report": "/Users/shepard/.codex/tmp/immortal-combat-feel-20261023/qa-buffer-05/report.json",
+            "reportSha256": "8bc1f9bf06ed595207e143c1a23aee98d8f83b464cc3612ea0b40c66713a9706",
+            "status": "failed",
+            "passedLocalChecks": 2,
+            "initialTick": 763,
+            "finalTick": 783,
+            "wallSeconds": 12.561388,
+            "sourceUnchanged": true,
+            "runtimeUnchanged": true,
+            "failure": "AssertionError [ERR_ASSERTION]: formal action remains while short input clears"
+          }
+        },
+        "bufferTargetFrozenAndConsumedOnce": true,
+        "nonemptyBufferPauseAndBlurClearVerified": false,
+        "qaOwnedWindowsClosed": true,
+        "handProblemFrames": "/Users/shepard/.codex/tmp/immortal-combat-feel-20261023/hand-review-02/frames.json",
+        "handRepairNativeAttempts": {
+          "qa-hand-06": {
+            "report": "/Users/shepard/.codex/tmp/immortal-combat-feel-20261023/qa-hand-06/report.json",
+            "reportSha256": "fd779648cdd442a46e515a117bb252619a390d9bdedae7a53ba6d8b499b93039",
+            "status": "failed",
+            "initialTick": 763,
+            "finalTick": 827,
+            "wallSeconds": 16.050146,
+            "passedPreparationChecks": 1,
+            "handFrameCount": 0,
+            "bufferExecuted": false,
+            "failure": "AssertionError [ERR_ASSERTION]: normal WASD did not reach the melee sample band",
+            "causeEvidence": "native-host-inactive-before-first-sample-action-document-focus-alone-insufficient",
+            "lifecycleInactiveAtUtc": "2026-10-23T17:05:59.397Z",
+            "failureInput": {
+              "hostActive": false,
+              "held": []
+            },
+            "sourceUnchanged": true,
+            "runtimeUnchanged": true,
+            "finalizationErrors": [],
+            "qaOwnedWindowsClosed": true
+          },
+          "qa-hand-07": {
+            "report": "/Users/shepard/.codex/tmp/immortal-combat-feel-20261023/qa-hand-07/report.json",
+            "reportSha256": "10719b1f2ff9397bd877597a735b5df593ad791718f58271f40417a6ea71e74d",
+            "status": "failed",
+            "initialTick": 763,
+            "finalTick": 849,
+            "wallSeconds": 28.647523,
+            "passedLocalChecks": 9,
+            "visualReview": {
+              "status": "pending-independent-inspection",
+              "handFrameCount": 22,
+              "knownBoundaries": [
+                {
+                  "kind": "maximum-horizontal-reach",
+                  "distanceMeters": 1.9,
+                  "status": "open",
+                  "note": "Blade/contact scale alignment at the maximum horizontal reach remains a separate visual debt."
+                }
+              ]
+            },
+            "failure": "Error: Timed out guard short continuation window at tick 848",
+            "sourceUnchanged": true,
+            "runtimeUnchanged": true,
+            "finalizationErrors": [],
+            "scope": "previous-part-based-presentation-native-local-observations-not-complete-pose-sample-acceptance"
+          }
+        },
+        "wholeFrameNativeAttempts": {
+          "qa-frames-08": {
+            "report": "/Users/shepard/.codex/tmp/immortal-combat-frames-20261024/qa-frames-08/report.json",
+            "reportSha256": "0be73b76004fa3d406bd6eb4a9b92d82775e5946a643b274cb8377bb87c8d690",
+            "reviewIndex": "/Users/shepard/.codex/tmp/immortal-combat-frames-20261024/qa-frames-08/review-index.json",
+            "status": "failed",
+            "scope": "current-whole-frame-right-attack-observation-distance-precondition-failed",
+            "initialTick": 763,
+            "finalTick": 776,
+            "wallSeconds": 11.06978,
+            "passedPreparationChecks": 1,
+            "actualHit": {
+              "actionId": "combat-action:1",
+              "tick": 774,
+              "amount": 25,
+              "projectileId": null,
+              "actualDistance": 0.7900000786781307
+            },
+            "requiredDistanceBand": {
+              "min": 1,
+              "max": 1.4,
+              "diagonal": false
+            },
+            "notExecuted": [
+              "left normal attack",
+              "left spell release to walking to dodge",
+              "diagonal melee"
+            ],
+            "sourceUnchanged": true,
+            "runtimeUnchanged": true,
+            "finalizationErrors": [],
+            "video": {
+              "status": "disabled",
+              "reason": "--no-video"
+            },
+            "includeBuffer": false,
+            "qaOwnedWindowsClosed": true,
+            "rootVisualReview": {
+              "frames": [
+                "observed-02-hand-attack-right-windup-773.png",
+                "observed-03-hand-attack-right-release-774.png"
+              ],
+              "scope": "whole-body-windup-release-readable-old-part-stretch-not-observed-hand-and-blade-occluded-at-0.79m",
+              "handAndTipQualityAccepted": false
+            },
+            "harnessVisualReviewStatus": "pending-independent-inspection-preserved-in-original-report"
+          }
+        }
+      },
+      "renderMetrics": {
+        "scope": "qa-feel-03-instrumented-canvas-draw-and-raf-callback-not-physical-display-fps",
+        "completedDraws": 4610,
+        "drawJsMs": {
+          "p50": 0.4,
+          "p95": 0.7
+        },
+        "rafCallbackIntervalMs": {
+          "p50": 5,
+          "p95": 6.2,
+          "max": 215.6
+        },
+        "wasdToFirstCompletedChangedDrawMs": {
+          "samples": 24,
+          "p95": 36.1
+        }
+      },
+      "remaining": [
+        "complete-opposite-leg-walk-cycle",
+        "left-right-attack-recovery-and-continuous-authored-blade-path",
+        "dedicated-left-dodge-and-hit",
+        "diagonal-attack-art",
+        "new-whole-frame-native-continuous-input-and-contact-geometry",
+        "nonempty-buffer-pause-and-native-blur-clearing",
+        "new-controls-native-save-and-reopen",
+        "old-save-entry",
+        "return-home-recheck",
+        "subjective-audio-review",
+        "windows-device-and-current-package",
+        "complete-SR007-and-SR013-acceptance",
+        "user-visual-review"
+      ],
+      "engineeringCheck": {
+        "status": "passed",
+        "previousVerification": {
+          "status": "passed",
+          "verifiedAt": "2026-10-24",
+          "commands": [
+            "python3 scripts/requirements/sr-manager.py refresh",
+            "python3 scripts/requirements/sr-manager.py validate",
+            "npm run check"
+          ],
+          "evidenceRoot": "/Users/shepard/.codex/tmp/immortal-combat-feel-20261023/docs-close-01",
+          "metrics": {
+            "modules": 159,
+            "references": 557,
+            "courtyardAssets": 27,
+            "documentEntries": 86,
+            "requirements": 40,
+            "tasks": 200,
+            "acceptanceCriteria": 120
+          },
+          "scope": "source-reference-and-document-consistency-not-visual-acceptance"
+        },
+        "verifiedAt": "2026-10-24",
+        "commands": [
+          "python3 scripts/requirements/sr-manager.py refresh",
+          "python3 scripts/requirements/sr-manager.py validate",
+          "npm run check",
+          "git diff --check"
+        ],
+        "evidenceRoot": "/Users/shepard/.codex/tmp/immortal-combat-frames-20261024/docs-close-01",
+        "metrics": {
+          "modules": 160,
+          "references": 557,
+          "courtyardAssets": 27,
+          "documentEntries": 87,
+          "requirements": 40,
+          "tasks": 200,
+          "acceptanceCriteria": 120
+        },
+        "scope": "source-reference-and-document-consistency-not-native-or-visual-acceptance",
+        "directUnitChecks": {
+          "passed": 15,
+          "total": 15,
+          "wholeFrame": 5,
+          "feedback": 10
+        }
+      },
+      "productionAndClinicSourcePolicy": "retain-existing-currentGoal-and-production-source; combat-QA-is-separate",
+      "previousMotionBatchEvidence": {
+        "updatedAt": "2026-10-23",
+        "reference": "docs/design/70-COURTYARD-FIRST-COMBAT.md",
+        "source": "apps/courtyard/courtyard-combat.mjs",
+        "scope": "forest-first-combat-actor-motion-contact-effects-and-real-hit-recovery",
+        "status": "impact-rules-offline-art-and-three-macos-electron-runs-verified",
+        "controls": {
+          "movement": "WASD",
+          "aim": "mouse-world-point",
+          "attack": "Digit1",
+          "spell": "Digit2",
+          "guard": "Digit3",
+          "dodge": "Space-toward-mouse",
+          "pause": "Escape-or-explicit-button",
+          "autoAttack": "basic-only-in-range-no-chasing"
+        },
+        "clock": "shared-100ms-world-tick-rendering-does-not-advance",
+        "inputFocus": "native-host-activity-clears-held-input-without-pausing-world; direct-run-03-verified-five-background-ticks",
+        "ruleChecks": {
+          "passed": 25,
+          "total": 25,
+          "newImpactCases": 9,
+          "report": "/Users/shepard/.codex/tmp/immortal-combat-motion-20261023/rules-report.json",
+          "log": "/Users/shepard/.codex/tmp/immortal-combat-motion-20261023/rules-tests.log"
+        },
+        "tuning": {
+          "source": "T-COMBAT-IMPACT-20261023",
+          "lightStaggerTicks": 2,
+          "heavyStaggerTicks": 3,
+          "protectionAfterStaggerTicks": 12,
+          "enemyInterruptedRecoveryTicks": 6,
+          "reactionRecordUntilTicks": 4
+        },
+        "actorMotion": {
+          "source": "apps/courtyard/courtyard-combat-actors.mjs",
+          "status": "implemented-offline-36poses-8checks-verified",
+          "poseCount": 36,
+          "referenceHeightCssPx": 111,
+          "focusedChecks": {
+            "passed": 8,
+            "total": 8
+          },
+          "report": "/Users/shepard/.codex/tmp/immortal-combat-motion-20261023/poses-06/report.json",
+          "contactSheet": "/Users/shepard/.codex/tmp/immortal-combat-motion-20261023/poses-06/actor-poses-111.png",
+          "provenance": "assets/courtyard/combat-actors-v1/provenance.json",
+          "animationScope": "keyposes-and-part-deformation-with-right-S01-12-body-weapon-frames; first-combat-left-right-directions",
+          "playerHitDirectionEvidence": {
+            "left": "offline-poses06-and-source",
+            "right": "live-macos-electron"
+          }
+        },
+        "contactEffects": {
+          "source": "apps/courtyard/courtyard-combat-effects.mjs",
+          "status": "offline-fixtures-verified",
+          "fixtureCases": 8,
+          "repeatPixelIdentity": true,
+          "worldUnchanged": true,
+          "report": "/Users/shepard/.codex/tmp/immortal-combat-motion-20261023/vfx-review/report.json",
+          "electronAcceptance": true
+        },
+        "engineeringCheck": "passed",
+        "electronEvidence": {
+          "root": "/Users/shepard/.codex/tmp/immortal-combat-motion-20261023",
+          "status": "three-separate-runs-passed",
+          "continuousSingleRun": false,
+          "normal": {
+            "report": "qa-run-01/report.json",
+            "status": "passed",
+            "checks": 33,
+            "initialTick": 423,
+            "finalTick": 1087,
+            "wallSeconds": 108.629018,
+            "errors": 0,
+            "finalizationErrors": 0,
+            "sourceUnchanged": true,
+            "runtimeUnchanged": true
+          },
+          "defeat": {
+            "report": "qa-defeat-01/report.json",
+            "status": "passed",
+            "checks": 3,
+            "initialTick": 763,
+            "finalTick": 1333,
+            "wallSeconds": 64.839664,
+            "source": "qa-run-01/engaged-native.json",
+            "sourceSha256": "0712ddf3af630b015dfe3d76c5e215350525fd02347392cbd68b4820f28e22cf",
+            "errors": 0,
+            "finalizationErrors": 0,
+            "sourceUnchanged": true,
+            "runtimeUnchanged": true
+          },
+          "nativeReopenVerifiedThisRun": false,
+          "orientation": {
+            "report": "qa-orientation-02/report.json",
+            "status": "passed",
+            "checks": 18,
+            "initialTick": 763,
+            "finalTick": 881,
+            "wallSeconds": 42.211894,
+            "source": "qa-run-01/engaged-native.json",
+            "sourceSha256": "0712ddf3af630b015dfe3d76c5e215350525fd02347392cbd68b4820f28e22cf",
+            "errors": 0,
+            "finalizationErrors": 0,
+            "sourceUnchanged": true,
+            "runtimeUnchanged": true,
+            "capture": "two-frames-plus-300ms-after-pause",
+            "harnessSha256": "27a1698d10159ca5c5bd1a4178e6922a5a31f8482d34376794629df1c3f2184e",
+            "runtimeFreeze": "runtime-qa-02-freeze.json",
+            "runtimeFreezeSha256": "9619e171e646bba5d4b831517e87b1f78ccde54c28f339038bfdb1d097e5199c",
+            "sameFunctionAndAssetPathsAsNormal": 251
+          },
+          "hitRecoveryScope": "event-and-current-hit-pose-plus-pause; complete-duration-windows-covered-by-node-rules; full-direction-matrix-open"
+        },
+        "qaSource": {
+          "path": "/Users/shepard/.codex/tmp/immortal-combat-20261023/preparation-01/sect-save.json",
+          "tick": 423,
+          "sha256": "402039abdf07b9f3d9db21063368080970461fc07616de947ed79a6362d52f77"
+        },
+        "deferredThisRun": [
+          "new-controls-native-save-and-reopen",
+          "old-save-entry",
+          "return-home-recheck",
+          "automatic-combat-polish-and-balance"
+        ],
+        "artStatus": "root-reviewed-final-live-left-right-release-contact-guard-and-both-down-poses-user-review-pending",
+        "closesWholeRequirements": false,
+        "productionAndClinicSourcePolicy": "retain-existing-currentGoal-and-production-source; combat-QA-is-separate",
+        "previousControlBatchEvidence": {
+          "updatedAt": "2026-10-23",
+          "reference": "docs/design/70-COURTYARD-FIRST-COMBAT.md",
+          "source": "apps/courtyard/courtyard-combat.mjs",
+          "scope": "independent-forest-first-battle-wasd-mouse-aim-hotkeys-and-optional-in-range-basic-auto-attack",
+          "status": "implemented-node-rules-verified-macos-electron-segmented-combat-verified",
+          "controls": {
+            "movement": "WASD",
+            "aim": "mouse-world-point",
+            "attack": "Digit1",
+            "spell": "Digit2",
+            "guard": "Digit3",
+            "dodge": "Space-toward-mouse",
+            "pause": "Escape-or-explicit-button",
+            "autoAttack": "basic-only-in-range-no-chasing"
+          },
+          "clock": "shared-100ms-world-tick-rendering-does-not-advance",
+          "inputFocus": "native-host-activity-clears-held-input-without-pausing-world; direct-run-03-verified-five-background-ticks",
+          "ruleChecks": {
+            "passed": 28,
+            "total": 28
+          },
+          "engineeringCheck": "passed",
+          "nodeVictoryEvidence": "/Users/shepard/.codex/tmp/immortal-combat-20261023/victory-chain-report.json",
+          "qaSource": {
+            "path": "/Users/shepard/.codex/tmp/immortal-combat-20261023/preparation-01/sect-save.json",
+            "tick": 423,
+            "sha256": "402039abdf07b9f3d9db21063368080970461fc07616de947ed79a6362d52f77"
+          },
+          "historicalButtonAndNativeSaveEvidence": "/Users/shepard/.codex/tmp/immortal-combat-20261023/run-04/report.json",
+          "deferredThisRun": [
+            "new-controls-native-save-and-reopen",
+            "old-save-entry",
+            "return-home-recheck"
+          ],
+          "artStatus": "root-reviewed-exploration-battle-projectile-and-guard-screenshots-user-review-pending",
+          "closesWholeRequirements": false,
+          "productionAndClinicSourcePolicy": "retain-existing-currentGoal-and-production-source; combat-QA-is-separate",
+          "electronEvidence": {
+            "root": "/Users/shepard/.codex/tmp/immortal-combat-20261023",
+            "initialPartialRun": "direct-run-01/report.json",
+            "initialPassedChecks": 8,
+            "nativeBlurRun": "direct-run-03/report.json",
+            "finalRun": "direct-run-04/report.json",
+            "finalStatus": "passed",
+            "finalChecks": 9,
+            "initialTick": 834,
+            "finalTick": 972,
+            "wallSeconds": 24.511037,
+            "errors": 0,
+            "finalizationErrors": 0,
+            "continuousSingleRun": false,
+            "sourceUnchanged": true,
+            "runtimeUnchanged": true,
+            "nativeReopenVerifiedThisRun": false,
+            "runtimeFreezeSha256": "8b4418a63e425ca178d08f48f59fd7c063596a4ee30f98bd2e2d292eefb8456f"
+          },
+          "sourceReadback": {
+            "coreCombatFilesCompared": 8,
+            "matchesFinalFrozenRuntime": true
+          }
+        },
+        "renderInterpolation": "read-only-less-than-one-world-tick-while-running-frozen-when-paused",
+        "runtimeFreeze": {
+          "root": "/Users/shepard/.codex/tmp/immortal-combat-motion-20261023/runtime-01",
+          "manifest": "/Users/shepard/.codex/tmp/immortal-combat-motion-20261023/runtime-01-freeze.json",
+          "files": 388,
+          "sha256": "11b1cd6453d75f1b6b17a03881607456fc03990c6cfc4780ef50c1c675a3ebce"
+        },
+        "sourceReadback": {
+          "inputBindingsByteEquivalent": true,
+          "coreCombatFilesCompared": 6,
+          "matchesFrozenRuntime": true,
+          "rulesReportFilesCompared": 5,
+          "matchesRulesReport": true,
+          "orientationRuntimeFunctionAssetPathsEqual": 251,
+          "currentCoreSourceAndBatchAssetFilesCompared": 40,
+          "matchesCurrentSourceAndAssets": true,
+          "bothFreezeFileCount": 388,
+          "onlyHarnessDiffersBetweenFreezes": true,
+          "finalOrientationScreenshotsRootReviewed": true
+        },
+        "engineeringCheckDetails": {
+          "command": "npm run check",
+          "verifiedBy": "root-agent",
+          "status": "passed",
+          "metrics": {
+            "modules": 151,
+            "references": 535,
+            "courtyardAssets": 27,
+            "documentEntries": 85,
+            "requirements": 40,
+            "tasks": 200,
+            "acceptanceCriteria": 120
+          },
+          "dependencies": "acyclic",
+          "sourcePaths": "valid",
+          "finalGitDiffCheck": "passed"
+        }
+      },
+      "previousArtStatus": "user-rejected-deformed-hands-palm-wrist-elbow-rework-in-progress",
+      "knownVisualBoundaries": [
+        {
+          "kind": "right-trail-visible-tip-offset",
+          "status": "open",
+          "approxPixels": 3.8,
+          "source": "root-offline-06-visual-review",
+          "version": "historical-part-based-hand-repair06",
+          "currentWholeFrameMeasurement": false
+        },
+        {
+          "kind": "maximum-horizontal-reach",
+          "status": "open",
+          "distanceMeters": 1.9,
+          "approxShortfallPixels": [
+            10,
+            30
+          ],
+          "source": "/Users/shepard/.codex/tmp/immortal-combat-feel-20261023/hand-fix-06/report.json",
+          "version": "historical-part-based-hand-repair06",
+          "currentWholeFrameMeasurement": false
+        },
+        {
+          "kind": "current-whole-frame-contact-and-maximum-reach",
+          "status": "pending-independent-geometry-review",
+          "native08Limitation": "0.79m-overlap-occludes-hand-and-blade"
+        }
+      ],
+      "presentationContract": {
+        "status": "runtime-implemented-offline-checked-native-focused-acceptance-incomplete",
+        "humanRuntime": "complete-pose-png-atlas-blit-selected-by-read-only-action-phase",
+        "humanRuntimeBypasses": [
+          "IK",
+          "mesh-deformation",
+          "leg-splitting",
+          "separate-sword-transform"
+        ],
+        "retained": [
+          "cast-windup-stop-release-resume-move-dodge",
+          "shared-authoritative-100ms-world-step",
+          "read-only-position-interpolation",
+          "existing-beast-presentation"
+        ],
+        "metadataMustRecord": [
+          "actual-material-provenance",
+          "action-and-phase-mapping"
+        ],
+        "existingS01": {
+          "reference": "assets/characters/shen-yan/cast-study-v1/README.md",
+          "frames": 12,
+          "production": "single-master-offline-2d-mesh-output",
+          "new-frame-by-frame-drawing": false
+        },
+        "handRepair06": "historical-part-deformation-evidence-not-new-material-production-for-this-sample",
+        "walkingCandidates": {
+          "generator": "built-in-imagegen",
+          "completePosesPerFacing": 6,
+          "facings": [
+            "left",
+            "right"
+          ],
+          "status": "four-candidates-reviewed-all-failed-opposite-leg-gait",
+          "approvalBeforeProjectImport": true,
+          "attemptsPerFacing": 2,
+          "candidateSheets": 4,
+          "acceptedSheets": 0,
+          "importedSheets": 0,
+          "stopped": true,
+          "provenance": "/Users/shepard/.codex/tmp/immortal-combat-feel-20261023/full-frame-walk-candidates/provenance.json",
+          "review": "/Users/shepard/.codex/tmp/immortal-combat-feel-20261023/full-frame-walk-candidates/review.md"
+        },
+        "materialGaps": [
+          "complete-opposite-leg-walk-cycle",
+          "left-right-attack-recovery-and-continuous-authored-blade-path",
+          "dedicated-left-dodge-and-hit",
+          "diagonal-attack-art"
+        ],
+        "humanProductionLoadsRigLimbs": false,
+        "releaseToMovement": "release-step-whole-action-next-world-step-accepted-moveIntent-whole-walk-dodge-hit-down-priority",
+        "currentSwordTrail": [],
+        "trueContactEffectsRetained": true
+      }
+    },
+    "currentClinicAcceptance": {
+      "reference": "docs/design/62-EAST-SERVICES-INTEGRATION.md#14-医庐正常营建与一次诊疗",
+      "updated": "2026-10-23",
+      "status": "normal-construction-one-treatment-native-reopen-passed",
+      "source": "/Users/shepard/.codex/tmp/immortal-clinic-20261023/supplies-clinic-02/world/sect-save.json",
+      "sourceSha256": "528dd6cb30967438310afc15787ac57a4388e9a671e302ae21d8b27c6fe1ae56",
+      "worldTick": 261253,
+      "paused": true,
+      "report": "/Users/shepard/.codex/tmp/immortal-clinic-20261023/supplies-clinic-02/report.json",
+      "workOrderId": "work:site-service:building:yunxiu:17:6681",
+      "finishedTick": 261247,
+      "progressTicks": 80,
+      "input": {
+        "herb": 1,
+        "cleanWater": 1
+      },
+      "patientId": "person:cheng-wenzhou",
+      "woundBefore": 35,
+      "woundAfter": 31,
+      "nativeSaveReopenExact": true,
+      "wholeRequirementStatusChanged": false,
+      "independentAudit": "/Users/shepard/.codex/tmp/immortal-clinic-20261023/research/audit-clinic-final.json",
+      "physicalSlots": {
+        "tick": 261183,
+        "worker": {
+          "position": {
+            "x": 197.5,
+            "y": 44.7
+          },
+          "slot": "doctor:1"
+        },
+        "patient": {
+          "position": {
+            "x": 198.4,
+            "y": 44.7
+          },
+          "slot": "consult:1"
+        }
+      },
+      "currentWorkspaceIntegration": {
+        "status": "passed",
+        "report": "/Users/shepard/.codex/tmp/immortal-clinic-20261023/current-integration-01/report.json",
+        "initialTick": 261253,
+        "finalTick": 261253,
+        "wallSeconds": 73.481916,
+        "nativeExact": true,
+        "sourceUnchanged": true,
+        "runtimeUnchanged": true,
+        "errors": [],
+        "finalizationErrors": [],
+        "scope": "exact load/save/native close-reopen only; no treatment advancement",
+        "runtimeIncludesConcurrentCombatChanges": true,
+        "frozenManifest": "/Users/shepard/.codex/tmp/immortal-clinic-20261023/final-runtime-snapshot-sha256.json"
+      }
+    },
+    "currentGuesthouse": {
+      "reference": "docs/design/71-GUESTHOUSE-INTEGRATION.md",
+      "decisionId": "U-167",
+      "status": "level-one-finite-fixture-desktop-verified",
+      "platform": "macOS-source-Electron",
+      "physicalGuestBeds": 2,
+      "normalContinuationSource": "/Users/shepard/.codex/tmp/immortal-clinic-20261023/supplies-clinic-02/world/sect-save.json",
+      "normalContinuationSha256": "528dd6cb30967438310afc15787ac57a4388e9a671e302ae21d8b27c6fe1ae56",
+      "normalContinuationTick": 261253,
+      "normalSourceUnchanged": true,
+      "normalConstruction": "not-run",
+      "runtime": "/Users/shepard/.codex/tmp/immortal-guesthouse-20261023/runtime-ui-01",
+      "visualRuntime": "/Users/shepard/.codex/tmp/immortal-guesthouse-20261023/runtime-visual-02",
+      "visualEvidence": "/Users/shepard/.codex/tmp/immortal-guesthouse-20261023/visual-02/report.json",
+      "desktop": {
+        "lodging": {
+          "status": "passed",
+          "mode": "fixture",
+          "report": "/Users/shepard/.codex/tmp/immortal-guesthouse-20261023/ui-fixture-03/report.json",
+          "initialTick": 1656,
+          "finalTick": 3851,
+          "wallSeconds": 235.557720083,
+          "checksPassed": 7,
+          "errors": [],
+          "sourceUnchanged": true,
+          "runtimeUnchanged": true,
+          "nativeExact": true
+        },
+        "construction": {
+          "status": "passed",
+          "mode": "fixture",
+          "report": "/Users/shepard/.codex/tmp/immortal-guesthouse-20261023/build-fixture-01/report.json",
+          "initialTick": 646,
+          "finalTick": 1700,
+          "wallSeconds": 114.379689209,
+          "checksPassed": 3,
+          "errors": [],
+          "sourceUnchanged": true,
+          "runtimeUnchanged": true,
+          "nativeExact": true
+        }
+      },
+      "preservedFailedRuns": [
+        "ui-fixture-01",
+        "ui-fixture-02"
+      ],
+      "independentAudit": {
+        "agent": "GPT-6.1-sol / sol_next_stage_scope",
+        "result": "passed",
+        "nativeCheckpoints": 6,
+        "coreSourceFiles": 12
+      },
+      "remaining": [
+        "normal-source-funding-construction",
+        "Windows-device",
+        "full-SR-AC"
+      ],
+      "wholeRequirementStatusChanged": false
+    },
+    "currentDiscipleExpeditions": {
+      "decisionId": "U-168",
+      "reference": "docs/design/72-DISCIPLE-EXPEDITIONS.md",
+      "status": "implemented-and-macos-desktop-verified",
+      "evidenceRoot": "/Users/shepard/.codex/tmp/immortal-disciple-expedition-20261023",
+      "finalRuntime": "runtime-final-05",
+      "finalDesktop": "desktop-04",
+      "nativeSave": "/Users/shepard/.codex/tmp/immortal-disciple-expedition-20261023/desktop-04/world/sect-save.json",
+      "nativeTick": 263635,
+      "nativeSha256": "4ba6821886da6e1b254bab2111a646c301497f9fbe52341e4c42fb4e69023ede",
+      "manualPause": true,
+      "newExpeditionsEnabled": false,
+      "sourceSave": "/Users/shepard/.codex/tmp/immortal-clinic-20261023/supplies-clinic-02/world/sect-save.json",
+      "sourceSha256": "528dd6cb30967438310afc15787ac57a4388e9a671e302ae21d8b27c6fe1ae56",
+      "sourceUnchanged": true,
+      "normalContinuity": "original clinic save -> desktop-02 preserved preparation tick261473 -> desktop-04 tick263635; failed runs retained",
+      "validation": {
+        "focusedTests": 21,
+        "nativeExactReopens": [
+          261473,
+          261865,
+          263538
+        ],
+        "desktopWallSeconds": 388.786318708,
+        "errors": 0,
+        "independentAudit": "/Users/shepard/.codex/tmp/immortal-disciple-expedition-20261023/final-independent-audit.json",
+        "frozenFiles": 434,
+        "runtimeFilesCompared": 8
+      },
+      "remaining": [
+        "Windows hardware",
+        "broader regions and events",
+        "long-term balance",
+        "whole SR/AC"
+      ],
+      "closesWholeRequirements": false,
+      "publicationStatus": "unchanged"
+    },
+    "currentDiscipleDevelopment": {
+      "decisionId": "U-169",
+      "reference": "docs/design/74-DISCIPLE-DEVELOPMENT.md",
+      "status": "implemented-and-macos-scoped-verified",
+      "evidenceRoot": "/Users/shepard/.codex/tmp/immortal-disciple-development-20261025",
+      "businessRuntime": "runtime-final-04",
+      "currentIntegrationRuntime": "runtime-current-06",
+      "normalSource": "/Users/shepard/.codex/tmp/immortal-disciple-expedition-20261023/desktop-04/world/sect-save.json",
+      "normalSourceSha256": "4ba6821886da6e1b254bab2111a646c301497f9fbe52341e4c42fb4e69023ede",
+      "nativeSave": "/Users/shepard/.codex/tmp/immortal-disciple-development-20261025/desktop-03/world/sect-save.json",
+      "nativeTick": 267998,
+      "nativeSha256": "4dfeb4f5df692ee8b9bc160373e907486d62c1e0a7adeb506e6f9f3dfab5090e",
+      "manualPause": true,
+      "workFocus": "balanced",
+      "newExpeditionsEnabled": false,
+      "nativeSegments": [
+        {
+          "run": "desktop-02",
+          "status": "failed-after-persisted-recommendations",
+          "finalTick": 264262
+        },
+        {
+          "run": "desktop-03",
+          "status": "passed",
+          "initialTick": 264262,
+          "finalTick": 267998,
+          "wallSeconds": 441.464084833,
+          "errors": 0,
+          "nativeClosed": true
+        }
+      ],
+      "continuousSingleRun": false,
+      "validation": {
+        "integrationTests": 68,
+        "spatialTests": 19,
+        "domTests": 1,
+        "groupsOverlap": true,
+        "nativeExactReopensAcrossSegments": 5,
+        "independentChecks": 17,
+        "independentAudit": "/Users/shepard/.codex/tmp/immortal-disciple-development-20261025/desktop-03-independent-audit.json",
+        "currentRuntimeEquivalenceSteps": 200,
+        "currentNativeReadback": "/Users/shepard/.codex/tmp/immortal-disciple-development-20261025/current-native-01/result.json",
+        "currentNativeWorldSteps": 0,
+        "batchOwnedSourceFilesMatch": 9
+      },
+      "remaining": [
+        "Windows hardware",
+        "long-term balance",
+        "full sect office prerequisite chain",
+        "whole SR/AC"
+      ],
+      "closesWholeRequirements": false,
+      "publicationStatus": "unchanged"
+    },
+    "currentSectSustenance": {
+      "decisionId": "U-170",
+      "reference": "docs/design/75-SECT-SUSTENANCE.md",
+      "status": "implemented-node-and-native-slice-verified",
+      "evidenceRoot": "/Users/shepard/.codex/tmp/immortal-sect-sustenance-20261025",
+      "normalSource": "/Users/shepard/.codex/tmp/immortal-disciple-development-20261025/desktop-03/world/sect-save.json",
+      "normalSourceSha256": "4dfeb4f5df692ee8b9bc160373e907486d62c1e0a7adeb506e6f9f3dfab5090e",
+      "normalSourceTick": 267998,
+      "nodeResult": "path-07/result.json",
+      "nodeFinalTick": 272128,
+      "nativeStatus": "passed-segmented-continuation",
+      "closesWholeRequirements": false,
+      "publicationStatus": "unchanged",
+      "nativeResult": "desktop-07/result.json",
+      "nativeFinalTick": 272332,
+      "nativeAwayStart": 270016,
+      "nativeAwayEnd": 272082,
+      "nativeSegments": [
+        "desktop-03",
+        "desktop-04",
+        "desktop-05",
+        "desktop-06",
+        "desktop-07"
+      ],
+      "currentNormalSave": "/Users/shepard/.codex/tmp/immortal-sect-sustenance-20261025/desktop-07/world/sect-save.json",
+      "currentNormalSaveSha256": "0bbbc01fa84b5d4c10990c377c4448eab71b54a802cc4e6ddde8448b05da96ac",
+      "nativeClosed": true,
+      "nativeExact": true,
+      "limits": [
+        "long-term-supply-balance",
+        "Windows",
+        "whole-SR-AC",
+        "release"
+      ],
+      "nativeReturnObservedTick": 272131,
+      "nativeReturnSavedTick": 272158,
+      "independentAudit": "audit-native-final.json",
+      "independentAuditPassed": 10,
+      "nativeSaveReopenPairs": 13,
+      "currentTreeException": {
+        "file": "apps/courtyard/courtyard-combat.mjs",
+        "scope": "parallel credits dialog not covered by this frozen native acceptance",
+        "taskHooksUnchanged": true
+      },
+      "finalEngineeringCheck": {
+        "status": "failed-parallel-art-reference",
+        "log": "final-check.log",
+        "missing": "assets/courtyard/combat-pixel-v1/CREDITS.md",
+        "earlierTaskCheck": "passed",
+        "requirementsValidation": "passed"
+      }
+    },
+    "currentDiscipleCultivation": {
+      "reference": "docs/design/76-DISCIPLE-CULTIVATION-PROGRESSION.md",
+      "status": "functional-segmented-native-verification-passed-responsiveness-open",
+      "evidenceRoot": "/Users/shepard/.codex/tmp/immortal-sect-organization-20261025",
+      "normalSource": "/Users/shepard/.codex/tmp/immortal-sect-sustenance-20261025/desktop-07/world/sect-save.json",
+      "normalSourceSha256": "0bbbc01fa84b5d4c10990c377c4448eab71b54a802cc4e6ddde8448b05da96ac",
+      "normalSourceTick": 272332,
+      "closesWholeRequirements": false,
+      "publicationStatus": "unchanged",
+      "latestNativeSource": "/Users/shepard/.codex/tmp/immortal-sect-organization-20261025/reopen-01/world/sect-save.json",
+      "latestNativeTick": 280680,
+      "latestNativeStatus": "zero-step-public-panel-and-native-save-reopen-passed",
+      "remainingVerification": [
+        "approach-responsiveness",
+        "known-baseline-requester-clear-test",
+        "long-term-balance",
+        "Windows"
+      ],
+      "responsiveness": "approach-click-exceeded-15-seconds-unresolved",
+      "latestNativeSha256": "2eddcadf0142fca9b49d55b7b5f2198f7678badbbb9caad151dbd2d7ee88e50c",
+      "finalReport": "/Users/shepard/.codex/tmp/immortal-sect-organization-20261025/reopen-01/report.json",
+      "publicPanel": "/Users/shepard/.codex/tmp/immortal-sect-organization-20261025/desktop-03/public-cultivation.png",
+      "priorFailedReportsPreserved": [
+        "desktop-01",
+        "desktop-02",
+        "desktop-03"
+      ],
+      "functionalVerification": "segmented-macOS-source-Electron",
+      "nativeReopenChecks": 10
+    },
+    "currentDiscipleBreakthrough": {
+      "reference": "docs/design/77-DISCIPLE-BREAKTHROUGH-LOOP.md",
+      "status": "implemented-and-segmented-macos-native-verified",
+      "evidenceRoot": "/Users/shepard/.codex/tmp/immortal-disciple-breakthrough-20261025",
+      "normalSource": "/Users/shepard/.codex/tmp/immortal-sect-organization-20261025/reopen-01/world/sect-save.json",
+      "normalSourceTick": 280680,
+      "normalSourceSha256": "2eddcadf0142fca9b49d55b7b5f2198f7678badbbb9caad151dbd2d7ee88e50c",
+      "preparationNative": "preparation-native-01/report.json",
+      "preparationNativeTick": 282724,
+      "coreNative": "core-native-01/report.json",
+      "approachResponse": "response-native-01/report.json",
+      "approachClickWallMs": 3720.419333,
+      "fullResponsivenessVerified": false,
+      "closesWholeRequirements": false,
+      "publicationStatus": "unchanged",
+      "nativeSave": "/Users/shepard/.codex/tmp/immortal-disciple-breakthrough-20261025/core-native-01/world/sect-save.json",
+      "nativeTick": 284504,
+      "nativeSha256": "1afb8597bd37fd914f46e6dba5da31129ebc9963329b1b3f2b053b8604ae64ea",
+      "manualPause": true,
+      "completedTick": 284309,
+      "realm": 2,
+      "nativeReopenPairs": 5,
+      "coreErrors": [],
+      "nativeClosed": true,
+      "nativeExact": true,
+      "independentAudit": "final-independent-audit.json",
+      "remaining": [
+        "noticeable-approach-delay",
+        "known-baseline-requester-clear-test",
+        "Windows",
+        "long-term-balance",
+        "whole-SR-AC"
+      ]
+    },
+    "currentApproachResponse": {
+      "reference": "docs/design/78-APPROACH-RESPONSE.md",
+      "status": "functional-native-verified-response-improved-200ms-target-open",
+      "evidenceRoot": "/Users/shepard/.codex/tmp/immortal-approach-response-20261025",
+      "reports": [
+        "legacy-native-01/report.json",
+        "legacy-native-02/report.json",
+        "ordinary-native-01/report.json"
+      ],
+      "functionalVerified": true,
+      "performanceTargetMs": 200,
+      "performanceTargetPassed": false,
+      "maxRafGapMs": 206.5,
+      "nativeReopenPairs": 4,
+      "latestNativeSave": "/Users/shepard/.codex/tmp/immortal-approach-response-20261025/ordinary-native-01/world/sect-save.json",
+      "latestNativeTick": 284802,
+      "latestNativeSha256": "15170c99e4544729b8370dc735a047c0d9a719f29a8d4469323c2a6d022691fa",
+      "closesWholeRequirements": false,
+      "publicationStatus": "unchanged"
+    },
+    "currentScenarioVerification": {
+      "decisionId": "U-172",
+      "mode": "targeted-configured-scenario",
+      "outcomes": "formal simulation and public actions",
+      "persistence": "storage changes and stage closure"
+    },
+    "currentWorkSpecialization": {
+      "reference": "docs/design/79-DISCIPLE-WORK-SPECIALIZATION.md",
+      "status": "implemented-targeted-scenario-and-component-verified",
+      "tuningId": "T-WORK-SPECIALIZATION-20261025",
+      "closesWholeRequirements": false,
+      "verification": {
+        "rulesAndIndependentBoundaries": "10/10",
+        "scenarioChecks": "9",
+        "worldSteps": 264,
+        "evidenceRoot": "/Users/shepard/.codex/tmp/immortal-work-specialization-20261025",
+        "nativePlaythrough": "not-in-this-batch",
+        "persistence": "deferred-per-U-172"
+      }
+    },
+    "currentExpeditionRecovery": {
+      "reference": "docs/design/80-EXPEDITION-RECOVERY.md",
+      "status": "implemented-targeted-scenarios-and-component-verified",
+      "scenarioPolicy": "U-172",
+      "closesWholeRequirements": false,
+      "verification": {
+        "targetedUnitAndIndependentBoundaries": "7/7",
+        "configuredScenarios": 3,
+        "component": "actual-browser-reviewed",
+        "evidenceRoot": "/Users/shepard/.codex/tmp/immortal-expedition-recovery-20261025",
+        "persistence": "not-in-this-batch-per-U-172"
+      }
+    },
+    "currentDiscipleOnboarding": {
+      "reference": "docs/design/81-DISCIPLE-ONBOARDING.md",
+      "status": "targeted-scenario-and-person-dialogue-verified",
+      "scenarioPolicy": "U-172",
+      "productChanged": false,
+      "closesWholeRequirements": false,
+      "verification": {
+        "targetedUnits": "5/5",
+        "withAdjacentPendingBedTests": "8/8",
+        "scenarioChecks": 8,
+        "worldStepsAfterAdmission": 264,
+        "evidenceRoot": "/Users/shepard/.codex/tmp/immortal-disciple-onboarding-20261025",
+        "nativePlaythrough": "not-in-this-batch",
+        "persistence": "not-in-this-batch-per-U-172"
+      }
+    },
+    "currentExpeditionPurpose": {
+      "reference": "docs/design/82-EXPEDITION-PURPOSE.md",
+      "status": "targeted-scenario-and-component-verified-with-preexisting-contact-radius-failure",
+      "scenarioPolicy": "U-172",
+      "closesWholeRequirements": false,
+      "verification": {
+        "targetedUnits": "9/9",
+        "recoveryRegression": "7/7",
+        "adjacent": "18/19; entry contact-radius failure preserved",
+        "scenarioChecks": 9,
+        "evidenceRoot": "/Users/shepard/.codex/tmp/immortal-expedition-purpose-20261025",
+        "nativePlaythrough": "not-in-this-batch"
+      }
+    },
+    "currentEncounterDistance": {
+      "reference": "docs/design/83-ENCOUNTER-DISTANCE.md",
+      "status": "targeted-rules-and-two-return-scenarios-verified",
+      "scenarioPolicy": "U-172",
+      "closesWholeRequirements": false,
+      "verification": {
+        "distanceTests": "10/10",
+        "purposeAndRecovery": "16/16",
+        "originalExpeditions": "7/7",
+        "scenarioChecks": 7,
+        "evidenceRoot": "/Users/shepard/.codex/tmp/immortal-encounter-distance-20261025",
+        "nativePlaythrough": "not-in-this-batch"
+      }
+    },
+    "currentExpeditionMedicine": {
+      "reference": "docs/design/84-EXPEDITION-MEDICINE.md",
+      "status": "four-scenarios-through-production-and-component-verified",
+      "scenarioPolicy": "U-172",
+      "closesWholeRequirements": false,
+      "verification": {
+        "rootTests": "39/39",
+        "scenarioChecks": 11,
+        "evidenceRoot": "/Users/shepard/.codex/tmp/immortal-expedition-medicine-20261025",
+        "finalScenario": "scenario-03/report.json",
+        "runtimeHashes": 14,
+        "nativePlaythrough": "not-in-this-batch"
+      }
+    },
+    "currentMedicineSupply": {
+      "reference": "docs/design/85-MEDICINE-SUPPLY.md",
+      "status": "targeted-scenarios-and-component-verified",
+      "scenarioPolicy": "U-172",
+      "closesWholeRequirements": false,
+      "verification": {
+        "rootTests": "61/61",
+        "finalBoundaryRerun": "6/6",
+        "scenarioChecks": 10,
+        "evidenceRoot": "/Users/shepard/.codex/tmp/immortal-medicine-supply-20261025",
+        "finalScenario": "scenario-04/report.json",
+        "runtimeHashes": 14,
+        "nativePlaythrough": "not-in-this-batch",
+        "persistence": "deferred-per-U-172"
+      }
+    },
+    "currentMedicineMaterials": {
+      "reference": "docs/design/86-MEDICINE-MATERIALS.md",
+      "status": "targeted-scenarios-and-management-component-verified",
+      "scenarioPolicy": "U-172",
+      "closesWholeRequirements": false,
+      "verification": {
+        "rootUniqueTests": "61/61",
+        "scenarioChecks": 10,
+        "componentChecks": 6,
+        "evidenceRoot": "/Users/shepard/.codex/tmp/immortal-medicine-materials-20261025",
+        "finalScenario": "scenario-02/report.json",
+        "finalComponent": "panel-03/report.json",
+        "runtimeHashes": 14,
+        "componentHashes": 5,
+        "nativePlaythrough": "not-in-this-batch",
+        "persistence": "deferred-per-U-172",
+        "construction": "configured-completed-facilities"
+      }
+    },
+    "currentPharmacistDevelopment": {
+      "reference": "docs/design/87-PHARMACIST-DEVELOPMENT.md",
+      "status": "targeted-scenarios-and-components-verified",
+      "scenarioPolicy": "U-172",
+      "closesWholeRequirements": false,
+      "verification": {
+        "rootUniqueTests": "69/69",
+        "scenarioChecks": 11,
+        "componentChecks": 6,
+        "adjacentDOMChecks": 1,
+        "evidenceRoot": "/Users/shepard/.codex/tmp/immortal-pharmacist-development-20261025",
+        "finalScenario": "scenario-03/report.json",
+        "finalComponent": "panel-06/report.json",
+        "runtimeHashes": 16,
+        "componentHashes": 7,
+        "nativePlaythrough": "not-in-this-batch",
+        "persistence": "deferred-per-U-172"
+      }
+    },
+    "currentSectConcurrency": {
+      "reference": "docs/design/88-SECT-CONCURRENCY.md",
+      "status": "targeted-concurrent-scenarios-verified",
+      "scenarioPolicy": "U-172",
+      "closesWholeRequirements": false,
+      "verification": {
+        "rootUniqueTests": "61/61",
+        "independentSubset": "6/6",
+        "scenarioChecks": 11,
+        "evidenceRoot": "/Users/shepard/.codex/tmp/immortal-sect-concurrency-20261025",
+        "finalScenario": "scenario-04/report.json",
+        "runtimeHashes": 17,
+        "nativePlaythrough": "not-in-this-batch",
+        "persistence": "deferred-per-U-172"
+      }
+    },
+    "currentDiscipleCraftRequest": {
+      "reference": "docs/design/89-DISCIPLE-CRAFT-REQUEST.md",
+      "status": "targeted-scenarios-and-full-person-dialogue-component-verified",
+      "scenarioPolicy": "U-172",
+      "closesWholeRequirements": false,
+      "verification": {
+        "rootUniqueTests": "53/53",
+        "finalViewRerun": "8/8",
+        "scenarioChecks": 11,
+        "cases": 7,
+        "evidenceRoot": "/Users/shepard/.codex/tmp/immortal-disciple-craft-request-20261025",
+        "finalScenario": "scenario-05/report.json",
+        "runtimeHashes": 16,
+        "nativePlaythrough": "not-in-this-batch",
+        "persistence": "deferred-per-U-172"
+      }
+    },
+    "currentDiscipleAdvancement": {
+      "reference": "docs/design/90-DISCIPLE-ADVANCEMENT.md",
+      "status": "targeted-scenarios-and-person-dialogue-component-verified",
+      "scenarioPolicy": "U-172",
+      "closesWholeRequirements": false,
+      "verification": {
+        "rootUniqueTests": "77/77",
+        "scenarioChecks": 12,
+        "cases": 6,
+        "evidenceRoot": "/Users/shepard/.codex/tmp/immortal-disciple-advancement-20261025",
+        "finalScenario": "scenario-02/report.json",
+        "runtimeHashes": 16,
+        "fullSnapshots": 13,
+        "screenshots": 6,
+        "nativePlaythrough": "not-in-this-batch",
+        "persistence": "deferred-per-U-172"
+      }
+    },
+    "currentExpeditionGrowth": {
+      "reference": "docs/design/91-EXPEDITION-GROWTH.md",
+      "status": "targeted-scenarios-and-person-dialogue-component-verified",
+      "scenarioPolicy": "U-172",
+      "closesWholeRequirements": false,
+      "verification": {
+        "rootUniqueTests": "116/116",
+        "finalViewRerun": "14/14",
+        "scenarioChecks": 9,
+        "cases": 3,
+        "evidenceRoot": "/Users/shepard/.codex/tmp/immortal-expedition-growth-20261026",
+        "finalScenario": "scenario-04/report.json",
+        "independentAudit": "final-independent-audit.json",
+        "runtimeHashes": 23,
+        "fullSnapshots": 14,
+        "screenshots": 6,
+        "nativePlaythrough": "not-in-this-batch",
+        "persistence": "deferred-per-U-172"
+      }
+    },
+    "currentExpeditionCompanions": {
+      "reference": "docs/design/92-EXPEDITION-COMPANIONS.md",
+      "status": "targeted-scenarios-and-management-component-verified",
+      "scenarioPolicy": "U-172",
+      "closesWholeRequirements": false,
+      "verification": {
+        "rootUniqueTests": "54/54",
+        "cases": 3,
+        "scenarioChecks": 12,
+        "evidenceRoot": "/Users/shepard/.codex/tmp/immortal-expedition-companions-20261026",
+        "finalScenario": "scenario-02/report.json",
+        "runtimeHashes": 19,
+        "fullSnapshots": 32,
+        "screenshots": 5,
+        "nativePlaythrough": "not-in-this-batch",
+        "persistence": "deferred-per-U-172",
+        "bodyClearance": "safe valley crossing minimum 0.04m; general body clearance not accepted",
+        "independentAudit": "final-independent-audit.json"
+      }
     }
   },
   "characterDialogue": {
@@ -3416,5 +5565,6 @@
       "recommendedDoesNotMeanUserApproved": true,
       "targetDesignDoesNotMeanImplemented": true
     }
-  }
+  },
+  "currentSequence": "disciple-cultivation-progression-functional-verified"
 }
