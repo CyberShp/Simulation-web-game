@@ -1641,9 +1641,9 @@
   "currentHandoff": {
     "currentCombatRangedStudy": {
       "reference": "docs/art/combat-ranged-20261026/README.md",
-      "review": "docs/art/combat-ranged-20261026/review.json",
-      "qa": "/Volumes/Media/immortal-qa/combat-ranged-20261026-v001/index.html",
-      "status": "offline-projectile-heavy-impact-ui-reviewed-rough-candidate",
+      "review": "docs/art/combat-ranged-20261026/review-v002.json",
+      "qa": "/Volumes/Media/immortal-qa/combat-ranged-20261026-v002/index.html",
+      "status": "offline-alpha-body-hit-and-sfx-ui-reviewed-listening-pending",
       "closesWholeRequirements": false
     },
     "currentCombatEncounterStudy": {

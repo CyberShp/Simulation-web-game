@@ -1,0 +1,32 @@
+{
+  "date": "2026-10-26",
+  "entry": "/Volumes/Media/immortal-qa/combat-encounter-20261026-v001/index.html",
+  "status": "offline-interactive-candidate-reviewed",
+  "sourceFrames": {
+    "player": 16,
+    "beast": 8,
+    "artReview": "main agent viewed both full contacts; silhouettes and scale usable"
+  },
+  "mainAgentChrome": [
+    "D500ms then W+click300ms: moves upward while attacking right; player100/enemy175 and avoids locked strike",
+    "standing repeated attacks: player60/enemy50; later defeat player0; R resets",
+    "D500ms,click500ms,12 J500ms inputs: actual8 hits, victory player60/enemy0; final corpse pose visible",
+    "R,D500ms,click300ms,Space250ms: actual backstep leaves circle; player100/enemy175,hits1, strike avoided"
+  ],
+  "coreChecks": {
+    "authorSmoke": "6 meaningful API checks passed",
+    "independentInitial": "movement, locked aim, single release, dodge cancel, enemy attack, terminal and blur passed before final targeted changes",
+    "independentFinal": "ready/R waits; death4/5/6/7 holds with gameplay frozen; original stage/time/released resumes after hurt; convex movement/dodge boundary passed",
+    "controllerSha256": "68b3376357945d2018763e92832368a65e721aa6c11702b3bf5488ed623c69db"
+  },
+  "presentationFinal": "enemy attack label says 出拳; terminal notice moved above actors",
+  "remaining": [
+    "front/back run four-frame changes are coarse",
+    "vertical attacks use two frames",
+    "dodge art remains side-facing",
+    "mirrored side poses and left sword hand need final production work",
+    "battle duration and balance remain unverified"
+  ],
+  "runtimeChanged": false,
+  "wholeRequirementStatesChanged": false
+}

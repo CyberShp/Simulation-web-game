@@ -1,0 +1,20 @@
+{
+  "date": "2026-10-26",
+  "entry": "/Volumes/Media/immortal-qa/combat-ranged-20261026-v002/index.html",
+  "scope": "visible sword-energy/body collision and event-driven combat SFX",
+  "collision": "same visible muzzle/aim/projectile space;12 actual rendered sprite alpha>=64 native row masks;root/scale/inverse mirror shared;28x4 core swept capsule;trails excluded;Q retains ground targets",
+  "coverage": "/Volumes/Media/immortal-qa/combat-ranged-20261026-v002/body-hit-coverage.png",
+  "mainAgentReview": [
+    "coverage viewed:head/torso/foot and both mirrors match;raised-arm and lower-body transparent gaps retained",
+    "same initial head screen1087,444: v001 enemy200/hits0;v002 enemy175/hits1/player100",
+    "clear space above head1087,370:player100/enemy200/hits0",
+    "audio muted then reset and torso1115,470:player100/enemy175/hits1;AX音效关",
+    "enabled shot AX reports audio playing;reset restores100/200/0 and output stops"
+  ],
+  "geometryChecks": "14 native body/clear/mirror samples;head sweep;tail exclusion;public-API head25/clear0;groundQ55/post-release movement+Space;epoch/event IDs passed;main agent read code and results",
+  "audio": "8 embedded synthetic WAV cues;20 fake-WebAudio lifecycle/dedup/reset/mute checks passed;gesture unlock, unique IDs+epochs, no history replay, mute/volume, output limiter integrated",
+  "audioSha256": "5115d9382787d89782ff4c280bb3999dc24abf6b349b15c22969cbaba1cf93e8",
+  "audioListeningAcceptance": "pending user listening;main audition tool did not support audio input",
+  "remaining": "animation detail/directional materials and longer feel remain open;offline fixture only",
+  "wholeRequirementStatesChanged": false
+}

@@ -1,0 +1,221 @@
+{
+  "id": "ranged-procedural-sfx-v001",
+  "sampleRate": 48000,
+  "channels": 1,
+  "encoding": "PCM signed16 little-endian",
+  "generation": "deterministic local oscillators and filtered pseudorandom noise",
+  "defaultMasterVolume": 0.35,
+  "cues": {
+    "swordRelease": {
+      "file": "sword-release.wav",
+      "layers": "short brushed steel and cloth pass",
+      "seed": 260126,
+      "durationSeconds": 0.13,
+      "sampleCount": 6240,
+      "peak": 0.500015259254738,
+      "rms": 0.14106522885924683,
+      "clippedSamples": 0,
+      "sha256": "c41096f527b8187a064c496dc079b1ba4c09172eab3a70c150a68ee270ece7ca",
+      "bytes": 12524
+    },
+    "lightHit": {
+      "file": "light-hit.wav",
+      "layers": "cut transient, small metal ring and low collision",
+      "seed": 268045,
+      "durationSeconds": 0.14,
+      "sampleCount": 6720,
+      "peak": 0.620014038514359,
+      "rms": 0.08816924030138594,
+      "clippedSamples": 0,
+      "sha256": "8ea9c4ed60552f1200823299a1ca0440190c34069b85c44510f7aee2c40a46ee",
+      "bytes": 13484
+    },
+    "heavyCharge": {
+      "file": "heavy-charge.wav",
+      "layers": "rising metallic tension",
+      "seed": 275964,
+      "durationSeconds": 0.26,
+      "sampleCount": 12480,
+      "peak": 0.4000061037018952,
+      "rms": 0.09588913885574364,
+      "clippedSamples": 0,
+      "sha256": "2b5e0258d1453e7a255bb20b74a850358f0f5a51100bd34d67ec23c6652d9a35",
+      "bytes": 25004
+    },
+    "heavyImpact": {
+      "file": "heavy-impact.wav",
+      "layers": "blade crack, low impact and short grit",
+      "seed": 283883,
+      "durationSeconds": 0.27,
+      "sampleCount": 12960,
+      "peak": 0.7400128177739799,
+      "rms": 0.11020567968273486,
+      "clippedSamples": 0,
+      "sha256": "d52e188baebdacf96b3b8aaf12719102bfbffbc4b03dc2429de144ced1a5442c",
+      "bytes": 25964
+    },
+    "dodge": {
+      "file": "dodge.wav",
+      "layers": "close cloth flutter",
+      "seed": 291802,
+      "durationSeconds": 0.12,
+      "sampleCount": 5760,
+      "peak": 0.37998596148564107,
+      "rms": 0.06674762394462895,
+      "clippedSamples": 0,
+      "sha256": "fe6c4cdb133feb071c5fe14bd095f96d846bb0a4b29d5b5ce2c5144004922533",
+      "bytes": 11564
+    },
+    "enemySlam": {
+      "file": "enemy-slam.wav",
+      "layers": "heavy body and stone crack",
+      "seed": 299721,
+      "durationSeconds": 0.24,
+      "sampleCount": 11520,
+      "peak": 0.6599932859279153,
+      "rms": 0.10708414900624459,
+      "clippedSamples": 0,
+      "sha256": "d8c9c71ade7caad2a47964ac05ca81341080f31d93cb4be9ff9b8bdc7410ff63",
+      "bytes": 23084
+    },
+    "playerHit": {
+      "file": "player-hit.wav",
+      "layers": "short cloth and blunt collision",
+      "seed": 307640,
+      "durationSeconds": 0.15,
+      "sampleCount": 7200,
+      "peak": 0.5800042725913266,
+      "rms": 0.08947686751028977,
+      "clippedSamples": 0,
+      "sha256": "16dcf546c547db67082f290d7e17a007b3a2fa61da5610abf1f0d5f1d7f3f411",
+      "bytes": 14444
+    },
+    "groundStrike": {
+      "file": "ground-strike.wav",
+      "layers": "descending blade and small stone contact",
+      "seed": 315559,
+      "durationSeconds": 0.22,
+      "sampleCount": 10560,
+      "peak": 0.5399945066682943,
+      "rms": 0.058745626467663535,
+      "clippedSamples": 0,
+      "sha256": "bb2e00c5ae06101d03ccf75e4e44a5d8427e383a1d88bc7ee71181bbcc82da85",
+      "bytes": 21164
+    }
+  },
+  "audition": {
+    "file": "audition.wav",
+    "durationSeconds": 6.72,
+    "sampleCount": 322560,
+    "peak": 0.7400128177739799,
+    "rms": 0.0659002988297306,
+    "clippedSamples": 0,
+    "sha256": "4480f768bdc08864c88d4d986bad36096992ab81abcaa499048996b6392cf9a8",
+    "bytes": 645164,
+    "segments": [
+      {
+        "cue": "swordRelease",
+        "take": 1,
+        "startSeconds": 0.25,
+        "durationSeconds": 0.13
+      },
+      {
+        "cue": "swordRelease",
+        "take": 2,
+        "startSeconds": 0.5,
+        "durationSeconds": 0.13
+      },
+      {
+        "cue": "lightHit",
+        "take": 1,
+        "startSeconds": 0.93,
+        "durationSeconds": 0.14
+      },
+      {
+        "cue": "lightHit",
+        "take": 2,
+        "startSeconds": 1.19,
+        "durationSeconds": 0.14
+      },
+      {
+        "cue": "heavyCharge",
+        "take": 1,
+        "startSeconds": 1.63,
+        "durationSeconds": 0.26
+      },
+      {
+        "cue": "heavyCharge",
+        "take": 2,
+        "startSeconds": 2.01,
+        "durationSeconds": 0.26
+      },
+      {
+        "cue": "heavyImpact",
+        "take": 1,
+        "startSeconds": 2.57,
+        "durationSeconds": 0.27
+      },
+      {
+        "cue": "heavyImpact",
+        "take": 2,
+        "startSeconds": 2.96,
+        "durationSeconds": 0.27
+      },
+      {
+        "cue": "dodge",
+        "take": 1,
+        "startSeconds": 3.53,
+        "durationSeconds": 0.12
+      },
+      {
+        "cue": "dodge",
+        "take": 2,
+        "startSeconds": 3.77,
+        "durationSeconds": 0.12
+      },
+      {
+        "cue": "enemySlam",
+        "take": 1,
+        "startSeconds": 4.19,
+        "durationSeconds": 0.24
+      },
+      {
+        "cue": "enemySlam",
+        "take": 2,
+        "startSeconds": 4.55,
+        "durationSeconds": 0.24
+      },
+      {
+        "cue": "playerHit",
+        "take": 1,
+        "startSeconds": 5.09,
+        "durationSeconds": 0.15
+      },
+      {
+        "cue": "playerHit",
+        "take": 2,
+        "startSeconds": 5.36,
+        "durationSeconds": 0.15
+      },
+      {
+        "cue": "groundStrike",
+        "take": 1,
+        "startSeconds": 5.81,
+        "durationSeconds": 0.22
+      },
+      {
+        "cue": "groundStrike",
+        "take": 2,
+        "startSeconds": 6.15,
+        "durationSeconds": 0.22
+      }
+    ],
+    "betweenTakesSeconds": 0.12,
+    "betweenCueGroupsSeconds": 0.3
+  },
+  "embeddedAssets": {
+    "file": "audio-data.json",
+    "sha256": "d5173db569dffa8b1a34a09606c3b188547888b46743cf117d162953379d162a"
+  },
+  "reviewStatus": "engineering metrics checked; main-agent listening pending"
+}

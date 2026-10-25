@@ -1,0 +1,33 @@
+{
+  "date": "2026-10-25",
+  "scope": "right-facing silent offline four-action candidate",
+  "qa": "/Volumes/Media/immortal-qa/combat-minimum-20261025-v001/index.html",
+  "mainAgentReview": {
+    "art": "source sheet and eight extracted complete frames viewed; identity, full body and complete sword recognizable",
+    "chrome": [
+      "J at 4.5m: target100 hits0",
+      "D then J at2.21m: target75 hits1",
+      "H returns idle, target remains75"
+    ],
+    "limitations": [
+      "four-pose action gaps",
+      "sword-length detail variations",
+      "animation smoothness and game integration remain unverified"
+    ]
+  },
+  "independentReadOnly": {
+    "reviewer": "motion_verify",
+    "errors": 0,
+    "checks": [
+      "near hit exactly once at200ms",
+      "far swing misses",
+      "H at199ms cancels pending hit",
+      "keyup freezes displacement",
+      "held D resumes after action; releasing D during action ends idle",
+      "blur clears movement",
+      "no audio, persistence or game interfaces"
+    ]
+  },
+  "viewportCorrection": "canvas contain within available viewport; focus preventScroll applied after initial Chrome check",
+  "wholeRequirementStatusChanged": false
+}

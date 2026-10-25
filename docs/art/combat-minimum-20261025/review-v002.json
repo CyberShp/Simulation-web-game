@@ -1,0 +1,18 @@
+{
+  "date": "2026-10-26",
+  "qa": "/Volumes/Media/immortal-qa/combat-minimum-20261025-v002/index.html",
+  "source": "source-counter-evade.png",
+  "idle": "stable action03 whole-frame stance; movement release, action completion and reset share it",
+  "frames": {
+    "enemy": "four complete components, fixed94/220 scale",
+    "evade": "four complete components, fixed58/390 scale;52logicalpx backstep in180ms"
+  },
+  "mainAgentChrome": [
+    "clean background, one new beast, stable idle and full viewport visible",
+    "D700ms then J at2.17m: enemy75; counter hits player80 then returns idle",
+    "reset;D700ms,J350ms,Space200ms: player100,enemy75,distance3.44m; counter avoided"
+  ],
+  "mainAgentArt": "all eight new complete frames viewed; coarse motion direction usable",
+  "remaining": "four-frame pose gaps and character detail differences; complete action library and game integration remain open",
+  "requirementStatesChanged": false
+}

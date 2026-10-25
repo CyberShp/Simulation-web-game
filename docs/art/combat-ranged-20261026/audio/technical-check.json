@@ -1,0 +1,88 @@
+{
+  "scope": "fake WebAudio lifecycle/event policy; real-browser mix and acoustic review pending",
+  "passed": 20,
+  "failed": 0,
+  "checks": [
+    {
+      "name": "locked event consumed/context gesture-only",
+      "passed": true
+    },
+    {
+      "name": "resume begins before await",
+      "passed": true
+    },
+    {
+      "name": "eight WAVs decode/unlock",
+      "passed": true
+    },
+    {
+      "name": "master compressor wired and configured",
+      "passed": true
+    },
+    {
+      "name": "no locked event replay",
+      "passed": true
+    },
+    {
+      "name": "event id once",
+      "passed": true
+    },
+    {
+      "name": "hit land defers to actual hit",
+      "passed": true
+    },
+    {
+      "name": "heavy hit/air contact separate",
+      "passed": true
+    },
+    {
+      "name": "dodge stops charge/plays cloth",
+      "passed": true
+    },
+    {
+      "name": "mute stops voices",
+      "passed": true
+    },
+    {
+      "name": "muted consumed/no replay",
+      "passed": true
+    },
+    {
+      "name": "local master adjustable",
+      "passed": true
+    },
+    {
+      "name": "stale no catch-up",
+      "passed": true
+    },
+    {
+      "name": "fresh plays",
+      "passed": true
+    },
+    {
+      "name": "R stops/clears cursor",
+      "passed": true
+    },
+    {
+      "name": "new epoch id reuse",
+      "passed": true
+    },
+    {
+      "name": "passive epoch baseline",
+      "passed": true
+    },
+    {
+      "name": "fresh after baseline",
+      "passed": true
+    },
+    {
+      "name": "dispose stops context",
+      "passed": true
+    },
+    {
+      "name": "classic embedded/no network or storage",
+      "passed": true
+    }
+  ],
+  "moduleSha256": "5115d9382787d89782ff4c280bb3999dc24abf6b349b15c22969cbaba1cf93e8"
+}

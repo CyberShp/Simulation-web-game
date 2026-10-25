@@ -1,0 +1,33 @@
+{
+  "date": "2026-10-26",
+  "entry": "/Volumes/Media/immortal-qa/combat-ranged-20261026-v001/index.html",
+  "status": "offline-ranged-impact-candidate-reviewed",
+  "mainAgentChrome": [
+    "J: actual cyan-white projectile visible in flight; later enemy175,hits1",
+    "D+click: player moves right while firing; player100/enemy175",
+    "Q release then W: player moves upward; enemy145/hurt,Q cooldown1.5s",
+    "actual Q-hit screenshot:55 damage, whole-character alpha-preserving bright flash, small gold impact and thin ground circle; actor remains readable",
+    "empty-ground Q: enemy200,hits0,cooldown active;140ms landing moment not captured visually",
+    "Q then Space and light attacks: actual7 hits,victory player100/enemy0; final corpse frame visible"
+  ],
+  "mainAgentArt": "all16 cast/diagonal frames viewed; complete silhouettes usable; upward Q sword hand differs and diagonal two-pose attacks remain coarse",
+  "verification": {
+    "author": "7 pure-API targeted checks; enemySpeed0 explicit fixture; groundBurst creation is state evidence",
+    "independent": "targeted pure-memory configured fixtures passed: flight/sweep/miss/single;Q260 lock and120 landing;post-release movement/Space;cancel/reset/terminal;hurt/push boundaries;real-hit feedback;world clock/input continue;enemy stage resumes",
+    "controllerSha256": "aebb23abe813b930c6f055e52ed10e817469713e2c5eb5a26cde79a258d15435",
+    "browserScope": "main-agent actions and screenshots above; no blanket continuous-play claim"
+  },
+  "parameters": {
+    "light": "480logicalpx/s,320px travel,25 damage,120ms hurt,3.2px push",
+    "heavy": "260ms charge,120ms landing delay,44px radius,55 damage,360ms hurt,16px push;1800ms cooldown from release",
+    "feedback": "light80ms/heavy120ms real-hit patterns;heavy2px/80ms visual shake;empty landing groundBurst140ms"
+  },
+  "remaining": [
+    "upward Q sword-hand continuity",
+    "two-pose diagonal attacks and mirrored left-hand candidates",
+    "full directional dodge and final animation polish",
+    "longer combat feel and balance"
+  ],
+  "runtimeChanged": false,
+  "wholeRequirementStatesChanged": false
+}

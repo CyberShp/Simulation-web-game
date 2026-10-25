@@ -1,0 +1,21 @@
+{
+  "files": {
+    "README.md": "7226b3cf144e41e63e79260968286209a7a33453f15f90f75c591f472c7196dc",
+    "audio-data.json": "d5173db569dffa8b1a34a09606c3b188547888b46743cf117d162953379d162a",
+    "audition.wav": "4480f768bdc08864c88d4d986bad36096992ab81abcaa499048996b6392cf9a8",
+    "dodge.wav": "fe6c4cdb133feb071c5fe14bd095f96d846bb0a4b29d5b5ce2c5144004922533",
+    "enemy-slam.wav": "d8c9c71ade7caad2a47964ac05ca81341080f31d93cb4be9ff9b8bdc7410ff63",
+    "ground-strike.wav": "bb2e00c5ae06101d03ccf75e4e44a5d8427e383a1d88bc7ee71181bbcc82da85",
+    "heavy-charge.wav": "2b5e0258d1453e7a255bb20b74a850358f0f5a51100bd34d67ec23c6652d9a35",
+    "heavy-impact.wav": "d52e188baebdacf96b3b8aaf12719102bfbffbc4b03dc2429de144ced1a5442c",
+    "light-hit.wav": "8ea9c4ed60552f1200823299a1ca0440190c34069b85c44510f7aee2c40a46ee",
+    "metadata.json": "b56842d9c2ee1dc8f38541f074d929862276603428abeffca4087d0f32b07796",
+    "player-hit.wav": "16dcf546c547db67082f290d7e17a007b3a2fa61da5610abf1f0d5f1d7f3f411",
+    "sword-release.wav": "c41096f527b8187a064c496dc079b1ba4c09172eab3a70c150a68ee270ece7ca",
+    "technical-check.json": "59ddc3d09daa35a0bda2bb46694b4bf50607c42e5f3defd94bebf66f78f69117"
+  },
+  "sources": {
+    "scripts/art/combat-direction-study/ranged_audio.mjs": "5115d9382787d89782ff4c280bb3999dc24abf6b349b15c22969cbaba1cf93e8",
+    "scripts/art/combat-direction-study/ranged_sfx.py": "72b8aec54fd3632bacbbc2f945785c35a617fc8f07f145738496ffe678e380fa"
+  }
+}

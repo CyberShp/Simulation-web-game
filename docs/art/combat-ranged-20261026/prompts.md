@@ -1,0 +1,10 @@
+# 剑气与落点重击 · 制作提示词
+
+内置 imagegen，参考 `../combat-encounter-20261026/source-player.png` 的人物身份、服饰和像素机位。实际使用提示词：
+
+Use case: stylized-concept. Transparent production sprite sheet for an elevated-camera 2D xianxia pixel action game. Reference image defines exact character identity: blue robe, ivory long front panels and cuffs, dark tied long hair blue ribbon, dark belt round jade buckle, brown boots, slim straight steel sword golden guard. Preserve that same adult lean swordsman in all poses. 4 columns x4 rows, exactly 16 separated whole-body sprites, each centered in its own equal cell with at least 8% transparent gutter; entire body and sword inside cell. Consistent pixel-art detail and scale, no blur, no shadows, no effects, no background, no text. Body baseline near bottom of each cell, standing body height about 65% of cell. Camera constant elevated three-quarter.
+Rows1-3 are HEAVY SWORD SPELL full body keyframes with firm grounded feet, right hand holding sword, left hand makes two-finger sword gesture:
+Row1 facing screen RIGHT: 1 settling low, sword held close upward; 2 braced charge sword raised upright, fingers gathered near chest; 3 release pointing sword toward a distant ground point to the right; 4 relax low guard and ready to move.
+Row2 facing screen UP away from viewer: same four ordered poses viewed clearly from behind, long hair and back robe, sword points upward into distance in release.
+Row3 facing screen DOWN toward viewer: same four ordered poses viewed from front, sword extends toward lower screen ground in release.
+Row4 four moving light slash poses for DIAGONAL aim: cells1-2 facing upper-right with visible back/side, preparation then thrust release with advancing stride; cells3-4 facing lower-right with visible front/side, preparation then thrust release with advancing stride. Legs stepping, shoulders aim diagonally. All sword hands anatomically correct, no duplicated arms, no body stretching. Clear grounded feet and exact reference outfit. Whole-body drawings, do not reuse a stationary body with moved arms.

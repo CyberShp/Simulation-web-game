@@ -53,7 +53,7 @@ SR-XF-013-REQ-03：各动作空间条件合法，同行者自主执行约定战�
 | SR-XF-013-AC-02 | 暂停连续点击服药/部署并恢复 | 动作依阶段执行，耗用/冷却一次，不能暂停无敌。 | not_run |
 | SR-XF-013-AC-03 | 障碍、撤退、击倒或装备损坏 | 距离与视线条件有效，身体/物品结果返回山院仍一致。 | not_run |
 
-SR-XF-013-AC-01证据：docs/art/combat-minimum-20261025/README.md；docs/art/combat-minimum-20261025/review.json；docs/art/combat-minimum-20261025/review-v002.json；docs/art/combat-encounter-20261026/README.md；docs/art/combat-encounter-20261026/review.json；docs/art/combat-ranged-20261026/README.md；docs/art/combat-ranged-20261026/review.json
+SR-XF-013-AC-01证据：docs/art/combat-minimum-20261025/README.md；docs/art/combat-minimum-20261025/review.json；docs/art/combat-minimum-20261025/review-v002.json；docs/art/combat-encounter-20261026/README.md；docs/art/combat-encounter-20261026/review.json；docs/art/combat-ranged-20261026/README.md；docs/art/combat-ranged-20261026/review.json；docs/art/combat-ranged-20261026/review-v002.json
 
 SR-XF-013-AC-02证据：局部：docs/design/70-COURTYARD-FIRST-COMBAT.md（本批动作／接触事件／受击恢复，Node25/25；macOS正常33项、落败3项、左右朝向补帧18项分别通过；完整AC情景另计）；2026-10-24局部进度／未通过：docs/design/70-COURTYARD-FIRST-COMBAT.md；规则33、反馈9、山魈3分别检查，macOS源码Electron 03/04/05原failed保留；用户反馈手部变形，visual-failed、正在返工，非空短预输入暂停／失焦清理待验；本AC状态保持。；2026-10-24手修06局部：docs/design/70-COURTYARD-FIRST-COMBAT.md；离线4/4、缓存90采样／4绘制对照，根Agent有限目检。原失败及qa-hand-06失焦失败保持；新原生手部／buffer、用户视觉／声音与最大射程视觉距离继续待验，AC状态保持。；2026-10-24整帧局部：docs/design/70-COURTYARD-FIRST-COMBAT.md；整帧5/5与18组RGBA忠实性对照、反馈10/10。qa-frames-08右击774命中25，但0.79米未满足1–1.4米观察带、整体failed，其余方向／连续操作未执行；4步态候选均未通过，样板与用户认可未完成，AC状态保持。
 
