@@ -1,4 +1,4 @@
-import {basicCombatAttackProfile,enemyCombatAttackProfile,openValleyCombat} from './ea-combat-attack-profiles.mjs';
+import {basicCombatAttackProfile,enemyCombatAttackProfile,openValleyCombat,SWORD_STUDY_PROFILE,swordStudyCombat,learnedCombatSword,GROUND_SWORD_ACTION} from './ea-combat-attack-profiles.mjs';
 import { rng, day, log, pay, canPay, grant, capacity } from './ea-data.mjs';
 import {residentialHousingApplicable,residentialProjectionState,residentialAdmissionView,residentialHousingView} from './ea-residential-housing.mjs';
 import { EXPEDITIONS as LEGACY_ROUTES } from './world.mjs';
@@ -11,6 +11,8 @@ import {encounterCombatantId,settleEncounterCombatantDeaths,encounterCombatantVi
 import {companionPositionPlans} from './ea-combat-companion-positioning.mjs';
 import {openingCombatProfile} from './ea-opening-inheritance.mjs';
 import {recordPermanentDeathSR} from './ea-sr-crises.mjs';
+import {sampleSwordStudyBody} from './ea-combat-sword-study-frames.mjs';
+import {STUDY_SHOT_SPACE,STUDY_SHOT_LENGTH,STUDY_SHOT_WIDTH,studyMuzzle,studyAimDirection,advanceStudyShot,studyVisibleDistance,sweepStudyBody} from './ea-combat-study-body.mjs';
 
 // Campaign state is deliberately plain data. Every choice, weather roll and reward
 // is committed to the save before the next tick; loading never repeats a roll.
@@ -357,6 +359,7 @@ function startCombat(s, encounterId) {
   const geometryId=def.localEncounter?VALLEY_COMBAT_V2.id:e.regionId,arena=combatField(geometryId),frame=def.localEncounter?valleyFrameV2():null;
   const spawn=(location,fallback)=>frame&&location?.kind==='local'&&location.sceneId===frame.sceneId?localCombatPoint(location,frame):{x:fallback.x,y:fallback.y};
   const m = s.master, maxHp = 95 + m.realm * 8, maxQi = 60 + m.realm * 4;
+  const rulesProfile=def.localEncounter&&e.companionIds.length===0?SWORD_STUDY_PROFILE:null;
   const enemies = [], count = def.count + (def.final && !p.public && !p.supply ? 1 : 0);
   for (let i = 0; i < count; i++) {
     const isBoss = !!def.final && i === 0;
@@ -367,6 +370,7 @@ function startCombat(s, encounterId) {
   const allies = e.companionIds.map((id, i) => { const d = s.disciples.find(d => d.id === id), maxHp = 55 + d.realm * 5,hp=s.contentVersion==='sr-content-v1.2'?projectedCombatHp(d,maxHp):maxHp; return { id:d.id, personId:d.personId||null, name:d.name, ...spawn(d.location,combatSpawn(i,'ally',geometryId)), facing:{x:1,y:0},hp, maxHp, damage:8 + d.realm, cooldown:.8 + i, knockedOut:hp===0 }; });
   s.combat = { status:'active', geometryVersion:def.localEncounter?2:1, ...(def.localEncounter?{geometryId}:{}), encounterId, regionId:e.regionId, journeyId:e.id, arena:{width:arena.width,height:arena.height}, player:{ personId:'person:master',...spawn(s.master.location,e.position), target:null, hp:s.contentVersion==='sr-content-v1.2'?projectedCombatHp(m,maxHp):Math.min(maxHp,Math.round(maxHp * (.72 + m.energy / 360))), maxHp, qi:maxQi, maxQi, cooldowns:{attack:0,spell:0,dodge:0,guard:0}, guard:0, evade:0, facing:{x:1,y:0} }, enemies, allies, effects:[],nextEffectId:1,elapsed:0, retreatRequested:false, result:null, rewardApplied:false, message:`移动躲开红色落点；近身攻击或施展远程术法。货箱和碎石阻挡通行与直线攻击，可绕行；左侧可撤离。${WEATHER[e.weather].risk ? '风雨视线不利，敌方命中伤害略增。' : ''}`, prepared:{...p} };
   if(s.contentVersion==='sr-content-v1.2')beginCombatSession(s,s.combat);
+  if(rulesProfile)s.combat.rulesProfile=rulesProfile;
   e.status = 'combat'; e.target = null;
   s.master.journey.status = 'combat';
   log(s, `${def.name}迎面而来。掌门亲自应战，同行者将自主行动。`);
@@ -464,15 +468,21 @@ function damageActor(s,c,source,target,amount,kind,details={}){
   effect(s,c,kind,source,target,applied,{...details,direction,contact});
   const event=effect(s,c,'hit',source,target,applied,{...details,direction,contact,rawAmount,preventedAmount:Math.max(0,rawAmount-applied),outcome,actionId:details.actionId||(source===c.player?s.srCombat?.pending?.id:source.motionAction?.id)||null,projectileId:details.projectileId||null});
   const reaction=receiveCombatImpact(s,c,target,{...event,amount:applied,kind});
+  if(swordStudyCombat(c)&&applied>0&&outcome==='hit'&&target.hp>0){
+    const push=kind==='attack'?.08:.4,from={x:target.x,y:target.y},to=dodgeEndpoint(target,combatClamp({x:target.x+direction.x*push,y:target.y+direction.y*push},combatGeometryId(c)),combatGeometryId(c));
+    target.x=to.x;target.y=to.y;event.pushDistance=distance(from,to);
+  }
   if(reaction.staggerTicks&&reaction.reaction==='heavy'&&target===c.player)reaction.interrupted=interruptSRCombatWindup(s);
   Object.assign(event,reaction);if(target.hitReaction?.eventId===event.eventId)target.hitReaction.interrupted=reaction.interrupted;
   if(applied>0&&hooks.onEffectiveDamage)hooks.onEffectiveDamage(s,c,source,target,applied,kind);
-  if(target.hp===0){if(Object.hasOwn(target,'knockedOut'))target.knockedOut=true;effect(s,c,'down',source,target,0,{direction,contact});}
+  if(target.hp===0){if(Object.hasOwn(target,'knockedOut'))target.knockedOut=true;effect(s,c,'down',source,target,0,{direction,contact,...(details.space?{space:details.space,contactHeight:details.contactHeight??0}:{})});}
   return event;
 }
 function directionToward(from,aim,fallback={x:1,y:0}){const length=Math.hypot(aim.x-from.x,aim.y-from.y);return length>1e-8?{x:(aim.x-from.x)/length,y:(aim.y-from.y)/length}:{...fallback};}
 function fireAimedAction(s,c,kind,aim){
  const p=c.player,art=openingCombatProfile(s),basic=basicCombatAttackProfile(c),swordQi=kind==='attack'&&basic.projectileKind==='sword-qi'&&(!s.srCombat?.pending||s.srCombat.pending.action==='attack'),range=kind==='attack'?(swordQi?basic.range:COMBAT_ACTIONS.attack.range):art.range,direction=swordQi?directionToward(p,aim,p.facing):s.srCombat?.pending?.direction||directionToward(p,aim,p.facing);
+ const visibleBody=swordQi&&swordStudyCombat(c),origin=visibleBody?studyMuzzle(p):{x:p.x,y:p.y};
+ if(visibleBody)Object.assign(direction,studyAimDirection(origin,aim,p.facing));
  const end=dodgeEndpoint(p,combatClamp({x:p.x+direction.x*range,y:p.y+direction.y*range},combatGeometryId(c)),combatGeometryId(c));
  p.facing={...direction};
  if(swordQi&&s.srCombat?.pending?.targetMode==='direction')s.srCombat.pending.direction={...direction};
@@ -482,8 +492,10 @@ function fireAimedAction(s,c,kind,aim){
   return {targetMode:'direction',aim:structuredClone(aim),direction:{...direction},hitIds:enemy?[enemy.id]:[]};
  }
  c.projectiles??=[];c.nextProjectileId??=1;
- const projectile={id:c.nextProjectileId++,kind:swordQi?'sword-qi':'spell',sourceId:'master',ownerFaction:'sect',x:p.x,y:p.y,from:{x:p.x,y:p.y},aim:structuredClone(aim),direction:{...direction},speed:swordQi?basic.projectileSpeed:8,radius:swordQi?basic.projectileRadius:.45,remainingDistance:range,range,damage:swordQi?13+s.master.realm*2:art.damage+s.master.realm*2+(s.master.knowledge.sword||0)*.1,launchedTick:combatWorldTick(s),actionId:s.srCombat?.pending?.id||null,artId:swordQi?(s.master.main||null):art.attackArtId};
- c.projectiles.push(projectile);c.message=(swordQi?'基础剑气':art.attackName)+'已朝瞄准方向发出。';
+ const projectile={id:c.nextProjectileId++,kind:swordQi?'sword-qi':'spell',sourceId:'master',ownerFaction:'sect',x:origin.x,y:origin.y,from:{...origin},aim:structuredClone(aim),direction:{...direction},speed:swordQi?basic.projectileSpeed:8,radius:swordQi?basic.projectileRadius:.45,remainingDistance:range,range,damage:swordQi?13+s.master.realm*2:art.damage+s.master.realm*2+(s.master.knowledge.sword||0)*.1,launchedTick:combatWorldTick(s),actionId:s.srCombat?.pending?.id||null,artId:swordQi?(s.master.main||null):art.attackArtId,...(visibleBody?{space:STUDY_SHOT_SPACE,coreLength:STUDY_SHOT_LENGTH,coreWidth:STUDY_SHOT_WIDTH}:{})};
+ c.projectiles.push(projectile);
+ if(visibleBody)effect(s,c,'attack',p,p,0,{projectileRelease:true,projectileKind:'sword-qi',projectileId:projectile.id,actionId:projectile.actionId,direction:{...direction},from:{...origin},to:{...origin},contact:{...origin},contactHeight:0,space:STUDY_SHOT_SPACE});
+ c.message=(swordQi?'基础剑气':art.attackName)+'已朝瞄准方向发出。';
  return {targetMode:'direction',aim:structuredClone(aim),direction:{...direction},projectileId:projectile.id};
 }
 function advanceProjectiles(s,c,dt){
@@ -491,6 +503,19 @@ function advanceProjectiles(s,c,dt){
  const kept=[],geometry=combatGeometryId(c);
  for(const shot of c.projectiles){
   if(shot.launchedTick>=combatWorldTick(s)){kept.push(shot);continue;}
+  if(shot.space===STUDY_SHOT_SPACE){
+   const from={x:shot.x,y:shot.y},step=Math.min(shot.remainingDistance,shot.speed*dt),end=advanceStudyShot(from,shot.direction,step);
+   const hits=c.enemies.filter(e=>e.hp>0).map(e=>{
+    const frame=sampleSwordStudyBody({...e,motion:projectCombatActorMotion(s,e)},combatWorldTick(s));
+    const hit=sweepStudyBody(from,end,shot.direction,e,frame,shot.coreLength,shot.coreWidth);
+    return hit?{e,...hit}:null;
+   }).filter(v=>v&&combatClearLine(from,v.contact,geometry)).sort((a,b)=>a.fraction-b.fraction);
+   const hit=hits[0];
+   if(hit){const before=hit.e.hp;damageActor(s,c,c.player,hit.e,shot.damage,'attack',{projectileKind:'sword-qi',projectileId:shot.id,actionId:shot.actionId,direction:{...shot.direction},from:{...shot.from},contact:{...hit.contact},contactHeight:0,bodyFrameKey:hit.frameKey,space:STUDY_SHOT_SPACE});if(hit.e.hp<before)recordAimedCombatHit(s,shot);continue;}
+   shot.x=end.x;shot.y=end.y;shot.remainingDistance=Math.max(0,shot.remainingDistance-studyVisibleDistance(from,end));
+   if(shot.remainingDistance<1e-6||!combatClearLine(from,end,geometry))effect(s,c,'miss',shot.from,end,0,{direction:{...shot.direction},actionId:shot.actionId,projectileId:shot.id,outcome:'miss',contact:{...end},contactHeight:0,space:STUDY_SHOT_SPACE});else kept.push(shot);
+   continue;
+  }
   const from={x:shot.x,y:shot.y},step=Math.min(shot.remainingDistance,shot.speed*dt),end={x:from.x+shot.direction.x*step,y:from.y+shot.direction.y*step};
   const hit=c.enemies.filter(e=>e.hp>0).map(e=>{const projection=(e.x-from.x)*shot.direction.x+(e.y-from.y)*shot.direction.y,perpendicularSquared=Math.max(0,(e.x-from.x)**2+(e.y-from.y)**2-projection**2),halfChord=Math.sqrt(Math.max(0,shot.radius**2-perpendicularSquared));return {e,along:Math.max(0,projection-halfChord),exit:projection+halfChord,perpendicularSquared};}).filter(v=>v.perpendicularSquared<=shot.radius**2&&v.along<=step&&v.exit>=0&&combatClearLine(from,v.e,geometry)).sort((a,b)=>a.along-b.along)[0];
   if(hit){const before=hit.e.hp,contact={x:from.x+shot.direction.x*hit.along,y:from.y+shot.direction.y*hit.along};damageActor(s,c,c.player,hit.e,shot.damage,shot.kind==='sword-qi'?'attack':'spell',{...(shot.kind==='sword-qi'?{projectileKind:'sword-qi'}:{}),actionId:shot.actionId,projectileId:shot.id,direction:{...shot.direction},from:{...shot.from},contact});if(hit.e.hp<before)recordAimedCombatHit(s,shot);c.message=(shot.kind==='sword-qi'?'剑气':'术法')+'实际命中'+hit.e.name+'。';continue;}
@@ -499,6 +524,22 @@ function advanceProjectiles(s,c,dt){
  }
  c.projectiles=kept;
 }
+function advanceGroundStrikes(s,c){
+ if(!c.groundStrikes?.length)return;
+ const tick=combatWorldTick(s),geometry=combatGeometryId(c),kept=[];
+ for(const strike of c.groundStrikes){
+  if(strike.landTick>tick){kept.push(strike);continue;}
+  effect(s,c,'impact',strike.from,strike.target,0,{actionId:strike.actionId,groundStrikeId:strike.id,groundSword:true,radius:strike.radius});
+  let hit=false;
+  for(const enemy of c.enemies.filter(e=>e.hp>0&&combatInRange(e,strike.target,strike.radius)&&combatClearLine(strike.target,e,geometry))){
+   const before=enemy.hp;damageActor(s,c,c.player,enemy,strike.damage,'spell',{actionId:strike.actionId,groundStrikeId:strike.id,groundSword:true,from:{...strike.from},contact:{...strike.target},direction:combatDirection(strike.target,enemy,c.player.facing)});
+   if(enemy.hp<before)hit=true;
+  }
+  if(hit)recordAimedCombatHit(s,strike);
+  else effect(s,c,'miss',strike.from,strike.target,0,{actionId:strike.actionId,groundStrikeId:strike.id,groundSword:true,outcome:'miss'});
+ }
+ c.groundStrikes=kept;
+}
 export function combatOptions(s) {
   const c = s.combat;
   if (!c || c.status !== 'active') return [];
@@ -506,6 +547,7 @@ export function combatOptions(s) {
   const art=openingCombatProfile(s);
   return [
     {id:'attack',label:basicCombatAttackProfile(c).projectileKind?'基础剑气':'攻击',range:basicCombatAttackProfile(c).range,cost:0}, {id:'spell',label:art.attackName,range:art.range,cost:art.cost},
+    ...(swordStudyCombat(c)?[{id:'ground-sword',label:GROUND_SWORD_ACTION.name,range:GROUND_SWORD_ACTION.range,cost:GROUND_SWORD_ACTION.qi}]:[]),
     {id:'dodge',label:'闪避',cost:8}, {id:'guard',label:art.guardName,cost:4}, {id:'retreat',label:'沿退路撤离',cost:0}
   ].map(a => {
     const cooldown = p.cooldowns[a.id] || 0;
@@ -539,8 +581,18 @@ export function combatAction(s, kind, target) {
   // target changed during a render, but cooldown and qi are always authoritative.
   if ((p.cooldowns[kind] || 0) > .001) throw Error(option.reason || '尚未调息完毕。');
   if (p.qi < option.cost) throw Error(`灵力不足，需要 ${option.cost}。`);
+  if(kind==='ground-sword'){
+    if(!swordStudyCombat(c)||!learnedCombatSword(s))throw Error('须实际掌握剑术才能施展落剑重击。');
+    if(!target||!Number.isFinite(target.x)||!Number.isFinite(target.y)||!combatCanStand(target,combatGeometryId(c))||!combatInRange(p,target,GROUND_SWORD_ACTION.range)||!combatClearLine(p,target,combatGeometryId(c)))throw Error('落剑位置须在可见可通行的八米范围内。');
+    p.qi-=option.cost;p.cooldowns[kind]=GROUND_SWORD_ACTION.cooldown/10;
+    c.groundStrikes??=[];c.nextGroundStrikeId??=1;
+    const artId=learnedCombatSword(s),knowledge=s.master.artsById?.[artId]?.understanding??s.master.knowledge?.[artId]??0;
+    const strike={id:c.nextGroundStrikeId++,actionId:s.srCombat.pending.id,sourceId:'master',from:{x:p.x,y:p.y},target:{x:target.x,y:target.y},radius:GROUND_SWORD_ACTION.radius,damage:(13+s.master.realm*2+knowledge*.1)*GROUND_SWORD_ACTION.damageMultiplier,artId,releasedTick:combatWorldTick(s),landTick:combatWorldTick(s)+GROUND_SWORD_ACTION.delayTicks};
+    c.groundStrikes.push(strike);effect(s,c,'spell',p,target,0,{actionId:strike.actionId,groundStrikeId:strike.id,groundSword:true});
+    c.message='落剑已锁定地面，即将落击。';return {groundStrikeId:strike.id,target:{...strike.target}};
+  }
   p.qi -= option.cost;
-  if(aimed||kind==='attack'&&basicCombatAttackProfile(c).projectileKind==='sword-qi'&&(!s.srCombat?.pending||s.srCombat.pending.action==='attack')){const result=fireAimedAction(s,c,kind,aimed?target:{x:enemy.x,y:enemy.y});p.cooldowns[kind]=COMBAT_ACTIONS[kind].cooldown/10;return result;}
+  if(aimed||kind==='attack'&&basicCombatAttackProfile(c).projectileKind==='sword-qi'&&(!s.srCombat?.pending||s.srCombat.pending.action==='attack')){const result=fireAimedAction(s,c,kind,aimed?target:{x:enemy.x,y:enemy.y});p.cooldowns[kind]=(kind==='attack'?basicCombatAttackProfile(c):COMBAT_ACTIONS[kind]).cooldown/10;return result;}
   if(['attack','spell'].includes(kind)){const length=distance(p,enemy);if(length>.001)p.facing={x:(enemy.x-p.x)/length,y:(enemy.y-p.y)/length};}
   if (kind === 'attack') { damageActor(s,c,p,enemy,13 + s.master.realm * 2,'attack'); p.cooldowns.attack = COMBAT_ACTIONS.attack.cooldown/10; c.message = `攻击命中${enemy.name}。`; }
   if (kind === 'spell') {const art=openingCombatProfile(s);damageActor(s,c,p,enemy,art.damage + s.master.realm * 2 + (s.master.knowledge.sword || 0) * .1,'spell'); p.cooldowns.spell = 4.5; c.message = `${art.attackName}命中${enemy.name}。`; }
@@ -650,6 +702,7 @@ export function tickCampaignCombat(s, dt=.1) {
   }
   if(distance(beforePlayer,p)>1e-8)p.movedTick=combatWorldTick(s);
   advanceProjectiles(s,c,dt);
+  advanceGroundStrikes(s,c);
   syncLocalCombatPositions(s,c);
   if (c.retreatRequested && combatRetreatReached(p,geometryId)) return finishCombat(s,'retreated');
   for (const enemy of c.enemies.filter(e => e.hp > 0)) {
@@ -811,7 +864,7 @@ function combatActorProjection(s,c,actor){
 }
 export function getCampaignScene(s) {
   const c=s.combat,e=s.world.exploration;
-  if(c) {const geometryId=combatGeometryId(c),arena=combatField(geometryId);return {type:'combat',tick:combatWorldTick(s),status:c.status,selectedTargetId:selectedCombatEnemy(c)?.id||null,sessionId:c.sessionId||null,encounterId:c.encounterId,sceneFrame:c.sceneFrame?structuredClone(c.sceneFrame):null,result:c.result?structuredClone(c.result):null,interactive:c.status==='active',name:ENCOUNTERS[c.encounterId].name,regionId:c.regionId,geometryId,geometryVersion:c.geometryVersion??null,background:c.geometryVersion===1?'region':'arena',width:arena.width,height:arena.height,arena,player:{...combatActorProjection(s,c,c.player),id:'master',appearance:appearance('master')},enemies:c.enemies.map(v=>({...combatActorProjection(s,c,v),entityKind:s.personsById?.[v.personId]?.entityKind||'person',appearance:4})),allies:c.allies.map(a=>({...combatActorProjection(s,c,a),appearance:appearance(a.id)})),effects:c.effects||[],projectiles:structuredClone(c.projectiles||[]),presentation:'independent-arena',actionRanges:combatOptions(s).filter(a=>a.range).map(a=>({id:a.id,range:a.range,available:!a.disabled})),obstacles:arena.obstacles,landmarks:[{...arena.exit}],weather:e?.weather||s.world.weather.id};}
+  if(c) {const geometryId=combatGeometryId(c),arena=combatField(geometryId);return {type:'combat',tick:combatWorldTick(s),status:c.status,selectedTargetId:selectedCombatEnemy(c)?.id||null,sessionId:c.sessionId||null,encounterId:c.encounterId,sceneFrame:c.sceneFrame?structuredClone(c.sceneFrame):null,rulesProfile:c.rulesProfile??null,groundStrikes:structuredClone(c.groundStrikes||[]),result:c.result?structuredClone(c.result):null,interactive:c.status==='active',name:ENCOUNTERS[c.encounterId].name,regionId:c.regionId,geometryId,geometryVersion:c.geometryVersion??null,background:c.geometryVersion===1?'region':'arena',width:arena.width,height:arena.height,arena,player:{...combatActorProjection(s,c,c.player),id:'master',appearance:appearance('master')},enemies:c.enemies.map(v=>({...combatActorProjection(s,c,v),entityKind:s.personsById?.[v.personId]?.entityKind||'person',appearance:4})),allies:c.allies.map(a=>({...combatActorProjection(s,c,a),appearance:appearance(a.id)})),effects:c.effects||[],projectiles:structuredClone(c.projectiles||[]),presentation:'independent-arena',actionRanges:combatOptions(s).filter(a=>a.range).map(a=>({id:a.id,range:a.range,available:!a.disabled})),obstacles:arena.obstacles,landmarks:[{...arena.exit}],weather:e?.weather||s.world.weather.id};}
   if(!e || e.status==='traveling') return null;
   return {type:'region',name:REGIONS[e.regionId].name,regionId:e.regionId,background:e.regionId==='ruins'?'lake':e.regionId==='qixia'?'map':'valley',width:12,height:8,player:{...e.position,id:'master',appearance:appearance('master'),target:e.target},enemies:[],allies:e.companionIds.map((id,i)=>({id,appearance:appearance(id),name:s.disciples.find(d=>d.id===id)?.name||'同行者',x:Math.max(.2,e.position.x-.45*(i+1)),y:e.position.y})),obstacles:[],landmarks:[{id:'objective',name:REGIONS[e.regionId].landmark,x:8,y:4,radius:2.2},{id:'exit',name:'归山路',x:.7,y:4,radius:.7}],weather:e.weather};
 }
@@ -820,6 +873,7 @@ export function validateCampaign(s) {
   const bad=message=>{throw Error(`篇章存档异常：${message}`);},num=(v,min=0,max=1e12)=>typeof v==='number'&&Number.isFinite(v)&&v>=min&&v<=max,int=(v,min=0,max=1e12)=>Number.isSafeInteger(v)&&num(v,min,max),str=(v,max=400)=>typeof v==='string'&&v.length<=max,unique=a=>Array.isArray(a)&&new Set(a).size===a.length;
   const st=s.story,w=s.world,c=s.combat;
   const arena=c?combatField(combatGeometryId(c)):{width:12,height:8},point=p=>p&&num(p.x,.5,arena.width-.5)&&num(p.y,.5,arena.height-.5);
+  const airPoint=p=>p&&num(p.x,-8,arena.width+8)&&num(p.y,-16,arena.height+16);
   if(!st||!int(st.step,0,10)||typeof st.intro!=='boolean'||!unique(st.clues)||!st.clues.every(id=>CLUES[id])||!unique(st.claimed)||st.claimed.length>40||!st.claimed.every(id=>/^story:[0-9]$/.test(id)||Object.keys(ENCOUNTERS).some(e=>id===`battle:${e}`))||!st.preparations||!Object.keys(PREPARATIONS).every(k=>typeof st.preparations[k]==='boolean')||['gateCleared','revengeDone','completed'].some(k=>typeof st[k]!=='boolean')||![null,'rebuild','return'].includes(st.ending))bad('主线进度');
   if(st.completed!==(st.step===10)||st.completed!==!!st.ending||(st.step>=9&&!st.revengeDone)||(st.step>=8&&!st.gateCleared)||!Array.isArray(st.milestones)||st.milestones.length>30||!st.milestones.every(m=>str(m.id,80)&&str(m.text)&&num(m.time)))bad('章节结果');
   if(!st.revenge&&(Array.from({length:10},(_,i)=>i).some(i=>st.claimed.includes(`story:${i}`)!==(i<st.step))||(st.step>=5&&(st.clues.length<2||!s.doctrine.books.includes('foundation')))||(st.step>=6&&s.master.realm<10)||(st.step>=7&&prepCount(s)<2)||st.revengeDone!==st.claimed.includes('battle:challenge')||Object.keys(st.preparations).length!==4))bad('章节前置或一次性结果');
@@ -841,6 +895,7 @@ export function validateCampaign(s) {
     if(!c||!ENCOUNTERS[c.encounterId]||!REGIONS[c.regionId]||!['active','won','lost','retreated'].includes(c.status)||!int(c.journeyId,1)||c.arena?.width!==arena.width||c.arena?.height!==arena.height||!num(c.elapsed)||typeof c.retreatRequested!=='boolean'||typeof c.rewardApplied!=='boolean'||!str(c.message)||!c.prepared||!Object.keys(PREPARATIONS).every(k=>typeof c.prepared[k]==='boolean'))bad('战斗结构');
     if(c.geometryVersion!==undefined&&![1,2].includes(c.geometryVersion)||(c.geometryVersion===2)!==(c.geometryId===VALLEY_COMBAT_V2.id))bad('战场版本');
     if(c.geometryId!==undefined&&![PRISON_FORECOURT.geometryId,VALLEY_COMBAT_V2.id].includes(c.geometryId))bad('战场定义');
+    if(c.rulesProfile!==undefined&&(c.rulesProfile!==SWORD_STUDY_PROFILE||!openValleyCombat(c)||c.allies.length!==0))bad('战斗规则版本');
     if(c.geometryId===PRISON_FORECOURT.geometryId&&(c.encounterId!=='rescue'||c.regionId!=='prison'||c.sceneFrame?.sceneId!==PRISON_FORECOURT.sceneId||c.sceneFrame?.origin?.x!==PRISON_FORECOURT.origin.x||c.sceneFrame?.origin?.y!==PRISON_FORECOURT.origin.y||c.sceneFrame?.safePoint?.x!==PRISON_FORECOURT.safePoint.x||c.sceneFrame?.safePoint?.y!==PRISON_FORECOURT.safePoint.y||c.sceneFrame?.source!==PRISON_FORECOURT.source))bad('偏牢户外战场与真实空间映射');
     if(c.geometryId===VALLEY_COMBAT_V2.id&&(!c.localEncounter||c.regionId!=='valley'))bad('林间战场版本来源');
     const valleyFrame=c.geometryId===VALLEY_COMBAT_V2.id?valleyFrameV2():{sceneId:VALLEY_ENCOUNTER.sceneId,origin:VALLEY_ENCOUNTER.origin,safePoint:VALLEY_ENCOUNTER.safePoint};
@@ -855,13 +910,14 @@ export function validateCampaign(s) {
     if(c.allies.some(a=>a.knockedOut!==(a.hp===0)))bad('同行者倒地状态');
     if([1,2].includes(c.geometryVersion)&&[p,...c.allies,...c.enemies].some(actor=>!combatCanStand(actor,combatGeometryId(c))))bad('人物越过战场通行边界');
     if(c.localEncounter&&[p,...c.allies,...c.enemies].some(actor=>!combatCanStand(actor,combatGeometryId(c))))bad('林间人物越过战场通行边界');
-    if(c.effects!==undefined&&(!Array.isArray(c.effects)||c.effects.length>24||!int(c.nextEffectId,1)||!unique(c.effects.map(v=>v.id))||!c.effects.every(v=>int(v.id,1,c.nextEffectId-1)&&['attack','spell','guard','dodge','impact','strike','hit','down','miss'].includes(v.kind)&&['master',...c.enemies.map(v=>v.id),...c.allies.map(v=>v.id)].includes(v.sourceId)&&['master',...c.enemies.map(v=>v.id),...c.allies.map(v=>v.id)].includes(v.targetId)&&point(v.from)&&point(v.to)&&num(v.amount,0,s.contentVersion==='sr-content-v1.2'?10000:150)&&num(v.total,.1,1.2)&&num(v.remaining,0,v.total))))bad('战斗表现事件');
+    if(c.effects!==undefined&&(!Array.isArray(c.effects)||c.effects.length>24||!int(c.nextEffectId,1)||!unique(c.effects.map(v=>v.id))||!c.effects.every(v=>int(v.id,1,c.nextEffectId-1)&&['attack','spell','guard','dodge','impact','strike','hit','down','miss'].includes(v.kind)&&['master',...c.enemies.map(v=>v.id),...c.allies.map(v=>v.id)].includes(v.sourceId)&&['master',...c.enemies.map(v=>v.id),...c.allies.map(v=>v.id)].includes(v.targetId)&&(v.space===STUDY_SHOT_SPACE&&swordStudyCombat(c)?airPoint(v.from)&&airPoint(v.to):point(v.from)&&point(v.to))&&num(v.amount,0,s.contentVersion==='sr-content-v1.2'?10000:150)&&num(v.total,.1,1.2)&&num(v.remaining,0,v.total))))bad('战斗表现事件');
     for(const event of c.effects||[])if(event.eventId!==undefined){
-      if(event.eventId!==`${c.sessionId||c.journeyId}:impact:${event.id}`||!int(event.tick,0,combatWorldTick(s))||!num(event.direction?.x,-1,1)||!num(event.direction?.y,-1,1)||Math.abs(Math.hypot(event.direction.x,event.direction.y)-1)>1e-6||!num(event.contact?.x,0,arena.width)||!num(event.contact?.y,0,arena.height)||!num(event.contactHeight,0,2))bad('战斗接触事件');
+      if(event.eventId!==`${c.sessionId||c.journeyId}:impact:${event.id}`||!int(event.tick,0,combatWorldTick(s))||!num(event.direction?.x,-1,1)||!num(event.direction?.y,-1,1)||Math.abs(Math.hypot(event.direction.x,event.direction.y)-1)>1e-6||!(event.space===STUDY_SHOT_SPACE&&swordStudyCombat(c)?airPoint(event.contact):num(event.contact?.x,0,arena.width)&&num(event.contact?.y,0,arena.height))||!num(event.contactHeight,0,2))bad('战斗接触事件');
       if(event.kind==='hit'&&(!['hit','guarded','evaded'].includes(event.outcome)||!['light','heavy','guard','evade','down'].includes(event.reaction)||!num(event.rawAmount,0,10000)||!num(event.preventedAmount,0,10000)||!int(event.staggerTicks,0,3)||!int(event.staggerUntilTick,0,event.tick+3)||typeof event.interrupted!=='boolean'))bad('战斗受击结果');
     }
     for(const event of c.effects||[])if(event.projectileKind!==undefined&&(event.projectileKind!=='sword-qi'||!openValleyCombat(c)||!int(event.projectileId,1,(c.nextProjectileId||1)-1)))bad('剑气接触来源');
-    if(c.projectiles!==undefined&&(!Array.isArray(c.projectiles)||c.projectiles.length>32||!int(c.nextProjectileId,1)||!unique(c.projectiles.map(v=>v.id))||c.projectiles.some(v=>!int(v.id,1,c.nextProjectileId-1)||!['spell','sword-qi'].includes(v.kind)||v.sourceId!=='master'||!point(v)||!point(v.from)||!Number.isFinite(v.aim?.x)||!Number.isFinite(v.aim?.y)||!num(v.direction?.x,-1,1)||!num(v.direction?.y,-1,1)||Math.abs(Math.hypot(v.direction.x,v.direction.y)-1)>1e-6||(v.kind==='sword-qi'?(!openValleyCombat(c)||v.ownerFaction!=='sect'||v.speed!==basicCombatAttackProfile(c).projectileSpeed||v.radius!==basicCombatAttackProfile(c).projectileRadius||v.range!==basicCombatAttackProfile(c).range):v.speed!==8||v.radius!==.45)||!num(v.range,0,20)||!num(v.remainingDistance,0,v.range)||!num(v.damage,0,10000)||!int(v.launchedTick,0,combatWorldTick(s))||typeof v.actionId!=='string')))bad('术法飞行记录');
+    if(c.projectiles!==undefined&&(!Array.isArray(c.projectiles)||c.projectiles.length>32||!int(c.nextProjectileId,1)||!unique(c.projectiles.map(v=>v.id))||c.projectiles.some(v=>!int(v.id,1,c.nextProjectileId-1)||!['spell','sword-qi'].includes(v.kind)||v.sourceId!=='master'||!(v.space===STUDY_SHOT_SPACE&&swordStudyCombat(c)?airPoint(v)&&airPoint(v.from):point(v)&&point(v.from))||!Number.isFinite(v.aim?.x)||!Number.isFinite(v.aim?.y)||!num(v.direction?.x,-1,1)||!num(v.direction?.y,-1,1)||Math.abs(Math.hypot(v.direction.x,v.direction.y)-1)>1e-6||(v.kind==='sword-qi'?(!openValleyCombat(c)||v.ownerFaction!=='sect'||v.speed!==basicCombatAttackProfile(c).projectileSpeed||v.radius!==basicCombatAttackProfile(c).projectileRadius||v.range!==basicCombatAttackProfile(c).range||swordStudyCombat(c)&&(v.space!==STUDY_SHOT_SPACE||v.coreLength!==STUDY_SHOT_LENGTH||v.coreWidth!==STUDY_SHOT_WIDTH)||!swordStudyCombat(c)&&v.space!==undefined):v.speed!==8||v.radius!==.45||v.space!==undefined)||!num(v.range,0,20)||!num(v.remainingDistance,0,v.range)||!num(v.damage,0,10000)||!int(v.launchedTick,0,combatWorldTick(s))||typeof v.actionId!=='string')))bad('术法飞行记录');
+    if(c.groundStrikes!==undefined&&(!swordStudyCombat(c)||!Array.isArray(c.groundStrikes)||c.groundStrikes.length>8||!int(c.nextGroundStrikeId,1)||!unique(c.groundStrikes.map(v=>v.id))||c.groundStrikes.some(v=>!int(v.id,1,c.nextGroundStrikeId-1)||v.sourceId!=='master'||typeof v.actionId!=='string'||!point(v.from)||!combatCanStand(v.target,combatGeometryId(c))||!point(v.target)||v.radius!==GROUND_SWORD_ACTION.radius||!num(v.damage,0,10000)||!['swordbasic','sword'].includes(v.artId)||!int(v.releasedTick,0,combatWorldTick(s))||v.landTick!==v.releasedTick+GROUND_SWORD_ACTION.delayTicks||v.landTick<=combatWorldTick(s))))bad('落剑延迟记录');
     if(c.status==='active'&&(!e||e.status!=='combat'||e.id!==c.journeyId||e.regionId!==c.regionId||c.rewardApplied||c.result!==null||p.hp<=0||c.allies.length!==e.companionIds.length||c.allies.some((a,i)=>a.id!==e.companionIds[i])))bad('战斗与探索关联');
     if(c.status!=='active'&&(!c.result||!str(c.result.title,40)||!str(c.result.text)||!num(c.result.injury,0,100)))bad('战斗结果');
     if(c.status==='won'&&(!c.rewardApplied||c.enemies.some(e=>e.hp>0)))bad('战斗奖励');

@@ -18,7 +18,15 @@ export function compileStaticPolygon(polygon,{cellSize=2}={}){
   for(const i of edges){const a=polygon[i],b=polygon[(i+polygon.length-1)%polygon.length];if((a[1]>point.y)!==(b[1]>point.y)&&point.x<(b[0]-a[0])*(point.y-a[1])/(b[1]-a[1])+a[0])inside=!inside;}
   return inside;
  };
- const query=Object.freeze({bounds,contains,indexed});sizes.set(cellSize,query);return query;
+ // Conservative interior proof: if no boundary edge's bounding box touches
+ // the rectangle, parity is constant throughout it. Ambiguous boxes fall back.
+ const edgeBounds=polygon.map((a,i)=>{const b=polygon[(i+polygon.length-1)%polygon.length];return {left:Math.min(a[0],b[0]),right:Math.max(a[0],b[0]),top:Math.min(a[1],b[1]),bottom:Math.max(a[1],b[1])};});
+ const coversBox=box=>{
+  if(![box?.left,box?.right,box?.top,box?.bottom].every(Number.isFinite)||box.left>box.right||box.top>box.bottom||box.left<=bounds.left||box.right>=bounds.right||box.top<=bounds.top||box.bottom>=bounds.bottom)return false;
+  if(edgeBounds.some(e=>e.left<=box.right&&e.right>=box.left&&e.top<=box.bottom&&e.bottom>=box.top))return false;
+  return contains({x:(box.left+box.right)/2,y:(box.top+box.bottom)/2});
+ };
+ const query=Object.freeze({bounds,contains,coversBox,indexed});sizes.set(cellSize,query);return query;
 }
 
 /** The list and every coordinate are frozen; world/entity changes are irrelevant. */

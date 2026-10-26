@@ -1,0 +1,17 @@
+assets/characters/shen-yan/hunyuan-v2/prepared/shen-yan-detailed-bound.blend filter=lfs diff=lfs merge=lfs -text
+assets/characters/shen-yan/hunyuan-v2/prepared/shen-yan-detailed-master.blend filter=lfs diff=lfs merge=lfs -text
+assets/characters/shen-yan/hunyuan-v2/prepared/shen-yan-detailed-master.glb filter=lfs diff=lfs merge=lfs -text
+assets/characters/shen-yan/hunyuan-v2/prepared/shen-yan-rigged.glb filter=lfs diff=lfs merge=lfs -text
+assets/characters/shen-yan/walk-study-v1/motion/shen-yan-walk.blend filter=lfs diff=lfs merge=lfs -text
+assets/characters/shen-yan/hunyuan-v2/prepared/shen-yan-rigged.blend filter=lfs diff=lfs merge=lfs -text
+archive/prototypes/three_style_showcase/assets/asset-review/architecture/hall.glb filter=lfs diff=lfs merge=lfs -text
+assets/characters/shen-yan/hunyuan-v1/prepared/shen-yan-rigged.blend filter=lfs diff=lfs merge=lfs -text
+assets/characters/shen-yan/hunyuan-v2/source/shen-yan-body-source.glb filter=lfs diff=lfs merge=lfs -text
+assets/characters/shen-yan/hunyuan-v2/source/shen-yan-head-source.glb filter=lfs diff=lfs merge=lfs -text
+archive/prototypes/three_style_showcase/assets/asset-review/architecture/pavilion.glb filter=lfs diff=lfs merge=lfs -text
+archive/prototypes/three_style_showcase/assets/asset-review/nature/nature.blend filter=lfs diff=lfs merge=lfs -text
+assets/characters/shen-yan/hunyuan-v2/source/shen-yan-head-source.obj.zip filter=lfs diff=lfs merge=lfs -text
+assets/characters/shen-yan/hunyuan-v2/source/shen-yan-body-source.obj.zip filter=lfs diff=lfs merge=lfs -text
+archive/prototypes/three_style_showcase/assets/reference/nature.glb filter=lfs diff=lfs merge=lfs -text
+assets/characters/shen-yan/hunyuan-v1/prepared/shen-yan-rigged.glb filter=lfs diff=lfs merge=lfs -text
+assets/characters/shen-yan/hunyuan-v1/source/shen-yan-source.glb filter=lfs diff=lfs merge=lfs -text

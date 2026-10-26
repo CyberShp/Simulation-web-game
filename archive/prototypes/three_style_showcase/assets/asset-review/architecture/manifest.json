@@ -1,0 +1,165 @@
+{
+  "schema": 1,
+  "reference": "docs/art/asset-review-20261013/main-hall-design.png",
+  "units": "metres",
+  "axes": {
+    "up": "+Y",
+    "front": "+Z"
+  },
+  "assets": [
+    {
+      "name": "MainHall",
+      "triangles": 297312,
+      "drawPrimitives": 12,
+      "dimensionsXYZ": [
+        33.79999923706055,
+        20.411468505859375,
+        26.67750072479248
+      ],
+      "boundsMinXYZ": [
+        -16.899999618530273,
+        0.0,
+        -10.574999809265137
+      ],
+      "boundsMaxXYZ": [
+        16.899999618530273,
+        20.411468505859375,
+        16.102500915527344
+      ],
+      "editableMeshParts": 420,
+      "materials": [
+        "Aged_Brass_Inlay",
+        "Aged_Gray_Limewash",
+        "Banner_Blue_Gray_Embroidery",
+        "Carved_Gray_Stone_PBR",
+        "Cedar_Edge_Joinery",
+        "Cedar_Scanned_PBR",
+        "Deep_Cedar_Panels",
+        "Fired_Gray_Roof_PBR",
+        "Ivory_Heavy_Linen",
+        "Opaque_Window_Wood_Panels",
+        "Roof_Ceramic_Edge",
+        "Stone_Deep_Recess"
+      ],
+      "file": "hall.glb"
+    },
+    {
+      "name": "SidePavilion",
+      "triangles": 135964,
+      "drawPrimitives": 10,
+      "dimensionsXYZ": [
+        13.399999618530273,
+        12.728825569152832,
+        15.1274995803833
+      ],
+      "boundsMinXYZ": [
+        -6.699999809265137,
+        0.0,
+        -5.875
+      ],
+      "boundsMaxXYZ": [
+        6.699999809265137,
+        12.728825569152832,
+        9.2524995803833
+      ],
+      "editableMeshParts": 148,
+      "materials": [
+        "Aged_Brass_Inlay",
+        "Aged_Gray_Limewash",
+        "Carved_Gray_Stone_PBR",
+        "Cedar_Edge_Joinery",
+        "Cedar_Scanned_PBR",
+        "Deep_Cedar_Panels",
+        "Fired_Gray_Roof_PBR",
+        "Opaque_Window_Wood_Panels",
+        "Roof_Ceramic_Edge",
+        "Stone_Deep_Recess"
+      ],
+      "file": "pavilion.glb"
+    },
+    {
+      "name": "StoneBridge",
+      "triangles": 12176,
+      "drawPrimitives": 1,
+      "dimensionsXYZ": [
+        7.909999847412109,
+        6.489999771118164,
+        23.399999618530273
+      ],
+      "boundsMinXYZ": [
+        -3.9549999237060547,
+        0.0,
+        -11.699999809265137
+      ],
+      "boundsMaxXYZ": [
+        3.9549999237060547,
+        6.489999771118164,
+        11.699999809265137
+      ],
+      "editableMeshParts": 4,
+      "materials": [
+        "Carved_Gray_Stone_PBR"
+      ],
+      "file": "bridge.glb"
+    },
+    {
+      "name": "StoneLantern",
+      "triangles": 34036,
+      "drawPrimitives": 7,
+      "dimensionsXYZ": [
+        1.8151191473007202,
+        3.2993266582489014,
+        1.8151191473007202
+      ],
+      "boundsMinXYZ": [
+        -0.9075595736503601,
+        0.0,
+        -0.9075595736503601
+      ],
+      "boundsMaxXYZ": [
+        0.9075595736503601,
+        3.2993266582489014,
+        0.9075595736503601
+      ],
+      "editableMeshParts": 11,
+      "materials": [
+        "Carved_Gray_Stone_PBR",
+        "Cedar_Scanned_PBR",
+        "Deep_Cedar_Panels",
+        "Fired_Gray_Roof_PBR",
+        "Lamp_Warm_Glass",
+        "Roof_Ceramic_Edge",
+        "Stone_Deep_Recess"
+      ],
+      "file": "lantern.glb"
+    }
+  ],
+  "files": {
+    "architecture.blend": {
+      "bytes": 26095466,
+      "sha256": "b5f138f94389af7ca43de243301b9786fcf0d3e3149b8738c5f746ab2e15111b"
+    },
+    "hall.glb": {
+      "bytes": 71957092,
+      "sha256": "3d1de2c1ff37a7d4291783f7d6d93a1303ebfd53befff5e7d410426aa405ba46"
+    },
+    "pavilion.glb": {
+      "bytes": 54796720,
+      "sha256": "5e6a245eb9010c5315fff1ead0a865bdcbe117b670facca86f0cdb9368a72cce"
+    },
+    "bridge.glb": {
+      "bytes": 13417220,
+      "sha256": "dfa2d25d20b1777c4222db42cfb8db1019d3796bf34be30bf8d26a7c5ae320b7"
+    },
+    "lantern.glb": {
+      "bytes": 32627060,
+      "sha256": "203274ac8e3d2385229bff4fcec343bca235c6cca94c7a81d8b21acf0dd343d2"
+    }
+  },
+  "verification": {
+    "structure": "passed GLB readback; see structure-check.json",
+    "visual": "viewer inspection pending",
+    "editableSource": "passed Blender CPU readback: four editable collections, 583 mesh parts and 12 packed 2K scan images"
+  },
+  "textureSources": "textures/sources.json"
+}

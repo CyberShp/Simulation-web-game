@@ -1,0 +1,27 @@
+{
+  "tool": "built-in image_gen.imagegen",
+  "reference": "assets/courtyard/east-path-a.png",
+  "layout": "apps/courtyard/courtyard-guesthouse-layout.mjs",
+  "worldSite": {
+    "x": 66,
+    "y": 14,
+    "width": 6,
+    "height": 6
+  },
+  "files": [
+    {
+      "path": "assets/courtyard/east-guesthouse-empty-v3.png",
+      "sha256": "ac5ed2775d43325400ae1537d993a72208200459de4be2851d4657c9e13a93ab"
+    },
+    {
+      "path": "assets/courtyard/east-guesthouse-complete-v1.png",
+      "sha256": "e00026df1b18464ce5d8102c366117b24c2087280fc3e3453e9f6b0ea99c5ace"
+    },
+    {
+      "path": "assets/courtyard/east-guesthouse-construction-v1.png",
+      "sha256": "2a64fb607e3bd85d02b857733ee5fd809d7d32fca6896590f8ee1c3c6b649c55"
+    }
+  ],
+  "iterations": "/Users/shepard/.codex/tmp/immortal-guesthouse-20261023/art-iterations",
+  "acceptance": "Source-pixel terrain and wall measurements; gameplay evidence in docs/design/71-GUESTHOUSE-INTEGRATION.md"
+}

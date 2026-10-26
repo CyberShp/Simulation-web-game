@@ -38,6 +38,11 @@ def main():
                                                       'hall-damaged-v1.png', 'hall-damaged-v2.png',
                                                       'hall-repaired-v1.png', 'hall-level2-v1.png',
                                                       'opening-rain-*.png', 'opening-scroll-*.png',
+                                                      'mountain-main-hall-*.png', 'mountain-herb-terrace-*.png',
+                                                      'mountain-courtyard-ground-v1.png', 'opening-shelter-v1.png',
+                                                      'farm-v1.png', 'residence-v1.png', 'kitchen-v1.png', 'lumber-v1.png',
+                                                      'mountain-alchemy-house-v1.png', 'merchant-qingxi-v1.png',
+                                                      'qing-luo-v1.png', 'valley-shanxiao-v1.png',
                                                       'PROMPTS.md'))
         # HUD bitmaps are copied beside the exported page below; Godot does not use them in the scene pack.
         shutil.copytree(ROOT / 'archive/godot/estate_3d/web', stage / 'estate_2d/web',

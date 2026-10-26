@@ -1,0 +1,252 @@
+{
+  "scope": "55 B02 / SR007 and SR013 offline single-direction material candidate",
+  "artReview": "pending-main-agent-continuous-review",
+  "sourceHashes": {
+    "/Volumes/Media/immortal/docs/art/combat-motion-study-20261025/source/run-right-support-v6.png": "4b60ae953d0e5994f06cabc479e560f8c30dded8780efb7b70755405ee60a2a1",
+    "/Volumes/Media/immortal/docs/art/combat-motion-study-20261025/source/run-left-support-v5.png": "80905d089238b206d2703348ede80a39ff629586db1576a32af5f33f13ffd5b6"
+  },
+  "sourceUnchanged": true,
+  "sourceStandingReference": 500,
+  "logicalStandingReference": 58,
+  "scale": 0.116,
+  "presentationScale": 1.7454545454545454,
+  "theoreticalBodyHeight": 101.23636363636363,
+  "order": "v6[0..3] then v5[0..3]",
+  "frameCount": 8,
+  "frameDurationMs": 60,
+  "durationMs": 480,
+  "feet": [
+    [
+      380,
+      584
+    ],
+    [
+      349,
+      584
+    ],
+    [
+      400,
+      528
+    ],
+    [
+      375,
+      528
+    ],
+    [
+      380,
+      584
+    ],
+    [
+      349,
+      584
+    ],
+    [
+      400,
+      528
+    ],
+    [
+      375,
+      528
+    ]
+  ],
+  "boundaries": [
+    {
+      "source": "/Volumes/Media/immortal/docs/art/combat-motion-study-20261025/source/run-right-support-v6.png",
+      "cell": 0,
+      "crop": [
+        0,
+        0,
+        615,
+        627
+      ],
+      "foot": [
+        380,
+        584
+      ],
+      "boundsAlphaGE8": [
+        8,
+        84,
+        604,
+        585
+      ],
+      "borderAlphaGE8": 0,
+      "borderMaxAlpha": 2
+    },
+    {
+      "source": "/Volumes/Media/immortal/docs/art/combat-motion-study-20261025/source/run-right-support-v6.png",
+      "cell": 1,
+      "crop": [
+        615,
+        0,
+        639,
+        627
+      ],
+      "foot": [
+        349,
+        584
+      ],
+      "boundsAlphaGE8": [
+        11,
+        90,
+        542,
+        591
+      ],
+      "borderAlphaGE8": 0,
+      "borderMaxAlpha": 0
+    },
+    {
+      "source": "/Volumes/Media/immortal/docs/art/combat-motion-study-20261025/source/run-right-support-v6.png",
+      "cell": 2,
+      "crop": [
+        0,
+        627,
+        615,
+        627
+      ],
+      "foot": [
+        400,
+        528
+      ],
+      "boundsAlphaGE8": [
+        11,
+        47,
+        578,
+        543
+      ],
+      "borderAlphaGE8": 0,
+      "borderMaxAlpha": 1
+    },
+    {
+      "source": "/Volumes/Media/immortal/docs/art/combat-motion-study-20261025/source/run-right-support-v6.png",
+      "cell": 3,
+      "crop": [
+        615,
+        627,
+        639,
+        627
+      ],
+      "foot": [
+        375,
+        528
+      ],
+      "boundsAlphaGE8": [
+        8,
+        46,
+        629,
+        513
+      ],
+      "borderAlphaGE8": 0,
+      "borderMaxAlpha": 1
+    },
+    {
+      "source": "/Volumes/Media/immortal/docs/art/combat-motion-study-20261025/source/run-left-support-v5.png",
+      "cell": 0,
+      "crop": [
+        0,
+        0,
+        615,
+        627
+      ],
+      "foot": [
+        380,
+        584
+      ],
+      "boundsAlphaGE8": [
+        12,
+        83,
+        591,
+        584
+      ],
+      "borderAlphaGE8": 0,
+      "borderMaxAlpha": 1
+    },
+    {
+      "source": "/Volumes/Media/immortal/docs/art/combat-motion-study-20261025/source/run-left-support-v5.png",
+      "cell": 1,
+      "crop": [
+        615,
+        0,
+        639,
+        627
+      ],
+      "foot": [
+        349,
+        584
+      ],
+      "boundsAlphaGE8": [
+        15,
+        92,
+        534,
+        592
+      ],
+      "borderAlphaGE8": 0,
+      "borderMaxAlpha": 1
+    },
+    {
+      "source": "/Volumes/Media/immortal/docs/art/combat-motion-study-20261025/source/run-left-support-v5.png",
+      "cell": 2,
+      "crop": [
+        0,
+        627,
+        615,
+        627
+      ],
+      "foot": [
+        400,
+        528
+      ],
+      "boundsAlphaGE8": [
+        13,
+        49,
+        575,
+        541
+      ],
+      "borderAlphaGE8": 0,
+      "borderMaxAlpha": 1
+    },
+    {
+      "source": "/Volumes/Media/immortal/docs/art/combat-motion-study-20261025/source/run-left-support-v5.png",
+      "cell": 3,
+      "crop": [
+        615,
+        627,
+        639,
+        627
+      ],
+      "foot": [
+        375,
+        528
+      ],
+      "boundsAlphaGE8": [
+        15,
+        47,
+        627,
+        503
+      ],
+      "borderAlphaGE8": 0,
+      "borderMaxAlpha": 1
+    }
+  ],
+  "bundle": "/Volumes/Media/immortal-qa/combat-direction-study-20261025/run-v005-half-cycle/packs/half-cycle-v001",
+  "pipelineValidation": {
+    "output": "/Volumes/Media/immortal-qa/combat-direction-study-20261025/run-v005-half-cycle/packs/half-cycle-v001",
+    "algorithmStatus": "passed",
+    "artReview": "not-reviewed",
+    "frameCount": 8
+  },
+  "command": [
+    "/Users/shepard/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "/Volumes/Media/immortal/scripts/art/combat-frame-pipeline/pipeline.py",
+    "pack",
+    "--spec",
+    "/Volumes/Media/immortal-qa/combat-direction-study-20261025/run-v005-half-cycle/spec.json",
+    "--output-root",
+    "/Volumes/Media/immortal-qa/combat-direction-study-20261025/run-v005-half-cycle/packs",
+    "--name",
+    "half-cycle"
+  ],
+  "gifFormat": "opaque 256-color diagnostic previews; transparent PNGs remain in bundle",
+  "runtimeIntegration": false,
+  "saveLoad": "not-applicable-offline",
+  "htmlPlaybackReview": "not-yet-viewed"
+}

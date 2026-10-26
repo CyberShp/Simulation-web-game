@@ -24,7 +24,7 @@ let plannedExit=null;
 const updateView=createSectViewRefresh(()=>session),ownedCommand=createSectCommandDriver(()=>session);
 const MASTER='person:master',master=()=>view.people?.find(p=>p.id===MASTER),refresh=options=>{view=updateView(options);renderer.view=view;return view;};
 const completeView=()=>view.people?view:refresh();
-const inspection=()=>inspectCourtyard(session,refresh());
+const inspection=preparedView=>inspectCourtyard(session,preparedView||refresh());
 const needsFullView=()=>!!(modal||panelReading||openingReading||departureReading||pendingApproach||activeWaypoint||!$('management').hidden);
 // QA records synchronous JavaScript separately from the asynchronous host wait.
 // Production saves retain the same snapshot, queue, submission and error path.
@@ -71,7 +71,7 @@ addEventListener('error',e=>fail(e.error||e.message));addEventListener('unhandle
 function issue(request){
  if(request.type!=='pause'&&(closing||importing||persistence?.status().protected)){refresh();return{ok:false,error:importing?'请先完成或取消恢复。':'当前进度处于保护暂停，请先重试保存或导出恢复文件。'};}
  const result=ownedCommand(request);
- const battleProjection=(result.ok||session.state.combat?.status==='active')&&['combat-input','combat','pause'].includes(request.type)&&!!session.state.combat&&view.expedition?.scene?.type==='combat'&&view.opening?.stage==='complete'&&!needsFullView()&&!closing&&!importing&&!suspended;
+ const battleProjection=(result.ok||session.state.combat?.status==='active'&&!['combat-target','combat-auto'].includes(request.type))&&['combat-input','combat','combat-target','combat-auto','pause'].includes(request.type)&&!!session.state.combat&&view.expedition?.scene?.type==='combat'&&view.opening?.stage==='complete'&&!needsFullView()&&!closing&&!importing&&!suspended;
  refresh(battleProjection?{automatic:true,force:true}:undefined);return result;
 }
 function pauseReasons(){return[manualPause&&'手动暂停',openingReading&&'开篇阅读',modal&&'详情阅读',panelReading&&'建筑详情',departureReading&&'出行准备',renderer.reference&&'原稿对照',suspended&&'系统休眠',closing&&'退出保存',persistence?.status().protected&&'保存保护'].filter(Boolean);}

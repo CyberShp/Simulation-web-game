@@ -1,3 +1,4 @@
+import {advanceExpeditionWalk,validateExpeditionWalk,expeditionLandingClear} from './ea-disciple-expedition-walk.mjs';
 import {nearestVisibleBodyTarget,visibleBodyRouteClear} from './ea-sr-spatial.mjs';
 import {companionInTalkingReach,attachExpeditionCompanions,expeditionPeer,expeditionPartySnapshot,waitForExpeditionPeer,waitDuringExpedition,relayExpeditionWarnings,validateExpeditionCooperation} from './ea-disciple-expedition-cooperation.mjs';
 import {newExpeditionMedicine,prepareExpeditionMedicine,advanceExpeditionMedicine,finishExpeditionMedicine,validateExpeditionMedicine} from "./ea-disciple-expedition-medicine.mjs";
@@ -170,7 +171,7 @@ function lock(s, p, j) {
   p.mind.away = null;
 }
 function unlock(s, p, j) {
-  if (j) {finishExpeditionMedicine(s, p, j);delete j.partyWait;}
+  if (j) {finishExpeditionMedicine(s, p, j);delete j.partyWait;delete j.walkDetour;}
   delete s.activitiesById[p.activityId];
   p.activityId = null;
   p.mind.away = null;
@@ -180,7 +181,7 @@ function unlock(s, p, j) {
 }
 const valleyArrival=j=>({x:7+(j.party?.role==='companion'?1.2:0),y:27});
 function travel(s, p, j, returning = false) {
-  delete j.partyWait;
+  delete j.partyWait;delete j.walkDetour;
   const id = `travel:disciple:${j.id}:${returning ? "home" : "valley"}`,
     r = s.routesById["route:home-valley"];
   const t = {
@@ -353,7 +354,7 @@ function step(s, r, departurePersonId = null, journeyId = null, snapshot = null)
   if (p.lifeStatus === "dead") {
     j.phase = "dead";
     j.completedTick = s.worldTick;
-    finishExpeditionMedicine(s, p, j);delete j.partyWait;
+    finishExpeditionMedicine(s, p, j);delete j.partyWait;delete j.walkDetour;
     return;
   }
   if (j.phase === "preparing") {
@@ -488,9 +489,12 @@ function step(s, r, departurePersonId = null, journeyId = null, snapshot = null)
     t.status = "traveling";
     t.lastTick = s.worldTick;
     if (++t.progressTicks < t.durationTicks) return;
+    const returning = j.phase === "returning";
+    if(!expeditionLandingClear(s,p,returning?j.exit:valleyArrival(j),returning?HOME:VALLEY)){
+      t.progressTicks=t.durationTicks-1;t.status='blocked';p.mind.reason='入口有人，等待实际落脚位置空出。';return;
+    }
     t.status = "arrived";
     t.completedTick = s.worldTick;
-    const returning = j.phase === "returning";
     p.location = {
       kind: "local",
       sceneId: returning ? HOME : VALLEY,
@@ -577,23 +581,9 @@ function step(s, r, departurePersonId = null, journeyId = null, snapshot = null)
   }
   if (j.phase === "valley-return") {
     if (advanceExpeditionMedicine(s, p, j)) return;
+    if(j.walkDetour?.phase!==j.phase)delete j.walkDetour;
     if(waitDuringExpedition(s,p,j,snapshot))return;
-    const l = p.location,
-      target = j.valleyTrail?.at(-1) || valleyArrival(j),
-      dx = target.x - l.x,
-      dy = target.y - l.y,
-      dist = Math.hypot(dx, dy);
-    if (dist > 0.01) {
-      const n = Math.min(0.12, dist);
-      l.x += (dx * n) / dist;
-      l.y += (dy * n) / dist;
-      p.position = { kind: "scene", sceneId: VALLEY, x: l.x, y: l.y };
-      return;
-    }
-    if (j.valleyTrail?.length) {
-      j.valleyTrail.pop();
-      return;
-    }
+    if(j.valleyTrail?.length){advanceExpeditionWalk(s,p,j,j.valleyTrail,{returning:true});return;}
     const peer=expeditionPeer(s,j);j.returnExitArrived=true;
     if(peer&&!j.partySeparated&&!['cancelled','dead','returned'].includes(peer.phase)){
       const other=s.personsById[peer.personId],together=peer.phase==='valley-return'&&peer.returnExitArrived&&other.location?.kind==='local'&&other.location.sceneId===VALLEY&&Math.hypot(other.location.x-p.location.x,other.location.y-p.location.y)<=6;
@@ -609,12 +599,12 @@ function step(s, r, departurePersonId = null, journeyId = null, snapshot = null)
       if (p.lifeStatus === "dead") {
         j.phase = "dead";
         j.completedTick = s.worldTick;
-        finishExpeditionMedicine(s, p, j);delete j.partyWait;
+        finishExpeditionMedicine(s, p, j);delete j.partyWait;delete j.walkDetour;
         return;
       }
       if (outcome?.retreat || outcome?.status === "retreat") {
         j.retreated = true;
-        j.phase = "valley-return";
+        j.phase = "valley-return";delete j.walkDetour;
         return;
       }
       if (outcome?.busy) return;
@@ -622,16 +612,7 @@ function step(s, r, departurePersonId = null, journeyId = null, snapshot = null)
     if(waitDuringExpedition(s,p,j,snapshot)||j.phase!=="exploring")return;
     const l = p.location;
     if (j.valleyPath.length) {
-      const target = j.valleyPath[0],
-        dist = Math.hypot(target.x - l.x, target.y - l.y),
-        n = Math.min(0.12, dist);
-      if (dist > 0) {
-        l.x += ((target.x - l.x) * n) / dist;
-        l.y += ((target.y - l.y) * n) / dist;
-      }
-      j.valleyTrail.push({ x: l.x, y: l.y });
-      if (dist <= 0.12) j.valleyPath.shift();
-      p.position = { kind: "scene", sceneId: VALLEY, x: l.x, y: l.y };
+      advanceExpeditionWalk(s,p,j,j.valleyPath);
       return;
     }
     if (++j.progress < T.gather) return;
@@ -647,7 +628,7 @@ function step(s, r, departurePersonId = null, journeyId = null, snapshot = null)
       amount: take,
       text: "从同一有限药丛实际采入个人携带",
     });
-    if (j.purpose === "supply") j.phase = "valley-return";
+    if (j.purpose === "supply") {j.phase = "valley-return";delete j.walkDetour;}
     else {
       j.scoutPath = planPartyScout(s,p,j);
       j.phase = j.scoutPath ? "scouting" : "valley-return";
@@ -660,12 +641,12 @@ function step(s, r, departurePersonId = null, journeyId = null, snapshot = null)
       if (p.lifeStatus === "dead") {
         j.phase = "dead";
         j.completedTick = s.worldTick;
-        finishExpeditionMedicine(s, p, j);delete j.partyWait;
+        finishExpeditionMedicine(s, p, j);delete j.partyWait;delete j.walkDetour;
         return;
       }
       if (o?.retreat || o?.status === "retreat") {
         j.retreated = true;
-        j.phase = "valley-return";
+        j.phase = "valley-return";delete j.walkDetour;
         return;
       }
       if (o?.busy) return;
@@ -677,7 +658,7 @@ function step(s, r, departurePersonId = null, journeyId = null, snapshot = null)
       if (j.purpose === "explore") {
         if (Math.hypot(l.x - (j.scoutGoal?.x??SCOUT_POINT.x), l.y - (j.scoutGoal?.y??SCOUT_POINT.y)) > .01) {
           j.scoutReason = "尚未实际到达探索位置，沿来路返回";
-          j.phase = "valley-return";
+          j.phase = "valley-return";delete j.walkDetour;
           return;
         }
         if (++j.progress < T.gather) return;
@@ -688,18 +669,10 @@ function step(s, r, departurePersonId = null, journeyId = null, snapshot = null)
           text: "本人沿已知路线实际到达侦察位置，完成观察与修行见闻",
         });
       }
-      j.phase = "valley-return";
+      j.phase = "valley-return";delete j.walkDetour;
       return;
     }
-    const d = Math.hypot(target.x - l.x, target.y - l.y),
-      n = Math.min(0.12, d);
-    if (d > 0) {
-      l.x += ((target.x - l.x) * n) / d;
-      l.y += ((target.y - l.y) * n) / d;
-    }
-    j.valleyTrail.push({ x: l.x, y: l.y });
-    p.position = { kind: "scene", sceneId: VALLEY, x: l.x, y: l.y };
-    if (d <= 0.12) j.scoutPath.shift();
+    advanceExpeditionWalk(s,p,j,j.scoutPath);
   }
 }
 export function advanceDiscipleExpeditions(s) {
@@ -801,6 +774,7 @@ export function validateDiscipleExpeditions(s) {
       path = (p) => Array.isArray(p) && p.every(point),
       tick = (t) => integer(t) && t <= s.worldTick;
     if (!point(j.home) || !point(j.exit) || !path(j.path)) fail("院内行程路径");
+    if(j.walkDetour)validateExpeditionWalk(j,fail);
     for (const key of ["valleyPath", "valleyTrail", "scoutPath"])
       if (j[key] !== undefined && !path(j[key])) fail("现场路径");
     if (

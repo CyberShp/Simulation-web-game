@@ -371,8 +371,8 @@ export function dispatchCommand(s,{name,args=[],id=`command:${s.transactions.nex
  * rollback; unchanged world/history need not be cloned and revalidated repeatedly.
  */
 export function dispatchOwnedCombatCommand(s,command){
- const names=new Set(['combatAction','setSRAutoAttack','setSpeed']);
- if(!srEnabled(s)||s.combat?.status!=='active'||!s.combat.sessionId||!names.has(command?.name)||command.name==='combatAction'&&!['attack','spell','guard','dodge','retreat'].includes(command.args?.[0]))return dispatchCommand(s,command);
+ const names=new Set(['combatAction','setSRAutoAttack','setSRCombatTarget','setSpeed']);
+ if(!srEnabled(s)||s.combat?.status!=='active'||!s.combat.sessionId||!names.has(command?.name)||command.name==='combatAction'&&!['attack','ground-sword','spell','guard','dodge','retreat'].includes(command.args?.[0]))return dispatchCommand(s,command);
  const committed=executeContractCommand(s,command,{handlers:contractHandlers(),clone:value=>initSR(cloneState(value)),validate:next=>{
   // This retains the original complete JSON/reference/receipt checks once.
   validateV6Shape(next);validateMasterControl(next);validateFacilityActivities(next);

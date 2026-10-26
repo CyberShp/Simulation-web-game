@@ -1,0 +1,107 @@
+{
+  "generator": "scripts/art/prepare-nature-assets.py",
+  "assets": [
+    {
+      "file": "pine.glb",
+      "asset": "pine_sapling_medium",
+      "source": "https://polyhaven.com/a/pine_sapling_medium",
+      "api": "https://api.polyhaven.com/files/pine_sapling_medium",
+      "license": "CC0-1.0",
+      "licenseUrl": "https://polyhaven.com/license",
+      "cc0Url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "sourceVariant": 2,
+      "sourceTriangles": 84226,
+      "triangles": 56387,
+      "sourceLOD": "authored LOD2",
+      "dimensionsMetersXYZ": [
+        3.84898,
+        7.0292,
+        3.52826
+      ],
+      "upAxis": "Y",
+      "groundY": 0,
+      "pivot": "XZ centered; trunk base grounded",
+      "verticalBoundsMeters": [
+        -0.21086,
+        6.81834
+      ],
+      "meshCount": 3,
+      "materials": [
+        "pine_sapling_medium_bark",
+        "pine_sapling_medium_dead_branches",
+        "pine_sapling_medium_twig"
+      ],
+      "textureResolutionSet": "Poly Haven 1k; source UVs and PBR textures embedded",
+      "bytes": 21527188,
+      "sha256": "691be9cc9525629b964340306996763f486407fd8d3b78455288dbef98df4ca7",
+      "processing": "Select authored variant; per-material decimation; preserve UVs and PBR; rebase ground and center",
+      "foliageTexture": "Official diffuse RGBA PNG embedded byte-for-byte; sRGB; MASK 0.45; double sided"
+    },
+    {
+      "file": "rock-face.glb",
+      "asset": "rock_face_01",
+      "source": "https://polyhaven.com/a/rock_face_01",
+      "api": "https://api.polyhaven.com/files/rock_face_01",
+      "license": "CC0-1.0",
+      "licenseUrl": "https://polyhaven.com/license",
+      "cc0Url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "sourceVariant": 0,
+      "sourceTriangles": 20174,
+      "triangles": 5999,
+      "sourceLOD": "source glTF",
+      "dimensionsMetersXYZ": [
+        4.95138,
+        3.56651,
+        3.82587
+      ],
+      "upAxis": "Y",
+      "groundY": 0,
+      "pivot": "XZ centered; lowest point grounded",
+      "verticalBoundsMeters": [
+        0.0,
+        3.56651
+      ],
+      "meshCount": 1,
+      "materials": [
+        "rock_face_01"
+      ],
+      "textureResolutionSet": "Poly Haven 1k; source UVs and PBR textures embedded",
+      "bytes": 2723088,
+      "sha256": "e4844af55b3d8770f6d915cd4f16a70a377f32498da99d541658ad54deec7d64",
+      "processing": "Select authored variant; per-material decimation; preserve UVs and PBR; rebase ground and center"
+    },
+    {
+      "file": "boulder.glb",
+      "asset": "boulder_01",
+      "source": "https://polyhaven.com/a/boulder_01",
+      "api": "https://api.polyhaven.com/files/boulder_01",
+      "license": "CC0-1.0",
+      "licenseUrl": "https://polyhaven.com/license",
+      "cc0Url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "sourceVariant": 0,
+      "sourceTriangles": 66122,
+      "triangles": 6000,
+      "sourceLOD": "source glTF",
+      "dimensionsMetersXYZ": [
+        1.27618,
+        1.00026,
+        1.82931
+      ],
+      "upAxis": "Y",
+      "groundY": 0,
+      "pivot": "XZ centered; lowest point grounded",
+      "verticalBoundsMeters": [
+        0.0,
+        1.00026
+      ],
+      "meshCount": 1,
+      "materials": [
+        "boulder_01"
+      ],
+      "textureResolutionSet": "Poly Haven 1k; source UVs and PBR textures embedded",
+      "bytes": 3010072,
+      "sha256": "6f0be6ae1c5c89687a1cc28f362ddeef9544fe9c65a7259495397bffd3ed1621",
+      "processing": "Select authored variant; per-material decimation; preserve UVs and PBR; rebase ground and center"
+    }
+  ]
+}

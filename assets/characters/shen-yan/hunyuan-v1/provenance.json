@@ -1,0 +1,124 @@
+{
+  "character": "沈砚",
+  "stage": "序章形象",
+  "created": "2026-10-17",
+  "pipeline": "reference compositing -> Tencent HY-3D-3.1 -> Tencent HY-3D-Rigging",
+  "generation": {
+    "model": "hy-3d-3.1",
+    "id": "1502975744069812224",
+    "status": "completed",
+    "generate_type": "Normal",
+    "face_count": 20000,
+    "enable_pbr": true,
+    "input": "references/front.png"
+  },
+  "references": [
+    {
+      "path": "assets/characters/shen-yan/hunyuan-v1/references/front.png",
+      "bytes": 2134479,
+      "sha256": "644b159bf6974c5e61a29bf7a391972c77c02f0ab1060efb74a6bdfd43c1fd59"
+    },
+    {
+      "path": "docs/art/shen-yan-model-reference-20261017/body-three-views-v1.png",
+      "bytes": 2251777,
+      "sha256": "093cd0a5da95238fd26eb85d440bcd8aefaa69c5bd10b8ffb7f396ed3729d736"
+    },
+    {
+      "path": "docs/art/shen-yan-model-reference-20261017/head-five-views-v1.png",
+      "bytes": 2241613,
+      "sha256": "a04b55ebb5bdc56a81e77a23c747bc67ffe9fd424a53aea62b509ec841a0e085"
+    },
+    {
+      "path": "docs/art/shen-yan-model-reference-20261017/face-details-v1.png",
+      "bytes": 2490320,
+      "sha256": "33bf7887bfcb957c278375d6b8879f246c63650c2736144b52fc5a6e1fe1cdb7"
+    }
+  ],
+  "rigging": {
+    "model": "hy-3d-rigging",
+    "id": "1502977214856814592",
+    "status": "completed",
+    "input": "source/shen-yan-source.glb",
+    "motion_type": null,
+    "original_output": "rigged/shen-yan-hunyuan-rigged.fbx"
+  },
+  "source_outputs": [
+    {
+      "path": "source/shen-yan-source-obj.zip",
+      "bytes": 29604244,
+      "sha256": "60ddc70cfb55acab1ad9a1f933dc8dbe656776509a0dd4812c10f608ae7b1d3b"
+    },
+    {
+      "path": "source/shen-yan-source.glb",
+      "bytes": 33572304,
+      "sha256": "7f17c0cdf20eca659c1ccd0282faa1c08472647ca75d97eee7c3920e0dfe36c4"
+    }
+  ],
+  "preparation": {
+    "source": "rigged/shen-yan-hunyuan-rigged.fbx",
+    "operations": [
+      "restore original PBR material after identical topology and UV check",
+      "normalize existing weights",
+      "undo global rotation and center and ground the whole skeleton and mesh, preserving cloud scale"
+    ],
+    "topology_order_identical": true,
+    "uv_max_abs_error": 0,
+    "similarity_fit_max_error": 3.4824206265433514e-07,
+    "original_PBR_bytes_retained": true,
+    "height_including_topknot_m": 1.9465687961066196,
+    "bone_count": 28,
+    "triangles": 19978,
+    "glb_vertices": 17012,
+    "blend_vertices": 16995,
+    "vertex_count_note": "17 vertices split on export attributes; triangle count unchanged.",
+    "independent_finger_bones": false,
+    "facial_rig": false,
+    "animation_clips": 0
+  },
+  "rigged_outputs": [
+    {
+      "path": "rigged/shen-yan-hunyuan-rigged.fbx",
+      "bytes": 26429692,
+      "sha256": "514921bf4470aaffd3b9cd46de7fa8294c4c6d7c9a263db6372547e98e994864"
+    },
+    {
+      "path": "prepared/shen-yan-rigged.blend",
+      "bytes": 57764307,
+      "sha256": "cb6db60f4dbac5266eb1b8361a35063f9e54a86dcdf3f94cc3c55c1be30b357f"
+    },
+    {
+      "path": "prepared/shen-yan-rigged.glb",
+      "bytes": 33922528,
+      "sha256": "dec6e3caa0ae1e4324c7e8ff8163427538607878a150b670c0ed8cd44ab4f13d"
+    }
+  ],
+  "verification": {
+    "blender_version": "5.2.1 LTS",
+    "prepared_glb_reimport": true,
+    "prepared_blend_reopen": true,
+    "source_files_hashes_preserved": true,
+    "pbr_embedded_bytes_identical": true,
+    "body_meshes": 1,
+    "unweighted_vertices": 0,
+    "max_influences": 4,
+    "weight_sum_errors_over_0_001": 0,
+    "nonfinite_coordinates_or_weights": 0,
+    "static_views": [
+      "front",
+      "side",
+      "back"
+    ],
+    "static_pose_checks": {
+      "shoulders_degrees": 20,
+      "elbows_degrees": 25,
+      "hips_degrees": 20,
+      "knees_degrees": 35
+    },
+    "limitations": [
+      "Skirt has local hard folds and pulling in bent-knee poses; refine before continuous movement animation.",
+      "No independent finger, face, or skirt bones.",
+      "Game runtime integration and continuous animation not verified."
+    ],
+    "evidence_directory": "/Volumes/Media/immortal-qa/hunyuan-shen-yan-20261017/audit-prep"
+  }
+}

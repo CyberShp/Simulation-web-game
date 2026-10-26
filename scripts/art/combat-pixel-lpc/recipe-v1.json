@@ -1,0 +1,288 @@
+{
+  "schema": "combat-pixel-recipe/v1",
+  "authorDate": "2026-10-25",
+  "frameSize": [
+    192,
+    192
+  ],
+  "bodyOffset": [
+    64,
+    64
+  ],
+  "foot": [
+    96,
+    126
+  ],
+  "sourceHeights": {
+    "shen-yan": 49,
+    "shanxiao": 45
+  },
+  "movePeriodMs": 460,
+  "handBySourceColumn": {
+    "up": {
+      "3": [
+        111,
+        107
+      ],
+      "4": [
+        119,
+        98
+      ]
+    },
+    "left": {
+      "3": [
+        86,
+        107
+      ],
+      "4": [
+        85,
+        100
+      ]
+    },
+    "down": {
+      "3": [
+        82,
+        108
+      ],
+      "4": [
+        73,
+        97
+      ]
+    },
+    "right": {
+      "3": [
+        106,
+        106
+      ],
+      "4": [
+        107,
+        100
+      ]
+    }
+  },
+  "actions": {
+    "hit": {
+      "columns": [
+        1
+      ],
+      "direction": "down",
+      "phase": "hit"
+    },
+    "down": {
+      "columns": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "direction": "down",
+      "phase": "down",
+      "holdLast": true
+    },
+    "dodge": {
+      "walkColumns": [
+        4,
+        5,
+        5,
+        5
+      ],
+      "phases": [
+        "windup",
+        "release",
+        "recovery",
+        "evade"
+      ],
+      "durationMs": [
+        100,
+        100,
+        100,
+        500
+      ],
+      "holdLast": true
+    },
+    "guard": {
+      "spellColumns": [
+        1,
+        2,
+        3,
+        4,
+        6,
+        3
+      ],
+      "phases": [
+        "windup",
+        "windup",
+        "release",
+        "recovery",
+        "recovery",
+        "guard"
+      ],
+      "holdLast": true
+    },
+    "spell": {
+      "columns": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "phases": [
+        "windup",
+        "windup",
+        "windup",
+        "release",
+        "release",
+        "recovery",
+        "recovery"
+      ]
+    },
+    "attack": {
+      "columns": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "phases": [
+        "windup",
+        "windup",
+        "windup",
+        "release",
+        "release",
+        "recovery"
+      ]
+    }
+  },
+  "environment": {
+    "grass": {
+      "crop": [
+        128,
+        32,
+        32,
+        32
+      ],
+      "repeat": [
+        4,
+        4
+      ]
+    },
+    "pine": {
+      "crop": [
+        128,
+        384,
+        96,
+        128
+      ],
+      "foot": [
+        48,
+        110
+      ]
+    },
+    "herbs": {
+      "crop": [
+        96,
+        0,
+        32,
+        32
+      ],
+      "size": [
+        128,
+        64
+      ],
+      "placements": [
+        [
+          0,
+          16
+        ],
+        [
+          32,
+          0
+        ],
+        [
+          64,
+          24
+        ],
+        [
+          96,
+          8
+        ]
+      ],
+      "foot": [
+        64,
+        58
+      ]
+    },
+    "bridge": {
+      "sourceCrop": [
+        0,
+        0,
+        128,
+        80
+      ],
+      "leftColumn": [
+        0,
+        0,
+        32,
+        80
+      ],
+      "middleColumn": [
+        32,
+        0,
+        32,
+        80
+      ],
+      "middleRepeat": 5,
+      "rightColumn": [
+        96,
+        0,
+        32,
+        80
+      ],
+      "size": [
+        224,
+        80
+      ],
+      "foot": [
+        112,
+        80
+      ]
+    },
+    "rocks": {
+      "source": "Terrain/Rocks, Grasslands.png",
+      "crop": null
+    },
+    "cave": {
+      "wallCrop": [
+        320,
+        288,
+        32,
+        64
+      ],
+      "wallRepeat": 6,
+      "openingCrop": [
+        224,
+        288,
+        96,
+        64
+      ],
+      "openingOffset": [
+        48,
+        0
+      ],
+      "size": [
+        192,
+        64
+      ],
+      "foot": [
+        96,
+        64
+      ]
+    }
+  },
+  "anchors": "Author marked source col3/4 only; other columns unmarked."
+}

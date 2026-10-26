@@ -32,3 +32,19 @@ test('every authored north polygon retains vertex, midpoint and subnanometre edg
 });
 
 test('the authored east ground export is deeply immutable with unchanged point data',()=>{assert(Object.isFrozen(NORTH_YIELD_EAST_GROUND));for(const polygon of NORTH_YIELD_EAST_GROUND){assert(Object.isFrozen(polygon));for(const point of polygon){assert(Object.isFrozen(point));assert.throws(()=>{point[0]+=1;},TypeError);}}});
+
+test('interior box proofs stay conservative at edges, concavities and self intersections',()=>{
+ const square=compileStaticPolygon(freeze([[0,0],[4,0],[4,4],[0,4]]));
+ assert(square.coversBox({left:1,right:3,top:1,bottom:3}));
+ for(const box of [{left:0,right:3,top:1,bottom:3},{left:1,right:5,top:1,bottom:3},{left:3,right:1,top:1,bottom:3},{left:NaN,right:3,top:1,bottom:3}])assert.equal(square.coversBox(box),false);
+ const shapes=freeze([[[0,0],[5,0],[5,5],[3,5],[3,2],[2,2],[2,5],[0,5]],[[0,0],[5,5],[0,5],[5,0]]]);
+ let proven=0,ambiguous=0;
+ for(const polygon of shapes){const q=compileStaticPolygon(polygon);
+  for(let x=-.5;x<5.5;x+=.25)for(let y=-.5;y<5.5;y+=.25){const box={left:x-.26,right:x+.51,top:y-.26,bottom:y+.51};
+   if(!q.coversBox(box)){ambiguous++;continue;}proven++;
+   for(let i=0;i<=8;i++)for(let j=0;j<=8;j++)assert(original({x:box.left+(box.right-box.left)*i/8,y:box.top+(box.bottom-box.top)*j/8},polygon));
+  }
+ }
+ assert(proven>0&&ambiguous>0);
+ const notch=compileStaticPolygon(shapes[0]);assert.equal(notch.coversBox({left:1,right:4,top:1,bottom:4}),false);
+});

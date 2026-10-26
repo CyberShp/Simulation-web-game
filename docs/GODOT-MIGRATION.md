@@ -1,5 +1,9 @@
 # Godot Web 实施路线
 
+> **2026-10-13 · U-129 / U-130：** 当前以 Three.js 与 Electron 制作独立双画风自动演示，记录见[实机样板](art/DESKTOP-RUNTIME-SAMPLES-2026-10-13.md)。该样板不代表完整玩法迁移或最终美术验收。
+
+> **2026-10-13 更新 · U-128：** 当前改为桌面游戏，Windows 为主要交付平台，前期在 macOS 验证。下文保留此前 Web 迁移的实现与约束记录；新的桌面迁移尚未实施。当前先审核 [U-127 画风与多人即时战斗原型](art/desktop-style-review-20261013/README.md)，后续另行明确原生导出、现有模拟迁移及存档兼容安排。
+
 > **当前旧别院方案 · 2026-10-10 · [U-110](design/DECISIONS.md)：** 从残败主屋与四处荒地开局，采用固定斜俯视的 Godot 2D 分层绘画场景、建筑和人物。本地预览在 `dist/painted-game/`；实际网页美术效果、碰撞与目标设备分别验收。
 
 引擎决策：[U-102](design/DECISIONS.md)；实施选择：[R-31](design/DECISIONS.md)；当前旧别院画面决策：**U-110**。本文件安排引擎迁移，不改变 [40 项 SR 交付计划](DELIVERY-PLAN.md) 的需求、依赖和原验收门槛。实际实现、验收和发布状态仍分别以 [STATUS](design/STATUS.md)、[registry.json](requirements/registry.json) 与接手记录为准。

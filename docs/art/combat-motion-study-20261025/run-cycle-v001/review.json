@@ -1,0 +1,56 @@
+{
+  "scope": "55 B02 / SR-XF-007 and SR-XF-013 local offline single-direction material candidate",
+  "candidate": "v6 four frames then v5 four frames",
+  "status": "offline-frame-and-player-visual-initial-review-passed-runtime-unverified",
+  "mainAgentChrome": {
+    "origin": "file:// QA index.html",
+    "actions": [
+      "play",
+      "pause",
+      "next-frame"
+    ],
+    "observedFrames": [
+      4,
+      5,
+      8,
+      1
+    ],
+    "crossedLoopBoundary": true,
+    "supportFramesCompared": [
+      2,
+      6
+    ],
+    "views": [
+      "source sheets",
+      "all eight contact frames",
+      "calibrated scene loop",
+      "white background loop"
+    ],
+    "bodySwordComplete": true,
+    "handGestureConsistent": true,
+    "supportSwapDistinguishable": true
+  },
+  "reviewSource": "Main agent direct report in current task",
+  "userStaticScaleAcceptance": "overall-calibrated-look-approved",
+  "notProven": [
+    "ground-travel-speed synchronization",
+    "start-stop transitions",
+    "other directions",
+    "complete action art set",
+    "runtime integration",
+    "native game smoothness"
+  ],
+  "sourceStandingReference": 500,
+  "logicalStandingReference": 58,
+  "uniformScale": "58/500",
+  "frameCount": 8,
+  "frameDurationMs": 60,
+  "durationMs": 480,
+  "generatedPendingReportPreserved": "preview-report.json",
+  "originalQA": "/Volumes/Media/immortal-qa/combat-direction-study-20261025/run-v005-half-cycle",
+  "sourceRGBAUnchanged": true,
+  "nonRigidDeformation": false,
+  "timelineTransform": "none; candidate 60ms per frame",
+  "sceneGif": "/Volumes/Media/immortal-qa/combat-direction-study-20261025/run-v005-half-cycle/scene-cycle.gif",
+  "specPaths": "repository-relative to spec directory"
+}

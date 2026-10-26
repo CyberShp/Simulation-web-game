@@ -1,0 +1,81 @@
+{
+  "date": "2026-10-25",
+  "reviewer": "main-agent",
+  "returnedSource": "/Users/shepard/Downloads/kling_20261025_作品_固定机位的二维像素游_5704_0.mp4",
+  "sourceSha256": "9c1c8c5558df33f11aea17f0027a565c6fc8505c6bb119bb68925e3764f58f77",
+  "preservedBackup": "/Volumes/Media/immortal-qa/kling-stop-review-20261025-v001/source/original.mp4",
+  "actualReview": {
+    "wholeClipHalfSecondSamples": 21,
+    "wholeClipContactPages": 4,
+    "firstTwoSecondsFrames": 49,
+    "firstTwoSecondsPages": 9,
+    "chromeObservedSeconds": [
+      0,
+      0.984978,
+      1.99554,
+      10.04167
+    ],
+    "alsoObserved": "initial playback; no claim of continuous whole-clip viewing"
+  },
+  "observedSegments": [
+    {
+      "frames": [
+        0,
+        8
+      ],
+      "action": "initial landing"
+    },
+    {
+      "frames": [
+        9,
+        18
+      ],
+      "action": "pushes off into another large running step;12–18 especially visible"
+    },
+    {
+      "frames": [
+        19,
+        26
+      ],
+      "action": "takes weight again"
+    },
+    {
+      "frames": [
+        27,
+        36
+      ],
+      "action": "gradually returns upright and settles"
+    },
+    {
+      "framesAfter": 36,
+      "action": "cloth/hair idle at later sampled observations"
+    }
+  ],
+  "decision": "identity and sword complete, but current-foot direct stop requirement not met; retain source, no batch alpha extraction or D-study integration; speeding up the whole clip is not a fix",
+  "silentVersion": {
+    "path": "/Volumes/Media/immortal-qa/kling-stop-review-20261025-v001/silent-source.mp4",
+    "sha256": "8ca6e82d32ccc9cf209db5d27555634f2230a93ade41acf38b8b297d3ae0b70d",
+    "sourceAudioTracks": 1,
+    "outputAudioTracks": 0,
+    "method": "AVFoundation video-only AVAssetExportPresetPassthrough",
+    "videoSamples": 241,
+    "allCompressedSampleHashesEqual": true,
+    "maximumPtsDifferenceSeconds": 0,
+    "videoPayloadSha256": "e182c2ff9eb59914c22cf800cdd05dee5cca48166959c3064b18b9f7a2331412",
+    "report": "/Volumes/Media/immortal-qa/kling-stop-review-20261025-v001/silent-remux-report.json",
+    "mainAgentChromeReview": "opened silent-source.mp4, loaded and playable; mute control disabled"
+  },
+  "userAudioPreference": "future motion videos must be silent: no voice, breathing, music or sound effects",
+  "nextCandidate": {
+    "originalVideo": "4629",
+    "suggestedFirstFrame": 52,
+    "rawRgbPath": "/Volumes/Media/immortal-qa/kling-review-20261025-v001/dense-2to3/frames/frame-000052-t002.167.png",
+    "motion": "steady on the grounded boot and bring back only the rear foot",
+    "prompt": "contact-stop-prompt-v2.txt",
+    "sentToKling": false
+  },
+  "oldInputPackageUnchanged": true,
+  "newZipCreated": false,
+  "runtimeOrSaveChanges": false,
+  "srStatusChanges": false
+}

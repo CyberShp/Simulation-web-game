@@ -1,0 +1,305 @@
+{
+  "source": "/Users/shepard/Downloads/kling_20261025_作品_固定镜头的2D像素游_4629_0.mp4",
+  "sourceBytes": 5110263,
+  "sourceSha256": "85fd646933c860531fb55fd2ab3230a2fa145cc5266145364edbb3d464d683db",
+  "decoder": "OpenCV 4.13.0",
+  "decoderModule": "/Users/shepard/Library/Python/3.9/lib/python/site-packages/cv2/__init__.py",
+  "backend": "FFMPEG",
+  "reportedWidth": 940,
+  "reportedHeight": 940,
+  "reportedFps": 23.999999920331952,
+  "nearbyRationalFps": "24",
+  "reportedFrameCount": 241,
+  "fourcc": "h264",
+  "reportedBitrateKbps": 4071.0,
+  "samplingStepSeconds": 0.5,
+  "sampling": "nearest decoded timestamp to each uniform target; full sequential decode",
+  "frameIndexConvention": "zero-based decoded frame index",
+  "nativeFrames": "original decoded dimensions, BGR-to-RGB channel order only, lossless PNG",
+  "contactSheet": "scaled thumbnails with timestamps and source frame indices",
+  "visualReview": "pending-main-agent-assessment",
+  "notInspected": [
+    "audio streams and container tags",
+    "motion quality",
+    "runtime integration"
+  ],
+  "command": [
+    "/Library/Developer/CommandLineTools/usr/bin/python3",
+    "/Volumes/Media/immortal/scripts/art/combat-direction-study/video_inspect.py",
+    "--source",
+    "/Users/shepard/Downloads/kling_20261025_作品_固定镜头的2D像素游_4629_0.mp4",
+    "--output",
+    "/Volumes/Media/immortal-qa/kling-review-20261025-v001",
+    "--step",
+    "0.5",
+    "--columns",
+    "5",
+    "--tile",
+    "320"
+  ],
+  "decodedFrameCount": 241,
+  "decodedFirstTimestamp": 0.0,
+  "decodedLastTimestamp": 10.0,
+  "durationFromDecodedCountAndReportedFps": 10.041666699999999,
+  "decodedTimestampStepsMs": {
+    "min": 41.665999999999315,
+    "max": 41.66700000000034
+  },
+  "timestampFallbackFrameIndices": [],
+  "sampleCount": 21,
+  "samples": [
+    {
+      "targetSeconds": 0.0,
+      "actualTimestampSeconds": 0.0,
+      "targetErrorSeconds": 0.0,
+      "frameIndex": 0,
+      "file": "frames/frame-000000-t000.000.png",
+      "decodedSize": [
+        940,
+        940
+      ],
+      "sha256": "cde3696833a1ca6f1586c16d44e0a0f8509fa6cf84e3534328d42307dbd5186f"
+    },
+    {
+      "targetSeconds": 0.5,
+      "actualTimestampSeconds": 0.5,
+      "targetErrorSeconds": 0.0,
+      "frameIndex": 12,
+      "file": "frames/frame-000012-t000.500.png",
+      "decodedSize": [
+        940,
+        940
+      ],
+      "sha256": "b823511e55ff0446887520766c80e4849eeeb7c6ed0d4423d2ed9d91451e4b55"
+    },
+    {
+      "targetSeconds": 1.0,
+      "actualTimestampSeconds": 1.0,
+      "targetErrorSeconds": 0.0,
+      "frameIndex": 24,
+      "file": "frames/frame-000024-t001.000.png",
+      "decodedSize": [
+        940,
+        940
+      ],
+      "sha256": "83ac35dd218c6456670be64aceb0c0df89b2cc3a70ee38a2571a2d919e14f8d4"
+    },
+    {
+      "targetSeconds": 1.5,
+      "actualTimestampSeconds": 1.5,
+      "targetErrorSeconds": 0.0,
+      "frameIndex": 36,
+      "file": "frames/frame-000036-t001.500.png",
+      "decodedSize": [
+        940,
+        940
+      ],
+      "sha256": "3287f0884844fe755092986dfe2705854fc6aa650673359b815a3a3a4165df0d"
+    },
+    {
+      "targetSeconds": 2.0,
+      "actualTimestampSeconds": 2.0,
+      "targetErrorSeconds": 0.0,
+      "frameIndex": 48,
+      "file": "frames/frame-000048-t002.000.png",
+      "decodedSize": [
+        940,
+        940
+      ],
+      "sha256": "d0844827279d8d4edf56e9b1e6f547ddd0106f0683eabc808b9cab17ff9bcdf0"
+    },
+    {
+      "targetSeconds": 2.5,
+      "actualTimestampSeconds": 2.5,
+      "targetErrorSeconds": 0.0,
+      "frameIndex": 60,
+      "file": "frames/frame-000060-t002.500.png",
+      "decodedSize": [
+        940,
+        940
+      ],
+      "sha256": "1ef2c91cc778b8d47808b9182070060c050dffe257928b1eda3ef180e74132f4"
+    },
+    {
+      "targetSeconds": 3.0,
+      "actualTimestampSeconds": 3.0,
+      "targetErrorSeconds": 0.0,
+      "frameIndex": 72,
+      "file": "frames/frame-000072-t003.000.png",
+      "decodedSize": [
+        940,
+        940
+      ],
+      "sha256": "1d397f5006cf47ab52159344ee8c8ab94f509b8d67c5f71bb6088533266f64b5"
+    },
+    {
+      "targetSeconds": 3.5,
+      "actualTimestampSeconds": 3.5,
+      "targetErrorSeconds": 0.0,
+      "frameIndex": 84,
+      "file": "frames/frame-000084-t003.500.png",
+      "decodedSize": [
+        940,
+        940
+      ],
+      "sha256": "ee74f4a018938b18d5803c45a2660c5f9b97ec357bbfad1e071c5c7efa5f5649"
+    },
+    {
+      "targetSeconds": 4.0,
+      "actualTimestampSeconds": 4.0,
+      "targetErrorSeconds": 0.0,
+      "frameIndex": 96,
+      "file": "frames/frame-000096-t004.000.png",
+      "decodedSize": [
+        940,
+        940
+      ],
+      "sha256": "c10f7714d31aa4b0fd5a2041998f688be1daba50a9488754bb816d98432e694e"
+    },
+    {
+      "targetSeconds": 4.5,
+      "actualTimestampSeconds": 4.5,
+      "targetErrorSeconds": 0.0,
+      "frameIndex": 108,
+      "file": "frames/frame-000108-t004.500.png",
+      "decodedSize": [
+        940,
+        940
+      ],
+      "sha256": "77985f4b108ee59d35ec3dc80d9bb03ac180d88f2c217ff12003023aa5254641"
+    },
+    {
+      "targetSeconds": 5.0,
+      "actualTimestampSeconds": 5.0,
+      "targetErrorSeconds": 0.0,
+      "frameIndex": 120,
+      "file": "frames/frame-000120-t005.000.png",
+      "decodedSize": [
+        940,
+        940
+      ],
+      "sha256": "48ddc34298bc4a82005dc09bc103ffba116f920e6a336b7c4d796a58299ef61c"
+    },
+    {
+      "targetSeconds": 5.5,
+      "actualTimestampSeconds": 5.5,
+      "targetErrorSeconds": 0.0,
+      "frameIndex": 132,
+      "file": "frames/frame-000132-t005.500.png",
+      "decodedSize": [
+        940,
+        940
+      ],
+      "sha256": "bbb5aab36b02ab63d74c859ccb2ee3bc2387a69c163e05b89cd22579a421e860"
+    },
+    {
+      "targetSeconds": 6.0,
+      "actualTimestampSeconds": 6.0,
+      "targetErrorSeconds": 0.0,
+      "frameIndex": 144,
+      "file": "frames/frame-000144-t006.000.png",
+      "decodedSize": [
+        940,
+        940
+      ],
+      "sha256": "dd1b0d5b5b1c5ccce31bea5ec63bd9289eb296db7f5fcf4b4a12ba908ab870bc"
+    },
+    {
+      "targetSeconds": 6.5,
+      "actualTimestampSeconds": 6.5,
+      "targetErrorSeconds": 0.0,
+      "frameIndex": 156,
+      "file": "frames/frame-000156-t006.500.png",
+      "decodedSize": [
+        940,
+        940
+      ],
+      "sha256": "64397465df70b130b2267d62f2499d1893df0e031d0eb4f0c5bb4caa214f8a7b"
+    },
+    {
+      "targetSeconds": 7.0,
+      "actualTimestampSeconds": 7.0,
+      "targetErrorSeconds": 0.0,
+      "frameIndex": 168,
+      "file": "frames/frame-000168-t007.000.png",
+      "decodedSize": [
+        940,
+        940
+      ],
+      "sha256": "e2ed723d9fd45e9cad9e08b3025e818b83a2c7fa77917f75a27e5fc850c24715"
+    },
+    {
+      "targetSeconds": 7.5,
+      "actualTimestampSeconds": 7.5,
+      "targetErrorSeconds": 0.0,
+      "frameIndex": 180,
+      "file": "frames/frame-000180-t007.500.png",
+      "decodedSize": [
+        940,
+        940
+      ],
+      "sha256": "f2a29dcb81e9001dd7c4fb58fc499fcbf71b6a3147570597fce0b87bd91b2239"
+    },
+    {
+      "targetSeconds": 8.0,
+      "actualTimestampSeconds": 8.0,
+      "targetErrorSeconds": 0.0,
+      "frameIndex": 192,
+      "file": "frames/frame-000192-t008.000.png",
+      "decodedSize": [
+        940,
+        940
+      ],
+      "sha256": "7dc955f91ed58f82f2921b8b2609e4094a9aa422a7ea78bff8cf68a5b4b12299"
+    },
+    {
+      "targetSeconds": 8.5,
+      "actualTimestampSeconds": 8.5,
+      "targetErrorSeconds": 0.0,
+      "frameIndex": 204,
+      "file": "frames/frame-000204-t008.500.png",
+      "decodedSize": [
+        940,
+        940
+      ],
+      "sha256": "1740bfd728ea4e0725a4b54f932e56ac8e12fefba1d809f0e752b076e984068b"
+    },
+    {
+      "targetSeconds": 9.0,
+      "actualTimestampSeconds": 9.0,
+      "targetErrorSeconds": 0.0,
+      "frameIndex": 216,
+      "file": "frames/frame-000216-t009.000.png",
+      "decodedSize": [
+        940,
+        940
+      ],
+      "sha256": "dd5e042285d520ab562b42bd85a28137e1338c80d49da6a5297282f80ce2fe91"
+    },
+    {
+      "targetSeconds": 9.5,
+      "actualTimestampSeconds": 9.5,
+      "targetErrorSeconds": 0.0,
+      "frameIndex": 228,
+      "file": "frames/frame-000228-t009.500.png",
+      "decodedSize": [
+        940,
+        940
+      ],
+      "sha256": "2972162361934588b8a0250d2b9e128da6be492e3457861a3a5bccc64ea131ce"
+    },
+    {
+      "targetSeconds": 10.0,
+      "actualTimestampSeconds": 10.0,
+      "targetErrorSeconds": 0.0,
+      "frameIndex": 240,
+      "file": "frames/frame-000240-t010.000.png",
+      "decodedSize": [
+        940,
+        940
+      ],
+      "sha256": "a56c7f0b2abcaec5002d6b32f3efd393d1d39b0846660bcfd0fdf0eb2707b825"
+    }
+  ],
+  "sourceUnchanged": true
+}

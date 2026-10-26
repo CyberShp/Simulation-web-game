@@ -1,0 +1,1582 @@
+{
+  "version": "estate-flat-characters-1",
+  "texture": "res://estate_2d/assets/flat-characters-v1.png",
+  "sha256": "d8e9af59becb89d0924c1b46e0147046e9dc0d94d06151a20060e3995c581807",
+  "size": [
+    1254,
+    1254
+  ],
+  "grid": [
+    8,
+    8
+  ],
+  "alpha_threshold": 0.12549019607843137,
+  "generation": "builtin-image_gen",
+  "region_method": "Connected alpha >= 32 subject bounds; original PNG bytes preserved",
+  "anchor_method": "Lower body contact band inside nominal cell center; tools retain complete regions",
+  "characters": {
+    "shen_yan": {
+      "name": "沈砚",
+      "reference_height": 152,
+      "reference_height_source": "Median head-to-contact height of standing frames 0, 2, 4",
+      "frames": [
+        {
+          "animation": "walk_front",
+          "frame": 0,
+          "source_cell": [
+            0,
+            0
+          ],
+          "region": [
+            38,
+            10,
+            92,
+            149
+          ],
+          "foot_anchor": [
+            62.0,
+            149
+          ],
+          "visible_bounds": [
+            0,
+            0,
+            92,
+            149
+          ]
+        },
+        {
+          "animation": "walk_front",
+          "frame": 1,
+          "source_cell": [
+            1,
+            0
+          ],
+          "region": [
+            202,
+            9,
+            82,
+            151
+          ],
+          "foot_anchor": [
+            51.0,
+            151
+          ],
+          "visible_bounds": [
+            0,
+            0,
+            82,
+            151
+          ]
+        },
+        {
+          "animation": "walk_front",
+          "frame": 2,
+          "source_cell": [
+            2,
+            0
+          ],
+          "region": [
+            355,
+            10,
+            87,
+            150
+          ],
+          "foot_anchor": [
+            58.5,
+            150
+          ],
+          "visible_bounds": [
+            0,
+            0,
+            87,
+            150
+          ]
+        },
+        {
+          "animation": "walk_front",
+          "frame": 3,
+          "source_cell": [
+            3,
+            0
+          ],
+          "region": [
+            514,
+            9,
+            85,
+            151
+          ],
+          "foot_anchor": [
+            55.5,
+            151
+          ],
+          "visible_bounds": [
+            0,
+            0,
+            85,
+            151
+          ]
+        },
+        {
+          "animation": "walk_front",
+          "frame": 4,
+          "source_cell": [
+            4,
+            0
+          ],
+          "region": [
+            671,
+            9,
+            85,
+            151
+          ],
+          "foot_anchor": [
+            53.0,
+            151
+          ],
+          "visible_bounds": [
+            0,
+            0,
+            85,
+            151
+          ]
+        },
+        {
+          "animation": "walk_front",
+          "frame": 5,
+          "source_cell": [
+            5,
+            0
+          ],
+          "region": [
+            825,
+            10,
+            87,
+            150
+          ],
+          "foot_anchor": [
+            58.0,
+            150
+          ],
+          "visible_bounds": [
+            0,
+            0,
+            87,
+            150
+          ]
+        },
+        {
+          "animation": "walk_front",
+          "frame": 6,
+          "source_cell": [
+            6,
+            0
+          ],
+          "region": [
+            983,
+            10,
+            85,
+            149
+          ],
+          "foot_anchor": [
+            56.0,
+            149
+          ],
+          "visible_bounds": [
+            0,
+            0,
+            85,
+            149
+          ]
+        },
+        {
+          "animation": "walk_front",
+          "frame": 7,
+          "source_cell": [
+            7,
+            0
+          ],
+          "region": [
+            1140,
+            10,
+            85,
+            150
+          ],
+          "foot_anchor": [
+            55.0,
+            150
+          ],
+          "visible_bounds": [
+            0,
+            0,
+            85,
+            150
+          ]
+        },
+        {
+          "animation": "walk_back",
+          "frame": 0,
+          "source_cell": [
+            0,
+            1
+          ],
+          "region": [
+            42,
+            165,
+            87,
+            147
+          ],
+          "foot_anchor": [
+            42.0,
+            147
+          ],
+          "visible_bounds": [
+            0,
+            0,
+            87,
+            147
+          ]
+        },
+        {
+          "animation": "walk_back",
+          "frame": 1,
+          "source_cell": [
+            1,
+            1
+          ],
+          "region": [
+            202,
+            165,
+            85,
+            150
+          ],
+          "foot_anchor": [
+            42.0,
+            150
+          ],
+          "visible_bounds": [
+            0,
+            0,
+            85,
+            150
+          ],
+          "exclude_region": [
+            268,
+            310,
+            16,
+            5
+          ]
+        },
+        {
+          "animation": "walk_back",
+          "frame": 2,
+          "source_cell": [
+            2,
+            1
+          ],
+          "region": [
+            362,
+            164,
+            84,
+            151
+          ],
+          "foot_anchor": [
+            27.0,
+            151
+          ],
+          "visible_bounds": [
+            0,
+            0,
+            84,
+            151
+          ]
+        },
+        {
+          "animation": "walk_back",
+          "frame": 3,
+          "source_cell": [
+            3,
+            1
+          ],
+          "region": [
+            515,
+            165,
+            87,
+            151
+          ],
+          "foot_anchor": [
+            41.0,
+            151
+          ],
+          "visible_bounds": [
+            0,
+            0,
+            87,
+            151
+          ]
+        },
+        {
+          "animation": "walk_back",
+          "frame": 4,
+          "source_cell": [
+            4,
+            1
+          ],
+          "region": [
+            669,
+            164,
+            88,
+            149
+          ],
+          "foot_anchor": [
+            45.0,
+            149
+          ],
+          "visible_bounds": [
+            0,
+            0,
+            88,
+            149
+          ]
+        },
+        {
+          "animation": "walk_back",
+          "frame": 5,
+          "source_cell": [
+            5,
+            1
+          ],
+          "region": [
+            828,
+            165,
+            88,
+            151
+          ],
+          "foot_anchor": [
+            40.0,
+            151
+          ],
+          "visible_bounds": [
+            0,
+            0,
+            88,
+            151
+          ]
+        },
+        {
+          "animation": "walk_back",
+          "frame": 6,
+          "source_cell": [
+            6,
+            1
+          ],
+          "region": [
+            989,
+            165,
+            85,
+            149
+          ],
+          "foot_anchor": [
+            27.0,
+            149
+          ],
+          "visible_bounds": [
+            0,
+            0,
+            85,
+            149
+          ]
+        },
+        {
+          "animation": "walk_back",
+          "frame": 7,
+          "source_cell": [
+            7,
+            1
+          ],
+          "region": [
+            1145,
+            165,
+            85,
+            151
+          ],
+          "foot_anchor": [
+            37.0,
+            151
+          ],
+          "visible_bounds": [
+            0,
+            0,
+            85,
+            151
+          ]
+        },
+        {
+          "animation": "work",
+          "frame": 0,
+          "source_cell": [
+            0,
+            2
+          ],
+          "region": [
+            48,
+            322,
+            82,
+            147
+          ],
+          "foot_anchor": [
+            26.0,
+            147
+          ],
+          "visible_bounds": [
+            0,
+            0,
+            82,
+            147
+          ]
+        },
+        {
+          "animation": "work",
+          "frame": 1,
+          "source_cell": [
+            1,
+            2
+          ],
+          "region": [
+            190,
+            310,
+            107,
+            160
+          ],
+          "foot_anchor": [
+            25.0,
+            160
+          ],
+          "visible_bounds": [
+            0,
+            0,
+            107,
+            160
+          ],
+          "exclude_region": [
+            237,
+            310,
+            13,
+            5
+          ]
+        },
+        {
+          "animation": "work",
+          "frame": 2,
+          "source_cell": [
+            2,
+            2
+          ],
+          "region": [
+            345,
+            355,
+            126,
+            113
+          ],
+          "foot_anchor": [
+            32.0,
+            113
+          ],
+          "visible_bounds": [
+            0,
+            0,
+            126,
+            113
+          ]
+        },
+        {
+          "animation": "work",
+          "frame": 3,
+          "source_cell": [
+            3,
+            2
+          ],
+          "region": [
+            509,
+            354,
+            118,
+            113
+          ],
+          "foot_anchor": [
+            25.0,
+            113
+          ],
+          "visible_bounds": [
+            0,
+            0,
+            118,
+            113
+          ]
+        },
+        {
+          "animation": "work",
+          "frame": 4,
+          "source_cell": [
+            4,
+            2
+          ],
+          "region": [
+            665,
+            352,
+            118,
+            115
+          ],
+          "foot_anchor": [
+            25.0,
+            115
+          ],
+          "visible_bounds": [
+            0,
+            0,
+            118,
+            115
+          ]
+        },
+        {
+          "animation": "work",
+          "frame": 5,
+          "source_cell": [
+            5,
+            2
+          ],
+          "region": [
+            819,
+            329,
+            121,
+            143
+          ],
+          "foot_anchor": [
+            16.0,
+            143
+          ],
+          "visible_bounds": [
+            0,
+            0,
+            121,
+            143
+          ]
+        },
+        {
+          "animation": "work",
+          "frame": 6,
+          "source_cell": [
+            6,
+            2
+          ],
+          "region": [
+            988,
+            340,
+            119,
+            128
+          ],
+          "foot_anchor": [
+            51.0,
+            128
+          ],
+          "visible_bounds": [
+            0,
+            0,
+            119,
+            128
+          ]
+        },
+        {
+          "animation": "work",
+          "frame": 7,
+          "source_cell": [
+            7,
+            2
+          ],
+          "region": [
+            1141,
+            323,
+            74,
+            146
+          ],
+          "foot_anchor": [
+            29.0,
+            146
+          ],
+          "visible_bounds": [
+            0,
+            0,
+            74,
+            146
+          ]
+        },
+        {
+          "animation": "turn_rest",
+          "frame": 0,
+          "source_cell": [
+            0,
+            3
+          ],
+          "region": [
+            45,
+            475,
+            82,
+            152
+          ],
+          "foot_anchor": [
+            30.0,
+            152
+          ],
+          "visible_bounds": [
+            0,
+            0,
+            82,
+            152
+          ]
+        },
+        {
+          "animation": "turn_rest",
+          "frame": 1,
+          "source_cell": [
+            1,
+            3
+          ],
+          "region": [
+            208,
+            474,
+            73,
+            154
+          ],
+          "foot_anchor": [
+            24.0,
+            154
+          ],
+          "visible_bounds": [
+            0,
+            0,
+            73,
+            154
+          ]
+        },
+        {
+          "animation": "turn_rest",
+          "frame": 2,
+          "source_cell": [
+            2,
+            3
+          ],
+          "region": [
+            357,
+            477,
+            72,
+            150
+          ],
+          "foot_anchor": [
+            30.5,
+            150
+          ],
+          "visible_bounds": [
+            0,
+            0,
+            72,
+            150
+          ]
+        },
+        {
+          "animation": "turn_rest",
+          "frame": 3,
+          "source_cell": [
+            3,
+            3
+          ],
+          "region": [
+            515,
+            476,
+            76,
+            149
+          ],
+          "foot_anchor": [
+            45.0,
+            149
+          ],
+          "visible_bounds": [
+            0,
+            0,
+            76,
+            149
+          ]
+        },
+        {
+          "animation": "turn_rest",
+          "frame": 4,
+          "source_cell": [
+            4,
+            3
+          ],
+          "region": [
+            667,
+            476,
+            78,
+            153
+          ],
+          "foot_anchor": [
+            45.0,
+            153
+          ],
+          "visible_bounds": [
+            0,
+            0,
+            78,
+            153
+          ]
+        },
+        {
+          "animation": "turn_rest",
+          "frame": 5,
+          "source_cell": [
+            5,
+            3
+          ],
+          "region": [
+            829,
+            477,
+            75,
+            148
+          ],
+          "foot_anchor": [
+            30.0,
+            148
+          ],
+          "visible_bounds": [
+            0,
+            0,
+            75,
+            148
+          ]
+        },
+        {
+          "animation": "turn_rest",
+          "frame": 6,
+          "source_cell": [
+            6,
+            3
+          ],
+          "region": [
+            994,
+            478,
+            65,
+            145
+          ],
+          "foot_anchor": [
+            21.0,
+            145
+          ],
+          "visible_bounds": [
+            0,
+            0,
+            65,
+            145
+          ]
+        },
+        {
+          "animation": "turn_rest",
+          "frame": 7,
+          "source_cell": [
+            7,
+            3
+          ],
+          "region": [
+            1138,
+            476,
+            82,
+            154
+          ],
+          "foot_anchor": [
+            53.0,
+            154
+          ],
+          "visible_bounds": [
+            0,
+            0,
+            82,
+            154
+          ]
+        }
+      ]
+    },
+    "lu_zhiwei": {
+      "name": "陆知微",
+      "reference_height": 144,
+      "reference_height_source": "Median head-to-contact height of standing frames 0, 2, 4",
+      "frames": [
+        {
+          "animation": "walk_front",
+          "frame": 0,
+          "source_cell": [
+            0,
+            4
+          ],
+          "region": [
+            50,
+            633,
+            71,
+            149
+          ],
+          "foot_anchor": [
+            47.0,
+            149
+          ],
+          "visible_bounds": [
+            0,
+            0,
+            71,
+            149
+          ]
+        },
+        {
+          "animation": "walk_front",
+          "frame": 1,
+          "source_cell": [
+            1,
+            4
+          ],
+          "region": [
+            209,
+            633,
+            70,
+            151
+          ],
+          "foot_anchor": [
+            41.0,
+            151
+          ],
+          "visible_bounds": [
+            0,
+            0,
+            70,
+            151
+          ]
+        },
+        {
+          "animation": "walk_front",
+          "frame": 2,
+          "source_cell": [
+            2,
+            4
+          ],
+          "region": [
+            364,
+            634,
+            72,
+            150
+          ],
+          "foot_anchor": [
+            47.0,
+            150
+          ],
+          "visible_bounds": [
+            0,
+            0,
+            72,
+            150
+          ]
+        },
+        {
+          "animation": "walk_front",
+          "frame": 3,
+          "source_cell": [
+            3,
+            4
+          ],
+          "region": [
+            512,
+            634,
+            82,
+            151
+          ],
+          "foot_anchor": [
+            56.0,
+            151
+          ],
+          "visible_bounds": [
+            0,
+            0,
+            82,
+            151
+          ]
+        },
+        {
+          "animation": "walk_front",
+          "frame": 4,
+          "source_cell": [
+            4,
+            4
+          ],
+          "region": [
+            670,
+            634,
+            79,
+            152
+          ],
+          "foot_anchor": [
+            54.0,
+            152
+          ],
+          "visible_bounds": [
+            0,
+            0,
+            79,
+            152
+          ]
+        },
+        {
+          "animation": "walk_front",
+          "frame": 5,
+          "source_cell": [
+            5,
+            4
+          ],
+          "region": [
+            835,
+            634,
+            71,
+            150
+          ],
+          "foot_anchor": [
+            45.5,
+            150
+          ],
+          "visible_bounds": [
+            0,
+            0,
+            71,
+            150
+          ]
+        },
+        {
+          "animation": "walk_front",
+          "frame": 6,
+          "source_cell": [
+            6,
+            4
+          ],
+          "region": [
+            985,
+            635,
+            78,
+            150
+          ],
+          "foot_anchor": [
+            53.0,
+            150
+          ],
+          "visible_bounds": [
+            0,
+            0,
+            78,
+            150
+          ]
+        },
+        {
+          "animation": "walk_front",
+          "frame": 7,
+          "source_cell": [
+            7,
+            4
+          ],
+          "region": [
+            1136,
+            634,
+            84,
+            151
+          ],
+          "foot_anchor": [
+            58.0,
+            151
+          ],
+          "visible_bounds": [
+            0,
+            0,
+            84,
+            151
+          ]
+        },
+        {
+          "animation": "walk_back",
+          "frame": 0,
+          "source_cell": [
+            0,
+            5
+          ],
+          "region": [
+            49,
+            791,
+            77,
+            147
+          ],
+          "foot_anchor": [
+            33.0,
+            147
+          ],
+          "visible_bounds": [
+            0,
+            0,
+            77,
+            147
+          ]
+        },
+        {
+          "animation": "walk_back",
+          "frame": 1,
+          "source_cell": [
+            1,
+            5
+          ],
+          "region": [
+            201,
+            791,
+            80,
+            150
+          ],
+          "foot_anchor": [
+            35.0,
+            150
+          ],
+          "visible_bounds": [
+            0,
+            0,
+            80,
+            150
+          ]
+        },
+        {
+          "animation": "walk_back",
+          "frame": 2,
+          "source_cell": [
+            2,
+            5
+          ],
+          "region": [
+            366,
+            790,
+            76,
+            149
+          ],
+          "foot_anchor": [
+            24.0,
+            149
+          ],
+          "visible_bounds": [
+            0,
+            0,
+            76,
+            149
+          ]
+        },
+        {
+          "animation": "walk_back",
+          "frame": 3,
+          "source_cell": [
+            3,
+            5
+          ],
+          "region": [
+            517,
+            790,
+            82,
+            150
+          ],
+          "foot_anchor": [
+            36.0,
+            150
+          ],
+          "visible_bounds": [
+            0,
+            0,
+            82,
+            150
+          ]
+        },
+        {
+          "animation": "walk_back",
+          "frame": 4,
+          "source_cell": [
+            4,
+            5
+          ],
+          "region": [
+            677,
+            790,
+            76,
+            147
+          ],
+          "foot_anchor": [
+            35.0,
+            147
+          ],
+          "visible_bounds": [
+            0,
+            0,
+            76,
+            147
+          ]
+        },
+        {
+          "animation": "walk_back",
+          "frame": 5,
+          "source_cell": [
+            5,
+            5
+          ],
+          "region": [
+            828,
+            791,
+            83,
+            148
+          ],
+          "foot_anchor": [
+            37.0,
+            148
+          ],
+          "visible_bounds": [
+            0,
+            0,
+            83,
+            148
+          ]
+        },
+        {
+          "animation": "walk_back",
+          "frame": 6,
+          "source_cell": [
+            6,
+            5
+          ],
+          "region": [
+            990,
+            790,
+            79,
+            151
+          ],
+          "foot_anchor": [
+            26.0,
+            151
+          ],
+          "visible_bounds": [
+            0,
+            0,
+            79,
+            151
+          ]
+        },
+        {
+          "animation": "walk_back",
+          "frame": 7,
+          "source_cell": [
+            7,
+            5
+          ],
+          "region": [
+            1142,
+            790,
+            84,
+            150
+          ],
+          "foot_anchor": [
+            39.0,
+            150
+          ],
+          "visible_bounds": [
+            0,
+            0,
+            84,
+            150
+          ]
+        },
+        {
+          "animation": "work",
+          "frame": 0,
+          "source_cell": [
+            0,
+            6
+          ],
+          "region": [
+            56,
+            944,
+            75,
+            148
+          ],
+          "foot_anchor": [
+            18.0,
+            148
+          ],
+          "visible_bounds": [
+            0,
+            0,
+            75,
+            148
+          ]
+        },
+        {
+          "animation": "work",
+          "frame": 1,
+          "source_cell": [
+            1,
+            6
+          ],
+          "region": [
+            211,
+            970,
+            78,
+            122
+          ],
+          "foot_anchor": [
+            19.0,
+            122
+          ],
+          "visible_bounds": [
+            0,
+            0,
+            78,
+            122
+          ]
+        },
+        {
+          "animation": "work",
+          "frame": 2,
+          "source_cell": [
+            2,
+            6
+          ],
+          "region": [
+            360,
+            982,
+            89,
+            108
+          ],
+          "foot_anchor": [
+            26.0,
+            108
+          ],
+          "visible_bounds": [
+            0,
+            0,
+            89,
+            108
+          ]
+        },
+        {
+          "animation": "work",
+          "frame": 3,
+          "source_cell": [
+            3,
+            6
+          ],
+          "region": [
+            516,
+            951,
+            77,
+            142
+          ],
+          "foot_anchor": [
+            23.0,
+            142
+          ],
+          "visible_bounds": [
+            0,
+            0,
+            77,
+            142
+          ]
+        },
+        {
+          "animation": "work",
+          "frame": 4,
+          "source_cell": [
+            4,
+            6
+          ],
+          "region": [
+            676,
+            970,
+            81,
+            123
+          ],
+          "foot_anchor": [
+            22.5,
+            123
+          ],
+          "visible_bounds": [
+            0,
+            0,
+            81,
+            123
+          ]
+        },
+        {
+          "animation": "work",
+          "frame": 5,
+          "source_cell": [
+            5,
+            6
+          ],
+          "region": [
+            834,
+            951,
+            71,
+            143
+          ],
+          "foot_anchor": [
+            19.0,
+            143
+          ],
+          "visible_bounds": [
+            0,
+            0,
+            71,
+            143
+          ]
+        },
+        {
+          "animation": "work",
+          "frame": 6,
+          "source_cell": [
+            6,
+            6
+          ],
+          "region": [
+            996,
+            955,
+            68,
+            138
+          ],
+          "foot_anchor": [
+            16.0,
+            138
+          ],
+          "visible_bounds": [
+            0,
+            0,
+            68,
+            138
+          ]
+        },
+        {
+          "animation": "work",
+          "frame": 7,
+          "source_cell": [
+            7,
+            6
+          ],
+          "region": [
+            1143,
+            945,
+            77,
+            149
+          ],
+          "foot_anchor": [
+            25.0,
+            149
+          ],
+          "visible_bounds": [
+            0,
+            0,
+            77,
+            149
+          ]
+        },
+        {
+          "animation": "turn_rest",
+          "frame": 0,
+          "source_cell": [
+            0,
+            7
+          ],
+          "region": [
+            56,
+            1099,
+            64,
+            144
+          ],
+          "foot_anchor": [
+            19.0,
+            144
+          ],
+          "visible_bounds": [
+            0,
+            0,
+            64,
+            144
+          ]
+        },
+        {
+          "animation": "turn_rest",
+          "frame": 1,
+          "source_cell": [
+            1,
+            7
+          ],
+          "region": [
+            217,
+            1101,
+            51,
+            142
+          ],
+          "foot_anchor": [
+            14.0,
+            142
+          ],
+          "visible_bounds": [
+            0,
+            0,
+            51,
+            142
+          ]
+        },
+        {
+          "animation": "turn_rest",
+          "frame": 2,
+          "source_cell": [
+            2,
+            7
+          ],
+          "region": [
+            371,
+            1101,
+            48,
+            144
+          ],
+          "foot_anchor": [
+            24.0,
+            144
+          ],
+          "visible_bounds": [
+            0,
+            0,
+            48,
+            144
+          ]
+        },
+        {
+          "animation": "turn_rest",
+          "frame": 3,
+          "source_cell": [
+            3,
+            7
+          ],
+          "region": [
+            519,
+            1101,
+            65,
+            145
+          ],
+          "foot_anchor": [
+            41.0,
+            145
+          ],
+          "visible_bounds": [
+            0,
+            0,
+            65,
+            145
+          ]
+        },
+        {
+          "animation": "turn_rest",
+          "frame": 4,
+          "source_cell": [
+            4,
+            7
+          ],
+          "region": [
+            673,
+            1101,
+            66,
+            145
+          ],
+          "foot_anchor": [
+            41.0,
+            145
+          ],
+          "visible_bounds": [
+            0,
+            0,
+            66,
+            145
+          ]
+        },
+        {
+          "animation": "turn_rest",
+          "frame": 5,
+          "source_cell": [
+            5,
+            7
+          ],
+          "region": [
+            832,
+            1101,
+            60,
+            144
+          ],
+          "foot_anchor": [
+            24.0,
+            144
+          ],
+          "visible_bounds": [
+            0,
+            0,
+            60,
+            144
+          ]
+        },
+        {
+          "animation": "turn_rest",
+          "frame": 6,
+          "source_cell": [
+            6,
+            7
+          ],
+          "region": [
+            995,
+            1102,
+            52,
+            142
+          ],
+          "foot_anchor": [
+            17.0,
+            142
+          ],
+          "visible_bounds": [
+            0,
+            0,
+            52,
+            142
+          ]
+        },
+        {
+          "animation": "turn_rest",
+          "frame": 7,
+          "source_cell": [
+            7,
+            7
+          ],
+          "region": [
+            1145,
+            1099,
+            66,
+            147
+          ],
+          "foot_anchor": [
+            44.0,
+            147
+          ],
+          "visible_bounds": [
+            0,
+            0,
+            66,
+            147
+          ]
+        }
+      ]
+    }
+  },
+  "exclusion_method": "Adjacent connected-subject rectangles at two overlapping atlas crops; applied to drawing and hit testing"
+}

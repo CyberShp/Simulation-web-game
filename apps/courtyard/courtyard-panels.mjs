@@ -53,6 +53,8 @@ export function createCourtyardPanels({ getView, inspect, command, openPerson, f
   const states = { affairs: {}, people: { query: '', scope: 'all', activity: 'all', selected: null, ids: null },
     growth: { mode: 'current', query: '', kind: 'all', access: 'all', selected: null }, supply: { mode: 'summary', owner: 'all', selected: null } };
   let current = { tab: 'affairs', page: 'index' }, history = [], scrolls = new Map(), listScrolls = new Map(), policyDraft = null, developmentDraft = null, transferDrafts = new Map();
+  let renderInspection = null;
+  const inspectRender = view => renderInspection || (renderInspection = inspect(view));
   let lastSignature = '', interacting = false, rendering = false, reading = false, pending = null, feedback = null;
   const pageKey = state => `${state.tab}:${state.page}:${state.id || ''}:${state.source || ''}:${state.target || ''}:${state.resource || ''}`;
   const stocks = view => view.operations?.inventory?.stockpiles || view.stockpiles || [];
@@ -125,7 +127,7 @@ export function createCourtyardPanels({ getView, inspect, command, openPerson, f
     for (const [id, label] of items) { const el = button(label, () => change(id), `subtab:${id}`); el.setAttribute('aria-pressed', String(selected === id)); nav.append(el); } parent.append(nav);
   }
   function ongoing(parent, view) {
-    const currentSection = section('正在进行'), master = view.operations?.master, known = inspect().people.find(person => person.id === master?.id);
+    const currentSection = section('正在进行'), master = view.operations?.master, known = inspectRender(view).people.find(person => person.id === master?.id);
     note(currentSection, `${master?.name || '掌门'} · ${known?.activityLabel || '院中停留'}`);
     note(currentSection, master?.activity?.reason || view.reason, 'muted');
     const study = view.operations?.study;
@@ -145,7 +147,7 @@ export function createCourtyardPanels({ getView, inspect, command, openPerson, f
         { type: 'claim-progress-reward', rewardId: reward.id }, `progress:reward:${reward.id}`, reward, 'primary');
       body.append(rewards);
     }
-    const projection = inspect(), farms = view.operations?.farms || [], currentSection = section('院中现状');
+    const projection = inspectRender(view), farms = view.operations?.farms || [], currentSection = section('院中现状');
     const food = view.foodSupply;
     facts(currentSection, [['在院人物', `${projection.people.length} 人`], ['可用灵草', number(view.resources.herb)], ['公库食粮 / 目标', `${number(food.available)} / ${number(food.target)}`], ['预计每日消耗', `${number(food.dailyDemand)} 份食粮`]]);
     if (view.housing) {
@@ -238,7 +240,7 @@ export function createCourtyardPanels({ getView, inspect, command, openPerson, f
     form.onsubmit = event => { event.preventDefault(); if (!form.reportValidity()) return; const result = submit({ type: 'policy', policy: { foodTarget: form.elements.foodTarget.valueAsNumber, herbTarget: form.elements.herbTarget.valueAsNumber, spendingCap: form.elements.spendingCap.valueAsNumber, risk: select.value } }); if (result?.ok) { policyDraft = null; render(true); } }; body.append(form);
   }
   function people(view) {
-    const state = states.people, projection = inspect();
+    const state = states.people, projection = inspectRender(view);
     projection.people = projection.people.map(person => {
       const membership = view.people.find(item => item.id === person.id)?.admission?.membership;
       return { ...person, membership, role: membership?.rankLabel || person.role };
@@ -549,7 +551,7 @@ export function createCourtyardPanels({ getView, inspect, command, openPerson, f
     body.append(detail);
   }
   function buildingDetail(view) {
-    const projection = inspect(), entry = projection.buildings.find(item => sameBuilding(item.id, current.id));
+    const projection = inspectRender(view), entry = projection.buildings.find(item => sameBuilding(item.id, current.id));
     if (!entry) return note(body, '当前建筑已变化，可返回院务重新查看。');
     const official = view.buildings.find(item => sameBuilding(item.id, current.id)), farm = view.operations?.farms?.find(item => sameBuilding(item.buildingId, current.id));
     const detail = section(entry.name, `${official?.stage === 'complete' ? '已建成' : '营造中'} · ${official?.enabled === false ? '暂停使用' : '开放使用'}`);
@@ -834,7 +836,7 @@ export function createCourtyardPanels({ getView, inspect, command, openPerson, f
       ({ index: () => ({ affairs, people, growth, supply }[current.tab])(view), policy: () => policy(view), construction: () => constructionDetail(view), building: () => buildingDetail(view), 'domain-site': () => domainSiteDetail(view), stock: () => stockDetail(view), transfer: () => transferDetail(view), source: () => sourceDetail(view) }[current.page] || (() => note(body, '此页暂不可查看。')))();
       restoreFocus(focus); body.scrollTop = scroll;
       for (const list of body.querySelectorAll('[data-scroll-key]')) list.scrollTop = listScrolls.get(list.dataset.scrollKey) || 0;
-    } finally { rendering = false; }
+    } finally { rendering = false; renderInspection = null; }
   }
   return {
     open(name = 'affairs', ids = null) { if (!PAGE[name]) name = 'affairs'; if (name === 'people') states.people.ids = ids; go({ tab: name, page: 'index' }, { push: false }); history = []; },

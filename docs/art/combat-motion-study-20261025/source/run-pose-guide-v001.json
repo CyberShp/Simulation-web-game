@@ -1,0 +1,569 @@
+{
+  "scope": "author projected T candidate; not measured biomechanics",
+  "size": [
+    1536,
+    1024
+  ],
+  "tile": [
+    384,
+    512
+  ],
+  "contactFrames": {
+    "near R": [
+      1,
+      2,
+      3
+    ],
+    "far L": [
+      5,
+      6,
+      7
+    ]
+  },
+  "frames": [
+    {
+      "frame": 1,
+      "bodyShiftY": 0,
+      "head": [
+        253,
+        203
+      ],
+      "shoulder": [
+        238,
+        245
+      ],
+      "pelvis": [
+        215,
+        330
+      ],
+      "legs": {
+        "far L": {
+          "hip": [
+            208,
+            325
+          ],
+          "knee": [
+            168,
+            368
+          ],
+          "ankle": [
+            135,
+            395
+          ],
+          "footTip": [
+            153,
+            395
+          ],
+          "contact": false
+        },
+        "near R": {
+          "hip": [
+            220,
+            330
+          ],
+          "knee": [
+            265,
+            370
+          ],
+          "ankle": [
+            298,
+            435
+          ],
+          "footTip": [
+            316,
+            440
+          ],
+          "contact": true
+        }
+      },
+      "nearRightHand": [
+        165,
+        320
+      ],
+      "swordTip": [
+        40,
+        365
+      ],
+      "leftHand": [
+        293,
+        282
+      ]
+    },
+    {
+      "frame": 2,
+      "bodyShiftY": 8,
+      "head": [
+        253,
+        211
+      ],
+      "shoulder": [
+        238,
+        253
+      ],
+      "pelvis": [
+        215,
+        338
+      ],
+      "legs": {
+        "far L": {
+          "hip": [
+            208,
+            333
+          ],
+          "knee": [
+            218,
+            345
+          ],
+          "ankle": [
+            177,
+            390
+          ],
+          "footTip": [
+            195,
+            390
+          ],
+          "contact": false
+        },
+        "near R": {
+          "hip": [
+            220,
+            338
+          ],
+          "knee": [
+            235,
+            386
+          ],
+          "ankle": [
+            235,
+            435
+          ],
+          "footTip": [
+            253,
+            440
+          ],
+          "contact": true
+        }
+      },
+      "nearRightHand": [
+        165,
+        320
+      ],
+      "swordTip": [
+        40,
+        365
+      ],
+      "leftHand": [
+        293,
+        282
+      ]
+    },
+    {
+      "frame": 3,
+      "bodyShiftY": 0,
+      "head": [
+        253,
+        203
+      ],
+      "shoulder": [
+        238,
+        245
+      ],
+      "pelvis": [
+        215,
+        330
+      ],
+      "legs": {
+        "far L": {
+          "hip": [
+            208,
+            325
+          ],
+          "knee": [
+            265,
+            350
+          ],
+          "ankle": [
+            235,
+            390
+          ],
+          "footTip": [
+            253,
+            390
+          ],
+          "contact": false
+        },
+        "near R": {
+          "hip": [
+            220,
+            330
+          ],
+          "knee": [
+            185,
+            378
+          ],
+          "ankle": [
+            165,
+            428
+          ],
+          "footTip": [
+            183,
+            440
+          ],
+          "contact": true
+        }
+      },
+      "nearRightHand": [
+        165,
+        320
+      ],
+      "swordTip": [
+        40,
+        365
+      ],
+      "leftHand": [
+        293,
+        282
+      ]
+    },
+    {
+      "frame": 4,
+      "bodyShiftY": -8,
+      "head": [
+        253,
+        195
+      ],
+      "shoulder": [
+        238,
+        237
+      ],
+      "pelvis": [
+        215,
+        322
+      ],
+      "legs": {
+        "far L": {
+          "hip": [
+            208,
+            317
+          ],
+          "knee": [
+            274,
+            350
+          ],
+          "ankle": [
+            295,
+            405
+          ],
+          "footTip": [
+            313,
+            405
+          ],
+          "contact": false
+        },
+        "near R": {
+          "hip": [
+            220,
+            322
+          ],
+          "knee": [
+            165,
+            360
+          ],
+          "ankle": [
+            180,
+            323
+          ],
+          "footTip": [
+            198,
+            323
+          ],
+          "contact": false
+        }
+      },
+      "nearRightHand": [
+        165,
+        320
+      ],
+      "swordTip": [
+        40,
+        365
+      ],
+      "leftHand": [
+        293,
+        282
+      ]
+    },
+    {
+      "frame": 5,
+      "bodyShiftY": 0,
+      "head": [
+        253,
+        203
+      ],
+      "shoulder": [
+        238,
+        245
+      ],
+      "pelvis": [
+        215,
+        330
+      ],
+      "legs": {
+        "far L": {
+          "hip": [
+            208,
+            325
+          ],
+          "knee": [
+            265,
+            370
+          ],
+          "ankle": [
+            298,
+            435
+          ],
+          "footTip": [
+            316,
+            440
+          ],
+          "contact": true
+        },
+        "near R": {
+          "hip": [
+            220,
+            330
+          ],
+          "knee": [
+            168,
+            368
+          ],
+          "ankle": [
+            135,
+            395
+          ],
+          "footTip": [
+            153,
+            395
+          ],
+          "contact": false
+        }
+      },
+      "nearRightHand": [
+        165,
+        320
+      ],
+      "swordTip": [
+        40,
+        365
+      ],
+      "leftHand": [
+        293,
+        282
+      ]
+    },
+    {
+      "frame": 6,
+      "bodyShiftY": 8,
+      "head": [
+        253,
+        211
+      ],
+      "shoulder": [
+        238,
+        253
+      ],
+      "pelvis": [
+        215,
+        338
+      ],
+      "legs": {
+        "far L": {
+          "hip": [
+            208,
+            333
+          ],
+          "knee": [
+            235,
+            386
+          ],
+          "ankle": [
+            235,
+            435
+          ],
+          "footTip": [
+            253,
+            440
+          ],
+          "contact": true
+        },
+        "near R": {
+          "hip": [
+            220,
+            338
+          ],
+          "knee": [
+            218,
+            345
+          ],
+          "ankle": [
+            177,
+            390
+          ],
+          "footTip": [
+            195,
+            390
+          ],
+          "contact": false
+        }
+      },
+      "nearRightHand": [
+        165,
+        320
+      ],
+      "swordTip": [
+        40,
+        365
+      ],
+      "leftHand": [
+        293,
+        282
+      ]
+    },
+    {
+      "frame": 7,
+      "bodyShiftY": 0,
+      "head": [
+        253,
+        203
+      ],
+      "shoulder": [
+        238,
+        245
+      ],
+      "pelvis": [
+        215,
+        330
+      ],
+      "legs": {
+        "far L": {
+          "hip": [
+            208,
+            325
+          ],
+          "knee": [
+            185,
+            378
+          ],
+          "ankle": [
+            165,
+            428
+          ],
+          "footTip": [
+            183,
+            440
+          ],
+          "contact": true
+        },
+        "near R": {
+          "hip": [
+            220,
+            330
+          ],
+          "knee": [
+            265,
+            350
+          ],
+          "ankle": [
+            235,
+            390
+          ],
+          "footTip": [
+            253,
+            390
+          ],
+          "contact": false
+        }
+      },
+      "nearRightHand": [
+        165,
+        320
+      ],
+      "swordTip": [
+        40,
+        365
+      ],
+      "leftHand": [
+        293,
+        282
+      ]
+    },
+    {
+      "frame": 8,
+      "bodyShiftY": -8,
+      "head": [
+        253,
+        195
+      ],
+      "shoulder": [
+        238,
+        237
+      ],
+      "pelvis": [
+        215,
+        322
+      ],
+      "legs": {
+        "far L": {
+          "hip": [
+            208,
+            317
+          ],
+          "knee": [
+            165,
+            360
+          ],
+          "ankle": [
+            180,
+            323
+          ],
+          "footTip": [
+            198,
+            323
+          ],
+          "contact": false
+        },
+        "near R": {
+          "hip": [
+            220,
+            322
+          ],
+          "knee": [
+            274,
+            350
+          ],
+          "ankle": [
+            295,
+            405
+          ],
+          "footTip": [
+            313,
+            405
+          ],
+          "contact": false
+        }
+      },
+      "nearRightHand": [
+        165,
+        320
+      ],
+      "swordTip": [
+        40,
+        365
+      ],
+      "leftHand": [
+        293,
+        282
+      ]
+    }
+  ]
+}

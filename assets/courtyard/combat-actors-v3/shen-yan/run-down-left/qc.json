@@ -1,0 +1,1435 @@
+{
+  "schema": "combat-frame-qc/v1",
+  "algorithmStatus": "passed",
+  "artReview": "not-reviewed",
+  "frameCount": 16,
+  "distinctFrames": 16,
+  "duplicateGroups": [],
+  "durationMs": 465,
+  "expectedDurationMs": 465,
+  "frameSize": [
+    350,
+    380
+  ],
+  "foot": [
+    160,
+    340
+  ],
+  "footRange": {
+    "x": [
+      160,
+      160
+    ],
+    "y": [
+      340,
+      340
+    ]
+  },
+  "sourceHeight": 280,
+  "uniformScale": 1,
+  "preview": {
+    "size": [
+      295,
+      320
+    ],
+    "targetBodyHeight": null,
+    "sampling": "nearest",
+    "gifDurationMs": 460,
+    "gifTimingQuantizationMs": 10,
+    "background": "#26292e"
+  },
+  "heightPreviews": [
+    {
+      "size": [
+        139,
+        151
+      ],
+      "targetBodyHeight": 111,
+      "sampling": "nearest",
+      "gifDurationMs": 460,
+      "gifTimingQuantizationMs": 10,
+      "background": "#26292e"
+    },
+    {
+      "size": [
+        188,
+        204
+      ],
+      "targetBodyHeight": 150,
+      "sampling": "nearest",
+      "gifDurationMs": 460,
+      "gifTimingQuantizationMs": 10,
+      "background": "#26292e"
+    },
+    {
+      "size": [
+        278,
+        301
+      ],
+      "targetBodyHeight": 222,
+      "sampling": "nearest",
+      "gifDurationMs": 460,
+      "gifTimingQuantizationMs": 10,
+      "background": "#26292e"
+    }
+  ],
+  "warnings": [
+    {
+      "code": "source-content-touches-edge",
+      "frame": 0
+    },
+    {
+      "code": "source-content-touches-edge",
+      "frame": 1
+    },
+    {
+      "code": "source-content-touches-edge",
+      "frame": 2
+    },
+    {
+      "code": "source-content-touches-edge",
+      "frame": 3
+    },
+    {
+      "code": "source-content-touches-edge",
+      "frame": 4
+    },
+    {
+      "code": "source-content-touches-edge",
+      "frame": 5
+    },
+    {
+      "code": "source-content-touches-edge",
+      "frame": 6
+    },
+    {
+      "code": "source-content-touches-edge",
+      "frame": 7
+    },
+    {
+      "code": "source-content-touches-edge",
+      "frame": 8
+    },
+    {
+      "code": "source-content-touches-edge",
+      "frame": 9
+    },
+    {
+      "code": "source-content-touches-edge",
+      "frame": 10
+    },
+    {
+      "code": "source-content-touches-edge",
+      "frame": 11
+    },
+    {
+      "code": "source-content-touches-edge",
+      "frame": 12
+    },
+    {
+      "code": "source-content-touches-edge",
+      "frame": 13
+    },
+    {
+      "code": "source-content-touches-edge",
+      "frame": 15
+    },
+    {
+      "code": "gif-duration-quantized",
+      "runtimeDurationMs": 465,
+      "gifDurationMs": 460
+    }
+  ],
+  "frames": [
+    {
+      "index": 0,
+      "bounds": [
+        53,
+        53,
+        327,
+        364
+      ],
+      "visiblePixels": 40857,
+      "transparentPixels": 92143,
+      "partialAlphaPixels": 40800,
+      "alphaRange": [
+        0,
+        255
+      ],
+      "pixelSha256": "6b04b6d2cefa01764abb44c0ef3264ed015b20282e31d64a2dc3a19c11fc1417",
+      "alphaSha256": "692161e4bbcda42a4d4e17e63266c094f69c711ba4a27d059676ab8bcf636935",
+      "inputBounds": [
+        33,
+        39,
+        307,
+        350
+      ],
+      "inputFoot": [
+        140,
+        326
+      ],
+      "translation": [
+        20,
+        14
+      ],
+      "foot": [
+        160,
+        340
+      ],
+      "bottomFromFoot": 24,
+      "source": "inputs/000-exec-6f0d6b95-7b77-4b7a-8dac-4127b0d79958.png",
+      "sourceCrop": [
+        0,
+        0,
+        309,
+        350
+      ],
+      "rgbaPreserved": false,
+      "uniformScale": 1,
+      "alphaClip": {
+        "clipPolygon": [
+          [
+            30,
+            0
+          ],
+          [
+            270,
+            0
+          ],
+          [
+            270,
+            180
+          ],
+          [
+            309,
+            230
+          ],
+          [
+            309,
+            350
+          ],
+          [
+            30,
+            350
+          ]
+        ],
+        "coordinateSpace": "source-crop-local",
+        "inputPixelSha256": "d554489a636eeb5d6b3244ca2eebfd0b456d2bcd1173f67f471bd80f659ffc09",
+        "outputPixelSha256": "a9093774feeb95e79d45cbf30fd84dd09fa1b77d71e72f07b4cd6177d829712b",
+        "removedVisiblePixels": 623,
+        "insideRgbaPreserved": true,
+        "outsideRgbPreserved": true
+      }
+    },
+    {
+      "index": 1,
+      "bounds": [
+        50,
+        53,
+        329,
+        364
+      ],
+      "visiblePixels": 41699,
+      "transparentPixels": 91301,
+      "partialAlphaPixels": 41663,
+      "alphaRange": [
+        0,
+        255
+      ],
+      "pixelSha256": "b73c8a8c0df26780cc0bfa2fd5251594f97162dc11be0a7a46d33a730d699547",
+      "alphaSha256": "f11525e9e1204d8d39ab4d50d7e4611ecfce7d1de1ef6fcf3d8b2131453ccd0f",
+      "inputBounds": [
+        30,
+        39,
+        309,
+        350
+      ],
+      "inputFoot": [
+        140,
+        326
+      ],
+      "translation": [
+        20,
+        14
+      ],
+      "foot": [
+        160,
+        340
+      ],
+      "bottomFromFoot": 24,
+      "source": "inputs/000-exec-6f0d6b95-7b77-4b7a-8dac-4127b0d79958.png",
+      "sourceCrop": [
+        281,
+        0,
+        309,
+        350
+      ],
+      "rgbaPreserved": false,
+      "uniformScale": 1,
+      "alphaClip": {
+        "clipPolygon": [
+          [
+            30,
+            0
+          ],
+          [
+            270,
+            0
+          ],
+          [
+            270,
+            180
+          ],
+          [
+            309,
+            230
+          ],
+          [
+            309,
+            350
+          ],
+          [
+            30,
+            350
+          ]
+        ],
+        "coordinateSpace": "source-crop-local",
+        "inputPixelSha256": "9153b8d5f2afa1b2d0f3fc143b419400b7f409e87f982b5a298b4b284830bd87",
+        "outputPixelSha256": "9e442528845018f1b53764159df8fe6b69cf49d0d5b0654a049050635fc18984",
+        "removedVisiblePixels": 1167,
+        "insideRgbaPreserved": true,
+        "outsideRgbPreserved": true
+      }
+    },
+    {
+      "index": 2,
+      "bounds": [
+        50,
+        55,
+        328,
+        364
+      ],
+      "visiblePixels": 44019,
+      "transparentPixels": 88981,
+      "partialAlphaPixels": 43991,
+      "alphaRange": [
+        0,
+        255
+      ],
+      "pixelSha256": "bae2303008a58541e85d20c669b3cb754cde2d128a5e353a20ed0f22f5bcbc5a",
+      "alphaSha256": "6760dc09478e6e17f6f1b36d5f36e6d9e6d77402c0b88795feab122faeb1a620",
+      "inputBounds": [
+        30,
+        41,
+        308,
+        350
+      ],
+      "inputFoot": [
+        140,
+        326
+      ],
+      "translation": [
+        20,
+        14
+      ],
+      "foot": [
+        160,
+        340
+      ],
+      "bottomFromFoot": 24,
+      "source": "inputs/000-exec-6f0d6b95-7b77-4b7a-8dac-4127b0d79958.png",
+      "sourceCrop": [
+        562,
+        0,
+        308,
+        350
+      ],
+      "rgbaPreserved": false,
+      "uniformScale": 1,
+      "alphaClip": {
+        "clipPolygon": [
+          [
+            30,
+            0
+          ],
+          [
+            270,
+            0
+          ],
+          [
+            270,
+            180
+          ],
+          [
+            308,
+            230
+          ],
+          [
+            308,
+            350
+          ],
+          [
+            30,
+            350
+          ]
+        ],
+        "coordinateSpace": "source-crop-local",
+        "inputPixelSha256": "11593dfce31acafa843668a46100a3b62c8a018d5c1fb285b515c333633feca2",
+        "outputPixelSha256": "ce8df26e8c79626bd120db362d672196285e2af0afc2f9d9ce2b03abe194bcce",
+        "removedVisiblePixels": 553,
+        "insideRgbaPreserved": true,
+        "outsideRgbPreserved": true
+      }
+    },
+    {
+      "index": 3,
+      "bounds": [
+        50,
+        61,
+        301,
+        364
+      ],
+      "visiblePixels": 41061,
+      "transparentPixels": 91939,
+      "partialAlphaPixels": 41027,
+      "alphaRange": [
+        0,
+        255
+      ],
+      "pixelSha256": "75f0147213345c86ca6af76d764cd8b47d169b44ae127ed2ca63b251954bd04e",
+      "alphaSha256": "e4571539018b532fdc4566c96cd65e804c0f143d72cfb2836b378df6d306daff",
+      "inputBounds": [
+        30,
+        47,
+        281,
+        350
+      ],
+      "inputFoot": [
+        140,
+        326
+      ],
+      "translation": [
+        20,
+        14
+      ],
+      "foot": [
+        160,
+        340
+      ],
+      "bottomFromFoot": 24,
+      "source": "inputs/000-exec-6f0d6b95-7b77-4b7a-8dac-4127b0d79958.png",
+      "sourceCrop": [
+        842,
+        0,
+        281,
+        350
+      ],
+      "rgbaPreserved": false,
+      "uniformScale": 1,
+      "alphaClip": {
+        "clipPolygon": [
+          [
+            30,
+            0
+          ],
+          [
+            270,
+            0
+          ],
+          [
+            270,
+            180
+          ],
+          [
+            281,
+            230
+          ],
+          [
+            281,
+            350
+          ],
+          [
+            30,
+            350
+          ]
+        ],
+        "coordinateSpace": "source-crop-local",
+        "inputPixelSha256": "15ca286d12a779f6461f1de0e5be8c996edde0f91bdeb99e92358f7b9422b8f0",
+        "outputPixelSha256": "00b1f1bc5aa65c28f2b2cda27ad80b3edef1c5e9b905dfb09c65ec4ddf7ed241",
+        "removedVisiblePixels": 1291,
+        "insideRgbaPreserved": true,
+        "outsideRgbPreserved": true
+      }
+    },
+    {
+      "index": 4,
+      "bounds": [
+        51,
+        14,
+        329,
+        364
+      ],
+      "visiblePixels": 39744,
+      "transparentPixels": 93256,
+      "partialAlphaPixels": 39705,
+      "alphaRange": [
+        0,
+        255
+      ],
+      "pixelSha256": "ccc3d74de3af23a1b5b10b4d25eff9433dfd35c6970b03709ba3c41f22383353",
+      "alphaSha256": "7439779b8e8b5e9032758db1108b27115deec5d5747715d9d2b6c3f07295aa10",
+      "inputBounds": [
+        31,
+        0,
+        309,
+        350
+      ],
+      "inputFoot": [
+        140,
+        326
+      ],
+      "translation": [
+        20,
+        14
+      ],
+      "foot": [
+        160,
+        340
+      ],
+      "bottomFromFoot": 24,
+      "source": "inputs/000-exec-6f0d6b95-7b77-4b7a-8dac-4127b0d79958.png",
+      "sourceCrop": [
+        0,
+        350,
+        309,
+        350
+      ],
+      "rgbaPreserved": false,
+      "uniformScale": 1,
+      "alphaClip": {
+        "clipPolygon": [
+          [
+            30,
+            0
+          ],
+          [
+            270,
+            0
+          ],
+          [
+            270,
+            180
+          ],
+          [
+            309,
+            230
+          ],
+          [
+            309,
+            350
+          ],
+          [
+            30,
+            350
+          ]
+        ],
+        "coordinateSpace": "source-crop-local",
+        "inputPixelSha256": "4cf9bda9be13a807309d22c947ee3424ca0d1162bb43af4f5fbcda9caa388d19",
+        "outputPixelSha256": "14966eed95f00c088c17e4dd13a7ad4563ec28c65843f8fa94fb783aaa6e5453",
+        "removedVisiblePixels": 299,
+        "insideRgbaPreserved": true,
+        "outsideRgbPreserved": true
+      }
+    },
+    {
+      "index": 5,
+      "bounds": [
+        50,
+        14,
+        329,
+        364
+      ],
+      "visiblePixels": 42492,
+      "transparentPixels": 90508,
+      "partialAlphaPixels": 42468,
+      "alphaRange": [
+        0,
+        255
+      ],
+      "pixelSha256": "3318809c7dd7636790619a04c1f48225e8d6a6b8e02154d6da01f13944adf130",
+      "alphaSha256": "3bbff912e42072039959457c99f7655ba10730b1ed55ea68aff6afbce27b49e6",
+      "inputBounds": [
+        30,
+        0,
+        309,
+        350
+      ],
+      "inputFoot": [
+        140,
+        326
+      ],
+      "translation": [
+        20,
+        14
+      ],
+      "foot": [
+        160,
+        340
+      ],
+      "bottomFromFoot": 24,
+      "source": "inputs/000-exec-6f0d6b95-7b77-4b7a-8dac-4127b0d79958.png",
+      "sourceCrop": [
+        281,
+        350,
+        309,
+        350
+      ],
+      "rgbaPreserved": false,
+      "uniformScale": 1,
+      "alphaClip": {
+        "clipPolygon": [
+          [
+            30,
+            0
+          ],
+          [
+            270,
+            0
+          ],
+          [
+            270,
+            180
+          ],
+          [
+            309,
+            230
+          ],
+          [
+            309,
+            350
+          ],
+          [
+            30,
+            350
+          ]
+        ],
+        "coordinateSpace": "source-crop-local",
+        "inputPixelSha256": "9200ed94cb0bc415e55d1a68b6f5665ccf3f3b3168e49b39f7677306991ca46f",
+        "outputPixelSha256": "25d962b8b14b1e95d27257b698681221ef34c5c40e3bbaee52eccf4e65060aca",
+        "removedVisiblePixels": 1465,
+        "insideRgbaPreserved": true,
+        "outsideRgbPreserved": true
+      }
+    },
+    {
+      "index": 6,
+      "bounds": [
+        50,
+        14,
+        328,
+        364
+      ],
+      "visiblePixels": 42612,
+      "transparentPixels": 90388,
+      "partialAlphaPixels": 42568,
+      "alphaRange": [
+        0,
+        255
+      ],
+      "pixelSha256": "8d274e98f36e5683c56830d4712aa9858ae9118cc4bdf290cc164023f170f9a8",
+      "alphaSha256": "20534b0ca8a8af70c9e0ad1717781e2382120455a64a1db99b5bc6ea4bf2a3e8",
+      "inputBounds": [
+        30,
+        0,
+        308,
+        350
+      ],
+      "inputFoot": [
+        140,
+        326
+      ],
+      "translation": [
+        20,
+        14
+      ],
+      "foot": [
+        160,
+        340
+      ],
+      "bottomFromFoot": 24,
+      "source": "inputs/000-exec-6f0d6b95-7b77-4b7a-8dac-4127b0d79958.png",
+      "sourceCrop": [
+        562,
+        350,
+        308,
+        350
+      ],
+      "rgbaPreserved": false,
+      "uniformScale": 1,
+      "alphaClip": {
+        "clipPolygon": [
+          [
+            30,
+            0
+          ],
+          [
+            270,
+            0
+          ],
+          [
+            270,
+            180
+          ],
+          [
+            308,
+            230
+          ],
+          [
+            308,
+            350
+          ],
+          [
+            30,
+            350
+          ]
+        ],
+        "coordinateSpace": "source-crop-local",
+        "inputPixelSha256": "03368771bd555bb9308dbcb2e6e138d5a744cfcf6f42d87541b68d19b41ce9e7",
+        "outputPixelSha256": "4610f743b86b318f05b8e7fbddf0dbc205dde1ad3e1b9f3ab0cc654d22e79051",
+        "removedVisiblePixels": 1050,
+        "insideRgbaPreserved": true,
+        "outsideRgbPreserved": true
+      }
+    },
+    {
+      "index": 7,
+      "bounds": [
+        50,
+        14,
+        301,
+        364
+      ],
+      "visiblePixels": 39343,
+      "transparentPixels": 93657,
+      "partialAlphaPixels": 39330,
+      "alphaRange": [
+        0,
+        255
+      ],
+      "pixelSha256": "bd6c221a16c2f4864f8525faf750206beb9de1b986ec55884d18aa2a975ef930",
+      "alphaSha256": "1c69605d97eb3a0ea4fe37d37b1c77ef1222a1f8bf2041943064dd2e9f20d64a",
+      "inputBounds": [
+        30,
+        0,
+        281,
+        350
+      ],
+      "inputFoot": [
+        140,
+        326
+      ],
+      "translation": [
+        20,
+        14
+      ],
+      "foot": [
+        160,
+        340
+      ],
+      "bottomFromFoot": 24,
+      "source": "inputs/000-exec-6f0d6b95-7b77-4b7a-8dac-4127b0d79958.png",
+      "sourceCrop": [
+        842,
+        350,
+        281,
+        350
+      ],
+      "rgbaPreserved": false,
+      "uniformScale": 1,
+      "alphaClip": {
+        "clipPolygon": [
+          [
+            30,
+            0
+          ],
+          [
+            270,
+            0
+          ],
+          [
+            270,
+            180
+          ],
+          [
+            281,
+            230
+          ],
+          [
+            281,
+            350
+          ],
+          [
+            30,
+            350
+          ]
+        ],
+        "coordinateSpace": "source-crop-local",
+        "inputPixelSha256": "f565daa74bf7e09b9bcac0ca2392437c22d45eb4b9538c4ed07f1c7a71545a65",
+        "outputPixelSha256": "429512b2c7bae727ef2ceeada8df9d1196688880b39fe66ca87f4b1c2ed79d47",
+        "removedVisiblePixels": 1038,
+        "insideRgbaPreserved": true,
+        "outsideRgbPreserved": true
+      }
+    },
+    {
+      "index": 8,
+      "bounds": [
+        63,
+        13,
+        329,
+        364
+      ],
+      "visiblePixels": 39301,
+      "transparentPixels": 93699,
+      "partialAlphaPixels": 39254,
+      "alphaRange": [
+        0,
+        255
+      ],
+      "pixelSha256": "4fd16296e88d86571a78f806d377fb8197ede93fabadda695793829c269fed8a",
+      "alphaSha256": "560d6f3a4d76496d596d064359c92d1163dd0130902c65d8209a3bd6fa9e94d0",
+      "inputBounds": [
+        43,
+        0,
+        309,
+        351
+      ],
+      "inputFoot": [
+        140,
+        327
+      ],
+      "translation": [
+        20,
+        13
+      ],
+      "foot": [
+        160,
+        340
+      ],
+      "bottomFromFoot": 24,
+      "source": "inputs/000-exec-6f0d6b95-7b77-4b7a-8dac-4127b0d79958.png",
+      "sourceCrop": [
+        0,
+        700,
+        309,
+        351
+      ],
+      "rgbaPreserved": false,
+      "uniformScale": 1,
+      "alphaClip": {
+        "clipPolygon": [
+          [
+            30,
+            0
+          ],
+          [
+            270,
+            0
+          ],
+          [
+            270,
+            180
+          ],
+          [
+            309,
+            230
+          ],
+          [
+            309,
+            351
+          ],
+          [
+            30,
+            351
+          ]
+        ],
+        "coordinateSpace": "source-crop-local",
+        "inputPixelSha256": "c15941965a9d943aefd2cca49980a1e5692bfc216ade3c0995d732dbda74c2d6",
+        "outputPixelSha256": "aca7aa7771d2df182a5b48d519084f4f592cd2828b694619a852003187f9dfe3",
+        "removedVisiblePixels": 432,
+        "insideRgbaPreserved": true,
+        "outsideRgbPreserved": true
+      }
+    },
+    {
+      "index": 9,
+      "bounds": [
+        51,
+        13,
+        329,
+        364
+      ],
+      "visiblePixels": 39091,
+      "transparentPixels": 93909,
+      "partialAlphaPixels": 39060,
+      "alphaRange": [
+        0,
+        255
+      ],
+      "pixelSha256": "5da6998aa581886b932854d4fc6c9a4e175aa56a7f9e743f009793b08ee21023",
+      "alphaSha256": "fb406739fda89bd7c4f140f1fc3874ddb954f854f346921e31d1fc7059efcfc9",
+      "inputBounds": [
+        31,
+        0,
+        309,
+        351
+      ],
+      "inputFoot": [
+        140,
+        327
+      ],
+      "translation": [
+        20,
+        13
+      ],
+      "foot": [
+        160,
+        340
+      ],
+      "bottomFromFoot": 24,
+      "source": "inputs/000-exec-6f0d6b95-7b77-4b7a-8dac-4127b0d79958.png",
+      "sourceCrop": [
+        281,
+        700,
+        309,
+        351
+      ],
+      "rgbaPreserved": false,
+      "uniformScale": 1,
+      "alphaClip": {
+        "clipPolygon": [
+          [
+            30,
+            0
+          ],
+          [
+            270,
+            0
+          ],
+          [
+            270,
+            180
+          ],
+          [
+            309,
+            230
+          ],
+          [
+            309,
+            351
+          ],
+          [
+            30,
+            351
+          ]
+        ],
+        "coordinateSpace": "source-crop-local",
+        "inputPixelSha256": "fbda59b3b141f5ee8882bc8087fd25d337821c1c3ebdafa5bb1b575a8cf8a1e5",
+        "outputPixelSha256": "35e84fd7451bffeed6445cfa6d7df5b8a9391a1a1ab001aa8694ba39b09aaeab",
+        "removedVisiblePixels": 1504,
+        "insideRgbaPreserved": true,
+        "outsideRgbPreserved": true
+      }
+    },
+    {
+      "index": 10,
+      "bounds": [
+        50,
+        13,
+        328,
+        364
+      ],
+      "visiblePixels": 41162,
+      "transparentPixels": 91838,
+      "partialAlphaPixels": 41126,
+      "alphaRange": [
+        0,
+        255
+      ],
+      "pixelSha256": "595c899d361c12f72ff1b8d5a4f7b2959497ae880542ff65b17a1486818ec682",
+      "alphaSha256": "79dce9e11b754625d031018ef752689bfca647b602b84ea81bd4be6b47d0848a",
+      "inputBounds": [
+        30,
+        0,
+        308,
+        351
+      ],
+      "inputFoot": [
+        140,
+        327
+      ],
+      "translation": [
+        20,
+        13
+      ],
+      "foot": [
+        160,
+        340
+      ],
+      "bottomFromFoot": 24,
+      "source": "inputs/000-exec-6f0d6b95-7b77-4b7a-8dac-4127b0d79958.png",
+      "sourceCrop": [
+        562,
+        700,
+        308,
+        351
+      ],
+      "rgbaPreserved": false,
+      "uniformScale": 1,
+      "alphaClip": {
+        "clipPolygon": [
+          [
+            30,
+            0
+          ],
+          [
+            270,
+            0
+          ],
+          [
+            270,
+            180
+          ],
+          [
+            308,
+            230
+          ],
+          [
+            308,
+            351
+          ],
+          [
+            30,
+            351
+          ]
+        ],
+        "coordinateSpace": "source-crop-local",
+        "inputPixelSha256": "aa5c7c0b206497484712492216d20bc336d5de10c959b06195f95abc84b58958",
+        "outputPixelSha256": "db40d815e8f00843e9cee42043f707ae5197ac8cb7bade614a36cca1ef60ae81",
+        "removedVisiblePixels": 1151,
+        "insideRgbaPreserved": true,
+        "outsideRgbPreserved": true
+      }
+    },
+    {
+      "index": 11,
+      "bounds": [
+        50,
+        13,
+        301,
+        364
+      ],
+      "visiblePixels": 38432,
+      "transparentPixels": 94568,
+      "partialAlphaPixels": 38400,
+      "alphaRange": [
+        0,
+        255
+      ],
+      "pixelSha256": "171619f762ef6796d19b2d5a114541925b26ef4aa4f15124c79e83d910db8142",
+      "alphaSha256": "83622541a1edf04b78580fcdb4c3adf3f3cc0bc910b67f9b1a567353e5e7c931",
+      "inputBounds": [
+        30,
+        0,
+        281,
+        351
+      ],
+      "inputFoot": [
+        140,
+        327
+      ],
+      "translation": [
+        20,
+        13
+      ],
+      "foot": [
+        160,
+        340
+      ],
+      "bottomFromFoot": 24,
+      "source": "inputs/000-exec-6f0d6b95-7b77-4b7a-8dac-4127b0d79958.png",
+      "sourceCrop": [
+        842,
+        700,
+        281,
+        351
+      ],
+      "rgbaPreserved": false,
+      "uniformScale": 1,
+      "alphaClip": {
+        "clipPolygon": [
+          [
+            30,
+            0
+          ],
+          [
+            270,
+            0
+          ],
+          [
+            270,
+            180
+          ],
+          [
+            281,
+            230
+          ],
+          [
+            281,
+            351
+          ],
+          [
+            30,
+            351
+          ]
+        ],
+        "coordinateSpace": "source-crop-local",
+        "inputPixelSha256": "571ffd8415e177bbe6d9b09dbf2cc046bf000aacc8f6171354fb6dca37c8b2ad",
+        "outputPixelSha256": "16a1438ce45a670c5c4e0ca3a846b5bb1cbf28337bc5f4a0989d310454ead19e",
+        "removedVisiblePixels": 949,
+        "insideRgbaPreserved": true,
+        "outsideRgbPreserved": true
+      }
+    },
+    {
+      "index": 12,
+      "bounds": [
+        51,
+        15,
+        329,
+        340
+      ],
+      "visiblePixels": 41359,
+      "transparentPixels": 91641,
+      "partialAlphaPixels": 41329,
+      "alphaRange": [
+        0,
+        255
+      ],
+      "pixelSha256": "c2145ba9709d588666850f88585ea255cef646c5e278fb17214a0c2b0c3b3490",
+      "alphaSha256": "b6b961d5aada086f5d89b21e987ce109d70c9896b3d76b20414d86775a71b8e0",
+      "inputBounds": [
+        31,
+        1,
+        309,
+        326
+      ],
+      "inputFoot": [
+        140,
+        326
+      ],
+      "translation": [
+        20,
+        14
+      ],
+      "foot": [
+        160,
+        340
+      ],
+      "bottomFromFoot": 0,
+      "source": "inputs/000-exec-6f0d6b95-7b77-4b7a-8dac-4127b0d79958.png",
+      "sourceCrop": [
+        0,
+        1051,
+        309,
+        350
+      ],
+      "rgbaPreserved": false,
+      "uniformScale": 1,
+      "alphaClip": {
+        "clipPolygon": [
+          [
+            30,
+            0
+          ],
+          [
+            270,
+            0
+          ],
+          [
+            270,
+            180
+          ],
+          [
+            309,
+            230
+          ],
+          [
+            309,
+            350
+          ],
+          [
+            30,
+            350
+          ]
+        ],
+        "coordinateSpace": "source-crop-local",
+        "inputPixelSha256": "fa61627ba2506d620cc8a1f5359da84ab349c39a987d59300e7dfbd125e0fe86",
+        "outputPixelSha256": "5c33ae17212532c29d7b200f22b15e50adda9c36b2a454d548d28437f532becd",
+        "removedVisiblePixels": 364,
+        "insideRgbaPreserved": true,
+        "outsideRgbPreserved": true
+      }
+    },
+    {
+      "index": 13,
+      "bounds": [
+        50,
+        15,
+        329,
+        338
+      ],
+      "visiblePixels": 41347,
+      "transparentPixels": 91653,
+      "partialAlphaPixels": 41307,
+      "alphaRange": [
+        0,
+        255
+      ],
+      "pixelSha256": "d9705383e737fe36b743484b4267be6c5dc3c373eba38f715b8fba584497eeb2",
+      "alphaSha256": "321459e4bb4ed854f06ce8cb4072a739330720e78d87829ee078b9009a79c67c",
+      "inputBounds": [
+        30,
+        1,
+        309,
+        324
+      ],
+      "inputFoot": [
+        140,
+        326
+      ],
+      "translation": [
+        20,
+        14
+      ],
+      "foot": [
+        160,
+        340
+      ],
+      "bottomFromFoot": -2,
+      "source": "inputs/000-exec-6f0d6b95-7b77-4b7a-8dac-4127b0d79958.png",
+      "sourceCrop": [
+        281,
+        1051,
+        309,
+        350
+      ],
+      "rgbaPreserved": false,
+      "uniformScale": 1,
+      "alphaClip": {
+        "clipPolygon": [
+          [
+            30,
+            0
+          ],
+          [
+            270,
+            0
+          ],
+          [
+            270,
+            180
+          ],
+          [
+            309,
+            230
+          ],
+          [
+            309,
+            350
+          ],
+          [
+            30,
+            350
+          ]
+        ],
+        "coordinateSpace": "source-crop-local",
+        "inputPixelSha256": "a89b007425160d84201ac824c10e55527145a7304cbbf7a829faacc880a7e188",
+        "outputPixelSha256": "5b71927568593e881d26d5db5345c5b658b586d2c4ef8f89587a291de0cf3e2d",
+        "removedVisiblePixels": 1091,
+        "insideRgbaPreserved": true,
+        "outsideRgbPreserved": true
+      }
+    },
+    {
+      "index": 14,
+      "bounds": [
+        50,
+        15,
+        326,
+        334
+      ],
+      "visiblePixels": 43710,
+      "transparentPixels": 89290,
+      "partialAlphaPixels": 43671,
+      "alphaRange": [
+        0,
+        255
+      ],
+      "pixelSha256": "5707a0a09692292d6468798f3daa8a9e7033ea2c3f4741835c725d7e573e33d4",
+      "alphaSha256": "9d681ffad625e70ee05157d3b0ec9bbdc4f195cacc34f20c5574bc05dfdb3260",
+      "inputBounds": [
+        30,
+        1,
+        306,
+        320
+      ],
+      "inputFoot": [
+        140,
+        326
+      ],
+      "translation": [
+        20,
+        14
+      ],
+      "foot": [
+        160,
+        340
+      ],
+      "bottomFromFoot": -6,
+      "source": "inputs/000-exec-6f0d6b95-7b77-4b7a-8dac-4127b0d79958.png",
+      "sourceCrop": [
+        562,
+        1051,
+        308,
+        350
+      ],
+      "rgbaPreserved": false,
+      "uniformScale": 1,
+      "alphaClip": {
+        "clipPolygon": [
+          [
+            30,
+            0
+          ],
+          [
+            270,
+            0
+          ],
+          [
+            270,
+            180
+          ],
+          [
+            308,
+            230
+          ],
+          [
+            308,
+            350
+          ],
+          [
+            30,
+            350
+          ]
+        ],
+        "coordinateSpace": "source-crop-local",
+        "inputPixelSha256": "5459dc0bc6861a45219883dc909b456ce254d0b4c957a10024c91f740fcbc4cc",
+        "outputPixelSha256": "b3adf55bba310ae782f9ac7e00fcd6a6de4cc9b2679b50a3483a1d78825f8da0",
+        "removedVisiblePixels": 859,
+        "insideRgbaPreserved": true,
+        "outsideRgbPreserved": true
+      }
+    },
+    {
+      "index": 15,
+      "bounds": [
+        58,
+        14,
+        301,
+        330
+      ],
+      "visiblePixels": 40755,
+      "transparentPixels": 92245,
+      "partialAlphaPixels": 40721,
+      "alphaRange": [
+        0,
+        255
+      ],
+      "pixelSha256": "3c39d7ef477bccc3e6c53b7964bdeec67033d16a5f3898b1a55c35cf5808eee0",
+      "alphaSha256": "16435b4b26aa8866fc7722d0f388645c5b24b0353eca2bc3c398b6ef147e4a0a",
+      "inputBounds": [
+        38,
+        0,
+        281,
+        316
+      ],
+      "inputFoot": [
+        140,
+        326
+      ],
+      "translation": [
+        20,
+        14
+      ],
+      "foot": [
+        160,
+        340
+      ],
+      "bottomFromFoot": -10,
+      "source": "inputs/000-exec-6f0d6b95-7b77-4b7a-8dac-4127b0d79958.png",
+      "sourceCrop": [
+        842,
+        1051,
+        281,
+        350
+      ],
+      "rgbaPreserved": false,
+      "uniformScale": 1,
+      "alphaClip": {
+        "clipPolygon": [
+          [
+            30,
+            0
+          ],
+          [
+            270,
+            0
+          ],
+          [
+            270,
+            180
+          ],
+          [
+            281,
+            230
+          ],
+          [
+            281,
+            350
+          ],
+          [
+            30,
+            350
+          ]
+        ],
+        "coordinateSpace": "source-crop-local",
+        "inputPixelSha256": "61e37521ca790a2626190151e5e894448cc487344e97cae18c5299bda972d443",
+        "outputPixelSha256": "96d1f8d7c0ba26f6449e2c0e840a8025e59f9b659a5bb6f95d226ef3aa400ee9",
+        "removedVisiblePixels": 507,
+        "insideRgbaPreserved": true,
+        "outsideRgbPreserved": true
+      }
+    }
+  ],
+  "notProven": [
+    "anatomy",
+    "identity",
+    "gait",
+    "anatomical foot placement",
+    "motion continuity",
+    "contact geometry",
+    "art approval",
+    "runtime integration"
+  ]
+}

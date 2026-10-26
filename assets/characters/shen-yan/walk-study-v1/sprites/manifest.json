@@ -1,0 +1,212 @@
+{
+  "kind": "offline-character-motion-study",
+  "frames": [
+    "walk-000.png",
+    "walk-001.png",
+    "walk-002.png",
+    "walk-003.png",
+    "walk-004.png",
+    "walk-005.png",
+    "walk-006.png",
+    "walk-007.png",
+    "walk-008.png",
+    "walk-009.png",
+    "walk-010.png",
+    "walk-011.png",
+    "walk-012.png",
+    "walk-013.png",
+    "walk-014.png",
+    "walk-015.png"
+  ],
+  "fps": 11.707317073170731,
+  "frameSize": [
+    256,
+    320
+  ],
+  "pivot": [
+    128,
+    280
+  ],
+  "sourceHeight": 222,
+  "nominalHeight": 111,
+  "duration": 1.3666666666666667,
+  "strideWorld": 1.0895218881790494,
+  "worldHeight": 1.3340018207381945,
+  "forwardScreenPerWorld": [
+    118.02889866218385,
+    59.44606162116459
+  ],
+  "camera": {
+    "projection": "orthographic",
+    "yawDegrees": 40,
+    "elevationDegrees": 25,
+    "pixelsPerWorldUnit": 183.62036258250802,
+    "fixedForEveryFrame": true
+  },
+  "inputBlend": "../motion/shen-yan-walk.blend",
+  "sourceFrameRange": [
+    1,
+    42
+  ],
+  "sourceFrames": [
+    1,
+    3.5625,
+    6.125,
+    8.6875,
+    11.25,
+    13.8125,
+    16.375,
+    18.9375,
+    21.5,
+    24.0625,
+    26.625,
+    29.1875,
+    31.75,
+    34.3125,
+    36.875,
+    39.4375
+  ],
+  "render": {
+    "engine": "Cycles",
+    "samples": 32,
+    "transparent": true,
+    "silhouetteLinePixels": 1.35,
+    "materials": [
+      {
+        "material": "Material.002",
+        "changes": {
+          "Specular IOR Level": [
+            0.5,
+            0.20000000298023224
+          ]
+        }
+      },
+      {
+        "material": "Shen Yan head PBR.001",
+        "changes": {}
+      }
+    ]
+  },
+  "atlas": "walk-atlas.png",
+  "frameRects": [
+    [
+      0,
+      0,
+      256,
+      320
+    ],
+    [
+      256,
+      0,
+      256,
+      320
+    ],
+    [
+      512,
+      0,
+      256,
+      320
+    ],
+    [
+      768,
+      0,
+      256,
+      320
+    ],
+    [
+      0,
+      320,
+      256,
+      320
+    ],
+    [
+      256,
+      320,
+      256,
+      320
+    ],
+    [
+      512,
+      320,
+      256,
+      320
+    ],
+    [
+      768,
+      320,
+      256,
+      320
+    ],
+    [
+      0,
+      640,
+      256,
+      320
+    ],
+    [
+      256,
+      640,
+      256,
+      320
+    ],
+    [
+      512,
+      640,
+      256,
+      320
+    ],
+    [
+      768,
+      640,
+      256,
+      320
+    ],
+    [
+      0,
+      960,
+      256,
+      320
+    ],
+    [
+      256,
+      960,
+      256,
+      320
+    ],
+    [
+      512,
+      960,
+      256,
+      320
+    ],
+    [
+      768,
+      960,
+      256,
+      320
+    ]
+  ],
+  "frameSha256": [
+    "46da4ca2904ae2717e3d0b33e7d060a13f0e6aadd5cdb6683970041bf2f285cd",
+    "9142c4f4d58a344cd31f44dd6285c297954f9b0bb34f6fa2590223d4423d669c",
+    "e00ccbe1da18f46934aad1f857ced0648e78bab5d82cb8fe2126fd71226b8f12",
+    "d12877a958a1c2fdb2a2be3a7f2c12f78d11eaf78ec644630f2b593243f16938",
+    "b7faa58669500341f89675c7132f0ad3a7d711e1a33b2c346e14941235e41170",
+    "f4c47d4b89a43740a3069fdb6c176dc9f17687da1af65e7fbf2d2650ddcee573",
+    "8630bb4747cbe3eb6949eca72806c2e9d034d967eb4bd17f4d929fb1cc337393",
+    "cda6a0f8d9af21494e286fd6935d5995e7f5da5b530146b11bb9b32350fd5ce7",
+    "d9cbd4a0ce9a43b5985a3db07f4eb70e448188c570f0ad3c892fefda1826de3d",
+    "00719f1396ff4177d70676deadde7f8abf4a46e30a60d6e5dfd65b8f1853ea7a",
+    "94af3a92853bb7d20e2e3b243aeb275e44ba84a011c17323e892755b284cadee",
+    "c1a1bd09dd4659b0c55cf3b81904fa2372c12480877a46d2eeefeee07c630af3",
+    "7bd7f377650b4afe0abee97c578b1503ce89e1b555ff41cfe639467d66bcb392",
+    "2a27e593b7d166e867bc2a558a94b4727cc0eb2564c938f1d7d51d1b13a022c5",
+    "da0f3319decf1b99d6f4515a74e8d9a0169c5e966a74235b05256119fce1066d",
+    "0a04c732de14cbe859f3bfd42e56572dce9d4e3bb7477cd773fb244933112163"
+  ],
+  "stridePixels": [
+    128.59506853011624,
+    64.76778530229936
+  ],
+  "label": "沈砚 · 行走候选"
+}

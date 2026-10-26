@@ -1,0 +1,17 @@
+Create an 8-frame complete RUNNING CYCLE sprite sheet for ONLY the blue-robed human sword cultivator on the LEFT of the attached transparent reference. Use that exact identity, outfit, thin straight sword, pixel-art medium and fixed oblique overhead camera. Do not draw the monster.
+
+Layout: exactly 4 columns by 2 rows, eight equal 384x512 cells in a 1536x1024 landscape sheet, read left-to-right top row then left-to-right bottom row. Fully transparent background, no labels, gridlines, borders, shadows or floor. One complete person with one complete sword in every cell. Each cell has generous empty padding. Body anatomical scale and pelvis x coordinate stay constant in all eight frames: root x192, common ground y440, hypothetical upright body height 300 source pixels. The run happens in place facing screen RIGHT with the same three-quarter front-side view. Keep natural small body compression and brief aerial lift; do not independently resize any pose.
+
+Identity: slim young Chinese man, black half-topknot and tied long hair tail streaming left, slate-blue split robe over ivory crossed collar and ivory panels, dark narrow belt with pale jade ornament, dark trousers and boots. Body proportions about five heads tall as in the compact approved pixel sprite. Use crisp square pixel clusters and a small flat shade ramp, not a smooth illustration. The right hand is the nearer hand and ALWAYS holds ONE thin straight silver jian, blade low and trailing left behind the hip, fully visible and attached to the bronze guard. Its held arm has a restrained swing; the free left arm pumps naturally. No weapon switching, duplicate sword, slashing or glowing effects.
+
+Run biomechanics, one FULL two-step cycle across eight different frames:
+Frame 1 top-left: RIGHT foot reaches forward to the right and contacts the ground, left leg bent behind.
+Frame 2: RIGHT knee compresses under the body to absorb contact; left knee begins moving forward, torso lowers slightly.
+Frame 3: RIGHT foot pushes off behind the body, LEFT knee passes forward beside the pelvis; feet are clearly distinguishable.
+Frame 4: brief flight, BOTH soles visibly above the common ground, LEFT knee leads forward and RIGHT heel folds backward.
+Frame 5 bottom-left: LEFT foot reaches forward to the right and contacts the ground, right leg bent behind; opposite leg configuration to frame 1.
+Frame 6: LEFT knee compresses under the body; RIGHT knee begins moving forward, torso lowers slightly.
+Frame 7: LEFT foot pushes off behind, RIGHT knee passes forward beside the pelvis; opposite leg configuration to frame 3.
+Frame 8: brief flight, RIGHT knee leads forward and LEFT heel folds backward, smoothly leading back to frame 1.
+
+Maintain consistent head, torso, thigh, shin and sword lengths. The robe is split so both alternating legs and boots remain readable; cloth and hair lag behind the motion slightly, while the face stays looking forward. Two arms, two legs and one sword in EVERY frame. Depict real changes in leg angles and support, not eight repeated or mirrored standing poses. Keep the 30-degree-ish overhead game camera consistent with the reference: top of shoulders and both boot tops slightly visible, upright body, no perspective change. No motion blur, smear, ghost images or multiple exposure. Draw all eight as standalone complete whole-body frames suitable for direct cutout and playback.

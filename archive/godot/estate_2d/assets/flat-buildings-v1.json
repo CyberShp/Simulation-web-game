@@ -1,0 +1,200 @@
+{
+  "version": "yunxiu-flat-v1",
+  "art": {
+    "hall:complete": {
+      "file": "flat-hall-v1.png",
+      "region": [
+        149,
+        23,
+        1294,
+        985
+      ],
+      "foot": [
+        471,
+        957
+      ]
+    },
+    "hall:shelter": {
+      "file": "flat-hall-stages-v1.png",
+      "region": [
+        90,
+        194,
+        445,
+        326
+      ],
+      "foot": [
+        222.5,
+        326
+      ]
+    },
+    "hall:foundation": {
+      "file": "flat-hall-stages-v1.png",
+      "region": [
+        656,
+        275,
+        564,
+        284
+      ],
+      "foot": [
+        221,
+        261
+      ]
+    },
+    "hall:structure": {
+      "file": "flat-hall-stages-v1.png",
+      "region": [
+        44,
+        709,
+        553,
+        452
+      ],
+      "foot": [
+        191,
+        423
+      ]
+    },
+    "hall:finishing": {
+      "file": "flat-hall-stages-v1.png",
+      "region": [
+        639,
+        661,
+        584,
+        515
+      ],
+      "foot": [
+        232,
+        489
+      ]
+    },
+    "house:complete": {
+      "file": "flat-facilities-v1.png",
+      "region": [
+        35,
+        47,
+        594,
+        546
+      ],
+      "foot": [
+        297.0,
+        546
+      ]
+    },
+    "kitchen:complete": {
+      "file": "flat-facilities-v1.png",
+      "region": [
+        665,
+        38,
+        548,
+        576
+      ],
+      "foot": [
+        274.0,
+        576
+      ]
+    },
+    "alchemy:complete": {
+      "file": "flat-facilities-v1.png",
+      "region": [
+        36,
+        646,
+        571,
+        577
+      ],
+      "foot": [
+        285.5,
+        577
+      ]
+    },
+    "lumber:complete": {
+      "file": "flat-facilities-v1.png",
+      "region": [
+        670,
+        690,
+        562,
+        508
+      ],
+      "foot": [
+        281.0,
+        508
+      ]
+    },
+    "farm:foundation": {
+      "file": "flat-farm-stages-v1.png",
+      "region": [
+        11,
+        173,
+        488,
+        296
+      ],
+      "foot": [
+        244.0,
+        296
+      ]
+    },
+    "farm:structure": {
+      "file": "flat-farm-stages-v1.png",
+      "region": [
+        524,
+        196,
+        489,
+        272
+      ],
+      "foot": [
+        244.5,
+        272
+      ]
+    },
+    "farm:finishing": {
+      "file": "flat-farm-stages-v1.png",
+      "region": [
+        1037,
+        200,
+        482,
+        269
+      ],
+      "foot": [
+        241.0,
+        269
+      ]
+    },
+    "farm:empty": {
+      "file": "flat-farm-stages-v1.png",
+      "region": [
+        12,
+        610,
+        487,
+        270
+      ],
+      "foot": [
+        243.5,
+        270
+      ]
+    },
+    "farm:growing": {
+      "file": "flat-farm-stages-v1.png",
+      "region": [
+        526,
+        612,
+        482,
+        268
+      ],
+      "foot": [
+        241.0,
+        268
+      ]
+    },
+    "farm:ripe": {
+      "file": "flat-farm-stages-v1.png",
+      "region": [
+        1039,
+        606,
+        484,
+        274
+      ],
+      "foot": [
+        242.0,
+        274
+      ]
+    }
+  }
+}

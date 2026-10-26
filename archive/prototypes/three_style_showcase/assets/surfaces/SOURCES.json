@@ -1,0 +1,97 @@
+{
+  "provider": "Poly Haven",
+  "assetLicense": "https://polyhaven.com/license",
+  "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "files": [
+    {
+      "asset": "stone_tiles_02",
+      "channel": "Diffuse",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/stone_tiles_02/stone_tiles_02_diff_1k.jpg",
+      "file": "paving-color.jpg",
+      "page": "https://polyhaven.com/a/stone_tiles_02",
+      "license": "CC0-1.0",
+      "sha256": "687ef4a6cc07fb680352cf26b0a2a6256d4c18d8084dcd59ac739bc509296e18",
+      "bytes": 817710
+    },
+    {
+      "asset": "stone_tiles_02",
+      "channel": "nor_gl",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/stone_tiles_02/stone_tiles_02_nor_gl_1k.jpg",
+      "file": "paving-normal.jpg",
+      "page": "https://polyhaven.com/a/stone_tiles_02",
+      "license": "CC0-1.0",
+      "sha256": "ab19cc9baacb0bc30a219f841254beb6837412ddad9bfc9c052b5aa805d1c3f0",
+      "bytes": 873564
+    },
+    {
+      "asset": "stone_tiles_02",
+      "channel": "Rough",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/stone_tiles_02/stone_tiles_02_rough_1k.jpg",
+      "file": "paving-roughness.jpg",
+      "page": "https://polyhaven.com/a/stone_tiles_02",
+      "license": "CC0-1.0",
+      "sha256": "889f66231be4f25ecd80b5d87f06f4e8c22c801edb8dcc7e34c13e6b4b74491c",
+      "bytes": 476160
+    },
+    {
+      "asset": "forest_ground_04",
+      "channel": "Diffuse",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/forest_ground_04/forest_ground_04_diff_1k.jpg",
+      "file": "forest-color.jpg",
+      "page": "https://polyhaven.com/a/forest_ground_04",
+      "license": "CC0-1.0",
+      "sha256": "50a4dda30875020c64385261aa7e00e2155b592302fa6794165f58fae73cbd2c",
+      "bytes": 1113899
+    },
+    {
+      "asset": "forest_ground_04",
+      "channel": "nor_gl",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/forest_ground_04/forest_ground_04_nor_gl_1k.jpg",
+      "file": "forest-normal.jpg",
+      "page": "https://polyhaven.com/a/forest_ground_04",
+      "license": "CC0-1.0",
+      "sha256": "9c3a0200e02ce40edffbbf9f5f623ef08ea9b1b7812b556182ec978f88887151",
+      "bytes": 1326812
+    },
+    {
+      "asset": "forest_ground_04",
+      "channel": "Rough",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/forest_ground_04/forest_ground_04_rough_1k.jpg",
+      "file": "forest-roughness.jpg",
+      "page": "https://polyhaven.com/a/forest_ground_04",
+      "license": "CC0-1.0",
+      "sha256": "89d4d50395eb92824a64132c4bc8a5a09009071e0b325ab66dc3104c7a3090ed",
+      "bytes": 627507
+    },
+    {
+      "asset": "monastery_stone_floor",
+      "channel": "Diffuse",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/monastery_stone_floor/monastery_stone_floor_diff_1k.jpg",
+      "file": "courtyard-color.jpg",
+      "page": "https://polyhaven.com/a/monastery_stone_floor",
+      "license": "CC0-1.0",
+      "sha256": "8e52ec982469ce9da312cefe3126c1dff05b7150234971bc6dff6e31c3c584ae",
+      "bytes": 766525
+    },
+    {
+      "asset": "monastery_stone_floor",
+      "channel": "nor_gl",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/monastery_stone_floor/monastery_stone_floor_nor_gl_1k.jpg",
+      "file": "courtyard-normal.jpg",
+      "page": "https://polyhaven.com/a/monastery_stone_floor",
+      "license": "CC0-1.0",
+      "sha256": "f2f1c3e8d52c1e3a49ef59695743872f2adaa57bc0d3f64b129ce988966162c1",
+      "bytes": 1063115
+    },
+    {
+      "asset": "monastery_stone_floor",
+      "channel": "Rough",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/monastery_stone_floor/monastery_stone_floor_rough_1k.jpg",
+      "file": "courtyard-roughness.jpg",
+      "page": "https://polyhaven.com/a/monastery_stone_floor",
+      "license": "CC0-1.0",
+      "sha256": "8d987222b727442c11c30cd4d8a32ed48f02e46683acd088d994baef5bf311a9",
+      "bytes": 477972
+    }
+  ]
+}

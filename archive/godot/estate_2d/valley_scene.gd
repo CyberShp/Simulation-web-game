@@ -3,11 +3,12 @@ extends Node2D
 const VALLEY_ID := "scene:valley"
 const ART_ROOT := "res://estate_2d/assets/"
 const SCENE_SIZE := Vector2(1536.0, 1024.0)
-const ART_FILES := {
-	"ground": "valley-ground-v1.png",
-	"resource": "valley-herb-patch-v1.png",
-	"bridge": "valley-bridge-v1.png",
-	"cave": "valley-cave-v1.png",
+const GROUND_ART := "flat-valley-ground-v1.png"
+const PROP_ATLAS := "flat-valley-props-v1.png"
+const PROP_REGIONS := {
+	"bridge": Rect2(103, 38, 801, 457),
+	"cave": Rect2(211, 529, 651, 543),
+	"resource": Rect2(245, 1086, 526, 426),
 }
 
 var _world: Dictionary = {}
@@ -17,10 +18,15 @@ var _highlighted_id := ""
 
 
 func _ready() -> void:
-	for kind in ART_FILES:
-		var path := ART_ROOT + str(ART_FILES[kind])
-		if ResourceLoader.exists(path):
-			_art[kind] = load(path) as Texture2D
+	texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
+	_art["ground"] = load(ART_ROOT + GROUND_ART) as Texture2D
+	var atlas := load(ART_ROOT + PROP_ATLAS) as Texture2D
+	for kind in PROP_REGIONS:
+		var texture := AtlasTexture.new()
+		texture.atlas = atlas
+		texture.region = PROP_REGIONS[kind]
+		texture.filter_clip = true
+		_art[kind] = texture
 	var font_path := ART_ROOT + "scene-labels.ttf"
 	if ResourceLoader.exists(font_path):
 		_font = load(font_path) as Font

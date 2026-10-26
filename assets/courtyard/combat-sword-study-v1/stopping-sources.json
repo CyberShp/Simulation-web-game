@@ -1,0 +1,65 @@
+{
+  "scope": "three existing complete logical frames for confirmed display-position stopping; side views only",
+  "sourceManifest": "/Volumes/Media/immortal-qa/kling-actions-20261025-v001/action-package-v002/manifest.json",
+  "sourceManifestSha256": "57c28fdc577e328a6eec3d652edb7be73ade65aa699665ff3fb2697bb33c6d47",
+  "sourceVideoSha256": "85fd646933c860531fb55fd2ab3230a2fa145cc5266145364edbb3d464d683db",
+  "pixelOperations": [
+    "byte-exact copy of pre-existing 84x84 BOX58 logical RGBA PNG"
+  ],
+  "frames": [
+    {
+      "sourceFrameId": 203,
+      "sourceFile": "/Volumes/Media/immortal-qa/kling-actions-20261025-v001/action-package-v002/frames/frame-000203.png",
+      "sourceSha256": "cd49a09506968e0057bd9810ae6d6601c9ac8b35089a7e595068e49f6310cf2f",
+      "file": "combat-sword-study-v1/frames/stop-203.png",
+      "sha256": "cd49a09506968e0057bd9810ae6d6601c9ac8b35089a7e595068e49f6310cf2f",
+      "sourceRoot": [
+        580,
+        825
+      ],
+      "sourceHeight": 650,
+      "logicalRoot": [
+        51.753846153846155,
+        73.61538461538461
+      ],
+      "logicalHeight": 58,
+      "originalSourceRgbSha256": "0dc1e0c046b64f231d5cb5ba65f4ac06b31096eeae4921cb3117768edb72bcb3"
+    },
+    {
+      "sourceFrameId": 206,
+      "sourceFile": "/Volumes/Media/immortal-qa/kling-actions-20261025-v001/action-package-v002/frames/frame-000206.png",
+      "sourceSha256": "613e2e916bc9d481e51a0dedb3ff9a249a3f1181f9b5662956ad8c46f4dd9f49",
+      "file": "combat-sword-study-v1/frames/stop-206.png",
+      "sha256": "613e2e916bc9d481e51a0dedb3ff9a249a3f1181f9b5662956ad8c46f4dd9f49",
+      "sourceRoot": [
+        580,
+        825
+      ],
+      "sourceHeight": 650,
+      "logicalRoot": [
+        51.753846153846155,
+        73.61538461538461
+      ],
+      "logicalHeight": 58,
+      "originalSourceRgbSha256": "34e5a5bcba85847140b6c0dbbb61728b44aeeb2d3ae58e91e76322e23beb62ce"
+    },
+    {
+      "sourceFrameId": 209,
+      "sourceFile": "/Volumes/Media/immortal-qa/kling-actions-20261025-v001/action-package-v002/frames/frame-000209.png",
+      "sourceSha256": "17005844e9ddbee0a4e4a035044f75cfce9c91a6a5efd55ad3e126b63cd1f99f",
+      "file": "combat-sword-study-v1/frames/stop-209.png",
+      "sha256": "17005844e9ddbee0a4e4a035044f75cfce9c91a6a5efd55ad3e126b63cd1f99f",
+      "sourceRoot": [
+        580,
+        825
+      ],
+      "sourceHeight": 650,
+      "logicalRoot": [
+        51.753846153846155,
+        73.61538461538461
+      ],
+      "logicalHeight": 58,
+      "originalSourceRgbSha256": "8ce523c8f765c44daf8dbcc59962bdc1e26420e75c6be0879143855897c88d52"
+    }
+  ]
+}

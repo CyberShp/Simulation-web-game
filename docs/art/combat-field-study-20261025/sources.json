@@ -1,0 +1,99 @@
+{
+  "date": "2026-10-25",
+  "timezone": "Asia/Shanghai",
+  "status": "overall-art-direction-approved-calibration-authorized",
+  "sourcePage": "https://gameartstyle.loopyhop.com/styles/topdown-tile-pixel/",
+  "sourcePageSnapshot": {
+    "path": "references/source-page.html",
+    "sha256": "44fe65de4c2215c1a144edd3276beded5daef69e784d597b3318aac4edcf358c",
+    "contains": "Original page including its complete global art direction prompt"
+  },
+  "scope": "One original composed battlefield art study. No runtime integration or animation acceptance.",
+  "references": [
+    {
+      "game": "CrossCode",
+      "creator": "Radical Fish Games",
+      "path": "references/crosscode.jpg",
+      "role": "Human visual inspection; direct style reference for rounds 2 and 3",
+      "websiteImage": "https://images.loopyhop.com/gameartstyle/screenshots/steam-368340/659b206ffbc754c5dfdad025.jpg",
+      "officialPage": "https://store.steampowered.com/app/368340/",
+      "officialImage": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/368340/ss_e15bb7ee21196d50e45d41b0c7602d346d4086d2.1920x1080.jpg?t=1788522282",
+      "sha256": "659b206ffbc754c5dfdad025580a090b59a8cc3b51287dceae019c2771c9e483"
+    },
+    {
+      "game": "Eastward",
+      "creator": "Pixpil",
+      "path": "references/eastward.jpg",
+      "role": "Human visual inspection; direct style reference for rounds 2 and 3",
+      "websiteImage": "https://images.loopyhop.com/gameartstyle/screenshots/steam-977880/821fcc0482614f701d01f4bc.jpg",
+      "officialPage": "https://store.steampowered.com/app/977880/",
+      "officialImage": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/977880/ss_5d50545b49db3a8502666b4195d2fabd0e31a29d.1920x1080.jpg?t=1782290198",
+      "sha256": "821fcc0482614f701d01f4bc67a0fe94a0ed0c3eac487827731ec09953864237"
+    },
+    {
+      "game": "Stardew Valley",
+      "creator": "ConcernedApe",
+      "path": "references/stardew-valley.jpg",
+      "role": "Human visual inspection only; not passed as an image generation input",
+      "websiteImage": "https://images.loopyhop.com/gameartstyle/screenshots/steam-413150/65643f247f7e32380fa20be0.jpg",
+      "officialPage": "https://store.steampowered.com/app/413150/",
+      "officialImage": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/413150/ss_4fa0866709ede3753fdf2745349b528d5e8c4054.1920x1080.jpg?t=1786554168",
+      "sha256": "65643f247f7e32380fa20be0dbc0e0c866e624a832252780b02c459649ca9e9d"
+    }
+  ],
+  "referenceRights": "Reference screenshots retain their respective rights holders and are stored for local visual research. They are not runtime assets.",
+  "identityReference": {
+    "path": "../../../assets/characters/shen-yan/pixel-walk-study-v1/source/pixel-identity-reference.png",
+    "role": "Main agent inspected before generation; textual identity constraints, not image input"
+  },
+  "generator": "Built-in image_gen",
+  "outputPostprocessing": "None; copied original bytes",
+  "iterations": [
+    {
+      "round": 1,
+      "prompt": "prompt-v1.txt",
+      "sourceOutput": "/Users/shepard/.codex/generated_images/01a171b0-eee9-7701-bd4a-61dcb2b0b53b/exec-52776b4f-6da8-41d6-a7ba-24d7fd11df94.png",
+      "imageInputs": [],
+      "inspection": "Painterly texture and oversized actors; revised"
+    },
+    {
+      "round": 2,
+      "prompt": "prompt-v2.txt",
+      "sourceOutput": "/Users/shepard/.codex/generated_images/01a171b0-eee9-7701-bd4a-61dcb2b0b53b/exec-ef314d90-4f1e-4803-a216-b71b0c02ad17.png",
+      "imageInputs": [
+        "/Users/shepard/.codex/generated_images/01a171b0-eee9-7701-bd4a-61dcb2b0b53b/exec-52776b4f-6da8-41d6-a7ba-24d7fd11df94.png",
+        "references/crosscode.jpg",
+        "references/eastward.jpg"
+      ],
+      "inspection": "Quieter clearing but environment and actor pixel density diverged; revised"
+    },
+    {
+      "round": 3,
+      "prompt": "prompt-v3.txt",
+      "sourceOutput": "/Users/shepard/.codex/generated_images/01a171b0-eee9-7701-bd4a-61dcb2b0b53b/exec-7f24e5d6-03d5-4378-a1fe-105d173d29ba.png",
+      "imageInputs": [
+        "references/crosscode.jpg",
+        "references/eastward.jpg"
+      ],
+      "inspection": "Selected for display only; exact camera scale and strict pixel grid not validated"
+    }
+  ],
+  "selected": {
+    "path": "battlefield-study.png",
+    "width": 1536,
+    "height": 1024,
+    "sha256": "db2d4dd634e005cd7ec4a2620fd1e6311b3559011a6642b755aa7b4de6e34d2e"
+  },
+  "acceptance": {
+    "mainAgentVisualInspection": true,
+    "userArtApproval": "overall-direction-only",
+    "userApprovalQuotes": ["看起来不错", "可以"],
+    "approvalScope": "Overall battlefield art direction; new scale, animation and runtime are not accepted by these replies",
+    "authorizedNextStep": "Calibrate actor scale and common pixel density, then produce complete frame animation",
+    "continuationReference": "../combat-motion-study-20261025/README.md",
+    "metricScale": "not-locked",
+    "pixelGrid": "not-validated",
+    "runtime": "not-integrated",
+    "animation": "not-accepted-run-candidates-v1-v2-v3-failed"
+  }
+}

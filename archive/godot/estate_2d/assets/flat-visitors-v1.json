@@ -1,0 +1,47 @@
+{
+  "version": "estate-flat-visitors-1",
+  "alpha_threshold": 0.12549019607843137,
+  "anchor_method": "Authored center of shoe or paw ground contacts",
+  "generation": "builtin-image_gen",
+  "characters": {
+    "flat-merchant-qingxi-v1.png": {
+      "visible_bounds": [
+        155,
+        36,
+        759,
+        1471
+      ],
+      "foot_anchor": [
+        521,
+        1461
+      ],
+      "sha256": "9706cc52b44465c3a6e526a16a6203429c871465b41c415ab2e07d87f45f6aab"
+    },
+    "flat-qing-luo-v1.png": {
+      "visible_bounds": [
+        284,
+        28,
+        503,
+        1481
+      ],
+      "foot_anchor": [
+        482,
+        1393
+      ],
+      "sha256": "c1a7d3cce14e2934902c70d8af3b4e3c111ef914b2bc4dd5e8053bfa23cb4aba"
+    },
+    "flat-valley-shanxiao-v1.png": {
+      "visible_bounds": [
+        17,
+        13,
+        1284,
+        1177
+      ],
+      "foot_anchor": [
+        660,
+        1080
+      ],
+      "sha256": "ee5b6d8a2e31cf6cb25f3cc6d63674786529bfb7e29ed3da0707728a881c1a3b"
+    }
+  }
+}

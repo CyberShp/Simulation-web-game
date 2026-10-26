@@ -1,6 +1,6 @@
 extends Node2D
 
-const ACTOR = preload("res://painted_courtyard/actor_2d.gd")
+const ACTOR = preload("res://estate_2d/flat_actor.gd")
 const STANDING_PERSON = preload("res://estate_2d/standing_person.gd")
 const VALLEY_SCENE = preload("res://estate_2d/valley_scene.gd")
 const SCENE_FONT = preload("res://estate_2d/assets/scene-labels.ttf")
@@ -12,14 +12,13 @@ const SCENE_SIZE := Vector2(1536, 1024)
 const TICKS_PER_SECOND := 10.0
 const VISUAL_DELAY_TICKS := 1.0
 const ART_ROOT := "res://estate_2d/assets/"
-const BUILDING_ART := {
-	"hall": {"shelter": "opening-shelter-v1.png", "foundation": "mountain-main-hall-foundation-v1.png", "structure": "mountain-main-hall-structure-v1.png", "finishing": "mountain-main-hall-finishing-v1.png", "complete": "mountain-main-hall-v1.png", "level2": "mountain-main-hall-v1.png", "width": 380.0},
-	"house": {"complete": "residence-v1.png", "width": 265.0},
-	"kitchen": {"complete": "kitchen-v1.png", "width": 265.0},
-	"alchemy": {"complete": "mountain-alchemy-house-v1.png", "width": 230.0},
-	"farm": {"foundation": "mountain-herb-terrace-foundation-v1.png", "structure": "mountain-herb-terrace-structure-v1.png", "finishing": "mountain-herb-terrace-finishing-v1.png", "complete": "mountain-herb-terrace-empty-v1.png", "growing": "mountain-herb-terrace-growing-v1.png", "ripe": "mountain-herb-terrace-ripe-v1.png", "width": 126.0},
-	"lumber": {"complete": "lumber-v1.png", "width": 265.0},
-}
+const ART_METADATA := "res://estate_2d/assets/flat-buildings-v1.json"
+const FLAT_MATERIAL = preload("res://estate_2d/flat_people.gdshader")
+const BUILDING_WIDTH := {"hall": 470.0, "house": 255.0, "kitchen": 255.0, "alchemy": 255.0, "farm": 142.0, "lumber": 225.0}
+var art_definitions: Dictionary = {}
+var art_textures: Dictionary = {}
+var flat_material: ShaderMaterial
+
 
 var sites: Array[Dictionary] = []
 var site_by_id: Dictionary = {}
@@ -46,8 +45,8 @@ var shadows: Node2D
 var selection_overlay: Node2D
 var selected_kind := ""
 var selected_id := ""
-var focus := Vector2(768, 385)
-var zoom_factor := 1.06
+var focus := Vector2(768, 480)
+var zoom_factor := 1.0
 var dragging := false
 var drag_distance := 0.0
 var pinching := false
@@ -63,6 +62,11 @@ var home_foreground: Array[Node2D] = []
 var active_scene := "scene:yunxiu-courtyard"
 
 func _ready() -> void:
+	var art_data: Variant = JSON.parse_string(FileAccess.get_file_as_string(ART_METADATA))
+	if art_data is Dictionary:
+		art_definitions = art_data.get("art", {})
+	flat_material = ShaderMaterial.new()
+	flat_material.shader = FLAT_MATERIAL
 	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(SITES_FILE))
 	if not parsed is Dictionary:
 		push_error("Painted estate sites could not be read.")
@@ -74,7 +78,7 @@ func _ready() -> void:
 	ground = Sprite2D.new()
 	ground.name = "MountainCourtyardTerrain"
 	ground.centered = false
-	ground.texture = load(ART_ROOT + "mountain-courtyard-ground-v1.png")
+	ground.texture = load(ART_ROOT + "flat-ground-v1.png")
 	ground.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
 	ground.z_index = -100
 	add_child(ground)
@@ -118,12 +122,12 @@ func _ready() -> void:
 func _to_screen(world_x: float, world_y: float) -> Vector2:
 	if active_scene == "scene:valley" and valley_scene != null:
 		return valley_scene.to_screen(world_x, world_y)
-	return Vector2(768.0 + (world_x - 30.0) * 28.0, 180.0 + world_y * 10.5)
+	return Vector2(768.0 + (world_x - 30.0) * 28.0, 260.0 + world_y * 10.5)
 
 func _to_world(point: Vector2) -> Vector2:
 	if active_scene == "scene:valley" and valley_scene != null:
 		return valley_scene.to_world(point)
-	return Vector2(30.0 + (point.x - 768.0) / 28.0, (point.y - 180.0) / 10.5)
+	return Vector2(30.0 + (point.x - 768.0) / 28.0, (point.y - 260.0) / 10.5)
 
 func _site_for(building: Dictionary) -> Dictionary:
 	for site in sites:
@@ -147,8 +151,8 @@ func _make_foreground(texture: Texture2D) -> void:
 	# These painted silhouettes sample the same terrain pixels but sort in front of
 	# a person standing behind them; editable buildings remain separate sprites.
 	var outlines := [
-		{"depth": 302.0, "points": [[0, 0], [359, 0], [352, 204], [187, 351], [0, 370]]},
-		{"depth": 390.0, "points": [[1295, 0], [1535, 0], [1535, 530], [1409, 488], [1280, 295]]},
+		{"depth": 340.0, "points": [[0, 0], [372, 0], [376, 133], [305, 174], [337, 269], [190, 318], [0, 372]]},
+		{"depth": 370.0, "points": [[1430, 0], [1535, 0], [1535, 460], [1430, 384], [1406, 243]]},
 	]
 	for definition in outlines:
 		var layer := Node2D.new()
@@ -191,49 +195,65 @@ func _make_construction(node: Node2D, stage: String, width: float) -> void:
 	beam.points = PackedVector2Array([Vector2(-width * 0.37, -112 if stage == "structure" else -142), Vector2(width * 0.37, -112 if stage == "structure" else -142)])
 	node.add_child(beam)
 
+func _flat_texture(key: String) -> Texture2D:
+	if art_textures.has(key):
+		return art_textures[key]
+	if not art_definitions.has(key):
+		return null
+	var definition: Dictionary = art_definitions[key]
+	var region: Array = definition.region
+	var texture := AtlasTexture.new()
+	texture.atlas = load(ART_ROOT + str(definition.file)) as Texture2D
+	texture.region = Rect2(float(region[0]), float(region[1]), float(region[2]), float(region[3]))
+	texture.filter_clip = true
+	art_textures[key] = texture
+	return texture
+
 func _make_building(building: Dictionary, site: Dictionary) -> Dictionary:
 	var kind := str(building.get("type", ""))
-	var art: Dictionary = BUILDING_ART.get(kind, BUILDING_ART.house)
 	var stage := str(building.get("stage", "complete"))
 	var node := Node2D.new()
 	node.name = "Building_" + str(building.get("id", "")).replace(":", "_")
+	# Crops lie on the soil plane, below the people working among the rows.
+	node.z_index = -1 if kind == "farm" else 0
 	node.position = _to_screen(float(building.get("x", 0)) + float(building.get("width", 0)) * 0.5, float(building.get("y", 0)) + float(building.get("height", 0)))
 	sorted.add_child(node)
 	var sprite: Sprite2D = null
 	var image: Image = null
 	var level := int(building.get("level", 1))
-	var width := (310.0 if kind == "hall" and stage == "shelter" else float(art.width)) * (1.0 + 0.06 * float(maxi(level - 1, 0)))
+	var width := float(BUILDING_WIDTH.get(kind, 255.0)) * (1.0 + 0.06 * float(maxi(level - 1, 0)))
+	if kind == "hall" and stage in ["shelter", "foundation", "structure"]:
+		width = 240.0 if stage == "shelter" else 390.0
+	var art_stage := str(building.get("cropVisual", "empty")) if kind == "farm" and stage == "complete" else stage
+	var key := kind + ":" + art_stage
 	var construction_stage := stage in ["foundation", "structure", "finishing"]
-	var stage_art := str(art.get(stage, ""))
-	var farm_stage_texture: Texture2D = null
-	if kind == "farm" and construction_stage and not stage_art.is_empty() and ResourceLoader.exists(ART_ROOT + stage_art):
-		farm_stage_texture = load(ART_ROOT + stage_art) as Texture2D
-	var painted_construction := construction_stage and (kind == "hall" or farm_stage_texture != null)
+	var painted_construction := construction_stage and art_definitions.has(key)
 	if stage in ["foundation", "structure"] and not painted_construction:
 		_make_construction(node, stage, width)
 	else:
-		var file := str(art.get(stage, art.complete)) if painted_construction or stage in ["shelter", "damaged"] else str(art.get("level2", art.complete)) if kind == "hall" and level >= 2 and stage == "complete" else str(art.get(str(building.get("cropVisual", "empty")), art.complete)) if kind == "farm" and stage == "complete" else str(art.complete)
-		if not ResourceLoader.exists(ART_ROOT + file):
-			file = str(art.complete)
-		var texture := farm_stage_texture if farm_stage_texture != null else load(ART_ROOT + file) as Texture2D
+		if not art_definitions.has(key):
+			key = "farm:" + str(building.get("cropVisual", "empty")) if kind == "farm" else kind + ":complete"
+		if not art_definitions.has(key):
+			key = "farm:empty" if kind == "farm" else "house:complete"
+		var texture := _flat_texture(key)
 		if texture != null:
+			var definition: Dictionary = art_definitions[key]
+			var foot: Array = definition.foot
 			sprite = Sprite2D.new()
-			sprite.name = "ClosedBuildingPainting"
+			sprite.name = "ClosedBuildingPainting" if kind != "farm" else "PlantedEarth"
 			sprite.texture = texture
 			sprite.centered = false
 			sprite.scale = Vector2.ONE * (width / texture.get_width())
-			var stage_offset := {"shelter": 16.0, "foundation": 32.0, "structure": 13.0, "finishing": 7.0}
-			sprite.position = Vector2(-width * 0.5, -float(texture.get_height()) * sprite.scale.y + float(stage_offset.get(stage, 0.0)))
+			sprite.position = -Vector2(float(foot[0]), float(foot[1])) * sprite.scale
 			sprite.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
-			if stage in ["finishing", "upgrade"] and not painted_construction:
-				sprite.modulate.a = 0.70
+			sprite.material = flat_material
 			node.add_child(sprite)
 			image = texture.get_image()
 			if image.is_compressed():
 				image.decompress()
 		if stage in ["finishing", "upgrade"] and not painted_construction:
 			_make_construction(node, stage, width)
-	return {"node": node, "sprite": sprite, "image": image, "width": width, "stage": stage, "signature": _building_signature(building), "id": str(building.get("id", "")), "site_id": str(site.get("id", ""))}
+	return {"node": node, "sprite": sprite, "image": image, "width": width, "stage": stage, "signature": _building_signature(building), "id": str(building.get("id", "")), "site_id": str(site.get("id", "")), "ground_art": kind == "farm"}
 
 func _sync_buildings(view: Dictionary) -> void:
 	var live: Dictionary = {}
@@ -252,7 +272,8 @@ func _sync_buildings(view: Dictionary) -> void:
 				buildings[id].node.queue_free()
 			buildings[id] = _make_building(building, _site_for(building))
 		var visual: Dictionary = buildings[id]
-		footprints.append({"center": _to_screen(float(building.get("x", 0)) + float(building.get("width", 0)) * 0.5, float(building.get("y", 0)) + float(building.get("height", 0)) * 0.5), "width": visual.width, "length": 17.0 if visual.stage in ["foundation", "structure"] else 30.0})
+		if str(building.get("type", "")) != "farm":
+			footprints.append({"center": _to_screen(float(building.get("x", 0)) + float(building.get("width", 0)) * 0.5, float(building.get("y", 0)) + float(building.get("height", 0)) * 0.5), "width": visual.width, "length": 17.0 if visual.stage in ["foundation", "structure"] else 30.0})
 	for id in buildings.keys():
 		if not live.has(id):
 			changed = true
@@ -266,15 +287,15 @@ func _new_actor(id: String, master: bool, position: Vector2) -> Node2D:
 	if id in ["person:merchant-qingxi", "person:qing-luo", "person:valley-shanxiao"]:
 		var visitor := STANDING_PERSON.new() as Node2D
 		visitor.name = "Person_" + id.replace(":", "_")
-		visitor.visual_height = 92.0 if id == "person:valley-shanxiao" else 72.0
-		var artwork: String = {"person:merchant-qingxi": "merchant-qingxi-v1.png", "person:qing-luo": "qing-luo-v1.png", "person:valley-shanxiao": "valley-shanxiao-v1.png"}[id]
+		visitor.visual_height = 100.0 if id == "person:valley-shanxiao" else 76.0
+		var artwork: String = {"person:merchant-qingxi": "flat-merchant-qingxi-v1.png", "person:qing-luo": "flat-qing-luo-v1.png", "person:valley-shanxiao": "flat-valley-shanxiao-v1.png"}[id]
 		visitor.setup(ART_ROOT + artwork)
 		visitor.position = position
 		sorted.add_child(visitor)
 		return visitor
 	var actor := ACTOR.new() as Node2D
 	actor.name = "Person_" + id.replace(":", "_")
-	actor.visual_height = 65.0
+	actor.visual_height = 76.0
 	actor.turn_speed = 36.0
 	sorted.add_child(actor)
 	actor.setup(master)
@@ -364,7 +385,7 @@ func _sync_state() -> void:
 		_update_camera()
 	var in_home := active_scene == "scene:yunxiu-courtyard"
 	if changed_scene:
-		ground.texture = load(ART_ROOT + ("valley-ground-v1.png" if active_scene == "scene:travel" else "mountain-courtyard-ground-v1.png"))
+		ground.texture = load(ART_ROOT + ("flat-valley-ground-v1.png" if active_scene == "scene:travel" else "flat-ground-v1.png"))
 	ground.visible = active_scene != "scene:valley"
 	shadows.visible = in_home
 	for layer in home_foreground:
@@ -449,7 +470,17 @@ func _sprite_hit(visual: Dictionary, point: Vector2) -> bool:
 	var pixel := Vector2i(sprite.to_local(point).floor())
 	if not Rect2i(Vector2i.ZERO, image.get_size()).has_point(pixel):
 		return false
-	return image.get_pixelv(pixel).a > 0.12
+	return image.get_pixelv(pixel).a >= 32.0 / 255.0
+
+func _foreground_occludes(point: Vector2, depth: float) -> bool:
+	if active_scene != "scene:yunxiu-courtyard":
+		return false
+	for layer in home_foreground:
+		if layer.visible and layer.position.y > depth:
+			var patch := layer.get_child(0) as Polygon2D
+			if Geometry2D.is_point_in_polygon(patch.to_local(point), patch.polygon):
+				return true
+	return false
 
 func _click(point: Vector2) -> void:
 	if active_scene == "scene:travel":
@@ -469,12 +500,12 @@ func _click(point: Vector2) -> void:
 	var candidates: Array[Dictionary] = []
 	for id in actors.keys():
 		var actor: Node2D = actors[id]
-		if actor.hit_test(point):
+		if actor.hit_test(point) and not _foreground_occludes(point, actor.position.y):
 			candidates.append({"kind": "person", "id": id, "depth": actor.position.y})
 	for id in buildings.keys():
 		var visual: Dictionary = buildings[id]
-		if _sprite_hit(visual, point):
-			candidates.append({"kind": "building", "id": id, "depth": visual.node.position.y})
+		if _sprite_hit(visual, point) and not _foreground_occludes(point, visual.node.position.y):
+			candidates.append({"kind": "building", "id": id, "depth": -100000.0 if bool(visual.get("ground_art", false)) else visual.node.position.y})
 	candidates.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a.depth > b.depth)
 	if not candidates.is_empty():
 		selected_kind = str(candidates[0].kind)

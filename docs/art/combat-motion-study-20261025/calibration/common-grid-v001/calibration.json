@@ -1,0 +1,475 @@
+{
+  "scope": "offline common-grid static calibration only",
+  "algorithmStatus": "passed",
+  "artReview": "pending-root",
+  "spatialCollisionValidation": "not-run",
+  "python": "3.12.14",
+  "pillow": "12.3.0",
+  "scriptSha256": "62286d4a19fe3d81c5c285af1fef25241a6abaf16e2ea756fb71a882ba109e6d",
+  "sourceHashes": {
+    "/Volumes/Media/immortal/docs/art/combat-motion-study-20261025/source/character-masters.png": "05ee1c9ee6e0970f199c802af247bd61af132a1adc6292f12e315c50703e71f8",
+    "/Volumes/Media/immortal/docs/art/combat-motion-study-20261025/source/clearing-plate.png": "1b16f246b074d6f911499fa98640dcf235170a252b94fbf2cfe288c6a3c221f0"
+  },
+  "logicalPixelsPerMetre": 40,
+  "viewWidthMetres": 22,
+  "standingReferenceMetres": 1.45,
+  "sourceStandingReference": 414,
+  "logicalStandingReference": 58,
+  "commonSpriteScale": 0.14009661835748793,
+  "commonSpriteScaleFraction": "58/414",
+  "logicalSize": [
+    880,
+    587
+  ],
+  "presentationScale": 1.7454545454545454,
+  "presentationSize": [
+    1536,
+    1024
+  ],
+  "theoreticalScreenStandingReference": 101.23636363636363,
+  "logicalBackgroundHeightBeforeRounding": 586.6666666666666,
+  "logicalBackgroundHeightRoundingError": 0.33333333333337123,
+  "uniformPresentedBackgroundHeight": 1024.581818181818,
+  "bottomViewportCropPixels": 0.5818181818181074,
+  "pixelOperations": [
+    "explicit-crop",
+    "common-nearest-scale",
+    "integer-whole-frame-placement",
+    "alpha-composite",
+    "uniform-nearest-presentation",
+    "viewport-bottom-crop"
+  ],
+  "actors": {
+    "human": {
+      "crop": [
+        80,
+        350,
+        700,
+        500
+      ],
+      "domain": [
+        0,
+        0,
+        780,
+        887
+      ],
+      "footGlobal": [
+        310,
+        804
+      ],
+      "requestedScreenFoot": [
+        507,
+        676
+      ],
+      "identity": "shen-yan",
+      "direction": "right",
+      "sourceFootCropLocal": [
+        230,
+        454
+      ],
+      "sourceCropMetrics": {
+        "size": [
+          700,
+          500
+        ],
+        "alphaRange": [
+          0,
+          255
+        ],
+        "visiblePixels": 92910,
+        "opaquePixels": 363,
+        "semiTransparentPixels": 92547,
+        "boundsExclusive": {
+          "1": [
+            2,
+            49,
+            700,
+            471
+          ],
+          "8": [
+            38,
+            51,
+            678,
+            468
+          ],
+          "32": [
+            38,
+            51,
+            678,
+            468
+          ],
+          "128": [
+            39,
+            52,
+            677,
+            468
+          ],
+          "255": [
+            72,
+            53,
+            673,
+            467
+          ]
+        }
+      },
+      "outsideCropNonzeroPixelsWithinDomain": 49,
+      "logicalFrameMetrics": {
+        "size": [
+          103,
+          75
+        ],
+        "alphaRange": [
+          0,
+          255
+        ],
+        "visiblePixels": 1823,
+        "opaquePixels": 4,
+        "semiTransparentPixels": 1819,
+        "boundsExclusive": {
+          "1": [
+            8,
+            10,
+            101,
+            68
+          ],
+          "8": [
+            8,
+            10,
+            97,
+            68
+          ],
+          "32": [
+            8,
+            10,
+            97,
+            68
+          ],
+          "128": [
+            8,
+            10,
+            97,
+            68
+          ],
+          "255": [
+            51,
+            28,
+            97,
+            47
+          ]
+        }
+      },
+      "presentedMetrics": {
+        "size": [
+          1536,
+          1024
+        ],
+        "alphaRange": [
+          0,
+          255
+        ],
+        "visiblePixels": 5553,
+        "opaquePixels": 12,
+        "semiTransparentPixels": 5541,
+        "boundsExclusive": {
+          "1": [
+            459,
+            578,
+            621,
+            679
+          ],
+          "8": [
+            459,
+            578,
+            614,
+            679
+          ],
+          "32": [
+            459,
+            578,
+            614,
+            679
+          ],
+          "128": [
+            459,
+            578,
+            614,
+            679
+          ],
+          "255": [
+            534,
+            609,
+            614,
+            642
+          ]
+        }
+      },
+      "manifest": "packs/human-v001/manifest.json",
+      "outputSourceHeight": 58.00000000000001,
+      "outputFrameFoot": [
+        35,
+        66
+      ],
+      "logicalPlacement": [
+        255,
+        321
+      ],
+      "requestedLogicalFoot": [
+        290.46875,
+        387.2916666666667
+      ],
+      "actualLogicalFoot": [
+        290,
+        387
+      ],
+      "actualScreenFootContinuous": [
+        506.18181818181813,
+        675.4909090909091
+      ],
+      "screenFootRoundingError": [
+        -0.8181818181818699,
+        -0.5090909090909008
+      ],
+      "pipelineValidation": {
+        "output": "/Volumes/Media/immortal/docs/art/combat-motion-study-20261025/calibration/common-grid-v001/packs/human-v001",
+        "algorithmStatus": "passed",
+        "artReview": "not-reviewed",
+        "frameCount": 1
+      },
+      "anatomicalHeightReestimatedFromBounds": false
+    },
+    "beast": {
+      "crop": [
+        780,
+        120,
+        980,
+        750
+      ],
+      "domain": [
+        780,
+        0,
+        994,
+        887
+      ],
+      "footGlobal": [
+        1255,
+        823
+      ],
+      "requestedScreenFoot": [
+        1044,
+        430
+      ],
+      "identity": "shanxiao",
+      "direction": "left",
+      "sourceFootCropLocal": [
+        475,
+        703
+      ],
+      "sourceCropMetrics": {
+        "size": [
+          980,
+          750
+        ],
+        "alphaRange": [
+          0,
+          255
+        ],
+        "visiblePixels": 376757,
+        "opaquePixels": 518,
+        "semiTransparentPixels": 376239,
+        "boundsExclusive": {
+          "1": [
+            0,
+            0,
+            956,
+            735
+          ],
+          "8": [
+            4,
+            54,
+            953,
+            726
+          ],
+          "32": [
+            6,
+            54,
+            951,
+            724
+          ],
+          "128": [
+            7,
+            55,
+            951,
+            724
+          ],
+          "255": [
+            9,
+            56,
+            949,
+            723
+          ]
+        }
+      },
+      "outsideCropNonzeroPixelsWithinDomain": 0,
+      "logicalFrameMetrics": {
+        "size": [
+          142,
+          110
+        ],
+        "alphaRange": [
+          0,
+          255
+        ],
+        "visiblePixels": 7397,
+        "opaquePixels": 7,
+        "semiTransparentPixels": 7390,
+        "boundsExclusive": {
+          "1": [
+            2,
+            10,
+            136,
+            105
+          ],
+          "8": [
+            3,
+            10,
+            136,
+            104
+          ],
+          "32": [
+            3,
+            10,
+            136,
+            104
+          ],
+          "128": [
+            3,
+            10,
+            136,
+            104
+          ],
+          "255": [
+            4,
+            14,
+            133,
+            99
+          ]
+        }
+      },
+      "presentedMetrics": {
+        "size": [
+          1536,
+          1024
+        ],
+        "alphaRange": [
+          0,
+          255
+        ],
+        "visiblePixels": 22546,
+        "opaquePixels": 19,
+        "semiTransparentPixels": 22527,
+        "boundsExclusive": {
+          "1": [
+            927,
+            271,
+            1161,
+            436
+          ],
+          "8": [
+            929,
+            271,
+            1161,
+            435
+          ],
+          "32": [
+            929,
+            271,
+            1161,
+            435
+          ],
+          "128": [
+            929,
+            271,
+            1161,
+            435
+          ],
+          "255": [
+            930,
+            278,
+            1155,
+            426
+          ]
+        }
+      },
+      "manifest": "packs/beast-v001/manifest.json",
+      "outputSourceHeight": 58.00000000000001,
+      "outputFrameFoot": [
+        69,
+        101
+      ],
+      "logicalPlacement": [
+        529,
+        145
+      ],
+      "requestedLogicalFoot": [
+        598.125,
+        246.35416666666669
+      ],
+      "actualLogicalFoot": [
+        598,
+        246
+      ],
+      "actualScreenFootContinuous": [
+        1043.7818181818182,
+        429.3818181818182
+      ],
+      "screenFootRoundingError": [
+        -0.21818181818184712,
+        -0.6181818181818244
+      ],
+      "pipelineValidation": {
+        "output": "/Volumes/Media/immortal/docs/art/combat-motion-study-20261025/calibration/common-grid-v001/packs/beast-v001",
+        "algorithmStatus": "passed",
+        "artReview": "not-reviewed",
+        "frameCount": 1
+      },
+      "anatomicalHeightReestimatedFromBounds": false
+    }
+  },
+  "commands": [
+    [
+      "/Users/shepard/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "/Volumes/Media/immortal/scripts/art/combat-frame-pipeline/pipeline.py",
+      "pack",
+      "--spec",
+      "/Volumes/Media/immortal/docs/art/combat-motion-study-20261025/calibration/common-grid-v001/specs/human.json",
+      "--output-root",
+      "/Volumes/Media/immortal/docs/art/combat-motion-study-20261025/calibration/common-grid-v001/packs",
+      "--name",
+      "human"
+    ],
+    [
+      "/Users/shepard/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "/Volumes/Media/immortal/scripts/art/combat-frame-pipeline/pipeline.py",
+      "validate",
+      "/Volumes/Media/immortal/docs/art/combat-motion-study-20261025/calibration/common-grid-v001/packs/human-v001"
+    ],
+    [
+      "/Users/shepard/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "/Volumes/Media/immortal/scripts/art/combat-frame-pipeline/pipeline.py",
+      "pack",
+      "--spec",
+      "/Volumes/Media/immortal/docs/art/combat-motion-study-20261025/calibration/common-grid-v001/specs/beast.json",
+      "--output-root",
+      "/Volumes/Media/immortal/docs/art/combat-motion-study-20261025/calibration/common-grid-v001/packs",
+      "--name",
+      "beast"
+    ],
+    [
+      "/Users/shepard/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "/Volumes/Media/immortal/scripts/art/combat-frame-pipeline/pipeline.py",
+      "validate",
+      "/Volumes/Media/immortal/docs/art/combat-motion-study-20261025/calibration/common-grid-v001/packs/beast-v001"
+    ]
+  ],
+  "sourceUnchanged": true
+}

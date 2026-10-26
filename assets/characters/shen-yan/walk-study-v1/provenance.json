@@ -1,0 +1,421 @@
+{
+  "date": "2026-10-17",
+  "status": "visual-review-candidate",
+  "cloud": {
+    "provider": "Tencent TokenHub",
+    "model": "hy-3d-motion",
+    "jobId": "1503004889353035776",
+    "request": {
+      "prompt": "Natural relaxed forward walking, steady pace, upright torso, alternating arm swing, even steps, continuous walking cycle.",
+      "duration": 4,
+      "enable_mesh": true,
+      "enable_rewrite": false,
+      "enable_duration_est": false
+    },
+    "submittedGenerations": 1
+  },
+  "inputModel": "../hunyuan-v2/prepared/shen-yan-rigged.blend",
+  "inputModelSha256": "846a36205555d2b7058d0fa45bc8f1afa368e6eb9f2207902a3d419db1b2612f",
+  "sourceSelection": [
+    43,
+    84
+  ],
+  "boneMap": {
+    "Hips": "Pelvis",
+    "Spine": "Spine1",
+    "Spine1": "Spine2",
+    "Spine2": "Spine3",
+    "Neck": "Neck",
+    "Head": "Head",
+    "LeftShoulder": "L_Collar",
+    "LeftArm": "L_Shoulder",
+    "LeftForeArm": "L_Elbow",
+    "LeftHand": "L_Wrist",
+    "LeftUpLeg": "L_Hip",
+    "LeftLeg": "L_Knee",
+    "LeftFoot": "L_Ankle",
+    "LeftToeBase": "L_Foot",
+    "RightShoulder": "R_Collar",
+    "RightArm": "R_Shoulder",
+    "RightForeArm": "R_Elbow",
+    "RightHand": "R_Wrist",
+    "RightUpLeg": "R_Hip",
+    "RightLeg": "R_Knee",
+    "RightFoot": "R_Ankle",
+    "RightToeBase": "R_Foot"
+  },
+  "cycleSeconds": 1.3666666666666667,
+  "sourceFps": 30,
+  "sourceFramesPerCycle": 41,
+  "loopEndpointKey": 42,
+  "verification": {
+    "saved_blend": "/Volumes/Media/immortal-qa/shen-yan-motion-study-20261017/retarget/shen-yan-walk.blend",
+    "sha256": "f78d4eb666da1bc326a3e6470d3f14f6884616d37d2f8c011ab0a8eb3db6cd17",
+    "bytes": 80233529,
+    "reopened_mesh_uv_normal_material_signatures_equal": true,
+    "sample_count": 83,
+    "frame_step": 0.5,
+    "nonfinite_evaluated_vertices": 0,
+    "lowest_boot_min": -0.0007010740227997303,
+    "lowest_boot_max": 0.003166800132021308,
+    "evaluated_body_endpoint_max_coordinate_difference": 4.76837158203125e-07,
+    "source_fbx_unchanged": true,
+    "target_blend_unchanged": true,
+    "samples": [
+      {
+        "frame": 1.0,
+        "lowest_boot": -6.5192584663975595e-09
+      },
+      {
+        "frame": 1.5,
+        "lowest_boot": -0.000209074467420578
+      },
+      {
+        "frame": 2.0,
+        "lowest_boot": -4.1909511416804435e-09
+      },
+      {
+        "frame": 2.5,
+        "lowest_boot": -0.00030351942405104637
+      },
+      {
+        "frame": 3.0,
+        "lowest_boot": -2.7474015951156616e-08
+      },
+      {
+        "frame": 3.5,
+        "lowest_boot": -0.0004633408971130848
+      },
+      {
+        "frame": 4.0,
+        "lowest_boot": 3.4458935260772705e-08
+      },
+      {
+        "frame": 4.5,
+        "lowest_boot": -0.0007010740227997303
+      },
+      {
+        "frame": 5.0,
+        "lowest_boot": 2.3283064365386963e-08
+      },
+      {
+        "frame": 5.5,
+        "lowest_boot": 0.0023480525705963373
+      },
+      {
+        "frame": 6.0,
+        "lowest_boot": -7.788185030221939e-08
+      },
+      {
+        "frame": 6.5,
+        "lowest_boot": -9.973172564059496e-05
+      },
+      {
+        "frame": 7.0,
+        "lowest_boot": 7.508788257837296e-09
+      },
+      {
+        "frame": 7.5,
+        "lowest_boot": -9.403878357261419e-05
+      },
+      {
+        "frame": 8.0,
+        "lowest_boot": -9.98261384665966e-08
+      },
+      {
+        "frame": 8.5,
+        "lowest_boot": -0.0001199113903567195
+      },
+      {
+        "frame": 9.0,
+        "lowest_boot": 1.862645593320167e-09
+      },
+      {
+        "frame": 9.5,
+        "lowest_boot": -0.00015650549903512
+      },
+      {
+        "frame": 10.0,
+        "lowest_boot": -7.508787369658876e-09
+      },
+      {
+        "frame": 10.5,
+        "lowest_boot": -0.00017734942957758904
+      },
+      {
+        "frame": 11.0,
+        "lowest_boot": -3.0267968131880707e-09
+      },
+      {
+        "frame": 11.5,
+        "lowest_boot": -0.00017345527885481715
+      },
+      {
+        "frame": 12.0,
+        "lowest_boot": 8.917414362485943e-08
+      },
+      {
+        "frame": 12.5,
+        "lowest_boot": -0.00015595892909914255
+      },
+      {
+        "frame": 13.0,
+        "lowest_boot": 1.1292284440855838e-08
+      },
+      {
+        "frame": 13.5,
+        "lowest_boot": -0.00013823254266753793
+      },
+      {
+        "frame": 14.0,
+        "lowest_boot": 1.3154930478265214e-08
+      },
+      {
+        "frame": 14.5,
+        "lowest_boot": -0.0001296249683946371
+      },
+      {
+        "frame": 15.0,
+        "lowest_boot": 3.294553607702255e-08
+      },
+      {
+        "frame": 15.5,
+        "lowest_boot": -0.00013743794988840818
+      },
+      {
+        "frame": 16.0,
+        "lowest_boot": 4.284083843231201e-08
+      },
+      {
+        "frame": 16.5,
+        "lowest_boot": -0.00016156613128259778
+      },
+      {
+        "frame": 17.0,
+        "lowest_boot": -3.1141095035991384e-08
+      },
+      {
+        "frame": 17.5,
+        "lowest_boot": -0.00019244576105847955
+      },
+      {
+        "frame": 18.0,
+        "lowest_boot": -1.816079020500183e-08
+      },
+      {
+        "frame": 18.5,
+        "lowest_boot": -0.00019116434850730002
+      },
+      {
+        "frame": 19.0,
+        "lowest_boot": 5.8411384173950864e-08
+      },
+      {
+        "frame": 19.5,
+        "lowest_boot": -0.00019667406741064042
+      },
+      {
+        "frame": 20.0,
+        "lowest_boot": -2.1798770788450383e-08
+      },
+      {
+        "frame": 20.5,
+        "lowest_boot": -0.00019904359942302108
+      },
+      {
+        "frame": 21.0,
+        "lowest_boot": 2.5684130378067493e-08
+      },
+      {
+        "frame": 21.5,
+        "lowest_boot": -0.00024981072056107223
+      },
+      {
+        "frame": 22.0,
+        "lowest_boot": -3.9173752242049886e-08
+      },
+      {
+        "frame": 22.5,
+        "lowest_boot": -0.0003661973460111767
+      },
+      {
+        "frame": 23.0,
+        "lowest_boot": 3.856256647338796e-09
+      },
+      {
+        "frame": 23.5,
+        "lowest_boot": -0.0004922624793834984
+      },
+      {
+        "frame": 24.0,
+        "lowest_boot": -2.3283066141743802e-08
+      },
+      {
+        "frame": 24.5,
+        "lowest_boot": 0.003166800132021308
+      },
+      {
+        "frame": 25.0,
+        "lowest_boot": 2.6077035641947077e-08
+      },
+      {
+        "frame": 25.5,
+        "lowest_boot": -0.00016737636178731918
+      },
+      {
+        "frame": 26.0,
+        "lowest_boot": -1.1175870895385742e-08
+      },
+      {
+        "frame": 26.5,
+        "lowest_boot": -0.00010774657130241394
+      },
+      {
+        "frame": 27.0,
+        "lowest_boot": 4.0978196835794733e-08
+      },
+      {
+        "frame": 27.5,
+        "lowest_boot": -9.081978350877762e-05
+      },
+      {
+        "frame": 28.0,
+        "lowest_boot": 3.725290742551124e-09
+      },
+      {
+        "frame": 28.5,
+        "lowest_boot": -0.00010131672024726868
+      },
+      {
+        "frame": 29.0,
+        "lowest_boot": 2.9802320611338473e-08
+      },
+      {
+        "frame": 29.5,
+        "lowest_boot": -0.0001362161710858345
+      },
+      {
+        "frame": 30.0,
+        "lowest_boot": 4.842877388000488e-08
+      },
+      {
+        "frame": 30.5,
+        "lowest_boot": -0.000172383151948452
+      },
+      {
+        "frame": 31.0,
+        "lowest_boot": 2.9802320611338473e-08
+      },
+      {
+        "frame": 31.5,
+        "lowest_boot": -0.00018251966685056686
+      },
+      {
+        "frame": 32.0,
+        "lowest_boot": 4.842877388000488e-08
+      },
+      {
+        "frame": 32.5,
+        "lowest_boot": -0.0001697111874818802
+      },
+      {
+        "frame": 33.0,
+        "lowest_boot": 4.0978193283081055e-08
+      },
+      {
+        "frame": 33.5,
+        "lowest_boot": -0.00015557929873466492
+      },
+      {
+        "frame": 34.0,
+        "lowest_boot": 3.725290298461914e-08
+      },
+      {
+        "frame": 34.5,
+        "lowest_boot": -0.0001433752477169037
+      },
+      {
+        "frame": 35.0,
+        "lowest_boot": -1.4901162970204496e-08
+      },
+      {
+        "frame": 35.5,
+        "lowest_boot": -0.00014134962111711502
+      },
+      {
+        "frame": 36.0,
+        "lowest_boot": -2.607703031287656e-08
+      },
+      {
+        "frame": 36.5,
+        "lowest_boot": -0.0001602713018655777
+      },
+      {
+        "frame": 37.0,
+        "lowest_boot": 1.4901161193847656e-08
+      },
+      {
+        "frame": 37.5,
+        "lowest_boot": -0.00017139501869678497
+      },
+      {
+        "frame": 38.0,
+        "lowest_boot": -8.196043263563116e-16
+      },
+      {
+        "frame": 38.5,
+        "lowest_boot": -0.00019413232803344727
+      },
+      {
+        "frame": 39.0,
+        "lowest_boot": -1.4901160305669237e-08
+      },
+      {
+        "frame": 39.5,
+        "lowest_boot": -0.0001227445900440216
+      },
+      {
+        "frame": 40.0,
+        "lowest_boot": 3.771856427192688e-08
+      },
+      {
+        "frame": 40.5,
+        "lowest_boot": 0.0007813144475221634
+      },
+      {
+        "frame": 41.0,
+        "lowest_boot": -1.5366824257512235e-08
+      },
+      {
+        "frame": 41.5,
+        "lowest_boot": -0.00017222203314304352
+      },
+      {
+        "frame": 42.0,
+        "lowest_boot": -2.2817401301722384e-08
+      }
+    ]
+  },
+  "qaRoot": "/Volumes/Media/immortal-qa/shen-yan-motion-study-20261017",
+  "files": {
+    "source/walk-source.fbx": "509e3e1429f59a1718bf51a397f0ec5dc726357bb9b5a4b47af25ed8d4e13df3",
+    "motion/shen-yan-walk.blend": "f78d4eb666da1bc326a3e6470d3f14f6884616d37d2f8c011ab0a8eb3db6cd17",
+    "sprites/walk-004.png": "b7faa58669500341f89675c7132f0ad3a7d711e1a33b2c346e14941235e41170",
+    "sprites/walk-010.png": "94af3a92853bb7d20e2e3b243aeb275e44ba84a011c17323e892755b284cadee",
+    "sprites/walk-011.png": "c1a1bd09dd4659b0c55cf3b81904fa2372c12480877a46d2eeefeee07c630af3",
+    "sprites/walk-005.png": "f4c47d4b89a43740a3069fdb6c176dc9f17687da1af65e7fbf2d2650ddcee573",
+    "sprites/walk-013.png": "2a27e593b7d166e867bc2a558a94b4727cc0eb2564c938f1d7d51d1b13a022c5",
+    "sprites/walk-007.png": "cda6a0f8d9af21494e286fd6935d5995e7f5da5b530146b11bb9b32350fd5ce7",
+    "sprites/walk-006.png": "8630bb4747cbe3eb6949eca72806c2e9d034d967eb4bd17f4d929fb1cc337393",
+    "sprites/walk-012.png": "7bd7f377650b4afe0abee97c578b1503ce89e1b555ff41cfe639467d66bcb392",
+    "sprites/walk-002.png": "e00ccbe1da18f46934aad1f857ced0648e78bab5d82cb8fe2126fd71226b8f12",
+    "sprites/walk-003.png": "d12877a958a1c2fdb2a2be3a7f2c12f78d11eaf78ec644630f2b593243f16938",
+    "sprites/walk-001.png": "9142c4f4d58a344cd31f44dd6285c297954f9b0bb34f6fa2590223d4423d669c",
+    "sprites/walk-015.png": "0a04c732de14cbe859f3bfd42e56572dce9d4e3bb7477cd773fb244933112163",
+    "sprites/walk-014.png": "da0f3319decf1b99d6f4515a74e8d9a0169c5e966a74235b05256119fce1066d",
+    "sprites/walk-000.png": "46da4ca2904ae2717e3d0b33e7d060a13f0e6aadd5cdb6683970041bf2f285cd",
+    "sprites/walk-atlas.png": "2be3f1b475ee0a54d4bce2dd033131120de715367e224d4f9af223f96030c783",
+    "sprites/walk-008.png": "d9cbd4a0ce9a43b5985a3db07f4eb70e448188c570f0ad3c892fefda1826de3d",
+    "sprites/walk-009.png": "00719f1396ff4177d70676deadde7f8abf4a46e30a60d6e5dfd65b8f1853ea7a"
+  }
+}

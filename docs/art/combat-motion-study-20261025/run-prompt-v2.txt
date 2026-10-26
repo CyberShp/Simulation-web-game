@@ -1,0 +1,13 @@
+Edit this 4-column by 2-row running sprite sheet. Keep the character identity, exact camera, costume, weapon held in the near right hand, overall body size and the 8-cell layout. Correct two precise defects:
+
+1. Make EVERY pixel outside the eight actual human-and-sword silhouettes fully TRANSPARENT. Remove ALL blue/grey glow, fog, gradients, halos, floor and shadows. There should be only the eight clean solid pixel-art cutouts with completely empty transparent space between them. No decorative lighting. Preserve hair, robe edges, limbs and the thin swords. Do not paint any background color.
+
+2. Redraw the legs and related robe opening in the BOTTOM ROW so it is the OPPOSITE half of the running cycle. Current upper and lower poses repeat the same leading leg; fix actual anatomy, do not horizontally mirror the characters. The whole character always faces right, holds the sword in the same right hand, and the face stays unchanged.
+For the top row, the NEAR RIGHT leg is the bright/navy trouser leg visible on the viewer side, and it is the first leading/support leg. The FAR LEFT leg is darker and on the back side.
+Bottom-left frame (frame 5): FAR LEFT leg stretches forward toward screen right, left boot landing well ahead of hips. NEAR RIGHT thigh sweeps back toward screen left, RIGHT knee bent and right heel tucked backward. Show the near right boot clearly at the back/left, not at the front/right.
+Bottom row second frame (frame 6): FAR LEFT boot planted slightly in front of/under hips and LEFT knee compressing. NEAR RIGHT knee swings forward, but right foot still folded under and behind. Clearly show TWO independent legs.
+Bottom row third frame (frame 7): FAR LEFT leg extends back behind the hips and left toe pushes off ground, while NEAR RIGHT knee rises high in front toward screen right, right boot folded under knee.
+Bottom-right frame (frame 8): brief flight, NEAR RIGHT leg starts unfolding forward toward screen right, while FAR LEFT heel folds backward behind. Both soles above the same implied ground. This leads back to top-left RIGHT-foot forward contact.
+Retain natural very small head/pelvis rise and fall, consistent thigh/shin lengths and exactly two boots per pose. Open the split robe enough that which knee/boot is forward can actually be seen. Distinguish the dark far trouser from the nearer blue trouser using the existing palette, without adding costume markings.
+
+Top row remains the RIGHT-support half, bottom row is the LEFT-support half. Keep every sword fully visible inside its own cell, no overlap between cells. The final output must be a production-clean transparent PNG sheet, no captions, grid or backdrop.

@@ -1,0 +1,7 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-Bufz0ylsvH5VX0RelLTkdCzDLj+JPhHmKTdEC0GXlzs='; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data:; connect-src 'self' blob:; font-src 'self'; worker-src 'self' blob:;"><title>云岫山院 · Three.js 样板</title>
+<style>
+@font-face{font-family:Yunxiu;src:url('./assets/scene-labels.ttf')}*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#15232b}#world,#hud{position:absolute;width:100%;height:100%;inset:0}#hud{pointer-events:none}#loading{position:absolute;inset:0;display:grid;place-content:center;gap:12px;background:#15232b;color:#e8dfc7;font:24px Yunxiu;text-align:center}#loading small{font-size:15px;color:#9dacaa}#error{position:absolute;inset:25%;color:#f5dbcb;background:#201f22;padding:28px;display:none;font:18px sans-serif}
+</style>
+<script type="importmap">{"imports":{"three":"./node_modules/three/build/three.module.js","three/addons/":"./node_modules/three/examples/jsm/"}}</script>
+</head><body><canvas id="world"></canvas><canvas id="hud"></canvas><div id="loading">云岫山院<small>正在准备场景与人物</small></div><div id="error"></div><script type="module" src="./main.mjs"></script></body></html>

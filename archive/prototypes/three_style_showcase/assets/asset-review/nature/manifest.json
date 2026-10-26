@@ -1,0 +1,233 @@
+{
+  "generator": "blender/build_asset_nature.py",
+  "reference": "docs/art/desktop-style-review-20261013/d-realistic-3d.png",
+  "coordinateContract": "Metres, Y up, front +Z. Pine, shrub and rock rest at Y=0. Terrain groundY=0 with a closed bank extending below ground.",
+  "foliage": {
+    "alphaMode": "MASK",
+    "alphaCutoff": 0.32,
+    "doubleSided": true,
+    "sourceColor": "Unchanged source sRGB RGBA",
+    "planesPerSprig": 2
+  },
+  "terrainSurface": {
+    "blend": "Continuous slope, edge and path weights",
+    "mapping": "Metre-scale box projection baked to UVs",
+    "bakeDevice": "Cycles CPU",
+    "mapResolution": [
+      2048,
+      2048
+    ],
+    "maps": [
+      "color",
+      "normal",
+      "roughness"
+    ]
+  },
+  "sources": [
+    {
+      "asset": "pine_sapling_medium",
+      "url": "https://polyhaven.com/a/pine_sapling_medium",
+      "license": "CC0-1.0",
+      "licenseUrl": "https://polyhaven.com/license"
+    },
+    {
+      "asset": "boulder_01",
+      "url": "https://polyhaven.com/a/boulder_01",
+      "license": "CC0-1.0",
+      "licenseUrl": "https://polyhaven.com/license"
+    },
+    {
+      "asset": "aerial_grass_rock",
+      "url": "https://polyhaven.com/a/aerial_grass_rock",
+      "license": "CC0-1.0",
+      "licenseUrl": "https://polyhaven.com/license"
+    },
+    {
+      "asset": "marble_cliff_02",
+      "url": "https://polyhaven.com/a/marble_cliff_02",
+      "license": "CC0-1.0",
+      "licenseUrl": "https://polyhaven.com/license"
+    },
+    {
+      "asset": "forest_ground_04",
+      "url": "https://polyhaven.com/a/forest_ground_04",
+      "license": "CC0-1.0",
+      "licenseUrl": "https://polyhaven.com/license"
+    }
+  ],
+  "assets": [
+    {
+      "id": "pine",
+      "file": "pine.glb",
+      "description": "Curved pine with seven supported horizontal branch fans and spreading surface roots",
+      "units": "metres",
+      "upAxis": "Y",
+      "frontAxis": "+Z",
+      "boundsMinXYZ": [
+        -3.9847,
+        0.0,
+        -4.1639
+      ],
+      "boundsMaxXYZ": [
+        5.2153,
+        8.0,
+        3.737
+      ],
+      "dimensionsXYZ": [
+        9.2,
+        8.0,
+        7.901
+      ],
+      "triangles": 19190,
+      "meshCount": 2,
+      "materials": [
+        "PineBark",
+        "PineNeedles"
+      ],
+      "bytes": 18596204,
+      "sha256": "fc29f167d5be30cc3b6ecfddbb8c5b94dc197859daa7083ccb69cdde9f356f5d",
+      "groundY": 0,
+      "canopyFans": 7,
+      "sprigPlanesPerBranchlet": 2
+    },
+    {
+      "id": "pine-lod",
+      "file": "pine-lod.glb",
+      "description": "Curved pine with seven supported horizontal branch fans and spreading surface roots",
+      "units": "metres",
+      "upAxis": "Y",
+      "frontAxis": "+Z",
+      "boundsMinXYZ": [
+        -4.1863,
+        0.0,
+        -4.1037
+      ],
+      "boundsMaxXYZ": [
+        5.0137,
+        8.0,
+        3.5823
+      ],
+      "dimensionsXYZ": [
+        9.2,
+        8.0,
+        7.6861
+      ],
+      "triangles": 15368,
+      "meshCount": 2,
+      "materials": [
+        "PineBark",
+        "PineNeedles"
+      ],
+      "bytes": 18416040,
+      "sha256": "850fba9837711f85467766d0b87a253c0bd6e303ce992e3bff98ccd3c3ff9624",
+      "groundY": 0,
+      "canopyFans": 7,
+      "sprigPlanesPerBranchlet": 2,
+      "lodOf": "pine"
+    },
+    {
+      "id": "rock",
+      "file": "rock.glb",
+      "description": "Closed weathered scan rock with a naturally fractured lower shoulder",
+      "units": "metres",
+      "upAxis": "Y",
+      "frontAxis": "+Z",
+      "boundsMinXYZ": [
+        -1.2116,
+        0.0,
+        -1.5227
+      ],
+      "boundsMaxXYZ": [
+        1.4886,
+        2.3,
+        1.4192
+      ],
+      "dimensionsXYZ": [
+        2.7003,
+        2.3,
+        2.942
+      ],
+      "triangles": 3360,
+      "meshCount": 1,
+      "materials": [
+        "WeatheredScanStone"
+      ],
+      "bytes": 2956016,
+      "sha256": "ba95ea0f7a8668ba93d44d0b79a14167ff19bb467ac66b3a847a2ac24462ec1c",
+      "groundY": 0
+    },
+    {
+      "id": "shrub",
+      "file": "shrub.glb",
+      "description": "Low spreading evergreen shrub with connected woody stems",
+      "units": "metres",
+      "upAxis": "Y",
+      "frontAxis": "+Z",
+      "boundsMinXYZ": [
+        -1.0524,
+        0.0,
+        -0.9704
+      ],
+      "boundsMaxXYZ": [
+        1.0524,
+        0.68,
+        0.9704
+      ],
+      "dimensionsXYZ": [
+        2.1049,
+        0.68,
+        1.9408
+      ],
+      "triangles": 1296,
+      "meshCount": 2,
+      "materials": [
+        "PineBark",
+        "PineNeedles"
+      ],
+      "bytes": 17517032,
+      "sha256": "3dac74b2376b03673e599404fdebcdde533cb991dcd1cb3c4bd357989052a84a",
+      "groundY": 0
+    },
+    {
+      "id": "terrain",
+      "file": "terrain.glb",
+      "description": "Rising grass and stone slope with a winding earth path, rock outcrops and closed front bank",
+      "units": "metres",
+      "upAxis": "Y",
+      "frontAxis": "+Z",
+      "boundsMinXYZ": [
+        -5.9693,
+        -2.15,
+        -4.116
+      ],
+      "boundsMaxXYZ": [
+        6.1281,
+        2.5922,
+        4.1406
+      ],
+      "dimensionsXYZ": [
+        12.0975,
+        4.7422,
+        8.2566
+      ],
+      "triangles": 34750,
+      "meshCount": 2,
+      "materials": [
+        "TerrainBakedSurface",
+        "WeatheredScanStone"
+      ],
+      "bytes": 19586316,
+      "sha256": "93e5dc1139546961364ae17180141f91c609b863c048a8b87f596e84a8d5404d",
+      "groundY": 0,
+      "pineAnchorXYZ": [
+        -2.0,
+        1.7509,
+        -0.55
+      ],
+      "pineRootInsetMetres": 0.1,
+      "continuousSurface": true,
+      "surfaceRiseMetres": 2.105
+    }
+  ],
+  "reviewStatus": "Model geometry and GLB export checks; turntable and multi-view appearance review pending."
+}

@@ -2,7 +2,7 @@
   "schema_version": 1,
   "registry_id": "SR-XF-2026-10-06",
   "design_baseline": "DB-2026-10-05 v1.2",
-  "updated": "2026-10-26",
+  "updated": "2026-10-27",
   "authoritative": "registry.json for requirement records and task states; derived Markdown rendered by scripts/requirements/sr-manager.py refresh",
   "source_runtime": {
     "main": "7d27532bf22e8c6064281e12b390edb8370abce9",
@@ -1108,6 +1108,129 @@
         "full-SR-AC"
       ],
       "wholeRequirementStatusChanged": false
+    },
+    "currentCompanionOperations": {
+      "reference": "docs/design/93-COMPANION-OPERATIONS.md",
+      "status": "targeted-scenarios-and-isolated-macos-electron-verified",
+      "scenarioPolicy": "U-172",
+      "closesWholeRequirements": false,
+      "verification": {
+        "rootUniqueTests": "100/100",
+        "finalOperationsRerun": "4/4",
+        "evidenceRoot": "/Users/shepard/.codex/tmp/immortal-companion-operations-20261026",
+        "nativeSafe": "native-safe-01/report.json",
+        "nativeEncounter": "native-encounter-01/report.json",
+        "quietResponse": "native-quiet-01/report.json",
+        "independentAudit": "audit/final-independent-review.json",
+        "nativeScope": "entry HEAD plus batch source; concurrent combat changes excluded",
+        "bodyClearance": "original valley crossing 0.04m to 0.54m",
+        "performance": "whole-round long tasks 513/593ms unresolved; quiet 45s no long tasks, max gap35.1ms",
+        "persistence": "deferred-per-U-172",
+        "Windows": "not-verified"
+      }
+    },
+    "currentExpeditionResponse": {
+      "reference": "docs/design/94-EXPEDITION-RESPONSE.md",
+      "status": "targeted-hotspot-reduced-native-verified-residual-spikes-open",
+      "scenarioPolicy": "U-172",
+      "closesWholeRequirements": false,
+      "verification": {
+        "evidenceRoot": "/Users/shepard/.codex/tmp/immortal-expedition-response-20261026",
+        "rootTests": "14/14 targeted; 51/52 adjacent, one identical baseline failure",
+        "geometryPoints": 1168427,
+        "geometryRoutes": 1000,
+        "fullWorldTicksCompared": 10000,
+        "completeViewsCompared": 200,
+        "nativeBaseline": "baseline-safe/report.json",
+        "nativeSafe": "candidate-safe/report.json",
+        "nativeEncounter": "candidate-encounter/report.json",
+        "nativeReloadSave": "candidate-reopen/report.json",
+        "nativeScope": "93 frozen runtime plus three static-geometry optimizations; concurrent combat changes excluded",
+        "maximumGapMs": {
+          "baselineSafe": 508.1,
+          "candidateSafe": 95.2,
+          "candidateEncounter": 109.3
+        },
+        "remaining": "90-108ms path spikes; p95/click unimproved;57ms affairs opening; legacy north transport recovery baseline failure; Windows/full shared-tree integration unverified"
+      }
+    },
+    "currentGroundPanelResponse": {
+      "reference": "docs/design/95-GROUND-PANEL-RESPONSE.md",
+      "status": "panel-response-verified-path-spikes-remain",
+      "scenarioPolicy": "U-172",
+      "closesWholeRequirements": false,
+      "verification": {
+        "evidenceRoot": "/Users/shepard/.codex/tmp/immortal-ground-panels-20261026",
+        "rootTests": "15/15 targeted;49/50 adjacent;legacy north recovery failure",
+        "geometryQueries": 626693,
+        "fullWorldTicksCompared": 10000,
+        "completeViewsCompared": 200,
+        "panelBaseline": "panel-baseline/report.json",
+        "panelCandidate": "panel-candidate/report.json",
+        "panelLive": "panel-live-02/report.json",
+        "saveReadback": "panel-live-02/save-readback.json",
+        "nativeSafe": "native-safe/report.json",
+        "nativeEncounter": "native-encounter/report.json",
+        "remaining": "88/78ms path spikes;legacy north recovery;Windows and concurrent combat integration unverified"
+      }
+    },
+    "currentNorthRecoveryPathResponse": {
+      "reference": "docs/design/96-NORTH-RECOVERY-PATH-RESPONSE.md",
+      "status": "implemented-verified-local-batch-with-performance-residual",
+      "closesWholeRequirements": false,
+      "verification": {
+        "evidenceRoot": "/Users/shepard/.codex/tmp/immortal-six-hour-20261027",
+        "recoveryRegression": "recovery-regression.log",
+        "tests": "37/37",
+        "recoveryTicks": 11,
+        "remaining": "path peaks 59-70ms still exceed aspirational 50ms;Windows and long-term balance unverified;combat long-save performance belongs to separate scene",
+        "nativeRecovery": [
+          "final-native-north-delivery/report.json",
+          "final-native-north-cancel/report.json"
+        ],
+        "candidate": "final-candidate-runtime",
+        "geometry": "final-geometry-equivalence.json",
+        "worldEquivalence": "final-world-equivalence.json",
+        "performancePair": [
+          "native-baseline-safe-1/report.json",
+          "native-candidate-safe-1/report.json"
+        ],
+        "baseline": "integrated-baseline-runtime",
+        "nativeSeries": "native-final-series.json",
+        "nativeSeriesStatus": "passed-six-runs-three-pairs",
+        "integration": "main-candidate-integration.json",
+        "candidateHashes": "final-candidate-hashes.json",
+        "typeGuardCalls": 1440,
+        "excludedDriftRun": "series-candidate-safe-2/report.json",
+        "nativeSummary": "native-final-series-summary.json",
+        "pathPeakMs": {
+          "baseline": [
+            74,
+            76,
+            73
+          ],
+          "candidate": [
+            69,
+            70,
+            59
+          ]
+        },
+        "mainRegression": "final-main-regression.log",
+        "mainTests": "80/80",
+        "finalVerification": "final-verification.json",
+        "nativeRecoveryTicksObserved": [
+          13,
+          11
+        ],
+        "nativeEncounter": "final-native-encounter/report.json",
+        "nativePanel": "final-native-panel/report.json",
+        "nativeReopen": [
+          "final-native-panel-reopen/report.json",
+          "final-native-reopen/report.json"
+        ],
+        "stableSourceFiles": 631,
+        "engineeringCheck": "final-engineering-check.log"
+      }
     }
   },
   "enums": {
@@ -4557,7 +4680,9 @@
         "docs/design/55-CHARACTER-ACTION-LIBRARY.md",
         "docs/design/70-COURTYARD-FIRST-COMBAT.md",
         "docs/design/71-GUESTHOUSE-INTEGRATION.md",
-        "docs/design/73-COMBAT-FRAME-PRODUCTION.md"
+        "docs/design/73-COMBAT-FRAME-PRODUCTION.md",
+        "docs/art/combat-response-goal-20261027/README.md",
+        "docs/art/combat-response-goal-20261027/player-down-prompt.md"
       ],
       "baseline": "沿用六列云岫人物及稳定spriteIndex/外观配方；真实床位休憩、书案研习和满包等候已按同一身份与身体活动投影静态姿态，缺图保留基础同身份人物和点选。\n2026-10-14 U-142：先审核完整山院美术原型，再按构图、细节、精度与材质还原实机。目标模式、场景接入及20分钟长验按用户要求暂停；本地增量保留。原型见 docs/art/pixel-courtyard-prototype-20261014/README.md；原型不计作运行验收，既有SR/AC状态保持。",
       "design_gap": "D01/D02 已补齐关键人物配方、活动/工具和三视图同身份映射，并完成 SR002/SR004 与 REQ/AC 契约审阅。疗伤/劳动/斗法等完整连续动作、持久配方版本及面部标记范围门禁、三人以上真人辨识体验仍属 I/V 后续缺口；静态姿态与回退不代表完整动画完成。",
@@ -4745,7 +4870,16 @@
         "tests/acceptance/courtyard-combat-observations.mjs",
         "tests/unit/courtyard/courtyard-combat-rig.test.mjs",
         "apps/courtyard/courtyard-combat-frame-metadata.mjs",
-        "tests/unit/courtyard/courtyard-combat-frames.test.mjs"
+        "tests/unit/courtyard/courtyard-combat-frames.test.mjs",
+        "docs/art/combat-sword-study-integration-20261026/README.md",
+        "docs/design/73-COMBAT-FRAME-PRODUCTION.md",
+        "2026-10-27 持剑单人战斗正式接入取得局部证据：新建单人山谷启用sword-study-v1，WASD/鼠标、移动剑气、已学剑法Q锁点重击、胜败确认与返院沿正式模拟；旧无标记战斗保持原规则。本批新增专项46项通过（规则11/音频13/插值7/呈现9/公开命令6）；旧冻结版四场26项功能检查通过，最终移动03有19帧左右跑及出手后回跑诊断。长档120人/5后台活动原生265430→265471，Q因未学剑正式拒绝且不扣气；源/运行散列与关闭均一致。精确坐标缓存同源冷步219.23→143.05ms、热2.48→2.34ms，完整状态字节一致；原生该步仍127.1ms、活动帧间隔125ms、Tab264.1ms，另有Node158ms慢步。旧失败/限定记录保留，完整动作、流畅度、听感、Windows与完整SR/AC及发布状态保持开放。",
+        "docs/art/combat-response-goal-20261027/README.md；2026-10-27 六小时目标执行中：原生normal12/12、defeat5/5、retreat6/6通过，侧向收步203→206→209、移动攻击、Q/Space接续及同一掌门胜败撤离返院取得局部证据；同身份三段倒地按统一H650/root注册，主已看跪姿与侧卧。最后恢复收步补丁37项相关回归后，resume-01原生两项通过；主已看25/100ms恢复收步与站稳图，stop203/206/209、回拉0/idle滑0；完整方向、流畅度、听感、Windows与完整SR/AC仍开放。",
+        "docs/art/combat-response-goal-20261027/README.md；2026-10-27 894版vertical-down-02正式4项通过，主亲看W/S松键25ms跑姿、100ms双脚戒备及到位保持，跪/撑/卧三阶段实际像素；566版action-pixels-01四向跑、移动J释放/回跑及左右真实受击8项通过并已目检。上下戒备复用cast07/11，尾差沿原run到位后停；完整动作、性能、听感、Windows与完整SR/AC仍开放，首轮验收误key的failed保留。",
+        "docs/art/combat-response-goal-20261027/README.md；2026-10-27 最终五场同冻结runtime原生复核：final-normal-02为12/12、final-defeat-02为5/5、final-retreat-01为6/6，final-action-pixels-01为8项observed；主亲看当前四向跑姿、移动J蓄势/释放/回跑、左右真实受击及0HP胜败终帧。五窗口正常关闭、源档及764运行文件保持，完整汇总见/Volumes/Media/immortal-qa/combat-final-native-20261027/final-batch-01.json；性能尖峰、完整动作库、听感、Windows与完整SR/AC仍开放。",
+        "docs/art/combat-response-goal-20261027/README.md；2026-10-27 仅A*排序成本计算局部优化后，astar-cost-lean-01在spatial cd477bf1版本无注入90.084秒/901tick，原120身份及5后台保留；世界步112.8ms、rAF109.6ms，性能仍未通过。先前final-batch-01五场功能/视觉证据属于spatial cb8538版本；其余呈现/整帧及素材不变，完整世界状态/路径等价另有a-star-cost-gate证明，不将旧像素称为新runtime复验，完整SR/AC状态保持。",
+        "docs/art/combat-response-goal-20261027/README.md；2026-10-27 final-freeze-02完整cd477冻结版本五场复核：normal12/12、defeat5/5、retreat6/6通过，action-pixels八项observed；主亲看四向不同跑姿、移动J蓄势/释放/回跑、左右真实受击、W/S与侧向收步、Q→Space接续及0HP终帧。63张活动Canvas复制PNG及6张终局/返院图有逐张来源SHA索引；五场及startup/resume两probe正常关闭、完整764文件runtime相同且各自保持，七份落盘state等于最终session.state。startup-probe七项及resume-probe两项检查成立（report均observed），主已看起步25/200ms、反向25ms及恢复25/100ms。见/Volumes/Media/immortal-qa/combat-final-native-20261027/final-freeze-02/batch-summary.json；性能、完整动作库、听感、Windows及完整SR/AC仍开放。",
+        "docs/art/combat-response-goal-20261027/README.md；2026-10-27 05:32冻结c95版取得新五场同runtime证据：normal9/defeat5/retreat6项通过，同一掌门分别794→973/746→915/764→858返院，主已看胜败双方终帧。两轮同120原人物/5后台长档原性能门通过，余量有限；五份落盘state等于最终session.state，源/运行保持、窗口关闭。旧cd477七场四向/停步/J/Q→Space/hit/startup/resume像素证据与63+6索引保持原版本范围，presentation894/framesbe81/data98ac未变。汇总见/Volumes/Media/immortal-qa/combat-final-native-20261027/final-freeze-02/equivalent-rooms-summary.json；完整动作库、听感、Windows及完整SR/AC状态保持。"
       ],
       "change_log": [
         {
@@ -5201,7 +5335,11 @@
         "docs/design/89-DISCIPLE-CRAFT-REQUEST.md",
         "docs/design/90-DISCIPLE-ADVANCEMENT.md",
         "docs/design/91-EXPEDITION-GROWTH.md",
-        "docs/design/92-EXPEDITION-COMPANIONS.md"
+        "docs/design/92-EXPEDITION-COMPANIONS.md",
+        "docs/design/93-COMPANION-OPERATIONS.md",
+        "docs/design/94-EXPEDITION-RESPONSE.md",
+        "docs/design/95-GROUND-PANEL-RESPONSE.md",
+        "docs/design/96-NORTH-RECOVERY-PATH-RESPONSE.md"
       ],
       "baseline": "已有自主行为、意愿和工位等候基础。",
       "design_gap": "v2 日相位已随唯一世界时钟更新且不打断有效工作承诺；完整候选效用、日程活动切换、职责、记忆更新及 3–5/24–32 人规模参数仍需补齐。",
@@ -5253,7 +5391,11 @@
             "docs/design/STATUS.md",
             "docs/design/90-DISCIPLE-ADVANCEMENT.md",
             "docs/design/91-EXPEDITION-GROWTH.md",
-            "docs/design/92-EXPEDITION-COMPANIONS.md"
+            "docs/design/92-EXPEDITION-COMPANIONS.md",
+            "docs/design/93-COMPANION-OPERATIONS.md",
+            "docs/design/94-EXPEDITION-RESPONSE.md",
+            "docs/design/95-GROUND-PANEL-RESPONSE.md",
+            "docs/design/96-NORTH-RECOVERY-PATH-RESPONSE.md"
           ]
         }
       ],
@@ -5353,7 +5495,11 @@
         "2026-10-25 当面商议炼丹与成药交付完成本批：统一人物窗选丹方、看实际费用与现场缺口，由门人按资格、意愿及原承诺答复。正式商议筑基丹后，本人完成四阶段780工步，2099现场成药1、2689实际运抵公库、2690登记交付；医理80→80.6、药理35.1→35.7。缺料/资格/承诺不足与本人不愿分别反馈，远距和隐藏药理禁止商议，重复请求不另开炉；重伤退款和途中中止保留实际投入与实物。共同生活成员的完整人物窗入口已补齐；阅读暂停下进度直接投影实际炉单与运单。根53项不同定向/相邻测试、末次8项投影相关复验、实际Chromium人物窗与七场景11类检查通过；16份散列前后及当前一致，浏览器错误0。按U-172配置初始条件；原生整局、Windows、存读长链及长期平衡未验，完整SR/AC与发布状态保持。 证据：/Users/shepard/.codex/tmp/immortal-disciple-craft-request-20261025/scenario-05/report.json。",
         "2026-10-26 门人进阶需求与自主筑基完成本批：人物窗从缺丹需求导航到同门并预选筑基丹，正式自愿炼制780工步，2692本人运药归公库；另一门人2750自主取丹、2772收入随身，2780开启突破，2825实际炼化、2975完成180工步升至筑基，3150本人再参与生产并按贡献成长。近身和远取统一公药许可，保本人私药、旧承诺与实际身体；唯一丹竞争、满袋拒绝、炼化前后取消及执事继续成长通过。根77项不同定向/相邻单测、六场景12类检查及实际Chromium人物窗组件通过；main选中/走近薄接缝受控执行核验，16份散列前后与当前一致，13完整快照、6截图，浏览器错误0。主Agent发现首轮旧缺丹提示与在途冲突后修正，最终scenario-02通过，旧记录保留。按U-172配置初始条件；原生整局、Windows、存读长链和长期平衡未验，完整SR/AC与发布状态保持。 证据：/Users/shepard/.codex/tmp/immortal-disciple-advancement-20261025/scenario-02/report.json。",
         "2026-10-26 历练收获反哺成长完成本批：真实采6草于1729归库，当面筹备一炉并保留本人旧承诺，2545实运材料到丹房，3428完成原四阶段780工步，4020成药归库，林长风4112收入随身、4120开始突破、4310完成180工步升至筑基。掌门正式搬40木腾库后，5080本人实际参与生产，贡献90%、百工增长0.54；灵草总账119+6−75−50=0。筹备可撤回，已接运输保留；修复休息续约饿死取丹机会、交库容量/产权检查及运输提示滞后。根116项定向/相邻测试、最终投影14项复验、三场景9项检查和实际Chromium人物窗组件通过；23源码散列一致、14完整快照、6截图及独立复核通过。按U-172配置初始条件；原生整局、Windows、存读长链与长期平衡未验，完整SR/AC及发布状态保持。 证据：/Users/shepard/.codex/tmp/immortal-expedition-growth-20261026/scenario-04/report.json；/Users/shepard/.codex/tmp/immortal-expedition-growth-20261026/final-independent-audit.json。",
-        "2026-10-26 门人结伴历练完成本批：院务开放结伴机会，近身且同目的的两位门人分别自愿，至少一人留守；各自准备2粮8精力、独立身体与药囊。平安场景1925双人归院，各得8经验并各退1药，2400共同生产木21.384；遇险两人各伤10，陆知微1139–1158实际安全服唯一药，林长风等候19步，1424/1427分别归院，林1470到床养伤，陆1730产木、林1860产水。近距提醒与亲见分开；拒绝、失散120步独自返、死亡不复活及临时交接不可达恢复通过。修复两人公库互堵、观察脚点及返回入口接缝。主Agent54项定向/相邻测试、最终三场景12项检查通过，19源码散列一致、32完整快照、5实际Chromium组件截图，错误0。谷口有0.04米短暂交叉，通用身体净距未验；原生整局、Windows、存读长链及长期平衡未验，完整SR/AC与发布状态保持。 证据：/Users/shepard/.codex/tmp/immortal-expedition-companions-20261026/scenario-02/report.json。"
+        "2026-10-26 门人结伴历练完成本批：院务开放结伴机会，近身且同目的的两位门人分别自愿，至少一人留守；各自准备2粮8精力、独立身体与药囊。平安场景1925双人归院，各得8经验并各退1药，2400共同生产木21.384；遇险两人各伤10，陆知微1139–1158实际安全服唯一药，林长风等候19步，1424/1427分别归院，林1470到床养伤，陆1730产木、林1860产水。近距提醒与亲见分开；拒绝、失散120步独自返、死亡不复活及临时交接不可达恢复通过。修复两人公库互堵、观察脚点及返回入口接缝。主Agent54项定向/相邻测试、最终三场景12项检查通过，19源码散列一致、32完整快照、5实际Chromium组件截图，错误0。谷口有0.04米短暂交叉，通用身体净距未验；原生整局、Windows、存读长链及长期平衡未验，完整SR/AC与发布状态保持。 证据：/Users/shepard/.codex/tmp/immortal-expedition-companions-20261026/scenario-02/report.json。",
+        "2026-10-26 五人结伴与留守经营完成本批：谷口交叉中心距0.04→0.54米，补有限绕行和落点占位；修复有收获却持续种粮压过运粮。五门人两出三留，平安/遇险各四次日结供给成立，缺粮拒发、满库等待与正式腾库、唯一药、床休和双方返工通过。主树100项不同定向/相邻测试通过，最终经营4项重跑通过；独立复核及两轮macOS源码Electron7/8项检查通过、错误0。原生固定HEAD加本批代码，非全部并行改动集成。整轮仍见513/593ms长任务，归院后45秒静默最大帧间隔35.1ms且无长任务；性能根因、Windows、存读长链与长期平衡待验。完整SR/AC及发布状态保持。 docs/design/93-COMPANION-OPERATIONS.md",
+        "2026-10-26 结伴经营响应优化完成本批：原生506ms长任务定位为留守门人工位寻路中的静态身体地面查询，新增保守内部单元证明并保留边界原判定。同初始档/视口/采样平安最大rAF间隔508.1→95.2ms、长任务506→90ms；p95与点击未改善，遇险最大109.3ms/长任务108ms。独立1168427点及1000路线零差异；两场景合计10000步完整状态、200份完整view一致。14项定向全过，相邻52项51过1项基线同样失败。两轮原生7/8项通过，QA档重开载入与关闭保存完整状态相等。剩余路径90–108ms、院务打开57ms、旧北路恢复失败保留；完整SR/AC及发布保持。 docs/design/94-EXPEDITION-RESPONSE.md",
+        "2026-10-27 地面查询与院务响应完成本批：精确坐标缓存及走廊预筛、单次面板渲染复用检查投影。同档暂停院务中位16.3→5.55ms、人物8.45→3.7ms，12份文本及完整世界相同；原生跨日食粮39→27即时刷新、人物筛选与保存读回通过。两轮经营分别7项、8项均通过，最大帧间隔89.1/80.2ms，仍有88/78ms路径长任务。独立几何626693查询零差异，10000步完整状态及200份view相同。定向15/15、相邻49/50，旧北路恢复失败保留；完整SR/AC与发布保持。 docs/design/95-GROUND-PANEL-RESPONSE.md",
+        "2026-10-27 六小时目标执行中：北路施工运料旧档200步停滞定位为恢复许可漏接正式施工材料流；补齐身份/订单/预留/目标验证后11步实际恢复，最大单步0.3168米，取消实际返料及无效许可边界通过，定向相邻37/37。原生与三轮性能对照待做，完整SR/AC状态保持。 docs/design/96-NORTH-RECOVERY-PATH-RESPONSE.md"
       ],
       "change_log": [
         {
@@ -5782,7 +5928,8 @@
         "docs/design/89-DISCIPLE-CRAFT-REQUEST.md",
         "docs/design/90-DISCIPLE-ADVANCEMENT.md",
         "docs/design/91-EXPEDITION-GROWTH.md",
-        "docs/design/92-EXPEDITION-COMPANIONS.md"
+        "docs/design/92-EXPEDITION-COMPANIONS.md",
+        "docs/design/93-COMPANION-OPERATIONS.md"
       ],
       "baseline": "既有 JS 运行基线：已有药田生产、材料预留和多人共享批次。 U-98本轮暂缓院内铺路，既有通行与山外交通保留。 U-99整格营造与0.5米导航分离，旧档按明确单位格版本映射。 U-105 山域成长方案见 docs/SECT-GROWTH-PLAN.md；本批只登记设计与阶段原型，正式运行版本保持。",
       "design_gap": "既有有限配方与冻结批次实现保留。U-105 外谷承接生产及四峰供给的需求、有效产能、配送周期、检验窗口与安全余量仍待配置和实际验证。",
@@ -5815,7 +5962,8 @@
             "docs/design/STATUS.md",
             "docs/design/90-DISCIPLE-ADVANCEMENT.md",
             "docs/design/91-EXPEDITION-GROWTH.md",
-            "docs/design/92-EXPEDITION-COMPANIONS.md"
+            "docs/design/92-EXPEDITION-COMPANIONS.md",
+            "docs/design/93-COMPANION-OPERATIONS.md"
           ],
           "evidence_scope": {
             "requirement_version": "1.0",
@@ -5935,7 +6083,8 @@
         "2026-10-25 当面商议炼丹与成药交付完成本批：统一人物窗选丹方、看实际费用与现场缺口，由门人按资格、意愿及原承诺答复。正式商议筑基丹后，本人完成四阶段780工步，2099现场成药1、2689实际运抵公库、2690登记交付；医理80→80.6、药理35.1→35.7。缺料/资格/承诺不足与本人不愿分别反馈，远距和隐藏药理禁止商议，重复请求不另开炉；重伤退款和途中中止保留实际投入与实物。共同生活成员的完整人物窗入口已补齐；阅读暂停下进度直接投影实际炉单与运单。根53项不同定向/相邻测试、末次8项投影相关复验、实际Chromium人物窗与七场景11类检查通过；16份散列前后及当前一致，浏览器错误0。按U-172配置初始条件；原生整局、Windows、存读长链及长期平衡未验，完整SR/AC与发布状态保持。 证据：/Users/shepard/.codex/tmp/immortal-disciple-craft-request-20261025/scenario-05/report.json。",
         "2026-10-26 门人进阶需求与自主筑基完成本批：人物窗从缺丹需求导航到同门并预选筑基丹，正式自愿炼制780工步，2692本人运药归公库；另一门人2750自主取丹、2772收入随身，2780开启突破，2825实际炼化、2975完成180工步升至筑基，3150本人再参与生产并按贡献成长。近身和远取统一公药许可，保本人私药、旧承诺与实际身体；唯一丹竞争、满袋拒绝、炼化前后取消及执事继续成长通过。根77项不同定向/相邻单测、六场景12类检查及实际Chromium人物窗组件通过；main选中/走近薄接缝受控执行核验，16份散列前后与当前一致，13完整快照、6截图，浏览器错误0。主Agent发现首轮旧缺丹提示与在途冲突后修正，最终scenario-02通过，旧记录保留。按U-172配置初始条件；原生整局、Windows、存读长链和长期平衡未验，完整SR/AC与发布状态保持。 证据：/Users/shepard/.codex/tmp/immortal-disciple-advancement-20261025/scenario-02/report.json。",
         "2026-10-26 历练收获反哺成长完成本批：真实采6草于1729归库，当面筹备一炉并保留本人旧承诺，2545实运材料到丹房，3428完成原四阶段780工步，4020成药归库，林长风4112收入随身、4120开始突破、4310完成180工步升至筑基。掌门正式搬40木腾库后，5080本人实际参与生产，贡献90%、百工增长0.54；灵草总账119+6−75−50=0。筹备可撤回，已接运输保留；修复休息续约饿死取丹机会、交库容量/产权检查及运输提示滞后。根116项定向/相邻测试、最终投影14项复验、三场景9项检查和实际Chromium人物窗组件通过；23源码散列一致、14完整快照、6截图及独立复核通过。按U-172配置初始条件；原生整局、Windows、存读长链与长期平衡未验，完整SR/AC及发布状态保持。 证据：/Users/shepard/.codex/tmp/immortal-expedition-growth-20261026/scenario-04/report.json；/Users/shepard/.codex/tmp/immortal-expedition-growth-20261026/final-independent-audit.json。",
-        "2026-10-26 门人结伴历练完成本批：院务开放结伴机会，近身且同目的的两位门人分别自愿，至少一人留守；各自准备2粮8精力、独立身体与药囊。平安场景1925双人归院，各得8经验并各退1药，2400共同生产木21.384；遇险两人各伤10，陆知微1139–1158实际安全服唯一药，林长风等候19步，1424/1427分别归院，林1470到床养伤，陆1730产木、林1860产水。近距提醒与亲见分开；拒绝、失散120步独自返、死亡不复活及临时交接不可达恢复通过。修复两人公库互堵、观察脚点及返回入口接缝。主Agent54项定向/相邻测试、最终三场景12项检查通过，19源码散列一致、32完整快照、5实际Chromium组件截图，错误0。谷口有0.04米短暂交叉，通用身体净距未验；原生整局、Windows、存读长链及长期平衡未验，完整SR/AC与发布状态保持。 证据：/Users/shepard/.codex/tmp/immortal-expedition-companions-20261026/scenario-02/report.json。"
+        "2026-10-26 门人结伴历练完成本批：院务开放结伴机会，近身且同目的的两位门人分别自愿，至少一人留守；各自准备2粮8精力、独立身体与药囊。平安场景1925双人归院，各得8经验并各退1药，2400共同生产木21.384；遇险两人各伤10，陆知微1139–1158实际安全服唯一药，林长风等候19步，1424/1427分别归院，林1470到床养伤，陆1730产木、林1860产水。近距提醒与亲见分开；拒绝、失散120步独自返、死亡不复活及临时交接不可达恢复通过。修复两人公库互堵、观察脚点及返回入口接缝。主Agent54项定向/相邻测试、最终三场景12项检查通过，19源码散列一致、32完整快照、5实际Chromium组件截图，错误0。谷口有0.04米短暂交叉，通用身体净距未验；原生整局、Windows、存读长链及长期平衡未验，完整SR/AC与发布状态保持。 证据：/Users/shepard/.codex/tmp/immortal-expedition-companions-20261026/scenario-02/report.json。",
+        "2026-10-26 五人结伴与留守经营完成本批：谷口交叉中心距0.04→0.54米，补有限绕行和落点占位；修复有收获却持续种粮压过运粮。五门人两出三留，平安/遇险各四次日结供给成立，缺粮拒发、满库等待与正式腾库、唯一药、床休和双方返工通过。主树100项不同定向/相邻测试通过，最终经营4项重跑通过；独立复核及两轮macOS源码Electron7/8项检查通过、错误0。原生固定HEAD加本批代码，非全部并行改动集成。整轮仍见513/593ms长任务，归院后45秒静默最大帧间隔35.1ms且无长任务；性能根因、Windows、存读长链与长期平衡待验。完整SR/AC及发布状态保持。 docs/design/93-COMPANION-OPERATIONS.md"
       ],
       "change_log": [
         {
@@ -7619,7 +7768,9 @@
         "docs/design/51-COURTYARD-MANAGEMENT-INTEGRATION.md",
         "docs/design/70-COURTYARD-FIRST-COMBAT.md",
         "docs/design/55-CHARACTER-ACTION-LIBRARY.md",
-        "docs/design/73-COMBAT-FRAME-PRODUCTION.md"
+        "docs/design/73-COMBAT-FRAME-PRODUCTION.md",
+        "docs/art/combat-response-goal-20261027/README.md",
+        "docs/art/combat-response-goal-20261027/player-down-prompt.md"
       ],
       "baseline": "已有固定攻击、青岚术、闪避与守御的旧战斗。",
       "design_gap": "三路动作空间差异、NPC战术、boss配置及伤害预算待详细定义。",
@@ -7744,7 +7895,16 @@
         "tests/acceptance/courtyard-combat-observations.mjs",
         "tests/unit/courtyard/courtyard-combat-rig.test.mjs",
         "apps/courtyard/courtyard-combat-frame-metadata.mjs",
-        "tests/unit/courtyard/courtyard-combat-frames.test.mjs"
+        "tests/unit/courtyard/courtyard-combat-frames.test.mjs",
+        "docs/art/combat-sword-study-integration-20261026/README.md",
+        "docs/design/73-COMBAT-FRAME-PRODUCTION.md",
+        "2026-10-27 持剑单人战斗正式接入取得局部证据：新建单人山谷启用sword-study-v1，WASD/鼠标、移动剑气、已学剑法Q锁点重击、胜败确认与返院沿正式模拟；旧无标记战斗保持原规则。本批新增专项46项通过（规则11/音频13/插值7/呈现9/公开命令6）；旧冻结版四场26项功能检查通过，最终移动03有19帧左右跑及出手后回跑诊断。长档120人/5后台活动原生265430→265471，Q因未学剑正式拒绝且不扣气；源/运行散列与关闭均一致。精确坐标缓存同源冷步219.23→143.05ms、热2.48→2.34ms，完整状态字节一致；原生该步仍127.1ms、活动帧间隔125ms、Tab264.1ms，另有Node158ms慢步。旧失败/限定记录保留，完整动作、流畅度、听感、Windows与完整SR/AC及发布状态保持开放。",
+        "docs/art/combat-response-goal-20261027/README.md；2026-10-27 局部动作接缝：Space按正式dodgePath贯穿四整帧并保持落地末帧，左右受击按面向镜像；掌门三段同身份倒地按downedTick在0/150/300ms选帧并保持侧卧，源图与完整提示词见player-down-prompt.md。主已看正式Q/J接Space及0HP侧卧，三场原生12/5/6项通过；上下独立收步、受击与倒地素材仍缺，最后恢复收步补丁37项相关回归及resume-01原生两项通过，回拉0/idle滑0，完整SR/AC状态保持。",
+        "docs/art/combat-response-goal-20261027/README.md；2026-10-27 局部动作补验：894版纵向run-tail到位后切cast07/11双脚戒备，62项相关测试及vertical-down-02正式4项通过；真实敌击后的downedTick=780在0/151.9/300ms抓到down00/01/02，主已亲看跪/撑/卧。action-pixels-01移动J与左右真实hit取得实际像素，完整方向动作库与整项SR/AC状态保持；倒地源及提示词见docs/art/combat-response-goal-20261027/player-down-prompt.md。",
+        "docs/art/combat-response-goal-20261027/README.md；2026-10-27 最终同版本动作/战斗复核：移动出剑、Q释放后移动/Space、真实受击及胜败撤离返院由正式规则产生；final-normal-02、final-defeat-02、final-retreat-01分别12/5/6项通过，final-action-pixels-01八项observed且主已亲看四向/J/左右hit及0HP终帧。894呈现、be81采样与98ac元数据五场一致；初轮final-normal-01验收器失败保留，修正等冷却误长跑及HUD指针遮挡后02通过，完整SR/AC状态保持。",
+        "docs/art/combat-response-goal-20261027/README.md；2026-10-27 当前spatial cd477bf1仅调整A*排序成本计算，a-star-cost-gate的31项/7场景与900步完整状态/路径等价通过；domain022bdc、ground3f3d、presentation894、framesbe81、data98ac保持。五场功能/视觉原生证据仍为先前spatial cb8538冻结版本；新长档性能112.8ms尖峰未达标，完整动作与SR/AC状态不推进。",
+        "docs/art/combat-response-goal-20261027/README.md；2026-10-27 当前domain022/spatialcd477/ground3f3d/presentation894/framesbe81/data98ac五场及两probe完整runtime一致。normal/defeat/retreat正式12/5/6项通过，八项动作像素observed已由主看四向、移动出剑、左右hit、稳定戒备及0HP胜败终帧；Q像素范围为Q→Space接续。七份原生落盘state与最终session.state一致；恢复收步203/206/209在真实轨迹齐全，回拉0、standingSkid0，100/200ms稳定action03。早期failed保留；本轮04:48提前冻结，原06:36截止保持，完整SR/AC状态不推进。",
+        "docs/art/combat-response-goal-20261027/README.md；2026-10-27 c95版仅共享完整等价房间几何的纯segment boolean，strict public indoor资格独立；44项测试、7场景、900步完整session及92MB路径逐字等价，根cmp为0。新normal9/defeat5/retreat6正式胜败撤离返院通过，五场源/运行及落盘state复核一致；主已看当前双方终帧。旧cd477七场动作像素单列，当前presentation894、framesbe81、data98ac保持，不将旧运行散列改称新版本同批证据。新限定场景两轮性能门通过，完整SR/AC状态不推进。"
       ],
       "change_log": [
         {
@@ -8425,7 +8585,11 @@
         "docs/design/85-MEDICINE-SUPPLY.md",
         "docs/design/88-SECT-CONCURRENCY.md",
         "docs/design/91-EXPEDITION-GROWTH.md",
-        "docs/design/92-EXPEDITION-COMPANIONS.md"
+        "docs/design/92-EXPEDITION-COMPANIONS.md",
+        "docs/design/93-COMPANION-OPERATIONS.md",
+        "docs/design/94-EXPEDITION-RESPONSE.md",
+        "docs/design/95-GROUND-PANEL-RESPONSE.md",
+        "docs/design/96-NORTH-RECOVERY-PATH-RESPONSE.md"
       ],
       "baseline": "已有旧出行与地图入口基础。",
       "design_gap": "实体旅队、路线、交通条件、耗用和在途故障需完整设计。",
@@ -8447,7 +8611,11 @@
           "status": "not_run",
           "evidence": [
             "docs/design/91-EXPEDITION-GROWTH.md",
-            "docs/design/92-EXPEDITION-COMPANIONS.md"
+            "docs/design/92-EXPEDITION-COMPANIONS.md",
+            "docs/design/93-COMPANION-OPERATIONS.md",
+            "docs/design/94-EXPEDITION-RESPONSE.md",
+            "docs/design/95-GROUND-PANEL-RESPONSE.md",
+            "docs/design/96-NORTH-RECOVERY-PATH-RESPONSE.md"
           ]
         },
         {
@@ -8464,7 +8632,8 @@
           "status": "not_run",
           "evidence": [
             "docs/design/91-EXPEDITION-GROWTH.md",
-            "docs/design/92-EXPEDITION-COMPANIONS.md"
+            "docs/design/92-EXPEDITION-COMPANIONS.md",
+            "docs/design/93-COMPANION-OPERATIONS.md"
           ]
         }
       ],
@@ -8499,7 +8668,11 @@
         "2026-10-25 回春散供给闭环完成本批开发与针对性验收：正式院务设置0–10份公库目标，门人自愿搬运有限原料、完成四阶段280工步、成药实际归库，达标停产。场景陆知微耗10草/2水/1木及10灵石炼2份，tick2207归库；林长风2374领1份、2823安全处服药伤10→0、3103归院，公库余1。缺水实际补运后恢复、无人愿意、既有在制、防重复、关闭保留投入等通过。根61项单测，最后提示优先级修正后6项边界复验，四场景10类检查及实际浏览器组件通过，14文件散列一致、错误0。按U-172配置场景，未做原生整局或存读；完整SR/AC及发布状态保持。",
         "2026-10-25 三至五人并行经营完成本批：3/5名门人另加掌门，同钟生产、修行与历练均有实际进度；各跨三次日结，每日分别8/12粮，全程饥荒0。两档均炼2药于2168归库，三人实运11粮后余35；五人两次真实伤10→0服药并归院、本人返工，实运13粮后余23，药物总账1+2−2=1。修复未完功课和有效承诺被出游抢占，以及承诺到期先续约导致无法出游；既有夜休/恢复/突破优先。根61项定向及相邻单测、独立6项复核、最终两场景11类检查通过，17份散列前后及当前一致，工程检查通过。初始住宅非法入口和验收器遗漏夜休条件的失败报告保留；按U-172配置场景，原生整局、Windows、存读长链及长期平衡未验，完整SR/AC及发布状态保持。 证据：/Users/shepard/.codex/tmp/immortal-sect-concurrency-20261025/scenario-04/report.json。",
         "2026-10-26 历练收获反哺成长完成本批：真实采6草于1729归库，当面筹备一炉并保留本人旧承诺，2545实运材料到丹房，3428完成原四阶段780工步，4020成药归库，林长风4112收入随身、4120开始突破、4310完成180工步升至筑基。掌门正式搬40木腾库后，5080本人实际参与生产，贡献90%、百工增长0.54；灵草总账119+6−75−50=0。筹备可撤回，已接运输保留；修复休息续约饿死取丹机会、交库容量/产权检查及运输提示滞后。根116项定向/相邻测试、最终投影14项复验、三场景9项检查和实际Chromium人物窗组件通过；23源码散列一致、14完整快照、6截图及独立复核通过。按U-172配置初始条件；原生整局、Windows、存读长链与长期平衡未验，完整SR/AC及发布状态保持。 证据：/Users/shepard/.codex/tmp/immortal-expedition-growth-20261026/scenario-04/report.json；/Users/shepard/.codex/tmp/immortal-expedition-growth-20261026/final-independent-audit.json。",
-        "2026-10-26 门人结伴历练完成本批：院务开放结伴机会，近身且同目的的两位门人分别自愿，至少一人留守；各自准备2粮8精力、独立身体与药囊。平安场景1925双人归院，各得8经验并各退1药，2400共同生产木21.384；遇险两人各伤10，陆知微1139–1158实际安全服唯一药，林长风等候19步，1424/1427分别归院，林1470到床养伤，陆1730产木、林1860产水。近距提醒与亲见分开；拒绝、失散120步独自返、死亡不复活及临时交接不可达恢复通过。修复两人公库互堵、观察脚点及返回入口接缝。主Agent54项定向/相邻测试、最终三场景12项检查通过，19源码散列一致、32完整快照、5实际Chromium组件截图，错误0。谷口有0.04米短暂交叉，通用身体净距未验；原生整局、Windows、存读长链及长期平衡未验，完整SR/AC与发布状态保持。 证据：/Users/shepard/.codex/tmp/immortal-expedition-companions-20261026/scenario-02/report.json。"
+        "2026-10-26 门人结伴历练完成本批：院务开放结伴机会，近身且同目的的两位门人分别自愿，至少一人留守；各自准备2粮8精力、独立身体与药囊。平安场景1925双人归院，各得8经验并各退1药，2400共同生产木21.384；遇险两人各伤10，陆知微1139–1158实际安全服唯一药，林长风等候19步，1424/1427分别归院，林1470到床养伤，陆1730产木、林1860产水。近距提醒与亲见分开；拒绝、失散120步独自返、死亡不复活及临时交接不可达恢复通过。修复两人公库互堵、观察脚点及返回入口接缝。主Agent54项定向/相邻测试、最终三场景12项检查通过，19源码散列一致、32完整快照、5实际Chromium组件截图，错误0。谷口有0.04米短暂交叉，通用身体净距未验；原生整局、Windows、存读长链及长期平衡未验，完整SR/AC与发布状态保持。 证据：/Users/shepard/.codex/tmp/immortal-expedition-companions-20261026/scenario-02/report.json。",
+        "2026-10-26 五人结伴与留守经营完成本批：谷口交叉中心距0.04→0.54米，补有限绕行和落点占位；修复有收获却持续种粮压过运粮。五门人两出三留，平安/遇险各四次日结供给成立，缺粮拒发、满库等待与正式腾库、唯一药、床休和双方返工通过。主树100项不同定向/相邻测试通过，最终经营4项重跑通过；独立复核及两轮macOS源码Electron7/8项检查通过、错误0。原生固定HEAD加本批代码，非全部并行改动集成。整轮仍见513/593ms长任务，归院后45秒静默最大帧间隔35.1ms且无长任务；性能根因、Windows、存读长链与长期平衡待验。完整SR/AC及发布状态保持。 docs/design/93-COMPANION-OPERATIONS.md",
+        "2026-10-26 结伴经营响应优化完成本批：原生506ms长任务定位为留守门人工位寻路中的静态身体地面查询，新增保守内部单元证明并保留边界原判定。同初始档/视口/采样平安最大rAF间隔508.1→95.2ms、长任务506→90ms；p95与点击未改善，遇险最大109.3ms/长任务108ms。独立1168427点及1000路线零差异；两场景合计10000步完整状态、200份完整view一致。14项定向全过，相邻52项51过1项基线同样失败。两轮原生7/8项通过，QA档重开载入与关闭保存完整状态相等。剩余路径90–108ms、院务打开57ms、旧北路恢复失败保留；完整SR/AC及发布保持。 docs/design/94-EXPEDITION-RESPONSE.md",
+        "2026-10-27 地面查询与院务响应完成本批：精确坐标缓存及走廊预筛、单次面板渲染复用检查投影。同档暂停院务中位16.3→5.55ms、人物8.45→3.7ms，12份文本及完整世界相同；原生跨日食粮39→27即时刷新、人物筛选与保存读回通过。两轮经营分别7项、8项均通过，最大帧间隔89.1/80.2ms，仍有88/78ms路径长任务。独立几何626693查询零差异，10000步完整状态及200份view相同。定向15/15、相邻49/50，旧北路恢复失败保留；完整SR/AC与发布保持。 docs/design/95-GROUND-PANEL-RESPONSE.md",
+        "2026-10-27 六小时目标执行中：北路施工运料旧档200步停滞定位为恢复许可漏接正式施工材料流；补齐身份/订单/预留/目标验证后11步实际恢复，最大单步0.3168米，取消实际返料及无效许可边界通过，定向相邻37/37。原生与三轮性能对照待做，完整SR/AC状态保持。 docs/design/96-NORTH-RECOVERY-PATH-RESPONSE.md"
       ],
       "change_log": [
         {
@@ -11424,7 +11597,12 @@
         "docs/design/89-DISCIPLE-CRAFT-REQUEST.md",
         "docs/design/90-DISCIPLE-ADVANCEMENT.md",
         "docs/design/91-EXPEDITION-GROWTH.md",
-        "docs/design/92-EXPEDITION-COMPANIONS.md"
+        "docs/design/92-EXPEDITION-COMPANIONS.md",
+        "docs/design/93-COMPANION-OPERATIONS.md",
+        "docs/design/94-EXPEDITION-RESPONSE.md",
+        "docs/design/95-GROUND-PANEL-RESPONSE.md",
+        "docs/design/96-NORTH-RECOVERY-PATH-RESPONSE.md",
+        "docs/art/combat-response-goal-20261027/README.md"
       ],
       "baseline": "既有 JS 运行基线：建筑侧卡按预制件显示床位、作业位、研习位及当前占用；现场及重叠人物使用同身份头像入口。pointerup补验移动距离，拖动放开保持拖动语义；推荐营造确认消费正式返回字段。推荐营造说明使用稳定布局，指针离开画布后确认按钮仍可点击。 U-105 山域成长方案见 docs/SECT-GROWTH-PLAN.md；本批只登记设计与阶段原型，正式运行版本保持。\n2026-10-14 U-142：先审核完整山院美术原型，再按构图、细节、精度与材质还原实机。目标模式、场景接入及20分钟长验按用户要求暂停；本地增量保留。原型见 docs/art/pixel-courtyard-prototype-20261014/README.md；原型不计作运行验收，既有SR/AC状态保持。",
       "design_gap": "既有统一输入与DPR局部实现保留；U-105 的地域总览、预设建位项目卡、迁居/供给状态和失败恢复流程待详细交互设计及桌面/iPad视口和真机验证。",
@@ -11454,7 +11632,11 @@
           "evidence": [
             "docs/design/90-DISCIPLE-ADVANCEMENT.md",
             "docs/design/91-EXPEDITION-GROWTH.md",
-            "docs/design/92-EXPEDITION-COMPANIONS.md"
+            "docs/design/92-EXPEDITION-COMPANIONS.md",
+            "docs/design/93-COMPANION-OPERATIONS.md",
+            "docs/design/94-EXPEDITION-RESPONSE.md",
+            "docs/design/95-GROUND-PANEL-RESPONSE.md",
+            "docs/design/96-NORTH-RECOVERY-PATH-RESPONSE.md"
           ]
         },
         {
@@ -11595,7 +11777,21 @@
         "2026-10-25 当面商议炼丹与成药交付完成本批：统一人物窗选丹方、看实际费用与现场缺口，由门人按资格、意愿及原承诺答复。正式商议筑基丹后，本人完成四阶段780工步，2099现场成药1、2689实际运抵公库、2690登记交付；医理80→80.6、药理35.1→35.7。缺料/资格/承诺不足与本人不愿分别反馈，远距和隐藏药理禁止商议，重复请求不另开炉；重伤退款和途中中止保留实际投入与实物。共同生活成员的完整人物窗入口已补齐；阅读暂停下进度直接投影实际炉单与运单。根53项不同定向/相邻测试、末次8项投影相关复验、实际Chromium人物窗与七场景11类检查通过；16份散列前后及当前一致，浏览器错误0。按U-172配置初始条件；原生整局、Windows、存读长链及长期平衡未验，完整SR/AC与发布状态保持。 证据：/Users/shepard/.codex/tmp/immortal-disciple-craft-request-20261025/scenario-05/report.json。",
         "2026-10-26 门人进阶需求与自主筑基完成本批：人物窗从缺丹需求导航到同门并预选筑基丹，正式自愿炼制780工步，2692本人运药归公库；另一门人2750自主取丹、2772收入随身，2780开启突破，2825实际炼化、2975完成180工步升至筑基，3150本人再参与生产并按贡献成长。近身和远取统一公药许可，保本人私药、旧承诺与实际身体；唯一丹竞争、满袋拒绝、炼化前后取消及执事继续成长通过。根77项不同定向/相邻单测、六场景12类检查及实际Chromium人物窗组件通过；main选中/走近薄接缝受控执行核验，16份散列前后与当前一致，13完整快照、6截图，浏览器错误0。主Agent发现首轮旧缺丹提示与在途冲突后修正，最终scenario-02通过，旧记录保留。按U-172配置初始条件；原生整局、Windows、存读长链和长期平衡未验，完整SR/AC与发布状态保持。 证据：/Users/shepard/.codex/tmp/immortal-disciple-advancement-20261025/scenario-02/report.json。",
         "2026-10-26 历练收获反哺成长完成本批：真实采6草于1729归库，当面筹备一炉并保留本人旧承诺，2545实运材料到丹房，3428完成原四阶段780工步，4020成药归库，林长风4112收入随身、4120开始突破、4310完成180工步升至筑基。掌门正式搬40木腾库后，5080本人实际参与生产，贡献90%、百工增长0.54；灵草总账119+6−75−50=0。筹备可撤回，已接运输保留；修复休息续约饿死取丹机会、交库容量/产权检查及运输提示滞后。根116项定向/相邻测试、最终投影14项复验、三场景9项检查和实际Chromium人物窗组件通过；23源码散列一致、14完整快照、6截图及独立复核通过。按U-172配置初始条件；原生整局、Windows、存读长链与长期平衡未验，完整SR/AC及发布状态保持。 证据：/Users/shepard/.codex/tmp/immortal-expedition-growth-20261026/scenario-04/report.json；/Users/shepard/.codex/tmp/immortal-expedition-growth-20261026/final-independent-audit.json。",
-        "2026-10-26 门人结伴历练完成本批：院务开放结伴机会，近身且同目的的两位门人分别自愿，至少一人留守；各自准备2粮8精力、独立身体与药囊。平安场景1925双人归院，各得8经验并各退1药，2400共同生产木21.384；遇险两人各伤10，陆知微1139–1158实际安全服唯一药，林长风等候19步，1424/1427分别归院，林1470到床养伤，陆1730产木、林1860产水。近距提醒与亲见分开；拒绝、失散120步独自返、死亡不复活及临时交接不可达恢复通过。修复两人公库互堵、观察脚点及返回入口接缝。主Agent54项定向/相邻测试、最终三场景12项检查通过，19源码散列一致、32完整快照、5实际Chromium组件截图，错误0。谷口有0.04米短暂交叉，通用身体净距未验；原生整局、Windows、存读长链及长期平衡未验，完整SR/AC与发布状态保持。 证据：/Users/shepard/.codex/tmp/immortal-expedition-companions-20261026/scenario-02/report.json。"
+        "2026-10-26 门人结伴历练完成本批：院务开放结伴机会，近身且同目的的两位门人分别自愿，至少一人留守；各自准备2粮8精力、独立身体与药囊。平安场景1925双人归院，各得8经验并各退1药，2400共同生产木21.384；遇险两人各伤10，陆知微1139–1158实际安全服唯一药，林长风等候19步，1424/1427分别归院，林1470到床养伤，陆1730产木、林1860产水。近距提醒与亲见分开；拒绝、失散120步独自返、死亡不复活及临时交接不可达恢复通过。修复两人公库互堵、观察脚点及返回入口接缝。主Agent54项定向/相邻测试、最终三场景12项检查通过，19源码散列一致、32完整快照、5实际Chromium组件截图，错误0。谷口有0.04米短暂交叉，通用身体净距未验；原生整局、Windows、存读长链及长期平衡未验，完整SR/AC与发布状态保持。 证据：/Users/shepard/.codex/tmp/immortal-expedition-companions-20261026/scenario-02/report.json。",
+        "2026-10-26 五人结伴与留守经营完成本批：谷口交叉中心距0.04→0.54米，补有限绕行和落点占位；修复有收获却持续种粮压过运粮。五门人两出三留，平安/遇险各四次日结供给成立，缺粮拒发、满库等待与正式腾库、唯一药、床休和双方返工通过。主树100项不同定向/相邻测试通过，最终经营4项重跑通过；独立复核及两轮macOS源码Electron7/8项检查通过、错误0。原生固定HEAD加本批代码，非全部并行改动集成。整轮仍见513/593ms长任务，归院后45秒静默最大帧间隔35.1ms且无长任务；性能根因、Windows、存读长链与长期平衡待验。完整SR/AC及发布状态保持。 docs/design/93-COMPANION-OPERATIONS.md",
+        "2026-10-26 结伴经营响应优化完成本批：原生506ms长任务定位为留守门人工位寻路中的静态身体地面查询，新增保守内部单元证明并保留边界原判定。同初始档/视口/采样平安最大rAF间隔508.1→95.2ms、长任务506→90ms；p95与点击未改善，遇险最大109.3ms/长任务108ms。独立1168427点及1000路线零差异；两场景合计10000步完整状态、200份完整view一致。14项定向全过，相邻52项51过1项基线同样失败。两轮原生7/8项通过，QA档重开载入与关闭保存完整状态相等。剩余路径90–108ms、院务打开57ms、旧北路恢复失败保留；完整SR/AC及发布保持。 docs/design/94-EXPEDITION-RESPONSE.md",
+        "docs/art/combat-sword-study-integration-20261026/README.md",
+        "docs/design/73-COMBAT-FRAME-PRODUCTION.md",
+        "2026-10-27 持剑单人战斗正式接入取得局部证据：新建单人山谷启用sword-study-v1，WASD/鼠标、移动剑气、已学剑法Q锁点重击、胜败确认与返院沿正式模拟；旧无标记战斗保持原规则。本批新增专项46项通过（规则11/音频13/插值7/呈现9/公开命令6）；旧冻结版四场26项功能检查通过，最终移动03有19帧左右跑及出手后回跑诊断。长档120人/5后台活动原生265430→265471，Q因未学剑正式拒绝且不扣气；源/运行散列与关闭均一致。精确坐标缓存同源冷步219.23→143.05ms、热2.48→2.34ms，完整状态字节一致；原生该步仍127.1ms、活动帧间隔125ms、Tab264.1ms，另有Node158ms慢步。旧失败/限定记录保留，完整动作、流畅度、听感、Windows与完整SR/AC及发布状态保持开放。",
+        "2026-10-27 地面查询与院务响应完成本批：精确坐标缓存及走廊预筛、单次面板渲染复用检查投影。同档暂停院务中位16.3→5.55ms、人物8.45→3.7ms，12份文本及完整世界相同；原生跨日食粮39→27即时刷新、人物筛选与保存读回通过。两轮经营分别7项、8项均通过，最大帧间隔89.1/80.2ms，仍有88/78ms路径长任务。独立几何626693查询零差异，10000步完整状态及200份view相同。定向15/15、相邻49/50，旧北路恢复失败保留；完整SR/AC与发布保持。 docs/design/95-GROUND-PANEL-RESPONSE.md",
+        "2026-10-27 六小时目标执行中：北路施工运料旧档200步停滞定位为恢复许可漏接正式施工材料流；补齐身份/订单/预留/目标验证后11步实际恢复，最大单步0.3168米，取消实际返料及无效许可边界通过，定向相邻37/37。原生与三轮性能对照待做，完整SR/AC状态保持。 docs/design/96-NORTH-RECOVERY-PATH-RESPONSE.md",
+        "docs/art/combat-response-goal-20261027/README.md；2026-10-27 六小时响应目标执行中：真实长档90秒原120人身份保留，正常求师事件新增1人至121，5后台活动持续。各类按键处理p95低于50ms且无超过100ms处理；活动rAF p95为6.1ms但最大300ms、世界步151.8ms，性能目标未通过。long-sustained-01保留failed，固定人数断言与正常求师新增不匹配；normal/defeat/retreat原生12/5/6项通过。最后恢复收步补丁37项相关回归及resume-01原生两项通过；完整SR/AC状态保持。",
+        "docs/art/combat-response-goal-20261027/README.md；2026-10-27 后续长档原生long-lean-01实际90.0529秒/900步：原120身份与5后台活动持续，正常求师新增至121通过；94次输入边沿处理p95为34.9ms、最大40.1ms。活动rAF p95为6.1ms、最大140.7ms，回调最大144.4ms、世界步142.8ms、观察器最大0.5ms，性能门槛仍未通过；long-sustained-01原failed保留，完整SR/AC状态保持。",
+        "docs/art/combat-response-goal-20261027/README.md；2026-10-27 当前ground为3f3d AABB版：20项相关测试、14,519点及900正式步完整世界/路径等价通过；long-aabb-01无注入90.0766秒/901tick，94输入边沿p95 37.6ms/最大42.2ms，rAF p95 6.1ms/最大135ms、回调143.2ms、世界步138.6ms，仍未达100ms尖峰目标。positive候选21项/30,314点/900步等价，但原生世界步135.8ms无明确收益，已仅撤回该试验；旧failed与试验报告保留，完整SR/AC状态保持。",
+        "docs/art/combat-response-goal-20261027/README.md；2026-10-27 最终final-long-lean-01同冻结runtime无注入90.019秒/900tick，120原身份及5后台活动保持，17,728前台active帧无失焦。94输入边沿p95 35.2ms/最大40.5ms，活动rAF p95 6.1ms/最大124.9ms、实际回调133.1ms、世界步132.1ms仍在266160，观察器0.6ms/绘制2.8ms；100ms尖峰门槛未通过。局部产品31项及900步完整状态/路径逐字等价、根独立4项与cmp通过；当前domain022bdc/spatialcb8538/ground3f3d，旧failed及试验报告保留，完整SR/AC状态保持。",
+        "docs/art/combat-response-goal-20261027/README.md；2026-10-27 astar-cost-lean-01在spatial cd477bf1版本无注入90.084秒/901tick，94输入边沿p95 37.1ms/最大42.5ms，rAF p95 6.0ms/最大109.6ms、实际回调118.8ms、世界步112.8ms仍在266160，观察器0.5ms/绘制2.3ms。17,709前台active帧无失焦，原120身份/5后台保留；窗口正常关闭、源档/运行散列保持。a-star-cost-gate的31项/7场景及900步完整状态/路径等价成立；五场功能视觉证据属于此前cb8538版本，100ms尖峰目标及完整SR/AC仍未通过。",
+        "docs/art/combat-response-goal-20261027/README.md；2026-10-27 final-freeze-02/long-lean-01在完整cd477冻结版本无注入90.026秒/900tick，94输入边沿p95 35.7ms/最大38.9ms（Tab最大38.9ms）；rAF p95 6.1ms/最大114.7ms、实际回调121.8ms、世界步117.1ms仍在266160，观察器0.6ms/绘制2.7ms。17,704前台active帧无失焦，原120身份与5后台保留、正常求师新增成立；窗口/源/运行及落盘state核对通过。补充startup七项/resume两项同runtime检查：普通起步/反向首位移4.3–10.4ms、自由移动脚点平台0；失焦10ms与碰墙186.1ms平台单列。恢复回拉/站姿滑均0。本轮100ms尖峰目标仍未通过，完整SR/AC状态保持。",
+        "docs/art/combat-response-goal-20261027/README.md；2026-10-27 c95版同120原人物/5后台、1672×941 DPR1/22米场景无profile/注入两轮长档：90.101秒与90.056秒，均901tick/94输入；输入p95/最大35.7/40.7ms与37.8/44.3ms。rAF p95/最大6.0/90.1ms与6.1/91.0ms，实际回调96.4/98.2ms，世界步94.4/93.2ms，观察器均0.5ms、绘制14.4/12.6ms。两轮原性能门在该场景通过，最大回调仅余1.8ms裕量；原120身份/5后台及正常新增121来源核对成立，五场同runtime/落盘state相等。此为限定场景证据，全场景流畅、Windows及完整SR/AC保持开放；旧failed/observed保留。"
       ],
       "change_log": [
         {

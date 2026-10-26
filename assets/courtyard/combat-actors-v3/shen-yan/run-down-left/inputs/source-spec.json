@@ -1,0 +1,680 @@
+{
+  "id": "shen-yan-run-down-left",
+  "visualIdentity": "shen-yan",
+  "action": "move",
+  "direction": "down-left",
+  "sourceHeight": 280,
+  "canvas": [
+    350,
+    380
+  ],
+  "targetFoot": [
+    160,
+    340
+  ],
+  "expectedDurationMs": 465,
+  "metadata": {
+    "sourceReview": "root-selected-for-native-sample",
+    "generatedBy": "imagegen over measured stabilized motion",
+    "timingBasis": "measured stride at 3.3 m/s"
+  },
+  "frames": [
+    {
+      "file": "/Users/shepard/.codex/generated_images/01a1688b-282e-7033-b2ca-e9663044fed8/exec-6f0d6b95-7b77-4b7a-8dac-4127b0d79958.png",
+      "crop": [
+        0,
+        0,
+        309,
+        350
+      ],
+      "foot": [
+        140,
+        326
+      ],
+      "durationMs": 29,
+      "phase": "move",
+      "clipPolygon": [
+        [
+          30,
+          0
+        ],
+        [
+          270,
+          0
+        ],
+        [
+          270,
+          180
+        ],
+        [
+          309,
+          230
+        ],
+        [
+          309,
+          350
+        ],
+        [
+          30,
+          350
+        ]
+      ]
+    },
+    {
+      "file": "/Users/shepard/.codex/generated_images/01a1688b-282e-7033-b2ca-e9663044fed8/exec-6f0d6b95-7b77-4b7a-8dac-4127b0d79958.png",
+      "crop": [
+        281,
+        0,
+        309,
+        350
+      ],
+      "foot": [
+        140,
+        326
+      ],
+      "durationMs": 29,
+      "phase": "move",
+      "clipPolygon": [
+        [
+          30,
+          0
+        ],
+        [
+          270,
+          0
+        ],
+        [
+          270,
+          180
+        ],
+        [
+          309,
+          230
+        ],
+        [
+          309,
+          350
+        ],
+        [
+          30,
+          350
+        ]
+      ]
+    },
+    {
+      "file": "/Users/shepard/.codex/generated_images/01a1688b-282e-7033-b2ca-e9663044fed8/exec-6f0d6b95-7b77-4b7a-8dac-4127b0d79958.png",
+      "crop": [
+        562,
+        0,
+        308,
+        350
+      ],
+      "foot": [
+        140,
+        326
+      ],
+      "durationMs": 29,
+      "phase": "move",
+      "clipPolygon": [
+        [
+          30,
+          0
+        ],
+        [
+          270,
+          0
+        ],
+        [
+          270,
+          180
+        ],
+        [
+          308,
+          230
+        ],
+        [
+          308,
+          350
+        ],
+        [
+          30,
+          350
+        ]
+      ]
+    },
+    {
+      "file": "/Users/shepard/.codex/generated_images/01a1688b-282e-7033-b2ca-e9663044fed8/exec-6f0d6b95-7b77-4b7a-8dac-4127b0d79958.png",
+      "crop": [
+        842,
+        0,
+        281,
+        350
+      ],
+      "foot": [
+        140,
+        326
+      ],
+      "durationMs": 29,
+      "phase": "move",
+      "clipPolygon": [
+        [
+          30,
+          0
+        ],
+        [
+          270,
+          0
+        ],
+        [
+          270,
+          180
+        ],
+        [
+          281,
+          230
+        ],
+        [
+          281,
+          350
+        ],
+        [
+          30,
+          350
+        ]
+      ]
+    },
+    {
+      "file": "/Users/shepard/.codex/generated_images/01a1688b-282e-7033-b2ca-e9663044fed8/exec-6f0d6b95-7b77-4b7a-8dac-4127b0d79958.png",
+      "crop": [
+        0,
+        350,
+        309,
+        350
+      ],
+      "foot": [
+        140,
+        326
+      ],
+      "durationMs": 29,
+      "phase": "move",
+      "clipPolygon": [
+        [
+          30,
+          0
+        ],
+        [
+          270,
+          0
+        ],
+        [
+          270,
+          180
+        ],
+        [
+          309,
+          230
+        ],
+        [
+          309,
+          350
+        ],
+        [
+          30,
+          350
+        ]
+      ]
+    },
+    {
+      "file": "/Users/shepard/.codex/generated_images/01a1688b-282e-7033-b2ca-e9663044fed8/exec-6f0d6b95-7b77-4b7a-8dac-4127b0d79958.png",
+      "crop": [
+        281,
+        350,
+        309,
+        350
+      ],
+      "foot": [
+        140,
+        326
+      ],
+      "durationMs": 29,
+      "phase": "move",
+      "clipPolygon": [
+        [
+          30,
+          0
+        ],
+        [
+          270,
+          0
+        ],
+        [
+          270,
+          180
+        ],
+        [
+          309,
+          230
+        ],
+        [
+          309,
+          350
+        ],
+        [
+          30,
+          350
+        ]
+      ]
+    },
+    {
+      "file": "/Users/shepard/.codex/generated_images/01a1688b-282e-7033-b2ca-e9663044fed8/exec-6f0d6b95-7b77-4b7a-8dac-4127b0d79958.png",
+      "crop": [
+        562,
+        350,
+        308,
+        350
+      ],
+      "foot": [
+        140,
+        326
+      ],
+      "durationMs": 29,
+      "phase": "move",
+      "clipPolygon": [
+        [
+          30,
+          0
+        ],
+        [
+          270,
+          0
+        ],
+        [
+          270,
+          180
+        ],
+        [
+          308,
+          230
+        ],
+        [
+          308,
+          350
+        ],
+        [
+          30,
+          350
+        ]
+      ]
+    },
+    {
+      "file": "/Users/shepard/.codex/generated_images/01a1688b-282e-7033-b2ca-e9663044fed8/exec-6f0d6b95-7b77-4b7a-8dac-4127b0d79958.png",
+      "crop": [
+        842,
+        350,
+        281,
+        350
+      ],
+      "foot": [
+        140,
+        326
+      ],
+      "durationMs": 29,
+      "phase": "move",
+      "clipPolygon": [
+        [
+          30,
+          0
+        ],
+        [
+          270,
+          0
+        ],
+        [
+          270,
+          180
+        ],
+        [
+          281,
+          230
+        ],
+        [
+          281,
+          350
+        ],
+        [
+          30,
+          350
+        ]
+      ]
+    },
+    {
+      "file": "/Users/shepard/.codex/generated_images/01a1688b-282e-7033-b2ca-e9663044fed8/exec-6f0d6b95-7b77-4b7a-8dac-4127b0d79958.png",
+      "crop": [
+        0,
+        700,
+        309,
+        351
+      ],
+      "foot": [
+        140,
+        327
+      ],
+      "durationMs": 29,
+      "phase": "move",
+      "clipPolygon": [
+        [
+          30,
+          0
+        ],
+        [
+          270,
+          0
+        ],
+        [
+          270,
+          180
+        ],
+        [
+          309,
+          230
+        ],
+        [
+          309,
+          351
+        ],
+        [
+          30,
+          351
+        ]
+      ]
+    },
+    {
+      "file": "/Users/shepard/.codex/generated_images/01a1688b-282e-7033-b2ca-e9663044fed8/exec-6f0d6b95-7b77-4b7a-8dac-4127b0d79958.png",
+      "crop": [
+        281,
+        700,
+        309,
+        351
+      ],
+      "foot": [
+        140,
+        327
+      ],
+      "durationMs": 29,
+      "phase": "move",
+      "clipPolygon": [
+        [
+          30,
+          0
+        ],
+        [
+          270,
+          0
+        ],
+        [
+          270,
+          180
+        ],
+        [
+          309,
+          230
+        ],
+        [
+          309,
+          351
+        ],
+        [
+          30,
+          351
+        ]
+      ]
+    },
+    {
+      "file": "/Users/shepard/.codex/generated_images/01a1688b-282e-7033-b2ca-e9663044fed8/exec-6f0d6b95-7b77-4b7a-8dac-4127b0d79958.png",
+      "crop": [
+        562,
+        700,
+        308,
+        351
+      ],
+      "foot": [
+        140,
+        327
+      ],
+      "durationMs": 29,
+      "phase": "move",
+      "clipPolygon": [
+        [
+          30,
+          0
+        ],
+        [
+          270,
+          0
+        ],
+        [
+          270,
+          180
+        ],
+        [
+          308,
+          230
+        ],
+        [
+          308,
+          351
+        ],
+        [
+          30,
+          351
+        ]
+      ]
+    },
+    {
+      "file": "/Users/shepard/.codex/generated_images/01a1688b-282e-7033-b2ca-e9663044fed8/exec-6f0d6b95-7b77-4b7a-8dac-4127b0d79958.png",
+      "crop": [
+        842,
+        700,
+        281,
+        351
+      ],
+      "foot": [
+        140,
+        327
+      ],
+      "durationMs": 29,
+      "phase": "move",
+      "clipPolygon": [
+        [
+          30,
+          0
+        ],
+        [
+          270,
+          0
+        ],
+        [
+          270,
+          180
+        ],
+        [
+          281,
+          230
+        ],
+        [
+          281,
+          351
+        ],
+        [
+          30,
+          351
+        ]
+      ]
+    },
+    {
+      "file": "/Users/shepard/.codex/generated_images/01a1688b-282e-7033-b2ca-e9663044fed8/exec-6f0d6b95-7b77-4b7a-8dac-4127b0d79958.png",
+      "crop": [
+        0,
+        1051,
+        309,
+        350
+      ],
+      "foot": [
+        140,
+        326
+      ],
+      "durationMs": 29,
+      "phase": "move",
+      "clipPolygon": [
+        [
+          30,
+          0
+        ],
+        [
+          270,
+          0
+        ],
+        [
+          270,
+          180
+        ],
+        [
+          309,
+          230
+        ],
+        [
+          309,
+          350
+        ],
+        [
+          30,
+          350
+        ]
+      ]
+    },
+    {
+      "file": "/Users/shepard/.codex/generated_images/01a1688b-282e-7033-b2ca-e9663044fed8/exec-6f0d6b95-7b77-4b7a-8dac-4127b0d79958.png",
+      "crop": [
+        281,
+        1051,
+        309,
+        350
+      ],
+      "foot": [
+        140,
+        326
+      ],
+      "durationMs": 29,
+      "phase": "move",
+      "clipPolygon": [
+        [
+          30,
+          0
+        ],
+        [
+          270,
+          0
+        ],
+        [
+          270,
+          180
+        ],
+        [
+          309,
+          230
+        ],
+        [
+          309,
+          350
+        ],
+        [
+          30,
+          350
+        ]
+      ]
+    },
+    {
+      "file": "/Users/shepard/.codex/generated_images/01a1688b-282e-7033-b2ca-e9663044fed8/exec-6f0d6b95-7b77-4b7a-8dac-4127b0d79958.png",
+      "crop": [
+        562,
+        1051,
+        308,
+        350
+      ],
+      "foot": [
+        140,
+        326
+      ],
+      "durationMs": 29,
+      "phase": "move",
+      "clipPolygon": [
+        [
+          30,
+          0
+        ],
+        [
+          270,
+          0
+        ],
+        [
+          270,
+          180
+        ],
+        [
+          308,
+          230
+        ],
+        [
+          308,
+          350
+        ],
+        [
+          30,
+          350
+        ]
+      ]
+    },
+    {
+      "file": "/Users/shepard/.codex/generated_images/01a1688b-282e-7033-b2ca-e9663044fed8/exec-6f0d6b95-7b77-4b7a-8dac-4127b0d79958.png",
+      "crop": [
+        842,
+        1051,
+        281,
+        350
+      ],
+      "foot": [
+        140,
+        326
+      ],
+      "durationMs": 30,
+      "phase": "move",
+      "clipPolygon": [
+        [
+          30,
+          0
+        ],
+        [
+          270,
+          0
+        ],
+        [
+          270,
+          180
+        ],
+        [
+          281,
+          230
+        ],
+        [
+          281,
+          350
+        ],
+        [
+          30,
+          350
+        ]
+      ]
+    }
+  ],
+  "loop": true
+}

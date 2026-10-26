@@ -25,7 +25,7 @@ export function expeditionCommand(request) {
     return {command: {name: 'srWorldCommand', args: [structuredClone(payload)]}, reason: payload.action === 'engage' ? '掌门亲自应战。' : payload.action === 'exit' ? '掌门沿实际山道行走，抵达出口后可出发。' : payload.action === 'return' ? '掌门按已走行程返回。' : payload.action === 'travel' ? '掌门沿已知道路出行。' : '掌门走向林间指定位置。'};
   }
   if (request.type === 'combat') {
-    if (!['move', 'attack', 'spell', 'guard', 'dodge', 'retreat'].includes(request.actionId)) throw Error('请选择当前可用的战斗动作。');
+    if (!['move', 'attack', 'ground-sword', 'spell', 'guard', 'dodge', 'retreat'].includes(request.actionId)) throw Error('请选择当前可用的战斗动作。');
     return {command: {name: 'combatAction', args: [request.actionId, structuredClone(request.target ?? null)]}, reason: request.actionId === 'retreat' ? '掌门开始沿退路撤离。' : '掌门按实际起手、执行与收势应对敌人。'};
   }
   if (request.type === 'combat-acknowledge') return {command: {name: 'acknowledgeCombat', args: []}, reason: '战果已收存，可以继续沿山道行动。'};

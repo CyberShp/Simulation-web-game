@@ -1,0 +1,99 @@
+{
+  "schema": 1,
+  "reference": "docs/art/desktop-style-review-20261013/d-realistic-3d.png",
+  "units": "metres",
+  "axes": {
+    "up": "+Y",
+    "front": "+Z"
+  },
+  "assets": [
+    {
+      "name": "MainHall",
+      "triangles": 189772,
+      "drawPrimitives": 10,
+      "dimensionsXYZ": [
+        30.280000686645508,
+        19.048826217651367,
+        16.579999923706055
+      ],
+      "boundsMinXYZ": [
+        -15.140000343322754,
+        0.0,
+        -8.289999961853027
+      ],
+      "boundsMaxXYZ": [
+        15.140000343322754,
+        19.048826217651367,
+        8.289999961853027
+      ],
+      "editableMeshParts": 263,
+      "materials": [
+        "Aged_Cedar",
+        "Dark_Grey_Fired_Tiles",
+        "Deep_Wood_Recess",
+        "Exposed_Wood_Edges",
+        "Muted_Antique_Brass",
+        "Stone_Recess",
+        "Tile_Worn_Edges",
+        "Warm_Old_Limewash",
+        "Weathered_Limestone",
+        "Window_Closed_Backpanel"
+      ]
+    },
+    {
+      "name": "SidePavilion",
+      "triangles": 100896,
+      "drawPrimitives": 10,
+      "dimensionsXYZ": [
+        12.380000114440918,
+        11.928826332092285,
+        10.479999542236328
+      ],
+      "boundsMinXYZ": [
+        -6.190000057220459,
+        0.0,
+        -5.239999771118164
+      ],
+      "boundsMaxXYZ": [
+        6.190000057220459,
+        11.928826332092285,
+        5.239999771118164
+      ],
+      "editableMeshParts": 99,
+      "materials": [
+        "Aged_Cedar",
+        "Dark_Grey_Fired_Tiles",
+        "Deep_Wood_Recess",
+        "Exposed_Wood_Edges",
+        "Muted_Antique_Brass",
+        "Stone_Recess",
+        "Tile_Worn_Edges",
+        "Warm_Old_Limewash",
+        "Weathered_Limestone",
+        "Window_Closed_Backpanel"
+      ]
+    }
+  ],
+  "files": {
+    "architecture.blend": {
+      "bytes": 6604610,
+      "sha256": "a39f1eb75b1ef5c92b65f1f28b920a8f4f7d40d98d67865e8761a5a16ff29c34"
+    },
+    "architecture.glb": {
+      "bytes": 25650344,
+      "sha256": "8706993ea4ff643db07f37f36a594311ccb9a6ccddc89a1b65c2aa67191417ff"
+    },
+    "main-hall.glb": {
+      "bytes": 17234816,
+      "sha256": "4b7c3e0e49b13de2b640bc511659d4f0430db062bd390a76992affb2322e5801"
+    },
+    "pavilion.glb": {
+      "bytes": 9086108,
+      "sha256": "516819c7a1c05a0c84776932741e5974279e86fd6da72e50e5897a208f2e227a"
+    }
+  },
+  "verification": {
+    "structure": "passed GLB readback; two front window rays hit closed window panels; wood texture has unit baseColorFactor",
+    "render": "root capture pending"
+  }
+}

@@ -23,7 +23,7 @@ function separated(s,j,reason){
 export function waitForExpeditionPeer(s,p,j,reason,{returnAlone=false,kind='lost'}={}){
  if(j.partySeparated)return false;
  if(!j.partyWait)j.partyWait={startedTick:s.worldTick,reason,kind};else Object.assign(j.partyWait,{reason,kind});
- if(s.worldTick-j.partyWait.startedTick>=EXPEDITION_COMPANION_RULES.waitTicks){separated(s,j,returnAlone||j.phase==='valley-return'?'约定等候已满，未能会合，改沿本人实际来路独立返回。':'约定等候已满，未能会合，结束本次结伴约定，按本人安排继续。');if(returnAlone){if(['exploring','scouting'].includes(j.phase))j.retreated=true;j.phase='valley-return';}return false;}
+ if(s.worldTick-j.partyWait.startedTick>=EXPEDITION_COMPANION_RULES.waitTicks){separated(s,j,returnAlone||j.phase==='valley-return'?'约定等候已满，未能会合，改沿本人实际来路独立返回。':'约定等候已满，未能会合，结束本次结伴约定，按本人安排继续。');if(returnAlone){if(['exploring','scouting'].includes(j.phase))j.retreated=true;j.phase='valley-return';delete j.walkDetour;}return false;}
  p.mind.reason=reason;return true;
 }
 export function waitDuringExpedition(s,p,j,snapshot){
@@ -32,7 +32,7 @@ export function waitDuringExpedition(s,p,j,snapshot){
  if(!a||a.location?.sceneId!==VALLEY||!['exploring','scouting','valley-return'].includes(j.phase))return false;
  const visible=b&&distance(a.location,b.location)<=EXPEDITION_COMPANION_RULES.communicationDistance;
  if(visible){j.partyLastSeen={atTick:s.worldTick,position:{...b.location}};
-  if(b.lifeStatus==='dead'){separated(s,j,'在近处发现同伴倒下，无法继续结伴，沿本人来路撤回。');if(['exploring','scouting'].includes(j.phase)){j.phase='valley-return';j.retreated=true;}return false;}
+  if(b.lifeStatus==='dead'){separated(s,j,'在近处发现同伴倒下，无法继续结伴，沿本人来路撤回。');if(['exploring','scouting'].includes(j.phase)){j.phase='valley-return';delete j.walkDetour;j.retreated=true;}return false;}
   const danger=j.encounter?.lastPosition||s.factsById[j.partyWarning?.factId]?.dangerPosition;
   const safe=danger?.sceneId===VALLEY&&Math.hypot(a.location.x-danger.x,a.location.y-danger.y)>EXPEDITION_COMPANION_RULES.communicationDistance;
   if(j.phase==='valley-return'&&b.medicinePreparing&&safe){
@@ -55,7 +55,7 @@ export function relayExpeditionWarnings(s,snapshot){
   const factId=`fact:disciple:${j.id}:party-warning`;
   recordFactSR(s,factId,{kind:'disciple-companion-warning',journeyId:j.id,personId:j.personId,sourceJourneyId:peer.id,sourcePersonId:peer.personId,sourceObservedTick:seen.lastObservedTick,senderPosition:{...b.location},receiverPosition:{...a.location},dangerPosition:{...seen.lastPosition},text:'近处同伴讲明自己亲见的风险，听者据此沿本人来路撤回。'});
   j.partyWarning={factId,sourceJourneyId:peer.id,sourcePersonId:peer.personId,sourceObservedTick:seen.lastObservedTick,receivedTick:s.worldTick};
-  if(['exploring','scouting'].includes(j.phase)){j.phase='valley-return';j.retreated=true;delete j.partyWait;}
+  if(['exploring','scouting'].includes(j.phase)){j.phase='valley-return';delete j.walkDetour;j.retreated=true;delete j.partyWait;}
  }
 }
 export function validateExpeditionCooperation(s,fail){

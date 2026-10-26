@@ -13,7 +13,7 @@ import {DOMAIN_LAYOUT_VERSION,DOMAIN_EXTENT_VERSION,DOMAIN_EAST_EXTENT_VERSION,D
 import {COURTYARD_MASTER_TERRAIN_VERSION,courtyardTerrainSolids,validateCourtyardTerrainRecord,courtyardPassage} from './ea-courtyard-master-terrain.mjs';
 import {EAST_RESIDENCES_VERSION,domainResidencesEnabled,domainBounds,domainTerrainBarriers,eastResidencesTerrainContains,courtyardResidencesPassage} from './ea-sect-domain.mjs';
 import {EAST_SERVICES_VERSION,domainServicesEnabled,eastServicesTerrainContains,courtyardServicesPassage,EAST_SERVICES_EXTERIOR_SOLIDS} from './ea-sect-domain.mjs';
-import {NORTH_LIBRARY_VERSION,NORTH_LIBRARY_APPROACH_VERSION,domainNorthLibraryEnabled,NORTH_LIBRARY_SLOPE_APERTURE,northLibraryTerrainContains,courtyardNorthLibraryPassage,northLibraryLocalBypassClear,northLibraryYieldRouteClear} from './ea-sect-domain.mjs';
+import {NORTH_LIBRARY_VERSION,NORTH_LIBRARY_APPROACH_VERSION,domainNorthLibraryEnabled,NORTH_LIBRARY_SLOPE_APERTURE,northLibraryTerrainContains,courtyardNorthLibraryPassage,northLibraryLocalBypassClear,northLibraryYieldRouteClear,northLibraryYieldPointClear,northLibraryYieldSegmentProven} from './ea-sect-domain.mjs';
 import {SITE_SERVICE_VERSION,siteServiceEnabled} from './ea-service-definitions.mjs';
 import {residentialBuildingChangeView} from './ea-residential-housing.mjs';
 export const SPATIAL_VERSION='spatial-metres-1';
@@ -252,7 +252,7 @@ function findMeterPath(s,from,goal,{maxSnap=2,radius=.26,throughCourtyardPassage
  const step=SPATIAL_SCENE.grid,minX=Math.floor((polygons.bounds.x||0)/step)+1,minY=Math.floor((polygons.bounds.y||0)/step)+1,maxX=Math.ceil(((polygons.bounds.x||0)+polygons.bounds.width)/step)-1,maxY=Math.ceil(((polygons.bounds.y||0)+polygons.bounds.height)/step)-1,stride=maxX-minX+1;
  const k=(x,y)=>(y-minY)*stride+x-minX,open=[],cost=new Map(),parents=new Map(),points=new Map(),closed=new Set();
  for(let y=Math.round(from.y/step)-2;y<=Math.round(from.y/step)+2;y++)for(let x=Math.round(from.x/step)-2;x<=Math.round(from.x/step)+2;x++){const p={x:x*step,y:y*step};if(x<minX||y<minY||x>maxX||y>maxY||sweep(from,p).blocked)continue;const id=k(x,y),g=distance(from,p);cost.set(id,g);points.set(id,p);heapPush(open,{x,y,id,g,f:g+distance(p,to)});}
- let end=null;while(open.length){const c=heapPop(open);if(closed.has(c.id))continue;closed.add(c.id);const p={x:c.x*step,y:c.y*step};if(distance(p,to)<=1.5&&!sweep(p,to).blocked){end=c.id;break;}for(const [dx,dy]of [[1,0],[-1,0],[0,1],[0,-1],[1,1],[-1,1],[1,-1],[-1,-1]]){const x=c.x+dx,y=c.y+dy,id=k(x,y);if(x<minX||y<minY||x>maxX||y>maxY||closed.has(id))continue;const q={x:x*step,y:y*step};if(sweep(p,q).blocked)continue;const g=c.g+Math.hypot(dx,dy)*step;if(g>=(cost.get(id)??Infinity))continue;cost.set(id,g);parents.set(id,c.id);points.set(id,q);heapPush(open,{x,y,id,g,f:g+distance(q,to)});}}
+ let end=null;while(open.length){const c=heapPop(open);if(closed.has(c.id))continue;closed.add(c.id);const p={x:c.x*step,y:c.y*step};if(distance(p,to)<=1.5&&!sweep(p,to).blocked){end=c.id;break;}for(const [dx,dy]of [[1,0],[-1,0],[0,1],[0,-1],[1,1],[-1,1],[1,-1],[-1,-1]]){const x=c.x+dx,y=c.y+dy,id=k(x,y);if(x<minX||y<minY||x>maxX||y>maxY||closed.has(id))continue;const g=c.g+Math.hypot(dx,dy)*step;if(g>=(cost.get(id)??Infinity))continue;const q={x:x*step,y:y*step};if(sweep(p,q).blocked)continue;cost.set(id,g);parents.set(id,c.id);points.set(id,q);heapPush(open,{x,y,id,g,f:g+distance(q,to)});}}
  if(end===null)return null;const path=[to];for(let n=end;n!==undefined;n=parents.get(n))path.unshift(points.get(n));const result=[];let p=from;while(path.length){let i=path.length-1;while(i>0&&shortcutBlocked(p,path[i]))i--;if(sweep(p,path[i]).blocked)return null;if(distance(p,path[i])>.001)result.push(path[i]);p=path[i];path.splice(0,i+1);}return result;
 }
 const personPosition=(s,p)=>p===s.master?p.scenic:p.mind?.scenic;
@@ -395,9 +395,35 @@ const internalAt=(rooms,p)=>(insideRoomOf(rooms,p)||doorwayOf(rooms,p));
 const insideRoomOf=(rooms,p)=>rooms.some(({bounds:r})=>p.x>r.x&&p.x<r.x+r.width&&p.y>r.y&&p.y<r.y+r.height);
 const doorwayOf=(rooms,p)=>rooms.some(({door:d})=>Math.abs(p.x-d.x)<=.7+1e-9&&Math.abs(p.y-d.y)<=.3+1e-9);
 const guesthouseBodyPoint=p=>{for(let i=-1;i<16;i++){const a=i<0?p:{x:p.x+.26*Math.cos(i*Math.PI/8),y:p.y+.26*Math.sin(i*Math.PI/8)};if(!guesthouseArtGroundPoint(legacyToArt(a.x,a.y)))return false;}return true;};
-const visibleBodyAt=(rooms,indoor,p)=>rooms.guesthouse&&guesthouseBodyPoint(p)||indoor&&internalAt(rooms,p)||(!rooms.mainVisible||courtyardSouthGroundPoint(p,{northLibrary:rooms.northLibrary}))&&northLibraryYieldRouteClear(p,[p])&&(!rooms.eastVisible||eastVisibleBodyPoint(p,.26,{residences:rooms.residences}));
-const measuredSegmentCache=new WeakMap();
-function rememberedMeasuredSegment(rooms,kind,a,b,check){let cache=measuredSegmentCache.get(rooms);if(!cache){cache=new Map();measuredSegmentCache.set(rooms,cache);}const key=[kind,a.x,a.y,b.x,b.y].join('/');if(!cache.has(key)){if(cache.size>=8192)cache.clear();cache.set(key,check());}return cache.get(key);}
+const visibleBodyAt=(rooms,indoor,p,northProven=false)=>rooms.guesthouse&&guesthouseBodyPoint(p)||indoor&&internalAt(rooms,p)||(!rooms.mainVisible||courtyardSouthGroundPoint(p,{northLibrary:rooms.northLibrary}))&&(northProven||northLibraryYieldPointClear(p))&&(!rooms.eastVisible||eastVisibleBodyPoint(p,.26,{residences:rooms.residences}));
+const measuredSegmentCache=new WeakMap(),measuredEquivalentRooms=new WeakMap(),equivalentMeasuredSegmentCaches=new Map();
+function equivalentMeasuredSegments(rooms){
+ if(measuredEquivalentRooms.has(rooms))return measuredEquivalentRooms.get(rooms);
+ measuredEquivalentRooms.set(rooms,null);
+ const flags=[rooms.guesthouse,rooms.mainVisible,rooms.northLibrary,rooms.eastVisible,rooms.residences];
+ if(!flags.every(value=>typeof value==='boolean'))return null;
+ const geometry=[];
+ for(const room of rooms){
+  const r=room.bounds,d=room.door,values=[r?.x,r?.y,r?.width,r?.height,d?.x,d?.y];
+  if(!values.every(value=>typeof value==='number'&&Number.isFinite(value)))return null;
+  geometry.push(values.map(value=>Object.is(value,-0)?'-0':value));
+ }
+ const signature=JSON.stringify([flags,geometry]);let cache=equivalentMeasuredSegmentCaches.get(signature);
+ if(!cache){if(equivalentMeasuredSegmentCaches.size>=8)equivalentMeasuredSegmentCaches.delete(equivalentMeasuredSegmentCaches.keys().next().value);cache=new Map();equivalentMeasuredSegmentCaches.set(signature,cache);}
+ measuredEquivalentRooms.set(rooms,cache);return cache;
+}
+function rememberedMeasuredSegment(rooms,kind,a,b,check,shareable=true){
+ let cache=measuredSegmentCache.get(rooms);if(!cache){cache=new Map();measuredSegmentCache.set(rooms,cache);}
+ const key=[kind,a.x,a.y,b.x,b.y].join('/');
+ if(!cache.has(key)){
+  if(cache.size>=8192)cache.clear();
+  const finite=[a.x,a.y,b.x,b.y].every(value=>typeof value==='number'&&Number.isFinite(value));
+  const shared=shareable&&finite&&(kind==='east'||kind==='body:true'||kind==='body:planning-margin')?equivalentMeasuredSegments(rooms):null;
+  if(shared?.has(key))cache.set(key,shared.get(key));
+  else{const answer=check();cache.set(key,answer);if(shared&&typeof answer==='boolean'){if(shared.size>=8192)shared.clear();shared.set(key,answer);}}
+ }
+ return cache.get(key);
+}
 function eastVisibleSegmentClear(s,a,b){
  if(Math.max(a.x,b.x)<118.74||Math.min(a.x,b.x)>=156.26)return true;
  const rooms=roomFrames(s);if(!rooms.eastVisible)return true;
@@ -416,12 +442,12 @@ export function visibleBodyRouteClear(s,from,route,{indoor=true}={}){
  if(!route?.length)return true;
  const rooms=roomFrames(s);let start=from;
  for(const end of route){
-  if(!rememberedMeasuredSegment(rooms,'body:'+indoor,start,end,()=>{const n=Math.max(1,Math.ceil(Math.hypot(end.x-start.x,end.y-start.y)/.025));for(let i=0;i<=n;i++){const p={x:start.x+(end.x-start.x)*i/n,y:start.y+(end.y-start.y)*i/n};if(!visibleBodyAt(rooms,indoor,p))return false;}return true;}))return false;
+  if(!rememberedMeasuredSegment(rooms,'body:'+indoor,start,end,()=>{const n=Math.max(1,Math.ceil(Math.hypot(end.x-start.x,end.y-start.y)/.025));for(let i=0;i<=n;i++){const p={x:start.x+(end.x-start.x)*i/n,y:start.y+(end.y-start.y)*i/n};if(!visibleBodyAt(rooms,indoor,p))return false;}return true;},indoor===true))return false;
   start=end;
  }
  return true;
 }
-/** Existing rest recovery keeps its short physical prefix; it cannot leave legal ground again. */
+/** Owned activity recovery keeps a short physical prefix and stays on ground after landing. */
 function visibleRecoveryPrefixPermit(s,actor,from,route,next){
  if(visibleBodyPointClear(s,from)||!route?.length||distance(actor,from)>1e-8)return false;
  const person=walkingPerson(s,actor),activity=person&&s.activitiesById[person.activityId],reservation=activity&&s.reservationsById[activity.reservationId],target=route[0];
@@ -430,7 +456,10 @@ function visibleRecoveryPrefixPermit(s,actor,from,route,next){
  const transport=activity?.kind==='sr-transport'&&activity.personId===person.personId&&s.workOrdersById[activity.workOrderId];
  const transportReservation=transport&&s.reservationsById[transport.reservationId];
  const ownedTransport=transport&&transport.kind==='transport'&&transport.carrierId===person.personId&&['to-source','carrying'].includes(transport.phase)&&transportReservation?.kind==='transport-cargo'&&transportReservation.workOrderId===transport.id&&transportReservation.sourceStockpileId===transport.sourceStockpileId&&s.stockpilesById[transport.sourceStockpileId]&&s.stockpilesById[transport.targetStockpileId]&&actor.goal&&distance(actor.goal,target)<1e-8&&route.length===1;
- if((!reservedRest&&!ownedHarvest&&!ownedTransport)||!visibleBodyPointClear(s,target,{indoor:false})||distance(from,target)>8||meterSweep(s,from,target).blocked||!visibleBodyRouteClear(s,target,route.slice(1)))return false;
+ const construction=activity?.kind==='construction'&&person===s.master&&activity.personId===person.personId&&s.workOrdersById[activity.workOrderId],flow=construction?.materialFlow;
+ const warehouse=flow&&['to-source','returning'].includes(flow.phase),destination=flow&&s.stockpilesById[warehouse?flow.sourceStockpileId:flow.siteStockpileId];
+ const ownedConstruction=construction?.kind==='construction'&&construction.phase==='active'&&construction.activityIds?.includes(activity.id)&&flow?.carrierId===person.personId&&['to-source','carrying','returning','recover-site'].includes(flow.phase)&&reservation?.kind==='construction-material'&&reservation.activityId===activity.id&&construction.reservationId===activity.reservationId&&destination&&actor.goal&&distance(actor.goal,route.at(-1))<1e-8&&distance(actor.goal,destination.position)<=(warehouse?1.25:1e-8);
+ if((!reservedRest&&!ownedHarvest&&!ownedTransport&&!ownedConstruction)||!visibleBodyPointClear(s,target,{indoor:false})||distance(from,target)>8||meterSweep(s,from,target).blocked||!visibleBodyRouteClear(s,target,route.slice(1)))return false;
  const nearest=nearestVisibleBodyGround(s,from);if(!nearest||distance(from,target)>nearest.distance+.05)return false;
  const n=Math.max(1,Math.ceil(distance(from,target)/.05));let legal=false;
  for(let i=0;i<=n;i++){const p={x:from.x+(target.x-from.x)*i/n,y:from.y+(target.y-from.y)*i/n},clear=visibleBodyPointClear(s,p,{indoor:false});if(clear)legal=true;else if(legal)return false;}
@@ -474,10 +503,18 @@ export function advanceIdleVisibleBodyRecovery(s,p){
 }
 // Long planning shortcuts keep a 2.5 cm sampling margin; half-metre search
 // edges and actual movement retain their existing predicates. This is sampled proof.
+const planningBodyOffsets=[[.025,0],[-.025,0],[0,.025],[0,-.025]];
 function visibleBodySegmentClear(s,a,b,planning=false){
- const rooms=roomFrames(s);return rememberedMeasuredSegment(rooms,planning?'body:planning-margin':'body:true',a,b,()=>{const n=Math.max(1,Math.ceil(Math.hypot(b.x-a.x,b.y-a.y)/.025));
- for(let i=0;i<=n;i++){const p={x:a.x+(b.x-a.x)*i/n,y:a.y+(b.y-a.y)*i/n};if(!visibleBodyAt(rooms,true,p))return false;if(planning&&distance(a,b)>1&&i>0&&i<n&&!internalAt(rooms,p))for(const [dx,dy] of [[.025,0],[-.025,0],[0,.025],[0,-.025]])if(!visibleBodyAt(rooms,true,{x:p.x+dx,y:p.y+dy}))return false;}
- return true;});
+ const rooms=roomFrames(s);return rememberedMeasuredSegment(rooms,planning?'body:planning-margin':'body:true',a,b,()=>{
+  const northProven=northLibraryYieldSegmentProven(a,b,planning);
+  const length=Math.hypot(b.x-a.x,b.y-a.y),n=Math.max(1,Math.ceil(length/.025));
+  if(planning){
+   if(!visibleBodySegmentClear(s,a,b,false))return false;
+   if(length<=1)return true;
+   for(let i=1;i<n;i++){const p={x:a.x+(b.x-a.x)*i/n,y:a.y+(b.y-a.y)*i/n};if(!internalAt(rooms,p))for(const [dx,dy] of planningBodyOffsets)if(!visibleBodyAt(rooms,true,{x:p.x+dx,y:p.y+dy},northProven))return false;}
+  }else for(let i=0;i<=n;i++)if(!visibleBodyAt(rooms,true,{x:a.x+(b.x-a.x)*i/n,y:a.y+(b.y-a.y)*i/n},northProven))return false;
+  return true;
+ });
 }
 /** A bounded half-metre bypass rejoins the original route without changing its goal. */
 export function meterLocalBodyDetour(s,actor,from,route){

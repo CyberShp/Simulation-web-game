@@ -9,6 +9,9 @@ import {usesCombatCamera,combatCameraTransform,combatHudSafeBottom,legacyCombatT
 import {combatActorHeight} from './courtyard-combat-dimensions.mjs';
 import {expeditionReturnPlan} from './courtyard-expedition-return.mjs';
 import {createExpeditionResources} from './courtyard-expedition-resources.mjs';
+import {isSwordStudy,loadSwordStudyImages,swordStudyActorAt} from './courtyard-combat-sword-study.mjs';
+import {createSwordStudyAudio} from './courtyard-combat-sword-study-audio.mjs';
+import {SWORD_STUDY_GROUND,loadSwordStudyGround,drawSwordStudyGround,swordStudyProps,drawSwordStudyProp} from './courtyard-combat-sword-study-ground.mjs';
 const $=id=>document.getElementById(id);
 const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
 const phaseNames={windup:'起手',execute:'出手',release:'出手',recovery:'收势',hit:'受击',down:'倒地',evade:'短步',guard:'护持'};
@@ -21,14 +24,19 @@ const tacticNames={guard:'护住掌门',focus:'合击目标',rally:'就近结阵
 export function createCourtyardCombat({getView,command,announce,beforeDepart,canInteract,pause,requestGateWalk=null,openMasterActivity=null,onDepartureReadingChange=()=>{}}){
  const canvas=$('expedition-canvas'),ctx=canvas.getContext('2d');
  const held=new Set();let images=null,actorRenderer=null,effectRenderer=null,aim=null,pointer=null,lastMove={x:0,y:0},lastSkill='spell',transform=null,sceneKey=null,hostActive=true,hoveredActorId=null,targetSignature='',hudLayout=null;
- const presentation=createCombatPresentation(),combatAudio=createCombatAudio();let renderScene=null;
+ const presentation=createCombatPresentation(),combatAudio=createCombatAudio(),studyAudio=createSwordStudyAudio();let renderScene=null;
+ const studyAudioControls=document.createElement('span');studyAudioControls.id='combat-study-audio-controls';studyAudioControls.hidden=true;
+ const studyMute=document.createElement('button');studyMute.type='button';studyMute.id='combat-study-mute';studyMute.textContent='音效 开';studyMute.setAttribute('aria-pressed','false');
+ const studyVolume=document.createElement('input');studyVolume.type='range';studyVolume.min='0';studyVolume.max='100';studyVolume.value='35';studyVolume.setAttribute('aria-label','战斗音量');studyVolume.style.width='72px';
+ studyMute.onclick=()=>{void studyAudio.unlock();studyAudio.setMuted(!studyAudio.status().muted);const muted=studyAudio.status().muted;studyMute.textContent=muted?'音效 关':'音效 开';studyMute.setAttribute('aria-pressed',String(muted));};studyVolume.oninput=()=>{void studyAudio.unlock();studyAudio.setVolume(Number(studyVolume.value)/100);};studyAudioControls.append(studyMute,studyVolume);$('expedition-heading').append(studyAudioControls);
+ const groundSwordButton=document.createElement('button');groundSwordButton.id='combat-ground-sword';groundSwordButton.dataset.combatAction='ground-sword';groundSwordButton.innerHTML='<span class="skill-key">Q</span><span class="skill-name">落剑</span><span class="skill-cooldown">就绪</span>';$('combat-actions').append(groundSwordButton);
  const returnNote=document.createElement('small');returnNote.id='expedition-return-note';$('expedition-world-actions').append(returnNote);
  const artCreditsButton=document.createElement('button');artCreditsButton.id='combat-art-credits-open';artCreditsButton.type='button';artCreditsButton.textContent='美术署名';$('expedition-heading').append(artCreditsButton);
  const artCredits=document.createElement('dialog');artCredits.id='combat-art-credits-dialog';artCredits.setAttribute('aria-labelledby','combat-art-credits-title');
  const artCreditsTitle=document.createElement('h2');artCreditsTitle.id='combat-art-credits-title';artCreditsTitle.textContent='美术署名';
  const artCreditsText=document.createElement('pre');artCreditsText.id='combat-art-credits-content';artCreditsText.textContent='正在读取署名清单…';
  const artCreditsClose=document.createElement('button');artCreditsClose.type='button';artCreditsClose.textContent='关闭';artCredits.append(artCreditsTitle,artCreditsText,artCreditsClose);document.body.append(artCredits);
- let creditsRequest=null,creditsReading=false;
+ let creditsRequest=null,creditsReading=false,creditsAsset=null;
  const exp=()=>getView().expedition;
  const resourcesUI=createExpeditionResources($('expedition-world-actions'),{getWorld:()=>exp()?.world,command:action=>world(action)});
  const active=()=>!!exp()?.away;
@@ -50,8 +58,9 @@ export function createCourtyardCombat({getView,command,announce,beforeDepart,can
  function setCreditsReading(reading){if(creditsReading!==reading){creditsReading=reading;onDepartureReadingChange(departureReading||creditsReading);}}
  function closeCredits(){if(artCredits.open)artCredits.close();setCreditsReading(false);canvas.focus({preventScroll:true});}
  function openCredits(){
+  const creditsPath=isSwordStudy(battle())?'combat-sword-study-v1/CREDITS.txt':'combat-pixel-v1/CREDITS.txt';if(creditsAsset!==creditsPath){creditsAsset=creditsPath;creditsRequest=null;}
   if(!canInteract()||departure.open||artCredits.open)return;clearInput();artCredits.showModal();setCreditsReading(true);artCreditsClose.focus();
-  creditsRequest??=fetch(new URL('assets/combat-pixel-v1/CREDITS.txt',import.meta.url)).then(response=>{if(!response.ok)throw Error('HTTP '+response.status);return response.text();}).then(content=>{artCreditsText.textContent=content;}).catch(error=>{artCreditsText.textContent='美术署名清单读取失败：'+error.message;creditsRequest=null;});
+  creditsRequest??=fetch(new URL('assets/'+creditsPath,import.meta.url)).then(response=>{if(!response.ok)throw Error('HTTP '+response.status);return response.text();}).then(content=>{artCreditsText.textContent=content;}).catch(error=>{artCreditsText.textContent='美术署名清单读取失败：'+error.message;creditsRequest=null;});
  }
  artCreditsButton.onclick=openCredits;artCreditsClose.onclick=closeCredits;artCredits.addEventListener('cancel',event=>{event.preventDefault();closeCredits();});artCredits.addEventListener('close',()=>setCreditsReading(false));
  function closeDeparture(){if(departure.open)departure.close();setDepartureReading(false);$('expedition-open').focus({preventScroll:true});}
@@ -86,11 +95,11 @@ export function createCourtyardCombat({getView,command,announce,beforeDepart,can
  }
  function clearInput(){held.clear();lastMove={x:0,y:0};if(battle()?.interactive)send({type:'combat-input',move:{x:0,y:0},reset:true},{silent:true});}
  const inputTimer=setInterval(()=>{if(held.size){if(running())movement(true);else clearInput();}},200);
- addEventListener('blur',clearInput);
+ addEventListener('blur',()=>{clearInput();studyAudio.update(battle(),{active:false,paused:getView().paused});});
  addEventListener('keyup',event=>{if(MOVE_KEYS.has(event.code)&&held.delete(event.code)){event.preventDefault();movement();}});
  function target(refresh=true){if(refresh)updatePointerAim();const b=battle();return aim?{...aim}:b?{x:b.player.x+3,y:b.player.y}:null;}
  function cast(actionId){
-  void combatAudio.unlock();
+  void (isSwordStudy(battle())?studyAudio:combatAudio).unlock();
   if(!battle()?.interactive||!canInteract()||!hostActive||!document.hasFocus())return;
   lastSkill=actionId;const point=target();
   const request={type:'combat',actionId,...(actionId==='guard'||actionId==='retreat'?{}:{target:point})};
@@ -103,12 +112,13 @@ export function createCourtyardCombat({getView,command,announce,beforeDepart,can
   if(!canInteract()){clearInput();return false;}
   if(!hostActive){clearInput();return true;}
   if(event.target.closest('input,textarea,select,[contenteditable=true]'))return false;
-  void combatAudio.unlock();
+  void (isSwordStudy(battle())?studyAudio:combatAudio).unlock();
   if(event.code==='Escape'){event.preventDefault();clearInput();pause();return true;}
   if(event.code==='Tab'){event.preventDefault();if(!event.repeat){const b=battle(),enemies=b.enemies.filter(e=>e.hp>0);if(enemies.length){const index=enemies.findIndex(e=>e.id===b.selectedTargetId);send({type:'combat-target',targetId:enemies[(index+1)%enemies.length].id});}}return true;}
   if(MOVE_KEYS.has(event.code)){
    event.preventDefault();if(running()&&!event.repeat){held.add(event.code);movement();}return true;
   }
+  if(isSwordStudy(battle())&&['KeyJ','KeyQ'].includes(event.code)){event.preventDefault();if(!event.repeat)cast(event.code==='KeyQ'?'ground-sword':'attack');return true;}
   if(SHORTCUTS[event.code]){event.preventDefault();if(!event.repeat)cast(SHORTCUTS[event.code]);return true;}
   return false;
  }
@@ -123,7 +133,7 @@ export function createCourtyardCombat({getView,command,announce,beforeDepart,can
  $('combat-auto').onclick=()=>send({type:'combat-auto',enabled:!exp()?.combat?.controls?.autoAttack});
  for(const button of document.querySelectorAll('[data-combat-action]'))button.onclick=()=>cast(button.dataset.combatAction);
  for(const button of document.querySelectorAll('[data-combat-action]'))button.onpointerenter=()=>{lastSkill=button.dataset.combatAction;};
- const actorAt=at=>combatActorAtScreen(renderScene||battle(),at,{worldToScreen,heightOf:()=>combatActorHeight(transform||coordinates())});
+ const actorAt=at=>isSwordStudy(renderScene||battle())?swordStudyActorAt(renderScene||battle(),at,{worldToScreen,transform:transform||coordinates(),images:images?.studyImages}):combatActorAtScreen(renderScene||battle(),at,{worldToScreen,heightOf:()=>combatActorHeight(transform||coordinates())});
  function updatePointerAim(){
   if(!pointer||!battle())return null;const t=transform||coordinates(),at=combatPointerScreenPoint(pointer,canvas.getBoundingClientRect(),t);
   if(!at)return null;aim=combatScreenToWorld(t,at.x,at.y);hoveredActorId=pointer.inside?actorAt(at)?.id||null:null;return at;
@@ -131,7 +141,7 @@ export function createCourtyardCombat({getView,command,announce,beforeDepart,can
  function rememberPointer(event){pointer={clientX:event.clientX,clientY:event.clientY,inside:true};return updatePointerAim();}
  canvas.addEventListener('pointermove',event=>{if(battle())rememberPointer(event);});
  canvas.addEventListener('pointerleave',()=>{if(pointer)pointer.inside=false;hoveredActorId=null;});
- canvas.addEventListener('pointerdown',event=>{if(event.button!==0||!battle())return;void combatAudio.unlock();const at=rememberPointer(event),actor=at?actorAt(at):null;if(battle().interactive&&(!actor||combatActorFaction(actor,battle())==='hostile'))send({type:'combat-target',targetId:actor?.id||null});canvas.focus({preventScroll:true});});
+ canvas.addEventListener('pointerdown',event=>{if(event.button!==0||!battle())return;void (isSwordStudy(battle())?studyAudio:combatAudio).unlock();const at=rememberPointer(event),actor=at?actorAt(at):null;if(battle().interactive&&(!actor||combatActorFaction(actor,battle())==='hostile'))send({type:'combat-target',targetId:actor?.id||null});canvas.focus({preventScroll:true});if(isSwordStudy(battle()))cast('attack');});
  canvas.addEventListener('contextmenu',event=>event.preventDefault());
 
  function coordinates(scene=renderScene||battle()){
@@ -148,6 +158,7 @@ export function createCourtyardCombat({getView,command,announce,beforeDepart,can
   // Measure after this UI update on the next paint, rather than on every rAF.
   hudLayout=null;
   const v=getView(),e=v.expedition,b=battle(),away=active(),travel=e?.world?.travel,scene=e?.world?.scene;
+  studyAudioControls.hidden=!isSwordStudy(b);groundSwordButton.hidden=!isSwordStudy(b);
   if(departure.open){if(away)closeDeparture();else renderDeparture();}
   $('expedition').hidden=!away;document.body.classList.toggle('expedition-away',away);document.body.classList.toggle('combat-active',!!b);
   for(const id of ['home','domain','follow','compare','affairs','people','growth','supply'])$(id).disabled=away;
@@ -159,7 +170,7 @@ export function createCourtyardCombat({getView,command,announce,beforeDepart,can
   const key=b?.sessionId||scene?.id||'travel';if(sceneKey!==key){sceneKey=key;aim=null;pointer=null;hoveredActorId=null;renderScene=null;held.clear();lastMove={x:0,y:0};transform=null;presentation.reset();}
   text('expedition-name',b?combatBackdrop(b).title:travel?'山间行程':scene?.name||'山外行程');
   canvas.setAttribute('aria-label',b?combatBackdrop(b).title+'，WASD移动，鼠标瞄准，数字键施技':'掌门山外行程');
-  text('expedition-help',b?'WASD 走位　鼠标瞄准　1 / 2 / 3 施技　空格短步　Tab 选敌　Esc 暂停':'沿已知山道出行，近处确认应战。');
+  text('expedition-help',b?(isSwordStudy(b)?'WASD 走位　鼠标 / J 剑气　Q 落剑　空格短步　1 / 2 / 3 施技　Esc 暂停':'WASD 走位　鼠标瞄准　1 / 2 / 3 施技　空格短步　Tab 选敌　Esc 暂停'):'沿已知山道出行，近处确认应战。');
   $('expedition-world-actions').hidden=!!b||!!travel;$('combat-actions').hidden=!b?.interactive;
   resourcesUI.render();
   squadControls.hidden=!b?.interactive;
@@ -198,10 +209,10 @@ export function createCourtyardCombat({getView,command,announce,beforeDepart,can
   const enemy=b?.enemies?.find(a=>a.id===b.selectedTargetId)||b?.enemies?.find(a=>a.hp>0)||b?.enemies?.[0];$('combat-enemy-status').hidden=!enemy;text('combat-enemy-status',enemy?`${enemy.name}　${Math.ceil(enemy.hp)} / ${enemy.maxHp}`+(b.enemies.length>1?`　余敌 ${b.enemies.filter(a=>a.hp>0).length}`:''):'');
  }
  function ellipse(point,rx,ry,fill,stroke,width=1){ctx.beginPath();ctx.ellipse(point.x,point.y,rx,ry,0,0,Math.PI*2);if(fill){ctx.fillStyle=fill;ctx.fill();}if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=width;ctx.stroke();}}
- function drawBackdrop(scene){const config=combatBackdrop(scene),im=images.backgrounds[config.id],t=transform;if(im){if(config.mode==='tiled')for(const tile of combatGroundTiles(config,t))ctx.drawImage(im,tile.x,tile.y,tile.width,tile.height);else ctx.drawImage(im,t.imageX,t.imageY,t.imageWidth,t.imageHeight);return;}ctx.fillStyle='#172d26';ctx.fillRect(0,0,canvas.clientWidth,canvas.clientHeight);ctx.fillStyle='#e9d9ac';ctx.font='15px serif';ctx.textAlign='center';ctx.fillText(config.title+'场景图暂未加载',canvas.clientWidth/2,canvas.clientHeight*.25);}
+ function drawBackdrop(scene){if(isSwordStudy(scene)){drawSwordStudyGround(ctx,images.studyGround,transform);return;}const config=combatBackdrop(scene),im=images.backgrounds[config.id],t=transform;if(im){if(config.mode==='tiled')for(const tile of combatGroundTiles(config,t))ctx.drawImage(im,tile.x,tile.y,tile.width,tile.height);else ctx.drawImage(im,t.imageX,t.imageY,t.imageWidth,t.imageHeight);return;}ctx.fillStyle='#172d26';ctx.fillRect(0,0,canvas.clientWidth,canvas.clientHeight);ctx.fillStyle='#e9d9ac';ctx.font='15px serif';ctx.textAlign='center';ctx.fillText(config.title+'场景图暂未加载',canvas.clientWidth/2,canvas.clientHeight*.25);}
  function drawBoundary(b){const bounds=combatSceneBounds(b),tl=worldToScreen(bounds.left,bounds.top),br=worldToScreen(bounds.right,bounds.bottom),p=b.player;const close=Math.min(p.x-bounds.left,bounds.right-p.x,p.y-bounds.top,bounds.bottom-p.y)<.4;
   if(close){ctx.save();ctx.strokeStyle='#dfd5a950';ctx.lineWidth=1;ctx.setLineDash([3,9]);ctx.strokeRect(tl.x,tl.y,br.x-tl.x,br.y-tl.y);ctx.restore();}
-  const config=combatBackdrop(b);for(const o of b.obstacles||[]){if(images.propAtlases?.[config.id]&&config.props?.[o.id])continue;const a=worldToScreen(o.x,o.y),z=worldToScreen(o.x+o.w,o.y+o.h);ctx.fillStyle='#425344';ctx.fillRect(a.x,a.y,z.x-a.x,z.y-a.y);ctx.strokeStyle='#a6a992';ctx.strokeRect(a.x,a.y,z.x-a.x,z.y-a.y);}
+  const config=combatBackdrop(b);for(const o of b.obstacles||[]){if(isSwordStudy(b))continue;if(images.propAtlases?.[config.id]&&config.props?.[o.id])continue;const a=worldToScreen(o.x,o.y),z=worldToScreen(o.x+o.w,o.y+o.h);ctx.fillStyle='#425344';ctx.fillRect(a.x,a.y,z.x-a.x,z.y-a.y);ctx.strokeStyle='#a6a992';ctx.strokeRect(a.x,a.y,z.x-a.x,z.y-a.y);}
  }
  function drawAim(b){if(!b.interactive)return;const point=target(false),p=b.player,a=worldToScreen(p.x,p.y),z=worldToScreen(point.x,point.y),definition=(exp().combat?.manualActions||[]).find(x=>x.id===lastSkill),mode=definition?.targetMode||'direction';
   const dx=point.x-p.x,dy=point.y-p.y,d=Math.hypot(dx,dy)||1,range=definition?.range||6;
@@ -222,24 +233,25 @@ export function createCourtyardCombat({getView,command,announce,beforeDepart,can
   if((selected||hovered)&&actor.name){ctx.save();ctx.font='12px serif';ctx.textAlign='center';ctx.lineWidth=3;ctx.strokeStyle='#10271f';ctx.strokeText(actor.name,p.x,p.y-height-20);ctx.fillStyle=selected?'#f2daa1':hostile?'#f0c4ac':'#d2e5bc';ctx.fillText(actor.name,p.x,p.y-height-20);ctx.restore();}
  }
  function draw(){
-  if(!active()||!images){combatAudio.update(null,{active:false,paused:getView().paused});return;}const dpr=Math.min(devicePixelRatio||1,2),w=canvas.clientWidth,h=canvas.clientHeight;
+  if(!active()||!images){combatAudio.update(null,{active:false,paused:getView().paused});studyAudio.update(null,{active:false,paused:getView().paused});return;}const dpr=Math.min(devicePixelRatio||1,2),w=canvas.clientWidth,h=canvas.clientHeight;
   if(canvas.width!==Math.round(w*dpr)||canvas.height!==Math.round(h*dpr)){canvas.width=Math.round(w*dpr);canvas.height=Math.round(h*dpr);}
   ctx.setTransform(dpr,0,0,dpr,0,0);ctx.imageSmoothingEnabled=false;ctx.clearRect(0,0,w,h);
   const authority=battle(),intent=running()?{x:Number(held.has('KeyD'))-Number(held.has('KeyA')),y:Number(held.has('KeyS'))-Number(held.has('KeyW'))}:{x:0,y:0};
   const b=authority?presentation.sample(authority,{paused:getView().paused,intent}):null;renderScene=b;transform=coordinates(b||authority);if(b&&usesCombatCamera(b))b.camera={center:{...transform.center},viewMetres:transform.viewMetres};updatePointerAim();drawBackdrop(b);
-  combatAudio.update(b,{paused:getView().paused,active:hostActive&&document.hasFocus()&&document.visibilityState==='visible'&&!!b});
+  const audioOptions={paused:getView().paused,active:hostActive&&document.hasFocus()&&document.visibilityState==='visible'&&!!b};
+  if(isSwordStudy(b)){combatAudio.update(null,{active:false});studyAudio.update(b,audioOptions);}else{studyAudio.update(null,{active:false});combatAudio.update(b,audioOptions);}
   if(b){const tick=b.visualTick;drawBoundary(b);effectRenderer.drawGround(b,tick);drawAim(b);
-   const ordered=combatDepthOrder(b),shown=new Map(),config=combatBackdrop(b),propImage=images.propAtlases?.[config.id],props=propImage?[...combatBackdropProps(config,b),...combatBackdropDecorations(config,transform)]:[];
+   const ordered=combatDepthOrder(b),shown=new Map(),config=combatBackdrop(b),propImage=images.propAtlases?.[config.id],props=isSwordStudy(b)?swordStudyProps(b):propImage?[...combatBackdropProps(config,b),...combatBackdropDecorations(config,transform)]:[];
    for(const actor of ordered)drawAffiliation(actor,b);
-   if(props.length){const queue=[...ordered.map(actor=>({kind:'actor',id:actor.id,x:actor.x,y:actor.y,actor})),...props].sort((a,z)=>a.y-z.y||a.x-z.x||String(a.id).localeCompare(String(z.id)));for(const item of queue)if(item.kind==='prop')drawCombatBackdropProp(ctx,propImage,item,transform);else shown.set(item.id,drawActor(item.actor,b,tick));}
+   if(props.length){const queue=[...ordered.map(actor=>({kind:'actor',id:actor.id,x:actor.x,y:actor.y,actor})),...props].sort((a,z)=>a.y-z.y||a.x-z.x||String(a.id).localeCompare(String(z.id)));for(const item of queue)if(item.kind==='study-prop')drawSwordStudyProp(ctx,images.studyGround,item,transform);else if(item.kind==='prop')drawCombatBackdropProp(ctx,propImage,item,transform);else shown.set(item.id,drawActor(item.actor,b,tick));}
    else for(const actor of ordered)shown.set(actor.id,drawActor(actor,b,tick));
    effectRenderer.drawProjectiles(b,tick);effectRenderer.drawForeground(b,tick);
    for(const actor of ordered)drawActorLabel(actor,b,shown.get(actor.id));
    const landmark=combatExitLandmark(b);if(landmark){const exit=worldToScreen(landmark.x,landmark.y);ctx.fillStyle='#e9d9ac';ctx.font='14px serif';ctx.textAlign='left';ctx.fillText(combatBackdrop(b).exitLabel,exit.x-20,exit.y+35);}
   }else{ctx.fillStyle='#10261d35';ctx.fillRect(0,0,w,h);const travel=exp().world?.travel;if(travel){ctx.font='26px serif';ctx.textAlign='center';ctx.fillStyle='#f1dfad';ctx.fillText('山路行进中',w/2,h*.45);}}
  }
- return {active,render,draw,key,clearInput,setHostActivity:active=>{hostActive=!!active;if(!hostActive){hoveredActorId=null;clearInput();}},canvas,worldToScreen,screenToWorld,inputState:()=>({held:[...held],aim:aim?{...aim}:null,pointer:pointer?{...pointer}:null,lastMove:{...lastMove},hostActive,active:running()}),presentationState:()=>{const config=combatBackdrop(battle());return {scene:renderScene?structuredClone(renderScene):null,camera:transform?structuredClone(transform):null,cache:actorRenderer?.cacheStats()||null,background:{...config,loaded:!!images?.backgrounds?.[config.id],propsLoaded:!!images?.propAtlases?.[config.id],error:images?.backgroundIssues?.[config.id]||null,propsError:images?.backgroundIssues?.[config.id+':props']||null}};},
-  async load(){combatAudio.prepare();const configs=Object.values(COMBAT_BACKDROPS),jobs=configs.flatMap(config=>[{id:config.id,name:config.image,kind:'ground'},...(config.propsImage?[{id:config.id,name:config.propsImage,kind:'props'}]:[])]),[results,assets]=await Promise.all([Promise.allSettled(jobs.map(job=>loadImage(job.name))),loadCombatActorAssets({loadImage,loadJson})]);const backgrounds={},propAtlases={},backgroundIssues={};for(let i=0;i<results.length;i++){const result=results[i],job=jobs[i];if(result.status==='fulfilled')(job.kind==='props'?propAtlases:backgrounds)[job.id]=result.value;else backgroundIssues[job.id+(job.kind==='props'?':props':'')]=result.reason?.message||String(result.reason);}images={backgrounds,propAtlases,backgroundIssues};actorRenderer=createCombatActorRenderer({ctx,worldToScreen,getTransform:()=>transform||coordinates(),assets});await actorRenderer.prewarm();effectRenderer=createCombatEffectsRenderer({ctx,worldToScreen,getTransform:()=>transform||coordinates(),getActorPresentation:actorRenderer.presentation});if(assets.issues.length)announce('部分战斗动作素材读取失败，已保留人物显示。'+assets.issues.map(i=>i.error).join('；'));},
-  dispose(){clearInterval(inputTimer);clearInput();combatAudio.dispose();presentation.reset();squadControls.remove();returnNote.remove();if(departure.open)departure.close();setDepartureReading(false);if(artCredits.open)artCredits.close();setCreditsReading(false);departure.remove();artCredits.remove();artCreditsButton.remove();partyStatus.remove();}
+ return {active,render,draw,key,clearInput,setHostActivity:active=>{hostActive=!!active;if(!hostActive){hoveredActorId=null;clearInput();studyAudio.update(battle(),{active:false,paused:getView().paused});}},canvas,worldToScreen,screenToWorld,inputState:()=>({held:[...held],aim:aim?{...aim}:null,pointer:pointer?{...pointer}:null,lastMove:{...lastMove},hostActive,active:running()}),presentationState:()=>{const config=combatBackdrop(battle());return {study:isSwordStudy(renderScene||battle())&&actorRenderer?{profile:'sword-study-v1',actors:[(renderScene||battle()).player,...((renderScene||battle()).enemies||[])].map(a=>actorRenderer.presentation(a,renderScene||battle()).study),audio:studyAudio.status(),ground:SWORD_STUDY_GROUND}:null,scene:renderScene?structuredClone(renderScene):null,camera:transform?structuredClone(transform):null,cache:actorRenderer?.cacheStats()||null,background:{...config,loaded:!!images?.backgrounds?.[config.id],propsLoaded:!!images?.propAtlases?.[config.id],error:images?.backgroundIssues?.[config.id]||null,propsError:images?.backgroundIssues?.[config.id+':props']||null}};},
+  async load(){combatAudio.prepare();studyAudio.prepare();const configs=Object.values(COMBAT_BACKDROPS),jobs=configs.flatMap(config=>[{id:config.id,name:config.image,kind:'ground'},...(config.propsImage?[{id:config.id,name:config.propsImage,kind:'props'}]:[])]),[results,assets,studyImages,studyGround]=await Promise.all([Promise.allSettled(jobs.map(job=>loadImage(job.name))),loadCombatActorAssets({loadImage,loadJson}),loadSwordStudyImages(loadImage),loadSwordStudyGround(loadImage)]);const backgrounds={},propAtlases={},backgroundIssues={};for(let i=0;i<results.length;i++){const result=results[i],job=jobs[i];if(result.status==='fulfilled')(job.kind==='props'?propAtlases:backgrounds)[job.id]=result.value;else backgroundIssues[job.id+(job.kind==='props'?':props':'')]=result.reason?.message||String(result.reason);}assets.studyImages=studyImages;images={backgrounds,propAtlases,backgroundIssues,studyImages,studyGround};actorRenderer=createCombatActorRenderer({ctx,worldToScreen,getTransform:()=>transform||coordinates(),assets});await actorRenderer.prewarm();effectRenderer=createCombatEffectsRenderer({ctx,worldToScreen,getTransform:()=>transform||coordinates(),getActorPresentation:actorRenderer.presentation});if(assets.issues.length)announce('部分战斗动作素材读取失败，已保留人物显示。'+assets.issues.map(i=>i.error).join('；'));},
+  dispose(){clearInterval(inputTimer);clearInput();combatAudio.dispose();studyAudio.dispose();studyAudioControls.remove();groundSwordButton.remove();presentation.reset();squadControls.remove();returnNote.remove();if(departure.open)departure.close();setDepartureReading(false);if(artCredits.open)artCredits.close();setCreditsReading(false);departure.remove();artCredits.remove();artCreditsButton.remove();partyStatus.remove();}
  };
 }

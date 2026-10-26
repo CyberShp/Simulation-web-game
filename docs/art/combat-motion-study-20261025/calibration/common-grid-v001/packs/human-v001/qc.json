@@ -1,0 +1,130 @@
+{
+  "schema": "combat-frame-qc/v1",
+  "algorithmStatus": "passed",
+  "artReview": "not-reviewed",
+  "frameCount": 1,
+  "distinctFrames": 1,
+  "duplicateGroups": [],
+  "durationMs": 1000,
+  "expectedDurationMs": null,
+  "frameSize": [
+    103,
+    75
+  ],
+  "foot": [
+    35,
+    66
+  ],
+  "footRange": {
+    "x": [
+      35,
+      35
+    ],
+    "y": [
+      66,
+      66
+    ]
+  },
+  "sourceHeight": 58.00000000000001,
+  "uniformScale": 0.14009661835748793,
+  "preview": {
+    "size": [
+      103,
+      75
+    ],
+    "targetBodyHeight": null,
+    "sampling": "nearest",
+    "gifDurationMs": 1000,
+    "gifTimingQuantizationMs": 10,
+    "background": "#26292e"
+  },
+  "heightPreviews": [
+    {
+      "size": [
+        103,
+        75
+      ],
+      "targetBodyHeight": 58,
+      "sampling": "nearest",
+      "gifDurationMs": 1000,
+      "gifTimingQuantizationMs": 10,
+      "background": "#26292e"
+    },
+    {
+      "size": [
+        206,
+        150
+      ],
+      "targetBodyHeight": 116,
+      "sampling": "nearest",
+      "gifDurationMs": 1000,
+      "gifTimingQuantizationMs": 10,
+      "background": "#26292e"
+    }
+  ],
+  "warnings": [
+    {
+      "code": "source-content-touches-edge",
+      "frame": 0
+    }
+  ],
+  "frames": [
+    {
+      "index": 0,
+      "bounds": [
+        8,
+        10,
+        101,
+        68
+      ],
+      "visiblePixels": 1823,
+      "transparentPixels": 5902,
+      "partialAlphaPixels": 1819,
+      "alphaRange": [
+        0,
+        255
+      ],
+      "pixelSha256": "cceeb51a12f1cfb6fed017fd1d305eb458c69f011bcc55a35474673ca78d065a",
+      "alphaSha256": "357566169da1b925d095bdb40d3abffce8ba743e2ba1acceb7991ec89070aadb",
+      "inputBounds": [
+        2,
+        49,
+        700,
+        471
+      ],
+      "inputFoot": [
+        230,
+        454
+      ],
+      "translation": [
+        2.7777777777777786,
+        2.3961352657004795
+      ],
+      "foot": [
+        35,
+        66
+      ],
+      "bottomFromFoot": 2,
+      "source": "inputs/000-character-masters.png",
+      "sourceCrop": [
+        80,
+        350,
+        700,
+        500
+      ],
+      "rgbaPreserved": false,
+      "uniformScale": 0.14009661835748793,
+      "alphaClip": null
+    }
+  ],
+  "notProven": [
+    "anatomy",
+    "identity",
+    "gait",
+    "anatomical foot placement",
+    "motion continuity",
+    "contact geometry",
+    "art approval",
+    "runtime integration"
+  ]
+}

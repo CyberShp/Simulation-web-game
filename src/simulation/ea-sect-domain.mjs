@@ -295,15 +295,29 @@ for(const polygon of NORTH_LIBRARY_WALK_POLYGONS){
   const key=x+'/'+y;if(!northWalkIndex.has(key))northWalkIndex.set(key,[]);northWalkIndex.get(key).push(entry);
  }
 }
-const northWalkPoints=new Map();
+const northWalkPointX=new Float64Array(32768),northWalkPointY=new Float64Array(32768),northWalkPointState=new Uint8Array(32768);
 function northWalkPointOpen(point){
- const key=point.x+'/'+point.y;if(northWalkPoints.has(key))return northWalkPoints.get(key);
+ // Hashing selects a bounded memo slot; reuse requires both original coordinates.
+ const x=point.x*65536|0,y=point.y*65536|0,slot=(Math.imul(x^(x>>>16),0x9e3779b1)^Math.imul(y^(y>>>16),0x85ebca6b))&32767;
+ const cached=northWalkPointState[slot];if(cached&&northWalkPointX[slot]===point.x&&northWalkPointY[slot]===point.y)return cached===2;
  const open=(northWalkIndex.get(Math.floor(point.x/northWalkCell)+'/'+Math.floor(point.y/northWalkCell))||[]).some(entry=>point.x>=entry.left&&point.x<=entry.right&&point.y>=entry.top&&point.y<=entry.bottom&&entry.query.contains(point));
- if(northWalkPoints.size>=32768)northWalkPoints.clear();northWalkPoints.set(key,open);return open;
+ if(typeof point.x!=='number'||typeof point.y!=='number')return open;
+ northWalkPointX[slot]=point.x;northWalkPointY[slot]=point.y;northWalkPointState[slot]=open?2:1;return open;
 }
 const northPointOpen=(point,meditationVersion)=>point.y>=1||northWalkPointOpen(point)||domainNorthMeditationEnabled(meditationVersion)&&northMeditationPointOpen(point);
+const northLibraryBodyProofs=new Map();
+function northLibraryBodyBoxProven(point,radius){
+ let cells=northLibraryBodyProofs.get(radius);if(!cells){if(northLibraryBodyProofs.size>=4)northLibraryBodyProofs.clear();cells=new Map();northLibraryBodyProofs.set(radius,cells);}
+ const x=Math.floor(point.x/northWalkCell),y=Math.floor(point.y/northWalkCell),key=x+'/'+y,held=cells.get(key);if(held!==undefined)return held;
+ const box={left:x*northWalkCell-radius,right:(x+1)*northWalkCell+radius,top:y*northWalkCell-radius,bottom:(y+1)*northWalkCell+radius};
+ // One immutable polygon must contain the entire cell and body margin.
+ // Unproved cells retain every original sample and the live meditation branch.
+ const proven=(northWalkIndex.get(key)||[]).some(entry=>entry.query.coversBox(box));
+ if(cells.size>=8192)cells.clear();cells.set(key,proven);return proven;
+}
 export function northLibraryTerrainContains(point,radius=0,meditationVersion=null){
  if(!Number.isFinite(point?.x)||!Number.isFinite(point?.y)||!Number.isFinite(radius)||radius<0)return false;
+ if(point.y-radius>=1||radius&&northLibraryBodyBoxProven(point,radius))return true;
  if(!northPointOpen(point,meditationVersion))return false;
  if(radius)for(let i=0;i<16;i++){const a=i*Math.PI/8;if(!northPointOpen({x:point.x+Math.cos(a)*radius,y:point.y+Math.sin(a)*radius},meditationVersion))return false;}
  return true;
@@ -369,25 +383,41 @@ export function northLibraryLocalBypassClear(from,route){
 // centreline band remains useful for joining the road, but is not a foot surface.
 // The point query is pure geometry and is re-asked for the same samples by
 // body sweeps, so keep a bounded exact-coordinate memo beside the walk index.
-const northYieldGroundPoints=new Map();
+const northYieldGroundX=new Float64Array(65536),northYieldGroundY=new Float64Array(65536),northYieldGroundState=new Uint8Array(65536);
 // The desktop foot check applies the whole-body band west of the east-road
 // junction (47.62 m). Beyond it the pre-existing road keeps the centre check,
 // so the measured-body predicate must end at the same place instead of rejecting
 // legal junction exits.
 const NORTH_YIELD_BODY_MAX_X=47.62;
-const northOriginalPavingIndex=compileStaticPolygonUnion(northOriginalPaving),northYieldEastIndex=compileStaticPolygonUnion(NORTH_YIELD_EAST_GROUND);
+const northOriginalPavingIndex=compileStaticPolygonUnion(northOriginalPaving,{cellSize:.25}),northYieldEastIndex=compileStaticPolygonUnion(NORTH_YIELD_EAST_GROUND,{cellSize:.25});
 function northYieldGroundPoint(p){
- const key=p.x+'/'+p.y,held=northYieldGroundPoints.get(key);if(held!==undefined)return held;
+ const x=p.x*65536|0,y=p.y*65536|0,slot=(Math.imul(x^(x>>>16),0x9e3779b1)^Math.imul(y^(y>>>16),0x85ebca6b))&65535;const held=northYieldGroundState[slot];if(held&&northYieldGroundX[slot]===p.x&&northYieldGroundY[slot]===p.y)return held===2;
  const open=northWalkPointOpen(p)||northOriginalPavingIndex.contains(p)||northYieldEastIndex.contains(p);
- if(northYieldGroundPoints.size>=65536)northYieldGroundPoints.clear();
- northYieldGroundPoints.set(key,open);return open;
+ if(typeof p.x!=='number'||typeof p.y!=='number')return open;
+ northYieldGroundX[slot]=p.x;northYieldGroundY[slot]=p.y;northYieldGroundState[slot]=open?2:1;return open;
+}
+// A cell passes early only when one immutable polygon covers the complete
+// cell plus the .26 m body margin. Boundary/union joins use the original samples.
+const northYieldBodyPolygons=[...NORTH_LIBRARY_WALK_POLYGONS,...northOriginalPaving,...NORTH_YIELD_EAST_GROUND].map(p=>compileStaticPolygon(p));
+const northYieldBodyCells=new Map(),northYieldBodyCellSize=.125;
+const northYieldBodyOffsets=Array.from({length:16},(_,k)=>({x:.26*Math.cos(k*Math.PI/8),y:.26*Math.sin(k*Math.PI/8)}));
+export function northLibraryYieldPointClear(p){
+ if(p.x<18||p.x>NORTH_YIELD_BODY_MAX_X||p.y<1||p.y>34)return true;
+ const x=Math.floor(p.x/northYieldBodyCellSize),y=Math.floor(p.y/northYieldBodyCellSize),key=x+'/'+y;
+ let covered=northYieldBodyCells.get(key);
+ if(covered===undefined){const box={left:x*northYieldBodyCellSize-.26,right:(x+1)*northYieldBodyCellSize+.26,top:y*northYieldBodyCellSize-.26,bottom:(y+1)*northYieldBodyCellSize+.26};covered=northYieldBodyPolygons.some(polygon=>polygon.coversBox(box));northYieldBodyCells.set(key,covered);}
+ return covered||northYieldGroundPoint(p)&&northYieldBodyOffsets.every(offset=>northYieldGroundPoint({x:p.x+offset.x,y:p.y+offset.y}));
+}
+// A sufficient proof for this predicate only; other body checks stay separate.
+export function northLibraryYieldSegmentProven(a,b,planning=false){
+ if(![a?.x,a?.y,b?.x,b?.y].every(v=>Number.isFinite(v)&&Math.abs(v)<=1024))return false;
+ const r=.26+(planning ? .025 : 0)+1e-7,box={left:Math.min(a.x,b.x)-r,right:Math.max(a.x,b.x)+r,top:Math.min(a.y,b.y)-r,bottom:Math.max(a.y,b.y)+r};
+ return northYieldBodyPolygons.some(polygon=>polygon.coversBox(box));
 }
 export function northLibraryYieldRouteClear(from,route){
  let start=from;for(const end of route){const n=Math.max(1,Math.ceil(Math.hypot(end.x-start.x,end.y-start.y)/.05));for(let i=0;i<=n;i++){
   const p={x:start.x+(end.x-start.x)*i/n,y:start.y+(end.y-start.y)*i/n};
-  if(p.x<18||p.x>NORTH_YIELD_BODY_MAX_X||p.y<1||p.y>34)continue;
-  if(!northYieldGroundPoint(p))return false;
-  for(let k=0;k<16;k++){const angle=k*Math.PI/8;if(!northYieldGroundPoint({x:p.x+.26*Math.cos(angle),y:p.y+.26*Math.sin(angle)}))return false;}
+  if(!northLibraryYieldPointClear(p))return false;
  }start=end;}return true;
 }
 export const northLibrarySites=freeze([{id:'site:domain:gc-02',planId:'GC-02',number:2,name:'藏经阁·讲习院',type:'library',zoneId:'Z-01',areaId:'area:yunxiu:north-library',northLibrary:true,x:44,y:-16,width:6,height:6,reserveWidth:10,reserveHeight:10,maxLevel:3,entrance:{x:47,y:-9.4},status:'open'}]);

@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import seed from '../../../apps/courtyard/sect-seed.mjs';
 import {validateSave,dispatchCommand,tick} from '../../../src/simulation/ea-opening-sim.mjs';
-import {meterFindPath,meterSweep,spatialRevision,visibleBodyRouteClear} from '../../../src/simulation/ea-sr-spatial.mjs';
+import {meterFindPath,meterSweep,spatialRevision,visibleBodyRouteClear,meterDoorPermit} from '../../../src/simulation/ea-sr-spatial.mjs';
 import {NORTH_LIBRARY_APPROACH_VERSION,COURTYARD_EAST_ROAD,northLibrarySites} from '../../../src/simulation/ea-sect-domain.mjs';
 import {toArt,isArtWalkable} from '../../../apps/courtyard/courtyard-space.mjs';
 
@@ -63,4 +63,31 @@ test('construction warehouse return rejoins the measured road from a legal bound
  const flow=r.state.workOrdersById[id].materialFlow;assert.equal(flow.phase,'carrying');assert.equal(flow.trips.length,1);
  for(const [key,value]of Object.entries(materials))assert.equal((flow.cargo[key]||0)+r.state.stockpilesById[flow.sourceStockpileId].resources[key],value);
  r.restore();
+});
+
+function strandedCarrier(){
+ const r=enabled();Object.assign(r.state.stockpilesById[HOME].resources,{jade:65,wood:45,stone:20});
+ const initial=copy(r.state.stockpilesById[HOME].resources),{workOrderId:id}=r.command('buildDomainSite',northLibrarySites[0].id);
+ for(let i=0;i<1000&&r.state.workOrdersById[id].materialFlow.phase!=='carrying';i++)r.step();
+ assert.equal(r.state.workOrdersById[id].materialFlow.phase,'carrying');
+ const p=r.state.master,legacy={x:40.80379280067213,y:12.481917899465497};Object.assign(p.scenic,legacy,{path:[],goal:null});Object.assign(p.position,legacy);if(p.location?.kind==='local')Object.assign(p.location,legacy);
+ return {r,id,initial};
+}
+test('a cancelled stranded construction carrier physically returns cargo before refund',()=>{
+ const {r,id,initial}=strandedCarrier(),start=r.state.worldTick;assert.equal(r.command('cancelConstruction').pending,true);r.restore();
+ let recovered=null,moved=0;
+ for(let i=0;i<1000&&r.state.workOrdersById[id];i++){
+  const before={...r.state.master.scenic};r.step();const at=r.state.master.scenic,step=Math.hypot(at.x-before.x,at.y-before.y);assert.ok(step<=.316801);moved+=step;
+  if(circleOpen(at)&&recovered===null)recovered=r.state.worldTick;
+  if(recovered!==null)assert.ok(circleOpen(at));
+  if(i===0||i===6||i===50)r.restore();
+ }
+ assert.ok(recovered!==null&&recovered-start<30);assert.ok(moved>1);assert.equal(r.state.workOrdersById[id],undefined);
+ for(const k of ['wood','stone'])assert.equal(r.state.stockpilesById[HOME].resources[k],initial[k]);
+ assert.equal(r.state.spatial.completedOrders.at(-1).phase,'cancelled');assert.equal(r.state.spatial.completedOrders.at(-1).progressTicks,0);
+});
+test('construction recovery requires the matching active order, reservation, carrier and destination',()=>{
+ const {r,id}=strandedCarrier(),saved=copy(r.state);
+ const mutations=[null,s=>{s.activitiesById[s.master.activityId].personId='person:lin-changfeng';},s=>{s.workOrdersById[id].activityIds=[];},s=>{s.workOrdersById[id].phase='cancelled';},s=>{s.workOrdersById[id].materialFlow.carrierId='person:lin-changfeng';},s=>{delete s.reservationsById[s.workOrdersById[id].reservationId];},s=>{s.reservationsById[s.workOrdersById[id].reservationId].activityId='other';},s=>{s.master.scenic.goal.x+=1;}];
+ for(const mutate of mutations){const s=validateSave(copy(saved)),a=s.master.scenic,flow=s.workOrdersById[id].materialFlow,goal=s.stockpilesById[flow.siteStockpileId].position;a.path=meterFindPath(s,a,goal,{maxSnap:0});a.goal={...goal};assert.ok(a.path?.length);const target=a.path[0],d=Math.hypot(target.x-a.x,target.y-a.y),next={x:a.x+(target.x-a.x)*Math.min(.1,d)/d,y:a.y+(target.y-a.y)*Math.min(.1,d)/d};if(mutate)mutate(s);assert.equal(meterDoorPermit(s,a,a,a.path,next),!mutate);}
 });

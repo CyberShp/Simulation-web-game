@@ -1,0 +1,7 @@
+Surface textures from Poly Haven.
+Assets: stone_tiles_02 and forest_ground_04.
+License: Creative Commons CC0 1.0 Universal.
+https://creativecommons.org/publicdomain/zero/1.0/
+Provider license statement: https://polyhaven.com/license
+Original download URLs and SHA-256 hashes are recorded in SOURCES.json.
+Additional asset: monastery_stone_floor (same CC0-1.0 license).

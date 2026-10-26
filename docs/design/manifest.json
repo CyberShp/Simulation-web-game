@@ -448,6 +448,22 @@
     {
       "path": "docs/design/92-EXPEDITION-COMPANIONS.md",
       "role": "autonomous-expedition-companions-and-recovery"
+    },
+    {
+      "path": "docs/design/93-COMPANION-OPERATIONS.md",
+      "role": "companion-body-clearance-five-disciple-operations-native-response"
+    },
+    {
+      "path": "docs/design/94-EXPEDITION-RESPONSE.md",
+      "role": "expedition-native-response-static-geometry-equivalence"
+    },
+    {
+      "path": "docs/design/95-GROUND-PANEL-RESPONSE.md",
+      "role": "ground-query-panel-response-native-equivalence"
+    },
+    {
+      "path": "docs/design/96-NORTH-RECOVERY-PATH-RESPONSE.md",
+      "role": "north-recovery-path-response"
     }
   ],
   "taskRead": {
@@ -1660,7 +1676,7 @@
       "closesWholeRequirements": false,
       "review": "docs/art/combat-minimum-20261025/review-v002.json"
     },
-    "updatedAt": "2026-10-26",
+    "updatedAt": "2026-10-27",
     "entry": "AGENTS.md",
     "handoff": "docs/CODEX-HANDOFF.md",
     "deliveryPlan": "docs/DELIVERY-PLAN.md",
@@ -5218,6 +5234,259 @@
         "persistence": "deferred-per-U-172",
         "bodyClearance": "safe valley crossing minimum 0.04m; general body clearance not accepted",
         "independentAudit": "final-independent-audit.json"
+      }
+    },
+    "currentCompanionOperations": {
+      "reference": "docs/design/93-COMPANION-OPERATIONS.md",
+      "status": "targeted-scenarios-and-isolated-macos-electron-verified",
+      "scenarioPolicy": "U-172",
+      "closesWholeRequirements": false,
+      "verification": {
+        "rootUniqueTests": "100/100",
+        "finalOperationsRerun": "4/4",
+        "evidenceRoot": "/Users/shepard/.codex/tmp/immortal-companion-operations-20261026",
+        "nativeSafe": "native-safe-01/report.json",
+        "nativeEncounter": "native-encounter-01/report.json",
+        "quietResponse": "native-quiet-01/report.json",
+        "independentAudit": "audit/final-independent-review.json",
+        "nativeScope": "entry HEAD plus batch source; concurrent combat changes excluded",
+        "bodyClearance": "original valley crossing 0.04m to 0.54m",
+        "performance": "whole-round long tasks 513/593ms unresolved; quiet 45s no long tasks, max gap35.1ms",
+        "persistence": "deferred-per-U-172",
+        "Windows": "not-verified"
+      }
+    },
+    "currentExpeditionResponse": {
+      "reference": "docs/design/94-EXPEDITION-RESPONSE.md",
+      "status": "targeted-hotspot-reduced-native-verified-residual-spikes-open",
+      "scenarioPolicy": "U-172",
+      "closesWholeRequirements": false,
+      "verification": {
+        "evidenceRoot": "/Users/shepard/.codex/tmp/immortal-expedition-response-20261026",
+        "rootTests": "14/14 targeted; 51/52 adjacent, one identical baseline failure",
+        "geometryPoints": 1168427,
+        "geometryRoutes": 1000,
+        "fullWorldTicksCompared": 10000,
+        "completeViewsCompared": 200,
+        "nativeBaseline": "baseline-safe/report.json",
+        "nativeSafe": "candidate-safe/report.json",
+        "nativeEncounter": "candidate-encounter/report.json",
+        "nativeReloadSave": "candidate-reopen/report.json",
+        "nativeScope": "93 frozen runtime plus three static-geometry optimizations; concurrent combat changes excluded",
+        "maximumGapMs": {
+          "baselineSafe": 508.1,
+          "candidateSafe": 95.2,
+          "candidateEncounter": 109.3
+        },
+        "remaining": "90-108ms path spikes; p95/click unimproved;57ms affairs opening; legacy north transport recovery baseline failure; Windows/full shared-tree integration unverified"
+      }
+    },
+    "currentCombatSwordStudy": {
+      "reference": "docs/art/combat-sword-study-integration-20261026/README.md",
+      "production": "docs/design/73-COMBAT-FRAME-PRODUCTION.md",
+      "status": "formal-solo-functional-evidence-with-motion-observation-and-residual-latency",
+      "rulesProfile": "sword-study-v1",
+      "scenarioPolicy": "U-172",
+      "closesWholeRequirements": false,
+      "verification": {
+        "newTargetedChecks": 46,
+        "parts": {
+          "rules": 11,
+          "audio": 13,
+          "projectilePresentation": 7,
+          "framePresentation": 9,
+          "publicCommand": 6
+        },
+        "functionalSuite": "/Volumes/Media/immortal-qa/combat-sword-study-native-20261026/functional-suite-01.json",
+        "functionalScenarioChecks": 26,
+        "functionalScope": "four separate worlds on the earlier shared frozen runtime; later motion and performance diagnostics recorded separately",
+        "motion": "/Volumes/Media/immortal-qa/combat-sword-study-native-20261026/movement-diagnostic-03/report.json",
+        "motionStatus": "observed-6-checks-19-horizontal-run-frames-release-return",
+        "preservedMotionQualification": "/Volumes/Media/immortal-qa/combat-sword-study-native-20261026/movement-diagnostic-02/diagnostic-qualification.json",
+        "cacheComparison": "/Volumes/Media/immortal-qa/combat-long-save-perf-20261026/north-cache-v001/report.json",
+        "nativeLong": "/Volumes/Media/immortal-qa/combat-long-save-perf-20261026/native-short-02/report.json",
+        "nativeLongStatus": "observed-3-checks-265430-to-265471-120-persons-5-background-activities",
+        "nativeLongMaximumWorldPumpMs": 127.1,
+        "nativeLongMaximumActiveRafIntervalMs": 125,
+        "nativeLongTabMs": 264.1,
+        "remaining": "complete directions/actions, listening, Windows, residual Node143-158ms and native127ms world steps, Tab264ms; whole SR/AC and release unchanged"
+      }
+    },
+    "currentGroundPanelResponse": {
+      "reference": "docs/design/95-GROUND-PANEL-RESPONSE.md",
+      "status": "panel-response-verified-path-spikes-remain",
+      "scenarioPolicy": "U-172",
+      "closesWholeRequirements": false,
+      "verification": {
+        "evidenceRoot": "/Users/shepard/.codex/tmp/immortal-ground-panels-20261026",
+        "rootTests": "15/15 targeted;49/50 adjacent;legacy north recovery failure",
+        "geometryQueries": 626693,
+        "fullWorldTicksCompared": 10000,
+        "completeViewsCompared": 200,
+        "panelBaseline": "panel-baseline/report.json",
+        "panelCandidate": "panel-candidate/report.json",
+        "panelLive": "panel-live-02/report.json",
+        "saveReadback": "panel-live-02/save-readback.json",
+        "nativeSafe": "native-safe/report.json",
+        "nativeEncounter": "native-encounter/report.json",
+        "remaining": "88/78ms path spikes;legacy north recovery;Windows and concurrent combat integration unverified"
+      }
+    },
+    "currentNorthRecoveryPathResponse": {
+      "reference": "docs/design/96-NORTH-RECOVERY-PATH-RESPONSE.md",
+      "status": "implemented-verified-local-batch-with-performance-residual",
+      "closesWholeRequirements": false,
+      "verification": {
+        "evidenceRoot": "/Users/shepard/.codex/tmp/immortal-six-hour-20261027",
+        "recoveryRegression": "recovery-regression.log",
+        "tests": "37/37",
+        "recoveryTicks": 11,
+        "remaining": "path peaks 59-70ms still exceed aspirational 50ms;Windows and long-term balance unverified;combat long-save performance belongs to separate scene",
+        "nativeRecovery": [
+          "final-native-north-delivery/report.json",
+          "final-native-north-cancel/report.json"
+        ],
+        "candidate": "final-candidate-runtime",
+        "geometry": "final-geometry-equivalence.json",
+        "worldEquivalence": "final-world-equivalence.json",
+        "performancePair": [
+          "native-baseline-safe-1/report.json",
+          "native-candidate-safe-1/report.json"
+        ],
+        "baseline": "integrated-baseline-runtime",
+        "nativeSeries": "native-final-series.json",
+        "nativeSeriesStatus": "passed-six-runs-three-pairs",
+        "integration": "main-candidate-integration.json",
+        "candidateHashes": "final-candidate-hashes.json",
+        "typeGuardCalls": 1440,
+        "excludedDriftRun": "series-candidate-safe-2/report.json",
+        "nativeSummary": "native-final-series-summary.json",
+        "pathPeakMs": {
+          "baseline": [
+            74,
+            76,
+            73
+          ],
+          "candidate": [
+            69,
+            70,
+            59
+          ]
+        },
+        "mainRegression": "final-main-regression.log",
+        "mainTests": "80/80",
+        "finalVerification": "final-verification.json",
+        "nativeRecoveryTicksObserved": [
+          13,
+          11
+        ],
+        "nativeEncounter": "final-native-encounter/report.json",
+        "nativePanel": "final-native-panel/report.json",
+        "nativeReopen": [
+          "final-native-panel-reopen/report.json",
+          "final-native-reopen/report.json"
+        ],
+        "stableSourceFiles": 631,
+        "engineeringCheck": "final-engineering-check.log"
+      }
+    },
+    "currentCombatResponseGoal": {
+      "reference": "docs/art/combat-response-goal-20261027/README.md",
+      "playerDownPrompt": "docs/art/combat-response-goal-20261027/player-down-prompt.md",
+      "status": "in_progress",
+      "deadline": "2026-10-27T06:36:00+08:00",
+      "nativeSummary": "当前c95冻结版新五场同完整runtime：normal9/defeat5/retreat6 passed，同一掌门分别794→973/746→915/764→858返院，主已看双方终帧；两轮长档report为observed并各满足本场景原性能门。五份disk.state等于最终session.state，源/运行保持、errors为空且全部closed。旧cd477七场63活动PNG+6终局/返院及动作/probe证据保留原版本范围。",
+      "longSaveSummary": "c95同120原人物/5后台、1672×941 DPR1/22米场景无profile/注入两轮：90.101/90.056秒，均901tick/94输入；输入p95/最大35.7/40.7ms与37.8/44.3ms，rAF p95/最大6.0/90.1ms与6.1/91.0ms，回调96.4/98.2ms、世界步94.4/93.2ms，观察器均0.5ms、绘制14.4/12.6ms。原120身份/5后台/正常新增121来源保持，两轮该场景原性能门通过；98.2ms仅余1.8ms裕量，全场景流畅仍开放。",
+      "srState": "unchanged",
+      "previousLongStatus": "long-sustained-01 failed保留：固定人数断言不匹配正常求师新增，rAF最大300ms/世界步151.8ms。",
+      "presentationSha": "8941177253263ce42207be12f915e1d1129b898a75ae7e2cccd8b7729aae0b45",
+      "groundSha": "3f3d6740702f29a47cb161c6149d5d853fd78e0773d4799b3dd8725653546697",
+      "trialSummary": "positive内部格试验已撤回，原报告保留；ground仍3f3d，各运行版本分别见finalBatch和latestPerformanceReport。",
+      "evidenceReports": [
+        "/Volumes/Media/immortal-qa/combat-final-native-20261027/action-pixels-01/report.json",
+        "/Volumes/Media/immortal-qa/combat-final-native-20261027/vertical-down-02/report.json",
+        "/Volumes/Media/immortal-qa/combat-final-native-20261027/long-aabb-01/report.json",
+        "/Volumes/Media/immortal-qa/combat-final-native-20261027/long-positive-01/report.json",
+        "/Volumes/Media/immortal-qa/combat-final-native-20261027/final-batch-01.json",
+        "/Volumes/Media/immortal-qa/combat-final-native-20261027/astar-cost-lean-01/report.json",
+        "/Volumes/Media/immortal-qa/combat-final-native-20261027/astar-cost-lean-01/peak-attribution.json",
+        "/Volumes/Media/immortal-qa/combat-final-native-20261027/final-freeze-02/batch-summary.json",
+        "/Volumes/Media/immortal-qa/combat-final-native-20261027/final-freeze-02/screenshot-index.json",
+        "/Volumes/Media/immortal-qa/combat-final-native-20261027/final-freeze-02/equivalent-rooms-summary.json"
+      ],
+      "finalBatch": "/Volumes/Media/immortal-qa/combat-final-native-20261027/final-freeze-02/equivalent-rooms-summary.json",
+      "runtimeSha256": "dcfb6080618665b93189c06be60cfe166e0227b47afb29492a5177d66854cd69",
+      "runtimeFiles": 764,
+      "frozenProduct": {
+        "src/simulation/ea-sr-spatial.mjs": "c95c8610107d4d24f470b1a855ea36372f73488bd9d09b6fcbd79b6ca32a8ae0",
+        "src/simulation/ea-sect-domain.mjs": "022bdc073dee8eb3221b1dcc8de1d1c9c2794b69e099e06dedc310ef79ff9f50",
+        "src/simulation/ea-courtyard-visible-ground.mjs": "3f3d6740702f29a47cb161c6149d5d853fd78e0773d4799b3dd8725653546697",
+        "apps/courtyard/courtyard-combat-presentation.mjs": "8941177253263ce42207be12f915e1d1129b898a75ae7e2cccd8b7729aae0b45",
+        "src/simulation/ea-combat-sword-study-frames.mjs": "be81f9ccc4ee71492b30c1a219298df4dc1e960b067bf2535bd4f2349a3f9e4e",
+        "src/simulation/ea-combat-sword-study-data.mjs": "98ac47c81eae51122b43f4fb2da448ae29e2f85effaf9d7f855f637fe4ffcca0"
+      },
+      "equivalenceSummary": "完整等价房间几何跨state共享纯segment boolean，strict public indoor资格独立；44项测试、7场景及900步完整session/92MB路径逐字等价，根cmp0。仅spatial变为c95，其余五产品SHA保持；完整SR/AC状态保持。",
+      "runtimeScope": "runtimeSha256为finalBatch.fullRuntimeBefore按键排序的紧凑JSON之SHA256；当前c95新五场764文件映射完全一致。旧cd477七场像素及probe引用保留在priorPixelEvidence，不属于新五场运行版本。",
+      "currentProduct": {
+        "src/simulation/ea-sr-spatial.mjs": "c95c8610107d4d24f470b1a855ea36372f73488bd9d09b6fcbd79b6ca32a8ae0",
+        "src/simulation/ea-sect-domain.mjs": "022bdc073dee8eb3221b1dcc8de1d1c9c2794b69e099e06dedc310ef79ff9f50",
+        "src/simulation/ea-courtyard-visible-ground.mjs": "3f3d6740702f29a47cb161c6149d5d853fd78e0773d4799b3dd8725653546697",
+        "apps/courtyard/courtyard-combat-presentation.mjs": "8941177253263ce42207be12f915e1d1129b898a75ae7e2cccd8b7729aae0b45",
+        "src/simulation/ea-combat-sword-study-frames.mjs": "be81f9ccc4ee71492b30c1a219298df4dc1e960b067bf2535bd4f2349a3f9e4e",
+        "src/simulation/ea-combat-sword-study-data.mjs": "98ac47c81eae51122b43f4fb2da448ae29e2f85effaf9d7f855f637fe4ffcca0"
+      },
+      "latestPerformanceReport": "/Volumes/Media/immortal-qa/combat-final-native-20261027/final-freeze-02/equivalent-rooms-lean-02/report.json",
+      "latestPerformancePeak": "/Volumes/Media/immortal-qa/combat-final-native-20261027/final-freeze-02/equivalent-rooms-summary.json",
+      "screenshotIndex": "/Volumes/Media/immortal-qa/combat-final-native-20261027/final-freeze-02/screenshot-index.json",
+      "frozenAt": "2026-10-27T05:32:00+08:00",
+      "additionalProbes": [
+        {
+          "name": "startup-probe-01",
+          "report": "/Volumes/Media/immortal-qa/combat-final-native-20261027/final-freeze-02/startup-probe-01/report.json",
+          "status": "observed",
+          "checks": 7,
+          "nativeClosed": true,
+          "sourceUnchanged": true,
+          "runtimeUnchanged": true,
+          "completeRuntimeMappingsEqual": true,
+          "savedStateEqual": true
+        },
+        {
+          "name": "resume-probe-01",
+          "report": "/Volumes/Media/immortal-qa/combat-final-native-20261027/final-freeze-02/resume-probe-01/report.json",
+          "status": "observed",
+          "checks": 2,
+          "nativeClosed": true,
+          "sourceUnchanged": true,
+          "runtimeUnchanged": true,
+          "completeRuntimeMappingsEqual": true,
+          "savedStateEqual": true
+        }
+      ],
+      "allSevenSavedStatesEqual": true,
+      "probeSummary": "旧cd477版本：startup-probe-01七项、resume-probe-01两项检查成立（report均observed）；主看startup25/200ms、反向25ms及resume25/100ms。普通起步/反向首位移4.3–10.4ms，自由移动脚点平台0；blur10ms、碰墙186.1ms单列。恢复轨迹203/206/209齐全，回拉0、standingSkid0，100/200ms稳定action03。",
+      "performanceReports": [
+        "/Volumes/Media/immortal-qa/combat-final-native-20261027/final-freeze-02/equivalent-rooms-lean-01/report.json",
+        "/Volumes/Media/immortal-qa/combat-final-native-20261027/final-freeze-02/equivalent-rooms-lean-02/report.json"
+      ],
+      "priorPixelEvidence": {
+        "reference": "/Volumes/Media/immortal-qa/combat-final-native-20261027/final-freeze-02/batch-summary.json",
+        "screenshotIndex": "/Volumes/Media/immortal-qa/combat-final-native-20261027/final-freeze-02/screenshot-index.json",
+        "spatialSha": "cd477bf14c9d7dde2acb8925e5ed9eaf555a73f17a3472f6285838839144f61b",
+        "activePngs": 63,
+        "terminalPngs": 6,
+        "scope": "旧cd477七场四向/停步/J/Q→Space/hit/startup/resume实际像素；presentation894、framesbe81、data98ac与当前保持。"
+      },
+      "screenshotIndexScope": "旧cd477七场63活动+6终局/返院图，完整范围见priorPixelEvidence。",
+      "additionalProbesScope": "startup/resume两probe属于旧cd477七场，完整runtime及七份落盘相等为该版本证据。",
+      "allSevenSavedStatesScope": "/Volumes/Media/immortal-qa/combat-final-native-20261027/final-freeze-02/batch-summary.json",
+      "scopedPerformanceGate": {
+        "met": true,
+        "windows": 2,
+        "scope": "同120原人物/5后台、1672x941 DPR1、22m镜头及既有90s输入序列",
+        "maxCallbackMs": 98.2,
+        "marginTo100Ms": 1.8,
+        "allScenesAccepted": false
       }
     }
   },

@@ -451,6 +451,15 @@ export function worldEffectFactorSR(s,p=s.master){return p?.position?.sceneId===
 export function avatarObservationPlanSR(s,sceneId,position,objectId){if(!s.srWorld?.knownScenes.includes(sceneId))throw Error('化身不能观察未知地区');const scene=WORLD_SCENES[sceneId],o=scene?.objects.find(o=>o.id===objectId);if(!o||o.kind==='person'||!Number.isFinite(position?.x)||!Number.isFinite(position?.y))throw Error('需要实际公开可查验物件');const candidates=[{x:o.x-o.width/2-.7,y:o.y},{x:o.x+o.width/2+.7,y:o.y},{x:o.x,y:o.y-o.height/2-.7},{x:o.x,y:o.y+o.height/2+.7}].map(target=>({target,path:localPath(scene,position,target)})).filter(c=>c.path);if(!candidates.length)throw Error('物件没有实际可达查验位置');candidates.sort((a,b)=>a.path.length-b.path.length);return {path:candidates[0].path,target:candidates[0].target,object:{id:o.id,name:o.name,x:o.x,y:o.y,kind:o.kind}};}
 export {worldContentDiagnosticsSR};
 
+/** Read-only local terrain sweep, sharing the same inflated objects as localPath. */
+export function personLocalSegmentClearSR(s,personId,from,to){
+ const loc=s.personsById[personId]?.location,scene=WORLD_SCENES[loc?.sceneId];
+ if(loc?.kind!=='local'||!scene||loc.sceneId===HOME)return false;
+ const count=Math.max(1,Math.ceil(Math.hypot(to.x-from.x,to.y-from.y)/.05));
+ for(let i=0;i<=count;i++)if(blockedPoint(scene,{x:from.x+(to.x-from.x)*i/count,y:from.y+(to.y-from.y)*i/count}))return false;
+ return true;
+}
+
 /** Shared local terrain path for an already placed world participant. */
 export function personLocalPathSR(s,personId,target){
  const p=s.personsById[personId],loc=p?.location,scene=WORLD_SCENES[loc?.sceneId];

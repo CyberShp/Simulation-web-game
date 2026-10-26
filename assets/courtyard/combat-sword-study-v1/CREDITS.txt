@@ -1,0 +1,4 @@
+剑修与山魈：2026-10-25/26整帧图像生成及用户提供Kling原片选帧。
+林地与独立地物：2026-10-26图像生成，注册到48×32米同源场地。
+音效：本地确定性合成，制作记录见docs/art/combat-ranged-20261026/audio。
+提示词与来源：docs/art/combat-encounter-20261026、combat-ranged-20261026及本包source。

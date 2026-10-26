@@ -19,13 +19,13 @@ func _draw() -> void:
 		var centre: Vector2 = footprint.center
 		var width: float = footprint.width
 		var length: float = footprint.length
-		for ring in range(4, 0, -1):
+		for ring in range(2, 0, -1):
 			var spread := float(ring) * 5.0
-			var alpha := 0.035 if ring > 1 else 0.10
-			draw_colored_polygon(_ellipse(centre + Vector2(18, 10), Vector2(width * 0.52 + spread, length + spread)), Color(0.09, 0.11, 0.09, alpha))
+			var alpha := 0.025 if ring > 1 else 0.075
+			draw_colored_polygon(_ellipse(centre + Vector2(18, 10), Vector2(width * 0.52 + spread, length + spread)), Color(0.29, 0.34, 0.30, alpha))
 		# The roof projects a short shadow to the lower right, separate from its base.
 		var cast := PackedVector2Array([
 			centre + Vector2(-width * 0.40, -6), centre + Vector2(width * 0.40, -6),
 			centre + Vector2(width * 0.53 + 38, 17), centre + Vector2(-width * 0.27 + 38, 17)
 		])
-		draw_colored_polygon(cast, Color(0.08, 0.10, 0.08, 0.12))
+		draw_colored_polygon(cast, Color(0.29, 0.34, 0.30, 0.09))

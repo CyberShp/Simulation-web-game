@@ -1,0 +1,357 @@
+{
+  "date": "2026-10-25",
+  "reviewer": "main-agent",
+  "sourceSha256": "85fd646933c860531fb55fd2ab3230a2fa145cc5266145364edbb3d464d683db",
+  "decision": "source-clip-eligible-for-frame-production; no regeneration recommended this round",
+  "actualReview": {
+    "chrome": "opened source MP4, played and sought original image at 0s, 3.978s, 7.56s, 8.39s and 10s; no claim of continuous full-clip viewing",
+    "contactSheets": {
+      "uniformHalfSecondPoints": 21,
+      "runningDenseFrames": 25,
+      "startTransitionDenseFrames": 13,
+      "stopTransitionDenseFrames": 25
+    },
+    "nativeStillSeconds": [
+      2.5
+    ]
+  },
+  "authorCandidateSegments": [
+    {
+      "action": "idle",
+      "firstFrame": 0,
+      "lastFrame": 14,
+      "firstTimestampSeconds": 0.0,
+      "lastTimestampSeconds": 0.583333
+    },
+    {
+      "action": "start-run",
+      "firstFrame": 15,
+      "lastFrame": 24,
+      "firstTimestampSeconds": 0.625,
+      "lastTimestampSeconds": 1.0
+    },
+    {
+      "action": "running",
+      "firstFrame": 25,
+      "lastFrame": 197,
+      "firstTimestampSeconds": 1.041667,
+      "lastTimestampSeconds": 8.208333
+    },
+    {
+      "action": "stop-run",
+      "firstFrame": 198,
+      "lastFrame": 210,
+      "firstTimestampSeconds": 8.25,
+      "lastTimestampSeconds": 8.75
+    },
+    {
+      "action": "return-idle",
+      "firstFrame": 211,
+      "lastFrame": 240,
+      "firstTimestampSeconds": 8.791667,
+      "lastTimestampSeconds": 10.0
+    }
+  ],
+  "segmentBoundaryStatus": "manual author selection this round; transition alignment remains to be calibrated; not an exact event contract",
+  "observations": [
+    "identity, sword and single full-body fixed composition remain continuous",
+    "two running half-steps and delayed cloth/hair movement visible",
+    "start and stop transitions are usable candidates"
+  ],
+  "openLimits": [
+    "video pixel edges softer than input",
+    "source frames have RGB background",
+    "seamless cycle, ground sliding and actual display scale remain unverified",
+    "uniform pixel sampling needs a separate review",
+    "no atlas, background removal or runtime integration"
+  ],
+  "runCycleCandidate": {
+    "firstFrame": 48,
+    "lastFrame": 66,
+    "count": 19,
+    "firstTimestampSeconds": 2.0,
+    "lastTimestampSeconds": 2.75,
+    "nextFrameBoundarySeconds": 2.791667,
+    "preview": "/Volumes/Media/immortal-qa/kling-review-20261025-v001/run-cycle-candidate/run-cycle-candidate-320.gif",
+    "sequence": "/Volumes/Media/immortal-qa/kling-review-20261025-v001/run-cycle-candidate/sequence.json",
+    "status": "author-selected candidate; seam and actual-scale validation pending",
+    "gifDurationMs": 790,
+    "idealDurationAt24FpsMs": 791.6666666666666,
+    "gifQuantizationErrorMs": -1.6666666666666288
+  },
+  "evidenceRoot": "/Volumes/Media/immortal-qa/kling-review-20261025-v001",
+  "runtimeOrSaveChanges": false,
+  "srStatusChanges": false,
+  "transparentRunCandidateReview": {
+    "date": "2026-10-25",
+    "reviewer": "main-agent",
+    "decision": "accepted as this-round transparent running candidate; offline initial review only",
+    "actualReview": {
+      "nativeContactPages": [
+        "native-dark-01.png",
+        "native-dark-02.png",
+        "native-dark-03.png",
+        "native-dark-04.png"
+      ],
+      "sourceFramesReviewed": [
+        48,
+        66
+      ],
+      "all19FramesViewed": true,
+      "chrome": "opened index.html, played and observed original frame52 advancing to57, paused, switched to calibrated scene, inspected full body and scale"
+    },
+    "observations": [
+      "pale cuffs and robe complete",
+      "full sword blade continuous",
+      "identity and original frame order preserved"
+    ],
+    "limits": [
+      "mild source mixed-color light fringe remains",
+      "flicker not proven eliminated",
+      "ground/foot speed synchronization unverified",
+      "seam not accepted as perfectly seamless",
+      "runtime acceptance pending"
+    ],
+    "nativeRgbExactAll19": true,
+    "sourceHeight": 650,
+    "root": [
+      580,
+      825
+    ],
+    "logicalHeight": 58,
+    "sampling": "premultiplied BOX downsample; shared nearest display enlargement",
+    "cycleSourceFrames": [
+      48,
+      66
+    ],
+    "frameCount": 19,
+    "nominalDurationMs": 791.6666666666666,
+    "gifDurationMs": 790,
+    "qaRoot": "/Volumes/Media/immortal-qa/kling-process-20261025-v001",
+    "runtimeIntegration": false,
+    "srStatusChanges": false,
+    "zip": {
+      "path": "/Volumes/Media/immortal-qa/kling-process-20261025-v001/transparent-run-cycle-candidate-v001.zip",
+      "bytes": 6605842,
+      "sha256": "025b44ddd5124180bfae990e0826dc0ad72d45338c1e2228729531483154a934",
+      "files": 45,
+      "nativeRgba": 19,
+      "logicalPng": 19,
+      "crcPassed": true,
+      "allEntriesExact": true,
+      "videoIncluded": false
+    }
+  },
+  "offlineActionSequenceReview": {
+    "date": "2026-10-25",
+    "reviewer": "main-agent",
+    "decision": "accepted this-batch offline idle/start/run/stop/settle candidate",
+    "staticReview": {
+      "newActionFrames": 68,
+      "pages": 13,
+      "ranges": {
+        "idle": [
+          0,
+          14
+        ],
+        "start": [
+          15,
+          24
+        ],
+        "stop": [
+          198,
+          210
+        ],
+        "settle": [
+          211,
+          240
+        ]
+      },
+      "allNewActionFramesViewed": true
+    },
+    "chromeActualReview": [
+      "loaded action-package-v002/index.html",
+      "played and observed idle source11 progressing to start source15",
+      "observed automatic end at settle source240, timeline110/110",
+      "keyboard slider inspected exact source24→58 and61→198 transitions",
+      "identity, leg phase, scale connection, actual-size sword and pale robe readable"
+    ],
+    "reviewScope": "actual observed states and seam inspection; no claim of continuous whole-film visual perception",
+    "run480Review": "earlier opened run-480ms HTML, observed source54→51 cross-cycle progression, paused source52; UI480ms correct",
+    "editorialPhase": {
+      "entry": 58,
+      "exit": 61,
+      "meaning": "offline edit decisions; not arbitrary-phase instant stopping or a runtime wait-for-cycle rule"
+    },
+    "fixedCalibration": {
+      "sourceHeight": 650,
+      "root": [
+        580,
+        825
+      ],
+      "logicalHeight": 58,
+      "sampling": "BOX then nearest enlargement"
+    },
+    "durationMs": {
+      "idle": 625,
+      "start": 250,
+      "run": 480,
+      "stop": 330,
+      "settle": 1250,
+      "combined": 3516.052631578947
+    },
+    "gifCombinedMs": 3520,
+    "combinedFinalFrame": 240,
+    "combinedLoops": false,
+    "replayButton": true,
+    "limits": [
+      "small gray residue inside source0 hair gap",
+      "minor source24 knee residual edge",
+      "light source mixed-color fringe across clips",
+      "seamless/flicker-free motion, foot-speed matching and runtime acceptance not claimed"
+    ],
+    "qaPackage": "/Volumes/Media/immortal-qa/kling-actions-20261025-v001/action-package-v002",
+    "sourceVideoSha256": "85fd646933c860531fb55fd2ab3230a2fa145cc5266145364edbb3d464d683db",
+    "runtimeOrSaveChanges": false,
+    "srStatusChanges": false,
+    "generatedPendingLabels": "manifest/HTML generation labels retained as history; this review records the later main-agent decision",
+    "independentVerification": {
+      "date": "2026-10-25",
+      "reviewer": "independent motion_verify agent",
+      "source": "parent relayed completed read-only verification",
+      "scope": "technical artifact verification only; no UI or art acceptance",
+      "package": "/Volumes/Media/immortal-qa/kling-actions-20261025-v001/action-package-v002",
+      "manifestSha256": "57c28fdc577e328a6eec3d652edb7be73ade65aa699665ff3fb2697bb33c6d47",
+      "results": {
+        "nativeRgbAndBoxAndAtlasFrames": 87,
+        "packageChecksums": 200,
+        "combinedOrderedFrames": 110,
+        "gifEncodedFramesComparedPixelExact": 197,
+        "allDurationsQuantizationAndEndHold": true,
+        "errors": []
+      },
+      "earlierEvidencePreserved": {
+        "oldNativeMaterialChecksums": 175,
+        "oldPreviewChecksums": 39,
+        "oldZipShaUnchanged": true,
+        "originalVideoShaUnchanged": true
+      },
+      "sourceTreeScope": "No pre-batch hash for the old script tree; no whole-tree unchanged claim"
+    },
+    "zip": {
+      "path": "/Volumes/Media/immortal-qa/kling-actions-20261025-v001/kling-actions-candidate-v001.zip",
+      "bytes": 38367579,
+      "sha256": "8a1d245c132df0935dfa47efdc177c474fb94acb199c857129dcb651a94a3435",
+      "files": 206,
+      "nativeFrames": 87,
+      "logicalFrames": 87,
+      "crcPassed": true,
+      "allEntryBytesExact": true,
+      "originalVideoIncluded": false
+    }
+  },
+  "rightwardMovementStudyReview": {
+    "date": "2026-10-25",
+    "reviewer": "main-agent",
+    "scope": "55 B03/B04; SR007/013 local rightward offline input/foot-speed study",
+    "decision": "contact timing adopted as offline candidate; immediate input response candidate accepted, visual gaps remain",
+    "timingReview": {
+      "chromeObserved": "played timing compare to410ms, paused295.1ms; same size/root and3.3m/s ruler in two rows; discrete observed states, no whole continuous visual claim",
+      "runTotalMs": 480,
+      "frames": 19,
+      "fixedIntervalsMs": {
+        "51": 43.93939393939394,
+        "52": 43.93939393939394,
+        "60": 37.179487179487175,
+        "61": 40.55944055944056,
+        "62": 43.93939393939394
+      },
+      "other14EachMs": 19.317349317349315,
+      "horizontalAnnotatedIntervals": 5,
+      "pointErrorSourcePx": 5,
+      "pairErrorLogicalPx": 0.8923076923076922,
+      "durationUncertaintyMs": 6.75990675990676,
+      "limits": "horizontal frame-boundary endpoint fit only; not strict contact, full-cycle slip repair or continuous foot lock"
+    },
+    "actualDChromeReview": {
+      "longPress": "requested1000ms; observed x3.321780m; OS event duration not claimed exact1s",
+      "release": "source50→205, x unchanged; later settle240 still x3.321780",
+      "disabledA": "A requested200ms, disabled log and x unchanged",
+      "restart": "short presses observed240→15 and start18→stop203 at x3.606570; D during stop203→run63; later keyup49→202 at x3.957360",
+      "visualScope": "screenshots showed original scale/root on ruler; no continuous all-action visual acceptance"
+    },
+    "stopPairReview": {
+      "all19Viewed": true,
+      "nearer": [
+        60,
+        61,
+        62,
+        63
+      ],
+      "largeAirborneToStandingJump": [
+        58,
+        59,
+        48,
+        49,
+        50
+      ],
+      "legRetraction": [
+        64,
+        65,
+        66,
+        56,
+        57
+      ],
+      "upperBodySwordAngleChange": [
+        51,
+        52
+      ]
+    },
+    "restartPairReview": {
+      "all13Viewed": true,
+      "nearer": "198→run62",
+      "bodyLegChanges": "199/200→run53;201–203→run63",
+      "footAndRobeReset": "204→start16",
+      "hairRobeJump": "205–210→start15;208–210 upright to forward lean especially visible"
+    },
+    "formalVsStudy": {
+      "A": "continuous3.3m/s offline ruler, keyup synchronously freezes its position; visible paint at nextRAF",
+      "B": "formal100ms step/.045m preview/35–100ms release convergence unchanged; no runtime zero-delay promise"
+    },
+    "page": "/Volumes/Media/immortal-qa/kling-movement-20261025-v001/d-study-v001/index.html",
+    "timingPage": "/Volumes/Media/immortal-qa/kling-movement-20261025-v001/timing-compare-v001/index.html",
+    "phaseMap": "/Volumes/Media/immortal-qa/kling-movement-20261025-v001/phase-map-v001/phase-map.json",
+    "htmlLabelOnlyUpdate": {
+      "beforeSha256": "7aa990cc5fa09e3b21e9380b07940bcffffe92fdab571f946610209697da507c",
+      "afterSha256": "e807d42aaec893f7113adbcb5016f0738d66539b844399cf1283430ea2ab72f1"
+    },
+    "runtimeRegistryWorldOrSaveChanged": false,
+    "srStatusChanges": false,
+    "new87FrameZipCreated": false,
+    "independentVerification": {
+      "date": "2026-10-25",
+      "reviewer": "motion_verify",
+      "scope": "read-only in-memory technical verification; no UI or art acceptance",
+      "parameterSources": "formal3.3m/s and22m camera,100ms world step; five author horizontal intervals independently recalculated",
+      "results": {
+        "boundaryCases": 76,
+        "definition": "2 timing modes ×19 phases ×entry/0.001ms-before-end",
+        "keyupFrozenForMs": 50,
+        "repress10msDisplacementMetres": 0.033,
+        "blurFrozenForMs": 1000,
+        "twoRunCyclesDistanceMetres": [
+          1.584,
+          3.168
+        ],
+        "distanceDoesNotResetAtLoop": true,
+        "disabledA": true,
+        "oneSecondMetres": 3.3,
+        "matrixCasesRecomputed": 114,
+        "generationChecksumsMatched": 8,
+        "controllerHtmlConfigAtlasAnd87SourceMetadataBound": true,
+        "errors": []
+      },
+      "afterVerification": "HTML status text only updated for later main-agent UI review; logic/config/controller/atlas unchanged"
+    }
+  }
+}

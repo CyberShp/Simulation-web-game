@@ -1,0 +1,35 @@
+{
+  "id": "common-grid-human",
+  "visualIdentity": "shen-yan",
+  "action": "idle",
+  "direction": "right",
+  "sourceHeight": 414,
+  "scale": 0.14009661835748793,
+  "foot": [
+    230,
+    454
+  ],
+  "margin": 2,
+  "previewHeights": [
+    58,
+    116
+  ],
+  "loop": true,
+  "metadata": {
+    "scope": "offline static calibration",
+    "authorStandingReference": 414
+  },
+  "frames": [
+    {
+      "file": "/Volumes/Media/immortal/docs/art/combat-motion-study-20261025/source/character-masters.png",
+      "crop": [
+        80,
+        350,
+        700,
+        500
+      ],
+      "durationMs": 1000,
+      "phase": "idle"
+    }
+  ]
+}

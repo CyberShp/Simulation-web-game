@@ -1,0 +1,10 @@
+{
+  "name": "yunxiu-style-showcase",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "main": "desktop.cjs",
+  "scripts": {"start": "electron ."},
+  "dependencies": {"three": "0.180.0"},
+  "devDependencies": {"electron": "39.2.7"}
+}

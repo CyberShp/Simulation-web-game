@@ -1,0 +1,47 @@
+{
+  "sourceVideo": "/Users/shepard/Downloads/kling_20261025_作品_固定镜头的2D像素游_4629_0.mp4",
+  "sourceVideoSha256": "85fd646933c860531fb55fd2ab3230a2fa145cc5266145364edbb3d464d683db",
+  "inputs": [
+    {
+      "sourceFrameId": 48,
+      "source": "/Volumes/Media/immortal-qa/kling-review-20261025-v001/dense-2to3/frames/frame-000048-t002.000.png",
+      "file": "01-stop-start-frame048.png",
+      "size": [
+        940,
+        940
+      ],
+      "mode": "RGB",
+      "sha256": "d0844827279d8d4edf56e9b1e6f547ddd0106f0683eabc808b9cab17ff9bcdf0",
+      "copyBytesExact": true
+    },
+    {
+      "sourceFrameId": 240,
+      "source": "/Volumes/Media/immortal-qa/kling-actions-20261025-v001/stop-neighbors-190to240/frames/frame-000240-t010.000.png",
+      "file": "02-stop-end-frame240.png",
+      "size": [
+        940,
+        940
+      ],
+      "mode": "RGB",
+      "sha256": "a56c7f0b2abcaec5002d6b32f3efd393d1d39b0846660bcfd0fdf0eb2707b825",
+      "copyBytesExact": true
+    }
+  ],
+  "mainAgentSelection": "first source48; last source240",
+  "processing": "original940 RGB bytes retained including watermark; no transform",
+  "packagePath": "/Volumes/Media/immortal-qa/kling-stop-supplement-20261025-v001/kling-stop-input-v002.zip",
+  "promptSha256": "867b6a968c9b8f15a0c9401aecc4a2f57e8c725b9acfaf975aefd099cafc7a01",
+  "readmeSha256": "590a9de6b151891f2b25c35211f033d35f5532757cfe6b786fd5cea66a1fe067",
+  "status": "Kling input preparation only; no new output video or animation acceptance; no runtime change",
+  "limitedOriginalClipReview": {
+    "reviewer": "main-agent",
+    "frames": [
+      185,
+      210
+    ],
+    "count": 26,
+    "pages": 5,
+    "observation": "185–190 completes the original running half-step;191–197 continues the next half-step;198 onward clearly returns upright and settles. No independent other-half-step stopping chain was found.",
+    "decision": "prepare a new48→240 Kling supplement input; no new generated video yet"
+  }
+}

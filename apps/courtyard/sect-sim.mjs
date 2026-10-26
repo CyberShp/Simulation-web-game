@@ -388,7 +388,7 @@ export function createSectCommandDriver(getSession){
 export function commandSect(session, request, ownerToken) {
   try {
     if (!request || typeof request !== 'object') throw Error('操作格式无效。');
-    const ownedCombat=ownerToken===OWNED_COMBAT_COMMAND&&['combat','combat-auto','pause'].includes(request.type)&&(!request.actionId||['attack','spell','guard','dodge','retreat'].includes(request.actionId))&&session.state.combat?.status==='active'&&!!session.state.combat.sessionId&&session.state.activitiesById[session.state.master.activityId]?.kind==='sr-combat';
+    const ownedCombat=ownerToken===OWNED_COMBAT_COMMAND&&['combat','combat-auto','combat-target','pause'].includes(request.type)&&(!request.actionId||['attack','ground-sword','spell','guard','dodge','retreat'].includes(request.actionId))&&session.state.combat?.status==='active'&&!!session.state.combat.sessionId&&session.state.activitiesById[session.state.master.activityId]?.kind==='sr-combat';
     const stage = openingStage(session), openingActive = isOpeningSession(session) && stage !== 'complete';
     if (openingActive && ['auto', 'return-auto'].includes(request.type)) throw Error('先完成落脚、疗伤与主殿营造，再交由掌门自主安排。');
     if (openingActive && ['intro', 'inheritance'].includes(stage) && !['opening-intro', 'choose-inheritance', 'pause', 'manual', 'policy'].includes(request.type)) {

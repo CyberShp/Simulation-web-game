@@ -1,6 +1,8 @@
 /** Read-only combat effects. Every pose and particle is sampled from world ticks. */
 import {combatActorHeight} from './courtyard-combat-dimensions.mjs';
 import {usesCombatCamera} from './courtyard-combat-camera.mjs';
+import {isSwordStudy} from './courtyard-combat-sword-study.mjs';
+import {createSwordStudyEffects} from './courtyard-combat-sword-study-effects.mjs';
 const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
 const TAU=Math.PI*2;
 const palette={ink:'#244b44',wind:'#82c7b7',light:'#d5efcf',white:'#f5f3d6',gold:'#edc58d',earth:'#a47d54',dark:'#3e3029'};
@@ -34,6 +36,7 @@ export function combatSwordRibbon(presentation){
  * Repeated draws, snapshot replay and pauses have no mutable effect state.
  */
 export function createCombatEffectsRenderer({ctx,worldToScreen,getTransform,getActorPresentation}){
+ const study=createSwordStudyEffects({ctx,worldToScreen,getTransform,getActorPresentation});
  const metrics=(actor,b,tick)=>{
   const custom=getActorPresentation?.(actor,b,tick)||{},height=custom.height||combatActorHeight(getTransform()),foot=custom.foot||worldToScreen(actor.x,actor.y);
   const direction=screenDirection(actor.motion?.direction||actor.facing||{x:1,y:0});
@@ -250,5 +253,9 @@ export function createCombatEffectsRenderer({ctx,worldToScreen,getTransform,getA
   }
   const slots=new Map();for(const f of hits){const slot=slots.get(f.targetId)||0;hitLabel(f,b,tick,slot);slots.set(f.targetId,slot+1);}
  }
- return {drawGround,drawActorOverlay,drawProjectiles,drawForeground};
+ return Object.fromEntries(Object.entries({drawGround,drawActorOverlay,drawProjectiles,drawForeground}).map(([name,legacy])=>[name,(...args)=>{
+  if(!isSwordStudy(name==='drawActorOverlay'?args[1]:args[0]))return legacy(...args);
+  if(name==='drawProjectiles'){const [b,tick]=args;study.drawProjectiles({...b,projectiles:(b.projectiles||[]).filter(s=>s.space==='visible-body-v1')},tick);return legacy({...b,projectiles:(b.projectiles||[]).filter(s=>s.space!=='visible-body-v1')},tick);}
+  return study[name](...args);
+ }]));
 }

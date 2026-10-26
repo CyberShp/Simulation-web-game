@@ -3,6 +3,7 @@ import {FRAME_TABLE} from './courtyard-layers.mjs';
 import {CAST_FRAME_ANCHORS,combatFrameMetadata,COMBAT_ACTOR_REGISTRY_PATH,COMBAT_ACTOR_REGISTRY_SCHEMA,normalizeCombatFrameManifest,combatVisualIdentity,combatVisualMotion,sampleCombatFrameAtlas} from './courtyard-combat-frame-metadata.mjs';
 import {createCombatBeastRig} from './courtyard-combat-beast-rig.mjs';
 import {combatActorHeight} from './courtyard-combat-dimensions.mjs';
+import {isSwordStudy,swordStudyPresentation,drawSwordStudyActor} from './courtyard-combat-sword-study.mjs';
 
 const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
 const smooth=t=>{t=clamp(t,0,1);return t*t*(3-2*t);};
@@ -205,6 +206,7 @@ export function createCombatActorRenderer({ctx,worldToScreen,getTransform,assets
   textures.set(key,c);return c;
  }
  function presentation(actor,b,tick=b.tick){
+  if(isSwordStudy(b))return swordStudyPresentation(actor,b,{worldToScreen,transform:getTransform(),images:assets.studyImages});
   const sample=sampleCombatActor(actor,b,tick,assets.actorLibrary),pose=sample.pose,height=heightOf(),scale=height/pose.sourceHeight,p=worldToScreen(actor.x,actor.y);
   const releaseDirection=actor.motion?.direction||actor.facing||sample.direction,releaseSample=sampleCombatFrameAtlas(sample.visualIdentity,{...sample,action:'spell',runtimeAction:'spell',phase:'release',runtimePhase:'release',progress:0,direction:releaseDirection,lookDirection:releaseDirection,facing:releaseDirection.x<-.08?'left':'right'},assets.actorLibrary),atlasRelease=releaseSample?.clipAction==='spell'&&!releaseSample.phaseFallback?releaseSample.pose:null;
   if(pose.atlas){
@@ -227,6 +229,7 @@ export function createCombatActorRenderer({ctx,worldToScreen,getTransform,assets
  }
  function draw(actor,b,tick=b.tick){
   const shown=presentation(actor,b,tick),{height,foot,sample}=shown;
+  if(shown.study){drawSwordStudyActor(ctx,shown);return shown;}
   if(shown.beastFrame){const f=shown.beastFrame,k=height/f.nominalHeight;ctx.save();ctx.fillStyle='#15291d60';ctx.beginPath();ctx.ellipse(foot.x,foot.y+1,height*.37,height*.055,0,0,Math.PI*2);ctx.fill();ctx.drawImage(f.canvas,foot.x-f.origin.x*k,foot.y-f.origin.y*k,f.canvas.width*k,f.canvas.height*k);ctx.restore();return shown;}
   if(shown.wholeFrame){
    const f=shown.wholeFrame,k=height/f.sourceHeight;ctx.save();ctx.fillStyle='#15291d60';ctx.beginPath();ctx.ellipse(foot.x,foot.y+1,height*(sample.phase==='down'?.42:.22),height*.055,0,0,Math.PI*2);ctx.fill();

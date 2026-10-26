@@ -1,0 +1,85 @@
+{
+  "scope": "author-approved right-side whole-frame down; left is mirrored",
+  "source": "/Volumes/Media/immortal/assets/courtyard/combat-sword-study-v1/source/player-down-v001.png",
+  "sourceSha256": "563ebc9e702a83472e1dfaaee20aec7c4b79d0c27e6e64f6c112474d9b8a337c",
+  "sourceRegistration": "/Volumes/Media/immortal-qa/combat-sword-study-motion-20261027-v001/down-scale-v001/registration.json",
+  "sourceRegistrationSha256": "01a74c19125d4ef104e759420ad41f4e8a03d5dbab02265d2e08d6e6dee3503f",
+  "promptReference": "docs/art/combat-response-goal-20261027/player-down-prompt.md",
+  "pixelOperations": [
+    "alpha connected-component ownership",
+    "crop preserving native RGB and retained alpha",
+    "byte-exact native PNG copy"
+  ],
+  "sourceHeight": 650,
+  "bodyHeightMeters": 1.45,
+  "downFrameBoundariesMs": [
+    150,
+    300
+  ],
+  "clock": "actor.downedTick; missing tick holds last frame",
+  "frames": [
+    {
+      "file": "combat-sword-study-v1/frames/down-00.png",
+      "sha256": "e3f7189bff1afdac8717886a14467b8907498e605f3983dab2c7189f4df6f423",
+      "sourceFile": "/Volumes/Media/immortal-qa/combat-sword-study-motion-20261027-v001/down-scale-v001/down-00.png",
+      "sourceBox": [
+        47,
+        21,
+        714,
+        724
+      ],
+      "sourceRoot": [
+        350,
+        600
+      ],
+      "root": [
+        303,
+        579
+      ],
+      "sourceHeight": 650,
+      "nativeRgbExact": true
+    },
+    {
+      "file": "combat-sword-study-v1/frames/down-01.png",
+      "sha256": "b9ebc4afed1865a538c0a7290bc150b63889a47805e4e0b95249d061017db400",
+      "sourceFile": "/Volumes/Media/immortal-qa/combat-sword-study-motion-20261027-v001/down-scale-v001/down-01.png",
+      "sourceBox": [
+        707,
+        21,
+        1497,
+        708
+      ],
+      "sourceRoot": [
+        1040,
+        600
+      ],
+      "root": [
+        333,
+        579
+      ],
+      "sourceHeight": 650,
+      "nativeRgbExact": true
+    },
+    {
+      "file": "combat-sword-study-v1/frames/down-02.png",
+      "sha256": "22b56c605201f9c28b2e254414e8b88901061182d7866a5f33bb7fc425c5cbf5",
+      "sourceFile": "/Volumes/Media/immortal-qa/combat-sword-study-motion-20261027-v001/down-scale-v001/down-02.png",
+      "sourceBox": [
+        1431,
+        100,
+        2172,
+        650
+      ],
+      "sourceRoot": [
+        1690,
+        600
+      ],
+      "root": [
+        259,
+        500
+      ],
+      "sourceHeight": 650,
+      "nativeRgbExact": true
+    }
+  ]
+}

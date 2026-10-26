@@ -1,0 +1,142 @@
+{
+  "id": "shen-yan-half-cycle-study",
+  "visualIdentity": "shen-yan",
+  "action": "walk",
+  "direction": "right",
+  "sourceHeight": 500,
+  "scale": 0.116,
+  "margin": 2,
+  "loop": true,
+  "expectedDurationMs": 480,
+  "previewHeights": [
+    58,
+    116
+  ],
+  "frames": [
+    {
+      "file": "../source/run-right-support-v6.png",
+      "crop": [
+        0,
+        0,
+        615,
+        627
+      ],
+      "foot": [
+        380,
+        584
+      ],
+      "durationMs": 60,
+      "phase": "move"
+    },
+    {
+      "file": "../source/run-right-support-v6.png",
+      "crop": [
+        615,
+        0,
+        639,
+        627
+      ],
+      "foot": [
+        349,
+        584
+      ],
+      "durationMs": 60,
+      "phase": "move"
+    },
+    {
+      "file": "../source/run-right-support-v6.png",
+      "crop": [
+        0,
+        627,
+        615,
+        627
+      ],
+      "foot": [
+        400,
+        528
+      ],
+      "durationMs": 60,
+      "phase": "move"
+    },
+    {
+      "file": "../source/run-right-support-v6.png",
+      "crop": [
+        615,
+        627,
+        639,
+        627
+      ],
+      "foot": [
+        375,
+        528
+      ],
+      "durationMs": 60,
+      "phase": "move"
+    },
+    {
+      "file": "../source/run-left-support-v5.png",
+      "crop": [
+        0,
+        0,
+        615,
+        627
+      ],
+      "foot": [
+        380,
+        584
+      ],
+      "durationMs": 60,
+      "phase": "move"
+    },
+    {
+      "file": "../source/run-left-support-v5.png",
+      "crop": [
+        615,
+        0,
+        639,
+        627
+      ],
+      "foot": [
+        349,
+        584
+      ],
+      "durationMs": 60,
+      "phase": "move"
+    },
+    {
+      "file": "../source/run-left-support-v5.png",
+      "crop": [
+        0,
+        627,
+        615,
+        627
+      ],
+      "foot": [
+        400,
+        528
+      ],
+      "durationMs": 60,
+      "phase": "move"
+    },
+    {
+      "file": "../source/run-left-support-v5.png",
+      "crop": [
+        615,
+        627,
+        639,
+        627
+      ],
+      "foot": [
+        375,
+        528
+      ],
+      "durationMs": 60,
+      "phase": "move"
+    }
+  ],
+  "metadata": {
+    "scope": "single direction offline candidate; not art accepted",
+    "frameOrder": "v6 four frames then v5 four frames",
+    "timing": "60ms per frame / 480ms author candidate"
+  }
+}

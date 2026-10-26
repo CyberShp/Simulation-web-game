@@ -1,0 +1,126 @@
+{
+  "provider": "Poly Haven",
+  "licenseURL": "https://polyhaven.com/license",
+  "textures": [
+    {
+      "file": "wood-color.jpg",
+      "asset": "fine_grained_wood",
+      "channel": "color",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/fine_grained_wood/fine_grained_wood_col_2k.jpg",
+      "sha256": "d97b1ab2c5206ac43bc0c42f21878da14f4d02497fd21396399406c03f3755a9",
+      "bytes": 1327517,
+      "license": "CC0-1.0",
+      "sourcePage": "https://polyhaven.com/a/fine_grained_wood"
+    },
+    {
+      "file": "wood-normal.jpg",
+      "asset": "fine_grained_wood",
+      "channel": "normal",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/fine_grained_wood/fine_grained_wood_nor_gl_2k.jpg",
+      "sha256": "c76fcd29434978227db5a35b5b0238da1bee0fb5fa8cdfc6819a76c7ef723f3c",
+      "bytes": 855682,
+      "license": "CC0-1.0",
+      "sourcePage": "https://polyhaven.com/a/fine_grained_wood"
+    },
+    {
+      "file": "wood-arm.jpg",
+      "asset": "fine_grained_wood",
+      "channel": "arm",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/fine_grained_wood/fine_grained_wood_arm_2k.jpg",
+      "sha256": "69fa4899a24fe3383bd8573c3068b107b387a576ab44adcc6b3bda2bac1dd43f",
+      "bytes": 1073682,
+      "license": "CC0-1.0",
+      "sourcePage": "https://polyhaven.com/a/fine_grained_wood"
+    },
+    {
+      "file": "roof-color.jpg",
+      "asset": "grey_roof_01",
+      "channel": "color",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/grey_roof_01/grey_roof_01_diff_2k.jpg",
+      "sha256": "880583ff7508599b1dd6e83a6c70604120ad35f7ad187b1e98457c1a9d7b54ed",
+      "bytes": 1388588,
+      "license": "CC0-1.0",
+      "sourcePage": "https://polyhaven.com/a/grey_roof_01"
+    },
+    {
+      "file": "roof-normal.jpg",
+      "asset": "grey_roof_01",
+      "channel": "normal",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/grey_roof_01/grey_roof_01_nor_gl_2k.jpg",
+      "sha256": "2e2dbd57a8a1a09936b2a92373408c7658033966ffee25eddfe98b5988491da3",
+      "bytes": 1750511,
+      "license": "CC0-1.0",
+      "sourcePage": "https://polyhaven.com/a/grey_roof_01"
+    },
+    {
+      "file": "roof-arm.jpg",
+      "asset": "grey_roof_01",
+      "channel": "arm",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/grey_roof_01/grey_roof_01_arm_2k.jpg",
+      "sha256": "797d17bc80f144c5106755f339705a9a6f291f927f9d709914486e9e4e7992cb",
+      "bytes": 807658,
+      "license": "CC0-1.0",
+      "sourcePage": "https://polyhaven.com/a/grey_roof_01"
+    },
+    {
+      "file": "plaster-color.jpg",
+      "asset": "grey_plaster",
+      "channel": "color",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/grey_plaster/grey_plaster_diff_2k.jpg",
+      "sha256": "2cd3a4fb2723d93da0eccf9b23aced757acabc35f94b0a97fc8986fe7e4242b5",
+      "bytes": 3216521,
+      "license": "CC0-1.0",
+      "sourcePage": "https://polyhaven.com/a/grey_plaster"
+    },
+    {
+      "file": "plaster-normal.jpg",
+      "asset": "grey_plaster",
+      "channel": "normal",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/grey_plaster/grey_plaster_nor_gl_2k.jpg",
+      "sha256": "8edc6d8b8258f85ed741551f30bfee9807f3fcbfe14678f5c283435c66590e2f",
+      "bytes": 1237098,
+      "license": "CC0-1.0",
+      "sourcePage": "https://polyhaven.com/a/grey_plaster"
+    },
+    {
+      "file": "plaster-arm.jpg",
+      "asset": "grey_plaster",
+      "channel": "arm",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/grey_plaster/grey_plaster_arm_2k.jpg",
+      "sha256": "75a9aa75205d308f30a1afe03a747a2a7cc2706e04ba59cf14e8ba6db58e5cea",
+      "bytes": 1712870,
+      "license": "CC0-1.0",
+      "sourcePage": "https://polyhaven.com/a/grey_plaster"
+    },
+    {
+      "channel": "color",
+      "asset": "rock_01",
+      "license": "CC0-1.0",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/rock_01/rock_01_diff_2k.jpg",
+      "bytes": 3020379,
+      "sha256": "fe9013368539b5604602e64bfa48bef1a2a4c452fcb6894868fb556d0b14501c",
+      "file": "stone-color.jpg",
+      "sourcePage": "https://polyhaven.com/a/rock_01"
+    },
+    {
+      "channel": "normal",
+      "asset": "rock_01",
+      "license": "CC0-1.0",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/rock_01/rock_01_nor_gl_2k.jpg",
+      "bytes": 2989093,
+      "sha256": "70427a2c81f85c0e1ee4a147e273d028c3d0188bad2583f2509d6df9a3d55b89",
+      "file": "stone-normal.jpg",
+      "sourcePage": "https://polyhaven.com/a/rock_01"
+    },
+    {
+      "channel": "arm",
+      "asset": "rock_01",
+      "license": "CC0-1.0",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/rock_01/rock_01_arm_2k.jpg",
+      "bytes": 925560,
+      "sha256": "a954de58336738e6f963466f1453202ef7e186bd6492106c3b989c39f0d2e23c",
+      "file": "stone-arm.jpg",
+      "sourcePage": "https://polyhaven.com/a/rock_01"
+    }
+  ]
+}

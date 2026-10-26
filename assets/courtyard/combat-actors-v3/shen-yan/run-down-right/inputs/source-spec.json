@@ -1,0 +1,264 @@
+{
+  "id": "shen-yan-run-down-right",
+  "visualIdentity": "shen-yan",
+  "action": "move",
+  "direction": "down-right",
+  "sourceHeight": 280,
+  "canvas": [
+    320,
+    380
+  ],
+  "targetFoot": [
+    160,
+    340
+  ],
+  "expectedDurationMs": 465,
+  "metadata": {
+    "sourceReview": "root-selected-for-native-sample",
+    "generatedBy": "imagegen over measured stabilized motion",
+    "timingBasis": "measured stride at 3.3 m/s"
+  },
+  "frames": [
+    {
+      "file": "/Users/shepard/.codex/generated_images/01a1688b-282e-7033-b2ca-e9663044fed8/exec-4e8165c9-3316-491f-a303-11f354f6888f.png",
+      "crop": [
+        0,
+        0,
+        281,
+        350
+      ],
+      "foot": [
+        140,
+        326
+      ],
+      "durationMs": 29,
+      "phase": "move"
+    },
+    {
+      "file": "/Users/shepard/.codex/generated_images/01a1688b-282e-7033-b2ca-e9663044fed8/exec-4e8165c9-3316-491f-a303-11f354f6888f.png",
+      "crop": [
+        281,
+        0,
+        281,
+        350
+      ],
+      "foot": [
+        140,
+        326
+      ],
+      "durationMs": 29,
+      "phase": "move"
+    },
+    {
+      "file": "/Users/shepard/.codex/generated_images/01a1688b-282e-7033-b2ca-e9663044fed8/exec-4e8165c9-3316-491f-a303-11f354f6888f.png",
+      "crop": [
+        562,
+        0,
+        280,
+        350
+      ],
+      "foot": [
+        140,
+        326
+      ],
+      "durationMs": 29,
+      "phase": "move"
+    },
+    {
+      "file": "/Users/shepard/.codex/generated_images/01a1688b-282e-7033-b2ca-e9663044fed8/exec-4e8165c9-3316-491f-a303-11f354f6888f.png",
+      "crop": [
+        842,
+        0,
+        281,
+        350
+      ],
+      "foot": [
+        140,
+        326
+      ],
+      "durationMs": 29,
+      "phase": "move"
+    },
+    {
+      "file": "/Users/shepard/.codex/generated_images/01a1688b-282e-7033-b2ca-e9663044fed8/exec-4e8165c9-3316-491f-a303-11f354f6888f.png",
+      "crop": [
+        0,
+        350,
+        281,
+        350
+      ],
+      "foot": [
+        140,
+        326
+      ],
+      "durationMs": 29,
+      "phase": "move"
+    },
+    {
+      "file": "/Users/shepard/.codex/generated_images/01a1688b-282e-7033-b2ca-e9663044fed8/exec-4e8165c9-3316-491f-a303-11f354f6888f.png",
+      "crop": [
+        281,
+        350,
+        281,
+        350
+      ],
+      "foot": [
+        140,
+        326
+      ],
+      "durationMs": 29,
+      "phase": "move"
+    },
+    {
+      "file": "/Users/shepard/.codex/generated_images/01a1688b-282e-7033-b2ca-e9663044fed8/exec-4e8165c9-3316-491f-a303-11f354f6888f.png",
+      "crop": [
+        562,
+        350,
+        280,
+        350
+      ],
+      "foot": [
+        140,
+        326
+      ],
+      "durationMs": 29,
+      "phase": "move"
+    },
+    {
+      "file": "/Users/shepard/.codex/generated_images/01a1688b-282e-7033-b2ca-e9663044fed8/exec-4e8165c9-3316-491f-a303-11f354f6888f.png",
+      "crop": [
+        842,
+        350,
+        281,
+        350
+      ],
+      "foot": [
+        140,
+        326
+      ],
+      "durationMs": 29,
+      "phase": "move"
+    },
+    {
+      "file": "/Users/shepard/.codex/generated_images/01a1688b-282e-7033-b2ca-e9663044fed8/exec-4e8165c9-3316-491f-a303-11f354f6888f.png",
+      "crop": [
+        0,
+        700,
+        281,
+        350
+      ],
+      "foot": [
+        140,
+        326
+      ],
+      "durationMs": 29,
+      "phase": "move"
+    },
+    {
+      "file": "/Users/shepard/.codex/generated_images/01a1688b-282e-7033-b2ca-e9663044fed8/exec-4e8165c9-3316-491f-a303-11f354f6888f.png",
+      "crop": [
+        281,
+        700,
+        281,
+        350
+      ],
+      "foot": [
+        140,
+        326
+      ],
+      "durationMs": 29,
+      "phase": "move"
+    },
+    {
+      "file": "/Users/shepard/.codex/generated_images/01a1688b-282e-7033-b2ca-e9663044fed8/exec-4e8165c9-3316-491f-a303-11f354f6888f.png",
+      "crop": [
+        562,
+        700,
+        280,
+        350
+      ],
+      "foot": [
+        140,
+        326
+      ],
+      "durationMs": 29,
+      "phase": "move"
+    },
+    {
+      "file": "/Users/shepard/.codex/generated_images/01a1688b-282e-7033-b2ca-e9663044fed8/exec-4e8165c9-3316-491f-a303-11f354f6888f.png",
+      "crop": [
+        842,
+        700,
+        281,
+        350
+      ],
+      "foot": [
+        140,
+        326
+      ],
+      "durationMs": 29,
+      "phase": "move"
+    },
+    {
+      "file": "/Users/shepard/.codex/generated_images/01a1688b-282e-7033-b2ca-e9663044fed8/exec-4e8165c9-3316-491f-a303-11f354f6888f.png",
+      "crop": [
+        0,
+        1050,
+        281,
+        350
+      ],
+      "foot": [
+        140,
+        326
+      ],
+      "durationMs": 29,
+      "phase": "move"
+    },
+    {
+      "file": "/Users/shepard/.codex/generated_images/01a1688b-282e-7033-b2ca-e9663044fed8/exec-4e8165c9-3316-491f-a303-11f354f6888f.png",
+      "crop": [
+        281,
+        1050,
+        281,
+        350
+      ],
+      "foot": [
+        140,
+        326
+      ],
+      "durationMs": 29,
+      "phase": "move"
+    },
+    {
+      "file": "/Users/shepard/.codex/generated_images/01a1688b-282e-7033-b2ca-e9663044fed8/exec-4e8165c9-3316-491f-a303-11f354f6888f.png",
+      "crop": [
+        562,
+        1050,
+        280,
+        350
+      ],
+      "foot": [
+        140,
+        326
+      ],
+      "durationMs": 29,
+      "phase": "move"
+    },
+    {
+      "file": "/Users/shepard/.codex/generated_images/01a1688b-282e-7033-b2ca-e9663044fed8/exec-4e8165c9-3316-491f-a303-11f354f6888f.png",
+      "crop": [
+        842,
+        1050,
+        281,
+        350
+      ],
+      "foot": [
+        140,
+        326
+      ],
+      "durationMs": 30,
+      "phase": "move"
+    }
+  ],
+  "loop": true
+}

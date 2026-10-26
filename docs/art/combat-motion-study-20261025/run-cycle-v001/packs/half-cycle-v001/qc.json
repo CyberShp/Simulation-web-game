@@ -1,0 +1,483 @@
+{
+  "schema": "combat-frame-qc/v1",
+  "algorithmStatus": "passed",
+  "artReview": "not-reviewed",
+  "frameCount": 8,
+  "distinctFrames": 8,
+  "duplicateGroups": [],
+  "durationMs": 480,
+  "expectedDurationMs": 480,
+  "frameSize": [
+    85,
+    84
+  ],
+  "foot": [
+    49,
+    70
+  ],
+  "footRange": {
+    "x": [
+      49,
+      49
+    ],
+    "y": [
+      70,
+      70
+    ]
+  },
+  "sourceHeight": 58.0,
+  "uniformScale": 0.116,
+  "preview": {
+    "size": [
+      85,
+      84
+    ],
+    "targetBodyHeight": null,
+    "sampling": "nearest",
+    "gifDurationMs": 480,
+    "gifTimingQuantizationMs": 10,
+    "background": "#26292e"
+  },
+  "heightPreviews": [
+    {
+      "size": [
+        85,
+        84
+      ],
+      "targetBodyHeight": 58,
+      "sampling": "nearest",
+      "gifDurationMs": 480,
+      "gifTimingQuantizationMs": 10,
+      "background": "#26292e"
+    },
+    {
+      "size": [
+        170,
+        168
+      ],
+      "targetBodyHeight": 116,
+      "sampling": "nearest",
+      "gifDurationMs": 480,
+      "gifTimingQuantizationMs": 10,
+      "background": "#26292e"
+    }
+  ],
+  "warnings": [
+    {
+      "code": "source-content-touches-edge",
+      "frame": 0
+    },
+    {
+      "code": "source-content-touches-edge",
+      "frame": 2
+    },
+    {
+      "code": "source-content-touches-edge",
+      "frame": 3
+    },
+    {
+      "code": "source-content-touches-edge",
+      "frame": 4
+    },
+    {
+      "code": "source-content-touches-edge",
+      "frame": 5
+    },
+    {
+      "code": "source-content-touches-edge",
+      "frame": 6
+    },
+    {
+      "code": "source-content-touches-edge",
+      "frame": 7
+    }
+  ],
+  "frames": [
+    {
+      "index": 0,
+      "bounds": [
+        5,
+        12,
+        75,
+        71
+      ],
+      "visiblePixels": 1561,
+      "transparentPixels": 5579,
+      "partialAlphaPixels": 1558,
+      "alphaRange": [
+        0,
+        255
+      ],
+      "pixelSha256": "04ef2c38f2e0b88d9b7c4073abd2d7be5dc833e7bb446552c314faa2a3a42945",
+      "alphaSha256": "38b23dc116599c1582a11043a0084e21aa48a7295d576e7d3bebe492927b78cd",
+      "inputBounds": [
+        0,
+        23,
+        615,
+        625
+      ],
+      "inputFoot": [
+        380,
+        584
+      ],
+      "translation": [
+        4.919999999999995,
+        2.2560000000000002
+      ],
+      "foot": [
+        49,
+        70
+      ],
+      "bottomFromFoot": 1,
+      "source": "inputs/000-run-right-support-v6.png",
+      "sourceCrop": [
+        0,
+        0,
+        615,
+        627
+      ],
+      "rgbaPreserved": false,
+      "uniformScale": 0.116,
+      "alphaClip": null
+    },
+    {
+      "index": 1,
+      "bounds": [
+        10,
+        12,
+        77,
+        72
+      ],
+      "visiblePixels": 1428,
+      "transparentPixels": 5712,
+      "partialAlphaPixels": 1426,
+      "alphaRange": [
+        0,
+        255
+      ],
+      "pixelSha256": "a7e3698ec1746b82bcc9cb83da62f5e08b8d32e0a03038248b8c983ed4e1c58b",
+      "alphaSha256": "bf8458d81eceeb918470cb307d61b0886ef9562cce456adaabaa4d6919a6e7d9",
+      "inputBounds": [
+        1,
+        35,
+        615,
+        617
+      ],
+      "inputFoot": [
+        349,
+        584
+      ],
+      "translation": [
+        8.515999999999998,
+        2.2560000000000002
+      ],
+      "foot": [
+        49,
+        70
+      ],
+      "bottomFromFoot": 2,
+      "source": "inputs/000-run-right-support-v6.png",
+      "sourceCrop": [
+        615,
+        0,
+        639,
+        627
+      ],
+      "rgbaPreserved": false,
+      "uniformScale": 0.116,
+      "alphaClip": null
+    },
+    {
+      "index": 2,
+      "bounds": [
+        4,
+        14,
+        70,
+        72
+      ],
+      "visiblePixels": 1621,
+      "transparentPixels": 5519,
+      "partialAlphaPixels": 1612,
+      "alphaRange": [
+        0,
+        255
+      ],
+      "pixelSha256": "353571099854443bddd028b1528752fa83ffeb4d0fa045c6fa01a7d82ca54bce",
+      "alphaSha256": "26c3b75b64aebfbee551cad31d150eb631c1c75b534f7ade34dd632a48f29343",
+      "inputBounds": [
+        0,
+        17,
+        615,
+        601
+      ],
+      "inputFoot": [
+        400,
+        528
+      ],
+      "translation": [
+        2.5999999999999943,
+        8.751999999999995
+      ],
+      "foot": [
+        49,
+        70
+      ],
+      "bottomFromFoot": 2,
+      "source": "inputs/000-run-right-support-v6.png",
+      "sourceCrop": [
+        0,
+        627,
+        615,
+        627
+      ],
+      "rgbaPreserved": false,
+      "uniformScale": 0.116,
+      "alphaClip": null
+    },
+    {
+      "index": 3,
+      "bounds": [
+        6,
+        14,
+        80,
+        72
+      ],
+      "visiblePixels": 1590,
+      "transparentPixels": 5550,
+      "partialAlphaPixels": 1580,
+      "alphaRange": [
+        0,
+        255
+      ],
+      "pixelSha256": "ba8be27ef4c0619831776756af70ebee2dbd97410b5a581808f72f1dc47f0e29",
+      "alphaSha256": "38c4432294193c8b75345b95dd240b210c9cd0c5d5a966d500bd8d8b4943b718",
+      "inputBounds": [
+        5,
+        1,
+        639,
+        627
+      ],
+      "inputFoot": [
+        375,
+        528
+      ],
+      "translation": [
+        5.5,
+        8.751999999999995
+      ],
+      "foot": [
+        49,
+        70
+      ],
+      "bottomFromFoot": 2,
+      "source": "inputs/000-run-right-support-v6.png",
+      "sourceCrop": [
+        615,
+        627,
+        639,
+        627
+      ],
+      "rgbaPreserved": false,
+      "uniformScale": 0.116,
+      "alphaClip": null
+    },
+    {
+      "index": 4,
+      "bounds": [
+        5,
+        12,
+        74,
+        71
+      ],
+      "visiblePixels": 1636,
+      "transparentPixels": 5504,
+      "partialAlphaPixels": 1629,
+      "alphaRange": [
+        0,
+        255
+      ],
+      "pixelSha256": "dc8e31d14b643d96dfee484a3dc6d4f09565c467bb25d62ce29dc04dd261af56",
+      "alphaSha256": "8ef907d1a2e935d3c77187a41e6bca3b96485119969af82910fcbb1cae580c58",
+      "inputBounds": [
+        0,
+        21,
+        605,
+        627
+      ],
+      "inputFoot": [
+        380,
+        584
+      ],
+      "translation": [
+        4.919999999999995,
+        2.2560000000000002
+      ],
+      "foot": [
+        49,
+        70
+      ],
+      "bottomFromFoot": 1,
+      "source": "inputs/001-run-left-support-v5.png",
+      "sourceCrop": [
+        0,
+        0,
+        615,
+        627
+      ],
+      "rgbaPreserved": false,
+      "uniformScale": 0.116,
+      "alphaClip": null
+    },
+    {
+      "index": 5,
+      "bounds": [
+        10,
+        5,
+        74,
+        72
+      ],
+      "visiblePixels": 1558,
+      "transparentPixels": 5582,
+      "partialAlphaPixels": 1553,
+      "alphaRange": [
+        0,
+        255
+      ],
+      "pixelSha256": "0750a37d0102e7740a4b2c9c3a69b6c99e92397eb56f3299385ab546969988bc",
+      "alphaSha256": "6f7a418e805a0ecbf0ba6f7d13edc47af0628e5a9cddd9a1671741589f4e9529",
+      "inputBounds": [
+        11,
+        21,
+        617,
+        627
+      ],
+      "inputFoot": [
+        349,
+        584
+      ],
+      "translation": [
+        8.515999999999998,
+        2.2560000000000002
+      ],
+      "foot": [
+        49,
+        70
+      ],
+      "bottomFromFoot": 2,
+      "source": "inputs/001-run-left-support-v5.png",
+      "sourceCrop": [
+        615,
+        0,
+        639,
+        627
+      ],
+      "rgbaPreserved": false,
+      "uniformScale": 0.116,
+      "alphaClip": null
+    },
+    {
+      "index": 6,
+      "bounds": [
+        4,
+        9,
+        73,
+        78
+      ],
+      "visiblePixels": 1659,
+      "transparentPixels": 5481,
+      "partialAlphaPixels": 1655,
+      "alphaRange": [
+        0,
+        255
+      ],
+      "pixelSha256": "03d8510422c5f0f41604caae5f8df9ff98a68027cebe6c20c1778c65f937e635",
+      "alphaSha256": "42ebbaa748aac322779783a25f55e092cce3859479a431e029390f6b678dccf7",
+      "inputBounds": [
+        0,
+        0,
+        615,
+        627
+      ],
+      "inputFoot": [
+        400,
+        528
+      ],
+      "translation": [
+        2.5999999999999943,
+        8.751999999999995
+      ],
+      "foot": [
+        49,
+        70
+      ],
+      "bottomFromFoot": 8,
+      "source": "inputs/001-run-left-support-v5.png",
+      "sourceCrop": [
+        0,
+        627,
+        615,
+        627
+      ],
+      "rgbaPreserved": false,
+      "uniformScale": 0.116,
+      "alphaClip": null
+    },
+    {
+      "index": 7,
+      "bounds": [
+        5,
+        11,
+        78,
+        76
+      ],
+      "visiblePixels": 1685,
+      "transparentPixels": 5455,
+      "partialAlphaPixels": 1681,
+      "alphaRange": [
+        0,
+        255
+      ],
+      "pixelSha256": "709b7bb47c0b1c8022deff33236c6509868f87145f4201b07db0beea4dce59f1",
+      "alphaSha256": "d9f00a17343518315a7f3a23098e521b2fbe28255714a672ba8ac43d0fc9557b",
+      "inputBounds": [
+        0,
+        3,
+        630,
+        627
+      ],
+      "inputFoot": [
+        375,
+        528
+      ],
+      "translation": [
+        5.5,
+        8.751999999999995
+      ],
+      "foot": [
+        49,
+        70
+      ],
+      "bottomFromFoot": 6,
+      "source": "inputs/001-run-left-support-v5.png",
+      "sourceCrop": [
+        615,
+        627,
+        639,
+        627
+      ],
+      "rgbaPreserved": false,
+      "uniformScale": 0.116,
+      "alphaClip": null
+    }
+  ],
+  "notProven": [
+    "anatomy",
+    "identity",
+    "gait",
+    "anatomical foot placement",
+    "motion continuity",
+    "contact geometry",
+    "art approval",
+    "runtime integration"
+  ]
+}

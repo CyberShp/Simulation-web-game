@@ -1,0 +1,98 @@
+[
+  {
+    "file": "textures/grass-rock-color.jpg",
+    "asset": "aerial_grass_rock",
+    "channel": "Diffuse",
+    "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/aerial_grass_rock/aerial_grass_rock_diff_1k.jpg",
+    "license": "CC0-1.0",
+    "sha256": "57b8041bfe0d0f01430e4dbaad45e7ddddf0a9fc97317f90dbc51f7b0d9e1b5d"
+  },
+  {
+    "file": "textures/grass-rock-normal.jpg",
+    "asset": "aerial_grass_rock",
+    "channel": "nor_gl",
+    "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/aerial_grass_rock/aerial_grass_rock_nor_gl_1k.jpg",
+    "license": "CC0-1.0",
+    "sha256": "1aa3e23bff453f152e089b9f83aa36b4901651e019f7e2ca01d5331a9bbbda78"
+  },
+  {
+    "file": "textures/grass-rock-roughness.jpg",
+    "asset": "aerial_grass_rock",
+    "channel": "Rough",
+    "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/aerial_grass_rock/aerial_grass_rock_rough_1k.jpg",
+    "license": "CC0-1.0",
+    "sha256": "b9f3f76aba74007f708333c0dbe73c52eb83ea0c4187a13e2e994f888a25114a"
+  },
+  {
+    "file": "textures/strata-color.jpg",
+    "asset": "marble_cliff_02",
+    "channel": "Diffuse",
+    "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/marble_cliff_02/marble_cliff_02_diff_1k.jpg",
+    "license": "CC0-1.0",
+    "sha256": "a1ca15e1b5cd7d0d03cb7abb93d44a18feb4bf6757ec3458805518f51f3ae1f1"
+  },
+  {
+    "file": "textures/strata-normal.jpg",
+    "asset": "marble_cliff_02",
+    "channel": "nor_gl",
+    "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/marble_cliff_02/marble_cliff_02_nor_gl_1k.jpg",
+    "license": "CC0-1.0",
+    "sha256": "046d22b521c769de9f52fe38cf99a34ad842687da53ce782fd6f3d48475f70a6"
+  },
+  {
+    "file": "textures/strata-roughness.jpg",
+    "asset": "marble_cliff_02",
+    "channel": "Rough",
+    "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/marble_cliff_02/marble_cliff_02_rough_1k.jpg",
+    "license": "CC0-1.0",
+    "sha256": "702aefde0af04a7a64fd94994f9a2ff2d40260840fad7f9a16f551c6e438e342"
+  },
+  {
+    "file": "textures/grass-rock-height.jpg",
+    "asset": "aerial_grass_rock",
+    "channel": "Displacement",
+    "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/aerial_grass_rock/aerial_grass_rock_disp_1k.jpg",
+    "license": "CC0-1.0",
+    "sha256": "c2eb4b602346c28c1641b9976704e177542cca0452d5d96900c790cb58685d46"
+  },
+  {
+    "file": "textures/strata-height.jpg",
+    "asset": "marble_cliff_02",
+    "channel": "Displacement",
+    "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/marble_cliff_02/marble_cliff_02_disp_1k.jpg",
+    "license": "CC0-1.0",
+    "sha256": "9c43f52ded9237aa6c59faa68d60dde93158870052143816b26a28805e9ec97a"
+  },
+  {
+    "file": "textures/forest-height.jpg",
+    "asset": "forest_ground_04",
+    "channel": "Displacement",
+    "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/forest_ground_04/forest_ground_04_disp_1k.jpg",
+    "license": "CC0-1.0",
+    "sha256": "fe78a817ebc14f3b8fc58afa165661fcaa831a5141b85205cae797d955359979"
+  },
+  {
+    "file": "textures/forest-color.jpg",
+    "asset": "forest_ground_04",
+    "channel": "Diffuse",
+    "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/forest_ground_04/forest_ground_04_diff_1k.jpg",
+    "license": "CC0-1.0",
+    "sha256": "50a4dda30875020c64385261aa7e00e2155b592302fa6794165f58fae73cbd2c"
+  },
+  {
+    "file": "textures/forest-normal.jpg",
+    "asset": "forest_ground_04",
+    "channel": "nor_gl",
+    "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/forest_ground_04/forest_ground_04_nor_gl_1k.jpg",
+    "license": "CC0-1.0",
+    "sha256": "9c3a0200e02ce40edffbbf9f5f623ef08ea9b1b7812b556182ec978f88887151"
+  },
+  {
+    "file": "textures/forest-roughness.jpg",
+    "asset": "forest_ground_04",
+    "channel": "Rough",
+    "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/forest_ground_04/forest_ground_04_rough_1k.jpg",
+    "license": "CC0-1.0",
+    "sha256": "89d4d50395eb92824a64132c4bc8a5a09009071e0b325ab66dc3104c7a3090ed"
+  }
+]

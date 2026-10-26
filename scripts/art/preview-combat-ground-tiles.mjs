@@ -1,0 +1,7 @@
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import crypto from 'node:crypto';
+import {createCanvas,loadImage} from '@napi-rs/canvas';
+const [source,output]=process.argv.slice(2);if(!source||!output||!path.isAbsolute(source)||!path.isAbsolute(output))throw Error('Usage: node preview-combat-ground-tiles.mjs /absolute/ground.png /absolute/new-output-directory');
+const bytes=await fs.readFile(source),im=await loadImage(bytes);await fs.mkdir(output);const canvas=createCanvas(im.width*2,im.height*2),ctx=canvas.getContext('2d');ctx.imageSmoothingEnabled=false;for(let y=0;y<2;y++)for(let x=0;x<2;x++)ctx.drawImage(im,x*im.width,y*im.height);await fs.writeFile(path.join(output,'ground-2x2-full.png'),canvas.toBuffer('image/png'),{flag:'wx'});
+const width=1536,height=Math.round(canvas.height*width/canvas.width),small=createCanvas(width,height),smallCtx=small.getContext('2d');smallCtx.imageSmoothingEnabled=false;smallCtx.drawImage(canvas,0,0,width,height);await fs.writeFile(path.join(output,'ground-2x2-preview.png'),small.toBuffer('image/png'),{flag:'wx'});await fs.writeFile(path.join(output,'report.json'),JSON.stringify({kind:'unmodified-source-ground-tiling-preview',source,sha256:crypto.createHash('sha256').update(bytes).digest('hex'),sourceSize:[im.width,im.height],fullSize:[canvas.width,canvas.height],seamAt:[im.width,im.height],previewSize:[width,height],pixels:'2x2 original tiles; nearest preview only; source retained'},null,2)+'\n',{flag:'wx'});

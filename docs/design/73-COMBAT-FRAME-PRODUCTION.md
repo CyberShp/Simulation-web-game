@@ -1,5 +1,27 @@
 # 单人、同行与群战帧动画制作
 
+## 2026-10-27 持剑单人正式接入与长档响应复测
+
+用户批准将剑气交手样板接入正式单人山谷战斗。本批对应SR-XF-007/013/029，沿05的身份、命令、世界步与结果契约，20/55/70的战斗和完整帧要求及U-172针对性初始条件。新建单人战斗登记`rulesProfile=sword-study-v1`；旧无标记在途战斗保持原规则。WASD与鼠标独立，J/左键移动出剑；Q仅对真实已学剑法开放，第三个100ms世界步释放，下一步锁点落击，释放后可移动/Space，原1/2/3术法保留。T-COMBAT-SWORD-STUDY-20261026为普攻射程8米、可见弹速12米/秒，Q半径1.1米/耗气16/冷却18步；伤害沿正式人物属性，闪避沿原规则。
+
+| SR范围 | 本批接缝 | 实际证据与边界 |
+| --- | --- | --- |
+| SR-XF-007 AC01/02/03 | 75整帧、共享帧选择/脚点/缩放/镜像、alpha≥64身体轮廓与新音频adapter | 左右19帧/480ms及移动攻击接续有原生像素诊断；方向与动作仍有粗样及缺口，整项状态不变 |
+| SR-XF-013 AC01/02/03 | `ea-campaign.mjs`、`ea-sr-combat.mjs`、attack profiles/body helper、公开`commandSect`名单 | 正式释放、一次命中、Q资格/取消、胜败确认与返院；局部可选字段往返和旧在途兼容覆盖，完整SR不关闭 |
+| SR-XF-029 AC01/02 | combat presentation/effects/audio及精确地形memo | 输入/世界步/绘制分别取证；后台持续推进，剩余慢步与Tab延迟开放 |
+
+本批新增专项46项已由主树分组通过：规则11、音频13、可见弹插值7、整帧呈现9、公开命令6；精确缓存相关11项相邻检查另列。新音效8类均有原生WebAudio source启动及事件映射证据，暂停/失焦/静音消费、稳定ID去重与取消未释放攻击已做技术检查；主Agent未听过，听感待用户试听。[制作、主审与限制](../art/combat-sword-study-integration-20261026/README.md)为本批详细入口。
+
+`/Volumes/Media/immortal-qa/combat-sword-study-native-20261026/functional-suite-01.json`保留旧同一冻结版的四个独立macOS源码Electron世界：normal02/head04/defeat01/retreat01分别9/6/5/6项，共26项分场检查（共同门槛有重复），来源/运行散列和正常关闭均成立。它验证移动施法、头部轮廓命中/头顶不伤、真实败退、撤离、确认和返院，不替代后续移动修复或长档性能验收。`head01/02`、`normal01`原始失败继续保留，Q桌面名单缺口已由真实公开命令修复并专项验证。
+
+移动诊断02原报告仍为failed；`movement-diagnostic-02/diagnostic-qualification.json`只补充运行期间文件变化和17份实际Canvas像素证据，主Agent已看左右跑与出手后回跑，不能改写原状态。最终`movement-diagnostic-03/report.json`为observed：722→762、6项诊断、source/runtime/combatRuntime散列与关闭均true，错误为空；D/A各19张跑步图，W/S各4张，J实际释放后恢复run帧。活动rAF最大11ms、世界pump最大5.2ms仅属于该轻场。完整动作、美术连续性及用户原实例的整体体验仍分别验收。
+
+同源长档来自`/Volumes/Media/immortal-qa/combat-native-party-20261025/solo-01/forest-approach.json`的`.session`：原tick265242、120人、5门人/17营造，正式应战并运行188步到265430准备独立QA档，未改后台活动或补剑法。`ea-sect-domain.mjs`本批只替换northWalk精确浮点坐标字符串memo，哈希槽仅定位缓存、原x/y严格相等才复用；其他会话已有的内部单元证明保持原字节。`/Volumes/Media/immortal-qa/combat-long-save-perf-20261026/north-cache-v001/report.json`记录冷步265440从219.23→143.05ms、热步2.48→2.34ms；before/after冷热完整session均3743204字节、SHA04a8092d42cdca2ccbcca60f940dd74c5f65e80ce9d9e631def54700a932f983一致，244685次几何/边界/缓存碰撞对照通过。此为Node样本，另有265250约158ms慢步，不能当桌面FPS或整体流畅证明。
+
+长档`native-short-01/report.json`在启动手动idle计时18800→0的严格比较处failed，未进入采样，原报告保留。修正检查器仅识别该启动契约后，`/Volumes/Media/immortal-qa/combat-long-save-perf-20261026/native-short-02/report.json`为observed：265430→265471实际41步、3项检查，source/runtime/combatRuntime及关闭均true、错误为空；真实WASD/J/原术法/Space执行，原未学剑Q拒绝且灵气88保持，120人及5后台活动继续。正式265439→265440世界pump127.1ms，265449→265450为57.6ms；活动rAF最大125ms/p95 5.6ms，绘制最大2.2ms，Tab264.1ms长任务仍在。该轮为新Electron进程、检查器重载并准备素材后的40目标步短测，非未经准备的OS冷启动；没有长档整场终局或完整流畅验收。
+
+本批仅追加局部证据，完整SR/AC与发布状态保持；完整方向/动作、听感、Windows与剩余后台路径和Tab响应继续开放。下一步以相同真实长档处理残留慢步，并继续核实际动作接缝。
+
 ## 2026-10-26 可见身体命中与战斗音效
 
 2026-10-26 剑气身体命中与SFX修复：可见发射/瞄准/28×4核心与12帧alpha≥64轮廓同源；主Chrome同点瞄头旧200/0→新175/1，上空不伤、静音躯干仍伤。几何/Q回归与20项音频生命周期检查通过，静音/音量/R停旧音已接；听感待用户试听，全部SR/AC状态保持。 [覆盖/主UI/技术与听感边界](../art/combat-ranged-20261026/review-v002.json)另存，正式runtime与存档未改。

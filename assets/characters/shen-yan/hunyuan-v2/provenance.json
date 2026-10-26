@@ -1,0 +1,533 @@
+{
+  "character": "沈砚",
+  "date": "2026-10-17",
+  "references": [
+    {
+      "part": "head",
+      "path": "references/head-front.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "bytes": 2062120,
+      "sha256": "64f4c01cccfe61e175bd42fa17bbff607d72a4a5ae260ef76195c4b67c046579"
+    },
+    {
+      "part": "body",
+      "path": "references/body-front.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "bytes": 2142482,
+      "sha256": "a309f61c76da18d1081ce11c127e5abdc7c13b218d81c23a69da130d64a70f74"
+    }
+  ],
+  "generation_config": {
+    "model": "hy-3d-3.1",
+    "generate_type": "Normal",
+    "face_count_per_part": 500000,
+    "enable_pbr": true
+  },
+  "stage": "detailed master and basic rig prepared; recorded static poses verified; appearance review pending",
+  "tasks": {
+    "head": {
+      "model": "hy-3d-3.1",
+      "id": "1502985747438649344",
+      "status": "completed",
+      "completed_at": 1792234370
+    },
+    "body": {
+      "model": "hy-3d-3.1",
+      "id": "1502985807425585152",
+      "status": "completed",
+      "completed_at": 1792234370
+    },
+    "body_retopology": {
+      "model": "hy-3d-retopology",
+      "id": "1502988126284128256",
+      "status": "completed",
+      "polygon_type": "triangle",
+      "face_level": "high",
+      "completed_at": 1792235327
+    },
+    "body_rig": {
+      "model": "hy-3d-rigging",
+      "status": "completed",
+      "completed_at": 1792235452,
+      "id": "1502991072858480640"
+    }
+  },
+  "outputs": [
+    {
+      "part": "head",
+      "format": "obj",
+      "path": "source/shen-yan-head-source.obj.zip",
+      "bytes": 44327405,
+      "sha256": "e52e1bd24ef97bff80920e0c2d24786bfa31ac698716686e5aff287c571779fd"
+    },
+    {
+      "part": "head",
+      "format": "glb",
+      "path": "source/shen-yan-head-source.glb",
+      "bytes": 55296612,
+      "sha256": "03b2c56b73628edf9611ca637ae769b62135995c464075eeadb3e88be1ce6eee"
+    },
+    {
+      "part": "body",
+      "format": "obj",
+      "path": "source/shen-yan-body-source.obj.zip",
+      "bytes": 44311322,
+      "sha256": "b1c092b9ca3230240c0e8e5e4583cd04e34941f6a1da2d951682d511e77c00ff"
+    },
+    {
+      "part": "body",
+      "format": "glb",
+      "path": "source/shen-yan-body-source.glb",
+      "bytes": 55569764,
+      "sha256": "8d335684717bc77a71144c0cf94d795db923e012ca7c1c992b1a8be8424f0092"
+    }
+  ],
+  "geometry": {
+    "head": {
+      "source_gltf_vertices": 276343,
+      "triangles": 499466,
+      "attributes": [
+        "POSITION",
+        "NORMAL",
+        "TEXCOORD_0"
+      ],
+      "textures": [
+        {
+          "name": "texture_pbr_20250901_normal",
+          "mimeType": "image/png"
+        },
+        {
+          "name": "texture_pbr_20250901",
+          "mimeType": "image/png"
+        },
+        {
+          "name": "texture_pbr_20250901_metallic-texture_pbr_20250901_roughness",
+          "mimeType": "image/png"
+        }
+      ]
+    },
+    "body": {
+      "source_gltf_vertices": 317506,
+      "triangles": 500000,
+      "attributes": [
+        "POSITION",
+        "NORMAL",
+        "TEXCOORD_0"
+      ],
+      "textures": [
+        {
+          "name": "texture_pbr_20250901_normal",
+          "mimeType": "image/png"
+        },
+        {
+          "name": "texture_pbr_20250901",
+          "mimeType": "image/png"
+        },
+        {
+          "name": "texture_pbr_20250901_metallic-texture_pbr_20250901_roughness",
+          "mimeType": "image/png"
+        }
+      ]
+    }
+  },
+  "rigging_attempts": [
+    {
+      "input": "body source GLB",
+      "result": "rejected before a task id was returned",
+      "provider_error": "InvalidParameter.InvalidParameter",
+      "message": "File3D文件大小为56 MB，不在允许范围0 MiB~50 MiB。",
+      "qa_result": "/Volumes/Media/immortal-qa/hunyuan-shen-yan-v2-20261017/body-rig-submit-01.json"
+    }
+  ],
+  "derived_master": {
+    "bun_vertices_adjusted": 34153,
+    "head_triangles": 499466,
+    "body_triangles": 496408,
+    "head_uv_preserved": true,
+    "unchanged_head_positions_preserved": true,
+    "sources": [
+      "assembly/repaired/shen-yan-detailed-master.blend",
+      "audit/bun-repair/shen-yan-head-compact-bun.blend",
+      "material/shen-yan-head-material.blend"
+    ],
+    "outputs": [
+      {
+        "path": "/Volumes/Media/immortal/assets/characters/shen-yan/hunyuan-v2/prepared/shen-yan-detailed-master.blend",
+        "bytes": 108279836,
+        "sha256": "0f690e350893cbf5487ad01cd50295ef1511b0d0a4bf889a9b69cdff12f8b087"
+      },
+      {
+        "path": "/Volumes/Media/immortal/assets/characters/shen-yan/hunyuan-v2/prepared/shen-yan-detailed-master.glb",
+        "bytes": 105142128,
+        "sha256": "846873606d99aedac98e6dd0c881c563c100700bb3bcc4d91413e8736c98e4dc"
+      }
+    ]
+  },
+  "local_corrections": {
+    "neck": {
+      "body_faces_removed": 3592,
+      "head_lower_root_max_drop": 0.045,
+      "source_body_units_retained": true,
+      "evidence": "/Volumes/Media/immortal-qa/hunyuan-shen-yan-v2-20261017/assembly/repaired/reload-verification.json"
+    },
+    "bun": {
+      "source_mask_vertices": 34180,
+      "source_face_and_main_scalp_positions_preserved": true,
+      "evidence": "/Volumes/Media/immortal-qa/hunyuan-shen-yan-v2-20261017/audit/bun-repair/proposal.json"
+    },
+    "head_material": {
+      "changes": [
+        "iris color",
+        "nose basecolor mark",
+        "hair specular response"
+      ],
+      "derived_maps_size": [
+        4096,
+        4096
+      ],
+      "original_normal_png_retained": true,
+      "evidence": "/Volumes/Media/immortal-qa/hunyuan-shen-yan-v2-20261017/material/validation.json"
+    }
+  },
+  "mcp_update": {
+    "tool": "hunyuan_retopology",
+    "root": "/Users/shepard/.codex/mcp/hunyuan-tokenhub",
+    "verification": "12 offline and stdio checks passed",
+    "source": "https://cloud.tencent.com/document/product/1823/137778"
+  },
+  "auxiliary_outputs": [
+    {
+      "path": "retopology/shen-yan-body-retopology.glb",
+      "bytes": 478748,
+      "sha256": "85b8d9a9f44c64fcf685cfa8270a2be28b2a9836d7af6cfc47145621372e9e43"
+    },
+    {
+      "path": "rigged/shen-yan-body-retopology-rigged.fbx",
+      "bytes": 1512460,
+      "sha256": "871b396781edfbb472ce9fe035c9ead8b31a46180ed2800078657745db268f03"
+    }
+  ],
+  "rigging": {
+    "bones": 28,
+    "deforming_bones": 22,
+    "full_bound_master_triangles": 995874,
+    "working_copy_triangles": 200000,
+    "working_copy_embedded_texture_size": [
+      4096,
+      4096
+    ],
+    "full_bound_master_readback": {
+      "head": {
+        "geometry_uv_normal_signature_matches_unbound_master": true,
+        "weights": {
+          "vertices": 276343,
+          "weighted_vertices": 276343,
+          "minimum_sum": 0.9999998807907104,
+          "maximum_sum": 1.0000001192092896,
+          "maximum_sum_error": 1.1920928955078125e-07,
+          "maximum_influences": 3,
+          "nonfinite_weights": 0,
+          "negative_weights": 0
+        },
+        "enabled_armature_modifiers": 1
+      },
+      "body": {
+        "geometry_uv_normal_signature_matches_unbound_master": true,
+        "weights": {
+          "vertices": 317506,
+          "weighted_vertices": 317506,
+          "minimum_sum": 0.9999998211860657,
+          "maximum_sum": 1.0000001192092896,
+          "maximum_sum_error": 1.7881393432617188e-07,
+          "maximum_influences": 4,
+          "nonfinite_weights": 0,
+          "negative_weights": 0
+        },
+        "enabled_armature_modifiers": 1
+      }
+    },
+    "working_copy_export_readback": {
+      "bones": 28,
+      "meshes": [
+        {
+          "name": "ShenYan_Body_Detailed",
+          "vertices": 82830,
+          "triangles": 100000,
+          "weights": {
+            "vertices": 82830,
+            "weighted_vertices": 82830,
+            "minimum_sum": 0.9999998211860657,
+            "maximum_sum": 1.0000001192092896,
+            "maximum_sum_error": 1.7881393432617188e-07,
+            "maximum_influences": 4,
+            "nonfinite_weights": 0,
+            "negative_weights": 0
+          },
+          "has_custom_normals": true,
+          "nonfinite_vertices": 0
+        },
+        {
+          "name": "ShenYan_Head_Detailed",
+          "vertices": 63014,
+          "triangles": 100000,
+          "weights": {
+            "vertices": 63014,
+            "weighted_vertices": 63014,
+            "minimum_sum": 0.9999998807907104,
+            "maximum_sum": 1.0000001192092896,
+            "maximum_sum_error": 1.1920928955078125e-07,
+            "maximum_influences": 3,
+            "nonfinite_weights": 0,
+            "negative_weights": 0
+          },
+          "has_custom_normals": true,
+          "nonfinite_vertices": 0
+        }
+      ]
+    },
+    "working_copy_reduction": {
+      "body": {
+        "triangles_before": 496408,
+        "triangles_after": 100000,
+        "vertices": 51782,
+        "vertices_before_weld": 317506,
+        "vertices_after_weld": 249992,
+        "weld_threshold_local_units": 1e-06,
+        "weld_scope": "Derived display mesh only; per-corner UVs retained",
+        "has_custom_normals": true,
+        "uv_layers": [
+          "UVMap"
+        ],
+        "weights": {
+          "vertices": 51782,
+          "weighted_vertices": 51782,
+          "minimum_sum": 0.9999998211860657,
+          "maximum_sum": 1.0000001192092896,
+          "maximum_sum_error": 1.7881393432617188e-07,
+          "maximum_influences": 4,
+          "nonfinite_weights": 0,
+          "negative_weights": 0
+        }
+      },
+      "head": {
+        "triangles_before": 499466,
+        "triangles_after": 100000,
+        "vertices": 50000,
+        "vertices_before_weld": 276343,
+        "vertices_after_weld": 249733,
+        "weld_threshold_local_units": 1e-06,
+        "weld_scope": "Derived display mesh only; per-corner UVs retained",
+        "has_custom_normals": true,
+        "uv_layers": [
+          "UVMap"
+        ],
+        "weights": {
+          "vertices": 50000,
+          "weighted_vertices": 50000,
+          "minimum_sum": 0.9999998807907104,
+          "maximum_sum": 1.0000001192092896,
+          "maximum_sum_error": 1.1920928955078125e-07,
+          "maximum_influences": 3,
+          "nonfinite_weights": 0,
+          "negative_weights": 0
+        }
+      }
+    },
+    "pose_verification": [
+      {
+        "name": "rest",
+        "image": "/Volumes/Media/immortal-qa/hunyuan-shen-yan-v2-20261017/rig-local/rest.png",
+        "evaluated": [
+          {
+            "mesh": "ShenYan_Body_Detailed",
+            "evaluated_vertices": 82830,
+            "nonfinite_vertices": 0
+          },
+          {
+            "mesh": "ShenYan_Head_Detailed",
+            "evaluated_vertices": 63014,
+            "nonfinite_vertices": 0
+          }
+        ]
+      },
+      {
+        "name": "arms",
+        "image": "/Volumes/Media/immortal-qa/hunyuan-shen-yan-v2-20261017/rig-local/arms.png",
+        "rotations_degrees": {
+          "LeftArm": -22,
+          "RightArm": 22,
+          "LeftForeArm": -60,
+          "RightForeArm": -60
+        },
+        "evaluated": [
+          {
+            "mesh": "ShenYan_Body_Detailed",
+            "evaluated_vertices": 82830,
+            "nonfinite_vertices": 0
+          },
+          {
+            "mesh": "ShenYan_Head_Detailed",
+            "evaluated_vertices": 63014,
+            "nonfinite_vertices": 0
+          }
+        ]
+      },
+      {
+        "name": "knee",
+        "image": "/Volumes/Media/immortal-qa/hunyuan-shen-yan-v2-20261017/rig-local/knee.png",
+        "rotations_degrees": {
+          "LeftUpLeg": -20,
+          "LeftLeg": 35,
+          "LeftFoot": -15
+        },
+        "evaluated": [
+          {
+            "mesh": "ShenYan_Body_Detailed",
+            "evaluated_vertices": 82830,
+            "nonfinite_vertices": 0
+          },
+          {
+            "mesh": "ShenYan_Head_Detailed",
+            "evaluated_vertices": 63014,
+            "nonfinite_vertices": 0
+          }
+        ]
+      },
+      {
+        "name": "head-turn-nod",
+        "image": "/Volumes/Media/immortal-qa/hunyuan-shen-yan-v2-20261017/rig-local/head-turn-nod.png",
+        "world_axis_rotation_degrees": {
+          "Head turn Z": 25,
+          "Head nod X": 10
+        },
+        "evaluated": [
+          {
+            "mesh": "ShenYan_Body_Detailed",
+            "evaluated_vertices": 82830,
+            "nonfinite_vertices": 0
+          },
+          {
+            "mesh": "ShenYan_Head_Detailed",
+            "evaluated_vertices": 63014,
+            "nonfinite_vertices": 0
+          }
+        ],
+        "source": "Reimported exported derivative GLB"
+      }
+    ],
+    "visual_review": {
+      "status": "Reviewed requested static checks after seam repair",
+      "reviewed_images": [
+        "/Volumes/Media/immortal-qa/hunyuan-shen-yan-v2-20261017/rig-local/head-detailed-rest.png",
+        "/Volumes/Media/immortal-qa/hunyuan-shen-yan-v2-20261017/rig-local/head-derivative-rest.png",
+        "/Volumes/Media/immortal-qa/hunyuan-shen-yan-v2-20261017/rig-local/rest.png",
+        "/Volumes/Media/immortal-qa/hunyuan-shen-yan-v2-20261017/rig-local/arms.png",
+        "/Volumes/Media/immortal-qa/hunyuan-shen-yan-v2-20261017/rig-local/knee.png",
+        "/Volumes/Media/immortal-qa/hunyuan-shen-yan-v2-20261017/rig-local/head-turn-nod.png"
+      ],
+      "observations": [
+        "Rest silhouette, face, collar and garment remain coherent in the exported/reimported derivative.",
+        "Welding coincident source split vertices before decimation removed the thin shoulder and collar cracks seen in the first derivative. Per-corner UV layers and custom normals remain present; matched closeups show readable facial details and consistent material appearance.",
+        "The requested raised-arm and bent-elbow pose has continuous sleeves and limbs; folds compress at the elbows.",
+        "The modest hip/knee pose remains coherent at the tested angles. The robe follows the transferred limb weights.",
+        "The 25-degree head turn with 10-degree nod keeps the repaired lower neck inside the garment neckline; no visible neck opening or duplicate edge appears in the inspected closeup."
+      ],
+      "limits": [
+        "Basic 28-bone skeleton with 22 deforming bones; no independent finger, facial or cloth controls.",
+        "Static checks cover only the recorded angles; unrestricted robe motion, animation production and game integration are not validated.",
+        "The head and body remain separate meshes. Lower-neck weights are blended to the body collar region; the visible seam was inspected at rest and in the requested head pose."
+      ]
+    },
+    "outputs": [
+      {
+        "path": "prepared/shen-yan-detailed-bound.blend",
+        "bytes": 114028677,
+        "sha256": "9264bd861e703bb1a6dade82b7a1bd736949089af8c824201dc8462f94b238f4"
+      },
+      {
+        "path": "prepared/shen-yan-rigged.blend",
+        "bytes": 80169013,
+        "sha256": "846a36205555d2b7058d0fa45bc8f1afa368e6eb9f2207902a3d419db1b2612f"
+      },
+      {
+        "path": "prepared/shen-yan-rigged.glb",
+        "bytes": 83637940,
+        "sha256": "7f98f2d521473c60b18ec49570bb0ca0fe374c0d2a21ce3bd27576f90b4988f3"
+      }
+    ],
+    "verification_report": "/Volumes/Media/immortal-qa/hunyuan-shen-yan-v2-20261017/rig-local/final-verification.json",
+    "binding_report": "/Volumes/Media/immortal-qa/hunyuan-shen-yan-v2-20261017/rig-local/binding-report.json"
+  },
+  "verification": {
+    "detailed_master_independent_report": "/Volumes/Media/immortal-qa/hunyuan-shen-yan-v2-20261017/master-audit/final-master-review.json",
+    "source_hashes_readback": [
+      {
+        "part": "head",
+        "format": "obj",
+        "path": "source/shen-yan-head-source.obj.zip",
+        "bytes": 44327405,
+        "sha256": "e52e1bd24ef97bff80920e0c2d24786bfa31ac698716686e5aff287c571779fd",
+        "unchanged": true
+      },
+      {
+        "part": "head",
+        "format": "glb",
+        "path": "source/shen-yan-head-source.glb",
+        "bytes": 55296612,
+        "sha256": "03b2c56b73628edf9611ca637ae769b62135995c464075eeadb3e88be1ce6eee",
+        "unchanged": true
+      },
+      {
+        "part": "body",
+        "format": "obj",
+        "path": "source/shen-yan-body-source.obj.zip",
+        "bytes": 44311322,
+        "sha256": "b1c092b9ca3230240c0e8e5e4583cd04e34941f6a1da2d951682d511e77c00ff",
+        "unchanged": true
+      },
+      {
+        "part": "body",
+        "format": "glb",
+        "path": "source/shen-yan-body-source.glb",
+        "bytes": 55569764,
+        "sha256": "8d335684717bc77a71144c0cf94d795db923e012ca7c1c992b1a8be8424f0092",
+        "unchanged": true
+      }
+    ],
+    "game_runtime_integrated": false,
+    "continuous_animation_verified": false,
+    "appearance_user_approved": false,
+    "basic_rig_independent_review": {
+      "report": "/Volumes/Media/immortal-qa/hunyuan-shen-yan-v2-20261017/rig-audit/final/final-rig-review.json",
+      "disposition": "basic_rig_artifact_ready_with_stated_limits",
+      "sha256": "7f98f2d521473c60b18ec49570bb0ca0fe374c0d2a21ce3bd27576f90b4988f3",
+      "promoted_file_byte_identical": true,
+      "triangles": 200000,
+      "imported_vertices": 145844,
+      "weights": {
+        "all_vertices_covered": true,
+        "maximum_influences": 4,
+        "maximum_sum_error": 1.4400575309991837e-07,
+        "nonfinite_or_negative_weights": 0
+      },
+      "textures": {
+        "active_imported_image_entries": 7,
+        "all_4096_square_and_available": true,
+        "embedded_image_blobs_identical_to_unrigged_master": true,
+        "material_json_identical_to_unrigged_master": true
+      },
+      "remaining_limits": [
+        "Long robe follows skeletal weights; continuous walk, run, combat, large bends and cloth collision have not been accepted.",
+        "No independent finger bones, facial bones or shape-key controls, and no cloth/hair secondary controls. Hand surface detail remains soft.",
+        "Cloth retains visible straight texture/atlas lines and uneven painted fabric detail; hair highlights and light-looking irises remain appearance limitations under the supplied lighting.",
+        "The GLB contains the bind/rest asset and no animation clips. No game runtime, target-device performance or complete character-art acceptance was performed."
+      ]
+    }
+  }
+}

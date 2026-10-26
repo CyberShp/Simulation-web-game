@@ -1,0 +1,334 @@
+{
+  "assets": [
+    {
+      "file": "hall.glb",
+      "bytes": 71957092,
+      "sha256": "3d1de2c1ff37a7d4291783f7d6d93a1303ebfd53befff5e7d410426aa405ba46",
+      "triangles": 297312,
+      "primitives": 12,
+      "dimensions": [
+        33.79999923706055,
+        20.411468505859375,
+        26.677501678466797
+      ],
+      "minimum": [
+        -16.899999618530273,
+        0.0,
+        -10.574999809265137
+      ],
+      "maximum": [
+        16.899999618530273,
+        20.411468505859375,
+        16.102500915527344
+      ],
+      "root": "MainHall",
+      "maxNormalTangentDot": 0.00013712100917473435,
+      "degenerateTriangles": 0,
+      "negativeNormalWindingTriangles": 0,
+      "embeddedTextures": [
+        {
+          "name": "plaster-normal",
+          "mime": "image/jpeg",
+          "bytes": 1237098,
+          "sha256": "8edc6d8b8258f85ed741551f30bfee9807f3fcbfe14678f5c283435c66590e2f"
+        },
+        {
+          "name": "plaster-arm",
+          "mime": "image/png",
+          "bytes": 7814692,
+          "sha256": "f3b25c26a3ea699a8b9632d5526cf4a5a8fe4ed51ec8b59e78e6ea936b8caa64"
+        },
+        {
+          "name": "plaster-color",
+          "mime": "image/jpeg",
+          "bytes": 3216521,
+          "sha256": "2cd3a4fb2723d93da0eccf9b23aced757acabc35f94b0a97fc8986fe7e4242b5"
+        },
+        {
+          "name": "stone-normal",
+          "mime": "image/jpeg",
+          "bytes": 2989093,
+          "sha256": "70427a2c81f85c0e1ee4a147e273d028c3d0188bad2583f2509d6df9a3d55b89"
+        },
+        {
+          "name": "stone-arm",
+          "mime": "image/png",
+          "bytes": 6286944,
+          "sha256": "25e09fd28d00c6a42996312f282f6ab6db198deb80b1bb8529cda833df1cbe24"
+        },
+        {
+          "name": "stone-color",
+          "mime": "image/jpeg",
+          "bytes": 3020379,
+          "sha256": "fe9013368539b5604602e64bfa48bef1a2a4c452fcb6894868fb556d0b14501c"
+        },
+        {
+          "name": "wood-normal",
+          "mime": "image/jpeg",
+          "bytes": 855682,
+          "sha256": "c76fcd29434978227db5a35b5b0238da1bee0fb5fa8cdfc6819a76c7ef723f3c"
+        },
+        {
+          "name": "wood-arm",
+          "mime": "image/png",
+          "bytes": 6758952,
+          "sha256": "272fa1b5f8935d9a1f27f7f1faba7f7022a90cfad19151db7dd82752b7c04270"
+        },
+        {
+          "name": "wood-color",
+          "mime": "image/jpeg",
+          "bytes": 1327517,
+          "sha256": "d97b1ab2c5206ac43bc0c42f21878da14f4d02497fd21396399406c03f3755a9"
+        },
+        {
+          "name": "roof-normal",
+          "mime": "image/jpeg",
+          "bytes": 1750511,
+          "sha256": "2e2dbd57a8a1a09936b2a92373408c7658033966ffee25eddfe98b5988491da3"
+        },
+        {
+          "name": "roof-arm",
+          "mime": "image/png",
+          "bytes": 5237261,
+          "sha256": "443a3a6b197a49524360b2d5f9416e3afebf01211986e259c5ff87eff6fa87b8"
+        },
+        {
+          "name": "roof-color",
+          "mime": "image/jpeg",
+          "bytes": 1388588,
+          "sha256": "880583ff7508599b1dd6e83a6c70604120ad35f7ad187b1e98457c1a9d7b54ed"
+        }
+      ]
+    },
+    {
+      "file": "pavilion.glb",
+      "bytes": 54796720,
+      "sha256": "5e6a245eb9010c5315fff1ead0a865bdcbe117b670facca86f0cdb9368a72cce",
+      "triangles": 135964,
+      "primitives": 10,
+      "dimensions": [
+        13.399999618530273,
+        12.728825569152832,
+        15.1274995803833
+      ],
+      "minimum": [
+        -6.699999809265137,
+        0.0,
+        -5.875
+      ],
+      "maximum": [
+        6.699999809265137,
+        12.728825569152832,
+        9.2524995803833
+      ],
+      "root": "SidePavilion",
+      "maxNormalTangentDot": 0.0001338013680651784,
+      "degenerateTriangles": 0,
+      "negativeNormalWindingTriangles": 0,
+      "embeddedTextures": [
+        {
+          "name": "plaster-normal",
+          "mime": "image/jpeg",
+          "bytes": 1237098,
+          "sha256": "8edc6d8b8258f85ed741551f30bfee9807f3fcbfe14678f5c283435c66590e2f"
+        },
+        {
+          "name": "plaster-arm",
+          "mime": "image/png",
+          "bytes": 7814692,
+          "sha256": "f3b25c26a3ea699a8b9632d5526cf4a5a8fe4ed51ec8b59e78e6ea936b8caa64"
+        },
+        {
+          "name": "plaster-color",
+          "mime": "image/jpeg",
+          "bytes": 3216521,
+          "sha256": "2cd3a4fb2723d93da0eccf9b23aced757acabc35f94b0a97fc8986fe7e4242b5"
+        },
+        {
+          "name": "stone-normal",
+          "mime": "image/jpeg",
+          "bytes": 2989093,
+          "sha256": "70427a2c81f85c0e1ee4a147e273d028c3d0188bad2583f2509d6df9a3d55b89"
+        },
+        {
+          "name": "stone-arm",
+          "mime": "image/png",
+          "bytes": 6286944,
+          "sha256": "25e09fd28d00c6a42996312f282f6ab6db198deb80b1bb8529cda833df1cbe24"
+        },
+        {
+          "name": "stone-color",
+          "mime": "image/jpeg",
+          "bytes": 3020379,
+          "sha256": "fe9013368539b5604602e64bfa48bef1a2a4c452fcb6894868fb556d0b14501c"
+        },
+        {
+          "name": "wood-normal",
+          "mime": "image/jpeg",
+          "bytes": 855682,
+          "sha256": "c76fcd29434978227db5a35b5b0238da1bee0fb5fa8cdfc6819a76c7ef723f3c"
+        },
+        {
+          "name": "wood-arm",
+          "mime": "image/png",
+          "bytes": 6758952,
+          "sha256": "272fa1b5f8935d9a1f27f7f1faba7f7022a90cfad19151db7dd82752b7c04270"
+        },
+        {
+          "name": "wood-color",
+          "mime": "image/jpeg",
+          "bytes": 1327517,
+          "sha256": "d97b1ab2c5206ac43bc0c42f21878da14f4d02497fd21396399406c03f3755a9"
+        },
+        {
+          "name": "roof-normal",
+          "mime": "image/jpeg",
+          "bytes": 1750511,
+          "sha256": "2e2dbd57a8a1a09936b2a92373408c7658033966ffee25eddfe98b5988491da3"
+        },
+        {
+          "name": "roof-arm",
+          "mime": "image/png",
+          "bytes": 5237261,
+          "sha256": "443a3a6b197a49524360b2d5f9416e3afebf01211986e259c5ff87eff6fa87b8"
+        },
+        {
+          "name": "roof-color",
+          "mime": "image/jpeg",
+          "bytes": 1388588,
+          "sha256": "880583ff7508599b1dd6e83a6c70604120ad35f7ad187b1e98457c1a9d7b54ed"
+        }
+      ]
+    },
+    {
+      "file": "bridge.glb",
+      "bytes": 13417220,
+      "sha256": "dfa2d25d20b1777c4222db42cfb8db1019d3796bf34be30bf8d26a7c5ae320b7",
+      "triangles": 12176,
+      "primitives": 1,
+      "dimensions": [
+        7.909999847412109,
+        6.489999771118164,
+        23.399999618530273
+      ],
+      "minimum": [
+        -3.9549999237060547,
+        0.0,
+        -11.699999809265137
+      ],
+      "maximum": [
+        3.9549999237060547,
+        6.489999771118164,
+        11.699999809265137
+      ],
+      "root": "StoneBridge",
+      "maxNormalTangentDot": 8.330494165420532e-05,
+      "degenerateTriangles": 0,
+      "negativeNormalWindingTriangles": 0,
+      "embeddedTextures": [
+        {
+          "name": "stone-normal",
+          "mime": "image/jpeg",
+          "bytes": 2989093,
+          "sha256": "70427a2c81f85c0e1ee4a147e273d028c3d0188bad2583f2509d6df9a3d55b89"
+        },
+        {
+          "name": "stone-arm",
+          "mime": "image/png",
+          "bytes": 6286944,
+          "sha256": "25e09fd28d00c6a42996312f282f6ab6db198deb80b1bb8529cda833df1cbe24"
+        },
+        {
+          "name": "stone-color",
+          "mime": "image/jpeg",
+          "bytes": 3020379,
+          "sha256": "fe9013368539b5604602e64bfa48bef1a2a4c452fcb6894868fb556d0b14501c"
+        }
+      ]
+    },
+    {
+      "file": "lantern.glb",
+      "bytes": 32627060,
+      "sha256": "203274ac8e3d2385229bff4fcec343bca235c6cca94c7a81d8b21acf0dd343d2",
+      "triangles": 34036,
+      "primitives": 7,
+      "dimensions": [
+        1.8151191473007202,
+        3.2993266582489014,
+        1.8151191473007202
+      ],
+      "minimum": [
+        -0.9075595736503601,
+        0.0,
+        -0.9075595736503601
+      ],
+      "maximum": [
+        0.9075595736503601,
+        3.2993266582489014,
+        0.9075595736503601
+      ],
+      "root": "StoneLantern",
+      "maxNormalTangentDot": 0.000130385160446167,
+      "degenerateTriangles": 0,
+      "negativeNormalWindingTriangles": 0,
+      "embeddedTextures": [
+        {
+          "name": "stone-normal",
+          "mime": "image/jpeg",
+          "bytes": 2989093,
+          "sha256": "70427a2c81f85c0e1ee4a147e273d028c3d0188bad2583f2509d6df9a3d55b89"
+        },
+        {
+          "name": "stone-arm",
+          "mime": "image/png",
+          "bytes": 6286944,
+          "sha256": "25e09fd28d00c6a42996312f282f6ab6db198deb80b1bb8529cda833df1cbe24"
+        },
+        {
+          "name": "stone-color",
+          "mime": "image/jpeg",
+          "bytes": 3020379,
+          "sha256": "fe9013368539b5604602e64bfa48bef1a2a4c452fcb6894868fb556d0b14501c"
+        },
+        {
+          "name": "wood-normal",
+          "mime": "image/jpeg",
+          "bytes": 855682,
+          "sha256": "c76fcd29434978227db5a35b5b0238da1bee0fb5fa8cdfc6819a76c7ef723f3c"
+        },
+        {
+          "name": "wood-arm",
+          "mime": "image/png",
+          "bytes": 6758952,
+          "sha256": "272fa1b5f8935d9a1f27f7f1faba7f7022a90cfad19151db7dd82752b7c04270"
+        },
+        {
+          "name": "wood-color",
+          "mime": "image/jpeg",
+          "bytes": 1327517,
+          "sha256": "d97b1ab2c5206ac43bc0c42f21878da14f4d02497fd21396399406c03f3755a9"
+        },
+        {
+          "name": "roof-normal",
+          "mime": "image/jpeg",
+          "bytes": 1750511,
+          "sha256": "2e2dbd57a8a1a09936b2a92373408c7658033966ffee25eddfe98b5988491da3"
+        },
+        {
+          "name": "roof-arm",
+          "mime": "image/png",
+          "bytes": 5237261,
+          "sha256": "443a3a6b197a49524360b2d5f9416e3afebf01211986e259c5ff87eff6fa87b8"
+        },
+        {
+          "name": "roof-color",
+          "mime": "image/jpeg",
+          "bytes": 1388588,
+          "sha256": "880583ff7508599b1dd6e83a6c70604120ad35f7ad187b1e98457c1a9d7b54ed"
+        }
+      ]
+    }
+  ],
+  "checks": "GLB headers, embedded textures, finite accessors, indices, normalized normals and tangents, normal winding, grounded Y-up roots and PBR channels",
+  "visual": "separate viewer inspection"
+}

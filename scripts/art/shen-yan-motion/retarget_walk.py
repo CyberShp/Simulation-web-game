@@ -8,6 +8,7 @@ import argparse
 import hashlib
 import json
 import math
+import re
 import sys
 from pathlib import Path
 
@@ -15,19 +16,8 @@ import bpy
 import numpy as np
 from mathutils import Matrix, Quaternion, Vector
 
-BONE_MAP = {
-    'Hips': 'Pelvis', 'Spine': 'Spine1', 'Spine1': 'Spine2',
-    'Spine2': 'Spine3', 'Neck': 'Neck', 'Head': 'Head',
-}
-for side, prefix in [('Left', 'L'), ('Right', 'R')]:
-    BONE_MAP.update({side+'Shoulder': prefix+'_Collar',
-                     side+'Arm': prefix+'_Shoulder',
-                     side+'ForeArm': prefix+'_Elbow',
-                     side+'Hand': prefix+'_Wrist',
-                     side+'UpLeg': prefix+'_Hip',
-                     side+'Leg': prefix+'_Knee',
-                     side+'Foot': prefix+'_Ankle',
-                     side+'ToeBase': prefix+'_Foot'})
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from motion_metrics import BONE_MAP, endpoint_error, ground_offsets, loop_refusal_reasons
 
 
 def digest(path):
@@ -50,8 +40,16 @@ def mesh_signature(obj):
 def read_source(path):
     bpy.ops.wm.read_factory_settings(use_empty=True)
     bpy.ops.import_scene.fbx(filepath=str(path))
-    rig = next(o for o in bpy.context.scene.objects if o.type == 'ARMATURE')
-    action = rig.animation_data.action
+    rigs = [o for o in bpy.context.scene.objects if o.type == 'ARMATURE']
+    if len(rigs) != 1:
+        raise ValueError('Retarget requires one source armature; inspect and select a source action first')
+    rig = rigs[0]
+    action = rig.animation_data.action if rig.animation_data else None
+    if not action:
+        raise ValueError('Source rig has no active action; run inspect_motion.py first')
+    missing = sorted((set(BONE_MAP.values()) | {'L_Middle1', 'R_Middle1'})-set(rig.data.bones.keys()))
+    if missing:
+        raise ValueError('Missing source/calibration bones: '+', '.join(missing))
     first, last = map(int, action.frame_range)
     names = list(BONE_MAP.values())
     rest = {n: rig.matrix_world @ rig.data.bones[n].matrix_local for n in names}
@@ -113,20 +111,62 @@ def main():
     parser.add_argument('--output', required=True, type=Path)
     parser.add_argument('--start', required=True, type=int)
     parser.add_argument('--end', required=True, type=int)
+    parser.add_argument('--motion-id', default='walk')
+    parser.add_argument('--ground-mode', choices=['per-frame', 'constant', 'none'],
+                        help='constant retains flight using one offset for the whole clip; walk defaults to per-frame')
+    parser.add_argument('--loop-mode', choices=['correct', 'raw'],
+                        help='walk defaults to legacy correction; other motions default to raw endpoints')
+    parser.add_argument('--max-loop-angle-degrees', type=float, help='Reject original endpoint rotation above this bound')
+    parser.add_argument('--max-loop-joint-error', type=float, help='Reject original root-relative joint distance in source scene units')
+    parser.add_argument('--heading-degrees', type=float)
+    parser.add_argument('--expected-source-sha256')
     args = parser.parse_args(sys.argv[sys.argv.index('--')+1:])
+    if not re.fullmatch(r'[a-z][a-z0-9-]*', args.motion_id):
+        raise ValueError('motion-id must be a lowercase filename-safe identifier')
+    if args.motion_id != 'walk' and args.ground_mode is None:
+        raise ValueError('Non-walk motion requires an explicit --ground-mode; constant preserves flight')
+    args.ground_mode = args.ground_mode or 'per-frame'
+    args.loop_mode = args.loop_mode or ('correct' if args.motion_id == 'walk' else 'raw')
+    if args.motion_id != 'walk' and args.loop_mode == 'correct' and args.max_loop_angle_degrees is None:
+        raise ValueError('Non-walk loop correction requires an explicit original endpoint rotation refusal limit')
+    for limit in [args.max_loop_angle_degrees, args.max_loop_joint_error]:
+        if limit is not None and (not math.isfinite(limit) or limit < 0):
+            raise ValueError('Loop refusal limits must be finite and nonnegative')
+    output = args.output/('shen-yan-'+args.motion_id+'.blend')
+    if output.exists() or (args.output/'retarget-report.json').exists() or (args.output/'retarget-preflight.json').exists():
+        raise ValueError('Use a new output directory; existing motion outputs are retained')
     args.output.mkdir(parents=True, exist_ok=True)
     source_hash, target_hash = digest(args.source), digest(args.target)
+    if args.expected_source_sha256 and args.expected_source_sha256.lower() != source_hash:
+        raise ValueError('Source SHA-256 differs from the supplied expected hash')
     rest, joints, motion, first, fps, action_name = read_source(args.source)
     assert first <= args.start < args.end < first+len(motion)
     selected = motion[args.start-first:args.end-first+1]
+    raw_samples = [{'positions': {n: list(m.translation) for n, m in row.items()},
+                    'rotations': {n: list(m.to_quaternion()) for n, m in row.items()}} for row in selected]
+    raw_error = endpoint_error(raw_samples[0], raw_samples[-1], 'Pelvis', list(BONE_MAP.values()))
+    refusal = loop_refusal_reasons(raw_error, args.max_loop_angle_degrees, args.max_loop_joint_error)
+    preflight = {'sourceSha256': source_hash, 'selectedFrames': [args.start, args.end],
+                 'originalEndpointError': raw_error, 'requestedLoopMode': args.loop_mode,
+                 'groundMode': args.ground_mode, 'refusalReasons': refusal,
+                 'limits': {'maximumRotationDegrees': args.max_loop_angle_degrees,
+                            'maximumRootRelativeJointDistanceSourceUnits': args.max_loop_joint_error},
+                 'artApproval': 'not-assessed'}
+    (args.output/'retarget-preflight.json').write_text(json.dumps(preflight, indent=2, allow_nan=False)+'\n')
+    if refusal:
+        raise ValueError('; '.join(refusal))
     source_positions = [row['Pelvis'].translation.copy() for row in selected]
     displacement = source_positions[-1]-source_positions[0]
-    yaw = -math.pi/2-math.atan2(displacement.y, displacement.x)
+    yaw = math.radians(args.heading_degrees) if args.heading_degrees is not None else -math.pi/2-math.atan2(displacement.y, displacement.x)
+    if args.motion_id != 'walk' and args.heading_degrees is None and math.hypot(displacement.x, displacement.y) < 1e-8:
+        raise ValueError('An in-place motion needs an explicit --heading-degrees; net displacement cannot establish its heading')
     align = Quaternion((0, 0, 1), yaw)
     bpy.ops.wm.open_mainfile(filepath=str(args.target))
     scene = bpy.context.scene
     rig = next(o for o in scene.objects if o.type == 'ARMATURE')
     meshes = [o for o in scene.objects if o.type == 'MESH']
+    rest_bounds = [o.matrix_world @ Vector(co) for o in meshes for co in o.bound_box]
+    rest_min_z, rest_max_z = min(p.z for p in rest_bounds), max(p.z for p in rest_bounds)
     before = {o.name: mesh_signature(o) for o in meshes}
     rig.animation_data_clear()
     for pose in rig.pose.bones:
@@ -148,10 +188,13 @@ def main():
             calibration = anatomy_alignment(name, rig.data.bones[name], joints)
             desired = align @ delta @ calibration @ rig.data.bones[name].matrix_local.to_quaternion()
             quats[name].append(desired)
-    quats, positions, max_loop_angle, residual_position = periodic_values(quats, positions)
+    if args.loop_mode == 'correct':
+        quats, positions, max_loop_angle, residual_position = periodic_values(quats, positions)
+    else:
+        max_loop_angle, residual_position = 0.0, [0.0, 0.0, 0.0]
     rig.animation_data_create()
-    rig.animation_data.action = bpy.data.actions.new('ShenYan_Walk')
-    scene.render.fps, scene.render.fps_base = round(fps), 1.0
+    rig.animation_data.action = bpy.data.actions.new('ShenYan_'+args.motion_id.title().replace('-', '_'))
+    scene.render.fps, scene.render.fps_base = round(fps), 1.0 if args.motion_id == 'walk' else round(fps)/fps
     # The final closure key supports interpolation; timeline playback omits it.
     scene.frame_start, scene.frame_end = 1, count-1
     # Pose matrices are solved in parent order; lengths/rest offsets stay intact.
@@ -192,7 +235,7 @@ def main():
         points = values.reshape(-1,3)[soles] @ np.array(body.matrix_world)[:3,:3].T + np.array(body.matrix_world)[:3,3]
         lows.append(float(points[:,2].min()))
         ev.to_mesh_clear()
-    floor_offsets = [-height for height in lows]
+    floor_offsets = ground_offsets(lows, args.ground_mode)
     frames = []
     for i in range(count):
         set_pose(i, floor_offsets[i], key=True)
@@ -214,23 +257,37 @@ def main():
     after = {o.name: mesh_signature(o) for o in meshes}
     assert before == after
     assert digest(args.source)==source_hash and digest(args.target)==target_hash
-    output = args.output/'shen-yan-walk.blend'
     bpy.ops.wm.save_as_mainfile(filepath=str(output), compress=True)
     report = {'source':{'path':str(args.source),'sha256':source_hash,'action':action_name,
                         'full_frames':[first,first+len(motion)-1], 'selected_frames':[args.start,args.end], 'fps':fps,
                         'cycle_displacement':list(displacement)},
-              'target':{'path':str(args.target),'sha256':target_hash,'bone_map':BONE_MAP,'preserved_mesh_signatures':before},
-              'output':{'path':str(output),'fps':fps,'frames_including_duplicate_endpoint':[1,count],
+              'target':{'path':str(args.target),'sha256':target_hash,'bone_map':BONE_MAP,'preserved_mesh_signatures':before,
+                        'restMeshVerticalBoundsRigUnits':[rest_min_z,rest_max_z],
+                        'restMeshHeightRigUnits':rest_max_z-rest_min_z},
+              'output':{'path':str(output),'fps':scene.render.fps/scene.render.fps_base,'motionId':args.motion_id,
+                        'frames_including_endpoint':[1,count],
+                        'frames_including_duplicate_endpoint':[1,count] if args.loop_mode == 'correct' else None,
+                        'endpointRole':'corrected closure key' if args.loop_mode == 'correct' else 'uncorrected observed boundary key',
                         'render_frames':[1,count-1], 'cycle_seconds':(count-1)/fps,
+                        'horizontalStrideSourceUnits':math.hypot(displacement.x, displacement.y),
+                        'horizontalStrideTargetRigUnits':math.hypot(displacement.x, displacement.y)*scale,
+                        'endpointIsExactClosure':args.loop_mode == 'correct',
                         'front_axis':'-Y','up_axis':'+Z','armature':rig.name,'action':action.name},
               'edits':{'heading_alignment_degrees':math.degrees(yaw),'translation_scale':scale,
+                       'loop_mode':args.loop_mode,'original_endpoint_error':raw_error,
                        'removed_source_cycle_displacement':list(displacement),
                        'loop_endpoint_rotation_correction_max_degrees':max_loop_angle,
                        'loop_endpoint_position_correction':residual_position,
-                       'support_height_correction':{'method':'Per-frame pelvis height from actual deformed boot sole minimum',
+                       'support_height_correction':{'mode':args.ground_mode,
+                                                    'method':{'per-frame':'Per-frame pelvis height from actual deformed boot sole minimum',
+                                                              'constant':'One whole-clip vertical offset; per-frame sole height variation retained',
+                                                              'none':'No vertical ground correction'}[args.ground_mode],
                                                     'minimum':min(floor_offsets),'maximum':max(floor_offsets)}},
-              'measurements':{'boot_sole_minimum':0.0,'support_lowest_sole_maximum':0.0,
+              'measurements':{'boot_sole_minimum':min(x+y for x,y in zip(lows,floor_offsets)),
+                              'support_lowest_sole_maximum':max(x+y for x,y in zip(lows,floor_offsets)),
+                              'uncorrected_sole_heights':lows,
                               'frames':frames},
+              'artApproval':'not-assessed',
               'preservation':{'source_files_unchanged':True,'mesh_uv_normals_material_names_unchanged':before==after}}
     (args.output/'retarget-report.json').write_text(json.dumps(report,indent=2,allow_nan=False)+'\n')
     print('RETARGET_COMPLETE '+str(output),flush=True)

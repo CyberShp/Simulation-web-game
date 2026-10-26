@@ -1,0 +1,17 @@
+{
+  "asset": "qingshan-reference-study-v2",
+  "heightM": 1.75,
+  "triangles": 202438,
+  "bones": 26,
+  "clips": [
+    "cast",
+    "idle",
+    "walk"
+  ],
+  "reference": "docs/art/asset-review-20261013/character-design-v2.png",
+  "texture": "4K baked clothing reference base color; roughness and normal are separately lit",
+  "source": "disciple-editable.blend",
+  "bakedSource": "disciple.blend",
+  "model": "disciple.glb",
+  "scope": "Local character modeling study; visual review, crowd optimization and Windows pending."
+}

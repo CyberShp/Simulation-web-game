@@ -1,0 +1,33 @@
+{
+  "theoreticalBodyHeight": 101.23636363636363,
+  "nearestIntegerBodyReference": 101,
+  "integerReferenceError": -0.23636363636363455,
+  "logicalHeightBeforeRounding": 586.6666666666666,
+  "logicalHeightAfterRounding": 587,
+  "logicalHeightRoundingError": 0.33333333333337123,
+  "uniformPresentedBackgroundHeight": 1024.581818181818,
+  "bottomViewportCropPixels": 0.5818181818181074,
+  "actors": {
+    "human": {
+      "visibleHeightAlphaGE8": 101,
+      "logicalVisibleHeightAlphaGE8": 58,
+      "screenFootError": [
+        -0.8181818181818699,
+        -0.5090909090909008
+      ],
+      "sameOutputReference": 58.00000000000001
+    },
+    "beast": {
+      "visibleHeightAlphaGE8": 164,
+      "logicalVisibleHeightAlphaGE8": 94,
+      "screenFootError": [
+        -0.21818181818184712,
+        -0.6181818181818244
+      ],
+      "sameOutputReference": 58.00000000000001
+    }
+  },
+  "allCalibrationChecksumsMatch": true,
+  "sourcesUnchanged": true,
+  "pythonSyntax": "passed"
+}

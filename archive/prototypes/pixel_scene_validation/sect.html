@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; media-src 'self' blob:; object-src 'none'; base-uri 'none'">
+  <title>云岫山院 · 宗门经营</title><link rel="stylesheet" href="sect.css">
+</head>
+<body>
+  <canvas id="scene" aria-label="云岫山院人物与药田"></canvas>
+  <header class="nameplate"><h1>云岫山院</h1><p><span id="day">初入山院</span><i></i><span id="world-status">静候</span></p></header>
+  <nav aria-label="山院操作"><button id="overview">山域</button><button id="courtyard">回小院</button><button id="follow">寻掌门</button><button id="building-open">营造</button><button id="pause">暂停</button><button id="save">保存</button><button id="policy-open" class="accent">宗门方略</button></nav>
+  <aside class="supplies panel" aria-label="公库物资"><p class="eyebrow">山院公库</p><div id="resources"></div><small id="supplies-note">院中物资，随实际交付入库</small></aside>
+  <aside class="intention panel"><p class="eyebrow">眼下之事</p><h2 id="goal-title">灵草常备</h2><p id="goal-progress"></p><div class="track"><i id="goal-fill"></i></div><p id="decision-reason" class="reason"></p><button id="control-toggle" class="accent">交回自主</button><small id="control-note"></small></aside>
+  <section id="residents" class="residents" aria-label="院中同伴"></section>
+  <section class="activity panel"><div class="activity-head"><span id="activity-mode">掌门近况</span><small id="save-state">尚未开始</small></div><p id="activity-text"></p><div class="body-actions"><button id="rest">就地休整</button><button id="cultivate">静心修炼</button><button id="journal-open">院中记事</button></div><small>点地行走 · 滚轮近观 · 右键拖动 · 空格暂停</small></section>
+  <aside class="recent panel" aria-label="最近院务"><p class="eyebrow">院中记事</p><ol id="recent-events"></ol></aside>
+  <div id="notice" role="status" aria-live="polite"></div>
+  <div id="pause-note" hidden>静观中 · 继续后人物照常行动</div>
+
+  <section id="welcome" class="shade" aria-label="进入山院"><div class="welcome panel"><p class="eyebrow">余烬立山</p><h2>山院初成</h2><p>主殿与药圃已成，陆知微留在院中研习草木。定下方略，看看二人如何料理这座小院。</p><div class="opening-facts"><span>掌门与陆知微</span><span>主殿 · 药圃</span><span>青岚传承</span></div><button id="continue" class="accent" hidden>继续上次院务</button><button id="start" class="accent">从初成小院开始</button><p id="load-warning" class="warning" hidden></p><small>切到其他应用，院中事务继续；退出游戏后停止。</small></div></section>
+
+  <section id="policy-modal" class="shade" hidden aria-label="宗门方略"><form id="policy-form" class="scroll panel"><button type="button" class="close" data-close="policy-modal" aria-label="关闭方略">×</button><p class="eyebrow">定方向 · 留余地</p><h2>宗门方略</h2><p class="intro">掌门依院中缺口、身体与可用资源安排事务，门人依自己的状态和约定行事。</p><label>灵草公库目标<span class="field"><input id="herb-target" name="herbTarget" type="number" min="0" max="500" step="1" required><em>份</em></span></label><small>补足后以修炼、休整为主；在途物资与田边收成仍需实际入库。</small><label>自主整备灵石额度<span class="field"><input id="spending-cap" name="spendingCap" type="number" min="0" max="1000" step="1" required><em>灵石</em></span></label><small id="budget-copy">用于自主发起的采集点整备，日常口粮与已有生产耗用另记。</small><fieldset><legend>行事分寸</legend><label class="choice"><input type="radio" name="risk" value="cautious"><span><strong>谨慎 · 守院生产</strong><small>照料药田、搬运收成、修炼与休整。</small></span></label><label class="choice"><input type="radio" name="risk" value="balanced"><span><strong>适度 · 允许本地采集</strong><small>可到已有采集点取材，仍检查身体、资源和整备额度。</small></span></label></fieldset><button type="submit" class="accent">采用这份方略</button></form></section>
+
+  <section id="person-modal" class="shade" hidden aria-label="人物近况"><div class="person-window panel"><button class="close" data-close="person-modal" aria-label="关闭人物近况">×</button><div class="portrait-side"><canvas id="portrait" width="360" height="440"></canvas><h2 id="person-name"></h2><p id="person-role"></p></div><div class="conversation"><p class="eyebrow">人物近况</p><div id="person-conversation"></div><div class="reply-actions"><button id="person-focus">看看所在</button><button data-close="person-modal" class="accent">合上卷册</button></div></div></div></section>
+
+  <section id="journal-modal" class="shade" hidden aria-label="院中记事详情"><div class="journal scroll panel"><button class="close" data-close="journal-modal" aria-label="关闭院中记事">×</button><p class="eyebrow">来由与结果</p><h2>院中记事</h2><div id="account-summary"></div><ol id="journal-events"></ol></div></section>
+  <section id="building-modal" class="shade" hidden aria-label="东台营造"><div class="scroll panel"><button class="close" data-close="building-modal" aria-label="关闭营造">×</button><p class="eyebrow">沿东路 · 拓新居</p><h2>东台门人居</h2><p id="site-status" class="intro"></p><div id="site-materials"></div><p id="site-carried" class="intro"></p><div class="site-actions"><button id="gather-wood">亲自采木</button><button id="deliver-materials">将随身物资入库</button></div><div class="site-actions"><button id="site-focus">看看东台</button><button id="site-build" class="accent">营造门人居</button></div><button id="recover-materials" hidden>把路边物资运回</button><button id="domain-enable" hidden>启用东路布局</button><small>材料从公库分趟送到现场，掌门抵达后施工；进度随实际行动保存。</small></div></section>
+  <div id="loading">正在入院…</div>
+  <script type="module" src="sect-main.mjs"></script>
+</body>
+</html>

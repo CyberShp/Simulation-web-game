@@ -1,0 +1,574 @@
+{
+  "schema": "combat-sword-study-assets/v1",
+  "profile": "sword-study-v1",
+  "sharedMetadata": "src/simulation/ea-combat-sword-study-data.mjs",
+  "images": [
+    {
+      "key": "action-00",
+      "file": "combat-sword-study-v1/frames/action-00.png",
+      "width": 295,
+      "height": 455,
+      "sha256": "2533cb8461f6781c8c1ade46772c100d6b9f5ad0bc96ff40d960100cd71b959d"
+    },
+    {
+      "key": "action-01",
+      "file": "combat-sword-study-v1/frames/action-01.png",
+      "width": 355,
+      "height": 396,
+      "sha256": "7bfe71e34c3eff7c930b8a6671843c7dffc7aadb8b6513e0bf07ad9b25915f11"
+    },
+    {
+      "key": "action-02",
+      "file": "combat-sword-study-v1/frames/action-02.png",
+      "width": 460,
+      "height": 390,
+      "sha256": "14cb55977d62aa25f1f236e44db9b37a9f88b5c412cbd889406b640b29a3285a"
+    },
+    {
+      "key": "action-03",
+      "file": "combat-sword-study-v1/frames/action-03.png",
+      "width": 362,
+      "height": 398,
+      "sha256": "183ab2a0a1442eca5e7e6478a61dec2310115bafb9e68ebfeb41ed8dcb8c2209"
+    },
+    {
+      "key": "action-04",
+      "file": "combat-sword-study-v1/frames/action-04.png",
+      "width": 362,
+      "height": 402,
+      "sha256": "3d73370c079f02aac4535561578f4177b900b231ac37dab00c0359cb00538ef6"
+    },
+    {
+      "key": "action-05",
+      "file": "combat-sword-study-v1/frames/action-05.png",
+      "width": 373,
+      "height": 390,
+      "sha256": "2a25ae3f908d1e510bc4b56a4b6c70ae41bea308dfc3f95d7b7386dc352d47cd"
+    },
+    {
+      "key": "action-06",
+      "file": "combat-sword-study-v1/frames/action-06.png",
+      "width": 348,
+      "height": 411,
+      "sha256": "823f519310cd4e7b9652072ae144de7c3dac2a54b909440b22e26f727d489ff6"
+    },
+    {
+      "key": "action-07",
+      "file": "combat-sword-study-v1/frames/action-07.png",
+      "width": 379,
+      "height": 425,
+      "sha256": "08263bc5bb9e56e2428a75257314ff404791501235fee0212140ffa16b178363"
+    },
+    {
+      "key": "counter-00",
+      "file": "combat-sword-study-v1/frames/counter-00.png",
+      "width": 337,
+      "height": 236,
+      "sha256": "d5c3cb0c052692b7476fa49cd933cc8c9b0814f7fda8879a3b3e8f7f1feb575d"
+    },
+    {
+      "key": "counter-01",
+      "file": "combat-sword-study-v1/frames/counter-01.png",
+      "width": 297,
+      "height": 358,
+      "sha256": "a765fe839e84036f9ff233f93755c56cc5cb77b88d1b3f938b02259a05634e61"
+    },
+    {
+      "key": "counter-02",
+      "file": "combat-sword-study-v1/frames/counter-02.png",
+      "width": 340,
+      "height": 248,
+      "sha256": "fcd76cf7018d812b27346ab174e2a5e07cb7fc008935267fe98a2e2c134161b2"
+    },
+    {
+      "key": "counter-03",
+      "file": "combat-sword-study-v1/frames/counter-03.png",
+      "width": 336,
+      "height": 235,
+      "sha256": "e5f9d9dc0908c41156f86fc2e005922b14dd7b945a687a67328feeb4f5b3f33b"
+    },
+    {
+      "key": "counter-04",
+      "file": "combat-sword-study-v1/frames/counter-04.png",
+      "width": 328,
+      "height": 346,
+      "sha256": "abf33044d170d32326982aef62cba85cef365dc6827732da6a63b2e87254c65d"
+    },
+    {
+      "key": "counter-05",
+      "file": "combat-sword-study-v1/frames/counter-05.png",
+      "width": 365,
+      "height": 329,
+      "sha256": "9c8e3f129fa4289a63f31038dbb8b87fb572e559f7aff41040a9293952839a62"
+    },
+    {
+      "key": "counter-06",
+      "file": "combat-sword-study-v1/frames/counter-06.png",
+      "width": 338,
+      "height": 360,
+      "sha256": "2dbc8c2fa7b47d8202ebbf1f888ba125c814f8cf686aa2d8ab0741685ee0554c"
+    },
+    {
+      "key": "counter-07",
+      "file": "combat-sword-study-v1/frames/counter-07.png",
+      "width": 335,
+      "height": 406,
+      "sha256": "859324c23182ade6898fe07f112c23e724439de90b80e3749c1508438a679aaa"
+    },
+    {
+      "key": "enemy-00",
+      "file": "combat-sword-study-v1/frames/enemy-00.png",
+      "width": 380,
+      "height": 295,
+      "sha256": "efe2655eccfcfa74f318f72b0178d028470bc8589ff724cd0aded58d9ec742f7"
+    },
+    {
+      "key": "enemy-01",
+      "file": "combat-sword-study-v1/frames/enemy-01.png",
+      "width": 351,
+      "height": 295,
+      "sha256": "d010bc349782b2c2c65e6ad1b307e86e2ffac0942964a1b38109d610fe73508f"
+    },
+    {
+      "key": "enemy-02",
+      "file": "combat-sword-study-v1/frames/enemy-02.png",
+      "width": 362,
+      "height": 306,
+      "sha256": "b758fffccf4a84682675e677085cab69859822c7cffdad6caab8208bebccec7e"
+    },
+    {
+      "key": "enemy-03",
+      "file": "combat-sword-study-v1/frames/enemy-03.png",
+      "width": 357,
+      "height": 297,
+      "sha256": "c0ffd110cfbcb488a4c6ad8acfa2e21defc2956af911dccae057bc39261a10de"
+    },
+    {
+      "key": "enemy-04",
+      "file": "combat-sword-study-v1/frames/enemy-04.png",
+      "width": 304,
+      "height": 369,
+      "sha256": "ee96f136c2c4683b2e5941916d61b654b872d2ff055d921e97e6690e65e05f2d"
+    },
+    {
+      "key": "enemy-05",
+      "file": "combat-sword-study-v1/frames/enemy-05.png",
+      "width": 361,
+      "height": 278,
+      "sha256": "ec28e502c39f18ae8a391c2d1c611eae9da2c5b73a248b94b895c47ae18af228"
+    },
+    {
+      "key": "enemy-06",
+      "file": "combat-sword-study-v1/frames/enemy-06.png",
+      "width": 388,
+      "height": 197,
+      "sha256": "bcf88b0830875513ff99ee107f690a9c611366f0fd6bbf3a9506316ccdb81b59"
+    },
+    {
+      "key": "enemy-07",
+      "file": "combat-sword-study-v1/frames/enemy-07.png",
+      "width": 389,
+      "height": 178,
+      "sha256": "3bd732a14fe0f438f5557545f318e262159228af11a8f4946fa353defdcf6efe"
+    },
+    {
+      "key": "player-00",
+      "file": "combat-sword-study-v1/frames/player-00.png",
+      "width": 284,
+      "height": 246,
+      "sha256": "73d4d565cb0695dfa0e84dab12c070d8a1e0709139afcb3b800775b2b5e38a2e"
+    },
+    {
+      "key": "player-01",
+      "file": "combat-sword-study-v1/frames/player-01.png",
+      "width": 248,
+      "height": 290,
+      "sha256": "194537e07231b51e6fa3af67ce99b3fc34c755784386eeb65674702953d55de2"
+    },
+    {
+      "key": "player-02",
+      "file": "combat-sword-study-v1/frames/player-02.png",
+      "width": 387,
+      "height": 253,
+      "sha256": "56eda4c357a51afc37695bf80bc2fd887942a8d943f0b0167abf6de58ea8a2b9"
+    },
+    {
+      "key": "player-03",
+      "file": "combat-sword-study-v1/frames/player-03.png",
+      "width": 270,
+      "height": 247,
+      "sha256": "355cd649a266e03122531b4886e9530ebc1a8fd347e9fe011a4ebd9d251c4753"
+    },
+    {
+      "key": "player-12",
+      "file": "combat-sword-study-v1/frames/player-12.png",
+      "width": 219,
+      "height": 324,
+      "sha256": "75ebc050812b8e48a194e890132c54e6a819b77344977bf2d330685379a0c132"
+    },
+    {
+      "key": "player-13",
+      "file": "combat-sword-study-v1/frames/player-13.png",
+      "width": 281,
+      "height": 317,
+      "sha256": "6c0f013178ce41053a9d020d19e5f5be33490f723ff7bd7ede8e0c09b6fd806e"
+    },
+    {
+      "key": "player-14",
+      "file": "combat-sword-study-v1/frames/player-14.png",
+      "width": 209,
+      "height": 297,
+      "sha256": "e2f04ab70d8b813a7d8de3f8b5083b6d008542d71fa032f9e5722fc3d474b625"
+    },
+    {
+      "key": "player-15",
+      "file": "combat-sword-study-v1/frames/player-15.png",
+      "width": 256,
+      "height": 251,
+      "sha256": "4c076c4c30f8a55566293460af27a826e109a05a857d420d2d1496d218a7b3a1"
+    },
+    {
+      "key": "cast-12",
+      "file": "combat-sword-study-v1/frames/cast-12.png",
+      "width": 262,
+      "height": 257,
+      "sha256": "b154ed858f9da32e42255ed38bbb2eb0ac15a950d5b18d4c9bc96afbaddaca23"
+    },
+    {
+      "key": "cast-13",
+      "file": "combat-sword-study-v1/frames/cast-13.png",
+      "width": 310,
+      "height": 274,
+      "sha256": "d2daa4c1cf9f31b5a9a35273ec97061096de45b25fc827bfaa98e5d4933950c9"
+    },
+    {
+      "key": "cast-14",
+      "file": "combat-sword-study-v1/frames/cast-14.png",
+      "width": 203,
+      "height": 274,
+      "sha256": "b6d4e5f938e1676b5b6555446ad81c9f708efbe46d877efb4cdc2a85efeffc60"
+    },
+    {
+      "key": "cast-15",
+      "file": "combat-sword-study-v1/frames/cast-15.png",
+      "width": 299,
+      "height": 249,
+      "sha256": "f7ae276374d1e0a966d9e977ad0cb63067a548bf656a7f2284a9e498493a9450"
+    },
+    {
+      "key": "player-04",
+      "file": "combat-sword-study-v1/frames/player-04.png",
+      "width": 247,
+      "height": 267,
+      "sha256": "06ff0f86caf714b87c15d3626f525a99b6625c4efc247ac638ca0226e6c08f19"
+    },
+    {
+      "key": "player-05",
+      "file": "combat-sword-study-v1/frames/player-05.png",
+      "width": 251,
+      "height": 270,
+      "sha256": "6bca384d92d75580280cc529e1599c87139bfca07939dc569e4cea77a3443702"
+    },
+    {
+      "key": "player-06",
+      "file": "combat-sword-study-v1/frames/player-06.png",
+      "width": 249,
+      "height": 264,
+      "sha256": "bcd625f57af7a5a7b6cfc7f1a0805ce1c55390c6db1cd80e5b9990859e83ab60"
+    },
+    {
+      "key": "player-07",
+      "file": "combat-sword-study-v1/frames/player-07.png",
+      "width": 237,
+      "height": 266,
+      "sha256": "c4755740cff16f9a8590ee61edac90c29b5998e5409ca3b01f3be5e0242ed135"
+    },
+    {
+      "key": "player-08",
+      "file": "combat-sword-study-v1/frames/player-08.png",
+      "width": 221,
+      "height": 275,
+      "sha256": "9c2209ba9ea31c8fe657191e978337d7acaba38d2e2ae6051e53c5a108c7daa0"
+    },
+    {
+      "key": "player-09",
+      "file": "combat-sword-study-v1/frames/player-09.png",
+      "width": 253,
+      "height": 277,
+      "sha256": "6376c9b1800f6dbc30c0b8065c1f519bed7231749cc9558d7e4398389a0d4365"
+    },
+    {
+      "key": "player-10",
+      "file": "combat-sword-study-v1/frames/player-10.png",
+      "width": 225,
+      "height": 273,
+      "sha256": "76156f44105b4f2a99b3c09acc23ef4dd84dc8b324470d8774f5666d548e7d63"
+    },
+    {
+      "key": "player-11",
+      "file": "combat-sword-study-v1/frames/player-11.png",
+      "width": 211,
+      "height": 277,
+      "sha256": "54a8251e77d9faf241c160db90d47c1f63ddd46d3bae445814ea61134455d72c"
+    },
+    {
+      "key": "cast-00",
+      "file": "combat-sword-study-v1/frames/cast-00.png",
+      "width": 257,
+      "height": 231,
+      "sha256": "ac8f34fa8020d28f786a8b09bb51653737cd9f974703ac923e0e5b4ca4094a19"
+    },
+    {
+      "key": "cast-01",
+      "file": "combat-sword-study-v1/frames/cast-01.png",
+      "width": 257,
+      "height": 328,
+      "sha256": "6d50be5dea7a5b4a1f987dbf866be4f2956f89817a4d610b2f91fadc321b75b9"
+    },
+    {
+      "key": "cast-02",
+      "file": "combat-sword-study-v1/frames/cast-02.png",
+      "width": 396,
+      "height": 237,
+      "sha256": "546e5d4ac34f51f419d9fd1d955fa03e3ec092d592bbe813cdf4ffdf16f6d7bd"
+    },
+    {
+      "key": "cast-03",
+      "file": "combat-sword-study-v1/frames/cast-03.png",
+      "width": 262,
+      "height": 234,
+      "sha256": "7aef3233679306e55216ff59b6e9720b40a254e6d016e37ee0ac1baa185d2950"
+    },
+    {
+      "key": "cast-04",
+      "file": "combat-sword-study-v1/frames/cast-04.png",
+      "width": 226,
+      "height": 267,
+      "sha256": "cb8b7eec30d808fad52a76c11a231b62024234be306e592d7c5f70de905654fd"
+    },
+    {
+      "key": "cast-05",
+      "file": "combat-sword-study-v1/frames/cast-05.png",
+      "width": 216,
+      "height": 312,
+      "sha256": "504645ace739d8f9e1c23dad4902e1b8459e54272f95dd2e84755269096a4cac"
+    },
+    {
+      "key": "cast-06",
+      "file": "combat-sword-study-v1/frames/cast-06.png",
+      "width": 297,
+      "height": 292,
+      "sha256": "90e8e1c6f6c95953cd1791fa5c574f2cb357828c78bb8b60cf7083b723a51244"
+    },
+    {
+      "key": "cast-07",
+      "file": "combat-sword-study-v1/frames/cast-07.png",
+      "width": 243,
+      "height": 241,
+      "sha256": "1f7a6b120acc2721e503536754390493164f6d2e2599f78c5de72b245b02f425"
+    },
+    {
+      "key": "cast-08",
+      "file": "combat-sword-study-v1/frames/cast-08.png",
+      "width": 245,
+      "height": 246,
+      "sha256": "a736c8ff18a156e95f1e3e8701ce61d5a5280a166c060f5d599f89212edd12f8"
+    },
+    {
+      "key": "cast-09",
+      "file": "combat-sword-study-v1/frames/cast-09.png",
+      "width": 213,
+      "height": 315,
+      "sha256": "1f379d5750f54b6a962893450997838a70012ac39eb16259dd10b4feef237f7f"
+    },
+    {
+      "key": "cast-10",
+      "file": "combat-sword-study-v1/frames/cast-10.png",
+      "width": 289,
+      "height": 245,
+      "sha256": "70fe178c3a93806139054941b9c8e6e486dbb14cea6643644cacc6902120c2a7"
+    },
+    {
+      "key": "cast-11",
+      "file": "combat-sword-study-v1/frames/cast-11.png",
+      "width": 221,
+      "height": 260,
+      "sha256": "02e4ad7fc6e1dc4aeeadae2661f2f714c3af06e53ce26120aa162d06e08c0fdd"
+    },
+    {
+      "key": "run-058",
+      "file": "combat-sword-study-v1/frames/run-058.png",
+      "width": 84,
+      "height": 84,
+      "sha256": "9650e0a19d956d0ce73916645f2b86677508b14f2654427d622b7dcc26639f14"
+    },
+    {
+      "key": "run-059",
+      "file": "combat-sword-study-v1/frames/run-059.png",
+      "width": 84,
+      "height": 84,
+      "sha256": "8a2513de05884fc990d25b6232b0e1fdd86131a31745d68392bea71b838b9680"
+    },
+    {
+      "key": "run-060",
+      "file": "combat-sword-study-v1/frames/run-060.png",
+      "width": 84,
+      "height": 84,
+      "sha256": "48cf68aa4348814efc32568ce244b7808a3948992cc98de832a976519b91468a"
+    },
+    {
+      "key": "run-061",
+      "file": "combat-sword-study-v1/frames/run-061.png",
+      "width": 84,
+      "height": 84,
+      "sha256": "9db8db2e706814410005f42a1d564455cc2625763fd6e158c8ef64405dea9808"
+    },
+    {
+      "key": "run-062",
+      "file": "combat-sword-study-v1/frames/run-062.png",
+      "width": 84,
+      "height": 84,
+      "sha256": "a25a10a6c1df236e04c3cbcfbabd53bb513c9157a4f0404b332cc6d1ed4bce37"
+    },
+    {
+      "key": "run-063",
+      "file": "combat-sword-study-v1/frames/run-063.png",
+      "width": 84,
+      "height": 84,
+      "sha256": "1e7355b62071017159a7c8e11365f5da39a05b30d8befae40a735d7c2d6d921e"
+    },
+    {
+      "key": "run-064",
+      "file": "combat-sword-study-v1/frames/run-064.png",
+      "width": 84,
+      "height": 84,
+      "sha256": "29524c77b1ca1650455fd00b65d4996ed9cf1d66bebf959643aafbd0b089abe2"
+    },
+    {
+      "key": "run-065",
+      "file": "combat-sword-study-v1/frames/run-065.png",
+      "width": 84,
+      "height": 84,
+      "sha256": "d142e45608ca07303d4f0b5dd4cfacfb0c9fbe70276ee82f41407bcb50002781"
+    },
+    {
+      "key": "run-066",
+      "file": "combat-sword-study-v1/frames/run-066.png",
+      "width": 84,
+      "height": 84,
+      "sha256": "4c6c5f18a3d3205cc89044628e475a22dfc86b9dc529f5d7bcd109e6385edd9c"
+    },
+    {
+      "key": "run-048",
+      "file": "combat-sword-study-v1/frames/run-048.png",
+      "width": 84,
+      "height": 84,
+      "sha256": "b0be83d2e0ab5903692010c69ea28ad7f04810d03b294b2d87d03cfb90d6731c"
+    },
+    {
+      "key": "run-049",
+      "file": "combat-sword-study-v1/frames/run-049.png",
+      "width": 84,
+      "height": 84,
+      "sha256": "17bde1352f6079bfec770cda3e517b027f11b8ca2b5985a2ff17b4a2edee82ea"
+    },
+    {
+      "key": "run-050",
+      "file": "combat-sword-study-v1/frames/run-050.png",
+      "width": 84,
+      "height": 84,
+      "sha256": "d9368edc56854256480d442ae12511f19e71bc749bd84aaa3e54e25a2c15c61f"
+    },
+    {
+      "key": "run-051",
+      "file": "combat-sword-study-v1/frames/run-051.png",
+      "width": 84,
+      "height": 84,
+      "sha256": "96afe3f3a6e64331f49735e371511907176e903a7bdd199d44c427166383445a"
+    },
+    {
+      "key": "run-052",
+      "file": "combat-sword-study-v1/frames/run-052.png",
+      "width": 84,
+      "height": 84,
+      "sha256": "c0b89475b7f431145792973df16f2f41484334778bc9f61f7c60e3588478513a"
+    },
+    {
+      "key": "run-053",
+      "file": "combat-sword-study-v1/frames/run-053.png",
+      "width": 84,
+      "height": 84,
+      "sha256": "797899a2ccc4c7ccf02aa80669d7bb15d738f8d4ad9a57bb5448785fdb6cdeae"
+    },
+    {
+      "key": "run-054",
+      "file": "combat-sword-study-v1/frames/run-054.png",
+      "width": 84,
+      "height": 84,
+      "sha256": "014b37da9d26e57275bafda15ee2d19983d06b63d98656a6ae993943b0449cf4"
+    },
+    {
+      "key": "run-055",
+      "file": "combat-sword-study-v1/frames/run-055.png",
+      "width": 84,
+      "height": 84,
+      "sha256": "7b968fe18dae3d21eff6f44807861b4294adb06c9640f053c10d3fa359896b52"
+    },
+    {
+      "key": "run-056",
+      "file": "combat-sword-study-v1/frames/run-056.png",
+      "width": 84,
+      "height": 84,
+      "sha256": "a1011a3e02e370bae6a1ccf2924d89dfdcd0c63abfb91e611093495572287fe2"
+    },
+    {
+      "key": "run-057",
+      "file": "combat-sword-study-v1/frames/run-057.png",
+      "width": 84,
+      "height": 84,
+      "sha256": "9928a10ae3d9bad221faff3af236cc4f5c1626b41fb2590ca34e8b9362ff39f9"
+    },
+    {
+      "key": "stop-203",
+      "file": "combat-sword-study-v1/frames/stop-203.png",
+      "width": 84,
+      "height": 84,
+      "sha256": "cd49a09506968e0057bd9810ae6d6601c9ac8b35089a7e595068e49f6310cf2f"
+    },
+    {
+      "key": "stop-206",
+      "file": "combat-sword-study-v1/frames/stop-206.png",
+      "width": 84,
+      "height": 84,
+      "sha256": "613e2e916bc9d481e51a0dedb3ff9a249a3f1181f9b5662956ad8c46f4dd9f49"
+    },
+    {
+      "key": "stop-209",
+      "file": "combat-sword-study-v1/frames/stop-209.png",
+      "width": 84,
+      "height": 84,
+      "sha256": "17005844e9ddbee0a4e4a035044f75cfce9c91a6a5efd55ad3e126b63cd1f99f"
+    },
+    {
+      "key": "down-00",
+      "file": "combat-sword-study-v1/frames/down-00.png",
+      "width": 667,
+      "height": 703,
+      "sha256": "e3f7189bff1afdac8717886a14467b8907498e605f3983dab2c7189f4df6f423"
+    },
+    {
+      "key": "down-01",
+      "file": "combat-sword-study-v1/frames/down-01.png",
+      "width": 790,
+      "height": 687,
+      "sha256": "b9ebc4afed1865a538c0a7290bc150b63889a47805e4e0b95249d061017db400"
+    },
+    {
+      "key": "down-02",
+      "file": "combat-sword-study-v1/frames/down-02.png",
+      "width": 741,
+      "height": 550,
+      "sha256": "22b56c605201f9c28b2e254414e8b88901061182d7866a5f33bb7fc425c5cbf5"
+    }
+  ]
+}

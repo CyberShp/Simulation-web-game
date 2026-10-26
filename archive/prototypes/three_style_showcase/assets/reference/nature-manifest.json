@@ -1,0 +1,350 @@
+{
+  "generator": "blender/build_reference_nature.py",
+  "reference": "docs/art/desktop-style-review-20261013/d-realistic-3d.png",
+  "coordinateContract": "Individual GLBs: metres, Y up, grounded root; nature.glb and blend contain a spaced editable catalogue.",
+  "foliage": "Real pine sprig photographs on three-axis leaf bundles with a nine-point atlas outline; sRGB RGBA, MASK 0.32; source pixels and sprig proportions preserved.",
+  "sources": [
+    {
+      "asset": "pine_sapling_medium",
+      "url": "https://polyhaven.com/a/pine_sapling_medium",
+      "license": "CC0-1.0",
+      "licenseUrl": "https://polyhaven.com/license"
+    },
+    {
+      "asset": "boulder_01",
+      "url": "https://polyhaven.com/a/boulder_01",
+      "license": "CC0-1.0",
+      "licenseUrl": "https://polyhaven.com/license"
+    }
+  ],
+  "assets": [
+    {
+      "id": "pine-hero",
+      "file": "pine-hero.glb",
+      "description": "Layered irregular horizontal needle canopies on curved, forked trunks",
+      "units": "metres",
+      "upAxis": "Y",
+      "groundY": 0,
+      "boundsMinXYZ": [
+        -4.8579,
+        0.0,
+        -3.2572
+      ],
+      "boundsMaxXYZ": [
+        5.1421,
+        8.0,
+        3.1414
+      ],
+      "dimensionsXYZ": [
+        10.0,
+        8.0,
+        6.3987
+      ],
+      "triangles": 104708,
+      "meshCount": 2,
+      "materials": [
+        "PineBark",
+        "PineNeedles"
+      ],
+      "bytes": 23126400,
+      "sha256": "abd5577e748af65b1a79d02fc88d2439670b68ad34fe7f4dbd294815b570a7aa",
+      "cataloguePositionBlenderXYZ": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "id": "pine-windswept",
+      "file": "pine-windswept.glb",
+      "description": "Layered irregular horizontal needle canopies on curved, forked trunks",
+      "units": "metres",
+      "upAxis": "Y",
+      "groundY": 0,
+      "boundsMinXYZ": [
+        -3.0662,
+        -0.0,
+        -3.9275
+      ],
+      "boundsMaxXYZ": [
+        6.9338,
+        8.0,
+        3.4959
+      ],
+      "dimensionsXYZ": [
+        10.0,
+        8.0,
+        7.4235
+      ],
+      "triangles": 95346,
+      "meshCount": 2,
+      "materials": [
+        "PineBark",
+        "PineNeedles"
+      ],
+      "bytes": 22620460,
+      "sha256": "7066267ecee617683d0e011bc2d6be6a6d7ccc5746b7234d2f044d64d84c751c",
+      "cataloguePositionBlenderXYZ": [
+        20.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "id": "shrub",
+      "file": "shrub.glb",
+      "description": "Low spreading evergreen understory with twig and needle detail",
+      "units": "metres",
+      "upAxis": "Y",
+      "groundY": 0,
+      "boundsMinXYZ": [
+        -0.9344,
+        -0.0,
+        -0.9032
+      ],
+      "boundsMaxXYZ": [
+        0.9723,
+        0.8,
+        0.8905
+      ],
+      "dimensionsXYZ": [
+        1.9067,
+        0.8,
+        1.7937
+      ],
+      "triangles": 15300,
+      "meshCount": 2,
+      "materials": [
+        "PineBark",
+        "PineNeedles"
+      ],
+      "bytes": 18184056,
+      "sha256": "1e606e2c27bff3a71afde0887167bab0af2d639b1a83ebc37eaf3b57d5b8588b",
+      "cataloguePositionBlenderXYZ": [
+        40.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "id": "cliff-small",
+      "file": "cliff-small.glb",
+      "description": "Closed overlapping scan-rock strata form a grounded volumetric island with a tapering summit",
+      "units": "metres",
+      "upAxis": "Y",
+      "groundY": 0,
+      "boundsMinXYZ": [
+        -3.5312,
+        0.0,
+        -3.483
+      ],
+      "boundsMaxXYZ": [
+        3.385,
+        8.0,
+        3.3514
+      ],
+      "dimensionsXYZ": [
+        6.9162,
+        8.0,
+        6.8344
+      ],
+      "triangles": 62160,
+      "meshCount": 1,
+      "materials": [
+        "CliffWeatheredStone"
+      ],
+      "bytes": 5123264,
+      "sha256": "85c6e98d6c0b9f75b3c9eaf88cc5b686081f304d557eefe1f463793c8d77a6be",
+      "rockPieces": 37,
+      "maximumPieceVerticalRatio": 1.317,
+      "closedScanUndersides": true,
+      "cataloguePositionBlenderXYZ": [
+        0.0,
+        25.0,
+        0.0
+      ]
+    },
+    {
+      "id": "cliff-medium",
+      "file": "cliff-medium.glb",
+      "description": "Closed overlapping scan-rock strata form a grounded volumetric island with a tapering summit",
+      "units": "metres",
+      "upAxis": "Y",
+      "groundY": 0,
+      "boundsMinXYZ": [
+        -7.0173,
+        0.0,
+        -6.8132
+      ],
+      "boundsMaxXYZ": [
+        6.4302,
+        16.0,
+        7.0738
+      ],
+      "dimensionsXYZ": [
+        13.4475,
+        16.0,
+        13.887
+      ],
+      "triangles": 62160,
+      "meshCount": 1,
+      "materials": [
+        "CliffWeatheredStone"
+      ],
+      "bytes": 5123276,
+      "sha256": "074327379f1ead34b5f5da30317a53bc05e0491a8324c9e190c1729c030fcc51",
+      "rockPieces": 37,
+      "maximumPieceVerticalRatio": 1.3144,
+      "closedScanUndersides": true,
+      "cataloguePositionBlenderXYZ": [
+        20.0,
+        25.0,
+        0.0
+      ]
+    },
+    {
+      "id": "cliff-tall",
+      "file": "cliff-tall.glb",
+      "description": "Closed overlapping scan-rock strata form a grounded volumetric island with a tapering summit",
+      "units": "metres",
+      "upAxis": "Y",
+      "groundY": 0,
+      "boundsMinXYZ": [
+        -11.9039,
+        0.0,
+        -11.7319
+      ],
+      "boundsMaxXYZ": [
+        11.7876,
+        28.0,
+        11.9336
+      ],
+      "dimensionsXYZ": [
+        23.6916,
+        28.0,
+        23.6655
+      ],
+      "triangles": 62160,
+      "meshCount": 1,
+      "materials": [
+        "CliffWeatheredStone"
+      ],
+      "bytes": 5123260,
+      "sha256": "34bed852fda290dc2f4f4f3b6c848d1daaf86c565ae943485714b0c140a16110",
+      "rockPieces": 37,
+      "maximumPieceVerticalRatio": 1.3012,
+      "closedScanUndersides": true,
+      "cataloguePositionBlenderXYZ": [
+        40.0,
+        25.0,
+        0.0
+      ]
+    },
+    {
+      "id": "peak-distant",
+      "file": "peak-distant.glb",
+      "description": "Continuous fluted limestone ridges with asymmetric needle summits, closed solid foot and embedded scan detail",
+      "units": "metres",
+      "upAxis": "Y",
+      "groundY": 0,
+      "boundsMinXYZ": [
+        -6.7961,
+        0.0,
+        -6.5081
+      ],
+      "boundsMaxXYZ": [
+        7.0664,
+        28.0,
+        6.8449
+      ],
+      "dimensionsXYZ": [
+        13.8625,
+        28.0,
+        13.353
+      ],
+      "triangles": 10392,
+      "meshCount": 1,
+      "materials": [
+        "DistantLimestone"
+      ],
+      "bytes": 2394324,
+      "sha256": "f730ce57330aa4a61e4274ffff82c660ff9606db37f8a98f447f2df8fd398448",
+      "cataloguePositionBlenderXYZ": [
+        0.0,
+        50.0,
+        0.0
+      ]
+    },
+    {
+      "id": "peak-distant-b",
+      "file": "peak-distant-b.glb",
+      "description": "Continuous fluted limestone ridges with asymmetric needle summits, closed solid foot and embedded scan detail",
+      "units": "metres",
+      "upAxis": "Y",
+      "groundY": 0,
+      "boundsMinXYZ": [
+        -7.5596,
+        0.0,
+        -6.258
+      ],
+      "boundsMaxXYZ": [
+        7.4058,
+        28.0,
+        6.813
+      ],
+      "dimensionsXYZ": [
+        14.9654,
+        28.0,
+        13.071
+      ],
+      "triangles": 10392,
+      "meshCount": 1,
+      "materials": [
+        "DistantLimestone"
+      ],
+      "bytes": 2394332,
+      "sha256": "d0509ad316356baea43d21b5b3e9ce86d540c526a35727795fbd1d6a7d55d9ec",
+      "cataloguePositionBlenderXYZ": [
+        20.0,
+        50.0,
+        0.0
+      ]
+    },
+    {
+      "id": "peak-distant-c",
+      "file": "peak-distant-c.glb",
+      "description": "Continuous fluted limestone ridges with asymmetric needle summits, closed solid foot and embedded scan detail",
+      "units": "metres",
+      "upAxis": "Y",
+      "groundY": 0,
+      "boundsMinXYZ": [
+        -7.0806,
+        0.0,
+        -5.9861
+      ],
+      "boundsMaxXYZ": [
+        7.8003,
+        28.0,
+        6.6802
+      ],
+      "dimensionsXYZ": [
+        14.8809,
+        28.0,
+        12.6663
+      ],
+      "triangles": 10392,
+      "meshCount": 1,
+      "materials": [
+        "DistantLimestone"
+      ],
+      "bytes": 2394328,
+      "sha256": "bb116c28a8d1e48b6677236cc257087129f8d9e33998ea97d917aa42ff080749",
+      "cataloguePositionBlenderXYZ": [
+        40.0,
+        50.0,
+        0.0
+      ]
+    }
+  ],
+  "validation": "Geometry, dimensions and export checked. Final scene appearance is reviewed in the Three.js runtime."
+}
