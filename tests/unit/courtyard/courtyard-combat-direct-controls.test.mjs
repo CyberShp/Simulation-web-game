@@ -29,12 +29,12 @@ test('WASD direction is normalized, key release, expiry, pause and load stop mov
  send(s,{type:'pause',paused:false});input(s,-1,0);const serialized=JSON.parse(JSON.stringify(snapshotSect(s))),loaded=restoreSect(serialized);assert.deepEqual(loaded.state.combat.controls.move,{x:0,y:0});
  const expected=structuredClone(serialized.state);expected.combat.controls.move={x:0,y:0};expected.combat.controls.moveUntilTick=expected.worldTick;assert.deepEqual(loaded.state,expected);
  const x=loaded.state.combat.player.x;advanceSect(loaded,.1);assert.equal(loaded.state.combat.player.x,x);
- for(let n=0;n<15;n++){input(loaded,-1,0);advanceSect(loaded,.2);}assert(loaded.state.combat.player.x>=.6);assert.equal(loaded.state.master.location.x,21+loaded.state.combat.player.x);
+ for(let n=0;n<15;n++){input(loaded,-1,0);advanceSect(loaded,.2);}assert(loaded.state.combat.player.x>=.6);assert.equal(loaded.state.master.location.x,loaded.state.combat.sceneFrame.origin.x+loaded.state.combat.player.x);
 });
 
-test('manual melee and spell use the supplied direction and empty casts pay without effective practice',()=>{
+test('manual sword-qi and spell use the supplied direction and empty casts pay without effective practice',()=>{
  const s=encounter(),p=s.state.combat.player,hp=s.state.combat.enemies[0].hp,qi=p.qi,artBefore=structuredClone(s.state.master.artsById);
- command(s,'attack',{x:p.x-5,y:p.y});advanceSect(s,.4);assert.equal(s.state.combat.enemies[0].hp,hp);assert.equal(s.state.srCombat.pending.result.hitIds.length,0);
+ command(s,'attack',{x:p.x-5,y:p.y});const attackId=s.state.srCombat.pending.id;until(s,s=>!s.srCombat.pending&&!s.combat.projectiles?.length,'empty sword-qi completes');assert.equal(s.state.combat.enemies[0].hp,hp);assert.equal(s.state.srCombat.executions.filter(a=>a.id===attackId&&a.executed).length,1);assert(!s.state.combat.effects.some(e=>e.actionId===attackId&&e.kind==='hit'));
  until(s,s=>!s.srCombat.pending,'sword recovery');const aim={x:s.state.combat.player.x,y:.6};const shot=cast(s,aim);
  assert.deepEqual(shot.aim,aim);assert.equal(s.state.combat.enemies[0].hp,hp);assert(s.state.combat.player.qi<qi);assert(s.state.srCombat.cooldowns.spell>s.state.worldTick);
  advanceSect(s,1);assert.equal(s.state.combat.enemies[0].hp,hp);assert.equal(s.state.combat.projectiles.length,0);assert.deepEqual(s.state.master.artsById,artBefore);
@@ -46,7 +46,7 @@ test('a launched spell keeps its exact trajectory through native session load an
  assert.equal(s.state.combat.enemies[0].hp,hp);const saved=JSON.parse(JSON.stringify(snapshotSect(s)));s=restoreSect(saved);
  assert.deepEqual(s.state.combat.projectiles,saved.state.combat.projectiles);assert.deepEqual(s.state.srCombat.pending.target,aim);assert.equal(s.state.combat.enemies[0].hp,hp);
  until(s,s=>s.combat.projectiles.length===0,'projectile collision');assert(s.state.combat.enemies[0].hp<hp);assert(s.state.personsById[FOE].wound>0);
- assert.equal(s.state.srCombat.pending.result.projectileId,shot.id);assert.deepEqual(s.state.srCombat.pending.result.aim,aim);
+ const executed=s.state.srCombat.pending?.id===shot.actionId?s.state.srCombat.pending:s.state.srCombat.executions.find(a=>a.id===shot.actionId);assert(executed?.executed);assert.equal(executed.result.projectileId,shot.id);assert.deepEqual(executed.result.aim,aim);
  const after=s.state.combat.enemies[0].hp;advanceSect(s,.3);assert.equal(s.state.combat.enemies[0].hp,after);
 });
 
@@ -57,9 +57,9 @@ test('movement intent survives an unreleased spell, while a released spell retai
 });
 
 test('automatic attack has no pursuit or spell, and an unreleased automatic attack yields to a manual skill',()=>{
- const s=encounter(),start={x:s.state.combat.player.x,y:s.state.combat.player.y};send(s,{type:'combat-auto',enabled:true});advanceSect(s,.1);
+ const s=encounter();for(let n=0;n<60&&Math.hypot(s.state.combat.enemies[0].x-s.state.combat.player.x,s.state.combat.enemies[0].y-s.state.combat.player.y)<=SIM.viewSRCombat(s.state).actions.find(a=>a.id==='attack').range+2;n++){input(s,-1,0);advanceSect(s,.1);}input(s,0,0);const start={x:s.state.combat.player.x,y:s.state.combat.player.y};send(s,{type:'combat-auto',enabled:true});advanceSect(s,.1);
  assert.equal(s.state.srCombat.pending,null);assert.equal(s.state.combat.player.x,start.x);assert.equal(s.state.combat.player.y,start.y);
- advanceSect(s,.4);assert.equal(s.state.srCombat.pending,null);assert.equal(s.state.combat.player.x,start.x);closeForMelee(s);const inReach={x:s.state.combat.player.x,y:s.state.combat.player.y};until(s,s=>s.srCombat.pending?.automatic,'player walks into basic sword reach');assert.equal(s.state.srCombat.pending.action,'attack');
+ advanceSect(s,.4);assert.equal(s.state.srCombat.pending,null);assert.equal(s.state.combat.player.x,start.x);closeForMelee(s);const inReach={x:s.state.combat.player.x,y:s.state.combat.player.y};until(s,s=>s.srCombat.pending?.automatic&&!s.srCombat.pending.executed,'player walks into basic sword reach');assert.equal(s.state.srCombat.pending.action,'attack');
  const aim={x:.6,y:.6};command(s,'spell',aim);assert.equal(s.state.srCombat.pending.action,'spell');assert.deepEqual(s.state.srCombat.pending.target,aim);assert(!s.state.srCombat.pending.automatic);
  advanceSect(s,.6);assert.equal(s.state.combat.projectiles.length,1);assert.equal(s.state.combat.player.x,inReach.x);assert.equal(s.state.combat.player.y,inReach.y);
 });
@@ -71,10 +71,10 @@ test('direction input rejects atomically and only changes controls and the manua
  assert.deepEqual(after,before);
 });
 
-test('manual forward melee and automatic basic attacks apply their real hit without automatically casting a spell',()=>{
+test('manual forward sword-qi and automatic basic attacks apply their real hit without automatically casting a spell',()=>{
  const s=encounter();closeForMelee(s);until(s,s=>!SIM.viewSRCombat(s).actions.find(a=>a.id==='attack').disabled,'player has walked into melee reach');
  let enemy=s.state.combat.enemies[0],hp=enemy.hp;command(s,'attack',{x:enemy.x,y:enemy.y});advanceSect(s,.4);assert(s.state.combat.enemies[0].hp<hp);
  until(s,s=>!s.srCombat.pending,'manual recovery');send(s,{type:'combat-auto',enabled:true});hp=s.state.combat.enemies[0].hp;
- until(s,s=>s.combat.enemies[0].hp<hp,'automatic in-range hit');assert(!s.state.srCombat.executions.some(o=>o.action==='spell'));assert.equal(s.state.combat.projectiles,undefined);
+ until(s,s=>s.combat.enemies[0].hp<hp,'automatic in-range hit');assert(!s.state.srCombat.executions.some(o=>o.action==='spell'));assert((s.state.combat.projectiles||[]).every(shot=>shot.kind==='sword-qi'));
  send(s,{type:'combat-auto',enabled:false});
 });

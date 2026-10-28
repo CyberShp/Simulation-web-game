@@ -180,6 +180,7 @@ SR-XF-013-D01证据：docs/design/20-ARTS-GROWTH-COMBAT.md（抗性与平衡首�
 - docs/art/combat-response-goal-20261027/README.md；2026-10-27 当前spatial cd477bf1仅调整A*排序成本计算，a-star-cost-gate的31项/7场景与900步完整状态/路径等价通过；domain022bdc、ground3f3d、presentation894、framesbe81、data98ac保持。五场功能/视觉原生证据仍为先前spatial cb8538冻结版本；新长档性能112.8ms尖峰未达标，完整动作与SR/AC状态不推进。
 - docs/art/combat-response-goal-20261027/README.md；2026-10-27 当前domain022/spatialcd477/ground3f3d/presentation894/framesbe81/data98ac五场及两probe完整runtime一致。normal/defeat/retreat正式12/5/6项通过，八项动作像素observed已由主看四向、移动出剑、左右hit、稳定戒备及0HP胜败终帧；Q像素范围为Q→Space接续。七份原生落盘state与最终session.state一致；恢复收步203/206/209在真实轨迹齐全，回拉0、standingSkid0，100/200ms稳定action03。早期failed保留；本轮04:48提前冻结，原06:36截止保持，完整SR/AC状态不推进。
 - docs/art/combat-response-goal-20261027/README.md；2026-10-27 c95版仅共享完整等价房间几何的纯segment boolean，strict public indoor资格独立；44项测试、7场景、900步完整session及92MB路径逐字等价，根cmp为0。新normal9/defeat5/retreat6正式胜败撤离返院通过，五场源/运行及落盘state复核一致；主已看当前双方终帧。旧cd477七场动作像素单列，当前presentation894、framesbe81、data98ac保持，不将旧运行散列改称新版本同批证据。新限定场景两轮性能门通过，完整SR/AC状态不推进。
+- 2026-10-28 Web Work回归批次：从e61ceb8复现默认1059/1096、37失败；修复东台长段规划漏检导致实走清路及第二批石料卡死，原卡档125步继续完工。同步当前战斗/客院/访客测试契约、Windows文件URL/LF与CI浏览器依赖。三/五门人各2954步、三日结、生产/粮药交付/历练归来返工通过；默认全量与CI最终结论见 docs/engineering/REGRESSION-20261028.md。仅局部证据，完整SR/AC及发布状态保持，不沿用旧空间版本FPS结论。
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
@@ -221,5 +222,6 @@ SR-XF-013-D01证据：docs/design/20-ARTS-GROWTH-COMBAT.md（抗性与平衡首�
 - 2026-10-25：party12 passed17 native checks, source/runtime/native-save/closed all true; root saw new left-dodge frame. Active status126 reads p95/max0.1ms, full reads0; rAF max460.6ms remains unresolved. Left spell registered; right-idle four-frame candidate prepared, fallback repair pending. Calibrated jog repaint still needs contact correction. Complete sword sample and reusable skill remain in progress; SR/AC unchanged. See73.
 - 2026-10-25：用户要求参照鬼谷八荒改为远程斗法及大场地。48×32米林间、跟随镜头、10米移动剑气已接入；victory-02原生19项流程通过，实际命中/施法接闪避/避岩刺/胜利返院与原生重开成立，来源和运行保持。同源worldPump尖峰1001.5→317.8ms，仍不流畅；跑步帧及整体美术未完成，完整SR/AC保持，详见73。
 - 2026-10-25：战斗integrated-01原生7项通过，265258→265600、active34.199秒，来源/运行/保存/正常关闭一致。首键1.1ms，保存同步42.7/40.5ms；世界步232ms、窗口activity完整投影61ms仍未解决，完整流畅度未通过。用户当前要求改美术并调研开源动效，单人/同行/群战及完整SR/AC保持开放。详见73。
+- 2026-10-28：登记CI与现有回归修复、东台带货施工及三/五门人多日经营验证；完整SR/AC状态保持。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python scripts/requirements/sr-manager.py refresh`，不单独修改此派生页。

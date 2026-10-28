@@ -2,6 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import vm from 'node:vm';
+import {createCourtyardRoutePlanner} from '../../../apps/courtyard/courtyard-route-planner.mjs';
+import {createSwordStudyAudio} from '../../../apps/courtyard/courtyard-combat-sword-study-audio.mjs';
 import {buildCombatGroupComponent} from '../../acceptance/build-combat-group-component.mjs';
 import {createSectSession,createSectCommandDriver,createSectViewRefresh,viewSect,snapshotSect,restoreSect,advanceSect} from '../../../apps/courtyard/sect-sim.mjs';
 
@@ -17,6 +19,7 @@ function host(input=source){
  const element=id=>{if(!elements.has(id))elements.set(id,{hidden:true,textContent:''});return elements.get(id);};
  const add=(name,callback)=>{(listeners[name]??=[]).push(callback);};
  const c={session,view:update(),ready:true,closing:false,importing:false,suspended:false,manualPause:session.state.speed===0,
+  approachPlanner:createCourtyardRoutePlanner(),studyAudio:createSwordStudyAudio({AudioContextClass:null}),getView:()=>c.view,
   modal:null,panelReading:false,openingReading:false,departureReading:false,pendingApproach:null,activeWaypoint:null,
   route:[],destination:null,renderer:{reference:false,target:null},persistence:{status:()=>({protected:false})},
   held:new Set(),lastMove:{x:0,y:0},hostActive:true,hoveredActorId:'actor',focus:true,

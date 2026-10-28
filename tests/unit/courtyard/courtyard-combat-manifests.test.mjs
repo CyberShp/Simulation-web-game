@@ -1,4 +1,5 @@
 import test from 'node:test';
+import {fileURLToPath} from 'node:url';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import {createCanvas,loadImage} from '@napi-rs/canvas';
@@ -97,7 +98,7 @@ test('the current up-right attack resolves the actual party07 direction without 
 });
 
 test('the current spell atlas keeps its authored release hand while the body switches to a left walking fallback',async()=>{
- const base=new URL('../../../assets/courtyard/',import.meta.url),assets=await loadCombatActorAssets({loadImage:name=>loadImage(new URL(name,base).pathname),loadJson:async name=>JSON.parse(await fs.readFile(new URL(name,base),'utf8')),makeCanvas:createCanvas});assert.deepEqual(assets.issues,[]);
+ const base=new URL('../../../assets/courtyard/',import.meta.url),assets=await loadCombatActorAssets({loadImage:name=>loadImage(fileURLToPath(new URL(name,base))),loadJson:async name=>JSON.parse(await fs.readFile(new URL(name,base),'utf8')),makeCanvas:createCanvas});assert.deepEqual(assets.issues,[]);
  const spell=assets.actorLibrary.get('shen-yan').clips.find(c=>c.action==='spell'&&c.direction==='right'),release=spell.frames.find(f=>f.phase==='release');assert(release.anchors.hand);
  const canvas=createCanvas(400,300),ctx=canvas.getContext('2d'),project=(x,y)=>({x:100+x*20,y:230+y*5}),renderer=createCombatActorRenderer({ctx,worldToScreen:project,getTransform:()=>({sx:80,sy:40}),assets});
  const releasing=actorAt(104,{action:'spell',phase:'release',executeAtTick:104,phaseStartedTick:104,phaseProgressTicks:0,movementLocked:false}),from=renderer.presentation(releasing,scene(104,releasing));assert.equal(from.sample.pose.atlas,true);assert.equal(from.sample.pose.key,release.key);
@@ -132,7 +133,7 @@ test('atlas renderer blits the registered rectangle at the real foot without per
 });
 
 test('attack-only beast registration warms remaining legacy idle, movement and reactions before first draw',async()=>{
- const base=new URL('../../../assets/courtyard/',import.meta.url),assets=await loadCombatActorAssets({loadImage:name=>loadImage(new URL(name,base).pathname),loadJson:async name=>JSON.parse(await fs.readFile(new URL(name,base),'utf8')),makeCanvas:createCanvas});assert.deepEqual(assets.issues,[]);
+ const base=new URL('../../../assets/courtyard/',import.meta.url),assets=await loadCombatActorAssets({loadImage:name=>loadImage(fileURLToPath(new URL(name,base))),loadJson:async name=>JSON.parse(await fs.readFile(new URL(name,base),'utf8')),makeCanvas:createCanvas});assert.deepEqual(assets.issues,[]);
  const attacks=assets.actorLibrary.get('shanxiao').clips.filter(c=>c.action==='attack'&&c.direction==='left');assert(attacks.length);assets.actorLibrary.set('shanxiao',{clips:attacks});
  let allocations=0;assets.makeCanvas=(w,h)=>{allocations++;return createCanvas(w,h);};const ctx=createCanvas(600,400).getContext('2d'),render=createCombatActorRenderer({ctx,worldToScreen:(x,y)=>({x:x*40,y:200+y*10}),getTransform:()=>({sx:80,sy:40}),assets});
  await render.prewarm();const warmed=allocations,stats=render.cacheStats();assert.equal(stats.beast.entries,172);assert(warmed>0);

@@ -188,7 +188,8 @@ test('large crop preview caps one trip, preserves seedlings, and cancellation le
   const recovery = act(session, { type: 'transport', sourceStockpileId: parcel.id, targetStockpileId: parcel.recovery.targetStockpileId, cargo: parcel.recovery.cargo });
   until(session, s => s.state.workOrdersById[recovery.result.id].phase === 'delivered', 'parcel physically reaches public store');
   assert.equal(session.state.resources.herb, publicHerb + 40);
-  assert.equal(farm(session).herbOnSite, total - 40);
+  // Production is booked in decimal nanounits; binary subtraction has a tail.
+  assert.equal(Math.round(farm(session).herbOnSite * 1e9), Math.round(total * 1e9) - 40e9);
   assert.ok(farm(session).herbOnSite >= 2);
   assert.equal(operation(session).inventory.stockpiles.find(st => st.id === droppedId).recovery.available, false);
   saved(session);

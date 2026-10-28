@@ -84,7 +84,11 @@ test('an existing courtyard save opens the east domain only through its explicit
   const arrivalTick = s.state.worldTick;
   assert.ok(arrivalTick > before.state.worldTick + 300);
   advanceSect(s, 2);
-  assert.ok(s.ledger.some(e => e.kind === 'autonomous-action' && e.tick >= arrivalTick), 'new autonomous work starts after arrival');
+  const activity = s.state.activitiesById[s.state.master.activityId];
+  assert.ok(activity?.startedTick >= arrivalTick, 'a new autonomous body activity starts only after arrival');
+  assert.equal(activity.personId, s.state.master.personId);
+  assert.equal(s.state.reservationsById[activity.reservationId]?.personId, s.state.master.personId);
+  assert.equal(s.state.reservationsById[activity.reservationId]?.slotId, activity.slotId);
   assert.equal(validateSect(s), true);
 });
 

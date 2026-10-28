@@ -15,3 +15,7 @@ assets/characters/shen-yan/hunyuan-v2/source/shen-yan-body-source.obj.zip filter
 archive/prototypes/three_style_showcase/assets/reference/nature.glb filter=lfs diff=lfs merge=lfs -text
 assets/characters/shen-yan/hunyuan-v1/prepared/shen-yan-rigged.glb filter=lfs diff=lfs merge=lfs -text
 assets/characters/shen-yan/hunyuan-v1/source/shen-yan-source.glb filter=lfs diff=lfs merge=lfs -text
+# Keep executable source stable for Node/VM extraction on Windows checkouts.
+*.mjs text eol=lf
+*.cjs text eol=lf
+*.yml text eol=lf

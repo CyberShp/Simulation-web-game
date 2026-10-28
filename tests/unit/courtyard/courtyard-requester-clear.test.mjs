@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import seed from '../../../apps/courtyard/sect-seed.mjs';
 import {validateSave,dispatchCommand} from '../../../src/simulation/ea-opening-sim.mjs';
-import {tickSpatial} from '../../../src/simulation/ea-sr-spatial.mjs';
+import {tickSpatial,visibleBodyPointClear,visibleBodyRouteClear} from '../../../src/simulation/ea-sr-spatial.mjs';
 import {releaseBodyActivity} from '../../../src/simulation/ea-facility-activities.mjs';
 
 const copy=x=>structuredClone(x);
@@ -12,8 +12,12 @@ function fixture(){
  const master=s.master,worker=s.personsById['person:lu-zhiwei'];
  releaseBodyActivity(s,master);releaseBodyActivity(s,worker);
  const m=master.scenic,q=worker.mind.scenic;
- Object.assign(m,{x:34.45,y:1.9,path:[{x:35.2,y:2.5}],goal:{x:35.2,y:2.5}});
- Object.assign(q,{x:34.92727272727273,y:2.32,path:[],goal:null});
+ Object.assign(m,{x:34.95,y:1.9,path:[{x:35.7,y:2.5}],goal:{x:35.7,y:2.5}});
+ Object.assign(q,{x:35.42727272727273,y:2.32,path:[],goal:null});
+ // Shifted half a metre onto the measured corridor: the original narrow edge
+ // has no legal complete requester-clear route inside the bounded search.
+ for(const [person,body] of [[master,m],[worker,q]]){person.position={...person.position,x:body.x,y:body.y};if(person.location)Object.assign(person.location,{x:body.x,y:body.y});assert(visibleBodyPointClear(s,body));}
+ assert(visibleBodyRouteClear(s,m,m.path));
  master.activityId='activity:test-master';
  s.activitiesById[master.activityId]={id:master.activityId,kind:'facility',personId:master.personId,action:'study',phase:'waiting',slotId:'test:desk:1',reservationId:'reservation:test-master',startedTick:s.worldTick};
  s.reservationsById['reservation:test-master']={id:'reservation:test-master',kind:'slot',personId:master.personId,activityId:master.activityId,slotId:'test:desk:1'};
@@ -26,7 +30,7 @@ function fixture(){
 test('a mutual-corridor step blocked by the requester body creates one bounded requester-clear retreat',()=>{
  const {s,master,worker,m,q}=fixture();
  const masterActivity=copy(s.activitiesById[master.activityId]),workerActivity=copy(s.activitiesById[worker.activityId]),masterReservation=copy(s.reservationsById['reservation:test-master']),workerReservation=copy(s.reservationsById['reservation:test-worker']);
- m.bodyYield={kind:'mutual-corridor',requestedBy:worker.personId,startedTick:s.worldTick,target:{x:35.2,y:2.5},path:[{x:35.2,y:2.5}]};
+ m.bodyYield={kind:'mutual-corridor',requestedBy:worker.personId,startedTick:s.worldTick,target:{x:35.7,y:2.5},path:[{x:35.7,y:2.5}]};
  const before={master:{x:m.x,y:m.y},worker:{x:q.x,y:q.y}};
  tickSpatial(s);
  assert.equal(q.bodyYield?.kind,'requester-clear');
@@ -37,6 +41,7 @@ test('a mutual-corridor step blocked by the requester body creates one bounded r
  assert.deepEqual(s.reservationsById['reservation:test-worker'],workerReservation);
  const retreat=copy(q.bodyYield.target),retreatPath=copy(q.bodyYield.path);
  assert(retreatPath.length>=1);
+ assert(visibleBodyRouteClear(s,q,retreatPath));
  assert.equal(q.bodyYield.requestedBy,master.personId);
  // One retreat only; the next tick must not repeat the search or change the target.
  tickSpatial(s);
@@ -54,7 +59,7 @@ test('a mutual-corridor step blocked by the requester body creates one bounded r
 test('the master is never auto-moved as a requester; no legal search means the yield stays blocked',()=>{
  const {s,master,worker,m,q}=fixture();
  const masterActivity=copy(s.activitiesById[master.activityId]),workerActivity=copy(s.activitiesById[worker.activityId]);
- q.bodyYield={kind:'mutual-corridor',requestedBy:master.personId,startedTick:s.worldTick,target:{x:34.29,y:1.76},path:[{x:34.29,y:1.76}]};
+ q.bodyYield={kind:'mutual-corridor',requestedBy:master.personId,startedTick:s.worldTick,target:{x:34.79,y:1.76},path:[{x:34.79,y:1.76}]};
  const masterBefore={x:m.x,y:m.y};
  tickSpatial(s);
  assert.equal(m.bodyYield,undefined);

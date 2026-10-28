@@ -70,8 +70,13 @@ test('an existing arrived save keeps its identities, exact feet and visit availa
   assert.deepEqual(restored.personsById[id].mind.scenic,original.personsById[id].mind.scenic);
   assert.equal(restored.personsById[id].personId,id);
  }
- const merchant=point(restored.personsById[MERCHANT]);SIM.tick(restored,.1);
- assert.deepEqual(point(restored.personsById[MERCHANT]),merchant);
+ const merchant=point(restored.personsById[MERCHANT]),cargo=structuredClone(restored.stockpilesById['stockpile:qingxi'].resources);SIM.tick(restored,.1);
+ const current=point(restored.personsById[MERCHANT]),recovery=restored.personsById[MERCHANT].mind.scenic.idleVisibleRecovery;
+ assert.deepEqual(recovery.origin,merchant,'an inherited off-paving body recovers from its saved feet only on a world step');
+ assert(distance(current,merchant)>0&&distance(current,merchant)<.6);
+ assert.equal(restored.personsById[MERCHANT].courtyardVisit,undefined);
+ assert.deepEqual(restored.stockpilesById['stockpile:qingxi'].position,{sceneId:'scene:yunxiu-courtyard',...current});
+ assert.deepEqual(restored.stockpilesById['stockpile:qingxi'].resources,cargo);
  assert.deepEqual(seed.state,original,'loading and ticking never rewrites the shipped checkpoint');
 });
 

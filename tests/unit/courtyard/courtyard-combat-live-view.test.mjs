@@ -2,6 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import vm from 'node:vm';
+import {isSwordStudy} from '../../../apps/courtyard/courtyard-combat-sword-study.mjs';
+import {createSwordStudyAudio} from '../../../apps/courtyard/courtyard-combat-sword-study-audio.mjs';
 import {createHash} from 'node:crypto';
 import * as SIM from '../../../src/simulation/ea-opening-sim.mjs';
 import {createSectSession,commandSect,createSectCommandDriver,advanceSect,viewSect,viewSectCombat,createSectViewRefresh,snapshotSect,restoreSect} from '../../../apps/courtyard/sect-sim.mjs';
@@ -15,7 +17,7 @@ const harness=fs.readFileSync(new URL('../../acceptance/courtyard-combat-party-d
 const body=(source,name,next)=>source.slice(source.indexOf(`function ${name}(`),source.indexOf(`function ${next}(`));
 const send=(s,q)=>{const r=commandSect(s,q);assert.equal(r.ok,true,r.error);return r;};
 const until=(s,p,label)=>{for(let i=0;i<3500&&!p(s.state);i++)advanceSect(s,.1);assert(p(s.state),label);};
-function exit(s,id){send(s,{type:'world',action:{action:'exit',exitId:id}});until(s,v=>!v.srWorld.interaction&&!v.master.scenic.path.length,'walk to exit');send(s,{type:'world',action:{action:'exit',exitId:id,cargo:{food:4}}});until(s,v=>!v.srWorld.activeTravelId,'real journey');}
+function exit(s,id){const first=send(s,{type:'world',action:{action:'exit',exitId:id,cargo:{food:4}}});if(first.result.phase==='approaching'){until(s,v=>!v.srWorld.interaction&&!v.master.scenic.path.length,'walk to exit');send(s,{type:'world',action:{action:'exit',exitId:id,cargo:{food:4}}});}until(s,v=>!v.srWorld.activeTravelId,'real journey');}
 function battleSource(){
  let state=SIM.initial({sr:true,mountainOpening:true,seed:271828});
  for(const [name,args]of [['masterAction',['heal']],['chooseOpeningInheritance',['qinglan']]])state=SIM.dispatchCommand(state,{name,args}).state;
@@ -34,7 +36,8 @@ function equivalent(s){
 }
 function host(s){
  const update=createSectViewRefresh(()=>s),calls=[];
- const context={session:s,commandSect,ownedCommand:createSectCommandDriver(()=>s),closing:false,importing:false,suspended:false,needsFullView:()=>false,persistence:{status:()=>({protected:false})},view:update()};
+ const context={session:s,commandSect,ownedCommand:createSectCommandDriver(()=>s),closing:false,importing:false,suspended:false,needsFullView:()=>false,persistence:{status:()=>({protected:false})},view:update(),isSwordStudy,studyAudio:createSwordStudyAudio({AudioContextClass:null})};
+ context.getView=()=>context.view;
  context.refresh=options=>{calls.push(options||{});return context.view=update(options);};
  const issue=vm.runInNewContext(`(${body(main,'issue','pauseReasons')})`,context);
  return {context,calls,issue,update};
@@ -121,7 +124,7 @@ test('successful manual battle actions immediately project official plans and re
   const s=battle(),control=battle(),h=host(s),p=s.state.combat.player;
   const request={type:'combat',actionId,...(['attack','spell','dodge'].includes(actionId)?{target:{x:p.x,y:p.y+.9}}:{})};
   assert(h.issue(request).ok,actionId);send(control,request);assert.equal(JSON.stringify(s.state),JSON.stringify(control.state));assert.equal(h.context.view.domain,undefined,actionId);assert.deepEqual(h.context.view.expedition,viewSect(s).expedition);
-  const invalid={type:'combat',actionId:'missing-action'};assert.equal(h.issue(invalid).ok,false);assert.equal(commandSect(control,invalid).ok,false);assert(h.context.view.domain,'a failed manual request retains the complete-query boundary');
+  const invalid={type:'combat',actionId:'missing-action'};assert.equal(h.issue(invalid).ok,false);assert.equal(commandSect(control,invalid).ok,false);assert.equal(h.context.view.domain,undefined,'a refused skill still refreshes the visible battle projection');assert.deepEqual(h.context.view.expedition,viewSect(s).expedition);
   for(let n=0;n<7;n++){advanceSect(s,.1);advanceSect(control,.1);h.context.refresh({automatic:true,advanced:true});assert.equal(JSON.stringify(s.state),JSON.stringify(control.state),actionId+' world step');assert.deepEqual(h.context.view.expedition,viewSect(s).expedition);}
  }
 });

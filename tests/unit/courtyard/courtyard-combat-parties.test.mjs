@@ -123,8 +123,8 @@ test('the public original travel party walks into combat, restores and retreats 
  send(s,{type:'pause',paused:true});const before=snapshotSect(s);s=restoreSect(before);assert.deepEqual(s,before);send(s,{type:'pause',paused:false});
  send(s,{type:'combat',actionId:'retreat'});until(s,s=>s.combat.status==='retreated','actual party retreat');
  assert.equal(s.state.personsById[personId].activityId,null);assert.equal(s.state.personsById[personId].mind.away.id,travelId);send(s,{type:'combat-acknowledge'});
- send(s,{type:'world',action:{action:'exit',exitId:'exit:valley-yunxiu'}});until(s,s=>!s.srWorld.interaction,'both walk to return gate');
- send(s,{type:'world',action:{action:'exit',exitId:'exit:valley-yunxiu'}});assert(s.state.travelsById[s.state.srWorld.activeTravelId].participantIds.includes(personId));until(s,s=>!s.srWorld.activeTravelId,'original party returns home');
+ const departure=send(s,{type:'world',action:{action:'exit',exitId:'exit:valley-yunxiu'}});
+ if(departure.result.phase==='approaching'){until(s,s=>!s.srWorld.interaction,'both walk to return gate');send(s,{type:'world',action:{action:'exit',exitId:'exit:valley-yunxiu'}});}assert(s.state.travelsById[s.state.srWorld.activeTravelId].participantIds.includes(personId));until(s,s=>!s.srWorld.activeTravelId,'original party returns home');
  assert.equal(s.state.personsById[personId].location.sceneId,'scene:yunxiu-courtyard');assert.equal(s.state.personsById[personId].mind.away,null);
 });
 

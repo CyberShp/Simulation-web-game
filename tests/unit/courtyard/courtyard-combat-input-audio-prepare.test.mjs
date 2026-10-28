@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import vm from 'node:vm';
+import {createCourtyardRoutePlanner} from '../../../apps/courtyard/courtyard-route-planner.mjs';
 import path from 'node:path';
 import {fileURLToPath,pathToFileURL} from 'node:url';
 import {createHash} from 'node:crypto';
@@ -39,11 +40,11 @@ test('unavailable audio and allocation failure preserve event consumption and la
 });
 test('the actual combat loader prepares audio before asset work and continues if audio is unavailable',async()=>{
  const begin=controls.indexOf('async load(){'),end=controls.indexOf('\n  dispose(){',begin);assert(begin>0&&end>begin);const method=controls.slice(begin,end).replace(/,\s*$/,'');
- for(const available of [true,false]){const calls=[],context={combatAudio:{prepare(){calls.push('prepare');return available;}},COMBAT_BACKDROPS:{forest:{id:'forest',image:'forest.png'}},loadImage:async()=>{calls.push('image');return {};},loadJson(){},loadCombatActorAssets:async()=>({issues:[]}),createCombatActorRenderer:()=>({async prewarm(){calls.push('prewarm');},presentation(){}}),createCombatEffectsRenderer:()=>({}),ctx:{},worldToScreen(){},transform:{},coordinates(){},announce(){},images:null,actorRenderer:null,effectRenderer:null};const load=vm.runInNewContext('({'+method+'}).load',context);await load();assert.equal(calls[0],'prepare');assert(calls.includes('image'));assert(calls.includes('prewarm'));assert(context.images.backgrounds.forest);}
+ for(const available of [true,false]){const calls=[],context={combatAudio:{prepare(){calls.push('prepare');return available;}},studyAudio:{prepare(){calls.push('study-prepare');return available;}},loadSwordStudyImages:async()=>({}),loadSwordStudyGround:async()=>({}),COMBAT_BACKDROPS:{forest:{id:'forest',image:'forest.png'}},loadImage:async()=>{calls.push('image');return {};},loadJson(){},loadCombatActorAssets:async()=>({issues:[]}),createCombatActorRenderer:()=>({async prewarm(){calls.push('prewarm');},presentation(){}}),createCombatEffectsRenderer:()=>({}),ctx:{},worldToScreen(){},transform:{},coordinates(){},announce(){},images:null,actorRenderer:null,effectRenderer:null};const load=vm.runInNewContext('({'+method+'}).load',context);await load();assert.deepEqual(calls.slice(0,2),['prepare','study-prepare']);assert(calls.includes('image'));assert(calls.includes('prewarm'));assert(context.images.backgrounds.forest);}
 });
 
 function host(session,ownedCommand,view,update){
- const calls=[],announcements=[],context={session,view,ownedCommand,closing:false,importing:false,suspended:false,needsFullView:()=>false,persistence:{status:()=>({protected:false})},route:[1],activeWaypoint:1,destination:1,renderer:{target:1},pendingApproach:1,ui(){calls.push({ui:true});},canInteract:()=>true,announce:text=>announcements.push(text)};
+ const calls=[],announcements=[],context={approachPlanner:createCourtyardRoutePlanner(),session,view,ownedCommand,closing:false,importing:false,suspended:false,needsFullView:()=>false,persistence:{status:()=>({protected:false})},route:[1],activeWaypoint:1,destination:1,renderer:{target:1},pendingApproach:1,ui(){calls.push({ui:true});},canInteract:()=>true,announce:text=>announcements.push(text)};
  context.refresh=options=>{calls.push({refresh:options||{}});return context.view=update(options);};vm.runInNewContext(body(main,'issue','pauseReasons')+body(main,'manageCommand','moveArt'),context);context.command=context.manageCommand;vm.runInNewContext(body(controls,'send','world'),context);return {context,calls,announcements,send:request=>context.send(request)};
 }
 test('failed commands still use complete views outside the visible battle-only boundary',()=>{

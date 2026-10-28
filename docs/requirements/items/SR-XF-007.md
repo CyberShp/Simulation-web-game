@@ -243,6 +243,7 @@ SR-XF-007-V01证据：tests/acceptance/ea-courtyard-rest-render-acceptance.mjs�
 - docs/art/combat-response-goal-20261027/README.md；2026-10-27 仅A*排序成本计算局部优化后，astar-cost-lean-01在spatial cd477bf1版本无注入90.084秒/901tick，原120身份及5后台保留；世界步112.8ms、rAF109.6ms，性能仍未通过。先前final-batch-01五场功能/视觉证据属于spatial cb8538版本；其余呈现/整帧及素材不变，完整世界状态/路径等价另有a-star-cost-gate证明，不将旧像素称为新runtime复验，完整SR/AC状态保持。
 - docs/art/combat-response-goal-20261027/README.md；2026-10-27 final-freeze-02完整cd477冻结版本五场复核：normal12/12、defeat5/5、retreat6/6通过，action-pixels八项observed；主亲看四向不同跑姿、移动J蓄势/释放/回跑、左右真实受击、W/S与侧向收步、Q→Space接续及0HP终帧。63张活动Canvas复制PNG及6张终局/返院图有逐张来源SHA索引；五场及startup/resume两probe正常关闭、完整764文件runtime相同且各自保持，七份落盘state等于最终session.state。startup-probe七项及resume-probe两项检查成立（report均observed），主已看起步25/200ms、反向25ms及恢复25/100ms。见/Volumes/Media/immortal-qa/combat-final-native-20261027/final-freeze-02/batch-summary.json；性能、完整动作库、听感、Windows及完整SR/AC仍开放。
 - docs/art/combat-response-goal-20261027/README.md；2026-10-27 05:32冻结c95版取得新五场同runtime证据：normal9/defeat5/retreat6项通过，同一掌门分别794→973/746→915/764→858返院，主已看胜败双方终帧。两轮同120原人物/5后台长档原性能门通过，余量有限；五份落盘state等于最终session.state，源/运行保持、窗口关闭。旧cd477七场四向/停步/J/Q→Space/hit/startup/resume像素证据与63+6索引保持原版本范围，presentation894/framesbe81/data98ac未变。汇总见/Volumes/Media/immortal-qa/combat-final-native-20261027/final-freeze-02/equivalent-rooms-summary.json；完整动作库、听感、Windows及完整SR/AC状态保持。
+- 2026-10-28 Web Work回归批次：从e61ceb8复现默认1059/1096、37失败；修复东台长段规划漏检导致实走清路及第二批石料卡死，原卡档125步继续完工。同步当前战斗/客院/访客测试契约、Windows文件URL/LF与CI浏览器依赖。三/五门人各2954步、三日结、生产/粮药交付/历练归来返工通过；默认全量与CI最终结论见 docs/engineering/REGRESSION-20261028.md。仅局部证据，完整SR/AC及发布状态保持，不沿用旧空间版本FPS结论。
 
 - 2026-10-06：由v1.2设计缺口审计建立SR；新增内容和参数遵循作者默认，不冒充用户逐项确认。
 - 2026-10-06：用户授权目标模式、多agent并行开发与验收；启动D01，按现有契约展开模块设计，未将建档或局部实现标作交付。
@@ -306,5 +307,6 @@ SR-XF-007-V01证据：tests/acceptance/ea-courtyard-rest-render-acceptance.mjs�
 - 2026-10-25：party12 passed17 native checks, source/runtime/native-save/closed all true; root saw new left-dodge frame. Active status126 reads p95/max0.1ms, full reads0; rAF max460.6ms remains unresolved. Left spell registered; right-idle four-frame candidate prepared, fallback repair pending. Calibrated jog repaint still needs contact correction. Complete sword sample and reusable skill remain in progress; SR/AC unchanged. See73.
 - 2026-10-25：用户要求参照鬼谷八荒改为远程斗法及大场地。48×32米林间、跟随镜头、10米移动剑气已接入；victory-02原生19项流程通过，实际命中/施法接闪避/避岩刺/胜利返院与原生重开成立，来源和运行保持。同源worldPump尖峰1001.5→317.8ms，仍不流畅；跑步帧及整体美术未完成，完整SR/AC保持，详见73。
 - 2026-10-25：战斗integrated-01原生7项通过，265258→265600、active34.199秒，来源/运行/保存/正常关闭一致。首键1.1ms，世界步仍232ms、activity完整投影61ms；流畅度未通过。用户指出跑动帧尺度/上下抖动，当前转入Game Art Style全站与开源动效选型，素材未替换；完整动作库、美术和skill继续开放。详见73。
+- 2026-10-28：登记CI与现有回归修复、东台带货施工及三/五门人多日经营验证；完整SR/AC状态保持。
 
 本文件由[registry.json](../registry.json)派生；更新台账后执行 `python scripts/requirements/sr-manager.py refresh`，不单独修改此派生页。

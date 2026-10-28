@@ -15,7 +15,7 @@ function fixture(){
 function send(run,request){const reply=commandSect(run,request);assert.equal(reply.ok,true,reply.error);return reply;}
 const world=(run,action)=>send(run,{type:'world',action});
 function until(run,predicate,label){for(let n=0;n<3500&&!predicate(run.state);n++)advanceSect(run,.1);assert.ok(predicate(run.state),label);}
-function exit(run,id){world(run,{action:'exit',exitId:id});until(run,s=>!s.srWorld.interaction&&!s.master.scenic.path.length,'reach exit');world(run,{action:'exit',exitId:id,cargo:{food:4}});until(run,s=>!s.srWorld.activeTravelId,'finish journey');}
+function exit(run,id){const first=world(run,{action:'exit',exitId:id,cargo:{food:4}});if(first.result.phase==='approaching'){until(run,s=>!s.srWorld.interaction&&!s.master.scenic.path.length,'reach exit');world(run,{action:'exit',exitId:id,cargo:{food:4}});}until(run,s=>!s.srWorld.activeTravelId,'finish journey');}
 function closeForMelee(run){for(let n=0;n<80;n++){const c=run.state.combat,p=c.player,e=c.enemies.find(e=>e.hp>0),d=Math.hypot(e.x-p.x,e.y-p.y),range=SIM.viewSRCombat(run.state).actions.find(a=>a.id==='attack').range;if(d<=range)break;send(run,{type:'combat-input',move:{x:(e.x-p.x)/d,y:(e.y-p.y)/d}});advanceSect(run,.1);}send(run,{type:'combat-input',move:{x:0,y:0}});}
 function battle(){const run=fixture();exit(run,'exit:yunxiu-valley');world(run,{action:'move',x:24.5,y:36});until(run,s=>!s.srWorld.interaction,'approach enemy');world(run,{action:'engage',objectId:'object:valley:shanxiao'});return run;}
 

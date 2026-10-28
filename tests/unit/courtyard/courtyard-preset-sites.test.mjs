@@ -55,9 +55,13 @@ test('an old east save keeps its boundary until the public expansion command ope
 test('planning sites and missing materials are rejected atomically through the public gateway', () => {
   const session = opened(), before = snapshotSect(session);
   const planning = viewSect(session).domain.plannedSites.filter(value => value.status === 'planning');
-  // GC03 and GC25/26 now have registered runtime sites; their roads remain explicit.
-  assert.equal(planning.length, 14);
-  assert.deepEqual(planning.map(value=>value.planId),['GC-04','GC-05','GC-06','GC-07','GC-08','GC-15','GC-21','GC-22','GC-23','GC-27','GC-28','GC-29','GC-30','GC-31']);
+  // GC03, GC15 and GC25/26 have registered runtime sites; their roads remain explicit.
+  assert.equal(planning.length, 13);
+  assert.deepEqual(planning.map(value=>value.planId),['GC-04','GC-05','GC-06','GC-07','GC-08','GC-21','GC-22','GC-23','GC-27','GC-28','GC-29','GC-30','GC-31']);
+  const guesthouse=site(session,'site:domain:gc-15');
+  assert.equal(guesthouse.supported,true);assert.equal(guesthouse.status,'locked');
+  assert.equal(guesthouse.buildAvailable.available,false);
+  assert.throws(()=>SIM.dispatchCommand(session.state,{name:'buildDomainSite',args:[guesthouse.id]}),/客院/);
   const library=site(session,'site:domain:gc-02');
   assert.equal(library.supported,true);
   assert.equal(library.status,'locked');
