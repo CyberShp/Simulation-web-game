@@ -1676,7 +1676,7 @@
       "closesWholeRequirements": false,
       "review": "docs/art/combat-minimum-20261025/review-v002.json"
     },
-    "updatedAt": "2026-10-27",
+    "updatedAt": "2026-10-28",
     "entry": "AGENTS.md",
     "handoff": "docs/CODEX-HANDOFF.md",
     "deliveryPlan": "docs/DELIVERY-PLAN.md",
@@ -5487,6 +5487,43 @@
         "maxCallbackMs": 98.2,
         "marginTo100Ms": 1.8,
         "allScenesAccepted": false
+      }
+    },
+    "currentWorkRegression": {
+      "reference": "docs/engineering/REGRESSION-20261028.md",
+      "baseCommit": "e61ceb824b7cc4494c0c10c14928d7339e598eeb",
+      "branch": "fix/work-regressions-20261028",
+      "status": "local-1097-pass-one-browser-environment-failure-ci-pending",
+      "productScope": "East terrace planning margin only; execution collision and approved visible ground unchanged. Tests and CI follow current contracts.",
+      "baseline": {
+        "files": 199,
+        "tests": 1096,
+        "passed": 1059,
+        "failed": 37
+      },
+      "concurrency": {
+        "memberCounts": [
+          3,
+          5
+        ],
+        "stepsPerCase": 2954,
+        "dailySettlementsPerCase": 3,
+        "passed": true
+      },
+      "nativePerformanceRevalidated": false,
+      "closesWholeRequirements": false,
+      "localDefault": {
+        "files": 200,
+        "tests": 1098,
+        "passed": 1097,
+        "failed": 1,
+        "skipped": 0,
+        "failureScope": "Credits browser DOM component: local Chromium process socket unavailable. CI installs Playwright Chromium."
+      },
+      "checks": {
+        "engineering": true,
+        "requirements": true,
+        "independentReview": "no-blocking-findings"
       }
     }
   },

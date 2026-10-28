@@ -92,6 +92,7 @@ test('ordinary key release keeps a buffered skill while reset pause load and com
 test('a short step stops at the same authoritative obstacle boundary used by movement',()=>{
  const s=encounter();
  // Registered quarry collision fixture, with the same local person/actor coordinates.
+ delete s.state.combat.rulesProfile;delete s.state.combat.geometryId;
  s.state.combat.geometryVersion=1;s.state.combat.regionId='quarry';
  s.state.combat.player.x=3.5;s.state.combat.player.y=1.8;s.state.master.location.x=24.5;s.state.master.location.y=33.8;
  srCombatAction(s.state,'dodge',{x:6.3,y:1.8});SIM.tick(s.state,.1);

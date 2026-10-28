@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import * as SIM from '../../../src/simulation/ea-opening-sim.mjs';
 import {createSectSession,commandSect,advanceSect,viewSect,snapshotSect} from '../../../apps/courtyard/sect-sim.mjs';
+import {STUDY_FRAMES,STUDY_GROUND_Y_SCALE} from '../../../src/simulation/ea-combat-sword-study-frames.mjs';
 import {receiveCombatImpact,COMBAT_IMPACT_TUNING} from '../../../src/simulation/ea-combat-impact.mjs';
 
 const send=(s,q)=>{const result=commandSect(s,q);assert.equal(result.ok,true,result.error);return result;};
@@ -19,10 +20,10 @@ function encounter(){
 function closeForMelee(s){for(let n=0;n<60;n++){const p=s.state.combat.player,e=s.state.combat.enemies.find(e=>e.hp>0);if(Math.hypot(e.x-p.x,e.y-p.y)<=SIM.viewSRCombat(s.state).actions.find(a=>a.id==='attack').range)break;send(s,{type:'combat-input',move:{x:1,y:0}});advanceSect(s,.1);}send(s,{type:'combat-input',move:{x:0,y:0}});}
 const hit=(s,targetId)=>s.combat.effects.filter(e=>e.kind==='hit'&&e.targetId===targetId).at(-1);
 
-test('normal public melee emits one stable contact and briefly holds the real enemy windup',()=>{
- const s=encounter();until(s,s=>s.combat.enemies[0].telegraph?.remaining>1,'enemy raises its arm');
- closeForMelee(s);const foe=s.state.combat.enemies[0];command(s,'attack',{x:foe.x,y:foe.y});advanceSect(s,.2);
- const event=hit(s.state,'enemy-1'),enemy=s.state.combat.enemies[0];assert(event);assert.equal(event.outcome,'hit');assert.equal(event.reaction,'light');assert.equal(event.staggerTicks,2);assert.equal(event.interrupted,false);assert(event.amount>0);assert.equal(event.tick,s.state.worldTick);assert.equal(event.sourceId,'master');assert.equal(event.actionId,s.state.srCombat.pending.id);assert(Math.abs(Math.hypot(event.direction.x,event.direction.y)-1)<1e-9);assert(Math.abs(Math.hypot(event.contact.x-enemy.x,event.contact.y-enemy.y)-.35)<1e-9);
+test('normal public sword-qi emits one stable contact and briefly holds the real enemy windup',()=>{
+ const s=encounter();until(s,s=>s.combat.enemies[0].telegraph?.remaining>=.7,'enemy raises its arm');
+ closeForMelee(s);const foe=s.state.combat.enemies[0];command(s,'attack',{x:foe.x,y:foe.y});until(s,s=>!!hit(s,'enemy-1'),'sword-qi body contact');
+ const event=hit(s.state,'enemy-1'),enemy=s.state.combat.enemies[0];assert(event);assert.equal(event.outcome,'hit');assert.equal(event.reaction,'light');assert.equal(event.staggerTicks,2);assert.equal(event.interrupted,false);assert(event.amount>0);assert.equal(event.tick,s.state.worldTick);assert.equal(event.sourceId,'master');assert.equal(event.actionId,s.state.srCombat.pending.id);assert(Math.abs(Math.hypot(event.direction.x,event.direction.y)-1)<1e-9);assert.equal(event.space,'visible-body-v1');assert.equal(typeof event.bodyFrameKey,'string');const frame=STUDY_FRAMES[event.bodyFrameKey],sign=enemy.facing.x>0?-1:1;const px=frame.root[0]+(event.contact.x-event.to.x)/(frame.scale*sign),py=frame.root[1]+(event.contact.y-event.to.y)*STUDY_GROUND_Y_SCALE/frame.scale;assert(frame.rows.some(row=>py>=row[0]-1e-7&&py<=row[0]+1+1e-7&&row.slice(1).some((x,i,spans)=>i%2===0&&px>=x-1e-7&&px<=spans[i+1]+1e-7)),'the actual impact lies on an opaque body row, before knockback');
  const remaining=enemy.telegraph.remaining,tick=s.state.worldTick,position={x:enemy.x,y:enemy.y};advanceSect(s,.1);assert.equal(s.state.combat.enemies[0].telegraph.remaining,remaining);assert.deepEqual({x:s.state.combat.enemies[0].x,y:s.state.combat.enemies[0].y},position);assert.equal(viewSect(s).expedition.scene.enemies[0].motion.phase,'hit');
  advanceSect(s,.1);assert(s.state.combat.enemies[0].telegraph.remaining<remaining);assert.equal(s.state.combat.enemies[0].staggerImmuneUntilTick,tick+2+COMBAT_IMPACT_TUNING.protectionTicks);
  const before=snapshotSect(s);for(let i=0;i<4;i++)viewSect(s);assert.deepEqual(snapshotSect(s),before);assert.equal(s.state.combat.effects.filter(e=>e.eventId===event.eventId).length,1);
@@ -32,7 +33,7 @@ test('projectile collision keeps the launched direction and original source whil
  const s=encounter(),foe=s.state.combat.enemies[0];command(s,'spell',{x:foe.x,y:foe.y});advanceSect(s,.4);const shot=structuredClone(s.state.combat.projectiles[0]);
  send(s,{type:'combat-input',move:{x:0,y:-1}});advanceSect(s,.1);send(s,{type:'combat-input',move:{x:0,y:0}});
  until(s,s=>!!hit(s,'enemy-1'),'actual projectile impact');const event=hit(s.state,'enemy-1'),enemy=s.state.combat.enemies[0];
- assert.equal(event.projectileId,shot.id);assert.equal(event.actionId,shot.actionId);assert.deepEqual(event.direction,shot.direction);assert.deepEqual(event.from,shot.from);assert.notEqual(event.from.y,s.state.combat.player.y);assert(Math.abs(Math.hypot(event.contact.x-enemy.x,event.contact.y-enemy.y)-shot.radius)<1e-7);assert.equal(event.staggerTicks,3);
+ assert.equal(event.projectileId,shot.id);assert.equal(event.actionId,shot.actionId);assert.deepEqual(event.direction,shot.direction);assert.deepEqual(event.from,shot.from);assert.notEqual(event.from.y,s.state.combat.player.y);assert(Math.abs(Math.hypot(event.contact.x-event.to.x,event.contact.y-event.to.y)-shot.radius)<1e-7);assert.equal(event.staggerTicks,3);
  const hp=enemy.hp;advanceSect(s,.1);assert.equal(s.state.combat.enemies[0].hp,hp);
 });
 
@@ -46,7 +47,7 @@ test('a real heavy hit interrupts an unreleased player spell without paying or s
 });
 
 test('heavy projectile impact cancels a real enemy windup and gives it a bounded recovery',()=>{
- const s=encounter();until(s,s=>s.combat.enemies[0].telegraph?.remaining>1,'enemy windup');const foe=s.state.combat.enemies[0];command(s,'spell',{x:foe.x,y:foe.y});
+ const s=encounter();until(s,s=>s.combat.enemies[0].telegraph?.remaining>=.7,'enemy windup');const foe=s.state.combat.enemies[0];command(s,'spell',{x:foe.x,y:foe.y});
  until(s,s=>!!hit(s,'enemy-1'),'heavy projectile contact');const event=hit(s.state,'enemy-1');assert.equal(event.interrupted,true);assert.equal(s.state.combat.enemies[0].telegraph,null);assert(s.state.combat.enemies[0].cooldown>0);
  until(s,s=>!!s.combat.enemies[0].telegraph,'enemy attacks again after recovery');assert(s.state.worldTick>event.staggerUntilTick);
 });

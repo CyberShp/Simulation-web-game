@@ -1,4 +1,5 @@
 import test from 'node:test';
+import {fileURLToPath} from 'node:url';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import {createCanvas,loadImage} from '@napi-rs/canvas';
@@ -23,7 +24,7 @@ const scene={type:'combat',sessionId:'combat:campaign:1',geometryId:'legacy',tic
 const allBodies=s=>[s.player,...s.allies,...s.enemies];
 const near=(a,b,message)=>assert(Math.abs(a-b)<1e-8,`${message}: ${a} != ${b}`);
 const base=new URL('../../../assets/courtyard/',import.meta.url);
-const assetsPromise=loadCombatActorAssets({loadImage:name=>loadImage(new URL(name,base).pathname),loadJson:async name=>JSON.parse(await fs.readFile(new URL(name,base),'utf8')),makeCanvas:createCanvas});
+const assetsPromise=loadCombatActorAssets({loadImage:name=>loadImage(fileURLToPath(new URL(name,base))),loadJson:async name=>JSON.parse(await fs.readFile(new URL(name,base),'utf8')),makeCanvas:createCanvas});
 const viewportCases=[{width:1024,height:600,expectedHeight:76.98962962962962},{width:1672,height:816,expectedHeight:125.70962962962963},{width:2560,height:1315,expectedHeight:192.47407407407405}];
 
 function projection(viewport){

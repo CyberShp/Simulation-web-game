@@ -1,4 +1,5 @@
 import test from 'node:test';
+import {fileURLToPath} from 'node:url';
 import assert from 'node:assert/strict';
 import {createCanvas,loadImage} from '@napi-rs/canvas';
 import {createCombatBeastRig,sampleCombatBeastPose} from '../../../apps/courtyard/courtyard-combat-beast-rig.mjs';
@@ -28,7 +29,7 @@ test('山魈轻重受击沿真实来向后仰并以另一只脚支撑',()=>{
 });
 
 test('山魈动作缓存预热后覆盖日常动作，同一暂停采样像素一致且内存有界',async()=>{
- const image=await loadImage(new URL('../../../assets/courtyard/valley-shanxiao-actions-v1.png',import.meta.url).pathname);let allocations=0;
+ const image=await loadImage(fileURLToPath(new URL('../../../assets/courtyard/valley-shanxiao-actions-v1.png',import.meta.url)));let allocations=0;
  const rig=createCombatBeastRig({images:{foeActions:image},makeCanvas:(w,h)=>{allocations++;return createCanvas(w,h);}});
  await rig.prewarm();const warm=rig.cacheStats(),allocationStart=allocations;
  assert.equal(warm.entries,172);assert.ok(warm.pixelBytes<12*1024*1024);

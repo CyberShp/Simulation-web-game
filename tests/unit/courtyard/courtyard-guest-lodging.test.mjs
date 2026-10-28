@@ -27,8 +27,9 @@ test('arriving ordinary caller cannot reserve a guest bed and rejection is atomi
 function lodgingFixture(){
  let {s,id}=visitor();until(s,x=>x.personsById[id].courtyardVisit.phase==='present');
  s=send(s,'moveScenicMaster',29,26.285714285714285).state;until(s,x=>SIM.courtyardSeekerView(x,id).distance.near);
+ s=send(s,'enableGuesthouse').state;
  const p=s.personsById[id];p.mind.traits[3]=85;p.mind.traits[0]=65;
- const n=s.nextId++,b={id:n,instanceId:`building:yunxiu:${n}`,type:'guesthouse',prefabId:'prefab:guesthouse:units:v1',level:1,condition:100,enabled:true,progress:0,x:34,y:24,transform:{x:34,y:24,orientation:'south'},buildingGridVersion:'building-units-1',interiorLayoutVersion:'adult-furniture-1'};
+ const n=s.nextId++,b={id:n,instanceId:`building:yunxiu:${n}`,type:'guesthouse',prefabId:'prefab:guesthouse:units:v1',level:1,condition:100,enabled:true,progress:0,x:66,y:14,transform:{x:66,y:14,orientation:'south'},buildingGridVersion:'building-units-1',interiorLayoutVersion:'adult-furniture-1'};
  s.buildingsById[b.instanceId]=b;s.spatial.geometryRevision++;
  return {s,id,b};
 }
@@ -75,8 +76,8 @@ test('finite lifecycle fixture releases guest reservation on membership and deat
 });
 test('finite fixture offers a read-only reachable conversation point beside an occupied guest bed',()=>{
  let {s,id}=lodgingFixture();offerGuestLodging(s,id);until(s,x=>x.guestLodging.stays[0].phase==='staying',1200);
- // Finite near-room reception placement isolates conversation access from unfinished domain art.
- const master=s.personsById['person:master'];releaseBodyActivity(s,master);Object.assign(master.scenic,{x:37,y:28.5,path:[],goal:null});Object.assign(master.position,{x:37,y:28.5});
+ // Finite near-room placement uses the approved GC15 doorway; the final approach is an actual walk.
+ const master=s.personsById['person:master'];releaseBodyActivity(s,master);Object.assign(master.scenic,{x:69,y:20.6,path:[],goal:null});Object.assign(master.position,{x:69,y:20.6});
  const before=copy(s),view=guestLodgingView(s,id),point=view.conversationPoint,p=s.personsById[id].position;assert(point);assert(Math.hypot(point.x-p.x,point.y-p.y)>=.8);assert(Math.hypot(point.x-p.x,point.y-p.y)<=1.2);assert.deepEqual(copy(s),before);
  s=send(s,'moveScenicMaster',point.x,point.y).state;until(s,x=>SIM.courtyardSeekerView(x,id).distance.near,600);assert.equal(SIM.courtyardSeekerView(s,id).canTalk,true);
 });

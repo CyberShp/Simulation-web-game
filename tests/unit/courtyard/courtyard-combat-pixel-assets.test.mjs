@@ -1,4 +1,5 @@
 import test from 'node:test';
+import {fileURLToPath} from 'node:url';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import {createCanvas,loadImage} from '@napi-rs/canvas';
@@ -10,7 +11,7 @@ import {combatCameraTransform,combatWorldToScreen,COMBAT_GROUND_Y_SCALE} from '.
 import {projectCombatActorMotion} from '../../../src/simulation/ea-sr-combat.mjs';
 
 const base=new URL('../../../assets/courtyard/',import.meta.url),read=async path=>JSON.parse(await fs.readFile(new URL(path,base),'utf8'));
-const assetsPromise=loadCombatActorAssets({loadImage:name=>loadImage(new URL(name,base).pathname),loadJson:read,makeCanvas:createCanvas});
+const assetsPromise=loadCombatActorAssets({loadImage:name=>loadImage(fileURLToPath(new URL(name,base))),loadJson:read,makeCanvas:createCanvas});
 const directions=[['right',1,0],['down',0,1],['left',-1,0],['up',0,-1]];
 const actor=(identity='shen-yan',motion={},extra={})=>({id:identity==='shen-yan'?'master':'foe',personId:identity==='shen-yan'?'person:master':'person:valley-shanxiao',visualIdentity:identity,entityKind:identity==='shen-yan'?'person':'beast',x:4,y:4,hp:100,facing:{x:1,y:0},motion:{action:'idle',phase:'idle',phaseDurationTicks:1,phaseProgressTicks:0,movementLocked:false,moveIntent:{x:0,y:0},direction:{x:1,y:0},...motion},...extra});
 const scene=(tick=1111,player=actor())=>({type:'combat',sessionId:'pixel-assets',geometryId:'valley-open-v2',tick,width:48,height:32,arena:{width:48,height:32,bounds:{left:.6,right:47.4,top:.6,bottom:31.4}},player,allies:[],enemies:[],projectiles:[],effects:[],obstacles:[{id:'object:valley:herbs',x:7,y:2.5,w:4,h:3},{id:'object:valley:bridge',x:21.5,y:9.5,w:7,h:3},{id:'object:valley:cave',x:38,y:16.5,w:6,h:5}]});

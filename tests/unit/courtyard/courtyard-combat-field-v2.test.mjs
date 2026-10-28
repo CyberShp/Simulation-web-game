@@ -133,7 +133,7 @@ test('new retreat walks to the existing public valley exit without teleporting t
 test('an active legacy local checkpoint retains its old frame, size, bodies and retreat rule through readback',()=>{
  const s=start({x:24.5,y:36}),c=s.combat;
  // Construct the documented old-version component representation from unchanged world locations.
- delete c.geometryId;delete c.geometryVersion;c.arena={width:12,height:8};
+ delete c.rulesProfile;delete c.geometryId;delete c.geometryVersion;c.arena={width:12,height:8};
  c.sceneFrame={sceneId:'scene:valley',origin:{x:21,y:32},safePoint:{x:21.7,y:36}};
  for(const a of [c.player,...c.allies,...c.enemies]){const p=s.personsById[a.personId];a.x=p.location.x-21;a.y=p.location.y-32;}
  s.world.exploration.position={x:c.player.x,y:c.player.y};

@@ -243,7 +243,7 @@ function findMeterPath(s,from,goal,{maxSnap=2,radius=.26,throughCourtyardPassage
   const passage=eastVisibleRoadPassage(from,to,courtyardEastPassage(from,to),{residences:rooms.residences});
   if(passage){const result=[];let at=from;for(const point of [...passage,to]){const route=meterFindPath(s,at,point,{maxSnap:0,radius,throughCourtyardPassage,throughEastPassage:false,throughWestPassage,throughValleyPassage,throughResidencesPassage,throughServicesPassage,throughNorthLibraryPassage,throughNorthMeditationPassage,throughWestWorkshopsPassage,visibleBody});if(route===null)return null;result.push(...route);at=point;}return result;}
  }
- const shortcutBlocked=(a,b)=>sweep(a,b).blocked||((visibleBody||polygons.northLibrary)&&!visibleBodySegmentClear(s,a,b,true));
+ const shortcutBlocked=(a,b)=>sweep(a,b).blocked||!eastVisibleSegmentClear(s,a,b,true)||((visibleBody||polygons.northLibrary)&&!visibleBodySegmentClear(s,a,b,true));
  if(!shortcutBlocked(from,to))return [to];
  if(!northLocal&&throughCourtyardPassage&&courtyardTerrainSolids(s.spatial?.courtyardTerrain?.version).length){
   const passage=courtyardPassage(from,to);
@@ -418,16 +418,26 @@ function rememberedMeasuredSegment(rooms,kind,a,b,check,shareable=true){
  if(!cache.has(key)){
   if(cache.size>=8192)cache.clear();
   const finite=[a.x,a.y,b.x,b.y].every(value=>typeof value==='number'&&Number.isFinite(value));
-  const shared=shareable&&finite&&(kind==='east'||kind==='body:true'||kind==='body:planning-margin')?equivalentMeasuredSegments(rooms):null;
+  const shared=shareable&&finite&&(kind==='east'||kind==='east:planning-margin'||kind==='body:true'||kind==='body:planning-margin')?equivalentMeasuredSegments(rooms):null;
   if(shared?.has(key))cache.set(key,shared.get(key));
   else{const answer=check();cache.set(key,answer);if(shared&&typeof answer==='boolean'){if(shared.size>=8192)shared.clear();shared.set(key,answer);}}
  }
  return cache.get(key);
 }
-function eastVisibleSegmentClear(s,a,b){
+function eastVisibleSegmentClear(s,a,b,planning=false){
  if(Math.max(a.x,b.x)<118.74||Math.min(a.x,b.x)>=156.26)return true;
  const rooms=roomFrames(s);if(!rooms.eastVisible)return true;
- return rememberedMeasuredSegment(rooms,'east',a,b,()=>{const n=Math.max(1,Math.ceil(distance(a,b)/.025));for(let i=0;i<=n;i++){const p={x:a.x+(b.x-a.x)*i/n,y:a.y+(b.y-a.y)*i/n};if(!internalAt(rooms,p)&&!eastVisibleBodyPoint(p,.26,{residences:rooms.residences}))return false;}return true;});
+ return rememberedMeasuredSegment(rooms,planning?'east:planning-margin':'east',a,b,()=>{
+  const length=distance(a,b),n=Math.max(1,Math.ceil(length/.025));
+  for(let i=0;i<=n;i++){
+   const p={x:a.x+(b.x-a.x)*i/n,y:a.y+(b.y-a.y)*i/n};if(internalAt(rooms,p))continue;
+   if(!eastVisibleBodyPoint(p,.26,{residences:rooms.residences}))return false;
+   // A long shortcut and a later walking step sample different points. Keep
+   // the same planning margin as the north roads so neither skips a sharp edge.
+   if(planning&&length>1&&i>0&&i<n)for(const [dx,dy] of planningBodyOffsets){const q={x:p.x+dx,y:p.y+dy};if(!internalAt(rooms,q)&&!eastVisibleBodyPoint(q,.26,{residences:rooms.residences}))return false;}
+  }
+  return true;
+ });
 }
 /** The measured visible body at one position: .26 m, sixteen samples. Floors and
  * the 1.4 m door threshold are interior space, so they are exempt by location. */
