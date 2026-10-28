@@ -5493,7 +5493,7 @@
       "reference": "docs/engineering/REGRESSION-20261028.md",
       "baseCommit": "e61ceb824b7cc4494c0c10c14928d7339e598eeb",
       "branch": "fix/work-regressions-20261028",
-      "status": "local-1097-pass-one-browser-environment-failure-ci-pending",
+      "status": "regressions-repaired-ci-linked-native-acceptance-open",
       "productScope": "East terrace planning margin only; execution collision and approved visible ground unchanged. Tests and CI follow current contracts.",
       "baseline": {
         "files": 199,
@@ -5524,6 +5524,31 @@
         "engineering": true,
         "requirements": true,
         "independentReview": "no-blocking-findings"
+      },
+      "pullRequest": "https://github.com/CyberShp/Simulation-web-game/pull/8",
+      "latestChecks": "https://github.com/CyberShp/Simulation-web-game/pull/8/checks",
+      "firstCI": {
+        "commit": "26c39d8c433e2ed4639d174845a1c2f10b1d9e51",
+        "runId": 40635751555,
+        "ubuntu": {
+          "passed": 1098,
+          "failed": 0
+        },
+        "macos": {
+          "passed": 1098,
+          "failed": 0
+        },
+        "windows": {
+          "passed": 1097,
+          "failed": 1,
+          "remaining": "POSIX /tmp string comparison in component output fixture"
+        }
+      },
+      "windowsFollowup": {
+        "file": "tests/unit/courtyard/courtyard-combat-group-component-builder.test.mjs",
+        "change": "Use the native absolute temporary-directory path; preserve all output containment rejections.",
+        "targetedPassed": 5,
+        "verification": "See latestChecks for the exact followup commit."
       }
     }
   },

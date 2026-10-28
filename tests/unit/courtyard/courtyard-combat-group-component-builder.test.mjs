@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import path from 'node:path';
+import {tmpdir} from 'node:os';
 import {fileURLToPath} from 'node:url';
 import {buildCombatGroupComponent,checkedComponentOutput,componentWorldDiff,GROUP_COMPONENT_COMPANIONS} from '../../acceptance/build-combat-group-component.mjs';
 import {restoreSect,validateSect,commandSect,snapshotSect,advanceSect} from '../../../apps/courtyard/sect-sim.mjs';
@@ -50,5 +51,6 @@ test('the desktop terrain startup and paused input reset preserve the complete p
 
 test('component output requires an explicit absolute directory outside the repository',()=>{
  const root=fileURLToPath(new URL('../../../',import.meta.url));assert.throws(()=>checkedComponentOutput());assert.throws(()=>checkedComponentOutput('relative-component'));assert.throws(()=>checkedComponentOutput(root));assert.throws(()=>checkedComponentOutput(path.join(root,'component-output')));
- assert.equal(checkedComponentOutput('/tmp/immortal-group-component-output'),'/tmp/immortal-group-component-output');
+ const output=path.resolve(tmpdir(),'immortal-group-component-output');
+ assert.equal(checkedComponentOutput(output),output);
 });
