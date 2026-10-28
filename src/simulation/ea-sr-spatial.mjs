@@ -351,9 +351,20 @@ export function meterDoorPermit(s,actor,from,route,next){
  if(['transport-retreat','requester-clear'].includes(actor.bodyYield?.kind))return false;
  if(!spatialEnabled(s))return true;
  if(actor.bodyYield?.kind==='mutual-corridor'&&cultivationTraveller(s,walkingPerson(s,actor)))return false;
+ const north=domainNorthLibraryEnabled(s.spatial?.northLibrary?.version);
+ if(!eastVisibleSegmentClear(s,from,next)&&!visibleRecoveryPrefixPermit(s,actor,from,route,next)){
+  // A saved long shortcut may predate the planning margin. Keep its exact
+  // destination when a different route exists; this rejected step never moves.
+  // The north body guard also includes east ground, so recover east first.
+  const person=walkingPerson(s,actor),goal=actor.goal;
+  const freeWalk=person===s.master&&person.action==='walk'&&!person.activityId&&!person.learning&&!actor.bodyYield&&!actor.spatialEvacuationOrderId&&!doorRecord(s,person)&&actor===from&&route===actor.path;
+  const path=freeWalk&&[goal?.x,goal?.y].every(Number.isFinite)&&route.length&&distance(goal,route.at(-1))<1e-8&&visibleBodyPointClear(s,from)&&meterFindPath(s,from,goal,{maxSnap:0,visibleBody:north});
+  if(path?.length&&(path.length!==route.length||path.some((p,i)=>p.x!==route[i].x||p.y!==route[i].y)))actor.path=path;
+  else{actor.path=[];actor.goal=null;}
+  return false;
+ }
  // Retained routes also obey the measured north body once a legal stance is reached.
- if(domainNorthLibraryEnabled(s.spatial?.northLibrary?.version)&&!visibleBodySegmentClear(s,from,next)&&!visibleRecoveryPrefixPermit(s,actor,from,route,next)){actor.path=[];actor.goal=null;return false;}
- if(!eastVisibleSegmentClear(s,from,next)&&!visibleRecoveryPrefixPermit(s,actor,from,route,next)){actor.path=[];actor.goal=null;return false;}
+ if(north&&!visibleBodySegmentClear(s,from,next)&&!visibleRecoveryPrefixPermit(s,actor,from,route,next)){actor.path=[];actor.goal=null;return false;}
  const p=walkingPerson(s,actor);
  if(!p)return true;
  pruneDoorQueues(s);

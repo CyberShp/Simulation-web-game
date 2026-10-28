@@ -5494,7 +5494,7 @@
       "baseCommit": "e61ceb824b7cc4494c0c10c14928d7339e598eeb",
       "branch": "fix/work-regressions-20261028",
       "status": "regressions-repaired-ci-linked-native-acceptance-open",
-      "productScope": "East terrace planning margin only; execution collision and approved visible ground unchanged. Tests and CI follow current contracts.",
+      "productScope": "East terrace planning margin and bounded retained free-walk replanning; execution collision, body permissions, approved ground and load behavior unchanged.",
       "baseline": {
         "files": 199,
         "tests": 1096,
@@ -5518,7 +5518,8 @@
         "passed": 1097,
         "failed": 1,
         "skipped": 0,
-        "failureScope": "Credits browser DOM component: local Chromium process socket unavailable. CI installs Playwright Chromium."
+        "failureScope": "Credits browser DOM component: local Chromium process socket unavailable. CI installs Playwright Chromium.",
+        "phase": "Initial repair before the three retained-walk followup tests."
       },
       "checks": {
         "engineering": true,
@@ -5548,7 +5549,14 @@
         "file": "tests/unit/courtyard/courtyard-combat-group-component-builder.test.mjs",
         "change": "Use the native absolute temporary-directory path; preserve all output containment rejections.",
         "targetedPassed": 5,
-        "verification": "See latestChecks for the exact followup commit."
+        "verification": "See latestChecks for the exact followup commit.",
+        "verifiedCI": {
+          "commit": "1d95c91c9ba40af1efb7a9b03935f8a2b7e3a6cf",
+          "runId": 40637644217,
+          "passed": 1098,
+          "failed": 0,
+          "skipped": 0
+        }
       },
       "browserLifecycleFollowup": {
         "observedCommit": "1d95c91c9ba40af1efb7a9b03935f8a2b7e3a6cf",
@@ -5560,6 +5568,23 @@
         "cause": "Credits component lifecycle hit its 15000 ms outer deadline; prior macOS success took 13353 ms.",
         "change": "45000 ms bounded lifecycle, explicit 30000 ms cold browser launch, 3000 ms UI operations unchanged, launch duration diagnostic added.",
         "verification": "See latestChecks for the exact followup commit."
+      },
+      "retainedWalkFollowup": {
+        "source": "Explicit fixture using the captured old route and exact feet, not an original complete pre-failure save.",
+        "scope": "Legal-footed free-walking master without activity, learning, yield, evacuation or door ownership; exact retained goal, different route only.",
+        "targetedPassed": 4,
+        "newTests": 3,
+        "serializedRestoreAndHandoff": true,
+        "northLibraryConfigurations": [
+          false,
+          true
+        ],
+        "unreachableGoalStops": true,
+        "verification": "See latestChecks for the exact followup commit and full suite.",
+        "adjacentPassed": 57,
+        "adjacentFiles": 9,
+        "concurrencyRerunPassed": true,
+        "defaultTests": 1101
       }
     }
   },
