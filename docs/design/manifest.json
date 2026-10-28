@@ -5549,6 +5549,17 @@
         "change": "Use the native absolute temporary-directory path; preserve all output containment rejections.",
         "targetedPassed": 5,
         "verification": "See latestChecks for the exact followup commit."
+      },
+      "browserLifecycleFollowup": {
+        "observedCommit": "1d95c91c9ba40af1efb7a9b03935f8a2b7e3a6cf",
+        "runId": 40637644217,
+        "platform": "macos-latest",
+        "passed": 1097,
+        "assertionFailures": 0,
+        "cancelled": 1,
+        "cause": "Credits component lifecycle hit its 15000 ms outer deadline; prior macOS success took 13353 ms.",
+        "change": "45000 ms bounded lifecycle, explicit 30000 ms cold browser launch, 3000 ms UI operations unchanged, launch duration diagnostic added.",
+        "verification": "See latestChecks for the exact followup commit."
       }
     }
   },

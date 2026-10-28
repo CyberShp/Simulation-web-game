@@ -25,7 +25,9 @@ test('the formal host serves UTF-8 credits for GET and HEAD while retaining file
   assert.equal((await fetch(origin+'/src/simulation/ea-combat-geometry.mjs')).status,200,'existing simulation modules remain accessible');
  }finally{await new Promise(resolve=>server.close(resolve));}
 });
-test('the product credits dialog preserves reading reasons and manual pause, renders plain text and exposes load failure',{timeout:15000},async t=>{
+// Include Chromium's bounded cold launch in the lifecycle deadline. Individual
+// UI operations retain their three-second limit under concurrent CI load.
+test('the product credits dialog preserves reading reasons and manual pause, renders plain text and exposes load failure',{timeout:45000},async t=>{
  let failCredits=true,requests=0,useFixtureCredits=true;const actualFiles=await actualHostFiles();
  const credits='Component fixture author · CC-BY-SA 3.0\nhttps://example.invalid/source\n<img src=x onerror="globalThis.executedCredits=true">';
  let servedCredits=credits;
@@ -38,7 +40,7 @@ test('the product credits dialog preserves reading reasons and manual pause, ren
  }catch{res.writeHead(404);res.end();}});
  await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));actualFiles.setOrigin(`http://127.0.0.1:${server.address().port}`);let browser;
  try{
-  browser=await chromium.launch({headless:true,executablePath:process.env.CHROMIUM_PATH||undefined});const page=await browser.newPage(),errors=[];page.setDefaultTimeout(3000);page.on('pageerror',error=>errors.push(error.message));
+  const launchStarted=performance.now();browser=await chromium.launch({headless:true,timeout:30000,executablePath:process.env.CHROMIUM_PATH||undefined});t.diagnostic(JSON.stringify({scope:'component browser startup; separate from UI operation deadlines',launchMs:Math.round(performance.now()-launchStarted)}));const page=await browser.newPage(),errors=[];page.setDefaultTimeout(3000);page.on('pageerror',error=>errors.push(error.message));
   await page.goto(`http://127.0.0.1:${server.address().port}/courtyard.html`,{waitUntil:'domcontentloaded'});
   const initialize=async()=>{
    const {createCourtyardCombat}=await import('/courtyard-combat.mjs'),player={id:'master',x:4,y:4,hp:100,maxHp:100,qi:50,facing:{x:1,y:0}};
